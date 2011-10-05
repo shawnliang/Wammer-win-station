@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mono</RootNamespace>
+    <AssemblyName>Mono.WebServer.FastCgi</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>test_key_file.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="WebServer.FastCgi\ApplicationHost.cs" />
+    <Compile Include="WebServer.FastCgi\BeginRequestBody.cs" />
+    <Compile Include="WebServer.FastCgi\ConfigurationManager.cs" />
+    <Compile Include="WebServer.FastCgi\Connection.cs" />
+    <Compile Include="WebServer.FastCgi\EndRequestBody.cs" />
+    <Compile Include="WebServer.FastCgi\HelloWorldResponder.cs" />
+    <Compile Include="WebServer.FastCgi\ISocketAbstraction.cs" />
+    <Compile Include="WebServer.FastCgi\Logger.cs" />
+    <Compile Include="WebServer.FastCgi\main.cs" />
+    <Compile Include="WebServer.FastCgi\NameValuePair.cs" />
+    <Compile Include="WebServer.FastCgi\Record.cs" />
+    <Compile Include="WebServer.FastCgi\Request.cs" />
+    <Compile Include="WebServer.FastCgi\Responder.cs" />
+    <Compile Include="WebServer.FastCgi\ResponderRequest.cs" />
+    <Compile Include="WebServer.FastCgi\Server.cs" />
+    <Compile Include="WebServer.FastCgi\SocketFactory.cs" />
+    <Compile Include="WebServer.FastCgi\StandardSocket.cs" />
+    <Compile Include="WebServer.FastCgi\Strings.cs" />
+    <Compile Include="WebServer.FastCgi\TcpSocket.cs" />
+    <Compile Include="WebServer.FastCgi\UnknownTypeBody.cs" />
+    <Compile Include="WebServer.FastCgi\WebSource.cs" />
+    <Compile Include="WebServer.FastCgi\WorkerRequest.cs" />
+    <Compile Include="WebServer\ApplicationServer.cs" />
+    <Compile Include="WebServer\BaseApplicationHost.cs" />
+    <Compile Include="WebServer\BaseRequestBroker.cs" />
+    <Compile Include="WebServer\EndOfRequestHandler.cs" />
+    <Compile Include="WebServer\HttpErrors.cs" />
+    <Compile Include="WebServer\IApplicationHost.cs" />
+    <Compile Include="WebServer\InitialWorkerRequest.cs" />
+    <Compile Include="WebServer\IRequestBroker.cs" />
+    <Compile Include="WebServer\LingeringNetworkStream.cs" />
+    <Compile Include="WebServer\LockRecursionException.cs" />
+    <Compile Include="WebServer\LockRecursionPolicy.cs" />
+    <Compile Include="WebServer\MapPathEventArgs.cs" />
+    <Compile Include="WebServer\MapPathEventHandler.cs" />
+    <Compile Include="WebServer\MonoWorkerRequest.cs" />
+    <Compile Include="WebServer\Paths.cs" />
+    <Compile Include="WebServer\RequestData.cs" />
+    <Compile Include="WebServer\RequestLineException.cs" />
+    <Compile Include="WebServer\SearchPattern.cs" />
+    <Compile Include="WebServer\UnregisterRequestEventArgs.cs" />
+    <Compile Include="WebServer\UnregisterRequestEventHandler.cs" />
+    <Compile Include="WebServer\VPathToHost.cs" />
+    <Compile Include="WebServer\WebSource.cs" />
+    <Compile Include="WebServer\WebTrace.cs" />
+    <Compile Include="WebServer\Worker.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WebServer.FastCgi\ConfigurationManager.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test_key_file.pfx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
