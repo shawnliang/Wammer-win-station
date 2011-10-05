@@ -85,14 +85,6 @@ namespace Mono.WebServer.FastCgi
 		private static ApplicationServer appserver;
 		private static ConfigurationManager configmanager;
 
-		public static VPathToHost GetApplicationForPath (string vhost,
-                                                                 int port,
-                                                                 string path,
-                                                                 string realPath)
-		{
-			return appserver.GetApplicationForPath (vhost,	port, path, false);
-		}
-
 		public static int Main (string [] args)
 		{
 			// Load the configuration file stored in the
@@ -180,47 +172,7 @@ namespace Mono.WebServer.FastCgi
 				new char [] {':'}, 3);
 			
 			switch (socket_parts [0].ToLower ()) {
-            //case "pipe":
-            //    try {
-            //        socket = SocketFactory.CreatePipeSocket (
-            //            IntPtr.Zero);
-            //    } catch (System.Net.Sockets.SocketException){
-            //        Logger.Write (LogLevel.Error,
-            //            "Error: Pipe socket is not bound.");
-            //        return 1;
-            //    } catch (System.NotSupportedException) {
-            //        Logger.Write (LogLevel.Error,
-            //            "Error: Pipe sockets are not supported on this system.");
-            //        return 1;
-            //    }
-            //    break;
-			
-			// The FILE sockets is of the format
-			// "file[:PATH]".
-            //case "unix":
-            //case "file":
-            //    if (socket_parts.Length == 2)
-            //        configmanager ["filename"] =
-            //            socket_parts [1];
-				
-            //    string path = (string) configmanager ["filename"];
-				
-            //    try {
-            //        socket = SocketFactory.CreateUnixSocket (
-            //            path);
-            //    } catch (System.Net.Sockets.SocketException e){
-            //        Logger.Write (LogLevel.Error,
-            //            "Error creating the socket: {0}",
-            //            e.Message);
-            //        return 1;
-            //    }
-				
-            //    Logger.Write (LogLevel.Debug,
-            //              "Listening on file: {0}",	path);
-            //    break;
-			
-			// The TCP socket is of the format
-			// "tcp[[:ADDRESS]:PORT]".
+        
 			case "tcp":
 				if (socket_parts.Length > 1)
 					configmanager ["port"] = socket_parts [
@@ -333,7 +285,7 @@ namespace Mono.WebServer.FastCgi
 			
 			Logger.Write (LogLevel.Debug, "Root directory: {0}", root_dir);
 			Mono.FastCgi.Server server = new Mono.FastCgi.Server (
-				socket);
+				socket, new ApplicationProvider(appserver));
 			
 			//server.SetResponder (typeof (Responder));
             server.SetResponder(typeof(HelloWorldResponder));

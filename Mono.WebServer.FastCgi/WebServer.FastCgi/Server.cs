@@ -63,18 +63,22 @@ namespace Mono.FastCgi {
 		private int buffer_count;
 		
 		private object buffer_lock = new object ();
-		
+
+        private IApplicationProvider app_provider;
 		#endregion
 		
 		
 		
 		#region Constructors
 		
-		public Server (Socket socket)
+		public Server (Socket socket, IApplicationProvider app_provider)
 		{
 			if (socket == null)
 				throw new ArgumentNullException ("socket");
-			
+            if (app_provider == null)
+                throw new ArgumentNullException("app_provider");
+
+            this.app_provider = app_provider;
 			this.listen_socket = socket;
 		}
 		
@@ -139,7 +143,15 @@ namespace Mono.FastCgi {
 				return requests;
 			}
 		}
-		
+
+
+        public IApplicationProvider AppProvider
+        {
+            get
+            {
+                return this.app_provider;
+            }
+        }
 		#endregion
 		
 		

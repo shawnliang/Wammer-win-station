@@ -47,10 +47,12 @@
   <ItemGroup>
     <Compile Include="WebServer.FastCgi\ApplicationHost.cs" />
     <Compile Include="WebServer.FastCgi\BeginRequestBody.cs" />
+    <Compile Include="WebServer.FastCgi\ApplicationProvider.cs" />
     <Compile Include="WebServer.FastCgi\ConfigurationManager.cs" />
     <Compile Include="WebServer.FastCgi\Connection.cs" />
     <Compile Include="WebServer.FastCgi\EndRequestBody.cs" />
     <Compile Include="WebServer.FastCgi\HelloWorldResponder.cs" />
+    <Compile Include="WebServer.FastCgi\IApplicationProvider.cs" />
     <Compile Include="WebServer.FastCgi\ISocketAbstraction.cs" />
     <Compile Include="WebServer.FastCgi\Logger.cs" />
     <Compile Include="WebServer.FastCgi\main.cs" />

@@ -29,7 +29,6 @@ namespace Wammer.Station
                           "Listening on address: 8888");
 
                 string root_dir = Environment.CurrentDirectory;
-                bool auto_map = false;
 
                 WebSource webSource = new WebSource();
                 Mono.WebServer.ApplicationServer appserver =
@@ -40,10 +39,11 @@ namespace Wammer.Station
 
 
                 Logger.Write(LogLevel.Debug, "Root directory: {0}", root_dir);
-                Mono.FastCgi.Server server = new Mono.FastCgi.Server(socket);
+                Mono.FastCgi.Server server = new Mono.FastCgi.Server(socket,
+                    new ApplicationProvider(appserver));
 
                 //server.SetResponder (typeof (Responder));
-                server.SetResponder(typeof(HelloWorldResponder));
+                server.SetResponder(typeof(Wammer.Station.HelloWorldResponder));
 
                 server.MaxConnections = 1024;
                 server.MaxRequests = 1024;

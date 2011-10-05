@@ -48,8 +48,9 @@ namespace Mono.FastCgi {
 		#region Constructors
 		
 		public ResponderRequest (ushort requestID,
-		                         Connection connection)
-			: base (requestID, connection)
+		                         Connection connection, 
+                                 IApplicationProvider app_provider)
+			: base (requestID, connection, app_provider)
 		{
 			if (!Server.SupportsResponder)
 				throw new Exception ();

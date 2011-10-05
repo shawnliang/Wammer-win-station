@@ -41,17 +41,20 @@ namespace Mono.FastCgi {
 		private ushort requestID;
 		
 		private Connection connection;
-		
+
+        private IApplicationProvider app_provider;
 		#endregion
 		
 		
 		
 		#region Constructors
 		
-		public Request (ushort requestID, Connection connection)
+		public Request (ushort requestID, Connection connection, 
+            IApplicationProvider app_provider)
 		{
 			this.requestID  = requestID;
 			this.connection = connection;
+            this.app_provider = app_provider;
 		}
 		#endregion
 		
@@ -243,7 +246,8 @@ namespace Mono.FastCgi {
 					SetParameter ("PATH_INFO", String.Empty);
 				if (pathTranslated == null)
 					SetParameter ("PATH_TRANSLATED", String.Empty);
-				vapp = Mono.WebServer.FastCgi.Server.GetApplicationForPath (this.HostName, this.PortNumber, this.Path, this.PhysicalPath);
+                vapp = app_provider.GetApplicationForPath(this.HostName, this.PortNumber, this.Path, this.PhysicalPath);
+                    //Mono.WebServer.FastCgi.Server.GetApplicationForPath (this.HostName, this.PortNumber, this.Path, this.PhysicalPath);
 				if (vapp != null)
 					appHost = (Mono.WebServer.FastCgi.ApplicationHost)vapp.AppHost;
 				return;
@@ -262,7 +266,7 @@ namespace Mono.FastCgi {
 			string virtPathInfo = String.Empty;
 			string physPathInfo = String.Empty;
 			try {
-				vapp = Mono.WebServer.FastCgi.Server.GetApplicationForPath (
+				vapp = app_provider.GetApplicationForPath (
 					this.HostName, this.PortNumber, virtPath, physPath);
 				if (vapp == null)
 					return;  // Set values in finally

@@ -162,7 +162,7 @@ namespace Mono.FastCgi {
 					if (body.Role == Role.Responder &&
 						server.SupportsResponder)
 						request = new ResponderRequest
-							(record.RequestID, this);
+							(record.RequestID, this, this.server.AppProvider);
 						
 					// If the request is null, the role is
 					// not supported. Inform the client and
