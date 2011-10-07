@@ -9,7 +9,19 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installation", "Installatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallHelper", "InstallHelper\InstallHelper.csproj", "{4038B794-20B1-49F4-A1E9-EA35CA32582C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UT_WammerStation", "UT_WammerStation\UT_WammerStation.csproj", "{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4981BF57-6935-45EE-9560-886C29987A0A}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		Wammer-win-station.vsmdi = Wammer-win-station.vsmdi
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Wammer-win-station.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
 		CD_ROM|Mixed Platforms = CD_ROM|Mixed Platforms
@@ -87,7 +99,6 @@ Global
 		{BDEB2D57-74F0-4FF6-9C2E-FB0639E471A1}.Debug|Any CPU.ActiveCfg = Debug
 		{BDEB2D57-74F0-4FF6-9C2E-FB0639E471A1}.Debug|Any CPU.Build.0 = Debug
 		{BDEB2D57-74F0-4FF6-9C2E-FB0639E471A1}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{BDEB2D57-74F0-4FF6-9C2E-FB0639E471A1}.Debug|Mixed Platforms.Build.0 = Debug
 		{BDEB2D57-74F0-4FF6-9C2E-FB0639E471A1}.Debug|x86.ActiveCfg = Debug
 		{BDEB2D57-74F0-4FF6-9C2E-FB0639E471A1}.Debug|x86.Build.0 = Debug
 		{BDEB2D57-74F0-4FF6-9C2E-FB0639E471A1}.DVD-5|Any CPU.ActiveCfg = Debug
@@ -133,6 +144,31 @@ Global
 		{4038B794-20B1-49F4-A1E9-EA35CA32582C}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4038B794-20B1-49F4-A1E9-EA35CA32582C}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{4038B794-20B1-49F4-A1E9-EA35CA32582C}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.Release|x86.ActiveCfg = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.SingleImage|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
