@@ -16,6 +16,13 @@ namespace Wammer.Cloud
         {
         }
 
+        public UserSigninResponse(int status, string uid, string token)
+        {
+            this.status = status;
+            this.uid = uid;
+            this.userToken = token;
+        }
+
         public string uid
         {
             get { return _uid; }
@@ -52,8 +59,10 @@ namespace Wammer.Cloud
         public static User SignIn(string username, string passwd, string apiKey)
         {
             WebClient http = new WebClient();
-            string address = string.Format("http://{0}:{1}/api/v2/auth/login/email/{2}/password/{3}/apiKey/{4}",
-                "127.0.0.1", 80, 
+            string address = string.Format(
+                "http://{0}:{1}/api/v2/auth/login/email/{2}/password/{3}/apiKey/{4}",
+                CloudServer.Address,
+                CloudServer.Port,
                 HttpUtility.UrlEncode(username), 
                 HttpUtility.UrlEncode(passwd), 
                 HttpUtility.UrlEncode(apiKey));
