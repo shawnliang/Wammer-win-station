@@ -6,3 +6,6 @@
 *.pdb
 **/bin
 **/obj
+**/Debug
+**/Release
+*.msi
