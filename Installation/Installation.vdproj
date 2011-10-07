@@ -226,37 +226,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2620FA025A5D48678D4F61B5CA59C75A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_777A2EEE77364B76A105F57F1972324A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E3953EC604B7B3229A51E41CB9C13FA0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_65E26C025375455BA06CEC409572A94F"
+        "OwnerKey" = "8:_39205854CD324F68BDD8C62FE19051A6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -268,7 +244,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_39205854CD324F68BDD8C62FE19051A6"
+        "OwnerKey" = "8:_2620FA025A5D48678D4F61B5CA59C75A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_65E26C025375455BA06CEC409572A94F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E3953EC604B7B3229A51E41CB9C13FA0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_777A2EEE77364B76A105F57F1972324A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -992,11 +992,6 @@
             "AssemblyAsmDisplayName" = "8:MongoDB.Bson, Version=1.2.0.4274, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_E3953EC604B7B3229A51E41CB9C13FA0"
-                    {
-                    "Name" = "8:MongoDB.Bson.DLL"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:MongoDB.Bson.DLL"
             "TargetName" = "8:"
@@ -1063,11 +1058,6 @@
             "AssemblyAsmDisplayName" = "8:Mono.WebServer.FastCgi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f202864a4cc95055, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_FE95315886F02D9207176E56A63EBFEF"
-                    {
-                    "Name" = "8:Mono.WebServer.FastCgi.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Mono.WebServer.FastCgi.dll"
             "TargetName" = "8:"
@@ -1254,7 +1244,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Wammer"
         "ProductCode" = "8:{51CEB67C-B0F6-4AAA-A592-A3E17FB7CD0A}"
-        "PackageCode" = "8:{AC5BBA7D-EAE0-4B49-850A-B5C857E2C78C}"
+        "PackageCode" = "8:{01B86A1D-82E3-432A-94FF-A2B3635C3599}"
         "UpgradeCode" = "8:{D5EBDF33-1109-48DC-B42B-56228E56A3C4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1676,7 +1666,7 @@
                 {
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_62EFBF016C86437EBC300B307285D2FF"
                     {
-                    "Sequence" = "3:200"
+                    "Sequence" = "3:300"
                     "DisplayName" = "8:Installation Folder"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -1711,7 +1701,7 @@
                     }
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_7FECAB68B3064415815276607661D6F4"
                     {
-                    "Sequence" = "3:300"
+                    "Sequence" = "3:400"
                     "DisplayName" = "8:Confirm Installation"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
