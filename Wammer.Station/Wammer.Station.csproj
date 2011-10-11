@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cloud\CloudServer.cs" />
+    <Compile Include="Cloud\Station.cs" />
     <Compile Include="Cloud\User.cs" />
     <Compile Include="Station\HelloWorldResponder.cs" />
     <Compile Include="Station\Program.cs" />

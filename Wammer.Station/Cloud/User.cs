@@ -60,7 +60,7 @@ namespace Wammer.Cloud
         {
             WebClient http = new WebClient();
             string address = string.Format(
-                "http://{0}:{1}/api/v2/auth/login/email/{2}/password/{3}/apiKey/{4}",
+                "http://{0}:{1}/api/v2/auth/login/email/{2}/password/{3}/api_key/{4}",
                 CloudServer.Address,
                 CloudServer.Port,
                 HttpUtility.UrlEncode(username), 
