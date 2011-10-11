@@ -125,6 +125,10 @@ namespace InstallHelper
                 svc.Start();
                 svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(10));
             }
+
+            string wammerDir = Path.GetDirectoryName(this.Context.Parameters["assemblypath"]);
+            Process startUpApp = Process.Start(Path.Combine(wammerDir, "Wammer.Station.StartUp.exe"));
+
         }
 
         [SecurityPermission(SecurityAction.Demand)]
