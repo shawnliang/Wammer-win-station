@@ -6,42 +6,6 @@ using System.Web;
 
 namespace Wammer.Cloud
 {
-    public class UserSigninResponse
-    {
-        private int _status;
-        private string _userToken;
-        private string _uid;
-
-        public UserSigninResponse()
-        {
-        }
-
-        public UserSigninResponse(int status, string uid, string token)
-        {
-            this.status = status;
-            this.uid = uid;
-            this.userToken = token;
-        }
-
-        public string uid
-        {
-            get { return _uid; }
-            set { _uid = value; }
-        }
-
-        public int status
-        {
-            get { return _status; }
-            set { _status = value; }
-        }
-
-        public string userToken
-        {
-            get { return _userToken; }
-            set { _userToken = value; }
-        }
-    }
-
     public class User
     {
         private string name;
@@ -56,23 +20,22 @@ namespace Wammer.Cloud
             this.password = passwd;
         }
 
-        public static User SignIn(string username, string passwd, string apiKey)
+        public static User LogIn(WebClient agent, string username, string passwd)
         {
-            WebClient http = new WebClient();
             string address = string.Format(
-                "http://{0}:{1}/api/v2/auth/login/email/{2}/password/{3}/api_key/{4}",
+                "http://{0}:{1}/api/v2/auth/login/user_account/{2}/password/{3}/api_key/{4}",
                 CloudServer.Address,
                 CloudServer.Port,
                 HttpUtility.UrlEncode(username), 
                 HttpUtility.UrlEncode(passwd), 
-                HttpUtility.UrlEncode(apiKey));
+                HttpUtility.UrlEncode(CloudServer.APIKey));
 
-            string response = http.DownloadString(address);
-            UserSigninResponse res = fastJSON.JSON.Instance.ToObject<UserSigninResponse>(response);
+            string response = agent.DownloadString(address);
+            UserLogInResponse res = fastJSON.JSON.Instance.ToObject<UserLogInResponse>(response);
 
             User user = new User(username, passwd);
             user.id = res.uid;
-            user.token = res.userToken;
+            user.token = res.user_token;
             return user;
         }
 

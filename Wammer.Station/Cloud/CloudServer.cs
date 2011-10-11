@@ -8,6 +8,7 @@ namespace Wammer.Cloud
     {
         private static string address = "api.waveface.com";
         private static int port = 8080;
+        private static string apiKey = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
 
         public static string Address
         {
@@ -19,6 +20,12 @@ namespace Wammer.Cloud
         {
             get { return port; }
             set { port = value; }
+        }
+
+        public static string APIKey
+        {
+            get { return apiKey; }
+            set { apiKey = value; }
         }
     }
 }

@@ -11,26 +11,44 @@ namespace Wammer.Cloud
         private string id;
         private string token;
 
-        private Station(string stationId, string stationToken)
+        public Station(string stationId, string stationToken)
         {
             this.id = stationId;
             this.token = stationToken;
         }
 
-        public static Station SignUp(string stationId, string userToken, string apiKey)
+        public static Station SignUp(WebClient agent, string stationId, string userToken)
         {
-            WebClient http = new WebClient();
             string address = string.Format(
-                "http://{0}:{1}/api/v2/station/sign_up/user_token/{2}/station_id/{3}/api_key/{4}",
+                "http://{0}:{1}/api/v2/station/signup/user_token/{2}/station_id/{3}/api_key/{4}",
                 CloudServer.Address,
                 CloudServer.Port,
                 HttpUtility.UrlEncode(userToken),
                 HttpUtility.UrlEncode(stationId),
-                HttpUtility.UrlEncode(apiKey));
+                HttpUtility.UrlEncode(CloudServer.APIKey));
 
-            string response = http.DownloadString(address);
+            string response = agent.DownloadString(address);
             StationSignUpResponse res = fastJSON.JSON.Instance.ToObject<StationSignUpResponse>(response);
-            return new Station(stationId, res.stationToken);
+
+            if (!res.station.station_id.Equals(stationId))
+                throw new SystemException("Wammer clound returned a different station id.");
+
+            return new Station(stationId, res.station_token);
+        }
+
+        public void LogOn(WebClient agent)
+        {
+            string address = string.Format(
+                "http://{0}:{1}/api/v2/station/logOn/station_token/{2}/station_id/{3}/api_key/{4}",
+                CloudServer.Address,
+                CloudServer.Port,
+                HttpUtility.UrlEncode(this.token),
+                HttpUtility.UrlEncode(this.id),
+                HttpUtility.UrlEncode(CloudServer.APIKey));
+
+            string response = agent.DownloadString(address);
+            StationLogOnResponse res = fastJSON.JSON.Instance.ToObject<StationLogOnResponse>(response);
+            this.token = res.station_token;
         }
 
         public string Id
@@ -43,34 +61,5 @@ namespace Wammer.Cloud
             get { return this.token; }
         }
 
-    }
-
-
-    public class StationSignUpResponse
-    {
-        private int _status;
-        private string _token;
-
-        public StationSignUpResponse(int status, string stationToken)
-        {
-            this._status = status;
-            this._token = stationToken;
-        }
-
-        public StationSignUpResponse()
-        {
-        }
-
-        public string stationToken
-        {
-            get { return _token; }
-            set { _token = value; }
-        }
-
-        public int status
-        {
-            get { return _status; }
-            set { _status = value; }
-        }
     }
 }

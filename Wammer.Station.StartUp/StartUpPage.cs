@@ -5,12 +5,14 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Net;
 
 namespace Wammer.Station.StartUp
 {
     public partial class StartUpPage : Form
     {
         private bool registerSuccess = false;
+        private WebClient agent = new WebClient();
 
         public StartUpPage()
         {
@@ -22,10 +24,10 @@ namespace Wammer.Station.StartUp
             Wammer.Cloud.User user = null;
             try
             {
-                user = Wammer.Cloud.User.SignIn(
+                user = Wammer.Cloud.User.LogIn(
+                    this.agent,
                     this.accountTextField.Text.Trim(),
-                    this.passwordTextField.Text.Trim(),
-                    "apiKey1");  // TODO: api key
+                    this.passwordTextField.Text.Trim());
             }
             catch (Exception ex)
             {
@@ -36,9 +38,11 @@ namespace Wammer.Station.StartUp
             try
             {
                 Wammer.Cloud.Station station = Wammer.Cloud.Station.SignUp(
+                    this.agent,
                     "stationId", // TODO: create a new station id
-                    user.Token,
-                    "apiKey1"); // TODO: api key
+                    user.Token); // TODO: api key
+
+                station.LogOn(this.agent); // TODO: machine info, ip, hostname, ...
             }
             catch (Exception ex)
             {
