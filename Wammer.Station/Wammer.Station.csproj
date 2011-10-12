@@ -45,12 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cloud\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
     <Compile Include="Cloud\Station.cs" />
     <Compile Include="Cloud\StationSignUpResponse.cs" />
     <Compile Include="Cloud\StatusResponse.cs" />
     <Compile Include="Cloud\User.cs" />
     <Compile Include="Cloud\UserLogInResponse.cs" />
+    <Compile Include="Cloud\WammerCloudException.cs" />
     <Compile Include="Station\HelloWorldResponder.cs" />
     <Compile Include="Station\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

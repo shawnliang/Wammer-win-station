@@ -27,16 +27,21 @@ namespace Wammer.Cloud
                 HttpUtility.UrlEncode(stationId),
                 HttpUtility.UrlEncode(CloudServer.APIKey));
 
-            string response = agent.DownloadString(address);
-            StationSignUpResponse res = fastJSON.JSON.Instance.ToObject<StationSignUpResponse>(response);
+
+            StationSignUpResponse res = CloudServer.request<StationSignUpResponse>(agent, address);
 
             if (!res.station.station_id.Equals(stationId))
-                throw new SystemException("Wammer clound returned a different station id.");
+                throw new WammerCloudException("Wammer clound returned a different station id.");
 
             return new Station(stationId, res.station_token);
         }
 
         public void LogOn(WebClient agent)
+        {
+            this.LogOn(agent, new Dictionary<object, object>());
+        }
+
+        public void LogOn(WebClient agent, Dictionary<object, object>param)
         {
             string address = string.Format(
                 "http://{0}:{1}/api/v2/station/logOn/station_token/{2}/station_id/{3}/api_key/{4}",
@@ -46,8 +51,16 @@ namespace Wammer.Cloud
                 HttpUtility.UrlEncode(this.id),
                 HttpUtility.UrlEncode(CloudServer.APIKey));
 
-            string response = agent.DownloadString(address);
-            StationLogOnResponse res = fastJSON.JSON.Instance.ToObject<StationLogOnResponse>(response);
+            StringBuilder strBuf = new StringBuilder(address);
+            foreach (KeyValuePair<object, object> pair in param)
+            {
+                strBuf.Append("/");
+                strBuf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
+                strBuf.Append("/");
+                strBuf.Append(HttpUtility.UrlEncode(pair.Value.ToString()));
+            }
+
+            StationLogOnResponse res = CloudServer.request<StationLogOnResponse>(agent, strBuf.ToString());
             this.token = res.station_token;
         }
 

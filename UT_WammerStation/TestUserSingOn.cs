@@ -38,6 +38,46 @@ namespace UT_WammerStation
         }
 
         [TestMethod]
+        public void TestUserSignOnError()
+        {
+            Wammer.Cloud.StatusResponse res = new Wammer.Cloud.StatusResponse(403, DateTime.Now.ToUniversalTime());
+            using (FakeCloud fakeCloud = new FakeCloud(new Wammer.Cloud.UserLogInResponse(res, "", "")))
+            using (WebClient agent = new WebClient())
+            {
+                try
+                {
+                    Wammer.Cloud.User.LogIn(agent, "user1", "passwd1");
+                }
+                catch (Wammer.Cloud.WammerCloudException e)
+                {
+                    Assert.AreEqual(403, e.WammerError);
+                    return;
+                }
+                Assert.Fail("Expected exception is not thrown.");
+            }
+        }
+
+        [TestMethod]
+        public void TestUserSignOnError2()
+        {
+
+            using (FakeErrorCloud fakeCloud = new FakeErrorCloud(403))
+            using (WebClient agent = new WebClient())
+            {
+                try
+                {
+                    Wammer.Cloud.User.LogIn(agent, "user1", "passwd1");
+                }
+                catch (Wammer.Cloud.WammerCloudException e)
+                {
+                    Assert.AreEqual(WebExceptionStatus.ProtocolError, e.HttpError);
+                    return;
+                }
+                Assert.Fail("Expected exception is not thrown.");
+            }
+        }
+
+        [TestMethod]
         public void TestStationSignUp()
         {
             Wammer.Cloud.StatusResponse res = new Wammer.Cloud.StatusResponse(200, DateTime.Now.ToUniversalTime());
@@ -59,6 +99,34 @@ namespace UT_WammerStation
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Wammer.Cloud.WammerCloudException))]
+        public void TestStationSignUpError()
+        {
+            Wammer.Cloud.StatusResponse res = new Wammer.Cloud.StatusResponse(501, DateTime.Now.ToUniversalTime());
+            Wammer.Cloud.StationSignUpResponse stationRes = new Wammer.Cloud.StationSignUpResponse(res, "");
+            stationRes.station = new Wammer.Cloud.StationResponse();
+            stationRes.station.station_id = "";
+            stationRes.station.creator_id = "";
+
+            using (FakeCloud fakeCloud = new FakeCloud(stationRes))
+            using (WebClient agent = new WebClient())
+            {
+                Wammer.Cloud.Station.SignUp(agent, "stationId1", "userToken1");
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Wammer.Cloud.WammerCloudException))]
+        public void TestStationSignUpError2()
+        {
+            using (FakeErrorCloud fakeCloud = new FakeErrorCloud(403))
+            using (WebClient agent = new WebClient())
+            {
+                Wammer.Cloud.Station.SignUp(agent, "stationId1", "userToken1");
+            }
+        }
+
+        [TestMethod]
         public void TestStationLogOn()
         {
             Wammer.Cloud.StatusResponse res = new Wammer.Cloud.StatusResponse(200, DateTime.Now.ToUniversalTime());
@@ -74,5 +142,26 @@ namespace UT_WammerStation
 
         }
 
+        [TestMethod]
+        public void TestStationLogOnParams()
+        {
+            Wammer.Cloud.StatusResponse res = new Wammer.Cloud.StatusResponse(200, DateTime.Now.ToUniversalTime());
+            using (FakeCloud fakeCloud = new FakeCloud(new Wammer.Cloud.StationLogOnResponse(res, "newToken1")))
+            using (WebClient agent = new WebClient())
+            {
+                Wammer.Cloud.Station station = new Wammer.Cloud.Station("sid1", "token1");
+
+                Dictionary<object, object> param = new Dictionary<object, object>();
+                param.Add("host_name", "hostname1");
+                param.Add("ip_address", "ip1");
+                param.Add("port", "9999");
+                station.LogOn(agent, param);
+                Assert.AreEqual("/api/v2/station/logOn/station_token/token1/station_id/sid1/api_key/apiKey1" +
+                    "/host_name/hostname1/ip_address/ip1/port/9999",
+                    fakeCloud.RequestedPath);
+                Assert.AreEqual("newToken1", station.Token);
+            }
+
+        }
     }
 }

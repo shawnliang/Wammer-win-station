@@ -4,19 +4,19 @@ using System.Text;
 
 namespace Wammer.Cloud
 {
-    public class StationSignUpResponse
+    public class StationSignUpResponse : CloudResponse
     {
-        private StatusResponse _status;
         private StationResponse _station;
         private string _token;
 
         public StationSignUpResponse(StatusResponse status, string stationToken)
+            : base(status)
         {
-            this._status = status;
             this._token = stationToken;
         }
 
         public StationSignUpResponse()
+            :base()
         {
         }
 
@@ -26,12 +26,6 @@ namespace Wammer.Cloud
             set { _token = value; }
         }
 
-        public StatusResponse response
-        {
-            get { return _status; }
-            set { _status = value; }
-        }
-
         public StationResponse station
         {
             get { return _station; }
@@ -39,25 +33,19 @@ namespace Wammer.Cloud
         }
     }
 
-    public class StationLogOnResponse
+    public class StationLogOnResponse : CloudResponse
     {
-        private StatusResponse _status;
         private string _token;
 
         public StationLogOnResponse()
+            :base()
         {
         }
 
         public StationLogOnResponse(StatusResponse status, string token)
+            :base(status)
         {
-            _status = status;
             _token = token;
-        }
-
-        public StatusResponse response
-        {
-            get { return _status; }
-            set { _status = value; }
         }
 
         public string station_token

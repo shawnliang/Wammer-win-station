@@ -4,19 +4,19 @@ using System.Text;
 
 namespace Wammer.Cloud
 {
-    public class UserLogInResponse
+    public class UserLogInResponse : CloudResponse
     {
-        private StatusResponse _status;
         private string _userToken;
         private string _uid;
 
         public UserLogInResponse()
+            :base()
         {
         }
 
         public UserLogInResponse(StatusResponse status, string uid, string token)
+            :base(status)
         {
-            this._status = status;
             this._uid = uid;
             this._userToken = token;
         }
@@ -25,12 +25,6 @@ namespace Wammer.Cloud
         {
             get { return _uid; }
             set { _uid = value; }
-        }
-
-        public StatusResponse response
-        {
-            get { return _status; }
-            set { _status = value; }
         }
 
         public string user_token

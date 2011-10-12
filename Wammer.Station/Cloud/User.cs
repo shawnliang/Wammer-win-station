@@ -30,8 +30,10 @@ namespace Wammer.Cloud
                 HttpUtility.UrlEncode(passwd), 
                 HttpUtility.UrlEncode(CloudServer.APIKey));
 
-            string response = agent.DownloadString(address);
-            UserLogInResponse res = fastJSON.JSON.Instance.ToObject<UserLogInResponse>(response);
+            UserLogInResponse res = CloudServer.request<UserLogInResponse>(agent, address);
+           
+            //if (res.response.status != 200)
+            //    throw new WammerCloudException("Wammer cloud returns error", 0, res.response.status);
 
             User user = new User(username, passwd);
             user.id = res.uid;
