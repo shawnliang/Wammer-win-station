@@ -105,6 +105,24 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5418B38609D8BAA8DC483D254F9EA9AF"
+        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5418B38609D8BAA8DC483D254F9EA9AF"
+        "OwnerKey" = "8:_A099375A7375480498506CB68FA004FE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5418B38609D8BAA8DC483D254F9EA9AF"
+        "OwnerKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6584BBF09E164A078F29C500CDD1E280"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -243,24 +261,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
-        "OwnerKey" = "8:_A099375A7375480498506CB68FA004FE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
-        "OwnerKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
-        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2206B53844B246D5BFAFCCF8EC963EF0"
         "MsmSig" = "8:_UNDEFINED"
@@ -268,25 +268,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FBFB72C53380DDA97CA685659FED4627"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_777A2EEE77364B76A105F57F1972324A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E3953EC604B7B3229A51E41CB9C13FA0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -305,6 +293,36 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_A099375A7375480498506CB68FA004FE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_18D1B222B986EF4B54863FDA1FA25525"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5418B38609D8BAA8DC483D254F9EA9AF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FBFB72C53380DDA97CA685659FED4627"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -544,7 +562,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Wammer.Station, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Wammer.Station, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_10E85D69D92A4ECABF1E448A211CA2B8"
@@ -554,6 +572,37 @@
                     }
                 }
             "SourcePath" = "8:Wammer.Station.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_18D1B222B986EF4B54863FDA1FA25525"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_18D1B222B986EF4B54863FDA1FA25525"
+                    {
+                    "Name" = "8:fastJSON.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:fastJSON.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
@@ -700,6 +749,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5418B38609D8BAA8DC483D254F9EA9AF"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Mono.WebServer.FastCgi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f202864a4cc95055, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_5418B38609D8BAA8DC483D254F9EA9AF"
+                    {
+                    "Name" = "8:Mono.WebServer.FastCgi.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Mono.WebServer.FastCgi.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6584BBF09E164A078F29C500CDD1E280"
@@ -1064,6 +1144,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E3953EC604B7B3229A51E41CB9C13FA0"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MongoDB.Bson, Version=1.2.0.4274, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E3953EC604B7B3229A51E41CB9C13FA0"
+                    {
+                    "Name" = "8:MongoDB.Bson.DLL"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:MongoDB.Bson.DLL"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F8A761844D774B12BA0443F61B7B2540"
             {
             "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\conf\\koi-win"
@@ -1302,7 +1413,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Wammer"
         "ProductCode" = "8:{51CEB67C-B0F6-4AAA-A592-A3E17FB7CD0A}"
-        "PackageCode" = "8:{01B86A1D-82E3-432A-94FF-A2B3635C3599}"
+        "PackageCode" = "8:{EAC9420F-96ED-463C-9DF9-7F5267FBB720}"
         "UpgradeCode" = "8:{D5EBDF33-1109-48DC-B42B-56228E56A3C4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1343,15 +1454,29 @@
                     "Transitive" = "11:FALSE"
                         "Keys"
                         {
-                            "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_7E46A9A53C6046C6ADF64DB88CBB43FA"
+                            "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_155FE2CE9DC2482FB2988A77A8784649"
                             {
-                            "Name" = "8:[Manufacturer]"
+                            "Name" = "8:Wammer"
                             "Condition" = "8:"
-                            "AlwaysCreate" = "11:FALSE"
-                            "DeleteAtUninstall" = "11:FALSE"
+                            "AlwaysCreate" = "11:TRUE"
+                            "DeleteAtUninstall" = "11:TRUE"
                             "Transitive" = "11:FALSE"
                                 "Keys"
                                 {
+                                    "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_3258F1A8E5574F8382626D74305AEA62"
+                                    {
+                                    "Name" = "8:WinStation"
+                                    "Condition" = "8:"
+                                    "AlwaysCreate" = "11:TRUE"
+                                    "DeleteAtUninstall" = "11:TRUE"
+                                    "Transitive" = "11:FALSE"
+                                        "Keys"
+                                        {
+                                        }
+                                        "Values"
+                                        {
+                                        }
+                                    }
                                 }
                                 "Values"
                                 {

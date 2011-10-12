@@ -161,6 +161,11 @@ namespace UT_WammerStation
                     fakeCloud.RequestedPath);
                 Assert.AreEqual("newToken1", station.Token);
             }
+        }
+
+        [TestMethod]
+        public void TestRegistry()
+        {
 
         }
     }

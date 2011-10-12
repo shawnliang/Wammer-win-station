@@ -6,17 +6,23 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Net;
+using Microsoft.Win32;
 
 namespace Wammer.Station.StartUp
 {
     public partial class StartUpPage : Form
     {
-        private bool registerSuccess = false;
         private WebClient agent = new WebClient();
 
         public StartUpPage()
         {
             InitializeComponent();
+        }
+
+        public static bool Inited()
+        {
+            object stationId = Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "stationId", null);
+            return stationId != null && !stationId.Equals("");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -37,12 +43,13 @@ namespace Wammer.Station.StartUp
 
             try
             {
+                Guid stationId = Guid.NewGuid();
                 Wammer.Cloud.Station station = Wammer.Cloud.Station.SignUp(
                     this.agent,
-                    "stationId", // TODO: create a new station id
-                    user.Token); // TODO: api key
+                    stationId.ToString(),
+                    user.Token);
 
-                station.LogOn(this.agent); // TODO: machine info, ip, hostname, ...
+                Registry.SetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "stationId", stationId.ToString());
             }
             catch (Exception ex)
             {
@@ -54,7 +61,6 @@ namespace Wammer.Station.StartUp
                 "Your windows station is connected with Wammer successfully.\r\n" +
                 "Enjoy using Wammer.");
 
-            registerSuccess = true;
             this.Close();
         }
 
@@ -65,7 +71,7 @@ namespace Wammer.Station.StartUp
 
         private void StartUpPage_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (registerSuccess)
+            if (Inited())
                 return;
 
             DialogResult res =
