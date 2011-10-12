@@ -15,26 +15,14 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_036DC572324A4045987430502831F8C7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_054D6061844348F7917C63E6D395294D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_072B7EBC68A84AB5A65ACF112686F025"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
+        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
-        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
+        "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -45,19 +33,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1E4830A92E7C4BEDA43C3CE7647A0B33"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2206B53844B246D5BFAFCCF8EC963EF0"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2620FA025A5D48678D4F61B5CA59C75A"
+        "MsmKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -69,133 +45,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_39205854CD324F68BDD8C62FE19051A6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_43502EA936A94570AE1E4EBC5C8FA3FE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_43D67CD08CB94AE39BE9CD7C6E851271"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_49FADA91211C46FEAE9BB44D75DF72A2"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4F869B28D7C748349D0188FBD066D303"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5418B38609D8BAA8DC483D254F9EA9AF"
-        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5418B38609D8BAA8DC483D254F9EA9AF"
-        "OwnerKey" = "8:_A099375A7375480498506CB68FA004FE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5418B38609D8BAA8DC483D254F9EA9AF"
-        "OwnerKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6584BBF09E164A078F29C500CDD1E280"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_65E26C025375455BA06CEC409572A94F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_70D45A5E5B6F4DA4A7F65DD1070016AC"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_720DEAA0B22B46C6ABC0078968600672"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_75132F38DA1A42A195E09B4213C0B459"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_76AC04D7A1E34C2B920A380A819D394D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_777A2EEE77364B76A105F57F1972324A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7B15304BFE7B43988AE3442BF19EBDEB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_831DCE5384804A629B2E8326607162E2"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8352CABE5FA34544B4341945D20A2E4F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8AE181C2C78D408AB3021CFF0F566D75"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8E8A71E76B3E4CFABCE8ABA646FAAB97"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_990D68D36D064DBAA9B394A16535B451"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -207,44 +57,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_AFB830BC0B3347FCBB06DD683520B724"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B602AFA2D06C413987A65E3FB9D10085"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B9E3A3E1547B4D3D91CDFA5447B4CA41"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_BBFDCAB106A5412B86CDA4EB62DB3EF2"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E3953EC604B7B3229A51E41CB9C13FA0"
-        "OwnerKey" = "8:_777A2EEE77364B76A105F57F1972324A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F8A761844D774B12BA0443F61B7B2540"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_FBFB72C53380DDA97CA685659FED4627"
+        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_FBFB72C53380DDA97CA685659FED4627"
-        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
+        "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -255,38 +75,38 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FC8B71D85BA54D9EBE35216D6C1F7CFD"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
+        "OwnerKey" = "8:_A099375A7375480498506CB68FA004FE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
+        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
+        "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
+        "OwnerKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2206B53844B246D5BFAFCCF8EC963EF0"
+        "OwnerKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_777A2EEE77364B76A105F57F1972324A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E3953EC604B7B3229A51E41CB9C13FA0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_65E26C025375455BA06CEC409572A94F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2620FA025A5D48678D4F61B5CA59C75A"
+        "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -316,19 +136,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5418B38609D8BAA8DC483D254F9EA9AF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_FBFB72C53380DDA97CA685659FED4627"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_39205854CD324F68BDD8C62FE19051A6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -498,66 +306,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_036DC572324A4045987430502831F8C7"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\mongostat.exe"
-            "TargetName" = "8:mongostat.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_054D6061844348F7917C63E6D395294D"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\bsondump.exe"
-            "TargetName" = "8:bsondump.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_072B7EBC68A84AB5A65ACF112686F025"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\mongod.exe"
-            "TargetName" = "8:mongod.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_10E85D69D92A4ECABF1E448A211CA2B8"
             {
             "AssemblyRegister" = "3:1"
@@ -620,581 +368,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1E4830A92E7C4BEDA43C3CE7647A0B33"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\conf\\win-utf"
-            "TargetName" = "8:win-utf"
-            "Tag" = "8:"
-            "Folder" = "8:_DE6788EB45934E7FA602510D41887594"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2620FA025A5D48678D4F61B5CA59C75A"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:winsw, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_2620FA025A5D48678D4F61B5CA59C75A"
-                    {
-                    "Name" = "8:ng_srv.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\3rd_party\\ng_srvinst\\ng_srv.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_FFAB566C91D54F4BBB5A08518FEE5769"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_43502EA936A94570AE1E4EBC5C8FA3FE"
-            {
-            "SourcePath" = "8:..\\3rd_party\\ng_srvinst\\ng_srv.xml"
-            "TargetName" = "8:ng_srv.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_FFAB566C91D54F4BBB5A08518FEE5769"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_43D67CD08CB94AE39BE9CD7C6E851271"
-            {
-            "SourcePath" = "8:..\\3rd_party\\ng_srvinst\\ng_srvinst.bat"
-            "TargetName" = "8:ng_srvinst.bat"
-            "Tag" = "8:"
-            "Folder" = "8:_FFAB566C91D54F4BBB5A08518FEE5769"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_49FADA91211C46FEAE9BB44D75DF72A2"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\conf\\nginx.conf"
-            "TargetName" = "8:nginx.conf"
-            "Tag" = "8:"
-            "Folder" = "8:_DE6788EB45934E7FA602510D41887594"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4F869B28D7C748349D0188FBD066D303"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\mongos.exe"
-            "TargetName" = "8:mongos.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5418B38609D8BAA8DC483D254F9EA9AF"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Mono.WebServer.FastCgi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f202864a4cc95055, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_5418B38609D8BAA8DC483D254F9EA9AF"
-                    {
-                    "Name" = "8:Mono.WebServer.FastCgi.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Mono.WebServer.FastCgi.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6584BBF09E164A078F29C500CDD1E280"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\conf\\fastcgi.conf"
-            "TargetName" = "8:fastcgi.conf"
-            "Tag" = "8:"
-            "Folder" = "8:_DE6788EB45934E7FA602510D41887594"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_65E26C025375455BA06CEC409572A94F"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MongoDB.Bson, Version=1.2.0.4274, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_65E26C025375455BA06CEC409572A94F"
-                    {
-                    "Name" = "8:MongoDB.Bson.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\3rd_party\\mongo-driver-1.2.0\\MongoDB.Bson.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_70D45A5E5B6F4DA4A7F65DD1070016AC"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\conf\\fastcgi_params"
-            "TargetName" = "8:fastcgi_params"
-            "Tag" = "8:"
-            "Folder" = "8:_DE6788EB45934E7FA602510D41887594"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_720DEAA0B22B46C6ABC0078968600672"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\conf\\uwsgi_params"
-            "TargetName" = "8:uwsgi_params"
-            "Tag" = "8:"
-            "Folder" = "8:_DE6788EB45934E7FA602510D41887594"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75132F38DA1A42A195E09B4213C0B459"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\mongorestore.exe"
-            "TargetName" = "8:mongorestore.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_76AC04D7A1E34C2B920A380A819D394D"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\conf\\mime.types"
-            "TargetName" = "8:mime.types"
-            "Tag" = "8:"
-            "Folder" = "8:_DE6788EB45934E7FA602510D41887594"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_777A2EEE77364B76A105F57F1972324A"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MongoDB.Driver, Version=1.2.0.4274, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_777A2EEE77364B76A105F57F1972324A"
-                    {
-                    "Name" = "8:MongoDB.Driver.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\3rd_party\\mongo-driver-1.2.0\\MongoDB.Driver.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7B15304BFE7B43988AE3442BF19EBDEB"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\mongo.exe"
-            "TargetName" = "8:mongo.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_831DCE5384804A629B2E8326607162E2"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\mongodump.exe"
-            "TargetName" = "8:mongodump.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8352CABE5FA34544B4341945D20A2E4F"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\nginx.exe"
-            "TargetName" = "8:nginx.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_FFAB566C91D54F4BBB5A08518FEE5769"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8AE181C2C78D408AB3021CFF0F566D75"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\html\\index.html"
-            "TargetName" = "8:index.html"
-            "Tag" = "8:"
-            "Folder" = "8:_D7FC339DE188407A82C202822941B224"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E8A71E76B3E4CFABCE8ABA646FAAB97"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\mongoimport.exe"
-            "TargetName" = "8:mongoimport.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_990D68D36D064DBAA9B394A16535B451"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\conf\\koi-utf"
-            "TargetName" = "8:koi-utf"
-            "Tag" = "8:"
-            "Folder" = "8:_DE6788EB45934E7FA602510D41887594"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AFB830BC0B3347FCBB06DD683520B724"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\mongoexport.exe"
-            "TargetName" = "8:mongoexport.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B602AFA2D06C413987A65E3FB9D10085"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\mongofiles.exe"
-            "TargetName" = "8:mongofiles.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B9E3A3E1547B4D3D91CDFA5447B4CA41"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\conf\\scgi_params"
-            "TargetName" = "8:scgi_params"
-            "Tag" = "8:"
-            "Folder" = "8:_DE6788EB45934E7FA602510D41887594"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BBFDCAB106A5412B86CDA4EB62DB3EF2"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-2.0.0\\bin\\mongotop.exe"
-            "TargetName" = "8:mongotop.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF00E703DDE4F4C98150E5F669D3019"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E3953EC604B7B3229A51E41CB9C13FA0"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MongoDB.Bson, Version=1.2.0.4274, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_E3953EC604B7B3229A51E41CB9C13FA0"
-                    {
-                    "Name" = "8:MongoDB.Bson.DLL"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:MongoDB.Bson.DLL"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F8A761844D774B12BA0443F61B7B2540"
-            {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\conf\\koi-win"
-            "TargetName" = "8:koi-win"
-            "Tag" = "8:"
-            "Folder" = "8:_DE6788EB45934E7FA602510D41887594"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FBFB72C53380DDA97CA685659FED4627"
             {
             "AssemblyRegister" = "3:1"
@@ -1226,12 +399,23 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FC8B71D85BA54D9EBE35216D6C1F7CFD"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FE95315886F02D9207176E56A63EBFEF"
             {
-            "SourcePath" = "8:..\\3rd_party\\nginx-1.0.8\\html\\50x.html"
-            "TargetName" = "8:50x.html"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Mono.WebServer.FastCgi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f202864a4cc95055, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_FE95315886F02D9207176E56A63EBFEF"
+                    {
+                    "Name" = "8:Mono.WebServer.FastCgi.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Mono.WebServer.FastCgi.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_D7FC339DE188407A82C202822941B224"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1243,7 +427,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -1273,94 +457,6 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_BEF00E703DDE4F4C98150E5F669D3019"
-                    {
-                    "Name" = "8:mongod"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_1161067358BB42BDA237537B4E3C85A7"
-                        "Folders"
-                        {
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_21DAC25F0736413A9AC0941CFC630FC8"
-                            {
-                            "Name" = "8:data"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_70D279C112D649C9B412DC1F3F47D491"
-                                "Folders"
-                                {
-                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_23E762B06F9B4DD9AC7F3E8427E2CDAE"
-                                    {
-                                    "Name" = "8:db"
-                                    "AlwaysCreate" = "11:FALSE"
-                                    "Condition" = "8:"
-                                    "Transitive" = "11:FALSE"
-                                    "Property" = "8:_1A99C37E73F14A50B3E2373E6AC888C1"
-                                        "Folders"
-                                        {
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_FFAB566C91D54F4BBB5A08518FEE5769"
-                    {
-                    "Name" = "8:nginx"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_C0E09D3510E14F0E98A0FC3F8184175C"
-                        "Folders"
-                        {
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_30293EAF5D5E480BA722733D3CE0DE0F"
-                            {
-                            "Name" = "8:temp"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_7987EDBCD3C04411BC4966CEEFECF068"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_D7FC339DE188407A82C202822941B224"
-                            {
-                            "Name" = "8:html"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_12A9A1AA560D4A73830156ABB2305F17"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_D8754B31DB07409E85FBAF3A009ACEE7"
-                            {
-                            "Name" = "8:logs"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_89283B7EBA1D4C538BC92C6623DABEC6"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_DE6788EB45934E7FA602510D41887594"
-                            {
-                            "Name" = "8:conf"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_1ABC6D7C22DC4CA99A30EBF927F06399"
-                                "Folders"
-                                {
-                                }
-                            }
-                        }
-                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_6CD0E2D4216F40678D21F53457E085F1"
@@ -1413,7 +509,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Wammer"
         "ProductCode" = "8:{51CEB67C-B0F6-4AAA-A592-A3E17FB7CD0A}"
-        "PackageCode" = "8:{EAC9420F-96ED-463C-9DF9-7F5267FBB720}"
+        "PackageCode" = "8:{DDCE72A1-5A98-463C-B2D6-70F9C34A6A68}"
         "UpgradeCode" = "8:{D5EBDF33-1109-48DC-B42B-56228E56A3C4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1960,9 +1056,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2206B53844B246D5BFAFCCF8EC963EF0"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_293FB735E04A4E3DA3CE42F016483B67"
             {
-            "SourcePath" = "8:..\\Mono.WebServer.FastCgi\\obj\\Debug\\Mono.WebServer.FastCgi.dll"
+            "SourcePath" = "8:..\\Wammer.Station.Service\\obj\\x86\\Debug\\Wammer.Station.Service.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
@@ -1982,7 +1078,7 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}"
+            "OutputProjectGuid" = "8:{C7B8A613-B0D8-49B4-B232-54A222E0095C}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -2011,34 +1107,6 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{4038B794-20B1-49F4-A1E9-EA35CA32582C}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_39205854CD324F68BDD8C62FE19051A6"
-            {
-            "SourcePath" = "8:..\\Mono.WebServer.FastCgi\\obj\\Debug\\Mono.WebServer.FastCgi.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_2737D80F55C841CAB7097CAAC65449CB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

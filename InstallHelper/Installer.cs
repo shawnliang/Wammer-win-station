@@ -9,13 +9,14 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Diagnostics;
 using System.ServiceProcess;
+using System.Runtime.InteropServices;
 
 namespace InstallHelper
 {
     [RunInstaller(true)]
     public partial class Installer : System.Configuration.Install.Installer
     {
-        const string NGINX_SVC_INSTALLED = "nginx_svc_installed";
+        private const string WAMMER_SERVICE_INSTALLED = "wammer_service_installed";
 
         public Installer()
         {
@@ -25,92 +26,48 @@ namespace InstallHelper
         [SecurityPermission(SecurityAction.Demand)]
         public override void Install(IDictionary stateSaver)
         {
-            base.Install(stateSaver);
-           
+            base.Install(stateSaver);           
             string wammerDir = Path.GetDirectoryName(this.Context.Parameters["assemblypath"]);
-            string nginxDir = Path.Combine(wammerDir, "nginx");
-            string nginxSvcName = "nginx for Wammer";
-            try
+
+            installWammerService(wammerDir);
+            stateSaver.Add(WAMMER_SERVICE_INSTALLED, 1);
+        }
+
+        private static void installWammerService(string wammerDir)
+        {
+            string argument = '"' + Path.Combine(wammerDir, "Wammer.Station.Service.exe") + '"';
+            runInstallUtil(argument);
+        }
+
+        private static void uninstallWammerService(string wammerDir)
+        {
+            string argument = "/u \"" + Path.Combine(wammerDir, "Wammer.Station.Service.exe") + 
+                '"';
+            runInstallUtil(argument);
+        }
+
+        private static void runInstallUtil(string argument)
+        {
+            string netFrameworkDir = RuntimeEnvironment.GetRuntimeDirectory();
+            string installUtil = Path.Combine(netFrameworkDir, "installUtil.exe");
+            using (Process proc = new Process())
             {
-                // nginx
-                createNginxDirs(nginxDir);
-                writeNginxPathToSvcConfig(nginxDir, nginxSvcName);
-                // TODO: config nginx port/fastcgi port/...
-                installNginxService(nginxDir);
-                stateSaver[NGINX_SVC_INSTALLED] = "true";
-            }
-            catch (Exception e)
-            {
-                using (FileStream f = File.OpenWrite("C:\\wammer-install.log"))
-                using (StreamWriter sw = new StreamWriter(f))
+                ProcessStartInfo info = new ProcessStartInfo(installUtil, argument);
+                info.CreateNoWindow = true;
+                info.WindowStyle = ProcessWindowStyle.Hidden;
+                proc.StartInfo = info;
+                if (!proc.Start())
+                    throw new InstallException("Unable to start installUtil.exe");
+
+                if (!proc.WaitForExit(20 * 1000))
+                    throw new InstallException("installUtil.exe does not exit in 20 seconds");
+
+                if (proc.ExitCode != 0)
                 {
-                    sw.WriteLine(e.ToString());
+                    System.Windows.Forms.MessageBox.Show(installUtil + " " + argument);
+                    throw new InstallException("installUtil.exe failed: " + proc.ExitCode);
                 }
-
-                throw;
             }
-            
-        }
-
-        private static void nginxService(string nginxDir, string cmd)
-        {
-            Process proc = Process.Start(
-                Path.Combine(nginxDir, "ng_srv.exe"), cmd);
-            if (!proc.WaitForExit(20 * 1000))
-            {
-                proc.Kill();
-                throw new System.TimeoutException("ng_srv.exe timeout");
-            }
-
-            if (proc.ExitCode != 0)
-                throw new InstallException(
-                    string.Format("ng_srv.exe exit with {0}", proc.ExitCode));
-        }
-
-        private static void installNginxService(string nginxDir)
-        {
-            nginxService(nginxDir, "install");
-        }
-
-        private static void removeNginxService(string nginxDir)
-        {
-            nginxService(nginxDir, "uninstall");
-        }
-
-        private static void writeNginxPathToSvcConfig(string nginxDir,
-            string nginxSvcName)
-        {
-            try
-            {
-                string svcConfigFile = Path.Combine(nginxDir, "ng_srv.xml");
-                XmlDocument doc = new XmlDocument();
-                doc.Load(svcConfigFile);
-                XmlNode nameNode = doc.SelectSingleNode("/service/name");
-                nameNode.InnerText = nginxSvcName;
-                XmlNode exeNode = doc.SelectSingleNode("/service/executable");
-                exeNode.InnerText = Path.Combine(nginxDir, "nginx.exe");
-                XmlNode logNode = doc.SelectSingleNode("/service/logpath");
-                logNode.InnerText = Path.Combine(nginxDir, "logs");
-                XmlNode startNode = doc.SelectSingleNode("/service/startargument");
-                startNode.InnerText = "-p \"" + nginxDir + "\"";
-                XmlNode stopNode = doc.SelectSingleNode("/service/stopargument");
-                stopNode.InnerText = "-p \"" + nginxDir + "\" -s stop";
-                doc.Save(svcConfigFile);
-            }
-            catch (Exception e)
-            {
-                throw new InstallException("error writing ng_srv.xml", e);
-            }
-        }
-
-        private static void createNginxDirs(string nginxDir)
-        {
-            string logDir = Path.Combine(nginxDir, "logs");
-            string tmpDir = Path.Combine(nginxDir, "temp");
-            if (!Directory.Exists(logDir))
-                Directory.CreateDirectory(logDir);
-            if (!Directory.Exists(tmpDir))
-                Directory.CreateDirectory(tmpDir);
         }
 
         [SecurityPermission(SecurityAction.Demand)]
@@ -118,28 +75,18 @@ namespace InstallHelper
         {
             base.Commit(savedState);
 
-            string nginxSvcName = "nginx for Wammer";
-            ServiceController svc = new ServiceController(nginxSvcName);
-            if (svc.Status != ServiceControllerStatus.Running)
-            {
-                svc.Start();
-                svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(10));
-            }
-
             string wammerDir = Path.GetDirectoryName(this.Context.Parameters["assemblypath"]);
             Process startUpApp = Process.Start(Path.Combine(wammerDir, "Wammer.Station.StartUp.exe"));
-
         }
 
         [SecurityPermission(SecurityAction.Demand)]
         public override void Rollback(IDictionary savedState)
         {
             base.Rollback(savedState);
-
             string wammerDir = Path.GetDirectoryName(this.Context.Parameters["assemblypath"]);
-            string nginxDir = Path.Combine(wammerDir, "nginx");
 
-            uninstallNginx(savedState, nginxDir);
+            if (savedState.Contains(WAMMER_SERVICE_INSTALLED))
+                uninstallWammerService(wammerDir);
         }
 
         [SecurityPermission(SecurityAction.Demand)]
@@ -148,35 +95,9 @@ namespace InstallHelper
             base.Uninstall(savedState);
 
             string wammerDir = Path.GetDirectoryName(this.Context.Parameters["assemblypath"]);
-            string nginxDir = Path.Combine(wammerDir, "nginx");
 
-            uninstallNginx(savedState, nginxDir);
-
-        }
-
-        private static void uninstallNginx(IDictionary savedState, string nginxDir)
-        {
-            try
-            {
-                string nginxSvcName = "nginx for Wammer";
-                ServiceController svc = new ServiceController(nginxSvcName);
-                if (svc.Status != ServiceControllerStatus.Stopped)
-                {
-                    svc.Stop();
-                    svc.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(20));
-                }
-
-                if (savedState[NGINX_SVC_INSTALLED] != null)
-                    removeNginxService(nginxDir);
-            }
-            catch (Exception e)
-            {
-                using (FileStream f = File.OpenWrite("C:\\wammer-uninstall.log"))
-                using (StreamWriter sw = new StreamWriter(f))
-                {
-                    sw.WriteLine(e.ToString());
-                }
-            }
+            if (savedState.Contains(WAMMER_SERVICE_INSTALLED))
+                uninstallWammerService(wammerDir);
         }
 
     }

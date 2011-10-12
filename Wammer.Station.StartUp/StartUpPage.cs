@@ -50,6 +50,7 @@ namespace Wammer.Station.StartUp
                     user.Token);
 
                 Registry.SetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "stationId", stationId.ToString());
+                Registry.SetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "stationToken", station.Token);
             }
             catch (Exception ex)
             {

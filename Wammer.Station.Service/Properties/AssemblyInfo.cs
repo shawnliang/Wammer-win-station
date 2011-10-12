@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Wammer.Station")]
+[assembly: AssemblyTitle("Wammer.Station.Service")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Waveface")]
-[assembly: AssemblyProduct("Wammer.Station")]
-[assembly: AssemblyCopyright("Copyright © Waveface 2011")]
+[assembly: AssemblyProduct("Wammer.Station.Service")]
+[assembly: AssemblyCopyright("Copyright ©  Waveface 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("20d1436f-3c8e-4b5c-9600-5215ffdb0c16")]
+[assembly: Guid("c6333c48-dfbb-4c3b-990f-0cac889e6862")]
 
 // Version information for an assembly consists of the following four values:
 //

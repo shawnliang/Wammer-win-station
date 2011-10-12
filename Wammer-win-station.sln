@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mono.WebServer.FastCgi", "Mono.WebServer.FastCgi\Mono.WebServer.FastCgi.csproj", "{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station", "Wammer.Station\Wammer.Station.csproj", "{8B7B8DB7-8465-42EE-A807-D55482D8502B}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installation", "Installation\Installation.vdproj", "{BDEB2D57-74F0-4FF6-9C2E-FB0639E471A1}"
@@ -19,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station.StartUp", "Wammer.Station.StartUp\Wammer.Station.StartUp.csproj", "{3936A35E-6EB1-439E-A575-02B3A25C8752}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station.Service", "Wammer.Station.Service\Wammer.Station.Service.csproj", "{C7B8A613-B0D8-49B4-B232-54A222E0095C}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -42,31 +42,6 @@ Global
 		SingleImage|x86 = SingleImage|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.CD_ROM|x86.ActiveCfg = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.DVD-5|x86.ActiveCfg = Debug|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.Release|x86.ActiveCfg = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
-		{EAA9511D-7086-4B7C-A9D2-6F76B6E58912}.SingleImage|x86.ActiveCfg = Release|Any CPU
 		{8B7B8DB7-8465-42EE-A807-D55482D8502B}.CD_ROM|Any CPU.ActiveCfg = Release|x86
 		{8B7B8DB7-8465-42EE-A807-D55482D8502B}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
 		{8B7B8DB7-8465-42EE-A807-D55482D8502B}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
@@ -197,6 +172,31 @@ Global
 		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|Mixed Platforms.Build.0 = Release|x86
 		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|x86.ActiveCfg = Release|x86
 		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|x86.Build.0 = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.CD_ROM|Any CPU.ActiveCfg = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.CD_ROM|x86.ActiveCfg = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.CD_ROM|x86.Build.0 = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.Debug|x86.ActiveCfg = Debug|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.Debug|x86.Build.0 = Debug|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.DVD-5|Any CPU.ActiveCfg = Debug|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.DVD-5|Mixed Platforms.ActiveCfg = Debug|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.DVD-5|Mixed Platforms.Build.0 = Debug|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.DVD-5|x86.ActiveCfg = Debug|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.DVD-5|x86.Build.0 = Debug|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.Release|Any CPU.ActiveCfg = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.Release|x86.ActiveCfg = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.Release|x86.Build.0 = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|Any CPU.ActiveCfg = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|Mixed Platforms.ActiveCfg = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|Mixed Platforms.Build.0 = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|x86.ActiveCfg = Release|x86
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
