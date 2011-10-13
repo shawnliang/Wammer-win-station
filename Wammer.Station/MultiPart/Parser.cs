@@ -27,7 +27,7 @@ namespace Wammer.MultiPart
             int startFrom = 0;
             while (startFrom < content.Length)
             {
-                int index = IndexOf(content, startFrom, "\r\n");
+                int index = IndexOf(content, startFrom, CRLF);
                 if (index < 0)
                     throw new FormatException("Not a wellformed multipart content");
 
@@ -129,14 +129,6 @@ namespace Wammer.MultiPart
             }
 
             return commPrefixCount;
-        }
-
-        // find "what" in a byte array
-        private static int IndexOf(byte[] data, int startIdx, string what)
-        {
-            byte[] whatBytes = Encoding.UTF8.GetBytes(what);
-
-            return IndexOf(data, startIdx, whatBytes);
         }
 
         // find "what" in a byte array
