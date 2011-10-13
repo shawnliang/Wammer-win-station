@@ -65,6 +65,10 @@
     <Content Include="TestData\SimpleMultiPartContent.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestData\SimpleWithHeaders.txt" />
+    <Content Include="TestData\SingeMultiPart.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

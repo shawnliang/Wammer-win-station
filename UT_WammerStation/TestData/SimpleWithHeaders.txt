@@ -2,10 +2,14 @@
 is a handy place for mail composers to include an
 explanatory note to non-MIME compliant readers.
 --simple boundary
+Header1: value 1
+Header2: value 2
 
 This is implicitly typed plain ASCII text.
 It does NOT end with a linebreak.
 --simple boundary
+Header1: value a
+Header2:value b
 
 This is implicitly typed plain ASCII text.
 It DOES end with a linebreak.

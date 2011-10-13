@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Collections.Specialized;
 
 namespace Wammer.MultiPart
 {
@@ -61,26 +62,47 @@ namespace Wammer.MultiPart
             int startFrom = startIdx;
 
             bool headerFound = false;
-            int headerEndIndex = -1;
+            NameValueCollection headers = new NameValueCollection();
+            int dataStartIndex = 0;
             while ((index = IndexOf(data, startFrom, CRLF)) >= 0)
             {
                 if (!headerFound && IsInFront(data, index, CRLF))
                 {
                     headerFound = true;
-                    headerEndIndex = index;
+                    dataStartIndex = index + 2;
+
+                    if (index-startIdx>0)
+                        ParseHeaders(headers, data, startIdx, index - startIdx);
                 }
 
                 if (headerFound && HasSubString(data, index + 2, head_boundry))
                 {
-                    int dataStartIndex = headerEndIndex + 2;
                     partLen = index - startIdx;
-                    return new Part(data, dataStartIndex, index - dataStartIndex);
+                    return new Part(data, dataStartIndex, index - dataStartIndex, headers);
                 }
 
                 startFrom = index + 2;
             }
 
             throw new FormatException("Bad part body format");
+        }
+
+        private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)
+        {
+            string headerText = Encoding.UTF8.GetString(data, from, len);
+            string[] stringSeparators = new string[] {"\r\n"};
+            string[] headers = headerText.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string header in headers)
+            {
+                int delimitIdx = header.IndexOf(":");
+                if (delimitIdx < 0)
+                    throw new FormatException("Bad header: " + header);
+
+                string key = header.Substring(0, delimitIdx).Trim();
+                string val = header.Substring(delimitIdx + 1).Trim();
+                collection.Add(key, val);
+            }
         }
 
         // is byte array "what" in front of EndInx?

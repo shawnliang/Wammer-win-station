@@ -5,10 +5,5 @@ explanatory note to non-MIME compliant readers.
 
 This is implicitly typed plain ASCII text.
 It does NOT end with a linebreak.
---simple boundary
-
-This is implicitly typed plain ASCII text.
-It DOES end with a linebreak.
-
 --simple boundary--
 This is the epilogue.  It is also to be ignored.

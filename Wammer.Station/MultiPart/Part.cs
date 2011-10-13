@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Text;
 
 namespace Wammer.MultiPart
@@ -11,12 +12,14 @@ namespace Wammer.MultiPart
         private int len;
 
         private string text;
+        private NameValueCollection headers;
 
-        public Part(byte[] data, int start, int len)
+        public Part(byte[] data, int start, int len, NameValueCollection headers)
         {
             this.data = data;
             this.start = start;
             this.len = len;
+            this.headers = headers;
         }
 
         public string Text
@@ -28,6 +31,11 @@ namespace Wammer.MultiPart
 
                 return text;
             }
+        }
+
+        public NameValueCollection Headers
+        {
+            get { return headers; }
         }
     }
 }
