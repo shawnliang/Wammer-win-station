@@ -56,7 +56,6 @@
     <Compile Include="Cloud\User.cs" />
     <Compile Include="Cloud\UserLogInResponse.cs" />
     <Compile Include="Cloud\WammerCloudException.cs" />
-    <Compile Include="MultiPart\MultipartParser.cs" />
     <Compile Include="MultiPart\Parser.cs" />
     <Compile Include="MultiPart\Part.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
