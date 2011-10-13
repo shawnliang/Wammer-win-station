@@ -22,22 +22,17 @@ namespace Wammer.Cloud
 
         public static User LogIn(WebClient agent, string username, string passwd)
         {
-            string address = string.Format(
-                "http://{0}:{1}/api/v2/auth/login/user_account/{2}/password/{3}/api_key/{4}",
-                CloudServer.Address,
-                CloudServer.Port,
-                HttpUtility.UrlEncode(username), 
-                HttpUtility.UrlEncode(passwd), 
-                HttpUtility.UrlEncode(CloudServer.APIKey));
+            Dictionary<object, object> parameters = new Dictionary<object, object>();
+            parameters.Add("email", username);
+            parameters.Add("password", passwd);
+            parameters.Add("api_key", CloudServer.APIKey);
 
-            UserLogInResponse res = CloudServer.request<UserLogInResponse>(agent, address);
-           
-            //if (res.response.status != 200)
-            //    throw new WammerCloudException("Wammer cloud returns error", 0, res.response.status);
+            UserLogInResponse res = CloudServer.requestPath<UserLogInResponse>(
+                agent, "auth/login", parameters);
 
             User user = new User(username, passwd);
             user.id = res.uid;
-            user.token = res.user_token;
+            user.token = res.session_token;
             return user;
         }
 

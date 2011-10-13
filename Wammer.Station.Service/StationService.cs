@@ -7,20 +7,31 @@ using System.Net;
 using System.ServiceProcess;
 using System.Text;
 using Microsoft.Win32;
+using Wammer.Station;
 
 namespace Wammer.Station.Service
 {
     public partial class StationService : ServiceBase
     {
+        public static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
+
+        private HttpListener httpListener = new HttpListener();
+
         public StationService()
         {
+            log4net.Config.XmlConfigurator.Configure();
             InitializeComponent();
         }
 
         protected override void OnStart(string[] args)
         {
+            httpListener.Prefixes.Add("http://+:9981/api/v2/");
+            httpListener.Start();
+            //httpListener.BeginGetContext(......);
+
             if (!LogOnStation())
             {
+                logger.Info("Not connected with Wammer Cloud yet");
                 //TODO: start a timer to retry
             }
 
@@ -31,21 +42,25 @@ namespace Wammer.Station.Service
         {
             try
             {
-                string stationId = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wammer\WinStation", "stationId", null);
-                string stationToken = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wammer\WinStation", "stationToken", null);
+                string stationId = (string)StationRegistry.GetValue("stationId", null);
+                string stationToken = (string)StationRegistry.GetValue("stationToken", null);
+
+                if (stationId == null || stationToken == null)
+                    return false;
 
                 Wammer.Cloud.Station station = new Cloud.Station(stationId, stationToken);
                 Dictionary<object, object> parameters = new Dictionary<object, object>();
                 parameters.Add("host_name", Dns.GetHostName());
                 parameters.Add("ip_address", GetOneLocalIPAddress());
+                parameters.Add("port", "9981"); //TODO: resolve hard code
                 station.LogOn(new System.Net.WebClient(), parameters);
 
-                Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wammer\WinStation", "stationToken", station.Token);
+                StationRegistry.SetValue("stationToken", station.Token);
                 return true;
             }
             catch (Exception e)
             {
-                //TODO: write log
+                logger.Warn("Unable to logon station with Wammer Cloud", e);
                 return false;
             }
         }
@@ -64,6 +79,8 @@ namespace Wammer.Station.Service
 
         protected override void OnStop()
         {
+            httpListener.Stop();
+            httpListener.Close();
         }
     }
 }

@@ -2,41 +2,121 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
+using Wammer.Station;
 
 namespace Wammer.Cloud
 {
     public class CloudServer
     {
-        private static string address = "api.waveface.com";
-        private static int port = 8080;
-        private static string apiKey = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
+        private const string DEF_HOST_NAME = "api.waveface.com";
+        private const int DEF_PORT = 8080;
+        private const string DEF_API_KEY = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
 
-        public static string Address
+        private static string hostname = null;
+        private static int port = 8080;
+        private static string apiKey = null;
+
+        public const string DEF_BASE_PATH = "v1";
+
+        public static string HostName
         {
-            get { return address; }
-            set { address = value; }
+            get {
+                if (hostname != null)
+                    return hostname;
+
+                return (string)StationRegistry.GetValue("cloudHostName", DEF_HOST_NAME);
+            }
+            set { hostname = value; }
         }
 
         public static int Port
         {
-            get { return port; }
+            get
+            {
+                if (port != 0)
+                    return port;
+
+                return (int)StationRegistry.GetValue("cloudPort", DEF_PORT);
+            }
             set { port = value; }
         }
 
         public static string APIKey
         {
-            get { return apiKey; }
+            get
+            {
+                if (apiKey != null)
+                    return apiKey;
+
+                return (string)StationRegistry.GetValue("cloudAPIKey", DEF_API_KEY);
+            }
             set { apiKey = value; }
         }
 
-        public static T request<T>(WebClient agent, string url)
+        /// <summary>
+        /// Requests Wammer cloud via http post
+        /// </summary>
+        /// <typeparam name="T">response type</typeparam>
+        /// <param name="agent">web client agent</param>
+        /// <param name="path">partial path of cloud url, http://host:port/base/partial_path</param>
+        /// <param name="parms">request parameter names and values. They will be transformed to name1=val1&amp;name2=val2...</param>
+        /// <returns>Response value</returns>
+        public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms)
+        {
+            string url = string.Format("http://{0}:{1}/{2}/{3}",
+                CloudServer.HostName,
+                CloudServer.Port,
+                CloudServer.DEF_BASE_PATH,
+                path);
+
+            if (parms.Count == 0)
+                return request<T>(agent, url, "");
+
+            StringBuilder buf = new StringBuilder();
+            foreach (KeyValuePair<object, object> pair in parms)
+            {
+                buf.Append(pair.Key.ToString());
+                buf.Append("=");
+                buf.Append(pair.Value.ToString());
+                buf.Append("&");
+            }
+
+            // remove last &
+            buf.Remove(buf.Length - 1, 1);
+
+            return request<T>(agent, url, buf.ToString());
+        }
+
+        public static T request<T>(WebClient agent, string url, Dictionary<object, object>parms)
+        {
+            if (parms.Count == 0)
+                return request<T>(agent, url, "");
+
+            StringBuilder buf = new StringBuilder();
+            foreach (KeyValuePair<object, object> pair in parms)
+            {
+                buf.Append(pair.Key.ToString());
+                buf.Append("=");
+                buf.Append(pair.Value.ToString());
+                buf.Append("&");
+            }
+
+            // remove last &
+            buf.Remove(buf.Length - 1, 1);
+
+            return request<T>(agent, url, buf.ToString());
+        }
+
+        public static T request<T>(WebClient agent, string url, string postData)
         {
             string response = "";
             T resObj;
 
             try
             {
-                response = agent.DownloadString(url);
+                agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                byte[] respBytes = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(postData));
+                response = Encoding.UTF8.GetString(respBytes);
                 resObj = fastJSON.JSON.Instance.ToObject<T>(response);
             }
             catch (WebException e)

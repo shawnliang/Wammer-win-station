@@ -10,6 +10,9 @@ namespace UT_WammerStation
     class FakeCloud: IDisposable
     {
         private string requestedPath;
+        private string postData;
+        private string reqeustedContentType;
+
         private string response;
         private System.Net.HttpListener listener;
 
@@ -49,6 +52,13 @@ namespace UT_WammerStation
             System.Net.HttpListener listener = (System.Net.HttpListener)result.AsyncState;
             HttpListenerContext context = listener.EndGetContext(result);
             requestedPath = context.Request.Url.AbsolutePath;
+            reqeustedContentType = context.Request.ContentType;
+            
+            using (StreamReader reader = new StreamReader(context.Request.InputStream))
+            {
+                postData = reader.ReadToEnd();
+            }
+
             context.Response.StatusCode = 200;
 
             using (StreamWriter w = new StreamWriter(context.Response.OutputStream))
@@ -60,6 +70,16 @@ namespace UT_WammerStation
         public string RequestedPath
         {
             get { return requestedPath; }
+        }
+
+        public string PostData
+        {
+            get { return postData; }
+        }
+
+        public string RequestedContentType
+        {
+            get { return reqeustedContentType; }
         }
 
         public void Dispose()

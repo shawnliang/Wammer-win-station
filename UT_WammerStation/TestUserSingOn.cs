@@ -15,7 +15,7 @@ namespace UT_WammerStation
         [ClassInitialize]
         public static void classInit(TestContext testContext)
         {
-            Wammer.Cloud.CloudServer.Address = "127.0.0.1";
+            Wammer.Cloud.CloudServer.HostName = "127.0.0.1";
             Wammer.Cloud.CloudServer.Port = 80;
             Wammer.Cloud.CloudServer.APIKey = "apiKey1";
         }
@@ -30,8 +30,13 @@ namespace UT_WammerStation
                 Wammer.Cloud.User user = Wammer.Cloud.User.LogIn(agent, "user1", "passwd1");
                 Assert.AreEqual("user1", user.Name);
                 Assert.AreEqual("passwd1", user.Password);
-                Assert.AreEqual("/api/v2/auth/login/user_account/user1/password/passwd1/api_key/apiKey1",
-                   fakeCloud.RequestedPath);
+                
+                Assert.AreEqual("/v1/auth/login", fakeCloud.RequestedPath);
+                Assert.AreEqual("email=user1&password=passwd1&api_key=apiKey1",
+                    fakeCloud.PostData);
+                Assert.AreEqual("application/x-www-form-urlencoded",
+                    fakeCloud.RequestedContentType);
+
                 Assert.AreEqual("token1", user.Token);
                 Assert.AreEqual("id1", user.Id);
             }
@@ -90,8 +95,12 @@ namespace UT_WammerStation
             using (WebClient agent = new WebClient())
             {
                 Wammer.Cloud.Station station = Wammer.Cloud.Station.SignUp(agent, "stationId1", "userToken1");
-                Assert.AreEqual("/api/v2/station/signup/user_token/userToken1/station_id/stationId1/api_key/apiKey1",
-                    fakeCloud.RequestedPath);
+
+                Assert.AreEqual("/v1/stations/signup", fakeCloud.RequestedPath);
+                Assert.AreEqual("session_token=userToken1&station_id=stationId1&api_key=apiKey1",
+                    fakeCloud.PostData);
+                Assert.AreEqual("application/x-www-form-urlencoded",
+                    fakeCloud.RequestedContentType);
 
                 Assert.AreEqual("stationId1", station.Id);
                 Assert.AreEqual("stationToken1", station.Token);
@@ -135,8 +144,11 @@ namespace UT_WammerStation
             {
                 Wammer.Cloud.Station station = new Wammer.Cloud.Station("sid1", "token1");
                 station.LogOn(agent);
-                Assert.AreEqual("/api/v2/station/logOn/station_token/token1/station_id/sid1/api_key/apiKey1",
-                    fakeCloud.RequestedPath);
+                Assert.AreEqual("/v1/stations/logOn", fakeCloud.RequestedPath);
+                Assert.AreEqual("session_token=token1&station_id=sid1&api_key=apiKey1",
+                    fakeCloud.PostData);
+                Assert.AreEqual("application/x-www-form-urlencoded",
+                    fakeCloud.RequestedContentType);
                 Assert.AreEqual("newToken1", station.Token);
             }
 
@@ -156,9 +168,16 @@ namespace UT_WammerStation
                 param.Add("ip_address", "ip1");
                 param.Add("port", "9999");
                 station.LogOn(agent, param);
-                Assert.AreEqual("/api/v2/station/logOn/station_token/token1/station_id/sid1/api_key/apiKey1" +
-                    "/host_name/hostname1/ip_address/ip1/port/9999",
-                    fakeCloud.RequestedPath);
+
+                Assert.AreEqual("/v1/stations/logOn", fakeCloud.RequestedPath);
+                Assert.AreEqual(
+                    "host_name=hostname1&ip_address=ip1&port=9999&" +
+                    "session_token=token1&station_id=sid1&api_key=apiKey1",
+                    fakeCloud.PostData);
+                Assert.AreEqual("application/x-www-form-urlencoded",
+                    fakeCloud.RequestedContentType);
+                Assert.AreEqual("newToken1", station.Token);
+
                 Assert.AreEqual("newToken1", station.Token);
             }
         }

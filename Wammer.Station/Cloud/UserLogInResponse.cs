@@ -27,7 +27,7 @@ namespace Wammer.Cloud
             set { _uid = value; }
         }
 
-        public string user_token
+        public string session_token
         {
             get { return _userToken; }
             set { _userToken = value; }

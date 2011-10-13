@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Net;
 using Microsoft.Win32;
+using Wammer.Station;
 
 namespace Wammer.Station.StartUp
 {
@@ -17,16 +18,19 @@ namespace Wammer.Station.StartUp
         public StartUpPage()
         {
             InitializeComponent();
+         
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         public static bool Inited()
         {
-            object stationId = Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "stationId", null);
+            object stationId = StationRegistry.GetValue("stationId", null);
             return stationId != null && !stationId.Equals("");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            log4net.ILog logger = log4net.LogManager.GetLogger("StartUpPage");
             Wammer.Cloud.User user = null;
             try
             {
@@ -37,6 +41,7 @@ namespace Wammer.Station.StartUp
             }
             catch (Exception ex)
             {
+                logger.Error("Cannot login user", ex);
                 MessageBox.Show("Incorrect account or password.");
                 return;
             }
@@ -49,12 +54,13 @@ namespace Wammer.Station.StartUp
                     stationId.ToString(),
                     user.Token);
 
-                Registry.SetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "stationId", stationId.ToString());
-                Registry.SetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "stationToken", station.Token);
+                StationRegistry.SetValue("stationId", stationId.ToString());
+                StationRegistry.SetValue("stationToken", station.Token);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                logger.Error("Cannot signup station", ex);
+                MessageBox.Show("Unexpected error when connecting with Wammer Cloud");
             }
 
 
@@ -62,6 +68,8 @@ namespace Wammer.Station.StartUp
                 "Your windows station is connected with Wammer successfully.\r\n" +
                 "Enjoy using Wammer.");
 
+            
+            logger.Info("Wammer starts up successfully");
             this.Close();
         }
 

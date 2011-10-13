@@ -20,7 +20,7 @@ namespace Wammer.Cloud
         {
         }
 
-        public string station_token
+        public string session_token
         {
             get { return _token; }
             set { _token = value; }
@@ -48,7 +48,7 @@ namespace Wammer.Cloud
             _token = token;
         }
 
-        public string station_token
+        public string session_token
         {
             get { return _token; }
             set { _token = value; }

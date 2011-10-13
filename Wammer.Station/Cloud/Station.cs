@@ -19,21 +19,18 @@ namespace Wammer.Cloud
 
         public static Station SignUp(WebClient agent, string stationId, string userToken)
         {
-            string address = string.Format(
-                "http://{0}:{1}/api/v2/station/signup/user_token/{2}/station_id/{3}/api_key/{4}",
-                CloudServer.Address,
-                CloudServer.Port,
-                HttpUtility.UrlEncode(userToken),
-                HttpUtility.UrlEncode(stationId),
-                HttpUtility.UrlEncode(CloudServer.APIKey));
+            Dictionary<object, object> param = new Dictionary<object, object>();
+            param.Add("session_token", userToken);
+            param.Add("station_id", stationId);
+            param.Add("api_key", CloudServer.APIKey);
 
-
-            StationSignUpResponse res = CloudServer.request<StationSignUpResponse>(agent, address);
+            StationSignUpResponse res = 
+                CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param);
 
             if (!res.station.station_id.Equals(stationId))
                 throw new WammerCloudException("Wammer clound returned a different station id.");
 
-            return new Station(stationId, res.station_token);
+            return new Station(stationId, res.session_token);
         }
 
         public void LogOn(WebClient agent)
@@ -43,25 +40,14 @@ namespace Wammer.Cloud
 
         public void LogOn(WebClient agent, Dictionary<object, object>param)
         {
-            string address = string.Format(
-                "http://{0}:{1}/api/v2/station/logOn/station_token/{2}/station_id/{3}/api_key/{4}",
-                CloudServer.Address,
-                CloudServer.Port,
-                HttpUtility.UrlEncode(this.token),
-                HttpUtility.UrlEncode(this.id),
-                HttpUtility.UrlEncode(CloudServer.APIKey));
+            Dictionary<object, object> parameters = new Dictionary<object, object>(param);
+            parameters.Add("session_token", this.token);
+            parameters.Add("station_id", this.id);
+            parameters.Add("api_key", CloudServer.APIKey);
 
-            StringBuilder strBuf = new StringBuilder(address);
-            foreach (KeyValuePair<object, object> pair in param)
-            {
-                strBuf.Append("/");
-                strBuf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
-                strBuf.Append("/");
-                strBuf.Append(HttpUtility.UrlEncode(pair.Value.ToString()));
-            }
-
-            StationLogOnResponse res = CloudServer.request<StationLogOnResponse>(agent, strBuf.ToString());
-            this.token = res.station_token;
+            StationLogOnResponse res = 
+                CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", parameters);
+            this.token = res.session_token;
         }
 
         public string Id
