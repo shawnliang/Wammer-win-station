@@ -6,137 +6,138 @@ using Wammer.Station;
 
 namespace Wammer.Cloud
 {
-    public class CloudServer
-    {
-        private const string DEF_HOST_NAME = "api.waveface.com";
-        private const int DEF_PORT = 8080;
-        private const string DEF_API_KEY = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
+	public class CloudServer
+	{
+		private const string DEF_HOST_NAME = "api.waveface.com";
+		private const int DEF_PORT = 8080;
+		private const string DEF_API_KEY = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
 
-        private static string hostname = null;
-        private static int port = 0;
-        private static string apiKey = null;
+		private static string hostname = null;
+		private static int port = 0;
+		private static string apiKey = null;
 
-        public const string DEF_BASE_PATH = "v1";
+		public const string DEF_BASE_PATH = "v1";
 
-        public static string HostName
-        {
-            get {
-                if (hostname != null)
-                    return hostname;
+		public static string HostName
+		{
+			get
+			{
+				if (hostname != null)
+					return hostname;
 
-                return (string)StationRegistry.GetValue("cloudHostName", DEF_HOST_NAME);
-            }
-            set { hostname = value; }
-        }
+				return (string)StationRegistry.GetValue("cloudHostName", DEF_HOST_NAME);
+			}
+			set { hostname = value; }
+		}
 
-        public static int Port
-        {
-            get
-            {
-                if (port != 0)
-                    return port;
+		public static int Port
+		{
+			get
+			{
+				if (port != 0)
+					return port;
 
-                return (int)StationRegistry.GetValue("cloudPort", DEF_PORT);
-            }
-            set { port = value; }
-        }
+				return (int)StationRegistry.GetValue("cloudPort", DEF_PORT);
+			}
+			set { port = value; }
+		}
 
-        public static string APIKey
-        {
-            get
-            {
-                if (apiKey != null)
-                    return apiKey;
+		public static string APIKey
+		{
+			get
+			{
+				if (apiKey != null)
+					return apiKey;
 
-                return (string)StationRegistry.GetValue("cloudAPIKey", DEF_API_KEY);
-            }
-            set { apiKey = value; }
-        }
+				return (string)StationRegistry.GetValue("cloudAPIKey", DEF_API_KEY);
+			}
+			set { apiKey = value; }
+		}
 
-        /// <summary>
-        /// Requests Wammer cloud via http post
-        /// </summary>
-        /// <typeparam name="T">response type</typeparam>
-        /// <param name="agent">web client agent</param>
-        /// <param name="path">partial path of cloud url, http://host:port/base/partial_path</param>
-        /// <param name="parms">request parameter names and values. They will be transformed to name1=val1&amp;name2=val2...</param>
-        /// <returns>Response value</returns>
-        public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms)
-        {
-            string url = string.Format("http://{0}:{1}/{2}/{3}",
-                CloudServer.HostName,
-                CloudServer.Port,
-                CloudServer.DEF_BASE_PATH,
-                path);
+		/// <summary>
+		/// Requests Wammer cloud via http post
+		/// </summary>
+		/// <typeparam name="T">response type</typeparam>
+		/// <param name="agent">web client agent</param>
+		/// <param name="path">partial path of cloud url, http://host:port/base/partial_path</param>
+		/// <param name="parms">request parameter names and values. They will be transformed to name1=val1&amp;name2=val2...</param>
+		/// <returns>Response value</returns>
+		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms)
+		{
+			string url = string.Format("http://{0}:{1}/{2}/{3}",
+				CloudServer.HostName,
+				CloudServer.Port,
+				CloudServer.DEF_BASE_PATH,
+				path);
 
-            if (parms.Count == 0)
-                return request<T>(agent, url, "");
+			if (parms.Count == 0)
+				return request<T>(agent, url, "");
 
-            StringBuilder buf = new StringBuilder();
-            foreach (KeyValuePair<object, object> pair in parms)
-            {
-                buf.Append(pair.Key.ToString());
-                buf.Append("=");
-                buf.Append(pair.Value.ToString());
-                buf.Append("&");
-            }
+			StringBuilder buf = new StringBuilder();
+			foreach (KeyValuePair<object, object> pair in parms)
+			{
+				buf.Append(pair.Key.ToString());
+				buf.Append("=");
+				buf.Append(pair.Value.ToString());
+				buf.Append("&");
+			}
 
-            // remove last &
-            buf.Remove(buf.Length - 1, 1);
+			// remove last &
+			buf.Remove(buf.Length - 1, 1);
 
-            return request<T>(agent, url, buf.ToString());
-        }
+			return request<T>(agent, url, buf.ToString());
+		}
 
-        public static T request<T>(WebClient agent, string url, Dictionary<object, object>parms)
-        {
-            if (parms.Count == 0)
-                return request<T>(agent, url, "");
+		public static T request<T>(WebClient agent, string url, Dictionary<object, object> parms)
+		{
+			if (parms.Count == 0)
+				return request<T>(agent, url, "");
 
-            StringBuilder buf = new StringBuilder();
-            foreach (KeyValuePair<object, object> pair in parms)
-            {
-                buf.Append(pair.Key.ToString());
-                buf.Append("=");
-                buf.Append(pair.Value.ToString());
-                buf.Append("&");
-            }
+			StringBuilder buf = new StringBuilder();
+			foreach (KeyValuePair<object, object> pair in parms)
+			{
+				buf.Append(pair.Key.ToString());
+				buf.Append("=");
+				buf.Append(pair.Value.ToString());
+				buf.Append("&");
+			}
 
-            // remove last &
-            buf.Remove(buf.Length - 1, 1);
+			// remove last &
+			buf.Remove(buf.Length - 1, 1);
 
-            return request<T>(agent, url, buf.ToString());
-        }
+			return request<T>(agent, url, buf.ToString());
+		}
 
-        public static T request<T>(WebClient agent, string url, string postData)
-        {
-            string response = "";
-            T resObj;
+		public static T request<T>(WebClient agent, string url, string postData)
+		{
+			string response = "";
+			T resObj;
 
-            try
-            {
-                agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                byte[] respBytes = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(postData));
-                response = Encoding.UTF8.GetString(respBytes);
-                resObj = fastJSON.JSON.Instance.ToObject<T>(response);
-            }
-            catch (WebException e)
-            {
-                throw new WammerCloudException("Wammer cloud error", e.Status, 0, e);
-            }
-            catch (Exception e)
-            {
-                throw new WammerCloudException("Wammer cloud error. response = " + response, e);
-            }
+			try
+			{
+				agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+				byte[] respBytes = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(postData));
+				response = Encoding.UTF8.GetString(respBytes);
+				resObj = fastJSON.JSON.Instance.ToObject<T>(response);
+			}
+			catch (WebException e)
+			{
+				throw new WammerCloudException("Wammer cloud error", e.Status, 0, e);
+			}
+			catch (Exception e)
+			{
+				throw new WammerCloudException("Wammer cloud error", postData, response, e);
+			}
 
-            if (resObj is CloudResponse)
-            {
-                CloudResponse cres = resObj as CloudResponse;
-                if (cres.response.status != 200)
-                    throw new WammerCloudException("Wammer cloud returns error", WebExceptionStatus.Success, cres.response.status);
-            }
+			if (resObj is CloudResponse)
+			{
+				CloudResponse cres = resObj as CloudResponse;
+				if (cres.status != 200)
+					throw new WammerCloudException("Wammer cloud error", postData, response, cres.status);
+			}
 
-            
-            return resObj;
-        }
-    }
+
+			return resObj;
+		}
+	}
 }

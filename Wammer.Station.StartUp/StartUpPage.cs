@@ -11,87 +11,90 @@ using Wammer.Station;
 
 namespace Wammer.Station.StartUp
 {
-    public partial class StartUpPage : Form
-    {
-        private WebClient agent = new WebClient();
+	public partial class StartUpPage : Form
+	{
+		private WebClient agent = new WebClient();
 
-        public StartUpPage()
-        {
-            InitializeComponent();
-         
-            log4net.Config.XmlConfigurator.Configure();
-        }
+		public StartUpPage()
+		{
+			InitializeComponent();
 
-        public static bool Inited()
-        {
-            object stationId = StationRegistry.GetValue("stationId", null);
-            return stationId != null && !stationId.Equals("");
-        }
+			log4net.Config.XmlConfigurator.Configure();
+		}
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            log4net.ILog logger = log4net.LogManager.GetLogger("StartUpPage");
-            Wammer.Cloud.User user = null;
-            try
-            {
-                user = Wammer.Cloud.User.LogIn(
-                    this.agent,
-                    this.accountTextField.Text.Trim(),
-                    this.passwordTextField.Text.Trim());
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Cannot login user", ex);
-                MessageBox.Show("Incorrect account or password.");
-                return;
-            }
+		public static bool Inited()
+		{
+			object stationId = StationRegistry.GetValue("stationId", null);
+			return stationId != null && !stationId.Equals("");
+		}
 
-            try
-            {
-                Guid stationId = Guid.NewGuid();
-                Wammer.Cloud.Station station = Wammer.Cloud.Station.SignUp(
-                    this.agent,
-                    stationId.ToString(),
-                    user.Token);
+		private void button2_Click(object sender, EventArgs e)
+		{
+			log4net.ILog logger = log4net.LogManager.GetLogger("StartUpPage");
+			Wammer.Cloud.User user = null;
+			try
+			{
+				user = Wammer.Cloud.User.LogIn(
+					this.agent,
+					this.accountTextField.Text.Trim(),
+					this.passwordTextField.Text.Trim());
+			}
+			catch (Exception ex)
+			{
+				logger.Error("Cannot login user", ex);
+				MessageBox.Show("Incorrect account or password.");
+				return;
+			}
+			logger.Info("user login successfully");
+			logger.Info("token = " + user.Token);
 
-                StationRegistry.SetValue("stationId", stationId.ToString());
-                StationRegistry.SetValue("stationToken", station.Token);
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Cannot signup station", ex);
-                MessageBox.Show("Unexpected error when connecting with Wammer Cloud");
-            }
+			try
+			{
+				Guid stationId = Guid.NewGuid();
+				Wammer.Cloud.Station station = Wammer.Cloud.Station.SignUp(
+					this.agent,
+					stationId.ToString(),
+					user.Token);
+
+				StationRegistry.SetValue("stationId", stationId.ToString());
+				StationRegistry.SetValue("stationToken", station.Token);
+			}
+			catch (Exception ex)
+			{
+				logger.Error("Cannot signup station", ex);
+				MessageBox.Show("Unexpected error when registering with Wammer Cloud");
+				return;
+			}
 
 
-            MessageBox.Show(
-                "Your windows station is connected with Wammer successfully.\r\n" +
-                "Enjoy using Wammer.");
+			MessageBox.Show(
+				"Your windows station is connected with Wammer successfully.\r\n" +
+				"Enjoy using Wammer.");
 
-            
-            logger.Info("Wammer starts up successfully");
-            this.Close();
-        }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+			logger.Info("Wammer starts up successfully");
+			this.Close();
+		}
 
-        private void StartUpPage_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (Inited())
-                return;
+		private void button1_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
 
-            DialogResult res =
-                MessageBox.Show(
-                    "You Wammer Windows Station is not yet connected with Wammer.\r\n" +
-                    "Do you want to quit?",
-                    "Quit Wammer Windows Station Setup?",
-                    MessageBoxButtons.YesNo);
+		private void StartUpPage_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (Inited())
+				return;
 
-            if (res == System.Windows.Forms.DialogResult.No)
-                e.Cancel = true;
-        }
-    }
+			DialogResult res =
+				MessageBox.Show(
+					"You Wammer Windows Station is not yet connected with Wammer.\r\n" +
+					"Do you want to quit?",
+					"Quit Wammer Windows Station Setup?",
+					MessageBoxButtons.YesNo);
+
+			if (res == System.Windows.Forms.DialogResult.No)
+				e.Cancel = true;
+		}
+	}
 }

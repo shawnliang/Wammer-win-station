@@ -6,167 +6,167 @@ using System.Collections.Specialized;
 
 namespace Wammer.MultiPart
 {
-    public class Parser
-    {
-        private static byte[] CRLF = Encoding.UTF8.GetBytes("\r\n");
+	public class Parser
+	{
+		private static byte[] CRLF = Encoding.UTF8.GetBytes("\r\n");
 
-        private byte[] head_boundry;
-        private byte[] close_boundry;
+		private byte[] head_boundry;
+		private byte[] close_boundry;
 
-        public Parser(string boundry)
-        {
-            head_boundry = Encoding.UTF8.GetBytes("--" + boundry);
-            close_boundry = Encoding.UTF8.GetBytes("--" + boundry + "--");
-        }
+		public Parser(string boundry)
+		{
+			head_boundry = Encoding.UTF8.GetBytes("--" + boundry);
+			close_boundry = Encoding.UTF8.GetBytes("--" + boundry + "--");
+		}
 
-        public Part[] Parse(Stream stream)
-        {
-            List<Part> parts = new List<Part>();
+		public Part[] Parse(Stream stream)
+		{
+			List<Part> parts = new List<Part>();
 
-            byte[] content = ToByteArray(stream);
+			byte[] content = ToByteArray(stream);
 
-            int startFrom = 0;
-            while (startFrom < content.Length)
-            {
-                int index = IndexOf(content, startFrom, CRLF);
-                if (index < 0)
-                    throw new FormatException("Not a wellformed multipart content");
+			int startFrom = 0;
+			while (startFrom < content.Length)
+			{
+				int index = IndexOf(content, startFrom, CRLF);
+				if (index < 0)
+					throw new FormatException("Not a wellformed multipart content");
 
-                if (HasSubString(content, index + 2, close_boundry))
-                {
-                    return parts.ToArray();
-                }
-                else if (HasSubString(content, index + 2, head_boundry))
-                {
-                    int bodyLen;
-                    
-                    // "\r\n" + head_boundry + "\r\n"
-                    int bodyStartIdx = index + 2 + head_boundry.Length + 2;
-                    Part part = ParsePartBody(content, bodyStartIdx, out bodyLen);
-                    parts.Add(part);
+				if (HasSubString(content, index + 2, close_boundry))
+				{
+					return parts.ToArray();
+				}
+				else if (HasSubString(content, index + 2, head_boundry))
+				{
+					int bodyLen;
 
-                    startFrom = bodyStartIdx + bodyLen;
-                    continue;
-                }
-                
+					// "\r\n" + head_boundry + "\r\n"
+					int bodyStartIdx = index + 2 + head_boundry.Length + 2;
+					Part part = ParsePartBody(content, bodyStartIdx, out bodyLen);
+					parts.Add(part);
 
-                startFrom = index + 2;
-            }
-
-            throw new FormatException("Not a wellformed multipart content");
-        }
-
-        private Part ParsePartBody(byte[] data, int startIdx, out int partLen)
-        {
-            int index = 0;
-            int startFrom = startIdx;
-
-            bool headerFound = false;
-            NameValueCollection headers = new NameValueCollection();
-            int dataStartIndex = 0;
-            while ((index = IndexOf(data, startFrom, CRLF)) >= 0)
-            {
-                if (!headerFound && IsInFront(data, index, CRLF))
-                {
-                    headerFound = true;
-                    dataStartIndex = index + 2;
-
-                    if (index-startIdx>0)
-                        ParseHeaders(headers, data, startIdx, index - startIdx);
-                }
-
-                if (headerFound && HasSubString(data, index + 2, head_boundry))
-                {
-                    partLen = index - startIdx;
-                    return new Part(data, dataStartIndex, index - dataStartIndex, headers);
-                }
-
-                startFrom = index + 2;
-            }
-
-            throw new FormatException("Bad part body format");
-        }
-
-        private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)
-        {
-            string headerText = Encoding.UTF8.GetString(data, from, len);
-            string[] stringSeparators = new string[] {"\r\n"};
-            string[] headers = headerText.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (string header in headers)
-            {
-                int delimitIdx = header.IndexOf(":");
-                if (delimitIdx < 0)
-                    throw new FormatException("Bad header: " + header);
-
-                string key = header.Substring(0, delimitIdx).Trim();
-                string val = header.Substring(delimitIdx + 1).Trim();
-                collection.Add(key, val);
-            }
-        }
-
-        // is byte array "what" in front of EndInx?
-        private static bool IsInFront(byte[] content, int endIdx, byte[] what)
-        {
-            int fromIdx = endIdx - what.Length;
-            if (fromIdx < 0)
-                return false;
-
-            return CommonPrefixCount(content, fromIdx, what) == what.Length;
-        }
-
-        private static byte[] ToByteArray(Stream stream)
-        {
-            byte[] buf = new byte[32768];
-            int nread = 0;
-            MemoryStream m = new MemoryStream();
-            do
-            {
-                nread = stream.Read(buf, 0, buf.Length);
-                if (nread > 0)
-                    m.Write(buf, 0, nread);
-            }
-            while (nread > 0);
-
-            return m.ToArray();
-        }
+					startFrom = bodyStartIdx + bodyLen;
+					continue;
+				}
 
 
-        private static bool HasSubString(byte[] data, int startIdx, byte[] substr)
-        {
-            return CommonPrefixCount(data, startIdx, substr) == substr.Length;
-        }
+				startFrom = index + 2;
+			}
 
-        // count the common prefix bytes of a byte array
-        private static int CommonPrefixCount(byte[] data, int startIdx, byte[] what)
-        {
-            int commPrefixCount = 0;
+			throw new FormatException("Not a wellformed multipart content");
+		}
 
-            for (int i = 0; i < what.Length && startIdx+i < data.Length; i++)
-            {
-                if (data[startIdx + i] == what[i])
-                    commPrefixCount++;
-                else
-                    break;
-            }
+		private Part ParsePartBody(byte[] data, int startIdx, out int partLen)
+		{
+			int index = 0;
+			int startFrom = startIdx;
 
-            return commPrefixCount;
-        }
+			bool headerFound = false;
+			NameValueCollection headers = new NameValueCollection();
+			int dataStartIndex = 0;
+			while ((index = IndexOf(data, startFrom, CRLF)) >= 0)
+			{
+				if (!headerFound && IsInFront(data, index, CRLF))
+				{
+					headerFound = true;
+					dataStartIndex = index + 2;
 
-        // find "what" in a byte array
-        private static int IndexOf(byte[] data, int startIdx, byte[] whatBytes)
-        {
-            int startFrom = startIdx;
-            while (startFrom < data.Length)
-            {
-                int commonPrefix = CommonPrefixCount(data, startFrom, whatBytes);
-                if (commonPrefix == whatBytes.Length)
-                    return startFrom;
+					if (index - startIdx > 0)
+						ParseHeaders(headers, data, startIdx, index - startIdx);
+				}
 
-                startFrom += commonPrefix + 1;
-            }
+				if (headerFound && HasSubString(data, index + 2, head_boundry))
+				{
+					partLen = index - startIdx;
+					return new Part(data, dataStartIndex, index - dataStartIndex, headers);
+				}
 
-            return -1;
-        }
-    }
+				startFrom = index + 2;
+			}
+
+			throw new FormatException("Bad part body format");
+		}
+
+		private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)
+		{
+			string headerText = Encoding.UTF8.GetString(data, from, len);
+			string[] stringSeparators = new string[] { "\r\n" };
+			string[] headers = headerText.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+
+			foreach (string header in headers)
+			{
+				int delimitIdx = header.IndexOf(":");
+				if (delimitIdx < 0)
+					throw new FormatException("Bad header: " + header);
+
+				string key = header.Substring(0, delimitIdx).Trim();
+				string val = header.Substring(delimitIdx + 1).Trim();
+				collection.Add(key, val);
+			}
+		}
+
+		// is byte array "what" in front of EndInx?
+		private static bool IsInFront(byte[] content, int endIdx, byte[] what)
+		{
+			int fromIdx = endIdx - what.Length;
+			if (fromIdx < 0)
+				return false;
+
+			return CommonPrefixCount(content, fromIdx, what) == what.Length;
+		}
+
+		private static byte[] ToByteArray(Stream stream)
+		{
+			byte[] buf = new byte[32768];
+			int nread = 0;
+			MemoryStream m = new MemoryStream();
+			do
+			{
+				nread = stream.Read(buf, 0, buf.Length);
+				if (nread > 0)
+					m.Write(buf, 0, nread);
+			}
+			while (nread > 0);
+
+			return m.ToArray();
+		}
+
+
+		private static bool HasSubString(byte[] data, int startIdx, byte[] substr)
+		{
+			return CommonPrefixCount(data, startIdx, substr) == substr.Length;
+		}
+
+		// count the common prefix bytes of a byte array
+		private static int CommonPrefixCount(byte[] data, int startIdx, byte[] what)
+		{
+			int commPrefixCount = 0;
+
+			for (int i = 0; i < what.Length && startIdx + i < data.Length; i++)
+			{
+				if (data[startIdx + i] == what[i])
+					commPrefixCount++;
+				else
+					break;
+			}
+
+			return commPrefixCount;
+		}
+
+		// find "what" in a byte array
+		private static int IndexOf(byte[] data, int startIdx, byte[] whatBytes)
+		{
+			int startFrom = startIdx;
+			while (startFrom < data.Length)
+			{
+				int commonPrefix = CommonPrefixCount(data, startFrom, whatBytes);
+				if (commonPrefix == whatBytes.Length)
+					return startFrom;
+
+				startFrom += commonPrefix + 1;
+			}
+
+			return -1;
+		}
+	}
 }

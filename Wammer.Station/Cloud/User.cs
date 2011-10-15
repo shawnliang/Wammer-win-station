@@ -6,54 +6,47 @@ using System.Web;
 
 namespace Wammer.Cloud
 {
-    public class User
-    {
-        private string name;
-        private string password;
-        private string id;
-        private string token;
+	public class User
+	{
+		private string name;
+		private string password;
+		private string token;
 
 
-        private User(string username, string passwd)
-        {
-            this.name = username;
-            this.password = passwd;
-        }
+		private User(string username, string passwd)
+		{
+			this.name = username;
+			this.password = passwd;
+		}
 
-        public static User LogIn(WebClient agent, string username, string passwd)
-        {
-            Dictionary<object, object> parameters = new Dictionary<object, object>();
-            parameters.Add("email", username);
-            parameters.Add("password", passwd);
-            parameters.Add("api_key", CloudServer.APIKey);
+		public static User LogIn(WebClient agent, string username, string passwd)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>();
+			parameters.Add("email", username);
+			parameters.Add("password", passwd);
+			parameters.Add("api_key", CloudServer.APIKey);
 
-            UserLogInResponse res = CloudServer.requestPath<UserLogInResponse>(
-                agent, "auth/login", parameters);
+			UserLogInResponse res = CloudServer.requestPath<UserLogInResponse>(
+				agent, "auth/login", parameters);
 
-            User user = new User(username, passwd);
-            user.id = res.uid;
-            user.token = res.session_token;
-            return user;
-        }
+			User user = new User(username, passwd);
+			user.token = res.session_token;
+			return user;
+		}
 
-        public string Name
-        {
-            get { return name; }
-        }
+		public string Name
+		{
+			get { return name; }
+		}
 
-        public string Password
-        {
-            get { return password; }
-        }
+		public string Password
+		{
+			get { return password; }
+		}
 
-        public string Id
-        {
-            get { return this.id; }
-        }
-
-        public string Token
-        {
-            get { return this.token; }
-        }
-    }
+		public string Token
+		{
+			get { return this.token; }
+		}
+	}
 }

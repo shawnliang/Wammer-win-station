@@ -7,126 +7,126 @@ using System.IO;
 
 namespace UT_WammerStation
 {
-    class FakeCloud: IDisposable
-    {
-        private string requestedPath;
-        private string postData;
-        private string reqeustedContentType;
+	class FakeCloud : IDisposable
+	{
+		private string requestedPath;
+		private string postData;
+		private string reqeustedContentType;
 
-        private string response;
-        private System.Net.HttpListener listener;
+		private string response;
+		private System.Net.HttpListener listener;
 
-        public FakeCloud(string response)
-        {
-            this.response = response;
-            this.listener = new System.Net.HttpListener();
-            this.listener.Prefixes.Add("http://+:80/");
+		public FakeCloud(string response)
+		{
+			this.response = response;
+			this.listener = new System.Net.HttpListener();
+			this.listener.Prefixes.Add("http://+:80/");
 
-            // If you get an Access Denied exception in Windows 7 or Windows 2008 or later,
-            // you might need to reserve a namespace. Run a console window as Admin, and type something like
-            //    netsh http add urlacl http://+:80/ user=domain\user
-            // See this page:
-            //    http://msdn.microsoft.com/en-us/library/cc307223(VS.85).aspx
-            this.listener.Start();
-            this.listener.BeginGetContext(this.connected, listener);
-        }
+			// If you get an Access Denied exception in Windows 7 or Windows 2008 or later,
+			// you might need to reserve a namespace. Run a console window as Admin, and type something like
+			//    netsh http add urlacl http://+:80/ user=domain\user
+			// See this page:
+			//    http://msdn.microsoft.com/en-us/library/cc307223(VS.85).aspx
+			this.listener.Start();
+			this.listener.BeginGetContext(this.connected, listener);
+		}
 
-        public FakeCloud(object response)
-        {
-            this.response = fastJSON.JSON.Instance.ToJSON(response, false, false, false, false);
+		public FakeCloud(object response)
+		{
+			this.response = fastJSON.JSON.Instance.ToJSON(response, false, false, false, false);
 
-            this.listener = new System.Net.HttpListener();
-            this.listener.Prefixes.Add("http://+:80/");
+			this.listener = new System.Net.HttpListener();
+			this.listener.Prefixes.Add("http://+:80/");
 
-            // If you get an Access Denied exception in Windows 7 or Windows 2008 or later,
-            // you might need to reserve a namespace. Run a console window as Admin, and type something like
-            //    netsh http add urlacl http://+:80/ user=domain\user
-            // See this page:
-            //    http://msdn.microsoft.com/en-us/library/cc307223(VS.85).aspx
-            this.listener.Start();
-            this.listener.BeginGetContext(this.connected, listener);
-        }
+			// If you get an Access Denied exception in Windows 7 or Windows 2008 or later,
+			// you might need to reserve a namespace. Run a console window as Admin, and type something like
+			//    netsh http add urlacl http://+:80/ user=domain\user
+			// See this page:
+			//    http://msdn.microsoft.com/en-us/library/cc307223(VS.85).aspx
+			this.listener.Start();
+			this.listener.BeginGetContext(this.connected, listener);
+		}
 
-        private void connected(IAsyncResult result)
-        {
-            System.Net.HttpListener listener = (System.Net.HttpListener)result.AsyncState;
-            HttpListenerContext context = listener.EndGetContext(result);
-            requestedPath = context.Request.Url.AbsolutePath;
-            reqeustedContentType = context.Request.ContentType;
-            
-            using (StreamReader reader = new StreamReader(context.Request.InputStream))
-            {
-                postData = reader.ReadToEnd();
-            }
+		private void connected(IAsyncResult result)
+		{
+			System.Net.HttpListener listener = (System.Net.HttpListener)result.AsyncState;
+			HttpListenerContext context = listener.EndGetContext(result);
+			requestedPath = context.Request.Url.AbsolutePath;
+			reqeustedContentType = context.Request.ContentType;
 
-            context.Response.StatusCode = 200;
+			using (StreamReader reader = new StreamReader(context.Request.InputStream))
+			{
+				postData = reader.ReadToEnd();
+			}
 
-            using (StreamWriter w = new StreamWriter(context.Response.OutputStream))
-            {
-                w.Write(this.response);
-            }
-        }
+			context.Response.StatusCode = 200;
 
-        public string RequestedPath
-        {
-            get { return requestedPath; }
-        }
+			using (StreamWriter w = new StreamWriter(context.Response.OutputStream))
+			{
+				w.Write(this.response);
+			}
+		}
 
-        public string PostData
-        {
-            get { return postData; }
-        }
+		public string RequestedPath
+		{
+			get { return requestedPath; }
+		}
 
-        public string RequestedContentType
-        {
-            get { return reqeustedContentType; }
-        }
+		public string PostData
+		{
+			get { return postData; }
+		}
 
-        public void Dispose()
-        {
-            this.listener.Close();
-        }
-    }
+		public string RequestedContentType
+		{
+			get { return reqeustedContentType; }
+		}
 
-    class FakeErrorCloud : IDisposable
-    {
-        private string requestedPath;
-        private int response;
-        private System.Net.HttpListener listener;
+		public void Dispose()
+		{
+			this.listener.Close();
+		}
+	}
 
-        public FakeErrorCloud(int errStatus)
-        {
-            this.response = errStatus;
-            this.listener = new System.Net.HttpListener();
-            this.listener.Prefixes.Add("http://+:80/");
+	class FakeErrorCloud : IDisposable
+	{
+		private string requestedPath;
+		private int response;
+		private System.Net.HttpListener listener;
 
-            // If you get an Access Denied exception in Windows 7 or Windows 2008 or later,
-            // you might need to reserve a namespace. Run a console window as Admin, and type something like
-            //    netsh http add urlacl http://+:80/ user=domain\user
-            // See this page:
-            //    http://msdn.microsoft.com/en-us/library/cc307223(VS.85).aspx
-            this.listener.Start();
-            this.listener.BeginGetContext(this.connected, listener);
-        }
+		public FakeErrorCloud(int errStatus)
+		{
+			this.response = errStatus;
+			this.listener = new System.Net.HttpListener();
+			this.listener.Prefixes.Add("http://+:80/");
 
-        private void connected(IAsyncResult result)
-        {
-            System.Net.HttpListener listener = (System.Net.HttpListener)result.AsyncState;
-            HttpListenerContext context = listener.EndGetContext(result);
-            requestedPath = context.Request.Url.AbsolutePath;
-            context.Response.StatusCode = this.response;
+			// If you get an Access Denied exception in Windows 7 or Windows 2008 or later,
+			// you might need to reserve a namespace. Run a console window as Admin, and type something like
+			//    netsh http add urlacl http://+:80/ user=domain\user
+			// See this page:
+			//    http://msdn.microsoft.com/en-us/library/cc307223(VS.85).aspx
+			this.listener.Start();
+			this.listener.BeginGetContext(this.connected, listener);
+		}
 
-            context.Response.OutputStream.Close();
-        }
+		private void connected(IAsyncResult result)
+		{
+			System.Net.HttpListener listener = (System.Net.HttpListener)result.AsyncState;
+			HttpListenerContext context = listener.EndGetContext(result);
+			requestedPath = context.Request.Url.AbsolutePath;
+			context.Response.StatusCode = this.response;
 
-        public string RequestedPath
-        {
-            get { return requestedPath; }
-        }
+			context.Response.OutputStream.Close();
+		}
 
-        public void Dispose()
-        {
-            this.listener.Close();
-        }
-    }
+		public string RequestedPath
+		{
+			get { return requestedPath; }
+		}
+
+		public void Dispose()
+		{
+			this.listener.Close();
+		}
+	}
 }

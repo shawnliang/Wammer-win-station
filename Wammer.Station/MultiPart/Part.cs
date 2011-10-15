@@ -5,37 +5,59 @@ using System.Text;
 
 namespace Wammer.MultiPart
 {
-    public class Part
-    {
-        private byte[] data;
-        private int start;
-        private int len;
+	public class Part
+	{
+		private byte[] data;
+		private int start;
+		private int len;
 
-        private string text;
-        private NameValueCollection headers;
+		private string text;
+		private byte[] bytes;
+		private NameValueCollection headers;
 
-        public Part(byte[] data, int start, int len, NameValueCollection headers)
-        {
-            this.data = data;
-            this.start = start;
-            this.len = len;
-            this.headers = headers;
-        }
+		public Part(byte[] data, int start, int len, NameValueCollection headers)
+		{
+			if (data == null || headers == null)
+				throw new ArgumentNullException();
 
-        public string Text
-        {
-            get
-            {
-                if (text == null)
-                    text = Encoding.UTF8.GetString(data, start, len);
+			this.data = data;
+			this.start = start;
+			this.len = len;
+			this.headers = headers;
+		}
 
-                return text;
-            }
-        }
+		public string Text
+		{
+			get
+			{
+				if (headers["content-transfer-encoding"] != null &&
+					headers["content-transfer-encoding"].Equals("binary"))
+					return null;
+				if (text == null)
+					text = Encoding.UTF8.GetString(data, start, len);
 
-        public NameValueCollection Headers
-        {
-            get { return headers; }
-        }
-    }
+				return text;
+			}
+		}
+
+		public byte[] Bytes
+		{
+			get
+			{
+				if (bytes == null)
+				{
+					bytes = new byte[this.len];
+					for (int i = 0; i < this.len; i++)
+						bytes[i] = this.data[this.start + i];
+				}
+
+				return bytes;
+			}
+		}
+
+		public NameValueCollection Headers
+		{
+			get { return headers; }
+		}
+	}
 }

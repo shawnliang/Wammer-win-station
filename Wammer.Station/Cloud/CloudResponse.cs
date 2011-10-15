@@ -4,23 +4,31 @@ using System.Text;
 
 namespace Wammer.Cloud
 {
-    public abstract class CloudResponse
-    {
-        private StatusResponse _status;
+	public abstract class CloudResponse
+	{
+		protected int _status;
+		protected DateTime _timestamp;
 
-        protected CloudResponse()
-        {
-        }
+		protected CloudResponse()
+		{
+		}
 
-        protected CloudResponse(StatusResponse status)
-        {
-            this._status = status;
-        }
+		protected CloudResponse(int status, DateTime timestamp)
+		{
+			this._status = status;
+			this._timestamp = timestamp;
+		}
 
-        public StatusResponse response
-        {
-            get { return _status; }
-            set { _status = value; }
-        }
-    }
+		public int status
+		{
+			get { return _status; }
+			set { _status = value; }
+		}
+
+		public DateTime timestamp
+		{
+			get { return _timestamp; }
+			set { _timestamp = value; }
+		}
+	}
 }
