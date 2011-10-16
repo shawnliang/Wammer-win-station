@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Cloud\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
+    <Compile Include="Cloud\ObjectUploadResponse.cs" />
     <Compile Include="Cloud\Station.cs" />
     <Compile Include="Cloud\StationSignUpResponse.cs" />
     <Compile Include="Cloud\User.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Station\FileStorage.cs" />
     <Compile Include="Station\HttpServer.cs" />
+    <Compile Include="Station\ObjectUploadHandler.cs" />
     <Compile Include="Station\StationRegistry.cs" />
   </ItemGroup>
   <ItemGroup />

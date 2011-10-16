@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Net;
 
 using Wammer.MultiPart;
 using Wammer.Station;
+using Wammer.Cloud;
 
 namespace UT_WammerStation
 {
@@ -109,6 +111,49 @@ namespace UT_WammerStation
 				Assert.AreEqual(size, f.Length);
 				for (int i = 0; i < size; i++)
 					Assert.AreEqual(file[i], savedFile[i]);
+			}
+		}
+
+		[TestMethod]
+		public void TestObjectReceiveHandler()
+		{
+			Directory.CreateDirectory(@"resource");
+			Directory.CreateDirectory(@"resource\space1");
+			Directory.CreateDirectory(@"resource\space1\100");
+
+			using (HttpServer server = new HttpServer(80))
+			{
+				server.AddHandler("/test/", new ObjectUploadHandler());
+				server.Start();
+
+				HttpWebRequest requst = (HttpWebRequest)WebRequest.
+											Create("http://localhost/test/");
+				requst.ContentType = "multipart/form-data; boundary=AaB03x";
+				requst.Method = "POST";
+				using (FileStream fs = new FileStream("ObjectUpload1.txt", FileMode.Open))
+				using (Stream outStream = requst.GetRequestStream())
+				{
+					fs.CopyTo(outStream);
+				}
+
+				HttpWebResponse response = (HttpWebResponse)requst.GetResponse();
+				byte[] resData = null;
+
+				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+				{
+					resData = reader.ReadBytes((int)response.ContentLength);
+					Assert.AreEqual(response.ContentLength, resData.Length);
+				}
+
+				string responseString = Encoding.UTF8.GetString(resData);
+				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
+										<ObjectUploadResponse>(responseString);
+
+				Assert.AreEqual(200, res.http_status);
+				Assert.IsNotNull(res.timestamp);
+				Assert.AreEqual(0, res.app_ret_code);
+				Assert.AreEqual("Success", res.app_ret_msg);
+				Assert.AreEqual("object_id1", res.object_id);
 			}
 		}
 	}
