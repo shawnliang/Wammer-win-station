@@ -8,6 +8,8 @@ namespace Wammer.Station
 {
 	public enum FileType
 	{
+		None = 0,
+
 		ImgOriginal = 100,
 		ImgThumbnail1 = 101,
 		ImgThumbnail2 = 102,

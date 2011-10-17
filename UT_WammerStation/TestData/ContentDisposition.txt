@@ -1,0 +1,17 @@
+﻿This is the preamble.  It is to be ignored, though it
+is a handy place for mail composers to include an
+explanatory note to non-MIME compliant readers.
+--simple boundary
+Content-Disposition: form-data; name="12345.txt"
+
+12345
+--simple boundary
+Content-Disposition: form-data; name=abcde.txt
+
+abcde
+--simple boundary
+Content-Disposition: form-data; name="ABCDE.txt"; name2=kkkkk
+
+ABCDE
+--simple boundary--
+This is the epilogue.  It is also to be ignored.

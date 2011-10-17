@@ -156,5 +156,83 @@ namespace UT_WammerStation
 				Assert.AreEqual("object_id1", res.object_id);
 			}
 		}
+
+		[TestMethod]
+		public void TestObjectReceiveHandler_ServerError()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				server.AddHandler("/test/", new ObjectUploadHandler());
+				server.Start();
+
+				HttpWebRequest requst = (HttpWebRequest)WebRequest.
+											Create("http://localhost/test/");
+				requst.ContentType = "multipart/form-data; boundary=AaB03x";
+				requst.Method = "POST";
+				using (FileStream fs = new FileStream("ObjectUpload1.txt", FileMode.Open))
+				using (Stream outStream = requst.GetRequestStream())
+				{
+					fs.CopyTo(outStream);
+				}
+
+				HttpWebResponse response = (HttpWebResponse)requst.GetResponse();
+				byte[] resData = null;
+
+				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+				{
+					resData = reader.ReadBytes((int)response.ContentLength);
+					Assert.AreEqual(response.ContentLength, resData.Length);
+				}
+
+				string responseString = Encoding.UTF8.GetString(resData);
+				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
+										<ObjectUploadResponse>(responseString);
+
+				Assert.AreEqual(200, res.http_status);
+				Assert.IsNotNull(res.timestamp);
+				Assert.AreNotEqual(0, res.app_ret_code);
+				Assert.AreNotEqual("Success", res.app_ret_msg);
+				Assert.AreEqual("object_id1", res.object_id);
+			}
+		}
+
+		[TestMethod]
+		public void TestObjectReceiveHandler_ClientError()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				server.AddHandler("/test/", new ObjectUploadHandler());
+				server.Start();
+
+				HttpWebRequest requst = (HttpWebRequest)WebRequest.
+											Create("http://localhost/test/");
+				requst.ContentType = "multipart/form-data; boundary=AaB03x";
+				requst.Method = "POST";
+				using (FileStream fs = new FileStream("SingeMultiPart.txt", FileMode.Open))
+				using (Stream outStream = requst.GetRequestStream())
+				{
+					fs.CopyTo(outStream);
+				}
+
+				HttpWebResponse response = (HttpWebResponse)requst.GetResponse();
+				byte[] resData = null;
+
+				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+				{
+					resData = reader.ReadBytes((int)response.ContentLength);
+					Assert.AreEqual(response.ContentLength, resData.Length);
+				}
+
+				string responseString = Encoding.UTF8.GetString(resData);
+				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
+										<ObjectUploadResponse>(responseString);
+
+				Assert.AreEqual(200, res.http_status);
+				Assert.IsNotNull(res.timestamp);
+				Assert.AreNotEqual(0, res.app_ret_code);
+				Assert.AreNotEqual("Success", res.app_ret_msg);
+				Assert.AreEqual(null, res.object_id);
+			}
+		}
 	}
 }

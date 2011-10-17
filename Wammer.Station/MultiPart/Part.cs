@@ -14,6 +14,7 @@ namespace Wammer.MultiPart
 		private string text;
 		private byte[] bytes;
 		private NameValueCollection headers;
+		private Disposition disposition;
 
 		public Part(byte[] data, int start, int len, NameValueCollection headers)
 		{
@@ -24,6 +25,11 @@ namespace Wammer.MultiPart
 			this.start = start;
 			this.len = len;
 			this.headers = headers;
+
+			if (headers["content-disposition"] != null)
+			{
+				disposition = Disposition.Parse(headers["content-disposition"]);
+			}
 		}
 
 		public string Text
@@ -58,6 +64,11 @@ namespace Wammer.MultiPart
 		public NameValueCollection Headers
 		{
 			get { return headers; }
+		}
+
+		public Disposition ContentDisposition
+		{
+			get { return disposition; }
 		}
 	}
 }

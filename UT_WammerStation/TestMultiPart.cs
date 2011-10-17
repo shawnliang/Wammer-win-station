@@ -91,6 +91,28 @@ namespace UT_WammerStation
 				Assert.AreEqual((byte)i, parts[0].Bytes[i]);
 
 			Assert.AreEqual(null, parts[0].Text);
+			Assert.IsNull(parts[0].ContentDisposition);
+		}
+
+		[TestMethod]
+		public void TestContentDisposition()
+		{
+			FileStream f = new FileStream("ContentDisposition.txt", FileMode.Open);
+			Wammer.MultiPart.Parser parser =
+								new Wammer.MultiPart.Parser("simple boundary");
+			Wammer.MultiPart.Part[] parts = parser.Parse(f);
+			Assert.AreEqual(3, parts.Length);
+
+
+			Assert.AreEqual("form-data", parts[0].ContentDisposition.Value);
+			Assert.AreEqual("12345.txt", parts[0].ContentDisposition.Parameters["name"]);
+
+			Assert.AreEqual("form-data", parts[1].ContentDisposition.Value);
+			Assert.AreEqual("abcde.txt", parts[1].ContentDisposition.Parameters["name"]);
+
+			Assert.AreEqual("form-data", parts[2].ContentDisposition.Value);
+			Assert.AreEqual("ABCDE.txt", parts[2].ContentDisposition.Parameters["name"]);
+			Assert.AreEqual("kkkkk", parts[2].ContentDisposition.Parameters["name2"]);
 		}
 	}
 }

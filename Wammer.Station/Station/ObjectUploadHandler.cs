@@ -13,7 +13,6 @@ namespace Wammer.Station
 	{
 		private FileStorage storage;
 		private const string BOUNDARY = "boundary=";
-		private const string NAME = "name=";
 
 		public ObjectUploadHandler()
 		{
@@ -23,66 +22,138 @@ namespace Wammer.Station
 		public void Handle(object state)
 		{
 			HttpListenerContext context = (HttpListenerContext)state;
+			FileUpload file = new FileUpload();
 
-			int idx = context.Request.ContentType.IndexOf(BOUNDARY);
-			string boundary = context.Request.ContentType.Substring(
-														idx + BOUNDARY.Length);
+			try
+			{
+				string boundary = GetMultipartBoundary(context);
 
-			MultiPart.Parser parser = new Parser(boundary);
-			Part[] parts = parser.Parse(context.Request.InputStream);
+				MultiPart.Parser parser = new Parser(boundary);
+				Part[] parts = parser.Parse(context.Request.InputStream);
 
-			string filename = null;
-			FileType type = FileType.ImgOriginal;
-			string objectId = null;
-			byte[] fileContent = null;
+				file = GetFileFromMultiPartData(parts);
+				storage.Save("space1", file.type, file.filename, file.fileContent);
+
+				ObjectUploadResponse response =
+								ObjectUploadResponse.CreateSuccess(file.objectId);
+				respondSuccess(context, response);
+			}
+			catch (Exception e)
+			{
+				respondFailure(context, file, e);
+			}
+		}
+
+		private static FileUpload respondFailure(HttpListenerContext ctx,
+												FileUpload file, Exception e)
+		{
+			ObjectUploadResponse response =
+					ObjectUploadResponse.CreateFailure(file.objectId, -1, e);
+
+			ctx.Response.StatusCode = 200;
+			ctx.Response.ContentType = "application/json";
+
+			using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+			{
+				string resText = fastJSON.JSON.Instance.ToJSON(
+										response, false, false, false, false);
+				ctx.Response.ContentLength64 = resText.Length;
+				w.Write(resText);
+			}
+
+			return file;
+		}
+
+		private static void respondSuccess(HttpListenerContext ctx,
+												ObjectUploadResponse response)
+		{
+			ctx.Response.StatusCode = 200;
+			ctx.Response.ContentType = "application/json";
+
+			using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+			{
+				string resText = fastJSON.JSON.Instance.ToJSON(
+										response, false, false, false, false);
+				ctx.Response.ContentLength64 = resText.Length;
+				w.Write(resText);
+			}
+		}
+
+		private static string GetMultipartBoundary(HttpListenerContext context)
+		{
+			try
+			{
+				int idx = context.Request.ContentType.IndexOf(BOUNDARY);
+				string boundary = context.Request.ContentType.Substring(
+															idx + BOUNDARY.Length);
+				return boundary;
+			}
+			catch (Exception e)
+			{
+				string contentType = context.Request.ContentType;
+				if (contentType==null)
+					contentType = "(null)";
+
+				throw new FormatException("Error finding multipart boundary. " +
+											"Content-Type: " + contentType, e);
+			}
+		}
+
+		private static FileUpload GetFileFromMultiPartData(Part[] parts)
+		{
+			FileUpload file = new FileUpload();
 
 			for (int i = 0; i < parts.Length; i++)
 			{
-				string disposition = parts[i].Headers["Content-Disposition"];
-				if (disposition != null)
-				{
-					int index = disposition.ToLower().IndexOf(NAME);
-					if (index < 0)
-						continue;
-					string field = disposition.Substring(index + NAME.Length);
+				if (parts[i].ContentDisposition == null)
+					continue;
 
-					switch (field)
-					{
-						case "\"file\"":
-							fileContent = parts[i].Bytes;
-							break;
-						case "\"filename\"":
-							filename = parts[i].Text;
-							break;
-						case "\"filetype\"":
-							type = (FileType)Enum.Parse(typeof(FileType), parts[i].Text);
-							break;
-						case "\"object_id\"":
-							objectId = parts[i].Text;
-							break;
-						default:
-							continue;
-					}
+				string field = parts[i].ContentDisposition.Parameters["name"];
+
+				switch (field)
+				{
+					case "file":
+						file.fileContent = parts[i].Bytes;
+						break;
+					case "filename":
+						file.filename = parts[i].Text;
+						break;
+					case "filetype":
+						file.type = (FileType)Enum.Parse(typeof(FileType),
+																parts[i].Text);
+						break;
+					case "object_id":
+						file.objectId = parts[i].Text;
+						break;
+					default:
+						continue;
 				}
 			}
 
-			storage.Save("space1", type, filename, fileContent);
+			if (!file.IsValid)
+				throw new FormatException("A required field is missing in file"
+													+ " upload multipart data");
 
-			ObjectUploadResponse response = new ObjectUploadResponse();
-			response.app_ret_code = 0;
-			response.app_ret_msg = "Success";
-			response.http_status = 200;
-			response.object_id = objectId;
-			response.timestamp = DateTime.Now.ToUniversalTime();
+			return file;
+		}
+	}
 
-			context.Response.StatusCode = 200;
-			context.Response.ContentType = "application/json";
 
-			using (StreamWriter w = new StreamWriter(context.Response.OutputStream))
+	struct FileUpload
+	{
+		public string filename;
+		public FileType type;
+		public string objectId;
+		public byte[] fileContent;
+		
+		public bool IsValid
+		{
+			get
 			{
-				string resText = fastJSON.JSON.Instance.ToJSON(response, false, false, false, false);
-				context.Response.ContentLength64 = resText.Length;
-				w.Write(resText);
+				return filename != null &&
+					objectId != null &&
+					fileContent != null &&
+					type != FileType.None;
 			}
 		}
 	}

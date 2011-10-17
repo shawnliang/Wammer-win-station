@@ -17,6 +17,31 @@ namespace Wammer.Cloud
 
 		}
 
+		public static ObjectUploadResponse CreateSuccess(string objectId)
+		{
+			ObjectUploadResponse res =new ObjectUploadResponse();
+			res._app_ret_code = 0;
+			res._app_ret_msg = "Success";
+			res._http_status = 200;
+			res._object_id = objectId;
+			res._timestamp = DateTime.Now.ToUniversalTime();
+
+			return res;
+		}
+
+		public static ObjectUploadResponse CreateFailure(string objectId,
+														int appErr, Exception e)
+		{
+			ObjectUploadResponse res = new ObjectUploadResponse();
+			res._app_ret_code = appErr;
+			res._app_ret_msg = e.Message;
+			res._http_status = 200;
+			res._object_id = objectId;
+			res._timestamp = DateTime.Now.ToUniversalTime();
+
+			return res;
+		}
+
 		public int http_status
 		{
 			get { return _http_status; }
