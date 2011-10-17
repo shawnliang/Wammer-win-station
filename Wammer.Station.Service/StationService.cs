@@ -11,76 +11,78 @@ using Wammer.Station;
 
 namespace Wammer.Station.Service
 {
-    public partial class StationService : ServiceBase
-    {
-        public static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
+	public partial class StationService : ServiceBase
+	{
+		public static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 
-        private HttpListener httpListener = new HttpListener();
+		private HttpServer server;
 
-        public StationService()
-        {
-            log4net.Config.XmlConfigurator.Configure();
-            InitializeComponent();
-        }
+		public StationService()
+		{
+			log4net.Config.XmlConfigurator.Configure();
+			InitializeComponent();
+		}
 
-        protected override void OnStart(string[] args)
-        {
-            httpListener.Prefixes.Add("http://+:9981/api/v2/");
-            httpListener.Start();
-            //httpListener.BeginGetContext(......);
+		protected override void OnStart(string[] args)
+		{
+			server = new HttpServer(9981); // TODO: remove hard code
+			server.AddHandler("/v1/objects/upload", new ObjectUploadHandler());
+			server.Start();
 
-            if (!LogOnStation())
-            {
-                logger.Info("Not connected with Wammer Cloud yet");
-                //TODO: start a timer to retry
-            }
+			if (!LogOnStation(9981))
+			{
+				logger.Info("Not connected with Wammer Cloud yet");
+				//TODO: start a timer to retry
+			}
+			else
+				logger.Info("Station log on Wammer Cloud successfully");
 
-            //TODO: start http listener to serve request
-        }
+			//TODO: start http listener to serve request
+		}
 
-        private bool LogOnStation()
-        {
-            try
-            {
-                string stationId = (string)StationRegistry.GetValue("stationId", null);
-                string stationToken = (string)StationRegistry.GetValue("stationToken", null);
+		private bool LogOnStation(int port)
+		{
+			try
+			{
+				string stationId = (string)StationRegistry.GetValue("stationId", null);
+				string stationToken = (string)StationRegistry.GetValue("stationToken", null);
 
-                if (stationId == null || stationToken == null)
-                    return false;
+				if (stationId == null || stationToken == null)
+					return false;
 
-                Wammer.Cloud.Station station = new Cloud.Station(stationId, stationToken);
-                Dictionary<object, object> parameters = new Dictionary<object, object>();
-                parameters.Add("host_name", Dns.GetHostName());
-                parameters.Add("ip_address", GetOneLocalIPAddress());
-                parameters.Add("port", "9981"); //TODO: resolve hard code
-                station.LogOn(new System.Net.WebClient(), parameters);
+				Wammer.Cloud.Station station = new Cloud.Station(stationId, stationToken);
+				Dictionary<object, object> parameters = new Dictionary<object, object>();
+				parameters.Add("host_name", Dns.GetHostName());
+				parameters.Add("ip_address", GetOneLocalIPAddress());
+				parameters.Add("port", port.ToString());
+				station.LogOn(new System.Net.WebClient(), parameters);
 
-                StationRegistry.SetValue("stationToken", station.Token);
-                return true;
-            }
-            catch (Exception e)
-            {
-                logger.Warn("Unable to logon station with Wammer Cloud", e);
-                return false;
-            }
-        }
+				StationRegistry.SetValue("stationToken", station.Token);
+				return true;
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unable to logon station with Wammer Cloud", e);
+				return false;
+			}
+		}
 
-        private string GetOneLocalIPAddress()
-        {
-            IPAddress[] ips =  Dns.GetHostAddresses(Dns.GetHostName());
-            foreach (IPAddress ip in ips)
-            {
-                if (!IPAddress.IsLoopback(ip))
-                    return ip.ToString();
-            }
+		private string GetOneLocalIPAddress()
+		{
+			IPAddress[] ips =  Dns.GetHostAddresses(Dns.GetHostName());
+			foreach (IPAddress ip in ips)
+			{
+				if (!IPAddress.IsLoopback(ip))
+					return ip.ToString();
+			}
 
-            return "";
-        }
+			return "";
+		}
 
-        protected override void OnStop()
-        {
-            httpListener.Stop();
-            httpListener.Close();
-        }
-    }
+		protected override void OnStop()
+		{
+			server.Stop();
+			server.Close();
+		}
+	}
 }

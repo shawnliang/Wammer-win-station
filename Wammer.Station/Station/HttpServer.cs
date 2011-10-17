@@ -66,10 +66,15 @@ namespace Wammer.Station
 			}
 		}
 
-		public void Dispose()
+		public void Close()
 		{
 			Stop();
 			listener.Close();
+		}
+
+		public void Dispose()
+		{
+			Close();
 		}
 
 		private void ConnectionAccepted(IAsyncResult result)
