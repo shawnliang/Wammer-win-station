@@ -79,9 +79,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wammer.Station\Wammer.Station.csproj">
-      <Project>{8B7B8DB7-8465-42EE-A807-D55482D8502B}</Project>
-      <Name>Wammer.Station</Name>
+    <ProjectReference Include="..\Wammer.Station.Service\Wammer.Station.Service.csproj">
+      <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
+      <Name>Wammer.Station.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

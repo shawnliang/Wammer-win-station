@@ -8,7 +8,7 @@
     <ProjectGuid>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wammer.Station.Service</RootNamespace>
+    <RootNamespace>Wammer</RootNamespace>
     <AssemblyName>Wammer.Station.Service</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -50,6 +50,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="fastJSON">
+      <HintPath>..\3rd_party\fastJSON\fastJSON.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\3rd_party\log4net-1.2.11\log4net.dll</HintPath>
     </Reference>
@@ -58,9 +61,21 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cloud\CloudResponse.cs" />
+    <Compile Include="Cloud\CloudServer.cs" />
+    <Compile Include="Cloud\ObjectUploadResponse.cs" />
+    <Compile Include="Cloud\Station.cs" />
+    <Compile Include="Cloud\StationSignUpResponse.cs" />
+    <Compile Include="Cloud\User.cs" />
+    <Compile Include="Cloud\UserLogInResponse.cs" />
+    <Compile Include="Cloud\WammerCloudException.cs" />
+    <Compile Include="MultiPart\Disposition.cs" />
+    <Compile Include="MultiPart\Parser.cs" />
+    <Compile Include="MultiPart\Part.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -75,12 +90,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Wammer.Station\Wammer.Station.csproj">
-      <Project>{8B7B8DB7-8465-42EE-A807-D55482D8502B}</Project>
-      <Name>Wammer.Station</Name>
-    </ProjectReference>
+    <Compile Include="Station\FileStorage.cs" />
+    <Compile Include="Station\HttpServer.cs" />
+    <Compile Include="Station\ObjectUploadHandler.cs" />
+    <Compile Include="Station\StationRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -110,6 +123,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

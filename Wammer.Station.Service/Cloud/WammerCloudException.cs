@@ -32,6 +32,12 @@ namespace Wammer.Cloud
 		public WammerCloudException(string msg, string request, string response, Exception innerException)
 			: base(msg, innerException)
 		{
+			if (innerException is WebException)
+			{
+				this.httpError = ((WebException)innerException).Status;
+			}
+
+
 			this.request = request;
 			this.response = response;
 		}
@@ -68,6 +74,7 @@ namespace Wammer.Cloud
 		public override string ToString()
 		{
 			StringBuilder buf = new StringBuilder(base.ToString());
+			buf.AppendLine();
 			if (this.request != null)
 			{
 				buf.AppendLine("=== request ===");

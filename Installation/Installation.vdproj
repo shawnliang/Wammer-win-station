@@ -15,24 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
-        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
-        "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_18D1B222B986EF4B54863FDA1FA25525"
-        "OwnerKey" = "8:_A099375A7375480498506CB68FA004FE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -51,98 +33,38 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A099375A7375480498506CB68FA004FE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FBFB72C53380DDA97CA685659FED4627"
-        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FBFB72C53380DDA97CA685659FED4627"
+        "MsmKey" = "8:_EEB66A531859332D9CF2461866E14130"
         "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_FBFB72C53380DDA97CA685659FED4627"
-        "OwnerKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
-        "OwnerKey" = "8:_A099375A7375480498506CB68FA004FE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
+        "MsmKey" = "8:_EEB66A531859332D9CF2461866E14130"
         "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
-        "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
-        "OwnerKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FE95315886F02D9207176E56A63EBFEF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A099375A7375480498506CB68FA004FE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_18D1B222B986EF4B54863FDA1FA25525"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_10E85D69D92A4ECABF1E448A211CA2B8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FBFB72C53380DDA97CA685659FED4627"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EEB66A531859332D9CF2461866E14130"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -306,113 +228,20 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_10E85D69D92A4ECABF1E448A211CA2B8"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EEB66A531859332D9CF2461866E14130"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Wammer.Station, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_10E85D69D92A4ECABF1E448A211CA2B8"
+                    "_EEB66A531859332D9CF2461866E14130"
                     {
-                    "Name" = "8:Wammer.Station.exe"
+                    "Name" = "8:log4net.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Wammer.Station.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_18D1B222B986EF4B54863FDA1FA25525"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_18D1B222B986EF4B54863FDA1FA25525"
-                    {
-                    "Name" = "8:fastJSON.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:fastJSON.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FBFB72C53380DDA97CA685659FED4627"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_FBFB72C53380DDA97CA685659FED4627"
-                    {
-                    "Name" = "8:fastJSON.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:fastJSON.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FE95315886F02D9207176E56A63EBFEF"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Mono.WebServer.FastCgi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f202864a4cc95055, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_FE95315886F02D9207176E56A63EBFEF"
-                    {
-                    "Name" = "8:Mono.WebServer.FastCgi.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Mono.WebServer.FastCgi.dll"
+            "SourcePath" = "8:log4net.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
@@ -509,7 +338,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Wammer"
         "ProductCode" = "8:{51CEB67C-B0F6-4AAA-A592-A3E17FB7CD0A}"
-        "PackageCode" = "8:{DDCE72A1-5A98-463C-B2D6-70F9C34A6A68}"
+        "PackageCode" = "8:{FF67E770-D946-4401-8A46-92F13D5B47ED}"
         "UpgradeCode" = "8:{D5EBDF33-1109-48DC-B42B-56228E56A3C4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -643,20 +472,6 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_191D5D6FA39E46498635CAC2E55B404B"
-            {
-            "Name" = "8:Shortcut to Primary output from Wammer.Station (Active)"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_A099375A7375480498506CB68FA004FE"
-            "Folder" = "8:_164F53C2B88E40E7852A809CAB3E963D"
-            "WorkingFolder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
         }
         "UserInterface"
         {
@@ -1135,34 +950,6 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{3936A35E-6EB1-439E-A575-02B3A25C8752}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A099375A7375480498506CB68FA004FE"
-            {
-            "SourcePath" = "8:..\\Wammer.Station\\obj\\x86\\Debug\\Wammer.Station.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{8B7B8DB7-8465-42EE-A807-D55482D8502B}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
