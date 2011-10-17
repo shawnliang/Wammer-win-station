@@ -33,7 +33,8 @@ namespace Wammer.Station
 				Part[] parts = parser.Parse(context.Request.InputStream);
 
 				file = GetFileFromMultiPartData(parts);
-				storage.Save("space1", file.type, file.filename, file.fileContent);
+				string savedName = GetSavedFilename(ref file);
+				storage.Save("space1", file.type, savedName, file.fileContent);
 
 				ObjectUploadResponse response =
 								ObjectUploadResponse.CreateSuccess(file.objectId);
@@ -42,6 +43,19 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				respondFailure(context, file, e);
+			}
+		}
+
+		private static string GetSavedFilename(ref FileUpload file)
+		{
+			string originalSuffix = Path.GetExtension(file.filename);
+			if (originalSuffix != null)
+			{
+				return file.objectId + originalSuffix;
+			}
+			else
+			{
+				return file.objectId;
 			}
 		}
 
@@ -115,11 +129,10 @@ namespace Wammer.Station
 				{
 					case "file":
 						file.fileContent = parts[i].Bytes;
+						file.filename = parts[i].ContentDisposition.Parameters["filename"];
+						file.contentType = parts[i].Headers["Content-Type"];
 						break;
-					case "filename":
-						file.filename = parts[i].Text;
-						break;
-					case "filetype":
+					case "file_type":
 						file.type = (FileType)Enum.Parse(typeof(FileType),
 																parts[i].Text);
 						break;
@@ -158,7 +171,8 @@ namespace Wammer.Station
 		public FileType type;
 		public string objectId;
 		public byte[] fileContent;
-		
+		public string contentType;
+
 		public bool IsValid
 		{
 			get

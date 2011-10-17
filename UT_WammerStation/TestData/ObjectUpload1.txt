@@ -1,10 +1,6 @@
 ﻿
 --AaB03x
-Content-Disposition: form-data; name="filename"
-
-file1.jpeg
---AaB03x
-Content-Disposition: form-data; name="filetype"
+Content-Disposition: form-data; name="file_type"
 
 100
 --AaB03x
@@ -12,8 +8,9 @@ Content-Disposition: form-data; name="object_id"
 
 object_id1
 --AaB03x
-Content-Disposition: form-data; name="file"
+Content-Disposition: form-data; name="file"; filename="file1.jpeg"
 Content-Transfer-Encoding: 8bit
+Content-Type: image/jpeg
 
 1234567890abcdefghij
 --AaB03x--

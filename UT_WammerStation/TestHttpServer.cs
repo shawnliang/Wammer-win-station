@@ -74,5 +74,27 @@ namespace UT_WammerStation
 				Assert.AreEqual(reply2, replyFromHandler2);
 			}
 		}
+
+		[TestMethod]
+		public void TestInvokingPathHasNoEndingSlash()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				string reply1 = "from handler1";
+				string reply2 = "from handler2";
+
+				server.AddHandler("/class1/action1/", new MyHandler(reply1));
+				server.AddHandler("/class1", new MyHandler(reply2));
+				server.Start();
+
+				WebClient agent = new WebClient();
+				string replyFromHandler1 = agent.DownloadString(
+										"http://127.0.0.1:80/class1/action1");
+				string replyFromHandler2 = agent.DownloadString(
+										"http://127.0.0.1:80/class1");
+				Assert.AreEqual(reply1, replyFromHandler1);
+				Assert.AreEqual(reply2, replyFromHandler2);
+			}
+		}
 	}
 }

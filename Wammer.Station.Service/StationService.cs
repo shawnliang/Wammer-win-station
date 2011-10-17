@@ -31,6 +31,8 @@ namespace Wammer.Station.Service
 			Environment.CurrentDirectory = Path.GetDirectoryName(
 									Assembly.GetExecutingAssembly().Location);
 
+			fastJSON.JSON.Instance.UseUTCDateTime = true;
+
 			// TODO: these lines will be removed after how space is used is defined.
 			if (!Directory.Exists("resource"))
 				Directory.CreateDirectory("resource");

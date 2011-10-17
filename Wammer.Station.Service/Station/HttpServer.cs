@@ -105,7 +105,10 @@ namespace Wammer.Station
 
 		private IHttpHandler FindBestMatch(string requestAbsPath)
 		{
-			return handlers[requestAbsPath];
+			if (!requestAbsPath.EndsWith("/"))
+				return handlers[requestAbsPath+"/"];
+			else
+				return handlers[requestAbsPath];
 		}
 	}
 }

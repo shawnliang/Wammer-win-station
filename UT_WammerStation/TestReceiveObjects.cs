@@ -62,7 +62,7 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestSimple()
+		public void TestFileStorage()
 		{
 			Directory.CreateDirectory(@"resource");
 			Directory.CreateDirectory(@"resource\space1");
@@ -154,6 +154,14 @@ namespace UT_WammerStation
 				Assert.AreEqual(0, res.app_ret_code);
 				Assert.AreEqual("Success", res.app_ret_msg);
 				Assert.AreEqual("object_id1", res.object_id);
+
+
+				using (FileStream fs = File.OpenRead(@"resource\space1\100\object_id1.jpeg"))
+				using (StreamReader ss = new StreamReader(fs))
+				{
+					string fileContent = ss.ReadToEnd();
+					Assert.AreEqual("1234567890abcdefghij", fileContent);
+				}
 			}
 		}
 

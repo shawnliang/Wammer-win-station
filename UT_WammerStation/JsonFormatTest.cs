@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wammer.Cloud;
+using System.Collections.Specialized;
 
 namespace UT_WammerStation
 {
@@ -46,5 +47,6 @@ namespace UT_WammerStation
 			Assert.AreEqual(new DateTime(2011, 1, 1, 10, 20, 30, DateTimeKind.Utc), res.timestamp.ToUniversalTime());
 			Assert.AreEqual("token1", res.session_token);
 		}
+
 	}
 }
