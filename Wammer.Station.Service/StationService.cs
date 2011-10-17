@@ -6,6 +6,9 @@ using System.Diagnostics;
 using System.Net;
 using System.ServiceProcess;
 using System.Text;
+using System.IO;
+using System.Reflection;
+
 using Microsoft.Win32;
 using Wammer.Station;
 
@@ -25,6 +28,25 @@ namespace Wammer.Station.Service
 
 		protected override void OnStart(string[] args)
 		{
+			Environment.CurrentDirectory = Path.GetDirectoryName(
+									Assembly.GetExecutingAssembly().Location);
+
+			// TODO: these lines will be removed after how space is used is defined.
+			if (!Directory.Exists("resource"))
+				Directory.CreateDirectory("resource");
+			if (!Directory.Exists(@"resource\space1"))
+				Directory.CreateDirectory(@"resource\space1");
+			if (!Directory.Exists(@"resource\space1\100"))
+				Directory.CreateDirectory(@"resource\space1\100");
+			if (!Directory.Exists(@"resource\space1\101"))
+				Directory.CreateDirectory(@"resource\space1\101");
+			if (!Directory.Exists(@"resource\space1\102"))
+				Directory.CreateDirectory(@"resource\space1\102");
+			if (!Directory.Exists(@"resource\space1\103"))
+				Directory.CreateDirectory(@"resource\space1\103");
+			if (!Directory.Exists(@"resource\space1\104"))
+				Directory.CreateDirectory(@"resource\space1\104");
+
 			server = new HttpServer(9981); // TODO: remove hard code
 			server.AddHandler("/v1/objects/upload", new ObjectUploadHandler());
 			server.Start();

@@ -29,6 +29,7 @@ namespace Wammer.Station
 				string boundary = GetMultipartBoundary(context);
 
 				MultiPart.Parser parser = new Parser(boundary);
+
 				Part[] parts = parser.Parse(context.Request.InputStream);
 
 				file = GetFileFromMultiPartData(parts);
@@ -130,8 +131,20 @@ namespace Wammer.Station
 				}
 			}
 
-			if (!file.IsValid)
-				throw new FormatException("A required field is missing in file"
+			if (file.objectId == null)
+				throw new FormatException("object_id is missing in file"
+													+ " upload multipart data");
+
+			if (file.filename == null)
+				throw new FormatException("filename is missing in file"
+													+ " upload multipart data");
+
+			if (file.fileContent == null)
+				throw new FormatException("file is missing in file"
+													+ " upload multipart data");
+
+			if (file.type == null)
+				throw new FormatException("filetype is missing in file"
 													+ " upload multipart data");
 
 			return file;

@@ -10,7 +10,7 @@ namespace Wammer.Cloud
 {
 	public class CloudServer
 	{
-		private const string DEF_HOST_NAME = "api.waveface.com";
+		private const string DEF_HOST_NAME = "develop.waveface.com";
 		private const int DEF_PORT = 8080;
 		private const string DEF_API_KEY = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
 

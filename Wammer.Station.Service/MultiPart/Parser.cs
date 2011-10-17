@@ -32,16 +32,15 @@ namespace Wammer.MultiPart
 				if (index < 0)
 					throw new FormatException("Not a wellformed multipart content");
 
-				if (HasSubString(content, index + 2, close_boundry))
+				if (HasSubString(content, index + CRLF.Length, close_boundry))
 				{
 					return parts.ToArray();
 				}
-				else if (HasSubString(content, index + 2, head_boundry))
+				else if (IsInFront(content, index, head_boundry))
 				{
 					int bodyLen;
+					int bodyStartIdx = index + CRLF.Length;
 
-					// "\r\n" + head_boundry + "\r\n"
-					int bodyStartIdx = index + 2 + head_boundry.Length + 2;
 					Part part = ParsePartBody(content, bodyStartIdx, out bodyLen);
 					parts.Add(part);
 
@@ -117,9 +116,11 @@ namespace Wammer.MultiPart
 
 		private static byte[] ToByteArray(Stream stream)
 		{
+			MemoryStream m = new MemoryStream();
+
 			byte[] buf = new byte[32768];
 			int nread = 0;
-			MemoryStream m = new MemoryStream();
+
 			do
 			{
 				nread = stream.Read(buf, 0, buf.Length);
