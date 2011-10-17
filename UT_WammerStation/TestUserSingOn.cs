@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 using System.IO;
+using System.Web;
 
 namespace UT_WammerStation
 {
@@ -167,6 +168,31 @@ namespace UT_WammerStation
 				Assert.AreEqual(
 					"host_name=hostname1&ip_address=ip1&port=9999&" +
 					"session_token=token1&station_id=sid1&api_key=apiKey1",
+					fakeCloud.PostData);
+				Assert.AreEqual("application/x-www-form-urlencoded",
+					fakeCloud.RequestedContentType);
+				Assert.AreEqual("newToken1", station.Token);
+
+				Assert.AreEqual("newToken1", station.Token);
+			}
+		}
+
+		[TestMethod]
+		public void TestStationLogOnParams_Encoding()
+		{
+			using (FakeCloud fakeCloud = new FakeCloud(new Wammer.Cloud.StationLogOnResponse(200, DateTime.Now.ToUniversalTime(), "newToken1")))
+			using (WebClient agent = new WebClient())
+			{
+				Wammer.Cloud.Station station = new Wammer.Cloud.Station("sid1", "token1");
+
+				Dictionary<object, object> param = new Dictionary<object, object>();
+				param.Add("key", @"<>+@/\|");
+				station.LogOn(agent, param);
+
+				Assert.AreEqual("/v1/stations/logOn", fakeCloud.RequestedPath);
+				Assert.AreEqual(
+					"key=" + HttpUtility.UrlEncode(@"<>+@/\|") + 
+					"&session_token=token1&station_id=sid1&api_key=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
 					fakeCloud.RequestedContentType);
