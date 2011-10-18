@@ -89,6 +89,11 @@ namespace Wammer.MultiPart
 
 			foreach (string name in headers.AllKeys)
 			{
+				if (disposition != null && name.ToLower().Equals(
+														"content-disposition"))
+					continue;
+
+
 				string hdr = name + ":" + headers[name];
 				byte[] hdrData = Encoding.UTF8.GetBytes(hdr);
 

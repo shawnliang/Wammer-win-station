@@ -118,5 +118,33 @@ namespace UT_WammerStation
 			Assert.AreEqual(Encoding.UTF8.GetString(part1), parts[0].Text);
 			Assert.AreEqual("image/jpeg", parts[0].Headers["content-type"]);
 		}
+
+		[TestMethod]
+		public void TestGenerateHeader_OnlyOneDisposition()
+		{
+			MemoryStream m = new MemoryStream();
+			Serializer serializer = new Serializer(m);
+
+			Part part = new Part(part1, 0, part1.Length);
+			part.ContentDisposition = new Disposition("form-data");
+			part.ContentDisposition.Parameters.Add("name1", "value1");
+			part.ContentDisposition.Parameters.Add("name2", "value2");
+			part.Headers["Content-Disposition"] = "ggyy-123; name=value";
+			serializer.Put(part);
+			serializer.Close();
+
+			m.Position = 0;
+
+			Parser parser = new Parser(serializer.Boundary);
+			Part[] parts = parser.Parse(m);
+
+			Assert.AreEqual(1, parts.Length);
+			Assert.AreEqual(Encoding.UTF8.GetString(part1), parts[0].Text);
+			Assert.AreEqual("form-data", parts[0].ContentDisposition.Value);
+			Assert.AreEqual("value1", parts[0].ContentDisposition.Parameters["name1"]);
+			Assert.AreEqual("value2", parts[0].ContentDisposition.Parameters["name2"]);
+			Assert.AreEqual("form-data;name1=\"value1\";name2=\"value2\"",
+										parts[0].Headers["Content-Disposition"]);
+		}
 	}
 }
