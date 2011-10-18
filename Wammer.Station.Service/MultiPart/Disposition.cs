@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
+using System.IO;
 
 namespace Wammer.MultiPart
 {
@@ -11,6 +12,16 @@ namespace Wammer.MultiPart
 		private NameValueCollection parameters = new NameValueCollection();
 
 		private static char[] SEPARATOR = new char[] { ';' };
+
+		public Disposition(string value)
+		{
+			this.value = value;
+		}
+
+		private Disposition()
+		{
+
+		}
 
 		public static Disposition Parse(string text)
 		{
@@ -54,6 +65,30 @@ namespace Wammer.MultiPart
 		public NameValueCollection Parameters
 		{
 			get { return parameters; }
+		}
+
+		public void CopyTo(Stream output)
+		{
+			StringBuilder buff = new StringBuilder();
+			buff.Append("Content-Disposition: ");
+			buff.Append(this.value);
+			if (parameters.Count>0)
+			{
+				foreach (string key in parameters.AllKeys)
+				{
+					buff.Append(";");
+					buff.Append(key);
+					buff.Append("=");
+					buff.Append("\"");
+					buff.Append(parameters[key]);
+					buff.Append("\"");
+				}
+			}
+			buff.Append("\r\n");
+
+			byte[] data = Encoding.UTF8.GetBytes(buff.ToString());
+			output.Write(data, 0, data.Length);
+
 		}
 	}
 }

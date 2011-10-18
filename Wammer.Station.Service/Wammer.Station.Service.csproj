@@ -76,6 +76,7 @@
     <Compile Include="MultiPart\Disposition.cs" />
     <Compile Include="MultiPart\Parser.cs" />
     <Compile Include="MultiPart\Part.cs" />
+    <Compile Include="MultiPart\Serializer.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
