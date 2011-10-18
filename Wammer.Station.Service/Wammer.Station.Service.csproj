@@ -93,6 +93,7 @@
     <Compile Include="Station\FileStorage.cs" />
     <Compile Include="Station\HttpServer.cs" />
     <Compile Include="Station\ObjectUploadHandler.cs" />
+    <Compile Include="Station\NotFoundHandler.cs" />
     <Compile Include="Station\StationRegistry.cs" />
   </ItemGroup>
   <ItemGroup>

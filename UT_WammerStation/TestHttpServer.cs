@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
+using System.IO;
+
 using Wammer.Station;
 
 namespace UT_WammerStation
@@ -50,6 +52,86 @@ namespace UT_WammerStation
 										"http://127.0.0.1:80/class1/action2/");
 				Assert.AreEqual(reply1, replyFromHandler1);
 				Assert.AreEqual(reply2, replyFromHandler2);
+			}
+		}
+
+		[TestMethod]
+		public void TestDefaultHandler()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				string reply1 = "from handler1";
+				
+				server.AddDefaultHandler(new MyHandler("1234567890"));
+				server.AddHandler("/class1/action1/", new MyHandler(reply1));
+				server.Start();
+
+				WebClient agent = new WebClient();
+				string replyFromHandler1 = agent.DownloadString(
+									"http://127.0.0.1:80/class1/action1/pp/");
+				Assert.AreEqual(replyFromHandler1, "1234567890");
+			}
+		}
+
+		[TestMethod]
+		public void TestBuiltInDefaultHandler()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				string reply1 = "from handler1";
+
+				server.AddHandler("/class1/action1/", new MyHandler(reply1));
+				server.Start();
+
+				try
+				{
+					WebClient agent = new WebClient();
+					string replyFromHandler1 = agent.DownloadString(
+										"http://127.0.0.1:80/class1/action1/pp/");
+				}
+				catch (WebException e)
+				{
+					Assert.AreEqual(WebExceptionStatus.ProtocolError, e.Status);
+					return;
+				}
+				Assert.Fail("expected exception is not thrown");
+			}
+		}
+
+		[TestMethod]
+		public void TestNotFoundHandler()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				string reply1 = "from handler1";
+
+				server.AddHandler("/class1/action1/", new MyHandler(reply1));
+				server.AddDefaultHandler(new NotFoundHandler());
+				server.Start();
+
+				try
+				{
+					WebClient agent = new WebClient();
+					string replyFromHandler1 = agent.DownloadString(
+										"http://127.0.0.1:80/class1/action1/pp/");
+				}
+				catch (WebException e)
+				{
+					Assert.AreEqual(WebExceptionStatus.ProtocolError, e.Status);
+					Assert.AreEqual("application/json", e.Response.ContentType);
+					using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
+					{
+						string resp = r.ReadToEnd();
+						Assert.AreEqual(
+							"{\"status\":\"404\"," +
+					"\"app_ret_code\":\"-1\"," +
+					"\"app_ret_msg\":\"unknown class/method\" }",
+							resp
+						);
+					}
+					return;
+				}
+				Assert.Fail("expected exception is not thrown");
 			}
 		}
 

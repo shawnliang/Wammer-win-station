@@ -16,17 +16,22 @@ namespace Wammer.Station
 		private int port;
 		private HttpListener listener;
 		private Dictionary<string, IHttpHandler> handlers;
+		private IHttpHandler defaultHandler;
 		private bool stopping = false;
 
 		public HttpServer(int port)
 		{
 			this.port = port;
-			listener = new HttpListener();
-			handlers = new Dictionary<string, IHttpHandler>();
+			this.listener = new HttpListener();
+			this.handlers = new Dictionary<string, IHttpHandler>();
+			this.defaultHandler = null;
 		}
 
 		public void AddHandler(string path, IHttpHandler handler)
 		{
+			if (handler == null)
+				throw new ArgumentNullException();
+
 			string absPath = null;
 			string urlPrefix = "http://+:" + port;
 
@@ -49,6 +54,14 @@ namespace Wammer.Station
 
 			handlers.Add(absPath, handler);
 			listener.Prefixes.Add(urlPrefix);
+		}
+
+		public void AddDefaultHandler(IHttpHandler handler)
+		{
+			if (handler == null)
+				throw new ArgumentNullException();
+
+			defaultHandler = handler;
 		}
 
 		public void Start()
@@ -99,16 +112,31 @@ namespace Wammer.Station
 			{
 				IHttpHandler handler = FindBestMatch(
 											context.Request.Url.AbsolutePath);
-				ThreadPool.QueueUserWorkItem(handler.Handle, context);
+
+				if (handler != null)
+					ThreadPool.QueueUserWorkItem(handler.Handle, context);
+				else
+					respond404NotFound(context);
 			}
+		}
+
+		private static void respond404NotFound(HttpListenerContext ctx)
+		{
+			ctx.Response.StatusCode = 404;
+			ctx.Response.Close();
 		}
 
 		private IHttpHandler FindBestMatch(string requestAbsPath)
 		{
-			if (!requestAbsPath.EndsWith("/"))
-				return handlers[requestAbsPath+"/"];
+			string path = requestAbsPath;
+			if (!path.EndsWith("/"))
+				path += "/";
+
+
+			if (handlers.ContainsKey(path))
+				return handlers[path];
 			else
-				return handlers[requestAbsPath];
+				return defaultHandler;
 		}
 	}
 }

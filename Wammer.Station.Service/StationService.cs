@@ -50,6 +50,7 @@ namespace Wammer.Station.Service
 				Directory.CreateDirectory(@"resource\space1\104");
 
 			server = new HttpServer(9981); // TODO: remove hard code
+			server.AddDefaultHandler(new NotFoundHandler());
 			server.AddHandler("/v1/objects/upload", new ObjectUploadHandler());
 			server.Start();
 
