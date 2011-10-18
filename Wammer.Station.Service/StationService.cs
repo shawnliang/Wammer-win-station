@@ -51,7 +51,10 @@ namespace Wammer.Station.Service
 
 			server = new HttpServer(9981); // TODO: remove hard code
 			server.AddDefaultHandler(new NotFoundHandler());
-			server.AddHandler("/v1/objects/upload", new ObjectUploadHandler());
+
+			//TODO: v1 is hard coded
+			server.AddHandler("/v1/objects/view/", new ViewObjectHandler("resource"));
+			server.AddHandler("/v1/objects/upload/", new ObjectUploadHandler());
 			server.Start();
 
 			if (!LogOnStation(9981))
