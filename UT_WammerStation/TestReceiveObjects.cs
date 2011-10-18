@@ -149,7 +149,7 @@ namespace UT_WammerStation
 				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
 										<ObjectUploadResponse>(responseString);
 
-				Assert.AreEqual(200, res.http_status);
+				Assert.AreEqual(200, res.status);
 				Assert.IsNotNull(res.timestamp);
 				Assert.AreEqual(0, res.app_ret_code);
 				Assert.AreEqual("Success", res.app_ret_msg);
@@ -196,7 +196,7 @@ namespace UT_WammerStation
 				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
 										<ObjectUploadResponse>(responseString);
 
-				Assert.AreEqual(200, res.http_status);
+				Assert.AreEqual(200, res.status);
 				Assert.IsNotNull(res.timestamp);
 				Assert.AreNotEqual(0, res.app_ret_code);
 				Assert.AreNotEqual("Success", res.app_ret_msg);
@@ -235,7 +235,7 @@ namespace UT_WammerStation
 				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
 										<ObjectUploadResponse>(responseString);
 
-				Assert.AreEqual(200, res.http_status);
+				Assert.AreEqual(200, res.status);
 				Assert.IsNotNull(res.timestamp);
 				Assert.AreNotEqual(0, res.app_ret_code);
 				Assert.AreNotEqual("Success", res.app_ret_msg);

@@ -57,6 +57,7 @@
     <Compile Include="TestMultiPart.cs" />
     <Compile Include="TestReceiveObjects.cs" />
     <Compile Include="TestUserSingOn.cs" />
+    <Compile Include="TestViewFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt" />

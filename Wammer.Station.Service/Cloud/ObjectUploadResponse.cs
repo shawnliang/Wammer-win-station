@@ -42,7 +42,7 @@ namespace Wammer.Cloud
 			return res;
 		}
 
-		public int http_status
+		public int status
 		{
 			get { return _http_status; }
 			set { _http_status = value; }
