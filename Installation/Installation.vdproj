@@ -52,7 +52,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
+        "OwnerKey" = "8:_EEB66A531859332D9CF2461866E14130"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -64,7 +64,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EEB66A531859332D9CF2461866E14130"
+        "OwnerKey" = "8:_530DC28008BF4A20B7616DA7500352CD"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -235,11 +235,6 @@
             "AssemblyAsmDisplayName" = "8:log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_EEB66A531859332D9CF2461866E14130"
-                    {
-                    "Name" = "8:log4net.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:log4net.dll"
             "TargetName" = "8:"
@@ -472,6 +467,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6A03DFA9E2474F1386C81B8F62495EE2"
+            {
+            "Name" = "8:Register Wammer"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_530DC28008BF4A20B7616DA7500352CD"
+            "Folder" = "8:_164F53C2B88E40E7852A809CAB3E963D"
+            "WorkingFolder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {

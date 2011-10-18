@@ -33,7 +33,7 @@ namespace Wammer.Station
 				Part[] parts = parser.Parse(context.Request.InputStream);
 
 				file = GetFileFromMultiPartData(parts);
-				string savedName = GetSavedFilename(ref file);
+				string savedName = GetSavedFilename(file);
 				storage.Save("space1", file.type, savedName, file.fileContent);
 
 				ObjectUploadResponse response =
@@ -46,7 +46,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private static string GetSavedFilename(ref FileUpload file)
+		private static string GetSavedFilename(FileUpload file)
 		{
 			string originalSuffix = Path.GetExtension(file.filename);
 			if (originalSuffix != null)
@@ -59,7 +59,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private static FileUpload respondFailure(HttpListenerContext ctx,
+		private static void respondFailure(HttpListenerContext ctx,
 												FileUpload file, Exception e)
 		{
 			ObjectUploadResponse response =
@@ -75,8 +75,6 @@ namespace Wammer.Station
 				ctx.Response.ContentLength64 = resText.Length;
 				w.Write(resText);
 			}
-
-			return file;
 		}
 
 		private static void respondSuccess(HttpListenerContext ctx,
@@ -156,7 +154,7 @@ namespace Wammer.Station
 				throw new FormatException("file is missing in file"
 													+ " upload multipart data");
 
-			if (file.type == null)
+			if (file.type == FileType.None)
 				throw new FormatException("filetype is missing in file"
 													+ " upload multipart data");
 
@@ -165,13 +163,22 @@ namespace Wammer.Station
 	}
 
 
-	struct FileUpload
+	class FileUpload
 	{
 		public string filename;
 		public FileType type;
 		public string objectId;
 		public byte[] fileContent;
 		public string contentType;
+
+		public FileUpload()
+		{
+			filename = null;
+			type = FileType.None;
+			objectId = null;
+			fileContent = null;
+			contentType = null;
+		}
 
 		public bool IsValid
 		{

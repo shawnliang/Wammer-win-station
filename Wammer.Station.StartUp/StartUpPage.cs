@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Net;
+using System.ServiceProcess;
+
 using Microsoft.Win32;
 using Wammer.Station;
 
@@ -14,12 +16,14 @@ namespace Wammer.Station.StartUp
 	public partial class StartUpPage : Form
 	{
 		private WebClient agent = new WebClient();
+		private log4net.ILog logger;
 
 		public StartUpPage()
 		{
 			InitializeComponent();
 
 			log4net.Config.XmlConfigurator.Configure();
+			logger = log4net.LogManager.GetLogger("StartUpPage");
 		}
 
 		public static bool Inited()
@@ -30,7 +34,7 @@ namespace Wammer.Station.StartUp
 
 		private void okButton_Click(object sender, EventArgs e)
 		{
-			log4net.ILog logger = log4net.LogManager.GetLogger("StartUpPage");
+			
 			Wammer.Cloud.User user = null;
 			try
 			{
@@ -66,6 +70,7 @@ namespace Wammer.Station.StartUp
 				return;
 			}
 
+			restartStationService();
 
 			MessageBox.Show(
 				"Your windows station is connected with Wammer successfully.\r\n" +
@@ -75,6 +80,31 @@ namespace Wammer.Station.StartUp
 			logger.Info("Wammer starts up successfully");
 			this.Close();
 		}
+
+		private void restartStationService()
+		{
+			try
+			{
+				//TODO: remove hardcode
+				ServiceController svc = new ServiceController("WammerStation");
+				if (svc.Status != ServiceControllerStatus.Stopped)
+				{
+					svc.Stop();
+					svc.WaitForStatus(ServiceControllerStatus.Stopped);
+				}
+
+				if (svc.Status != ServiceControllerStatus.Running)
+				{
+					svc.Start();
+					svc.WaitForStatus(ServiceControllerStatus.Running);
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Cannot restart Wammer Station service", e);
+			}
+		}
+
 
 		private void cancelButton_Click(object sender, EventArgs e)
 		{

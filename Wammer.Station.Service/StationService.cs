@@ -16,9 +16,9 @@ namespace Wammer.Station.Service
 {
 	public partial class StationService : ServiceBase
 	{
-		public static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
-
+		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 		private HttpServer server;
+
 
 		public StationService()
 		{
@@ -61,8 +61,6 @@ namespace Wammer.Station.Service
 			}
 			else
 				logger.Info("Station log on Wammer Cloud successfully");
-
-			//TODO: start http listener to serve request
 		}
 
 		private bool LogOnStation(int port)
