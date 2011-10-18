@@ -91,6 +91,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Station\FileStorage.cs" />
+    <Compile Include="Station\HttpHelper.cs" />
     <Compile Include="Station\HttpServer.cs" />
     <Compile Include="Station\ObjectUploadHandler.cs" />
     <Compile Include="Station\NotFoundHandler.cs" />

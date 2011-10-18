@@ -79,6 +79,17 @@ namespace Wammer.Station
 				fsAsync.OutputStream.Close();
 			}
 		}
+
+		public static string GetSavedFile(string baseDir, string objectId, FileType type)
+		{
+			string spaceDir = Path.Combine(baseDir, "space1"); // TODO hardcode
+			string typeDir = Path.Combine(spaceDir, type.ToString("d"));
+			string[] files = Directory.GetFiles(typeDir, objectId + ".*");
+			if (files == null || files.Length==0)
+				throw new FileNotFoundException("object " + objectId + " is not found");
+
+			return files[0];
+		}
 	}
 
 

@@ -42,7 +42,10 @@ namespace Wammer.Station
 			}
 			catch (Exception e)
 			{
-				respondFailure(context, file, e);
+				ObjectUploadResponse json =
+					ObjectUploadResponse.CreateFailure(file.objectId, -1, e);
+
+				HttpHelper.RespondFailure(context.Response, e, json);
 			}
 		}
 
@@ -56,24 +59,6 @@ namespace Wammer.Station
 			else
 			{
 				return file.objectId;
-			}
-		}
-
-		private static void respondFailure(HttpListenerContext ctx,
-												FileUpload file, Exception e)
-		{
-			ObjectUploadResponse response =
-					ObjectUploadResponse.CreateFailure(file.objectId, -1, e);
-
-			ctx.Response.StatusCode = 200;
-			ctx.Response.ContentType = "application/json";
-
-			using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
-			{
-				string resText = fastJSON.JSON.Instance.ToJSON(
-										response, false, false, false, false);
-				ctx.Response.ContentLength64 = resText.Length;
-				w.Write(resText);
 			}
 		}
 
