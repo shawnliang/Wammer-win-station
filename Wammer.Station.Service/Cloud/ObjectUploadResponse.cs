@@ -26,12 +26,12 @@ namespace Wammer.Cloud
 		}
 
 		public static ObjectUploadResponse CreateFailure(string objectId,
-														int appErr, Exception e)
+														int httpStatus, Exception e)
 		{
 			ObjectUploadResponse res = new ObjectUploadResponse();
-			res.app_ret_code = appErr;
+			res.app_ret_code = -1;
 			res.app_ret_msg = e.Message;
-			res.status = 200;
+			res.status = httpStatus;
 			res.timestamp = DateTime.Now.ToUniversalTime();
 			res._object_id = objectId;
 

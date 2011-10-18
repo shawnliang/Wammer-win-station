@@ -40,10 +40,17 @@ namespace Wammer.Station
 								ObjectUploadResponse.CreateSuccess(file.objectId);
 				respondSuccess(context, response);
 			}
+			catch (FormatException e)
+			{
+				ObjectUploadResponse json =
+					ObjectUploadResponse.CreateFailure(file.objectId, 400, e);
+
+				HttpHelper.RespondFailure(context.Response, e, json);
+			}
 			catch (Exception e)
 			{
 				ObjectUploadResponse json =
-					ObjectUploadResponse.CreateFailure(file.objectId, -1, e);
+					ObjectUploadResponse.CreateFailure(file.objectId, 500, e);
 
 				HttpHelper.RespondFailure(context.Response, e, json);
 			}

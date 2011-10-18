@@ -136,6 +136,7 @@ namespace UT_WammerStation
 					fs.CopyTo(outStream);
 				}
 
+
 				HttpWebResponse response = (HttpWebResponse)requst.GetResponse();
 				byte[] resData = null;
 
@@ -183,24 +184,35 @@ namespace UT_WammerStation
 					fs.CopyTo(outStream);
 				}
 
-				HttpWebResponse response = (HttpWebResponse)requst.GetResponse();
-				byte[] resData = null;
-
-				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+				try
 				{
-					resData = reader.ReadBytes((int)response.ContentLength);
-					Assert.AreEqual(response.ContentLength, resData.Length);
+					requst.GetResponse();
+				}
+				catch (WebException e)
+				{
+					HttpWebResponse response = (HttpWebResponse)e.Response;
+					Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode);
+					byte[] resData = null;
+
+					using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+					{
+						resData = reader.ReadBytes((int)response.ContentLength);
+						Assert.AreEqual(response.ContentLength, resData.Length);
+					}
+
+					string responseString = Encoding.UTF8.GetString(resData);
+					ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
+											<ObjectUploadResponse>(responseString);
+
+					Assert.AreEqual(500, res.status);
+					Assert.IsNotNull(res.timestamp);
+					Assert.AreNotEqual(0, res.app_ret_code);
+					Assert.AreNotEqual("Success", res.app_ret_msg);
+					Assert.AreEqual("object_id1", res.object_id);
+					return;
 				}
 
-				string responseString = Encoding.UTF8.GetString(resData);
-				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
-										<ObjectUploadResponse>(responseString);
-
-				Assert.AreEqual(200, res.status);
-				Assert.IsNotNull(res.timestamp);
-				Assert.AreNotEqual(0, res.app_ret_code);
-				Assert.AreNotEqual("Success", res.app_ret_msg);
-				Assert.AreEqual("object_id1", res.object_id);
+				Assert.Fail("expected exception is not thrown");
 			}
 		}
 
@@ -221,25 +233,35 @@ namespace UT_WammerStation
 				{
 					fs.CopyTo(outStream);
 				}
-
-				HttpWebResponse response = (HttpWebResponse)requst.GetResponse();
-				byte[] resData = null;
-
-				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+				try
 				{
-					resData = reader.ReadBytes((int)response.ContentLength);
-					Assert.AreEqual(response.ContentLength, resData.Length);
+					requst.GetResponse();
+				}
+				catch (WebException e)
+				{
+					HttpWebResponse response = (HttpWebResponse)e.Response;
+					Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+					byte[] resData = null;
+
+					using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+					{
+						resData = reader.ReadBytes((int)response.ContentLength);
+						Assert.AreEqual(response.ContentLength, resData.Length);
+					}
+
+					string responseString = Encoding.UTF8.GetString(resData);
+					ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
+											<ObjectUploadResponse>(responseString);
+
+					Assert.AreEqual(400, res.status);
+					Assert.IsNotNull(res.timestamp);
+					Assert.AreNotEqual(0, res.app_ret_code);
+					Assert.AreNotEqual("Success", res.app_ret_msg);
+					Assert.AreEqual(null, res.object_id);
+					return;
 				}
 
-				string responseString = Encoding.UTF8.GetString(resData);
-				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
-										<ObjectUploadResponse>(responseString);
-
-				Assert.AreEqual(200, res.status);
-				Assert.IsNotNull(res.timestamp);
-				Assert.AreNotEqual(0, res.app_ret_code);
-				Assert.AreNotEqual("Success", res.app_ret_msg);
-				Assert.AreEqual(null, res.object_id);
+				Assert.Fail("Expected exception is not thrown");
 			}
 		}
 	}
