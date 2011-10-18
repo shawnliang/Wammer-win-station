@@ -28,7 +28,7 @@ namespace Wammer.Station.StartUp
 			return stationId != null && !stationId.Equals("");
 		}
 
-		private void button2_Click(object sender, EventArgs e)
+		private void okButton_Click(object sender, EventArgs e)
 		{
 			log4net.ILog logger = log4net.LogManager.GetLogger("StartUpPage");
 			Wammer.Cloud.User user = null;
@@ -76,7 +76,7 @@ namespace Wammer.Station.StartUp
 			this.Close();
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private void cancelButton_Click(object sender, EventArgs e)
 		{
 			this.Close();
 		}
