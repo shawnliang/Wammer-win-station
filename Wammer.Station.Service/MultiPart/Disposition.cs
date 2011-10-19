@@ -28,7 +28,7 @@ namespace Wammer.MultiPart
 			try
 			{
 				string[] segments = text.Split(SEPARATOR,
-					StringSplitOptions.RemoveEmptyEntries);
+										StringSplitOptions.RemoveEmptyEntries);
 
 				Disposition disp = new Disposition();
 				disp.value = segments[0].Trim();

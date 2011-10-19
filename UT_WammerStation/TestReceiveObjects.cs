@@ -264,5 +264,19 @@ namespace UT_WammerStation
 				Assert.Fail("Expected exception is not thrown");
 			}
 		}
+
+		[TestMethod]
+		public void TestRegistry()
+		{
+			CloudServer.HostName = null;
+			CloudServer.Port = 0;
+
+			Assert.AreEqual("develop.waveface.com", CloudServer.HostName);
+			Assert.AreEqual(8080, CloudServer.Port);
+			Assert.AreEqual("v1", CloudServer.DEF_BASE_PATH);
+
+			CloudServer.HostName = "127.0.0.1";
+			CloudServer.Port = 80;
+		}
 	}
 }
