@@ -4,13 +4,15 @@ using System.Text;
 using System.Net;
 using System.IO;
 using Wammer.IO;
+using Wammer.Cloud;
 
 namespace Wammer.Station
 {
 	public class BypassHttpHandler: IHttpHandler
 	{
-		private string host;
-		private int port;
+		private readonly string host;
+		private readonly int port;
+		private readonly List<string> exceptPrefixes = new List<string>();
 
 		public BypassHttpHandler(string host, int port)
 		{
@@ -22,25 +24,64 @@ namespace Wammer.Station
 		{
 			HttpListenerContext ctx = (HttpListenerContext)state;
 
-			HttpListenerRequest origReq = ctx.Request;
-			Uri targetUri = GetTargetUri(origReq);
-			HttpWebRequest newReq = (HttpWebRequest)WebRequest.Create(targetUri);
-
-			CopyRequestHeaders(origReq, newReq);
-
-			using (Stream output = newReq.GetRequestStream())
+			try
 			{
-				StreamHelper.Copy(origReq.InputStream, output);
-			}
+				if (HasNotAllowedPrefix(ctx.Request.Url.AbsolutePath))
+				{
+					CloudResponse json = new CloudResponse(403, -1,
+											"Station does not support this REST API; only Cloud does");
+					HttpHelper.RespondFailure(ctx.Response, json);
+				}
 
-			HttpWebResponse newResp = (HttpWebResponse)newReq.GetResponse();
-			CopyResponseHeaders(newResp, ctx.Response);
-			using (Stream input = newResp.GetResponseStream())
+
+				HttpListenerRequest origReq = ctx.Request;
+				Uri targetUri = GetTargetUri(origReq);
+				HttpWebRequest newReq = (HttpWebRequest)WebRequest.Create(targetUri);
+
+				CopyRequestHeaders(origReq, newReq);
+
+				if (origReq.HasEntityBody)
+				{
+					using (Stream output = newReq.GetRequestStream())
+					{
+						StreamHelper.Copy(origReq.InputStream, output);
+					}
+				}
+
+				HttpWebResponse newResp = (HttpWebResponse)newReq.GetResponse();
+				CopyResponseHeaders(newResp, ctx.Response);
+				using (Stream input = newResp.GetResponseStream())
+				{
+					StreamHelper.Copy(input, ctx.Response.OutputStream);
+				}
+				ctx.Response.OutputStream.Close();
+			}
+			catch (WebException e)
 			{
-				StreamHelper.Copy(input, ctx.Response.OutputStream);
-			}
+				HttpWebResponse errResponse = (HttpWebResponse)e.Response;
+				if (errResponse != null)
+				{
+					ctx.Response.StatusCode = (int)errResponse.StatusCode;
 
-			ctx.Response.OutputStream.Close();
+					using (Stream errStream = errResponse.GetResponseStream())
+					using (Stream outStream = ctx.Response.OutputStream)
+					{
+						StreamHelper.Copy(errStream, outStream);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
+			}
+		}
+
+		public void AddExceptPrefix(string prefix)
+		{
+			if (!prefix.StartsWith("/") || !prefix.EndsWith("/"))
+				throw new ArgumentException("prefix must start and end with slash");
+
+			this.exceptPrefixes.Add(prefix);
 		}
 
 		private static void CopyResponseHeaders(HttpWebResponse from, HttpListenerResponse to)
@@ -53,6 +94,18 @@ namespace Wammer.Station
 			{
 				to.Cookies.Add(from.Cookies);
 			}
+		}
+
+
+		private bool HasNotAllowedPrefix(string reqPath)
+		{
+			foreach (string prefix in this.exceptPrefixes)
+			{
+				if (reqPath.StartsWith(prefix))
+					return true;
+			}
+
+			return false;
 		}
 
 		private void CopyRequestHeaders(HttpListenerRequest from, HttpWebRequest to)

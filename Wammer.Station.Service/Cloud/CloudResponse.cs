@@ -29,6 +29,14 @@ namespace Wammer.Cloud
 			this._app_ret_msg = app_msg;
 		}
 
+		public CloudResponse(int status, int app_code, string app_msg)
+		{
+			this._status = status;
+			this._timestamp = DateTime.Now.ToUniversalTime();
+			this._app_ret_code = app_code;
+			this._app_ret_msg = app_msg;
+		}
+
 		public int status
 		{
 			get { return _status; }

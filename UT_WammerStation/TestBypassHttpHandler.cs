@@ -8,10 +8,35 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Net;
 using Wammer.Station;
-using System.Text;
+using Wammer.Cloud;
 
 namespace UT_WammerStation
 {
+	class ErrorHttpHandler:IHttpHandler
+	{
+		int status;
+		string msg;
+
+		public ErrorHttpHandler(int status, string msg)
+		{
+			this.status = status;
+			this.msg = msg;
+		}
+
+		public void Handle(object state)
+		{
+			HttpListenerContext ctx = (HttpListenerContext)state;
+
+			ctx.Response.StatusCode = this.status;
+			using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+			{
+				if (msg != null)
+					w.Write(this.msg);
+			}
+		}
+	}
+
+
 	class MyForwardedHandler: IHttpHandler
 	{
 		public CookieCollection recvCookies;
@@ -64,7 +89,6 @@ namespace UT_WammerStation
 				proxyServer.AddHandler("/", new MyHandler("21212")); // dummy
 				proxyServer.AddDefaultHandler(new BypassHttpHandler("localhost", 8080));
 				proxyServer.Start();
-				
 
 				HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
 													"http://localhost:80/target/?abc=123&qaz=wsx");
@@ -106,6 +130,112 @@ namespace UT_WammerStation
 				Assert.AreEqual("222", resp.Cookies["bbb"].Value);
 			}
 
+		}
+
+
+		[TestMethod]
+		public void TestBypassException()
+		{
+			using (HttpServer proxyServer = new HttpServer(80))
+			{
+				proxyServer.AddHandler("/", new MyHandler("dummy")); // dummy
+				BypassHttpHandler bypasser = new BypassHttpHandler("localhost", 8080);
+				bypasser.AddExceptPrefix("/bypass/");
+				proxyServer.AddDefaultHandler(bypasser);
+				proxyServer.Start();
+
+				WebClient agent = new WebClient();
+				try
+				{
+					agent.DownloadData("http://localhost:80/bypass/");
+				}
+				catch (WebException e)
+				{
+					Assert.AreEqual(WebExceptionStatus.ProtocolError, e.Status);
+					using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
+					{
+						string json = r.ReadToEnd();
+						CloudResponse resp = fastJSON.JSON.Instance.ToObject<CloudResponse>(json);
+						Assert.AreEqual(-1, resp.app_ret_code);
+						Assert.AreEqual(403, resp.status);
+						Assert.AreEqual("Station does not support this REST API; only Cloud does",
+																				resp.app_ret_msg);
+					}
+					return;
+				}
+
+				Assert.Fail("Expected exception is not thrown");
+			}
+		}
+
+		[TestMethod]
+		public void TestBypassRemoteError()
+		{
+			using (HttpServer proxyServer = new HttpServer(80))
+			using (HttpServer targetServer = new HttpServer(8080))
+			{
+				proxyServer.AddHandler("/", new MyHandler("dummy")); // dummy
+				BypassHttpHandler bypasser = new BypassHttpHandler("localhost", 8080);
+				proxyServer.AddDefaultHandler(bypasser);
+				proxyServer.Start();
+
+				targetServer.AddHandler("/bypass/", new ErrorHttpHandler(502, "err from target"));
+				targetServer.Start();
+
+				WebClient agent = new WebClient();
+				try
+				{
+					agent.DownloadData("http://localhost:80/bypass/");
+				}
+				catch (WebException e)
+				{
+					Assert.AreEqual(HttpStatusCode.BadGateway, 
+														((HttpWebResponse)e.Response).StatusCode);
+					using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
+					{
+						string json = r.ReadToEnd();
+						Assert.AreEqual("err from target", json);
+					}
+					return;
+				}
+
+				Assert.Fail("Expected exception is not thrown");
+			}
+		}
+
+		[TestMethod]
+		public void TestBypassRemoteError_no_response_stream()
+		{
+			using (HttpServer proxyServer = new HttpServer(80))
+			using (HttpServer targetServer = new HttpServer(8080))
+			{
+				proxyServer.AddHandler("/", new MyHandler("dummy")); // dummy
+				BypassHttpHandler bypasser = new BypassHttpHandler("localhost", 8080);
+				proxyServer.AddDefaultHandler(bypasser);
+				proxyServer.Start();
+
+				targetServer.AddHandler("/bypass/", new ErrorHttpHandler(502, null));
+				targetServer.Start();
+
+				WebClient agent = new WebClient();
+				try
+				{
+					agent.DownloadData("http://localhost:80/bypass/");
+				}
+				catch (WebException e)
+				{
+					Assert.AreEqual(HttpStatusCode.BadGateway,
+														((HttpWebResponse)e.Response).StatusCode);
+					using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
+					{
+						string json = r.ReadToEnd();
+						Assert.AreEqual("", json);
+					}
+					return;
+				}
+
+				Assert.Fail("Expected exception is not thrown");
+			}
 		}
 	}
 }

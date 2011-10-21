@@ -12,8 +12,7 @@ namespace Wammer.Station
 	{
 		private static ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
-		public static void RespondFailure(HttpListenerResponse response,
-								Exception e, Wammer.Cloud.CloudResponse json)
+		public static void RespondFailure(HttpListenerResponse response, CloudResponse json)
 		{
 			try
 			{
@@ -35,13 +34,13 @@ namespace Wammer.Station
 			}
 		}
 
-		public static void RespondCloudFailure(HttpListenerResponse response,
+		public static void RespondFailure(HttpListenerResponse response,
 								Exception e, int status)
 		{
 			CloudResponse json = new CloudResponse(status,
 							DateTime.Now.ToUniversalTime(), -1, e.Message);
 
-			RespondFailure(response, e, json);
+			RespondFailure(response, json);
 		}
 	}
 }

@@ -49,15 +49,15 @@ namespace Wammer.Station
 			}
 			catch (ArgumentException e)
 			{
-				HttpHelper.RespondCloudFailure(ctx.Response, e, 400);
+				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.BadRequest);
 			}
 			catch (FileNotFoundException e)
 			{
-				HttpHelper.RespondCloudFailure(ctx.Response, e, 404);
+				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.NotFound);
 			}
 			catch (Exception e)
 			{
-				HttpHelper.RespondCloudFailure(ctx.Response, e, 500);
+				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
 			}
 		}
 
