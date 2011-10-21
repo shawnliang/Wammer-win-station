@@ -19,40 +19,30 @@ namespace Wammer.Station
 			storage = new FileStorage("resource");
 		}
 
-		public void Handle(object state)
+		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			HttpListenerContext context = (HttpListenerContext)state;
 			FileUpload file = new FileUpload();
 
 			try
 			{
-				string boundary = GetMultipartBoundary(context);
+				string boundary = GetMultipartBoundary(request);
 
 				MultiPart.Parser parser = new Parser(boundary);
 
-				Part[] parts = parser.Parse(context.Request.InputStream);
+				Part[] parts = parser.Parse(request.InputStream);
 
 				file = GetFileFromMultiPartData(parts);
 				string savedName = GetSavedFilename(file);
 				storage.Save("space1", file.type, savedName, file.fileContent);
 
-				ObjectUploadResponse response =
+				ObjectUploadResponse json =
 								ObjectUploadResponse.CreateSuccess(file.objectId);
-				respondSuccess(context, response);
+				respondSuccess(response, json);
 			}
 			catch (FormatException e)
 			{
-				ObjectUploadResponse json =
-					ObjectUploadResponse.CreateFailure(file.objectId, 400, e);
-
-				HttpHelper.RespondFailure(context.Response, json);
-			}
-			catch (Exception e)
-			{
-				ObjectUploadResponse json =
-					ObjectUploadResponse.CreateFailure(file.objectId, 500, e);
-
-				HttpHelper.RespondFailure(context.Response, json);
+				ObjectUploadResponse json = ObjectUploadResponse.CreateFailure(file.objectId, 400, e);
+				HttpHelper.RespondFailure(response, json);
 			}
 		}
 
@@ -69,38 +59,37 @@ namespace Wammer.Station
 			}
 		}
 
-		private static void respondSuccess(HttpListenerContext ctx,
-												ObjectUploadResponse response)
+		private static void respondSuccess(HttpListenerResponse response,
+												ObjectUploadResponse jsonObj)
 		{
-			ctx.Response.StatusCode = 200;
-			ctx.Response.ContentType = "application/json";
+			response.StatusCode = 200;
+			response.ContentType = "application/json";
 
-			using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+			using (StreamWriter w = new StreamWriter(response.OutputStream))
 			{
-				string resText = fastJSON.JSON.Instance.ToJSON(
-										response, false, false, false, false);
-				ctx.Response.ContentLength64 = resText.Length;
-				w.Write(resText);
+				string json = fastJSON.JSON.Instance.ToJSON(jsonObj, false, false, false, false);
+				response.ContentLength64 = json.Length;
+				w.Write(json);
 			}
 		}
 
-		private static string GetMultipartBoundary(HttpListenerContext context)
+		private static string GetMultipartBoundary(HttpListenerRequest request)
 		{
 			try
 			{
-				int idx = context.Request.ContentType.IndexOf(BOUNDARY);
-				string boundary = context.Request.ContentType.Substring(
+				int idx = request.ContentType.ToLower().IndexOf(BOUNDARY);
+				string boundary = request.ContentType.Substring(
 															idx + BOUNDARY.Length);
 				return boundary;
 			}
 			catch (Exception e)
 			{
-				string contentType = context.Request.ContentType;
+				string contentType = request.ContentType;
 				if (contentType==null)
 					contentType = "(null)";
 
-				throw new FormatException("Error finding multipart boundary. " +
-											"Content-Type: " + contentType, e);
+				throw new FormatException("Error finding multipart boundary. Content-Type: " + 
+																					contentType, e);
 			}
 		}
 
@@ -135,20 +124,16 @@ namespace Wammer.Station
 			}
 
 			if (file.objectId == null)
-				throw new FormatException("object_id is missing in file"
-													+ " upload multipart data");
+				throw new FormatException("object_id is missing in file upload multipart data");
 
 			if (file.filename == null)
-				throw new FormatException("filename is missing in file"
-													+ " upload multipart data");
+				throw new FormatException("filename is missing in file upload multipart data");
 
 			if (file.fileContent == null)
-				throw new FormatException("file is missing in file"
-													+ " upload multipart data");
+				throw new FormatException("file is missing in file upload multipart data");
 
 			if (file.type == FileType.None)
-				throw new FormatException("filetype is missing in file"
-													+ " upload multipart data");
+				throw new FormatException("filetype is missing in file upload multipart data");
 
 			return file;
 		}
@@ -176,10 +161,8 @@ namespace Wammer.Station
 		{
 			get
 			{
-				return filename != null &&
-					objectId != null &&
-					fileContent != null &&
-					type != FileType.None;
+				return filename != null && objectId != null && 
+					fileContent != null && type != FileType.None;
 			}
 		}
 	}

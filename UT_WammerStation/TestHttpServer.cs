@@ -19,13 +19,11 @@ namespace UT_WammerStation
 			this.response = Encoding.ASCII.GetBytes(response);
 		}
 
-		public void Handle(object state)
+		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			HttpListenerContext context = (HttpListenerContext)state;
-
-			context.Response.StatusCode = 200;
-			context.Response.OutputStream.Write(response, 0, response.Length);
-			context.Response.Close();
+			response.StatusCode = 200;
+			response.OutputStream.Write(this.response, 0, this.response.Length);
+			response.Close();
 		}
 	}
 

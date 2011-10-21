@@ -23,12 +23,10 @@ namespace UT_WammerStation
 			this.msg = msg;
 		}
 
-		public void Handle(object state)
+		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			HttpListenerContext ctx = (HttpListenerContext)state;
-
-			ctx.Response.StatusCode = this.status;
-			using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+			response.StatusCode = this.status;
+			using (StreamWriter w = new StreamWriter(response.OutputStream))
 			{
 				if (msg != null)
 					w.Write(this.msg);
@@ -47,26 +45,24 @@ namespace UT_WammerStation
 		public string recvMethod;
 		public string recvPath;
 
-		public void Handle(object state)
+		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			HttpListenerContext ctx = (HttpListenerContext)state;
-
-			recvCookies = ctx.Request.Cookies;
-			recvQueryString = ctx.Request.QueryString;
-			recvContentType = ctx.Request.ContentType;
-			recvContentLength = ctx.Request.ContentLength64;
-			recvMethod = ctx.Request.HttpMethod;
-			recvPath = ctx.Request.Url.AbsolutePath;
-			using (StreamReader r = new StreamReader(ctx.Request.InputStream))
+			recvCookies = request.Cookies;
+			recvQueryString = request.QueryString;
+			recvContentType = request.ContentType;
+			recvContentLength = request.ContentLength64;
+			recvMethod = request.HttpMethod;
+			recvPath = request.Url.AbsolutePath;
+			using (StreamReader r = new StreamReader(request.InputStream))
 			{
 				recvData = r.ReadToEnd();
 			}
 
 
-			ctx.Response.StatusCode = 200;
-			ctx.Response.Cookies.Add(new Cookie("aaa", "111"));
-			ctx.Response.Cookies.Add(new Cookie("bbb", "222"));
-			using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+			response.StatusCode = 200;
+			response.Cookies.Add(new Cookie("aaa", "111"));
+			response.Cookies.Add(new Cookie("bbb", "222"));
+			using (StreamWriter w = new StreamWriter(response.OutputStream))
 			{
 				w.Write("write from target");
 			}

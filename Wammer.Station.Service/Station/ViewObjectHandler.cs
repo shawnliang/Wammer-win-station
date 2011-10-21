@@ -18,13 +18,11 @@ namespace Wammer.Station
 			baseDir = resourceFolder;
 		}
 
-		public void Handle(object state)
+		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			HttpListenerContext ctx = (HttpListenerContext)state;
-
 			try
 			{
-				NameValueCollection parameters = GetRequestParams(ctx.Request);
+				NameValueCollection parameters = GetRequestParams(request);
 
 				string objectId = parameters["object_id"];
 				if (objectId == null)
@@ -38,10 +36,10 @@ namespace Wammer.Station
 
 				string filename = FileStorage.GetSavedFile(baseDir, objectId, type);
 
-				ctx.Response.StatusCode = 200;
-				ctx.Response.ContentType = "image/jpeg";
+				response.StatusCode = 200;
+				response.ContentType = "image/jpeg";
 
-				using (Stream toStream = ctx.Response.OutputStream)
+				using (Stream toStream = response.OutputStream)
 				using (FileStream fs = File.OpenRead(filename))
 				{
 					Wammer.IO.StreamHelper.Copy(fs, toStream);
@@ -49,15 +47,11 @@ namespace Wammer.Station
 			}
 			catch (ArgumentException e)
 			{
-				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.BadRequest);
+				HttpHelper.RespondFailure(response, e, (int)HttpStatusCode.BadRequest);
 			}
 			catch (FileNotFoundException e)
 			{
-				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.NotFound);
-			}
-			catch (Exception e)
-			{
-				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
+				HttpHelper.RespondFailure(response, e, (int)HttpStatusCode.NotFound);
 			}
 		}
 

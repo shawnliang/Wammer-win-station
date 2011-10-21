@@ -8,15 +8,15 @@ namespace Wammer.Station
 {
 	public interface IHttpHandler
 	{
-		void Handle(object state);
+		void HandleRequest(HttpListenerRequest request, HttpListenerResponse response);
 	}
 
 	public class HttpServer : IDisposable
 	{
 		private int port;
 		private HttpListener listener;
-		private Dictionary<string, IHttpHandler> handlers;
-		private IHttpHandler defaultHandler;
+		private Dictionary<string, HttpHandlerProxy> handlers;
+		private HttpHandlerProxy defaultHandler;
 		private bool stopping = false;
 		private bool started = false;
 
@@ -24,7 +24,7 @@ namespace Wammer.Station
 		{
 			this.port = port;
 			this.listener = new HttpListener();
-			this.handlers = new Dictionary<string, IHttpHandler>();
+			this.handlers = new Dictionary<string, HttpHandlerProxy>();
 			this.defaultHandler = null;
 		}
 
@@ -53,7 +53,7 @@ namespace Wammer.Station
 				absPath += "/";
 			}
 
-			handlers.Add(absPath, handler);
+			handlers.Add(absPath, new HttpHandlerProxy(handler));
 			listener.Prefixes.Add(urlPrefix);
 		}
 
@@ -62,7 +62,7 @@ namespace Wammer.Station
 			if (handler == null)
 				throw new ArgumentNullException();
 
-			defaultHandler = handler;
+			defaultHandler = new HttpHandlerProxy(handler);
 		}
 
 		public void Start()
@@ -115,11 +115,11 @@ namespace Wammer.Station
 
 			if (context != null)
 			{
-				IHttpHandler handler = FindBestMatch(
+				HttpHandlerProxy handler = FindBestMatch(
 											context.Request.Url.AbsolutePath);
 
 				if (handler != null)
-					ThreadPool.QueueUserWorkItem(handler.Handle, context);
+					ThreadPool.QueueUserWorkItem(handler.Do, context);
 				else
 					respond404NotFound(context);
 			}
@@ -131,7 +131,7 @@ namespace Wammer.Station
 			ctx.Response.Close();
 		}
 
-		private IHttpHandler FindBestMatch(string requestAbsPath)
+		private HttpHandlerProxy FindBestMatch(string requestAbsPath)
 		{
 			string path = requestAbsPath;
 			if (!path.EndsWith("/"))
@@ -142,6 +142,33 @@ namespace Wammer.Station
 				return handlers[path];
 			else
 				return defaultHandler;
+		}
+	}
+
+	class HttpHandlerProxy
+	{
+		private readonly IHttpHandler handler;
+
+		public HttpHandlerProxy(IHttpHandler handler)
+		{
+			if (handler == null)
+				throw new ArgumentNullException();
+
+			this.handler = handler;
+		}
+
+		public void Do(object state)
+		{
+			HttpListenerContext ctx = (HttpListenerContext)state;
+
+			try
+			{
+				this.handler.HandleRequest(ctx.Request, ctx.Response);
+			}
+			catch (Exception e)
+			{
+				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
+			}
 		}
 	}
 }

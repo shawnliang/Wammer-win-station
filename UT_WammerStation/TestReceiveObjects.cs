@@ -208,7 +208,6 @@ namespace UT_WammerStation
 					Assert.IsNotNull(res.timestamp);
 					Assert.AreNotEqual(0, res.app_ret_code);
 					Assert.AreNotEqual("Success", res.app_ret_msg);
-					Assert.AreEqual("object_id1", res.object_id);
 					return;
 				}
 

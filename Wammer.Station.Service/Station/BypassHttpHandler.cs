@@ -20,21 +20,17 @@ namespace Wammer.Station
 			this.port = port;
 		}
 
-		public void Handle(object state)
+		public void HandleRequest(HttpListenerRequest origReq, HttpListenerResponse response)
 		{
-			HttpListenerContext ctx = (HttpListenerContext)state;
-
 			try
 			{
-				if (HasNotAllowedPrefix(ctx.Request.Url.AbsolutePath))
+				if (HasNotAllowedPrefix(origReq.Url.AbsolutePath))
 				{
 					CloudResponse json = new CloudResponse(403, -1,
-											"Station does not support this REST API; only Cloud does");
-					HttpHelper.RespondFailure(ctx.Response, json);
+										"Station does not support this REST API; only Cloud does");
+					HttpHelper.RespondFailure(response, json);
 				}
 
-
-				HttpListenerRequest origReq = ctx.Request;
 				Uri targetUri = GetTargetUri(origReq);
 				HttpWebRequest newReq = (HttpWebRequest)WebRequest.Create(targetUri);
 
@@ -48,31 +44,23 @@ namespace Wammer.Station
 					}
 				}
 
-				HttpWebResponse newResp = (HttpWebResponse)newReq.GetResponse();
-				CopyResponseHeaders(newResp, ctx.Response);
-				using (Stream input = newResp.GetResponseStream())
-				{
-					StreamHelper.Copy(input, ctx.Response.OutputStream);
-				}
-				ctx.Response.OutputStream.Close();
+				CopyResponseData((HttpWebResponse)newReq.GetResponse(), response);
 			}
 			catch (WebException e)
 			{
 				HttpWebResponse errResponse = (HttpWebResponse)e.Response;
 				if (errResponse != null)
 				{
-					ctx.Response.StatusCode = (int)errResponse.StatusCode;
-
-					using (Stream errStream = errResponse.GetResponseStream())
-					using (Stream outStream = ctx.Response.OutputStream)
+					try
 					{
-						StreamHelper.Copy(errStream, outStream);
+						CopyResponseData(errResponse, response);
+					}
+					catch (Exception ex)
+					{
+						log4net.ILog logger = log4net.LogManager.GetLogger(typeof(BypassHttpHandler));
+						logger.Error("Error reply error", ex);
 					}
 				}
-			}
-			catch (Exception e)
-			{
-				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
 			}
 		}
 
@@ -84,7 +72,7 @@ namespace Wammer.Station
 			this.exceptPrefixes.Add(prefix);
 		}
 
-		private static void CopyResponseHeaders(HttpWebResponse from, HttpListenerResponse to)
+		private static void CopyResponseData(HttpWebResponse from, HttpListenerResponse to)
 		{
 			to.StatusCode = (int)from.StatusCode;
 			to.StatusDescription = from.StatusDescription;
@@ -94,8 +82,13 @@ namespace Wammer.Station
 			{
 				to.Cookies.Add(from.Cookies);
 			}
-		}
 
+			using (Stream input = from.GetResponseStream())
+			using (Stream output = to.OutputStream)
+			{
+				StreamHelper.Copy(input, output);
+			}
+		}
 
 		private bool HasNotAllowedPrefix(string reqPath)
 		{

@@ -13,13 +13,11 @@ namespace Wammer.Station
 
 		}
 
-		public void Handle(object state)
+		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			HttpListenerContext context = (HttpListenerContext)state;
-
-			context.Response.StatusCode = 404;
-			context.Response.ContentType = "application/json";
-			using (StreamWriter w = new StreamWriter(context.Response.OutputStream))
+			response.StatusCode = 404;
+			response.ContentType = "application/json";
+			using (StreamWriter w = new StreamWriter(response.OutputStream))
 			{
 				w.Write(
 				"{\"status\":\"404\"," +
