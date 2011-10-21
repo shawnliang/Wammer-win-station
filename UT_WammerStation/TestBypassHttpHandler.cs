@@ -165,6 +165,76 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
+		public void TestBypassException_pathWithOutSlash()
+		{
+			using (HttpServer proxyServer = new HttpServer(80))
+			{
+				proxyServer.AddHandler("/", new MyHandler("dummy")); // dummy
+				BypassHttpHandler bypasser = new BypassHttpHandler("localhost", 8080);
+				bypasser.AddExceptPrefix("/bypass/");
+				proxyServer.AddDefaultHandler(bypasser);
+				proxyServer.Start();
+
+				WebClient agent = new WebClient();
+				try
+				{
+					agent.DownloadData("http://localhost:80/bypass");
+				}
+				catch (WebException e)
+				{
+					Assert.AreEqual(WebExceptionStatus.ProtocolError, e.Status);
+					using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
+					{
+						string json = r.ReadToEnd();
+						CloudResponse resp = fastJSON.JSON.Instance.ToObject<CloudResponse>(json);
+						Assert.AreEqual(-1, resp.app_ret_code);
+						Assert.AreEqual(403, resp.status);
+						Assert.AreEqual("Station does not support this REST API; only Cloud does",
+																				resp.app_ret_msg);
+					}
+					return;
+				}
+
+				Assert.Fail("Expected exception is not thrown");
+			}
+		}
+
+		[TestMethod]
+		public void TestBypassException_pathWithQueryString()
+		{
+			using (HttpServer proxyServer = new HttpServer(80))
+			{
+				proxyServer.AddHandler("/", new MyHandler("dummy")); // dummy
+				BypassHttpHandler bypasser = new BypassHttpHandler("localhost", 8080);
+				bypasser.AddExceptPrefix("/bypass/");
+				proxyServer.AddDefaultHandler(bypasser);
+				proxyServer.Start();
+
+				WebClient agent = new WebClient();
+				try
+				{
+					agent.DownloadData("http://localhost:80/bypass?abc=123");
+				}
+				catch (WebException e)
+				{
+					Assert.AreEqual(WebExceptionStatus.ProtocolError, e.Status);
+					using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
+					{
+						string json = r.ReadToEnd();
+						CloudResponse resp = fastJSON.JSON.Instance.ToObject<CloudResponse>(json);
+						Assert.AreEqual(-1, resp.app_ret_code);
+						Assert.AreEqual(403, resp.status);
+						Assert.AreEqual("Station does not support this REST API; only Cloud does",
+																				resp.app_ret_msg);
+					}
+					return;
+				}
+
+				Assert.Fail("Expected exception is not thrown");
+			}
+		}
+
+		[TestMethod]
 		public void TestBypassRemoteError()
 		{
 			using (HttpServer proxyServer = new HttpServer(80))

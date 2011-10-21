@@ -10,14 +10,23 @@ namespace Wammer.Station.Service
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		static void Main()
+		static void Main(string[] argv)
 		{
-			ServiceBase[] ServicesToRun;
-			ServicesToRun = new ServiceBase[] 
-			{ 
-				new StationService() 
-			};
-			ServiceBase.Run(ServicesToRun);
+			if (argv.Length == 1 && argv[0].Equals("-c"))
+			{
+				Console.WriteLine("Wammer Station in Console Mode:");
+				StationService svc = new StationService();
+				svc.Run();
+			}
+			else
+			{
+				ServiceBase[] ServicesToRun;
+				ServicesToRun = new ServiceBase[] 
+				{ 
+					new StationService() 
+				};
+				ServiceBase.Run(ServicesToRun);
+			}
 		}
 	}
 }

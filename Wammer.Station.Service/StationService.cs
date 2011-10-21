@@ -11,6 +11,7 @@ using System.Reflection;
 
 using Microsoft.Win32;
 using Wammer.Station;
+using Wammer.Cloud;
 
 namespace Wammer.Station.Service
 {
@@ -24,6 +25,16 @@ namespace Wammer.Station.Service
 		{
 			log4net.Config.XmlConfigurator.Configure();
 			InitializeComponent();
+		}
+
+		public void Run()
+		{
+			OnStart(null);
+
+			Console.WriteLine("Press any key to exit");
+			Console.ReadKey();
+
+			OnStop();
 		}
 
 		protected override void OnStart(string[] args)
@@ -50,11 +61,19 @@ namespace Wammer.Station.Service
 				Directory.CreateDirectory(@"resource\space1\104");
 
 			server = new HttpServer(9981); // TODO: remove hard code
-			server.AddDefaultHandler(new NotFoundHandler());
+			BypassHttpHandler cloudForwarder = new BypassHttpHandler(
+															CloudServer.HostName, CloudServer.Port);
+			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/auth/");
+			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/users/");
+			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/groups/");
+			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/stations/");
+			server.AddDefaultHandler(cloudForwarder);
 
-			//TODO: v1 is hard coded
-			server.AddHandler("/v1/objects/view/", new ViewObjectHandler("resource"));
-			server.AddHandler("/v1/objects/upload/", new ObjectUploadHandler());
+			server.AddHandler("/", new DummyHandler());
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/objects/view/",
+							new ViewObjectHandler("resource"));
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/objects/upload/",
+							new ObjectUploadHandler());
 			server.Start();
 
 			if (!LogOnStation(9981))
@@ -95,7 +114,7 @@ namespace Wammer.Station.Service
 
 		private string GetOneLocalIPAddress()
 		{
-			IPAddress[] ips =  Dns.GetHostAddresses(Dns.GetHostName());
+			IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
 			foreach (IPAddress ip in ips)
 			{
 				if (!IPAddress.IsLoopback(ip))
@@ -109,6 +128,15 @@ namespace Wammer.Station.Service
 		{
 			server.Stop();
 			server.Close();
+		}
+	}
+
+
+	class DummyHandler : IHttpHandler
+	{
+		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
+		{
+			Debug.Fail("should not reach this code");
 		}
 	}
 }

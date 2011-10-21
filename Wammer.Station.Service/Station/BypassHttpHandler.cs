@@ -92,6 +92,9 @@ namespace Wammer.Station
 
 		private bool HasNotAllowedPrefix(string reqPath)
 		{
+			if (!reqPath.EndsWith("/"))
+				reqPath += "/";
+
 			foreach (string prefix in this.exceptPrefixes)
 			{
 				if (reqPath.StartsWith(prefix))
