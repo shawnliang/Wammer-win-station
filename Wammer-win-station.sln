@@ -18,8 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station.StartUp", "W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station.Service", "Wammer.Station.Service\Wammer.Station.Service.csproj", "{C7B8A613-B0D8-49B4-B232-54A222E0095C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiPartTest", "..\MultiPartTest\MultiPartTest.csproj", "{73A17BDE-4885-42D4-94C8-EDC06FB36C22}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Wammer-win-station.vsmdi
@@ -171,31 +169,6 @@ Global
 		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|Mixed Platforms.Build.0 = Release|x86
 		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|x86.ActiveCfg = Release|x86
 		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|x86.Build.0 = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.CD_ROM|Any CPU.ActiveCfg = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.CD_ROM|x86.ActiveCfg = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.CD_ROM|x86.Build.0 = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.Debug|x86.ActiveCfg = Debug|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.Debug|x86.Build.0 = Debug|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.DVD-5|Any CPU.ActiveCfg = Debug|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.DVD-5|Mixed Platforms.ActiveCfg = Debug|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.DVD-5|Mixed Platforms.Build.0 = Debug|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.DVD-5|x86.ActiveCfg = Debug|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.DVD-5|x86.Build.0 = Debug|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.Release|Any CPU.ActiveCfg = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.Release|Mixed Platforms.Build.0 = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.Release|x86.ActiveCfg = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.Release|x86.Build.0 = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.SingleImage|Any CPU.ActiveCfg = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.SingleImage|Mixed Platforms.ActiveCfg = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.SingleImage|Mixed Platforms.Build.0 = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.SingleImage|x86.ActiveCfg = Release|x86
-		{73A17BDE-4885-42D4-94C8-EDC06FB36C22}.SingleImage|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

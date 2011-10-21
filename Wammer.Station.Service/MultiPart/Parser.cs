@@ -116,20 +116,11 @@ namespace Wammer.MultiPart
 
 		private static byte[] ToByteArray(Stream stream)
 		{
-			MemoryStream m = new MemoryStream();
-
-			byte[] buf = new byte[32768];
-			int nread = 0;
-
-			do
+			using (MemoryStream m = new MemoryStream())
 			{
-				nread = stream.Read(buf, 0, buf.Length);
-				if (nread > 0)
-					m.Write(buf, 0, nread);
+				Wammer.IO.StreamHelper.Copy(stream, m);
+				return m.ToArray();
 			}
-			while (nread > 0);
-
-			return m.ToArray();
 		}
 
 

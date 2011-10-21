@@ -42,8 +42,9 @@ namespace Wammer.Station
 				ctx.Response.ContentType = "image/jpeg";
 
 				using (Stream toStream = ctx.Response.OutputStream)
+				using (FileStream fs = File.OpenRead(filename))
 				{
-					CopyFileToStream(filename, toStream);
+					Wammer.IO.StreamHelper.Copy(fs, toStream);
 				}
 			}
 			catch (ArgumentException e)
@@ -78,20 +79,6 @@ namespace Wammer.Station
 				throw new NotSupportedException(
 									"Method is not support: " + req.HttpMethod);
 		}
-
-		private static void CopyFileToStream(string filename, Stream dest)
-		{
-			byte[] buffer = new byte[32768];
-			int nRead = 0;
-			using (FileStream fs = File.OpenRead(filename))
-			{
-				while ((nRead = fs.Read(buffer, 0, buffer.Length)) > 0)
-				{
-					dest.Write(buffer, 0, nRead);
-				}
-			}
-		}
-
 
 	}
 }

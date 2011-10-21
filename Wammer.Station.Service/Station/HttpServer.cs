@@ -18,6 +18,7 @@ namespace Wammer.Station
 		private Dictionary<string, IHttpHandler> handlers;
 		private IHttpHandler defaultHandler;
 		private bool stopping = false;
+		private bool started = false;
 
 		public HttpServer(int port)
 		{
@@ -66,13 +67,17 @@ namespace Wammer.Station
 
 		public void Start()
 		{
+			if (started)
+				throw new InvalidOperationException("Http server already started");
+
 			listener.Start();
+			started = true;
 			listener.BeginGetContext(this.ConnectionAccepted, null);
 		}
 
 		public void Stop()
 		{
-			if (!stopping)
+			if (started && !stopping)
 			{
 				stopping = true;
 				listener.Stop();
