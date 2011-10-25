@@ -97,6 +97,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Station\BypassHttpHandler.cs" />
     <Compile Include="Station\FileStorage.cs" />
+    <Compile Include="Station\HttpHandler.cs" />
     <Compile Include="Station\HttpHelper.cs" />
     <Compile Include="Station\HttpServer.cs" />
     <Compile Include="Station\ObjectUploadHandler.cs" />

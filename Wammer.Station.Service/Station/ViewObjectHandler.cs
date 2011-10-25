@@ -10,7 +10,7 @@ using Wammer.Cloud;
 
 namespace Wammer.Station
 {
-	public class ViewObjectHandler: IHttpHandler
+	public class ViewObjectHandler: HttpHandler
 	{
 		private string baseDir;
 		public ViewObjectHandler(string resourceFolder)
@@ -18,17 +18,15 @@ namespace Wammer.Station
 			baseDir = resourceFolder;
 		}
 
-		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
+		protected override void HandleRequest()
 		{
 			try
 			{
-				NameValueCollection parameters = GetRequestParams(request);
-
-				string objectId = parameters["object_id"];
+				string objectId = Parameters["object_id"];
 				if (objectId == null)
 					throw new ArgumentException("missing required param: object_id");
 
-				string fileType = parameters["file_type"];
+				string fileType = Parameters["file_type"];
 				if (fileType == null)
 					throw new ArgumentException("missing required param: file_type");
 
@@ -36,10 +34,10 @@ namespace Wammer.Station
 
 				string filename = FileStorage.GetSavedFile(baseDir, objectId, type);
 
-				response.StatusCode = 200;
-				response.ContentType = "image/jpeg";
+				Response.StatusCode = 200;
+				Response.ContentType = "image/jpeg";
 
-				using (Stream toStream = response.OutputStream)
+				using (Stream toStream = Response.OutputStream)
 				using (FileStream fs = File.OpenRead(filename))
 				{
 					Wammer.IO.StreamHelper.Copy(fs, toStream);
@@ -47,32 +45,12 @@ namespace Wammer.Station
 			}
 			catch (ArgumentException e)
 			{
-				HttpHelper.RespondFailure(response, e, (int)HttpStatusCode.BadRequest);
+				HttpHelper.RespondFailure(Response, e, (int)HttpStatusCode.BadRequest);
 			}
 			catch (FileNotFoundException e)
 			{
-				HttpHelper.RespondFailure(response, e, (int)HttpStatusCode.NotFound);
+				HttpHelper.RespondFailure(Response, e, (int)HttpStatusCode.NotFound);
 			}
 		}
-
-		private static NameValueCollection GetRequestParams(HttpListenerRequest req)
-		{
-			if (req.HttpMethod.ToUpper().Equals("POST"))
-			{
-				using (StreamReader s = new StreamReader(req.InputStream))
-				{
-					string postData = s.ReadToEnd();
-					return HttpUtility.ParseQueryString(postData);
-				}
-			}
-			else if (req.HttpMethod.ToUpper().Equals("GET"))
-			{
-				return req.QueryString;
-			}
-			else
-				throw new NotSupportedException(
-									"Method is not support: " + req.HttpMethod);
-		}
-
 	}
 }
