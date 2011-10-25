@@ -18,7 +18,7 @@ namespace Wammer.Cloud
 		private static int port = 0;
 		private static string apiKey = null;
 
-		public const string DEF_BASE_PATH = "v1";
+		public const string DEF_BASE_PATH = "v2";
 
 		public static string HostName
 		{

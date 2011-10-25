@@ -272,7 +272,7 @@ namespace UT_WammerStation
 
 			Assert.AreEqual("develop.waveface.com", CloudServer.HostName);
 			Assert.AreEqual(8080, CloudServer.Port);
-			Assert.AreEqual("v1", CloudServer.DEF_BASE_PATH);
+			Assert.AreEqual("v2", CloudServer.DEF_BASE_PATH);
 
 			CloudServer.HostName = "127.0.0.1";
 			CloudServer.Port = 80;
