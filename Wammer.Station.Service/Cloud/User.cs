@@ -22,9 +22,9 @@ namespace Wammer.Cloud
 		public static User LogIn(WebClient agent, string username, string passwd)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>();
-			parameters.Add("email", username);
-			parameters.Add("password", passwd);
-			parameters.Add("api_key", CloudServer.APIKey);
+			parameters.Add(CloudServer.PARAM_EMAIL, username);
+			parameters.Add(CloudServer.PARAM_PASSWORD, passwd);
+			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
 
 			UserLogInResponse res = CloudServer.requestPath<UserLogInResponse>(
 				agent, "auth/login", parameters);

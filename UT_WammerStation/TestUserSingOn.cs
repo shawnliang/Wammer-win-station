@@ -33,7 +33,7 @@ namespace UT_WammerStation
 
 				Assert.AreEqual("/" + Wammer.Cloud.CloudServer.DEF_BASE_PATH + "/auth/login", 
 					fakeCloud.RequestedPath);
-				Assert.AreEqual("email=user1&password=passwd1&api_key=apiKey1",
+				Assert.AreEqual("email=user1&password=passwd1&apikey=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
 					fakeCloud.RequestedContentType);
@@ -99,7 +99,7 @@ namespace UT_WammerStation
 
 				Assert.AreEqual("/" + Wammer.Cloud.CloudServer.DEF_BASE_PATH + "/stations/signup",
 					fakeCloud.RequestedPath);
-				Assert.AreEqual("session_token=userToken1&station_id=stationId1&api_key=apiKey1",
+				Assert.AreEqual("session_token=userToken1&station_id=stationId1&apikey=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
 					fakeCloud.RequestedContentType);
@@ -144,7 +144,7 @@ namespace UT_WammerStation
 				station.LogOn(agent);
 				Assert.AreEqual("/" + Wammer.Cloud.CloudServer.DEF_BASE_PATH + "/stations/logOn",
 					fakeCloud.RequestedPath);
-				Assert.AreEqual("session_token=token1&station_id=sid1&api_key=apiKey1",
+				Assert.AreEqual("session_token=token1&station_id=sid1&apikey=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
 					fakeCloud.RequestedContentType);
@@ -171,7 +171,7 @@ namespace UT_WammerStation
 					fakeCloud.RequestedPath);
 				Assert.AreEqual(
 					"host_name=hostname1&ip_address=ip1&port=9999&" +
-					"session_token=token1&station_id=sid1&api_key=apiKey1",
+					"session_token=token1&station_id=sid1&apikey=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
 					fakeCloud.RequestedContentType);
@@ -197,7 +197,7 @@ namespace UT_WammerStation
 					fakeCloud.RequestedPath);
 				Assert.AreEqual(
 					"key=" + HttpUtility.UrlEncode(@"<>+@/\|") + 
-					"&session_token=token1&station_id=sid1&api_key=apiKey1",
+					"&session_token=token1&station_id=sid1&apikey=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
 					fakeCloud.RequestedContentType);
