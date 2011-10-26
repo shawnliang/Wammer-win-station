@@ -44,22 +44,6 @@ namespace Wammer.Station.Service
 
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
 
-			// TODO: these lines will be removed after how space is used is defined.
-			if (!Directory.Exists("resource"))
-				Directory.CreateDirectory("resource");
-			if (!Directory.Exists(@"resource\space1"))
-				Directory.CreateDirectory(@"resource\space1");
-			if (!Directory.Exists(@"resource\space1\100"))
-				Directory.CreateDirectory(@"resource\space1\100");
-			if (!Directory.Exists(@"resource\space1\101"))
-				Directory.CreateDirectory(@"resource\space1\101");
-			if (!Directory.Exists(@"resource\space1\102"))
-				Directory.CreateDirectory(@"resource\space1\102");
-			if (!Directory.Exists(@"resource\space1\103"))
-				Directory.CreateDirectory(@"resource\space1\103");
-			if (!Directory.Exists(@"resource\space1\104"))
-				Directory.CreateDirectory(@"resource\space1\104");
-
 			server = new HttpServer(9981); // TODO: remove hard code
 			BypassHttpHandler cloudForwarder = new BypassHttpHandler(
 															CloudServer.HostName, CloudServer.Port);
@@ -70,9 +54,9 @@ namespace Wammer.Station.Service
 			server.AddDefaultHandler(cloudForwarder);
 
 			server.AddHandler("/", new DummyHandler());
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/objects/view/",
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
 							new ViewObjectHandler("resource"));
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/objects/upload/",
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
 							new ObjectUploadHandler());
 			server.Start();
 
