@@ -34,13 +34,25 @@ namespace Wammer.Station
 			}
 		}
 
-		public static void RespondFailure(HttpListenerResponse response,
-					Exception e, int status)
+		public static void RespondFailure(HttpListenerResponse response, Exception e, int status)
 		{
 			CloudResponse json = new CloudResponse(status,
 					DateTime.Now.ToUniversalTime(), -1, e.Message);
 
 			RespondFailure(response, json);
+		}
+
+		public static void RespondSuccess(HttpListenerResponse response, object jsonObj)
+		{
+			response.StatusCode = 200;
+			response.ContentType = "application/json";
+
+			using (StreamWriter w = new StreamWriter(response.OutputStream))
+			{
+				string json = fastJSON.JSON.Instance.ToJSON(jsonObj, false, false, false, false);
+				response.ContentLength64 = json.Length;
+				w.Write(json);
+			}
 		}
 	}
 }

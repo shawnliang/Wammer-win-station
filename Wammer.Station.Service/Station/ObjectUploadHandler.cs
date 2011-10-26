@@ -27,12 +27,15 @@ namespace Wammer.Station
 		protected override void HandleRequest()
 		{
 			Attachment file = GetFileFromMultiPartData();
+
+			if (file.ObjectId == null)
+				file.ObjectId = Guid.NewGuid().ToString();
+
 			string savedName = GetSavedFilename(file);
 			storage.Save(savedName, file.RawData);
 
-			ObjectUploadResponse json =
-							ObjectUploadResponse.CreateSuccess(file.ObjectId);
-			respondSuccess(Response, json);
+			ObjectUploadResponse json = ObjectUploadResponse.CreateSuccess(file.ObjectId);
+			HttpHelper.RespondSuccess(Response, json);
 		}
 
 		private static string GetSavedFilename(Attachment file)
@@ -45,20 +48,6 @@ namespace Wammer.Station
 			else
 			{
 				return file.ObjectId;
-			}
-		}
-
-		private static void respondSuccess(HttpListenerResponse response,
-												ObjectUploadResponse jsonObj)
-		{
-			response.StatusCode = 200;
-			response.ContentType = "application/json";
-
-			using (StreamWriter w = new StreamWriter(response.OutputStream))
-			{
-				string json = fastJSON.JSON.Instance.ToJSON(jsonObj, false, false, false, false);
-				response.ContentLength64 = json.Length;
-				w.Write(json);
 			}
 		}
 
@@ -85,9 +74,6 @@ namespace Wammer.Station
 			{
 				throw new FormatException("Unknown attachment type: " + Parameters["type"], e);
 			}
-
-			if (file.ObjectId == null)
-				throw new FormatException("object_id is missing in file upload multipart data");
 
 			if (file.Filename == null)
 				throw new FormatException("filename is missing in file upload multipart data");

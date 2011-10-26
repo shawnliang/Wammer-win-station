@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt" />
+    <Content Include="TestData\ObjectUpload1_noObjId.txt" />
     <Content Include="TestData\ObjectUpload1.txt" />
     <Content Include="TestData\SimpleMultiPartContent.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
