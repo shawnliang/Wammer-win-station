@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Cloud\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
+    <Compile Include="Cloud\Attachment.cs" />
     <Compile Include="Cloud\ObjectUploadResponse.cs" />
     <Compile Include="Cloud\Station.cs" />
     <Compile Include="Cloud\StationSignUpResponse.cs" />

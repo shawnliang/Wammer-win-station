@@ -65,13 +65,11 @@ namespace UT_WammerStation
 		public void TestFileStorage()
 		{
 			Directory.CreateDirectory(@"resource");
-			Directory.CreateDirectory(@"resource\space1");
-			Directory.CreateDirectory(@"resource\space1\100");
 
 			FileStorage storage = new FileStorage("resource");
-			storage.Save("space1", FileType.ImgOriginal, "id1.jpeg", file);
+			storage.Save("id1.jpeg", file);
 
-			using (FileStream f = File.OpenRead(@"resource\space1\100\id1.jpeg"))
+			using (FileStream f = File.OpenRead(@"resource\id1.jpeg"))
 			{
 				Assert.AreEqual(file.Length, f.Length);
 				byte[] savedFile = new byte[file.Length];
@@ -83,27 +81,16 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(DirectoryNotFoundException))]
-		public void TestResourcePathHasToBeCreatedInAdvance()
-		{
-			FileStorage storage = new FileStorage("resource");
-			storage.Save("space1", FileType.ImgOriginal, "id1.jpeg", file);
-		}
-
-		[TestMethod]
 		public void TestAsyncSave()
 		{
 			Directory.CreateDirectory(@"resource");
-			Directory.CreateDirectory(@"resource\space1");
-			Directory.CreateDirectory(@"resource\space1\100");
 
 			FileStorage storage = new FileStorage("resource");
-			IAsyncResult async = storage.BeginSave("space1", FileType.ImgOriginal, "id1.jpeg", file,
-				null, null);
+			IAsyncResult async = storage.BeginSave("id1.jpeg", file, null, null);
 
 			storage.EndSave(async);
 
-			using (FileStream f = File.OpenRead(@"resource\space1\100\id1.jpeg"))
+			using (FileStream f = File.OpenRead(@"resource\id1.jpeg"))
 			{
 				Assert.AreEqual(file.Length, f.Length);
 				byte[] savedFile = new byte[file.Length];
@@ -118,8 +105,6 @@ namespace UT_WammerStation
 		public void TestObjectReceiveHandler()
 		{
 			Directory.CreateDirectory(@"resource");
-			Directory.CreateDirectory(@"resource\space1");
-			Directory.CreateDirectory(@"resource\space1\100");
 
 			using (HttpServer server = new HttpServer(80))
 			{
@@ -157,61 +142,12 @@ namespace UT_WammerStation
 				Assert.AreEqual("object_id1", res.object_id);
 
 
-				using (FileStream fs = File.OpenRead(@"resource\space1\100\object_id1.jpeg"))
+				using (FileStream fs = File.OpenRead(@"resource\object_id1.jpeg"))
 				using (StreamReader ss = new StreamReader(fs))
 				{
 					string fileContent = ss.ReadToEnd();
 					Assert.AreEqual("1234567890abcdefghij", fileContent);
 				}
-			}
-		}
-
-		[TestMethod]
-		public void TestObjectReceiveHandler_ServerError()
-		{
-			using (HttpServer server = new HttpServer(80))
-			{
-				server.AddHandler("/test/", new ObjectUploadHandler());
-				server.Start();
-
-				HttpWebRequest requst = (HttpWebRequest)WebRequest.
-											Create("http://localhost/test/");
-				requst.ContentType = "multipart/form-data; boundary=AaB03x";
-				requst.Method = "POST";
-				using (FileStream fs = new FileStream("ObjectUpload1.txt", FileMode.Open))
-				using (Stream outStream = requst.GetRequestStream())
-				{
-					fs.CopyTo(outStream);
-				}
-
-				try
-				{
-					requst.GetResponse();
-				}
-				catch (WebException e)
-				{
-					HttpWebResponse response = (HttpWebResponse)e.Response;
-					Assert.AreEqual(HttpStatusCode.InternalServerError, response.StatusCode);
-					byte[] resData = null;
-
-					using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-					{
-						resData = reader.ReadBytes((int)response.ContentLength);
-						Assert.AreEqual(response.ContentLength, resData.Length);
-					}
-
-					string responseString = Encoding.UTF8.GetString(resData);
-					ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
-											<ObjectUploadResponse>(responseString);
-
-					Assert.AreEqual(500, res.status);
-					Assert.IsNotNull(res.timestamp);
-					Assert.AreNotEqual(0, res.app_ret_code);
-					Assert.AreNotEqual("Success", res.app_ret_msg);
-					return;
-				}
-
-				Assert.Fail("expected exception is not thrown");
 			}
 		}
 

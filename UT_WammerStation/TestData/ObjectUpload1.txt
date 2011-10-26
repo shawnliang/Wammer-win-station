@@ -1,8 +1,8 @@
 ﻿
 --AaB03x
-Content-Disposition: form-data; name="file_type"
+Content-Disposition: form-data; name="type"
 
-100
+image
 --AaB03x
 Content-Disposition: form-data; name="object_id"
 
@@ -13,4 +13,12 @@ Content-Transfer-Encoding: 8bit
 Content-Type: image/jpeg
 
 1234567890abcdefghij
+--AaB03x
+Content-Disposition: form-data; name="title"
+
+title1
+--AaB03x
+Content-Disposition: form-data; name="description"
+
+desc
 --AaB03x--

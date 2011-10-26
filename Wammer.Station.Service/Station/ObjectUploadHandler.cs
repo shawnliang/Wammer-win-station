@@ -26,25 +26,25 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			FileUpload file = GetFileFromMultiPartData();
+			Attachment file = GetFileFromMultiPartData();
 			string savedName = GetSavedFilename(file);
-			storage.Save("space1", file.type, savedName, file.fileContent);
+			storage.Save(savedName, file.RawData);
 
 			ObjectUploadResponse json =
-							ObjectUploadResponse.CreateSuccess(file.objectId);
+							ObjectUploadResponse.CreateSuccess(file.ObjectId);
 			respondSuccess(Response, json);
 		}
 
-		private static string GetSavedFilename(FileUpload file)
+		private static string GetSavedFilename(Attachment file)
 		{
-			string originalSuffix = Path.GetExtension(file.filename);
+			string originalSuffix = Path.GetExtension(file.Filename);
 			if (originalSuffix != null)
 			{
-				return file.objectId + originalSuffix;
+				return file.ObjectId + originalSuffix;
 			}
 			else
 			{
-				return file.objectId;
+				return file.ObjectId;
 			}
 		}
 
@@ -62,48 +62,58 @@ namespace Wammer.Station
 			}
 		}
 
-		private FileUpload GetFileFromMultiPartData()
+		private Attachment GetFileFromMultiPartData()
 		{
-			FileUpload file = new FileUpload();
+			Attachment file = new Attachment();
 
-			file.objectId = Parameters["object_id"];
-			file.type = (FileType)Enum.Parse(typeof(FileType), Parameters["file_type"]);
-			file.fileContent = Files[0].Data;
-			file.filename = Files[0].Name;
-			file.contentType = Files[0].ContentType;
+			file.ObjectId = Parameters["object_id"];
+			file.RawData = Files[0].Data;
+			file.Filename = Files[0].Name;
+			file.ContentType = Files[0].ContentType;
+			file.Title = Parameters["title"];
+			file.Description = Parameters["description"];
 
-			if (file.objectId == null)
+			if (Parameters["type"]==null)
+				throw new FormatException("type is missing in file upload multipart data");
+
+			try
+			{
+				file.Kind = (AttachmentType)Enum.Parse(typeof(AttachmentType),
+																			Parameters["type"], true);
+			}
+			catch (ArgumentException e)
+			{
+				throw new FormatException("Unknown attachment type: " + Parameters["type"], e);
+			}
+
+			if (file.ObjectId == null)
 				throw new FormatException("object_id is missing in file upload multipart data");
 
-			if (file.filename == null)
+			if (file.Filename == null)
 				throw new FormatException("filename is missing in file upload multipart data");
 
-			if (file.fileContent == null)
+			if (file.RawData == null)
 				throw new FormatException("file is missing in file upload multipart data");
-
-			if (file.type == FileType.None)
-				throw new FormatException("filetype is missing in file upload multipart data");
 
 			return file;
 		}
 	}
 
 
-	class FileUpload
+	class Attachment
 	{
-		public string filename;
-		public FileType type;
-		public string objectId;
-		public byte[] fileContent;
-		public string contentType;
+		public string Filename { get; set; }
+		public string ObjectId { get; set; }
+		public byte[] RawData { get; set; }
+		public string ContentType { get; set; }
+		public string Title { get; set; }
+		public string Description { get; set; }
+		public AttachmentType Kind { get; set; }
 
-		public FileUpload()
+
+		public Attachment()
 		{
-			filename = null;
-			type = FileType.None;
-			objectId = null;
-			fileContent = null;
-			contentType = null;
 		}
 	}
+
 }

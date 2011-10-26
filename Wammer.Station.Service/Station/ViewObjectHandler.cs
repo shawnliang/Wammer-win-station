@@ -33,16 +33,19 @@ namespace Wammer.Station
 				if (objectId == null)
 					throw new ArgumentException("missing required param: object_id");
 
-				string fileType = Parameters["file_type"];
-				if (fileType == null)
-					throw new ArgumentException("missing required param: file_type");
+				ImageMeta imageMeta;
 
-				FileType type = (FileType)Enum.Parse(typeof(FileType), fileType);
+				if (Parameters["image_meta"] == null)
+					imageMeta = ImageMeta.Original;
+				else
+					imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta), 
+																	Parameters["image_meta"], true);
 
-				string filename = FileStorage.GetSavedFile(baseDir, objectId, type);
+				//FIXME : should return image based on imageMeta
+				string filename = FileStorage.GetSavedFile(baseDir, objectId);
 
 				Response.StatusCode = 200;
-				Response.ContentType = "image/jpeg";
+				Response.ContentType = "image/jpeg"; //FIXME: query db to get correct content type
 
 				using (Stream toStream = Response.OutputStream)
 				using (FileStream fs = File.OpenRead(filename))
