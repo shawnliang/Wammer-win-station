@@ -17,7 +17,7 @@ namespace Wammer.Station
 			try
 			{
 				string resText = fastJSON.JSON.Instance.ToJSON(
-											json, false, false, false, false);
+							  json, false, false, false, false);
 
 				response.StatusCode = json.status;
 				response.ContentType = "application/json";
@@ -35,10 +35,10 @@ namespace Wammer.Station
 		}
 
 		public static void RespondFailure(HttpListenerResponse response,
-								Exception e, int status)
+					Exception e, int status)
 		{
 			CloudResponse json = new CloudResponse(status,
-							DateTime.Now.ToUniversalTime(), -1, e.Message);
+					DateTime.Now.ToUniversalTime(), -1, e.Message);
 
 			RespondFailure(response, json);
 		}

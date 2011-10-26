@@ -13,9 +13,16 @@ namespace Wammer.Station
 	public class ViewObjectHandler: HttpHandler
 	{
 		private string baseDir;
+
 		public ViewObjectHandler(string resourceFolder)
+			:base()
 		{
 			baseDir = resourceFolder;
+		}
+
+		public override object Clone()
+		{
+			return new ViewObjectHandler(baseDir);
 		}
 
 		protected override void HandleRequest()

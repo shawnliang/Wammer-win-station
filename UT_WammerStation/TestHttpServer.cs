@@ -19,11 +19,21 @@ namespace UT_WammerStation
 			this.response = Encoding.ASCII.GetBytes(response);
 		}
 
+		public MyHandler(byte[] response)
+		{
+			this.response = response;
+		}
+
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
 			response.StatusCode = 200;
 			response.OutputStream.Write(this.response, 0, this.response.Length);
 			response.Close();
+		}
+
+		public object Clone()
+		{
+			return new MyHandler(response);
 		}
 	}
 
@@ -59,7 +69,7 @@ namespace UT_WammerStation
 			using (HttpServer server = new HttpServer(80))
 			{
 				string reply1 = "from handler1";
-				
+
 				server.AddDefaultHandler(new MyHandler("1234567890"));
 				server.AddHandler("/class1/action1/", new MyHandler(reply1));
 				server.Start();
@@ -90,43 +100,6 @@ namespace UT_WammerStation
 				catch (WebException e)
 				{
 					Assert.AreEqual(WebExceptionStatus.ProtocolError, e.Status);
-					return;
-				}
-				Assert.Fail("expected exception is not thrown");
-			}
-		}
-
-		[TestMethod]
-		public void TestNotFoundHandler()
-		{
-			using (HttpServer server = new HttpServer(80))
-			{
-				string reply1 = "from handler1";
-
-				server.AddHandler("/class1/action1/", new MyHandler(reply1));
-				server.AddDefaultHandler(new NotFoundHandler());
-				server.Start();
-
-				try
-				{
-					WebClient agent = new WebClient();
-					string replyFromHandler1 = agent.DownloadString(
-										"http://127.0.0.1:80/class1/action1/pp/");
-				}
-				catch (WebException e)
-				{
-					Assert.AreEqual(WebExceptionStatus.ProtocolError, e.Status);
-					Assert.AreEqual("application/json", e.Response.ContentType);
-					using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
-					{
-						string resp = r.ReadToEnd();
-						Assert.AreEqual(
-							"{\"status\":\"404\"," +
-					"\"app_ret_code\":\"-1\"," +
-					"\"app_ret_msg\":\"unknown class/method\" }",
-							resp
-						);
-					}
 					return;
 				}
 				Assert.Fail("expected exception is not thrown");

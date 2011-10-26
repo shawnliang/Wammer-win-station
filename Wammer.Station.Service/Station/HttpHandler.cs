@@ -6,6 +6,8 @@ using System.Net;
 using System.IO;
 using System.Web;
 
+using Wammer.MultiPart;
+
 namespace Wammer.Station
 {
 	public class UploadedFile
@@ -28,23 +30,100 @@ namespace Wammer.Station
 		public HttpListenerRequest Request { get; private set; }
 		public HttpListenerResponse Response { get; private set; }
 		public NameValueCollection Parameters { get; private set; }
-		protected readonly Dictionary<string, byte[]> files;
+		public List<UploadedFile> Files { get; private set; }
+
+		private const string BOUNDARY = "boundary=";
+		private const string URL_ENCODED_FORM = "application/x-www-form-urlencoded";
+		private const string MULTIPART_FORM = "multipart/form-data";
+
+		protected HttpHandler()
+		{
+			this.Request = null;
+			this.Response = null;
+			this.Parameters = null;
+			this.Files = new List<UploadedFile>();
+		}
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
 			this.Request = request;
 			this.Response = response;
-			this.Parameters = GetRequestParams(request);
+			this.Parameters = InitParameters(request);
+
+			if (HasMultiPartFormData(request))
+			{
+				string boundary = GetMultipartBoundary(request.ContentType);
+				MultiPart.Parser parser = new Parser(boundary);
+
+				Part[] parts = parser.Parse(request.InputStream);
+				foreach (Part part in parts)
+				{
+					if (part.ContentDisposition == null)
+						continue;
+
+					ExtractParamsFromMultiPartFormData(part);
+				}
+			}
 
 			HandleRequest();
 		}
 
-		protected abstract void HandleRequest();
-
-
-		private static NameValueCollection GetRequestParams(HttpListenerRequest req)
+		private void ExtractParamsFromMultiPartFormData(Part part)
 		{
-			if (req.HttpMethod.ToUpper().Equals("POST"))
+			Disposition disp = part.ContentDisposition;
+
+			if (disp == null)
+				throw new ArgumentException("incorrect use of this function: " +
+														"input part.ContentDisposition is null");
+
+			if (disp.Value.ToLower().Equals("form-data"))
+			{
+				string filename = disp.Parameters["filename"];
+
+				if (filename != null)
+				{
+					UploadedFile file = new UploadedFile(filename, part.Bytes,
+																	part.Headers["Content-Type"]);
+					this.Files.Add(file);
+				}
+				else
+				{
+					string name = part.ContentDisposition.Parameters["name"];
+					this.Parameters.Add(name, part.Text);
+				}
+			}
+		}
+
+		protected abstract void HandleRequest();
+		public abstract object Clone();
+
+		private static bool HasMultiPartFormData(HttpListenerRequest request)
+		{
+			return request.ContentType != null &&
+							request.ContentType.ToLower().StartsWith(MULTIPART_FORM);
+		}
+
+		private static string GetMultipartBoundary(string contentType)
+		{
+			if (contentType == null)
+				throw new ArgumentNullException();
+
+			try {
+				int idx = contentType.ToLower().IndexOf(BOUNDARY);
+				string boundary = contentType.Substring(idx + BOUNDARY.Length);
+				return boundary;
+			}
+			catch (Exception e)
+			{
+				throw new FormatException("Error finding multipart boundary. Content-Type: " +
+																					contentType, e);
+			}
+		}
+
+		private static NameValueCollection InitParameters(HttpListenerRequest req)
+		{
+			if (req.HttpMethod.ToUpper().Equals("POST") &&
+				req.ContentType.ToLower().Equals(URL_ENCODED_FORM))
 			{
 				using (StreamReader s = new StreamReader(req.InputStream))
 				{
@@ -56,9 +135,8 @@ namespace Wammer.Station
 			{
 				return req.QueryString;
 			}
-			else
-				throw new NotSupportedException(
-									"Method is not support: " + req.HttpMethod);
+
+			return new NameValueCollection();
 		}
 	}
 }

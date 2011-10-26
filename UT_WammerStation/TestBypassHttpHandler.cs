@@ -32,18 +32,23 @@ namespace UT_WammerStation
 					w.Write(this.msg);
 			}
 		}
+
+		public object Clone()
+		{
+			return new ErrorHttpHandler(status, msg);
+		}
 	}
 
 
 	class MyForwardedHandler: IHttpHandler
 	{
-		public CookieCollection recvCookies;
-		public NameValueCollection recvQueryString;
-		public string recvData;
-		public string recvContentType;
-		public long recvContentLength;
-		public string recvMethod;
-		public string recvPath;
+		public static CookieCollection recvCookies;
+		public static NameValueCollection recvQueryString;
+		public static string recvData;
+		public static string recvContentType;
+		public static long recvContentLength;
+		public static string recvMethod;
+		public static string recvPath;
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
@@ -67,6 +72,11 @@ namespace UT_WammerStation
 				w.Write("write from target");
 			}
 		}
+
+		public object Clone()
+		{
+			return new MyForwardedHandler();
+		}
 	}
 
 	[TestClass]
@@ -75,7 +85,7 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestByPass()
 		{
-			
+
 			using (HttpServer proxyServer = new HttpServer(80))
 			using (HttpServer targetServer = new HttpServer(8080))
 			{
@@ -104,16 +114,16 @@ namespace UT_WammerStation
 
 				HttpWebResponse resp = (HttpWebResponse)request.GetResponse();
 
-				Assert.AreEqual(request.ContentType, target.recvContentType);
-				Assert.AreEqual(request.ContentLength, target.recvContentLength);
-				Assert.AreEqual(request.Method, target.recvMethod);
-				Assert.AreEqual("val1", target.recvCookies["cookie1"].Value);
-				Assert.AreEqual("val2", target.recvCookies["cookie2"].Value);
-				Assert.AreEqual(2, target.recvCookies.Count);
-				Assert.AreEqual("123", target.recvQueryString["abc"]);
-				Assert.AreEqual("wsx", target.recvQueryString["qaz"]);
-				Assert.AreEqual("/target/", target.recvPath);
-				Assert.AreEqual("1234567890qwertyuiop", target.recvData);
+				Assert.AreEqual(request.ContentType, MyForwardedHandler.recvContentType);
+				Assert.AreEqual(request.ContentLength, MyForwardedHandler.recvContentLength);
+				Assert.AreEqual(request.Method, MyForwardedHandler.recvMethod);
+				Assert.AreEqual("val1", MyForwardedHandler.recvCookies["cookie1"].Value);
+				Assert.AreEqual("val2", MyForwardedHandler.recvCookies["cookie2"].Value);
+				Assert.AreEqual(2, MyForwardedHandler.recvCookies.Count);
+				Assert.AreEqual("123", MyForwardedHandler.recvQueryString["abc"]);
+				Assert.AreEqual("wsx", MyForwardedHandler.recvQueryString["qaz"]);
+				Assert.AreEqual("/target/", MyForwardedHandler.recvPath);
+				Assert.AreEqual("1234567890qwertyuiop", MyForwardedHandler.recvData);
 
 				using (StreamReader r = new StreamReader(resp.GetResponseStream()))
 				{
@@ -255,7 +265,7 @@ namespace UT_WammerStation
 				}
 				catch (WebException e)
 				{
-					Assert.AreEqual(HttpStatusCode.BadGateway, 
+					Assert.AreEqual(HttpStatusCode.BadGateway,
 														((HttpWebResponse)e.Response).StatusCode);
 					using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
 					{

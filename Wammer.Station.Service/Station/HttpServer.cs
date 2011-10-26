@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Wammer.Station
 {
-	public interface IHttpHandler
+	public interface IHttpHandler : ICloneable
 	{
 		void HandleRequest(HttpListenerRequest request, HttpListenerResponse response);
 	}
@@ -154,7 +154,7 @@ namespace Wammer.Station
 			if (handler == null)
 				throw new ArgumentNullException();
 
-			this.handler = handler;
+			this.handler = (IHttpHandler)handler.Clone();
 		}
 
 		public void Do(object state)
@@ -164,6 +164,10 @@ namespace Wammer.Station
 			try
 			{
 				this.handler.HandleRequest(ctx.Request, ctx.Response);
+			}
+			catch (FormatException e)
+			{
+				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.BadRequest);
 			}
 			catch (Exception e)
 			{

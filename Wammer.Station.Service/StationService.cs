@@ -138,5 +138,10 @@ namespace Wammer.Station.Service
 		{
 			Debug.Fail("should not reach this code");
 		}
+
+		public object Clone()
+		{
+			return new DummyHandler();
+		}
 	}
 }

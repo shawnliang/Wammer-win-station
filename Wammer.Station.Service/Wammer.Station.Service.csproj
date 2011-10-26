@@ -101,7 +101,6 @@
     <Compile Include="Station\HttpHelper.cs" />
     <Compile Include="Station\HttpServer.cs" />
     <Compile Include="Station\ObjectUploadHandler.cs" />
-    <Compile Include="Station\NotFoundHandler.cs" />
     <Compile Include="Station\StationRegistry.cs" />
     <Compile Include="Station\ViewObjectHandler.cs" />
   </ItemGroup>

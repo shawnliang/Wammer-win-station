@@ -20,6 +20,18 @@ namespace Wammer.Station
 			this.port = port;
 		}
 
+		public BypassHttpHandler(string host, int port, List<string> exceptPrefixes)
+		{
+			this.host = host;
+			this.port = port;
+			this.exceptPrefixes = exceptPrefixes;
+		}
+
+		public object Clone()
+		{
+			return new BypassHttpHandler(host, port, exceptPrefixes);
+		}
+
 		public void HandleRequest(HttpListenerRequest origReq, HttpListenerResponse response)
 		{
 			try
