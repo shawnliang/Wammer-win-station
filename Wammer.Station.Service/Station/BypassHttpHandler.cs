@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.IO;
-using Wammer.IO;
+using Wammer.Utility;
 using Wammer.Cloud;
 
 namespace Wammer.Station

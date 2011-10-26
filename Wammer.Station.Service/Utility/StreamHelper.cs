@@ -4,9 +4,9 @@ using System.Text;
 
 using System.IO;
 
-namespace Wammer.IO
+namespace Wammer.Utility
 {
-	class StreamHelper
+	static class StreamHelper
 	{
 		public static void Copy(Stream from, Stream to)
 		{

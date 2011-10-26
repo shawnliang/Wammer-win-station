@@ -118,7 +118,7 @@ namespace Wammer.MultiPart
 		{
 			using (MemoryStream m = new MemoryStream())
 			{
-				Wammer.IO.StreamHelper.Copy(stream, m);
+				Wammer.Utility.StreamHelper.Copy(stream, m);
 				return m.ToArray();
 			}
 		}

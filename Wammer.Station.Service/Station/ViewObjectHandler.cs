@@ -50,7 +50,7 @@ namespace Wammer.Station
 				using (Stream toStream = Response.OutputStream)
 				using (FileStream fs = File.OpenRead(filename))
 				{
-					Wammer.IO.StreamHelper.Copy(fs, toStream);
+					Wammer.Utility.StreamHelper.Copy(fs, toStream);
 				}
 			}
 			catch (ArgumentException e)
