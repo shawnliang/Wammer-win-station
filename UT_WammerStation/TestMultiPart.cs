@@ -33,15 +33,17 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestSingle()
 		{
-			FileStream f = new FileStream("SingeMultiPart.txt", FileMode.Open);
-			Wammer.MultiPart.Parser parser =
-								new Wammer.MultiPart.Parser("simple boundary");
-			Wammer.MultiPart.Part[] parts = parser.Parse(f);
-			Assert.AreEqual(1, parts.Length);
-			Assert.AreEqual(
-				"This is implicitly typed plain ASCII text.\r\n" +
-				"It does NOT end with a linebreak.",
-				parts[0].Text);
+			using (FileStream f = new FileStream("SingeMultiPart.txt", FileMode.Open))
+			{
+				Wammer.MultiPart.Parser parser =
+								   new Wammer.MultiPart.Parser("simple boundary");
+				Wammer.MultiPart.Part[] parts = parser.Parse(f);
+				Assert.AreEqual(1, parts.Length);
+				Assert.AreEqual(
+					"This is implicitly typed plain ASCII text.\r\n" +
+					"It does NOT end with a linebreak.",
+					parts[0].Text);
+			}
 		}
 
 		[TestMethod]
