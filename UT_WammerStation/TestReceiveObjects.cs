@@ -105,29 +105,13 @@ namespace UT_WammerStation
 				server.AddHandler("/test/", new ObjectUploadHandler());
 				server.Start();
 
-				HttpWebRequest requst = (HttpWebRequest)WebRequest.
-											Create("http://localhost/test/");
-				requst.ContentType = "multipart/form-data; boundary=AaB03x";
-				requst.Method = "POST";
-				using (FileStream fs = new FileStream("ObjectUpload1.txt", FileMode.Open))
-				using (Stream outStream = requst.GetRequestStream())
-				{
-					fs.CopyTo(outStream);
-				}
+				FakeClient client = new FakeClient("http://localhost/test/",
+															"multipart/form-data; boundary=AaB03x");
+				FakeClientResult result = client.PostFile("ObjectUpload1.txt");
 
 
-				HttpWebResponse response = (HttpWebResponse)requst.GetResponse();
-				byte[] resData = null;
-
-				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-				{
-					resData = reader.ReadBytes((int)response.ContentLength);
-					Assert.AreEqual(response.ContentLength, resData.Length);
-				}
-
-				string responseString = Encoding.UTF8.GetString(resData);
 				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
-										<ObjectUploadResponse>(responseString);
+										<ObjectUploadResponse>(result.ResponseAsText);
 
 				Assert.AreEqual(200, res.status);
 				Assert.IsNotNull(res.timestamp);
@@ -153,29 +137,12 @@ namespace UT_WammerStation
 				server.AddHandler("/test/", new ObjectUploadHandler());
 				server.Start();
 
-				HttpWebRequest requst = (HttpWebRequest)WebRequest.
-											Create("http://localhost/test/");
-				requst.ContentType = "multipart/form-data; boundary=AaB03x";
-				requst.Method = "POST";
-				using (FileStream fs = new FileStream("ObjectUpload1_noObjId.txt", FileMode.Open))
-				using (Stream outStream = requst.GetRequestStream())
-				{
-					fs.CopyTo(outStream);
-				}
+				FakeClient client = new FakeClient("http://localhost/test/",
+															"multipart/form-data; boundary=AaB03x");
+				FakeClientResult result = client.PostFile("ObjectUpload1_noObjId.txt");
 
-
-				HttpWebResponse response = (HttpWebResponse)requst.GetResponse();
-				byte[] resData = null;
-
-				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-				{
-					resData = reader.ReadBytes((int)response.ContentLength);
-					Assert.AreEqual(response.ContentLength, resData.Length);
-				}
-
-				string responseString = Encoding.UTF8.GetString(resData);
 				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
-										<ObjectUploadResponse>(responseString);
+										<ObjectUploadResponse>(result.ResponseAsText);
 
 				Assert.AreEqual(200, res.status);
 				Assert.IsNotNull(res.timestamp);
@@ -200,44 +167,20 @@ namespace UT_WammerStation
 				server.AddHandler("/test/", new ObjectUploadHandler());
 				server.Start();
 
-				HttpWebRequest requst = (HttpWebRequest)WebRequest.
-											Create("http://localhost/test/");
-				requst.ContentType = "multipart/form-data; boundary=AaB03x";
-				requst.Method = "POST";
-				using (FileStream fs = new FileStream("SingeMultiPart.txt", FileMode.Open))
-				using (Stream outStream = requst.GetRequestStream())
-				{
-					fs.CopyTo(outStream);
-				}
-				try
-				{
-					requst.GetResponse();
-				}
-				catch (WebException e)
-				{
-					HttpWebResponse response = (HttpWebResponse)e.Response;
-					Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
-					byte[] resData = null;
+				FakeClient client = new FakeClient("http://localhost/test/",
+														"multipart/form-data; boundary=AaB03x");
+				FakeClientResult result = client.PostFile("SingeMultiPart.txt");
 
-					using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-					{
-						resData = reader.ReadBytes((int)response.ContentLength);
-						Assert.AreEqual(response.ContentLength, resData.Length);
-					}
 
-					string responseString = Encoding.UTF8.GetString(resData);
-					ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
-											<ObjectUploadResponse>(responseString);
+				Assert.AreEqual(HttpStatusCode.BadRequest, result.Status);
+				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
+										<ObjectUploadResponse>(result.ResponseAsText);
 
-					Assert.AreEqual(400, res.status);
-					Assert.IsNotNull(res.timestamp);
-					Assert.AreNotEqual(0, res.app_ret_code);
-					Assert.AreNotEqual("Success", res.app_ret_msg);
-					Assert.AreEqual(null, res.object_id);
-					return;
-				}
-
-				Assert.Fail("Expected exception is not thrown");
+				Assert.AreEqual(400, res.status);
+				Assert.IsNotNull(res.timestamp);
+				Assert.AreNotEqual(0, res.app_ret_code);
+				Assert.AreNotEqual("Success", res.app_ret_msg);
+				Assert.AreEqual(null, res.object_id);
 			}
 		}
 

@@ -1,0 +1,86 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Net;
+using System.IO;
+
+namespace UT_WammerStation
+{
+	class FakeClientResult
+	{
+		public byte[] RawData { get; set; }
+		public HttpStatusCode Status { get; set; }
+
+
+		public FakeClientResult(HttpStatusCode status, byte[] rawData)
+		{
+			RawData = rawData;
+			Status = status;
+		}
+
+		public string ResponseAsText
+		{
+			get 
+			{
+				return Encoding.UTF8.GetString(RawData);
+			}
+		}
+	}
+
+
+	class FakeClient
+	{
+		public string ContentType { get; set; }
+		public string Url { get; set; }
+
+
+		public FakeClient(string url)
+		{
+			this.Url = url;
+		}
+
+		public FakeClient(string url, string contentType)
+		{
+			this.Url = url;
+			this.ContentType = contentType;
+		}
+
+		public FakeClientResult PostFile(string filename)
+		{
+			HttpWebRequest requst = (HttpWebRequest)WebRequest.Create(Url);
+			requst.ContentType = this.ContentType;
+			requst.Method = "POST";
+
+			using (FileStream fs = new FileStream(filename, FileMode.Open))
+			using (Stream outStream = requst.GetRequestStream())
+			{
+				fs.CopyTo(outStream);
+			}
+
+			HttpWebResponse response = null;
+			HttpStatusCode status = HttpStatusCode.OK;
+
+			try
+			{
+				response = (HttpWebResponse)requst.GetResponse();
+			}
+			catch (WebException e)
+			{
+				response = (HttpWebResponse)e.Response;
+				status = ((HttpWebResponse)e.Response).StatusCode;
+			}
+
+			byte[] resData = null;
+
+			using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+			{
+				resData = reader.ReadBytes((int)response.ContentLength);
+				if (response.ContentLength != resData.Length)
+					throw new Exception("header content length is diff with actual length");
+
+				return new FakeClientResult(status, resData);
+			}
+		}
+	}
+}
