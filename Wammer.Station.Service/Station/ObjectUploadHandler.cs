@@ -13,7 +13,14 @@ namespace Wammer.Station
 	{
 		private FileStorage storage;
 
+		/// <summary>
+		/// Fired on the uploaded attachment is saved
+		/// </summary>
 		public event EventHandler<AttachmentUploadEventArgs> AttachmentSaved;
+		/// <summary>
+		/// Fired on the whole request processing is completed
+		/// </summary>
+		public event EventHandler<AttachmentUploadEventArgs> RequestCompleted;
 
 		public ObjectUploadHandler(FileStorage fileStore)
 			: base()
@@ -29,9 +36,7 @@ namespace Wammer.Station
 
 		public override object Clone()
 		{
-			ObjectUploadHandler handler = new ObjectUploadHandler(this.storage);
-			handler.AttachmentSaved += AttachmentSaved;
-			return handler;
+			return this.MemberwiseClone();
 		}
 
 		protected override void HandleRequest()
@@ -44,15 +49,27 @@ namespace Wammer.Station
 			string savedName = GetSavedFilename(file);
 			storage.Save(savedName, file.RawData);
 
-			OnAttachmentSaved(new AttachmentUploadEventArgs(file));
+			AttachmentUploadEventArgs evtArgs = new AttachmentUploadEventArgs(file);
+			OnAttachmentSaved(evtArgs);
 
 			ObjectUploadResponse json = ObjectUploadResponse.CreateSuccess(file.ObjectId);
 			HttpHelper.RespondSuccess(Response, json);
+
+			OnRequestCompleted(evtArgs);
 		}
 
 		protected void OnAttachmentSaved(AttachmentUploadEventArgs evt)
 		{
 			EventHandler<AttachmentUploadEventArgs> handler = AttachmentSaved;
+			if (handler != null)
+			{
+				handler(this, evt);
+			}
+		}
+
+		protected void OnRequestCompleted(AttachmentUploadEventArgs evt)
+		{
+			EventHandler<AttachmentUploadEventArgs> handler = RequestCompleted;
 			if (handler != null)
 			{
 				handler(this, evt);

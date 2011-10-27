@@ -26,6 +26,8 @@ namespace Wammer.Cloud
 		public const string PARAM_SESSION_TOKEN = "session_token";
 		public const string PARAM_STATION_ID = "station_id";
 
+		public static string SessionToken { get; set; }
+
 		public static string HostName
 		{
 			get
@@ -68,7 +70,7 @@ namespace Wammer.Cloud
 		/// <typeparam name="T">response type</typeparam>
 		/// <param name="agent">web client agent</param>
 		/// <param name="path">partial path of cloud url, http://host:port/base/partial_path</param>
-		/// <param name="parms">request parameter names and values. 
+		/// <param name="parms">request parameter names and values.
 		///	They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <returns>Response value</returns>
 		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms)

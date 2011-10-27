@@ -47,7 +47,6 @@ namespace Wammer.Cloud
 			Part filePart = new Part(imageData, 0, imageData.Length);
 			filePart.Headers.Add("Content-Disposition",
 											"form-data; name=file; filename=\"" + fileName + "\"");
-			//TODO: sanitize fileName
 
 			filePart.Headers.Add("Content-Type", contentType);
 
@@ -69,6 +68,8 @@ namespace Wammer.Cloud
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 			request.Method = "POST";
 			request.ContentType = "multipart/form-data; boundary=" + boundary;
+			request.CookieContainer = new CookieContainer();
+			request.CookieContainer.Add(new Cookie("session_token", CloudServer.SessionToken, "/", request.RequestUri.Host));
 
 			using (Stream s = request.GetRequestStream())
 			{

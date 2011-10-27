@@ -58,8 +58,15 @@ namespace Wammer.Station.Service
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
 							new ViewObjectHandler(storage));
+
+
+			ObjectUploadHandler attachmentHandler = new ObjectUploadHandler(storage);
+			ImagePostProcessing imgProc = new ImagePostProcessing(storage);
+			attachmentHandler.AttachmentSaved += imgProc.HandleAttachmentSaved;
+			attachmentHandler.RequestCompleted += imgProc.HandleRequestCompleted;
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
-							new ObjectUploadHandler(storage));
+							attachmentHandler);
+
 			server.Start();
 
 			if (!LogOnStation(9981))
@@ -68,7 +75,9 @@ namespace Wammer.Station.Service
 				//TODO: start a timer to retry
 			}
 			else
+			{
 				logger.Info("Station log on Wammer Cloud successfully");
+			}
 		}
 
 		private bool LogOnStation(int port)
@@ -89,6 +98,8 @@ namespace Wammer.Station.Service
 				station.LogOn(new System.Net.WebClient(), parameters);
 
 				StationRegistry.SetValue("stationToken", station.Token);
+				CloudServer.SessionToken = station.Token;
+
 				return true;
 			}
 			catch (Exception e)

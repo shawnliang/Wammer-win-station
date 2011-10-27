@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Threading;
 using System.Drawing;
 using System.Net;
 
@@ -17,13 +18,14 @@ namespace UT_WammerStation
 	{
 		public static List<UploadedFile> recvFiles;
 		public static NameValueCollection recvParameters;
+		public static CookieCollection recvCookies;
 
 		protected override void HandleRequest()
 		{
 			recvFiles = this.Files;
 			recvParameters= this.Parameters;
-
-			HttpHelper.RespondSuccess(Response, 
+			recvCookies = this.Request.Cookies;
+			HttpHelper.RespondSuccess(Response,
 				ObjectUploadResponse.CreateSuccess(recvParameters["object_id"]));
 
 		}
@@ -31,6 +33,21 @@ namespace UT_WammerStation
 		public override object Clone()
 		{
 			return new DummyImageUploadHandler();
+		}
+	}
+
+	class DummyRequestCompletedHandler
+	{
+		private ManualResetEvent signal = new ManualResetEvent(false);
+
+		public bool EventReceived()
+		{
+			return signal.WaitOne(TimeSpan.FromSeconds(10));
+		}
+
+		public void Handle(object sender, AttachmentUploadEventArgs evt)
+		{
+			signal.Set();
 		}
 	}
 
@@ -50,6 +67,52 @@ namespace UT_WammerStation
 
 			Wammer.Cloud.CloudServer.HostName = "localhost";
 			Wammer.Cloud.CloudServer.Port = 8080;
+			Wammer.Cloud.CloudServer.SessionToken = "thisIsASessionToken";
+		}
+
+		[TestMethod]
+		public void TestObjectUploadHandler_ResponseCompleted()
+		{
+			using (HttpServer cloud = new HttpServer(8080))
+			using (HttpServer server = new HttpServer(80))
+			{
+				FileStorage fileStore = new FileStorage("resource");
+				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore);
+
+				DummyRequestCompletedHandler evtHandler = new DummyRequestCompletedHandler();
+				handler.RequestCompleted += evtHandler.Handle;
+
+				server.AddHandler("/test/", handler);
+				server.Start();
+
+				cloud.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
+																	new DummyImageUploadHandler());
+				cloud.Start();
+
+				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
+														"http://localhost:80/test/", imageRawData,
+												"orig_name.jpeg", "image/jpeg", ImageMeta.Original);
+
+				Assert.IsTrue(evtHandler.EventReceived());
+			}
+		}
+
+		[TestMethod]
+		public void TestObjectUploadHandler_SessionTokenIsInCookie()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				DummyImageUploadHandler handler = new DummyImageUploadHandler();
+				server.AddHandler("/test/", handler);
+				server.Start();
+
+				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
+														"http://localhost:80/test/", imageRawData,
+												"orig_name.jpeg", "image/jpeg", ImageMeta.Original);
+
+				Assert.AreEqual(Wammer.Cloud.CloudServer.SessionToken,
+					DummyImageUploadHandler.recvCookies["session_token"].Value);
+			}
 		}
 
 		[TestMethod]
@@ -67,7 +130,7 @@ namespace UT_WammerStation
 				server.AddHandler("/test/", handler);
 				server.Start();
 
-				cloud.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/", 
+				cloud.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
 																	new DummyImageUploadHandler());
 				cloud.Start();
 
