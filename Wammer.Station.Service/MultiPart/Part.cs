@@ -47,6 +47,16 @@ namespace Wammer.MultiPart
 			this.headers = new NameValueCollection();
 		}
 
+		public Part(string data)
+		{
+			if (data == null)
+				throw new ArgumentNullException();
+
+			this.data = Encoding.UTF8.GetBytes(data);
+			this.start = 0;
+			this.len = this.data.Length;
+			this.headers = new NameValueCollection();
+		}
 
 		public string Text
 		{

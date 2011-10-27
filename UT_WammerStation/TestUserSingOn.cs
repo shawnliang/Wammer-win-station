@@ -12,8 +12,8 @@ namespace UT_WammerStation
 	[TestClass]
 	public class TestUserSingOn
 	{
-		[ClassInitialize]
-		public static void classInit(TestContext testContext)
+		[TestInitialize]
+		public void classInit()
 		{
 			Wammer.Cloud.CloudServer.HostName = "127.0.0.1";
 			Wammer.Cloud.CloudServer.Port = 80;

@@ -78,6 +78,8 @@
     <Compile Include="Cloud\User.cs" />
     <Compile Include="Cloud\UserLogInResponse.cs" />
     <Compile Include="Cloud\WammerCloudException.cs" />
+    <Compile Include="Station\Attachment.cs" />
+    <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />
     <Compile Include="MultiPart\Disposition.cs" />

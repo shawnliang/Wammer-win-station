@@ -15,7 +15,7 @@ namespace Wammer.Cloud
 
 		public static ObjectUploadResponse CreateSuccess(string objectId)
 		{
-			ObjectUploadResponse res =new ObjectUploadResponse();
+			ObjectUploadResponse res = new ObjectUploadResponse();
 			res.app_ret_code = 0;
 			res.app_ret_msg = "Success";
 			res.status = 200;

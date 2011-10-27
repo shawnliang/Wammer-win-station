@@ -8,7 +8,7 @@ using log4net;
 
 namespace Wammer.Station
 {
-	class HttpHelper
+	public class HttpHelper
 	{
 		private static ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 

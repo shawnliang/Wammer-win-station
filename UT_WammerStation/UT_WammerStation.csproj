@@ -42,6 +42,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +58,7 @@
     <Compile Include="TestBypassHttpHandler.cs" />
     <Compile Include="TestGenerateMultipart.cs" />
     <Compile Include="TestHttpServer.cs" />
+    <Compile Include="TestImagePostProcessing.cs" />
     <Compile Include="TestMultiPart.cs" />
     <Compile Include="TestReceiveObjects.cs" />
     <Compile Include="TestUserSingOn.cs" />
@@ -66,6 +68,7 @@
     <Content Include="TestData\ContentDisposition.txt" />
     <Content Include="TestData\ObjectUpload1_noObjId.txt" />
     <Content Include="TestData\ObjectUpload1.txt" />
+    <Content Include="TestData\Penguins.jpg" />
     <Content Include="TestData\SimpleMultiPartContent.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

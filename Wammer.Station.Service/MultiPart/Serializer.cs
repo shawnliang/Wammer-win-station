@@ -11,13 +11,23 @@ namespace Wammer.MultiPart
 		private readonly string boundary;
 		private readonly byte[] boundaryData;
 
-		public Serializer(Stream stream)
+		public Serializer(Stream output)
 		{
-			if (stream == null)
+			if (output == null)
 				throw new ArgumentNullException();
 
-			output = stream;
+			this.output = output;
 			boundary = Guid.NewGuid().ToString("N");
+			boundaryData = Encoding.UTF8.GetBytes(boundary);
+		}
+
+		public Serializer(Stream output, string boundary)
+		{
+			if (output == null)
+				throw new ArgumentNullException();
+
+			this.output = output;
+			this.boundary = boundary;
 			boundaryData = Encoding.UTF8.GetBytes(boundary);
 		}
 

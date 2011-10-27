@@ -33,6 +33,12 @@ namespace Wammer.Station
 			}
 		}
 
+		public FileStream Load(string filename)
+		{
+			string filePath = Path.Combine(basePath, filename);
+			return File.OpenRead(filePath);
+		}
+
 		public IAsyncResult BeginSave(string filename, byte[] data, AsyncCallback callback,
 																				object userObject)
 		{

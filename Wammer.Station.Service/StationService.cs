@@ -53,11 +53,13 @@ namespace Wammer.Station.Service
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/stations/");
 			server.AddDefaultHandler(cloudForwarder);
 
+			FileStorage storage = new FileStorage("resource");
+
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
 							new ViewObjectHandler("resource"));
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
-							new ObjectUploadHandler());
+							new ObjectUploadHandler(storage));
 			server.Start();
 
 			if (!LogOnStation(9981))

@@ -13,6 +13,14 @@ namespace Wammer.Station
 	{
 		private FileStorage storage;
 
+		public event EventHandler<AttachmentUploadEventArgs> AttachmentSaved;
+
+		public ObjectUploadHandler(FileStorage fileStore)
+			: base()
+		{
+			storage = fileStore;
+		}
+
 		public ObjectUploadHandler()
 			: base()
 		{
@@ -21,7 +29,9 @@ namespace Wammer.Station
 
 		public override object Clone()
 		{
-			return new ObjectUploadHandler();
+			ObjectUploadHandler handler = new ObjectUploadHandler(this.storage);
+			handler.AttachmentSaved += AttachmentSaved;
+			return handler;
 		}
 
 		protected override void HandleRequest()
@@ -34,8 +44,19 @@ namespace Wammer.Station
 			string savedName = GetSavedFilename(file);
 			storage.Save(savedName, file.RawData);
 
+			OnAttachmentSaved(new AttachmentUploadEventArgs(file));
+
 			ObjectUploadResponse json = ObjectUploadResponse.CreateSuccess(file.ObjectId);
 			HttpHelper.RespondSuccess(Response, json);
+		}
+
+		protected void OnAttachmentSaved(AttachmentUploadEventArgs evt)
+		{
+			EventHandler<AttachmentUploadEventArgs> handler = AttachmentSaved;
+			if (handler != null)
+			{
+				handler(this, evt);
+			}
 		}
 
 		private static string GetSavedFilename(Attachment file)
@@ -85,21 +106,14 @@ namespace Wammer.Station
 		}
 	}
 
-
-	class Attachment
+	public class AttachmentUploadEventArgs : EventArgs
 	{
-		public string Filename { get; set; }
-		public string ObjectId { get; set; }
-		public byte[] RawData { get; set; }
-		public string ContentType { get; set; }
-		public string Title { get; set; }
-		public string Description { get; set; }
-		public AttachmentType Kind { get; set; }
+		public Attachment Attachment { get; private set; }
 
-
-		public Attachment()
+		public AttachmentUploadEventArgs(Attachment attachment)
+			:base()
 		{
+			this.Attachment = attachment;
 		}
 	}
-
 }
