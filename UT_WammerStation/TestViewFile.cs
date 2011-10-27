@@ -38,7 +38,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler("resource"));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(new FileStorage("resource")));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -67,7 +67,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler("resource"));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(new FileStorage("resource")));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -92,7 +92,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler("resource"));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(new FileStorage("resource")));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -131,7 +131,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler("resource"));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(new FileStorage("resource")));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -156,7 +156,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler("resource"));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(new FileStorage("resource")));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(

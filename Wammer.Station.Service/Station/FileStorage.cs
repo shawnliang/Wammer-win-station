@@ -65,13 +65,13 @@ namespace Wammer.Station
 			}
 		}
 
-		public static string GetSavedFile(string baseDir, string objectId)
+		public FileStream LoadById(string objectId)
 		{
-			string[] files = Directory.GetFiles(baseDir, objectId + ".*");
-			if (files == null || files.Length==0)
+			string[] files = Directory.GetFiles(basePath, objectId + ".*");
+			if (files == null || files.Length == 0)
 				throw new FileNotFoundException("object " + objectId + " is not found");
 
-			return files[0];
+			return File.OpenRead(files[0]);
 		}
 	}
 

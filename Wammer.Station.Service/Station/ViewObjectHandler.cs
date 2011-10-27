@@ -12,17 +12,17 @@ namespace Wammer.Station
 {
 	public class ViewObjectHandler: HttpHandler
 	{
-		private string baseDir;
+		private readonly FileStorage fileStorage;
 
-		public ViewObjectHandler(string resourceFolder)
+		public ViewObjectHandler(FileStorage fileStorage)
 			:base()
 		{
-			baseDir = resourceFolder;
+			this.fileStorage = fileStorage;
 		}
 
 		public override object Clone()
 		{
-			return new ViewObjectHandler(baseDir);
+			return new ViewObjectHandler(fileStorage);
 		}
 
 		protected override void HandleRequest()
@@ -38,19 +38,17 @@ namespace Wammer.Station
 				if (Parameters["image_meta"] == null)
 					imageMeta = ImageMeta.Original;
 				else
-					imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta), 
+					imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta),
 																	Parameters["image_meta"], true);
 
 				//FIXME : should return image based on imageMeta
-				string filename = FileStorage.GetSavedFile(baseDir, objectId);
-
-				Response.StatusCode = 200;
-				Response.ContentType = "image/jpeg"; //FIXME: query db to get correct content type
-
-				using (Stream toStream = Response.OutputStream)
-				using (FileStream fs = File.OpenRead(filename))
+				using (FileStream fs = fileStorage.LoadById(objectId))
 				{
-					Wammer.Utility.StreamHelper.Copy(fs, toStream);
+					Response.StatusCode = 200;
+					Response.ContentType = "image/jpeg"; //FIXME: query db to get correct content type
+
+					Wammer.Utility.StreamHelper.Copy(fs, Response.OutputStream);
+					Response.OutputStream.Close();
 				}
 			}
 			catch (ArgumentException e)

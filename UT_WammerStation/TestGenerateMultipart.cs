@@ -33,7 +33,7 @@ namespace UT_WammerStation
 			serializer.Put(new Part(part1, 0, part1.Length));
 			serializer.Put(new Part(part2, 0, part2.Length));
 			serializer.Put(new Part(part3, 0, part3.Length));
-			serializer.Close();
+			serializer.PutNoMoreData();
 
 			m.Position = 0;
 
@@ -57,7 +57,7 @@ namespace UT_WammerStation
 			part.ContentDisposition.Parameters.Add("name1", "value1");
 			part.ContentDisposition.Parameters.Add("name2", "value2");
 			serializer.Put(part);
-			serializer.Close();
+			serializer.PutNoMoreData();
 
 			m.Position = 0;
 
@@ -83,7 +83,7 @@ namespace UT_WammerStation
 			part.ContentDisposition.Parameters.Add("name2", "value2");
 			part.Headers["Content-Type"] = "image/jpeg";
 			serializer.Put(part);
-			serializer.Close();
+			serializer.PutNoMoreData();
 
 			m.Position = 0;
 
@@ -107,7 +107,7 @@ namespace UT_WammerStation
 			Part part = new Part(part1, 0, part1.Length);
 			part.Headers["Content-Type"] = "image/jpeg";
 			serializer.Put(part);
-			serializer.Close();
+			serializer.PutNoMoreData();
 
 			m.Position = 0;
 
@@ -131,7 +131,7 @@ namespace UT_WammerStation
 			part.ContentDisposition.Parameters.Add("name2", "value2");
 			part.Headers["Content-Disposition"] = "ggyy-123; name=value";
 			serializer.Put(part);
-			serializer.Close();
+			serializer.PutNoMoreData();
 
 			m.Position = 0;
 

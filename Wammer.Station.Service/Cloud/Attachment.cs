@@ -41,19 +41,28 @@ namespace Wammer.Cloud
 
 	public static class Attachment
 	{
-		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, 
+		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string objectId,
 												string fileName, string contentType, ImageMeta meta)
 		{
 			Part filePart = new Part(imageData, 0, imageData.Length);
-			filePart.Headers.Add("Content-Disposition", 
+			filePart.Headers.Add("Content-Disposition",
 											"form-data; name=file; filename=\"" + fileName + "\"");
+			//TODO: sanitize fileName
+
 			filePart.Headers.Add("Content-Type", contentType);
 
-			Part metaPart = new Part(meta.ToString());
+			Part metaPart = new Part(meta.ToString().ToLower());
 			metaPart.Headers.Add("Content-Disposition", "form-data; name=image_meta");
 
 			Part typePart = new Part("image");
 			typePart.Headers.Add("Content-Disposition", "form-data; name=type");
+
+			Part objIdPart = null;
+			if (objectId != null)
+			{
+				objIdPart = new Part(objectId);
+				objIdPart.Headers.Add("Content-Disposition", "form-data; name=object_id");
+			}
 
 			string boundary = Guid.NewGuid().ToString();
 
@@ -67,8 +76,12 @@ namespace Wammer.Cloud
 				writer.Put(filePart);
 				writer.Put(metaPart);
 				writer.Put(typePart);
-				writer.Close();	
-				
+
+				if (objIdPart != null)
+					writer.Put(objIdPart);
+
+				writer.PutNoMoreData();
+
 				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
 				using (StreamReader reader = new StreamReader(response.GetResponseStream()))
@@ -76,6 +89,12 @@ namespace Wammer.Cloud
 					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
 				}
 			}
+		}
+
+		public static ObjectUploadResponse UploadImage(string url, byte[] imageData,
+												string fileName, string contentType, ImageMeta meta)
+		{
+			return UploadImage(url, imageData, null, fileName, contentType, meta);
 		}
 
 		public static ObjectUploadResponse UploadImage(byte[] imageData, string objectId,
@@ -86,42 +105,7 @@ namespace Wammer.Cloud
 				Cloud.CloudServer.Port,
 				CloudServer.DEF_BASE_PATH);
 
-			Part filePart = new Part(imageData, 0, imageData.Length);
-			filePart.Headers.Add("Content-Disposition",
-											"form-data; name=file; filename=\"" + fileName + "\"");
-			filePart.Headers.Add("Content-Type", contentType);
-
-			Part metaPart = new Part(meta.ToString().ToLower());
-			metaPart.Headers.Add("Content-Disposition", "form-data; name=image_meta");
-
-			Part typePart = new Part("image");
-			typePart.Headers.Add("Content-Disposition", "form-data; name=type");
-
-			Part objIdPart = new Part(objectId);
-			objIdPart.Headers.Add("Content-Disposition", "form-data; name=object_id");
-
-			string boundary = Guid.NewGuid().ToString();
-
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-			request.Method = "POST";
-			request.ContentType = "multipart/form-data; boundary=" + boundary;
-
-			using (Stream s = request.GetRequestStream())
-			{
-				Serializer writer = new Serializer(s, boundary);
-				writer.Put(filePart);
-				writer.Put(metaPart);
-				writer.Put(typePart);
-				writer.Put(objIdPart);
-				writer.Close();
-
-				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-				using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-				{
-					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
-				}
-			}
+			return UploadImage(url, imageData, objectId, fileName, contentType, meta);
 		}
 	}
 }

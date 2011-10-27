@@ -47,7 +47,7 @@ namespace Wammer.MultiPart
 			get { return boundary; }
 		}
 
-		public void Close()
+		public void PutNoMoreData()
 		{
 			output.Write(Part.CRLF, 0, Part.CRLF.Length);
 			output.Write(Part.DASH_DASH, 0, Part.DASH_DASH.Length);

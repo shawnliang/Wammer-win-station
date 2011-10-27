@@ -23,24 +23,27 @@ namespace Wammer.Station
 
 		public void HandleAttachmentSaved(object sender, AttachmentUploadEventArgs evt)
 		{
-			if (evt.Attachment.Kind != AttachmentType.image)
-				return;
+			if (evt.Attachment.Kind == AttachmentType.image)
+				MakeThumbnailAndUpstream(evt.Attachment, ImageMeta.Small);
+		}
 
+		private void MakeThumbnailAndUpstream(Station.Attachment attachment, ImageMeta meta)
+		{
 			try
 			{
-				using (MemoryStream m = new MemoryStream(evt.Attachment.RawData))
+				using (MemoryStream m = new MemoryStream(attachment.RawData))
 				using (Bitmap origin = new Bitmap(m))
 				using (MemoryStream output = new MemoryStream())
 				{
-					Bitmap thumbnail = ImageHelper.Scale(origin, (int)ImageMeta.Small);
+					Bitmap thumbnail = ImageHelper.Scale(origin, (int)meta);
 
 					thumbnail.Save(output, System.Drawing.Imaging.ImageFormat.Jpeg);
 
 
 					output.Position = 0;
 					string thumbnailId = Guid.NewGuid().ToString();
-					Cloud.Attachment.UploadImage(output.ToArray(), evt.Attachment.ObjectId,
-											thumbnailId + ".jpeg", "image/jpeg", ImageMeta.Small);
+					Cloud.Attachment.UploadImage(output.ToArray(), attachment.ObjectId,
+											thumbnailId + ".jpeg", "image/jpeg", meta);
 
 					fileStorage.Save(thumbnailId + ".jpeg", output.ToArray());
 				}
@@ -49,7 +52,7 @@ namespace Wammer.Station
 			{
 				logger.Warn("Image attachment post processing unsuccess", e);
 				System.Diagnostics.Debug.Fail("Image attachment post processing unsuccess: " +
-																					e.ToString());			
+																					e.ToString());
 			}
 		}
 	}

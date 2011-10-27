@@ -57,7 +57,7 @@ namespace Wammer.Station.Service
 
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
-							new ViewObjectHandler("resource"));
+							new ViewObjectHandler(storage));
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
 							new ObjectUploadHandler(storage));
 			server.Start();
