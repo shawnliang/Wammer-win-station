@@ -68,8 +68,8 @@ namespace Wammer.Cloud
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 			request.Method = "POST";
 			request.ContentType = "multipart/form-data; boundary=" + boundary;
-			request.CookieContainer = new CookieContainer();
-			request.CookieContainer.Add(new Cookie("session_token", CloudServer.SessionToken, "/", request.RequestUri.Host));
+			request.CookieContainer = CloudServer.Cookies;
+
 
 			using (Stream s = request.GetRequestStream())
 			{

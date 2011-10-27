@@ -67,7 +67,7 @@ namespace UT_WammerStation
 
 			Wammer.Cloud.CloudServer.HostName = "localhost";
 			Wammer.Cloud.CloudServer.Port = 8080;
-			Wammer.Cloud.CloudServer.SessionToken = "thisIsASessionToken";
+			Wammer.Cloud.CloudServer.SetSessionToken("thisIsASessionToken");
 		}
 
 		[TestMethod]
@@ -110,7 +110,7 @@ namespace UT_WammerStation
 														"http://localhost:80/test/", imageRawData,
 												"orig_name.jpeg", "image/jpeg", ImageMeta.Original);
 
-				Assert.AreEqual(Wammer.Cloud.CloudServer.SessionToken,
+				Assert.AreEqual("thisIsASessionToken",
 					DummyImageUploadHandler.recvCookies["session_token"].Value);
 			}
 		}

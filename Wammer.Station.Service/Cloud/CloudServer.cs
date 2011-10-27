@@ -14,6 +14,8 @@ namespace Wammer.Cloud
 		private const int DEF_PORT = 8080;
 		private const string DEF_API_KEY = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
 
+		private static CookieContainer cookies = new CookieContainer();
+
 		private static string hostname = null;
 		private static int port = 0;
 		private static string apiKey = null;
@@ -26,7 +28,23 @@ namespace Wammer.Cloud
 		public const string PARAM_SESSION_TOKEN = "session_token";
 		public const string PARAM_STATION_ID = "station_id";
 
-		public static string SessionToken { get; set; }
+		public static void SetSessionToken(string token)
+		{
+			cookies.Add(new Cookie("session_token", token, "/", HostName));
+		}
+
+		public static CookieContainer Cookies
+		{
+			get { return cookies; }
+		}
+
+		public static string BaseUrl
+		{
+			get
+			{
+				return string.Format("http://{0}:{1}/", HostName, Port);
+			}
+		}
 
 		public static string HostName
 		{
