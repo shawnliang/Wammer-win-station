@@ -20,6 +20,8 @@ namespace UT_WammerStation
 		public static NameValueCollection recvParameters;
 		public static CookieCollection recvCookies;
 
+		private static AutoResetEvent evt = new AutoResetEvent(false);
+
 		protected override void HandleRequest()
 		{
 			recvFiles = this.Files;
@@ -27,12 +29,17 @@ namespace UT_WammerStation
 			recvCookies = this.Request.Cookies;
 			HttpHelper.RespondSuccess(Response,
 				ObjectUploadResponse.CreateSuccess(recvParameters["object_id"]));
+			evt.Set();
+		}
 
+		public static bool Wait()
+		{
+			return evt.WaitOne(TimeSpan.FromSeconds(10));
 		}
 
 		public override object Clone()
 		{
-			return new DummyImageUploadHandler();
+			return MemberwiseClone();
 		}
 	}
 
@@ -45,7 +52,7 @@ namespace UT_WammerStation
 			return signal.WaitOne(TimeSpan.FromSeconds(10));
 		}
 
-		public void Handle(object sender, AttachmentUploadEventArgs evt)
+		public void Handle(object sender, ImageAttachmentEventArgs evt)
 		{
 			signal.Set();
 		}
@@ -80,7 +87,7 @@ namespace UT_WammerStation
 				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore);
 
 				DummyRequestCompletedHandler evtHandler = new DummyRequestCompletedHandler();
-				handler.RequestCompleted += evtHandler.Handle;
+				handler.ImageAttachmentCompleted += evtHandler.Handle;
 
 				server.AddHandler("/test/", handler);
 				server.Start();
@@ -125,7 +132,7 @@ namespace UT_WammerStation
 				ImagePostProcessing postProc = new ImagePostProcessing(fileStore);
 				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore);
 
-				handler.AttachmentSaved += postProc.HandleAttachmentSaved;
+				handler.ImageAttachmentSaved += postProc.HandleAttachmentSaved;
 
 				server.AddHandler("/test/", handler);
 				server.Start();
@@ -139,6 +146,7 @@ namespace UT_WammerStation
 												"orig_name.jpeg", "image/jpeg",ImageMeta.Origin);
 
 				// verify
+				Assert.IsTrue(DummyImageUploadHandler.Wait());
 				Assert.AreEqual(1, DummyImageUploadHandler.recvFiles.Count);
 				string thumbnail_id = Path.GetFileNameWithoutExtension(
 														DummyImageUploadHandler.recvFiles[0].Name);

@@ -26,8 +26,7 @@ namespace Wammer.Station
 		{
 			string filePath = Path.Combine(basePath, filename);
 
-			FileStream fs = File.Open(filePath, FileMode.Create, FileAccess.Write);
-			using (BinaryWriter w = new BinaryWriter(fs))
+			using (BinaryWriter w = new BinaryWriter(File.Open(filePath, FileMode.Create)))
 			{
 				w.Write(data);
 			}

@@ -16,11 +16,11 @@ namespace Wammer.Station
 		/// <summary>
 		/// Fired on the uploaded attachment is saved
 		/// </summary>
-		public event EventHandler<AttachmentUploadEventArgs> AttachmentSaved;
+		public event EventHandler<ImageAttachmentEventArgs> ImageAttachmentSaved;
 		/// <summary>
 		/// Fired on the whole request processing is completed
 		/// </summary>
-		public event EventHandler<AttachmentUploadEventArgs> RequestCompleted;
+		public event EventHandler<ImageAttachmentEventArgs> ImageAttachmentCompleted;
 
 		public ObjectUploadHandler(FileStorage fileStore)
 			: base()
@@ -49,27 +49,37 @@ namespace Wammer.Station
 			string savedName = GetSavedFilename(file);
 			storage.Save(savedName, file.RawData);
 
-			AttachmentUploadEventArgs evtArgs = new AttachmentUploadEventArgs(file);
-			OnAttachmentSaved(evtArgs);
+			string imageMeta = Parameters["image_meta"];
+			ImageMeta meta;
+			if (imageMeta ==null)
+				meta = ImageMeta.Origin;
+			else
+				meta = (ImageMeta)Enum.Parse(typeof(ImageMeta), imageMeta, true);
+
+			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta);
+
+			if (file.Kind == AttachmentType.image)
+				OnImageAttachmentSaved(evtArgs);
 
 			ObjectUploadResponse json = ObjectUploadResponse.CreateSuccess(file.ObjectId);
 			HttpHelper.RespondSuccess(Response, json);
 
-			OnRequestCompleted(evtArgs);
+			if (file.Kind == AttachmentType.image)
+				OnImageAttachmentCompleted(evtArgs);
 		}
 
-		protected void OnAttachmentSaved(AttachmentUploadEventArgs evt)
+		protected void OnImageAttachmentSaved(ImageAttachmentEventArgs evt)
 		{
-			EventHandler<AttachmentUploadEventArgs> handler = AttachmentSaved;
+			EventHandler<ImageAttachmentEventArgs> handler = ImageAttachmentSaved;
 			if (handler != null)
 			{
 				handler(this, evt);
 			}
 		}
 
-		protected void OnRequestCompleted(AttachmentUploadEventArgs evt)
+		protected void OnImageAttachmentCompleted(ImageAttachmentEventArgs evt)
 		{
-			EventHandler<AttachmentUploadEventArgs> handler = RequestCompleted;
+			EventHandler<ImageAttachmentEventArgs> handler = ImageAttachmentCompleted;
 			if (handler != null)
 			{
 				handler(this, evt);
@@ -123,12 +133,23 @@ namespace Wammer.Station
 		}
 	}
 
-	public class AttachmentUploadEventArgs : EventArgs
+	public class ImageAttachmentEventArgs : AttachmentEventArgs
+	{
+		public ImageMeta Meta { get; private set; }
+
+		public ImageAttachmentEventArgs(Attachment attachment, ImageMeta meta)
+			:base(attachment)
+		{
+			this.Meta = meta;
+		}
+	}
+
+	public class AttachmentEventArgs : EventArgs
 	{
 		public Attachment Attachment { get; private set; }
 
-		public AttachmentUploadEventArgs(Attachment attachment)
-			:base()
+		public AttachmentEventArgs(Attachment attachment)
+			: base()
 		{
 			this.Attachment = attachment;
 		}

@@ -22,13 +22,24 @@ namespace Wammer.Station
 			this.fileStorage = fileStorage;
 		}
 
-		public void HandleAttachmentSaved(object sender, AttachmentUploadEventArgs evt)
+		public void HandleAttachmentSaved(object sender, ImageAttachmentEventArgs evt)
 		{
-			if (evt.Attachment.Kind == AttachmentType.image)
-				MakeThumbnailAndUpstream(evt.Attachment, ImageMeta.Small);
+			System.Diagnostics.Debug.Assert(evt.Attachment.Kind == AttachmentType.image);
+
+			try
+			{
+				Thumbnail thumbnail = MakeThumbnail(evt.Attachment, ImageMeta.Small);
+
+				ThreadPool.QueueUserWorkItem(this.UpstreamThumbnail,
+											new UpstreamArgs(thumbnail, evt.Attachment.ObjectId));
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unabel to make thumbnail and upstream", e);
+			}
 		}
 
-		public void HandleRequestCompleted(object sender, AttachmentUploadEventArgs evt)
+		public void HandleRequestCompleted(object sender, ImageAttachmentEventArgs evt)
 		{
 			if (evt.Attachment.Kind == AttachmentType.image)
 			{
@@ -47,32 +58,57 @@ namespace Wammer.Station
 		{
 			try
 			{
-				using (MemoryStream m = new MemoryStream(attachment.RawData))
-				using (Bitmap origin = new Bitmap(m))
-				using (MemoryStream output = new MemoryStream())
-				{
-					Bitmap thumbnail = null;
-
-					if (meta == ImageMeta.Square)
-						thumbnail = MakeSquareThumbnail(origin);
-					else
-						thumbnail = ImageHelper.Scale(origin, (int)meta);
-
-					thumbnail.Save(output, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-					output.Position = 0;
-					string thumbnailId = Guid.NewGuid().ToString();
-					Cloud.Attachment.UploadImage(output.ToArray(), attachment.ObjectId,
-											thumbnailId + ".jpeg", "image/jpeg", meta);
-
-					fileStorage.Save(thumbnailId + ".jpeg", output.ToArray());
-				}
+				Thumbnail thumbnail = MakeThumbnail(attachment, meta);
+				UpstreamThumbnail(thumbnail, attachment.ObjectId);
 			}
 			catch (Exception e)
 			{
 				logger.Warn("Image attachment post processing unsuccess", e);
-				System.Diagnostics.Debug.Fail("Image attachment post processing unsuccess: " +
-																					e.ToString());
+			}
+		}
+
+		private Thumbnail MakeThumbnail(Station.Attachment attachment, ImageMeta meta)
+		{
+			using (MemoryStream m = new MemoryStream(attachment.RawData))
+			using (Bitmap origin = new Bitmap(m))
+			{
+				Bitmap thumbnail = null;
+
+				if (meta == ImageMeta.Square)
+					thumbnail = MakeSquareThumbnail(origin);
+				else
+					thumbnail = ImageHelper.Scale(origin, (int)meta);
+
+				string thumbnailId = Guid.NewGuid().ToString();
+				Thumbnail output = new Thumbnail(thumbnail, meta, thumbnailId);
+				fileStorage.Save(thumbnailId + ".jpeg", output.ToArray());
+
+				return output;
+			}
+		}
+
+		private void UpstreamThumbnail(object state)
+		{
+			UpstreamArgs args = (UpstreamArgs)state;
+
+			try
+			{
+				UpstreamThumbnail(args.Thumbnail, args.FullImageId);
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unable to upstream " + args.Thumbnail.Meta + 
+												" thumbnail of orig image " + args.FullImageId, e);
+			}
+		}
+
+		private void UpstreamThumbnail(Thumbnail thumbnail, string fullImgId)
+		{
+			using (MemoryStream output = new MemoryStream())
+			{
+				thumbnail.Image.Save(output, System.Drawing.Imaging.ImageFormat.Jpeg);
+				Cloud.Attachment.UploadImage(output.ToArray(), fullImgId, thumbnail.Id +
+														".jpeg", "image/jpeg", thumbnail.Meta);
 			}
 		}
 
@@ -108,4 +144,41 @@ namespace Wammer.Station
 			this.Attachment = attachment;
 		}
 	}
+
+	class UpstreamArgs
+	{
+		public Thumbnail Thumbnail { get; private set; }
+		public string FullImageId { get; private set; }
+
+		public UpstreamArgs(Thumbnail tb, string fullImgId)
+		{
+			Thumbnail = tb;
+			FullImageId = fullImgId;
+		}
+	}
+
+	class Thumbnail
+	{
+		public Bitmap Image { get; set; }
+		public string Id { get; set; }
+		public ImageMeta Meta { get; set; }
+
+		public Thumbnail(Bitmap image, ImageMeta meta, string id)
+		{
+			Image = image;
+			Meta = meta;
+			Id = id;
+		}
+
+		public byte[] ToArray()
+		{
+			using (MemoryStream m = new MemoryStream())
+			{
+				Image.Save(m, System.Drawing.Imaging.ImageFormat.Jpeg);
+				return m.ToArray();
+			}
+		}
+	}
+
+
 }

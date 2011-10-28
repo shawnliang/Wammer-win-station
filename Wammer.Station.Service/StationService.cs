@@ -62,8 +62,8 @@ namespace Wammer.Station.Service
 
 			ObjectUploadHandler attachmentHandler = new ObjectUploadHandler(storage);
 			ImagePostProcessing imgProc = new ImagePostProcessing(storage);
-			attachmentHandler.AttachmentSaved += imgProc.HandleAttachmentSaved;
-			attachmentHandler.RequestCompleted += imgProc.HandleRequestCompleted;
+			attachmentHandler.ImageAttachmentSaved += imgProc.HandleAttachmentSaved;
+			attachmentHandler.ImageAttachmentCompleted += imgProc.HandleRequestCompleted;
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
 							attachmentHandler);
 
