@@ -91,7 +91,7 @@ namespace UT_WammerStation
 
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
 														"http://localhost:80/test/", imageRawData,
-												"orig_name.jpeg", "image/jpeg", ImageMeta.Original);
+												"orig_name.jpeg", "image/jpeg", ImageMeta.Origin);
 
 				Assert.IsTrue(evtHandler.EventReceived());
 			}
@@ -108,7 +108,7 @@ namespace UT_WammerStation
 
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
 														"http://localhost:80/test/", imageRawData,
-												"orig_name.jpeg", "image/jpeg", ImageMeta.Original);
+												"orig_name.jpeg", "image/jpeg", ImageMeta.Origin);
 
 				Assert.AreEqual("thisIsASessionToken",
 					DummyImageUploadHandler.recvCookies["session_token"].Value);
@@ -136,7 +136,7 @@ namespace UT_WammerStation
 
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
 														"http://localhost:80/test/", imageRawData,
-												"orig_name.jpeg", "image/jpeg",ImageMeta.Original);
+												"orig_name.jpeg", "image/jpeg",ImageMeta.Origin);
 
 				// verify
 				Assert.AreEqual(1, DummyImageUploadHandler.recvFiles.Count);

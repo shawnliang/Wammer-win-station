@@ -19,7 +19,7 @@ namespace UT_WammerStation
 		{
 			if (!Directory.Exists("resource"))
 				Directory.CreateDirectory("resource");
-	
+
 			FileStream fs = File.Open("resource/object_id1.jpg", FileMode.Create);
 			using (StreamWriter w = new StreamWriter(fs))
 			{
@@ -71,8 +71,8 @@ namespace UT_WammerStation
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-										"http://localhost/v1/objects/view" + 
-										"?object_id=object_id1&image_meta=original");
+										"http://localhost/v1/objects/view" +
+										"?object_id=object_id1&image_meta=origin");
 				req.Method = "GET";
 
 				HttpWebResponse response = (HttpWebResponse)req.GetResponse();

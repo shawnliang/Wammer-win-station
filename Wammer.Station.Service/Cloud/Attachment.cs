@@ -30,7 +30,7 @@ namespace Wammer.Cloud
 		/// <summary>
 		/// Original image size
 		/// </summary>
-		Original = 50 * 1024 * 1024
+		Origin = 50 * 1024 * 1024
 	}
 
 	public enum AttachmentType

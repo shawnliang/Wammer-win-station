@@ -36,7 +36,7 @@ namespace Wammer.Station
 				ImageMeta imageMeta;
 
 				if (Parameters["image_meta"] == null)
-					imageMeta = ImageMeta.Original;
+					imageMeta = ImageMeta.Origin;
 				else
 					imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta),
 																	Parameters["image_meta"], true);
