@@ -10,3 +10,4 @@
 **/Release
 *.msi
 TestResults/**
+**.cache
