@@ -46,15 +46,15 @@ namespace Wammer.Cloud
 		{
 			Part filePart = new Part(imageData, 0, imageData.Length);
 			filePart.Headers.Add("Content-Disposition",
-											"form-data; name=file; filename=\"" + fileName + "\"");
+											"form-data; name=\"file\"; filename=\"" + fileName + "\"");
 
 			filePart.Headers.Add("Content-Type", contentType);
 
 			Part metaPart = new Part(meta.ToString().ToLower());
-			metaPart.Headers.Add("Content-Disposition", "form-data; name=image_meta");
+			metaPart.Headers.Add("Content-Disposition", "form-data; name=\"image_meta\"");
 
 			Part typePart = new Part("image");
-			typePart.Headers.Add("Content-Disposition", "form-data; name=type");
+			typePart.Headers.Add("Content-Disposition", "form-data; name=\"type\"");
 
 			Part objIdPart = null;
 			if (objectId != null)
@@ -66,14 +66,14 @@ namespace Wammer.Cloud
 			string boundary = Guid.NewGuid().ToString();
 
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+			request.Timeout = 10000;
 			request.Method = "POST";
 			request.ContentType = "multipart/form-data; boundary=" + boundary;
 			request.CookieContainer = CloudServer.Cookies;
 
-
-			using (Stream s = request.GetRequestStream())
+			using (Stream m = new MemoryStream())
 			{
-				Serializer writer = new Serializer(s, boundary);
+				Serializer writer = new Serializer(m, boundary);
 				writer.Put(filePart);
 				writer.Put(metaPart);
 				writer.Put(typePart);
@@ -83,13 +83,22 @@ namespace Wammer.Cloud
 
 				writer.PutNoMoreData();
 
-				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+				request.ContentLength = m.Length;
 
-				using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+				using (Stream s = request.GetRequestStream())
 				{
-					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
+					m.Position = 0;
+					Utility.StreamHelper.Copy(m, s);
 				}
 			}
+			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+			using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+			{
+				string resp = reader.ReadToEnd();
+				return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(resp);
+			}
+			
 		}
 
 		public static ObjectUploadResponse UploadImage(string url, byte[] imageData,

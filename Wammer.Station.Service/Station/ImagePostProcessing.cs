@@ -109,6 +109,8 @@ namespace Wammer.Station
 				thumbnail.Image.Save(output, System.Drawing.Imaging.ImageFormat.Jpeg);
 				Cloud.Attachment.UploadImage(output.ToArray(), fullImgId, thumbnail.Id +
 														".jpeg", "image/jpeg", thumbnail.Meta);
+
+				logger.DebugFormat("Thumbnail {0}.jpeg is uploaded to Cloud", thumbnail.Id);
 			}
 		}
 

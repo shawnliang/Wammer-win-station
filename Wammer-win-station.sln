@@ -18,6 +18,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station.StartUp", "W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station.Service", "Wammer.Station.Service\Wammer.Station.Service.csproj", "{C7B8A613-B0D8-49B4-B232-54A222E0095C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestPrograms", "TestPrograms", "{47AAAF71-EA00-4191-94CA-CB1E58641D2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCloud", "TestPrograms\TestCloud\TestCloud.csproj", "{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Wammer-win-station.vsmdi
@@ -169,8 +173,37 @@ Global
 		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|Mixed Platforms.Build.0 = Release|x86
 		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|x86.ActiveCfg = Release|x86
 		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.SingleImage|x86.Build.0 = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.CD_ROM|Any CPU.ActiveCfg = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.CD_ROM|x86.ActiveCfg = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.CD_ROM|x86.Build.0 = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.Debug|x86.ActiveCfg = Debug|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.Debug|x86.Build.0 = Debug|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.DVD-5|Any CPU.ActiveCfg = Debug|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.DVD-5|Mixed Platforms.ActiveCfg = Debug|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.DVD-5|Mixed Platforms.Build.0 = Debug|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.DVD-5|x86.ActiveCfg = Debug|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.DVD-5|x86.Build.0 = Debug|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.Release|Any CPU.ActiveCfg = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.Release|Mixed Platforms.Build.0 = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.Release|x86.ActiveCfg = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.Release|x86.Build.0 = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.SingleImage|Any CPU.ActiveCfg = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.SingleImage|Mixed Platforms.ActiveCfg = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.SingleImage|Mixed Platforms.Build.0 = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.SingleImage|x86.ActiveCfg = Release|x86
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.SingleImage|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA} = {47AAAF71-EA00-4191-94CA-CB1E58641D2E}
+		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE} = {47AAAF71-EA00-4191-94CA-CB1E58641D2E}
 	EndGlobalSection
 EndGlobal
