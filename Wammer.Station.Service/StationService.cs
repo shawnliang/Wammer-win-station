@@ -97,7 +97,7 @@ namespace Wammer.Station.Service
 				parameters.Add("port", port.ToString());
 				station.LogOn(new System.Net.WebClient(), parameters);
 
-				CloudServer.SetSessionToken(station.Token);
+				CloudServer.SessionToken = station.Token;
 				StationRegistry.SetValue("stationToken", station.Token);
 				return true;
 			}

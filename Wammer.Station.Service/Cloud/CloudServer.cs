@@ -28,15 +28,7 @@ namespace Wammer.Cloud
 		public const string PARAM_SESSION_TOKEN = "session_token";
 		public const string PARAM_STATION_ID = "station_id";
 
-		public static void SetSessionToken(string token)
-		{
-			cookies.Add(new Cookie("session_token", token, "/", HostName));
-		}
-
-		public static CookieContainer Cookies
-		{
-			get { return cookies; }
-		}
+		public static string SessionToken { get; set; }
 
 		public static string BaseUrl
 		{

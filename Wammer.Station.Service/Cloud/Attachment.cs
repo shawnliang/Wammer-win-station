@@ -44,61 +44,25 @@ namespace Wammer.Cloud
 		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string objectId,
 												string fileName, string contentType, ImageMeta meta)
 		{
-			Part filePart = new Part(imageData, 0, imageData.Length);
-			filePart.Headers.Add("Content-Disposition",
-											"form-data; name=\"file\"; filename=\"" + fileName + "\"");
 
-			filePart.Headers.Add("Content-Type", contentType);
-
-			Part metaPart = new Part(meta.ToString().ToLower());
-			metaPart.Headers.Add("Content-Disposition", "form-data; name=\"image_meta\"");
-
-			Part typePart = new Part("image");
-			typePart.Headers.Add("Content-Disposition", "form-data; name=\"type\"");
-
-			Part objIdPart = null;
+			Dictionary<string, object> pars = new Dictionary<string, object>();
+			pars["type"] = "image";
+			pars["image_meta"] = meta.ToString().ToLower();
+			pars["session_token"] = CloudServer.SessionToken;
 			if (objectId != null)
+				pars["object_id"] = objectId;
+			pars["file"] = imageData;
+			HttpWebResponse _webResponse = Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+				url,
+				"Mozilla 4.0+",
+				pars,
+				fileName,
+				contentType);
+
+			using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
 			{
-				objIdPart = new Part(objectId);
-				objIdPart.Headers.Add("Content-Disposition", "form-data; name=object_id");
-			}
-
-			string boundary = Guid.NewGuid().ToString();
-
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-			request.Timeout = 10000;
-			request.Method = "POST";
-			request.ContentType = "multipart/form-data; boundary=" + boundary;
-			request.CookieContainer = CloudServer.Cookies;
-
-			using (Stream m = new MemoryStream())
-			{
-				Serializer writer = new Serializer(m, boundary);
-				writer.Put(filePart);
-				writer.Put(metaPart);
-				writer.Put(typePart);
-
-				if (objIdPart != null)
-					writer.Put(objIdPart);
-
-				writer.PutNoMoreData();
-
-				request.ContentLength = m.Length;
-
-				using (Stream s = request.GetRequestStream())
-				{
-					m.Position = 0;
-					Utility.StreamHelper.Copy(m, s);
-				}
-			}
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-			using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-			{
-				string resp = reader.ReadToEnd();
-				return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(resp);
-			}
-			
+				return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
+			}			
 		}
 
 		public static ObjectUploadResponse UploadImage(string url, byte[] imageData,

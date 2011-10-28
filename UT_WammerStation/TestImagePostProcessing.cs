@@ -27,6 +27,7 @@ namespace UT_WammerStation
 			recvFiles = this.Files;
 			recvParameters= this.Parameters;
 			recvCookies = this.Request.Cookies;
+
 			HttpHelper.RespondSuccess(Response,
 				ObjectUploadResponse.CreateSuccess(recvParameters["object_id"]));
 			evt.Set();
@@ -74,7 +75,7 @@ namespace UT_WammerStation
 
 			Wammer.Cloud.CloudServer.HostName = "localhost";
 			Wammer.Cloud.CloudServer.Port = 8080;
-			Wammer.Cloud.CloudServer.SetSessionToken("thisIsASessionToken");
+			Wammer.Cloud.CloudServer.SessionToken = "thisIsASessionToken";
 		}
 
 		[TestMethod]
@@ -105,7 +106,7 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestObjectUploadHandler_SessionTokenIsInCookie()
+		public void TestObjectUploadHandler_SessionTokenIsInParams()
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
@@ -118,7 +119,7 @@ namespace UT_WammerStation
 												"orig_name.jpeg", "image/jpeg", ImageMeta.Origin);
 
 				Assert.AreEqual("thisIsASessionToken",
-					DummyImageUploadHandler.recvCookies["session_token"].Value);
+					DummyImageUploadHandler.recvParameters["session_token"]);
 			}
 		}
 

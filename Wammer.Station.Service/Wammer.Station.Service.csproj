@@ -108,6 +108,7 @@
     <Compile Include="Station\ObjectUploadHandler.cs" />
     <Compile Include="Station\StationRegistry.cs" />
     <Compile Include="Station\ViewObjectHandler.cs" />
+    <Compile Include="Utility\WebHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -20,7 +20,7 @@ namespace TestCloud
 				{
 					User user = User.LogIn(agent, "tj.sheu@waveface.com", "tj");
 
-					string thumbnail = @"C:\Users\shawnliang\bin\image.txt";
+					string thumbnail = @"C:\Users\shawnliang\bin\0dc93a4e-7625-46d4-89bc-c3dbe2c1fbd6.jpeg";
 
 					using (FileStream s = File.OpenRead(thumbnail))
 					{
@@ -30,8 +30,9 @@ namespace TestCloud
 							throw new Exception("nread != s.Length");
 
 
+
 						ObjectUploadResponse origResp = Attachment.UploadImage(
-										buffer, null, "big.jpeg", "image/jpeg", ImageMeta.Small);
+										buffer, null, "big.jpeg" , "image/jpeg", ImageMeta.Small);
 
 						Console.WriteLine("orig image uploaded: " + origResp.object_id);
 
