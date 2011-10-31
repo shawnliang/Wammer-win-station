@@ -6,6 +6,8 @@
 *.pdb
 **/bin
 **/obj
+TestPrograms/TestCloud/obj
+TestPrograms/TestCloud/bin
 **/Debug
 **/Release
 *.msi
