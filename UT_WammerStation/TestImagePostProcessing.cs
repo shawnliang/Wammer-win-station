@@ -63,6 +63,12 @@ namespace UT_WammerStation
 	public class TestImagePostProcessing
 	{
 		byte[] imageRawData;
+		MongoDB.Driver.MongoServer mongodb;
+
+		public TestImagePostProcessing()
+		{
+			mongodb = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
+		}
 
 		[TestInitialize]
 		public void setUp()
@@ -86,7 +92,7 @@ namespace UT_WammerStation
 			using (HttpServer server = new HttpServer(80))
 			{
 				FileStorage fileStore = new FileStorage("resource");
-				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore);
+				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore, mongodb);
 
 				DummyRequestCompletedHandler evtHandler = new DummyRequestCompletedHandler();
 				handler.ImageAttachmentCompleted += evtHandler.Handle;
@@ -132,7 +138,7 @@ namespace UT_WammerStation
 			{
 				FileStorage fileStore = new FileStorage("resource");
 				ImagePostProcessing postProc = new ImagePostProcessing(fileStore);
-				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore);
+				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore, mongodb);
 
 				handler.ImageAttachmentSaved += postProc.HandleAttachmentSaved;
 

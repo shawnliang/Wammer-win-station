@@ -21,4 +21,8 @@ title1
 Content-Disposition: form-data; name="description"
 
 desc
+--AaB03x
+Content-Disposition: form-data; name="image_meta"
+
+small
 --AaB03x--

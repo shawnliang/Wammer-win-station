@@ -60,7 +60,11 @@ namespace Wammer.Station.Service
 							new ViewObjectHandler(storage));
 
 
-			ObjectUploadHandler attachmentHandler = new ObjectUploadHandler(storage);
+			MongoDB.Driver.MongoServer mongodb = MongoDB.Driver.MongoServer.Create(
+												string.Format("mongodb://localhost:{0}/?safe=true", 
+												StationRegistry.GetValue("dbPort", 10319)));
+
+			ObjectUploadHandler attachmentHandler = new ObjectUploadHandler(storage, mongodb);
 			ImagePostProcessing imgProc = new ImagePostProcessing(storage);
 			attachmentHandler.ImageAttachmentSaved += imgProc.HandleAttachmentSaved;
 			attachmentHandler.ImageAttachmentCompleted += imgProc.HandleRequestCompleted;
@@ -93,7 +97,7 @@ namespace Wammer.Station.Service
 				Wammer.Cloud.Station station = new Cloud.Station(stationId, stationToken);
 				Dictionary<object, object> parameters = new Dictionary<object, object>();
 				parameters.Add("host_name", Dns.GetHostName());
-				parameters.Add("ip_address", GetOneLocalIPAddress());
+				parameters.Add("ip_address", StationInfo.IPv4Address.ToString());
 				parameters.Add("port", port.ToString());
 				station.LogOn(new System.Net.WebClient(), parameters);
 
@@ -106,18 +110,6 @@ namespace Wammer.Station.Service
 				logger.Warn("Unable to logon station with Wammer Cloud", e);
 				return false;
 			}
-		}
-
-		private string GetOneLocalIPAddress()
-		{
-			IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
-			foreach (IPAddress ip in ips)
-			{
-				if (!IPAddress.IsLoopback(ip))
-					return ip.ToString();
-			}
-
-			return "";
 		}
 
 		protected override void OnStop()

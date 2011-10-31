@@ -10,6 +10,9 @@ using Wammer.MultiPart;
 using Wammer.Station;
 using Wammer.Cloud;
 
+using MongoDB.Bson;
+using MongoDB.Driver;
+
 namespace UT_WammerStation
 {
 	[TestClass]
@@ -26,6 +29,16 @@ namespace UT_WammerStation
 		Part oidPart;
 
 		List<Part> parts = new List<Part>();
+
+
+		MongoServer mongo;
+		FileStorage storage;
+
+		public TestReceiveObjects()
+		{
+			mongo = MongoServer.Create("mongodb://localhost:10319/?safe=true");
+			storage = new FileStorage("resource");
+		}
 
 		private Part CreatePart(byte[] data)
 		{
@@ -52,6 +65,9 @@ namespace UT_WammerStation
 			parts.Add(filenamePart);
 			parts.Add(filetypePart);
 			parts.Add(oidPart);
+
+			MongoDatabase db = mongo.GetDatabase("wammer");
+			db.Drop();
 		}
 
 		[TestCleanup]
@@ -102,7 +118,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler());
+				server.AddHandler("/test/", new ObjectUploadHandler(storage, mongo));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",
@@ -130,11 +146,48 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
+		public void TestObjectReceiveHandler_UploadNewOrignalImage()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				server.AddHandler("/test/", new ObjectUploadHandler(storage, mongo));
+				server.Start();
+
+				FakeClient client = new FakeClient("http://localhost/test/",
+															"multipart/form-data; boundary=AaB03x");
+				FakeClientResult result = client.PostFile("ObjectUpload1.txt");
+
+
+				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
+										<ObjectUploadResponse>(result.ResponseAsText);
+
+				Assert.AreEqual(200, res.status);
+				Assert.AreEqual(0, res.app_ret_code);
+
+				MongoDatabase db = mongo.GetDatabase("wammer");
+				Assert.IsNotNull(db);
+				MongoCollection<BsonDocument> attachments = db.GetCollection("attachments");
+				BsonDocument saveData = 
+					attachments.FindOne(new QueryDocument("object_id", res.object_id));
+
+				Assert.IsNotNull(saveData);
+				Assert.AreEqual("title1", saveData["title"].AsString);
+				Assert.AreEqual("desc", saveData["description"].AsString);
+				Assert.AreEqual("image/jpeg", saveData["meme_type"].AsString);
+				Assert.AreEqual("http://192.168.1.177:9981/v2/attachments/view/?object_id=" + res.object_id,
+								saveData["url"].AsString);
+				Assert.AreEqual(20, saveData["file_size"].AsInt32);
+				Assert.AreEqual("image", saveData["type"].AsString);
+				Assert.IsFalse(saveData.Contains("image_meta"));
+			}
+		}
+
+		[TestMethod]
 		public void TestObjectReceiveHandler_withoutObjectId()
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler());
+				server.AddHandler("/test/", new ObjectUploadHandler(storage, mongo));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",
@@ -164,7 +217,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler());
+				server.AddHandler("/test/", new ObjectUploadHandler(storage, mongo));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",

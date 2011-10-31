@@ -6,12 +6,16 @@ using System.IO;
 
 using Wammer.MultiPart;
 using Wammer.Cloud;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace Wammer.Station
 {
 	public class ObjectUploadHandler : HttpHandler
 	{
 		private FileStorage storage;
+		private MongoServer mongodb;
+		private MongoCollection<BsonDocument> attachmentCollection;
 
 		/// <summary>
 		/// Fired on the uploaded attachment is saved
@@ -22,16 +26,17 @@ namespace Wammer.Station
 		/// </summary>
 		public event EventHandler<ImageAttachmentEventArgs> ImageAttachmentCompleted;
 
-		public ObjectUploadHandler(FileStorage fileStore)
+		public ObjectUploadHandler(FileStorage fileStore, MongoServer mongodb)
 			: base()
 		{
-			storage = fileStore;
-		}
+			this.storage = fileStore;
+			this.mongodb = mongodb;
 
-		public ObjectUploadHandler()
-			: base()
-		{
-			storage = new FileStorage("resource");
+			MongoDatabase db = mongodb.GetDatabase("wammer");
+			if (!db.CollectionExists("attachments"))
+				db.CreateCollection("attachments");
+
+			this.attachmentCollection = db.GetCollection<BsonDocument>("attachments");
 		}
 
 		public override object Clone()
@@ -45,7 +50,6 @@ namespace Wammer.Station
 
 			if (file.ObjectId == null)
 				file.ObjectId = Guid.NewGuid().ToString();
-
 			string savedName = GetSavedFilename(file);
 			storage.Save(savedName, file.RawData);
 
@@ -57,6 +61,16 @@ namespace Wammer.Station
 				meta = (ImageMeta)Enum.Parse(typeof(ImageMeta), imageMeta, true);
 
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta);
+
+			this.attachmentCollection.Insert(new BsonDocument()
+				.Add("object_id", file.ObjectId)
+				.Add("title", file.Title)
+				.Add("description", file.Description)
+				.Add("url", string.Format("http://{0}:9981/v2/attachments/view/?object_id={1}",
+															StationInfo.IPv4Address, file.ObjectId))
+				.Add("type", file.Kind.ToString().ToLower())
+				.Add("meme_type", file.ContentType)
+				.Add("file_size", file.RawData.Length));
 
 			if (file.Kind == AttachmentType.image)
 				OnImageAttachmentSaved(evtArgs);
