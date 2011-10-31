@@ -11,6 +11,8 @@ using System.Net;
 
 using Wammer.Station;
 using Wammer.Cloud;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace UT_WammerStation
 {
@@ -184,5 +186,59 @@ namespace UT_WammerStation
 
 			}
 		}
+
+		[TestMethod]
+		public void TestStationRecvNewThumbnailImage()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				FileStorage fileStore = new FileStorage("resource");
+				ImagePostProcessing postProc = new ImagePostProcessing(fileStore);
+				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore, mongodb);
+				server.AddHandler("/test/", handler);
+				server.Start();
+
+				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
+														"http://localhost:80/test/", imageRawData,
+								"object_id123","orig_name2.jpeg", "image/jpeg", ImageMeta.Large);
+
+				// verify
+				Assert.AreEqual("object_id123", res.object_id);
+				using (FileStream f = fileStore.Load("object_id123_large.jpeg"))
+				{
+					Assert.AreEqual((long)imageRawData.Length, f.Length);
+					for (int i = 0; i < imageRawData.Length; i++)
+					{
+						Assert.AreEqual((int)imageRawData[i], f.ReadByte());
+					}
+				}
+
+				BsonDocument saveData = mongodb.GetDatabase("wammer").
+					GetCollection<BsonDocument>("attachments").FindOne(
+					new QueryDocument("object_id", "object_id123"));
+
+				Assert.IsNotNull(saveData);
+				Assert.IsFalse(saveData.Contains("title"));
+				Assert.IsFalse(saveData.Contains("description"));
+				Assert.IsFalse(saveData.Contains("mime_type"));
+				Assert.IsFalse(saveData.Contains("url"));
+				Assert.IsFalse(saveData.Contains("file_size"));
+				Assert.AreEqual("image", saveData["type"].AsString);
+				BsonDocument meta = saveData["image_meta"].AsBsonDocument;
+				Assert.AreEqual(
+					string.Format("http://{0}:9981/v2/attachments/view/?object_id={1}&image_meta=large",
+						StationInfo.IPv4Address, res.object_id),
+					meta["large"].AsBsonDocument["url"].AsString);
+
+				Assert.AreEqual(res.object_id + "_large.jpeg",
+					meta["large"].AsBsonDocument["file_name"]);
+				Assert.AreEqual(0, meta["large"].AsBsonDocument["height"].AsInt32);
+				Assert.AreEqual(0, meta["large"].AsBsonDocument["width"].AsInt32);
+				Assert.AreEqual(imageRawData.Length, meta["large"].AsBsonDocument["file_size"].AsInt32);
+				Assert.AreEqual("image/jpeg", meta["large"].AsBsonDocument["mime_type"].AsString);
+			}
+		}
+
+
 	}
 }

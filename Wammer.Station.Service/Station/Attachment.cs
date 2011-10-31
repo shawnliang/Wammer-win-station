@@ -8,6 +8,7 @@ namespace Wammer.Station
 	
 	public class Attachment
 	{
+		public bool IdCreatedByStation { get; set; }
 		public string Filename { get; set; }
 		public string ObjectId { get; set; }
 		public byte[] RawData { get; set; }
@@ -19,6 +20,7 @@ namespace Wammer.Station
 
 		public Attachment()
 		{
+			IdCreatedByStation = false;
 		}
 	}
 }

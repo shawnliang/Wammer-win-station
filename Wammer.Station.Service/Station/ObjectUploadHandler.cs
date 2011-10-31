@@ -6,6 +6,8 @@ using System.IO;
 
 using Wammer.MultiPart;
 using Wammer.Cloud;
+using Wammer.Utility;
+
 using MongoDB.Driver;
 using MongoDB.Bson;
 
@@ -47,30 +49,51 @@ namespace Wammer.Station
 		protected override void HandleRequest()
 		{
 			Attachment file = GetFileFromMultiPartData();
+			ImageMeta meta = GetImageMeta();
 
 			if (file.ObjectId == null)
+			{
 				file.ObjectId = Guid.NewGuid().ToString();
-			string savedName = GetSavedFilename(file);
+				file.IdCreatedByStation = true;
+			}
+
+			string savedName = GetSavedFilename(file, meta);
 			storage.Save(savedName, file.RawData);
-
-			string imageMeta = Parameters["image_meta"];
-			ImageMeta meta;
-			if (imageMeta ==null)
-				meta = ImageMeta.Origin;
-			else
-				meta = (ImageMeta)Enum.Parse(typeof(ImageMeta), imageMeta, true);
-
+			
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta);
 
-			this.attachmentCollection.Insert(new BsonDocument()
+			BsonDocument dbDoc = new BsonDocument()
 				.Add("object_id", file.ObjectId)
 				.Add("title", file.Title)
 				.Add("description", file.Description)
-				.Add("url", string.Format("http://{0}:9981/v2/attachments/view/?object_id={1}",
+				.Add("type", file.Kind.ToString().ToLower());
+
+			if (meta == ImageMeta.Origin)
+			{
+				dbDoc.Add("url", string.Format("http://{0}:9981/v2/attachments/view/?object_id={1}",
 															StationInfo.IPv4Address, file.ObjectId))
-				.Add("type", file.Kind.ToString().ToLower())
-				.Add("meme_type", file.ContentType)
-				.Add("file_size", file.RawData.Length));
+					.Add("meme_type", file.ContentType)
+					.Add("file_size", file.RawData.Length);
+			}
+			else 
+			{
+				BsonDocument metaDoc = new BsonDocument()
+					.Add("url", string.Format("http://{0}:9981/v2/attachments/view/?object_id={1}" +
+														"&image_meta={2}", StationInfo.IPv4Address, 
+																					file.ObjectId,
+																		meta.ToString().ToLower()))
+					.Add("file_name", savedName)
+					.Add("width", 0)
+					.Add("height", 0)
+					.Add("modify_time", TimeHelper.GetMillisecondsSince1970())
+					.Add("file_size", file.RawData.Length)
+					.Add("mime_type", file.ContentType);
+
+				dbDoc.Add("image_meta", new BsonDocument().Add(meta.ToString().ToLower(), metaDoc));
+			}
+
+			this.attachmentCollection.Insert(dbDoc);
+
 
 			if (file.Kind == AttachmentType.image)
 				OnImageAttachmentSaved(evtArgs);
@@ -80,6 +103,17 @@ namespace Wammer.Station
 
 			if (file.Kind == AttachmentType.image)
 				OnImageAttachmentCompleted(evtArgs);
+		}
+
+		private ImageMeta GetImageMeta()
+		{
+			string imageMeta = Parameters["image_meta"];
+			ImageMeta meta;
+			if (imageMeta == null)
+				meta = ImageMeta.None;
+			else
+				meta = (ImageMeta)Enum.Parse(typeof(ImageMeta), imageMeta, true);
+			return meta;
 		}
 
 		protected void OnImageAttachmentSaved(ImageAttachmentEventArgs evt)
@@ -100,16 +134,23 @@ namespace Wammer.Station
 			}
 		}
 
-		private static string GetSavedFilename(Attachment file)
+		private static string GetSavedFilename(Attachment file, ImageMeta meta)
 		{
+			string name = file.ObjectId;
+
+			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
+			{
+				name += "_" + meta.ToString().ToLower();
+			}
+
 			string originalSuffix = Path.GetExtension(file.Filename);
 			if (originalSuffix != null)
 			{
-				return file.ObjectId + originalSuffix;
+				return name + originalSuffix;
 			}
 			else
 			{
-				return file.ObjectId;
+				return name;
 			}
 		}
 
