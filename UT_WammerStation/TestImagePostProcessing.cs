@@ -20,7 +20,7 @@ namespace UT_WammerStation
 		public static NameValueCollection recvParameters;
 		public static CookieCollection recvCookies;
 
-		private static AutoResetEvent evt = new AutoResetEvent(false);
+		public static AutoResetEvent evt = new AutoResetEvent(false);
 
 		protected override void HandleRequest()
 		{
@@ -76,6 +76,7 @@ namespace UT_WammerStation
 			Wammer.Cloud.CloudServer.HostName = "localhost";
 			Wammer.Cloud.CloudServer.Port = 8080;
 			Wammer.Cloud.CloudServer.SessionToken = "thisIsASessionToken";
+            DummyImageUploadHandler.evt.Reset();
 		}
 
 		[TestMethod]
@@ -144,7 +145,7 @@ namespace UT_WammerStation
 
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
 														"http://localhost:80/test/", imageRawData,
-												"orig_name.jpeg", "image/jpeg",ImageMeta.Origin);
+												"orig_name2.jpeg", "image/jpeg",ImageMeta.Origin);
 
 				// verify
 				Assert.IsTrue(DummyImageUploadHandler.Wait());
