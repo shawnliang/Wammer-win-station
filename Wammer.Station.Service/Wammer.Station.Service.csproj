@@ -119,6 +119,7 @@
     <Compile Include="Station\Attachment.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\StationInfo.cs" />
+    <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />
     <Compile Include="MultiPart\Disposition.cs" />
