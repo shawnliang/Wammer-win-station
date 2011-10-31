@@ -76,7 +76,7 @@ namespace UT_WammerStation
 			Wammer.Cloud.CloudServer.HostName = "localhost";
 			Wammer.Cloud.CloudServer.Port = 8080;
 			Wammer.Cloud.CloudServer.SessionToken = "thisIsASessionToken";
-            DummyImageUploadHandler.evt.Reset();
+			DummyImageUploadHandler.evt.Reset();
 		}
 
 		[TestMethod]
