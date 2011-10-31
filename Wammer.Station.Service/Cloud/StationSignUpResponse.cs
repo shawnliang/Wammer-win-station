@@ -6,29 +6,23 @@ namespace Wammer.Cloud
 {
 	public class StationSignUpResponse : CloudResponse
 	{
-		private string _token;
+		public string session_token { get; set; }
 
 		public StationSignUpResponse(int status, DateTime timestamp, string stationToken)
 			: base(status, timestamp)
 		{
-			this._token = stationToken;
+			this.session_token = stationToken;
 		}
 
 		public StationSignUpResponse()
 			: base()
 		{
 		}
-
-		public string session_token
-		{
-			get { return _token; }
-			set { _token = value; }
-		}
 	}
 
 	public class StationLogOnResponse : CloudResponse
 	{
-		private string _token;
+		public string session_token { get; set; }
 
 		public StationLogOnResponse()
 			: base()
@@ -38,13 +32,7 @@ namespace Wammer.Cloud
 		public StationLogOnResponse(int status, DateTime timestamp, string token)
 			: base(status, timestamp)
 		{
-			_token = token;
-		}
-
-		public string session_token
-		{
-			get { return _token; }
-			set { _token = value; }
+			session_token = token;
 		}
 	}
 }

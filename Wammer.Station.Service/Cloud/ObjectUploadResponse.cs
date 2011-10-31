@@ -6,8 +6,6 @@ namespace Wammer.Cloud
 {
 	public class ObjectUploadResponse : CloudResponse
 	{
-		private string _object_id;
-
 		public ObjectUploadResponse()
 		{
 
@@ -20,7 +18,7 @@ namespace Wammer.Cloud
 			res.app_ret_msg = "Success";
 			res.status = 200;
 			res.timestamp = DateTime.Now.ToUniversalTime();
-			res._object_id = objectId;
+			res.object_id = objectId;
 
 			return res;
 		}
@@ -33,15 +31,11 @@ namespace Wammer.Cloud
 			res.app_ret_msg = e.Message;
 			res.status = httpStatus;
 			res.timestamp = DateTime.Now.ToUniversalTime();
-			res._object_id = objectId;
+			res.object_id = objectId;
 
 			return res;
 		}
 	
-		public string object_id
-		{
-			get { return _object_id; }
-			set { _object_id = value; }
-		}
+		public string object_id { get;set;}
 	}
 }

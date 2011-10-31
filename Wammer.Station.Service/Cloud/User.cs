@@ -8,15 +8,16 @@ namespace Wammer.Cloud
 {
 	public class User
 	{
-		private string name;
-		private string password;
-		private string token;
+
+		public string Name { get; private set; }
+		public string Password { get; private set; }
+		public string Token { get; private set; }
 
 
 		private User(string username, string passwd)
 		{
-			this.name = username;
-			this.password = passwd;
+			this.Name = username;
+			this.Password = passwd;
 		}
 
 		public static User LogIn(WebClient agent, string username, string passwd)
@@ -30,23 +31,8 @@ namespace Wammer.Cloud
 				agent, "auth/login", parameters);
 
 			User user = new User(username, passwd);
-			user.token = res.session_token;
+			user.Token = res.session_token;
 			return user;
-		}
-
-		public string Name
-		{
-			get { return name; }
-		}
-
-		public string Password
-		{
-			get { return password; }
-		}
-
-		public string Token
-		{
-			get { return this.token; }
 		}
 	}
 }
