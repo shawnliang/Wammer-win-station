@@ -174,7 +174,7 @@ namespace UT_WammerStation
 				Assert.IsNotNull(saveData);
 				Assert.AreEqual("title1", saveData["title"].AsString);
 				Assert.AreEqual("desc", saveData["description"].AsString);
-				Assert.AreEqual("image/jpeg", saveData["meme_type"].AsString);
+				Assert.AreEqual("image/jpeg", saveData["mime_type"].AsString);
 				Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + res.object_id,
 								saveData["url"].AsString);
 				Assert.AreEqual(20, saveData["file_size"].AsInt32);

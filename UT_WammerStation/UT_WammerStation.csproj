@@ -90,7 +90,6 @@
     <Compile Include="TestReceiveObjects.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestViewFile.cs" />
-    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt" />

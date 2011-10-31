@@ -62,37 +62,17 @@ namespace Wammer.Station
 			
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta);
 
-			BsonDocument dbDoc = new BsonDocument()
-				.Add("object_id", file.ObjectId)
-				.Add("title", file.Title)
-				.Add("description", file.Description)
-				.Add("type", file.Kind.ToString().ToLower());
+			BsonDocument dbDoc = GetBsonDocument(file, meta, savedName);
 
-			if (meta == ImageMeta.Origin)
+			BsonDocument existDoc = this.attachmentCollection.FindOne(
+													new QueryDocument("object_id", file.ObjectId));
+			if (existDoc != null)
 			{
-				dbDoc.Add("url", string.Format("http://{0}:9981/v2/attachments/view/?object_id={1}",
-															StationInfo.IPv4Address, file.ObjectId))
-					.Add("meme_type", file.ContentType)
-					.Add("file_size", file.RawData.Length);
+				existDoc.DeepMerge(dbDoc);
+				this.attachmentCollection.Save(existDoc);
 			}
-			else 
-			{
-				BsonDocument metaDoc = new BsonDocument()
-					.Add("url", string.Format("http://{0}:9981/v2/attachments/view/?object_id={1}" +
-														"&image_meta={2}", StationInfo.IPv4Address, 
-																					file.ObjectId,
-																		meta.ToString().ToLower()))
-					.Add("file_name", savedName)
-					.Add("width", 0)
-					.Add("height", 0)
-					.Add("modify_time", TimeHelper.GetMillisecondsSince1970())
-					.Add("file_size", file.RawData.Length)
-					.Add("mime_type", file.ContentType);
-
-				dbDoc.Add("image_meta", new BsonDocument().Add(meta.ToString().ToLower(), metaDoc));
-			}
-
-			this.attachmentCollection.Insert(dbDoc);
+			else
+				this.attachmentCollection.Insert(dbDoc);
 
 
 			if (file.Kind == AttachmentType.image)
@@ -103,6 +83,41 @@ namespace Wammer.Station
 
 			if (file.Kind == AttachmentType.image)
 				OnImageAttachmentCompleted(evtArgs);
+		}
+
+		private static BsonDocument GetBsonDocument(Attachment file, ImageMeta meta, string savedName)
+		{
+			BsonDocument dbDoc = new BsonDocument()
+						 .Add("object_id", file.ObjectId)
+						 .Add("type", file.Kind.ToString().ToLower());
+
+			dbDoc.Add("title", file.Title);
+			dbDoc.Add("description", file.Description);
+
+
+			if (meta != ImageMeta.None)
+			{
+				if (meta == ImageMeta.Origin)
+				{
+					dbDoc.Add("url", StationInfo.BaseURL + "attachments/view/?object_id=" +
+																					file.ObjectId)
+						.Add("mime_type", file.ContentType)
+						.Add("file_size", file.RawData.Length);
+				}
+				else
+				{
+					BsonDocument metaDoc = new BsonDocument()
+						.Add("url", string.Format("{0}attachments/view/?object_id={1}&image_meta={2}",
+							StationInfo.BaseURL, file.ObjectId, meta.ToString().ToLower()))
+						.Add("file_name", savedName)
+						.Add("modify_time", TimeHelper.GetMillisecondsSince1970())
+						.Add("file_size", file.RawData.Length)
+						.Add("mime_type", file.ContentType);
+
+					dbDoc.Add("image_meta", new BsonDocument().Add(meta.ToString().ToLower(), metaDoc));
+				}
+			}
+			return dbDoc;
 		}
 
 		private ImageMeta GetImageMeta()

@@ -65,9 +65,10 @@ namespace UT_WammerStation
 	public class TestImagePostProcessing
 	{
 		byte[] imageRawData;
-		MongoDB.Driver.MongoServer mongodb;
+		static MongoDB.Driver.MongoServer mongodb;
 
-		public TestImagePostProcessing()
+		[ClassInitialize()]
+		public static void MyClassInitialize(TestContext testContext)
 		{
 			mongodb = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
 		}
@@ -85,6 +86,34 @@ namespace UT_WammerStation
 			Wammer.Cloud.CloudServer.Port = 8080;
 			Wammer.Cloud.CloudServer.SessionToken = "thisIsASessionToken";
 			DummyImageUploadHandler.evt.Reset();
+
+			if (mongodb.GetDatabase("wammer").CollectionExists("attachments"))
+				mongodb.GetDatabase("wammer").DropCollection("attachments");
+
+			mongodb.GetDatabase("wammer").CreateCollection("attachments");
+			MongoCollection<BsonDocument> atts = mongodb.GetDatabase("wammer").GetCollection<
+				BsonDocument>("attachments");
+
+			atts.Insert(new BsonDocument
+			{
+				{"object_id", "exist_id"},
+				{"title", "orig_title"},
+				{"description", "orig_desc"},
+				{"type", "image"},
+				{"image_meta", new BsonDocument {
+					{"small", new BsonDocument {
+								{"file_name", "123.jpeg"},
+								{"mime_type", "image/jpeg"},
+								{"url", "http://url/"},
+								{"file_size", 123},
+								{"width", 1000},
+								{"height", 2000}
+							}
+					}
+					}
+				}
+			});
+
 		}
 
 		[TestMethod]
@@ -133,7 +162,7 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestStationRecvOriginalImage()
+		public void TestStationRecv_NewOriginalImage()
 		{
 			using (HttpServer cloud = new HttpServer(8080))
 			using (HttpServer server = new HttpServer(80))
@@ -188,7 +217,52 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestStationRecvNewThumbnailImage()
+		public void TestStationRecv_OldOriginalImage()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				FileStorage fileStore = new FileStorage("resource");
+				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore, mongodb);
+				server.AddHandler("/test/", handler);
+				server.Start();
+
+				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
+														"http://localhost:80/test/", imageRawData,
+									"exist_id" ,"orig_name2.png", "image/png", ImageMeta.Origin);
+
+				// verify saved file
+				using (FileStream f = fileStore.Load("exist_id.png"))
+				{
+					byte[] imageData = new byte[f.Length];
+					Assert.AreEqual(imageData.Length, f.Read(imageData, 0, imageData.Length));
+
+					for (int i = 0; i < f.Length; i++)
+					{
+						Assert.AreEqual(imageData[i], imageRawData[i]);
+					}
+				}
+
+				// verify db
+				MongoCursor<BsonDocument> cursor = 
+				mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments")
+					.Find(new QueryDocument("object_id", "exist_id"));
+
+
+				Assert.AreEqual<long>(1,cursor.Count());
+				foreach (BsonDocument doc in cursor)
+				{
+					Assert.AreEqual("exist_id", doc["object_id"].AsString);
+					Assert.AreEqual("orig_desc", doc["description"].AsString);
+					Assert.AreEqual("orig_title", doc["title"].AsString);
+					Assert.AreEqual("image", doc["type"].AsString);
+					Assert.AreEqual(imageRawData.Length, doc["file_size"].AsInt32);
+					Assert.AreEqual("image/png", doc["mime_type"].AsString);
+				}
+			}
+		}
+
+		[TestMethod]
+		public void TestStationRecv_NewThumbnailImage()
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
@@ -232,8 +306,6 @@ namespace UT_WammerStation
 
 				Assert.AreEqual(res.object_id + "_large.jpeg",
 					meta["large"].AsBsonDocument["file_name"]);
-				Assert.AreEqual(0, meta["large"].AsBsonDocument["height"].AsInt32);
-				Assert.AreEqual(0, meta["large"].AsBsonDocument["width"].AsInt32);
 				Assert.AreEqual(imageRawData.Length, meta["large"].AsBsonDocument["file_size"].AsInt32);
 				Assert.AreEqual("image/jpeg", meta["large"].AsBsonDocument["mime_type"].AsString);
 			}
