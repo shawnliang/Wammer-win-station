@@ -22,9 +22,11 @@ namespace Wammer.Station
 			this.fileStorage = fileStorage;
 		}
 
-		public void HandleAttachmentSaved(object sender, ImageAttachmentEventArgs evt)
+		public void HandleImageAttachmentSaved(object sender, ImageAttachmentEventArgs evt)
 		{
 			System.Diagnostics.Debug.Assert(evt.Attachment.Kind == AttachmentType.image);
+			if (evt.Meta != ImageMeta.Origin)
+				return;
 
 			try
 			{
@@ -39,8 +41,11 @@ namespace Wammer.Station
 			}
 		}
 
-		public void HandleRequestCompleted(object sender, ImageAttachmentEventArgs evt)
+		public void HandleImageAttachmentCompleted(object sender, ImageAttachmentEventArgs evt)
 		{
+			if (evt.Meta != ImageMeta.Origin)
+				return;
+
 			if (evt.Attachment.Kind == AttachmentType.image)
 			{
 				ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,

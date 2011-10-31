@@ -140,7 +140,7 @@ namespace UT_WammerStation
 				ImagePostProcessing postProc = new ImagePostProcessing(fileStore);
 				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore, mongodb);
 
-				handler.ImageAttachmentSaved += postProc.HandleAttachmentSaved;
+				handler.ImageAttachmentSaved += postProc.HandleImageAttachmentSaved;
 
 				server.AddHandler("/test/", handler);
 				server.Start();

@@ -155,7 +155,7 @@ namespace UT_WammerStation
 
 				FakeClient client = new FakeClient("http://localhost/test/",
 															"multipart/form-data; boundary=AaB03x");
-				FakeClientResult result = client.PostFile("ObjectUpload1.txt");
+				FakeClientResult result = client.PostFile("ObjectUpload1_noObjId.txt");
 
 
 				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
