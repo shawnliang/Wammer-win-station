@@ -10,11 +10,14 @@ namespace Wammer.Station
 	public static class StationInfo
 	{
 		public static IPAddress IPv4Address { get; private set; }
+		public static string BaseURL { get; private set; }
 
 
 		static StationInfo()
 		{
 			IPv4Address = GetIPAddressesV4()[0];
+			BaseURL = string.Format("http://{0}:9981/{1}/", IPv4Address, 
+																Cloud.CloudServer.DEF_BASE_PATH);
 		}
 
 		private static IPAddress[] GetIPAddressesV4()

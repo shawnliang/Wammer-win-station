@@ -175,61 +175,13 @@ namespace UT_WammerStation
 				Assert.AreEqual("title1", saveData["title"].AsString);
 				Assert.AreEqual("desc", saveData["description"].AsString);
 				Assert.AreEqual("image/jpeg", saveData["meme_type"].AsString);
-				Assert.AreEqual("http://192.168.1.177:9981/v2/attachments/view/?object_id=" + res.object_id,
+				Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + res.object_id,
 								saveData["url"].AsString);
 				Assert.AreEqual(20, saveData["file_size"].AsInt32);
 				Assert.AreEqual("image", saveData["type"].AsString);
 				Assert.IsFalse(saveData.Contains("image_meta"));
 			}
 		}
-
-		//[TestMethod]
-		//public void TestObjectReceiveHandler_UploadThumbnail()
-		//{
-		//    using (HttpServer server = new HttpServer(80))
-		//    {
-		//        ObjectUploadHandler handler = new ObjectUploadHandler(storage, mongo);
-		//        server.AddHandler("/test/", handler);
-		//        server.Start();
-
-		//        FakeClient client = new FakeClient("http://localhost/test/",
-		//                                                    "multipart/form-data; boundary=AaB03x");
-		//        FakeClientResult result = client.PostFile("ObjectUpload1.txt");
-
-
-		//        ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
-		//                                <ObjectUploadResponse>(result.ResponseAsText);
-
-		//        Assert.AreEqual(200, res.status);
-		//        Assert.AreEqual(0, res.app_ret_code);
-
-		//        MongoDatabase db = mongo.GetDatabase("wammer");
-		//        Assert.IsNotNull(db);
-		//        MongoCollection<BsonDocument> attachments = db.GetCollection("attachments");
-		//        BsonDocument saveData =
-		//            attachments.FindOne(new QueryDocument("object_id", res.object_id));
-
-		//        Assert.IsNotNull(saveData);
-		//        Assert.AreEqual("title1", saveData["title"].AsString);
-		//        Assert.AreEqual("desc", saveData["description"].AsString);
-		//        Assert.AreEqual("", saveData["meme_type"].AsString);
-		//        Assert.IsFalse(saveData.Contains("url"));
-		//        Assert.AreEqual(0, saveData["file_size"].AsInt32);
-		//        Assert.AreEqual("image", saveData["type"].AsString);
-		//        BsonDocument meta = saveData["image_meta"].AsBsonDocument;
-		//        Assert.AreEqual(
-		//            string.Format("http://{0}:9981/v1/attachments/view/?object_id={1}&image_meta=small",
-		//                StationInfo.IPv4Address, res.object_id),
-		//            meta["small"].AsBsonDocument["url"].AsString);
-
-		//        Assert.AreEqual(res.object_id + "_small.jpeg",
-		//            meta["small"].AsBsonDocument["file_name"]);
-		//        Assert.AreEqual(0, meta["small"].AsBsonDocument["height"].AsInt32);
-		//        Assert.AreEqual(0, meta["small"].AsBsonDocument["width"].AsInt32);
-		//        Assert.AreEqual(20, meta["small"].AsBsonDocument["file_size"].AsInt32);
-		//        Assert.AreEqual("image/jpeg", meta["small"].AsBsonDocument["meme_type"]);
-		//    }
-		//}
 
 		[TestMethod]
 		public void TestObjectReceiveHandler_withoutObjectId()
