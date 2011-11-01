@@ -66,6 +66,8 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
@@ -77,6 +79,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestAttachmentGet.cs" />
     <Compile Include="TestBsonHelper.cs" />
     <Compile Include="FakeClient.cs" />
     <Compile Include="FakeCloud.cs" />
