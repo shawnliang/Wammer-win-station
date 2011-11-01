@@ -55,14 +55,13 @@ namespace Wammer.Station.Service
 
 			FileStorage storage = new FileStorage("resource");
 
+			MongoDB.Driver.MongoServer mongodb = MongoDB.Driver.MongoServer.Create(
+									string.Format("mongodb://localhost:{0}/?safe=true",
+									StationRegistry.GetValue("dbPort", 10319)));
+
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
-							new ViewObjectHandler(storage));
-
-
-			MongoDB.Driver.MongoServer mongodb = MongoDB.Driver.MongoServer.Create(
-												string.Format("mongodb://localhost:{0}/?safe=true", 
-												StationRegistry.GetValue("dbPort", 10319)));
+							new ViewObjectHandler(storage, mongodb));
 
 			ObjectUploadHandler attachmentHandler = new ObjectUploadHandler(storage, mongodb);
 			ImagePostProcessing imgProc = new ImagePostProcessing(storage);
@@ -95,10 +94,9 @@ namespace Wammer.Station.Service
 					return false;
 
 				Wammer.Cloud.Station station = new Cloud.Station(stationId, stationToken);
-				Dictionary<object, object> parameters = new Dictionary<object, object>();
-				parameters.Add("host_name", Dns.GetHostName());
-				parameters.Add("ip_address", StationInfo.IPv4Address.ToString());
-				parameters.Add("port", port.ToString());
+				Dictionary<object, object> parameters = new Dictionary<object, object> {
+						{"location", "http://" + StationInfo.IPv4Address + ":9981/" }
+				};
 				station.LogOn(new System.Net.WebClient(), parameters);
 
 				CloudServer.SessionToken = station.Token;

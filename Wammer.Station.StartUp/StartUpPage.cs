@@ -58,7 +58,9 @@ namespace Wammer.Station.StartUp
 				Wammer.Cloud.Station station = Wammer.Cloud.Station.SignUp(
 					this.agent,
 					stationId.ToString(),
-					user.Token);
+					user.Token,
+					new Dictionary<object, object> { 
+						{"location", "http://"+Wammer.Station.StationInfo.IPv4Address+":9981/"} });
 
 				StationRegistry.SetValue("stationId", stationId.ToString());
 				StationRegistry.SetValue("stationToken", station.Token);
