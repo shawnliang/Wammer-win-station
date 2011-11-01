@@ -64,7 +64,7 @@ namespace Wammer.Station
 			}
 		}
 
-		public FileStream LoadById(string objectId)
+		public FileStream LoadByNameWithNoSuffix(string objectId)
 		{
 			string[] files = Directory.GetFiles(basePath, objectId + ".*");
 			if (files == null || files.Length == 0)

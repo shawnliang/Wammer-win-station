@@ -8,23 +8,70 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Wammer.Station;
 using Wammer.Cloud;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace UT_WammerStation
 {
 	[TestClass]
 	public class TestViewFile
 	{
+		static MongoServer mongodb;
+		static FileStorage storage;
+
+		[ClassInitialize()]
+		public static void MyClassInitialize(TestContext testContext)
+		{
+			storage = new FileStorage("resource");
+			mongodb = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
+		}
+
 		[TestInitialize]
 		public void setUp()
 		{
 			if (!Directory.Exists("resource"))
 				Directory.CreateDirectory("resource");
 
-			FileStream fs = File.Open("resource/object_id1.jpg", FileMode.Create);
+			FileStream fs = File.Open("resource/object_id1.png", FileMode.Create);
 			using (StreamWriter w = new StreamWriter(fs))
 			{
 				w.Write("1234567890");
 			}
+			fs.Close();
+
+			fs = File.Open("resource/object_id1_medium.jpeg", FileMode.Create);
+			using (StreamWriter w = new StreamWriter(fs))
+			{
+				w.Write("abcde");
+			}
+			fs.Close();
+
+			MongoDatabase db = mongodb.GetDatabase("wammer");
+			if (db.CollectionExists("attachments"))
+				db.Drop();
+
+			db.CreateCollection("attachments");
+			db.GetCollection("attachments").Insert(new BsonDocument { 
+				{ "object_id" , "object_id1"},
+				{ "mime_type", "image/png"},
+				{ "file_size", 10},
+				{ "image_meta", new BsonDocument{
+					{ "medium", new BsonDocument{
+						{"mime_type", "image/jpeg"},
+						{"file_size", 5}
+					} }
+				} }
+			});
+
+			db.GetCollection("attachments").Insert(new BsonDocument { 
+				{ "object_id" , "object_id_na"},
+				{ "image_meta", new BsonDocument{
+					{ "medium", new BsonDocument{
+						{"mime_type", "image/jpeg"},
+						{"file_size", 10}
+					} }
+				} }
+			});
 		}
 
 		[TestCleanup]
@@ -38,7 +85,8 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(new FileStorage("resource")));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(
+					storage, mongodb));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -52,7 +100,7 @@ namespace UT_WammerStation
 
 				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				Assert.AreEqual("image/jpeg", response.ContentType);
+				Assert.AreEqual("image/png", response.ContentType);
 
 				using (StreamReader reader = new StreamReader(response.GetResponseStream()))
 				{
@@ -67,7 +115,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(new FileStorage("resource")));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -77,7 +125,7 @@ namespace UT_WammerStation
 
 				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				Assert.AreEqual("image/jpeg", response.ContentType);
+				Assert.AreEqual("image/png", response.ContentType);
 
 				using (StreamReader reader = new StreamReader(response.GetResponseStream()))
 				{
@@ -88,11 +136,63 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
+		public void TestView_ViewNotExistOrigImage()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
+				server.Start();
+
+				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
+										"http://localhost/v1/objects/view" +
+										"?object_id=object_id_na&image_meta=origin");
+				req.Method = "GET";
+
+				try
+				{
+					HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+				}
+				catch (WebException e)
+				{
+					Assert.AreEqual(HttpStatusCode.NotFound, ((HttpWebResponse)e.Response).StatusCode);
+					return;
+				}
+
+				Assert.Fail("expected exception is not thrown");
+			}
+		}
+
+		[TestMethod]
+		public void TestView_ViewThumbnail()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
+				server.Start();
+
+				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
+										"http://localhost/v1/objects/view" +
+										"?object_id=object_id1&image_meta=medium");
+				req.Method = "GET";
+
+				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+				Assert.AreEqual("image/jpeg", response.ContentType);
+
+				using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+				{
+					string responseText = reader.ReadToEnd();
+					Assert.AreEqual("abcde", responseText);
+				}
+			}
+		}
+
+		[TestMethod]
 		public void TestView_NoObjectID()
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(new FileStorage("resource")));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -131,7 +231,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(new FileStorage("resource")));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -141,7 +241,7 @@ namespace UT_WammerStation
 
 				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				Assert.AreEqual("image/jpeg", response.ContentType);
+				Assert.AreEqual("image/png", response.ContentType);
 
 				using (StreamReader reader = new StreamReader(response.GetResponseStream()))
 				{
@@ -156,7 +256,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(new FileStorage("resource")));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(

@@ -7,22 +7,29 @@ using System.Collections.Specialized;
 using System.Web;
 
 using Wammer.Cloud;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace Wammer.Station
 {
 	public class ViewObjectHandler: HttpHandler
 	{
 		private readonly FileStorage fileStorage;
+		private readonly MongoServer mongodb;
+		private readonly MongoCollection<BsonDocument> attachments;
 
-		public ViewObjectHandler(FileStorage fileStorage)
+		public ViewObjectHandler(FileStorage fileStorage, MongoServer mongodb)
 			:base()
 		{
 			this.fileStorage = fileStorage;
+			this.mongodb = mongodb;
+			this.attachments = mongodb.GetDatabase("wammer").
+														GetCollection<BsonDocument>("attachments");
 		}
 
 		public override object Clone()
 		{
-			return new ViewObjectHandler(fileStorage);
+			return this.MemberwiseClone();
 		}
 
 		protected override void HandleRequest()
@@ -41,11 +48,27 @@ namespace Wammer.Station
 					imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta),
 																	Parameters["image_meta"], true);
 
-				//FIXME : should return image based on imageMeta
-				using (FileStream fs = fileStorage.LoadById(objectId))
+
+				string namePart = objectId;
+				string metaStr = "";
+				if (imageMeta != ImageMeta.Origin)
+				{
+					metaStr = imageMeta.ToString().ToLower();
+					namePart += "_" + metaStr;
+				}
+
+
+				using (FileStream fs = fileStorage.LoadByNameWithNoSuffix(namePart))
 				{
 					Response.StatusCode = 200;
-					Response.ContentType = "image/jpeg"; //FIXME: query db to get correct content type
+					BsonDocument doc = attachments.FindOne(new QueryDocument("object_id", objectId));
+
+					if (imageMeta == ImageMeta.Origin)
+						Response.ContentType = doc["mime_type"].AsString;
+					else
+						Response.ContentType = doc["image_meta"].AsBsonDocument[metaStr]
+							.AsBsonDocument["mime_type"].AsString;
+
 
 					Wammer.Utility.StreamHelper.Copy(fs, Response.OutputStream);
 					Response.OutputStream.Close();

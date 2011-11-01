@@ -237,19 +237,5 @@ namespace UT_WammerStation
 				Assert.AreEqual(null, res.object_id);
 			}
 		}
-
-		[TestMethod]
-		public void TestRegistry()
-		{
-			CloudServer.HostName = null;
-			CloudServer.Port = 0;
-
-			Assert.AreEqual("develop.waveface.com", CloudServer.HostName);
-			Assert.AreEqual(8080, CloudServer.Port);
-			Assert.AreEqual("v2", CloudServer.DEF_BASE_PATH);
-
-			CloudServer.HostName = "127.0.0.1";
-			CloudServer.Port = 80;
-		}
 	}
 }
