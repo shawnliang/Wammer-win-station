@@ -8,6 +8,9 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Wammer.Utility;
 
+using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Bson.Serialization;
+
 namespace UT_WammerStation
 {
 	[TestClass]
@@ -122,6 +125,43 @@ namespace UT_WammerStation
 			Assert.IsTrue(res["b"] == 2);
 			Assert.AreEqual(2, res.ElementCount);
 			Assert.AreEqual(res, a);
+		}
+
+		[TestMethod]
+		public void testMixedMerge()
+		{
+			Wammer.Cloud.Attachment a = new Wammer.Cloud.Attachment
+			{
+				type = Wammer.Cloud.AttachmentType.image,
+				object_id = "1234567890",
+				image_meta = new Wammer.Cloud.ImageProperty
+				{
+					small = new Wammer.Cloud.ThumbnailInfo
+					{
+						url = "http://localhost/"
+					}
+				}
+			};
+
+			Wammer.Cloud.Attachment b = new Wammer.Cloud.Attachment
+			{
+				type = Wammer.Cloud.AttachmentType.image,
+				title = "this is title",
+				description = "this is description"
+			};
+
+			BsonDocument doc = b.ToBsonDocument();
+			BsonDocument update = a.ToBsonDocument();
+			doc.DeepMerge(update);
+
+			string bb = update.ToString();
+			
+			Assert.AreEqual("this is title", doc["title"].AsString);
+			Assert.AreEqual("this is description", doc["description"].AsString);
+			Assert.AreEqual("http://localhost/", doc["image_meta"]
+				.AsBsonDocument["small"].AsBsonDocument["url"].AsString);
+
+			Assert.AreEqual("1234567890", doc["_id"].AsString);
 		}
 	}
 }

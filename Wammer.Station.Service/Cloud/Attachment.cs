@@ -44,20 +44,30 @@ namespace Wammer.Cloud
 	[BsonIgnoreExtraElements]
 	public class ThumbnailInfo
 	{
+		[BsonIgnoreIfNull]
 		public string url { get; set; }
+		[BsonIgnoreIfNull]
 		public int width { get; set; }
+		[BsonIgnoreIfNull]
 		public int height { get; set; }
+		[BsonIgnoreIfNull]
 		public string mime_type { get; set; }
+		[BsonIgnoreIfNull]
 		public DateTime modify_time { get; set; }
+		[BsonIgnoreIfNull]
 		public int file_size { get; set; }
 	}
 
 	[BsonIgnoreExtraElements]
 	public class ImageProperty
 	{
+		[BsonIgnoreIfNull]
 		public ThumbnailInfo small { get; set; }
+		[BsonIgnoreIfNull]
 		public ThumbnailInfo medium { get; set; }
+		[BsonIgnoreIfNull]
 		public ThumbnailInfo large { get; set; }
+		[BsonIgnoreIfNull]
 		public ThumbnailInfo square { get; set; }
 
 		public ThumbnailInfo GetThumbnailInfo(ImageMeta meta)
@@ -128,15 +138,25 @@ namespace Wammer.Cloud
 		//[BsonElement("object_id")]
 		[BsonId]
 		public string object_id { get; set; }
+		[BsonIgnoreIfNull]
 		public string file_name { get; set; }
+		[BsonIgnoreIfNull]
 		public string mime_type { get; set; }
+		[BsonIgnoreIfNull]
 		public string title { get; set; }
+		[BsonIgnoreIfNull]
 		public string description { get; set; }
+		[BsonIgnoreIfNull]
 		public AttachmentType type { get; set; }
+		[BsonIgnoreIfNull]
 		public string url { get; set; }
+		[BsonIgnoreIfNull]
 		public string image { get; set; }
+		[BsonIgnoreIfNull]
 		public int file_size { get; set; }
+		[BsonIgnoreIfNull]
 		public DateTime modify_time { get; set; }
+		[BsonIgnoreIfNull]
 		public ImageProperty image_meta { get; set; }
 
 		[BsonIgnore]
