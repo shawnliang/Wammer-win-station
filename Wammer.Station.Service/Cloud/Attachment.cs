@@ -58,6 +58,21 @@ namespace Wammer.Cloud
 		public int file_size { get; set; }
 		[BsonIgnoreIfNull]
 		public string file_name { get; set; }
+
+		public bool ShouldSerializewidth()
+		{
+			return width > 0;
+		}
+
+		public bool ShouldSerializeheight()
+		{
+			return height > 0;
+		}
+
+		public bool ShouldSerializefile_size()
+		{
+			return file_size > 0;
+		}
 	}
 
 	[BsonIgnoreExtraElements]
@@ -113,6 +128,16 @@ namespace Wammer.Cloud
 				default:
 					throw new ArgumentException("meta is not a thumbnail: " + meta);
 			}
+		}
+
+		public bool ShouldSerializewidth()
+		{
+			return width > 0;
+		}
+
+		public bool ShouldSerializeheight()
+		{
+			return height > 0;
 		}
 	}
 
