@@ -17,7 +17,7 @@ namespace Wammer.Station
 	{
 		private FileStorage storage;
 		private MongoServer mongodb;
-		private MongoCollection<BsonDocument> attachmentCollection;
+		private MongoCollection attachmentCollection;
 
 		/// <summary>
 		/// Fired on the uploaded attachment is saved
@@ -38,7 +38,7 @@ namespace Wammer.Station
 			if (!db.CollectionExists("attachments"))
 				db.CreateCollection("attachments");
 
-			this.attachmentCollection = db.GetCollection<BsonDocument>("attachments");
+			this.attachmentCollection = db.GetCollection("attachments");
 		}
 
 		public override object Clone()
@@ -58,14 +58,17 @@ namespace Wammer.Station
 
 			string savedName = GetSavedFilename(file, meta);
 			storage.Save(savedName, file.RawData);
-			
+			file.file_size = file.RawData.Length;
+			file.modify_time = DateTime.UtcNow;
+			file.url = StationInfo.BaseURL + "attachments/view/?object_id=" + file.object_id;
+
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta,
 																		this.attachmentCollection);
 
-			BsonDocument dbDoc = GetBsonDocument(file, meta, savedName);
 
-			BsonDocument existDoc = this.attachmentCollection.FindOne(
-													new QueryDocument("object_id", file.object_id));
+			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
+			BsonDocument existDoc = this.attachmentCollection.FindOneAs<BsonDocument>(
+													new QueryDocument("_id", file.object_id));
 			if (existDoc != null)
 			{
 				existDoc.DeepMerge(dbDoc);
@@ -85,39 +88,37 @@ namespace Wammer.Station
 				OnImageAttachmentCompleted(evtArgs);
 		}
 
-		private static BsonDocument GetBsonDocument(Attachment file, ImageMeta meta, string savedName)
+		private static BsonDocument CreateDbDocument(Attachment file, ImageMeta meta,
+																				string savedName)
 		{
-			BsonDocument dbDoc = new BsonDocument()
-						 .Add("object_id", file.object_id)
-						 .Add("type", file.type.ToString().ToLower());
+			if (meta == ImageMeta.None)
+				return file.ToBsonDocument();
 
-			dbDoc.Add("title", file.title);
-			dbDoc.Add("description", file.description);
-
-
-			if (meta != ImageMeta.None)
+			// image 
+			if (meta == ImageMeta.Origin)
 			{
-				if (meta == ImageMeta.Origin)
-				{
-					dbDoc.Add("url", StationInfo.BaseURL + "attachments/view/?object_id=" +
-																					file.object_id)
-						.Add("mime_type", file.mime_type)
-						.Add("file_size", file.RawData.Length);
-				}
-				else
-				{
-					BsonDocument metaDoc = new BsonDocument()
-						.Add("url", string.Format("{0}attachments/view/?object_id={1}&image_meta={2}",
-							StationInfo.BaseURL, file.object_id, meta.ToString().ToLower()))
-						.Add("file_name", savedName)
-						.Add("modify_time", TimeHelper.GetMillisecondsSince1970())
-						.Add("file_size", file.RawData.Length)
-						.Add("mime_type", file.mime_type);
-
-					dbDoc.Add("image_meta", new BsonDocument().Add(meta.ToString().ToLower(), metaDoc));
-				}
+				return file.ToBsonDocument();
 			}
-			return dbDoc;
+			else
+			{
+				Attachment thumbnailAttachment = new Attachment(file);
+				thumbnailAttachment.image_meta = new ImageProperty();
+				thumbnailAttachment.image_meta.SetThumbnailInfo(meta,
+					new ThumbnailInfo
+					{
+						mime_type = file.mime_type,
+						modify_time = DateTime.UtcNow,
+						url = file.url + "&image_meta=" + meta.ToString().ToLower(),
+						file_size = file.file_size,
+						file_name = savedName
+					});
+
+				thumbnailAttachment.mime_type = null;
+				thumbnailAttachment.modify_time = DateTime.UtcNow;
+				thumbnailAttachment.url = null;
+				thumbnailAttachment.file_size = 0;
+				return thumbnailAttachment.ToBsonDocument();
+			}
 		}
 
 		private ImageMeta GetImageMeta()
@@ -206,9 +207,10 @@ namespace Wammer.Station
 	public class ImageAttachmentEventArgs : AttachmentEventArgs
 	{
 		public ImageMeta Meta { get; private set; }
-		public MongoCollection<BsonDocument> DbDocs { get; set; }
+		public MongoCollection DbDocs { get; set; }
 
-		public ImageAttachmentEventArgs(Attachment attachment, ImageMeta meta, MongoCollection<BsonDocument> dbDocs)
+		public ImageAttachmentEventArgs(Attachment attachment, ImageMeta meta,
+																			MongoCollection dbDocs)
 			:base(attachment)
 		{
 			this.Meta = meta;

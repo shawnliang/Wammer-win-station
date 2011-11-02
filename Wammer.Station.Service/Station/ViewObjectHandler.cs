@@ -58,7 +58,6 @@ namespace Wammer.Station
 					namePart += "_" + metaStr;
 				}
 
-
 				using (FileStream fs = fileStorage.LoadByNameWithNoSuffix(namePart))
 				{
 					Response.StatusCode = 200;
@@ -67,15 +66,6 @@ namespace Wammer.Station
 						Response.ContentType = doc.mime_type;
 					else
 						Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
-
-					//BsonDocument doc = attachments.FindOne(new QueryDocument("object_id", objectId));
-
-					//if (imageMeta == ImageMeta.Origin)
-					//    Response.ContentType = doc["mime_type"].AsString;
-					//else
-					//    Response.ContentType = doc["image_meta"].AsBsonDocument[metaStr]
-					//        .AsBsonDocument["mime_type"].AsString;
-
 
 					Wammer.Utility.StreamHelper.Copy(fs, Response.OutputStream);
 					Response.OutputStream.Close();

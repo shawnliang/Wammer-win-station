@@ -168,18 +168,18 @@ namespace UT_WammerStation
 				MongoDatabase db = mongo.GetDatabase("wammer");
 				Assert.IsNotNull(db);
 				MongoCollection<BsonDocument> attachments = db.GetCollection("attachments");
-				BsonDocument saveData = 
-					attachments.FindOne(new QueryDocument("object_id", res.object_id));
+				Attachment saveData = 
+					attachments.FindOneAs<Attachment>(new QueryDocument("_id", res.object_id));
 
 				Assert.IsNotNull(saveData);
-				Assert.AreEqual("title1", saveData["title"].AsString);
-				Assert.AreEqual("desc", saveData["description"].AsString);
-				Assert.AreEqual("image/jpeg", saveData["mime_type"].AsString);
+				Assert.AreEqual("title1", saveData.title);
+				Assert.AreEqual("desc", saveData.description);
+				Assert.AreEqual("image/jpeg", saveData.mime_type);
 				Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + res.object_id,
-								saveData["url"].AsString);
-				Assert.AreEqual(20, saveData["file_size"].AsInt32);
-				Assert.AreEqual("image", saveData["type"].AsString);
-				Assert.IsFalse(saveData.Contains("image_meta"));
+								saveData.url);
+				Assert.AreEqual(20, saveData.file_size);
+				Assert.AreEqual(AttachmentType.image, saveData.type);
+				Assert.IsNull(saveData.image_meta);
 			}
 		}
 

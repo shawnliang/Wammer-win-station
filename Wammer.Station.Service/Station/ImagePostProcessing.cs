@@ -50,22 +50,6 @@ namespace Wammer.Station
 			}
 		}
 
-		private static void UpdateWidthAndHeight(string objectId, Bitmap origImage, 
-												MongoDB.Driver.MongoCollection<BsonDocument> docs)
-		{
-			//TODO: consider move this to a unified class
-			BsonDocument update = new BsonDocument {
-							{"image_meta", new BsonDocument{
-								{"width", origImage.Width},
-								{"height", origImage.Height}
-							}}
-					};
-
-			BsonDocument exist = docs.FindOne(Query.EQ("object_id", objectId));
-			exist.DeepMerge(update);
-			docs.Save(exist);
-		}
-
 		public void HandleImageAttachmentCompleted(object sender, ImageAttachmentEventArgs evt)
 		{
 			if (evt.Attachment.type != AttachmentType.image || evt.Meta != ImageMeta.Origin)
@@ -81,6 +65,22 @@ namespace Wammer.Station
 			ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,
 				new ThumbnailArgs(evt.Attachment, ImageMeta.Square));
 			
+		}
+
+		private static void UpdateWidthAndHeight(string objectId, Bitmap origImage,
+												MongoDB.Driver.MongoCollection docs)
+		{
+			//TODO: consider move this to a unified class
+			BsonDocument update = new BsonDocument {
+							{"image_meta", new BsonDocument{
+								{"width", origImage.Width},
+								{"height", origImage.Height}
+							}}
+					};
+
+			BsonDocument exist = docs.FindOneAs<BsonDocument>(Query.EQ("_id", objectId));
+			exist.DeepMerge(update);
+			docs.Save(exist);
 		}
 
 		private void MakeThumbnailAndUpstream(Attachment attachment, ImageMeta meta)

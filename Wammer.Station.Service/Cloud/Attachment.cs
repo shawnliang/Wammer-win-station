@@ -56,11 +56,17 @@ namespace Wammer.Cloud
 		public DateTime modify_time { get; set; }
 		[BsonIgnoreIfNull]
 		public int file_size { get; set; }
+		[BsonIgnoreIfNull]
+		public string file_name { get; set; }
 	}
 
 	[BsonIgnoreExtraElements]
 	public class ImageProperty
 	{
+		[BsonIgnoreIfNull]
+		public int width { get; set; }
+		[BsonIgnoreIfNull]
+		public int height { get; set; }
 		[BsonIgnoreIfNull]
 		public ThumbnailInfo small { get; set; }
 		[BsonIgnoreIfNull]
@@ -83,7 +89,29 @@ namespace Wammer.Cloud
 				case ImageMeta.Square:
 					return square;
 				default:
-					throw new FileNotFoundException();
+					throw new ArgumentException("meta is not a thumbnail: " + meta);
+			}
+		}
+
+
+		public void SetThumbnailInfo(ImageMeta meta, ThumbnailInfo thumbnail)
+		{
+			switch (meta)
+			{
+				case ImageMeta.Small:
+					small = thumbnail;
+					break;
+				case ImageMeta.Medium:
+					medium = thumbnail;
+					break;
+				case ImageMeta.Large:
+					large = thumbnail;
+					break;
+				case ImageMeta.Square:
+					square = thumbnail;
+					break;
+				default:
+					throw new ArgumentException("meta is not a thumbnail: " + meta);
 			}
 		}
 	}
@@ -103,7 +131,8 @@ namespace Wammer.Cloud
 			if (objectId != null)
 				pars["object_id"] = objectId;
 			pars["file"] = imageData;
-			HttpWebResponse _webResponse = Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+			HttpWebResponse _webResponse = 
+				Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
 				url,
 				"Mozilla 4.0+",
 				pars,
@@ -165,6 +194,27 @@ namespace Wammer.Cloud
 
 		public Attachment()
 		{
+		}
+
+		public Attachment(Attachment lhs)
+		{
+			object_id = lhs.object_id;
+			file_name = lhs.file_name;
+			mime_type = lhs.mime_type;
+			title = lhs.title;
+			description = lhs.description;
+			type = lhs.type;
+			url = lhs.url;
+			image = lhs.image;
+			file_size = lhs.file_size;
+			modify_time = lhs.modify_time;
+			image_meta = lhs.image_meta;
+			RawData = lhs.RawData;
+		}
+
+		public bool ShouldSerializefile_size()
+		{
+			return file_size > 0;
 		}
 	}
 }

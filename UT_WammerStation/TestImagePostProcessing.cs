@@ -65,6 +65,7 @@ namespace UT_WammerStation
 	public class TestImagePostProcessing
 	{
 		byte[] imageRawData;
+		string object_id1;
 		static MongoDB.Driver.MongoServer mongodb;
 
 		[ClassInitialize()]
@@ -91,29 +92,27 @@ namespace UT_WammerStation
 				mongodb.GetDatabase("wammer").DropCollection("attachments");
 
 			mongodb.GetDatabase("wammer").CreateCollection("attachments");
-			MongoCollection<BsonDocument> atts = mongodb.GetDatabase("wammer").GetCollection<
-				BsonDocument>("attachments");
+			MongoCollection<Attachment> atts = mongodb.GetDatabase("wammer").GetCollection<
+				Attachment>("attachments");
 
-			atts.Insert(new BsonDocument
+			object_id1 = Guid.NewGuid().ToString();
+			atts.Insert(new Attachment
 			{
-				{"object_id", "exist_id"},
-				{"title", "orig_title"},
-				{"description", "orig_desc"},
-				{"type", "image"},
-				{"image_meta", new BsonDocument {
-					{"small", new BsonDocument {
-								{"file_name", "123.jpeg"},
-								{"mime_type", "image/jpeg"},
-								{"url", "http://url/"},
-								{"file_size", 123},
-								{"width", 1000},
-								{"height", 2000}
+				object_id = object_id1,
+				title = "orig_title",
+				description = "orig_desc",
+				type = AttachmentType.image,
+				image_meta = new ImageProperty {
+					small = new ThumbnailInfo {
+								mime_type = "image/jpeg",
+								url = "http://url/",
+								file_size = 123,
+								width = 1000,
+								height = 2000
 							}
-					}
-					}
+					
 				}
 			});
-
 		}
 
 		[TestMethod]
@@ -228,10 +227,10 @@ namespace UT_WammerStation
 
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
 														"http://localhost:80/test/", imageRawData,
-									"exist_id" ,"orig_name2.png", "image/png", ImageMeta.Origin);
+									object_id1 ,"orig_name2.png", "image/png", ImageMeta.Origin);
 
 				// verify saved file
-				using (FileStream f = fileStore.Load("exist_id.png"))
+				using (FileStream f = fileStore.Load(object_id1+".png"))
 				{
 					byte[] imageData = new byte[f.Length];
 					Assert.AreEqual(imageData.Length, f.Read(imageData, 0, imageData.Length));
@@ -243,20 +242,20 @@ namespace UT_WammerStation
 				}
 
 				// verify db
-				MongoCursor<BsonDocument> cursor = 
-				mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments")
-					.Find(new QueryDocument("object_id", "exist_id"));
+				MongoCursor<Attachment> cursor = 
+				mongodb.GetDatabase("wammer").GetCollection<Attachment>("attachments")
+					.Find(new QueryDocument("_id", object_id1));
 
 
 				Assert.AreEqual<long>(1,cursor.Count());
-				foreach (BsonDocument doc in cursor)
+				foreach (Attachment doc in cursor)
 				{
-					Assert.AreEqual("exist_id", doc["object_id"].AsString);
-					Assert.AreEqual("orig_desc", doc["description"].AsString);
-					Assert.AreEqual("orig_title", doc["title"].AsString);
-					Assert.AreEqual("image", doc["type"].AsString);
-					Assert.AreEqual(imageRawData.Length, doc["file_size"].AsInt32);
-					Assert.AreEqual("image/png", doc["mime_type"].AsString);
+					Assert.AreEqual(object_id1, doc.object_id);
+					Assert.AreEqual("orig_desc", doc.description);
+					Assert.AreEqual("orig_title", doc.title);
+					Assert.AreEqual(AttachmentType.image, doc.type);
+					Assert.AreEqual(imageRawData.Length, doc.file_size);
+					Assert.AreEqual("image/png", doc.mime_type);
 				}
 			}
 		}
@@ -267,18 +266,18 @@ namespace UT_WammerStation
 			using (HttpServer server = new HttpServer(80))
 			{
 				FileStorage fileStore = new FileStorage("resource");
-				ImagePostProcessing postProc = new ImagePostProcessing(fileStore);
 				ObjectUploadHandler handler = new ObjectUploadHandler(fileStore, mongodb);
 				server.AddHandler("/test/", handler);
 				server.Start();
 
+				string oid = Guid.NewGuid().ToString();
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
 														"http://localhost:80/test/", imageRawData,
-								"object_id123","orig_name2.jpeg", "image/jpeg", ImageMeta.Large);
+								oid,"orig_name2.jpeg", "image/jpeg", ImageMeta.Large);
 
 				// verify
-				Assert.AreEqual("object_id123", res.object_id);
-				using (FileStream f = fileStore.Load("object_id123_large.jpeg"))
+				Assert.AreEqual(oid, res.object_id);
+				using (FileStream f = fileStore.Load(oid+"_large.jpeg"))
 				{
 					Assert.AreEqual((long)imageRawData.Length, f.Length);
 					for (int i = 0; i < imageRawData.Length; i++)
@@ -288,8 +287,8 @@ namespace UT_WammerStation
 				}
 
 				BsonDocument saveData = mongodb.GetDatabase("wammer").
-					GetCollection<BsonDocument>("attachments").FindOne(
-					new QueryDocument("object_id", "object_id123"));
+					GetCollection("attachments").FindOne(
+					new QueryDocument("_id", oid));
 
 				Assert.IsNotNull(saveData);
 				Assert.IsFalse(saveData.Contains("title"));
@@ -297,7 +296,7 @@ namespace UT_WammerStation
 				Assert.IsFalse(saveData.Contains("mime_type"));
 				Assert.IsFalse(saveData.Contains("url"));
 				Assert.IsFalse(saveData.Contains("file_size"));
-				Assert.AreEqual("image", saveData["type"].AsString);
+				Assert.AreEqual((int)AttachmentType.image, saveData["type"].AsInt32);
 				BsonDocument meta = saveData["image_meta"].AsBsonDocument;
 				Assert.AreEqual(
 					string.Format("http://{0}:9981/v2/attachments/view/?object_id={1}&image_meta=large",
@@ -321,7 +320,7 @@ namespace UT_WammerStation
 					mime_type = "image/jpeg",
 					type = AttachmentType.image,
 					RawData = imageRawData,
-					object_id = "exist_id"
+					object_id = object_id1
 				},
 				ImageMeta.Origin,
 				mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments")
@@ -331,13 +330,13 @@ namespace UT_WammerStation
 			post.HandleImageAttachmentSaved(this, args);
 
 			//save
-			BsonDocument doc = mongodb.GetDatabase("wammer").
-				GetCollection<BsonDocument>("attachments").FindOne(
-				new QueryDocument("object_id", args.Attachment.object_id));
+			Attachment doc = mongodb.GetDatabase("wammer").
+				GetCollection<Attachment>("attachments").FindOne(
+				new QueryDocument("_id", args.Attachment.object_id));
 
-			Assert.AreEqual(1024, doc["image_meta"].AsBsonDocument["width"]);
-			Assert.AreEqual(768, doc["image_meta"].AsBsonDocument["height"]);
-			Assert.AreEqual("orig_title", doc["title"].AsString);
+			Assert.AreEqual(1024, doc.image_meta.width);
+			Assert.AreEqual(768, doc.image_meta.height);
+			Assert.AreEqual("orig_title", doc.title);
 		}
 	}
 }
