@@ -311,6 +311,33 @@ namespace UT_WammerStation
 			}
 		}
 
+		[TestMethod]
+		public void TestHandleImageAttachmentSaved()
+		{
+			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs(
+				new Wammer.Station.Attachment
+				{
+					Title = "title1",
+					ContentType = "image/jpeg",
+					Kind = AttachmentType.image,
+					RawData = imageRawData,
+					ObjectId = "exist_id"
+				},
+				ImageMeta.Origin,
+				mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments")
+			);
 
+			ImagePostProcessing post = new ImagePostProcessing(new FileStorage("resource"));
+			post.HandleImageAttachmentSaved(this, args);
+
+			//save
+			BsonDocument doc = mongodb.GetDatabase("wammer").
+				GetCollection<BsonDocument>("attachments").FindOne(
+				new QueryDocument("object_id", args.Attachment.ObjectId));
+
+			Assert.AreEqual(1024, doc["image_meta"].AsBsonDocument["width"]);
+			Assert.AreEqual(768, doc["image_meta"].AsBsonDocument["height"]);
+			Assert.AreEqual("orig_title", doc["title"].AsString);
+		}
 	}
 }

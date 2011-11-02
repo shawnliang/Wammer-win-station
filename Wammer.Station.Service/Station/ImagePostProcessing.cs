@@ -10,6 +10,10 @@ using Wammer.Utility;
 using Wammer.Cloud;
 using log4net;
 
+using MongoDB.Driver;
+using MongoDB.Bson;
+using MongoDB.Driver.Builders;
+
 namespace Wammer.Station
 {
 	public class ImagePostProcessing
@@ -30,10 +34,15 @@ namespace Wammer.Station
 
 			try
 			{
-				Thumbnail thumbnail = MakeThumbnail(evt.Attachment, ImageMeta.Small);
+				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
+				{
+					UpdateWidthAndHeight(evt.Attachment.ObjectId, origImage, evt.DbDocs);
 
-				ThreadPool.QueueUserWorkItem(this.UpstreamThumbnail,
-											new UpstreamArgs(thumbnail, evt.Attachment.ObjectId));
+					Thumbnail thumbnail = MakeThumbnail(origImage, ImageMeta.Small);
+
+					ThreadPool.QueueUserWorkItem(this.UpstreamThumbnail,
+												new UpstreamArgs(thumbnail, evt.Attachment.ObjectId));
+				}
 			}
 			catch (Exception e)
 			{
@@ -41,30 +50,48 @@ namespace Wammer.Station
 			}
 		}
 
+		private static void UpdateWidthAndHeight(string objectId, Bitmap origImage, 
+												MongoDB.Driver.MongoCollection<BsonDocument> docs)
+		{
+			//TODO: consider move this to a unified class
+			BsonDocument update = new BsonDocument {
+							{"image_meta", new BsonDocument{
+								{"width", origImage.Width},
+								{"height", origImage.Height}
+							}}
+					};
+
+			BsonDocument exist = docs.FindOne(Query.EQ("object_id", objectId));
+			exist.DeepMerge(update);
+			docs.Save(exist);
+		}
+
 		public void HandleImageAttachmentCompleted(object sender, ImageAttachmentEventArgs evt)
 		{
-			if (evt.Meta != ImageMeta.Origin)
+			if (evt.Attachment.Kind != AttachmentType.image || evt.Meta != ImageMeta.Origin)
 				return;
 
-			if (evt.Attachment.Kind == AttachmentType.image)
-			{
-				ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,
+
+			ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,
 					new ThumbnailArgs(evt.Attachment, ImageMeta.Medium));
 
-				ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,
-					new ThumbnailArgs(evt.Attachment, ImageMeta.Large));
+			ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,
+				new ThumbnailArgs(evt.Attachment, ImageMeta.Large));
 
-				ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,
-					new ThumbnailArgs(evt.Attachment, ImageMeta.Square));
-			}
+			ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,
+				new ThumbnailArgs(evt.Attachment, ImageMeta.Square));
+			
 		}
 
 		private void MakeThumbnailAndUpstream(Station.Attachment attachment, ImageMeta meta)
 		{
 			try
 			{
-				Thumbnail thumbnail = MakeThumbnail(attachment, meta);
-				UpstreamThumbnail(thumbnail, attachment.ObjectId);
+				using (Bitmap origImage = BuildBitmap(attachment.RawData))
+				{
+					Thumbnail thumbnail = MakeThumbnail(origImage, meta);
+					UpstreamThumbnail(thumbnail, attachment.ObjectId);
+				}
 			}
 			catch (Exception e)
 			{
@@ -72,11 +99,22 @@ namespace Wammer.Station
 			}
 		}
 
-		private Thumbnail MakeThumbnail(Station.Attachment attachment, ImageMeta meta)
+		private void MakeThumbnailAndUpstream(object state)
 		{
-			using (MemoryStream m = new MemoryStream(attachment.RawData))
-			using (Bitmap origin = new Bitmap(m))
+			ThumbnailArgs evt = (ThumbnailArgs)state;
+			MakeThumbnailAndUpstream(evt.Attachment, evt.ImageMeta);
+		}
+
+		private static Bitmap BuildBitmap(byte[] imageData)
+		{
+			using (MemoryStream s = new MemoryStream(imageData))
 			{
+				return new Bitmap(s);
+			}
+		}
+
+		private Thumbnail MakeThumbnail(Bitmap origin, ImageMeta meta)
+		{
 				Bitmap thumbnail = null;
 
 				if (meta == ImageMeta.Square)
@@ -89,9 +127,7 @@ namespace Wammer.Station
 				fileStorage.Save(thumbnailId + ".jpeg", output.ToArray());
 
 				return output;
-			}
 		}
-
 		private void UpstreamThumbnail(object state)
 		{
 			UpstreamArgs args = (UpstreamArgs)state;
@@ -133,11 +169,6 @@ namespace Wammer.Station
 			return tmpImage;
 		}
 
-		private void MakeThumbnailAndUpstream(object state)
-		{
-			ThumbnailArgs args = (ThumbnailArgs)state;
-			MakeThumbnailAndUpstream(args.Attachment, args.ImageMeta);
-		}
 	}
 
 	class ThumbnailArgs

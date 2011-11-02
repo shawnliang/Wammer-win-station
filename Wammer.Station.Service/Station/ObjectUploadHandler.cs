@@ -60,7 +60,8 @@ namespace Wammer.Station
 			string savedName = GetSavedFilename(file, meta);
 			storage.Save(savedName, file.RawData);
 			
-			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta);
+			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta,
+																		this.attachmentCollection);
 
 			BsonDocument dbDoc = GetBsonDocument(file, meta, savedName);
 
@@ -206,11 +207,13 @@ namespace Wammer.Station
 	public class ImageAttachmentEventArgs : AttachmentEventArgs
 	{
 		public ImageMeta Meta { get; private set; }
+		public MongoCollection<BsonDocument> DbDocs { get; set; }
 
-		public ImageAttachmentEventArgs(Attachment attachment, ImageMeta meta)
+		public ImageAttachmentEventArgs(Attachment attachment, ImageMeta meta, MongoCollection<BsonDocument> dbDocs)
 			:base(attachment)
 		{
 			this.Meta = meta;
+			this.DbDocs = dbDocs;
 		}
 	}
 
