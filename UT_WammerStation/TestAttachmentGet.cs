@@ -5,11 +5,11 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Wammer.Station;
+using Wammer.Cloud;
 using System.Net;
 using System.IO;
 using MongoDB.Driver;
 using MongoDB.Bson;
-using Wammer.Cloud;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 
@@ -23,8 +23,9 @@ namespace UT_WammerStation
 	{
 		static MongoServer mongodb;
 		static MongoDatabase wammerDb;
-		static BsonDocument doc;
-
+		
+		Attachment doc;
+		string objectId1;
 
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
@@ -40,12 +41,15 @@ namespace UT_WammerStation
 				wammerDb.DropCollection("attachments");
 
 			wammerDb.CreateCollection("attachments");
-			MongoCollection<BsonDocument> att = wammerDb.GetCollection<BsonDocument>("attachments");
-			doc = new BsonDocument
+
+			objectId1 = Guid.NewGuid().ToString();
+
+			MongoCollection<Attachment> att = wammerDb.GetCollection<Attachment>("attachments");
+			doc = new Attachment
 			{
-				{"object_id", "object_id_abc"},
-				{"title", "title1"},
-				{"description", "description1"},
+				object_id = objectId1,
+				title = "title1",
+				description = "description1"
 			};
 
 			att.Insert(doc);
@@ -67,13 +71,13 @@ namespace UT_WammerStation
 
 			WebClient agent = new WebClient();
 			string output = agent.DownloadString(
-				"http://localhost:8080/api/get?object_id=object_id_abc&session_token=a&apikey=b");
+				"http://localhost:8080/api/get?object_id="+ objectId1 +"&session_token=a&apikey=b");
 
 			Assert.AreNotEqual("", output);
-			BsonDocument result = 
+			BsonDocument result =
 				MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(output);
 
-			Assert.AreEqual("object_id_abc", result["object_id"].AsString);
+			Assert.AreEqual(objectId1, result["object_id"].AsString);
 			Assert.AreEqual("title1", result["title"].AsString);
 			Assert.AreEqual("description1", result["description"].AsString);
 			Assert.IsFalse(result.Contains("_id"));
@@ -90,13 +94,13 @@ namespace UT_WammerStation
 
 			WebClient agent = new WebClient();
 			string output = agent.DownloadString(
-				"http://localhost:8080/api/get?apikey=b&object_id=object_id_abc&session_token=a");
+				"http://localhost:8080/api/get?apikey=b&object_id=" + objectId1 + "&session_token=a");
 
 			Assert.AreNotEqual("", output);
 			BsonDocument result =
 				MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(output);
 
-			Assert.AreEqual("object_id_abc", result["object_id"].AsString);
+			Assert.AreEqual(objectId1, result["object_id"].AsString);
 			Assert.AreEqual("title1", result["title"].AsString);
 			Assert.AreEqual("description1", result["description"].AsString);
 			Assert.IsFalse(result.Contains("_id"));
@@ -113,13 +117,13 @@ namespace UT_WammerStation
 
 			WebClient agent = new WebClient();
 			string output = agent.DownloadString(
-				"http://localhost:8080/api/get?apikey=b&object_id=object_id_abc");
+				"http://localhost:8080/api/get?apikey=b&object_id=" + objectId1);
 
 			Assert.AreNotEqual("", output);
 			BsonDocument result =
 				MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(output);
 
-			Assert.AreEqual("object_id_abc", result["object_id"].AsString);
+			Assert.AreEqual(objectId1, result["object_id"].AsString);
 			Assert.AreEqual("title1", result["title"].AsString);
 			Assert.AreEqual("description1", result["description"].AsString);
 			Assert.IsFalse(result.Contains("_id"));

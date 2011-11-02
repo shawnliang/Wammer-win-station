@@ -315,13 +315,13 @@ namespace UT_WammerStation
 		public void TestHandleImageAttachmentSaved()
 		{
 			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs(
-				new Wammer.Station.Attachment
+				new Attachment
 				{
-					Title = "title1",
-					ContentType = "image/jpeg",
-					Kind = AttachmentType.image,
+					title = "title1",
+					mime_type = "image/jpeg",
+					type = AttachmentType.image,
 					RawData = imageRawData,
-					ObjectId = "exist_id"
+					object_id = "exist_id"
 				},
 				ImageMeta.Origin,
 				mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments")
@@ -333,7 +333,7 @@ namespace UT_WammerStation
 			//save
 			BsonDocument doc = mongodb.GetDatabase("wammer").
 				GetCollection<BsonDocument>("attachments").FindOne(
-				new QueryDocument("object_id", args.Attachment.ObjectId));
+				new QueryDocument("object_id", args.Attachment.object_id));
 
 			Assert.AreEqual(1024, doc["image_meta"].AsBsonDocument["width"]);
 			Assert.AreEqual(768, doc["image_meta"].AsBsonDocument["height"]);

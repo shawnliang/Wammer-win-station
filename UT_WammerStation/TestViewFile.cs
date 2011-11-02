@@ -19,6 +19,9 @@ namespace UT_WammerStation
 		static MongoServer mongodb;
 		static FileStorage storage;
 
+		Guid object_id1;
+		Guid object_id2;
+
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
 		{
@@ -32,14 +35,17 @@ namespace UT_WammerStation
 			if (!Directory.Exists("resource"))
 				Directory.CreateDirectory("resource");
 
-			FileStream fs = File.Open("resource/object_id1.png", FileMode.Create);
+			object_id1 = Guid.NewGuid();
+			object_id2 = Guid.NewGuid();
+
+			FileStream fs = File.Open("resource/" + object_id1.ToString() + ".png", FileMode.Create);
 			using (StreamWriter w = new StreamWriter(fs))
 			{
 				w.Write("1234567890");
 			}
 			fs.Close();
 
-			fs = File.Open("resource/object_id1_medium.jpeg", FileMode.Create);
+			fs = File.Open("resource/" + object_id1.ToString() + "_medium.jpeg", FileMode.Create);
 			using (StreamWriter w = new StreamWriter(fs))
 			{
 				w.Write("abcde");
@@ -50,27 +56,35 @@ namespace UT_WammerStation
 			if (db.CollectionExists("attachments"))
 				db.Drop();
 
-			db.CreateCollection("attachments");
-			db.GetCollection("attachments").Insert(new BsonDocument { 
-				{ "object_id" , "object_id1"},
-				{ "mime_type", "image/png"},
-				{ "file_size", 10},
-				{ "image_meta", new BsonDocument{
-					{ "medium", new BsonDocument{
-						{"mime_type", "image/jpeg"},
-						{"file_size", 5}
-					} }
-				} }
+			db.CreateCollection("attachments");	
+
+			db.GetCollection<Attachment>("attachments").Insert(new Attachment
+			{
+				object_id = object_id1.ToString(),
+				mime_type = "image/png",
+				file_size = 10,
+				image_meta = new ImageProperty
+				{
+					medium = new ThumbnailInfo
+					{
+						mime_type = "image/jpeg",
+						file_size = 5
+					}
+				}
 			});
 
-			db.GetCollection("attachments").Insert(new BsonDocument { 
-				{ "object_id" , "object_id_na"},
-				{ "image_meta", new BsonDocument{
-					{ "medium", new BsonDocument{
-						{"mime_type", "image/jpeg"},
-						{"file_size", 10}
-					} }
-				} }
+			db.GetCollection<Attachment>("attachments").Insert(new Attachment
+			{
+				object_id = object_id2.ToString(),
+				type = AttachmentType.image,
+				image_meta = new ImageProperty
+				{
+					medium = new ThumbnailInfo
+					{
+						mime_type = "image/jpeg",
+						file_size = 10
+					}
+				}
 			});
 		}
 
@@ -95,7 +109,7 @@ namespace UT_WammerStation
 				req.Method = "POST";
 				using (StreamWriter fs = new StreamWriter(req.GetRequestStream()))
 				{
-					fs.Write("object_id=object_id1");
+					fs.Write("object_id="+object_id1.ToString());
 				}
 
 				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
@@ -120,7 +134,7 @@ namespace UT_WammerStation
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
 										"http://localhost/v1/objects/view" +
-										"?object_id=object_id1&image_meta=origin");
+										"?object_id=" + object_id1.ToString() + "&image_meta=origin");
 				req.Method = "GET";
 
 				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
@@ -172,7 +186,7 @@ namespace UT_WammerStation
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
 										"http://localhost/v1/objects/view" +
-										"?object_id=object_id1&image_meta=medium");
+										"?object_id=" + object_id1.ToString() + "&image_meta=medium");
 				req.Method = "GET";
 
 				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
@@ -236,7 +250,7 @@ namespace UT_WammerStation
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
 										"http://localhost/v1/objects/view" +
-										"?object_id=object_id1");
+										"?object_id=" + object_id1.ToString());
 				req.Method = "GET";
 
 				HttpWebResponse response = (HttpWebResponse)req.GetResponse();

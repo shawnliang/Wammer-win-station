@@ -28,7 +28,7 @@ namespace Wammer.Station
 
 		public void HandleImageAttachmentSaved(object sender, ImageAttachmentEventArgs evt)
 		{
-			System.Diagnostics.Debug.Assert(evt.Attachment.Kind == AttachmentType.image);
+			System.Diagnostics.Debug.Assert(evt.Attachment.type == AttachmentType.image);
 			if (evt.Meta != ImageMeta.Origin)
 				return;
 
@@ -36,12 +36,12 @@ namespace Wammer.Station
 			{
 				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
 				{
-					UpdateWidthAndHeight(evt.Attachment.ObjectId, origImage, evt.DbDocs);
+					UpdateWidthAndHeight(evt.Attachment.object_id, origImage, evt.DbDocs);
 
 					Thumbnail thumbnail = MakeThumbnail(origImage, ImageMeta.Small);
 
 					ThreadPool.QueueUserWorkItem(this.UpstreamThumbnail,
-												new UpstreamArgs(thumbnail, evt.Attachment.ObjectId));
+												new UpstreamArgs(thumbnail, evt.Attachment.object_id));
 				}
 			}
 			catch (Exception e)
@@ -68,7 +68,7 @@ namespace Wammer.Station
 
 		public void HandleImageAttachmentCompleted(object sender, ImageAttachmentEventArgs evt)
 		{
-			if (evt.Attachment.Kind != AttachmentType.image || evt.Meta != ImageMeta.Origin)
+			if (evt.Attachment.type != AttachmentType.image || evt.Meta != ImageMeta.Origin)
 				return;
 
 
@@ -83,14 +83,14 @@ namespace Wammer.Station
 			
 		}
 
-		private void MakeThumbnailAndUpstream(Station.Attachment attachment, ImageMeta meta)
+		private void MakeThumbnailAndUpstream(Attachment attachment, ImageMeta meta)
 		{
 			try
 			{
 				using (Bitmap origImage = BuildBitmap(attachment.RawData))
 				{
 					Thumbnail thumbnail = MakeThumbnail(origImage, meta);
-					UpstreamThumbnail(thumbnail, attachment.ObjectId);
+					UpstreamThumbnail(thumbnail, attachment.object_id);
 				}
 			}
 			catch (Exception e)

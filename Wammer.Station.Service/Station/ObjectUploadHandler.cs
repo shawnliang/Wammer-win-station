@@ -51,10 +51,9 @@ namespace Wammer.Station
 			Attachment file = GetFileFromMultiPartData();
 			ImageMeta meta = GetImageMeta();
 
-			if (file.ObjectId == null)
+			if (file.object_id == null)
 			{
-				file.ObjectId = Guid.NewGuid().ToString();
-				file.IdCreatedByStation = true;
+				file.object_id = Guid.NewGuid().ToString();
 			}
 
 			string savedName = GetSavedFilename(file, meta);
@@ -66,7 +65,7 @@ namespace Wammer.Station
 			BsonDocument dbDoc = GetBsonDocument(file, meta, savedName);
 
 			BsonDocument existDoc = this.attachmentCollection.FindOne(
-													new QueryDocument("object_id", file.ObjectId));
+													new QueryDocument("object_id", file.object_id));
 			if (existDoc != null)
 			{
 				existDoc.DeepMerge(dbDoc);
@@ -76,24 +75,24 @@ namespace Wammer.Station
 				this.attachmentCollection.Insert(dbDoc);
 
 
-			if (file.Kind == AttachmentType.image)
+			if (file.type == AttachmentType.image)
 				OnImageAttachmentSaved(evtArgs);
 
-			ObjectUploadResponse json = ObjectUploadResponse.CreateSuccess(file.ObjectId);
+			ObjectUploadResponse json = ObjectUploadResponse.CreateSuccess(file.object_id);
 			HttpHelper.RespondSuccess(Response, json);
 
-			if (file.Kind == AttachmentType.image)
+			if (file.type == AttachmentType.image)
 				OnImageAttachmentCompleted(evtArgs);
 		}
 
 		private static BsonDocument GetBsonDocument(Attachment file, ImageMeta meta, string savedName)
 		{
 			BsonDocument dbDoc = new BsonDocument()
-						 .Add("object_id", file.ObjectId)
-						 .Add("type", file.Kind.ToString().ToLower());
+						 .Add("object_id", file.object_id)
+						 .Add("type", file.type.ToString().ToLower());
 
-			dbDoc.Add("title", file.Title);
-			dbDoc.Add("description", file.Description);
+			dbDoc.Add("title", file.title);
+			dbDoc.Add("description", file.description);
 
 
 			if (meta != ImageMeta.None)
@@ -101,19 +100,19 @@ namespace Wammer.Station
 				if (meta == ImageMeta.Origin)
 				{
 					dbDoc.Add("url", StationInfo.BaseURL + "attachments/view/?object_id=" +
-																					file.ObjectId)
-						.Add("mime_type", file.ContentType)
+																					file.object_id)
+						.Add("mime_type", file.mime_type)
 						.Add("file_size", file.RawData.Length);
 				}
 				else
 				{
 					BsonDocument metaDoc = new BsonDocument()
 						.Add("url", string.Format("{0}attachments/view/?object_id={1}&image_meta={2}",
-							StationInfo.BaseURL, file.ObjectId, meta.ToString().ToLower()))
+							StationInfo.BaseURL, file.object_id, meta.ToString().ToLower()))
 						.Add("file_name", savedName)
 						.Add("modify_time", TimeHelper.GetMillisecondsSince1970())
 						.Add("file_size", file.RawData.Length)
-						.Add("mime_type", file.ContentType);
+						.Add("mime_type", file.mime_type);
 
 					dbDoc.Add("image_meta", new BsonDocument().Add(meta.ToString().ToLower(), metaDoc));
 				}
@@ -152,14 +151,14 @@ namespace Wammer.Station
 
 		private static string GetSavedFilename(Attachment file, ImageMeta meta)
 		{
-			string name = file.ObjectId;
+			string name = file.object_id;
 
 			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 			{
 				name += "_" + meta.ToString().ToLower();
 			}
 
-			string originalSuffix = Path.GetExtension(file.Filename);
+			string originalSuffix = Path.GetExtension(file.file_name);
 			if (originalSuffix != null)
 			{
 				return name + originalSuffix;
@@ -174,19 +173,19 @@ namespace Wammer.Station
 		{
 			Attachment file = new Attachment();
 
-			file.ObjectId = Parameters["object_id"];
+			file.object_id = Parameters["object_id"];
 			file.RawData = Files[0].Data;
-			file.Filename = Files[0].Name;
-			file.ContentType = Files[0].ContentType;
-			file.Title = Parameters["title"];
-			file.Description = Parameters["description"];
+			file.file_name = Files[0].Name;
+			file.mime_type = Files[0].ContentType;
+			file.title = Parameters["title"];
+			file.description = Parameters["description"];
 
 			if (Parameters["type"]==null)
 				throw new FormatException("type is missing in file upload multipart data");
 
 			try
 			{
-				file.Kind = (AttachmentType)Enum.Parse(typeof(AttachmentType),
+				file.type = (AttachmentType)Enum.Parse(typeof(AttachmentType),
 																			Parameters["type"], true);
 			}
 			catch (ArgumentException e)
@@ -194,7 +193,7 @@ namespace Wammer.Station
 				throw new FormatException("Unknown attachment type: " + Parameters["type"], e);
 			}
 
-			if (file.Filename == null)
+			if (file.file_name == null)
 				throw new FormatException("filename is missing in file upload multipart data");
 
 			if (file.RawData == null)

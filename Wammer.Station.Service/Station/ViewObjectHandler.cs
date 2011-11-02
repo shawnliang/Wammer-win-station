@@ -8,7 +8,8 @@ using System.Web;
 
 using Wammer.Cloud;
 using MongoDB.Driver;
-using MongoDB.Bson;
+//using MongoDB.Bson;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
@@ -16,7 +17,7 @@ namespace Wammer.Station
 	{
 		private readonly FileStorage fileStorage;
 		private readonly MongoServer mongodb;
-		private readonly MongoCollection<BsonDocument> attachments;
+		private readonly MongoCollection<Attachment> attachments;
 
 		public ViewObjectHandler(FileStorage fileStorage, MongoServer mongodb)
 			:base()
@@ -24,7 +25,7 @@ namespace Wammer.Station
 			this.fileStorage = fileStorage;
 			this.mongodb = mongodb;
 			this.attachments = mongodb.GetDatabase("wammer").
-														GetCollection<BsonDocument>("attachments");
+														GetCollection<Attachment>("attachments");
 		}
 
 		public override object Clone()
@@ -61,13 +62,19 @@ namespace Wammer.Station
 				using (FileStream fs = fileStorage.LoadByNameWithNoSuffix(namePart))
 				{
 					Response.StatusCode = 200;
-					BsonDocument doc = attachments.FindOne(new QueryDocument("object_id", objectId));
-
+					Attachment doc = attachments.FindOne(Query.EQ("_id", objectId));
 					if (imageMeta == ImageMeta.Origin)
-						Response.ContentType = doc["mime_type"].AsString;
+						Response.ContentType = doc.mime_type;
 					else
-						Response.ContentType = doc["image_meta"].AsBsonDocument[metaStr]
-							.AsBsonDocument["mime_type"].AsString;
+						Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
+
+					//BsonDocument doc = attachments.FindOne(new QueryDocument("object_id", objectId));
+
+					//if (imageMeta == ImageMeta.Origin)
+					//    Response.ContentType = doc["mime_type"].AsString;
+					//else
+					//    Response.ContentType = doc["image_meta"].AsBsonDocument[metaStr]
+					//        .AsBsonDocument["mime_type"].AsString;
 
 
 					Wammer.Utility.StreamHelper.Copy(fs, Response.OutputStream);

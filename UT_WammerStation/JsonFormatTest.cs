@@ -48,5 +48,17 @@ namespace UT_WammerStation
 			Assert.AreEqual("token1", res.session_token);
 		}
 
+		[TestMethod]
+		public void TestAttachment_RawDataIsNotSerialized()
+		{
+			Attachment a = new Attachment
+			{
+				RawData = null,
+				title = "123"
+			};
+
+			string json = fastJSON.JSON.Instance.ToJSON(a, false, false, false, false);
+			Assert.AreEqual("{\"title\":\"123\",\"type\":\"image\",\"file_size\":0,\"modify_time\":\"0001-01-01T00:00:00\",}", json);
+		}
 	}
 }

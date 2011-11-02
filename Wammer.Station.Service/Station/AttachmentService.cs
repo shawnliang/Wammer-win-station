@@ -5,7 +5,7 @@ using System.Text;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.IO;
-
+using Wammer.Cloud;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -27,7 +27,7 @@ namespace Wammer.Station
 	public class AttachmentService: IAttatchmentService
 	{
 		private readonly MongoServer mongodb;
-		private readonly MongoCollection<BsonDocument> attachments;
+		private readonly MongoCollection<Attachment> attachments;
 
 		public AttachmentService(MongoServer mongo)
 		{
@@ -37,18 +37,18 @@ namespace Wammer.Station
 				mongo.GetDatabase("wammer").CreateCollection("attachments");
 
 			this.attachments = mongo.GetDatabase("wammer").
-														GetCollection<BsonDocument>("attachments");
+														GetCollection<Attachment>("attachments");
 		}
 
 		public Stream GetAttachmentInfo(string object_id, string session_token, string apikey)
 		{
-			BsonDocument doc = attachments.FindOne(Query.EQ("object_id", object_id));
-			doc.Remove("_id");
+			Attachment doc = attachments.FindOne(Query.EQ("_id", object_id));
 
 			MemoryStream s = new MemoryStream();
 			StreamWriter w = new StreamWriter(s);
+			string jsn = doc.ToJson();
 
-			w.Write(doc.ToJson());
+			w.Write(fastJSON.JSON.Instance.ToJSON(doc, false, false, false, false));
 			w.Flush();
 
 			WebOperationContext.Current.OutgoingResponse.ContentType = "application/json";
