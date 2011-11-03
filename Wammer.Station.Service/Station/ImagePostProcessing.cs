@@ -41,7 +41,22 @@ namespace Wammer.Station
 					ThumbnailInfo small = MakeThumbnail(origImage, ImageMeta.Small,
 																		evt.Attachment.object_id);
 
-					//TODO: small thumbnail is not written to DB
+					Attachment update = new Attachment
+					{
+						object_id = evt.Attachment.object_id,
+						image_meta = new ImageProperty
+						{
+							width = origImage.Width,
+							height = origImage.Height,
+							small = small
+						}
+					};
+
+					BsonDocument exist = evt.DbDocs.FindOneAs<BsonDocument>(
+														Query.EQ("_id", evt.Attachment.object_id));
+					exist.DeepMerge(update.ToBsonDocument());
+					evt.DbDocs.Save(exist);
+
 
 					ThreadPool.QueueUserWorkItem(this.UpstreamThumbnail,
 								new UpstreamArgs(small, evt.Attachment.object_id, ImageMeta.Small));
@@ -109,16 +124,7 @@ namespace Wammer.Station
 												MongoDB.Driver.MongoCollection docs)
 		{
 			//TODO: consider move this to a unified class
-			BsonDocument update = new BsonDocument {
-							{"image_meta", new BsonDocument{
-								{"width", origImage.Width},
-								{"height", origImage.Height}
-							}}
-					};
-
-			BsonDocument exist = docs.FindOneAs<BsonDocument>(Query.EQ("_id", objectId));
-			exist.DeepMerge(update);
-			docs.Save(exist);
+			
 		}
 
 		private static Bitmap BuildBitmap(byte[] imageData)

@@ -337,6 +337,16 @@ namespace UT_WammerStation
 			Assert.AreEqual(1024, doc.image_meta.width);
 			Assert.AreEqual(768, doc.image_meta.height);
 			Assert.AreEqual("orig_title", doc.title);
+
+			Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + object_id1 +
+				"&image_meta=small",
+				doc.image_meta.small.url);
+			Assert.AreEqual(120, doc.image_meta.small.width);
+			Assert.AreEqual(90, doc.image_meta.small.height);
+			Assert.AreEqual("image/jpeg", doc.image_meta.small.mime_type);
+			new Guid(Path.GetFileNameWithoutExtension(doc.image_meta.small.file_name));
+			Assert.IsTrue(doc.image_meta.small.file_size > 0);
+			Assert.IsTrue(doc.image_meta.small.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 		}
 
 		[TestMethod]
