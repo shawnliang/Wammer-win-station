@@ -7,13 +7,27 @@ namespace Wammer.Utility
 {
 	public static class ImageHelper
 	{
-		public static Bitmap Scale(Bitmap original, int sideLength)
+		public static Bitmap ScaleBasedOnLongSide(Bitmap original, int sideLength)
 		{
 			float ratio1 = (float)sideLength / (float) original.Width;
 			float ratio2 = (float)sideLength / (float) original.Height;
 			float ratio = (original.Width > original.Height) ? ratio1 : ratio2;
 
 
+			return Scale(original, ratio);
+		}
+
+		public static Bitmap ScaleBasedOnShortSide(Bitmap original, int sideLength)
+		{
+			float ratio1 = (float)sideLength / (float)original.Width;
+			float ratio2 = (float)sideLength / (float)original.Height;
+			float ratio = (original.Width < original.Height) ? ratio1 : ratio2;
+
+			return Scale(original, ratio);
+		}
+
+		private static Bitmap Scale(Bitmap original, float ratio)
+		{
 			int scaledWidth = (int)(original.Width * ratio);
 			int scaledHeight = (int)(original.Height * ratio);
 			Bitmap scaledImage = new Bitmap(scaledWidth, scaledHeight);

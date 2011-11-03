@@ -38,10 +38,13 @@ namespace Wammer.Station
 				{
 					UpdateWidthAndHeight(evt.Attachment.object_id, origImage, evt.DbDocs);
 
-					Thumbnail thumbnail = MakeThumbnail(origImage, ImageMeta.Small);
+					ThumbnailInfo small = MakeThumbnail(origImage, ImageMeta.Small,
+																		evt.Attachment.object_id);
+
+					//TODO: small thumbnail is not written to DB
 
 					ThreadPool.QueueUserWorkItem(this.UpstreamThumbnail,
-												new UpstreamArgs(thumbnail, evt.Attachment.object_id));
+								new UpstreamArgs(small, evt.Attachment.object_id, ImageMeta.Small));
 				}
 			}
 			catch (Exception e)
@@ -56,15 +59,50 @@ namespace Wammer.Station
 				return;
 
 
-			ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,
-					new ThumbnailArgs(evt.Attachment, ImageMeta.Medium));
+			ThreadPool.QueueUserWorkItem(this.HandleImageAttachmentCompletedSync, evt);
+		}
 
-			ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,
-				new ThumbnailArgs(evt.Attachment, ImageMeta.Large));
+		public void HandleImageAttachmentCompletedSync(object args)
+		{
+			ImageAttachmentEventArgs evt = (ImageAttachmentEventArgs)args;
 
-			ThreadPool.QueueUserWorkItem(this.MakeThumbnailAndUpstream,
-				new ThumbnailArgs(evt.Attachment, ImageMeta.Square));
-			
+			if (evt.Attachment.type != AttachmentType.image || evt.Meta != ImageMeta.Origin)
+				return;
+
+			try
+			{
+				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
+				{
+					string origImgObjectId = evt.Attachment.object_id;
+					ThumbnailInfo medium = MakeThumbnail(origImage, ImageMeta.Medium, origImgObjectId);
+					ThumbnailInfo large = MakeThumbnail(origImage, ImageMeta.Large, origImgObjectId);
+					ThumbnailInfo square = MakeThumbnail(origImage, ImageMeta.Square, origImgObjectId);
+
+					Attachment update = new Attachment
+					{
+						object_id = evt.Attachment.object_id,
+						image_meta = new ImageProperty
+						{
+							medium = medium,
+							large = large,
+							square = square
+						}
+					};
+
+					BsonDocument doc = evt.DbDocs.FindOneAs<BsonDocument>(
+																	Query.EQ("_id", origImgObjectId));
+					doc.DeepMerge(update.ToBsonDocument());
+					evt.DbDocs.Save<BsonDocument>(doc);
+
+					UpstreamThumbnail(medium, evt.Attachment.object_id, ImageMeta.Medium);
+					UpstreamThumbnail(large, evt.Attachment.object_id, ImageMeta.Large);
+					UpstreamThumbnail(square, evt.Attachment.object_id, ImageMeta.Square);
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Image attachment post processing unsuccess", e);
+			}
 		}
 
 		private static void UpdateWidthAndHeight(string objectId, Bitmap origImage,
@@ -83,28 +121,6 @@ namespace Wammer.Station
 			docs.Save(exist);
 		}
 
-		private void MakeThumbnailAndUpstream(Attachment attachment, ImageMeta meta)
-		{
-			try
-			{
-				using (Bitmap origImage = BuildBitmap(attachment.RawData))
-				{
-					Thumbnail thumbnail = MakeThumbnail(origImage, meta);
-					UpstreamThumbnail(thumbnail, attachment.object_id);
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Warn("Image attachment post processing unsuccess", e);
-			}
-		}
-
-		private void MakeThumbnailAndUpstream(object state)
-		{
-			ThumbnailArgs evt = (ThumbnailArgs)state;
-			MakeThumbnailAndUpstream(evt.Attachment, evt.ImageMeta);
-		}
-
 		private static Bitmap BuildBitmap(byte[] imageData)
 		{
 			using (MemoryStream s = new MemoryStream(imageData))
@@ -113,110 +129,89 @@ namespace Wammer.Station
 			}
 		}
 
-		private Thumbnail MakeThumbnail(Bitmap origin, ImageMeta meta)
+		private ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, string attachmentId)
 		{
-				Bitmap thumbnail = null;
+			Bitmap thumbnail = null;
 
-				if (meta == ImageMeta.Square)
-					thumbnail = MakeSquareThumbnail(origin);
-				else
-					thumbnail = ImageHelper.Scale(origin, (int)meta);
+			if (meta == ImageMeta.Square)
+				thumbnail = MakeSquareThumbnail(origin);
+			else
+				thumbnail = ImageHelper.ScaleBasedOnLongSide(origin, (int)meta);
 
-				string thumbnailId = Guid.NewGuid().ToString();
-				Thumbnail output = new Thumbnail(thumbnail, meta, thumbnailId);
-				fileStorage.Save(thumbnailId + ".jpeg", output.ToArray());
+			string thumbnailId = Guid.NewGuid().ToString();
+			using (MemoryStream m = new MemoryStream())
+			{
+				thumbnail.Save(m, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-				return output;
+				byte[] rawData = m.ToArray();
+
+				string thumbFileName = Guid.NewGuid() + ".jpeg";
+				
+				fileStorage.Save(thumbFileName, rawData);
+
+				return new ThumbnailInfo
+				{
+					file_name = thumbFileName,
+					width = thumbnail.Width,
+					height = thumbnail.Height,
+					file_size = (int)m.Length, // TODO: no cast
+					mime_type = "image/jpeg",
+					modify_time = DateTime.UtcNow,
+					url = StationInfo.BaseURL + "attachments/view/?object_id=" + attachmentId +
+														"&image_meta=" + meta.ToString().ToLower(),
+					RawData = rawData
+				};
+			}
 		}
+
 		private void UpstreamThumbnail(object state)
 		{
 			UpstreamArgs args = (UpstreamArgs)state;
 
 			try
 			{
-				UpstreamThumbnail(args.Thumbnail, args.FullImageId);
+				UpstreamThumbnail(args.Thumbnail, args.FullImageId, args.ImageMeta);
 			}
 			catch (Exception e)
 			{
-				logger.Warn("Unable to upstream " + args.Thumbnail.Meta + 
+				logger.Warn("Unable to upstream " + args.Thumbnail.file_name +
 												" thumbnail of orig image " + args.FullImageId, e);
 			}
 		}
 
-		private void UpstreamThumbnail(Thumbnail thumbnail, string fullImgId)
+		private void UpstreamThumbnail(ThumbnailInfo thumbnail, string fullImgId, ImageMeta meta)
 		{
 			using (MemoryStream output = new MemoryStream())
 			{
-				thumbnail.Image.Save(output, System.Drawing.Imaging.ImageFormat.Jpeg);
-				Cloud.Attachment.UploadImage(output.ToArray(), fullImgId, thumbnail.Id +
-														".jpeg", "image/jpeg", thumbnail.Meta);
+				Cloud.Attachment.UploadImage(thumbnail.RawData, fullImgId, 
+												thumbnail.file_name, "image/jpeg", meta);
 
-				logger.DebugFormat("Thumbnail {0}.jpeg is uploaded to Cloud", thumbnail.Id);
+				logger.DebugFormat("Thumbnail {0} is uploaded to Cloud", thumbnail.file_name);
 			}
 		}
 
 		private static Bitmap MakeSquareThumbnail(Bitmap origin)
 		{
-			Bitmap tmpImage;
-			int longSide = ImageHelper.LongSizeLength(origin);
-			int shortSide = ImageHelper.ShortSizeLength(origin);
-			int newSize = longSide * 128 / shortSide;
+			Bitmap tmpImage = ImageHelper.ScaleBasedOnShortSide(origin, 128);
 
-			tmpImage = ImageHelper.Scale(origin, newSize);
 			tmpImage = ImageHelper.Crop(tmpImage,
 												ImageHelper.ShortSizeLength(tmpImage),
 												ImageHelper.ShortSizeLength(tmpImage));
 			return tmpImage;
 		}
-
-	}
-
-	class ThumbnailArgs
-	{
-		public ImageMeta ImageMeta { get; private set; }
-		public Attachment Attachment { get; private set; }
-
-		public ThumbnailArgs(Attachment attachment, ImageMeta meta)
-		{
-			this.ImageMeta = meta;
-			this.Attachment = attachment;
-		}
 	}
 
 	class UpstreamArgs
 	{
-		public Thumbnail Thumbnail { get; private set; }
+		public ThumbnailInfo Thumbnail { get; private set; }
 		public string FullImageId { get; private set; }
+		public ImageMeta ImageMeta { get; set; }
 
-		public UpstreamArgs(Thumbnail tb, string fullImgId)
+		public UpstreamArgs(ThumbnailInfo tb, string fullImgId, ImageMeta type)
 		{
 			Thumbnail = tb;
 			FullImageId = fullImgId;
+			ImageMeta = type;
 		}
 	}
-
-	class Thumbnail
-	{
-		public Bitmap Image { get; set; }
-		public string Id { get; set; }
-		public ImageMeta Meta { get; set; }
-
-		public Thumbnail(Bitmap image, ImageMeta meta, string id)
-		{
-			Image = image;
-			Meta = meta;
-			Id = id;
-		}
-
-		public byte[] ToArray()
-		{
-			using (MemoryStream m = new MemoryStream())
-			{
-				Image.Save(m, System.Drawing.Imaging.ImageFormat.Jpeg);
-				return m.ToArray();
-			}
-		}
-	}
-
-
 }

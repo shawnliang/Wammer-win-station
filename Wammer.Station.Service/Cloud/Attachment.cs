@@ -59,6 +59,10 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public string file_name { get; set; }
 
+		[BsonIgnore]
+		[System.Xml.Serialization.XmlIgnore]
+		public byte[] RawData { get; set; }
+
 		public bool ShouldSerializewidth()
 		{
 			return width > 0;
@@ -188,8 +192,6 @@ namespace Wammer.Cloud
 		}
 		#endregion
 
-		//[BsonId(IdGenerator=typeof(GuidGenerator))]
-		//[BsonElement("object_id")]
 		[BsonId]
 		public string object_id { get; set; }
 		[BsonIgnoreIfNull]

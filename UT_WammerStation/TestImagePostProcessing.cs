@@ -338,5 +338,65 @@ namespace UT_WammerStation
 			Assert.AreEqual(768, doc.image_meta.height);
 			Assert.AreEqual("orig_title", doc.title);
 		}
+
+		[TestMethod]
+		public void TestHandleImageCompleted()
+		{
+			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs(
+				new Attachment
+				{
+					title = "title1",
+					mime_type = "image/jpeg",
+					type = AttachmentType.image,
+					RawData = imageRawData,
+					object_id = object_id1
+				},
+				ImageMeta.Origin,
+				mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments")
+			);
+
+			ImagePostProcessing post = new ImagePostProcessing(new FileStorage("resource"));
+			post.HandleImageAttachmentCompletedSync(args);
+
+			//save
+			Attachment doc = mongodb.GetDatabase("wammer").
+				GetCollection<Attachment>("attachments").FindOne(
+				new QueryDocument("_id", args.Attachment.object_id));
+
+			Assert.IsNotNull(doc.image_meta.medium);
+			Assert.IsNotNull(doc.image_meta.large);
+			Assert.IsNotNull(doc.image_meta.square);
+
+			Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + object_id1 +
+				"&image_meta=medium",
+				doc.image_meta.medium.url);
+			Assert.AreEqual(720, doc.image_meta.medium.width);
+			Assert.AreEqual(540, doc.image_meta.medium.height);
+			Assert.AreEqual("image/jpeg", doc.image_meta.medium.mime_type);
+			//Assert.AreEqual(object_id1+"_medium.jpeg", doc.image_meta.medium.file_name);
+			new Guid(Path.GetFileNameWithoutExtension(doc.image_meta.medium.file_name));
+			Assert.IsTrue(doc.image_meta.medium.file_size > 0);
+			Assert.IsTrue(doc.image_meta.medium.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
+
+			Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + object_id1 +
+				"&image_meta=large",
+				doc.image_meta.large.url);
+			Assert.AreEqual(1024, doc.image_meta.large.width);
+			Assert.AreEqual(768, doc.image_meta.large.height);
+			Assert.AreEqual("image/jpeg", doc.image_meta.large.mime_type);
+			new Guid(Path.GetFileNameWithoutExtension(doc.image_meta.large.file_name));
+			Assert.IsTrue(doc.image_meta.large.file_size > 0);
+			Assert.IsTrue(doc.image_meta.large.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
+
+			Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + object_id1 +
+				"&image_meta=square",
+				doc.image_meta.square.url);
+			Assert.AreEqual(128, doc.image_meta.square.width);
+			Assert.AreEqual(128, doc.image_meta.square.height);
+			Assert.AreEqual("image/jpeg", doc.image_meta.square.mime_type);
+			new Guid(Path.GetFileNameWithoutExtension(doc.image_meta.square.file_name));
+			Assert.IsTrue(doc.image_meta.square.file_size > 0);
+			Assert.IsTrue(doc.image_meta.square.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
+		}
 	}
 }
