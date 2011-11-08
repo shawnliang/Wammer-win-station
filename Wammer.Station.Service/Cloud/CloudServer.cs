@@ -30,6 +30,9 @@ namespace Wammer.Cloud
 
 		public static string SessionToken { get; set; }
 
+		/// <summary>
+		/// Gets wammer cloud base url
+		/// </summary>
 		public static string BaseUrl
 		{
 			get
@@ -38,6 +41,9 @@ namespace Wammer.Cloud
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets wammer cloud host name
+		/// </summary>
 		public static string HostName
 		{
 			get
@@ -50,6 +56,9 @@ namespace Wammer.Cloud
 			set { hostname = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets wammer cloud port number
+		/// </summary>
 		public static int Port
 		{
 			get
@@ -62,6 +71,9 @@ namespace Wammer.Cloud
 			set { port = value; }
 		}
 
+		/// <summary>
+		/// Gets or set api key that will be sent to cloud
+		/// </summary>
 		public static string APIKey
 		{
 			get

@@ -13,6 +13,15 @@ using MongoDB.Bson.Serialization;
 
 namespace UT_WammerStation
 {
+	public class MyClass2
+	{
+		public List<MyClass3> Array { get; set; }
+	}
+	public class MyClass3
+	{
+		public string Data { get; set; }
+	}
+
 	[TestClass]
 	public class TestBsonHelper
 	{
@@ -162,6 +171,25 @@ namespace UT_WammerStation
 				.AsBsonDocument["small"].AsBsonDocument["url"].AsString);
 
 			Assert.AreEqual("1234567890", doc["_id"].AsString);
+		}
+
+		
+		[TestMethod]
+		public void TestBsonListSerialization()
+		{
+			MyClass2 a = new MyClass2
+			{
+				Array = new List<MyClass3>()
+			};
+
+			a.Array.Add(new MyClass3 { Data = "123" });
+			a.Array.Add(new MyClass3 { Data = "456" });
+
+			BsonDocument doc = a.ToBsonDocument();
+			Assert.IsTrue(doc["Array"].IsBsonArray);
+			Assert.AreEqual("123", doc["Array"].AsBsonArray[0].AsBsonDocument["Data"].AsString);
+			Assert.AreEqual("456", doc["Array"].AsBsonArray[1].AsBsonDocument["Data"].AsString);
+			Assert.AreEqual(2, doc["Array"].AsBsonArray.Count);
 		}
 	}
 }

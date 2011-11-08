@@ -60,5 +60,16 @@ namespace UT_WammerStation
 			string json = fastJSON.JSON.Instance.ToJSON(a, false, false, false, false);
 			Assert.AreEqual("{\"title\":\"123\",\"type\":\"image\",\"file_size\":0,\"modify_time\":\"0001-01-01T00:00:00\",}", json);
 		}
+
+		[TestMethod]
+		public void testJsonArray()
+		{
+			MyClass2 obj = new MyClass2 { Array = new List<MyClass3>() };
+			obj.Array.Add(new MyClass3 { Data = "123" });
+			obj.Array.Add(new MyClass3 { Data = "456" });
+
+			string json = fastJSON.JSON.Instance.ToJSON(obj, false, false, false, false);
+			Assert.AreEqual("{\"Array\":[{\"Data\":\"123\"},{\"Data\":\"456\"}]}", json);
+		}
 	}
 }

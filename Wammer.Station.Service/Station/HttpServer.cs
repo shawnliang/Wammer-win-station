@@ -107,8 +107,11 @@ namespace Wammer.Station
 			{
 				if (stopping)
 					return;
-
-				//TODO: write log...
+				else
+				{
+					//TODO: write log...
+					throw;
+				}
 			}
 
 			listener.BeginGetContext(this.ConnectionAccepted, null);

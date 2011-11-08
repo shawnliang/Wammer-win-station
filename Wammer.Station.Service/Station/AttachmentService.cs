@@ -57,7 +57,6 @@ namespace Wammer.Station
 
 				MemoryStream s = new MemoryStream();
 				StreamWriter w = new StreamWriter(s);
-				string jsn = doc.ToJson();
 
 				w.Write(fastJSON.JSON.Instance.ToJSON(doc, false, false, false, false));
 				w.Flush();
@@ -91,6 +90,8 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				webContext.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+				log4net.LogManager.GetLogger(typeof(AttachmentService)).Warn(
+														"Internal error when responding error", e);
 				return null;
 			}
 		}

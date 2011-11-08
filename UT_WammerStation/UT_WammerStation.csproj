@@ -79,6 +79,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestAddDriver.cs" />
     <Compile Include="TestAttachmentGet.cs" />
     <Compile Include="TestBsonHelper.cs" />
     <Compile Include="FakeClient.cs" />

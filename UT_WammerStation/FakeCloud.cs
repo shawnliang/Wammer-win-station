@@ -13,12 +13,14 @@ namespace UT_WammerStation
 		private string postData;
 		private string reqeustedContentType;
 
-		private string response;
+		//private string response;
 		private System.Net.HttpListener listener;
+		private List<string> responses = new List<string>();
+		private int resIdx = 0;
 
 		public FakeCloud(string response)
 		{
-			this.response = response;
+			this.responses.Add(response);
 			this.listener = new System.Net.HttpListener();
 			this.listener.Prefixes.Add("http://+:80/");
 
@@ -33,8 +35,8 @@ namespace UT_WammerStation
 
 		public FakeCloud(object response)
 		{
-			this.response = fastJSON.JSON.Instance.ToJSON(response, false, false, false, false);
-
+			string js = fastJSON.JSON.Instance.ToJSON(response, false, false, false, false);
+			this.responses.Add(js);
 			this.listener = new System.Net.HttpListener();
 			this.listener.Prefixes.Add("http://+:80/");
 
@@ -47,10 +49,33 @@ namespace UT_WammerStation
 			this.listener.BeginGetContext(this.connected, listener);
 		}
 
+		public void addResponse(object response)
+		{
+			lock (this.responses)
+			{
+				if (response is string)
+					this.responses.Add((string)response);
+				else
+					this.responses.Add(fastJSON.JSON.Instance.ToJSON(response));
+			}
+		}
+
 		private void connected(IAsyncResult result)
 		{
 			System.Net.HttpListener listener = (System.Net.HttpListener)result.AsyncState;
-			HttpListenerContext context = listener.EndGetContext(result);
+			HttpListenerContext context = null;
+
+			try
+			{
+				context = listener.EndGetContext(result);
+			}
+			catch (Exception e)
+			{
+				return;
+			}
+
+			
+
 			requestedPath = context.Request.Url.AbsolutePath;
 			reqeustedContentType = context.Request.ContentType;
 
@@ -63,8 +88,20 @@ namespace UT_WammerStation
 
 			using (StreamWriter w = new StreamWriter(context.Response.OutputStream))
 			{
-				w.Write(this.response);
+				lock (this.responses)
+				{
+					if (this.resIdx < this.responses.Count)
+					{
+						w.Write(this.responses[resIdx++]);
+					}
+					else
+					{
+						w.Write(this.responses[this.responses.Count-1]);
+					}
+				}
 			}
+
+			listener.BeginGetContext(this.connected, listener);
 		}
 
 		public string RequestedPath
@@ -84,6 +121,7 @@ namespace UT_WammerStation
 
 		public void Dispose()
 		{
+			this.listener.Stop();
 			this.listener.Close();
 		}
 	}

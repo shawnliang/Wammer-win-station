@@ -23,14 +23,17 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestUserSignOn()
 		{
-			using (FakeCloud fakeCloud = new FakeCloud(
-				new Wammer.Cloud.UserLogInResponse(200, DateTime.Now.ToUniversalTime(), "token1")))
+			Wammer.Cloud.UserLogInResponse res =
+			new Wammer.Cloud.UserLogInResponse(200, DateTime.Now.ToUniversalTime(), "token1");
+			res.user = new Wammer.Cloud.UserInfo { user_id = "uid" };
+
+			using (FakeCloud fakeCloud = new FakeCloud(res))
 			using (WebClient agent = new WebClient())
 			{
 				Wammer.Cloud.User user = Wammer.Cloud.User.LogIn(agent, "user1", "passwd1");
 				Assert.AreEqual("user1", user.Name);
 				Assert.AreEqual("passwd1", user.Password);
-
+				Assert.AreEqual("uid", user.Id);
 				Assert.AreEqual("/" + Wammer.Cloud.CloudServer.DEF_BASE_PATH + "/auth/login", 
 					fakeCloud.RequestedPath);
 				Assert.AreEqual("email=user1&password=passwd1&apikey=apiKey1",

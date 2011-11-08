@@ -121,7 +121,9 @@
     <Compile Include="Cloud\WammerCloudException.cs" />
     <Compile Include="Station\AttachmentService.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
+    <Compile Include="Station\StationDriver.cs" />
     <Compile Include="Station\StationInfo.cs" />
+    <Compile Include="Station\StationManagementService.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />
