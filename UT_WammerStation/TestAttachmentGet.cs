@@ -26,6 +26,8 @@ namespace UT_WammerStation
 		
 		Attachment doc;
 		string objectId1;
+		WebServiceHost host;
+		AttachmentService svc;
 
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
@@ -53,6 +55,10 @@ namespace UT_WammerStation
 			};
 
 			att.Insert(doc);
+
+			svc = new AttachmentService(mongodb);
+			host = new WebServiceHost(svc, new Uri("http://localhost:8080/api/"));
+			host.Open();
 		}
 
 		[TestCleanup]
@@ -60,15 +66,12 @@ namespace UT_WammerStation
 		{
 			if (wammerDb.CollectionExists("attachments"))
 				wammerDb.DropCollection("attachments");
+			host.Close();
 		}
 
 		[TestMethod]
 		public void TestGetAttachmentInfo()
 		{
-			AttachmentService svc = new AttachmentService(mongodb);
-			WebServiceHost host = new WebServiceHost(svc, new Uri("http://localhost:8080/api/"));
-			host.Open();
-
 			WebClient agent = new WebClient();
 			string output = agent.DownloadString(
 				"http://localhost:8080/api/get?object_id="+ objectId1 +"&session_token=a&apikey=b");
@@ -81,17 +84,11 @@ namespace UT_WammerStation
 			Assert.AreEqual("title1", result["title"].AsString);
 			Assert.AreEqual("description1", result["description"].AsString);
 			Assert.IsFalse(result.Contains("_id"));
-
-			host.Close();
 		}
 
 		[TestMethod]
 		public void TestGetAttachmentInfo_paramsCanBeInAnyOrder()
 		{
-			AttachmentService svc = new AttachmentService(mongodb);
-			WebServiceHost host = new WebServiceHost(svc, new Uri("http://localhost:8080/api/"));
-			host.Open();
-
 			WebClient agent = new WebClient();
 			string output = agent.DownloadString(
 				"http://localhost:8080/api/get?apikey=b&object_id=" + objectId1 + "&session_token=a");
@@ -104,17 +101,11 @@ namespace UT_WammerStation
 			Assert.AreEqual("title1", result["title"].AsString);
 			Assert.AreEqual("description1", result["description"].AsString);
 			Assert.IsFalse(result.Contains("_id"));
-
-			host.Close();
 		}
 
 		[TestMethod]
 		public void TestGetAttachmentInfo_paramCanBeOptional()
 		{
-			AttachmentService svc = new AttachmentService(mongodb);
-			WebServiceHost host = new WebServiceHost(svc, new Uri("http://localhost:8080/api/"));
-			host.Open();
-
 			WebClient agent = new WebClient();
 			string output = agent.DownloadString(
 				"http://localhost:8080/api/get?apikey=b&object_id=" + objectId1);
@@ -128,7 +119,60 @@ namespace UT_WammerStation
 			Assert.AreEqual("description1", result["description"].AsString);
 			Assert.IsFalse(result.Contains("_id"));
 
-			host.Close();
+		}
+
+		[TestMethod]
+		public void TestGetAttachmentInfo_NoObjectId()
+		{
+
+			WebClient agent = new WebClient();
+			try
+			{
+				string output = agent.DownloadString("http://localhost:8080/api/get");
+			}
+			catch (WebException e)
+			{
+				HttpWebResponse res = (HttpWebResponse)e.Response;
+				Assert.AreEqual(HttpStatusCode.BadRequest, res.StatusCode);
+
+				using (StreamReader r = new StreamReader(res.GetResponseStream()))
+				{
+					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(
+						r.ReadToEnd());
+					Assert.AreEqual(-1, json.app_ret_code);
+					Assert.AreEqual((int)HttpStatusCode.BadRequest, json.status);
+					Assert.AreEqual("missing parameter: object_id" , json.app_ret_msg);
+				}
+				return;
+			}
+			Assert.Fail("expected error is not thrown");
+		}
+
+		[TestMethod]
+		public void TestGetAttachmentInfo_attachmentNotFound()
+		{
+
+			WebClient agent = new WebClient();
+			try
+			{
+				string output = agent.DownloadString("http://localhost:8080/api/get?object_id=123");
+			}
+			catch (WebException e)
+			{
+				HttpWebResponse res = (HttpWebResponse)e.Response;
+				Assert.AreEqual(HttpStatusCode.NotFound, res.StatusCode);
+
+				using (StreamReader r = new StreamReader(res.GetResponseStream()))
+				{
+					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(
+						r.ReadToEnd());
+					Assert.AreEqual(-1, json.app_ret_code);
+					Assert.AreEqual((int)HttpStatusCode.NotFound, json.status);
+					Assert.AreEqual("object not found: 123", json.app_ret_msg);
+				}
+				return;
+			}
+			Assert.Fail("expected error is not thrown");
 		}
 	}
 }

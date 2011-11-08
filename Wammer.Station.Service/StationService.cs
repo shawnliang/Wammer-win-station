@@ -8,6 +8,8 @@ using System.ServiceProcess;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.ServiceModel;
+using System.ServiceModel.Web;
 
 using Microsoft.Win32;
 using Wammer.Station;
@@ -19,7 +21,7 @@ namespace Wammer.Station.Service
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 		private HttpServer server;
-
+		private WebServiceHost serviceHost;
 
 		public StationService()
 		{
@@ -81,6 +83,12 @@ namespace Wammer.Station.Service
 			{
 				logger.Info("Station log on Wammer Cloud successfully");
 			}
+
+			AttachmentService attachmentSvc = new AttachmentService(mongodb);
+			serviceHost = new WebServiceHost(attachmentSvc,
+				new Uri("http://" + System.Net.Dns.GetHostName() + ":9981/v2/attachments/"));
+			serviceHost.Open();
+
 		}
 
 		private bool LogOnStation(int port)
@@ -95,8 +103,8 @@ namespace Wammer.Station.Service
 
 				Wammer.Cloud.Station station = new Cloud.Station(stationId, stationToken);
 				Dictionary<object, object> parameters = new Dictionary<object, object> {
-						{"location", "http://" + StationInfo.IPv4Address + ":9981/" }
-				};
+		                {"location", "http://" + StationInfo.IPv4Address + ":9981/" }
+		        };
 				station.LogOn(new System.Net.WebClient(), parameters);
 
 				CloudServer.SessionToken = station.Token;
@@ -112,6 +120,7 @@ namespace Wammer.Station.Service
 
 		protected override void OnStop()
 		{
+			serviceHost.Close();
 			server.Stop();
 			server.Close();
 		}
