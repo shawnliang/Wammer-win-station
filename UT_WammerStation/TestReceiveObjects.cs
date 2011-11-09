@@ -132,8 +132,8 @@ namespace UT_WammerStation
 
 				Assert.AreEqual(200, res.status);
 				Assert.IsNotNull(res.timestamp);
-				Assert.AreEqual(0, res.app_ret_code);
-				Assert.AreEqual("Success", res.app_ret_msg);
+				Assert.AreEqual(0, res.api_ret_code);
+				Assert.AreEqual("Success", res.api_ret_msg);
 				Assert.AreEqual("object_id1", res.object_id);
 
 
@@ -163,7 +163,7 @@ namespace UT_WammerStation
 										<ObjectUploadResponse>(result.ResponseAsText);
 
 				Assert.AreEqual(200, res.status);
-				Assert.AreEqual(0, res.app_ret_code);
+				Assert.AreEqual(0, res.api_ret_code);
 
 				MongoDatabase db = mongo.GetDatabase("wammer");
 				Assert.IsNotNull(db);
@@ -200,8 +200,8 @@ namespace UT_WammerStation
 
 				Assert.AreEqual(200, res.status);
 				Assert.IsNotNull(res.timestamp);
-				Assert.AreEqual(0, res.app_ret_code);
-				Assert.AreEqual("Success", res.app_ret_msg);
+				Assert.AreEqual(0, res.api_ret_code);
+				Assert.AreEqual("Success", res.api_ret_msg);
 				Assert.IsNotNull(res.object_id);
 
 				using (FileStream fs = File.OpenRead(@"resource\" + res.object_id + ".jpeg"))
@@ -232,8 +232,8 @@ namespace UT_WammerStation
 
 				Assert.AreEqual(400, res.status);
 				Assert.IsNotNull(res.timestamp);
-				Assert.AreNotEqual(0, res.app_ret_code);
-				Assert.AreNotEqual("Success", res.app_ret_msg);
+				Assert.AreNotEqual(0, res.api_ret_code);
+				Assert.AreNotEqual("Success", res.api_ret_msg);
 				Assert.AreEqual(null, res.object_id);
 			}
 		}

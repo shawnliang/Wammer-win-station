@@ -19,7 +19,7 @@ namespace Wammer.Station
 	public interface IStationManagementService
 	{
 		[OperationContract]
-		[WebInvoke(Method = "POST", UriTemplate = "station/drivers/add", 
+		[WebInvoke(Method = "POST", UriTemplate = "drivers/add", 
 			BodyStyle = WebMessageBodyStyle.Bare)]
 		Stream AddDriver(Stream requestContent);
 	}

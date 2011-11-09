@@ -33,7 +33,7 @@ namespace UT_WammerStation
 		public void setUp()
 		{
 			svc = new StationManagementService(mongodb, "station_id1");
-			host = new WebServiceHost(svc, new Uri("http://localhost:8080/v2/"));
+			host = new WebServiceHost(svc, new Uri("http://localhost:8080/v2/station/"));
 			host.Open();
 
 			if (!Directory.Exists(@"C:\TempUT"))
@@ -66,8 +66,8 @@ namespace UT_WammerStation
 		{
 			UserLogInResponse res1 = new UserLogInResponse
 			{
-				app_ret_msg = "success",
-				app_ret_code = 0,
+				api_ret_msg = "success",
+				api_ret_code = 0,
 				session_token = "token1",
 				status = 200,
 				timestamp = DateTime.UtcNow,
@@ -107,9 +107,9 @@ namespace UT_WammerStation
 		        using (StreamReader r = new StreamReader(response.GetResponseStream()))
 		        {
 		            CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(r.ReadToEnd());
-		            Assert.AreEqual(0, json.app_ret_code);
+		            Assert.AreEqual(0, json.api_ret_code);
 		            Assert.AreEqual(200, json.status);
-		            Assert.AreEqual("success", json.app_ret_msg);
+		            Assert.AreEqual("success", json.api_ret_msg);
 		            Assert.IsTrue(json.timestamp - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 		        }
 
@@ -158,9 +158,9 @@ namespace UT_WammerStation
 				using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
 				{
 					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(r.ReadToEnd());
-					Assert.AreEqual((int)StationApiError.DriverExist, json.app_ret_code);
+					Assert.AreEqual((int)StationApiError.DriverExist, json.api_ret_code);
 					Assert.AreEqual((int)HttpStatusCode.Conflict, json.status);
-					Assert.AreEqual("already registered", json.app_ret_msg);
+					Assert.AreEqual("already registered", json.api_ret_msg);
 				}
 
 				return;
@@ -199,9 +199,9 @@ namespace UT_WammerStation
 				using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
 				{
 					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(r.ReadToEnd());
-					Assert.AreEqual((int)StationApiError.BadPath, json.app_ret_code);
+					Assert.AreEqual((int)StationApiError.BadPath, json.api_ret_code);
 					Assert.AreEqual((int)HttpStatusCode.BadRequest, json.status);
-					Assert.AreEqual("folder is not an absolute path", json.app_ret_msg);
+					Assert.AreEqual("folder is not an absolute path", json.api_ret_msg);
 				}
 
 				return;

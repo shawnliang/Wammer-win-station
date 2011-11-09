@@ -22,7 +22,7 @@ namespace Wammer.Utility
 				CloudResponse res = new CloudResponse((int)status, apiErrCode, errMsg);
 				MemoryStream m = new MemoryStream();
 				StreamWriter w1 = new StreamWriter(m);
-				w1.Write(fastJSON.JSON.Instance.ToJSON(res));
+				w1.Write(fastJSON.JSON.Instance.ToJSON(res, false, false, false, false));
 				w1.Flush();
 				m.Position = 0;
 				return m;
@@ -40,7 +40,7 @@ namespace Wammer.Utility
 		{
 			MemoryStream m = new MemoryStream();
 			StreamWriter w = new StreamWriter(m);
-			w.Write(fastJSON.JSON.Instance.ToJSON(res));
+			w.Write(fastJSON.JSON.Instance.ToJSON(res, false, false, false, false));
 			w.Flush();
 			m.Position = 0;
 			return m;

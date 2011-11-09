@@ -229,8 +229,8 @@ namespace UT_WammerStation
 
 						CloudResponse res = fastJSON.JSON.Instance.ToObject<CloudResponse>(responseText);
 						Assert.AreEqual(400, res.status);
-						Assert.AreEqual(-1, res.app_ret_code);
-						Assert.AreEqual("missing required param: object_id", res.app_ret_msg);
+						Assert.AreEqual(-1, res.api_ret_code);
+						Assert.AreEqual("missing required param: object_id", res.api_ret_msg);
 					}
 
 					return;
@@ -294,8 +294,8 @@ namespace UT_WammerStation
 
 						CloudResponse res = fastJSON.JSON.Instance.ToObject<CloudResponse>(responseText);
 						Assert.AreEqual(404, res.status);
-						Assert.AreEqual(-1, res.app_ret_code);
-						Assert.AreEqual("object abc is not found", res.app_ret_msg);
+						Assert.AreEqual(-1, res.api_ret_code);
+						Assert.AreEqual("object abc is not found", res.api_ret_msg);
 					}
 
 					return;

@@ -162,10 +162,10 @@ namespace UT_WammerStation
 					{
 						string json = r.ReadToEnd();
 						CloudResponse resp = fastJSON.JSON.Instance.ToObject<CloudResponse>(json);
-						Assert.AreEqual(-1, resp.app_ret_code);
+						Assert.AreEqual(-1, resp.api_ret_code);
 						Assert.AreEqual(403, resp.status);
 						Assert.AreEqual("Station does not support this REST API; only Cloud does",
-																				resp.app_ret_msg);
+																				resp.api_ret_msg);
 					}
 					return;
 				}
@@ -197,10 +197,10 @@ namespace UT_WammerStation
 					{
 						string json = r.ReadToEnd();
 						CloudResponse resp = fastJSON.JSON.Instance.ToObject<CloudResponse>(json);
-						Assert.AreEqual(-1, resp.app_ret_code);
+						Assert.AreEqual(-1, resp.api_ret_code);
 						Assert.AreEqual(403, resp.status);
 						Assert.AreEqual("Station does not support this REST API; only Cloud does",
-																				resp.app_ret_msg);
+																				resp.api_ret_msg);
 					}
 					return;
 				}
@@ -232,10 +232,10 @@ namespace UT_WammerStation
 					{
 						string json = r.ReadToEnd();
 						CloudResponse resp = fastJSON.JSON.Instance.ToObject<CloudResponse>(json);
-						Assert.AreEqual(-1, resp.app_ret_code);
+						Assert.AreEqual(-1, resp.api_ret_code);
 						Assert.AreEqual(403, resp.status);
 						Assert.AreEqual("Station does not support this REST API; only Cloud does",
-																				resp.app_ret_msg);
+																				resp.api_ret_msg);
 					}
 					return;
 				}

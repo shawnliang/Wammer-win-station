@@ -21,7 +21,8 @@ namespace Wammer.Station.Service
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 		private HttpServer server;
-		private WebServiceHost serviceHost;
+		private List<WebServiceHost> serviceHosts = new List<WebServiceHost>();
+		private string stationId;
 
 		public StationService()
 		{
@@ -45,6 +46,7 @@ namespace Wammer.Station.Service
 									Assembly.GetExecutingAssembly().Location);
 
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
+			this.stationId = InitStationId();
 
 			server = new HttpServer(9981); // TODO: remove hard code
 			BypassHttpHandler cloudForwarder = new BypassHttpHandler(
@@ -59,7 +61,7 @@ namespace Wammer.Station.Service
 
 			MongoDB.Driver.MongoServer mongodb = MongoDB.Driver.MongoServer.Create(
 									string.Format("mongodb://localhost:{0}/?safe=true",
-									StationRegistry.GetValue("dbPort", 10319)));
+									StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
 
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
@@ -74,56 +76,36 @@ namespace Wammer.Station.Service
 
 			server.Start();
 
-			if (!LogOnStation(9981))
-			{
-				logger.Info("Not connected with Wammer Cloud yet");
-				//TODO: start a timer to retry
-			}
-			else
-			{
-				logger.Info("Station log on Wammer Cloud successfully");
-			}
-
-			AttachmentService attachmentSvc = new AttachmentService(mongodb);
-			serviceHost = new WebServiceHost(attachmentSvc,
-				new Uri("http://" + System.Net.Dns.GetHostName() + ":9981/v2/attachments/"));
-			serviceHost.Open();
-
-		}
-
-		private bool LogOnStation(int port)
-		{
-			try
-			{
-				string stationId = (string)StationRegistry.GetValue("stationId", null);
-				string stationToken = (string)StationRegistry.GetValue("stationToken", null);
-
-				if (stationId == null || stationToken == null)
-					return false;
-
-				Wammer.Cloud.Station station = new Cloud.Station(stationId, stationToken);
-				Dictionary<object, object> parameters = new Dictionary<object, object> {
-		                {"location", "http://" + StationInfo.IPv4Address + ":9981/" }
-		        };
-				station.LogOn(new System.Net.WebClient(), parameters);
-
-				CloudServer.SessionToken = station.Token;
-				StationRegistry.SetValue("stationToken", station.Token);
-				return true;
-			}
-			catch (Exception e)
-			{
-				logger.Warn("Unable to logon station with Wammer Cloud", e);
-				return false;
-			}
+			AddWebServiceHost(new AttachmentService(mongodb), 9981, "attachments/");
+			AddWebServiceHost(new StationManagementService(mongodb, stationId), 9981, "station/");
 		}
 
 		protected override void OnStop()
 		{
-			serviceHost.Close();
+			foreach (WebServiceHost svc in serviceHosts)
+			{
+				svc.Close();
+			}
+
 			server.Stop();
 			server.Close();
 		}
+
+		private string InitStationId()
+		{
+			return (string)StationRegistry.GetValue("stationId", Guid.NewGuid().ToString());
+		}
+
+		private void AddWebServiceHost(object service, int port, string basePath)
+		{
+			string url = string.Format("http://{0}:{1}/{2}/{3}", 
+				Dns.GetHostName(), port, CloudServer.DEF_BASE_PATH, basePath);
+
+			WebServiceHost svcHost = new WebServiceHost(service, new Uri(url));
+			svcHost.Open();
+			serviceHosts.Add(svcHost);
+		}
+
 	}
 
 
