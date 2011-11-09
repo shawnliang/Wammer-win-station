@@ -101,7 +101,14 @@ namespace UT_WammerStation
 				}
 			}
 
-			listener.BeginGetContext(this.connected, listener);
+			try
+			{
+				listener.BeginGetContext(this.connected, listener);
+			}
+			catch (Exception e)
+			{
+				return;
+			}
 		}
 
 		public string RequestedPath

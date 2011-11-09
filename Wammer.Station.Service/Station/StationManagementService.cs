@@ -9,7 +9,9 @@ using System.IO;
 using System.Net;
 using System.Collections.Specialized;
 using Wammer.Cloud;
+using Wammer.Utility;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
@@ -29,11 +31,16 @@ namespace Wammer.Station
 	{
 		private MongoServer mongodb;
 		private string stationId;
-
+		private MongoCollection<StationDriver> drivers;
 		public StationManagementService(MongoServer mongodb, string stationId)
 		{
 			this.mongodb = mongodb;
 			this.stationId = stationId;
+
+			if (!mongodb.GetDatabase("wammer").CollectionExists("drivers"))
+				mongodb.GetDatabase("wammer").CreateCollection("drivers");
+
+			this.drivers = mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers");
 		}
 
 		public Stream AddDriver(Stream requestContent)
@@ -46,6 +53,16 @@ namespace Wammer.Station
 				string email = parameters["email"];
 				string password = parameters["password"];
 				string folder = parameters["folder"];
+
+				if (email==null || password==null || folder==null || folder.Length==0)
+					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+											HttpStatusCode.BadRequest, -1, 
+											"parameter email/password/folder is missing or empty");
+
+				if (drivers.FindOne(Query.EQ("email", email)) != null)
+					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, 
+												HttpStatusCode.Conflict, -30, "already registered");
+
 
 				using (WebClient agent = new WebClient())
 				{
@@ -62,18 +79,10 @@ namespace Wammer.Station
 						groups = user.Groups
 					};
 
-					mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers")
-						.Insert(driver);
+					drivers.Insert(driver);
 				}
 
-
-				CloudResponse res = new CloudResponse(200, 0, "success");
-				MemoryStream m = new MemoryStream();
-				StreamWriter w = new StreamWriter(m);
-				w.Write(fastJSON.JSON.Instance.ToJSON(res));
-				w.Flush();
-				m.Position = 0;
-				return m;
+				return WCFRestHelper.GenerateSucessStream(new CloudResponse(200, 0, "success"));
 			}
 		}
 	}

@@ -45,8 +45,11 @@ namespace UT_WammerStation
 			CloudServer.Port = 80;
 
 			mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").RemoveAll();
-			//mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").Insert(
-			//    new StationDriver())
+			mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").Insert(
+				new StationDriver { 
+					user_id = "exist_uid",
+					email = "exist@gmail.com",
+					folder = "fo"});
 		}
 
 		[TestCleanup]
@@ -123,6 +126,43 @@ namespace UT_WammerStation
 				Assert.AreEqual(res1.groups[0].name, driver.groups[0].name);
 				Assert.AreEqual(res1.groups[0].description, driver.groups[0].description);
 		    }
+		}
+
+		[TestMethod]
+		public void TestAddRegisteredDriver()
+		{
+			HttpWebRequest request = (HttpWebRequest)
+				WebRequest.Create("http://localhost:8080/v2/station/drivers/add");
+			request.Method = "POST";
+			request.ContentType = "application/x-www-form-urlencoded";
+
+			using (StreamWriter w = new StreamWriter(request.GetRequestStream()))
+			{
+				w.Write("session_token=token");
+				w.Write("&");
+				w.Write("email=" + HttpUtility.UrlEncode("exist@gmail.com"));
+				w.Write("&");
+				w.Write("password=12345");
+				w.Write("&");
+				w.Write("folder=" + HttpUtility.UrlEncode(@"c:\TempUT\user1"));
+			}
+
+			// verify response
+			try
+			{
+				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			}
+			catch (WebException e)
+			{
+				Assert.AreEqual(HttpStatusCode.Conflict, ((HttpWebResponse)e.Response).StatusCode);
+				using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
+				{
+					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(r.ReadToEnd());
+					Assert.AreEqual(-30, json.app_ret_code);
+					Assert.AreEqual((int)HttpStatusCode.Conflict, json.status);
+					Assert.AreEqual("already registered", json.app_ret_msg);
+				}
+			}
 		}
 	}
 }

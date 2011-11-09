@@ -154,6 +154,7 @@
     <Compile Include="Station\StationRegistry.cs" />
     <Compile Include="Station\ViewObjectHandler.cs" />
     <Compile Include="Utility\TimeHelper.cs" />
+    <Compile Include="Utility\WCFRestHelper.cs" />
     <Compile Include="Utility\WebHelper.cs" />
   </ItemGroup>
   <ItemGroup>
