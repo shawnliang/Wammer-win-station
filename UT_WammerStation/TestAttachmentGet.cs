@@ -77,13 +77,14 @@ namespace UT_WammerStation
 				"http://localhost:8080/api/get?object_id="+ objectId1 +"&session_token=a&apikey=b");
 
 			Assert.AreNotEqual("", output);
-			BsonDocument result =
-				MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(output);
 
-			Assert.AreEqual(objectId1, result["object_id"].AsString);
-			Assert.AreEqual("title1", result["title"].AsString);
-			Assert.AreEqual("description1", result["description"].AsString);
-			Assert.IsFalse(result.Contains("_id"));
+			AttachmentResponse res = fastJSON.JSON.Instance.ToObject<AttachmentResponse>(output);
+			Assert.AreEqual(200, res.status);
+			Assert.AreEqual(0, res.api_ret_code);
+			Assert.AreEqual("success", res.api_ret_msg);
+			Assert.AreEqual(doc.object_id, res.attachment.object_id);
+			Assert.AreEqual(doc.title, res.attachment.title);
+			Assert.AreEqual(doc.description, res.attachment.description);
 		}
 
 		[TestMethod]
@@ -94,13 +95,13 @@ namespace UT_WammerStation
 				"http://localhost:8080/api/get?apikey=b&object_id=" + objectId1 + "&session_token=a");
 
 			Assert.AreNotEqual("", output);
-			BsonDocument result =
-				MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(output);
-
-			Assert.AreEqual(objectId1, result["object_id"].AsString);
-			Assert.AreEqual("title1", result["title"].AsString);
-			Assert.AreEqual("description1", result["description"].AsString);
-			Assert.IsFalse(result.Contains("_id"));
+			AttachmentResponse res = fastJSON.JSON.Instance.ToObject<AttachmentResponse>(output);
+			Assert.AreEqual(200, res.status);
+			Assert.AreEqual(0, res.api_ret_code);
+			Assert.AreEqual("success", res.api_ret_msg);
+			Assert.AreEqual(doc.object_id, res.attachment.object_id);
+			Assert.AreEqual(doc.title, res.attachment.title);
+			Assert.AreEqual(doc.description, res.attachment.description);
 		}
 
 		[TestMethod]
@@ -111,13 +112,13 @@ namespace UT_WammerStation
 				"http://localhost:8080/api/get?apikey=b&object_id=" + objectId1);
 
 			Assert.AreNotEqual("", output);
-			BsonDocument result =
-				MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(output);
-
-			Assert.AreEqual(objectId1, result["object_id"].AsString);
-			Assert.AreEqual("title1", result["title"].AsString);
-			Assert.AreEqual("description1", result["description"].AsString);
-			Assert.IsFalse(result.Contains("_id"));
+			AttachmentResponse res = fastJSON.JSON.Instance.ToObject<AttachmentResponse>(output);
+			Assert.AreEqual(200, res.status);
+			Assert.AreEqual(0, res.api_ret_code);
+			Assert.AreEqual("success", res.api_ret_msg);
+			Assert.AreEqual(doc.object_id, res.attachment.object_id);
+			Assert.AreEqual(doc.title, res.attachment.title);
+			Assert.AreEqual(doc.description, res.attachment.description);
 
 		}
 
