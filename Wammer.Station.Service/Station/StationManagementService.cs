@@ -22,7 +22,11 @@ namespace Wammer.Station
 		[WebInvoke(Method = "POST", UriTemplate = "station/drivers/add", 
 			BodyStyle = WebMessageBodyStyle.Bare)]
 		Stream AddDriver(Stream requestContent);
-	}
+
+        [OperationContract]
+        [WebGet(UriTemplate = "station/status/get")]
+        Stream GetStatus();
+    }
 
 	[ServiceBehavior(
 		InstanceContextMode = InstanceContextMode.Single,
@@ -91,5 +95,36 @@ namespace Wammer.Station
 				return WCFRestHelper.GenerateSucessStream(new CloudResponse(200, 0, "success"));
 			}
 		}
+
+        public Stream GetStatus()
+        {
+            List<object> diskUsage = new List<object>();
+            StatusResponse res = new StatusResponse
+            {
+                location = "http://" + StationInfo.IPv4Address + ":9981/",
+                diskusage = new List<DiskQuota>()
+            };
+
+            foreach (StationDriver driver in drivers.FindAll())
+            { 
+                FileStorage storage = new FileStorage(driver.folder);
+                res.diskusage.Add( new DiskQuota { driver_id = driver.user_id, used = storage.GetUsedSize(), avail = storage.GetAvailSize()});
+            }
+
+            return WCFRestHelper.GenerateSucessStream(res);
+        }
 	}
+
+    public class DiskQuota
+    {
+        public string driver_id {get; set;}
+        public long used {get;set;}
+        public long avail {get; set;}
+    }
+
+    public class StatusResponse
+    {
+        public string location { get; set; }
+        public List<DiskQuota> diskusage { get; set; }
+    }
 }
