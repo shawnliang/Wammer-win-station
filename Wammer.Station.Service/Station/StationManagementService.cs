@@ -93,7 +93,8 @@ namespace Wammer.Station
 					OnDriverAdded(new DriverEventArgs { Driver = driver });
 				}
 
-				return WCFRestHelper.GenerateSucessStream(new CloudResponse(200, 0, "success"));
+				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
+															new CloudResponse(200, 0, "success"));
 			}
 		}
 
