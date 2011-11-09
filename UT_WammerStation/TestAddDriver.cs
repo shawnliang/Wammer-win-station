@@ -158,11 +158,56 @@ namespace UT_WammerStation
 				using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
 				{
 					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(r.ReadToEnd());
-					Assert.AreEqual(-30, json.app_ret_code);
+					Assert.AreEqual((int)StationApiError.DriverExist, json.app_ret_code);
 					Assert.AreEqual((int)HttpStatusCode.Conflict, json.status);
 					Assert.AreEqual("already registered", json.app_ret_msg);
 				}
+
+				return;
 			}
+
+			Assert.Fail("expected exception is not thrown");
+		}
+
+		[TestMethod]
+		public void TestFolderShouldBeAbsPath()
+		{
+			HttpWebRequest request = (HttpWebRequest)
+				WebRequest.Create("http://localhost:8080/v2/station/drivers/add");
+			request.Method = "POST";
+			request.ContentType = "application/x-www-form-urlencoded";
+
+			using (StreamWriter w = new StreamWriter(request.GetRequestStream()))
+			{
+				w.Write("session_token=token");
+				w.Write("&");
+				w.Write("email=" + HttpUtility.UrlEncode("user1@gmail.com"));
+				w.Write("&");
+				w.Write("password=12345");
+				w.Write("&");
+				w.Write("folder=" + HttpUtility.UrlEncode(@"TempUT\user1"));
+			}
+
+			// verify response
+			try
+			{
+				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			}
+			catch (WebException e)
+			{
+				Assert.AreEqual(HttpStatusCode.BadRequest, ((HttpWebResponse)e.Response).StatusCode);
+				using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
+				{
+					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(r.ReadToEnd());
+					Assert.AreEqual((int)StationApiError.BadPath, json.app_ret_code);
+					Assert.AreEqual((int)HttpStatusCode.BadRequest, json.status);
+					Assert.AreEqual("folder is not an absolute path", json.app_ret_msg);
+				}
+
+				return;
+			}
+
+			Assert.Fail("expected exception is not thrown");
 		}
 	}
 }

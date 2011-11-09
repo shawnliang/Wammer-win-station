@@ -48,13 +48,13 @@ namespace Wammer.Station
 			try
 			{
 				if (object_id == null)
-					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest,
-																-1, "missing parameter: object_id");
+					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+						HttpStatusCode.BadRequest, -1, "missing parameter: object_id");
 
 				Attachment doc = attachments.FindOne(Query.EQ("_id", object_id));
 				if (doc == null)
-					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.NotFound,
-															-1, "object not found: " + object_id);
+					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+						HttpStatusCode.NotFound, -1, "object not found: " + object_id);
 
 				return WCFRestHelper.GenerateSucessStream(doc);
 			}

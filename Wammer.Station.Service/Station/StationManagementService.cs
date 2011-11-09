@@ -59,9 +59,15 @@ namespace Wammer.Station
 											HttpStatusCode.BadRequest, -1, 
 											"parameter email/password/folder is missing or empty");
 
+				if (!Path.IsPathRooted(folder))
+					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+											HttpStatusCode.BadRequest, (int)StationApiError.BadPath,
+											"folder is not an absolute path");
+
 				if (drivers.FindOne(Query.EQ("email", email)) != null)
 					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, 
-												HttpStatusCode.Conflict, -30, "already registered");
+						HttpStatusCode.Conflict, (int)StationApiError.DriverExist,
+						"already registered");
 
 
 				using (WebClient agent = new WebClient())
