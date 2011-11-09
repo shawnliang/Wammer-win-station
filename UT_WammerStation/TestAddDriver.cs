@@ -22,6 +22,7 @@ namespace UT_WammerStation
 
 		WebServiceHost host;
 		StationManagementService svc;
+		StationDriver addedDriver;
 
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
@@ -50,6 +51,8 @@ namespace UT_WammerStation
 					user_id = "exist_uid",
 					email = "exist@gmail.com",
 					folder = "fo"});
+
+			addedDriver = null;
 		}
 
 		[TestCleanup]
@@ -85,7 +88,7 @@ namespace UT_WammerStation
 		    {
 				cloud.addResponse(new StationSignUpResponse(200, DateTime.Now, "token2"));
 				cloud.addResponse(new StationLogOnResponse(200, DateTime.Now, "token3"));
-
+				svc.DriverAdded += new EventHandler<DriverEventArgs>(svc_DriverAdded);
 		        HttpWebRequest request = (HttpWebRequest)
 		            WebRequest.Create("http://localhost:8080/v2/station/drivers/add");
 		        request.Method = "POST";
@@ -125,7 +128,23 @@ namespace UT_WammerStation
 		        Assert.AreEqual(res1.groups[0].group_id, driver.groups[0].group_id);
 				Assert.AreEqual(res1.groups[0].name, driver.groups[0].name);
 				Assert.AreEqual(res1.groups[0].description, driver.groups[0].description);
+
+
+				// verify event is fired
+				Assert.AreEqual(driver.email, addedDriver.email);
+				Assert.AreEqual(driver.folder, addedDriver.folder);
+				Assert.AreEqual(driver.groups.Count, addedDriver.groups.Count);
+				Assert.AreEqual(driver.groups[0].description, addedDriver.groups[0].description);
+				Assert.AreEqual(driver.groups[0].group_id, addedDriver.groups[0].group_id);
+				Assert.AreEqual(driver.groups[0].name, addedDriver.groups[0].name);
+				Assert.AreEqual(driver.user_id, addedDriver.user_id);
 		    }
+		}
+
+		void svc_DriverAdded(object sender, DriverEventArgs e)
+		{
+			Assert.IsNotNull(sender);
+			addedDriver = e.Driver;
 		}
 
 		[TestMethod]

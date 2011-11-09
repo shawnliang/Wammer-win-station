@@ -32,6 +32,9 @@ namespace Wammer.Station
 		private MongoServer mongodb;
 		private string stationId;
 		private MongoCollection<StationDriver> drivers;
+
+		public event EventHandler<DriverEventArgs> DriverAdded;
+
 		public StationManagementService(MongoServer mongodb, string stationId)
 		{
 			this.mongodb = mongodb;
@@ -86,10 +89,33 @@ namespace Wammer.Station
 					};
 
 					drivers.Insert(driver);
+
+					OnDriverAdded(new DriverEventArgs { Driver = driver });
 				}
 
 				return WCFRestHelper.GenerateSucessStream(new CloudResponse(200, 0, "success"));
 			}
+		}
+
+		private void OnDriverAdded(DriverEventArgs evt)
+		{
+			EventHandler<DriverEventArgs> handler = this.DriverAdded;
+
+			if (handler != null)
+			{
+				handler(this, evt);
+			}
+		}
+	}
+
+
+	public class DriverEventArgs : EventArgs
+	{
+		public StationDriver Driver { get; set; }
+		
+		public DriverEventArgs()
+			:base()
+		{
 		}
 	}
 }

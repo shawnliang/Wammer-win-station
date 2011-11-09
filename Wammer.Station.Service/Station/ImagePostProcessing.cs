@@ -36,8 +36,6 @@ namespace Wammer.Station
 			{
 				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
 				{
-					UpdateWidthAndHeight(evt.Attachment.object_id, origImage, evt.DbDocs);
-
 					ThumbnailInfo small = MakeThumbnail(origImage, ImageMeta.Small,
 																		evt.Attachment.object_id);
 
@@ -59,7 +57,8 @@ namespace Wammer.Station
 
 
 					ThreadPool.QueueUserWorkItem(this.UpstreamThumbnail,
-								new UpstreamArgs(small, evt.Attachment.object_id, ImageMeta.Small));
+								new UpstreamArgs(small, evt.Attachment.group_id, 
+									evt.Attachment.object_id, ImageMeta.Small));
 				}
 			}
 			catch (Exception e)
@@ -109,22 +108,15 @@ namespace Wammer.Station
 					doc.DeepMerge(update.ToBsonDocument());
 					evt.DbDocs.Save<BsonDocument>(doc);
 
-					UpstreamThumbnail(medium, evt.Attachment.object_id, ImageMeta.Medium);
-					UpstreamThumbnail(large, evt.Attachment.object_id, ImageMeta.Large);
-					UpstreamThumbnail(square, evt.Attachment.object_id, ImageMeta.Square);
+					UpstreamThumbnail(medium, evt.Attachment.group_id, evt.Attachment.object_id, ImageMeta.Medium);
+					UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id, ImageMeta.Large);
+					UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id, ImageMeta.Square);
 				}
 			}
 			catch (Exception e)
 			{
 				logger.Warn("Image attachment post processing unsuccess", e);
 			}
-		}
-
-		private static void UpdateWidthAndHeight(string objectId, Bitmap origImage,
-												MongoDB.Driver.MongoCollection docs)
-		{
-			//TODO: consider move this to a unified class
-			
 		}
 
 		private static Bitmap BuildBitmap(byte[] imageData)
@@ -176,7 +168,7 @@ namespace Wammer.Station
 
 			try
 			{
-				UpstreamThumbnail(args.Thumbnail, args.FullImageId, args.ImageMeta);
+				UpstreamThumbnail(args.Thumbnail, args.GroupId, args.FullImageId, args.ImageMeta);
 			}
 			catch (Exception e)
 			{
@@ -185,11 +177,12 @@ namespace Wammer.Station
 			}
 		}
 
-		private void UpstreamThumbnail(ThumbnailInfo thumbnail, string fullImgId, ImageMeta meta)
+		private void UpstreamThumbnail(ThumbnailInfo thumbnail, string groupId, string fullImgId, 
+																					ImageMeta meta)
 		{
 			using (MemoryStream output = new MemoryStream())
 			{
-				Cloud.Attachment.UploadImage(thumbnail.RawData, fullImgId, 
+				Cloud.Attachment.UploadImage(thumbnail.RawData, groupId, fullImgId, 
 												thumbnail.file_name, "image/jpeg", meta);
 
 				logger.DebugFormat("Thumbnail {0} is uploaded to Cloud", thumbnail.file_name);
@@ -212,12 +205,14 @@ namespace Wammer.Station
 		public ThumbnailInfo Thumbnail { get; private set; }
 		public string FullImageId { get; private set; }
 		public ImageMeta ImageMeta { get; set; }
+		public string GroupId { get; set; }
 
-		public UpstreamArgs(ThumbnailInfo tb, string fullImgId, ImageMeta type)
+		public UpstreamArgs(ThumbnailInfo tb, string groupId, string fullImgId, ImageMeta type)
 		{
 			Thumbnail = tb;
 			FullImageId = fullImgId;
 			ImageMeta = type;
+			GroupId = groupId;
 		}
 	}
 }

@@ -33,6 +33,7 @@ namespace UT_WammerStation
 
 		MongoServer mongo;
 		FileStorage storage;
+		AtomicDictionary<string, FileStorage> groupStoreMap;
 
 		public TestReceiveObjects()
 		{
@@ -68,6 +69,9 @@ namespace UT_WammerStation
 
 			MongoDatabase db = mongo.GetDatabase("wammer");
 			db.Drop();
+
+			groupStoreMap = new AtomicDictionary<string, FileStorage>();
+			groupStoreMap.Add("group1", storage);
 		}
 
 		[TestCleanup]
@@ -119,7 +123,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler(storage, mongo));
+				server.AddHandler("/test/", new ObjectUploadHandler(mongo, groupStoreMap));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",
@@ -151,7 +155,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler(storage, mongo));
+				server.AddHandler("/test/", new ObjectUploadHandler(mongo, groupStoreMap));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",
@@ -188,7 +192,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler(storage, mongo));
+				server.AddHandler("/test/", new ObjectUploadHandler(mongo, groupStoreMap));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",
@@ -218,7 +222,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler(storage, mongo));
+				server.AddHandler("/test/", new ObjectUploadHandler(mongo, groupStoreMap));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",

@@ -149,8 +149,8 @@ namespace Wammer.Cloud
 	public class Attachment
 	{
 		#region Upload utility functions
-		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string objectId,
-												string fileName, string contentType, ImageMeta meta)
+		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string groupId,
+							string objectId, string fileName, string contentType, ImageMeta meta)
 		{
 
 			Dictionary<string, object> pars = new Dictionary<string, object>();
@@ -159,6 +159,7 @@ namespace Wammer.Cloud
 			pars["session_token"] = CloudServer.SessionToken;
 			if (objectId != null)
 				pars["object_id"] = objectId;
+			pars["group_id"] = groupId;
 			pars["file"] = imageData;
 			HttpWebResponse _webResponse = 
 				Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
@@ -174,26 +175,28 @@ namespace Wammer.Cloud
 			}
 		}
 
-		public static ObjectUploadResponse UploadImage(string url, byte[] imageData,
+		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string group_id,
 												string fileName, string contentType, ImageMeta meta)
 		{
-			return UploadImage(url, imageData, null, fileName, contentType, meta);
+			return UploadImage(url, imageData, group_id, null, fileName, contentType, meta);
 		}
 
-		public static ObjectUploadResponse UploadImage(byte[] imageData, string objectId,
-												string fileName, string contentType, ImageMeta meta)
+		public static ObjectUploadResponse UploadImage(byte[] imageData, string group_id,
+			string objectId, string fileName, string contentType, ImageMeta meta)
 		{
 			string url = string.Format("http://{0}:{1}/{2}/attachments/upload/",
 				Cloud.CloudServer.HostName,
 				Cloud.CloudServer.Port,
 				CloudServer.DEF_BASE_PATH);
 
-			return UploadImage(url, imageData, objectId, fileName, contentType, meta);
+			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta);
 		}
 		#endregion
 
 		[BsonId]
 		public string object_id { get; set; }
+		[BsonIgnoreIfNull]
+		public string group_id { get; set; }
 		[BsonIgnoreIfNull]
 		public string file_name { get; set; }
 		[BsonIgnoreIfNull]
@@ -237,6 +240,7 @@ namespace Wammer.Cloud
 			modify_time = lhs.modify_time;
 			image_meta = lhs.image_meta;
 			RawData = lhs.RawData;
+			group_id = lhs.group_id;
 		}
 
 		public bool ShouldSerializefile_size()

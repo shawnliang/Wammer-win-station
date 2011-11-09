@@ -22,11 +22,16 @@ namespace UT_WammerStation
 		Guid object_id1;
 		Guid object_id2;
 
+		static AtomicDictionary<string, FileStorage> groupFolders;
+
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
 		{
 			storage = new FileStorage("resource");
 			mongodb = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
+			groupFolders = new AtomicDictionary<string, FileStorage>();
+			groupFolders["group1"] = new FileStorage("resource");
+
 		}
 
 		[TestInitialize]
@@ -61,6 +66,7 @@ namespace UT_WammerStation
 			db.GetCollection<Attachment>("attachments").Insert(new Attachment
 			{
 				object_id = object_id1.ToString(),
+				group_id = "group1",
 				mime_type = "image/png",
 				file_size = 10,
 				image_meta = new ImageProperty
@@ -99,8 +105,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(
-					storage, mongodb));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -129,7 +134,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -154,7 +159,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -181,7 +186,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -206,7 +211,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -245,7 +250,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -270,7 +275,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(storage, mongodb));
+				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -295,7 +300,7 @@ namespace UT_WammerStation
 						CloudResponse res = fastJSON.JSON.Instance.ToObject<CloudResponse>(responseText);
 						Assert.AreEqual(404, res.status);
 						Assert.AreEqual(-1, res.api_ret_code);
-						Assert.AreEqual("object abc is not found", res.api_ret_msg);
+						Assert.AreEqual("attachment abc is not found", res.api_ret_msg);
 					}
 
 					return;
