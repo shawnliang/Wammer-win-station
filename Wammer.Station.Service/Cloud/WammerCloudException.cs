@@ -10,7 +10,7 @@ namespace Wammer.Cloud
 		private WebExceptionStatus httpError = WebExceptionStatus.Success;
 		private int wammerError;
 		private string request = null;
-		private string response = null;
+		public string response { get; private set; }
 		public WammerCloudException()
 			: base()
 		{
@@ -87,6 +87,7 @@ namespace Wammer.Cloud
 				return -1;
 			}
 		}
+
 		public override string ToString()
 		{
 			StringBuilder buf = new StringBuilder(base.ToString());

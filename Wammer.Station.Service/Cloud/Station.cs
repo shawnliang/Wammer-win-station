@@ -60,8 +60,19 @@ namespace Wammer.Cloud
 			this.Token = res.session_token;
 		}
 
-		public string Id { get; private set;}
+		public static void SignOff(WebClient agent, string stationId, string sessionToken)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ "station_id", stationId },
+				{ "session_token", sessionToken },
+				{ "apikey", CloudServer.APIKey }
+			};
 
+			CloudServer.requestPath<CloudResponse>(agent, "stations/signOff", parameters);
+		}
+
+		public string Id { get; private set;}
 		public string Token { get; private set;}
 
 	}

@@ -14,5 +14,15 @@ namespace Wammer.Utility
 			TimeSpan span = DateTime.Now - JAN_1_1970;
 			return (long)span.TotalMilliseconds;
 		}
+
+		public static DateTime ConvertToDateTime(long unixTimeStamp)
+		{
+			return JAN_1_1970.AddMilliseconds(unixTimeStamp);
+		}
+
+		public static long ConvertToUnixTimeStamp(DateTime datetime)
+		{
+			return (long)(datetime - JAN_1_1970).TotalMilliseconds;
+		}
 	}
 }

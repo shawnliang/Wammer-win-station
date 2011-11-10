@@ -13,7 +13,9 @@ namespace Wammer.Cloud
 		public string Password { get; private set; }
 		public string Token { get; private set; }
 		public List<UserGroup> Groups { get; private set; }
+		public List<UserStation> Stations { get; private set; }
 		public string Id { get; private set; }
+
 		private User(string username, string passwd)
 		{
 			this.Name = username;
@@ -34,6 +36,7 @@ namespace Wammer.Cloud
 			user.Token = res.session_token;
 			user.Groups = res.groups;
 			user.Id = res.user.user_id;
+			user.Stations = res.stations;
 			return user;
 		}
 	}

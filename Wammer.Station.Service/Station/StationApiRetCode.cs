@@ -11,5 +11,6 @@ namespace Wammer.Station
 		DriverExist = -30,
 		BadPath = -31,
 		AuthFailed = -32,
+		AlreadyHasStaion = -33
 	}
 }

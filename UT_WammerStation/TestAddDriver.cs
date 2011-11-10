@@ -146,6 +146,49 @@ namespace UT_WammerStation
 			}
 		}
 
+		[TestMethod]
+		public void TestAddADriver_AlreadyHasAStation()
+		{
+			UserLogInResponse res1 = new UserLogInResponse
+			{
+				api_ret_msg = "station res msg",
+				api_ret_code = 0, // cloud retuns 4097 for invalid user name or password
+				session_token = "token1",
+				status = (int)HttpStatusCode.OK,
+				timestamp = DateTime.UtcNow,
+				stations = new List<UserStation>
+				{
+					new UserStation
+					{
+						station_id = "exist_station_id",
+						location = "location1",
+						last_seen = 1320725024
+					}
+				},
+				user = new UserInfo { user_id = "uid1" }
+			};
+
+			using (FakeCloud cloud = new FakeCloud(res1))
+			{
+				try
+				{
+					StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add",
+						"user1@gmail.com", "12345", @"c:\TempUT\user1");
+				}
+				catch (WammerCloudException e)
+				{
+					Assert.AreEqual((int)StationApiError.AlreadyHasStaion, e.WammerError);
+					AddUserResponse res = fastJSON.JSON.Instance.ToObject<AddUserResponse>(e.response);
+					Assert.AreEqual(res1.stations[0].station_id, res.station.station_id);
+					Assert.AreEqual(res1.stations[0].location, res.station.location);
+					Assert.AreEqual(res1.stations[0].last_seen, res.station.last_seen);
+					return;
+				}
+
+				Assert.Fail("Expected exception is not thrown");
+			}
+		}
+
 		void svc_DriverAdded(object sender, DriverEventArgs e)
 		{
 			Assert.IsNotNull(sender);
