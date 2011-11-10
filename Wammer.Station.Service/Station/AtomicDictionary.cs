@@ -9,10 +9,6 @@ namespace Wammer.Station
 	{
 		private Dictionary<TKey, TValue> map = new Dictionary<TKey, TValue>();
 
-		public AtomicDictionary()
-		{
-		}
-
 		public void Add(TKey key, TValue value)
 		{
 			lock (map)
@@ -37,6 +33,14 @@ namespace Wammer.Station
 				{
 					map[key] = value;
 				}
+			}
+		}
+
+		public Dictionary<TKey, TValue> GetAll()
+		{
+			lock (map)
+			{
+				return new Dictionary<TKey, TValue>(map);
 			}
 		}
 	}

@@ -83,7 +83,7 @@ namespace Wammer.Station.Service
 			// Start WCF REST services
 			AddWebServiceHost(new AttachmentService(mongodb), 9981, "attachments/");
 			
-			StationManagementService statMgmtSvc = new StationManagementService(mongodb, stationId);
+			StationManagementService statMgmtSvc = new StationManagementService(mongodb, stationId, groupFolderMap);
 			statMgmtSvc.DriverAdded += new EventHandler<DriverEventArgs>(statMgmtSvc_DriverAdded);
 			AddWebServiceHost(statMgmtSvc, 9981, "station/");
 		}

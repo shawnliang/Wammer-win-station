@@ -72,6 +72,37 @@ namespace Wammer.Station
 
 			return File.OpenRead(files[0]);
 		}
+
+		public long GetAvailSize()
+		{
+			string root = Path.GetPathRoot(Environment.CurrentDirectory);
+			DriveInfo di = new DriveInfo(root);
+			return di.AvailableFreeSpace;
+		}
+
+		public long GetUsedSize()
+		{
+			DirectoryInfo d = new DirectoryInfo(basePath);
+			return DirSize(d);
+		}
+		
+		private long DirSize(DirectoryInfo d)
+		{
+			long size = 0;
+			// add file sizes
+			FileInfo[] fis = d.GetFiles();
+			foreach (FileInfo fi in fis)
+			{
+				size += fi.Length;
+			}
+			// add subdirectory sizes
+			DirectoryInfo[] dis = d.GetDirectories();
+			foreach (DirectoryInfo di in dis)
+			{
+				size += DirSize(di);
+			}
+			return size;
+		}
 	}
 
 
