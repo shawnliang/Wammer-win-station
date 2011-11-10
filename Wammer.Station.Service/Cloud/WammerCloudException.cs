@@ -8,7 +8,7 @@ namespace Wammer.Cloud
 	public class WammerCloudException : Exception
 	{
 		private WebExceptionStatus httpError = WebExceptionStatus.Success;
-		private int wammerError = 0;
+		private int wammerError;
 		private string request = null;
 		private string response = null;
 		public WammerCloudException()
@@ -40,6 +40,7 @@ namespace Wammer.Cloud
 
 			this.request = request;
 			this.response = response;
+			this.wammerError = TryParseWammerError(this.response);
 		}
 
 		public WammerCloudException(string msg, WebExceptionStatus httpError, int wammerError)
@@ -71,6 +72,21 @@ namespace Wammer.Cloud
 			get { return wammerError; }
 		}
 
+		private static int TryParseWammerError(string resText)
+		{
+			if (resText == null)
+				return -1;
+
+			try
+			{
+				CloudResponse res = fastJSON.JSON.Instance.ToObject<CloudResponse>(resText);
+				return res.api_ret_code;
+			}
+			catch
+			{
+				return -1;
+			}
+		}
 		public override string ToString()
 		{
 			StringBuilder buf = new StringBuilder(base.ToString());

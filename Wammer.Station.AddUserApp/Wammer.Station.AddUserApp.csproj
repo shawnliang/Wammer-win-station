@@ -80,16 +80,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StartUpPage.cs">
+    <Compile Include="AddUserPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StartUpPage.Designer.cs">
-      <DependentUpon>StartUpPage.cs</DependentUpon>
+    <Compile Include="AddUserPage.Designer.cs">
+      <DependentUpon>AddUserPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="StartUpPage.resx">
-      <DependentUpon>StartUpPage.cs</DependentUpon>
+    <EmbeddedResource Include="AddUserPage.resx">
+      <DependentUpon>AddUserPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -14,13 +14,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Wammer-win-station.vsmdi = Wammer-win-station.vsmdi
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station.StartUp", "Wammer.Station.StartUp\Wammer.Station.StartUp.csproj", "{3936A35E-6EB1-439E-A575-02B3A25C8752}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station.Service", "Wammer.Station.Service\Wammer.Station.Service.csproj", "{C7B8A613-B0D8-49B4-B232-54A222E0095C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestPrograms", "TestPrograms", "{47AAAF71-EA00-4191-94CA-CB1E58641D2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCloud", "TestPrograms\TestCloud\TestCloud.csproj", "{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station.AddUserApp", "Wammer.Station.AddUserApp\Wammer.Station.AddUserApp.csproj", "{3936A35E-6EB1-439E-A575-02B3A25C8752}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -122,32 +122,6 @@ Global
 		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}.SingleImage|x86.ActiveCfg = Release|Any CPU
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.CD_ROM|Any CPU.ActiveCfg = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.CD_ROM|x86.ActiveCfg = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.CD_ROM|x86.Build.0 = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|x86.ActiveCfg = Debug|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|x86.Build.0 = Debug|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.DVD-5|Any CPU.ActiveCfg = Debug|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.DVD-5|Mixed Platforms.ActiveCfg = Debug|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.DVD-5|Mixed Platforms.Build.0 = Debug|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.DVD-5|x86.ActiveCfg = Debug|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.DVD-5|x86.Build.0 = Debug|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|Any CPU.ActiveCfg = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|Mixed Platforms.Build.0 = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|x86.ActiveCfg = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|x86.Build.0 = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|Any CPU.ActiveCfg = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|Mixed Platforms.ActiveCfg = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|Mixed Platforms.Build.0 = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|x86.ActiveCfg = Release|x86
-		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|x86.Build.0 = Release|x86
 		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.CD_ROM|Any CPU.ActiveCfg = Release|x86
 		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.CD_ROM|Mixed Platforms.ActiveCfg = Release|x86
 		{C7B8A613-B0D8-49B4-B232-54A222E0095C}.CD_ROM|Mixed Platforms.Build.0 = Release|x86
@@ -200,6 +174,33 @@ Global
 		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.SingleImage|Mixed Platforms.Build.0 = Release|x86
 		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.SingleImage|x86.ActiveCfg = Release|x86
 		{0C538E8E-FFAC-4841-8442-F825DE1EDEFE}.SingleImage|x86.Build.0 = Release|x86
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|x86.ActiveCfg = Debug|x86
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Debug|x86.Build.0 = Debug|x86
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|x86.ActiveCfg = Release|x86
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.Release|x86.Build.0 = Release|x86
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
+		{3936A35E-6EB1-439E-A575-02B3A25C8752}.SingleImage|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

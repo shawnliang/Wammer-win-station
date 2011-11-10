@@ -103,11 +103,16 @@ namespace Wammer.Cloud
 				CloudServer.DEF_BASE_PATH,
 				path);
 
-			if (parms.Count == 0)
+			return request<T>(agent, url, parms);
+		}
+
+		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param)
+		{
+			if (param.Count == 0)
 				return request<T>(agent, url, "");
 
 			StringBuilder buf = new StringBuilder();
-			foreach (KeyValuePair<object, object> pair in parms)
+			foreach (KeyValuePair<object, object> pair in param)
 			{
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
 				buf.Append("=");
@@ -146,7 +151,8 @@ namespace Wammer.Cloud
 			{
 				CloudResponse cres = resObj as CloudResponse;
 				if (cres.status != 200)
-					throw new WammerCloudException("Wammer cloud error", postData, response, cres.status);
+					throw new WammerCloudException("Wammer cloud error", postData, response, 
+						cres.api_ret_code);
 			}
 
 

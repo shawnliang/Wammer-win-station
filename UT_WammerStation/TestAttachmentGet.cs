@@ -175,5 +175,29 @@ namespace UT_WammerStation
 			}
 			Assert.Fail("expected error is not thrown");
 		}
+
+		[TestMethod]
+		public void TestAttachmentMD5()
+		{
+			Attachment a = new Attachment();
+			byte[] data = new byte[100];
+			for (int i = 0; i < data.Length; i++)
+				data[i] = (byte)i;
+
+			a.RawData = data;
+
+			ThumbnailInfo thumb = new ThumbnailInfo();
+			thumb.RawData = data;
+
+
+			System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
+			byte[] hash = md5.ComputeHash(data);
+			StringBuilder builder = new StringBuilder();
+			for (int i = 0; i < hash.Length; i++)
+				builder.Append(hash[i].ToString("x2"));
+
+			Assert.AreEqual(builder.ToString(), a.md5);
+			Assert.AreEqual(builder.ToString(), thumb.md5);
+		}
 	}
 }

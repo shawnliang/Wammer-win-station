@@ -89,32 +89,7 @@ namespace UT_WammerStation
 				cloud.addResponse(new StationSignUpResponse(200, DateTime.Now, "token2"));
 				cloud.addResponse(new StationLogOnResponse(200, DateTime.Now, "token3"));
 				svc.DriverAdded += new EventHandler<DriverEventArgs>(svc_DriverAdded);
-		        HttpWebRequest request = (HttpWebRequest)
-		            WebRequest.Create("http://localhost:8080/v2/station/drivers/add");
-		        request.Method = "POST";
-		        request.ContentType = "application/x-www-form-urlencoded";
-
-		        using (StreamWriter w = new StreamWriter(request.GetRequestStream()))
-		        {
-		            w.Write("session_token=token");
-		            w.Write("&");
-		            w.Write("email=" + HttpUtility.UrlEncode("user1@gmail.com"));
-		            w.Write("&");
-		            w.Write("password=12345");
-		            w.Write("&");
-		            w.Write("folder=" + HttpUtility.UrlEncode(@"c:\TempUT\user1"));
-		        }
-
-		        // verify response
-		        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-		        using (StreamReader r = new StreamReader(response.GetResponseStream()))
-		        {
-		            CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(r.ReadToEnd());
-		            Assert.AreEqual(0, json.api_ret_code);
-		            Assert.AreEqual(200, json.status);
-		            Assert.AreEqual("success", json.api_ret_msg);
-		            Assert.IsTrue(json.timestamp - DateTime.UtcNow < TimeSpan.FromSeconds(10));
-		        }
+				StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345", @"c:\TempUT\user1");
 
 		        // verify db
 		        StationDriver driver = mongodb.GetDatabase("wammer").
@@ -141,6 +116,36 @@ namespace UT_WammerStation
 		    }
 		}
 
+		[TestMethod]
+		public void TestAddADriver_incorrectUserNamePwd()
+		{
+			UserLogInResponse res1 = new UserLogInResponse
+			{
+				api_ret_msg = "station res msg",
+				api_ret_code = 4097, // cloud retuns 4097 for invalid user name or password
+				session_token = "token1",
+				status = (int)HttpStatusCode.Forbidden,
+				timestamp = DateTime.UtcNow,
+				groups = new List<UserGroup>(),
+				user = new UserInfo { user_id = "uid1" }
+			};
+
+			using (FakeCloud cloud = new FakeCloud(res1))
+			{
+				try
+				{
+					StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345", @"c:\TempUT\user1");
+				}
+				catch (WammerCloudException e)
+				{
+					Assert.AreEqual((int)StationApiError.AuthFailed, e.WammerError);
+					return;
+				}
+
+				Assert.Fail("Expected exception is not thrown");
+			}
+		}
+
 		void svc_DriverAdded(object sender, DriverEventArgs e)
 		{
 			Assert.IsNotNull(sender);
@@ -150,38 +155,13 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestAddRegisteredDriver()
 		{
-			HttpWebRequest request = (HttpWebRequest)
-				WebRequest.Create("http://localhost:8080/v2/station/drivers/add");
-			request.Method = "POST";
-			request.ContentType = "application/x-www-form-urlencoded";
-
-			using (StreamWriter w = new StreamWriter(request.GetRequestStream()))
-			{
-				w.Write("session_token=token");
-				w.Write("&");
-				w.Write("email=" + HttpUtility.UrlEncode("exist@gmail.com"));
-				w.Write("&");
-				w.Write("password=12345");
-				w.Write("&");
-				w.Write("folder=" + HttpUtility.UrlEncode(@"c:\TempUT\user1"));
-			}
-
-			// verify response
 			try
 			{
-				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+				StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "exist@gmail.com", "12345", @"c:\TempUT\user1");
 			}
-			catch (WebException e)
+			catch (WammerCloudException e)
 			{
-				Assert.AreEqual(HttpStatusCode.Conflict, ((HttpWebResponse)e.Response).StatusCode);
-				using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
-				{
-					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(r.ReadToEnd());
-					Assert.AreEqual((int)StationApiError.DriverExist, json.api_ret_code);
-					Assert.AreEqual((int)HttpStatusCode.Conflict, json.status);
-					Assert.AreEqual("already registered", json.api_ret_msg);
-				}
-
+				Assert.AreEqual((int)StationApiError.DriverExist, e.WammerError);
 				return;
 			}
 
@@ -191,38 +171,13 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestFolderShouldBeAbsPath()
 		{
-			HttpWebRequest request = (HttpWebRequest)
-				WebRequest.Create("http://localhost:8080/v2/station/drivers/add");
-			request.Method = "POST";
-			request.ContentType = "application/x-www-form-urlencoded";
-
-			using (StreamWriter w = new StreamWriter(request.GetRequestStream()))
-			{
-				w.Write("session_token=token");
-				w.Write("&");
-				w.Write("email=" + HttpUtility.UrlEncode("user1@gmail.com"));
-				w.Write("&");
-				w.Write("password=12345");
-				w.Write("&");
-				w.Write("folder=" + HttpUtility.UrlEncode(@"TempUT\user1"));
-			}
-
-			// verify response
 			try
 			{
-				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+				StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "exist@gmail.com", "12345", @"TempUT\user1");
 			}
-			catch (WebException e)
+			catch (WammerCloudException e)
 			{
-				Assert.AreEqual(HttpStatusCode.BadRequest, ((HttpWebResponse)e.Response).StatusCode);
-				using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
-				{
-					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(r.ReadToEnd());
-					Assert.AreEqual((int)StationApiError.BadPath, json.api_ret_code);
-					Assert.AreEqual((int)HttpStatusCode.BadRequest, json.status);
-					Assert.AreEqual("folder is not an absolute path", json.api_ret_msg);
-				}
-
+				Assert.AreEqual((int)StationApiError.BadPath, e.WammerError);
 				return;
 			}
 
