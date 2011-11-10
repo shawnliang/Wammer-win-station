@@ -23,10 +23,10 @@ namespace Wammer.Station
 			BodyStyle = WebMessageBodyStyle.Bare)]
 		Stream AddDriver(Stream requestContent);
 
-        [OperationContract]
-        [WebGet(UriTemplate = "status/get")]
-        Stream GetStatus();
-    }
+		[OperationContract]
+		[WebGet(UriTemplate = "status/get")]
+		Stream GetStatus();
+	}
 
 	[ServiceBehavior(
 		InstanceContextMode = InstanceContextMode.Single,
@@ -35,14 +35,16 @@ namespace Wammer.Station
 	{
 		private MongoServer mongodb;
 		private string stationId;
+		private AtomicDictionary<string, FileStorage> groupFolderMap;
 		private MongoCollection<StationDriver> drivers;
 
 		public event EventHandler<DriverEventArgs> DriverAdded;
 
-		public StationManagementService(MongoServer mongodb, string stationId)
+		public StationManagementService(MongoServer mongodb, string stationId, AtomicDictionary<string, FileStorage> groupFolderMap)
 		{
 			this.mongodb = mongodb;
 			this.stationId = stationId;
+			this.groupFolderMap = groupFolderMap;
 
 			if (!mongodb.GetDatabase("wammer").CollectionExists("drivers"))
 				mongodb.GetDatabase("wammer").CreateCollection("drivers");
@@ -118,24 +120,24 @@ namespace Wammer.Station
 														new CloudResponse(200, 0, "success"));
 		}
 
-        public Stream GetStatus()
-        {
-            StatusResponse res = new StatusResponse
-            {
-                location = "http://" + StationInfo.IPv4Address + ":9981/",
-                diskusage = new List<DiskUsage>()
-            };
+		public Stream GetStatus()
+		{
+			StatusResponse res = new StatusResponse
+			{
+				location = "http://" + StationInfo.IPv4Address + ":9981/",
+				diskusage = new List<DiskUsage>()
+			};
 
-            foreach (StationDriver driver in drivers.FindAll())
-            { 
-                FileStorage storage = new FileStorage(driver.folder);
-                res.diskusage.Add( new DiskUsage { driver_id = driver.user_id, used = storage.GetUsedSize(), avail = storage.GetAvailSize()});
-            }
+			Dictionary<string, FileStorage> groupStorage = groupFolderMap.GetAll();
+			foreach (KeyValuePair<string, FileStorage> pair in groupStorage)
+			{
+				res.diskusage.Add( new DiskUsage { group_id = pair.Key, used = pair.Value.GetUsedSize(), avail = pair.Value.GetAvailSize()});
+			}
 
-            return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
-        }
+			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
+		}
 
-        private void OnDriverAdded(DriverEventArgs evt)
+		private void OnDriverAdded(DriverEventArgs evt)
 		{
 			EventHandler<DriverEventArgs> handler = this.DriverAdded;
 
@@ -146,18 +148,18 @@ namespace Wammer.Station
 		}
 	}
 
-    public class DiskUsage
-    {
-        public string driver_id { get; set; }
-        public long used { get; set; }
-        public long avail { get; set; }
-    }
+	public class DiskUsage
+	{
+		public string group_id { get; set; }
+		public long used { get; set; }
+		public long avail { get; set; }
+	}
 
-    public class StatusResponse
-    {
-        public string location { get; set; }
-        public List<DiskUsage> diskusage { get; set; }
-    }
+	public class StatusResponse
+	{
+		public string location { get; set; }
+		public List<DiskUsage> diskusage { get; set; }
+	}
 
 	public class DriverEventArgs : EventArgs
 	{
