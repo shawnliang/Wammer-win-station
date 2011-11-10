@@ -56,7 +56,8 @@ namespace Wammer.Station
 					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 						HttpStatusCode.NotFound, -1, "object not found: " + object_id);
 
-				return WCFRestHelper.GenerateSucessStream(doc);
+				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, 
+																	new AttachmentResponse(doc));
 			}
 			catch (Exception e)
 			{

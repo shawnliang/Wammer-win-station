@@ -8,8 +8,8 @@ namespace Wammer.Cloud
 	{
 		public int status { get; set; }
 		public DateTime timestamp { get; set; }
-		public int app_ret_code { get; set; }
-		public string app_ret_msg { get; set; }
+		public int api_ret_code { get; set; }
+		public string api_ret_msg { get; set; }
 
 		public CloudResponse()
 		{
@@ -25,16 +25,16 @@ namespace Wammer.Cloud
 		{
 			this.status = status;
 			this.timestamp = timestamp;
-			this.app_ret_code = app_code;
-			this.app_ret_msg = app_msg;
+			this.api_ret_code = app_code;
+			this.api_ret_msg = app_msg;
 		}
 
 		public CloudResponse(int status, int app_code, string app_msg)
 		{
 			this.status = status;
 			this.timestamp = DateTime.Now.ToUniversalTime();
-			this.app_ret_code = app_code;
-			this.app_ret_msg = app_msg;
+			this.api_ret_code = app_code;
+			this.api_ret_msg = app_msg;
 		}
 	}
 }

@@ -15,14 +15,15 @@ namespace Wammer.Station
 {
 	public class ViewObjectHandler: HttpHandler
 	{
-		private readonly FileStorage fileStorage;
 		private readonly MongoServer mongodb;
 		private readonly MongoCollection<Attachment> attachments;
+		private readonly AtomicDictionary<string, FileStorage> groupFolders;
 
-		public ViewObjectHandler(FileStorage fileStorage, MongoServer mongodb)
+		public ViewObjectHandler(MongoServer mongodb, 
+			AtomicDictionary<string, FileStorage> groupFolders)
 			:base()
 		{
-			this.fileStorage = fileStorage;
+			this.groupFolders = groupFolders;
 			this.mongodb = mongodb;
 			this.attachments = mongodb.GetDatabase("wammer").
 														GetCollection<Attachment>("attachments");
@@ -57,11 +58,15 @@ namespace Wammer.Station
 					metaStr = imageMeta.ToString().ToLower();
 					namePart += "_" + metaStr;
 				}
+				
+				Attachment doc = attachments.FindOne(Query.EQ("_id", objectId));
+				if (doc == null)
+					throw new FileNotFoundException("attachment " + objectId + " is not found");
 
-				using (FileStream fs = fileStorage.LoadByNameWithNoSuffix(namePart))
+				using (FileStream fs = groupFolders[doc.group_id].LoadByNameWithNoSuffix(namePart))
 				{
 					Response.StatusCode = 200;
-					Attachment doc = attachments.FindOne(Query.EQ("_id", objectId));
+					
 					if (imageMeta == ImageMeta.Origin)
 						Response.ContentType = doc.mime_type;
 					else

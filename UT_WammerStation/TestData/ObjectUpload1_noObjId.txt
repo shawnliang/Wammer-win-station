@@ -4,6 +4,10 @@ Content-Disposition: form-data; name="type"
 
 image
 --AaB03x
+Content-Disposition: form-data; name="group_id"
+
+group1
+--AaB03x
 Content-Disposition: form-data; name="file"; filename="file1.jpeg"
 Content-Transfer-Encoding: 8bit
 Content-Type: image/jpeg

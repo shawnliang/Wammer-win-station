@@ -68,7 +68,7 @@ namespace Wammer.Station
 		{
 			string[] files = Directory.GetFiles(basePath, objectId + ".*");
 			if (files == null || files.Length == 0)
-				throw new FileNotFoundException("object " + objectId + " is not found");
+				throw new FileNotFoundException("attachment " + objectId + " is not found");
 
 			return File.OpenRead(files[0]);
 		}

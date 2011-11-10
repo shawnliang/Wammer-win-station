@@ -21,7 +21,10 @@ namespace Wammer.Station.Service
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 		private HttpServer server;
-		private WebServiceHost serviceHost;
+		private List<WebServiceHost> serviceHosts = new List<WebServiceHost>();
+		private string stationId;
+		private AtomicDictionary<string, FileStorage> groupFolderMap = 
+			new AtomicDictionary<string, FileStorage>();
 
 		public StationService()
 		{
@@ -43,8 +46,14 @@ namespace Wammer.Station.Service
 		{
 			Environment.CurrentDirectory = Path.GetDirectoryName(
 									Assembly.GetExecutingAssembly().Location);
+			MongoDB.Driver.MongoServer mongodb = MongoDB.Driver.MongoServer.Create(
+									string.Format("mongodb://localhost:{0}/?safe=true",
+									StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
 
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
+			this.stationId = InitStationId();
+			LoadGroupFolderMapping(mongodb);
+
 
 			server = new HttpServer(9981); // TODO: remove hard code
 			BypassHttpHandler cloudForwarder = new BypassHttpHandler(
@@ -57,15 +66,11 @@ namespace Wammer.Station.Service
 
 			FileStorage storage = new FileStorage("resource");
 
-			MongoDB.Driver.MongoServer mongodb = MongoDB.Driver.MongoServer.Create(
-									string.Format("mongodb://localhost:{0}/?safe=true",
-									StationRegistry.GetValue("dbPort", 10319)));
-
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
-							new ViewObjectHandler(storage, mongodb));
+							new ViewObjectHandler(mongodb, groupFolderMap));
 
-			ObjectUploadHandler attachmentHandler = new ObjectUploadHandler(storage, mongodb);
+			ObjectUploadHandler attachmentHandler = new ObjectUploadHandler(mongodb, groupFolderMap);
 			ImagePostProcessing imgProc = new ImagePostProcessing(storage);
 			attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
 			attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
@@ -74,55 +79,65 @@ namespace Wammer.Station.Service
 
 			server.Start();
 
-			if (!LogOnStation(9981))
-			{
-				logger.Info("Not connected with Wammer Cloud yet");
-				//TODO: start a timer to retry
-			}
-			else
-			{
-				logger.Info("Station log on Wammer Cloud successfully");
-			}
 
-			AttachmentService attachmentSvc = new AttachmentService(mongodb);
-			serviceHost = new WebServiceHost(attachmentSvc,
-				new Uri("http://" + System.Net.Dns.GetHostName() + ":9981/v2/attachments/"));
-			serviceHost.Open();
-
+			// Start WCF REST services
+			AddWebServiceHost(new AttachmentService(mongodb), 9981, "attachments/");
+			
+			StationManagementService statMgmtSvc = new StationManagementService(mongodb, stationId);
+			statMgmtSvc.DriverAdded += new EventHandler<DriverEventArgs>(statMgmtSvc_DriverAdded);
+			AddWebServiceHost(statMgmtSvc, 9981, "station/");
 		}
 
-		private bool LogOnStation(int port)
+		void statMgmtSvc_DriverAdded(object sender, DriverEventArgs e)
 		{
 			try
 			{
-				string stationId = (string)StationRegistry.GetValue("stationId", null);
-				string stationToken = (string)StationRegistry.GetValue("stationToken", null);
+				if (e.Driver.groups.Count < 1)
+					throw new Exception("Driver " + e.Driver.email + " has no associated group");
 
-				if (stationId == null || stationToken == null)
-					return false;
-
-				Wammer.Cloud.Station station = new Cloud.Station(stationId, stationToken);
-				Dictionary<object, object> parameters = new Dictionary<object, object> {
-		                {"location", "http://" + StationInfo.IPv4Address + ":9981/" }
-		        };
-				station.LogOn(new System.Net.WebClient(), parameters);
-
-				CloudServer.SessionToken = station.Token;
-				StationRegistry.SetValue("stationToken", station.Token);
-				return true;
+					groupFolderMap.Add(e.Driver.groups[0].group_id, new FileStorage(e.Driver.folder));
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				logger.Warn("Unable to logon station with Wammer Cloud", e);
-				return false;
+				logger.Warn("Unable to add group folder mapping entry", ex);
 			}
 		}
 
 		protected override void OnStop()
 		{
-			serviceHost.Close();
+			foreach (WebServiceHost svc in serviceHosts)
+			{
+				svc.Close();
+			}
+
 			server.Stop();
 			server.Close();
+		}
+
+		private string InitStationId()
+		{
+			return (string)StationRegistry.GetValue("stationId", Guid.NewGuid().ToString());
+		}
+
+		private void AddWebServiceHost(object service, int port, string basePath)
+		{
+			string url = string.Format("http://{0}:{1}/{2}/{3}", 
+				Dns.GetHostName(), port, CloudServer.DEF_BASE_PATH, basePath);
+
+			WebServiceHost svcHost = new WebServiceHost(service, new Uri(url));
+			svcHost.Open();
+			serviceHosts.Add(svcHost);
+		}
+
+		private void LoadGroupFolderMapping(MongoDB.Driver.MongoServer mongodb)
+		{
+			MongoDB.Driver.MongoCursor<StationDriver> drivers = 
+				mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").FindAll();
+
+			foreach (StationDriver driver in drivers)
+			{
+				groupFolderMap.Add(driver.groups[0].group_id, new FileStorage(driver.folder));
+			}
 		}
 	}
 

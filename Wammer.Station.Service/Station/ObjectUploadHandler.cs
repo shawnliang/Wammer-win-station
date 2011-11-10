@@ -15,9 +15,9 @@ namespace Wammer.Station
 {
 	public class ObjectUploadHandler : HttpHandler
 	{
-		private FileStorage storage;
 		private MongoServer mongodb;
 		private MongoCollection attachmentCollection;
+		AtomicDictionary<string, FileStorage> groupFolders;
 
 		/// <summary>
 		/// Fired on the uploaded attachment is saved
@@ -28,11 +28,12 @@ namespace Wammer.Station
 		/// </summary>
 		public event EventHandler<ImageAttachmentEventArgs> ImageAttachmentCompleted;
 
-		public ObjectUploadHandler(FileStorage fileStore, MongoServer mongodb)
+		public ObjectUploadHandler(MongoServer mongodb, 
+												AtomicDictionary<string, FileStorage> groupFolders)
 			: base()
 		{
-			this.storage = fileStore;
 			this.mongodb = mongodb;
+			this.groupFolders = groupFolders;
 
 			MongoDatabase db = mongodb.GetDatabase("wammer");
 			if (!db.CollectionExists("attachments"))
@@ -57,14 +58,13 @@ namespace Wammer.Station
 			}
 
 			string savedName = GetSavedFilename(file, meta);
-			storage.Save(savedName, file.RawData);
+			groupFolders[file.group_id].Save(savedName, file.RawData);
 			file.file_size = file.RawData.Length;
 			file.modify_time = DateTime.UtcNow;
 			file.url = StationInfo.BaseURL + "attachments/view/?object_id=" + file.object_id;
 
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta,
 																		this.attachmentCollection);
-
 
 			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
 			BsonDocument existDoc = this.attachmentCollection.FindOneAs<BsonDocument>(
@@ -180,6 +180,7 @@ namespace Wammer.Station
 			file.mime_type = Files[0].ContentType;
 			file.title = Parameters["title"];
 			file.description = Parameters["description"];
+			file.group_id = Parameters["group_id"];
 
 			if (Parameters["type"]==null)
 				throw new FormatException("type is missing in file upload multipart data");
@@ -199,6 +200,9 @@ namespace Wammer.Station
 
 			if (file.RawData == null)
 				throw new FormatException("file is missing in file upload multipart data");
+
+			if (file.group_id == null)
+				throw new FormatException("group_id is missing in file upload multipart data");
 
 			return file;
 		}

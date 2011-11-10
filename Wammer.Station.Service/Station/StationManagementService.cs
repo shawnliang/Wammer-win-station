@@ -19,7 +19,7 @@ namespace Wammer.Station
 	public interface IStationManagementService
 	{
 		[OperationContract]
-		[WebInvoke(Method = "POST", UriTemplate = "station/drivers/add", 
+		[WebInvoke(Method = "POST", UriTemplate = "drivers/add", 
 			BodyStyle = WebMessageBodyStyle.Bare)]
 		Stream AddDriver(Stream requestContent);
 
@@ -36,6 +36,9 @@ namespace Wammer.Station
 		private MongoServer mongodb;
 		private string stationId;
 		private MongoCollection<StationDriver> drivers;
+
+		public event EventHandler<DriverEventArgs> DriverAdded;
+
 		public StationManagementService(MongoServer mongodb, string stationId)
 		{
 			this.mongodb = mongodb;
@@ -90,12 +93,14 @@ namespace Wammer.Station
 					};
 
 					drivers.Insert(driver);
+
+					OnDriverAdded(new DriverEventArgs { Driver = driver });
 				}
 
-				return WCFRestHelper.GenerateSucessStream(new CloudResponse(200, 0, "success"));
+				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
+															new CloudResponse(200, 0, "success"));
 			}
 		}
-
         public Stream GetStatus()
         {
             List<object> diskUsage = new List<object>();
@@ -113,6 +118,15 @@ namespace Wammer.Station
 
             return WCFRestHelper.GenerateSucessStream(res);
         }
+		private void OnDriverAdded(DriverEventArgs evt)
+		{
+			EventHandler<DriverEventArgs> handler = this.DriverAdded;
+
+			if (handler != null)
+			{
+				handler(this, evt);
+			}
+		}
 	}
 
     public class DiskQuota
@@ -127,4 +141,14 @@ namespace Wammer.Station
         public string location { get; set; }
         public List<DiskQuota> diskusage { get; set; }
     }
+
+	public class DriverEventArgs : EventArgs
+	{
+		public StationDriver Driver { get; set; }
+		
+		public DriverEventArgs()
+			:base()
+		{
+		}
+	}
 }

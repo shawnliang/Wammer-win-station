@@ -22,7 +22,7 @@ namespace Wammer.Utility
 				CloudResponse res = new CloudResponse((int)status, apiErrCode, errMsg);
 				MemoryStream m = new MemoryStream();
 				StreamWriter w1 = new StreamWriter(m);
-				w1.Write(fastJSON.JSON.Instance.ToJSON(res));
+				w1.Write(fastJSON.JSON.Instance.ToJSON(res, false, false, false, false));
 				w1.Flush();
 				m.Position = 0;
 				return m;
@@ -36,14 +36,26 @@ namespace Wammer.Utility
 			}
 		}
 
-		public static MemoryStream GenerateSucessStream(object res)
+		public static MemoryStream GenerateSucessStream(WebOperationContext webContext, object res)
 		{
-			MemoryStream m = new MemoryStream();
-			StreamWriter w = new StreamWriter(m);
-			w.Write(fastJSON.JSON.Instance.ToJSON(res));
-			w.Flush();
-			m.Position = 0;
-			return m;
+			try
+			{
+				webContext.OutgoingResponse.ContentType = "application/json";
+				webContext.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+				MemoryStream m = new MemoryStream();
+				StreamWriter w = new StreamWriter(m);
+				w.Write(fastJSON.JSON.Instance.ToJSON(res, false, false, false, false));
+				w.Flush();
+				m.Position = 0;
+				return m;
+			}
+			catch (Exception e)
+			{
+				webContext.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+				log4net.LogManager.GetLogger("HttpHandler").Warn(
+														"Internal error when responding", e);
+				return null;
+			}
 		}
 	}
 }
