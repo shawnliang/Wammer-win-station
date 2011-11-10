@@ -13,13 +13,13 @@ using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
-	public class ViewObjectHandler: HttpHandler
+	public class AttachmentViewHandler: HttpHandler
 	{
 		private readonly MongoServer mongodb;
 		private readonly MongoCollection<Attachment> attachments;
 		private readonly AtomicDictionary<string, FileStorage> groupFolders;
 
-		public ViewObjectHandler(MongoServer mongodb, 
+		public AttachmentViewHandler(MongoServer mongodb, 
 			AtomicDictionary<string, FileStorage> groupFolders)
 			:base()
 		{
@@ -61,16 +61,22 @@ namespace Wammer.Station
 				
 				Attachment doc = attachments.FindOne(Query.EQ("_id", objectId));
 				if (doc == null)
-					throw new FileNotFoundException("attachment " + objectId + " is not found");
+				{
+					TunnelToCloud();
+					return;
+				}
 
 				using (FileStream fs = groupFolders[doc.group_id].LoadByNameWithNoSuffix(namePart))
 				{
 					Response.StatusCode = 200;
-					
-					if (imageMeta == ImageMeta.Origin)
-						Response.ContentType = doc.mime_type;
-					else
-						Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
+
+					if (doc.type == AttachmentType.image)
+					{
+						if (imageMeta == ImageMeta.Origin)
+							Response.ContentType = doc.mime_type;
+						else
+							Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
+					}
 
 					Wammer.Utility.StreamHelper.Copy(fs, Response.OutputStream);
 					Response.OutputStream.Close();

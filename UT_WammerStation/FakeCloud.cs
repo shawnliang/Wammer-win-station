@@ -7,20 +7,62 @@ using System.IO;
 
 namespace UT_WammerStation
 {
+	interface IResponseWiter
+	{
+		void writeResponse(HttpListenerResponse response);
+	}
+
+	class JsonResponseWriter : IResponseWiter
+	{
+		public string json { get; set; }
+		public int status { get; set; }
+
+		public JsonResponseWriter()
+		{
+			status = 200;
+		}
+
+		public JsonResponseWriter(string json)
+		{
+			this.json = json;
+			status = 200;
+		}
+
+		public void writeResponse(HttpListenerResponse response)
+		{
+			response.StatusCode = status;
+			response.ContentType = "application/json";
+			StreamWriter w = new StreamWriter(response.OutputStream);
+			w.Write(json);
+			w.Flush();
+		}
+	}
+
+	class RawDataResponseWriter : IResponseWiter
+	{
+		public byte[] RawData { get; set; }
+		public string ContentType { get; set; }
+
+		public void writeResponse(HttpListenerResponse response)
+		{
+			response.ContentType = ContentType;
+			response.OutputStream.Write(RawData, 0, RawData.Length);
+		}
+	}
+
 	class FakeCloud : IDisposable
 	{
 		private string requestedPath;
 		private string postData;
 		private string reqeustedContentType;
 
-		//private string response;
 		private System.Net.HttpListener listener;
-		private List<string> responses = new List<string>();
+		private List<IResponseWiter> resWriters = new List<IResponseWiter>();
 		private int resIdx = 0;
 
-		public FakeCloud(string response)
+		public FakeCloud(IResponseWiter writer)
 		{
-			this.responses.Add(response);
+			this.resWriters.Add(writer);
 			this.listener = new System.Net.HttpListener();
 			this.listener.Prefixes.Add("http://+:80/");
 
@@ -33,10 +75,9 @@ namespace UT_WammerStation
 			this.listener.BeginGetContext(this.connected, listener);
 		}
 
-		public FakeCloud(object response)
+		public FakeCloud(string json)
 		{
-			string js = fastJSON.JSON.Instance.ToJSON(response, false, false, false, false);
-			this.responses.Add(js);
+			this.resWriters.Add(new JsonResponseWriter(json));
 			this.listener = new System.Net.HttpListener();
 			this.listener.Prefixes.Add("http://+:80/");
 
@@ -49,14 +90,31 @@ namespace UT_WammerStation
 			this.listener.BeginGetContext(this.connected, listener);
 		}
 
-		public void addResponse(object response)
+		public FakeCloud(object json)
 		{
-			lock (this.responses)
+			string js = fastJSON.JSON.Instance.ToJSON(json, false, false, false, false);
+			this.resWriters.Add(new JsonResponseWriter(js));
+			this.listener = new System.Net.HttpListener();
+			this.listener.Prefixes.Add("http://+:80/");
+
+			// If you get an Access Denied exception in Windows 7 or Windows 2008 or later,
+			// you might need to reserve a namespace. Run a console window as Admin, and type something like
+			//    netsh http add urlacl http://+:80/ user=domain\user
+			// See this page:
+			//    http://msdn.microsoft.com/en-us/library/cc307223(VS.85).aspx
+			this.listener.Start();
+			this.listener.BeginGetContext(this.connected, listener);
+		}
+
+		public void addJsonResponse(object response)
+		{
+			lock (this.resWriters)
 			{
 				if (response is string)
-					this.responses.Add((string)response);
+					this.resWriters.Add(new JsonResponseWriter((string)response));
 				else
-					this.responses.Add(fastJSON.JSON.Instance.ToJSON(response));
+					this.resWriters.Add(
+						new JsonResponseWriter(fastJSON.JSON.Instance.ToJSON(response)));
 			}
 		}
 
@@ -84,22 +142,19 @@ namespace UT_WammerStation
 				postData = reader.ReadToEnd();
 			}
 
-			context.Response.StatusCode = 200;
-
-			using (StreamWriter w = new StreamWriter(context.Response.OutputStream))
+			lock (this.resWriters)
 			{
-				lock (this.responses)
+				if (this.resIdx < this.resWriters.Count)
 				{
-					if (this.resIdx < this.responses.Count)
-					{
-						w.Write(this.responses[resIdx++]);
-					}
-					else
-					{
-						w.Write(this.responses[this.responses.Count-1]);
-					}
+					resWriters[resIdx].writeResponse(context.Response);
+				}
+				else
+				{
+					resWriters[resWriters.Count - 1].writeResponse(context.Response);
 				}
 			}
+
+			context.Response.OutputStream.Close();
 
 			try
 			{

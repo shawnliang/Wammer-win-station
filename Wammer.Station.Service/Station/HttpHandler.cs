@@ -31,6 +31,7 @@ namespace Wammer.Station
 		public HttpListenerResponse Response { get; private set; }
 		public NameValueCollection Parameters { get; private set; }
 		public List<UploadedFile> Files { get; private set; }
+		public byte[] RawPostData { get; private set; }
 
 		private const string BOUNDARY = "boundary=";
 		private const string URL_ENCODED_FORM = "application/x-www-form-urlencoded";
@@ -48,6 +49,7 @@ namespace Wammer.Station
 		{
 			this.Request = request;
 			this.Response = response;
+			this.RawPostData = InitRawPostData();
 			this.Parameters = InitParameters(request);
 
 			if (HasMultiPartFormData(request))
@@ -55,7 +57,7 @@ namespace Wammer.Station
 				string boundary = GetMultipartBoundary(request.ContentType);
 				MultiPart.Parser parser = new Parser(boundary);
 
-				Part[] parts = parser.Parse(request.InputStream);
+				Part[] parts = parser.Parse(new MemoryStream(RawPostData));
 				foreach (Part part in parts)
 				{
 					if (part.ContentDisposition == null)
@@ -66,6 +68,20 @@ namespace Wammer.Station
 			}
 
 			HandleRequest();
+		}
+
+		private byte[] InitRawPostData()
+		{
+			if (string.Compare(Request.HttpMethod, "POST", true) == 0)
+			{
+				using (MemoryStream buff = new MemoryStream())
+				{
+					Wammer.Utility.StreamHelper.Copy(Request.InputStream, buff);
+					return buff.ToArray();
+				}
+			}
+			else
+				return null;
 		}
 
 		private void ExtractParamsFromMultiPartFormData(Part part)
@@ -91,6 +107,43 @@ namespace Wammer.Station
 					string name = part.ContentDisposition.Parameters["name"];
 					this.Parameters.Add(name, part.Text);
 				}
+			}
+		}
+
+		protected void TunnelToCloud()
+		{
+			UriBuilder uri = new UriBuilder("http", Cloud.CloudServer.HostName,
+				Cloud.CloudServer.Port, Request.Url.PathAndQuery);
+
+			HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri.Uri);
+			req.Method = Request.HttpMethod;
+
+			if (string.Compare(req.Method, "POST", true)==0)
+			{
+				using (Stream reqStream = req.GetRequestStream())
+				{
+					Wammer.Utility.StreamHelper.Copy(
+						new MemoryStream(this.RawPostData),
+						reqStream);
+				}
+			}
+
+			HttpWebResponse resp;
+			try
+			{
+				resp = (HttpWebResponse)req.GetResponse();
+			}
+			catch (WebException e)
+			{
+				resp = (HttpWebResponse)e.Response;
+			}
+
+			Response.StatusCode = (int)resp.StatusCode;
+			Response.ContentType = resp.GetResponseHeader("content-type");
+			using (Stream from = resp.GetResponseStream())
+			using (Stream to = Response.OutputStream)
+			{
+				Wammer.Utility.StreamHelper.Copy(from, to);
 			}
 		}
 
@@ -120,16 +173,13 @@ namespace Wammer.Station
 			}
 		}
 
-		private static NameValueCollection InitParameters(HttpListenerRequest req)
+		private NameValueCollection InitParameters(HttpListenerRequest req)
 		{
-			if (req.HttpMethod.ToUpper().Equals("POST") &&
-				req.ContentType.ToLower().Equals(URL_ENCODED_FORM))
+			if (this.RawPostData != null &&
+				String.Compare(req.ContentType, URL_ENCODED_FORM, true) == 0)
 			{
-				using (StreamReader s = new StreamReader(req.InputStream))
-				{
-					string postData = s.ReadToEnd();
-					return HttpUtility.ParseQueryString(postData);
-				}
+				string postData = Encoding.UTF8.GetString(this.RawPostData);
+				return HttpUtility.ParseQueryString(postData);
 			}
 			else if (req.HttpMethod.ToUpper().Equals("GET"))
 			{

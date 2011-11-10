@@ -14,7 +14,7 @@ using MongoDB.Driver;
 namespace UT_WammerStation
 {
 	[TestClass]
-	public class TestViewFile
+	public class TestAttachmentView
 	{
 		static MongoServer mongodb;
 		static FileStorage storage;
@@ -105,7 +105,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -134,7 +134,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -155,38 +155,11 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestView_ViewNotExistOrigImage()
-		{
-			using (HttpServer server = new HttpServer(80))
-			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
-				server.Start();
-
-				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-										"http://localhost/v1/objects/view" +
-										"?object_id=object_id_na&image_meta=origin");
-				req.Method = "GET";
-
-				try
-				{
-					HttpWebResponse response = (HttpWebResponse)req.GetResponse();
-				}
-				catch (WebException e)
-				{
-					Assert.AreEqual(HttpStatusCode.NotFound, ((HttpWebResponse)e.Response).StatusCode);
-					return;
-				}
-
-				Assert.Fail("expected exception is not thrown");
-			}
-		}
-
-		[TestMethod]
 		public void TestView_ViewThumbnail()
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -211,7 +184,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -250,7 +223,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -271,44 +244,133 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestView_FileNotFound()
+		public void TestView_FileNotFound_ForwardToCloud()
 		{
-			using (HttpServer server = new HttpServer(80))
+			CloudServer.HostName = "localhost";
+			CloudServer.Port = 80;
+
+			RawDataResponseWriter writer =  new RawDataResponseWriter 
+			{	
+				RawData = new byte[] { 1,2,3,4,5,6,7,8,9,0 },
+				ContentType = "image/jpeg" 
+			};
+
+			using (FakeCloud cloud = new FakeCloud(writer))
+			using (HttpServer server = new HttpServer(8080))
 			{
-				server.AddHandler("/v1/objects/view", new ViewObjectHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-										"http://localhost/v1/objects/view" +
-										"?object_id=abc");
+										"http://localhost:8080/v1/objects/view" +
+										"?object_id=abc&apikey=123&session_token=token123");
 				req.Method = "GET";
+
+				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+				Assert.AreEqual("image/jpeg", response.ContentType);
+
+				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+				{
+					byte[] readData = reader.ReadBytes(1000);
+					Assert.AreEqual(writer.RawData.Length, readData.Length);
+
+					for (int i = 0; i < readData.Length; i++)
+						Assert.AreEqual(writer.RawData[i], readData[i]);
+				}
+			}
+		}
+
+		[TestMethod]
+		public void TestView_FileNotFound_ForwardToCloud_ByPost()
+		{
+			CloudServer.HostName = "localhost";
+			CloudServer.Port = 80;
+
+			RawDataResponseWriter writer = new RawDataResponseWriter
+			{
+				RawData = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 },
+				ContentType = "image/jpeg"
+			};
+
+			using (FakeCloud cloud = new FakeCloud(writer))
+			using (HttpServer server = new HttpServer(8080))
+			{
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
+				server.Start();
+
+				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
+										"http://localhost:8080/v1/objects/view");
+				req.ContentType = "application/x-www-form-urlencoded";
+				req.Method = "POST";
+				using (StreamWriter fs = new StreamWriter(req.GetRequestStream()))
+				{
+					fs.Write("object_id=abc&apikey=123&session_token=token123");
+				}
+
+				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+				Assert.AreEqual("image/jpeg", response.ContentType);
+
+				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+				{
+					byte[] readData = reader.ReadBytes(1000);
+					Assert.AreEqual(writer.RawData.Length, readData.Length);
+
+					for (int i = 0; i < readData.Length; i++)
+						Assert.AreEqual(writer.RawData[i], readData[i]);
+				}
+			}
+		}
+
+		[TestMethod]
+		public void TestView_ForwardToCloud_CloudReturnError()
+		{
+			CloudServer.HostName = "localhost";
+			CloudServer.Port = 80;
+
+			JsonResponseWriter writer = new JsonResponseWriter
+			{
+				json = fastJSON.JSON.Instance.ToJSON(new CloudResponse(405, -1, "cloud error")),
+				status = 405
+			};
+
+			using (FakeCloud cloud = new FakeCloud(writer))
+			using (HttpServer server = new HttpServer(8080))
+			{
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
+				server.Start();
+
+				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
+										"http://localhost:8080/v1/objects/view");
+				req.ContentType = "application/x-www-form-urlencoded";
+				req.Method = "POST";
+				using (StreamWriter fs = new StreamWriter(req.GetRequestStream()))
+				{
+					fs.Write("object_id=abc&apikey=123&session_token=token123");
+				}
 
 				try
 				{
-					req.GetResponse();
+					HttpWebResponse response = (HttpWebResponse)req.GetResponse();
 				}
 				catch (WebException e)
 				{
-					Assert.AreEqual(WebExceptionStatus.ProtocolError, e.Status);
-					HttpWebResponse response = (HttpWebResponse)e.Response;
+					HttpWebResponse response = (HttpWebResponse) e.Response;
+					Assert.AreEqual(HttpStatusCode.MethodNotAllowed, response.StatusCode);
 					Assert.AreEqual("application/json", response.ContentType);
 
-					using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+					using (StreamReader r = new StreamReader(response.GetResponseStream()))
 					{
-						string responseText = reader.ReadToEnd();
-
-						CloudResponse res = fastJSON.JSON.Instance.ToObject<CloudResponse>(responseText);
-						Assert.AreEqual(404, res.status);
-						Assert.AreEqual(-1, res.api_ret_code);
-						Assert.AreEqual("attachment abc is not found", res.api_ret_msg);
+						string resText = r.ReadToEnd();
+						Assert.AreEqual(writer.json, resText);
 					}
 
 					return;
 				}
 
-				Assert.Fail("Expected failure is not thrown");
+				Assert.Fail("expected exception is not thrown");
 			}
 		}
-
 	}
 }

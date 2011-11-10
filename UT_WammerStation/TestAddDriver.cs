@@ -87,8 +87,8 @@ namespace UT_WammerStation
 
 		    using (FakeCloud cloud = new FakeCloud(res1))
 		    {
-				cloud.addResponse(new StationSignUpResponse(200, DateTime.Now, "token2"));
-				cloud.addResponse(new StationLogOnResponse(200, DateTime.Now, "token3"));
+				cloud.addJsonResponse(new StationSignUpResponse(200, DateTime.Now, "token2"));
+				cloud.addJsonResponse(new StationLogOnResponse(200, DateTime.Now, "token3"));
 				svc.DriverAdded += new EventHandler<DriverEventArgs>(svc_DriverAdded);
 				StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345", @"c:\TempUT\user1");
 

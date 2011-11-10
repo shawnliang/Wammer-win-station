@@ -29,7 +29,7 @@ namespace Wammer.Station
 
 		public object Clone()
 		{
-			return new BypassHttpHandler(host, port, exceptPrefixes);
+			return this.MemberwiseClone();
 		}
 
 		public void HandleRequest(HttpListenerRequest origReq, HttpListenerResponse response)

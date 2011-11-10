@@ -68,9 +68,9 @@ namespace Wammer.Station.Service
 
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
-							new ViewObjectHandler(mongodb, groupFolderMap));
+							new AttachmentViewHandler(mongodb, groupFolderMap));
 
-			ObjectUploadHandler attachmentHandler = new ObjectUploadHandler(mongodb, groupFolderMap);
+			AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler(mongodb, groupFolderMap);
 			ImagePostProcessing imgProc = new ImagePostProcessing(storage);
 			attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
 			attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
@@ -151,7 +151,7 @@ namespace Wammer.Station.Service
 
 		public object Clone()
 		{
-			return new DummyHandler();
+			return this.MemberwiseClone();
 		}
 	}
 }

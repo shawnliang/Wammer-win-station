@@ -16,7 +16,7 @@ using MongoDB.Driver;
 namespace UT_WammerStation
 {
 	[TestClass]
-	public class TestReceiveObjects
+	public class TestAttachmentUpload
 	{
 		byte[] file;
 		byte[] filename;
@@ -35,7 +35,7 @@ namespace UT_WammerStation
 		FileStorage storage;
 		AtomicDictionary<string, FileStorage> groupStoreMap;
 
-		public TestReceiveObjects()
+		public TestAttachmentUpload()
 		{
 			mongo = MongoServer.Create("mongodb://localhost:10319/?safe=true");
 			storage = new FileStorage("resource");
@@ -123,7 +123,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler(mongo, groupStoreMap));
+				server.AddHandler("/test/", new AttachmentUploadHandler(mongo, groupStoreMap));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",
@@ -155,7 +155,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler(mongo, groupStoreMap));
+				server.AddHandler("/test/", new AttachmentUploadHandler(mongo, groupStoreMap));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",
@@ -192,7 +192,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler(mongo, groupStoreMap));
+				server.AddHandler("/test/", new AttachmentUploadHandler(mongo, groupStoreMap));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",
@@ -222,7 +222,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new ObjectUploadHandler(mongo, groupStoreMap));
+				server.AddHandler("/test/", new AttachmentUploadHandler(mongo, groupStoreMap));
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",

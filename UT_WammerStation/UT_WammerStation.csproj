@@ -91,9 +91,9 @@
     <Compile Include="TestHttpServer.cs" />
     <Compile Include="TestImagePostProcessing.cs" />
     <Compile Include="TestMultiPart.cs" />
-    <Compile Include="TestReceiveObjects.cs" />
+    <Compile Include="TestAttachmentUpload.cs" />
     <Compile Include="TestUserSingOn.cs" />
-    <Compile Include="TestViewFile.cs" />
+    <Compile Include="TestAttachmentView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt" />
