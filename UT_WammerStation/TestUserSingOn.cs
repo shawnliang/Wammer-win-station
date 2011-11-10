@@ -51,6 +51,7 @@ namespace UT_WammerStation
 			Wammer.Cloud.UserLogInResponse res =
 				new Wammer.Cloud.UserLogInResponse(403,
 					DateTime.Now.ToUniversalTime(), "token1");
+			res.api_ret_code = 9999;
 
 			using (FakeCloud fakeCloud = new FakeCloud(res))
 			using (WebClient agent = new WebClient())
@@ -61,7 +62,7 @@ namespace UT_WammerStation
 				}
 				catch (Wammer.Cloud.WammerCloudException e)
 				{
-					Assert.AreEqual(403, e.WammerError);
+					Assert.AreEqual(res.api_ret_code, e.WammerError);
 					return;
 				}
 				Assert.Fail("Expected exception is not thrown.");

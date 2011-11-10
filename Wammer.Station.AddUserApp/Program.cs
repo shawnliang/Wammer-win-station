@@ -14,7 +14,7 @@ namespace Wammer.Station.StartUp
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new StartUpPage());
+			Application.Run(new AddUserPage());
 		}
 	}
 }

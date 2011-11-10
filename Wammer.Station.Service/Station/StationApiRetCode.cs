@@ -9,6 +9,7 @@ namespace Wammer.Station
 	{
 		Error = -1,
 		DriverExist = -30,
-		BadPath = -31
+		BadPath = -31,
+		AuthFailed = -32,
 	}
 }

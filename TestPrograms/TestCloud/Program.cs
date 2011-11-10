@@ -32,14 +32,14 @@ namespace TestCloud
 
 
 						ObjectUploadResponse origResp = Attachment.UploadImage(
-										buffer, null, "big.jpeg" , "image/jpeg", ImageMeta.Small);
+										buffer, "group1", null, "big.jpeg" , "image/jpeg", ImageMeta.Small);
 
 						Console.WriteLine("orig image uploaded: " + origResp.object_id);
 
 
 						string thbnId = Guid.NewGuid().ToString();
 						ObjectUploadResponse thbnResp = Attachment.UploadImage(
-										buffer, origResp.object_id, thbnId + ".jpeg", "image/jpeg",
+										buffer, "group1", origResp.object_id, thbnId + ".jpeg", "image/jpeg",
 										ImageMeta.Origin);
 
 						Console.WriteLine("thumbnail uploaded: " + thbnId);

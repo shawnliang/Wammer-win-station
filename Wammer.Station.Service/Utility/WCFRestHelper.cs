@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -55,6 +56,15 @@ namespace Wammer.Utility
 				log4net.LogManager.GetLogger("HttpHandler").Warn(
 														"Internal error when responding", e);
 				return null;
+			}
+		}
+
+		public static NameValueCollection ParseFormData(Stream requestContent)
+		{
+			using (StreamReader r = new StreamReader(requestContent))
+			{
+				string requestText = r.ReadToEnd();
+				return System.Web.HttpUtility.ParseQueryString(requestText);
 			}
 		}
 	}

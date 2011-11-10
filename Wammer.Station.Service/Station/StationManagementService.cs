@@ -48,54 +48,70 @@ namespace Wammer.Station
 
 		public Stream AddDriver(Stream requestContent)
 		{
-			using (StreamReader r = new StreamReader(requestContent))
+			NameValueCollection parameters = WCFRestHelper.ParseFormData(requestContent);
+			string email = parameters["email"];
+			string password = parameters["password"];
+			string folder = parameters["folder"];
+
+			if (email == null || password == null || folder == null || folder.Length == 0)
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+										HttpStatusCode.BadRequest, -1,
+										"parameter email/password/folder is missing or empty");
+
+			if (!Path.IsPathRooted(folder))
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+										HttpStatusCode.BadRequest, (int)StationApiError.BadPath,
+										"folder is not an absolute path");
+
+			if (drivers.FindOne(Query.EQ("email", email)) != null)
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+					HttpStatusCode.Conflict, (int)StationApiError.DriverExist,
+					"already registered");
+
+
+			using (WebClient agent = new WebClient())
 			{
-				string requestText = r.ReadToEnd();
-				NameValueCollection parameters = HttpUtility.ParseQueryString(requestText);
-
-				string email = parameters["email"];
-				string password = parameters["password"];
-				string folder = parameters["folder"];
-
-				if (email==null || password==null || folder==null || folder.Length==0)
-					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
-											HttpStatusCode.BadRequest, -1, 
-											"parameter email/password/folder is missing or empty");
-
-				if (!Path.IsPathRooted(folder))
-					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
-											HttpStatusCode.BadRequest, (int)StationApiError.BadPath,
-											"folder is not an absolute path");
-
-				if (drivers.FindOne(Query.EQ("email", email)) != null)
-					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, 
-						HttpStatusCode.Conflict, (int)StationApiError.DriverExist,
-						"already registered");
-
-
-				using (WebClient agent = new WebClient())
+				User user = null;
+				try
 				{
-					User user = User.LogIn(agent, email, password);
-					Cloud.Station station = Cloud.Station.SignUp(agent, stationId, user.Token);
-					station.LogOn(agent);
-
-
-					StationDriver driver = new StationDriver
-					{
-						email = email,
-						folder = folder,
-						user_id = user.Id,
-						groups = user.Groups
-					};
-
-					drivers.Insert(driver);
-
-					OnDriverAdded(new DriverEventArgs { Driver = driver });
+					user = User.LogIn(agent, email, password);
+					Cloud.Station station = null;
+					station = Cloud.Station.SignUp(agent, stationId, user.Token);
+				}
+				catch (WammerCloudException ex)
+				{
+					if (ex.WammerError == 4097)
+						return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+							HttpStatusCode.Unauthorized, (int)StationApiError.AuthFailed,
+							"Bad user name or password");
+					else
+						return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+							HttpStatusCode.BadRequest, (int)StationApiError.Error,
+							"Error logon user: " + ex.ToString());
+				}
+				catch (Exception ex)
+				{
+					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+							HttpStatusCode.BadRequest, (int)StationApiError.Error,
+							"Error logon station: " + ex.ToString());
 				}
 
-				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
-															new CloudResponse(200, 0, "success"));
+
+				StationDriver driver = new StationDriver
+				{
+					email = email,
+					folder = folder,
+					user_id = user.Id,
+					groups = user.Groups
+				};
+
+				drivers.Insert(driver);
+
+				OnDriverAdded(new DriverEventArgs { Driver = driver });
 			}
+
+			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
+														new CloudResponse(200, 0, "success"));
 		}
 
 		private void OnDriverAdded(DriverEventArgs evt)
