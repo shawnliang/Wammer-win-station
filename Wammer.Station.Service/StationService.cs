@@ -47,7 +47,7 @@ namespace Wammer.Station.Service
 									Assembly.GetExecutingAssembly().Location);
 			MongoDB.Driver.MongoServer mongodb = MongoDB.Driver.MongoServer.Create(
 									string.Format("mongodb://localhost:{0}/?safe=true",
-									StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
+									StationRegistry.GetValue("dbPort", 10319)));
 
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
 			StationInfo.Init(mongodb);

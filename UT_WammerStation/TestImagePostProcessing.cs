@@ -304,8 +304,8 @@ namespace UT_WammerStation
 				Assert.AreEqual((int)AttachmentType.image, saveData["type"].AsInt32);
 				BsonDocument meta = saveData["image_meta"].AsBsonDocument;
 				Assert.AreEqual(
-					string.Format("http://{0}:9981/v2/attachments/view/?object_id={1}&image_meta=large",
-						StationInfo.IPv4Address, res.object_id),
+					string.Format("/v2/attachments/view/?object_id={0}&image_meta=large",
+																					res.object_id),
 					meta["large"].AsBsonDocument["url"].AsString);
 
 				Assert.AreEqual(res.object_id + "_large.jpeg",
@@ -343,8 +343,7 @@ namespace UT_WammerStation
 			Assert.AreEqual(768, doc.image_meta.height);
 			Assert.AreEqual("orig_title", doc.title);
 
-			Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + object_id1 +
-				"&image_meta=small",
+			Assert.AreEqual("/v2/attachments/view/?object_id=" + object_id1 + "&image_meta=small",
 				doc.image_meta.small.url);
 			Assert.AreEqual(120, doc.image_meta.small.width);
 			Assert.AreEqual(90, doc.image_meta.small.height);
@@ -382,7 +381,7 @@ namespace UT_WammerStation
 			Assert.IsNotNull(doc.image_meta.large);
 			Assert.IsNotNull(doc.image_meta.square);
 
-			Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + object_id1 +
+			Assert.AreEqual("/v2/attachments/view/?object_id=" + object_id1 +
 				"&image_meta=medium",
 				doc.image_meta.medium.url);
 			Assert.AreEqual(720, doc.image_meta.medium.width);
@@ -393,7 +392,7 @@ namespace UT_WammerStation
 			Assert.IsTrue(doc.image_meta.medium.file_size > 0);
 			Assert.IsTrue(doc.image_meta.medium.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 
-			Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + object_id1 +
+			Assert.AreEqual("/v2/attachments/view/?object_id=" + object_id1 +
 				"&image_meta=large",
 				doc.image_meta.large.url);
 			Assert.AreEqual(1024, doc.image_meta.large.width);
@@ -403,7 +402,7 @@ namespace UT_WammerStation
 			Assert.IsTrue(doc.image_meta.large.file_size > 0);
 			Assert.IsTrue(doc.image_meta.large.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 
-			Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + object_id1 +
+			Assert.AreEqual("/v2/attachments/view/?object_id=" + object_id1 +
 				"&image_meta=square",
 				doc.image_meta.square.url);
 			Assert.AreEqual(128, doc.image_meta.square.width);

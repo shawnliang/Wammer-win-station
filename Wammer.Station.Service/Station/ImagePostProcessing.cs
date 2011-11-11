@@ -155,7 +155,7 @@ namespace Wammer.Station
 					file_size = (int)m.Length, // TODO: no cast
 					mime_type = "image/jpeg",
 					modify_time = DateTime.UtcNow,
-					url = StationInfo.BaseURL + "attachments/view/?object_id=" + attachmentId +
+					url = "/v2/attachments/view/?object_id=" + attachmentId +
 														"&image_meta=" + meta.ToString().ToLower(),
 					RawData = rawData
 				};
