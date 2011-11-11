@@ -19,6 +19,9 @@ namespace Wammer.Station.Service
 {
 	public partial class StationService : ServiceBase
 	{
+		public const string SERVICE_NAME = "WavefaceStation";
+		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
+
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 		private HttpServer server;
 		private List<WebServiceHost> serviceHosts = new List<WebServiceHost>();
@@ -29,6 +32,7 @@ namespace Wammer.Station.Service
 		{
 			log4net.Config.XmlConfigurator.Configure();
 			InitializeComponent();
+			this.ServiceName = SERVICE_NAME;
 		}
 
 		public void Run()
