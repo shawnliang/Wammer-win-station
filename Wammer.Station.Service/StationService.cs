@@ -22,7 +22,6 @@ namespace Wammer.Station.Service
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 		private HttpServer server;
 		private List<WebServiceHost> serviceHosts = new List<WebServiceHost>();
-		private string stationId;
 		private AtomicDictionary<string, FileStorage> groupFolderMap = 
 			new AtomicDictionary<string, FileStorage>();
 
@@ -51,7 +50,7 @@ namespace Wammer.Station.Service
 									StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
 
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
-			this.stationId = InitStationId();
+			StationInfo.Init(mongodb);
 			LoadGroupFolderMapping(mongodb);
 
 
@@ -83,7 +82,8 @@ namespace Wammer.Station.Service
 			// Start WCF REST services
 			AddWebServiceHost(new AttachmentService(mongodb), 9981, "attachments/");
 			
-			StationManagementService statMgmtSvc = new StationManagementService(mongodb, stationId, groupFolderMap);
+			StationManagementService statMgmtSvc = new StationManagementService(mongodb, 
+																	StationInfo.Id, groupFolderMap);
 			statMgmtSvc.DriverAdded += new EventHandler<DriverEventArgs>(statMgmtSvc_DriverAdded);
 			AddWebServiceHost(statMgmtSvc, 9981, "station/");
 		}
@@ -95,7 +95,11 @@ namespace Wammer.Station.Service
 				if (e.Driver.groups.Count < 1)
 					throw new Exception("Driver " + e.Driver.email + " has no associated group");
 
-					groupFolderMap.Add(e.Driver.groups[0].group_id, new FileStorage(e.Driver.folder));
+				groupFolderMap.Add(
+					e.Driver.groups[0].group_id, new FileStorage(e.Driver.folder));
+
+				StationInfo.SessionToken = e.StationToken;
+				StationInfo.Save();
 			}
 			catch (Exception ex)
 			{
@@ -112,11 +116,6 @@ namespace Wammer.Station.Service
 
 			server.Stop();
 			server.Close();
-		}
-
-		private string InitStationId()
-		{
-			return (string)StationRegistry.GetValue("stationId", Guid.NewGuid().ToString());
 		}
 
 		private void AddWebServiceHost(object service, int port, string basePath)
@@ -139,6 +138,7 @@ namespace Wammer.Station.Service
 				groupFolderMap.Add(driver.groups[0].group_id, new FileStorage(driver.folder));
 			}
 		}
+
 	}
 
 

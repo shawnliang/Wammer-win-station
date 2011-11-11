@@ -78,6 +78,8 @@ namespace Wammer.Station
 			using (WebClient agent = new WebClient())
 			{
 				User user = null;
+				string stationToken = null;
+
 				try
 				{
 					user = User.LogIn(agent, email, password);
@@ -98,6 +100,7 @@ namespace Wammer.Station
 
 					Cloud.Station station = Cloud.Station.SignUp(agent, stationId, user.Token);
 					station.LogOn(agent);
+					stationToken = station.Token;
 				}
 				catch (WammerCloudException ex)
 				{
@@ -128,7 +131,7 @@ namespace Wammer.Station
 
 				drivers.Insert(driver);
 
-				OnDriverAdded(new DriverEventArgs { Driver = driver });
+				OnDriverAdded(new DriverEventArgs { Driver = driver, StationToken = stationToken });
 			}
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
@@ -179,7 +182,8 @@ namespace Wammer.Station
 	public class DriverEventArgs : EventArgs
 	{
 		public StationDriver Driver { get; set; }
-		
+		public string StationToken { get; set; }
+
 		public DriverEventArgs()
 			:base()
 		{
