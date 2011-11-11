@@ -179,7 +179,7 @@ namespace UT_WammerStation
 				Assert.AreEqual("title1", saveData.title);
 				Assert.AreEqual("desc", saveData.description);
 				Assert.AreEqual("image/jpeg", saveData.mime_type);
-				Assert.AreEqual(StationInfo.BaseURL + "attachments/view/?object_id=" + res.object_id,
+				Assert.AreEqual("/v2/attachments/view/?object_id=" + res.object_id,
 								saveData.url);
 				Assert.AreEqual(20, saveData.file_size);
 				Assert.AreEqual(AttachmentType.image, saveData.type);

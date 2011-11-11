@@ -61,7 +61,7 @@ namespace Wammer.Station
 			groupFolders[file.group_id].Save(savedName, file.RawData);
 			file.file_size = file.RawData.Length;
 			file.modify_time = DateTime.UtcNow;
-			file.url = StationInfo.BaseURL + "attachments/view/?object_id=" + file.object_id;
+			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
 
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta,
 																		this.attachmentCollection);
