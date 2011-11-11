@@ -25,6 +25,7 @@ namespace Wammer.Station.Service
 		private string stationId;
 		private AtomicDictionary<string, FileStorage> groupFolderMap = 
 			new AtomicDictionary<string, FileStorage>();
+		private StatusChecker statusChecker;
 
 		public StationService()
 		{
@@ -54,6 +55,7 @@ namespace Wammer.Station.Service
 			this.stationId = InitStationId();
 			LoadGroupFolderMapping(mongodb);
 
+			statusChecker = new StatusChecker(groupFolderMap);
 
 			server = new HttpServer(9981); // TODO: remove hard code
 			BypassHttpHandler cloudForwarder = new BypassHttpHandler(
@@ -83,7 +85,7 @@ namespace Wammer.Station.Service
 			// Start WCF REST services
 			AddWebServiceHost(new AttachmentService(mongodb), 9981, "attachments/");
 			
-			StationManagementService statMgmtSvc = new StationManagementService(mongodb, stationId, groupFolderMap);
+			StationManagementService statMgmtSvc = new StationManagementService(mongodb, stationId, statusChecker);
 			statMgmtSvc.DriverAdded += new EventHandler<DriverEventArgs>(statMgmtSvc_DriverAdded);
 			AddWebServiceHost(statMgmtSvc, 9981, "station/");
 		}

@@ -35,16 +35,16 @@ namespace Wammer.Station
 	{
 		private MongoServer mongodb;
 		private string stationId;
-		private AtomicDictionary<string, FileStorage> groupFolderMap;
 		private MongoCollection<StationDriver> drivers;
+		private StatusChecker statusChecker;
 
 		public event EventHandler<DriverEventArgs> DriverAdded;
 
-		public StationManagementService(MongoServer mongodb, string stationId, AtomicDictionary<string, FileStorage> groupFolderMap)
+		public StationManagementService(MongoServer mongodb, string stationId, StatusChecker statusChecker)
 		{
 			this.mongodb = mongodb;
 			this.stationId = stationId;
-			this.groupFolderMap = groupFolderMap;
+			this.statusChecker = statusChecker;
 
 			if (!mongodb.GetDatabase("wammer").CollectionExists("drivers"))
 				mongodb.GetDatabase("wammer").CreateCollection("drivers");
@@ -122,17 +122,7 @@ namespace Wammer.Station
 
 		public Stream GetStatus()
 		{
-			StatusResponse res = new StatusResponse
-			{
-				location = "http://" + StationInfo.IPv4Address + ":9981/",
-				diskusage = new List<DiskUsage>()
-			};
-
-			Dictionary<string, FileStorage> groupStorage = groupFolderMap.GetAll();
-			foreach (KeyValuePair<string, FileStorage> pair in groupStorage)
-			{
-				res.diskusage.Add( new DiskUsage { group_id = pair.Key, used = pair.Value.GetUsedSize(), avail = pair.Value.GetAvailSize()});
-			}
+			StationStatus res = statusChecker.GetStatus();
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
 		}
@@ -146,19 +136,6 @@ namespace Wammer.Station
 				handler(this, evt);
 			}
 		}
-	}
-
-	public class DiskUsage
-	{
-		public string group_id { get; set; }
-		public long used { get; set; }
-		public long avail { get; set; }
-	}
-
-	public class StatusResponse
-	{
-		public string location { get; set; }
-		public List<DiskUsage> diskusage { get; set; }
 	}
 
 	public class DriverEventArgs : EventArgs

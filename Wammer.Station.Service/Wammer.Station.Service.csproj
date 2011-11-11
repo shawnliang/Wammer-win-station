@@ -127,6 +127,7 @@
     <Compile Include="Station\StationDriver.cs" />
     <Compile Include="Station\StationInfo.cs" />
     <Compile Include="Station\StationManagementService.cs" />
+    <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />

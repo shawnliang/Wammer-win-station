@@ -33,8 +33,8 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void setUp()
 		{
-			AtomicDictionary<string, FileStorage> mockGroupFolderMap = new AtomicDictionary<string, FileStorage> ();
-			svc = new StationManagementService(mongodb, "station_id1", mockGroupFolderMap);
+			StatusChecker mockStatusChecker = null;
+			svc = new StationManagementService(mongodb, "station_id1", mockStatusChecker);
 			host = new WebServiceHost(svc, new Uri("http://localhost:8080/v2/station/"));
 			host.Open();
 

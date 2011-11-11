@@ -60,6 +60,17 @@ namespace Wammer.Cloud
 			this.Token = res.session_token;
 		}
 
+		public void Heartbeat(WebClient agent, Dictionary<object, object> param)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>(param);
+			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.Token);
+			parameters.Add(CloudServer.PARAM_STATION_ID, this.Id);
+			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+
+			StationHeartbeatResponse res =
+				CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
+		}
+
 		public string Id { get; private set;}
 
 		public string Token { get; private set;}
