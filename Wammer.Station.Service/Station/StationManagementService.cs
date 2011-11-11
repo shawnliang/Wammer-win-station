@@ -78,11 +78,29 @@ namespace Wammer.Station
 			using (WebClient agent = new WebClient())
 			{
 				User user = null;
+				string stationToken = null;
+
 				try
 				{
 					user = User.LogIn(agent, email, password);
-					Cloud.Station station = null;
-					station = Cloud.Station.SignUp(agent, stationId, user.Token);
+
+					if (user.Stations != null && user.Stations.Count > 0)
+						return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+							HttpStatusCode.Conflict,
+							new AddUserResponse
+							{
+								api_ret_code = (int)StationApiError.AlreadyHasStaion,
+								api_ret_msg = "already has a station",
+								status = (int)HttpStatusCode.Conflict,
+								timestamp = DateTime.UtcNow,
+								station = user.Stations[0],
+								session_token = user.Token
+							}
+						);
+
+					Cloud.Station station = Cloud.Station.SignUp(agent, stationId, user.Token);
+					station.LogOn(agent);
+					stationToken = station.Token;
 				}
 				catch (WammerCloudException ex)
 				{
@@ -113,7 +131,7 @@ namespace Wammer.Station
 
 				drivers.Insert(driver);
 
-				OnDriverAdded(new DriverEventArgs { Driver = driver });
+				OnDriverAdded(new DriverEventArgs { Driver = driver, StationToken = stationToken });
 			}
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
@@ -141,8 +159,20 @@ namespace Wammer.Station
 	public class DriverEventArgs : EventArgs
 	{
 		public StationDriver Driver { get; set; }
-		
+		public string StationToken { get; set; }
+
 		public DriverEventArgs()
+			:base()
+		{
+		}
+	}
+
+	public class AddUserResponse : CloudResponse
+	{
+		public UserStation station { get; set; }
+		public string session_token { get; set; }
+
+		public AddUserResponse()
 			:base()
 		{
 		}

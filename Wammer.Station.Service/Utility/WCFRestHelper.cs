@@ -16,14 +16,21 @@ namespace Wammer.Utility
 		public static MemoryStream GenerateErrStream(WebOperationContext webContext,
 			HttpStatusCode status, int apiErrCode, string errMsg)
 		{
+			CloudResponse res = new CloudResponse((int)status, apiErrCode, errMsg);
+
+			return GenerateErrStream(webContext, status, res);
+		}
+
+		public static MemoryStream GenerateErrStream(WebOperationContext webContext,
+			HttpStatusCode status, object jsonObject)
+		{
 			try
 			{
 				webContext.OutgoingResponse.ContentType = "application/json";
 				webContext.OutgoingResponse.StatusCode = status;
-				CloudResponse res = new CloudResponse((int)status, apiErrCode, errMsg);
 				MemoryStream m = new MemoryStream();
 				StreamWriter w1 = new StreamWriter(m);
-				w1.Write(fastJSON.JSON.Instance.ToJSON(res, false, false, false, false));
+				w1.Write(fastJSON.JSON.Instance.ToJSON(jsonObject, false, false, false, false));
 				w1.Flush();
 				m.Position = 0;
 				return m;

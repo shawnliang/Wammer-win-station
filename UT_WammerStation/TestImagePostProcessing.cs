@@ -127,7 +127,7 @@ namespace UT_WammerStation
 			using (HttpServer server = new HttpServer(80))
 			{
 				FileStorage fileStore = new FileStorage("resource");
-				ObjectUploadHandler handler = new ObjectUploadHandler(mongodb, groupFolders);
+				AttachmentUploadHandler handler = new AttachmentUploadHandler(mongodb, groupFolders);
 
 				DummyRequestCompletedHandler evtHandler = new DummyRequestCompletedHandler();
 				handler.ImageAttachmentCompleted += evtHandler.Handle;
@@ -173,7 +173,7 @@ namespace UT_WammerStation
 			{
 				FileStorage fileStore = new FileStorage("resource");
 				ImagePostProcessing postProc = new ImagePostProcessing(fileStore);
-				ObjectUploadHandler handler = new ObjectUploadHandler(mongodb, groupFolders);
+				AttachmentUploadHandler handler = new AttachmentUploadHandler(mongodb, groupFolders);
 
 				handler.ImageAttachmentSaved += postProc.HandleImageAttachmentSaved;
 
@@ -226,7 +226,7 @@ namespace UT_WammerStation
 			using (HttpServer server = new HttpServer(80))
 			{
 				FileStorage fileStore = new FileStorage("resource");
-				ObjectUploadHandler handler = new ObjectUploadHandler(mongodb, groupFolders);
+				AttachmentUploadHandler handler = new AttachmentUploadHandler(mongodb, groupFolders);
 				server.AddHandler("/test/", handler);
 				server.Start();
 
@@ -271,7 +271,7 @@ namespace UT_WammerStation
 			using (HttpServer server = new HttpServer(80))
 			{
 				FileStorage fileStore = new FileStorage("resource");
-				ObjectUploadHandler handler = new ObjectUploadHandler(mongodb, groupFolders);
+				AttachmentUploadHandler handler = new AttachmentUploadHandler(mongodb, groupFolders);
 				server.AddHandler("/test/", handler);
 				server.Start();
 

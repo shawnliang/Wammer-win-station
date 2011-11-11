@@ -150,8 +150,8 @@ namespace Wammer.Cloud
 			if (resObj is CloudResponse)
 			{
 				CloudResponse cres = resObj as CloudResponse;
-				if (cres.status != 200)
-					throw new WammerCloudException("Wammer cloud error", postData, response, 
+				if (cres.status != 200 || cres.api_ret_code != 0)
+					throw new WammerCloudException("Wammer cloud error", postData, response,
 						cres.api_ret_code);
 			}
 

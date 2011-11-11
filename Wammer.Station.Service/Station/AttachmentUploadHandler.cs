@@ -13,7 +13,7 @@ using MongoDB.Bson;
 
 namespace Wammer.Station
 {
-	public class ObjectUploadHandler : HttpHandler
+	public class AttachmentUploadHandler : HttpHandler
 	{
 		private MongoServer mongodb;
 		private MongoCollection attachmentCollection;
@@ -28,7 +28,7 @@ namespace Wammer.Station
 		/// </summary>
 		public event EventHandler<ImageAttachmentEventArgs> ImageAttachmentCompleted;
 
-		public ObjectUploadHandler(MongoServer mongodb, 
+		public AttachmentUploadHandler(MongoServer mongodb, 
 												AtomicDictionary<string, FileStorage> groupFolders)
 			: base()
 		{

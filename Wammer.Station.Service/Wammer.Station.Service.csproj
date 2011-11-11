@@ -154,9 +154,9 @@
     <Compile Include="Station\HttpHandler.cs" />
     <Compile Include="Station\HttpHelper.cs" />
     <Compile Include="Station\HttpServer.cs" />
-    <Compile Include="Station\ObjectUploadHandler.cs" />
+    <Compile Include="Station\AttachmentUploadHandler.cs" />
     <Compile Include="Station\StationRegistry.cs" />
-    <Compile Include="Station\ViewObjectHandler.cs" />
+    <Compile Include="Station\AttachmentViewHandler.cs" />
     <Compile Include="Utility\TimeHelper.cs" />
     <Compile Include="Utility\WCFRestHelper.cs" />
     <Compile Include="Utility\WebHelper.cs" />

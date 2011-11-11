@@ -61,6 +61,9 @@ namespace Wammer.Station.StartUp
 					case (int)StationApiError.AuthFailed:
 						MessageBox.Show("Invalid email or password");
 						break;
+					case (int)StationApiError.AlreadyHasStaion:
+						HandleAlreadyHasStaion(ex.response);
+						break;
 					default:
 						MessageBox.Show("Unknown error :" + ex.ToString());
 						break;
@@ -73,6 +76,32 @@ namespace Wammer.Station.StartUp
 				MessageBox.Show("Unknown error: " + ex.Message);
 				logger.Error("Unable to add user", ex);
 			}
+		}
+
+		private void HandleAlreadyHasStaion(string responseText)
+		{
+			AddUserResponse json = fastJSON.JSON.Instance.ToObject<AddUserResponse>(responseText);
+
+			string text = string.Format(
+				"You already have an registered station:\r\n" +
+				"station id: " + json.station.station_id + "\r\n" +
+				"location: " + json.station.location + "\r\n" +
+				"last sync time: " + json.station.LastSeen + "\r\n" +
+				"\r\n" +
+				"You need to unregister the old station before adding " + textEmail.Text +
+				"to this station.\r\n" +
+				"Continue to unregister the old station?");
+
+			DialogResult result = MessageBox.Show(text,
+				"Unregister the old station?", MessageBoxButtons.OKCancel);
+
+			if (result == DialogResult.Cancel)
+				return;
+
+			Wammer.Cloud.Station.SignOff(new WebClient(), json.station.station_id,
+				json.session_token);
+
+			MessageBox.Show("Old station is unregistered successfully. Please add user again.");
 		}
 
 		private void cancelButton_Click(object sender, EventArgs e)
