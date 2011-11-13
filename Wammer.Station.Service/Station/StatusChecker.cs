@@ -5,24 +5,22 @@ using System.Text;
 using System.Threading;
 using System.Net;
 
+using Wammer.Cloud;
 using MongoDB.Bson;
 
 namespace Wammer.Station
 {
 	public class StatusChecker
 	{
-		private AtomicDictionary<string, FileStorage> groupFolderMap;
 		private Timer timer;
-		private const long TIMER_PERIOD = 10 * 60 * 1000; 
 
-		public StatusChecker(AtomicDictionary<string, FileStorage> groupFolderMap)
+		public StatusChecker(long timerPeriod)
 		{
-			this.groupFolderMap = groupFolderMap;
 			TimerCallback tcb = SendHeartbeat;
-			timer = new Timer(tcb, null, 0, TIMER_PERIOD);
+			timer = new Timer(tcb, null, 0, timerPeriod);
 		}
 
-		public StationStatus GetStatus()
+		public static StationStatus GetStatus()
 		{
 			StationStatus status = new StationStatus
 			{
@@ -30,10 +28,16 @@ namespace Wammer.Station
 				diskusage = new List<DiskUsage>()
 			};
 
-			Dictionary<string, FileStorage> gfmap = groupFolderMap.GetAll();
-			foreach (KeyValuePair<string, FileStorage> pair in gfmap)
+			MongoDB.Driver.MongoCursor<StationDriver> drivers =
+				Database.mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").FindAll();
+
+			foreach (StationDriver driver in drivers)
 			{
-				status.diskusage.Add(new DiskUsage { group_id = pair.Key, used = pair.Value.GetUsedSize(), avail = pair.Value.GetAvailSize() });
+				FileStorage storage = new FileStorage(driver.folder);
+				foreach (UserGroup group in driver.groups)
+				{
+					status.diskusage.Add(new DiskUsage { group_id = group.group_id, used = storage.GetUsedSize(), avail = storage.GetAvailSize() });
+				}
 			}
 
 			return status;
@@ -45,8 +49,14 @@ namespace Wammer.Station
 
 			using (WebClient agent = new WebClient())
 			{
-				Dictionary<object, object> param = new Dictionary<object, object>{{"status", status.ToJson()}};
-				Cloud.Station.Heartbeat(agent, param);
+				StationDBDoc stationDoc = 
+					Database.mongodb.GetDatabase("wammer").GetCollection<StationDBDoc>("station").FindOne();
+				if (stationDoc != null)
+				{
+					Cloud.Station station = new Cloud.Station(stationDoc.Id, stationDoc.SessionToken);
+					Dictionary<object, object> param = new Dictionary<object, object> { { "status", status.ToJson() } };
+					station.Heartbeat(agent, param);				
+				}
 			}
 		}
 	}

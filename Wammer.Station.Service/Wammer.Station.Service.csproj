@@ -122,11 +122,13 @@
     <Compile Include="Cloud\WammerCloudException.cs" />
     <Compile Include="Station\AttachmentService.cs" />
     <Compile Include="Station\AtomicDictionary.cs" />
+    <Compile Include="Station\Database.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\StationApiRetCode.cs" />
     <Compile Include="Station\StationDriver.cs" />
     <Compile Include="Station\StationInfo.cs" />
     <Compile Include="Station\StationManagementService.cs" />
+    <Compile Include="Station\StationTimer.cs" />
     <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />

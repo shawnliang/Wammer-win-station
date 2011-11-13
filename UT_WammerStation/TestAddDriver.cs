@@ -33,8 +33,7 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void setUp()
 		{
-			StatusChecker mockStatusChecker = null;
-			svc = new StationManagementService(mongodb, "station_id1", mockStatusChecker);
+			svc = new StationManagementService(mongodb, "station_id1");
 			host = new WebServiceHost(svc, new Uri("http://localhost:8080/v2/station/"));
 			host.Open();
 
@@ -48,10 +47,13 @@ namespace UT_WammerStation
 
 			mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").Insert(
-				new StationDriver { 
+				new StationDriver
+				{
 					user_id = "exist_uid",
 					email = "exist@gmail.com",
-					folder = "fo"});
+					folder = "fo",
+					groups = new List<UserGroup> { new UserGroup {  group_id = "123"} }
+				});
 
 			addedDriver = null;
 		}
@@ -63,6 +65,8 @@ namespace UT_WammerStation
 
 			if (Directory.Exists(@"C:\TempUT"))
 				Directory.Delete(@"C:\TempUT", true);
+
+			mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").RemoveAll();
 		}
 
 		[TestMethod]

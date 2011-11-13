@@ -40,11 +40,10 @@ namespace Wammer.Station
 
 		public event EventHandler<DriverEventArgs> DriverAdded;
 
-		public StationManagementService(MongoServer mongodb, string stationId, StatusChecker statusChecker)
+		public StationManagementService(MongoServer mongodb, string stationId)
 		{
 			this.mongodb = mongodb;
 			this.stationId = stationId;
-			this.statusChecker = statusChecker;
 
 			if (!mongodb.GetDatabase("wammer").CollectionExists("drivers"))
 				mongodb.GetDatabase("wammer").CreateCollection("drivers");
@@ -140,7 +139,7 @@ namespace Wammer.Station
 
 		public Stream GetStatus()
 		{
-			StationStatus res = statusChecker.GetStatus();
+			StationStatus res = StatusChecker.GetStatus();
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
 		}

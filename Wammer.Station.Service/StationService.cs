@@ -24,7 +24,7 @@ namespace Wammer.Station.Service
 		private List<WebServiceHost> serviceHosts = new List<WebServiceHost>();
 		private AtomicDictionary<string, FileStorage> groupFolderMap = 
 			new AtomicDictionary<string, FileStorage>();
-		private StatusChecker statusChecker;
+		private StationTimer stationTimer;
 
 		public StationService()
 		{
@@ -46,15 +46,11 @@ namespace Wammer.Station.Service
 		{
 			Environment.CurrentDirectory = Path.GetDirectoryName(
 									Assembly.GetExecutingAssembly().Location);
-			MongoDB.Driver.MongoServer mongodb = MongoDB.Driver.MongoServer.Create(
-									string.Format("mongodb://localhost:{0}/?safe=true",
-									StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
 
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
-			StationInfo.Init(mongodb);
-			LoadGroupFolderMapping(mongodb);
-
-			statusChecker = new StatusChecker(groupFolderMap);
+			StationInfo.Init(Database.mongodb);
+			LoadGroupFolderMapping(Database.mongodb);
+			stationTimer = new StationTimer();
 
 			server = new HttpServer(9981); // TODO: remove hard code
 			BypassHttpHandler cloudForwarder = new BypassHttpHandler(
@@ -69,9 +65,9 @@ namespace Wammer.Station.Service
 
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
-							new AttachmentViewHandler(mongodb, groupFolderMap));
+							new AttachmentViewHandler(Database.mongodb, groupFolderMap));
 
-			AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler(mongodb, groupFolderMap);
+			AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler(Database.mongodb, groupFolderMap);
 			ImagePostProcessing imgProc = new ImagePostProcessing(storage);
 			attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
 			attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
@@ -82,10 +78,9 @@ namespace Wammer.Station.Service
 
 
 			// Start WCF REST services
-			AddWebServiceHost(new AttachmentService(mongodb), 9981, "attachments/");
+			AddWebServiceHost(new AttachmentService(Database.mongodb), 9981, "attachments/");
 			
-			StationManagementService statMgmtSvc = new StationManagementService(mongodb, 
-																	StationInfo.Id, groupFolderMap);
+			StationManagementService statMgmtSvc = new StationManagementService(Database.mongodb, StationInfo.Id);
 			statMgmtSvc.DriverAdded += new EventHandler<DriverEventArgs>(statMgmtSvc_DriverAdded);
 			AddWebServiceHost(statMgmtSvc, 9981, "station/");
 		}
