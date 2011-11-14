@@ -13,6 +13,7 @@ namespace Wammer.Model
 {
 	class Drivers
 	{
+		[BsonIgnore]
 		public static MongoCollection<Drivers> collection = Database.wammer.GetCollection<Drivers>("drivers");
 
 		[BsonId]

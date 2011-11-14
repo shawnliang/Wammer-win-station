@@ -11,6 +11,7 @@ namespace Wammer.Model
 {
 	public class StationInfo
 	{
+		[BsonIgnore]
 		public static MongoCollection<StationInfo> collection = Database.wammer.GetCollection<StationInfo>("station");
 
 		[BsonId]
