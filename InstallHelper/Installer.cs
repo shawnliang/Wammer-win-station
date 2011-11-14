@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Configuration.Install;
 using System.Security.Permissions;
 using System.IO;
+using System.Net;
 using System.Xml;
 using System.Xml.XPath;
 using System.Diagnostics;
@@ -13,7 +14,10 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 using Wammer.Station.Service;
+using Wammer.Station;
 using log4net;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace InstallHelper
 {
@@ -28,6 +32,11 @@ namespace InstallHelper
 		public Installer()
 		{
 			InitializeComponent();
+
+			log4net.Config.XmlConfigurator.Configure(
+									System.Reflection.Assembly.GetExecutingAssembly().GetFile(
+																"InstallHelper.log4net.config"));
+			logger = log4net.LogManager.GetLogger("installHelper");
 		}
 
 		//[SecurityPermission(SecurityAction.Demand)]
@@ -46,7 +55,7 @@ namespace InstallHelper
 			catch (Exception e)
 			{
 				MessageBox.Show(e.Message, "Error during installation");
-				GetLogger(wammerDir).Error("Error during installtion", e);
+				logger.Error("Error during installtion", e);
 				throw;
 			}
 		}
@@ -157,25 +166,6 @@ namespace InstallHelper
 			}
 		}
 
-		private ILog GetLogger(string folder)
-		{
-			if (logger == null)
-			{
-				log4net.Appender.FileAppender app = new log4net.Appender.FileAppender
-					{
-						File = Path.Combine(folder, "InstallHelper.log"),
-						Layout = new log4net.Layout.PatternLayout(
-							"%-4timestamp [%thread] %-5level %logger %ndc - %message%newline"),
-						AppendToFile = true
-					};
-
-				log4net.Config.BasicConfigurator.Configure(app);
-
-				logger = log4net.LogManager.GetLogger("installHelper");
-			}
-
-			return logger;
-		}
 
 		//[SecurityPermission(SecurityAction.Demand)]
 		public override void Commit(IDictionary savedState)
@@ -185,18 +175,62 @@ namespace InstallHelper
 
 			try
 			{
-				MessageBox.Show("start " + StationService.MONGO_SERVICE_NAME);
 				startService(StationService.MONGO_SERVICE_NAME);
-				MessageBox.Show("start " + StationService.SERVICE_NAME);
 				startService(StationService.SERVICE_NAME);
-				MessageBox.Show("all services started");
-				Process startUpApp = Process.Start(Path.Combine(wammerDir, "Wammer.Station.AddUserApp.exe"));
+				Process startUpApp = Process.Start(Path.Combine(wammerDir, 
+																"Wammer.Station.AddUserApp.exe"));
 			}
 			catch (Exception e)
 			{
 				MessageBox.Show(e.Message, "Error during commit");
-				GetLogger(wammerDir).Error("Error during commit", e);
+				logger.Error("Error during commit", e);
 				throw;
+			}
+		}
+
+		private static void RemoveStationAndMongoSvc(IDictionary savedState, string wammerDir)
+		{
+			if (savedState.Contains(WAMMER_SERVICE_INSTALLED))
+			{
+				stopService(StationService.SERVICE_NAME);
+				uninstallWammerService(wammerDir);
+			}
+
+			if (savedState.Contains(MONGO_INSTALLED))
+			{
+				try
+				{
+					stopService(StationService.MONGO_SERVICE_NAME);
+				}
+				catch (Exception e)
+				{
+
+				}
+				uninstallMongoDbService(wammerDir);
+			}
+		}
+
+		public void SignOffStation()
+		{
+			try
+			{
+				MongoServer mongo = MongoServer.Create("mongodb://localhost:10319/?safe=true");
+				MongoCollection sDocs = mongo.GetDatabase("wammer").GetCollection("station");
+				if (sDocs == null)
+					return;
+
+				StationDBDoc station = sDocs.FindOneAs<StationDBDoc>();
+				if (station == null || station.Id == null || station.SessionToken == null)
+					return;
+
+				logger.Info("Sign off station");
+				logger.Info("id: " + station.Id);
+				logger.Info("token: " + station.SessionToken);
+				Wammer.Cloud.Station.SignOff(new WebClient(), station.Id, station.SessionToken);
+			}
+			catch (Exception e)
+			{
+				logger.Warn("unable to unregister station", e);
 			}
 		}
 
@@ -208,29 +242,11 @@ namespace InstallHelper
 
 			try
 			{
-				if (savedState.Contains(WAMMER_SERVICE_INSTALLED))
-				{
-					stopService(StationService.SERVICE_NAME);
-					uninstallWammerService(wammerDir);
-				}
-
-				if (savedState.Contains(MONGO_INSTALLED))
-				{
-					try
-					{
-						stopService(StationService.MONGO_SERVICE_NAME);
-					}
-					catch (Exception e)
-					{
-
-					}
-					uninstallMongoDbService(wammerDir);
-				}
+				RemoveStationAndMongoSvc(savedState, wammerDir);
 			}
 			catch (Exception e)
 			{
-				//MessageBox.Show(e.Message, "Error during rollback");
-				GetLogger(wammerDir).Warn("Error during rollback", e);
+				logger.Warn("Error during rollback", e);
 				throw;
 			}
 		}
@@ -243,29 +259,13 @@ namespace InstallHelper
 
 			try
 			{
-				if (savedState.Contains(WAMMER_SERVICE_INSTALLED))
-				{
-					stopService(StationService.SERVICE_NAME);
-					uninstallWammerService(wammerDir);
-				}
-
-				if (savedState.Contains(MONGO_INSTALLED))
-				{
-					try
-					{
-						stopService(StationService.MONGO_SERVICE_NAME);
-					}
-					catch (Exception e)
-					{
-
-					}
-					uninstallMongoDbService(wammerDir);
-				}
+				SignOffStation();
+				RemoveStationAndMongoSvc(savedState, wammerDir);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message, "Error during uninstall");
-				GetLogger(wammerDir).Warn("Error during uninstall", e);
+				//MessageBox.Show(e.Message, "Error during uninstall");
+				logger.Warn("Error during uninstall", e);
 				throw;
 			}
 		}
