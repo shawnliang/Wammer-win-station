@@ -145,14 +145,14 @@ namespace Wammer.Station
 			else
 				thumbnail = ImageHelper.ScaleBasedOnLongSide(origin, (int)meta);
 
-			string thumbnailId = Guid.NewGuid().ToString();
 			using (MemoryStream m = new MemoryStream())
 			{
 				thumbnail.Save(m, System.Drawing.Imaging.ImageFormat.Jpeg);
 
 				byte[] rawData = m.ToArray();
 
-				string thumbFileName = Guid.NewGuid() + ".jpeg";
+				string thumbFileName = string.Format("{0}_{1}.jpeg",
+														attachmentId, meta.ToString().ToLower());
 				
 				fileStorage.Save(thumbFileName, rawData);
 
