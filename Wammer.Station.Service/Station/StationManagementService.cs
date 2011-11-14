@@ -130,7 +130,7 @@ namespace Wammer.Station
 
 				drivers.Insert(driver);
 
-				OnDriverAdded(new DriverEventArgs { Driver = driver, StationToken = stationToken });
+				OnDriverAdded(new DriverEventArgs { Driver = driver, StationToken = stationToken, LastLogOn = DateTime.Now, Location = StationInfo.IPv4Address});
 			}
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
@@ -159,6 +159,8 @@ namespace Wammer.Station
 	{
 		public StationDriver Driver { get; set; }
 		public string StationToken { get; set; }
+		public DateTime LastLogOn { get; set; }
+		public IPAddress Location { get; set; }
 
 		public DriverEventArgs()
 			:base()

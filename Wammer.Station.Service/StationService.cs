@@ -14,6 +14,7 @@ using System.ServiceModel.Web;
 using Microsoft.Win32;
 using Wammer.Station;
 using Wammer.Cloud;
+using Wammer.Model;
 
 namespace Wammer.Station.Service
 {
@@ -95,8 +96,8 @@ namespace Wammer.Station.Service
 				groupFolderMap.Add(
 					e.Driver.groups[0].group_id, new FileStorage(e.Driver.folder));
 
-				StationInfo.SessionToken = e.StationToken;
-				StationInfo.Save();
+				Model.StationInfo.collection.Save(new Model.StationInfo { Id = StationInfo.Id, SessionToken = e.StationToken, LastLogOn = e.LastLogOn, Location = e.Location });
+				//StationInfo.Save();
 			}
 			catch (Exception ex)
 			{
@@ -106,6 +107,8 @@ namespace Wammer.Station.Service
 
 		protected override void OnStop()
 		{
+			stationTimer.Stop();
+
 			foreach (WebServiceHost svc in serviceHosts)
 			{
 				svc.Close();
