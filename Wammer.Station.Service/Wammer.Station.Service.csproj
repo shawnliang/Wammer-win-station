@@ -120,9 +120,11 @@
     <Compile Include="Cloud\User.cs" />
     <Compile Include="Cloud\UserLogInResponse.cs" />
     <Compile Include="Cloud\WammerCloudException.cs" />
+    <Compile Include="Model\Drivers.cs" />
+    <Compile Include="Model\StationInfo.cs" />
     <Compile Include="Station\AttachmentService.cs" />
     <Compile Include="Station\AtomicDictionary.cs" />
-    <Compile Include="Station\Database.cs" />
+    <Compile Include="Model\Database.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\StationApiRetCode.cs" />
     <Compile Include="Station\StationDriver.cs" />
