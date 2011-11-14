@@ -65,6 +65,8 @@ namespace Wammer.Station
 
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta,
 																		this.attachmentCollection);
+			evtArgs.UserApiKey = Parameters["apikey"];
+			evtArgs.USerSessionToken = Parameters["session_token"];
 
 			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
 			BsonDocument existDoc = this.attachmentCollection.FindOneAs<BsonDocument>(
@@ -212,6 +214,8 @@ namespace Wammer.Station
 	{
 		public ImageMeta Meta { get; private set; }
 		public MongoCollection DbDocs { get; set; }
+		public string UserApiKey { get; set; }
+		public string USerSessionToken { get; set; }
 
 		public ImageAttachmentEventArgs(Attachment attachment, ImageMeta meta,
 																			MongoCollection dbDocs)

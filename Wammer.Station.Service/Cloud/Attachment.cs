@@ -180,7 +180,8 @@ namespace Wammer.Cloud
 			Dictionary<string, object> pars = new Dictionary<string, object>();
 			pars["type"] = "image";
 			pars["image_meta"] = meta.ToString().ToLower();
-			pars["session_token"] = CloudServer.SessionToken;
+			pars["session_token"] = Wammer.Station.StationInfo.SessionToken;
+			pars["apikey"] = CloudServer.APIKey;
 			if (objectId != null)
 				pars["object_id"] = objectId;
 			pars["group_id"] = groupId;
@@ -199,8 +200,36 @@ namespace Wammer.Cloud
 			}
 		}
 
-		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string group_id,
-												string fileName, string contentType, ImageMeta meta)
+		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string groupId,
+											string objectId, string fileName, string contentType,
+											ImageMeta meta, string apiKey, string token)
+		{
+
+			Dictionary<string, object> pars = new Dictionary<string, object>();
+			pars["type"] = "image";
+			pars["image_meta"] = meta.ToString().ToLower();
+			pars["session_token"] = token;
+			pars["apikey"] = apiKey;
+			if (objectId != null)
+				pars["object_id"] = objectId;
+			pars["group_id"] = groupId;
+			pars["file"] = imageData;
+			HttpWebResponse _webResponse =
+				Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+				url,
+				"Mozilla 4.0+",
+				pars,
+				fileName,
+				contentType);
+
+			using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
+			{
+				return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
+			}
+		}
+
+		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, 
+							string group_id, string fileName, string contentType, ImageMeta meta)
 		{
 			return UploadImage(url, imageData, group_id, null, fileName, contentType, meta);
 		}
@@ -214,6 +243,19 @@ namespace Wammer.Cloud
 				CloudServer.DEF_BASE_PATH);
 
 			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta);
+		}
+
+		public static ObjectUploadResponse UploadImage(byte[] imageData, string group_id,
+			string objectId, string fileName, string contentType, ImageMeta meta,
+			string apikey, string token)
+		{
+			string url = string.Format("http://{0}:{1}/{2}/attachments/upload/",
+				Cloud.CloudServer.HostName,
+				Cloud.CloudServer.Port,
+				CloudServer.DEF_BASE_PATH);
+
+			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta, 
+				apikey, token);
 		}
 		#endregion
 

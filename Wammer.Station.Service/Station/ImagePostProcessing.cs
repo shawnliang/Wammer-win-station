@@ -55,10 +55,16 @@ namespace Wammer.Station
 					exist.DeepMerge(update.ToBsonDocument());
 					evt.DbDocs.Save(exist);
 
-
 					ThreadPool.QueueUserWorkItem(this.UpstreamThumbnail,
-								new UpstreamArgs(small, evt.Attachment.group_id, 
-									evt.Attachment.object_id, ImageMeta.Small));
+						new UpstreamArgs
+						{
+							 FullImageId = evt.Attachment.object_id,
+							 GroupId = evt.Attachment.group_id,
+							 ImageMeta = ImageMeta.Small,
+							 Thumbnail = small,
+							 UserApiKey = evt.UserApiKey,
+							 UserSessionToken = evt.USerSessionToken
+						});
 				}
 			}
 			catch (Exception e)
@@ -108,9 +114,12 @@ namespace Wammer.Station
 					doc.DeepMerge(update.ToBsonDocument());
 					evt.DbDocs.Save<BsonDocument>(doc);
 
-					UpstreamThumbnail(medium, evt.Attachment.group_id, evt.Attachment.object_id, ImageMeta.Medium);
-					UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id, ImageMeta.Large);
-					UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id, ImageMeta.Square);
+					UpstreamThumbnail(medium, evt.Attachment.group_id, evt.Attachment.object_id,
+						ImageMeta.Medium, evt.UserApiKey, evt.USerSessionToken);
+					UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
+						ImageMeta.Large, evt.UserApiKey, evt.USerSessionToken);
+					UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
+						ImageMeta.Square, evt.UserApiKey, evt.USerSessionToken);
 				}
 			}
 			catch (Exception e)
@@ -168,7 +177,8 @@ namespace Wammer.Station
 
 			try
 			{
-				UpstreamThumbnail(args.Thumbnail, args.GroupId, args.FullImageId, args.ImageMeta);
+				UpstreamThumbnail(args.Thumbnail, args.GroupId, args.FullImageId, args.ImageMeta,
+					args.UserApiKey, args.UserSessionToken);
 			}
 			catch (Exception e)
 			{
@@ -178,12 +188,12 @@ namespace Wammer.Station
 		}
 
 		private void UpstreamThumbnail(ThumbnailInfo thumbnail, string groupId, string fullImgId, 
-																					ImageMeta meta)
+														ImageMeta meta, string apiKey, string token)
 		{
 			using (MemoryStream output = new MemoryStream())
 			{
 				Cloud.Attachment.UploadImage(thumbnail.RawData, groupId, fullImgId, 
-												thumbnail.file_name, "image/jpeg", meta);
+												thumbnail.file_name, "image/jpeg", meta, apiKey, token);
 
 				logger.DebugFormat("Thumbnail {0} is uploaded to Cloud", thumbnail.file_name);
 			}
@@ -202,17 +212,16 @@ namespace Wammer.Station
 
 	class UpstreamArgs
 	{
-		public ThumbnailInfo Thumbnail { get; private set; }
-		public string FullImageId { get; private set; }
+		public ThumbnailInfo Thumbnail { get; set; }
+		public string FullImageId { get; set; }
 		public ImageMeta ImageMeta { get; set; }
 		public string GroupId { get; set; }
+		public string UserApiKey { get; set; }
+		public string UserSessionToken { get; set; }
 
-		public UpstreamArgs(ThumbnailInfo tb, string groupId, string fullImgId, ImageMeta type)
+		public UpstreamArgs()
 		{
-			Thumbnail = tb;
-			FullImageId = fullImgId;
-			ImageMeta = type;
-			GroupId = groupId;
+
 		}
 	}
 }
