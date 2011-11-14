@@ -80,7 +80,7 @@ namespace Wammer.Cloud
 				{ "apikey", CloudServer.APIKey }
 			};
 
-			CloudServer.requestPath<CloudResponse>(agent, "stations/signOff", parameters);
+			CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters);
 		}
 
 		public void Offline(WebClient agent)

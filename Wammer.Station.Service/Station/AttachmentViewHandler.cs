@@ -79,6 +79,7 @@ namespace Wammer.Station
 					}
 
 					Wammer.Utility.StreamHelper.Copy(fs, Response.OutputStream);
+					fs.Close();
 					Response.OutputStream.Close();
 				}
 			}

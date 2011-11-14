@@ -97,8 +97,12 @@ namespace Wammer.Station
 							}
 						);
 
-					Cloud.Station station = Cloud.Station.SignUp(agent, stationId, user.Token);
-					station.LogOn(agent);
+					Dictionary<object, object> location = new Dictionary<object, object>
+															{ {"location", StationInfo.BaseURL} };
+
+					Cloud.Station station = Cloud.Station.SignUp(agent, 
+																stationId, user.Token, location);
+					station.LogOn(agent, location);
 					stationToken = station.Token;
 				}
 				catch (WammerCloudException ex)

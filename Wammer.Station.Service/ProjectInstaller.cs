@@ -13,6 +13,7 @@ namespace Wammer.Station.Service
         public ProjectInstaller()
         {
             InitializeComponent();
+			this.serviceInstaller1.ServiceName = StationService.SERVICE_NAME;
         }
     }
 }

@@ -21,6 +21,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_18D1B222B986EF4B54863FDA1FA25525"
+        "OwnerKey" = "8:_31D886D89512A9CFA758885D0D3D636E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_18D1B222B986EF4B54863FDA1FA25525"
+        "OwnerKey" = "8:_2C9BFAB76E124631A2C470C9F4A20DCD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -33,8 +45,62 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2C9BFAB76E124631A2C470C9F4A20DCD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_31D886D89512A9CFA758885D0D3D636E"
+        "OwnerKey" = "8:_2C9BFAB76E124631A2C470C9F4A20DCD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_31D886D89512A9CFA758885D0D3D636E"
+        "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_60B620341A6A4D19932A43865674F446"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_69A407369C70070CCDA03B2193F07341"
+        "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_827F0E8D007C4174B802051220DC7B49"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A0064A981F7BD72371794C50FEFB0385"
         "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A0064A981F7BD72371794C50FEFB0385"
+        "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A0064A981F7BD72371794C50FEFB0385"
+        "OwnerKey" = "8:_31D886D89512A9CFA758885D0D3D636E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A0064A981F7BD72371794C50FEFB0385"
+        "OwnerKey" = "8:_2C9BFAB76E124631A2C470C9F4A20DCD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -51,14 +117,74 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BD99A8D43AC01F90E6E463E690EFF79F"
+        "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BD99A8D43AC01F90E6E463E690EFF79F"
+        "OwnerKey" = "8:_31D886D89512A9CFA758885D0D3D636E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BD99A8D43AC01F90E6E463E690EFF79F"
+        "OwnerKey" = "8:_2C9BFAB76E124631A2C470C9F4A20DCD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D1B0E46D7A7C4B1DB83754831AB6F63C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_EEB66A531859332D9CF2461866E14130"
         "OwnerKey" = "8:_293FB735E04A4E3DA3CE42F016483B67"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_EEB66A531859332D9CF2461866E14130"
+        "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EEB66A531859332D9CF2461866E14130"
+        "OwnerKey" = "8:_31D886D89512A9CFA758885D0D3D636E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EEB66A531859332D9CF2461866E14130"
+        "OwnerKey" = "8:_2C9BFAB76E124631A2C470C9F4A20DCD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_69A407369C70070CCDA03B2193F07341"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2C9BFAB76E124631A2C470C9F4A20DCD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_31D886D89512A9CFA758885D0D3D636E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -99,7 +225,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\Wammer.msi"
+        "OutputFilename" = "8:Debug\\WammerStation.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -111,17 +237,17 @@
         "InstallerBootstrapper" = "3:2"
             "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
             {
-            "Enabled" = "11:FALSE"
+            "Enabled" = "11:TRUE"
             "PromptEnabled" = "11:TRUE"
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5.SP1"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    "Name" = "8:.NET Framework 3.5 SP1"
+                    "ProductCode" = "8:Microsoft.Net.Framework.3.5.SP1"
                     }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
                     {
@@ -244,7 +370,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v2.0"
+                "FrameworkVersion" = "8:.NETFramework,Version=v3.5"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=131000"
                 }
@@ -281,6 +407,108 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_31D886D89512A9CFA758885D0D3D636E"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Wammer.Station.Service, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_31D886D89512A9CFA758885D0D3D636E"
+                    {
+                    "Name" = "8:Wammer.Station.Service.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Wammer.Station.Service.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_60B620341A6A4D19932A43865674F446"
+            {
+            "SourcePath" = "8:..\\3rd_party\\mongodb-win32-i386-2.0.1\\bin\\mongos.exe"
+            "TargetName" = "8:mongos.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_69B59C02A48C414AA9FBD73B6F0F82DB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_69A407369C70070CCDA03B2193F07341"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_69A407369C70070CCDA03B2193F07341"
+                    {
+                    "Name" = "8:fastJSON.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:fastJSON.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_827F0E8D007C4174B802051220DC7B49"
+            {
+            "SourcePath" = "8:..\\3rd_party\\mongodb-win32-i386-2.0.1\\bin\\mongod.exe"
+            "TargetName" = "8:mongod.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_69B59C02A48C414AA9FBD73B6F0F82DB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A0064A981F7BD72371794C50FEFB0385"
@@ -345,6 +573,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D1B0E46D7A7C4B1DB83754831AB6F63C"
+            {
+            "SourcePath" = "8:..\\3rd_party\\mongodb-win32-i386-2.0.1\\bin\\mongo.exe"
+            "TargetName" = "8:mongo.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_69B59C02A48C414AA9FBD73B6F0F82DB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EEB66A531859332D9CF2461866E14130"
             {
             "AssemblyRegister" = "3:1"
@@ -403,6 +651,50 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_69B59C02A48C414AA9FBD73B6F0F82DB"
+                    {
+                    "Name" = "8:Mongo"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_DFE6AB178C0A45B8BC288329E9293B7D"
+                        "Folders"
+                        {
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_0579BBB55D5142ECBC183787A9D4333B"
+                            {
+                            "Name" = "8:Data"
+                            "AlwaysCreate" = "11:TRUE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_1045AE166DC0415182220951B6A418F2"
+                                "Folders"
+                                {
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_4DC860139CEF4FAE8D88134F5537B13E"
+                                    {
+                                    "Name" = "8:DB"
+                                    "AlwaysCreate" = "11:TRUE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_E2C346A5C691447D909B5A180F123D26"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
+                                }
+                            }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_D7522A3BFE5A4742B88D953FD88AA272"
+                            {
+                            "Name" = "8:Log"
+                            "AlwaysCreate" = "11:TRUE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_B9A6FF8F9DB545389E780F10C4F13079"
+                                "Folders"
+                                {
+                                }
+                            }
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_6CD0E2D4216F40678D21F53457E085F1"
@@ -453,20 +745,20 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Wammer"
+        "ProductName" = "8:WammerStation"
         "ProductCode" = "8:{51CEB67C-B0F6-4AAA-A592-A3E17FB7CD0A}"
-        "PackageCode" = "8:{FF67E770-D946-4401-8A46-92F13D5B47ED}"
+        "PackageCode" = "8:{240AA706-8647-4E39-8831-E112A5ABDD9F}"
         "UpgradeCode" = "8:{D5EBDF33-1109-48DC-B42B-56228E56A3C4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:TRUE"
+        "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:waveface inc."
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Wammer setup"
+        "Title" = "8:Wammer Station setup"
         "Subject" = "8:"
         "ARPCONTACT" = "8:"
         "Keywords" = "8:"
@@ -589,15 +881,15 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6A03DFA9E2474F1386C81B8F62495EE2"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F3726020EC1D44E282BF1D8D59E42EAD"
             {
-            "Name" = "8:Register Wammer"
+            "Name" = "8:Add User to Wammer Station"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:"
+            "Target" = "8:_2C9BFAB76E124631A2C470C9F4A20DCD"
             "Folder" = "8:_164F53C2B88E40E7852A809CAB3E963D"
             "WorkingFolder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
             "Icon" = "8:"
@@ -697,8 +989,8 @@
                             "Type" = "3:15"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1258"
+                            "Setting" = "3:2"
+                            "Value" = "8:Thank you for installing Wammer Station. blah blah blah..."
                             "DefaultValue" = "8:#1258"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1053,6 +1345,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{4038B794-20B1-49F4-A1E9-EA35CA32582C}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2C9BFAB76E124631A2C470C9F4A20DCD"
+            {
+            "SourcePath" = "8:..\\Wammer.Station.AddUserApp\\obj\\Debug\\Wammer.Station.StartUp.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{3936A35E-6EB1-439E-A575-02B3A25C8752}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

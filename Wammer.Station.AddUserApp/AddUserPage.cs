@@ -47,6 +47,7 @@ namespace Wammer.Station.StartUp
 					textFolder.Text);
 
 				MessageBox.Show("User has been successfully added to this station. blah blah...");
+				this.Close();
 			}
 			catch (Wammer.Cloud.WammerCloudException ex)
 			{
