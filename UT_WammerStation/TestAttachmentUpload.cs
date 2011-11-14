@@ -118,39 +118,6 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		[Ignore]
-		public void TestObjectReceiveHandler_withObjectId()
-		{
-			using (HttpServer server = new HttpServer(80))
-			{
-				server.AddHandler("/test/", new AttachmentUploadHandler(mongo, groupStoreMap));
-				server.Start();
-
-				FakeClient client = new FakeClient("http://localhost/test/",
-															"multipart/form-data; boundary=AaB03x");
-				FakeClientResult result = client.PostFile("ObjectUpload1.txt");
-
-
-				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
-										<ObjectUploadResponse>(result.ResponseAsText);
-
-				Assert.AreEqual(200, res.status);
-				Assert.IsNotNull(res.timestamp);
-				Assert.AreEqual(0, res.api_ret_code);
-				Assert.AreEqual("Success", res.api_ret_msg);
-				Assert.AreEqual("object_id1", res.object_id);
-
-
-				using (FileStream fs = File.OpenRead(@"resource\object_id1.jpeg"))
-				using (StreamReader ss = new StreamReader(fs))
-				{
-					string fileContent = ss.ReadToEnd();
-					Assert.AreEqual("1234567890abcdefghij", fileContent);
-				}
-			}
-		}
-
-		[TestMethod]
 		public void TestObjectReceiveHandler_UploadNewOrignalImage()
 		{
 			using (HttpServer server = new HttpServer(80))

@@ -50,6 +50,10 @@ namespace Wammer.Station
 					imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta),
 																	Parameters["image_meta"], true);
 
+				// Assuming client only request (cover) image for doc attachments and
+				// station always don't have (cover) image
+				if (Parameters["target"] != null && Parameters["target"].Equals("image"))
+					TunnelToCloud();
 
 				string namePart = objectId;
 				string metaStr = "";
