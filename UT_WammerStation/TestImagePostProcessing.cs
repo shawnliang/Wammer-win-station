@@ -140,8 +140,8 @@ namespace UT_WammerStation
 				cloud.Start();
 
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
-														"http://localhost:80/test/", imageRawData,
-										"group1", "orig_name.jpeg", "image/jpeg", ImageMeta.Origin);
+					"http://localhost:80/test/", imageRawData, "group1", null,
+					"orig_name.jpeg", "image/jpeg", ImageMeta.Origin, "apiKey1", "token1");
 
 				Assert.IsTrue(evtHandler.EventReceived());
 			}
@@ -157,10 +157,10 @@ namespace UT_WammerStation
 				server.Start();
 
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
-														"http://localhost:80/test/", imageRawData,
-									"group1", "orig_name.jpeg", "image/jpeg", ImageMeta.Origin);
+					"http://localhost:80/test/", imageRawData, "group1", null,
+					"orig_name.jpeg", "image/jpeg", ImageMeta.Origin, "apikey1", "token1");
 
-				Assert.AreEqual("thisIsASessionToken",
+				Assert.AreEqual("token1", 
 					DummyImageUploadHandler.recvParameters["session_token"]);
 			}
 		}
@@ -186,7 +186,8 @@ namespace UT_WammerStation
 
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
 														"http://localhost:80/test/", imageRawData,
-									"group1", "orig_name2.jpeg", "image/jpeg", ImageMeta.Origin);
+									"group1", null, "orig_name2.jpeg", "image/jpeg", 
+									ImageMeta.Origin, "key", "token");
 
 				// verify
 				Assert.IsTrue(DummyImageUploadHandler.Wait());
@@ -231,8 +232,8 @@ namespace UT_WammerStation
 				server.Start();
 
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
-														"http://localhost:80/test/", imageRawData,
-							"group1", object_id1, "orig_name2.png", "image/png", ImageMeta.Origin);
+					"http://localhost:80/test/", imageRawData, "group1", object_id1, 
+					"orig_name2.png", "image/png", ImageMeta.Origin, "apikey1", "token1");
 
 				// verify saved file
 				using (FileStream f = fileStore.Load(object_id1+".png"))
@@ -277,8 +278,8 @@ namespace UT_WammerStation
 
 				string oid = Guid.NewGuid().ToString();
 				ObjectUploadResponse res = Wammer.Cloud.Attachment.UploadImage(
-														"http://localhost:80/test/", imageRawData,
-								"group1", oid, "orig_name2.jpeg", "image/jpeg", ImageMeta.Large);
+					"http://localhost:80/test/", imageRawData, "group1", oid, 
+					"orig_name2.jpeg", "image/jpeg", ImageMeta.Large, "apikey1", "token1");
 
 				// verify
 				Assert.AreEqual(oid, res.object_id);

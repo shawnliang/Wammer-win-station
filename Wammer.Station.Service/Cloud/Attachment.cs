@@ -174,33 +174,6 @@ namespace Wammer.Cloud
 	{
 		#region Upload utility functions
 		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string groupId,
-							string objectId, string fileName, string contentType, ImageMeta meta)
-		{
-
-			Dictionary<string, object> pars = new Dictionary<string, object>();
-			pars["type"] = "image";
-			pars["image_meta"] = meta.ToString().ToLower();
-			pars["session_token"] = Wammer.Station.StationInfo.SessionToken;
-			pars["apikey"] = CloudServer.APIKey;
-			if (objectId != null)
-				pars["object_id"] = objectId;
-			pars["group_id"] = groupId;
-			pars["file"] = imageData;
-			HttpWebResponse _webResponse = 
-				Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
-				url,
-				"Mozilla 4.0+",
-				pars,
-				fileName,
-				contentType);
-
-			using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
-			{
-				return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
-			}
-		}
-
-		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string groupId,
 											string objectId, string fileName, string contentType,
 											ImageMeta meta, string apiKey, string token)
 		{
@@ -226,23 +199,6 @@ namespace Wammer.Cloud
 			{
 				return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
 			}
-		}
-
-		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, 
-							string group_id, string fileName, string contentType, ImageMeta meta)
-		{
-			return UploadImage(url, imageData, group_id, null, fileName, contentType, meta);
-		}
-
-		public static ObjectUploadResponse UploadImage(byte[] imageData, string group_id,
-			string objectId, string fileName, string contentType, ImageMeta meta)
-		{
-			string url = string.Format("http://{0}:{1}/{2}/attachments/upload/",
-				Cloud.CloudServer.HostName,
-				Cloud.CloudServer.Port,
-				CloudServer.DEF_BASE_PATH);
-
-			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta);
 		}
 
 		public static ObjectUploadResponse UploadImage(byte[] imageData, string group_id,
