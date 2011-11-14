@@ -192,17 +192,14 @@ namespace UT_WammerStation
 				// verify
 				Assert.IsTrue(DummyImageUploadHandler.Wait());
 				Assert.AreEqual(1, DummyImageUploadHandler.recvFiles.Count);
-				string thumbnail_id = Path.GetFileNameWithoutExtension(
-														DummyImageUploadHandler.recvFiles[0].Name);
-				Guid thumbnail_guid = new Guid(thumbnail_id);
-				Assert.AreNotEqual(thumbnail_id, res.object_id); // a new id is created for thumnail
+				Assert.AreEqual(res.object_id + "_small.jpeg", DummyImageUploadHandler.recvFiles[0].Name);
 
 				Assert.AreEqual("image/jpeg", DummyImageUploadHandler.recvFiles[0].ContentType);
 				Assert.AreEqual(res.object_id, DummyImageUploadHandler.recvParameters["object_id"]);
 				Assert.AreEqual("small", DummyImageUploadHandler.recvParameters["image_meta"]);
 				Assert.AreEqual("image", DummyImageUploadHandler.recvParameters["type"]);
 
-				using (FileStream f = fileStore.Load(thumbnail_id + ".jpeg"))
+				using (FileStream f = fileStore.Load(res.object_id + "_small.jpeg"))
 				{
 					Bitmap saveImg = new Bitmap(f);
 					Assert.AreEqual((int)Wammer.Cloud.ImageMeta.Small, saveImg.Width);
@@ -352,7 +349,7 @@ namespace UT_WammerStation
 			Assert.AreEqual(120, doc.image_meta.small.width);
 			Assert.AreEqual(90, doc.image_meta.small.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.small.mime_type);
-			new Guid(Path.GetFileNameWithoutExtension(doc.image_meta.small.file_name));
+			Assert.AreEqual(object_id1 + "_small.jpeg", doc.image_meta.small.file_name);
 			Assert.IsTrue(doc.image_meta.small.file_size > 0);
 			Assert.IsTrue(doc.image_meta.small.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 		}
@@ -394,8 +391,7 @@ namespace UT_WammerStation
 			Assert.AreEqual(720, doc.image_meta.medium.width);
 			Assert.AreEqual(540, doc.image_meta.medium.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.medium.mime_type);
-			//Assert.AreEqual(object_id1+"_medium.jpeg", doc.image_meta.medium.file_name);
-			new Guid(Path.GetFileNameWithoutExtension(doc.image_meta.medium.file_name));
+			Assert.AreEqual(object_id1+"_medium.jpeg", doc.image_meta.medium.file_name);
 			Assert.IsTrue(doc.image_meta.medium.file_size > 0);
 			Assert.IsTrue(doc.image_meta.medium.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 
@@ -405,7 +401,7 @@ namespace UT_WammerStation
 			Assert.AreEqual(1024, doc.image_meta.large.width);
 			Assert.AreEqual(768, doc.image_meta.large.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.large.mime_type);
-			new Guid(Path.GetFileNameWithoutExtension(doc.image_meta.large.file_name));
+			Assert.AreEqual(object_id1 + "_large.jpeg", doc.image_meta.large.file_name);
 			Assert.IsTrue(doc.image_meta.large.file_size > 0);
 			Assert.IsTrue(doc.image_meta.large.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 
@@ -415,7 +411,7 @@ namespace UT_WammerStation
 			Assert.AreEqual(128, doc.image_meta.square.width);
 			Assert.AreEqual(128, doc.image_meta.square.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.square.mime_type);
-			new Guid(Path.GetFileNameWithoutExtension(doc.image_meta.square.file_name));
+			Assert.AreEqual(object_id1 + "_square.jpeg", doc.image_meta.square.file_name);
 			Assert.IsTrue(doc.image_meta.square.file_size > 0);
 			Assert.IsTrue(doc.image_meta.square.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 		}

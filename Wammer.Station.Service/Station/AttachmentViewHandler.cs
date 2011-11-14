@@ -53,7 +53,7 @@ namespace Wammer.Station
 				// Assuming client only request (cover) image for doc attachments and
 				// station always don't have (cover) image
 				if (Parameters["target"] != null && Parameters["target"].Equals("image"))
-					TunnelToCloud();
+					throw new FileNotFoundException();
 
 				string namePart = objectId;
 				string metaStr = "";
@@ -65,10 +65,7 @@ namespace Wammer.Station
 				
 				Attachment doc = attachments.FindOne(Query.EQ("_id", objectId));
 				if (doc == null)
-				{
-					TunnelToCloud();
-					return;
-				}
+					throw new FileNotFoundException();
 
 				using (FileStream fs = groupFolders[doc.group_id].LoadByNameWithNoSuffix(namePart))
 				{
@@ -93,7 +90,7 @@ namespace Wammer.Station
 			}
 			catch (FileNotFoundException e)
 			{
-				HttpHelper.RespondFailure(Response, e, (int)HttpStatusCode.NotFound);
+				TunnelToCloud();
 			}
 		}
 	}
