@@ -134,7 +134,9 @@ namespace Wammer.Cloud
 			try
 			{
 				agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-				response = agent.UploadString(url, "POST", postData);
+				//response = agent.UploadString(url, "POST", postData);
+				byte[] rawResponse = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(postData));
+				response = Encoding.UTF8.GetString(rawResponse);
 				resObj = fastJSON.JSON.Instance.ToObject<T>(response);
 			}
 			catch (WebException e)
