@@ -54,7 +54,9 @@ namespace Wammer.Station
 				FileStorage storage = new FileStorage(driver.folder);
 				foreach (UserGroup group in driver.groups)
 				{
-					status.diskusage.Add(new DiskUsage { group_id = group.group_id, used = storage.GetUsedSize(), avail = storage.GetAvailSize() });
+					status.diskusage.Add(new DiskUsage { group_id = group.group_id,
+														 used = storage.GetUsedSize().ToString(),
+														 avail = storage.GetAvailSize().ToString() });
 				}
 			}
 
@@ -144,8 +146,9 @@ namespace Wammer.Station
 	public class DiskUsage
 	{
 		public string group_id { get; set; }
-		public long used { get; set; }
-		public long avail { get; set; }
+		// declare used & avail as string to avoid BSON serialization trouble of long.
+		public string used { get; set; }
+		public string avail { get; set; }
 	}
 
 }
