@@ -83,6 +83,19 @@ namespace Wammer.Cloud
 			CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters);
 		}
 
+		public void Offline(WebClient agent)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ "station_id", this.Id },
+				{ "session_token", this.Token },
+				{ "apikey", CloudServer.APIKey }
+			};
+
+			StationHeartbeatResponse res =
+				CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/offline", parameters);		
+		}
+
 		public string Id { get; private set;}
 		public string Token { get; private set;}
 

@@ -12,7 +12,12 @@ namespace Wammer.Station
 
 		public StationTimer()
 		{
-			this.statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);
+			statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);
+		}
+
+		public void Stop()
+		{
+			statusChecker.Stop();
 		}
 	}
 }
