@@ -319,8 +319,9 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestHandleImageAttachmentSaved()
 		{
-			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs(
-				new Attachment
+			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs
+			{
+				Attachment = new Attachment
 				{
 					title = "title1",
 					mime_type = "image/jpeg",
@@ -328,9 +329,11 @@ namespace UT_WammerStation
 					RawData = imageRawData,
 					object_id = object_id1
 				},
-				ImageMeta.Origin,
-				mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments")
-			);
+				Meta = ImageMeta.Origin,
+				DbDocs = mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments"),
+				UserApiKey = "key1",
+				USerSessionToken = "token1"
+			};
 
 			ImagePostProcessing post = new ImagePostProcessing(new FileStorage("resource"));
 			post.HandleImageAttachmentSaved(this, args);
@@ -357,8 +360,9 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestHandleImageCompleted()
 		{
-			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs(
-				new Attachment
+			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs
+			{
+				Attachment = new Attachment
 				{
 					title = "title1",
 					mime_type = "image/jpeg",
@@ -366,9 +370,11 @@ namespace UT_WammerStation
 					RawData = imageRawData,
 					object_id = object_id1
 				},
-				ImageMeta.Origin,
-				mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments")
-			);
+				Meta = ImageMeta.Origin,
+				DbDocs = mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments"),
+				USerSessionToken = "session1",
+				UserApiKey = "apikey1"
+			};
 
 			ImagePostProcessing post = new ImagePostProcessing(new FileStorage("resource"));
 			post.HandleImageAttachmentCompletedSync(args);

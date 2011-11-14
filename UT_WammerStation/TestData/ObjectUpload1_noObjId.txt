@@ -25,4 +25,12 @@ desc
 Content-Disposition: form-data; name="image_meta"
 
 origin
+--AaB03x
+Content-Disposition: form-data; name="apikey"
+
+key1
+--AaB03x
+Content-Disposition: form-data; name="session_token"
+
+token
 --AaB03x--

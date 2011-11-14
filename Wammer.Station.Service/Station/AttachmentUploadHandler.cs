@@ -57,16 +57,23 @@ namespace Wammer.Station
 				file.object_id = Guid.NewGuid().ToString();
 			}
 
+			if (Parameters["apikey"] == null || Parameters["session_token"] == null)
+				throw new FormatException("apikey or session_token is missing");
+
 			string savedName = GetSavedFilename(file, meta);
 			groupFolders[file.group_id].Save(savedName, file.RawData);
 			file.file_size = file.RawData.Length;
 			file.modify_time = DateTime.UtcNow;
 			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
 
-			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs(file, meta,
-																		this.attachmentCollection);
-			evtArgs.UserApiKey = Parameters["apikey"];
-			evtArgs.USerSessionToken = Parameters["session_token"];
+			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
+			{
+				Attachment = file,
+				DbDocs = this.attachmentCollection,
+				Meta = meta,
+				UserApiKey = Parameters["apikey"],
+				USerSessionToken = Parameters["session_token"]
+			};
 
 			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
 			BsonDocument existDoc = this.attachmentCollection.FindOneAs<BsonDocument>(
@@ -212,28 +219,22 @@ namespace Wammer.Station
 
 	public class ImageAttachmentEventArgs : AttachmentEventArgs
 	{
-		public ImageMeta Meta { get; private set; }
+		public ImageMeta Meta { get; set; }
 		public MongoCollection DbDocs { get; set; }
 		public string UserApiKey { get; set; }
 		public string USerSessionToken { get; set; }
 
-		public ImageAttachmentEventArgs(Attachment attachment, ImageMeta meta,
-																			MongoCollection dbDocs)
-			:base(attachment)
+		public ImageAttachmentEventArgs()
 		{
-			this.Meta = meta;
-			this.DbDocs = dbDocs;
 		}
 	}
 
 	public class AttachmentEventArgs : EventArgs
 	{
-		public Attachment Attachment { get; private set; }
+		public Attachment Attachment { get; set; }
 
-		public AttachmentEventArgs(Attachment attachment)
-			: base()
+		public AttachmentEventArgs()
 		{
-			this.Attachment = attachment;
 		}
 	}
 }
