@@ -32,7 +32,8 @@ namespace TestCloud
 
 
 						ObjectUploadResponse origResp = Attachment.UploadImage(
-										buffer, "group1", null, "big.jpeg" , "image/jpeg", ImageMeta.Small);
+										buffer, "group1", null, "big.jpeg" , "image/jpeg", ImageMeta.Small,
+										CloudServer.APIKey, user.Token);
 
 						Console.WriteLine("orig image uploaded: " + origResp.object_id);
 
@@ -40,7 +41,7 @@ namespace TestCloud
 						string thbnId = Guid.NewGuid().ToString();
 						ObjectUploadResponse thbnResp = Attachment.UploadImage(
 										buffer, "group1", origResp.object_id, thbnId + ".jpeg", "image/jpeg",
-										ImageMeta.Origin);
+										ImageMeta.Origin, CloudServer.APIKey, user.Token);
 
 						Console.WriteLine("thumbnail uploaded: " + thbnId);
 					}
