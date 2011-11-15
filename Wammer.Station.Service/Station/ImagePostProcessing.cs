@@ -178,8 +178,19 @@ namespace Wammer.Station
 
 			try
 			{
-				UpstreamThumbnail(args.Thumbnail, args.GroupId, args.FullImageId, args.ImageMeta,
-					args.UserApiKey, args.UserSessionToken);
+				try
+				{
+					UpstreamThumbnail(args.Thumbnail, args.GroupId, args.FullImageId, args.ImageMeta,
+						args.UserApiKey, args.UserSessionToken);
+				}
+				catch (WebException e)
+				{
+					WammerCloudException ex = new WammerCloudException(
+						"Unable to upstream " + args.Thumbnail.file_name +
+						" thumbnail of orig image " + args.FullImageId, e);
+
+					logger.Warn(ex.ToString());
+				}
 			}
 			catch (Exception e)
 			{

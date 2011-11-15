@@ -129,6 +129,13 @@ namespace UT_WammerStation
 			);
 		}
 
+		[TestCleanup]
+		public void tearDown()
+		{
+			if (mongodb.GetDatabase("wammer").CollectionExists("attachments"))
+				mongodb.GetDatabase("wammer").DropCollection("attachments");
+		}
+
 		[TestMethod]
 		public void TestObjectUploadHandler_ResponseCompleted()
 		{

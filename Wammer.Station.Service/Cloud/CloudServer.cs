@@ -141,8 +141,7 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				string resText = GetErrResponseText(e);
-				throw new WammerCloudException("Wammer cloud error", postData, resText, e);
+				throw new WammerCloudException("Wammer cloud error", postData, e);
 			}
 			catch (Exception e)
 			{
@@ -159,23 +158,6 @@ namespace Wammer.Cloud
 
 
 			return resObj;
-		}
-
-		private static string GetErrResponseText(WebException e)
-		{
-			try
-			{
-				using (BinaryReader r = new BinaryReader(e.Response.GetResponseStream()))
-				{
-					byte[] res = r.ReadBytes((int)e.Response.ContentLength);
-					return Encoding.UTF8.GetString(res);
-				}
-			}
-			catch
-			{
-				// don't care if error response is unavailable
-				return null;
-			}
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
+using System.IO;
 
 namespace Wammer.Cloud
 {
@@ -43,6 +44,22 @@ namespace Wammer.Cloud
 			this.wammerError = TryParseWammerError(this.response);
 		}
 
+		public WammerCloudException(string msg, WebException innerException)
+			:base(msg, innerException)
+		{
+			this.response = GetErrResponseText(innerException);
+			this.wammerError = TryParseWammerError(this.response);
+		}
+
+		public WammerCloudException(string msg, string postData, WebException innerException)
+			: base(msg, innerException)
+		{
+			this.response = GetErrResponseText(innerException);
+			this.request = postData;
+			this.wammerError = TryParseWammerError(this.response);
+			this.httpError = innerException.Status;
+		}
+
 		public WammerCloudException(string msg, WebExceptionStatus httpError, int wammerError)
 			: base(msg)
 		{
@@ -70,6 +87,23 @@ namespace Wammer.Cloud
 		public int WammerError
 		{
 			get { return wammerError; }
+		}
+
+		private static string GetErrResponseText(WebException e)
+		{
+			try
+			{
+				using (BinaryReader r = new BinaryReader(e.Response.GetResponseStream()))
+				{
+					byte[] res = r.ReadBytes((int)e.Response.ContentLength);
+					return Encoding.UTF8.GetString(res);
+				}
+			}
+			catch
+			{
+				// don't care if error response is unavailable
+				return null;
+			}
 		}
 
 		private static int TryParseWammerError(string resText)
