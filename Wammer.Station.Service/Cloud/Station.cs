@@ -4,6 +4,8 @@ using System.Text;
 using System.Net;
 using System.Web;
 
+using Wammer.Model;
+
 namespace Wammer.Cloud
 {
 	public class Station
@@ -34,8 +36,7 @@ namespace Wammer.Cloud
 			Dictionary<object, object> param = new Dictionary<object, object>(optionals);
 			param.Add(CloudServer.PARAM_SESSION_TOKEN, sessionToken);
 			param.Add(CloudServer.PARAM_STATION_ID, stationId);
-			param.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
-			
+			param.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);			
 
 			StationSignUpResponse res =
 				CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param);

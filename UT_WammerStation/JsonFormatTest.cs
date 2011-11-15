@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wammer.Cloud;
+using Wammer.Model;
 using System.Collections.Specialized;
 
 namespace UT_WammerStation
@@ -51,7 +52,7 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestAttachment_RawDataIsNotSerialized()
 		{
-			Attachment a = new Attachment
+			Attachments a = new Attachments
 			{
 				RawData = null,
 				title = "123"

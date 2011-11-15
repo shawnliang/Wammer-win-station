@@ -10,6 +10,7 @@ using System.Net;
 using System.Collections.Specialized;
 using Wammer.Cloud;
 using Wammer.Utility;
+using Wammer.Model;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
@@ -33,23 +34,7 @@ namespace Wammer.Station
 		ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public class StationManagementService : IStationManagementService
 	{
-		private MongoServer mongodb;
-		private string stationId;
-		private MongoCollection<StationDriver> drivers;
 		private StatusChecker statusChecker;
-
-		public event EventHandler<DriverEventArgs> DriverAdded;
-
-		public StationManagementService(MongoServer mongodb, string stationId)
-		{
-			this.mongodb = mongodb;
-			this.stationId = stationId;
-
-			if (!mongodb.GetDatabase("wammer").CollectionExists("drivers"))
-				mongodb.GetDatabase("wammer").CreateCollection("drivers");
-
-			this.drivers = mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers");
-		}
 
 		public Stream AddDriver(Stream requestContent)
 		{
@@ -68,7 +53,7 @@ namespace Wammer.Station
 										HttpStatusCode.BadRequest, (int)StationApiError.BadPath,
 										"folder is not an absolute path");
 
-			if (drivers.FindOne(Query.EQ("email", email)) != null)
+			if (Drivers.collection.FindOne(Query.EQ("email", email)) != null)
 				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 					HttpStatusCode.Conflict, (int)StationApiError.DriverExist,
 					"already registered");
@@ -76,12 +61,9 @@ namespace Wammer.Station
 
 			using (WebClient agent = new WebClient())
 			{
-				User user = null;
-				string stationToken = null;
-
 				try
 				{
-					user = User.LogIn(agent, email, password);
+					User user = User.LogIn(agent, email, password);
 
 					if (user.Stations != null && user.Stations.Count > 0)
 						return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
@@ -97,13 +79,31 @@ namespace Wammer.Station
 							}
 						);
 
+					string baseurl = NetworkHelper.GetBaseURL();
 					Dictionary<object, object> location = new Dictionary<object, object>
-															{ {"location", StationInfo.BaseURL} };
+															{ {"location", baseurl} };
 
+					StationInfo sinfo = StationInfo.collection.FindOne();
+					string stationId = (string)StationRegistry.GetValue("stationId", "");
 					Cloud.Station station = Cloud.Station.SignUp(agent, 
 																stationId, user.Token, location);
 					station.LogOn(agent, location);
-					stationToken = station.Token;
+					Drivers.collection.Save(
+						new Drivers {
+							email = email,
+							folder = folder,
+							user_id = user.Id,
+							groups = user.Groups
+						}
+					);
+					StationInfo.collection.Save(
+						new StationInfo { 
+							Id = stationId, 
+							SessionToken = station.Token, 
+							Location = NetworkHelper.GetBaseURL(), 
+							LastLogOn = DateTime.Now
+						}
+					);
 				}
 				catch (WammerCloudException ex)
 				{
@@ -122,19 +122,6 @@ namespace Wammer.Station
 							HttpStatusCode.BadRequest, (int)StationApiError.Error,
 							"Error logon station: " + ex.ToString());
 				}
-
-
-				StationDriver driver = new StationDriver
-				{
-					email = email,
-					folder = folder,
-					user_id = user.Id,
-					groups = user.Groups
-				};
-
-				drivers.Insert(driver);
-
-				OnDriverAdded(new DriverEventArgs { Driver = driver, StationToken = stationToken, LastLogOn = DateTime.Now, Location = StationInfo.IPv4Address});
 			}
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
@@ -146,29 +133,6 @@ namespace Wammer.Station
 			StationStatus res = StatusChecker.GetStatus();
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
-		}
-
-		private void OnDriverAdded(DriverEventArgs evt)
-		{
-			EventHandler<DriverEventArgs> handler = this.DriverAdded;
-
-			if (handler != null)
-			{
-				handler(this, evt);
-			}
-		}
-	}
-
-	public class DriverEventArgs : EventArgs
-	{
-		public StationDriver Driver { get; set; }
-		public string StationToken { get; set; }
-		public DateTime LastLogOn { get; set; }
-		public IPAddress Location { get; set; }
-
-		public DriverEventArgs()
-			:base()
-		{
 		}
 	}
 

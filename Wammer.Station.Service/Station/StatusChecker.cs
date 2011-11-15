@@ -7,6 +7,7 @@ using System.Net;
 
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.Utility;
 using MongoDB.Bson;
 
 namespace Wammer.Station
@@ -22,28 +23,13 @@ namespace Wammer.Station
 			timer = new Timer(tcb, null, 0, timerPeriod);
 		}
 
-		public static IPAddress[] GetIPAddressesV4()
-		{
-			IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
-			List<IPAddress> ret = new List<IPAddress>();
-
-			foreach (IPAddress ip in ips)
-			{
-				if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork &&
-					!IPAddress.IsLoopback(ip))
-					ret.Add(ip);
-			}
-
-			return ret.ToArray();
-		}
-		
 		public static StationStatus GetStatus()
 		{
-			IPAddress ip = GetIPAddressesV4()[0];
+			string baseurl = NetworkHelper.GetBaseURL();
 
 			StationStatus status = new StationStatus
 			{
-				location = "http://" + ip + ":9981/",
+				location = baseurl,
 				diskusage = new List<DiskUsage>()
 			};
 
@@ -77,12 +63,12 @@ namespace Wammer.Station
 					{
 						try
 						{
-							IPAddress ip = GetIPAddressesV4()[0];
-							if (ip != sinfo.Location)
+							string baseurl = NetworkHelper.GetBaseURL();
+							if (baseurl != sinfo.Location)
 							{
-								// update location if ip changed
-								sinfo.Location = ip;
-								Dictionary<object, object> locParam = new Dictionary<object, object> { { "location", "http://" + ip + ":9981/" } };
+								// update location if baseurl changed
+								sinfo.Location = baseurl;
+								Dictionary<object, object> locParam = new Dictionary<object, object> { { "location", baseurl } };
 								station.LogOn(agent, locParam);
 							}
 							else

@@ -7,18 +7,16 @@ using System.IO;
 using Wammer.MultiPart;
 using Wammer.Cloud;
 using Wammer.Utility;
+using Wammer.Model;
 
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using MongoDB.Bson;
 
 namespace Wammer.Station
 {
 	public class AttachmentUploadHandler : HttpHandler
 	{
-		private MongoServer mongodb;
-		private MongoCollection attachmentCollection;
-		AtomicDictionary<string, FileStorage> groupFolders;
-
 		/// <summary>
 		/// Fired on the uploaded attachment is saved
 		/// </summary>
@@ -28,18 +26,9 @@ namespace Wammer.Station
 		/// </summary>
 		public event EventHandler<ImageAttachmentEventArgs> ImageAttachmentCompleted;
 
-		public AttachmentUploadHandler(MongoServer mongodb, 
-												AtomicDictionary<string, FileStorage> groupFolders)
+		public AttachmentUploadHandler()
 			: base()
 		{
-			this.mongodb = mongodb;
-			this.groupFolders = groupFolders;
-
-			MongoDatabase db = mongodb.GetDatabase("wammer");
-			if (!db.CollectionExists("attachments"))
-				db.CreateCollection("attachments");
-
-			this.attachmentCollection = db.GetCollection("attachments");
 		}
 
 		public override object Clone()
@@ -49,7 +38,7 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			Attachment file = GetFileFromMultiPartData();
+			Attachments file = GetFileFromMultiPartData();
 			ImageMeta meta = GetImageMeta();
 
 			if (file.object_id == null)
@@ -61,7 +50,9 @@ namespace Wammer.Station
 				throw new FormatException("apikey or session_token is missing");
 
 			string savedName = GetSavedFilename(file, meta);
-			groupFolders[file.group_id].Save(savedName, file.RawData);
+			Drivers driver = Drivers.collection.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));
+			FileStorage storage = new FileStorage(driver.folder);
+			storage.Save(savedName, file.RawData);
 			file.file_size = file.RawData.Length;
 			file.modify_time = DateTime.UtcNow;
 			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
@@ -69,22 +60,22 @@ namespace Wammer.Station
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
 			{
 				Attachment = file,
-				DbDocs = this.attachmentCollection,
+				DbDocs = Attachments.collection,
 				Meta = meta,
 				UserApiKey = Parameters["apikey"],
 				USerSessionToken = Parameters["session_token"]
 			};
 
 			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
-			BsonDocument existDoc = this.attachmentCollection.FindOneAs<BsonDocument>(
+			BsonDocument existDoc = Attachments.collection.FindOneAs<BsonDocument>(
 													new QueryDocument("_id", file.object_id));
 			if (existDoc != null)
 			{
 				existDoc.DeepMerge(dbDoc);
-				this.attachmentCollection.Save(existDoc);
+				Attachments.collection.Save(existDoc);
 			}
 			else
-				this.attachmentCollection.Insert(dbDoc);
+				Attachments.collection.Insert(dbDoc);
 
 
 			if (file.type == AttachmentType.image)
@@ -97,7 +88,7 @@ namespace Wammer.Station
 				OnImageAttachmentCompleted(evtArgs);
 		}
 
-		private static BsonDocument CreateDbDocument(Attachment file, ImageMeta meta,
+		private static BsonDocument CreateDbDocument(Attachments file, ImageMeta meta,
 																				string savedName)
 		{
 			if (meta == ImageMeta.None)
@@ -110,7 +101,7 @@ namespace Wammer.Station
 			}
 			else
 			{
-				Attachment thumbnailAttachment = new Attachment(file);
+				Attachments thumbnailAttachment = new Attachments(file);
 				thumbnailAttachment.image_meta = new ImageProperty();
 				thumbnailAttachment.image_meta.SetThumbnailInfo(meta,
 					new ThumbnailInfo
@@ -159,7 +150,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private static string GetSavedFilename(Attachment file, ImageMeta meta)
+		private static string GetSavedFilename(Attachments file, ImageMeta meta)
 		{
 			string name = file.object_id;
 
@@ -179,9 +170,9 @@ namespace Wammer.Station
 			}
 		}
 
-		private Attachment GetFileFromMultiPartData()
+		private Attachments GetFileFromMultiPartData()
 		{
-			Attachment file = new Attachment();
+			Attachments file = new Attachments();
 
 			file.object_id = Parameters["object_id"];
 			file.RawData = Files[0].Data;
@@ -231,7 +222,7 @@ namespace Wammer.Station
 
 	public class AttachmentEventArgs : EventArgs
 	{
-		public Attachment Attachment { get; set; }
+		public Attachments Attachment { get; set; }
 
 		public AttachmentEventArgs()
 		{

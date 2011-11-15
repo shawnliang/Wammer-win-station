@@ -9,6 +9,7 @@ using System.Net;
 
 using Wammer.Utility;
 using Wammer.Cloud;
+using Wammer.Model;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -29,20 +30,6 @@ namespace Wammer.Station
 		ConcurrencyMode=ConcurrencyMode.Multiple)]
 	public class AttachmentService: IAttatchmentService
 	{
-		private readonly MongoServer mongodb;
-		private readonly MongoCollection<Attachment> attachments;
-
-		public AttachmentService(MongoServer mongo)
-		{
-			this.mongodb = mongo;
-
-			if (!mongo.GetDatabase("wammer").CollectionExists("attachments"))
-				mongo.GetDatabase("wammer").CreateCollection("attachments");
-
-			this.attachments = mongo.GetDatabase("wammer").
-														GetCollection<Attachment>("attachments");
-		}
-
 		public Stream GetAttachmentInfo(string object_id, string session_token, string apikey)
 		{
 			try
@@ -51,7 +38,7 @@ namespace Wammer.Station
 					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 						HttpStatusCode.BadRequest, -1, "missing parameter: object_id");
 
-				Attachment doc = attachments.FindOne(Query.EQ("_id", object_id));
+				Attachments doc = Attachments.collection.FindOne(Query.EQ("_id", object_id));
 				if (doc == null)
 					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 						HttpStatusCode.NotFound, -1, "object not found: " + object_id);

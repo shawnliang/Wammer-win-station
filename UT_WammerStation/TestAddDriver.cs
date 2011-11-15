@@ -12,6 +12,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Station;
+using Wammer.Model;
 
 namespace UT_WammerStation
 {
@@ -22,7 +23,7 @@ namespace UT_WammerStation
 
 		WebServiceHost host;
 		StationManagementService svc;
-		StationDriver addedDriver;
+		Drivers addedDriver;
 
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
@@ -33,7 +34,7 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void setUp()
 		{
-			svc = new StationManagementService(mongodb, "station_id1");
+			svc = new StationManagementService();
 			host = new WebServiceHost(svc, new Uri("http://localhost:8080/v2/station/"));
 			host.Open();
 
@@ -45,9 +46,9 @@ namespace UT_WammerStation
 			CloudServer.HostName = "localhost";
 			CloudServer.Port = 80;
 
-			mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").RemoveAll();
-			mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").Insert(
-				new StationDriver
+			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").RemoveAll();
+			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").Insert(
+				new Drivers
 				{
 					user_id = "exist_uid",
 					email = "exist@gmail.com",
@@ -66,7 +67,7 @@ namespace UT_WammerStation
 			if (Directory.Exists(@"C:\TempUT"))
 				Directory.Delete(@"C:\TempUT", true);
 
-			mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").RemoveAll();
+			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").RemoveAll();
 		}
 
 		[TestMethod]
@@ -93,12 +94,11 @@ namespace UT_WammerStation
 		    {
 				cloud.addJsonResponse(new StationSignUpResponse(200, DateTime.Now, "token2"));
 				cloud.addJsonResponse(new StationLogOnResponse(200, DateTime.Now, "token3"));
-				svc.DriverAdded += new EventHandler<DriverEventArgs>(svc_DriverAdded);
-				StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345", @"c:\TempUT\user1");
+				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345", @"c:\TempUT\user1");
 
 		        // verify db
-		        StationDriver driver = mongodb.GetDatabase("wammer").
-		            GetCollection<StationDriver>("drivers").FindOne(
+		        Drivers driver = mongodb.GetDatabase("wammer").
+		            GetCollection<Drivers>("drivers").FindOne(
 		            Query.EQ("email", "user1@gmail.com"));
 
 		        Assert.AreEqual("user1@gmail.com", driver.email);
@@ -108,16 +108,6 @@ namespace UT_WammerStation
 		        Assert.AreEqual(res1.groups[0].group_id, driver.groups[0].group_id);
 				Assert.AreEqual(res1.groups[0].name, driver.groups[0].name);
 				Assert.AreEqual(res1.groups[0].description, driver.groups[0].description);
-
-
-				// verify event is fired
-				Assert.AreEqual(driver.email, addedDriver.email);
-				Assert.AreEqual(driver.folder, addedDriver.folder);
-				Assert.AreEqual(driver.groups.Count, addedDriver.groups.Count);
-				Assert.AreEqual(driver.groups[0].description, addedDriver.groups[0].description);
-				Assert.AreEqual(driver.groups[0].group_id, addedDriver.groups[0].group_id);
-				Assert.AreEqual(driver.groups[0].name, addedDriver.groups[0].name);
-				Assert.AreEqual(driver.user_id, addedDriver.user_id);
 		    }
 		}
 
@@ -139,7 +129,7 @@ namespace UT_WammerStation
 			{
 				try
 				{
-					StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345", @"c:\TempUT\user1");
+					Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345", @"c:\TempUT\user1");
 				}
 				catch (WammerCloudException e)
 				{
@@ -177,7 +167,7 @@ namespace UT_WammerStation
 			{
 				try
 				{
-					StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add",
+					Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add",
 						"user1@gmail.com", "12345", @"c:\TempUT\user1");
 				}
 				catch (WammerCloudException e)
@@ -194,18 +184,12 @@ namespace UT_WammerStation
 			}
 		}
 
-		void svc_DriverAdded(object sender, DriverEventArgs e)
-		{
-			Assert.IsNotNull(sender);
-			addedDriver = e.Driver;
-		}
-
 		[TestMethod]
 		public void TestAddRegisteredDriver()
 		{
 			try
 			{
-				StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "exist@gmail.com", "12345", @"c:\TempUT\user1");
+				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "exist@gmail.com", "12345", @"c:\TempUT\user1");
 			}
 			catch (WammerCloudException e)
 			{
@@ -221,7 +205,7 @@ namespace UT_WammerStation
 		{
 			try
 			{
-				StationDriver.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "exist@gmail.com", "12345", @"TempUT\user1");
+				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "exist@gmail.com", "12345", @"TempUT\user1");
 			}
 			catch (WammerCloudException e)
 			{

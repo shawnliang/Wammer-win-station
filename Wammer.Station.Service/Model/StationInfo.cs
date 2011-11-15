@@ -18,6 +18,6 @@ namespace Wammer.Model
 		public string Id { get; set; }
 		public string SessionToken { get; set; }
 		public DateTime LastLogOn { get; set; }
-		public IPAddress Location { get; set; }
+		public string Location { get; set; }
 	}
 }

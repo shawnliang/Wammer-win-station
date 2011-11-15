@@ -26,8 +26,6 @@ namespace Wammer.Station.Service
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 		private HttpServer server;
 		private List<WebServiceHost> serviceHosts = new List<WebServiceHost>();
-		private AtomicDictionary<string, FileStorage> groupFolderMap = 
-			new AtomicDictionary<string, FileStorage>();
 		private StationTimer stationTimer;
 
 		public StationService()
@@ -51,13 +49,8 @@ namespace Wammer.Station.Service
 		{
 			Environment.CurrentDirectory = Path.GetDirectoryName(
 									Assembly.GetExecutingAssembly().Location);
-			MongoDB.Driver.MongoServer mongodb = MongoDB.Driver.MongoServer.Create(
-									string.Format("mongodb://localhost:{0}/?safe=true",
-									StationRegistry.GetValue("dbPort", 10319)));
 
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
-			StationInfo.Init(Database.mongodb);
-			LoadGroupFolderMapping(Database.mongodb);
 			stationTimer = new StationTimer();
 
 			server = new HttpServer(9981); // TODO: remove hard code
@@ -73,9 +66,9 @@ namespace Wammer.Station.Service
 
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
-							new AttachmentViewHandler(Database.mongodb, groupFolderMap));
+							new AttachmentViewHandler());
 
-			AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler(Database.mongodb, groupFolderMap);
+			AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
 			ImagePostProcessing imgProc = new ImagePostProcessing(storage);
 			attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
 			attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
@@ -86,30 +79,10 @@ namespace Wammer.Station.Service
 
 
 			// Start WCF REST services
-			AddWebServiceHost(new AttachmentService(Database.mongodb), 9981, "attachments/");
+			AddWebServiceHost(new AttachmentService(), 9981, "attachments/");
 			
-			StationManagementService statMgmtSvc = new StationManagementService(Database.mongodb, StationInfo.Id);
-			statMgmtSvc.DriverAdded += new EventHandler<DriverEventArgs>(statMgmtSvc_DriverAdded);
+			StationManagementService statMgmtSvc = new StationManagementService();
 			AddWebServiceHost(statMgmtSvc, 9981, "station/");
-		}
-
-		void statMgmtSvc_DriverAdded(object sender, DriverEventArgs e)
-		{
-			try
-			{
-				if (e.Driver.groups.Count < 1)
-					throw new Exception("Driver " + e.Driver.email + " has no associated group");
-
-				groupFolderMap.Add(
-					e.Driver.groups[0].group_id, new FileStorage(e.Driver.folder));
-
-				Model.StationInfo.collection.Save(new Model.StationInfo { Id = StationInfo.Id, SessionToken = e.StationToken, LastLogOn = e.LastLogOn, Location = e.Location });
-				//StationInfo.Save();
-			}
-			catch (Exception ex)
-			{
-				logger.Warn("Unable to add group folder mapping entry", ex);
-			}
 		}
 
 		protected override void OnStop()
@@ -134,18 +107,6 @@ namespace Wammer.Station.Service
 			svcHost.Open();
 			serviceHosts.Add(svcHost);
 		}
-
-		private void LoadGroupFolderMapping(MongoDB.Driver.MongoServer mongodb)
-		{
-			MongoDB.Driver.MongoCursor<StationDriver> drivers = 
-				mongodb.GetDatabase("wammer").GetCollection<StationDriver>("drivers").FindAll();
-
-			foreach (StationDriver driver in drivers)
-			{
-				groupFolderMap.Add(driver.groups[0].group_id, new FileStorage(driver.folder));
-			}
-		}
-
 	}
 
 

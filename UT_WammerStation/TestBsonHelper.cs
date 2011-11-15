@@ -139,22 +139,22 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void testMixedMerge()
 		{
-			Wammer.Cloud.Attachment a = new Wammer.Cloud.Attachment
+			Wammer.Model.Attachments a = new Wammer.Model.Attachments
 			{
-				type = Wammer.Cloud.AttachmentType.image,
+				type = Wammer.Model.AttachmentType.image,
 				object_id = "1234567890",
-				image_meta = new Wammer.Cloud.ImageProperty
+				image_meta = new Wammer.Model.ImageProperty
 				{
-					small = new Wammer.Cloud.ThumbnailInfo
+					small = new Wammer.Model.ThumbnailInfo
 					{
 						url = "http://localhost/"
 					}
 				}
 			};
 
-			Wammer.Cloud.Attachment b = new Wammer.Cloud.Attachment
+			Wammer.Model.Attachments b = new Wammer.Model.Attachments
 			{
-				type = Wammer.Cloud.AttachmentType.image,
+				type = Wammer.Model.AttachmentType.image,
 				title = "this is title",
 				description = "this is description"
 			};

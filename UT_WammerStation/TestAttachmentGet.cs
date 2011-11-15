@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Wammer.Station;
 using Wammer.Cloud;
+using Wammer.Model;
 using System.Net;
 using System.IO;
 using MongoDB.Driver;
@@ -24,7 +25,7 @@ namespace UT_WammerStation
 		static MongoServer mongodb;
 		static MongoDatabase wammerDb;
 		
-		Attachment doc;
+		Attachments doc;
 		string objectId1;
 		WebServiceHost host;
 		AttachmentService svc;
@@ -46,17 +47,16 @@ namespace UT_WammerStation
 
 			objectId1 = Guid.NewGuid().ToString();
 
-			MongoCollection<Attachment> att = wammerDb.GetCollection<Attachment>("attachments");
-			doc = new Attachment
+			doc = new Attachments
 			{
 				object_id = objectId1,
 				title = "title1",
 				description = "description1"
 			};
 
-			att.Insert(doc);
+			Attachments.collection.Insert(doc);
 
-			svc = new AttachmentService(mongodb);
+			svc = new AttachmentService();
 			host = new WebServiceHost(svc, new Uri("http://localhost:8080/api/"));
 			host.Open();
 		}
@@ -179,7 +179,7 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestAttachmentMD5()
 		{
-			Attachment a = new Attachment();
+			Attachments a = new Attachments();
 			byte[] data = new byte[100];
 			for (int i = 0; i < data.Length; i++)
 				data[i] = (byte)i;

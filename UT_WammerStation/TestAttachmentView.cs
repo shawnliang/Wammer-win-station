@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Wammer.Station;
 using Wammer.Cloud;
+using Wammer.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -31,7 +32,6 @@ namespace UT_WammerStation
 			mongodb = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
 			groupFolders = new AtomicDictionary<string, FileStorage>();
 			groupFolders["group1"] = new FileStorage("resource");
-
 		}
 
 		[TestInitialize]
@@ -63,7 +63,7 @@ namespace UT_WammerStation
 
 			db.CreateCollection("attachments");	
 
-			db.GetCollection<Attachment>("attachments").Insert(new Attachment
+			db.GetCollection<Attachments>("attachments").Insert(new Attachments
 			{
 				object_id = object_id1.ToString(),
 				group_id = "group1",
@@ -79,7 +79,7 @@ namespace UT_WammerStation
 				}
 			});
 
-			db.GetCollection<Attachment>("attachments").Insert(new Attachment
+			db.GetCollection<Attachments>("attachments").Insert(new Attachments
 			{
 				object_id = object_id2.ToString(),
 				type = AttachmentType.image,
@@ -92,6 +92,18 @@ namespace UT_WammerStation
 					}
 				}
 			});
+
+			List<UserGroup> groups = new List<UserGroup>();
+			groups.Add(new UserGroup { group_id = "group1", description = "group1 descript", creator_id = "driver1_id", name = "group1" });
+			Drivers.collection.Save(
+				new Drivers
+				{
+					email = "driver1@waveface.com",
+					user_id = "driver1_id",
+					folder = "resource",
+					groups = groups
+				}
+			);
 		}
 
 		[TestCleanup]
@@ -105,7 +117,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -134,7 +146,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -159,7 +171,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -184,7 +196,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -223,7 +235,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -258,7 +270,7 @@ namespace UT_WammerStation
 			using (FakeCloud cloud = new FakeCloud(writer))
 			using (HttpServer server = new HttpServer(8080))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -296,7 +308,7 @@ namespace UT_WammerStation
 			using (FakeCloud cloud = new FakeCloud(writer))
 			using (HttpServer server = new HttpServer(8080))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -338,7 +350,7 @@ namespace UT_WammerStation
 			using (FakeCloud cloud = new FakeCloud(writer))
 			using (HttpServer server = new HttpServer(8080))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler(mongodb, groupFolders));
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(

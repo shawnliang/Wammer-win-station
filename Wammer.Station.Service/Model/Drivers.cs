@@ -11,7 +11,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Model
 {
-	class Drivers
+	public class Drivers
 	{
 		[BsonIgnore]
 		public static MongoCollection<Drivers> collection = Database.wammer.GetCollection<Drivers>("drivers");

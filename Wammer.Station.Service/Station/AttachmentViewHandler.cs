@@ -7,26 +7,17 @@ using System.Collections.Specialized;
 using System.Web;
 
 using Wammer.Cloud;
+using Wammer.Model;
 using MongoDB.Driver;
-//using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
 	public class AttachmentViewHandler: HttpHandler
 	{
-		private readonly MongoServer mongodb;
-		private readonly MongoCollection<Attachment> attachments;
-		private readonly AtomicDictionary<string, FileStorage> groupFolders;
-
-		public AttachmentViewHandler(MongoServer mongodb, 
-			AtomicDictionary<string, FileStorage> groupFolders)
+		public AttachmentViewHandler()
 			:base()
 		{
-			this.groupFolders = groupFolders;
-			this.mongodb = mongodb;
-			this.attachments = mongodb.GetDatabase("wammer").
-														GetCollection<Attachment>("attachments");
 		}
 
 		public override object Clone()
@@ -63,11 +54,13 @@ namespace Wammer.Station
 					namePart += "_" + metaStr;
 				}
 				
-				Attachment doc = attachments.FindOne(Query.EQ("_id", objectId));
+				Attachments doc = Attachments.collection.FindOne(Query.EQ("_id", objectId));
 				if (doc == null)
 					throw new FileNotFoundException();
 
-				using (FileStream fs = groupFolders[doc.group_id].LoadByNameWithNoSuffix(namePart))
+				Drivers driver = Drivers.collection.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", doc.group_id)));
+				FileStorage storage = new FileStorage(driver.folder);
+				using (FileStream fs = storage.LoadByNameWithNoSuffix(namePart))
 				{
 					Response.StatusCode = 200;
 

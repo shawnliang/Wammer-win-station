@@ -8,6 +8,7 @@ using System.Threading;
 
 using Wammer.Utility;
 using Wammer.Cloud;
+using Wammer.Model;
 using log4net;
 
 using MongoDB.Driver;
@@ -39,7 +40,7 @@ namespace Wammer.Station
 					ThumbnailInfo small = MakeThumbnail(origImage, ImageMeta.Small,
 																		evt.Attachment.object_id);
 
-					Attachment update = new Attachment
+					Attachments update = new Attachments
 					{
 						object_id = evt.Attachment.object_id,
 						image_meta = new ImageProperty
@@ -98,7 +99,7 @@ namespace Wammer.Station
 					ThumbnailInfo large = MakeThumbnail(origImage, ImageMeta.Large, origImgObjectId);
 					ThumbnailInfo square = MakeThumbnail(origImage, ImageMeta.Square, origImgObjectId);
 
-					Attachment update = new Attachment
+					Attachments update = new Attachments
 					{
 						object_id = evt.Attachment.object_id,
 						image_meta = new ImageProperty
@@ -192,7 +193,7 @@ namespace Wammer.Station
 		{
 			using (MemoryStream output = new MemoryStream())
 			{
-				Cloud.Attachment.UploadImage(thumbnail.RawData, groupId, fullImgId, 
+				Attachments.UploadImage(thumbnail.RawData, groupId, fullImgId, 
 												thumbnail.file_name, "image/jpeg", meta, apiKey, token);
 
 				logger.DebugFormat("Thumbnail {0} is uploaded to Cloud", thumbnail.file_name);

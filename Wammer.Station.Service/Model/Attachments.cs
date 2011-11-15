@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
 using System.Security.Cryptography;
 
+using Wammer.Cloud;
 using Wammer.MultiPart;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
+using MongoDB.Driver;
 
-namespace Wammer.Cloud
+namespace Wammer.Model
 {
 	public enum ImageMeta
 	{
@@ -68,7 +71,7 @@ namespace Wammer.Cloud
 		{
 			get { return rawData; }
 			set
-			{ 
+			{
 				rawData = value;
 				if (rawData != null)
 				{
@@ -170,8 +173,11 @@ namespace Wammer.Cloud
 	}
 
 	[BsonIgnoreExtraElements]
-	public class Attachment
+	public class Attachments
 	{
+		[BsonIgnore]
+		public static MongoCollection<Attachments> collection = Database.wammer.GetCollection<Attachments>("attachments");
+
 		#region Upload utility functions
 		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string groupId,
 											string objectId, string fileName, string contentType,
@@ -210,7 +216,7 @@ namespace Wammer.Cloud
 				Cloud.CloudServer.Port,
 				CloudServer.DEF_BASE_PATH);
 
-			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta, 
+			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta,
 				apikey, token);
 		}
 		#endregion
@@ -264,11 +270,11 @@ namespace Wammer.Cloud
 			}
 		}
 
-		public Attachment()
+		public Attachments()
 		{
 		}
 
-		public Attachment(Attachment lhs)
+		public Attachments(Attachments lhs)
 		{
 			object_id = lhs.object_id;
 			file_name = lhs.file_name;
@@ -293,16 +299,16 @@ namespace Wammer.Cloud
 		private byte[] rawData;
 	}
 
-	public class AttachmentResponse: CloudResponse
+	public class AttachmentResponse : CloudResponse
 	{
-		public Attachment attachment { get; set; }
+		public Attachments attachment { get; set; }
 
 		public AttachmentResponse()
-			:base(200, 0, "success")
+			: base(200, 0, "success")
 		{
 		}
 
-		public AttachmentResponse(Attachment att)
+		public AttachmentResponse(Attachments att)
 			: base(200, 0, "success")
 		{
 			attachment = att;

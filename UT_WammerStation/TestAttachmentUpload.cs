@@ -9,6 +9,7 @@ using System.Net;
 using Wammer.MultiPart;
 using Wammer.Station;
 using Wammer.Cloud;
+using Wammer.Model;
 
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -70,8 +71,16 @@ namespace UT_WammerStation
 			MongoDatabase db = mongo.GetDatabase("wammer");
 			db.Drop();
 
-			groupStoreMap = new AtomicDictionary<string, FileStorage>();
-			groupStoreMap.Add("group1", storage);
+			List<UserGroup> groups = new List<UserGroup>();
+			groups.Add(new UserGroup{group_id="group1", description="group1 descript", creator_id="driver1_id", name="group1"});
+			Drivers.collection.Save(
+				new Drivers{
+					email = "driver1@waveface.com",
+					user_id = "driver1_id",
+					folder = "resource",
+					groups = groups
+				}
+			);
 		}
 
 		[TestCleanup]
@@ -122,7 +131,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new AttachmentUploadHandler(mongo, groupStoreMap));
+				server.AddHandler("/test/", new AttachmentUploadHandler());
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",
@@ -139,8 +148,8 @@ namespace UT_WammerStation
 				MongoDatabase db = mongo.GetDatabase("wammer");
 				Assert.IsNotNull(db);
 				MongoCollection<BsonDocument> attachments = db.GetCollection("attachments");
-				Attachment saveData = 
-					attachments.FindOneAs<Attachment>(new QueryDocument("_id", res.object_id));
+				Attachments saveData = 
+					attachments.FindOneAs<Attachments>(new QueryDocument("_id", res.object_id));
 
 				Assert.IsNotNull(saveData);
 				Assert.AreEqual("title1", saveData.title);
@@ -159,7 +168,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new AttachmentUploadHandler(mongo, groupStoreMap));
+				server.AddHandler("/test/", new AttachmentUploadHandler());
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",
@@ -189,7 +198,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/test/", new AttachmentUploadHandler(mongo, groupStoreMap));
+				server.AddHandler("/test/", new AttachmentUploadHandler());
 				server.Start();
 
 				FakeClient client = new FakeClient("http://localhost/test/",

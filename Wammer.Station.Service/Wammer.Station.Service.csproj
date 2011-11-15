@@ -113,13 +113,13 @@
   <ItemGroup>
     <Compile Include="Cloud\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
-    <Compile Include="Cloud\Attachment.cs" />
     <Compile Include="Cloud\ObjectUploadResponse.cs" />
     <Compile Include="Cloud\Station.cs" />
     <Compile Include="Cloud\StationSignUpResponse.cs" />
     <Compile Include="Cloud\User.cs" />
     <Compile Include="Cloud\UserLogInResponse.cs" />
     <Compile Include="Cloud\WammerCloudException.cs" />
+    <Compile Include="Model\Attachments.cs" />
     <Compile Include="Model\Drivers.cs" />
     <Compile Include="Model\StationInfo.cs" />
     <Compile Include="Station\AttachmentService.cs" />
@@ -127,13 +127,12 @@
     <Compile Include="Model\Database.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\StationApiRetCode.cs" />
-    <Compile Include="Station\StationDriver.cs" />
-    <Compile Include="Station\StationInfo.cs" />
     <Compile Include="Station\StationManagementService.cs" />
     <Compile Include="Station\StationTimer.cs" />
     <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
+    <Compile Include="Utility\NetworkHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />
     <Compile Include="MultiPart\Disposition.cs" />
     <Compile Include="MultiPart\Parser.cs" />
