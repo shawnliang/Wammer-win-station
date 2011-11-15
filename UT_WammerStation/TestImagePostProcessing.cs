@@ -120,6 +120,13 @@ namespace UT_WammerStation
 			groupFolders.Add("group1", new FileStorage("resource"));
 		}
 
+		[TestCleanup]
+		public void tearDown()
+		{
+			if (mongodb.GetDatabase("wammer").CollectionExists("attachments"))
+				mongodb.GetDatabase("wammer").DropCollection("attachments");
+		}
+
 		[TestMethod]
 		public void TestObjectUploadHandler_ResponseCompleted()
 		{
