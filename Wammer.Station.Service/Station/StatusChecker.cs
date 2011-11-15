@@ -55,8 +55,8 @@ namespace Wammer.Station
 				foreach (UserGroup group in driver.groups)
 				{
 					status.diskusage.Add(new DiskUsage { group_id = group.group_id,
-														 used = storage.GetUsedSize().ToString(),
-														 avail = storage.GetAvailSize().ToString() });
+														 used = storage.GetUsedSize(),
+														 avail = storage.GetAvailSize() });
 				}
 			}
 
@@ -102,7 +102,9 @@ namespace Wammer.Station
 						}
 					}
 
-					Dictionary<object, object> statusParam = new Dictionary<object, object> { { "status", status.ToJson() } };
+					Dictionary<object, object> statusParam = new Dictionary<object, object> {
+						{ "status", fastJSON.JSON.Instance.ToJSON(status, false, false, false, false) }
+					};
 					try
 					{
 						station.Heartbeat(agent, statusParam);
@@ -146,9 +148,8 @@ namespace Wammer.Station
 	public class DiskUsage
 	{
 		public string group_id { get; set; }
-		// declare used & avail as string to avoid BSON serialization trouble of long.
-		public string used { get; set; }
-		public string avail { get; set; }
+		public long used { get; set; }
+		public long avail { get; set; }
 	}
 
 }
