@@ -47,6 +47,9 @@ namespace Wammer.Station.Service
 
 		protected override void OnStart(string[] args)
 		{
+			if (StationRegistry.GetValue("stationId", null) == null)
+				StationRegistry.SetValue("stationId", Guid.NewGuid().ToString());
+
 			Environment.CurrentDirectory = Path.GetDirectoryName(
 									Assembly.GetExecutingAssembly().Location);
 
