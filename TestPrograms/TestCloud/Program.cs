@@ -29,19 +29,23 @@ namespace TestCloud
 						if (nread != s.Length)
 							throw new Exception("nread != s.Length");
 
-
+						if (user.Groups.Count == 0)
+							throw new InvalidDataException("User does not have a valid group");
 
 						ObjectUploadResponse origResp = Attachment.UploadImage(
-										buffer, "group1", null, "big.jpeg" , "image/jpeg", ImageMeta.Small,
-										CloudServer.APIKey, user.Token);
+										buffer, user.Groups[0].group_id, null, "big.jpeg" , 
+										"image/jpeg", ImageMeta.Small,
+										"e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2", user.Token);
 
 						Console.WriteLine("orig image uploaded: " + origResp.object_id);
 
 
 						string thbnId = Guid.NewGuid().ToString();
 						ObjectUploadResponse thbnResp = Attachment.UploadImage(
-										buffer, "group1", origResp.object_id, thbnId + ".jpeg", "image/jpeg",
-										ImageMeta.Origin, CloudServer.APIKey, user.Token);
+										buffer, user.Groups[0].group_id, origResp.object_id, 
+										thbnId + ".jpeg", "image/jpeg",
+										ImageMeta.Origin, "e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2", 
+										user.Token);
 
 						Console.WriteLine("thumbnail uploaded: " + thbnId);
 					}
