@@ -17,9 +17,10 @@ namespace TestCloud
 		{
 			try
 			{
+				string apiKey = "e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2";
 				using (WebClient agent = new WebClient())
 				{
-					User user = User.LogIn(agent, "tj.sheu@waveface.com", "tj");
+					User user = User.LogIn(agent, "steven.shen@waveface.com", "steven", apiKey);
 
 					string thumbnail = @"C:\Users\shawnliang\bin\0dc93a4e-7625-46d4-89bc-c3dbe2c1fbd6.jpeg";
 
@@ -33,22 +34,22 @@ namespace TestCloud
 						if (user.Groups.Count == 0)
 							throw new InvalidDataException("User does not have a valid group");
 
-						ObjectUploadResponse origResp = Attachments.UploadImage(
-										buffer, user.Groups[0].group_id, null, "big.jpeg" , 
-										"image/jpeg", ImageMeta.Small,
-										"e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2", user.Token);
-
-						Console.WriteLine("orig image uploaded: " + origResp.object_id);
-
-
 						string thbnId = Guid.NewGuid().ToString();
 						ObjectUploadResponse thbnResp = Attachments.UploadImage(
-										buffer, user.Groups[0].group_id, origResp.object_id, 
+										"http://localhost:9981/v2/attachments/upload",
+										buffer, user.Groups[0].group_id, null, 
 										thbnId + ".jpeg", "image/jpeg",
-										ImageMeta.Origin, "e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2", 
-										user.Token);
+										ImageMeta.Origin, apiKey, user.Token);
 
 						Console.WriteLine("thumbnail uploaded: " + thbnId);
+
+						ObjectUploadResponse origResp = Attachments.UploadImage(
+										"http://localhost:9981/v2/attachments/upload",
+										buffer, user.Groups[0].group_id, null, "big.jpeg",
+										"image/jpeg", ImageMeta.Origin,
+										apiKey, user.Token);
+
+						Console.WriteLine("orig image uploaded: " + origResp.object_id);
 					}
 				}
 			}

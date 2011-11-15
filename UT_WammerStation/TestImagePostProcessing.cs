@@ -182,67 +182,18 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestStationRecv_NewOriginalImage()
+		public void TestStationRecv_OldOriginalImage()
 		{
 			using (HttpServer cloud = new HttpServer(8080))
 			using (HttpServer server = new HttpServer(80))
 			{
 				FileStorage fileStore = new FileStorage("resource");
-				ImagePostProcessing postProc = new ImagePostProcessing(fileStore);
 				AttachmentUploadHandler handler = new AttachmentUploadHandler();
-
-				handler.ImageAttachmentSaved += postProc.HandleImageAttachmentSaved;
-
 				server.AddHandler("/test/", handler);
 				server.Start();
-
 				cloud.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
-																	new DummyImageUploadHandler());
+		                                                            new DummyImageUploadHandler());
 				cloud.Start();
-
-				ObjectUploadResponse res = Wammer.Model.Attachments.UploadImage(
-														"http://localhost:80/test/", imageRawData,
-									"group1", null, "orig_name2.jpeg", "image/jpeg", 
-									ImageMeta.Origin, "key", "token");
-
-				// verify
-				Assert.IsTrue(DummyImageUploadHandler.Wait());
-				Assert.AreEqual(1, DummyImageUploadHandler.recvFiles.Count);
-				Assert.AreEqual(res.object_id + "_small.jpeg", DummyImageUploadHandler.recvFiles[0].Name);
-
-				Assert.AreEqual("image/jpeg", DummyImageUploadHandler.recvFiles[0].ContentType);
-				Assert.AreEqual(res.object_id, DummyImageUploadHandler.recvParameters["object_id"]);
-				Assert.AreEqual("small", DummyImageUploadHandler.recvParameters["image_meta"]);
-				Assert.AreEqual("image", DummyImageUploadHandler.recvParameters["type"]);
-
-				using (FileStream f = fileStore.Load(res.object_id + "_small.jpeg"))
-				{
-					Bitmap saveImg = new Bitmap(f);
-					Assert.AreEqual((int)Wammer.Model.ImageMeta.Small, saveImg.Width);
-
-					Assert.AreEqual(f.Length, DummyImageUploadHandler.recvFiles[0].Data.Length);
-					f.Position = 0;
-					byte[] imageData = new byte[f.Length];
-					Assert.AreEqual(imageData.Length, f.Read(imageData, 0, imageData.Length));
-
-					for (int i = 0; i < f.Length; i++)
-					{
-						Assert.AreEqual(imageData[i], DummyImageUploadHandler.recvFiles[0].Data[i]);
-					}
-				}
-
-			}
-		}
-
-		[TestMethod]
-		public void TestStationRecv_OldOriginalImage()
-		{
-			using (HttpServer server = new HttpServer(80))
-			{
-				FileStorage fileStore = new FileStorage("resource");
-				AttachmentUploadHandler handler = new AttachmentUploadHandler();
-				server.AddHandler("/test/", handler);
-				server.Start();
 
 				ObjectUploadResponse res = Wammer.Model.Attachments.UploadImage(
 					"http://localhost:80/test/", imageRawData, "group1", object_id1, 
@@ -282,12 +233,16 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestStationRecv_NewThumbnailImage()
 		{
+			using (HttpServer cloud = new HttpServer(8080))
 			using (HttpServer server = new HttpServer(80))
 			{
 				FileStorage fileStore = new FileStorage("resource");
 				AttachmentUploadHandler handler = new AttachmentUploadHandler();
 				server.AddHandler("/test/", handler);
 				server.Start();
+				cloud.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
+																	new DummyImageUploadHandler());
+				cloud.Start();
 
 				string oid = Guid.NewGuid().ToString();
 				ObjectUploadResponse res = Wammer.Model.Attachments.UploadImage(

@@ -35,6 +35,7 @@ namespace UT_WammerStation
 		MongoServer mongo;
 		FileStorage storage;
 		AtomicDictionary<string, FileStorage> groupStoreMap;
+		ObjectUploadResponse cloudResponse;
 
 		public TestAttachmentUpload()
 		{
@@ -81,6 +82,16 @@ namespace UT_WammerStation
 					groups = groups
 				}
 			);
+
+			CloudServer.HostName = "localhost";
+			CloudServer.Port = 80;
+			cloudResponse = new ObjectUploadResponse
+			{
+				api_ret_code = 0,
+				api_ret_msg = "success",
+				status = 200,
+				timestamp = DateTime.UtcNow
+			};
 		}
 
 		[TestCleanup]
@@ -129,12 +140,13 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestObjectReceiveHandler_UploadNewOrignalImage()
 		{
-			using (HttpServer server = new HttpServer(80))
+			using (FakeCloud cloud = new FakeCloud(cloudResponse))
+			using (HttpServer server = new HttpServer(8080))
 			{
 				server.AddHandler("/test/", new AttachmentUploadHandler());
 				server.Start();
 
-				FakeClient client = new FakeClient("http://localhost/test/",
+				FakeClient client = new FakeClient("http://localhost:8080/test/",
 															"multipart/form-data; boundary=AaB03x");
 				FakeClientResult result = client.PostFile("ObjectUpload1_noObjId.txt");
 
@@ -166,12 +178,13 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestObjectReceiveHandler_withoutObjectId()
 		{
-			using (HttpServer server = new HttpServer(80))
+			using (FakeCloud cloud = new FakeCloud(cloudResponse))
+			using (HttpServer server = new HttpServer(8080))
 			{
 				server.AddHandler("/test/", new AttachmentUploadHandler());
 				server.Start();
 
-				FakeClient client = new FakeClient("http://localhost/test/",
+				FakeClient client = new FakeClient("http://localhost:8080/test/",
 															"multipart/form-data; boundary=AaB03x");
 				FakeClientResult result = client.PostFile("ObjectUpload1_noObjId.txt");
 

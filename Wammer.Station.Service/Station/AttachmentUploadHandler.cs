@@ -48,6 +48,15 @@ namespace Wammer.Station
 
 			if (Parameters["apikey"] == null || Parameters["session_token"] == null)
 				throw new FormatException("apikey or session_token is missing");
+			
+			// Upload to cloud and then save to local to ensure cloud post API
+			// can process post with attachments correctly.
+			// In the future when station is able to handle post and sync data with cloud
+			// this step is not necessary
+			ObjectUploadResponse res =
+				file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
+			//if (res.object_id != file.object_id)
+			//    throw new Exception("cloud responded an id that is diffrent with the original one");
 
 			string savedName = GetSavedFilename(file, meta);
 			Drivers driver = Drivers.collection.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));

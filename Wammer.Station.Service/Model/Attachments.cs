@@ -179,14 +179,15 @@ namespace Wammer.Model
 		public static MongoCollection<Attachments> collection = Database.wammer.GetCollection<Attachments>("attachments");
 
 		#region Upload utility functions
-		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string groupId,
+		public static ObjectUploadResponse Upload(string url, byte[] imageData, string groupId,
 											string objectId, string fileName, string contentType,
-											ImageMeta meta, string apiKey, string token)
+											ImageMeta meta, AttachmentType type, string apiKey, 
+											string token)
 		{
-
 			Dictionary<string, object> pars = new Dictionary<string, object>();
-			pars["type"] = "image";
-			pars["image_meta"] = meta.ToString().ToLower();
+			pars["type"] = type.ToString();
+			if (meta != ImageMeta.None)
+				pars["image_meta"] = meta.ToString().ToLower();
 			pars["session_token"] = token;
 			pars["apikey"] = apiKey;
 			if (objectId != null)
@@ -207,6 +208,14 @@ namespace Wammer.Model
 			}
 		}
 
+		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string groupId,
+											string objectId, string fileName, string contentType,
+											ImageMeta meta, string apiKey, string token)
+		{
+			return Upload(url, imageData, groupId, objectId, fileName, contentType, meta,
+				AttachmentType.image, apiKey, token);
+		}
+
 		public static ObjectUploadResponse UploadImage(byte[] imageData, string group_id,
 			string objectId, string fileName, string contentType, ImageMeta meta,
 			string apikey, string token)
@@ -218,6 +227,17 @@ namespace Wammer.Model
 
 			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta,
 				apikey, token);
+		}
+
+		public ObjectUploadResponse Upload(ImageMeta meta, string apiKey, string sessionToken)
+		{
+			string url = string.Format("http://{0}:{1}/{2}/attachments/upload/",
+				Cloud.CloudServer.HostName,
+				Cloud.CloudServer.Port,
+				CloudServer.DEF_BASE_PATH);
+
+			return Upload(url, rawData, group_id, object_id, file_name, mime_type, 
+																meta, type, apiKey, sessionToken);
 		}
 		#endregion
 

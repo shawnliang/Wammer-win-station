@@ -151,6 +151,7 @@ namespace Wammer.Station
 	class HttpHandlerProxy
 	{
 		private readonly IHttpHandler handler;
+		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
 		public HttpHandlerProxy(IHttpHandler handler)
 		{
@@ -171,10 +172,18 @@ namespace Wammer.Station
 			catch (FormatException e)
 			{
 				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.BadRequest);
+				logger.Warn("Request format is incorrect", e);
+			}
+			catch (WebException e)
+			{
+				Wammer.Cloud.WammerCloudException ex = new Cloud.WammerCloudException("Request to cloud failed", e);
+				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
+				logger.Warn(ex.ToString());
 			}
 			catch (Exception e)
 			{
 				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
+				logger.Warn("Internal server error", e);
 			}
 		}
 	}

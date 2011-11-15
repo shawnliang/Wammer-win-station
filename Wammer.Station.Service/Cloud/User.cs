@@ -22,12 +22,12 @@ namespace Wammer.Cloud
 			this.Password = passwd;
 		}
 
-		public static User LogIn(WebClient agent, string username, string passwd)
+		public static User LogIn(WebClient agent, string username, string passwd, string apiKey)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>();
 			parameters.Add(CloudServer.PARAM_EMAIL, username);
 			parameters.Add(CloudServer.PARAM_PASSWORD, passwd);
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
 
 			UserLogInResponse res = CloudServer.requestPath<UserLogInResponse>(
 				agent, "auth/login", parameters);
@@ -38,6 +38,11 @@ namespace Wammer.Cloud
 			user.Id = res.user.user_id;
 			user.Stations = res.stations;
 			return user;
+		}
+
+		public static User LogIn(WebClient agent, string username, string passwd)
+		{
+			return LogIn(agent, username, passwd, CloudServer.APIKey);
 		}
 	}
 }
