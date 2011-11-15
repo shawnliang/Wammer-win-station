@@ -41,7 +41,7 @@ namespace Wammer.Station.StartUp
 
 			try
 			{
-				StationDriver.RequestToAdd("http://localhost:9981/v2/station/drivers/add",
+				Wammer.Model.Drivers.RequestToAdd("http://localhost:9981/v2/station/drivers/add",
 					textEmail.Text,
 					textPassword.Text,
 					textFolder.Text);

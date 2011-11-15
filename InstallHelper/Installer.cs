@@ -15,6 +15,7 @@ using System.Windows.Forms;
 
 using Wammer.Station.Service;
 using Wammer.Station;
+using Wammer.Model;
 using log4net;
 using MongoDB.Driver;
 using MongoDB.Bson;
@@ -219,7 +220,7 @@ namespace InstallHelper
 				if (sDocs == null)
 					return;
 
-				StationDBDoc station = sDocs.FindOneAs<StationDBDoc>();
+				StationInfo station = sDocs.FindOneAs<StationInfo>();
 				if (station == null || station.Id == null || station.SessionToken == null)
 					return;
 

@@ -6,6 +6,7 @@ using System.IO;
 
 
 using Wammer.Cloud;
+using Wammer.Model;
 
 
 namespace TestCloud
@@ -32,7 +33,7 @@ namespace TestCloud
 						if (user.Groups.Count == 0)
 							throw new InvalidDataException("User does not have a valid group");
 
-						ObjectUploadResponse origResp = Attachment.UploadImage(
+						ObjectUploadResponse origResp = Attachments.UploadImage(
 										buffer, user.Groups[0].group_id, null, "big.jpeg" , 
 										"image/jpeg", ImageMeta.Small,
 										"e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2", user.Token);
@@ -41,7 +42,7 @@ namespace TestCloud
 
 
 						string thbnId = Guid.NewGuid().ToString();
-						ObjectUploadResponse thbnResp = Attachment.UploadImage(
+						ObjectUploadResponse thbnResp = Attachments.UploadImage(
 										buffer, user.Groups[0].group_id, origResp.object_id, 
 										thbnId + ".jpeg", "image/jpeg",
 										ImageMeta.Origin, "e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2", 
