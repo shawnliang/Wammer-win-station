@@ -27,6 +27,7 @@ namespace Wammer.Station.Service
 		private HttpServer server;
 		private List<WebServiceHost> serviceHosts = new List<WebServiceHost>();
 		private StationTimer stationTimer;
+		private string stationId;
 
 		public StationService()
 		{
@@ -47,8 +48,12 @@ namespace Wammer.Station.Service
 
 		protected override void OnStart(string[] args)
 		{
-			if (StationRegistry.GetValue("stationId", null) == null)
-				StationRegistry.SetValue("stationId", Guid.NewGuid().ToString());
+			stationId = (string)StationRegistry.GetValue("stationId", null);
+			if (stationId == null)
+			{
+				stationId = Guid.NewGuid().ToString();
+				StationRegistry.SetValue("stationId", stationId);
+			}
 
 			Environment.CurrentDirectory = Path.GetDirectoryName(
 									Assembly.GetExecutingAssembly().Location);
@@ -84,7 +89,7 @@ namespace Wammer.Station.Service
 			// Start WCF REST services
 			AddWebServiceHost(new AttachmentService(), 9981, "attachments/");
 			
-			StationManagementService statMgmtSvc = new StationManagementService();
+			StationManagementService statMgmtSvc = new StationManagementService("resource", stationId);
 			AddWebServiceHost(statMgmtSvc, 9981, "station/");
 		}
 

@@ -34,7 +34,7 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void setUp()
 		{
-			svc = new StationManagementService();
+			svc = new StationManagementService("resource", "stationId");
 			host = new WebServiceHost(svc, new Uri("http://localhost:8080/v2/station/"));
 			host.Open();
 
@@ -83,7 +83,7 @@ namespace UT_WammerStation
 		    {
 				cloud.addJsonResponse(new StationSignUpResponse(200, DateTime.Now, "token2"));
 				cloud.addJsonResponse(new StationLogOnResponse(200, DateTime.Now, "token3"));
-				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345", @"c:\TempUT\user1");
+				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345");
 
 		        // verify db
 		        Drivers driver = mongodb.GetDatabase("wammer").
@@ -91,7 +91,7 @@ namespace UT_WammerStation
 		            Query.EQ("email", "user1@gmail.com"));
 
 		        Assert.AreEqual("user1@gmail.com", driver.email);
-		        Assert.AreEqual(@"c:\TempUT\user1", driver.folder);
+		        Assert.AreEqual(@"resource\group1", driver.folder);
 		        Assert.AreEqual(res1.user.user_id, driver.user_id);
 		        Assert.AreEqual(1, driver.groups.Count);
 		        Assert.AreEqual(res1.groups[0].group_id, driver.groups[0].group_id);
@@ -118,7 +118,7 @@ namespace UT_WammerStation
 			{
 				try
 				{
-					Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345", @"c:\TempUT\user1");
+					Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345");
 				}
 				catch (WammerCloudException e)
 				{
@@ -157,7 +157,7 @@ namespace UT_WammerStation
 				try
 				{
 					Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add",
-						"user1@gmail.com", "12345", @"c:\TempUT\user1");
+						"user1@gmail.com", "12345");
 				}
 				catch (WammerCloudException e)
 				{
@@ -171,22 +171,6 @@ namespace UT_WammerStation
 
 				Assert.Fail("Expected exception is not thrown");
 			}
-		}
-
-		[TestMethod]
-		public void TestFolderShouldBeAbsPath()
-		{
-			try
-			{
-				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "exist@gmail.com", "12345", @"TempUT\user1");
-			}
-			catch (WammerCloudException e)
-			{
-				Assert.AreEqual((int)StationApiError.BadPath, e.WammerError);
-				return;
-			}
-
-			Assert.Fail("expected exception is not thrown");
 		}
 	}
 }

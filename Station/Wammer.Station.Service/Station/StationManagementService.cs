@@ -34,28 +34,30 @@ namespace Wammer.Station
 		ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public class StationManagementService : IStationManagementService
 	{
+		private readonly string resourceBasePath;
+		private readonly string stationId;
+
+		public StationManagementService(string resourceBasePath, string stationId)
+		{
+			this.resourceBasePath = resourceBasePath;
+			this.stationId = stationId;
+		}
+
 		public Stream AddDriver(Stream requestContent)
 		{
 			NameValueCollection parameters = WCFRestHelper.ParseFormData(requestContent);
 			string email = parameters["email"];
 			string password = parameters["password"];
-			string folder = parameters["folder"];
 
-			if (email == null || password == null || folder == null || folder.Length == 0)
+			if (email == null || password == null)
 				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 										HttpStatusCode.BadRequest, -1,
-										"parameter email/password/folder is missing or empty");
-
-			if (!Path.IsPathRooted(folder))
-				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
-										HttpStatusCode.BadRequest, (int)StationApiError.BadPath,
-										"folder is not an absolute path");
+										"parameter email or password is missing or empty");
 
 			if (Drivers.collection.FindOne() != null)
 				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 					HttpStatusCode.Conflict, (int)StationApiError.DriverExist,
 					"already registered");
-
 
 			using (WebClient agent = new WebClient())
 			{
@@ -77,19 +79,16 @@ namespace Wammer.Station
 							}
 						);
 
-					string baseurl = NetworkHelper.GetBaseURL();
 					Dictionary<object, object> location = new Dictionary<object, object>
-															{ {"location", baseurl} };
+												{ {"location", NetworkHelper.GetBaseURL()} };
 
-					StationInfo sinfo = StationInfo.collection.FindOne();
-					string stationId = (string)StationRegistry.GetValue("stationId", "");
-					Cloud.Station station = Cloud.Station.SignUp(agent, 
+					Cloud.Station station = Cloud.Station.SignUp(agent,
 																stationId, user.Token, location);
 					station.LogOn(agent, location);
 					Drivers.collection.Save(
 						new Drivers {
 							email = email,
-							folder = folder,
+							folder = Path.Combine(resourceBasePath, user.Groups[0].name),
 							user_id = user.Id,
 							groups = user.Groups
 						}

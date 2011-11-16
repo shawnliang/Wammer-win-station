@@ -27,13 +27,12 @@ namespace Wammer.Model
 			groups = new List<UserGroup>();
 		}
 
-		public static void RequestToAdd(string url, string email, string password, string folder)
+		public static void RequestToAdd(string url, string email, string password)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
 				{"email", email},
 				{"password", password},
-				{"folder", folder}
 			};
 
 			CloudResponse res = CloudServer.request<CloudResponse>(

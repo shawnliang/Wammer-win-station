@@ -35,7 +35,7 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void setUp()
 		{
-			svc = new StationManagementService();
+			svc = new StationManagementService("resource", "stationId");
 			host = new WebServiceHost(svc, new Uri("http://localhost:8080/v2/station/"));
 			host.Open();
 
@@ -75,7 +75,7 @@ namespace UT_WammerStation
 			try
 			{
 				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", 
-					"exist@gmail.com", "12345", @"c:\TempUT\user1");
+					"exist@gmail.com", "12345");
 			}
 			catch (WammerCloudException e)
 			{
@@ -92,7 +92,7 @@ namespace UT_WammerStation
 			try
 			{
 				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", 
-					"new_user@gmail.com", "12345", @"c:\TempUT\user2");
+					"new_user@gmail.com", "12345");
 			}
 			catch (WammerCloudException e)
 			{

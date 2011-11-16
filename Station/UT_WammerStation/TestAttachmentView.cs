@@ -93,15 +93,21 @@ namespace UT_WammerStation
 				}
 			});
 
-			List<UserGroup> groups = new List<UserGroup>();
-			groups.Add(new UserGroup { group_id = "group1", description = "group1 descript", creator_id = "driver1_id", name = "group1" });
 			Drivers.collection.Save(
 				new Drivers
 				{
 					email = "driver1@waveface.com",
 					user_id = "driver1_id",
 					folder = "resource",
-					groups = groups
+					groups = new List<UserGroup>
+					{
+						new UserGroup {
+							group_id = "group1",
+							description = "group1 descript",
+							creator_id = "driver1_id",
+							name = "group1"
+						}
+					}
 				}
 			);
 		}
