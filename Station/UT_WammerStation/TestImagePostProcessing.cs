@@ -69,8 +69,6 @@ namespace UT_WammerStation
 		string object_id1;
 		static MongoDB.Driver.MongoServer mongodb;
 
-		AtomicDictionary<string, FileStorage> groupFolders;
-
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
 		{
@@ -152,7 +150,7 @@ namespace UT_WammerStation
 				server.Start();
 
 				cloud.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
-																	new DummyImageUploadHandler());
+				                                                    new DummyImageUploadHandler());
 				cloud.Start();
 
 				ObjectUploadResponse res = Wammer.Model.Attachments.UploadImage(

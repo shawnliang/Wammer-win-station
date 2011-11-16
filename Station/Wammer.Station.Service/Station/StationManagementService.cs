@@ -34,8 +34,6 @@ namespace Wammer.Station
 		ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public class StationManagementService : IStationManagementService
 	{
-		private StatusChecker statusChecker;
-
 		public Stream AddDriver(Stream requestContent)
 		{
 			NameValueCollection parameters = WCFRestHelper.ParseFormData(requestContent);
@@ -53,7 +51,7 @@ namespace Wammer.Station
 										HttpStatusCode.BadRequest, (int)StationApiError.BadPath,
 										"folder is not an absolute path");
 
-			if (Drivers.collection.FindOne(Query.EQ("email", email)) != null)
+			if (Drivers.collection.FindOne() != null)
 				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 					HttpStatusCode.Conflict, (int)StationApiError.DriverExist,
 					"already registered");

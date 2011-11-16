@@ -34,7 +34,6 @@ namespace UT_WammerStation
 
 		MongoServer mongo;
 		FileStorage storage;
-		AtomicDictionary<string, FileStorage> groupStoreMap;
 		ObjectUploadResponse cloudResponse;
 
 		public TestAttachmentUpload()

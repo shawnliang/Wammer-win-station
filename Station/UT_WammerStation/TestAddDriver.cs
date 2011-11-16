@@ -23,7 +23,7 @@ namespace UT_WammerStation
 
 		WebServiceHost host;
 		StationManagementService svc;
-		Drivers addedDriver;
+
 
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
@@ -45,18 +45,7 @@ namespace UT_WammerStation
 
 			CloudServer.HostName = "localhost";
 			CloudServer.Port = 80;
-
 			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").RemoveAll();
-			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").Insert(
-				new Drivers
-				{
-					user_id = "exist_uid",
-					email = "exist@gmail.com",
-					folder = "fo",
-					groups = new List<UserGroup> { new UserGroup {  group_id = "123"} }
-				});
-
-			addedDriver = null;
 		}
 
 		[TestCleanup]
@@ -182,22 +171,6 @@ namespace UT_WammerStation
 
 				Assert.Fail("Expected exception is not thrown");
 			}
-		}
-
-		[TestMethod]
-		public void TestAddRegisteredDriver()
-		{
-			try
-			{
-				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "exist@gmail.com", "12345", @"c:\TempUT\user1");
-			}
-			catch (WammerCloudException e)
-			{
-				Assert.AreEqual((int)StationApiError.DriverExist, e.WammerError);
-				return;
-			}
-
-			Assert.Fail("expected exception is not thrown");
 		}
 
 		[TestMethod]
