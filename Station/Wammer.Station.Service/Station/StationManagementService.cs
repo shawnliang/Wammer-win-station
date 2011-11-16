@@ -66,18 +66,7 @@ namespace Wammer.Station
 					User user = User.LogIn(agent, email, password);
 
 					if (user.Stations != null && user.Stations.Count > 0)
-						return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
-							HttpStatusCode.Conflict,
-							new AddUserResponse
-							{
-								api_ret_code = (int)StationApiError.AlreadyHasStaion,
-								api_ret_msg = "already has a station",
-								status = (int)HttpStatusCode.Conflict,
-								timestamp = DateTime.UtcNow,
-								station = user.Stations[0],
-								session_token = user.Token
-							}
-						);
+						return AlreadyHasStation(user);
 
 					Dictionary<object, object> location = new Dictionary<object, object>
 												{ {"location", NetworkHelper.GetBaseURL()} };
@@ -130,6 +119,22 @@ namespace Wammer.Station
 			StationStatus res = StatusChecker.GetStatus();
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
+		}
+
+		private static MemoryStream AlreadyHasStation(User user)
+		{
+			return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+										HttpStatusCode.Conflict,
+										new AddUserResponse
+										{
+											api_ret_code = (int)StationApiError.AlreadyHasStaion,
+											api_ret_msg = "already has a station",
+											status = (int)HttpStatusCode.Conflict,
+											timestamp = DateTime.UtcNow,
+											station = user.Stations[0],
+											session_token = user.Token
+										}
+									);
 		}
 	}
 
