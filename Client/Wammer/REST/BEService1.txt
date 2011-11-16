@@ -1,0 +1,389 @@
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Web;
+using System.Windows.Forms;
+using Newtonsoft.Json;
+using Spring.Http.Converters;
+using Spring.Rest.Client;
+
+#endregion
+
+namespace Waveface.API.V1
+{
+    internal class BEService1
+    {
+        private const string BaseURL = "http://api.waveface.com:8080/api/v1";
+
+        private RestTemplate m_rest;
+
+        public BEService1()
+        {
+            m_rest = new RestTemplate();
+            m_rest.MessageConverters.Add(new FormHttpMessageConverter());
+            m_rest.MessageConverters.Add(new StringHttpMessageConverter());
+        }
+
+        #region Auth
+
+        public MR_Auth_Login Login(string user, string password)
+        {
+            MR_Auth_Login _ret;
+
+            try
+            {
+                user = user.Replace("@", "%40"); // Hack
+
+                string _url = BaseURL + "/auth/login";
+                _url += "/userid/" + user + "/password/" + password;
+
+                string _r = m_rest.GetForObject<string>(_url);
+
+                _ret = JsonConvert.DeserializeObject<MR_Auth_Login>(_r);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
+        public MR_Auth_Login Logout(string creator_id, string token)
+        {
+            MR_Auth_Login _ret;
+
+            try
+            {
+                string _url = BaseURL + "/auth/login";
+                _url += "/creator_id/" + creator_id + "/token/" + token;
+
+                string _r = m_rest.GetForObject<string>(_url);
+
+                _ret = JsonConvert.DeserializeObject<MR_Auth_Login>(_r);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
+        #endregion
+
+        #region Users
+
+        public MR_Users_FetchAll Users_FetchAll(string token, string creator_id)
+        {
+            MR_Users_FetchAll _ret;
+
+            try
+            {
+                string _url = BaseURL + "/users/fetch_all";
+                _url += "/token/" + token + "/creator_id/" + creator_id;
+
+                string _r = m_rest.GetForObject<string>(_url);
+
+                _ret = JsonConvert.DeserializeObject<MR_Users_FetchAll>(_r);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
+        #endregion
+
+        #region Posts
+
+        public MR_Posts_FetchAll Posts_FetchAll(string creator_id, string token, string timestamp, int limit)
+        {
+            MR_Posts_FetchAll _ret;
+
+            try
+            {
+                string _url = BaseURL + "/posts/fetch_all";
+                _url += "/token/" + token + "/creator_id/" + creator_id + "/limit/" + limit;
+
+                string _r = m_rest.GetForObject<string>(_url);
+
+                _ret = JsonConvert.DeserializeObject<MR_Posts_FetchAll>(_r);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
+        public MR_Posts_FetchByConditions Posts_FetchByConditions(string creator_id, string token, string post_id, int limit, string direction, string included)
+        {
+            // direction:'older_than' or 'newer_than'
+            // included: 'yes'
+            //
+
+            MR_Posts_FetchByConditions _ret;
+
+            try
+            {
+                string _url = BaseURL + "/posts/fetch_by_conditions";
+                _url += "/token/" + token + "/creator_id/" + creator_id +
+                        "/" + direction + "/" + post_id +
+                        "/limit/" + limit + "/included/" + included;
+
+                string _r = m_rest.GetForObject<string>(_url);
+
+                _ret = JsonConvert.DeserializeObject<MR_Posts_FetchByConditions>(_r);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
+        #endregion
+
+        #region Post
+
+        public MR_Post_FetchSinglePost Post_FetchSinglePost(string creator_id, string token, string post_id)
+        {
+            MR_Post_FetchSinglePost _ret;
+
+            try
+            {
+                string _url = BaseURL + "/post/fetch_single_post";
+                _url += "/token/" + token + "/creator_id/" + creator_id +
+                        "/post_id/" + post_id;
+
+                string _r = m_rest.GetForObject<string>(_url);
+
+                _ret = JsonConvert.DeserializeObject<MR_Post_FetchSinglePost>(_r);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
+        public MR_Post_FetchComments Post_FetchComments(string creator_id, string token, string post_id)
+        {
+            MR_Post_FetchComments _ret;
+
+            try
+            {
+                string _url = BaseURL + "/post/fetch_comments";
+                _url += "/token/" + token + "/creator_id/" + creator_id +
+                        "/post_id/" + post_id;
+
+                string _r = m_rest.GetForObject<string>(_url);
+
+                _ret = JsonConvert.DeserializeObject<MR_Post_FetchComments>(_r);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
+        public MR_Post_CreateNewPost Post_CreateNewPost(string creator_id, string token, string text, string files, string previews)
+        {
+            MR_Post_CreateNewPost _ret;
+
+            try
+            {
+                string _url = BaseURL + "/post/create_new_post";
+
+                IDictionary<string, object> _dic = new Dictionary<string, object>();
+                _dic.Add("creator_id", creator_id);
+                _dic.Add("token", token);
+                _dic.Add("creation_device_name", "Windows");
+                _dic.Add("text", (HttpUtility.UrlEncode(text)).Replace("+", " "));
+                _dic.Add("files", files);
+                _dic.Add("previews", previews);
+
+                string _r = m_rest.PostForObject<string>(_url, _dic);
+
+                _ret = JsonConvert.DeserializeObject<MR_Post_CreateNewPost>(_r);
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message);
+                return null;
+            }
+
+            return _ret;
+        }
+
+        public MR_Post_CreateNewComment Post_CreateNewComment(string creator_id, string token, string post_id, string text, string previews)
+        {
+            MR_Post_CreateNewComment _ret;
+
+            try
+            {
+                string _url = BaseURL + "/post/create_new_comment";
+
+                IDictionary<string, object> _dic = new Dictionary<string, object>();
+                _dic.Add("creator_id", creator_id);
+                _dic.Add("token", token);
+                _dic.Add("post_id", post_id);
+                _dic.Add("creation_device_name", "Windows");
+                _dic.Add("text", (HttpUtility.UrlEncode(text)).Replace("+", " "));
+                _dic.Add("previews", previews);
+
+                string _r = m_rest.PostForObject<string>(_url, _dic);
+
+                _ret = JsonConvert.DeserializeObject<MR_Post_CreateNewComment>(_r);
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message);
+                return null;
+            }
+
+            return _ret;
+        }
+
+        #endregion
+
+        #region File
+
+        public MR_File_UploadFile File_UploadFile_image(string creator_id, string token, string text, string fileName)
+        {
+            MR_File_UploadFile _ret;
+
+            try
+            {
+                string _url = BaseURL + "/file/upload_file";
+
+                string _mimeType = FileUtility.GetMimeType(new FileInfo(fileName));
+
+                byte[] _data = FileUtility.ConvertFileToByteArray(fileName);
+
+                // Generate post objects
+                Dictionary<string, object> _dic = new Dictionary<string, object>();
+                _dic.Add("creator_id", creator_id);
+                _dic.Add("token", token);
+                _dic.Add("creation_device_name", "Windows");
+                _dic.Add("type", _mimeType);
+                _dic.Add("text", text);
+                _dic.Add("file_content", _data);
+
+                // Create request and receive response
+                string _userAgent = "Windows";
+                HttpWebResponse _webResponse = MultipartFormDataPostHelper.PostWammerImage(_url, _userAgent, _dic, new FileInfo(fileName).Name, _mimeType);
+
+                // Process response
+                StreamReader _responseReader = new StreamReader(_webResponse.GetResponseStream());
+                string _r = _responseReader.ReadToEnd();
+                _webResponse.Close();
+
+                _ret = JsonConvert.DeserializeObject<MR_File_UploadFile>(_r);
+            }
+            catch (Exception _e)
+            {
+                // MessageBox.Show(_e.Message);
+                return null;
+            }
+
+            return _ret;
+        }
+
+        #endregion
+
+        #region Preview
+
+        public MR_Preview_UploadPreview Preview_UploadPreview(string creator_id, string token, string og, string type)
+        {
+            MR_Preview_UploadPreview _ret;
+
+            try
+            {
+                string _url = BaseURL + "/preview/upload_preview";
+
+                IDictionary<string, object> _dic = new Dictionary<string, object>();
+                _dic.Add("creator_id", creator_id);
+                _dic.Add("token", token);
+                _dic.Add("creation_device_name", "Windows");
+                _dic.Add("og", og);
+                _dic.Add("type", type);
+
+                string _r = m_rest.PostForObject<string>(_url, _dic);
+
+                _ret = JsonConvert.DeserializeObject<MR_Preview_UploadPreview>(_r);
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message);
+                return null;
+            }
+
+            return _ret;
+        }
+
+        public MR_Preview_GetPreview Preview_GetPreview(string creator_id, string token, string url)
+        {
+            MR_Preview_GetPreview _ret;
+
+            url = HttpUtility.UrlEncode(url);
+
+            try
+            {
+                string _url = BaseURL + "/preview/get_preview";
+                _url += "/token/" + token + "/creator_id/" + creator_id +
+                        "/url/" + url;
+
+                string _r = m_rest.GetForObject<string>(_url);
+
+                _ret = JsonConvert.DeserializeObject<MR_Preview_GetPreview>(_r);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
+        public MR_Preview_GetAdvancedPreview Preview_GetAdvancedPreview(string creator_id, string token, string url)
+        {
+            MR_Preview_GetAdvancedPreview _ret;
+
+            url = HttpUtility.UrlEncode(url);
+
+            try
+            {
+                string _url = BaseURL + "/preview/get_advanced_preview";
+                _url += "/token/" + token + "/creator_id/" + creator_id +
+                        "/url/" + url;
+
+                string _r = m_rest.GetForObject<string>(_url);
+
+                JsonSerializerSettings _settings = new JsonSerializerSettings();
+                _settings.MissingMemberHandling = MissingMemberHandling.Ignore;
+
+                _ret = JsonConvert.DeserializeObject<MR_Preview_GetAdvancedPreview>(_r, _settings);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
+        #endregion
+    }
+}

@@ -59,13 +59,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wammer.Station.Service\Wammer.Station.Service.csproj">
+    <EmbeddedResource Include="log4net.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Station\Wammer.Station.Service\Wammer.Station.Service.csproj">
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
       <Name>Wammer.Station.Service</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="log4net.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
