@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Spring.Http.Converters.Xml.Linq</name>
+    </assembly>
+    <members>
+        <member name="T:Spring.Http.Converters.Xml.XElementHttpMessageConverter">
+            <summary>
+            Implementation of <see cref="T:Spring.Http.Converters.IHttpMessageConverter"/> that can read and write XML 
+            from a <see cref="T:System.Xml.Linq.XElement"/> (Linq to XML).
+            </summary>
+            <remarks>
+            By default, this converter supports 'text/xml', 'application/xml', and 'application/*-xml' media types. 
+            This can be overridden by setting the <see cref="P:SupportedMediaTypes"/> property.
+            </remarks>
+            <author>Bruno Baia</author>
+        </member>
+        <member name="M:Spring.Http.Converters.Xml.XElementHttpMessageConverter.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="T:Spring.Http.Converters.Xml.XElementHttpMessageConverter"/> 
+            with 'text/xml', 'application/xml', and 'application/*-xml' media types.
+            </summary>
+        </member>
+        <member name="M:Spring.Http.Converters.Xml.XElementHttpMessageConverter.Supports(System.Type)">
+            <summary>
+            Indicates whether the given class is supported by this converter.
+            </summary>
+            <param name="type">The type to test for support.</param>
+            <returns><see langword="true"/> if supported; otherwise <see langword="false"/></returns>
+        </member>
+        <member name="M:Spring.Http.Converters.Xml.XElementHttpMessageConverter.ReadXml``1(System.Xml.XmlReader)">
+            <summary>
+            Abstract template method that reads the actualy object using a <see cref="T:System.Xml.XmlReader"/>. Invoked from <see cref="M:ReadInternal"/>.
+            </summary>
+            <typeparam name="T">The type of object to return.</typeparam>
+            <param name="xmlReader">The XmlReader to use.</param>
+            <returns>The converted object.</returns>
+        </member>
+        <member name="M:Spring.Http.Converters.Xml.XElementHttpMessageConverter.WriteXml(System.Xml.XmlWriter,System.Object)">
+            <summary>
+            Abstract template method that writes the actual body using a <see cref="T:System.Xml.XmlWriter"/>. Invoked from <see cref="M:WriteInternal"/>.
+            </summary>
+            <param name="xmlWriter">The XmlWriter to use.</param>
+            <param name="content">The object to write to the HTTP message.</param>
+        </member>
+    </members>
+</doc>

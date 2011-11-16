@@ -1,0 +1,36 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;1.&nbsp;Overview</title><link rel="stylesheet" href="styles/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot_8103"><link rel="home" href="index.html" title="Spring.NET REST Client Framework"><link rel="up" href="index.html" title="Spring.NET REST Client Framework"><link rel="prev" href="index.html" title="Spring.NET REST Client Framework"><link rel="next" href="resttemplate.html" title="Chapter&nbsp;2.&nbsp;RestTemplate"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="background-color:white;border:none;height:73px;border:1px solid black;"><a style="border:none;" href="http://www.springframework.net/" title="The Spring Framework"><img style="border:none;" src="images/xdev-spring_logo.jpg"></img></a><a style="border:none;" href="http://www.springsource.com/" title="SpringSource"><img style="border:none;position:absolute;padding-top:5px;right:42px;" src="images/S2-banner-rhs.png"></img></a></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="overview"></a>Chapter&nbsp;1.&nbsp;Overview</h2></div></div></div>
+  
+
+  <p>Interacting with HTTP-based services armed only with the relatively
+  low-level classes provided by the .NET Framework is possible, but often
+  leads to your having to repeat the same boilerplate code over and over again
+  as well as evolve your own set of helper methods to translate your objects
+  to and from the text-based world of HTTP requests and responses into the
+  object-based world of .NET consumers of HTTP services. The Spring.Rest
+  project contains the RestTemplate helper class which allows developers to
+  focus on the issues of delivering business value in their applications
+  rather than focusing on low-level plumbing concerns.</p>
+
+  <p><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> provides higher level methods that
+  correspond to each of the six main HTTP methods that make invoking many
+  RESTful services a one-liner and help to enforce REST best practices. It is
+  conceptually similar to other template classes in Spring, such as
+  <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">AdoTemplate</span> and <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">NmsTemplate</span>.
+  It's behavior can be customized by providing callback methods and
+  configuring the <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IHttpMessageConverter</span>s used
+  to marshal objects into the HTTP request body and to unmarshall any response
+  back into an object.</p>
+
+  <p>This documentation describes how to use the
+  <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> and its associated
+  <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IHttpMessageConverter</span>s.</p>
+
+  <p>Spring.NET REST Client Framework supports the following .NET
+  Frameworks : </p><div class="itemizedlist"><ul type="disc"><li>.NET 2.0</li><li>.NET Client Profile 3.5 and 4.0</li><li>Silverlight 3.0 and 4.0</li><li>Windows Phone 7.0</li></ul></div>
+
+  <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/admons/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">RestTemplate has been available in the Java version of the Spring
+  Framework for many years and has recently been adapted to use proper .NET
+  idioms.</td></tr></table></div>
+</div><div xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="index.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="resttemplate.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Spring.NET REST Client Framework&nbsp;</td><td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.springsource.com/" title="SpringSource">Sponsored by SpringSource</a></span></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;2.&nbsp;RestTemplate</td></tr></table></div></body></html>

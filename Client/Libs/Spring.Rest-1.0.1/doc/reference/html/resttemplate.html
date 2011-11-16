@@ -1,0 +1,462 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Chapter&nbsp;2.&nbsp;RestTemplate</title><link rel="stylesheet" href="styles/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets Vsnapshot_8103"><link rel="home" href="index.html" title="Spring.NET REST Client Framework"><link rel="up" href="index.html" title="Spring.NET REST Client Framework"><link rel="prev" href="overview.html" title="Chapter&nbsp;1.&nbsp;Overview"><link rel="next" href="http-messageconversion.html" title="Chapter&nbsp;3.&nbsp;HTTP Message Conversion"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="background-color:white;border:none;height:73px;border:1px solid black;"><a style="border:none;" href="http://www.springframework.net/" title="The Spring Framework"><img style="border:none;" src="images/xdev-spring_logo.jpg"></img></a><a style="border:none;" href="http://www.springsource.com/" title="SpringSource"><img style="border:none;position:absolute;padding-top:5px;right:42px;" src="images/S2-banner-rhs.png"></img></a></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="resttemplate"></a>Chapter&nbsp;2.&nbsp;RestTemplate</h2></div></div></div>
+  
+
+  <p>Invoking RESTful services in .NET is typically done using the
+  <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpWebRequest</span> class. For common REST operations this
+  approach is too low level as shown below.</p>
+
+  <pre class="programlisting"><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Uri</span> address = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Uri</span>(<span style="color: #A31515">"http://example.com/hotels/1/bookings"</span>);
+
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpWebRequest</span> request = <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebRequest</span>.Create(address) <span style="color: #0000FF">as</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpWebRequest</span>;
+request.Method = <span style="color: #A31515">"POST"</span>;
+<span style="color: #0000FF">string</span> requestBody = <i style="color: #008000">// create booking request content</i>
+
+<span style="color: #0000FF">byte</span>[] byteData = <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">UTF8Encoding</span>.UTF8.GetBytes(requestBody);
+request.ContentLength = byteData.Length;
+<span style="color: #0000FF">using</span> (<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Stream</span> requestStream = request.GetRequestStream())
+{
+  requestStream.Write(byteData, 0, byteData.Length);
+}
+
+<span style="color: #0000FF">using</span> (<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpWebResponse</span> response = request.GetResponse() <span style="color: #0000FF">as</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpWebResponse</span>)
+{
+  <span style="color: #0000FF">if</span> (response.StatusCode == <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpStatusCode</span>.Created)
+  {
+    <span style="color: #0000FF">string</span> location = response.Headers[<span style="color: #A31515">"Location"</span>];
+    <span style="color: #0000FF">if</span> (location != <span style="color: #0000FF">null</span>)
+    {
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Console</span>.WriteLine(<span style="color: #A31515">"Created new booking at: "</span> + location);
+    }
+  }
+}</pre>
+
+  <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/admons/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">
+    <p>There is another class called <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClient</span> but
+    does not support HTTP headers and HTTP status code/description.</p>
+  </td></tr></table></div>
+
+  <p>RestTemplate provides higher level methods that correspond to each of
+  the six main HTTP methods that make invoking many RESTful services a
+  one-liner and enforce REST best practices.</p>
+
+  <div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="resttemplate-operations"></a>2.1.&nbsp;REST operations</h2></div></div></div>
+    
+
+    <div class="table"><a name="d4e58"></a><div class="title">Table&nbsp;2.1.&nbsp;Overview of RestTemplate methods</div><div class="table-contents">
+      
+
+      <table summary="Overview of RestTemplate methods" border="1"><colgroup><col><col></colgroup><tbody><tr><td>
+              <span class="bold"><strong>HTTP Method</strong></span>
+            </td><td>
+              <span class="bold"><strong>RestTemplate Method</strong></span>
+            </td></tr><tr><td>DELETE</td><td><a class="ulink" href="#" target="_top">Delete(Uri url)</a> and 2 more</td></tr><tr><td>GET</td><td><a class="ulink" href="#" target="_top">GetForObject&lt;T&gt;(Uri url)</a> and 2
+            more</td></tr><tr><td>&nbsp;</td><td><a class="ulink" href="#" target="_top">GetForMessage&lt;T&gt;(Uri url)</a> and
+            2 more</td></tr><tr><td>HEAD</td><td><a class="ulink" href="#" target="_top">HeadForHeaders(Uri url)</a> and 2
+            more</td></tr><tr><td>OPTIONS</td><td><a class="ulink" href="#" target="_top">OptionsForAllow(Uri url)</a> and 2
+            more</td></tr><tr><td>POST</td><td><a class="ulink" href="#" target="_top">PostForLocation&lt;T&gt;(Uri url, object
+            request)</a> and 2 more</td></tr><tr><td>&nbsp;</td><td><a class="ulink" href="#" target="_top">PostForObject&lt;T&gt;(Uri url, object
+            request)</a> and 2 more</td></tr><tr><td>&nbsp;</td><td><a class="ulink" href="#" target="_top">PostForMessage&lt;T&gt;(Uri url, object
+            request)</a> and 2 more</td></tr><tr><td>&nbsp;</td><td><a class="ulink" href="#" target="_top">PostForMessage(Uri url, object
+            request)</a> and 2 more</td></tr><tr><td>PUT</td><td><a class="ulink" href="#" target="_top">Put(Uri url, object request)</a> and 2
+            more</td></tr></tbody></table>
+    </div></div><br class="table-break">
+
+    <p>The two other methods mentioned take URI template arguments in two
+    forms, either as a <code class="literal">object</code> variable length argument or
+    an <code class="literal">IDictionary&lt;string, object&gt;</code>. <br>For
+    example, </p><pre class="programlisting"><i style="color: #008000">// using variable length arguments</i>
+<span style="color: #0000FF">string</span> result = restTemplate.GetForObject&lt;<span style="color: #0000FF">string</span>&gt;(<span style="color: #A31515">"http://example.com/hotels/{hotel}/bookings/{booking}"</span>, 42, 21);
+
+<i style="color: #008000">// using a IDictionary&lt;string, object&gt;</i>
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IDictionary</span>&lt;<span style="color: #0000FF">string</span>, <span style="color: #0000FF">object</span>&gt; vars = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Dictionary</span>&lt;<span style="color: #0000FF">string</span>, <span style="color: #0000FF">object</span>&gt;(1);
+vars.Add(<span style="color: #A31515">"hotel"</span>, 42);
+<span style="color: #0000FF">string</span> result = restTemplate.GetForObject&lt;<span style="color: #0000FF">string</span>&gt;(<span style="color: #A31515">"http://example.com/hotels/{hotel}/rooms/{hotel}"</span>, vars);</pre>
+
+    <p>The names of <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> methods follow a
+    naming convention, the first part indicates what HTTP method is being
+    invoked and the second part indicates what is returned. For example,
+    </p><div class="itemizedlist"><ul type="disc"><li>The method <code class="methodname">GetForObject&lt;T&gt;()</code>
+        will perform a GET, and return the HTTP response body converted into
+        an object type of your choice.</li><li>The method <code class="methodname">PostForLocation()</code> will
+        do a POST, converting the given object into a HTTP request and return
+        the response HTTP Location header where the newly created object can
+        be found.</li><li>The method
+        <code class="methodname">PostForMessage&lt;T&gt;()</code> will do a POST,
+        converting the given object into a HTTP request and return the full
+        HTTP response message composed of the status code and description, the
+        response headers and the response body converted into an object type
+        of your choice.</li></ul></div>
+
+    <p>The request object to be POSTed or PUTed, may be a
+    <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpEntity</span> instance in order to add additional HTTP
+    headers. An example is shown below. </p><pre class="programlisting"><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Booking</span> requestBody = <i style="color: #008000">// create booking request content</i>
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpEntity</span> entity = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpEntity</span>(requestBody);
+entity.Headers[<span style="color: #A31515">"MyRequestHeader"</span>] = <span style="color: #A31515">"MyValue"</span>;
+
+template.PostForLocation(<span style="color: #A31515">"http://example.com/hotels/{id}/bookings"</span>, entity, 1);</pre>
+
+    <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/admons/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">
+      <p>These operations are synchronous and are not available for
+      Silverlight and Windows Phone because all related network calls have to
+      be asynchronous.</p>
+    </td></tr></table></div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resttemplate-operations-async"></a>2.1.1.&nbsp;Asynchronous operations</h3></div></div></div>
+      
+
+      <p>All REST operations are also available for asynchronous calls.
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF"></span>The asynchronous methods are suffixed by the word 'Async'
+      based on common .NET naming conventions. </p>
+
+      <p><br>Note, that asynchronous call were initially added to
+      support Silverlight and Windows Phone, but nothing prevents you from
+      using them for Windows Forms and WPF applications to not freeze the UI
+      when invoking RESTful services. <br>An example using an asynchronous
+      method is shown below :</p>
+
+      <pre class="programlisting">template.GetForObjectAsync&lt;<span style="color: #0000FF">string</span>&gt;(<span style="color: #A31515">"http://example.com/hotels/bookings"</span>, 
+  r =&gt;
+  {
+    <span style="color: #0000FF">if</span> (r.Error != <span style="color: #0000FF">null</span>)
+    {
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Console</span>.WriteLine(r.Error);
+    }
+    <span style="color: #0000FF">else</span>
+    {
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Console</span>.WriteLine(r.Response);
+    }
+  });</pre>
+    </div>
+  </div>
+
+  <div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="resttemplate-configuration"></a>2.2.&nbsp;Configuring the RestTemplate</h2></div></div></div>
+    
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resttemplate-baseaddress"></a>2.2.1.&nbsp;Base address</h3></div></div></div>
+      
+
+      <p>In some cases it may be useful to set up the base url of the
+      request once. This is possible by setting the base address in the
+      constructor or by setting the property
+      <code class="methodname">BaseAddress</code>. <br>For example:
+      </p><pre class="programlisting"><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> template = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span>(<span style="color: #A31515">"http://example.com"</span>);
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Booking</span> booking1 = template.GetForObject&lt;<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Booking</span>&gt;(<span style="color: #A31515">"/hotels/{id}/bookings"</span>, 1);
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Booking</span> booking2 = template.GetForObject&lt;<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Booking</span>&gt;(<span style="color: #A31515">"/hotels/{id}/bookings"</span>, 2);</pre>
+    </div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resttemplate-messageconverters"></a>2.2.2.&nbsp;HTTP message converters</h3></div></div></div>
+      
+
+      <p>Objects passed to and returned from REST operations are converted
+      to and from HTTP messages by
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IHttpMessageConverter</span> instances.
+      <br></p>
+
+      <p>Converters for the main mime types are registered by default, but
+      you can also write your own converter and register it via the
+      <code class="methodname">MessageConverters</code> property.</p>
+
+      <p>The default converter instances registered with the template,
+      depending of the target Framework, are
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">ByteArrayHttpMessageConverter</span>,
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">StringHttpMessageConverter</span>,
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">FormHttpMessageConverter</span>,
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">XmlDocumentHttpMessageConverter</span>,
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">XElementHttpMessageConverter</span>,
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Atom10FeedHttpMessageConverter</span> and
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Rss20FeedHttpMessageConverter</span>. <br></p>
+
+      <p>You can override these defaults using the
+      <code class="methodname">MessageConverters</code> property. This is required if
+      you want to use the
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">XmlSerializableHttpMessageConverter</span>/<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">DataContractHttpMessageConverter</span>
+      or
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">JsonHttpMessageConverter</span>/<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">NJsonHttpMessageConverter</span>.
+      <br></p>
+
+      <p>For example : </p><pre class="programlisting"><i style="color: #008000">// Add a new converter to the default list</i>
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> template = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span>(<span style="color: #A31515">"http://twitter.com"</span>);
+template.MessageConverters.Add(<span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">JsonHttpMessageConverter</span>());</pre>
+
+      <p><br>See <a class="link" href="http-messageconversion.html" title="Chapter&nbsp;3.&nbsp;HTTP Message Conversion">HTTP message
+      conversion</a> chapter for detailed description of each
+      converter.</p>
+    </div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resttemplate-errorhandling"></a>2.2.3.&nbsp;Error handling</h3></div></div></div>
+      
+
+      <p>In case of an exception processing the HTTP method, an exception
+      of the type <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestClientException</span> will be thrown.
+      The interface <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IResponseErrorHandler</span>
+      allows you to determine whether a particular response has an error. The
+      default implementation throws an exception when a HTTP client or server
+      error happens (HTTP status code 4xx or 5xx).</p>
+
+      <p>The default behavior can be changed by plugging in another
+      implementation into the <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> via the
+      <code class="methodname">ErrorHandler</code> property. The example below shows
+      a custom <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IResponseErrorHandler</span>
+      implementation which gives the user total control over the response.
+      </p>
+
+      <pre class="programlisting"><span style="color: #0000FF">public</span> <span style="color: #0000FF">class</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">MyResponseErrorHandler</span> : <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IResponseErrorHandler</span>
+{
+  <span style="color: #0000FF">public</span> <span style="color: #0000FF">bool</span> HasError(<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpResponse</span> response)
+  {
+    <span style="color: #0000FF">return</span> <span style="color: #0000FF">false</span>;
+  }
+
+  <span style="color: #0000FF">public</span> <span style="color: #0000FF">void</span> HandleError(<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpResponse</span> response)
+  {
+    <i style="color: #008000">// This method should not be called because HasError returns false.</i>
+    <span style="color: #0000FF">throw</span> <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">InvalidOperationException</span>();
+  }
+}
+
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> template = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span>(<span style="color: #A31515">"http://example.com"</span>);
+template.ErrorHandler = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">MyResponseErrorHandler</span>();
+
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpResponseMessage</span> responseMessage = template.PostForMessage(<span style="color: #A31515">"/notfound"</span>, <span style="color: #0000FF">null</span>); <i style="color: #008000">// throw HttpClientErrorException with default implementation</i>
+<span style="color: #0000FF">if</span> (responseMessage.StatusCode == <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpStatusCode</span>.NotFound)
+{
+  <i style="color: #008000">// ...</i>
+}</pre><p>
+      </p>
+    </div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resttemplate-requestfactory"></a>2.2.4.&nbsp;Request factory</h3></div></div></div>
+      
+
+      <p><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> uses a request factory to
+      create instances of the
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpRequest</span> interface. Default
+      implementation uses the .NET Framework class
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpWebRequest</span>. This can be overridden by
+      specifying an implementation of
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpRequestFactory</span> via the
+      <code class="methodname">RequestFactory</code> property.<br></p>
+
+      <p>The default implementation
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span> uses an instance of
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpWebRequest</span> which can be configured with
+      credentials information or proxy settings. An example setting the proxy
+      is shown below : <br></p><pre class="programlisting"><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span> requestFactory = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span>();
+requestFactory.Proxy = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebProxy</span>(<span style="color: #A31515">"http://proxy.example.com:8080"</span>);
+requestFactory.Proxy.Credentials = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">NetworkCredential</span>(<span style="color: #A31515">"userName"</span>, <span style="color: #A31515">"password"</span>, <span style="color: #A31515">"domain"</span>);
+
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> template = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span>(<span style="color: #A31515">"http://example.com"</span>);
+template.RequestFactory = requestFactory;</pre>
+
+      <div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="resttemplate-requestfactory-silverlight"></a>2.2.4.1.&nbsp;Silverlight support</h4></div></div></div>
+        
+
+        <p>
+          In Silverlight, HTTP handling can be performed by the browser or the client. 
+          See <a class="ulink" href="http://msdn.microsoft.com/en-us/library/dd920295(v=VS.95).aspx" target="_top">How to: Specify Browser or Client HTTP Handling</a> on MSDN.
+          <br>By default, <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span> will use the browser HTTP stack 
+          for HTTP methods GET and POST, and force the client HTTP stack for other HTTP methods.
+          <br>This can be overridden by setting the <code class="methodname">WebRequestCreator</code> property.
+          </p><pre class="programlisting"><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> template = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span>(<span style="color: #A31515">"http://example.com"</span>);
+((<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span>)rt.RequestFactory).WebRequestCreator = <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebRequestCreatorType</span>.ClientHttp;</pre>
+      </div>
+      
+    </div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resttemplate-requestinterceptor"></a>2.2.5.&nbsp;Request interceptors</h3></div></div></div>
+      
+
+      <p><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> allows you to intercept HTTP
+      request creation and/or execution. You can create your own interceptor
+      and register it via the <code class="methodname">RequestInterceptors</code>
+      property. <br><br>Four types of interceptors are provided :
+      </p><div class="itemizedlist"><ul type="disc"><li><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpRequestFactoryInterceptor</span> 
+        will intercept request creation, allowing to modify the HTTP URI and method, 
+        and to customize the newly created request.</li><li><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpRequestBeforeInterceptor</span> 
+        will intercept request before its execution, allowing to modify 
+        the HTTP headers and body. This interceptor supports both synchronous and 
+        asynchronous requests.</li><li><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpRequestSyncInterceptor</span> 
+        will intercept synchronous request execution, giving total control of  
+        the execution (error management, logging, perf, etc.).</li><li><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpRequestAsyncInterceptor</span> 
+        will intercept asynchronous request execution, giving total control of  
+        the execution (error management, logging, perf, etc.).</li></ul></div>
+
+      <p>An example of an interceptor measuring HTTP request execution time
+      is shown below.</p>
+
+      <pre class="programlisting"><span style="color: #0000FF">public</span> <span style="color: #0000FF">class</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">PerfRequestSyncInterceptor</span> : <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpRequestSyncInterceptor</span>
+{
+  <span style="color: #0000FF">public</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpResponse</span> Execute(<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpRequestSyncExecution</span> execution)
+  {
+    <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Stopwatch</span> stopwatch = <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Stopwatch</span>.StartNew();   
+    <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpResponse</span> response = execution.Execute();
+    stopwatch.Stop();
+    
+    <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Console</span>.WriteLine(<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">String</span>.Format(
+      <span style="color: #A31515">"Sync {0} request for '{1}' took {2}ms and resulted in {3:d} - {3}"</span>,
+      execution.Method,
+      execution.Uri,
+      stopwatch.ElapsedMilliseconds, 
+      response.StatusCode));
+    
+    <span style="color: #0000FF">return</span> response;  
+  }
+}
+
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> template = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span>();
+template.RequestInterceptors.Add(<span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">PerfRequestSyncInterceptor</span>());</pre>
+
+      <p>Note that you can also make <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">PerfRequestSyncInterceptor</span> 
+      implement <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpRequestAsyncInterceptor</span> 
+      to support both synchronous and asynchronous requests.</p>
+    </div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resttemplate-container"></a>2.2.6.&nbsp;Using the Spring.NET container</h3></div></div></div>
+      
+
+      <p><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span>, as any other class can be
+      configured in the Spring.NET container. <br>For example, using XML
+      configuration :</p>
+
+      <pre class="programlisting"><span style="color: #A31515">&lt;object</span> <span style="color: #FF0000">id</span>=<span style="color: #0000FF">"RestTemplate"</span> <span style="color: #FF0000">type</span>=<span style="color: #0000FF">"Spring.Rest.Client.RestTemplate, Spring.Rest"</span><span style="color: #A31515">&gt;</span>
+  <span style="color: #A31515">&lt;constructor-arg</span> <span style="color: #FF0000">name</span>=<span style="color: #0000FF">"baseAddress"</span> <span style="color: #FF0000">value</span>=<span style="color: #0000FF">"http://example.com"</span><span style="color: #A31515">/&gt;</span>
+  <span style="color: #A31515">&lt;property</span> <span style="color: #FF0000">name</span>=<span style="color: #0000FF">"ErrorHandler"</span><span style="color: #A31515">&gt;</span>
+    <span style="color: #A31515">&lt;object</span> <span style="color: #FF0000">type</span>=<span style="color: #0000FF">"MyErrorHandler"</span><span style="color: #A31515">/&gt;</span>
+  <span style="color: #A31515">&lt;/property&gt;</span>
+  <span style="color: #A31515">&lt;property</span> <span style="color: #FF0000">name</span>=<span style="color: #0000FF">"MessageConverters"</span><span style="color: #A31515">&gt;</span>
+    <span style="color: #A31515">&lt;list&gt;</span>
+      <span style="color: #A31515">&lt;object</span> <span style="color: #FF0000">type</span>=<span style="color: #0000FF">"MyHttpMessageConverter"</span><span style="color: #A31515">/&gt;</span>
+    <span style="color: #A31515">&lt;/list&gt;</span>
+  <span style="color: #A31515">&lt;/property&gt;</span>
+  <span style="color: #A31515">&lt;property</span> <span style="color: #FF0000">name</span>=<span style="color: #0000FF">"RequestInterceptors"</span><span style="color: #A31515">&gt;</span>
+    <span style="color: #A31515">&lt;list&gt;</span>
+      <span style="color: #A31515">&lt;object</span> <span style="color: #FF0000">type</span>=<span style="color: #0000FF">"MyClientHttpRequestInterceptor"</span><span style="color: #A31515">/&gt;</span>
+    <span style="color: #A31515">&lt;/list&gt;</span>
+  <span style="color: #A31515">&lt;/property&gt;</span>
+  <span style="color: #A31515">&lt;property</span> <span style="color: #FF0000">name</span>=<span style="color: #0000FF">"RequestFactory.UseDefaultCredentials"</span> <span style="color: #FF0000">value</span>=<span style="color: #0000FF">"true"</span><span style="color: #A31515">/&gt;</span>
+  <span style="color: #A31515">&lt;property</span> <span style="color: #FF0000">name</span>=<span style="color: #0000FF">"RequestFactory.Timeout"</span> <span style="color: #FF0000">value</span>=<span style="color: #0000FF">"10000"</span><span style="color: #A31515">/&gt;</span>
+<span style="color: #A31515">&lt;/object&gt;</span></pre>
+    </div>
+  </div>
+
+  <div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="resttemplate-authentication"></a>2.3.&nbsp;Authenticating requests</h2></div></div></div>
+    
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resttemplate-authentication-httpwebrequest"></a>2.3.1.&nbsp;Using HttpWebRequest .NET class</h3></div></div></div>
+      
+
+      <p>The default <a class="link" href="resttemplate.html#resttemplate-requestfactory" title="2.2.4.&nbsp;Request factory">request
+      factory</a> implementation
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span>, that uses the
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpWebRequest</span> class, can be used to authenticate
+      the HTTP request. Supported authentication schemes include Basic,
+      Digest, Negotiate (SPNEGO), Kerberos, NTLM, and Certificates.</p>
+
+      <pre class="programlisting"><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span> requestFactory = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span>();
+requestFactory.Credentials = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">NetworkCredential</span>(<span style="color: #A31515">"userName"</span>, <span style="color: #A31515">"password"</span>, <span style="color: #A31515">"domain"</span>);
+
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> template = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span>(<span style="color: #A31515">"http://example.com"</span>);
+template.RequestFactory = requestFactory;</pre><p>You can also
+      directly cast the default request factory to
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span> : </p><pre class="programlisting"><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> template = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span>(<span style="color: #A31515">"http://example.com"</span>);
+((<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span>)template.RequestFactory).UseDefaultCredentials = <span style="color: #0000FF">true</span>;</pre>
+    </div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resttemplate-authentication-basic"></a>2.3.2.&nbsp;Basic authentication</h3></div></div></div>
+      
+
+      <p>Basic authentication is supported by the
+      <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">WebClientHttpRequestFactory</span> (see <a class="link" href="resttemplate.html#resttemplate-authentication-httpwebrequest" title="2.3.1.&nbsp;Using HttpWebRequest .NET class">previous
+      section</a>), but this implementation will wait the challenge
+      response from server before to send the 'Authorization' header value. As
+      this can be an issue in some cases, Spring provides a custom <a class="link" href="resttemplate.html#resttemplate-requestinterceptor" title="2.2.5.&nbsp;Request interceptors">request interceptor</a>
+      named <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">BasicSigningRequestInterceptor</span> that forces
+      Basic authentication. This is shown below<br></p>
+
+      <pre class="programlisting"><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> template = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span>(<span style="color: #A31515">"http://example.com"</span>);
+template.RequestInterceptors.Add(<span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">BasicSigningRequestInterceptor</span>(<span style="color: #A31515">"login"</span>, <span style="color: #A31515">"password"</span>));</pre>
+    </div>
+
+    <div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resttemplate-authentication-oauth"></a>2.3.3.&nbsp;OAuth</h3></div></div></div>
+      
+
+      <p>This will be supported in a future version based on the
+      Spring.Social Java project. The implementation is based on <a class="link" href="resttemplate.html#resttemplate-requestinterceptor" title="2.2.5.&nbsp;Request interceptors">request interceptors</a>. </p>
+    </div>
+  </div>
+
+  <div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="resttemplate-exchangemethod"></a>2.4.&nbsp;Dealing with HTTP messages</h2></div></div></div>
+    
+
+    <p>Besides the REST operations described in the <a class="link" href="resttemplate.html#resttemplate-operations" title="2.1.&nbsp;REST operations">previous section</a>, the
+    <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> also has the
+    <code class="methodname">Exchange()</code> method, which can be used for
+    arbitrary HTTP method execution based on HTTP messages. The method takes
+    as arguments the HTTP request message composed of the request Uri, the
+    HTTP method and the HTTP entity (headers and body) and returns the HTTP
+    response message composed of the status code, status description and the
+    HTTP entity (headers and body).</p>
+
+    <pre class="programlisting"><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpResponseMessage</span>&lt;T&gt; Exchange&lt;T&gt;(<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Uri</span> url, <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpMethod</span> method, <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpEntity</span> requestEntity) <span style="color: #0000FF">where</span> T : <span style="color: #0000FF">class</span>;
+
+<i style="color: #008000">// also has 2 overloads for URI template based URL.</i></pre>
+
+    <p>Perhaps most importantly, the <code class="methodname">Exchange()</code>
+    method can be used to add request headers and read response headers for
+    every REST operation. For example:</p>
+
+    <pre class="programlisting"><span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpEntity</span> requestEntity = <span style="color: #0000FF">new</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpEntity</span>();
+requestEntity.Headers[<span style="color: #A31515">"MyRequestHeader"</span>] = <span style="color: #A31515">"MyValue"</span>;
+
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpResponseMessage</span>&lt;<span style="color: #0000FF">string</span>&gt; response = template.Exchange&lt;<span style="color: #0000FF">string</span>&gt;(<span style="color: #A31515">"/hotels/{hotel}"</span>, <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpMethod</span>.GET, requestEntity, 42);
+
+<span style="color: #0000FF">string</span> responseHeader = response.Headers[<span style="color: #A31515">"MyResponseHeader"</span>];
+<span style="color: #0000FF">string</span> body = response.Body;
+<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpStatusCode</span> statusCode = response.StatusCode;
+<span style="color: #0000FF">string</span> statusDescription = response.StatusDescription;</pre>
+
+    <p>In the above example, we first prepare a request message that
+    contains the <code class="literal">MyRequestHeader</code> header. We then retrieve
+    the response message, and read the
+    <code class="literal">MyResponseHeader</code>.</p>
+  </div>
+
+  <div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="resttemplate-executemethod"></a>2.5.&nbsp;Under the hood...</h2></div></div></div>
+    
+
+    <p>Last but not least, the <code class="methodname">Execute()</code> method is
+    behind everything <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">RestTemplate</span> does.</p>
+
+    <pre class="programlisting">T Execute&lt;T&gt;(<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">Uri</span> url, <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">HttpMethod</span> method, <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IRequestCallback</span> requestCallback, <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IResponseExtractor</span>&lt;T&gt; responseExtractor) <span style="color: #0000FF">where</span> T : <span style="color: #0000FF">class</span>;
+
+<i style="color: #008000">// also has 2 overloads for URI template based URL.</i></pre>
+
+    <p>The <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IRequestCallback</span> interface is
+    defined as</p>
+
+    <pre class="programlisting"><span style="color: #0000FF">public</span> <span style="color: #0000FF">interface</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IRequestCallback</span>
+{
+  <span style="color: #0000FF">void</span> DoWithRequest(<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpRequest</span> request);
+}</pre>
+
+    <p>The <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IResponseExtractor</span>&lt;T&gt;
+    interface is defined as</p>
+
+    <pre class="programlisting"><span style="color: #0000FF">public</span> <span style="color: #0000FF">interface</span> <span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IResponseExtractor</span>&lt;T&gt; <span style="color: #0000FF">where</span> T : <span style="color: #0000FF">class</span>
+{
+  T ExtractData(<span xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" style="color: #2B91AF">IClientHttpResponse</span> response);
+}</pre>
+
+    <p>The <code class="methodname">Execute</code> method allow you to manipulate
+    the request/response headers, write to the request body and read from the
+    response body. </p>
+
+    <p>Note, when using the execute method you do not have to worry about
+    any resource management, the template will always close the request and
+    handle any errors. Refer to the API documentation for more information on
+    using the execute method and the meaning of its other method
+    arguments.</p>
+  </div>
+</div><div xmlns="http://www.w3.org/TR/xhtml1/transitional" xmlns:fo="http://www.w3.org/1999/XSL/Format" class="navfooter"><hr></hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="overview.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="http-messageconversion.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter&nbsp;1.&nbsp;Overview&nbsp;</td><td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.springsource.com/" title="SpringSource">Sponsored by SpringSource</a></span></td><td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;3.&nbsp;HTTP Message Conversion</td></tr></table></div></body></html>

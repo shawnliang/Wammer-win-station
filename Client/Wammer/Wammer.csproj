@@ -1,0 +1,755 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2CFFCA13-B00A-4605-B6A4-D49A616CFCB4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Waveface</RootNamespace>
+    <AssemblyName>WammerZ</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Waveface.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxInterop.SHDocVw">
+      <HintPath>..\Libs\AxInterop.SHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="DropableNotifyIcon">
+      <HintPath>..\Libs\DropableNotifyIcon.dll</HintPath>
+    </Reference>
+    <Reference Include="HTML2XHTML">
+      <HintPath>..\Libs\HTML2XHTML.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageListView, Version=10.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\ImageListView.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SHDocVw">
+      <HintPath>..\Libs\Interop.SHDocVw.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="LinqBridge">
+      <HintPath>..\Libs\LinqBridge.dll</HintPath>
+    </Reference>
+    <Reference Include="MonthCalendarControl">
+      <HintPath>..\Libs\MonthCalendarControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Net20, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Spring.Rest-1.0.1\bin\net\2.0\Release\Newtonsoft.Json.Net20.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Http.Converters.NJson, Version=1.0.1.17720, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Spring.Rest-1.0.1\bin\net\2.0\Release\Spring.Http.Converters.NJson.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Rest, Version=1.0.1.17720, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Spring.Rest-1.0.1\bin\net\2.0\Release\Spring.Rest.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UtilityLibrary">
+      <HintPath>..\Libs\UtilityLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Waveface.Configuration">
+      <HintPath>..\Libs\Waveface.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Waveface.Configuration.WindowsForms">
+      <HintPath>..\Libs\Waveface.Configuration.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="WebCam_Capture">
+      <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
+    </Reference>
+    <Reference Include="XPExplorerBar, Version=3.3.0.0, Culture=neutral, PublicKeyToken=26272737b5f33015">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\XPExplorerBar.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compoment\FileIconLib.cs" />
+    <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Compoment\FirefoxDialog\FirefoxDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Compoment\FirefoxDialog\FirefoxDialog.designer.cs">
+      <DependentUpon>FirefoxDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\FirefoxDialog\PageProp.cs" />
+    <Compile Include="Compoment\FirefoxDialog\PropertyPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Compoment\IconHelper\IconHelper.cs" />
+    <Compile Include="Compoment\IconHelper\IconListManager.cs" />
+    <Compile Include="Compoment\MouseWheelRedirector.cs" />
+    <Compile Include="Compoment\MozBar\ImageListPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\MozBar\ImageMapEditor.cs" />
+    <Compile Include="Compoment\MozBar\MozItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\MozBar\MozPane.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\MozBar\ScrollableControlWithScrollEvents.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\MyImageListViewRenderer.cs" />
+    <Compile Include="Compoment\PopupControl\ComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\PopupControl\ComboBox.designer.cs">
+      <DependentUpon>ComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\PopupControl\GripBounds.cs" />
+    <Compile Include="Compoment\PopupControl\NativeMethods.cs" />
+    <Compile Include="Compoment\PopupControl\Popup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\PopupControl\Popup.designer.cs">
+      <DependentUpon>Popup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\PopupControl\PopupAnimations.cs" />
+    <Compile Include="Compoment\PopupControl\PopupComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\PopupControl\PopupComboBox.designer.cs">
+      <DependentUpon>PopupComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\PreviewHandler.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\TimePicker\HourMinuteSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\TimePicker\HourMinuteSelectorForm.designer.cs">
+      <DependentUpon>HourMinuteSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\TimePicker\HourSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\TimePicker\HourSelectorForm.designer.cs">
+      <DependentUpon>HourSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\TimePicker\MinuteSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\TimePicker\MinuteSelectorForm.designer.cs">
+      <DependentUpon>MinuteSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\TimePicker\TimeChangeEventArgs.cs" />
+    <Compile Include="Compoment\TimePicker\TimePicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Compoment\TimePicker\TimePicker.designer.cs">
+      <DependentUpon>TimePicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\TimePicker\TimePickerValueEditor.cs" />
+    <Compile Include="Data\ClipObject.cs" />
+    <Compile Include="Compoment\CollapsibleSplitter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\Colors.cs" />
+    <Compile Include="Compoment\ControlPaint.cs" />
+    <Compile Include="Compoment\DragDropTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\FlashWindow.cs" />
+    <Compile Include="Compoment\FlatTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\ImageViewer\ImageBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\ImageViewer\ImageBox.designer.cs">
+      <DependentUpon>ImageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\ImageViewer\ImageBoxGridScale.cs" />
+    <Compile Include="Compoment\ImageViewer\ImageViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\ImageViewer\ImageViewerForm.designer.cs">
+      <DependentUpon>ImageViewerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\ListBarControl\CustomBorderColor.cs" />
+    <Compile Include="Compoment\ListBarControl\frmListBarTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\ListBarControl\frmVsNetListBarTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\ListBarControl\HLSRGB.cs" />
+    <Compile Include="Compoment\ListBarControl\ListBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Compoment\ListBarControl\PopupCancel.cs" />
+    <Compile Include="Compoment\ListBarControl\VSNetListBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Data\PostType.cs" />
+    <Compile Include="Group And User\Password.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Group And User\Password.Designer.cs">
+      <DependentUpon>Password.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Group And User\SelectKickUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Group And User\SelectKickUser.Designer.cs">
+      <DependentUpon>SelectKickUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Group And User\CreateGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Group And User\CreateGroup.Designer.cs">
+      <DependentUpon>CreateGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Group And User\SelectInviteUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Group And User\SelectInviteUser.Designer.cs">
+      <DependentUpon>SelectInviteUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Libs\Utility\HtmlUtility.cs" />
+    <Compile Include="Libs\Utility\TabOrderManager.cs" />
+    <Compile Include="Compoment\TaskbarNotifier\MyTaskbarNotifier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\TaskbarNotifier\MyTaskbarNotifier.designer.cs">
+      <DependentUpon>MyTaskbarNotifier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\TaskbarNotifier\TaskbarNotifier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\XPButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Group And User\GroupManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Group And User\GroupManager.Designer.cs">
+      <DependentUpon>GroupManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Libs\Diagnostics\CrashReporter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Libs\Diagnostics\CrashReporter.designer.cs">
+      <DependentUpon>CrashReporter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Libs\DragDropLib\DataObject.cs" />
+    <Compile Include="Libs\DragDropLib\DragDropHelper.cs" />
+    <Compile Include="Libs\DragDropLib\IDragSourceHelper.cs" />
+    <Compile Include="Libs\DragDropLib\IDropTargetHelper.cs" />
+    <Compile Include="Libs\DragDropLib\NativeStructures.cs" />
+    <Compile Include="Data\NewPostItem.cs" />
+    <Compile Include="Libs\Utility\WebPostHelper.cs" />
+    <Compile Include="REST\BEService2.cs" />
+    <Compile Include="REST\Data2.cs" />
+    <Compile Include="Group And User\Signup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Group And User\Signup.Designer.cs">
+      <DependentUpon>Signup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RunTimeData.cs" />
+    <Compile Include="TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\BatchPostItemUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\BatchPostItemUI.Designer.cs">
+      <DependentUpon>BatchPostItemUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DetailUI\RichText_DV.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DetailUI\Photo_DV.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DetailUI\Text_Link_DV.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DetailUI\Document_DV.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\FilterUI\FilterManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FilterUI\FilterManager.Designer.cs">
+      <DependentUpon>FilterManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FilterUI\FilterTime.cs" />
+    <Compile Include="UI\FilterUI\FilterTimeStamp.cs" />
+    <Compile Include="UI\PostArea.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\PostArea.Designer.cs">
+      <DependentUpon>PostArea.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PostUI\Document.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\PostUI\Document.Designer.cs">
+      <DependentUpon>Document.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PostUI\General_WebLink.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\PostUI\General_WebLink.Designer.cs">
+      <DependentUpon>General_WebLink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PostUI\Photo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\PostUI\Photo.Designer.cs">
+      <DependentUpon>Photo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PostUI\PostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\PostUI\PostForm.designer.cs">
+      <DependentUpon>PostForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Libs\Utility\AbortableThreadPool.cs" />
+    <Compile Include="Libs\Utility\DragDrop_Clipboard_Helper.cs" />
+    <Compile Include="Subs\ImageCapture\CaptureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subs\ImageCapture\CaptureForm.designer.cs">
+      <DependentUpon>CaptureForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subs\ImageCapture\CaptureInfo.cs" />
+    <Compile Include="Subs\ImageCapture\ImageStorages\ImageStorage.cs" />
+    <Compile Include="Subs\ImageCapture\States\BaseState.cs" />
+    <Compile Include="Subs\ImageCapture\States\GeneralState.cs" />
+    <Compile Include="Subs\ImageCapture\States\ICaptureState.cs" />
+    <Compile Include="Subs\ImageCapture\States\RegionState.cs" />
+    <Compile Include="Subs\ImageCapture\States\ScreenState.cs" />
+    <Compile Include="Subs\ImageCapture\States\WindowState.cs" />
+    <Compile Include="Subs\ImageCapture\Utils\ScreenCapture.cs" />
+    <Compile Include="Subs\ImageCapture\Utils\WinApi.cs" />
+    <Compile Include="Compoment\StickyWindow.cs" />
+    <Compile Include="UI\PostUI\RichText.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\PostUI\RichText.Designer.cs">
+      <DependentUpon>RichText.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PostUI\RichTextPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\PostUI\RichTextPostForm.Designer.cs">
+      <DependentUpon>RichTextPostForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\PhotoView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\PhotoView.designer.cs">
+      <DependentUpon>PhotoView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\BatchPostViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\BatchPostViewerForm.designer.cs">
+      <DependentUpon>BatchPostViewerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Libs\Utility\Base64Helper.cs" />
+    <Compile Include="Libs\Utility\DateTimeHelp.cs" />
+    <Compile Include="Libs\Utility\FileName.cs" />
+    <Compile Include="Libs\Utility\FileUtility.cs" />
+    <Compile Include="UI\PostsList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LeftArea.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LeftArea.Designer.cs">
+      <DependentUpon>LeftArea.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DetailUI\DetailView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Data\GCONST.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="app.config" />
+    <None Include="Resources\lightbulb.png" />
+    <None Include="Resources\disk.png" />
+    <Content Include="REST\BEService1.txt" />
+    <Content Include="REST\Data1.txt" />
+    <Compile Include="Libs\Utility\ImageUtility.cs" />
+    <Compile Include="Libs\Utility\Shadow.cs" />
+    <Compile Include="Libs\Utility\StringUtility.cs" />
+    <Compile Include="Libs\Utility\WebHelper.cs" />
+    <Compile Include="UI\SettingUI\FormOption.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SettingUI\FormOption.designer.cs">
+      <DependentUpon>FormOption.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SettingUI\PageEmail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\SettingUI\PageEmail.designer.cs">
+      <DependentUpon>PageEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SettingUI\PageMain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\SettingUI\PageMain.designer.cs">
+      <DependentUpon>PageMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TrayIconPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\TrayIconPanel.designer.cs">
+      <DependentUpon>TrayIconPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\WebCamForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\WebCamForm.designer.cs">
+      <DependentUpon>WebCamForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\VirtualFolderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\VirtualFolderForm.designer.cs">
+      <DependentUpon>VirtualFolderForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Compoment\CollapsibleSplitter.resx">
+      <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\FirefoxDialog\EtchedLine.resx">
+      <DependentUpon>EtchedLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\FirefoxDialog\FirefoxDialog.resx">
+      <DependentUpon>FirefoxDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\FirefoxDialog\PropertyPage.resx">
+      <DependentUpon>PropertyPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\ImageViewer\ImageViewerForm.resx">
+      <DependentUpon>ImageViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\ListBarControl\frmListBarTest.resx">
+      <DependentUpon>frmListBarTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\ListBarControl\frmVsNetListBarTest.resx">
+      <DependentUpon>frmVsNetListBarTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\ListBarControl\ListBar.resx">
+      <DependentUpon>ListBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\ListBarControl\VSNetListBar.resx">
+      <DependentUpon>VSNetListBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\MozBar\ImageListPanel.resx">
+      <DependentUpon>ImageListPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\MozBar\MozItem.resx">
+      <DependentUpon>MozItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\MozBar\MozPane.resx">
+      <DependentUpon>MozPane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\MozBar\ScrollableControlWithScrollEvents.resx">
+      <DependentUpon>ScrollableControlWithScrollEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\TaskbarNotifier\MyTaskbarNotifier.resx">
+      <DependentUpon>MyTaskbarNotifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\TimePicker\HourMinuteSelectorForm.resx">
+      <DependentUpon>HourMinuteSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\TimePicker\HourSelectorForm.resx">
+      <DependentUpon>HourSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\TimePicker\MinuteSelectorForm.resx">
+      <DependentUpon>MinuteSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\TimePicker\TimePicker.resx">
+      <DependentUpon>TimePicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\XPButton.resx">
+      <DependentUpon>XPButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Group And User\Password.resx">
+      <DependentUpon>Password.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Group And User\SelectKickUser.resx">
+      <DependentUpon>SelectKickUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Group And User\CreateGroup.resx">
+      <DependentUpon>CreateGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Group And User\GroupManager.resx">
+      <DependentUpon>GroupManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Group And User\SelectInviteUser.resx">
+      <DependentUpon>SelectInviteUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Libs\Diagnostics\CrashReporter.resx">
+      <DependentUpon>CrashReporter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subs\ImageCapture\CaptureForm.resx">
+      <DependentUpon>CaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\BatchPostItemUI.resx">
+      <DependentUpon>BatchPostItemUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\RichText_DV.resx">
+      <DependentUpon>RichText_DV.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\Photo_DV.resx">
+      <DependentUpon>Photo_DV.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\Text_Link_DV.resx">
+      <DependentUpon>Text_Link_DV.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\Document_DV.resx">
+      <DependentUpon>Document_DV.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FilterUI\FilterManager.resx">
+      <DependentUpon>FilterManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostArea.resx">
+      <DependentUpon>PostArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\Document.resx">
+      <DependentUpon>Document.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\General_WebLink.resx">
+      <DependentUpon>General_WebLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\Photo.resx">
+      <DependentUpon>Photo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\PostForm.resx">
+      <DependentUpon>PostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\RichText.resx">
+      <DependentUpon>RichText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\RichTextPostForm.resx">
+      <DependentUpon>RichTextPostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PhotoView.resx">
+      <DependentUpon>PhotoView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\BatchPostViewerForm.resx">
+      <DependentUpon>BatchPostViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="UI\SettingUI\FormOption.resx">
+      <DependentUpon>FormOption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\PageEmail.resx">
+      <DependentUpon>PageEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\PageMain.resx">
+      <DependentUpon>PageMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\TrayIconPanel.resx">
+      <DependentUpon>TrayIconPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\WebCamForm.resx">
+      <DependentUpon>WebCamForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\VirtualFolderForm.resx">
+      <DependentUpon>VirtualFolderForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\LeftArea.resx">
+      <DependentUpon>LeftArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostsList.resx">
+      <DependentUpon>PostsList.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\DetailView.resx">
+      <DependentUpon>DetailView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Error.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Help.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Outlook.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Post.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fastforward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rewind.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\webcam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Libs\HtmlEditorControl\HTMLEditorControl.csproj">
+      <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
+      <Name>HTMLEditorControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wammer Helper\Wammer Helper.csproj">
+      <Project>{DAE8EDAE-A615-4C45-BA67-6D32454938CD}</Project>
+      <Name>Wammer Helper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TaskbarNotifier\skin.bmp" />
+    <None Include="Resources\TaskbarNotifier\close.bmp" />
+    <None Include="Resources\PostItem\postItem_stop.png" />
+    <None Include="Resources\PostItem\postItem_red.png" />
+    <None Include="Resources\PostItem\postItem_play.png" />
+    <None Include="Resources\PostItem\postItem_green.png" />
+    <None Include="Resources\PostItem\postItem_delete.png" />
+    <None Include="Resources\PostItem\postItem_arrow_out.png" />
+    <None Include="Resources\arrow_divide.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\TimelineItem_UI\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+</Project>
