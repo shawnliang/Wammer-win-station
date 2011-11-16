@@ -35,6 +35,7 @@ namespace Wammer.Station
 	public class StationManagementService : IStationManagementService
 	{
 		private static string stationId = GetStationId();
+		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StationManagementService));
 
 		private static string GetStationId()
 		{
@@ -75,6 +76,7 @@ namespace Wammer.Station
 			{
 				try
 				{
+					logger.DebugFormat("login with given driver information, email={0}, folder={1}", email, folder);
 					User user = User.LogIn(agent, email, password);
 
 					if (user.Stations != null && user.Stations.Count > 0)
@@ -95,8 +97,10 @@ namespace Wammer.Station
 					Dictionary<object, object> location = new Dictionary<object, object>
 															{ {"location", baseurl} };
 
+					logger.DebugFormat("cloud signup, stationId={0}, token={1}, location={2}", stationId, user.Token, baseurl);
 					Cloud.Station station = Cloud.Station.SignUp(agent, 
 																stationId, user.Token, location);
+					logger.DebugFormat("cloud logon, session token={0}", station.Token);
 					station.LogOn(agent, location);
 					Drivers.collection.Save(
 						new Drivers {
@@ -110,6 +114,7 @@ namespace Wammer.Station
 					StationInfo sinfo = StationInfo.collection.FindOne();
 					if (sinfo == null)
 					{
+						logger.Debug("first add driver, save station information");
 						StationInfo.collection.Save(
 							new StationInfo
 							{
@@ -122,6 +127,7 @@ namespace Wammer.Station
 					}
 					else
 					{
+						logger.Debug("update station information");
 						sinfo.Location = NetworkHelper.GetBaseURL();
 						sinfo.LastLogOn = DateTime.Now;
 						StationInfo.collection.Save(sinfo);
@@ -152,6 +158,7 @@ namespace Wammer.Station
 
 		public Stream GetStatus()
 		{
+			logger.Debug("GetStatus is called");
 			StationStatus res = StatusChecker.GetStatus();
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);

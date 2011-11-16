@@ -16,6 +16,7 @@ namespace Wammer.Station
 	{
 		private Timer timer;
 		private bool logon = false;  // logOn is needed for every time service start
+		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
 
 		public StatusChecker(long timerPeriod)
 		{
@@ -61,12 +62,14 @@ namespace Wammer.Station
 					Cloud.Station station = new Cloud.Station(sinfo.Id, sinfo.SessionToken);
 					if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
 					{
+						logger.Debug("cloud logon start");
 						try
 						{
 							string baseurl = NetworkHelper.GetBaseURL();
 							if (baseurl != sinfo.Location)
 							{
 								// update location if baseurl changed
+								logger.DebugFormat("station location changed: {0}", baseurl);
 								sinfo.Location = baseurl;
 								Dictionary<object, object> locParam = new Dictionary<object, object> { { "location", baseurl } };
 								station.LogOn(agent, locParam);
@@ -79,12 +82,13 @@ namespace Wammer.Station
 							logon = true;
 
 							// update station info in database
+							logger.Debug("update station information");
 							sinfo.LastLogOn = DateTime.Now;
 							Model.StationInfo.collection.Save(sinfo);
 						}
 						catch (Exception ex)
 						{
-							log4net.LogManager.GetLogger(typeof(StatusChecker)).Warn("cloud logon error", ex);
+							logger.Warn("cloud logon error", ex);
 						}
 					}
 
@@ -97,7 +101,7 @@ namespace Wammer.Station
 					}
 					catch (Exception ex)
 					{
-						log4net.LogManager.GetLogger(typeof(StatusChecker)).Warn("cloud heartbeat error", ex);
+						logger.Warn("cloud heartbeat error", ex);
 					}
 				}
 			}
@@ -118,7 +122,7 @@ namespace Wammer.Station
 					}
 					catch (Exception ex)
 					{
-						log4net.LogManager.GetLogger(typeof(StatusChecker)).Warn("cloud offline error", ex);
+						logger.Warn("cloud offline error", ex);
 					}
 				}
 			}
