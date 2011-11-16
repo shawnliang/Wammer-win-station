@@ -34,7 +34,20 @@ namespace Wammer.Station
 		ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public class StationManagementService : IStationManagementService
 	{
-		private StatusChecker statusChecker;
+		private static string stationId = GetStationId();
+
+		private static string GetStationId()
+		{
+			StationInfo sinfo = StationInfo.collection.FindOne();
+			if (sinfo == null)
+			{
+				return Guid.NewGuid().ToString();
+			}
+			else
+			{
+				return sinfo.Id;
+			}
+		}
 
 		public Stream AddDriver(Stream requestContent)
 		{
@@ -57,7 +70,6 @@ namespace Wammer.Station
 				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 					HttpStatusCode.Conflict, (int)StationApiError.DriverExist,
 					"already registered");
-
 
 			using (WebClient agent = new WebClient())
 			{
@@ -83,8 +95,6 @@ namespace Wammer.Station
 					Dictionary<object, object> location = new Dictionary<object, object>
 															{ {"location", baseurl} };
 
-					StationInfo sinfo = StationInfo.collection.FindOne();
-					string stationId = (string)StationRegistry.GetValue("stationId", "");
 					Cloud.Station station = Cloud.Station.SignUp(agent, 
 																stationId, user.Token, location);
 					station.LogOn(agent, location);
@@ -96,14 +106,26 @@ namespace Wammer.Station
 							groups = user.Groups
 						}
 					);
-					StationInfo.collection.Save(
-						new StationInfo { 
-							Id = stationId, 
-							SessionToken = station.Token, 
-							Location = NetworkHelper.GetBaseURL(), 
-							LastLogOn = DateTime.Now
-						}
-					);
+
+					StationInfo sinfo = StationInfo.collection.FindOne();
+					if (sinfo == null)
+					{
+						StationInfo.collection.Save(
+							new StationInfo
+							{
+								Id = stationId,
+								SessionToken = station.Token,
+								Location = NetworkHelper.GetBaseURL(),
+								LastLogOn = DateTime.Now
+							}
+						);
+					}
+					else
+					{
+						sinfo.Location = NetworkHelper.GetBaseURL();
+						sinfo.LastLogOn = DateTime.Now;
+						StationInfo.collection.Save(sinfo);
+					}
 				}
 				catch (WammerCloudException ex)
 				{
