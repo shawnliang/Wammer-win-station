@@ -35,9 +35,6 @@
 			this.button1 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.label3 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.textFolder = new System.Windows.Forms.TextBox();
-			this.btnFolderSelect = new System.Windows.Forms.Button();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
 			this.openFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.SuspendLayout();
@@ -105,32 +102,6 @@
 			this.label3.Text = "Welcome to Wammer. Please type your wammer account and password to start Wammer W" +
 				"indows Station.";
 			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(47, 165);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(63, 13);
-			this.label4.TabIndex = 7;
-			this.label4.Text = "Folder path:";
-			// 
-			// textFolder
-			// 
-			this.textFolder.Location = new System.Drawing.Point(201, 162);
-			this.textFolder.Name = "textFolder";
-			this.textFolder.Size = new System.Drawing.Size(299, 20);
-			this.textFolder.TabIndex = 4;
-			// 
-			// btnFolderSelect
-			// 
-			this.btnFolderSelect.Location = new System.Drawing.Point(506, 160);
-			this.btnFolderSelect.Name = "btnFolderSelect";
-			this.btnFolderSelect.Size = new System.Drawing.Size(39, 23);
-			this.btnFolderSelect.TabIndex = 7;
-			this.btnFolderSelect.Text = "...";
-			this.btnFolderSelect.UseVisualStyleBackColor = true;
-			this.btnFolderSelect.Click += new System.EventHandler(this.btnFolderSelect_Click);
-			// 
 			// linkLabel1
 			// 
 			this.linkLabel1.AutoSize = true;
@@ -150,9 +121,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(588, 294);
 			this.Controls.Add(this.linkLabel1);
-			this.Controls.Add(this.btnFolderSelect);
-			this.Controls.Add(this.textFolder);
-			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.button1);
@@ -163,7 +131,6 @@
 			this.Name = "AddUserPage";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Welcome to Wammer";
-			this.Load += new System.EventHandler(this.AddUserPage_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -178,9 +145,6 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.TextBox textFolder;
-		private System.Windows.Forms.Button btnFolderSelect;
 		private System.Windows.Forms.LinkLabel linkLabel1;
 		private System.Windows.Forms.FolderBrowserDialog openFolderDialog;
 	}

@@ -27,6 +27,15 @@ namespace Wammer.Station
 		[OperationContract]
 		[WebGet(UriTemplate = "status/get")]
 		Stream GetStatus();
+
+		[OperationContract]
+		[WebGet(UriTemplate = "resourceDir/get")]
+		Stream GetResourceDir();
+
+		[OperationContract]
+		[WebInvoke(Method = "POST", UriTemplate = "resourceDir/set",
+			BodyStyle = WebMessageBodyStyle.Bare)]
+		Stream SetResourceDir(Stream requestContent);
 	}
 
 	[ServiceBehavior(
@@ -110,8 +119,7 @@ namespace Wammer.Station
 				}
 			}
 
-			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
-														new CloudResponse(200, 0, "success"));
+			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current);
 		}
 
 		public Stream GetStatus()
@@ -119,6 +127,45 @@ namespace Wammer.Station
 			StationStatus res = StatusChecker.GetStatus();
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
+		}
+
+		public Stream GetResourceDir()
+		{
+			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
+				new
+				{
+					status = 200,
+					api_ret_code = 0,
+					api_ret_msg = "success",
+					timestamp = DateTime.UtcNow,
+					path = Path.IsPathRooted(resourceBasePath)?
+							resourceBasePath : Path.GetFullPath(resourceBasePath)
+				});
+		}
+		
+		public Stream SetResourceDir(Stream requestContent)
+		{
+			try
+			{
+				NameValueCollection parameters = WCFRestHelper.ParseFormData(requestContent);
+				string path = parameters["path"];
+
+				if (path == null || !Path.IsPathRooted(path))
+				{
+					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+						HttpStatusCode.BadRequest, new CloudResponse((int)HttpStatusCode.BadRequest,
+							(int)StationApiError.BadPath, "path is null or not a full path"));
+				}
+
+				StationRegistry.SetValue("resourceBasePath", path);
+
+				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current);
+			}
+			catch (Exception e)
+			{
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+					HttpStatusCode.InternalServerError, -1, e.Message);
+			}
 		}
 
 		private static MemoryStream AlreadyHasStation(User user)

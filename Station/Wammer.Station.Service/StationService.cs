@@ -28,6 +28,7 @@ namespace Wammer.Station.Service
 		private List<WebServiceHost> serviceHosts = new List<WebServiceHost>();
 		private StationTimer stationTimer;
 		private string stationId;
+		private string resourceBasePath;
 
 		public StationService()
 		{
@@ -48,15 +49,12 @@ namespace Wammer.Station.Service
 
 		protected override void OnStart(string[] args)
 		{
-			stationId = (string)StationRegistry.GetValue("stationId", null);
-			if (stationId == null)
-			{
-				stationId = Guid.NewGuid().ToString();
-				StationRegistry.SetValue("stationId", stationId);
-			}
-
 			Environment.CurrentDirectory = Path.GetDirectoryName(
 									Assembly.GetExecutingAssembly().Location);
+
+			InitStationId();
+			InitResourceBasePath();
+			
 
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
 			stationTimer = new StationTimer();
@@ -70,7 +68,7 @@ namespace Wammer.Station.Service
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/stations/");
 			server.AddDefaultHandler(cloudForwarder);
 
-			FileStorage storage = new FileStorage("resource");
+			FileStorage storage = new FileStorage(resourceBasePath);
 
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
@@ -114,6 +112,28 @@ namespace Wammer.Station.Service
 			WebServiceHost svcHost = new WebServiceHost(service, new Uri(url));
 			svcHost.Open();
 			serviceHosts.Add(svcHost);
+		}
+
+		private void InitResourceBasePath()
+		{
+			resourceBasePath = (string)StationRegistry.GetValue("resourceBasePath", null);
+			if (resourceBasePath == null)
+			{
+				resourceBasePath = "resource";
+				if (!Directory.Exists(resourceBasePath))
+					Directory.CreateDirectory(resourceBasePath);
+			}
+		}
+
+		private void InitStationId()
+		{
+			stationId = (string)StationRegistry.GetValue("stationId", null);
+
+			if (stationId == null)
+			{
+				stationId = Guid.NewGuid().ToString();
+				StationRegistry.SetValue("stationId", stationId);
+			}
 		}
 	}
 

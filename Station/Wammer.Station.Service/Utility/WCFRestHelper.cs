@@ -66,6 +66,11 @@ namespace Wammer.Utility
 			}
 		}
 
+		public static MemoryStream GenerateSucessStream(WebOperationContext webContext)
+		{
+			return GenerateSucessStream(webContext, new CloudResponse(200, 0, "success"));
+		}
+
 		public static NameValueCollection ParseFormData(Stream requestContent)
 		{
 			using (StreamReader r = new StreamReader(requestContent))

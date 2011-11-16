@@ -31,9 +31,7 @@ namespace Wammer.Station.StartUp
 
 		private void okButton_Click(object sender, EventArgs e)
 		{
-			if (textFolder.Text.Length == 0 ||
-				textEmail.Text.Length == 0 ||
-				textPassword.Text.Length == 0)
+			if (textEmail.Text.Length == 0 || textPassword.Text.Length == 0)
 			{
 				MessageBox.Show("All fields must be filled.");
 				return;
@@ -43,8 +41,7 @@ namespace Wammer.Station.StartUp
 			{
 				Wammer.Model.Drivers.RequestToAdd("http://localhost:9981/v2/station/drivers/add",
 					textEmail.Text,
-					textPassword.Text,
-					textFolder.Text);
+					textPassword.Text);
 
 				MessageBox.Show("User has been successfully added to this station. blah blah...");
 				this.Close();
@@ -114,25 +111,6 @@ namespace Wammer.Station.StartUp
 		{
 			e.Link.Visited = true;
 			System.Diagnostics.Process.Start(e.Link.LinkData as string);
-		}
-
-		private void AddUserPage_Load(object sender, EventArgs e)
-		{
-			string defPath = Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Waveface");
-			
-			textFolder.Text = defPath;
-		}
-
-		private void btnFolderSelect_Click(object sender, EventArgs e)
-		{
-			openFolderDialog.SelectedPath = textFolder.Text;
-			DialogResult result = openFolderDialog.ShowDialog();
-			if (result == System.Windows.Forms.DialogResult.OK)
-			{
-				textFolder.Text = openFolderDialog.SelectedPath;
-			}
 		}
 	}
 }
