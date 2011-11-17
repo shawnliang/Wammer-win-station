@@ -72,7 +72,8 @@ namespace Wammer.Station
 				DbDocs = Attachments.collection,
 				Meta = meta,
 				UserApiKey = Parameters["apikey"],
-				USerSessionToken = Parameters["session_token"]
+				UserSessionToken = Parameters["session_token"],
+				FolderPath = driver.folder
 			};
 
 			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
@@ -222,7 +223,8 @@ namespace Wammer.Station
 		public ImageMeta Meta { get; set; }
 		public MongoCollection DbDocs { get; set; }
 		public string UserApiKey { get; set; }
-		public string USerSessionToken { get; set; }
+		public string UserSessionToken { get; set; }
+		public string FolderPath { get; set; }
 
 		public ImageAttachmentEventArgs()
 		{

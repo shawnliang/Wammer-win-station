@@ -19,13 +19,7 @@ namespace Wammer.Station
 {
 	public class ImagePostProcessing
 	{
-		private readonly FileStorage fileStorage;
 		private static ILog logger = LogManager.GetLogger(typeof(ImagePostProcessing));
-
-		public ImagePostProcessing(FileStorage fileStorage)
-		{
-			this.fileStorage = fileStorage;
-		}
 
 		public void HandleImageAttachmentSaved(object sender, ImageAttachmentEventArgs evt)
 		{
@@ -38,7 +32,7 @@ namespace Wammer.Station
 				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
 				{
 					ThumbnailInfo small = MakeThumbnail(origImage, ImageMeta.Small,
-																		evt.Attachment.object_id);
+														evt.Attachment.object_id, evt.FolderPath);
 
 					Attachments update = new Attachments
 					{
@@ -64,7 +58,7 @@ namespace Wammer.Station
 							 ImageMeta = ImageMeta.Small,
 							 Thumbnail = small,
 							 UserApiKey = evt.UserApiKey,
-							 UserSessionToken = evt.USerSessionToken
+							 UserSessionToken = evt.UserSessionToken
 						});
 				}
 			}
@@ -95,9 +89,12 @@ namespace Wammer.Station
 				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
 				{
 					string origImgObjectId = evt.Attachment.object_id;
-					ThumbnailInfo medium = MakeThumbnail(origImage, ImageMeta.Medium, origImgObjectId);
-					ThumbnailInfo large = MakeThumbnail(origImage, ImageMeta.Large, origImgObjectId);
-					ThumbnailInfo square = MakeThumbnail(origImage, ImageMeta.Square, origImgObjectId);
+					ThumbnailInfo medium = MakeThumbnail(origImage, ImageMeta.Medium,
+																origImgObjectId, evt.FolderPath);
+					ThumbnailInfo large = MakeThumbnail(origImage, ImageMeta.Large,
+																origImgObjectId, evt.FolderPath);
+					ThumbnailInfo square = MakeThumbnail(origImage, ImageMeta.Square,
+																origImgObjectId, evt.FolderPath);
 
 					Attachments update = new Attachments
 					{
@@ -116,11 +113,11 @@ namespace Wammer.Station
 					evt.DbDocs.Save<BsonDocument>(doc);
 
 					UpstreamThumbnail(medium, evt.Attachment.group_id, evt.Attachment.object_id,
-						ImageMeta.Medium, evt.UserApiKey, evt.USerSessionToken);
+						ImageMeta.Medium, evt.UserApiKey, evt.UserSessionToken);
 					UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
-						ImageMeta.Large, evt.UserApiKey, evt.USerSessionToken);
+						ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
 					UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
-						ImageMeta.Square, evt.UserApiKey, evt.USerSessionToken);
+						ImageMeta.Square, evt.UserApiKey, evt.UserSessionToken);
 				}
 			}
 			catch (Exception e)
@@ -137,7 +134,8 @@ namespace Wammer.Station
 			}
 		}
 
-		private ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, string attachmentId)
+		private ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, string attachmentId, 
+			string folderPath)
 		{
 			Bitmap thumbnail = null;
 
@@ -155,7 +153,7 @@ namespace Wammer.Station
 				string thumbFileName = string.Format("{0}_{1}.jpeg",
 														attachmentId, meta.ToString().ToLower());
 				
-				fileStorage.Save(thumbFileName, rawData);
+				new FileStorage(folderPath).Save(thumbFileName, rawData);
 
 				return new ThumbnailInfo
 				{

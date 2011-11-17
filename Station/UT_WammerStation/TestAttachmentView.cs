@@ -18,20 +18,14 @@ namespace UT_WammerStation
 	public class TestAttachmentView
 	{
 		static MongoServer mongodb;
-		static FileStorage storage;
 
 		Guid object_id1;
 		Guid object_id2;
 
-		static AtomicDictionary<string, FileStorage> groupFolders;
-
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
 		{
-			storage = new FileStorage("resource");
 			mongodb = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
-			groupFolders = new AtomicDictionary<string, FileStorage>();
-			groupFolders["group1"] = new FileStorage("resource");
 		}
 
 		[TestInitialize]

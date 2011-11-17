@@ -125,6 +125,9 @@ namespace UT_WammerStation
 					groups = groups
 				}
 			);
+
+			if (!Directory.Exists("resource"))
+				Directory.CreateDirectory("resource");
 		}
 
 		[TestCleanup]
@@ -132,6 +135,9 @@ namespace UT_WammerStation
 		{
 			if (mongodb.GetDatabase("wammer").CollectionExists("attachments"))
 				mongodb.GetDatabase("wammer").DropCollection("attachments");
+
+			if (Directory.Exists("resource"))
+				Directory.Delete("resource", true);
 		}
 
 		[TestMethod]
@@ -298,10 +304,11 @@ namespace UT_WammerStation
 				Meta = ImageMeta.Origin,
 				DbDocs = mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments"),
 				UserApiKey = "key1",
-				USerSessionToken = "token1"
+				UserSessionToken = "token1",
+				FolderPath = "resource"
 			};
 
-			ImagePostProcessing post = new ImagePostProcessing(new FileStorage("resource"));
+			ImagePostProcessing post = new ImagePostProcessing();
 			post.HandleImageAttachmentSaved(this, args);
 
 			//save
@@ -338,11 +345,12 @@ namespace UT_WammerStation
 				},
 				Meta = ImageMeta.Origin,
 				DbDocs = mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments"),
-				USerSessionToken = "session1",
-				UserApiKey = "apikey1"
+				UserSessionToken = "session1",
+				UserApiKey = "apikey1",
+				FolderPath = "resource"
 			};
 
-			ImagePostProcessing post = new ImagePostProcessing(new FileStorage("resource"));
+			ImagePostProcessing post = new ImagePostProcessing();
 			post.HandleImageAttachmentCompletedSync(args);
 
 			//save
