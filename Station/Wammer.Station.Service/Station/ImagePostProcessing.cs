@@ -27,6 +27,9 @@ namespace Wammer.Station
 			if (evt.Meta != ImageMeta.Origin)
 				return;
 
+			if (evt.Attachment.image_meta != null && evt.Attachment.image_meta.small != null)
+				return;
+
 			try
 			{
 				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
@@ -86,7 +89,11 @@ namespace Wammer.Station
 
 			try
 			{
-				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
+				Bitmap origImage = evt.Attachment.Bitmap;
+				if (origImage==null)
+					origImage = BuildBitmap(evt.Attachment.RawData);
+				
+				using (origImage)
 				{
 					string origImgObjectId = evt.Attachment.object_id;
 					ThumbnailInfo medium = MakeThumbnail(origImage, ImageMeta.Medium,
@@ -134,7 +141,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, string attachmentId, 
+		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, string attachmentId, 
 			string folderPath)
 		{
 			Bitmap thumbnail = null;
@@ -160,7 +167,7 @@ namespace Wammer.Station
 					file_name = thumbFileName,
 					width = thumbnail.Width,
 					height = thumbnail.Height,
-					file_size = (int)m.Length, // TODO: no cast
+					file_size = m.Length,
 					mime_type = "image/jpeg",
 					modify_time = DateTime.UtcNow,
 					url = "/v2/attachments/view/?object_id=" + attachmentId +

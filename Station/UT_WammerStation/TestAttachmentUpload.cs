@@ -14,6 +14,8 @@ using Wammer.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
+using System.Drawing;
+
 namespace UT_WammerStation
 {
 	[TestClass]
@@ -145,37 +147,61 @@ namespace UT_WammerStation
 				server.AddHandler("/test/", new AttachmentUploadHandler());
 				server.Start();
 
-				FakeClient client = new FakeClient("http://localhost:8080/test/",
-															"multipart/form-data; boundary=AaB03x");
-				FakeClientResult result = client.PostFile("ObjectUpload1_noObjId.txt");
+				ObjectUploadResponse res = null;
+				using (FileStream input = File.OpenRead("Penguins.jpg"))
+				using (MemoryStream output = new MemoryStream())
+				{
+					input.CopyTo(output);
+					res = Attachments.UploadImage("http://localhost:8080/test/", output.ToArray(),
+						"group1", null, "filename1.jpg", "image/jpeg",
+						ImageMeta.Origin, "key1", "token");
 
 
-				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
-										<ObjectUploadResponse>(result.ResponseAsText);
+					Assert.IsNotNull(res);
+					Assert.AreEqual(200, res.status);
+					Assert.AreEqual(0, res.api_ret_code);
 
-				Assert.AreEqual(200, res.status);
-				Assert.AreEqual(0, res.api_ret_code);
+					MongoDatabase db = mongo.GetDatabase("wammer");
+					Assert.IsNotNull(db);
+					MongoCollection<BsonDocument> attachments = db.GetCollection("attachments");
+					Attachments saveData =
+						attachments.FindOneAs<Attachments>(new QueryDocument("_id", res.object_id));
 
-				MongoDatabase db = mongo.GetDatabase("wammer");
-				Assert.IsNotNull(db);
-				MongoCollection<BsonDocument> attachments = db.GetCollection("attachments");
-				Attachments saveData = 
-					attachments.FindOneAs<Attachments>(new QueryDocument("_id", res.object_id));
+					Assert.IsNotNull(saveData);
+					Assert.AreEqual("group1", saveData.group_id);
+					Assert.AreEqual(1024, saveData.image_meta.width);
+					Assert.AreEqual(768, saveData.image_meta.height);
+					Assert.AreEqual("filename1.jpg", saveData.file_name);
+					Assert.AreEqual("image/jpeg", saveData.mime_type);
+					Assert.AreEqual("/v2/attachments/view/?object_id=" + res.object_id,
+									saveData.url);
+					Assert.AreEqual(input.Length, saveData.file_size);
+					Assert.AreEqual(AttachmentType.image, saveData.type);
+					Assert.IsNotNull(saveData.image_meta.small);
+					Assert.AreEqual((int)ImageMeta.Small, saveData.image_meta.small.width);
+					Assert.AreEqual("image/jpeg", saveData.image_meta.small.mime_type);
+					Assert.AreEqual("/v2/attachments/view/?object_id=" + res.object_id
+									+ "&image_meta=small",
+									saveData.image_meta.small.url);
 
-				Assert.IsNotNull(saveData);
-				Assert.AreEqual("title1", saveData.title);
-				Assert.AreEqual("desc", saveData.description);
-				Assert.AreEqual("image/jpeg", saveData.mime_type);
-				Assert.AreEqual("/v2/attachments/view/?object_id=" + res.object_id,
-								saveData.url);
-				Assert.AreEqual(20, saveData.file_size);
-				Assert.AreEqual(AttachmentType.image, saveData.type);
-				Assert.IsNull(saveData.image_meta);
+					using (Bitmap origImg = new Bitmap(Path.Combine("resource", res.object_id + ".jpg")))
+					{
+						Assert.AreEqual(1024, origImg.Width);
+						Assert.AreEqual(768, origImg.Height);
+					}
+
+					using (Bitmap smallImg = new Bitmap(Path.Combine("resource", res.object_id + "_small.jpeg")))
+					{
+						Assert.AreEqual(120, smallImg.Width);
+						Assert.AreEqual(90, smallImg.Height);
+					}
+
+				}
 			}
 		}
 
 		[TestMethod]
-		public void TestObjectReceiveHandler_withoutObjectId()
+		public void TestObjectReceiveHandler_UploadNewSmallImage()
 		{
 			using (FakeCloud cloud = new FakeCloud(cloudResponse))
 			using (HttpServer server = new HttpServer(8080))
@@ -183,24 +209,51 @@ namespace UT_WammerStation
 				server.AddHandler("/test/", new AttachmentUploadHandler());
 				server.Start();
 
-				FakeClient client = new FakeClient("http://localhost:8080/test/",
-															"multipart/form-data; boundary=AaB03x");
-				FakeClientResult result = client.PostFile("ObjectUpload1_noObjId.txt");
-
-				ObjectUploadResponse res = fastJSON.JSON.Instance.ToObject
-										<ObjectUploadResponse>(result.ResponseAsText);
-
-				Assert.AreEqual(200, res.status);
-				Assert.IsNotNull(res.timestamp);
-				Assert.AreEqual(0, res.api_ret_code);
-				Assert.AreEqual("Success", res.api_ret_msg);
-				Assert.IsNotNull(res.object_id);
-
-				using (FileStream fs = File.OpenRead(@"resource\" + res.object_id + ".jpeg"))
-				using (StreamReader ss = new StreamReader(fs))
+				ObjectUploadResponse res = null;
+				using (FileStream input = File.OpenRead("Penguins.jpg"))
+				using (MemoryStream output = new MemoryStream())
 				{
-					string fileContent = ss.ReadToEnd();
-					Assert.AreEqual("1234567890abcdefghij", fileContent);
+					input.CopyTo(output);
+					res = Attachments.UploadImage("http://localhost:8080/test/", output.ToArray(),
+						"group1", null, "filename1.jpg", "image/jpeg",
+						ImageMeta.Large, "key1", "token");
+
+
+					Assert.IsNotNull(res);
+					Assert.AreEqual(200, res.status);
+					Assert.AreEqual(0, res.api_ret_code);
+
+					MongoCollection<BsonDocument> attachments = mongo.GetDatabase("wammer").
+																GetCollection("attachments");
+					Attachments saveData =
+						attachments.FindOneAs<Attachments>(new QueryDocument("_id", res.object_id));
+
+					Assert.IsNotNull(saveData);
+					Assert.AreEqual("group1", saveData.group_id);
+					Assert.AreEqual(0, saveData.image_meta.width);
+					Assert.AreEqual(0, saveData.image_meta.height);
+					Assert.AreEqual("filename1.jpg", saveData.file_name);
+					Assert.AreEqual(0, saveData.file_size);
+					Assert.AreEqual(null, saveData.mime_type);
+					Assert.AreEqual(null, saveData.url);
+					
+					Assert.AreEqual(AttachmentType.image, saveData.type);
+					Assert.IsNotNull(saveData.image_meta.large);
+					Assert.AreEqual(1024, saveData.image_meta.large.width);
+					Assert.AreEqual(768, saveData.image_meta.large.height);
+					Assert.AreEqual("image/jpeg", saveData.image_meta.large.mime_type);
+					Assert.AreEqual("/v2/attachments/view/?object_id=" + res.object_id
+									+ "&image_meta=large",
+									saveData.image_meta.large.url);
+
+					Assert.IsFalse(File.Exists("resource\\" + res.object_id + ".jpg"));
+
+					using (Bitmap largeImg = new Bitmap("resource\\" + res.object_id + "_large.jpg"))
+					{
+						Assert.AreEqual(1024, largeImg.Width);
+						Assert.AreEqual(768, largeImg.Height);
+					}
+
 				}
 			}
 		}

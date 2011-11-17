@@ -8,7 +8,7 @@ using Wammer.MultiPart;
 using Wammer.Cloud;
 using Wammer.Utility;
 using Wammer.Model;
-
+using System.Drawing;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
@@ -40,6 +40,7 @@ namespace Wammer.Station
 		{
 			Attachments file = GetFileFromMultiPartData();
 			ImageMeta meta = GetImageMeta();
+			bool isNewOrigImage = file.object_id == null && meta == ImageMeta.Origin;
 
 			if (file.object_id == null)
 			{
@@ -49,17 +50,37 @@ namespace Wammer.Station
 			if (Parameters["apikey"] == null || Parameters["session_token"] == null)
 				throw new FormatException("apikey or session_token is missing");
 			
+			Drivers driver = Drivers.collection.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));
+			if (driver==null)
+				throw new FormatException("group_id is not assocaited with a registered user");
+
 			// Upload to cloud and then save to local to ensure cloud post API
 			// can process post with attachments correctly.
 			// In the future when station is able to handle post and sync data with cloud
 			// this step is not necessary
-			ObjectUploadResponse res =
+			if (isNewOrigImage)
+			{
+				file.Bitmap = new Bitmap(new MemoryStream(file.RawData));
+				ThumbnailInfo small = ImagePostProcessing.MakeThumbnail(
+									file.Bitmap, ImageMeta.Small, file.object_id, driver.folder);
+				Attachments thumb = new Attachments(file);
+				thumb.RawData = small.RawData;
+				thumb.file_size = small.file_size;
+				thumb.mime_type = small.mime_type;
+				thumb.Upload(ImageMeta.Small, Parameters["apikey"], Parameters["session_token"]);
+
+				file.image_meta = new ImageProperty
+				{
+					small = small,
+					width = file.Bitmap.Width,
+					height = file.Bitmap.Height
+				};
+			}
+			else 
 				file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
-			//if (res.object_id != file.object_id)
-			//    throw new Exception("cloud responded an id that is diffrent with the original one");
 
 			string savedName = GetSavedFilename(file, meta);
-			Drivers driver = Drivers.collection.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));
+			
 			FileStorage storage = new FileStorage(driver.folder);
 			storage.Save(savedName, file.RawData);
 			file.file_size = file.RawData.Length;
@@ -111,23 +132,28 @@ namespace Wammer.Station
 			}
 			else
 			{
-				Attachments thumbnailAttachment = new Attachments(file);
-				thumbnailAttachment.image_meta = new ImageProperty();
-				thumbnailAttachment.image_meta.SetThumbnailInfo(meta,
-					new ThumbnailInfo
-					{
-						mime_type = file.mime_type,
-						modify_time = DateTime.UtcNow,
-						url = file.url + "&image_meta=" + meta.ToString().ToLower(),
-						file_size = file.file_size,
-						file_name = savedName
-					});
+				using (Bitmap img = new Bitmap(new MemoryStream(file.RawData)))
+				{
+					Attachments thumbnailAttachment = new Attachments(file);
+					thumbnailAttachment.image_meta = new ImageProperty();
+					thumbnailAttachment.image_meta.SetThumbnailInfo(meta,
+						new ThumbnailInfo
+						{
+							mime_type = file.mime_type,
+							modify_time = DateTime.UtcNow,
+							url = file.url + "&image_meta=" + meta.ToString().ToLower(),
+							file_size = file.file_size,
+							file_name = savedName,
+							width = img.Width,
+							height = img.Height
+						});
 
-				thumbnailAttachment.mime_type = null;
-				thumbnailAttachment.modify_time = DateTime.UtcNow;
-				thumbnailAttachment.url = null;
-				thumbnailAttachment.file_size = 0;
-				return thumbnailAttachment.ToBsonDocument();
+					thumbnailAttachment.mime_type = null;
+					thumbnailAttachment.modify_time = DateTime.UtcNow;
+					thumbnailAttachment.url = null;
+					thumbnailAttachment.file_size = 0;
+					return thumbnailAttachment.ToBsonDocument();
+				}
 			}
 		}
 

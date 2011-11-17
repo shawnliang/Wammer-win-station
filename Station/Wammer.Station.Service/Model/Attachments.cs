@@ -59,7 +59,7 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public DateTime modify_time { get; set; }
 		[BsonIgnoreIfNull]
-		public int file_size { get; set; }
+		public long file_size { get; set; }
 		[BsonIgnoreIfNull]
 		public string file_name { get; set; }
 		[BsonIgnoreIfNull]
@@ -261,11 +261,15 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public string image { get; set; }
 		[BsonIgnoreIfNull]
-		public int file_size { get; set; }
+		public long file_size { get; set; }
 		[BsonIgnoreIfNull]
 		public DateTime modify_time { get; set; }
 		[BsonIgnoreIfNull]
 		public ImageProperty image_meta { get; set; }
+
+		[BsonIgnore]
+		[System.Xml.Serialization.XmlIgnore]
+		public System.Drawing.Bitmap Bitmap { get; set; }
 
 		[BsonIgnore]
 		[System.Xml.Serialization.XmlIgnore]

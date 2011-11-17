@@ -283,7 +283,7 @@ namespace UT_WammerStation
 
 				Assert.AreEqual(res.object_id + "_large.jpeg",
 					meta["large"].AsBsonDocument["file_name"]);
-				Assert.AreEqual(imageRawData.Length, meta["large"].AsBsonDocument["file_size"].AsInt32);
+				Assert.AreEqual(imageRawData.Length, meta["large"].AsBsonDocument["file_size"].ToInt32());
 				Assert.AreEqual("image/jpeg", meta["large"].AsBsonDocument["mime_type"].AsString);
 			}
 		}
