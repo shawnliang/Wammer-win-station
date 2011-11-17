@@ -8,7 +8,7 @@ Vagrant::Config.run do |config|
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "http://shawnliang-pc:9191/wfstation_x86.box"
+  config.vm.box_url = "http://shawnliang-pc.local:9191/wfstation_x86.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   config.vm.boot_mode = :gui
