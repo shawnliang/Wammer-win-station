@@ -71,15 +71,11 @@ namespace UT_WammerStation
 				status = ((HttpWebResponse)e.Response).StatusCode;
 			}
 
-			byte[] resData = null;
-
-			using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+			using (MemoryStream output = new MemoryStream())
+			using (Stream input = response.GetResponseStream())
 			{
-				resData = reader.ReadBytes((int)response.ContentLength);
-				if (response.ContentLength != resData.Length)
-					throw new Exception("header content length is diff with actual length");
-
-				return new FakeClientResult(status, resData);
+				input.CopyTo(output);
+				return new FakeClientResult(status, output.ToArray());
 			}
 		}
 	}
