@@ -15,74 +15,206 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmKey" = "8:_046CCC1903984716BE582BCCD0476771"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_60B620341A6A4D19932A43865674F446"
+        "MsmKey" = "8:_058EE42B745C583EFF2D6E643F9018B6"
+        "OwnerKey" = "8:_981EFC47C8C64FE5AF2C6F9DC07DD272"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_058EE42B745C583EFF2D6E643F9018B6"
+        "OwnerKey" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_058EE42B745C583EFF2D6E643F9018B6"
+        "OwnerKey" = "8:_1957F17930914FB59A0E0C14D49D631E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_058EE42B745C583EFF2D6E643F9018B6"
+        "OwnerKey" = "8:_E15BAAE6F6A38191EBC8D5992FCAFDDB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_058EE42B745C583EFF2D6E643F9018B6"
+        "OwnerKey" = "8:_3C5DD11E3CB9694F2066EEC88FA3956E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1957F17930914FB59A0E0C14D49D631E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_827F0E8D007C4174B802051220DC7B49"
+        "MsmKey" = "8:_33BD405BDD52EA8A5FDF429237E96E09"
+        "OwnerKey" = "8:_981EFC47C8C64FE5AF2C6F9DC07DD272"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_33BD405BDD52EA8A5FDF429237E96E09"
+        "OwnerKey" = "8:_1957F17930914FB59A0E0C14D49D631E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_33BD405BDD52EA8A5FDF429237E96E09"
+        "OwnerKey" = "8:_E15BAAE6F6A38191EBC8D5992FCAFDDB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_94E27735F632DA80D1FCBE2C4E814498"
-        "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmKey" = "8:_3C5DD11E3CB9694F2066EEC88FA3956E"
+        "OwnerKey" = "8:_981EFC47C8C64FE5AF2C6F9DC07DD272"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9F08B5EECD431A15E2FFF4244D41682B"
-        "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmKey" = "8:_3C5DD11E3CB9694F2066EEC88FA3956E"
+        "OwnerKey" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9F08B5EECD431A15E2FFF4244D41682B"
-        "OwnerKey" = "8:_94E27735F632DA80D1FCBE2C4E814498"
+        "MsmKey" = "8:_3C5DD11E3CB9694F2066EEC88FA3956E"
+        "OwnerKey" = "8:_1957F17930914FB59A0E0C14D49D631E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_D1B0E46D7A7C4B1DB83754831AB6F63C"
+        "MsmKey" = "8:_3C5DD11E3CB9694F2066EEC88FA3956E"
+        "OwnerKey" = "8:_E15BAAE6F6A38191EBC8D5992FCAFDDB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_76EA9B993C154F5B8201A9A83C5121F7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_D7DDEF9C74E943223AD23DF16689E690"
-        "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "MsmKey" = "8:_8887D744BEBC52D705974048C903206E"
+        "OwnerKey" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_981EFC47C8C64FE5AF2C6F9DC07DD272"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CE178A63E42071435740E8927C7DCA15"
+        "OwnerKey" = "8:_981EFC47C8C64FE5AF2C6F9DC07DD272"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CE178A63E42071435740E8927C7DCA15"
+        "OwnerKey" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CE178A63E42071435740E8927C7DCA15"
+        "OwnerKey" = "8:_1957F17930914FB59A0E0C14D49D631E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CE178A63E42071435740E8927C7DCA15"
+        "OwnerKey" = "8:_E15BAAE6F6A38191EBC8D5992FCAFDDB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E15BAAE6F6A38191EBC8D5992FCAFDDB"
+        "OwnerKey" = "8:_981EFC47C8C64FE5AF2C6F9DC07DD272"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E15BAAE6F6A38191EBC8D5992FCAFDDB"
+        "OwnerKey" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F79B55F8DC8C4695AA5E27EAD9056035"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+        "OwnerKey" = "8:_33BD405BDD52EA8A5FDF429237E96E09"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_94E27735F632DA80D1FCBE2C4E814498"
+        "OwnerKey" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9F08B5EECD431A15E2FFF4244D41682B"
+        "OwnerKey" = "8:_8887D744BEBC52D705974048C903206E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D7DDEF9C74E943223AD23DF16689E690"
+        "OwnerKey" = "8:_1957F17930914FB59A0E0C14D49D631E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_981EFC47C8C64FE5AF2C6F9DC07DD272"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E15BAAE6F6A38191EBC8D5992FCAFDDB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3C5DD11E3CB9694F2066EEC88FA3956E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_058EE42B745C583EFF2D6E643F9018B6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CE178A63E42071435740E8927C7DCA15"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -149,10 +281,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5.SP1"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    "Name" = "8:.NET Framework 3.5 SP1"
+                    "ProductCode" = "8:Microsoft.Net.Framework.3.5.SP1"
                     }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
                     {
@@ -167,59 +299,59 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_316C462FCD3441AAA700244E81F90024"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_12F207B4C6724263AFAC16C237D86CFB"
             {
             "Name" = "8:Primary output from InstallHelper (Active)"
             "Condition" = "8:"
-            "Object" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+            "Object" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
             "FileType" = "3:1"
             "InstallAction" = "3:4"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_A1C7DF08_4BD2_4135_B44B_C5EFD1F292C1"
+            "Identifier" = "8:_1B1C53E9_D44D_4530_AEAD_6F34A1F2089C"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B1C31CDA2BD24BA09CA7A1E83D264934"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_4B8FE6ED7F424B6D83778F4EEE2F1A40"
             {
             "Name" = "8:Primary output from InstallHelper (Active)"
             "Condition" = "8:"
-            "Object" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
-            "FileType" = "3:1"
-            "InstallAction" = "3:2"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_ACDE3D1A_B5E8_4123_A222_39F97D5491C8"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_ED7E639F9BD1482982FA5E05DE95CA26"
-            {
-            "Name" = "8:Primary output from InstallHelper (Active)"
-            "Condition" = "8:"
-            "Object" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
-            "FileType" = "3:1"
-            "InstallAction" = "3:3"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_05072E87_5331_4C66_9D1A_DFE0F0FCE4BE"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_F257387460C04889963E43274C27D7B9"
-            {
-            "Name" = "8:Primary output from InstallHelper (Active)"
-            "Condition" = "8:"
-            "Object" = "8:_2AC13526FE194F88A917C7BB96ACEC92"
+            "Object" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
             "FileType" = "3:1"
             "InstallAction" = "3:1"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_BF8CCA87_F2AC_44B3_8AE1_D267AF9021B5"
+            "Identifier" = "8:_FA38B220_7FCD_4D65_B5CE_6DDD940B2CC0"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_606237E088CE42D483D8C49F8B7DAEFB"
+            {
+            "Name" = "8:Primary output from InstallHelper (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
+            "FileType" = "3:1"
+            "InstallAction" = "3:3"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_A452015E_EB58_4B97_8E1A_2B822B803898"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_EEB28659BAEE4E7D8D7F5505775E2A83"
+            {
+            "Name" = "8:Primary output from InstallHelper (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_38BEF4F9C4854A6DAC900A37487C2417"
+            "FileType" = "3:1"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_9DD7743F_4908_4701_A37D_E829CCFA69DE"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -246,10 +378,10 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_60B620341A6A4D19932A43865674F446"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_046CCC1903984716BE582BCCD0476771"
             {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-win32-i386-2.0.1\\bin\\mongos.exe"
-            "TargetName" = "8:mongos.exe"
+            "SourcePath" = "8:..\\Station\\3rd_party\\mongodb-win32-i386-2.0.1\\bin\\mongo.exe"
+            "TargetName" = "8:mongo.exe"
             "Tag" = "8:"
             "Folder" = "8:_69B59C02A48C414AA9FBD73B6F0F82DB"
             "Condition" = "8:"
@@ -266,65 +398,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_827F0E8D007C4174B802051220DC7B49"
-            {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-win32-i386-2.0.1\\bin\\mongod.exe"
-            "TargetName" = "8:mongod.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_69B59C02A48C414AA9FBD73B6F0F82DB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_94E27735F632DA80D1FCBE2C4E814498"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_94E27735F632DA80D1FCBE2C4E814498"
-                    {
-                    "Name" = "8:MongoDB.Driver.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:MongoDB.Driver.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9F08B5EECD431A15E2FFF4244D41682B"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_058EE42B745C583EFF2D6E643F9018B6"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:MongoDB.Bson, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_9F08B5EECD431A15E2FFF4244D41682B"
+                    "_058EE42B745C583EFF2D6E643F9018B6"
                     {
                     "Name" = "8:MongoDB.Bson.dll"
                     "Attributes" = "3:512"
@@ -348,10 +429,72 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D1B0E46D7A7C4B1DB83754831AB6F63C"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_33BD405BDD52EA8A5FDF429237E96E09"
             {
-            "SourcePath" = "8:..\\3rd_party\\mongodb-win32-i386-2.0.1\\bin\\mongo.exe"
-            "TargetName" = "8:mongo.exe"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_33BD405BDD52EA8A5FDF429237E96E09"
+                    {
+                    "Name" = "8:fastJSON.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:fastJSON.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3C5DD11E3CB9694F2066EEC88FA3956E"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_3C5DD11E3CB9694F2066EEC88FA3956E"
+                    {
+                    "Name" = "8:MongoDB.Driver.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:MongoDB.Driver.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_76EA9B993C154F5B8201A9A83C5121F7"
+            {
+            "SourcePath" = "8:..\\Station\\3rd_party\\mongodb-win32-i386-2.0.1\\bin\\mongod.exe"
+            "TargetName" = "8:mongod.exe"
             "Tag" = "8:"
             "Folder" = "8:_69B59C02A48C414AA9FBD73B6F0F82DB"
             "Condition" = "8:"
@@ -368,14 +511,45 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D7DDEF9C74E943223AD23DF16689E690"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8887D744BEBC52D705974048C903206E"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_8887D744BEBC52D705974048C903206E"
+                    {
+                    "Name" = "8:fastJSON.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:fastJSON.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CE178A63E42071435740E8927C7DCA15"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_D7DDEF9C74E943223AD23DF16689E690"
+                    "_CE178A63E42071435740E8927C7DCA15"
                     {
                     "Name" = "8:log4net.dll"
                     "Attributes" = "3:512"
@@ -397,6 +571,57 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E15BAAE6F6A38191EBC8D5992FCAFDDB"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Wammer.Station.Service, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_E15BAAE6F6A38191EBC8D5992FCAFDDB"
+                    {
+                    "Name" = "8:Wammer.Station.Service.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Wammer.Station.Service.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F79B55F8DC8C4695AA5E27EAD9056035"
+            {
+            "SourcePath" = "8:..\\Station\\3rd_party\\mongodb-win32-i386-2.0.1\\bin\\mongos.exe"
+            "TargetName" = "8:mongos.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_69B59C02A48C414AA9FBD73B6F0F82DB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
         }
@@ -522,7 +747,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WammerStation"
         "ProductCode" = "8:{51CEB67C-B0F6-4AAA-A592-A3E17FB7CD0A}"
-        "PackageCode" = "8:{240AA706-8647-4E39-8831-E112A5ABDD9F}"
+        "PackageCode" = "8:{6F6885F8-C460-45CC-9657-D1DB108FAF87}"
         "UpgradeCode" = "8:{D5EBDF33-1109-48DC-B42B-56228E56A3C4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -656,15 +881,15 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F3726020EC1D44E282BF1D8D59E42EAD"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4C38A637DAFB4DB592BB35E9547101DE"
             {
-            "Name" = "8:Add User to Wammer Station"
+            "Name" = "8:Add User"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:"
+            "Target" = "8:_981EFC47C8C64FE5AF2C6F9DC07DD272"
             "Folder" = "8:_164F53C2B88E40E7852A809CAB3E963D"
             "WorkingFolder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
             "Icon" = "8:"
@@ -1069,9 +1294,37 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2AC13526FE194F88A917C7BB96ACEC92"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1957F17930914FB59A0E0C14D49D631E"
             {
-            "SourcePath" = "8:..\\InstallHelper\\obj\\Debug\\InstallHelper.dll"
+            "SourcePath" = "8:..\\Station\\Wammer.Station.Service\\obj\\Release\\Wammer.Station.Service.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{C7B8A613-B0D8-49B4-B232-54A222E0095C}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_38BEF4F9C4854A6DAC900A37487C2417"
+            {
+            "SourcePath" = "8:..\\InstallHelper\\obj\\Release\\InstallHelper.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
@@ -1092,6 +1345,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{4038B794-20B1-49F4-A1E9-EA35CA32582C}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_981EFC47C8C64FE5AF2C6F9DC07DD272"
+            {
+            "SourcePath" = "8:..\\Station\\Wammer.Station.AddUserApp\\obj\\Release\\Wammer.Station.AddUserApp.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_475FCC6C53584F1A9340450A3AA1F161"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{3936A35E-6EB1-439E-A575-02B3A25C8752}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
