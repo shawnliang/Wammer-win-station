@@ -25,8 +25,13 @@ namespace Wammer.Utility
 
 		public static string GetBaseURL()
 		{
-			IPAddress ip = GetIPAddressesV4()[0];
-			return "http://" + ip + ":9981/";
+			IPAddress[] addresses = GetIPAddressesV4();
+
+			if (addresses.Length > 0)
+				return "http://" + addresses[0] + ":9981/";
+			else
+				// in case there is no external network connection
+				return "http://localhost:9981/";
 		}
 	}
 }

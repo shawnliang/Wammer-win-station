@@ -21,7 +21,6 @@ namespace Wammer.Station
 
 				response.StatusCode = json.status;
 				response.ContentType = "application/json";
-				response.ContentLength64 = resText.Length;
 
 				using (StreamWriter w = new StreamWriter(response.OutputStream))
 				{
@@ -50,7 +49,6 @@ namespace Wammer.Station
 			using (StreamWriter w = new StreamWriter(response.OutputStream))
 			{
 				string json = fastJSON.JSON.Instance.ToJSON(jsonObj, false, false, false, false);
-				response.ContentLength64 = json.Length;
 				w.Write(json);
 			}
 		}

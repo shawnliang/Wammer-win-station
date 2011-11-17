@@ -83,7 +83,7 @@ namespace Wammer.Station
 					Dictionary<object, object> location = new Dictionary<object, object>
 												{ {"location", baseurl} };
 
-					logger.DebugFormat("cloud signup, stationId=0}, token={1}, location={2}", stationId, user.Token, baseurl);
+					logger.DebugFormat("cloud signup, stationId={0}, token={1}, location={2}", stationId, user.Token, baseurl);
 					Cloud.Station station = Cloud.Station.SignUp(agent, 
 																stationId, user.Token, location);
 					logger.DebugFormat("cloud logon, session token={0}", station.Token);
@@ -106,7 +106,7 @@ namespace Wammer.Station
 							{
 								Id = stationId,
 								SessionToken = station.Token,
-								Location = NetworkHelper.GetBaseURL(),
+								Location = baseurl,
 								LastLogOn = DateTime.Now
 							}
 						);
@@ -114,7 +114,7 @@ namespace Wammer.Station
 					else
 					{
 						logger.Debug("update station information");
-						sinfo.Location = NetworkHelper.GetBaseURL();
+						sinfo.Location = baseurl;
 						sinfo.LastLogOn = DateTime.Now;
 						StationInfo.collection.Save(sinfo);
 					}
