@@ -45,6 +45,7 @@ namespace Wammer.Station
 	{
 		private readonly string resourceBasePath;
 		private readonly string stationId;
+		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StationManagementService));
 
 		public StationManagementService(string resourceBasePath, string stationId)
 		{
@@ -72,16 +73,20 @@ namespace Wammer.Station
 			{
 				try
 				{
+					logger.DebugFormat("login with given driver information, email={0}", email);
 					User user = User.LogIn(agent, email, password);
 
 					if (user.Stations != null && user.Stations.Count > 0)
 						return AlreadyHasStation(user);
 
+					string baseurl = NetworkHelper.GetBaseURL();
 					Dictionary<object, object> location = new Dictionary<object, object>
-												{ {"location", NetworkHelper.GetBaseURL()} };
+												{ {"location", baseurl} };
 
-					Cloud.Station station = Cloud.Station.SignUp(agent,
+					logger.DebugFormat("cloud signup, stationId=0}, token={1}, location={2}", stationId, user.Token, baseurl);
+					Cloud.Station station = Cloud.Station.SignUp(agent, 
 																stationId, user.Token, location);
+					logger.DebugFormat("cloud logon, session token={0}", station.Token);
 					station.LogOn(agent, location);
 					Drivers.collection.Save(
 						new Drivers {
@@ -91,14 +96,28 @@ namespace Wammer.Station
 							groups = user.Groups
 						}
 					);
-					StationInfo.collection.Save(
-						new StationInfo { 
-							Id = stationId, 
-							SessionToken = station.Token, 
-							Location = NetworkHelper.GetBaseURL(), 
-							LastLogOn = DateTime.Now
-						}
-					);
+
+					StationInfo sinfo = StationInfo.collection.FindOne();
+					if (sinfo == null)
+					{
+						logger.Debug("first add driver, save station information");
+						StationInfo.collection.Save(
+							new StationInfo
+							{
+								Id = stationId,
+								SessionToken = station.Token,
+								Location = NetworkHelper.GetBaseURL(),
+								LastLogOn = DateTime.Now
+							}
+						);
+					}
+					else
+					{
+						logger.Debug("update station information");
+						sinfo.Location = NetworkHelper.GetBaseURL();
+						sinfo.LastLogOn = DateTime.Now;
+						StationInfo.collection.Save(sinfo);
+					}
 				}
 				catch (WammerCloudException ex)
 				{
@@ -124,6 +143,7 @@ namespace Wammer.Station
 
 		public Stream GetStatus()
 		{
+			logger.Debug("GetStatus is called");
 			StationStatus res = StatusChecker.GetStatus();
 
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
