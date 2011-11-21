@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Net;
 
+using Wammer.Station;
+
 namespace Wammer.Utility
 {
 	class NetworkHelper
@@ -25,6 +27,13 @@ namespace Wammer.Utility
 
 		public static string GetBaseURL()
 		{
+			// fix IP for testing
+			string staticIP = (string)StationRegistry.GetValue("staticIP", "");
+			if (staticIP != "")
+			{
+				return "http://" + staticIP + ":9981/";
+			}
+
 			IPAddress[] addresses = GetIPAddressesV4();
 
 			if (addresses.Length > 0)
