@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+  <?define AppCode = "WavefaceStation" ?>
+  <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
+  <?define AppVersionMajor = "1" ?>
+  <?define AppVersionMinor = "0" ?>
+  <?define AppVersionPatch = "0" ?>
+  <?define AppVersionBuild = "0" ?>
+  <?define AppVersion = "$(var.AppVersionMajor).$(var.AppVersionMinor).$(var.AppVersionPatch).$(var.AppVersionBuild)" ?>
+  <?define AppManufacturer = "Waveface" ?>
+  <?define DefaultCulture = "en-US" ?>
+  <Product Id="$(var.AppProductCode)" Name="$(var.AppCode)" Language="!(loc.LANGUAGE)" 
+           Version="$(var.AppVersion)" Manufacturer="$(var.AppManufacturer)" 
+           UpgradeCode="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
+    <Package Id="*" InstallerVersion="200" Compressed="yes" />
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="no" />
+    <Property Id="INSTALLLEVEL" Value="100" />
+    <Property Id="ALLUSERS" Value="1" />
+    <Property Id="TEST" Value="NO" />
+    <Icon Id="icon.ico" SourceFile="..\ProductBuild\sampleIcon.ico" />
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DOWNGRADE.ERROR)"/>
+    
+    <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
+      <Directory Id="ProgramMenuFolder" Name="Programs">
+        <Directory Id="ProgramMenuDir" Name="!(loc.APPNAME)">
+          <Component Id="pmd" Guid="{60fa9a1b-662a-43df-a97b-d7667e79cb19}">
+            <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes" />
+            <RemoveFolder Id="ProgramMenuDirRF" On="uninstall" />
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop" />
+    </Directory>
+
+    <?include Product.Uninstaller.wxi ?>
+    <!-- Directory Structure -->
+    <DirectoryRef Id="TARGETDIR">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLLOCATION" Name="$(var.AppCode)">
+          <Directory Id="log" Name="log"/>
+          <Component Id="log.folder" Guid="{7C0142E8-0AFD-4727-8672-C8275B0A9648}">
+            <CreateFolder/>
+          </Component>
+          <Directory Id="MongoDB" Name="MongoDB">
+            <Directory Id="Data" Name="Data">
+              <Component Id="MongoDB.Data" Guid="{295718C0-D799-465D-8F12-2B090EAA2028}">
+                <CreateFolder/>
+              </Component>
+              <Directory Id="DB" Name="DB">
+                <Component Id="MongoDB.Data.DB" Guid="{12BE1069-C314-4E57-951F-B6926556A533}">
+                  <CreateFolder/>
+                </Component>
+              </Directory>
+            </Directory>
+          </Directory>
+          <!--
+          <Component Id="MainExecutable" Guid="{0dec212f-1839-4c93-89b2-ab560548bb6f}">
+            <File Id="MainExecutableFile" Name="SampleApp.exe" Source="..\ProductBuild\sampleFile.txt" KeyPath="yes">
+              <Shortcut Id="MainExecutableStartMenu" Directory="ProgramMenuDir" Name="!(loc.APPNAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes"/>
+              <Shortcut Id="MainExecutableDesktop" Directory="DesktopFolder" Name="!(loc.APPNAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes" />
+            </File>
+          </Component>
+          <Component Id="SubFeatureExecutable" Guid="{be490d9f-5271-49e8-9408-fb32be9e2fda}">
+            <File Id="SubFeatureExecutableFile" Name="SampleLibrary.dll" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
+          </Component>
+          <Component Id="DocumentationPound" Guid="{1cea0107-5c1c-4bd1-8874-e4db11b08a3d}">
+            <File Id="DocumentationPoundFile" Name="Pound.currency" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
+          </Component>
+          <Component Id="DocumentationEuro" Guid="{1d9bdefa-392f-47ca-80cd-957ff3265aff}">
+            <File Id="DocumentationEuroFile" Name="Euro.currency" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
+          </Component>
+          <Component Id="DocumentationCommon" Guid="{36db1129-09f3-4fee-bb42-fae4d408bf18}">
+            <File Id="DocumentationCommonFile" Name="help.exe" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
+          </Component>
+          <Component Id="DocumentationEnglish" Guid="{2ab2b229-fc73-4411-83ae-cc356416a0e6}">
+            <File Id="DocumentationEnglishFile" Name="English.documentation" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
+          </Component>
+          <Component Id="DocumentationFrench" Guid="{ffd45953-af88-492f-8bcd-25ec52206561}">
+            <File Id="DocumentationFrenchFile" Name="French.documentation" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
+          </Component>
+          <Component Id="DocumentationGerman" Guid="{e9f0d915-46b5-4e0b-a695-c63a80d732ca}">
+            <File Id="DocumentationGermanFile" Name="German.documentation" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
+          </Component>
+          -->
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+   
+    <!-- Components -->
+    <ComponentGroup Id="Wammer.Station.Service">
+      <ComponentRef Id="wammer.station.service.exe"/>
+      <ComponentRef Id="wammer.station.service.exe.config"/>
+      <ComponentRef Id="fastJSON.dll"/>
+      <ComponentRef Id="log4net.dll"/>
+      <ComponentRef Id="MongoDB.Bson.dll"/>
+      <ComponentRef Id="MongoDB.Driver.dll"/>
+      <ComponentRef Id="Wammer.Station.AddUserApp.exe" />
+      <ComponentRef Id="Wammer.Station.AddUserApp.exe.config"/>
+    </ComponentGroup>
+
+    
+    <DirectoryRef Id="INSTALLLOCATION">
+      <Component Id="wammer.station.service.exe" Guid="{C428C8C2-9C38-4E40-8372-E39C56970A82}">
+        <File Id="wammer.station.service.exe" Source="$(var.Wammer.Station.Service.TargetPath)" KeyPath="yes" Checksum="yes"/>
+        <ServiceInstall Description="!(loc.STATION_SVC_DESC)" DisplayName="Waveface Station"
+                        Name="WavefaceStation" Start="auto" Type="ownProcess" ErrorControl="ignore">
+          <ServiceDependency Id="MongoDbForWaveface"/>
+        </ServiceInstall>
+        <ServiceControl Name='WavefaceStation' Id='WavefaceStationSvcControl' Start='install' Remove='uninstall' Stop='both' Wait='yes'/>
+      </Component>
+      <Component Id="wammer.station.service.exe.config" Guid="{17767F57-1550-4788-87E6-1B3C3A72D46D}">
+        <File Id="wammer.station.service.exe.config" 
+              Source="$(var.Wammer.Station.Service.ProjectDir)\app.config" 
+              Name="$(var.Wammer.Station.Service.TargetFileName).config" KeyPath="yes"/>
+      </Component>
+      <Component Id="fastJSON.dll" Guid="{CCF3E51A-1970-4E1B-B3A6-D0F196EF4810}">
+        <File Id="fastJSON.dll" Source="$(var.Wammer.Station.Service.TargetDir)\fastJSON.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="log4net.dll" Guid="{B3718834-E341-476D-8E97-BF858C95EE48}">
+        <File Id="log4net.dll" Source="$(var.Wammer.Station.Service.TargetDir)\log4net.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="MongoDB.Bson.dll" Guid="{254A62CE-42A7-4C89-922F-75D39E5A00CF}">
+        <File Id="MongoDB.Bson.dll" Source="$(var.Wammer.Station.Service.TargetDir)\MongoDB.Bson.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="MongoDB.Driver.dll" Guid="{DA8A66C8-D977-4524-AA1E-8C95767F0C30}">
+        <File Id="MongoDB.Driver.dll" Source="$(var.Wammer.Station.Service.TargetDir)\MongoDB.Driver.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="Wammer.Station.AddUserApp.exe" Guid="{04A20A9C-94AC-44A2-88D1-CCD40307A45D}">
+        <File Id="Wammer.Station.AddUserApp.exe" Source="$(var.Wammer.Station.AddUserApp.TargetPath)" KeyPath="yes" Checksum="yes">
+          <Shortcut Id="AddUserAppShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.AddUser.NAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes" Arguments="!(loc.CULTURE)" />
+        </File>
+      </Component>
+      <Component Id="Wammer.Station.AddUserApp.exe.config" Guid="{0A116587-0FF0-404A-A737-60686DE767BE}">
+        <File Id="Wammer.Station.AddUserApp.exe.config"
+              Source="$(var.Wammer.Station.AddUserApp.ProjectDir)\app.config"
+              Name="$(var.Wammer.Station.AddUserApp.TargetFileName).config" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="MongoDB">
+      <Component Id="mongod.exe" Guid="{1163C7C1-0494-4DFD-890D-2611FDCD3C19}">
+        <File Id="mongod.exe" Source="$(var.SolutionDir)\..\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongod.exe" KeyPath="yes" Checksum="yes"/>
+        <ServiceInstall Arguments='--logpath "[INSTALLLOCATION]\log\MongoDB.log" --port 10319 --dbpath "[INSTALLLOCATION]\MongoDB\Data\DB" --journal --service'
+                Description='!(loc.MONGO_SVC_DESC)' DisplayName='MongoDB for Waveface' 
+                ErrorControl='ignore' Name='MongoDbForWaveface' Start='auto' Type='ownProcess'>
+        </ServiceInstall>
+        <ServiceControl Name='MongoDbForWaveface' Id='mongoServiceControl' Start='install' Remove='uninstall' Stop='both' Wait='yes'/>
+      </Component>
+      <Component Id="mongos.exe" Guid="{996CFEA9-7286-44C8-82D3-68B9AEE1EAE5}">
+        <File Id="mongos.exe" Source="$(var.SolutionDir)\..\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongos.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="mongo.exe" Guid="{03376030-6756-4698-B1FF-AD92F18BABE5}">
+        <File Id="mongo.exe" Source="$(var.SolutionDir)\..\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongo.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+    <!-- Features -->
+    <Feature Id='MainFeature' Level='1' Title='!(loc.FEATURE.MAINFEATURE.TITLE)' Description='!(loc.FEATURE.MAINFEATURE.DESCRIPTION)' Display='collapse'>
+      <ComponentRef Id="MongoDB.Data"/>
+      <ComponentRef Id="MongoDB.Data.DB"/>
+      <ComponentRef Id="log.folder"/>
+      <ComponentRef Id="mongod.exe"/>
+      <ComponentRef Id="mongos.exe"/>
+      <ComponentRef Id="mongo.exe"/>
+      <ComponentGroupRef Id='Wammer.Station.Service'/>
+      <ComponentRef Id='pmd'/>
+    </Feature>
+
+    <!--
+    <Binary Id="SharpSetupCAFile" SourceFile="$(var.SharpSetupToolsDir)\SharpSetup.CustomActions.CA.dll"/>
+    <CustomAction Id="SampleCAData" Property="SampleCA" Value="CommandLine=C:\Windows\system32\ping.exe -n 10 127.0.0.1;ApproximateTime=10" Return="check" />
+    <CustomAction Id="SampleCA" DllEntry="ExeCustomAction" BinaryKey="SharpSetupCAFile" Return="check" Execute="deferred" />
+    <InstallExecuteSequence>
+      <Custom Action="SampleCAData" Before="SampleCA"/>
+      <Custom Action="SampleCA" Before="InstallFinalize"/>
+    </InstallExecuteSequence>
+    <UI>
+      <ProgressText Action="SampleCA">Sample Custom Action</ProgressText>
+    </UI>
+    -->
+  </Product>
+</Wix>
