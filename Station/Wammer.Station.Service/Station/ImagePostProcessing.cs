@@ -27,14 +27,14 @@ namespace Wammer.Station
 			if (evt.Meta != ImageMeta.Origin)
 				return;
 
-			if (evt.Attachment.image_meta != null && evt.Attachment.image_meta.small != null)
+			if (evt.Attachment.image_meta != null && evt.Attachment.image_meta.medium != null)
 				return;
 
 			try
 			{
 				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
 				{
-					ThumbnailInfo small = MakeThumbnail(origImage, ImageMeta.Small,
+					ThumbnailInfo medium = MakeThumbnail(origImage, ImageMeta.Medium,
 														evt.Attachment.object_id, evt.FolderPath);
 
 					Attachments update = new Attachments
@@ -44,7 +44,7 @@ namespace Wammer.Station
 						{
 							width = origImage.Width,
 							height = origImage.Height,
-							small = small
+							medium = medium
 						}
 					};
 
@@ -58,8 +58,8 @@ namespace Wammer.Station
 						{
 							 FullImageId = evt.Attachment.object_id,
 							 GroupId = evt.Attachment.group_id,
-							 ImageMeta = ImageMeta.Small,
-							 Thumbnail = small,
+							 ImageMeta = ImageMeta.Medium,
+							 Thumbnail = medium,
 							 UserApiKey = evt.UserApiKey,
 							 UserSessionToken = evt.UserSessionToken
 						});
@@ -96,7 +96,7 @@ namespace Wammer.Station
 				using (origImage)
 				{
 					string origImgObjectId = evt.Attachment.object_id;
-					ThumbnailInfo medium = MakeThumbnail(origImage, ImageMeta.Medium,
+					ThumbnailInfo small = MakeThumbnail(origImage, ImageMeta.Small,
 																origImgObjectId, evt.FolderPath);
 					ThumbnailInfo large = MakeThumbnail(origImage, ImageMeta.Large,
 																origImgObjectId, evt.FolderPath);
@@ -108,7 +108,7 @@ namespace Wammer.Station
 						object_id = evt.Attachment.object_id,
 						image_meta = new ImageProperty
 						{
-							medium = medium,
+							small = small,
 							large = large,
 							square = square
 						}
@@ -119,8 +119,8 @@ namespace Wammer.Station
 					doc.DeepMerge(update.ToBsonDocument());
 					evt.DbDocs.Save<BsonDocument>(doc);
 
-					UpstreamThumbnail(medium, evt.Attachment.group_id, evt.Attachment.object_id,
-						ImageMeta.Medium, evt.UserApiKey, evt.UserSessionToken);
+					UpstreamThumbnail(small, evt.Attachment.group_id, evt.Attachment.object_id,
+						ImageMeta.Small, evt.UserApiKey, evt.UserSessionToken);
 					UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
 						ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
 					UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,

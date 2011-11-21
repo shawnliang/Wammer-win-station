@@ -61,17 +61,17 @@ namespace Wammer.Station
 			if (isNewOrigImage)
 			{
 				file.Bitmap = new Bitmap(new MemoryStream(file.RawData));
-				ThumbnailInfo small = ImagePostProcessing.MakeThumbnail(
-									file.Bitmap, ImageMeta.Small, file.object_id, driver.folder);
+				ThumbnailInfo medium = ImagePostProcessing.MakeThumbnail(
+									file.Bitmap, ImageMeta.Medium, file.object_id, driver.folder);
 				Attachments thumb = new Attachments(file);
-				thumb.RawData = small.RawData;
-				thumb.file_size = small.file_size;
-				thumb.mime_type = small.mime_type;
-				thumb.Upload(ImageMeta.Small, Parameters["apikey"], Parameters["session_token"]);
+				thumb.RawData = medium.RawData;
+				thumb.file_size = medium.file_size;
+				thumb.mime_type = medium.mime_type;
+				thumb.Upload(ImageMeta.Medium, Parameters["apikey"], Parameters["session_token"]);
 
 				file.image_meta = new ImageProperty
 				{
-					small = small,
+					medium = medium,
 					width = file.Bitmap.Width,
 					height = file.Bitmap.Height
 				};

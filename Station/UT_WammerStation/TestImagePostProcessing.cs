@@ -320,14 +320,14 @@ namespace UT_WammerStation
 			Assert.AreEqual(768, doc.image_meta.height);
 			Assert.AreEqual("orig_title", doc.title);
 
-			Assert.AreEqual("/v2/attachments/view/?object_id=" + object_id1 + "&image_meta=small",
-				doc.image_meta.small.url);
-			Assert.AreEqual(120, doc.image_meta.small.width);
-			Assert.AreEqual(90, doc.image_meta.small.height);
-			Assert.AreEqual("image/jpeg", doc.image_meta.small.mime_type);
-			Assert.AreEqual(object_id1 + "_small.jpeg", doc.image_meta.small.file_name);
-			Assert.IsTrue(doc.image_meta.small.file_size > 0);
-			Assert.IsTrue(doc.image_meta.small.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
+			Assert.AreEqual("/v2/attachments/view/?object_id=" + object_id1 + "&image_meta=medium",
+				doc.image_meta.medium.url);
+			Assert.AreEqual(512, doc.image_meta.medium.width);
+			Assert.AreEqual(384, doc.image_meta.medium.height);
+			Assert.AreEqual("image/jpeg", doc.image_meta.medium.mime_type);
+			Assert.AreEqual(object_id1 + "_medium.jpeg", doc.image_meta.medium.file_name);
+			Assert.IsTrue(doc.image_meta.medium.file_size > 0);
+			Assert.IsTrue(doc.image_meta.medium.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 		}
 
 		[TestMethod]
@@ -358,19 +358,19 @@ namespace UT_WammerStation
 				GetCollection<Attachments>("attachments").FindOne(
 				new QueryDocument("_id", args.Attachment.object_id));
 
-			Assert.IsNotNull(doc.image_meta.medium);
+			Assert.IsNotNull(doc.image_meta.small);
 			Assert.IsNotNull(doc.image_meta.large);
 			Assert.IsNotNull(doc.image_meta.square);
 
 			Assert.AreEqual("/v2/attachments/view/?object_id=" + object_id1 +
-				"&image_meta=medium",
-				doc.image_meta.medium.url);
-			Assert.AreEqual(512, doc.image_meta.medium.width);
-			Assert.AreEqual(384, doc.image_meta.medium.height);
-			Assert.AreEqual("image/jpeg", doc.image_meta.medium.mime_type);
-			Assert.AreEqual(object_id1+"_medium.jpeg", doc.image_meta.medium.file_name);
-			Assert.IsTrue(doc.image_meta.medium.file_size > 0);
-			Assert.IsTrue(doc.image_meta.medium.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
+				"&image_meta=small",
+				doc.image_meta.small.url);
+			Assert.AreEqual(120, doc.image_meta.small.width);
+			Assert.AreEqual(90, doc.image_meta.small.height);
+			Assert.AreEqual("image/jpeg", doc.image_meta.small.mime_type);
+			Assert.AreEqual(object_id1+"_small.jpeg", doc.image_meta.small.file_name);
+			Assert.IsTrue(doc.image_meta.small.file_size > 0);
+			Assert.IsTrue(doc.image_meta.small.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 
 			Assert.AreEqual("/v2/attachments/view/?object_id=" + object_id1 +
 				"&image_meta=large",

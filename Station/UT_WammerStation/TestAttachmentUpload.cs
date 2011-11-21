@@ -177,12 +177,12 @@ namespace UT_WammerStation
 									saveData.url);
 					Assert.AreEqual(input.Length, saveData.file_size);
 					Assert.AreEqual(AttachmentType.image, saveData.type);
-					Assert.IsNotNull(saveData.image_meta.small);
-					Assert.AreEqual((int)ImageMeta.Small, saveData.image_meta.small.width);
-					Assert.AreEqual("image/jpeg", saveData.image_meta.small.mime_type);
+					Assert.IsNotNull(saveData.image_meta.medium);
+					Assert.AreEqual((int)ImageMeta.Medium, saveData.image_meta.medium.width);
+					Assert.AreEqual("image/jpeg", saveData.image_meta.medium.mime_type);
 					Assert.AreEqual("/v2/attachments/view/?object_id=" + res.object_id
-									+ "&image_meta=small",
-									saveData.image_meta.small.url);
+									+ "&image_meta=medium",
+									saveData.image_meta.medium.url);
 
 					using (Bitmap origImg = new Bitmap(Path.Combine("resource", res.object_id + ".jpg")))
 					{
@@ -190,10 +190,10 @@ namespace UT_WammerStation
 						Assert.AreEqual(768, origImg.Height);
 					}
 
-					using (Bitmap smallImg = new Bitmap(Path.Combine("resource", res.object_id + "_small.jpeg")))
+					using (Bitmap mediumImg = new Bitmap(Path.Combine("resource", res.object_id + "_medium.jpeg")))
 					{
-						Assert.AreEqual(120, smallImg.Width);
-						Assert.AreEqual(90, smallImg.Height);
+						Assert.AreEqual(512, mediumImg.Width);
+						Assert.AreEqual(384, mediumImg.Height);
 					}
 
 				}
