@@ -1,8 +1,0 @@
-C:\Users\shawnliang\workspace\Wammer-win-station\Client\Wammer Helper\bin\Debug\WammerHelper.exe
-C:\Users\shawnliang\workspace\Wammer-win-station\Client\Wammer Helper\bin\Debug\WammerHelper.pdb
-C:\Users\shawnliang\workspace\Wammer-win-station\Client\Wammer Helper\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\shawnliang\workspace\Wammer-win-station\Client\Wammer Helper\obj\Debug\Waveface.Properties.Resources.resources
-C:\Users\shawnliang\workspace\Wammer-win-station\Client\Wammer Helper\obj\Debug\ResGen.read.1.tlog
-C:\Users\shawnliang\workspace\Wammer-win-station\Client\Wammer Helper\obj\Debug\ResGen.write.1.tlog
-C:\Users\shawnliang\workspace\Wammer-win-station\Client\Wammer Helper\obj\Debug\WammerHelper.exe
-C:\Users\shawnliang\workspace\Wammer-win-station\Client\Wammer Helper\obj\Debug\WammerHelper.pdb
