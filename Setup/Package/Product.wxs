@@ -19,8 +19,21 @@
     <Property Id="ALLUSERS" Value="1" />
     <Property Id="TEST" Value="NO" />
     <Icon Id="icon.ico" SourceFile="..\ProductBuild\sampleIcon.ico" />
-    <MajorUpgrade DowngradeErrorMessage="!(loc.DOWNGRADE.ERROR)"/>
-    
+
+    <!-- Upgrade -->
+    <Upgrade Id="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
+      <UpgradeVersion OnlyDetect="yes" Property="SELF_OR_OLDER_FOUND"
+                      Maximum="1.0.0" IncludeMaximum="yes"/>
+      <UpgradeVersion OnlyDetect="yes" Property="NEWERFOUND"
+                      Minimum="1.0.0" IncludeMinimum="no"/>
+    </Upgrade>
+
+    <CustomAction Id="NoDowngradeAction" Error="!(loc.DOWNGRADE.ERROR)" />
+    <InstallExecuteSequence>
+      <Custom Action="NoDowngradeAction" After="FindRelatedProducts">NEWERFOUND</Custom>
+    </InstallExecuteSequence>
+
+    <!-- Program Menu-->
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
       <Directory Id="ProgramMenuFolder" Name="Programs">
         <Directory Id="ProgramMenuDir" Name="!(loc.APPNAME)">
