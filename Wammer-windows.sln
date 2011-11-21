@@ -37,6 +37,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Setup\Assemble
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gui", "Setup\Gui\Gui.csproj", "{B41B2A00-165A-45B6-9DD2-CDB0F22A4782}"
+	ProjectSection(ProjectDependencies) = postProject
+		{881346D4-D910-4A6D-8B52-98B7D9759A85} = {881346D4-D910-4A6D-8B52-98B7D9759A85}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IntermediateBootstrapper", "Setup\IntermediateBootstrapper\IntermediateBootstrapper.vcxproj", "{AE08C46E-B542-43D1-BBF5-2D555ED9C1B2}"
 EndProject
