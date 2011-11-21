@@ -28,7 +28,7 @@ namespace Wammer.Model
 		/// <summary>
 		/// 720 pixels
 		/// </summary>
-		Medium = 720,
+		Medium = 512,
 		/// <summary>
 		/// 1024 pixels
 		/// </summary>

@@ -365,8 +365,8 @@ namespace UT_WammerStation
 			Assert.AreEqual("/v2/attachments/view/?object_id=" + object_id1 +
 				"&image_meta=medium",
 				doc.image_meta.medium.url);
-			Assert.AreEqual(720, doc.image_meta.medium.width);
-			Assert.AreEqual(540, doc.image_meta.medium.height);
+			Assert.AreEqual(512, doc.image_meta.medium.width);
+			Assert.AreEqual(384, doc.image_meta.medium.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.medium.mime_type);
 			Assert.AreEqual(object_id1+"_medium.jpeg", doc.image_meta.medium.file_name);
 			Assert.IsTrue(doc.image_meta.medium.file_size > 0);
