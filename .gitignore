@@ -7,6 +7,9 @@
 
 obj
 bin
+Debug
+Release
+.vagrant
 
 *.msi
 *.cache
