@@ -41,6 +41,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IntermediateBootstrapper", "Setup\IntermediateBootstrapper\IntermediateBootstrapper.vcxproj", "{AE08C46E-B542-43D1-BBF5-2D555ED9C1B2}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Package", "Setup\Package\Package.wixproj", "{59FA1002-03AE-4DDA-B625-267576FA629A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B41B2A00-165A-45B6-9DD2-CDB0F22A4782} = {B41B2A00-165A-45B6-9DD2-CDB0F22A4782}
+		{881346D4-D910-4A6D-8B52-98B7D9759A85} = {881346D4-D910-4A6D-8B52-98B7D9759A85}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Translation", "Setup\Translation\Translation.csproj", "{881346D4-D910-4A6D-8B52-98B7D9759A85}"
 EndProject
