@@ -89,6 +89,8 @@ namespace Wammer.Station.Service
 			
 			StationManagementService statMgmtSvc = new StationManagementService("resource", stationId);
 			AddWebServiceHost(statMgmtSvc, 9981, "station/");
+
+			AddWebServiceHost(new CloudStorageService(), 9981, "cloudstorage/");
 		}
 
 		protected override void OnStop()
