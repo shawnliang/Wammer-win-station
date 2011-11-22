@@ -51,10 +51,11 @@
     <DirectoryRef Id="TARGETDIR">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="$(var.AppCode)">
-          <Directory Id="log" Name="log"/>
-          <Component Id="log.folder" Guid="{7C0142E8-0AFD-4727-8672-C8275B0A9648}">
-            <CreateFolder/>
-          </Component>
+          <Directory Id="log" Name="log">
+            <Component Id="log.folder" Guid="{7C0142E8-0AFD-4727-8672-C8275B0A9648}">
+              <CreateFolder/>
+            </Component>
+          </Directory>
           <Directory Id="MongoDB" Name="MongoDB">
             <Directory Id="Data" Name="Data">
               <Component Id="MongoDB.Data" Guid="{295718C0-D799-465D-8F12-2B090EAA2028}">
