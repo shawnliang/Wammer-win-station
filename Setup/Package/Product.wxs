@@ -19,8 +19,21 @@
     <Property Id="ALLUSERS" Value="1" />
     <Property Id="TEST" Value="NO" />
     <Icon Id="icon.ico" SourceFile="..\ProductBuild\sampleIcon.ico" />
-    <MajorUpgrade DowngradeErrorMessage="!(loc.DOWNGRADE.ERROR)"/>
-    
+
+    <!-- Upgrade -->
+    <Upgrade Id="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
+      <UpgradeVersion OnlyDetect="yes" Property="SELF_OR_OLDER_FOUND"
+                      Maximum="1.0.0" IncludeMaximum="yes"/>
+      <UpgradeVersion OnlyDetect="yes" Property="NEWERFOUND"
+                      Minimum="1.0.0" IncludeMinimum="no"/>
+    </Upgrade>
+
+    <CustomAction Id="NoDowngradeAction" Error="!(loc.DOWNGRADE.ERROR)" />
+    <InstallExecuteSequence>
+      <Custom Action="NoDowngradeAction" After="FindRelatedProducts">NEWERFOUND</Custom>
+    </InstallExecuteSequence>
+
+    <!-- Program Menu-->
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
       <Directory Id="ProgramMenuFolder" Name="Programs">
         <Directory Id="ProgramMenuDir" Name="!(loc.APPNAME)">
@@ -38,10 +51,11 @@
     <DirectoryRef Id="TARGETDIR">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="$(var.AppCode)">
-          <Directory Id="log" Name="log"/>
-          <Component Id="log.folder" Guid="{7C0142E8-0AFD-4727-8672-C8275B0A9648}">
-            <CreateFolder/>
-          </Component>
+          <Directory Id="log" Name="log">
+            <Component Id="log.folder" Guid="{7C0142E8-0AFD-4727-8672-C8275B0A9648}">
+              <CreateFolder/>
+            </Component>
+          </Directory>
           <Directory Id="MongoDB" Name="MongoDB">
             <Directory Id="Data" Name="Data">
               <Component Id="MongoDB.Data" Guid="{295718C0-D799-465D-8F12-2B090EAA2028}">

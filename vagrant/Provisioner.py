@@ -14,8 +14,8 @@ def main():
     except WindowsError:
         logging.info("Waveface Station is not installed")
         try:
-            request.urlretrieve('http://shawnliang-pc:9191/WammerStation.msi', 'WammerStation.msi')
-            subprocess.call(shlex.split('WammerStation.msi'), shell=True)
+            request.urlretrieve('http://shawnliang-pc:9191/WavefaceSetup-1.0.0.exe', 'WavefaceSetup-1.0.0.exe')
+            subprocess.call(shlex.split('WavefaceSetup-1.0.0.exe'), shell=True)
         except Exception:
             logging.info("Unable to get/install WammerStation.msi, please check your network/environment")
             input('press any key to continue')
