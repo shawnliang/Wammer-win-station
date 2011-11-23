@@ -1,53 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using System.ServiceProcess;
+using System.Runtime.InteropServices;
+using System.ComponentModel;
+using System.Runtime;
+using System.Diagnostics;
+using System.Reflection;
+using Wammer.Station.Service;
+using Wammer.Utility;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace Wammer.Station.Management
 {
 	public class StationController
 	{
-		/// <summary>
-		/// Starts station services, including MongoDB service
-		/// </summary>
-		public static void StartServices();
+		private static ServiceController scvCtrl;
 
-		/// <summary>
-		/// Stops station services, including MongoDB service
-		/// </summary>
-		public static void StopServices();
+		static StationController()
+		{
+			scvCtrl = new ServiceController(StationService.SERVICE_NAME);
+		}
 
 		/// <summary>
 		/// Gets station service status
 		/// </summary>
 		public static System.ServiceProcess.ServiceControllerStatus ServiceStatus
 		{
-			get;
+			get { return scvCtrl.Status; }
 		}
-
-		/// <summary>
-		/// Sets whether station service auto starts itself after system boots
-		/// </summary>
-		/// <param name="autoStart"></param>
-		public static void SetServiceAutoStart(bool autoStart);
 
 		/// <summary>
 		/// Gets if auto-start of station service is enabled
 		/// </summary>
 		/// <returns></returns>
-		public static bool IsServiceAutoStartEnabled();
+		public static bool IsServiceAutoStartEnabled()
+		{
+			return ServiceHelper.IsServiceAutoStart(scvCtrl);
+		}
 
 		/// <summary>
 		/// Gets owner's email
 		/// </summary>
 		/// <returns>Owner's email. If owner is not set yet, null is returned.</returns>
-		public static string GetOwner();
+		public static string GetOwner()
+		{
+			Model.Drivers driver = Model.Drivers.collection.FindOne();
+			if (driver == null)
+				return null;
+
+			return driver.email;
+		}
 
 		/// <summary>
 		/// Gets default folder to save attachments
 		/// </summary>
 		/// <remarks>If the owner of station is not set yet, null is returned.</remarks>
 		/// <returns></returns>
-		public static string GetDefaultFolder();
+		public static string GetDefaultFolder()
+		{
+			Model.Drivers driver = Model.Drivers.collection.FindOne();
+			if (driver == null)
+				return null;
+
+			return driver.folder;
+		}
 
 		/// <summary>
 		/// Move default folder to another location
@@ -64,12 +83,135 @@ namespace Wammer.Station.Management
 		/// </remarks>
 		/// <param name="absPath">absolute path to user's folder. The folder must be empty</param>
 		/// <exception cref="System.ArgumentException">
-		/// absPath is not an absolute path, or it is not an empty folder
-		/// </exception>
+		/// absPath is not an absolute path</exception>
+		/// <exception cref="System.IOException">
+		/// absPath is not empty, readonly or used by other process</exception>
 		/// <exception cref="System.InvalidOperationException">
-		/// The station's owner is not set yet.
-		/// </exception>
-		public static void MoveDefaultFolder(string absPath);
-	}
+		/// The station's owner is not set yet.</exception>
+		public static void MoveDefaultFolder(string absPath)
+		{
+			if (!Path.IsPathRooted(absPath))
+				throw new ArgumentException("Not an absolute path");
 
+			string srcDir = GetDefaultFolder();
+			if (srcDir == null)
+				throw new InvalidOperationException("Station owner is not set yet.");
+
+			ProcessStartInfo info = new ProcessStartInfo(
+				Assembly.GetExecutingAssembly().Location,
+				"--moveFolder " + absPath);
+
+			info.Verb = "runas"; // to elevate privileges
+			info.WindowStyle = ProcessWindowStyle.Hidden;
+			info.CreateNoWindow = true;
+
+			Process proc = new Process
+			{
+				EnableRaisingEvents = true,
+				StartInfo = info,
+			};
+
+			proc.Start();
+			proc.WaitForExit();
+
+			if (proc.ExitCode != 0)
+			{
+				throw new ExternalException(proc.StandardOutput.ReadToEnd(), proc.ExitCode);
+			}
+		}
+
+		#region private accessors
+
+		/// <summary>
+		/// Starts station services, including MongoDB service
+		/// </summary>
+		/// <param name="timeout">timeout value</param>
+		/// <exception cref="System.TimeoutException"></exception>
+		private static void StartServices(TimeSpan timeout)
+		{
+			if (scvCtrl.Status != ServiceControllerStatus.Running &&
+				scvCtrl.Status != ServiceControllerStatus.StartPending)
+				scvCtrl.Start();
+
+			scvCtrl.WaitForStatus(ServiceControllerStatus.Running, timeout);
+		}
+
+		/// <summary>
+		/// Stops station services, including MongoDB service
+		/// </summary>
+		private static void StopServices(TimeSpan timeout)
+		{
+			if (scvCtrl.Status != ServiceControllerStatus.Stopped &&
+				scvCtrl.Status != ServiceControllerStatus.StopPending)
+				scvCtrl.Stop();
+
+			scvCtrl.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+		}
+
+		/// <summary>
+		/// Sets whether station service auto starts itself after system boots
+		/// </summary>
+		/// <param name="autoStart"></param>
+		private static void SetServiceAutoStart(bool autoStart)
+		{
+			ServiceHelper.ChangeStartMode(scvCtrl, ServiceStartMode.Automatic);
+		}
+
+		
+
+		private static void _MoveDefaultFolder(string absPath)
+		{
+			if (!Path.IsPathRooted(absPath))
+				throw new ArgumentException("Not an absolute path");
+
+			if (Directory.Exists(absPath))
+				Directory.Delete(absPath);
+
+			string srcDir = GetDefaultFolder();
+			StopServices(TimeSpan.FromSeconds(10.0));
+			Directory.Move(srcDir, absPath);
+			SetDefaultFolder(absPath);
+			StartServices(TimeSpan.FromSeconds(10.0));
+		}
+
+		private static void SetDefaultFolder(string absPath)
+		{
+			Model.Drivers driver = Model.Drivers.collection.FindOne();
+			if (driver == null)
+				throw new InvalidOperationException("Cannot set default folder before driver is not set yet.");
+
+			driver.folder = absPath;
+			Model.Drivers.collection.Save(driver);
+		}
+		#endregion
+
+
+		public static int Main(string[] args)
+		{
+			try
+			{
+				for (int i = 0; i < args.Length; i++)
+				{
+					switch (args[i])
+					{
+						case "--moveFolder":
+							string destFolder = args[++i];
+							_MoveDefaultFolder(destFolder);
+							return 0;
+						default:
+							Console.WriteLine("Unknown parameter: " + args[i]);
+							return 1;
+					}
+				}
+
+				Console.WriteLine("no parameter...");
+				return 1;
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return 1;
+			}
+		}
+	}
 }

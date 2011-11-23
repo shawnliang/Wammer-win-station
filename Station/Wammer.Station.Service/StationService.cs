@@ -54,7 +54,6 @@ namespace Wammer.Station.Service
 
 			InitStationId();
 			InitResourceBasePath();
-			
 
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
 			stationTimer = new StationTimer();

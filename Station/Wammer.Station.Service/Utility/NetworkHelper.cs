@@ -31,16 +31,16 @@ namespace Wammer.Utility
 			string staticIP = (string)StationRegistry.GetValue("staticIP", "");
 			if (staticIP != "")
 			{
-				return "http://" + staticIP + ":9981/";
+				return "http://" + staticIP + ":9981";
 			}
 
 			IPAddress[] addresses = GetIPAddressesV4();
 
 			if (addresses.Length > 0)
-				return "http://" + addresses[0] + ":9981/";
+				return "http://" + addresses[0] + ":9981";
 			else
 				// in case there is no external network connection
-				return "http://localhost:9981/";
+				return "http://localhost:9981";
 		}
 	}
 }

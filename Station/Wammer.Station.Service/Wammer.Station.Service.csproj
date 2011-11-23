@@ -133,6 +133,7 @@
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
+    <Compile Include="Utility\ServiceHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />
     <Compile Include="MultiPart\Disposition.cs" />
     <Compile Include="MultiPart\Parser.cs" />
