@@ -28,11 +28,20 @@
                       Minimum="1.0.0" IncludeMinimum="no"/>
     </Upgrade>
 
+    <!-- Custom Actions -->
     <CustomAction Id="NoDowngradeAction" Error="!(loc.DOWNGRADE.ERROR)" />
+    <!-- Signoff station when uninstallation -->
+    <CustomAction Id='SignoffStationAction' BinaryKey='InstallHelperDll' DllEntry='SignoffStation'/>
     <InstallExecuteSequence>
       <Custom Action="NoDowngradeAction" After="FindRelatedProducts">NEWERFOUND</Custom>
+      <Custom Action="SignoffStationAction" Before="RemoveFiles">
+        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
     </InstallExecuteSequence>
 
+    <UI>
+      <ProgressText Action="SignoffStationAction">!(loc.SIGNOFF.STATION.DESC)</ProgressText>
+    </UI>
     <!-- Program Menu-->
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
       <Directory Id="ProgramMenuFolder" Name="Programs">
@@ -68,35 +77,6 @@
               </Directory>
             </Directory>
           </Directory>
-          <!--
-          <Component Id="MainExecutable" Guid="{0dec212f-1839-4c93-89b2-ab560548bb6f}">
-            <File Id="MainExecutableFile" Name="SampleApp.exe" Source="..\ProductBuild\sampleFile.txt" KeyPath="yes">
-              <Shortcut Id="MainExecutableStartMenu" Directory="ProgramMenuDir" Name="!(loc.APPNAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes"/>
-              <Shortcut Id="MainExecutableDesktop" Directory="DesktopFolder" Name="!(loc.APPNAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes" />
-            </File>
-          </Component>
-          <Component Id="SubFeatureExecutable" Guid="{be490d9f-5271-49e8-9408-fb32be9e2fda}">
-            <File Id="SubFeatureExecutableFile" Name="SampleLibrary.dll" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
-          </Component>
-          <Component Id="DocumentationPound" Guid="{1cea0107-5c1c-4bd1-8874-e4db11b08a3d}">
-            <File Id="DocumentationPoundFile" Name="Pound.currency" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
-          </Component>
-          <Component Id="DocumentationEuro" Guid="{1d9bdefa-392f-47ca-80cd-957ff3265aff}">
-            <File Id="DocumentationEuroFile" Name="Euro.currency" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
-          </Component>
-          <Component Id="DocumentationCommon" Guid="{36db1129-09f3-4fee-bb42-fae4d408bf18}">
-            <File Id="DocumentationCommonFile" Name="help.exe" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
-          </Component>
-          <Component Id="DocumentationEnglish" Guid="{2ab2b229-fc73-4411-83ae-cc356416a0e6}">
-            <File Id="DocumentationEnglishFile" Name="English.documentation" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
-          </Component>
-          <Component Id="DocumentationFrench" Guid="{ffd45953-af88-492f-8bcd-25ec52206561}">
-            <File Id="DocumentationFrenchFile" Name="French.documentation" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
-          </Component>
-          <Component Id="DocumentationGerman" Guid="{e9f0d915-46b5-4e0b-a695-c63a80d732ca}">
-            <File Id="DocumentationGermanFile" Name="German.documentation" Source="..\ProductBuild\sampleFile.txt" Vital="yes" />
-          </Component>
-          -->
         </Directory>
       </Directory>
     </DirectoryRef>
@@ -181,6 +161,7 @@
       <ComponentRef Id='pmd'/>
     </Feature>
 
+    <Binary Id='InstallHelperDll' SourceFile="$(var.InstallHelper.TargetDir)\InstallHelperPkg.dll"/>
     <!--
     <Binary Id="SharpSetupCAFile" SourceFile="$(var.SharpSetupToolsDir)\SharpSetup.CustomActions.CA.dll"/>
     <CustomAction Id="SampleCAData" Property="SampleCA" Value="CommandLine=C:\Windows\system32\ping.exe -n 10 127.0.0.1;ApproximateTime=10" Return="check" />
