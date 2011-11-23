@@ -11,6 +11,7 @@ using System.Net;
 using Wammer.Station;
 using Wammer.Utility;
 using Wammer.Model;
+using Wammer.Cloud;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
@@ -45,10 +46,7 @@ namespace Wammer.Station
 
 		public Stream ListCloudStorage()
 		{
-			CloudStorageList res = new CloudStorageList
-			{
-				cloudstorages = new List<StorageStatus>()
-			};
+			List<StorageStatus> cloudstorages = new List<StorageStatus>();
 
 			if (DropboxHelper.IsInstalled())
 			{
@@ -57,7 +55,7 @@ namespace Wammer.Station
 				if (storage != null)
 				{
 					logger.Debug("Already connected to Dropbox");
-					res.cloudstorages.Add(new StorageStatus
+					cloudstorages.Add(new StorageStatus
 						{
 							type = "dropbox",
 							connected = true,
@@ -69,7 +67,7 @@ namespace Wammer.Station
 				else
 				{
 					logger.Debug("Not connected to Dropbox");
-					res.cloudstorages.Add(new StorageStatus
+					cloudstorages.Add(new StorageStatus
 						{
 							type = "dropbox",
 							connected = false
@@ -78,7 +76,15 @@ namespace Wammer.Station
 				}
 			}
 
-			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
+			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, new ListCloudStorageResponse
+				{
+					api_ret_code = 0,
+					api_ret_msg = "success",
+					status = 200,
+					timestamp = DateTime.UtcNow,
+					cloudstorages = cloudstorages
+				}
+			);
 		}
 
 		public Stream ConnectDropbox(long quota)
@@ -147,9 +153,14 @@ namespace Wammer.Station
 		}
 	}
 
-	public class CloudStorageList
+	public class ListCloudStorageResponse : CloudResponse
 	{
 		public List<StorageStatus> cloudstorages { get; set; }
+
+		public ListCloudStorageResponse()
+			:base()
+		{
+		}
 	}
 
 	public class StorageStatus

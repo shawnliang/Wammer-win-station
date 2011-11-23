@@ -146,13 +146,21 @@ namespace Wammer.Station
 			logger.Debug("GetStatus is called");
 			StationStatus res = StatusChecker.GetStatus();
 
-			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
+			//return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
+			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, new GetStatusResponse
+			{
+				api_ret_code = 0,
+				api_ret_msg = "success",
+				status = 200,
+				timestamp = DateTime.UtcNow,
+				station_status = res
+			});
 		}
 
 		public Stream GetResourceDir()
 		{
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
-				new
+				new GetResourceDirResponse
 				{
 					status = 200,
 					api_ret_code = 0,
@@ -202,6 +210,26 @@ namespace Wammer.Station
 											session_token = user.Token
 										}
 									);
+		}
+	}
+
+	public class GetResourceDirResponse : CloudResponse
+	{
+		public string path { get; set; }
+
+		public GetResourceDirResponse()
+			:base()
+		{
+		}
+	}
+
+	public class GetStatusResponse : CloudResponse
+	{
+		public StationStatus station_status { get; set; }
+		
+		public GetStatusResponse()
+			:base()
+		{
 		}
 	}
 
