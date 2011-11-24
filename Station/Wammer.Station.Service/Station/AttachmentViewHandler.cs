@@ -41,9 +41,10 @@ namespace Wammer.Station
 					imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta),
 																	Parameters["image_meta"], true);
 
-				// Assuming client only request (cover) image for doc attachments and
-				// station always don't have (cover) image
-				if (Parameters["target"] != null && Parameters["target"].Equals("image"))
+				// "target" parameter is used to request cover image or slide page.
+				// In this version station has no such resources so station always forward this
+				// request to cloud.
+				if (Parameters["target"] != null)
 					throw new FileNotFoundException();
 
 				string namePart = objectId;
