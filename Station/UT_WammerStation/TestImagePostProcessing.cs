@@ -84,8 +84,7 @@ namespace UT_WammerStation
 				imageRawData = r.ReadBytes((int)f.Length);
 			}
 
-			Wammer.Cloud.CloudServer.HostName = "localhost";
-			Wammer.Cloud.CloudServer.Port = 8080;
+			CloudServer.BaseUrl = "http://localhost:8080/v2/";
 			Wammer.Cloud.CloudServer.SessionToken = "thisIsASessionToken";
 			DummyImageUploadHandler.evt.Reset();
 

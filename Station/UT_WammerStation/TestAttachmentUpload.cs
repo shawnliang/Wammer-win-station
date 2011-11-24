@@ -84,8 +84,8 @@ namespace UT_WammerStation
 				}
 			);
 
-			CloudServer.HostName = "localhost";
-			CloudServer.Port = 80;
+			CloudServer.BaseUrl = "http://localhost/v2/";
+
 			cloudResponse = new ObjectUploadResponse
 			{
 				api_ret_code = 0,

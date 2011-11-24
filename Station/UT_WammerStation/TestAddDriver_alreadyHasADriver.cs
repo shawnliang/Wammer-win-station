@@ -44,8 +44,7 @@ namespace UT_WammerStation
 			if (!Directory.Exists(@"C:\TempUT\user1"))
 				Directory.CreateDirectory(@"c:\TempUT\user1");
 
-			CloudServer.HostName = "localhost";
-			CloudServer.Port = 80;
+			CloudServer.BaseUrl = "http://localhost/v2/";
 
 			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").Insert(

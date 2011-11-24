@@ -258,8 +258,7 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestView_FileNotFound_ForwardToCloud()
 		{
-			CloudServer.HostName = "localhost";
-			CloudServer.Port = 80;
+			CloudServer.BaseUrl = "http://localhost/v2/";
 
 			RawDataResponseWriter writer =  new RawDataResponseWriter 
 			{	
@@ -296,8 +295,7 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestView_FileNotFound_ForwardToCloud_ByPost()
 		{
-			CloudServer.HostName = "localhost";
-			CloudServer.Port = 80;
+			CloudServer.BaseUrl = "http://localhost/v2/";
 
 			RawDataResponseWriter writer = new RawDataResponseWriter
 			{
@@ -338,8 +336,7 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestView_ForwardToCloud_CloudReturnError()
 		{
-			CloudServer.HostName = "localhost";
-			CloudServer.Port = 80;
+			CloudServer.BaseUrl = "http://localhost/v2/";
 
 			JsonResponseWriter writer = new JsonResponseWriter
 			{

@@ -39,14 +39,11 @@ namespace Wammer.Station
 
 		protected HttpHandler()
 		{
-			this.Request = null;
-			this.Response = null;
-			this.Parameters = null;
-			this.Files = new List<UploadedFile>();
 		}
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
+			this.Files = new List<UploadedFile>();
 			this.Request = request;
 			this.Response = response;
 			this.RawPostData = InitRawPostData();
@@ -112,8 +109,9 @@ namespace Wammer.Station
 
 		protected void TunnelToCloud()
 		{
-			UriBuilder uri = new UriBuilder("http", Cloud.CloudServer.HostName,
-				Cloud.CloudServer.Port, Request.Url.AbsolutePath, Request.Url.Query);
+			Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
+			UriBuilder uri = new UriBuilder("http", baseUri.Host, baseUri.Port,
+				Request.Url.AbsolutePath, Request.Url.Query);
 
 			HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri.Uri);
 			req.Method = Request.HttpMethod;
