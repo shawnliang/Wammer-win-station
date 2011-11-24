@@ -95,7 +95,7 @@ namespace Wammer.Station
 				CloudStorage storage = CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
 				if (storage == null)
 				{
-					string syncFolder = DropboxHelper.GetSyncFolder();
+					string syncFolder = Path.Combine(DropboxHelper.GetSyncFolder(), @"\Waveface\resource");
 					if (string.IsNullOrEmpty(syncFolder))
 					{
 						logger.Error("Dropbox sync folder is empty");
