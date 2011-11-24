@@ -59,8 +59,7 @@ namespace Wammer.Station.Service
 			stationTimer = new StationTimer();
 
 			server = new HttpServer(9981); // TODO: remove hard code
-			BypassHttpHandler cloudForwarder = new BypassHttpHandler(
-															CloudServer.HostName, CloudServer.Port);
+			BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/auth/");
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/users/");
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/groups/");

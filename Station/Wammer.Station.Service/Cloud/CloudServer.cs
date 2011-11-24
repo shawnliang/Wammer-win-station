@@ -10,17 +10,12 @@ namespace Wammer.Cloud
 {
 	public class CloudServer
 	{
-		private const string DEF_HOST_NAME = "develop.waveface.com";
-		private const int DEF_PORT = 8080;
 		private const string DEF_API_KEY = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
-
-		private static CookieContainer cookies = new CookieContainer();
-
-		private static string hostname = null;
-		private static int port = 0;
-		private static string apiKey = null;
-
 		public const string DEF_BASE_PATH = "v2";
+		public const string DEF_BASE_URL = "http://develop.waveface.com:8080/v2/";
+
+		private static string apiKey = null;
+		private static string baseUrl = null;
 
 		public const string PARAM_API_KEY = "apikey";
 		public const string PARAM_EMAIL = "email";
@@ -31,45 +26,24 @@ namespace Wammer.Cloud
 		public static string SessionToken { get; set; }
 
 		/// <summary>
-		/// Gets wammer cloud base url
+		/// Gets or sets wammer cloud base url
 		/// </summary>
 		public static string BaseUrl
 		{
 			get
 			{
-				return string.Format("http://{0}:{1}/", HostName, Port);
-			}
-		}
+				if (baseUrl == null)
+					baseUrl = (string)StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL);
 
-		/// <summary>
-		/// Gets or sets wammer cloud host name
-		/// </summary>
-		public static string HostName
-		{
-			get
+				return baseUrl;
+			}
+
+			set
 			{
-				if (hostname != null)
-					return hostname;
-
-				return (string)StationRegistry.GetValue("cloudHostName", DEF_HOST_NAME);
+				baseUrl = value;
 			}
-			set { hostname = value; }
 		}
 
-		/// <summary>
-		/// Gets or sets wammer cloud port number
-		/// </summary>
-		public static int Port
-		{
-			get
-			{
-				if (port != 0)
-					return port;
-
-				return (int)StationRegistry.GetValue("cloudPort", DEF_PORT);
-			}
-			set { port = value; }
-		}
 
 		/// <summary>
 		/// Gets or set api key that will be sent to cloud
@@ -97,11 +71,7 @@ namespace Wammer.Cloud
 		/// <returns>Response value</returns>
 		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms)
 		{
-			string url = string.Format("http://{0}:{1}/{2}/{3}",
-				CloudServer.HostName,
-				CloudServer.Port,
-				CloudServer.DEF_BASE_PATH,
-				path);
+			string url = CloudServer.baseUrl + path;
 
 			return request<T>(agent, url, parms);
 		}

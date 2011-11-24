@@ -109,8 +109,9 @@ namespace Wammer.Station
 
 		protected void TunnelToCloud()
 		{
-			UriBuilder uri = new UriBuilder("http", Cloud.CloudServer.HostName,
-				Cloud.CloudServer.Port, Request.Url.AbsolutePath, Request.Url.Query);
+			Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
+			UriBuilder uri = new UriBuilder("http", baseUri.Host, baseUri.Port,
+				Request.Url.AbsolutePath, Request.Url.Query);
 
 			HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri.Uri);
 			req.Method = Request.HttpMethod;

@@ -15,9 +15,8 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void classInit()
 		{
-			Wammer.Cloud.CloudServer.HostName = "127.0.0.1";
-			Wammer.Cloud.CloudServer.Port = 80;
 			Wammer.Cloud.CloudServer.APIKey = "apiKey1";
+			Wammer.Cloud.CloudServer.BaseUrl = "http://127.0.0.1/v9999/";
 		}
 
 		[TestMethod]
@@ -34,7 +33,7 @@ namespace UT_WammerStation
 				Assert.AreEqual("user1", user.Name);
 				Assert.AreEqual("passwd1", user.Password);
 				Assert.AreEqual("uid", user.Id);
-				Assert.AreEqual("/" + Wammer.Cloud.CloudServer.DEF_BASE_PATH + "/auth/login", 
+				Assert.AreEqual("/v9999/auth/login", 
 					fakeCloud.RequestedPath);
 				Assert.AreEqual("email=user1&password=passwd1&apikey=apiKey1",
 					fakeCloud.PostData);
@@ -101,7 +100,7 @@ namespace UT_WammerStation
 				Wammer.Cloud.Station station = 
 					Wammer.Cloud.Station.SignUp(agent, "stationId1", "userToken1");
 
-				Assert.AreEqual("/" + Wammer.Cloud.CloudServer.DEF_BASE_PATH + "/stations/signup",
+				Assert.AreEqual("/v9999/stations/signup",
 					fakeCloud.RequestedPath);
 				Assert.AreEqual("session_token=userToken1&station_id=stationId1&apikey=apiKey1",
 					fakeCloud.PostData);
@@ -146,7 +145,7 @@ namespace UT_WammerStation
 			{
 				Wammer.Cloud.Station station = new Wammer.Cloud.Station("sid1", "token1");
 				station.LogOn(agent);
-				Assert.AreEqual("/" + Wammer.Cloud.CloudServer.DEF_BASE_PATH + "/stations/logOn",
+				Assert.AreEqual("/v9999/stations/logOn",
 					fakeCloud.RequestedPath);
 				Assert.AreEqual("session_token=token1&station_id=sid1&apikey=apiKey1",
 					fakeCloud.PostData);
@@ -171,7 +170,7 @@ namespace UT_WammerStation
 				param.Add("port", "9999");
 				station.LogOn(agent, param);
 
-				Assert.AreEqual("/" + Wammer.Cloud.CloudServer.DEF_BASE_PATH + "/stations/logOn",
+				Assert.AreEqual("/v9999/stations/logOn",
 					fakeCloud.RequestedPath);
 				Assert.AreEqual(
 					"host_name=hostname1&ip_address=ip1&port=9999&" +
@@ -197,7 +196,7 @@ namespace UT_WammerStation
 				param.Add("key", @"<>+@/\|");
 				station.LogOn(agent, param);
 
-				Assert.AreEqual("/" + Wammer.Cloud.CloudServer.DEF_BASE_PATH + "/stations/logOn",
+				Assert.AreEqual("/v9999/stations/logOn",
 					fakeCloud.RequestedPath);
 				Assert.AreEqual(
 					"key=" + HttpUtility.UrlEncode(@"<>+@/\|") + 

@@ -220,10 +220,7 @@ namespace Wammer.Model
 			string objectId, string fileName, string contentType, ImageMeta meta,
 			string apikey, string token)
 		{
-			string url = string.Format("http://{0}:{1}/{2}/attachments/upload/",
-				Cloud.CloudServer.HostName,
-				Cloud.CloudServer.Port,
-				CloudServer.DEF_BASE_PATH);
+			string url = CloudServer.BaseUrl + "attachments/upload/";
 
 			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta,
 				apikey, token);
@@ -231,10 +228,7 @@ namespace Wammer.Model
 
 		public ObjectUploadResponse Upload(ImageMeta meta, string apiKey, string sessionToken)
 		{
-			string url = string.Format("http://{0}:{1}/{2}/attachments/upload/",
-				Cloud.CloudServer.HostName,
-				Cloud.CloudServer.Port,
-				CloudServer.DEF_BASE_PATH);
+			string url = CloudServer.BaseUrl + "attachments/upload/";
 
 			return Upload(url, rawData, group_id, object_id, file_name, mime_type, 
 																meta, type, apiKey, sessionToken);

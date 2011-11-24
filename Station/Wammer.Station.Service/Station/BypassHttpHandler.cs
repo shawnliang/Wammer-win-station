@@ -14,6 +14,13 @@ namespace Wammer.Station
 		private readonly int port;
 		private readonly List<string> exceptPrefixes = new List<string>();
 
+		public BypassHttpHandler(string baseUrl)
+		{
+			Uri url = new Uri(baseUrl);
+			this.host = url.Host;
+			this.port = url.Port;
+		}
+
 		public BypassHttpHandler(string host, int port)
 		{
 			this.host = host;
