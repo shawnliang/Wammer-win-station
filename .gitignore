@@ -15,3 +15,5 @@ Release
 *.cache
 TestResults/
 
+Wammer-windows.opensdf
+Wammer-windows.sdf
