@@ -71,7 +71,7 @@ namespace Wammer.Cloud
 		/// <returns>Response value</returns>
 		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms)
 		{
-			string url = CloudServer.baseUrl + path;
+			string url = CloudServer.BaseUrl + path;
 
 			return request<T>(agent, url, parms);
 		}
