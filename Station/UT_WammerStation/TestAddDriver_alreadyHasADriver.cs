@@ -73,8 +73,13 @@ namespace UT_WammerStation
 		{
 			try
 			{
-				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", 
-					"exist@gmail.com", "12345");
+				CloudServer.request<CloudResponse>(
+						new WebClient(),
+						"http://localhost:8080/v2/station/drivers/add",
+						new Dictionary<object, object>{ 
+							{ "email", "exist@gmail.com"}, 
+							{ "password", "12345"} 
+						});
 			}
 			catch (WammerCloudException e)
 			{
@@ -90,8 +95,13 @@ namespace UT_WammerStation
 		{
 			try
 			{
-				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", 
-					"new_user@gmail.com", "12345");
+				CloudServer.request<CloudResponse>(
+						new WebClient(),
+						"http://localhost:8080/v2/station/drivers/add",
+						new Dictionary<object, object>{ 
+							{ "email", "new_user@gmail.com"}, 
+							{ "password", "12345"} 
+						});
 			}
 			catch (WammerCloudException e)
 			{

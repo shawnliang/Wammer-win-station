@@ -144,7 +144,7 @@ namespace UT_WammerStation
 
 			lock (this.resWriters)
 			{
-				if (this.resIdx < this.resWriters.Count)
+				if (resIdx < this.resWriters.Count)
 				{
 					resWriters[resIdx].writeResponse(context.Response);
 				}
@@ -152,6 +152,8 @@ namespace UT_WammerStation
 				{
 					resWriters[resWriters.Count - 1].writeResponse(context.Response);
 				}
+
+				resIdx++;
 			}
 
 			context.Response.OutputStream.Close();
