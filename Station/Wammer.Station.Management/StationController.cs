@@ -8,8 +8,11 @@ using System.ComponentModel;
 using System.Runtime;
 using System.Diagnostics;
 using System.Reflection;
+using System.Net;
+
 using Wammer.Station.Service;
 using Wammer.Utility;
+using Wammer.Cloud;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -120,6 +123,22 @@ namespace Wammer.Station.Management
 			}
 		}
 
+
+		public static void AddUser(string email, string password)
+		{
+			//Dictionary<object, object> parameters = new Dictionary<object, object>
+			//{
+			//    {"email", email},
+			//    {"password", password},
+			//};
+
+			//CloudResponse res = CloudServer.request<CloudResponse>(
+			//    new WebClient(), url, parameters);
+
+			//if (res.api_ret_code != 0)
+			//    throw new WammerCloudException(
+			//        "Unable to add user", WebExceptionStatus.Success, res.api_ret_code);
+		}
 		#region private accessors
 
 		/// <summary>
