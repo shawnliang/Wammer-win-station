@@ -130,6 +130,9 @@
               Source="$(var.Wammer.Station.AddUserApp.ProjectDir)\app.config"
               Name="$(var.Wammer.Station.AddUserApp.TargetFileName).config" KeyPath="yes"/>
       </Component>
+      <Component Id="Wammer.Station.Management.exe" Guid="{F6BE5F51-E2BB-4BC3-BA4E-9488DCBA4D5B}">
+        <File Id="Wammer.Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="MongoDB">
@@ -157,6 +160,7 @@
       <ComponentRef Id="mongod.exe"/>
       <ComponentRef Id="mongos.exe"/>
       <ComponentRef Id="mongo.exe"/>
+      <ComponentRef Id="Wammer.Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>
     </Feature>

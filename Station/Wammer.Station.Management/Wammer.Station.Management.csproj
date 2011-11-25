@@ -34,6 +34,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\3rd_party\fastJSON\fastJSON.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Bson.dll</HintPath>
     </Reference>

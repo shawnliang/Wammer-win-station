@@ -11,6 +11,7 @@ using System.ServiceProcess;
 
 using Microsoft.Win32;
 using Wammer.Station;
+using Wammer.Station.Management;
 
 namespace Wammer.Station.StartUp
 {
@@ -39,40 +40,25 @@ namespace Wammer.Station.StartUp
 
 			try
 			{
-				Dictionary<object, object> parameters = new Dictionary<object, object>
-				{
-					{"email", textEmail.Text},
-					{"password", textPassword.Text},
-				};
-
-				Cloud.CloudResponse res = Cloud.CloudServer.request<Cloud.CloudResponse>(
-					new WebClient(), "http://localhost:9981/v2/station/drivers/add", parameters);
+				StationController.AddUser(textEmail.Text, textPassword.Text);
 
 				MessageBox.Show("User has been successfully added to this station. blah blah...");
 				this.Close();
 			}
-			catch (Wammer.Cloud.WammerCloudException ex)
+			catch (AuthenticationException ex)
 			{
-				switch ((int)ex.WammerError)
-				{
-					case (int)StationApiError.BadPath:
-						MessageBox.Show("Folder path must be an abslute path.");
-						break;
-					case (int)StationApiError.DriverExist:
-						MessageBox.Show("User has already been added to this station.");
-						break;
-					case (int)StationApiError.AuthFailed:
-						MessageBox.Show("Invalid email or password");
-						break;
-					case (int)StationApiError.AlreadyHasStaion:
-						HandleAlreadyHasStaion(ex.response);
-						break;
-					default:
-						MessageBox.Show("Unknown error :" + ex.ToString());
-						break;
-				}
-
+				MessageBox.Show("Invalid email or password");
 				logger.Error("Unable to add user", ex);
+			}
+			catch (StationAlreadyHasDriverException ex)
+			{
+				MessageBox.Show("Unable to add user because the station already has an driver");
+				logger.Error("Unable to add user", ex);
+			}
+			catch (UserAlreadyHasStationException ex)
+			{
+				logger.Warn("User already has a station");
+				HandleAlreadyHasStaion(ex);
 			}
 			catch (Exception ex)
 			{
@@ -81,15 +67,14 @@ namespace Wammer.Station.StartUp
 			}
 		}
 
-		private void HandleAlreadyHasStaion(string responseText)
+		private void HandleAlreadyHasStaion(UserAlreadyHasStationException ex)
 		{
-			AddUserResponse json = fastJSON.JSON.Instance.ToObject<AddUserResponse>(responseText);
 
 			string text = string.Format(
 				"You already have an registered station:\r\n" +
-				"station id: " + json.station.station_id + "\r\n" +
-				"location: " + json.station.location + "\r\n" +
-				"last sync time: " + json.station.LastSeen + "\r\n" +
+				"station id: " + ex.Id + "\r\n" +
+				"location: " + ex.Location + "\r\n" +
+				"last sync time: " + ex.LastSyncTime + "\r\n" +
 				"\r\n" +
 				"You need to unregister the old station before adding " + textEmail.Text +
 				"to this station.\r\n" +
@@ -104,7 +89,7 @@ namespace Wammer.Station.StartUp
 			using (WebClient agent = new WebClient())
 			{
 				Cloud.User user = Cloud.User.LogIn(agent, textEmail.Text, textPassword.Text);
-				Wammer.Cloud.Station.SignOff(new WebClient(), json.station.station_id, user.Token);
+				Wammer.Cloud.Station.SignOff(new WebClient(), ex.Id, user.Token);
 			}
 
 			MessageBox.Show("Old station is unregistered successfully. Please add user again.");
