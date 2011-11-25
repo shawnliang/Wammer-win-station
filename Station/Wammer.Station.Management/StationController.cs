@@ -175,6 +175,21 @@ namespace Wammer.Station.Management
 			}
 		}
 
+		/// <summary>
+		/// Sign off a station on behavior of its driver
+		/// </summary>
+		/// <param name="stationId"></param>
+		/// <param name="driverEmail"></param>
+		/// <param name="password"></param>
+		public static void SignoffStation(string stationId, string driverEmail, string password)
+		{
+			using (WebClient agent = new WebClient())
+			{
+				User user = User.LogIn(agent, driverEmail, password);
+				Cloud.Station.SignOff(agent, stationId, user.Token);
+			}
+		}
+
 		#region private accessors
 
 		/// <summary>

@@ -86,12 +86,7 @@ namespace Wammer.Station.StartUp
 			if (result == DialogResult.Cancel)
 				return;
 
-			using (WebClient agent = new WebClient())
-			{
-				Cloud.User user = Cloud.User.LogIn(agent, textEmail.Text, textPassword.Text);
-				Wammer.Cloud.Station.SignOff(new WebClient(), ex.Id, user.Token);
-			}
-
+			StationController.SignoffStation(ex.Id, textEmail.Text, textPassword.Text);
 			MessageBox.Show("Old station is unregistered successfully. Please add user again.");
 		}
 
