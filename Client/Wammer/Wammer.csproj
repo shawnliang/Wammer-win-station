@@ -451,7 +451,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="app.config" />
     <None Include="Resources\lightbulb.png" />
     <None Include="Resources\disk.png" />
     <None Include="Resources\edit.png" />
