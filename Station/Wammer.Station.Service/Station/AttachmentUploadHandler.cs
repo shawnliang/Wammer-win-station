@@ -18,13 +18,17 @@ namespace Wammer.Station
 	public class AttachmentUploadHandler : HttpHandler
 	{
 		/// <summary>
-		/// Fired on the uploaded attachment is saved
+		/// Fired on the uploaded image attachment is saved
 		/// </summary>
 		public event EventHandler<ImageAttachmentEventArgs> ImageAttachmentSaved;
 		/// <summary>
 		/// Fired on the whole request processing is completed
 		/// </summary>
 		public event EventHandler<ImageAttachmentEventArgs> ImageAttachmentCompleted;
+		/// <summary>
+		/// Fired on the uploaded attachment is saved
+		/// </summary>
+		public event EventHandler<AttachmentEventArgs> AttachmentSaved;
 
 		public AttachmentUploadHandler()
 			: base()
@@ -87,6 +91,12 @@ namespace Wammer.Station
 			file.modify_time = DateTime.UtcNow;
 			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
 
+			AttachmentEventArgs aEvtArgs = new AttachmentEventArgs
+			{
+				Attachment = file,
+				FolderPath = driver.folder
+			};
+
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
 			{
 				Attachment = file,
@@ -108,6 +118,7 @@ namespace Wammer.Station
 			else
 				Attachments.collection.Insert(dbDoc);
 
+			OnAttachmentSaved(aEvtArgs);
 
 			if (file.type == AttachmentType.image)
 				OnImageAttachmentSaved(evtArgs);
@@ -166,6 +177,15 @@ namespace Wammer.Station
 			else
 				meta = (ImageMeta)Enum.Parse(typeof(ImageMeta), imageMeta, true);
 			return meta;
+		}
+
+		protected void OnAttachmentSaved(AttachmentEventArgs evt)
+		{
+			EventHandler<AttachmentEventArgs> handler = AttachmentSaved;
+			if (handler != null)
+			{
+				handler(this, evt);
+			}
 		}
 
 		protected void OnImageAttachmentSaved(ImageAttachmentEventArgs evt)
@@ -260,6 +280,7 @@ namespace Wammer.Station
 	public class AttachmentEventArgs : EventArgs
 	{
 		public Attachments Attachment { get; set; }
+		public string FolderPath { get; set; }
 
 		public AttachmentEventArgs()
 		{

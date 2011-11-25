@@ -59,26 +59,24 @@ namespace Wammer.Station
 				Model.StationInfo sinfo = Model.StationInfo.collection.FindOne();
 				if (sinfo != null)
 				{
+					bool locChange = false;
+					string baseurl = NetworkHelper.GetBaseURL();
+					if (baseurl != sinfo.Location)
+					{
+						// update location if baseurl changed
+						logger.DebugFormat("station location changed: {0}", baseurl);
+						sinfo.Location = baseurl;
+						locChange = true;
+					}
+
 					Cloud.Station station = new Cloud.Station(sinfo.Id, sinfo.SessionToken);
 					if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
 					{
 						logger.Debug("cloud logon start");
 						try
 						{
-							string baseurl = NetworkHelper.GetBaseURL();
-							if (baseurl != sinfo.Location)
-							{
-								// update location if baseurl changed
-								logger.DebugFormat("station location changed: {0}", baseurl);
-								sinfo.Location = baseurl;
-								Dictionary<object, object> locParam = new Dictionary<object, object> { { "location", baseurl } };
-								station.LogOn(agent, locParam);
-							}
-							else
-							{
-								station.LogOn(agent);
-							}
-
+							Dictionary<object, object> locParam = new Dictionary<object, object> { { "location", baseurl } };
+							station.LogOn(agent, locParam);
 							logon = true;
 
 							// update station info in database
@@ -97,6 +95,12 @@ namespace Wammer.Station
 					};
 					try
 					{
+						if (locChange)
+						{
+							// update station info in database
+							logger.Debug("update station information");
+							Model.StationInfo.collection.Save(sinfo);
+						}
 						station.Heartbeat(agent, statusParam);
 					}
 					catch (Exception ex)
