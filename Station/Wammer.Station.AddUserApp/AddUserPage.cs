@@ -39,9 +39,14 @@ namespace Wammer.Station.StartUp
 
 			try
 			{
-				Wammer.Model.Drivers.RequestToAdd("http://localhost:9981/v2/station/drivers/add",
-					textEmail.Text,
-					textPassword.Text);
+				Dictionary<object, object> parameters = new Dictionary<object, object>
+				{
+					{"email", textEmail.Text},
+					{"password", textPassword.Text},
+				};
+
+				Cloud.CloudResponse res = Cloud.CloudServer.request<Cloud.CloudResponse>(
+					new WebClient(), "http://localhost:9981/v2/station/drivers/add", parameters);
 
 				MessageBox.Show("User has been successfully added to this station. blah blah...");
 				this.Close();
