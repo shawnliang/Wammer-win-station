@@ -14,6 +14,11 @@ namespace Waveface
             return dt.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'", DateTimeFormatInfo.InvariantInfo);
         }
 
+        public static string ToUniversalTime_ToISO8601(DateTime dt)
+        {
+            return ToISO8601(dt.ToUniversalTime());
+        }
+
         public static string ISO8601ToDotNet(string dt)
         {
             DateTime _dt;

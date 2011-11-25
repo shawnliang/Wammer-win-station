@@ -99,11 +99,11 @@ namespace Waveface.PostUI
         {
             if (imageListView.Items.Count > 0)
             {
-                btnBatchPost.Visible = true;
+                //@ btnBatchPost.Visible = true;
                 return;
             }
 
-            btnBatchPost.Visible = false;
+            //@ btnBatchPost.Visible = false;
         }
 
         #region Image Rotate
@@ -177,9 +177,9 @@ namespace Waveface.PostUI
 
                                  try
                                  {
-                                     string _resizedImage = ImageUtility.ResizeImage(_item.FileName, _item.Text, _resizeRatio);
+                                     string _resizedImage = ImageUtility.ResizeImage(_item.FileName, _item.Text, _resizeRatio, 100);
 
-                                     MR_attachments_upload _uf = MainForm.THIS.File_UploadFile(_item.Text, _resizedImage, true);
+                                     MR_attachments_upload _uf = MainForm.THIS.File_UploadFile(_item.Text, _resizedImage, "", true);
 
                                      if (_uf == null)
                                      {

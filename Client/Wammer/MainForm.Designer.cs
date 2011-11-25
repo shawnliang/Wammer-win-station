@@ -37,12 +37,9 @@
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.panelPost = new System.Windows.Forms.Panel();
-            this.postsArea = new Waveface.PostArea();
             this.splitterLeft = new System.Windows.Forms.Splitter();
             this.panelLeftInfo = new System.Windows.Forms.Panel();
-            this.leftArea = new Waveface.LeftArea();
             this.panelMain = new System.Windows.Forms.Panel();
-            this.detailView = new Waveface.DetailView();
             this.itemCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.connectedStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -65,11 +62,15 @@
             this.timerGetNewestPost = new System.Windows.Forms.Timer(this.components);
             this.timerFetchOlderPost = new System.Windows.Forms.Timer(this.components);
             this.panelTop = new System.Windows.Forms.Panel();
+            this.panelStation = new System.Windows.Forms.Panel();
+            this.radioButtonStation = new System.Windows.Forms.RadioButton();
+            this.radioButtonCloud = new System.Windows.Forms.RadioButton();
             this.linkLabelLogin = new System.Windows.Forms.LinkLabel();
             this.labelName = new System.Windows.Forms.Label();
             this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
-            this.pictureBoxPost = new System.Windows.Forms.PictureBox();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.detailView = new Waveface.DetailView();
+            this.postsArea = new Waveface.PostArea();
+            this.leftArea = new Waveface.LeftArea();
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -77,8 +78,8 @@
             this.statusStrip1.SuspendLayout();
             this.mnuTray.SuspendLayout();
             this.panelTop.SuspendLayout();
+            this.panelStation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAvatar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPost)).BeginInit();
             this.SuspendLayout();
             // 
             // BottomToolStripPanel
@@ -124,39 +125,28 @@
             this.panelLeft.Controls.Add(this.splitterLeft);
             this.panelLeft.Controls.Add(this.panelLeftInfo);
             this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelLeft.Location = new System.Drawing.Point(0, 56);
+            this.panelLeft.Location = new System.Drawing.Point(0, 70);
             this.panelLeft.Margin = new System.Windows.Forms.Padding(0);
             this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(480, 545);
+            this.panelLeft.Size = new System.Drawing.Size(510, 597);
             this.panelLeft.TabIndex = 9;
             // 
             // panelPost
             // 
             this.panelPost.Controls.Add(this.postsArea);
             this.panelPost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPost.Location = new System.Drawing.Point(162, 0);
+            this.panelPost.Location = new System.Drawing.Point(182, 0);
             this.panelPost.Margin = new System.Windows.Forms.Padding(0);
             this.panelPost.Name = "panelPost";
-            this.panelPost.Size = new System.Drawing.Size(318, 545);
+            this.panelPost.Size = new System.Drawing.Size(328, 597);
             this.panelPost.TabIndex = 7;
-            // 
-            // postsArea
-            // 
-            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
-            this.postsArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.postsArea.Font = new System.Drawing.Font("微軟正黑體", 9F);
-            this.postsArea.Location = new System.Drawing.Point(0, 0);
-            this.postsArea.Margin = new System.Windows.Forms.Padding(0);
-            this.postsArea.Name = "postsArea";
-            this.postsArea.Size = new System.Drawing.Size(318, 545);
-            this.postsArea.TabIndex = 4;
             // 
             // splitterLeft
             // 
-            this.splitterLeft.Location = new System.Drawing.Point(160, 0);
+            this.splitterLeft.Location = new System.Drawing.Point(180, 0);
             this.splitterLeft.Margin = new System.Windows.Forms.Padding(0);
             this.splitterLeft.Name = "splitterLeft";
-            this.splitterLeft.Size = new System.Drawing.Size(2, 545);
+            this.splitterLeft.Size = new System.Drawing.Size(2, 597);
             this.splitterLeft.TabIndex = 5;
             this.splitterLeft.TabStop = false;
             // 
@@ -167,44 +157,18 @@
             this.panelLeftInfo.Location = new System.Drawing.Point(0, 0);
             this.panelLeftInfo.Margin = new System.Windows.Forms.Padding(0);
             this.panelLeftInfo.Name = "panelLeftInfo";
-            this.panelLeftInfo.Size = new System.Drawing.Size(160, 545);
+            this.panelLeftInfo.Size = new System.Drawing.Size(180, 597);
             this.panelLeftInfo.TabIndex = 6;
-            // 
-            // leftArea
-            // 
-            this.leftArea.BackColor = System.Drawing.Color.Transparent;
-            this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.leftArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.leftArea.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.leftArea.Location = new System.Drawing.Point(0, 0);
-            this.leftArea.Name = "leftArea";
-            this.leftArea.Size = new System.Drawing.Size(160, 545);
-            this.leftArea.TabIndex = 3;
-            this.leftArea.TabStop = false;
             // 
             // panelMain
             // 
             this.panelMain.Controls.Add(this.detailView);
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMain.Location = new System.Drawing.Point(482, 56);
+            this.panelMain.Location = new System.Drawing.Point(512, 70);
             this.panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(596, 545);
+            this.panelMain.Size = new System.Drawing.Size(566, 597);
             this.panelMain.TabIndex = 11;
-            // 
-            // detailView
-            // 
-            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.detailView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.detailView.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.detailView.Location = new System.Drawing.Point(0, 0);
-            this.detailView.Margin = new System.Windows.Forms.Padding(0);
-            this.detailView.MinimumSize = new System.Drawing.Size(200, 2);
-            this.detailView.Name = "detailView";
-            this.detailView.Post = null;
-            this.detailView.Size = new System.Drawing.Size(596, 545);
-            this.detailView.TabIndex = 8;
-            this.detailView.User = null;
             // 
             // itemCountLabel
             // 
@@ -349,10 +313,10 @@
             // 
             // splitterRight
             // 
-            this.splitterRight.Location = new System.Drawing.Point(480, 56);
+            this.splitterRight.Location = new System.Drawing.Point(510, 70);
             this.splitterRight.Margin = new System.Windows.Forms.Padding(0);
             this.splitterRight.Name = "splitterRight";
-            this.splitterRight.Size = new System.Drawing.Size(2, 545);
+            this.splitterRight.Size = new System.Drawing.Size(2, 597);
             this.splitterRight.TabIndex = 10;
             this.splitterRight.TabStop = false;
             // 
@@ -364,27 +328,64 @@
             // 
             // timerFetchOlderPost
             // 
-            this.timerFetchOlderPost.Interval = 1000;
+            this.timerFetchOlderPost.Interval = 500;
             this.timerFetchOlderPost.Tick += new System.EventHandler(this.timerFetchOlderPost_Tick);
             // 
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Orange;
+            this.panelTop.Controls.Add(this.panelStation);
             this.panelTop.Controls.Add(this.linkLabelLogin);
             this.panelTop.Controls.Add(this.labelName);
             this.panelTop.Controls.Add(this.pictureBoxAvatar);
-            this.panelTop.Controls.Add(this.pictureBoxPost);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Margin = new System.Windows.Forms.Padding(0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1078, 56);
+            this.panelTop.Size = new System.Drawing.Size(1078, 70);
             this.panelTop.TabIndex = 12;
+            // 
+            // panelStation
+            // 
+            this.panelStation.BackColor = System.Drawing.SystemColors.Control;
+            this.panelStation.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelStation.Controls.Add(this.radioButtonStation);
+            this.panelStation.Controls.Add(this.radioButtonCloud);
+            this.panelStation.Location = new System.Drawing.Point(12, 12);
+            this.panelStation.Name = "panelStation";
+            this.panelStation.Size = new System.Drawing.Size(94, 47);
+            this.panelStation.TabIndex = 4;
+            this.panelStation.Visible = false;
+            // 
+            // radioButtonStation
+            // 
+            this.radioButtonStation.AutoSize = true;
+            this.radioButtonStation.Checked = true;
+            this.radioButtonStation.Location = new System.Drawing.Point(18, 22);
+            this.radioButtonStation.Name = "radioButtonStation";
+            this.radioButtonStation.Size = new System.Drawing.Size(64, 18);
+            this.radioButtonStation.TabIndex = 1;
+            this.radioButtonStation.TabStop = true;
+            this.radioButtonStation.Text = "Station";
+            this.radioButtonStation.UseVisualStyleBackColor = true;
+            this.radioButtonStation.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
+            // 
+            // radioButtonCloud
+            // 
+            this.radioButtonCloud.AutoSize = true;
+            this.radioButtonCloud.Location = new System.Drawing.Point(18, 3);
+            this.radioButtonCloud.Name = "radioButtonCloud";
+            this.radioButtonCloud.Size = new System.Drawing.Size(55, 18);
+            this.radioButtonCloud.TabIndex = 0;
+            this.radioButtonCloud.Text = "Cloud";
+            this.radioButtonCloud.UseVisualStyleBackColor = true;
+            this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
             // 
             // linkLabelLogin
             // 
+            this.linkLabelLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelLogin.AutoSize = true;
-            this.linkLabelLogin.Location = new System.Drawing.Point(56, 35);
+            this.linkLabelLogin.Location = new System.Drawing.Point(970, 51);
             this.linkLabelLogin.Name = "linkLabelLogin";
             this.linkLabelLogin.Size = new System.Drawing.Size(36, 14);
             this.linkLabelLogin.TabIndex = 3;
@@ -395,55 +396,74 @@
             // 
             // labelName
             // 
+            this.labelName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelName.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelName.ForeColor = System.Drawing.Color.White;
-            this.labelName.Location = new System.Drawing.Point(56, 12);
+            this.labelName.Location = new System.Drawing.Point(884, 21);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(83, 23);
+            this.labelName.Size = new System.Drawing.Size(120, 25);
             this.labelName.TabIndex = 2;
-            this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // pictureBoxAvatar
             // 
+            this.pictureBoxAvatar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxAvatar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxAvatar.Location = new System.Drawing.Point(10, 9);
+            this.pictureBoxAvatar.Location = new System.Drawing.Point(1012, 5);
             this.pictureBoxAvatar.Name = "pictureBoxAvatar";
-            this.pictureBoxAvatar.Size = new System.Drawing.Size(40, 40);
+            this.pictureBoxAvatar.Size = new System.Drawing.Size(60, 60);
             this.pictureBoxAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxAvatar.TabIndex = 1;
             this.pictureBoxAvatar.TabStop = false;
             // 
-            // pictureBoxPost
+            // detailView
             // 
-            this.pictureBoxPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxPost.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxPost.Image")));
-            this.pictureBoxPost.Location = new System.Drawing.Point(985, 17);
-            this.pictureBoxPost.Name = "pictureBoxPost";
-            this.pictureBoxPost.Size = new System.Drawing.Size(87, 27);
-            this.pictureBoxPost.TabIndex = 0;
-            this.pictureBoxPost.TabStop = false;
-            this.pictureBoxPost.Click += new System.EventHandler(this.pictureBoxPost_Click);
+            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.detailView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.detailView.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.detailView.Location = new System.Drawing.Point(0, 0);
+            this.detailView.Margin = new System.Windows.Forms.Padding(0);
+            this.detailView.MinimumSize = new System.Drawing.Size(200, 2);
+            this.detailView.Name = "detailView";
+            this.detailView.Post = null;
+            this.detailView.Size = new System.Drawing.Size(566, 597);
+            this.detailView.TabIndex = 8;
+            this.detailView.User = null;
             // 
-            // statusStrip2
+            // postsArea
             // 
-            this.statusStrip.Location = new System.Drawing.Point(0, 601);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1078, 22);
-            this.statusStrip.TabIndex = 13;
-            this.statusStrip.Text = "statusStrip2";
+            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
+            this.postsArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.postsArea.Font = new System.Drawing.Font("Tahoma", 9F);
+            this.postsArea.Location = new System.Drawing.Point(0, 0);
+            this.postsArea.Margin = new System.Windows.Forms.Padding(0);
+            this.postsArea.Name = "postsArea";
+            this.postsArea.Size = new System.Drawing.Size(328, 597);
+            this.postsArea.TabIndex = 4;
+            // 
+            // leftArea
+            // 
+            this.leftArea.BackColor = System.Drawing.Color.Transparent;
+            this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.leftArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.leftArea.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.leftArea.Location = new System.Drawing.Point(0, 0);
+            this.leftArea.Name = "leftArea";
+            this.leftArea.Size = new System.Drawing.Size(180, 597);
+            this.leftArea.TabIndex = 3;
+            this.leftArea.TabStop = false;
             // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1078, 623);
+            this.ClientSize = new System.Drawing.Size(1078, 667);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.splitterRight);
             this.Controls.Add(this.panelLeft);
             this.Controls.Add(this.panelTop);
-            this.Controls.Add(this.statusStrip);
-            this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Tahoma", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Waveface";
@@ -464,10 +484,10 @@
             this.mnuTray.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
+            this.panelStation.ResumeLayout(false);
+            this.panelStation.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAvatar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPost)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
 		}
 
@@ -505,14 +525,15 @@
         private System.Windows.Forms.Timer timerGetNewestPost;
         private System.Windows.Forms.Timer timerFetchOlderPost;
         private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.PictureBox pictureBoxPost;
         private System.Windows.Forms.PictureBox pictureBoxAvatar;
         private System.Windows.Forms.Label labelName;
         private LeftArea leftArea;
         private System.Windows.Forms.LinkLabel linkLabelLogin;
         private System.Windows.Forms.ToolStripMenuItem preferencesMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.Panel panelStation;
+        private System.Windows.Forms.RadioButton radioButtonStation;
+        private System.Windows.Forms.RadioButton radioButtonCloud;
 	}
 }
 

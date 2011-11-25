@@ -3,6 +3,8 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Net;
 using System.Windows.Forms;
 
@@ -55,7 +57,7 @@ namespace Waveface
             if (image == null)
                 throw new ArgumentNullException("image");
 
-            const double pi2 = Math.PI/2.0;
+            const double pi2 = Math.PI / 2.0;
 
             // Why can't C# allow these to be const, or at least readonly
             // *sigh*  I'm starting to talk like Christian Graus :omg:
@@ -63,12 +65,12 @@ namespace Waveface
             double oldHeight = image.Height;
 
             // Convert degrees to radians
-            double theta = (angle)*Math.PI/180.0;
+            double theta = (angle) * Math.PI / 180.0;
             double locked_theta = theta;
 
             // Ensure theta is now [0, 2pi)
             while (locked_theta < 0.0)
-                locked_theta += 2*Math.PI;
+                locked_theta += 2 * Math.PI;
 
             #region Explaination of the calculations
 
@@ -133,26 +135,26 @@ namespace Waveface
             if ((locked_theta >= 0.0 && locked_theta < pi2) ||
                 (locked_theta >= Math.PI && locked_theta < (Math.PI + pi2)))
             {
-                adjacentTop = Math.Abs(Math.Cos(locked_theta))*oldWidth;
-                oppositeTop = Math.Abs(Math.Sin(locked_theta))*oldWidth;
+                adjacentTop = Math.Abs(Math.Cos(locked_theta)) * oldWidth;
+                oppositeTop = Math.Abs(Math.Sin(locked_theta)) * oldWidth;
 
-                adjacentBottom = Math.Abs(Math.Cos(locked_theta))*oldHeight;
-                oppositeBottom = Math.Abs(Math.Sin(locked_theta))*oldHeight;
+                adjacentBottom = Math.Abs(Math.Cos(locked_theta)) * oldHeight;
+                oppositeBottom = Math.Abs(Math.Sin(locked_theta)) * oldHeight;
             }
             else
             {
-                adjacentTop = Math.Abs(Math.Sin(locked_theta))*oldHeight;
-                oppositeTop = Math.Abs(Math.Cos(locked_theta))*oldHeight;
+                adjacentTop = Math.Abs(Math.Sin(locked_theta)) * oldHeight;
+                oppositeTop = Math.Abs(Math.Cos(locked_theta)) * oldHeight;
 
-                adjacentBottom = Math.Abs(Math.Sin(locked_theta))*oldWidth;
-                oppositeBottom = Math.Abs(Math.Cos(locked_theta))*oldWidth;
+                adjacentBottom = Math.Abs(Math.Sin(locked_theta)) * oldWidth;
+                oppositeBottom = Math.Abs(Math.Cos(locked_theta)) * oldWidth;
             }
 
             double newWidth = adjacentTop + oppositeBottom;
             double newHeight = adjacentBottom + oppositeTop;
 
-            int nWidth = (int) Math.Ceiling(newWidth);
-            int nHeight = (int) Math.Ceiling(newHeight);
+            int nWidth = (int)Math.Ceiling(newWidth);
+            int nHeight = (int)Math.Ceiling(newHeight);
 
             Bitmap rotatedBmp = new Bitmap(nWidth, nHeight);
 
@@ -249,7 +251,7 @@ namespace Waveface
 
         #region Resize Image
 
-        public static string ResizeImage(string orgImageFilePath, string fileName, string resizeRatio)
+        public static string ResizeImage(string orgImageFilePath, string fileName, string resizeRatio, int ratio)
         {
             string _resize = resizeRatio;
 
@@ -265,10 +267,36 @@ namespace Waveface
                 if (_bmp == null)
                     return orgImageFilePath;
 
+                if ((_bmp.Height < _longestSide) && (_bmp.Width < _longestSide))
+                    return orgImageFilePath;
+
                 string _newPath = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" +
                                   fileName;
 
-                _bmp.Save(_newPath);
+
+                // Create parameters
+                EncoderParameters _params = new EncoderParameters(1);
+
+                // Set quality (100)
+                _params.Param[0] = new EncoderParameter(Encoder.Quality, ratio);
+
+                // Create encoder info
+                ImageCodecInfo _codec = null;
+
+                foreach (ImageCodecInfo _codectemp in ImageCodecInfo.GetImageDecoders())
+                {
+                    if (_codectemp.MimeType == FileUtility.GetMimeType(new FileInfo(fileName)))
+                    {
+                        _codec = _codectemp;
+                        break;
+                    }
+                }
+
+                // Check
+                if (_codec == null)
+                    throw new Exception("Codec not found!");
+
+                _bmp.Save(_newPath, _codec, _params);
 
                 return _newPath;
             }
@@ -278,6 +306,38 @@ namespace Waveface
             }
 
             return orgImageFilePath;
+        }
+
+        public static Bitmap ResizeImage(Bitmap image, int longestSide)
+        {
+            Bitmap _newImage = null;
+
+            try
+            {
+                float _scale = (image.Width > image.Height
+                                    ? (longestSide) / ((float)image.Width)
+                                    : (longestSide) / ((float)image.Height));
+
+                int _width = (int)(image.Width * _scale);
+                int _height = (int)(image.Height * _scale);
+                _newImage = new Bitmap(_width, _height);
+
+                Graphics _g = Graphics.FromImage(_newImage);
+                _g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                _g.DrawImage(image, new Rectangle(0, 0, _width, _height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel);
+                _g.Dispose();
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                if ((image != null))
+                    image.Dispose();
+            }
+
+            return _newImage;
         }
 
         private static Bitmap ResizeImage_Impl(string imagePath, int longestSide)
@@ -290,11 +350,11 @@ namespace Waveface
                 _image = new Bitmap(imagePath);
 
                 float _scale = (_image.Width > _image.Height
-                                    ? (longestSide)/((float) _image.Width)
-                                    : (longestSide)/((float) _image.Height));
+                                    ? (longestSide) / ((float)_image.Width)
+                                    : (longestSide) / ((float)_image.Height));
 
-                int _width = (int) (_image.Width*_scale);
-                int _height = (int) (_image.Height*_scale);
+                int _width = (int)(_image.Width * _scale);
+                int _height = (int)(_image.Height * _scale);
                 _newImage = new Bitmap(_width, _height);
 
                 Graphics _g = Graphics.FromImage(_newImage);

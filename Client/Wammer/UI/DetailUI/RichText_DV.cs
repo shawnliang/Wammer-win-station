@@ -217,7 +217,7 @@ namespace Waveface.DetailUI
                     }
                     else
                     {
-                        string _url = MainForm.THIS.attachments_getRedirectURL(_a.url);
+                        string _url = MainForm.THIS.attachments_getRedirectURL(_a.url, _a.object_id);
 
                         WebClient _webClient = new WebClient();
                         _webClient.DownloadFileCompleted += Completed;

@@ -35,6 +35,9 @@ namespace Waveface
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private Popup m_trayIconPopup;
         private TrayIconPanel m_trayIconPanel;
+        private FileUploadToStation m_fileUploadToStation;
+
+        private string m_stationIP;
 
         //ScreenShot
         private ImageStorage m_imageStorage;
@@ -46,27 +49,28 @@ namespace Waveface
         private VirtualFolderForm m_virtualFolderForm;
         private MyTaskbarNotifier m_taskbarNotifier;
 
-        //Test
-        private GroupManager m_groupManager;
-        private TestForm m_testForm;
-        private FilterManager m_filterManager;
-
         //V2
         private BEService2 m_serviceV2;
         private MR_auth_login m_login;
-
         private RunTimeData m_runTimeData = new RunTimeData();
 
-        private string m_currentGroupID;
+        //Test
+        private GroupManager m_groupManager;
+        private TestForm m_testForm;
 
         #endregion
 
-        #region Property
+        #region Properties
 
         public RunTimeData RT
         {
             get { return m_runTimeData; }
             set { m_runTimeData = value; }
+        }
+
+        private string SessionToken
+        {
+            get { return m_login.session_token; }
         }
 
         #endregion
@@ -93,10 +97,9 @@ namespace Waveface
 
             //m_testForm = new TestForm();
             //m_testForm.Show();
-
-            m_filterManager = new FilterManager();
-            m_filterManager.Show();
         }
+
+        #region Init
 
         private void Form_Load(object sender, EventArgs e)
         {
@@ -115,6 +118,8 @@ namespace Waveface
 
             //-- Send To
             CreateFileWatcher();
+
+            m_fileUploadToStation = new FileUploadToStation();
         }
 
         private void InitmDropableNotifyIcon()
@@ -151,7 +156,29 @@ namespace Waveface
             m_taskbarNotifier.ReShowOnMouseOver = true;
         }
 
+        #endregion
+
         #region Main
+
+        #region Event
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            m_dropableNotifyIcon.Dispose();
+        }
+
+        private void preferencesMenuItem_Click(object sender, EventArgs e)
+        {
+            PreferenceForm _form = new PreferenceForm();
+            _form.ShowDialog();
+        }
+
+        private void linkLabelLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Login();
+        }
+
+        #endregion
 
         #region Drag & Drop
 
@@ -173,6 +200,12 @@ namespace Waveface
         private void Form_DragOver(object sender, DragEventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Over(e);
+        }
+
+        void DropableNotifyIcon_DragEnter(object sender, DragEventArgs e)
+        {
+            if (!m_trayIconPopup.Visible)
+                m_trayIconPopup.Show(m_dropableNotifyIcon.GetLocation());
         }
 
         #endregion
@@ -239,140 +272,288 @@ namespace Waveface
 
         #endregion
 
-        #region Misc
+        #endregion
 
-        void DropableNotifyIcon_DragEnter(object sender, DragEventArgs e)
+        #region API
+
+        public string attachments_getRedirectURL(string orgURL, string object_id)
         {
-            if (!m_trayIconPopup.Visible)
-                m_trayIconPopup.Show(m_dropableNotifyIcon.GetLocation());
+            return ServerImageAddressUtility.attachments_getRedirectURL(orgURL, SessionToken, object_id);
         }
 
-        private void timerDelayPost_Tick(object sender, EventArgs e)
+        public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url, out string fileName)
         {
-            if (m_delayPostPicList.Count == 0)
-                return;
-
-            timerDelayPost.Enabled = false;
-
-            Post(m_delayPostPicList, PostType.Photo);
-
-            m_delayPostPicList.Clear();
-
-            timerDelayPost.Enabled = true;
+            return ServerImageAddressUtility.attachments_getRedirectURL_Image(SessionToken, a, imageType, out url, out fileName);
         }
 
-        public void Post()
+        public MR_posts_new Post_CreateNewPost(string text, string files, string previews, string type)
         {
-            Post(new List<string>(), PostType.All);
-        }
+            MR_posts_new _postsNew = m_serviceV2.posts_new(SessionToken, RT.CurrentGroupID, text, files, previews, type);
 
-        public void Post(List<string> pics, PostType postType)
-        {
-            if (!m_loginOK)
+            if ((_postsNew != null) && (_postsNew.status == "200"))
             {
-                if (!DoLogin())
+                return _postsNew;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_posts_newComment Posts_NewComment(string post_id, string content, string objects, string previews)
+        {
+            MR_posts_newComment _newComment = m_serviceV2.posts_newComment(SessionToken, RT.CurrentGroupID, post_id, content, objects, previews);
+
+            if ((_newComment != null) && (_newComment.status == "200"))
+            {
+                return _newComment;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_posts_getSingle Posts_GetSingle(string post_id)
+        {
+            MR_posts_getSingle _getSingle = m_serviceV2.posts_getSingle(SessionToken, RT.CurrentGroupID, post_id);
+
+            if ((_getSingle != null) && (_getSingle.status == "200"))
+            {
+                return _getSingle;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_previews_get_adv Preview_GetAdvancedPreview(string url)
+        {
+            MR_previews_get_adv _previewsGetAdv = m_serviceV2.previews_get_adv(SessionToken, url);
+
+            if ((_previewsGetAdv != null) && (_previewsGetAdv.status == "200"))
+            {
+                return _previewsGetAdv;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage)
+        {
+            MR_attachments_upload _attachmentsUpload;
+            string _resizedImageFilePath = string.Empty;
+
+            if (isImage)
+            {
+                if (RT.IsStationOK) //如果有Station則上傳原圖, 否則就上512中圖
                 {
-                    return; //未能Login
+                    _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text, "", "image", "origin", object_id);
+                }
+                else
+                {
+                    _resizedImageFilePath = ImageUtility.ResizeImage(filePath, text, "512", 50);
+                    _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, _resizedImageFilePath, text, "", "image", "medium", object_id);
                 }
             }
-
-            m_canAutoFetchNewestPosts = false;
-
-            PostForm _form = new PostForm(pics, postType);
-            DialogResult _dr = _form.ShowDialog();
-
-            switch (_dr)
+            else
             {
-                case DialogResult.Yes:
-                    showGroupPosts();
-                    RestoreWindow();
-                    break;
-
-                case DialogResult.OK:
-                    leftArea.AddNewPostItem(_form.NewPostItem); //@
-                    break;
+                _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text, "", "doc", "", "");
             }
 
-            m_canAutoFetchNewestPosts = true;
-        }
-
-        public void AfterBatchPostDone()
-        {
-            m_canAutoFetchNewestPosts = false;
-
-            showGroupPosts();
-
-            m_canAutoFetchNewestPosts = true;
-        }
-
-        private void showTaskbarNotifier(Post post)
-        {
-            string _url = string.Empty;
-            string _name = string.Empty;
-
-            foreach (User _u in RT.AllUsers)
+            if ((_attachmentsUpload != null) && (_attachmentsUpload.status == "200"))
             {
-                if (post.creator_id == _u.user_id)
+                // 如果傳中圖到Cloud, 則要把原圖Cache起來, 待有Station在傳原圖
+                if (_resizedImageFilePath != string.Empty)
                 {
-                    _url = _u.avatar_url;
-                    _name = _u.nickname;
+                    string _ext = ".jpg";
+
+                    int _idx = text.IndexOf(".");
+
+                    if (_idx != -1)
+                        _ext = text.Substring(_idx);
+
+                    string _originCacheFile = GCONST.ImageUploadCachePath + _attachmentsUpload.object_id + _ext;
+                    File.Copy(filePath, _originCacheFile);
                 }
+
+                return _attachmentsUpload;
             }
 
-            m_taskbarNotifier.AvatarImage = ImageUtility.GetAvatarImage(post.creator_id, _url);
-            m_taskbarNotifier.Show(_name, post.content, 333, 2000, 333);
+            return null;
         }
 
-        private void FetchOlderPosts()
+        public MR_posts_get Posts_Search(string search_filter)
         {
-            if (m_loginOK)
+            MR_posts_get _postsGet = m_serviceV2.posts_search(SessionToken, RT.CurrentGroupID, search_filter);
+
+            if ((_postsGet != null) && (_postsGet.status == "200"))
             {
+                return _postsGet;
             }
-        }
-
-        public void ReadMore()
-        {
-            timerFetchOlderPost.Enabled = true;
-        }
-
-        private void timerFetchOlderPost_Tick(object sender, EventArgs e)
-        {
-            timerFetchOlderPost.Enabled = false;
-
-            m_canAutoFetchNewestPosts = false;
-
-            FetchOlderPosts();
-
-            m_canAutoFetchNewestPosts = true;
-        }
-
-        private void timerGetNewestPost_Tick(object sender, EventArgs e)
-        {
-            timerGetNewestPost.Enabled = false;
-
-            if (m_canAutoFetchNewestPosts)
+            else
             {
-                //if (m_loginOK)
-                //    showGroupPosts();
+                return null;
             }
-
-            timerGetNewestPost.Enabled = true;
         }
 
-        private void pictureBoxPost_Click(object sender, EventArgs e)
+        public MR_searchfilters_list SearchFilters_List()
         {
-            Post();
+            MR_searchfilters_list _filtersList = m_serviceV2.searchfilters_list(SessionToken);
+
+            if ((_filtersList != null) && (_filtersList.status == "200"))
+            {
+                return _filtersList;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_searchfilters_item SearchFilters_New(string filter_name, string filter, string tag)
+        {
+            MR_searchfilters_item _item = m_serviceV2.searchfilters_new(SessionToken, filter_name, filter, tag);
+
+            if ((_item != null) && (_item.status == "200"))
+            {
+                return _item;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_searchfilters_item SearchFilters_Update(string searchfilter_id, string filter_name, string filter, string tag)
+        {
+            MR_searchfilters_item _item = m_serviceV2.searchfilters_update(SessionToken, searchfilter_id, filter_name, filter, tag);
+
+            if ((_item != null) && (_item.status == "200"))
+            {
+                return _item;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_users_findMyStation Users_findMyStation()
+        {
+            MR_users_findMyStation _findMyStation = m_serviceV2.users_findMyStation(SessionToken);
+
+            if ((_findMyStation != null) && (_findMyStation.status == "200"))
+            {
+                return _findMyStation;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #region Hide
+
+        public MR_hide_ret Hide_Set_Post(string object_id)
+        {
+            MR_hide_ret _ret = m_serviceV2.hide_set(SessionToken, RT.CurrentGroupID, "post", object_id);
+
+            if ((_ret != null) && (_ret.status == "200"))
+            {
+                return _ret;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_hide_ret Hide_Set_Attachment(string object_id)
+        {
+            MR_hide_ret _ret = m_serviceV2.hide_set(SessionToken, RT.CurrentGroupID, "attachment", object_id);
+
+            if ((_ret != null) && (_ret.status == "200"))
+            {
+                return _ret;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_hide_ret Hide_Unset_Post(string object_id)
+        {
+            MR_hide_ret _ret = m_serviceV2.hide_unset(SessionToken, RT.CurrentGroupID, "post", object_id);
+
+            if ((_ret != null) && (_ret.status == "200"))
+            {
+                return _ret;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_hide_ret Hide_Unset_Attachment(string object_id)
+        {
+            MR_hide_ret _ret = m_serviceV2.hide_unset(SessionToken, RT.CurrentGroupID, "attachment", object_id);
+
+            if ((_ret != null) && (_ret.status == "200"))
+            {
+                return _ret;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_hide_list Hide_List(string object_type)
+        {
+            MR_hide_list _ret = m_serviceV2.hide_list(SessionToken, RT.CurrentGroupID, object_type);
+
+            if ((_ret != null) && (_ret.status == "200"))
+            {
+                return _ret;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         #endregion
 
-        #region Login V2
+        #endregion
 
-        public bool DoLogin()
+        #region Login
+
+        private void Reset()
+        {
+            RT.Reset();
+
+            postsArea.ShowTypeUI(false);
+        }
+
+        public bool Login()
         {
             bool _ret = false;
 
-            m_loginOK = Login();
+            LoginForm _loginForm = new LoginForm();
+            DialogResult _dr = _loginForm.ShowDialog();
+
+            if (_dr != DialogResult.OK)
+                return false;
+
+            m_serviceV2 = new BEService2();
+
+            m_loginOK = Login_Service(_loginForm.User, _loginForm.Password);
 
             Cursor.Current = Cursors.WaitCursor;
 
@@ -380,13 +561,24 @@ namespace Waveface
             {
                 Reset();
 
+                CheckStation(m_login.stations);
+
                 getGroupAndUser();
 
                 fillUserInformation();
                 fillGroupAndUser();
 
-                if (m_login.groups.Count > 0)
-                    showGroupPosts(m_login.groups[0].group_id);
+                //預設群組
+                RT.CurrentGroupID = m_login.groups[0].group_id;
+
+                //RT.HideList = Hide_List("all");
+
+                //顯示所有Post
+                DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
+
+                //
+                leftArea.FillCustomizedFilters();
+                leftArea.SetUI();
 
                 _ret = true;
             }
@@ -396,19 +588,40 @@ namespace Waveface
             return _ret;
         }
 
-        private bool Login()
+        private void CheckStation(List<Station> stations)
         {
-            LoginForm _loginForm = new LoginForm();
-            DialogResult _dr = _loginForm.ShowDialog();
+            if (stations != null)
+            {
+                foreach (Station _station in stations)
+                {
+                    if (_station.status == "connected")
+                    {
+                        string _ip = _station.location;
 
-            if (_dr != DialogResult.OK)
-                return false;
+                        if (_ip.EndsWith("/"))
+                            _ip = _ip.Substring(0, _ip.Length - 1);
 
+                        BEService2.StationIP = _ip;
+
+                        //test
+                        m_stationIP = _ip;
+                        panelStation.Visible = true;
+
+                        RT.IsStationOK = true;
+
+                        return;
+                    }
+                }
+            }
+
+            RT.IsStationOK = false;
+        }
+
+        private bool Login_Service(string email, string password)
+        {
             Cursor.Current = Cursors.WaitCursor;
 
-            m_serviceV2 = new BEService2();
-
-            m_login = m_serviceV2.auth_login(_loginForm.User, _loginForm.Password);
+            m_login = m_serviceV2.auth_login(email, password);
 
             Cursor.Current = Cursors.Default;
 
@@ -419,17 +632,6 @@ namespace Waveface
             }
 
             return (m_login.status == "200");
-        }
-
-        #endregion
-
-        #region V2
-
-        private void Reset()
-        {
-            RT.Reset();
-
-            m_currentGroupID = string.Empty;
         }
 
         private void fillUserInformation()
@@ -455,7 +657,7 @@ namespace Waveface
         {
             foreach (Group _g in m_login.groups)
             {
-                MR_groups_get _mrGroupsGet = m_serviceV2.groups_get(m_login.session_token, _g.group_id);
+                MR_groups_get _mrGroupsGet = m_serviceV2.groups_get(SessionToken, _g.group_id);
 
                 if ((_mrGroupsGet != null) && (_mrGroupsGet.status == "200"))
                 {
@@ -471,64 +673,218 @@ namespace Waveface
             }
         }
 
-        public List<Post> getPostsByGroupID(string groupID)
-        {
-            bool _addnew;
+        #endregion
 
-            return getPostsByGroupID(groupID, out _addnew);
+        #region Filter
+
+        public void DoTimelineFilter(FilterItem item, bool isTimelineFilter)
+        {
+            if (!m_loginOK)
+                return;
+
+            if (item != null) //會null是由PostArea的comboBoxType發出
+            {
+                RT.IsAllPostMode = item.IsAllPost;
+                RT.CurrentFilterItem = item;
+            }
+
+            RT.CurrentPosts = new List<Post>(); //Reset
+
+            RT.IsTimelineFilter = isTimelineFilter; // 是Timeline才秀Type
+            postsArea.ShowTypeUI(RT.IsTimelineFilter);
+
+            string _title = "[" + RT.CurrentFilterItem.Name + "]";
+            _title += (postsArea.GetPostTypeText() == "All Posts") ? "" : (" - " + postsArea.GetPostTypeText());
+
+            FetchPostsAndShow(true);
         }
 
-        public List<Post> getPostsByGroupID(string groupID, out bool addNew)
+        #endregion
+
+        #region Post
+
+        private void timerDelayPost_Tick(object sender, EventArgs e)
         {
-            List<Post> _ret = null;
+            if (m_delayPostPicList.Count == 0)
+                return;
 
-            addNew = false;
+            timerDelayPost.Enabled = false;
 
-            if (RT.GroupPosts.ContainsKey(groupID) && RT.GroupPosts[groupID].Count > 0)
+            Post(m_delayPostPicList, PostType.Photo);
+
+            m_delayPostPicList.Clear();
+
+            timerDelayPost.Enabled = true;
+        }
+
+        public void Post()
+        {
+            Post(new List<string>(), PostType.All);
+        }
+
+        public void Post(List<string> pics, PostType postType)
+        {
+            if (!m_loginOK)
             {
-                addNew = FetchNewestPostsV2();
-
-                return RT.GroupPosts[groupID];
+                MessageBox.Show("Please Login first.", "Waveface");
+                return;
             }
-            else
-            {
-                MR_posts_getLatest _mrPostsGetLatest = m_serviceV2.posts_getLatest(m_login.session_token, groupID,
-                                                                                   "50");
 
-                if ((_mrPostsGetLatest != null) && (_mrPostsGetLatest.status == "200"))
+            m_canAutoFetchNewestPosts = false;
+
+            PostForm _form = new PostForm(pics, postType);
+            DialogResult _dr = _form.ShowDialog();
+
+            switch (_dr)
+            {
+                case DialogResult.Yes:
+                    // ------------------ OLD_showAllPosts();
+                    RestoreWindow();
+                    break;
+
+                case DialogResult.OK:
+                    leftArea.AddNewPostItem(_form.NewPostItem); //@
+                    break;
+            }
+
+            m_canAutoFetchNewestPosts = true;
+        }
+
+        #endregion
+
+        #region Hide Post、Attachment
+
+        public void HidePost(string postId)
+        {
+            MR_hide_ret _ret = Hide_Set_Post(postId);
+
+            if (_ret != null)
+            {
+                MessageBox.Show("Remove Post Success!");
+
+                RT.HideList = Hide_List("all");
+                ShowPostToUI(false);
+            }
+        }
+
+        private List<Post> GetUnhidePosts(List<Post> posts)
+        {
+            if (RT.HideList.post_count == 0)
+                return posts;
+
+            List<Post> _ret = new List<Post>();
+
+            foreach (Post _p1 in posts)
+            {
+                bool _flag = false;
+
+                foreach (Post _p2 in RT.HideList.posts)
                 {
-                    if (!RT.GroupPosts.ContainsKey(groupID))
+                    if (_p1.post_id == _p2.post_id)
                     {
-                        RT.GroupPosts.Add(groupID, _mrPostsGetLatest.posts);
-                        addNew = true;
+                        _flag = true;
+                        break;
                     }
+                }
 
-                    return RT.GroupPosts[groupID];
-                }
-                else
-                {
-                    return null;
-                }
+                if (!_flag)
+                    _ret.Add(_p1);
+            }
+
+            return _ret;
+        }
+
+        #endregion
+
+        #region AfterPostComment
+
+        public void AfterPostComment(string post_id)
+        {
+            MR_posts_getSingle _singlePost = THIS.Posts_GetSingle(post_id);
+
+            if ((_singlePost != null) && (_singlePost.post != null))
+            {
+                // AllPosts 跟 FilterPosts 都要更新, 如果有的話
+                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
+                ReplacePostInList(_singlePost.post, RT.FilterPosts);
+
+                ShowPostToUI(true);
             }
         }
 
-        public bool FetchNewestPostsV2()
+        private bool ReplacePostInList(Post post, List<Post> posts)
+        {
+            int k = -1;
+
+            for (int i = 0; i < posts.Count; i++)
+            {
+                if (posts[i].post_id.Equals(post.post_id))
+                {
+                    k = i;
+                    break;
+                }
+            }
+
+            // 不要將此段寫在上面迴圈的 if 裡
+            if (k != -1)
+            {
+                posts[k] = post;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region Newer or Older Post
+
+        public void ReadMorePost()
+        {
+            timerFetchOlderPost.Enabled = true;
+        }
+
+        private void timerFetchOlderPost_Tick(object sender, EventArgs e)
+        {
+            timerFetchOlderPost.Enabled = false;
+
+            m_canAutoFetchNewestPosts = false;
+
+            FetchPostsAndShow(false);
+
+            m_canAutoFetchNewestPosts = true;
+        }
+
+        private void timerGetNewestPost_Tick(object sender, EventArgs e)
+        {
+            timerGetNewestPost.Enabled = false;
+
+            if (m_canAutoFetchNewestPosts)
+            {
+                //RefreshNewestPosts();
+            }
+
+            timerGetNewestPost.Enabled = true;
+        }
+
+        public bool RefreshNewestPosts()
         {
             if (m_loginOK)
             {
-                if (RT.GroupPosts[m_currentGroupID].Count > 0)
+                if (RT.CurrentGroupPosts.Count > 0)
                 {
-                    string _newestPostTime = RT.GroupPosts[m_currentGroupID][0].timestamp;
-                    string _newestPostID = RT.GroupPosts[m_currentGroupID][0].post_id;
+                    string _newestPostTime = RT.CurrentGroupPosts[0].timestamp;
+                    string _newestPostID = RT.CurrentGroupPosts[0].post_id;
 
-                    MR_posts_get _postsGet = m_serviceV2.posts_get(m_login.session_token, m_currentGroupID, "+100",
+                    MR_posts_get _postsGet = m_serviceV2.posts_get(SessionToken, RT.CurrentGroupID, "+100",
                                                                    _newestPostTime, "");
 
                     if ((_postsGet != null) && (_postsGet.status == "200"))
                     {
                         if (_postsGet.posts.Count > 0)
                         {
-                            // 刪除比較基準的那個Post, 如果有回傳的話!
+                            //刪除比較基準的那個Post, 如果有回傳的話!
                             Post _toDel = null;
 
                             foreach (Post _p in _postsGet.posts)
@@ -541,9 +897,17 @@ namespace Waveface
                             }
 
                             if (_toDel != null)
+                            {
                                 _postsGet.posts.Remove(_toDel);
+                            }
 
-                            RT.GroupPosts[m_currentGroupID].InsertRange(0, _postsGet.posts);
+                            if (_postsGet.posts.Count > 0)
+                            {
+                                //@ RT.CurrentGroupPosts.InsertRange(0, _postsGet.posts);
+                                // MessageBox.Show(_postsGet.posts.Count + " New Post");
+
+                                postsArea.ShowNewPostInfo(_postsGet.posts.Count);
+                            }
 
                             //showTaskbarNotifier(_posts[0]);
 
@@ -556,131 +920,108 @@ namespace Waveface
             return false;
         }
 
-        public void showGroupPosts(string groupID)
+        public void AfterBatchPostDone()
         {
-            m_currentGroupID = groupID;
-            SetPostAraePost(getPostsByGroupID(groupID));
+            m_canAutoFetchNewestPosts = false;
+
+            // --------------------------   OLD_showAllPosts();
+
+            m_canAutoFetchNewestPosts = true;
         }
 
-        public void showGroupPosts()
+        #endregion
+
+        #region Misc
+
+        private void showTaskbarNotifier(Post post)
         {
-            bool _addNew;
+            string _url = string.Empty;
+            string _name = string.Empty;
 
-            List<Post> _posts = getPostsByGroupID(m_currentGroupID, out _addNew);
-
-            if (_addNew)
-                SetPostAraePost(_posts);
-        }
-
-        private void SetPostAraePost(List<Post> posts)
-        {
-            setCalendarBoldedDates(posts);
-
-            postsArea.PostsList.Posts = posts;
-        }
-
-        public MR_posts_new Post_CreateNewPost(string text, string files, string previews, string type)
-        {
-            MR_posts_new _postsNew = m_serviceV2.posts_new(m_login.session_token, m_currentGroupID, text, files, previews, type);
-
-            if ((_postsNew != null) && (_postsNew.status == "200"))
+            foreach (User _u in RT.AllUsers)
             {
-                return _postsNew;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_posts_newComment Posts_NewComment(string post_id, string content, string objects, string previews)
-        {
-            MR_posts_newComment _newComment = m_serviceV2.posts_newComment(m_login.session_token, m_currentGroupID, post_id, content, objects, previews);
-
-            if ((_newComment != null) && (_newComment.status == "200"))
-            {
-                return _newComment;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_posts_getSingle Posts_GetSingle(string post_id)
-        {
-            MR_posts_getSingle _getSingle = m_serviceV2.posts_getSingle(m_login.session_token, m_currentGroupID, post_id);
-
-            if ((_getSingle != null) && (_getSingle.status == "200"))
-            {
-                return _getSingle;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_previews_get_adv Preview_GetAdvancedPreview(string url)
-        {
-            MR_previews_get_adv _previewsGetAdv = m_serviceV2.previews_get_adv(m_login.session_token, url);
-
-            if ((_previewsGetAdv != null) && (_previewsGetAdv.status == "200"))
-            {
-                return _previewsGetAdv;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_attachments_upload File_UploadFile(string text, string filePath, bool isImage)
-        {
-            MR_attachments_upload _attachmentsUpload = null;
-
-            if (isImage)
-                _attachmentsUpload = m_serviceV2.attachments_upload(m_login.session_token, m_currentGroupID, filePath, text, "", "image", "origin");
-            else
-                _attachmentsUpload = m_serviceV2.attachments_upload(m_login.session_token, m_currentGroupID, filePath, text, "", "doc", "");
-
-            if ((_attachmentsUpload != null) && (_attachmentsUpload.status == "200"))
-            {
-                return _attachmentsUpload;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public string attachments_getRedirectURL(string orgURL)
-        {
-            return m_serviceV2.attachments_getRedirectURL(orgURL, m_login.session_token);
-        }
-
-        public void RefreshUIAfterPostComment(Post post)
-        {
-            List<Post> _posts = RT.GroupPosts[m_currentGroupID];
-
-            int k = -1;
-
-            for (int i = 0; i < _posts.Count; i++)
-            {
-                if (_posts[i].post_id.Equals(post.post_id))
+                if (post.creator_id == _u.user_id)
                 {
-                    k = i;
-                    break;
+                    _url = _u.avatar_url;
+                    _name = _u.nickname;
                 }
             }
 
-            // 不要將此段寫在上面迴圈的 if 裡
-            if (k != -1)
+            m_taskbarNotifier.AvatarImage = ImageUtility.GetAvatarImage(post.creator_id, _url);
+            m_taskbarNotifier.Show(_name, post.content, 333, 2000, 333);
+        }
+
+        #endregion
+
+        #region Helper
+
+        private void FetchPostsAndShow(bool firstTime)
+        {
+            int _offset = GCONST.GetPostOffset;
+
+            if (RT.IsAllPostMode)
             {
-                _posts[k] = post;
-                showGroupPosts(m_currentGroupID);
+                if (RT.CurrentGroupPosts != null)
+                    _offset = RT.CurrentGroupPosts.Count;
+
+                if (firstTime)
+                    postsArea.ShowNewPostInfo(0);
+            }
+            else
+            {
+                _offset = RT.FilterPosts.Count;
             }
 
+            string _filter = RT.CurrentFilterItem.Filter;
+            _filter = _filter.Replace("[type]", postsArea.GetPostType());
+            _filter = _filter.Replace("[offset]", _offset.ToString());
+
+            if (RT.CurrentPostsAllCount == RT.CurrentPosts.Count) //已經都抓完了
+                return;
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            MR_posts_get _postsGet = Posts_Search(_filter);
+
+            if (_postsGet != null)
+            {
+                RT.CurrentPosts.AddRange(_postsGet.posts);
+
+                if (firstTime)
+                {
+                    RT.CurrentPostsAllCount = _postsGet.remaining_count + _postsGet.get_count;
+
+                    RT.IsFirstTimeGetData = true;
+                }
+                else
+                {
+                    RT.IsFirstTimeGetData = false;
+                }
+            }
+
+            Cursor.Current = Cursors.Default;
+
+            ShowPostToUI(false);
+        }
+
+        private void ShowPostToUI(bool refreshCurrentPost)
+        {
+            List<Post> _posts = RT.CurrentPosts;
+
+            //List<Post> _unhidePosts = GetUnhidePosts(_posts);
+
+            setCalendarBoldedDates(_posts);
+
+            // int _dt = _posts.Count - _unhidePosts.Count;
+
+            postsArea.ShowPostInfo(RT.CurrentPostsAllCount, _posts.Count);
+
+            postsArea.PostsList.SetPosts(_posts, refreshCurrentPost, RT.IsFirstTimeGetData);
+        }
+
+        public void PostListClick(int clickIndex)
+        {
+            RT.IsFirstTimeGetData = false;
         }
 
         #endregion
@@ -689,21 +1030,23 @@ namespace Waveface
 
         private void setCalendarBoldedDates(List<Post> posts)
         {
-            CustomControls.MonthCalendar _calendar = leftArea.MonthCalendar;
+            CustomControls.MonthCalendar _mc = leftArea.MonthCalendar;
 
-            _calendar.SuspendLayout();
+            _mc.SuspendLayout();
 
-            _calendar.BoldedDates.Clear();
+            _mc.BoldedDates.Clear();
 
             foreach (Post _p in posts)
             {
                 DateTime _dt = DateTimeHelp.ISO8601ToDateTime(_p.timestamp);
 
-                if (!_calendar.BoldedDates.Contains(_dt.Date))
-                    _calendar.BoldedDates.Add(_dt.Date);
+                if (!_mc.BoldedDates.Contains(_dt.Date))
+                    _mc.BoldedDates.Add(_dt.Date);
             }
 
-            _calendar.ResumeLayout();
+            _mc.ResumeLayout();
+
+            _mc.Invalidate();
         }
 
         public void ClickCalendar(DateTime date)
@@ -722,8 +1065,6 @@ namespace Waveface
             _calendar.SelectionStart = date;
             _calendar.SelectionEnd = date;
         }
-
-        #endregion
 
         #endregion
 
@@ -823,20 +1164,28 @@ namespace Waveface
 
         #endregion
 
-        private void linkLabelLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        public void FillTimelineComboBox(List<FilterItem> list)
         {
-            DoLogin();
+            postsArea.FillTimelineComboBox(list);
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        public void ShowPostAreaTimelineComboBox(bool visible)
         {
-            m_dropableNotifyIcon.Dispose();
+            postsArea.ShowTimelineComboBox(visible);
         }
 
-        private void preferencesMenuItem_Click(object sender, EventArgs e)
+        private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
         {
-            FormOption _form = new FormOption();
-            _form.ShowDialog();
+            if(radioButtonCloud.Checked)
+            {
+                BEService2.StationIP = BEService2.CloundIP;
+                RT.IsStationOK = false;
+            }
+            else
+            {
+                BEService2.StationIP = m_stationIP;
+                RT.IsStationOK = true;
+            }
         }
     }
 }

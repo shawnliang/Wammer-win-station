@@ -48,9 +48,9 @@ namespace Waveface
                     try
                     {
                         string _text = new FileName(_item).Name;
-                        string _resizedImage = ImageUtility.ResizeImage(_item, _text, m_newPostItem.ResizeRatio);
+                        string _resizedImage = ImageUtility.ResizeImage(_item, _text, m_newPostItem.ResizeRatio, 100);
 
-                        MR_attachments_upload _uf = MainForm.THIS.File_UploadFile(_text, _resizedImage, true);
+                        MR_attachments_upload _uf = MainForm.THIS.File_UploadFile(_text, _resizedImage, "", true);
 
                         if (_uf == null)
                         {

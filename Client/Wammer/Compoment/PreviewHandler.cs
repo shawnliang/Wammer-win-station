@@ -29,7 +29,7 @@ namespace Waveface.Component
             Size = new Size(320, 240);
 
             // display default error message (no file)
-            ErrorMessage = "No file loaded.";
+            ErrorMessage = "No file loaded.\n(Only available on Windows Vista and newer operating systems)";
 
             // enable transparency
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);

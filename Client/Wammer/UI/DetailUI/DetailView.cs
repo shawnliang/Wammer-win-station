@@ -27,6 +27,7 @@ namespace Waveface
         private Label labelWho;
         private Label labelTime;
         private Timer timerGC;
+        private LinkLabel linkLabelRemove;
         private Panel panelMain;
 
         public Post Post
@@ -73,6 +74,7 @@ namespace Waveface
         {
             this.components = new System.ComponentModel.Container();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.linkLabelRemove = new System.Windows.Forms.LinkLabel();
             this.labelWho = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
@@ -83,6 +85,7 @@ namespace Waveface
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Gray;
+            this.panelTop.Controls.Add(this.linkLabelRemove);
             this.panelTop.Controls.Add(this.labelWho);
             this.panelTop.Controls.Add(this.labelTime);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
@@ -90,6 +93,22 @@ namespace Waveface
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(535, 32);
             this.panelTop.TabIndex = 0;
+            // 
+            // linkLabelRemove
+            // 
+            this.linkLabelRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabelRemove.AutoSize = true;
+            this.linkLabelRemove.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabelRemove.ForeColor = System.Drawing.Color.White;
+            this.linkLabelRemove.LinkColor = System.Drawing.Color.White;
+            this.linkLabelRemove.Location = new System.Drawing.Point(486, 10);
+            this.linkLabelRemove.Name = "linkLabelRemove";
+            this.linkLabelRemove.Size = new System.Drawing.Size(46, 13);
+            this.linkLabelRemove.TabIndex = 2;
+            this.linkLabelRemove.TabStop = true;
+            this.linkLabelRemove.Text = "Remove";
+            this.linkLabelRemove.Visible = false;
+            this.linkLabelRemove.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelRemove_LinkClicked);
             // 
             // labelWho
             // 
@@ -158,6 +177,7 @@ namespace Waveface
         private void doShow()
         {
             setupTitle();
+            linkLabelRemove.Visible = true;
 
             PostType _postType = getPostType();
 
@@ -314,12 +334,7 @@ namespace Waveface
 
             if (_postsNewComment != null)
             {
-                MR_posts_getSingle _singlePost = MainForm.THIS.Posts_GetSingle(post.post_id);
-
-                if ((_singlePost != null) && (_singlePost.post != null))
-                {
-                    MainForm.THIS.RefreshUIAfterPostComment(_singlePost.post);
-                }
+                MainForm.THIS.AfterPostComment(post.post_id);
             }
 
             textBox.Text = "";
@@ -377,6 +392,16 @@ namespace Waveface
             _html += "</div>";
 
             wb.DocumentText = _html;
+        }
+
+        private void linkLabelRemove_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            DialogResult _dr = MessageBox.Show("Do you really want to remove this post?", "Waveface", MessageBoxButtons.YesNo);
+
+            if (_dr != DialogResult.Yes)
+                return;
+
+            MainForm.THIS.HidePost(m_post.post_id);
         }
     }
 }
