@@ -84,7 +84,7 @@ namespace Wammer.Station
 							folder = Path.Combine(resourceBasePath, user.Groups[0].name),
 							user_id = user.Id,
 							groups = user.Groups,
-							stssion_token = user.Token
+							session_token = user.Token
 						}
 					);
 

@@ -21,7 +21,7 @@ namespace Wammer.Model
 		public string email { get; set; }
 		public string folder { get; set; }
 		public List<UserGroup> groups { get; set; }
-		public string stssion_token { get; set; }
+		public string session_token { get; set; }
 
 		public Drivers()
 		{
@@ -36,35 +36,9 @@ namespace Wammer.Model
 				{"password", password},
 			};
 
-			try
-			{
+			
 				CloudResponse res = CloudServer.request<CloudResponse>(
-					new WebClient(), "http://localhost:9981/v2/station/drivers/add", parameters);
-			}
-			catch (WebException e)
-			{
-				HttpWebResponse resp = (HttpWebResponse)e.Response;
-				//resp.
-				//switch (res.api_ret_code)
-				//{
-				//    case (int)StationApiError.DriverExist:
-
-				//        break;
-				//    case (int)StationApiError.AuthFailed:
-
-				//        break;
-				//    case (int)StationApiError.AlreadyHasStaion:
-				//        HandleAlreadyHasStaion(ex.response);
-				//        break;
-				//    default:
-				//        MessageBox.Show("Unknown error :" + ex.ToString());
-				//        break;
-				//}
-			}
-
-			//if (res.api_ret_code != 0)
-			//    throw new WammerCloudException(
-			//        "Unable to add user", WebExceptionStatus.Success, res.api_ret_code);
+					new WebClient(), url, parameters);
 		}
 	}
 }

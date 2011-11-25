@@ -62,28 +62,41 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestAddADriver()
 		{
-			UserLogInResponse res1 = new UserLogInResponse
+			StationSignUpResponse res1 = new StationSignUpResponse
+			{
+				api_ret_code = 0,
+				api_ret_msg = "success",
+				session_token = "token1",
+				status = 200,
+				timestamp = DateTime.UtcNow
+			};
+
+			UserLogInResponse res2 = new UserLogInResponse
 			{
 				api_ret_msg = "success",
 				api_ret_code = 0,
-				session_token = "token1",
+				session_token = "token2",
 				status = 200,
 				timestamp = DateTime.UtcNow,
-				groups = new List<UserGroup>(),
+				groups = new List<UserGroup>{
+					new UserGroup {
+						creator_id = "creator1",
+						description = "gdesc1",
+						group_id = "group_id1",
+						name = "group1"				
+					}
+				},
 				user = new UserInfo { user_id = "uid1" }
 			};
 
-			res1.groups.Add(new UserGroup{ 
-				creator_id = "creator1",
-				description = "gdesc1",
-				group_id = "group_id1",
-				name = "group1"});
-
 		    using (FakeCloud cloud = new FakeCloud(res1))
 		    {
-				cloud.addJsonResponse(new StationSignUpResponse(200, DateTime.Now, "token2"));
-				cloud.addJsonResponse(new StationLogOnResponse(200, DateTime.Now, "token3"));
-				Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345");
+				cloud.addJsonResponse(res2);
+				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/add",
+					new Dictionary<object, object>{ 
+					{ "email", "user1@gmail.com"}, 
+					{ "password", "12345"} });
+
 
 		        // verify db
 		        Drivers driver = mongodb.GetDatabase("wammer").
@@ -92,11 +105,12 @@ namespace UT_WammerStation
 
 		        Assert.AreEqual("user1@gmail.com", driver.email);
 		        Assert.AreEqual(@"resource\group1", driver.folder);
-		        Assert.AreEqual(res1.user.user_id, driver.user_id);
+		        Assert.AreEqual(res2.user.user_id, driver.user_id);
 		        Assert.AreEqual(1, driver.groups.Count);
-		        Assert.AreEqual(res1.groups[0].group_id, driver.groups[0].group_id);
-				Assert.AreEqual(res1.groups[0].name, driver.groups[0].name);
-				Assert.AreEqual(res1.groups[0].description, driver.groups[0].description);
+				Assert.AreEqual(res2.session_token, driver.session_token);
+		        Assert.AreEqual(res2.groups[0].group_id, driver.groups[0].group_id);
+				Assert.AreEqual(res2.groups[0].name, driver.groups[0].name);
+				Assert.AreEqual(res2.groups[0].description, driver.groups[0].description);
 		    }
 		}
 
@@ -118,7 +132,13 @@ namespace UT_WammerStation
 			{
 				try
 				{
-					Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add", "user1@gmail.com", "12345");
+					CloudServer.request<CloudResponse>(
+						new WebClient(), 
+						"http://localhost:8080/v2/station/drivers/add",
+						new Dictionary<object, object>{ 
+							{ "email", "user1@gmail.com"}, 
+							{ "password", "12345"} 
+						});
 				}
 				catch (WammerCloudException e)
 				{
@@ -133,39 +153,41 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestAddADriver_AlreadyHasAStation()
 		{
-			UserLogInResponse res1 = new UserLogInResponse
+			StationSignUpResponse res1 = new StationSignUpResponse
 			{
-				api_ret_msg = "station res msg",
-				api_ret_code = 0, // cloud retuns 4097 for invalid user name or password
-				session_token = "token1",
-				status = (int)HttpStatusCode.OK,
+				api_ret_msg = "fail",
+				api_ret_code = 16387, // already has station
 				timestamp = DateTime.UtcNow,
-				stations = new List<UserStation>
+				status = 400,
+				station = new UserStation
 				{
-					new UserStation
-					{
-						station_id = "exist_station_id",
-						location = "location1",
-						last_seen = 1320725024
-					}
-				},
-				user = new UserInfo { user_id = "uid1" }
+					creator_id = Guid.NewGuid().ToString(),
+					location = "http://location.com/",
+					station_id = Guid.NewGuid().ToString(),
+					status = "connected",
+					LastSeen = DateTime.UtcNow
+				}
 			};
 
 			using (FakeCloud cloud = new FakeCloud(res1))
 			{
 				try
 				{
-					Drivers.RequestToAdd("http://localhost:8080/v2/station/drivers/add",
-						"user1@gmail.com", "12345");
+					CloudServer.request<CloudResponse>(
+						new WebClient(),
+						"http://localhost:8080/v2/station/drivers/add",
+						new Dictionary<object, object>{ 
+							{ "email", "user1@gmail.com"}, 
+							{ "password", "12345"} 
+						});
 				}
 				catch (WammerCloudException e)
 				{
 					Assert.AreEqual((int)StationApiError.AlreadyHasStaion, e.WammerError);
 					AddUserResponse res = fastJSON.JSON.Instance.ToObject<AddUserResponse>(e.response);
-					Assert.AreEqual(res1.stations[0].station_id, res.station.station_id);
-					Assert.AreEqual(res1.stations[0].location, res.station.location);
-					Assert.AreEqual(res1.stations[0].last_seen, res.station.last_seen);
+					Assert.AreEqual(res1.station.station_id, res.station.station_id);
+					Assert.AreEqual(res1.station.location, res.station.location);
+					Assert.AreEqual(res1.station.last_seen, res.station.last_seen);
 					return;
 				}
 
