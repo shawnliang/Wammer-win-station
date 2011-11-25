@@ -294,7 +294,7 @@ namespace Waveface.PostUI
 
                                        try
                                        {
-                                           MR_attachments_upload _uf = MainForm.THIS.File_UploadFile(_uploadFiles[_path], _path, false);
+                                           MR_attachments_upload _uf = MainForm.THIS.File_UploadFile(_uploadFiles[_path], _path, "", false);
 
                                            if (_uf == null)
                                            {

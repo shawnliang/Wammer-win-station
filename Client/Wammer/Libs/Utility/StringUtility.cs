@@ -71,5 +71,13 @@ namespace Waveface
 
             return url;
         }
+
+        public static string UTF8ToISO_8859_1(string str)
+        {
+            byte[] _utf8Bytes = Encoding.UTF8.GetBytes(str);
+            byte[] _iso_8859_1_Bytes = Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("iso-8859-1"), _utf8Bytes);
+
+            return Encoding.UTF8.GetString(_iso_8859_1_Bytes);
+        }
     }
 }

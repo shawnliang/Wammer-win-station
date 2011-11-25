@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using Waveface.Component;
 using Waveface.Diagnostics;
 
 namespace Waveface

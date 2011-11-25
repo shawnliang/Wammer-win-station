@@ -90,17 +90,17 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
             this.PanelAddComment = new System.Windows.Forms.Panel();
+            this.buttonAddComment = new Waveface.Component.XPButton();
             this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelDocumentView = new System.Windows.Forms.Panel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.listViewFiles = new System.Windows.Forms.ListView();
+            this.previewHandlerHost = new Waveface.Component.PreviewHandlerHost();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonOpen = new System.Windows.Forms.Button();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.buttonOpen = new System.Windows.Forms.Button();
-            this.buttonAddComment = new Waveface.Component.XPButton();
-            this.previewHandlerHost = new Waveface.Component.PreviewHandlerHost();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
@@ -148,7 +148,19 @@ namespace Waveface.DetailUI
             this.PanelAddComment.Name = "PanelAddComment";
             this.PanelAddComment.Size = new System.Drawing.Size(500, 67);
             this.PanelAddComment.TabIndex = 3;
-            this.PanelAddComment.Visible = false;
+            // 
+            // buttonAddComment
+            // 
+            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.buttonAddComment.Location = new System.Drawing.Point(32, 35);
+            this.buttonAddComment.Name = "buttonAddComment";
+            this.buttonAddComment.Size = new System.Drawing.Size(102, 29);
+            this.buttonAddComment.TabIndex = 1;
+            this.buttonAddComment.Text = "Add Comment";
+            this.buttonAddComment.UseVisualStyleBackColor = true;
+            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // textBoxComment
             // 
@@ -211,6 +223,18 @@ namespace Waveface.DetailUI
             this.listViewFiles.View = System.Windows.Forms.View.SmallIcon;
             this.listViewFiles.Click += new System.EventHandler(this.listViewFiles_Click);
             // 
+            // previewHandlerHost
+            // 
+            this.previewHandlerHost.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.previewHandlerHost.BackColor = System.Drawing.Color.White;
+            this.previewHandlerHost.Location = new System.Drawing.Point(3, 36);
+            this.previewHandlerHost.Name = "previewHandlerHost";
+            this.previewHandlerHost.Size = new System.Drawing.Size(494, 122);
+            this.previewHandlerHost.TabIndex = 5;
+            this.previewHandlerHost.Text = "previewHandlerHost";
+            // 
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -222,17 +246,6 @@ namespace Waveface.DetailUI
             this.buttonSave.Text = "Save";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // webBrowserTop
-            // 
-            this.webBrowserTop.AllowWebBrowserDrop = false;
-            this.webBrowserTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.webBrowserTop.Location = new System.Drawing.Point(0, 0);
-            this.webBrowserTop.Name = "webBrowserTop";
-            this.webBrowserTop.ScrollBarsEnabled = false;
-            this.webBrowserTop.Size = new System.Drawing.Size(500, 97);
-            this.webBrowserTop.TabIndex = 0;
-            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
             // buttonOpen
             // 
@@ -246,30 +259,16 @@ namespace Waveface.DetailUI
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
-            // buttonAddComment
+            // webBrowserTop
             // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(32, 35);
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.Size = new System.Drawing.Size(102, 29);
-            this.buttonAddComment.TabIndex = 1;
-            this.buttonAddComment.Text = "Add Comment";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
-            // 
-            // previewHandlerHost
-            // 
-            this.previewHandlerHost.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.previewHandlerHost.BackColor = System.Drawing.Color.White;
-            this.previewHandlerHost.Location = new System.Drawing.Point(3, 36);
-            this.previewHandlerHost.Name = "previewHandlerHost";
-            this.previewHandlerHost.Size = new System.Drawing.Size(494, 122);
-            this.previewHandlerHost.TabIndex = 5;
-            this.previewHandlerHost.Text = "previewHandlerHost";
+            this.webBrowserTop.AllowWebBrowserDrop = false;
+            this.webBrowserTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.webBrowserTop.Location = new System.Drawing.Point(0, 0);
+            this.webBrowserTop.Name = "webBrowserTop";
+            this.webBrowserTop.ScrollBarsEnabled = false;
+            this.webBrowserTop.Size = new System.Drawing.Size(500, 97);
+            this.webBrowserTop.TabIndex = 0;
+            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
             // Document_DV
             // 
@@ -379,7 +378,7 @@ namespace Waveface.DetailUI
             WebClient _webClient = new WebClient();
             _webClient.DownloadFileCompleted += Completed;
             _webClient.DownloadProgressChanged += ProgressChanged;
-            _webClient.DownloadFileAsync(new Uri(MainForm.THIS.attachments_getRedirectURL(attachment.url)), _file);
+            _webClient.DownloadFileAsync(new Uri(MainForm.THIS.attachments_getRedirectURL(attachment.url, attachment.object_id)), _file);
         }
 
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -403,7 +402,7 @@ namespace Waveface.DetailUI
                 try
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                 
+
                     string _file = MainForm.GCONST.CachePath + m_currentAttachment.object_id + HttpUtility.UrlDecode(m_currentAttachment.file_name);
                     string _destFile = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + HttpUtility.UrlDecode(m_currentAttachment.file_name);
 
@@ -412,7 +411,7 @@ namespace Waveface.DetailUI
                     previewHandlerHost.Open(_destFile);
                 }
                 catch
-                {}
+                { }
                 finally
                 {
                     Cursor.Current = Cursors.Default;
@@ -470,12 +469,17 @@ namespace Waveface.DetailUI
 
         private void buttonOpen_Click(object sender, EventArgs e)
         {
-            string _file = MainForm.GCONST.CachePath + m_currentAttachment.object_id + HttpUtility.UrlDecode(m_currentAttachment.file_name);
-            string _destFile = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + HttpUtility.UrlDecode(m_currentAttachment.file_name);
+            try
+            {
+                string _file = MainForm.GCONST.CachePath + m_currentAttachment.object_id + HttpUtility.UrlDecode(m_currentAttachment.file_name);
+                string _destFile = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + HttpUtility.UrlDecode(m_currentAttachment.file_name);
 
-            File.Copy(_file, _destFile);
+                File.Copy(_file, _destFile);
 
-            Process.Start(_destFile);
+                Process.Start(_destFile);
+            }
+            catch
+            {}
         }
     }
 }

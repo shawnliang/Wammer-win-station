@@ -485,7 +485,7 @@ namespace XPExplorerBarDemo
             this.detailsExpando});
             this.systemTaskPane.Location = new System.Drawing.Point(12, 36);
             this.systemTaskPane.Name = "systemTaskPane";
-            this.systemTaskPane.Size = new System.Drawing.Size(210, 548);
+            this.systemTaskPane.Size = new System.Drawing.Size(221, 548);
             this.systemTaskPane.TabIndex = 0;
             this.systemTaskPane.Text = "System TaskPane";
             // 
@@ -503,7 +503,7 @@ namespace XPExplorerBarDemo
             this.copyToCDTaskItem});
             this.pictureTasksExpando.Location = new System.Drawing.Point(12, 12);
             this.pictureTasksExpando.Name = "pictureTasksExpando";
-            this.pictureTasksExpando.Size = new System.Drawing.Size(186, 129);
+            this.pictureTasksExpando.Size = new System.Drawing.Size(197, 129);
             this.pictureTasksExpando.SpecialGroup = true;
             this.pictureTasksExpando.TabIndex = 0;
             this.pictureTasksExpando.Text = "Picture Tasks";
@@ -517,7 +517,7 @@ namespace XPExplorerBarDemo
             this.slideShowTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("slideShowTaskItem.Image")));
             this.slideShowTaskItem.Location = new System.Drawing.Point(12, 42);
             this.slideShowTaskItem.Name = "slideShowTaskItem";
-            this.slideShowTaskItem.Size = new System.Drawing.Size(160, 16);
+            this.slideShowTaskItem.Size = new System.Drawing.Size(171, 16);
             this.slideShowTaskItem.TabIndex = 0;
             this.slideShowTaskItem.Text = "View as a slide show";
             this.slideShowTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -531,7 +531,7 @@ namespace XPExplorerBarDemo
             this.orderOnlineTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("orderOnlineTaskItem.Image")));
             this.orderOnlineTaskItem.Location = new System.Drawing.Point(12, 62);
             this.orderOnlineTaskItem.Name = "orderOnlineTaskItem";
-            this.orderOnlineTaskItem.Size = new System.Drawing.Size(160, 16);
+            this.orderOnlineTaskItem.Size = new System.Drawing.Size(171, 16);
             this.orderOnlineTaskItem.TabIndex = 1;
             this.orderOnlineTaskItem.Text = "Order prints online";
             this.orderOnlineTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -545,7 +545,7 @@ namespace XPExplorerBarDemo
             this.printPicturesTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("printPicturesTaskItem.Image")));
             this.printPicturesTaskItem.Location = new System.Drawing.Point(12, 82);
             this.printPicturesTaskItem.Name = "printPicturesTaskItem";
-            this.printPicturesTaskItem.Size = new System.Drawing.Size(160, 16);
+            this.printPicturesTaskItem.Size = new System.Drawing.Size(171, 16);
             this.printPicturesTaskItem.TabIndex = 2;
             this.printPicturesTaskItem.Text = "Print pictures";
             this.printPicturesTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -559,7 +559,7 @@ namespace XPExplorerBarDemo
             this.copyToCDTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToCDTaskItem.Image")));
             this.copyToCDTaskItem.Location = new System.Drawing.Point(12, 102);
             this.copyToCDTaskItem.Name = "copyToCDTaskItem";
-            this.copyToCDTaskItem.Size = new System.Drawing.Size(160, 16);
+            this.copyToCDTaskItem.Size = new System.Drawing.Size(171, 16);
             this.copyToCDTaskItem.TabIndex = 3;
             this.copyToCDTaskItem.Text = "Copy all items to CD";
             this.copyToCDTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -578,7 +578,7 @@ namespace XPExplorerBarDemo
             this.shareFolderTaskItem});
             this.fileAndFolderTasksExpando.Location = new System.Drawing.Point(12, 153);
             this.fileAndFolderTasksExpando.Name = "fileAndFolderTasksExpando";
-            this.fileAndFolderTasksExpando.Size = new System.Drawing.Size(186, 114);
+            this.fileAndFolderTasksExpando.Size = new System.Drawing.Size(197, 114);
             this.fileAndFolderTasksExpando.TabIndex = 1;
             this.fileAndFolderTasksExpando.Text = "File and Folder Tasks";
             // 
@@ -590,7 +590,7 @@ namespace XPExplorerBarDemo
             this.newFolderTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("newFolderTaskItem.Image")));
             this.newFolderTaskItem.Location = new System.Drawing.Point(12, 35);
             this.newFolderTaskItem.Name = "newFolderTaskItem";
-            this.newFolderTaskItem.Size = new System.Drawing.Size(160, 16);
+            this.newFolderTaskItem.Size = new System.Drawing.Size(171, 16);
             this.newFolderTaskItem.TabIndex = 0;
             this.newFolderTaskItem.Text = "Make a new folder";
             this.newFolderTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -604,7 +604,7 @@ namespace XPExplorerBarDemo
             this.publishToWebTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("publishToWebTaskItem.Image")));
             this.publishToWebTaskItem.Location = new System.Drawing.Point(12, 55);
             this.publishToWebTaskItem.Name = "publishToWebTaskItem";
-            this.publishToWebTaskItem.Size = new System.Drawing.Size(160, 28);
+            this.publishToWebTaskItem.Size = new System.Drawing.Size(171, 28);
             this.publishToWebTaskItem.TabIndex = 1;
             this.publishToWebTaskItem.Text = "Publish this folder to the Web";
             this.publishToWebTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -615,10 +615,11 @@ namespace XPExplorerBarDemo
             this.shareFolderTaskItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.shareFolderTaskItem.BackColor = System.Drawing.Color.Transparent;
+            this.shareFolderTaskItem.CustomSettings.LinkColor = System.Drawing.SystemColors.HotTrack;
             this.shareFolderTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("shareFolderTaskItem.Image")));
             this.shareFolderTaskItem.Location = new System.Drawing.Point(12, 87);
             this.shareFolderTaskItem.Name = "shareFolderTaskItem";
-            this.shareFolderTaskItem.Size = new System.Drawing.Size(160, 16);
+            this.shareFolderTaskItem.Size = new System.Drawing.Size(171, 16);
             this.shareFolderTaskItem.TabIndex = 2;
             this.shareFolderTaskItem.Text = "Share this folder";
             this.shareFolderTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -638,7 +639,7 @@ namespace XPExplorerBarDemo
             this.myNetworkPlacesTaskItem});
             this.otherPlacesExpando.Location = new System.Drawing.Point(12, 279);
             this.otherPlacesExpando.Name = "otherPlacesExpando";
-            this.otherPlacesExpando.Size = new System.Drawing.Size(186, 122);
+            this.otherPlacesExpando.Size = new System.Drawing.Size(197, 122);
             this.otherPlacesExpando.TabIndex = 2;
             this.otherPlacesExpando.Text = "Other Places";
             // 
@@ -650,7 +651,7 @@ namespace XPExplorerBarDemo
             this.myDocumentsTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("myDocumentsTaskItem.Image")));
             this.myDocumentsTaskItem.Location = new System.Drawing.Point(12, 35);
             this.myDocumentsTaskItem.Name = "myDocumentsTaskItem";
-            this.myDocumentsTaskItem.Size = new System.Drawing.Size(160, 16);
+            this.myDocumentsTaskItem.Size = new System.Drawing.Size(171, 16);
             this.myDocumentsTaskItem.TabIndex = 0;
             this.myDocumentsTaskItem.Text = "My Documents";
             this.myDocumentsTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -664,7 +665,7 @@ namespace XPExplorerBarDemo
             this.myPicturesTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("myPicturesTaskItem.Image")));
             this.myPicturesTaskItem.Location = new System.Drawing.Point(12, 55);
             this.myPicturesTaskItem.Name = "myPicturesTaskItem";
-            this.myPicturesTaskItem.Size = new System.Drawing.Size(160, 16);
+            this.myPicturesTaskItem.Size = new System.Drawing.Size(171, 16);
             this.myPicturesTaskItem.TabIndex = 1;
             this.myPicturesTaskItem.Text = "Shared Pictures";
             this.myPicturesTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -678,7 +679,7 @@ namespace XPExplorerBarDemo
             this.myComputerTaskItem.Image = null;
             this.myComputerTaskItem.Location = new System.Drawing.Point(12, 75);
             this.myComputerTaskItem.Name = "myComputerTaskItem";
-            this.myComputerTaskItem.Size = new System.Drawing.Size(160, 16);
+            this.myComputerTaskItem.Size = new System.Drawing.Size(171, 16);
             this.myComputerTaskItem.TabIndex = 2;
             this.myComputerTaskItem.Text = "My Computer";
             this.myComputerTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -692,7 +693,7 @@ namespace XPExplorerBarDemo
             this.myNetworkPlacesTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("myNetworkPlacesTaskItem.Image")));
             this.myNetworkPlacesTaskItem.Location = new System.Drawing.Point(12, 95);
             this.myNetworkPlacesTaskItem.Name = "myNetworkPlacesTaskItem";
-            this.myNetworkPlacesTaskItem.Size = new System.Drawing.Size(160, 16);
+            this.myNetworkPlacesTaskItem.Size = new System.Drawing.Size(171, 16);
             this.myNetworkPlacesTaskItem.TabIndex = 3;
             this.myNetworkPlacesTaskItem.Text = "My Network Places";
             this.myNetworkPlacesTaskItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -710,7 +711,7 @@ namespace XPExplorerBarDemo
             this.label3});
             this.detailsExpando.Location = new System.Drawing.Point(12, 413);
             this.detailsExpando.Name = "detailsExpando";
-            this.detailsExpando.Size = new System.Drawing.Size(186, 106);
+            this.detailsExpando.Size = new System.Drawing.Size(197, 106);
             this.detailsExpando.TabIndex = 3;
             this.detailsExpando.Text = "Details";
             // 
@@ -722,7 +723,7 @@ namespace XPExplorerBarDemo
             this.label1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 14);
+            this.label1.Size = new System.Drawing.Size(98, 14);
             this.label1.TabIndex = 0;
             this.label1.Text = "My Pictures";
             // 
@@ -733,7 +734,7 @@ namespace XPExplorerBarDemo
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Location = new System.Drawing.Point(12, 47);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 14);
+            this.label2.Size = new System.Drawing.Size(98, 14);
             this.label2.TabIndex = 1;
             this.label2.Text = "File Folder";
             // 
@@ -744,7 +745,7 @@ namespace XPExplorerBarDemo
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Location = new System.Drawing.Point(12, 67);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(87, 28);
+            this.label3.Size = new System.Drawing.Size(98, 28);
             this.label3.TabIndex = 2;
             this.label3.Text = "Date Modified: Friday, 15th October 2004, 10:29 PM";
             // 

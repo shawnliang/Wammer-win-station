@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Waveface</RootNamespace>
     <AssemblyName>WammerZ</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -53,7 +53,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
@@ -78,9 +77,6 @@
     <Reference Include="Interop.SHDocVw">
       <HintPath>..\Libs\Interop.SHDocVw.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="LinqBridge">
-      <HintPath>..\Libs\LinqBridge.dll</HintPath>
     </Reference>
     <Reference Include="MonthCalendarControl">
       <HintPath>..\Libs\MonthCalendarControl.dll</HintPath>
@@ -126,6 +122,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\ServerImageAddressUtility.cs" />
+    <Compile Include="FileUploadToStation.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
     <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
       <SubType>UserControl</SubType>
@@ -249,28 +247,28 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Data\PostType.cs" />
-    <Compile Include="Group And User\Password.cs">
+    <Compile Include="Test\Group And User\Password.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Group And User\Password.Designer.cs">
+    <Compile Include="Test\Group And User\Password.Designer.cs">
       <DependentUpon>Password.cs</DependentUpon>
     </Compile>
-    <Compile Include="Group And User\SelectKickUser.cs">
+    <Compile Include="Test\Group And User\SelectKickUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Group And User\SelectKickUser.Designer.cs">
+    <Compile Include="Test\Group And User\SelectKickUser.Designer.cs">
       <DependentUpon>SelectKickUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Group And User\CreateGroup.cs">
+    <Compile Include="Test\Group And User\CreateGroup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Group And User\CreateGroup.Designer.cs">
+    <Compile Include="Test\Group And User\CreateGroup.Designer.cs">
       <DependentUpon>CreateGroup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Group And User\SelectInviteUser.cs">
+    <Compile Include="Test\Group And User\SelectInviteUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Group And User\SelectInviteUser.Designer.cs">
+    <Compile Include="Test\Group And User\SelectInviteUser.Designer.cs">
       <DependentUpon>SelectInviteUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Libs\Utility\HtmlUtility.cs" />
@@ -287,10 +285,10 @@
     <Compile Include="Compoment\XPButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Group And User\GroupManager.cs">
+    <Compile Include="Test\Group And User\GroupManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Group And User\GroupManager.Designer.cs">
+    <Compile Include="Test\Group And User\GroupManager.Designer.cs">
       <DependentUpon>GroupManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Libs\Diagnostics\CrashReporter.cs">
@@ -308,17 +306,17 @@
     <Compile Include="Libs\Utility\WebPostHelper.cs" />
     <Compile Include="REST\BEService2.cs" />
     <Compile Include="REST\Data2.cs" />
-    <Compile Include="Group And User\Signup.cs">
+    <Compile Include="Test\Group And User\Signup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Group And User\Signup.Designer.cs">
+    <Compile Include="Test\Group And User\Signup.Designer.cs">
       <DependentUpon>Signup.cs</DependentUpon>
     </Compile>
     <Compile Include="RunTimeData.cs" />
-    <Compile Include="TestForm.cs">
+    <Compile Include="Test\TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestForm.Designer.cs">
+    <Compile Include="Test\TestForm.Designer.cs">
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\BatchPostItemUI.cs">
@@ -339,14 +337,16 @@
     <Compile Include="UI\DetailUI\Document_DV.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\FilterUI\FilterHelper.cs" />
+    <Compile Include="UI\FilterUI\FilterItem.cs" />
     <Compile Include="UI\FilterUI\FilterManager.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\FilterUI\FilterManager.Designer.cs">
       <DependentUpon>FilterManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FilterUI\FilterTime.cs" />
-    <Compile Include="UI\FilterUI\FilterTimeStamp.cs" />
+    <Compile Include="UI\FilterUI\TimeRangeFilter.cs" />
+    <Compile Include="UI\FilterUI\TimeStampFilter.cs" />
     <Compile Include="UI\PostArea.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -454,8 +454,12 @@
     <None Include="app.config" />
     <None Include="Resources\lightbulb.png" />
     <None Include="Resources\disk.png" />
-    <Content Include="REST\BEService1.txt" />
-    <Content Include="REST\Data1.txt" />
+    <None Include="Resources\edit.png" />
+    <None Include="Resources\AllTime.png" />
+    <None Include="Resources\Month.png" />
+    <None Include="Resources\script.png" />
+    <None Include="Resources\script_edit.png" />
+    <None Include="Resources\scriptedit.png" />
     <Compile Include="Libs\Utility\ImageUtility.cs" />
     <Compile Include="Libs\Utility\Shadow.cs" />
     <Compile Include="Libs\Utility\StringUtility.cs" />
@@ -477,6 +481,12 @@
     </Compile>
     <Compile Include="UI\SettingUI\PageMain.designer.cs">
       <DependentUpon>PageMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SettingUI\PreferenceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SettingUI\PreferenceForm.Designer.cs">
+      <DependentUpon>PreferenceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\TrayIconPanel.cs">
       <SubType>UserControl</SubType>
@@ -553,19 +563,19 @@
     <EmbeddedResource Include="Compoment\XPButton.resx">
       <DependentUpon>XPButton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Group And User\Password.resx">
+    <EmbeddedResource Include="Test\Group And User\Password.resx">
       <DependentUpon>Password.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Group And User\SelectKickUser.resx">
+    <EmbeddedResource Include="Test\Group And User\SelectKickUser.resx">
       <DependentUpon>SelectKickUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Group And User\CreateGroup.resx">
+    <EmbeddedResource Include="Test\Group And User\CreateGroup.resx">
       <DependentUpon>CreateGroup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Group And User\GroupManager.resx">
+    <EmbeddedResource Include="Test\Group And User\GroupManager.resx">
       <DependentUpon>GroupManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Group And User\SelectInviteUser.resx">
+    <EmbeddedResource Include="Test\Group And User\SelectInviteUser.resx">
       <DependentUpon>SelectInviteUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Libs\Diagnostics\CrashReporter.resx">
@@ -574,7 +584,7 @@
     <EmbeddedResource Include="Subs\ImageCapture\CaptureForm.resx">
       <DependentUpon>CaptureForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TestForm.resx">
+    <EmbeddedResource Include="Test\TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\BatchPostItemUI.resx">
@@ -654,6 +664,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\PageMain.resx">
       <DependentUpon>PageMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\PreferenceForm.resx">
+      <DependentUpon>PreferenceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\TrayIconPanel.resx">
       <DependentUpon>TrayIconPanel.cs</DependentUpon>
@@ -749,8 +762,6 @@
     <None Include="Resources\PostItem\postItem_arrow_out.png" />
     <None Include="Resources\arrow_divide.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\TimelineItem_UI\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
 </Project>
