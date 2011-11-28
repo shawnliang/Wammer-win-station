@@ -12,6 +12,7 @@ Release
 .vagrant
 ipch
 
+*.sdf
 *.msi
 *.cache
 TestResults/
