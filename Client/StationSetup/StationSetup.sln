@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StationSetup", "StationSetup\StationSetup.csproj", "{F28E6912-415E-4808-B973-F0E19B31EEB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StationSetup", "StationSetup.csproj", "{F28E6912-415E-4808-B973-F0E19B31EEB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

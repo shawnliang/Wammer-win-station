@@ -77,16 +77,16 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(27, 144);
+            this.label4.Location = new System.Drawing.Point(83, 144);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(104, 16);
+            this.label4.Size = new System.Drawing.Size(39, 16);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Registered email";
+            this.label4.Text = "email";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(27, 183);
+            this.label5.Location = new System.Drawing.Point(59, 183);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 16);
             this.label5.TabIndex = 4;
@@ -94,17 +94,17 @@
             // 
             // textBoxMail
             // 
-            this.textBoxMail.Location = new System.Drawing.Point(137, 141);
+            this.textBoxMail.Location = new System.Drawing.Point(128, 141);
             this.textBoxMail.Name = "textBoxMail";
-            this.textBoxMail.Size = new System.Drawing.Size(210, 23);
+            this.textBoxMail.Size = new System.Drawing.Size(219, 23);
             this.textBoxMail.TabIndex = 5;
             // 
             // textBoxPassword
             // 
-            this.textBoxPassword.Location = new System.Drawing.Point(137, 180);
+            this.textBoxPassword.Location = new System.Drawing.Point(128, 180);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.PasswordChar = '*';
-            this.textBoxPassword.Size = new System.Drawing.Size(210, 23);
+            this.textBoxPassword.Size = new System.Drawing.Size(219, 23);
             this.textBoxPassword.TabIndex = 6;
             // 
             // buttonOK

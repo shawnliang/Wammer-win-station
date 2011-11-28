@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Wammer.Station.Management;
@@ -88,7 +89,16 @@ namespace Wammer.Station
                 ShowErrorDialogAndExit(_e.Message);
             }
 
-            //Detect DropBox
+            MessageBox.Show("Sign in success!", "Waveface", MessageBoxButtons.OK);
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"Registered.dat"))
+            {
+               file.WriteLine(DateTime.Now.ToString());
+            }
+
+            ProcessStartInfo _startInfo = new ProcessStartInfo();
+            _startInfo.FileName = "WammerZ.exe";
+            Process.Start(_startInfo);
         }
 
         private void ShowErrorDialogAndExit(string message)

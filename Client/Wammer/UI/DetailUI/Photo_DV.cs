@@ -94,6 +94,7 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
             this.PanelAddComment = new System.Windows.Forms.Panel();
+            this.buttonAddComment = new Waveface.Component.XPButton();
             this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelPictures = new System.Windows.Forms.Panel();
@@ -102,7 +103,6 @@ namespace Waveface.DetailUI
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
-            this.buttonAddComment = new Waveface.Component.XPButton();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
@@ -151,8 +151,22 @@ namespace Waveface.DetailUI
             this.PanelAddComment.Dock = System.Windows.Forms.DockStyle.Top;
             this.PanelAddComment.Location = new System.Drawing.Point(0, 379);
             this.PanelAddComment.Name = "PanelAddComment";
-            this.PanelAddComment.Size = new System.Drawing.Size(510, 67);
+            this.PanelAddComment.Size = new System.Drawing.Size(510, 50);
             this.PanelAddComment.TabIndex = 3;
+            // 
+            // buttonAddComment
+            // 
+            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.buttonAddComment.Location = new System.Drawing.Point(412, 2);
+            this.buttonAddComment.Name = "buttonAddComment";
+            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
+            this.buttonAddComment.TabIndex = 1;
+            this.buttonAddComment.Text = "Send";
+            this.buttonAddComment.UseVisualStyleBackColor = true;
+            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // textBoxComment
             // 
@@ -160,8 +174,10 @@ namespace Waveface.DetailUI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxComment.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxComment.Location = new System.Drawing.Point(32, 3);
+            this.textBoxComment.Multiline = true;
             this.textBoxComment.Name = "textBoxComment";
-            this.textBoxComment.Size = new System.Drawing.Size(467, 26);
+            this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxComment.Size = new System.Drawing.Size(374, 44);
             this.textBoxComment.TabIndex = 0;
             // 
             // webBrowserComment
@@ -245,19 +261,6 @@ namespace Waveface.DetailUI
             this.webBrowserTop.Size = new System.Drawing.Size(510, 97);
             this.webBrowserTop.TabIndex = 0;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
-            // 
-            // buttonAddComment
-            // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(32, 35);
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.Size = new System.Drawing.Size(102, 29);
-            this.buttonAddComment.TabIndex = 1;
-            this.buttonAddComment.Text = "Add Comment";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // Photo_DV
             // 
