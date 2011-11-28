@@ -61,11 +61,11 @@ namespace Gui
 						//AddStep(new Step1());
 						//AddStep(new ReadyStep());
 						AddStep(new InstallationStep(InstallationMode.Install));
-						AddStep(new FinishStep());
+						AddStep(new FinishStep(InstallationMode.Install));
 						break;
 					case InstallationMode.Uninstall:
 						AddStep(new InstallationStep(InstallationMode.Uninstall));
-						AddStep(new FinishStep());
+						AddStep(new FinishStep(InstallationMode.Uninstall));
 						break;
 					case InstallationMode.Upgrade:
 						AddStep(new InstallationStep(InstallationMode.Uninstall));
@@ -75,11 +75,11 @@ namespace Gui
 						AddStep(new FeatureSelectionStep());
 						*/
 						AddStep(new InstallationStep(InstallationMode.Install));
-						AddStep(new FinishStep());
+						AddStep(new FinishStep(InstallationMode.Install));
 						break;
 					case InstallationMode.Reinstall:
 						AddStep(new InstallationStep(InstallationMode.Install));
-						AddStep(new FinishStep());
+						AddStep(new FinishStep(InstallationMode.Install));
 						break;
 					default:
 						MessageBox.Show("Mode not supported: " + (InstallationMode)argument);

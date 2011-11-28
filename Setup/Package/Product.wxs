@@ -96,8 +96,7 @@
       <ComponentRef Id="log4net.dll"/>
       <ComponentRef Id="MongoDB.Bson.dll"/>
       <ComponentRef Id="MongoDB.Driver.dll"/>
-      <ComponentRef Id="Wammer.Station.AddUserApp.exe" />
-      <ComponentRef Id="Wammer.Station.AddUserApp.exe.config"/>
+      <ComponentRef Id="StationSetup.exe"/>
     </ComponentGroup>
 
     <ComponentGroup Id="Wammer.Client">
@@ -148,18 +147,14 @@
       <Component Id="MongoDB.Driver.dll" Guid="{DA8A66C8-D977-4524-AA1E-8C95767F0C30}">
         <File Id="MongoDB.Driver.dll" Source="$(var.Wammer.Station.Service.TargetDir)\MongoDB.Driver.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="Wammer.Station.AddUserApp.exe" Guid="{04A20A9C-94AC-44A2-88D1-CCD40307A45D}">
-        <File Id="Wammer.Station.AddUserApp.exe" Source="$(var.Wammer.Station.AddUserApp.TargetPath)" KeyPath="yes" Checksum="yes">
-          <Shortcut Id="AddUserAppShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.AddUser.NAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes" Arguments="!(loc.CULTURE)" />
-        </File>
-      </Component>
-      <Component Id="Wammer.Station.AddUserApp.exe.config" Guid="{0A116587-0FF0-404A-A737-60686DE767BE}">
-        <File Id="Wammer.Station.AddUserApp.exe.config"
-              Source="$(var.Wammer.Station.AddUserApp.ProjectDir)\app.config"
-              Name="$(var.Wammer.Station.AddUserApp.TargetFileName).config" KeyPath="yes"/>
-      </Component>
       <Component Id="Wammer.Station.Management.exe" Guid="{F6BE5F51-E2BB-4BC3-BA4E-9488DCBA4D5B}">
         <File Id="Wammer.Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+
+      <Component Id="StationSetup.exe" Guid="{7C8AE609-024C-462B-8291-9AA522CB1193}">
+        <File Id="StationSetup.exe" Source="$(var.StationSetup.TargetPath)" KeyPath="yes" Checksum="yes">
+          <Shortcut Id="StartWavefaceShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes" />
+        </File>
       </Component>
 
       <!-- client files -->
