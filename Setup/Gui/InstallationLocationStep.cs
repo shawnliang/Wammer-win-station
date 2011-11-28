@@ -13,8 +13,8 @@ namespace Gui
 
 		private void InstallationLocationStep_Entering(object sender, ChangeStepEventArgs e)
 		{
-			if (!Wizard.GetVariable<bool>("CustomInstallation"))
-				Wizard.ContinueMove();
+			//if (!Wizard.GetVariable<bool>("CustomInstallation"))
+			//    Wizard.ContinueMove();
 		}
 	}
 }
