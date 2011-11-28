@@ -38,7 +38,6 @@
             this.panel = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelPreview = new System.Windows.Forms.Panel();
-            this.previewHandlerHost = new Waveface.Component.PreviewHandlerHost();
             this.splitter = new System.Windows.Forms.Splitter();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.listViewFiles = new System.Windows.Forms.ListView();
@@ -47,14 +46,14 @@
             this.labeFilelSize = new System.Windows.Forms.Label();
             this.labelFTime = new System.Windows.Forms.Label();
             this.labelFSize = new System.Windows.Forms.Label();
-            this.richTextBox = new System.Windows.Forms.RichTextBox();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.btnSend = new Waveface.Component.XPButton();
-            this.btnBatchPost = new Waveface.Component.XPButton();
             this.contextMenuStripEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnBatchPost = new Waveface.Component.XPButton();
+            this.btnSend = new Waveface.Component.XPButton();
+            this.previewHandlerHost = new Waveface.Component.PreviewHandlerHost();
             this.toolStrip.SuspendLayout();
             this.panel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -97,13 +96,13 @@
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeAllFilesButton,
             this.addFileButton,
             this.removeFileButton,
-            this.removeAllFilesButton,
             this.toolStripSeparator1});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(609, 25);
+            this.toolStrip.Size = new System.Drawing.Size(607, 25);
             this.toolStrip.TabIndex = 1;
             // 
             // toolStripSeparator1
@@ -118,9 +117,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel.Controls.Add(this.panel1);
             this.panel.Controls.Add(this.toolStrip);
-            this.panel.Location = new System.Drawing.Point(6, 142);
+            this.panel.Location = new System.Drawing.Point(6, 6);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(609, 215);
+            this.panel.Size = new System.Drawing.Size(607, 215);
             this.panel.TabIndex = 12;
             // 
             // panel1
@@ -132,7 +131,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 25);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(609, 190);
+            this.panel1.Size = new System.Drawing.Size(607, 190);
             this.panel1.TabIndex = 2;
             // 
             // panelPreview
@@ -141,18 +140,8 @@
             this.panelPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPreview.Location = new System.Drawing.Point(259, 0);
             this.panelPreview.Name = "panelPreview";
-            this.panelPreview.Size = new System.Drawing.Size(346, 186);
+            this.panelPreview.Size = new System.Drawing.Size(344, 186);
             this.panelPreview.TabIndex = 2;
-            // 
-            // previewHandlerHost
-            // 
-            this.previewHandlerHost.BackColor = System.Drawing.Color.White;
-            this.previewHandlerHost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.previewHandlerHost.Location = new System.Drawing.Point(0, 0);
-            this.previewHandlerHost.Name = "previewHandlerHost";
-            this.previewHandlerHost.Size = new System.Drawing.Size(346, 186);
-            this.previewHandlerHost.TabIndex = 0;
-            this.previewHandlerHost.Text = "previewHandlerHost";
             // 
             // splitter
             // 
@@ -237,57 +226,6 @@
             this.labelFSize.TabIndex = 0;
             this.labelFSize.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // richTextBox
-            // 
-            this.richTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBox.ContextMenuStrip = this.contextMenuStripEdit;
-            this.richTextBox.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.richTextBox.Location = new System.Drawing.Point(6, 6);
-            this.richTextBox.Name = "richTextBox";
-            this.richTextBox.Size = new System.Drawing.Size(609, 128);
-            this.richTextBox.TabIndex = 9;
-            this.richTextBox.Text = "";
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.Filter = resources.GetString("openFileDialog.Filter");
-            this.openFileDialog.Multiselect = true;
-            this.openFileDialog.ShowReadOnly = true;
-            // 
-            // btnSend
-            // 
-            this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSend.Image = global::Waveface.Properties.Resources.Post;
-            this.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSend.Location = new System.Drawing.Point(621, 6);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(74, 32);
-            this.btnSend.TabIndex = 10;
-            this.btnSend.Text = "Send";
-            this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
-            // 
-            // btnBatchPost
-            // 
-            this.btnBatchPost.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnBatchPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBatchPost.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnBatchPost.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnBatchPost.Image = global::Waveface.Properties.Resources.arrow_divide;
-            this.btnBatchPost.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBatchPost.Location = new System.Drawing.Point(621, 41);
-            this.btnBatchPost.Name = "btnBatchPost";
-            this.btnBatchPost.Size = new System.Drawing.Size(74, 32);
-            this.btnBatchPost.TabIndex = 11;
-            this.btnBatchPost.Text = "Post";
-            this.btnBatchPost.UseVisualStyleBackColor = true;
-            this.btnBatchPost.Visible = false;
-            // 
             // contextMenuStripEdit
             // 
             this.contextMenuStripEdit.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -320,19 +258,65 @@
             this.pasteToolStripMenuItem.Text = "Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = resources.GetString("openFileDialog.Filter");
+            this.openFileDialog.Multiselect = true;
+            this.openFileDialog.ShowReadOnly = true;
+            // 
+            // btnBatchPost
+            // 
+            this.btnBatchPost.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnBatchPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBatchPost.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnBatchPost.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnBatchPost.Image = global::Waveface.Properties.Resources.arrow_divide;
+            this.btnBatchPost.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBatchPost.Location = new System.Drawing.Point(457, 230);
+            this.btnBatchPost.Name = "btnBatchPost";
+            this.btnBatchPost.Size = new System.Drawing.Size(74, 28);
+            this.btnBatchPost.TabIndex = 11;
+            this.btnBatchPost.Text = "Post";
+            this.btnBatchPost.UseVisualStyleBackColor = true;
+            this.btnBatchPost.Visible = false;
+            // 
+            // btnSend
+            // 
+            this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnSend.Image = global::Waveface.Properties.Resources.Post;
+            this.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSend.Location = new System.Drawing.Point(537, 230);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(74, 28);
+            this.btnSend.TabIndex = 10;
+            this.btnSend.Text = "Create";
+            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            // 
+            // previewHandlerHost
+            // 
+            this.previewHandlerHost.BackColor = System.Drawing.Color.White;
+            this.previewHandlerHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.previewHandlerHost.Location = new System.Drawing.Point(0, 0);
+            this.previewHandlerHost.Name = "previewHandlerHost";
+            this.previewHandlerHost.Size = new System.Drawing.Size(344, 186);
+            this.previewHandlerHost.TabIndex = 0;
+            this.previewHandlerHost.Text = "previewHandlerHost";
+            // 
             // Document
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnSend);
-            this.Controls.Add(this.btnBatchPost);
             this.Controls.Add(this.panel);
-            this.Controls.Add(this.richTextBox);
+            this.Controls.Add(this.btnBatchPost);
+            this.Controls.Add(this.btnSend);
             this.Font = new System.Drawing.Font("Tahoma", 9F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MinimumSize = new System.Drawing.Size(500, 130);
             this.Name = "Document";
-            this.Size = new System.Drawing.Size(700, 360);
+            this.Size = new System.Drawing.Size(619, 264);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.panel.ResumeLayout(false);
@@ -355,7 +339,6 @@
         private System.Windows.Forms.ToolStripButton addFileButton;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.Panel panel;
-        private System.Windows.Forms.RichTextBox richTextBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panelLeft;

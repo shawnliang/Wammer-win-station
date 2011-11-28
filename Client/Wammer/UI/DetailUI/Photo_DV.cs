@@ -403,6 +403,8 @@ namespace Waveface.DetailUI
 
                 imageListView.Items.Add(_localFile);
 
+                Application.DoEvents();
+
                 DownloadRemoteFileNext();
 
                 PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;

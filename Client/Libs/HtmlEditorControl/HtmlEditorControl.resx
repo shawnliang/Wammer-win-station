@@ -236,11 +236,20 @@
   <data name="toolBarListOrdered.ToolTipText" xml:space="preserve">
     <value>Toggle Ordered List</value>
   </data>
+  <data name="toolBarListOrdered.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="toolBarListUnordered.ImageIndex" type="System.Int32, mscorlib">
     <value>18</value>
   </data>
   <data name="toolBarListUnordered.ToolTipText" xml:space="preserve">
     <value>Toggle UnOrdered List</value>
+  </data>
+  <data name="toolBarListUnordered.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="toolBarEditSep5.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="toolBarInsertLine.ImageIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -248,11 +257,17 @@
   <data name="toolBarInsertLine.ToolTipText" xml:space="preserve">
     <value>Insert Horizontal Line</value>
   </data>
+  <data name="toolBarInsertLine.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="toolBarInsertTable.ImageIndex" type="System.Int32, mscorlib">
     <value>26</value>
   </data>
   <data name="toolBarInsertTable.ToolTipText" xml:space="preserve">
     <value>Insert Table</value>
+  </data>
+  <data name="toolBarInsertTable.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="toolBarInsertImage.ImageIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -260,17 +275,29 @@
   <data name="toolBarInsertImage.ToolTipText" xml:space="preserve">
     <value>Insert Image</value>
   </data>
+  <data name="toolBarInsertImage.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="toolBarInsertLink.ImageIndex" type="System.Int32, mscorlib">
     <value>22</value>
   </data>
   <data name="toolBarInsertLink.ToolTipText" xml:space="preserve">
     <value>Insert Web Link</value>
   </data>
+  <data name="toolBarInsertLink.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="toolBarEditSep6.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="toolBarFindReplace.ImageIndex" type="System.Int32, mscorlib">
     <value>23</value>
   </data>
   <data name="toolBarFindReplace.ToolTipText" xml:space="preserve">
     <value>Find and Replace Text</value>
+  </data>
+  <data name="toolBarFindReplace.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="toolBarPrint.ImageIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -281,15 +308,18 @@
   <data name="toolBarPrint.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
+  <data name="toolBarEditSep7.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="toolBarHTML.ImageIndex" type="System.Int32, mscorlib">
     <value>29</value>
+  </data>
+  <data name="toolBarHTML.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="editorToolbar.ButtonSize" type="System.Drawing.Size, System.Drawing">
     <value>23, 22</value>
-  </data>
-  <data name="editorToolbar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
   </data>
   <data name="editorToolbar.DropDownArrows" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -302,67 +332,67 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAi
-        NQAAAk1TRnQBSQFMAgEBHgEAAXQBAAF0AQABEAEAARABAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFA
+        NQAAAk1TRnQBSQFMAgEBHgEAAYQBAAGEAQABEAEAARABAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFA
         AwABgAMAAQEBAAEgBgABgBoAA0oB7wNKAe8DSgHvA0oB7wNKAe8DSgHvA0oB7wNKAe8DSgHvA0oB7wNK
-        Ae8DSgHvA0oB78gAA1YB3wEAAmIB/wEAAmIB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMXASADFwEg
-        AwAB/wEAAmIB/wMAAf/LAAH/AQACgAH/AQACgAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/CwAB/wEA
-        AoAB/wMAAf8EAAHNAWwBIQH/AckBYwEZAf8ByAFeARgB/wHGAVcBFgH/AcIBUQEVAf8BwAFMARQB/wG9
-        AUUBEwH/AbsBPwETAf8BuQE8ARIB/wG3ATcBEQH/AbYBMwEQAf8BtAExARAB/wG0ATEBEAH/AbQBMQEQ
-        Af8BtAExARAB/wG0ATEBEAH/hwAB/wEAAoAB/wEAAoAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wsA
-        Af8BAAKAAf8DAAH/BAAB0gF1ATMB/wHkAa8BhwH/AeMBqwGBAf8B4QGoAXkB/wHfAaMBdAH/Ad4BoQFv
-        Af8B3AGdAWsB/wHbAZkBZgH/AdoBlwFhAf8B2QGUAVwB/wHXAZEBWQH/AdcBjwFVAf8B1QGNAVIB/wHV
-        AYwBUQH/AdUBjAFRAf8BtAExARAB/4cAAf8BAAKAAf8BAAKAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMA
-        Af8DVAGvA1QBrwMAAf8BAAKAAf8DAAH/BAAB1gGEAUEB/wHnAbUBkAH/AeABowFyAf8B3gGeAWwB/wHc
-        AZoBZQH/AdsBlQFeAf8B2QGRAVgB/wHXAY0BUQH/AdUBiQFLAf8B0wGFAUYB/wHSAYEBQQH/AdABfAE8
-        Af8BzwF5ATcB/wHOAXcBMwH/AdUBjQFSAf8BtAExARAB/4cAAf8BAAKAAf8BAAKAAf8BAAJCAf8BAAJC
-        Af8BAAJCAf8BAAJCAf8BAAJCAf8BAAJCAf8BAAJCAf8BAAJCAf8BAAJCAf8BAAKAAf8DAAH/BAAB2wGO
-        AVEB/wHqAbsBmQH/AfwB9gHyAf8B4QGmAXcB/wH8AfUB8QH/Ad0BnQFpAf8B/AH2AfIB/wHaAZQBXAH/
-        AfcB6QHeAf8B1gGMAU8B/wHvAdEBugH/Ad4BpAF1Af8B/QH6AfcB/wH3AegB3QH/AdcBjwFXAf8BtgEz
-        ARAB/4cAAf8BAAKAAf8BAAKAAf8BAAIqAf8BAAIqAf8BAAIqAf8BAAIqAf8BAAIqAf8BAAIqAf8BAAIq
-        Af8BAAIqAf8BAAKAAf8BAAKAAf8DAAH/BAAB4QGXAWAB/wHsAcEBoQH/AfwB9wHzAf8B5QGtAYQB/wH8
-        AfYB8gH/AeEBpAF1Af8B/AH3AfMB/wHdAZsBZwH/AfgB6wHgAf8B8AHTAb4B/wHzAd4BzgH/AeABqQF9
-        Af8B+gHwAekB/wHSAYMBQgH/AdkBlAFcAf8BtwE6AREB/4cAAf8BAAKAAf8BAAIyAf8BRwJGAYABRwJG
-        AYABRwJGAYABRwJGAYABRwJGAYABRwJGAYABRwJGAYABRwJGAYABAAIyAf8BAAKAAf8DAAH/BAAB4gGg
-        AWwB/wHuAccBqAH/Af4B/QH8Af8B/QH3AfMB/wH+AfoB+AH/AeMBrAGBAf8B/AH3AfQB/wHgAaMBcgH/
-        AfkB7AHjAf8B+gHyAesB/wH9AfgB9AH/AeMBrgGGAf8B+gHxAeoB/wHVAYkBSwH/AdoBmQFkAf8BvQFB
-        ARMB/4cAAf8BAAKAAf8DAAH/IwAB/wEAAoAB/wMAAf8EAAHmAacBdwH/AfABywGwAf8B/QH4AfUB/wHq
+        Ae8DSgHvA0oB78gAA1YB3wEAAmAB/wEAAmAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMXASADFwEg
+        AwAB/wEAAmAB/wMAAf/LAAH/AQACgAH/AQACgAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/CwAB/wEA
+        AoAB/wMAAf8EAAHNAWoBHwH/AckBYQEXAf8ByAFcARYB/wHGAVUBFAH/AcIBTwETAf8BwAFKARIB/wG9
+        AUMBEQH/AbsBPQERAf8BuQE6ARAB/wG3ATUBDwH/AbYBMQEOAf8BtAEvAQ4B/wG0AS8BDgH/AbQBLwEO
+        Af8BtAEvAQ4B/wG0AS8BDgH/hwAB/wEAAoAB/wEAAoAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wsA
+        Af8BAAKAAf8DAAH/BAAB0gFzATEB/wHkAa8BhwH/AeMBqwGBAf8B4QGoAXcB/wHfAaMBcgH/Ad4BoQFt
+        Af8B3AGdAWkB/wHbAZkBZAH/AdoBlwFfAf8B2QGUAVoB/wHXAZEBVwH/AdcBjwFTAf8B1QGNAVAB/wHV
+        AYwBTwH/AdUBjAFPAf8BtAEvAQ4B/4cAAf8BAAKAAf8BAAKAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMA
+        Af8DVAGvA1QBrwMAAf8BAAKAAf8DAAH/BAAB1gGEAT8B/wHnAbUBkAH/AeABowFwAf8B3gGeAWoB/wHc
+        AZoBYwH/AdsBlQFcAf8B2QGRAVYB/wHXAY0BTwH/AdUBiQFJAf8B0wGFAUQB/wHSAYEBPwH/AdABegE6
+        Af8BzwF3ATUB/wHOAXUBMQH/AdUBjQFQAf8BtAEvAQ4B/4cAAf8BAAKAAf8BAAKAAf8BAAJAAf8BAAJA
+        Af8BAAJAAf8BAAJAAf8BAAJAAf8BAAJAAf8BAAJAAf8BAAJAAf8BAAJAAf8BAAKAAf8DAAH/BAAB2wGO
+        AU8B/wHqAbsBmQH/AfwB9gHyAf8B4QGmAXUB/wH8AfUB8QH/Ad0BnQFnAf8B/AH2AfIB/wHaAZQBWgH/
+        AfcB6QHeAf8B1gGMAU0B/wHvAdEBugH/Ad4BpAFzAf8B/QH6AfcB/wH3AegB3QH/AdcBjwFVAf8BtgEx
+        AQ4B/4cAAf8BAAKAAf8BAAKAAf8BAAIoAf8BAAIoAf8BAAIoAf8BAAIoAf8BAAIoAf8BAAIoAf8BAAIo
+        Af8BAAIoAf8BAAKAAf8BAAKAAf8DAAH/BAAB4QGXAV4B/wHsAcEBoQH/AfwB9wHzAf8B5QGtAYQB/wH8
+        AfYB8gH/AeEBpAFzAf8B/AH3AfMB/wHdAZsBZQH/AfgB6wHgAf8B8AHTAb4B/wHzAd4BzgH/AeABqQF7
+        Af8B+gHwAekB/wHSAYMBQAH/AdkBlAFaAf8BtwE4AQ8B/4cAAf8BAAKAAf8BAAIwAf8BRwJGAYABRwJG
+        AYABRwJGAYABRwJGAYABRwJGAYABRwJGAYABRwJGAYABRwJGAYABAAIwAf8BAAKAAf8DAAH/BAAB4gGg
+        AWoB/wHuAccBqAH/Af4B/QH8Af8B/QH3AfMB/wH+AfoB+AH/AeMBrAGBAf8B/AH3AfQB/wHgAaMBcAH/
+        AfkB7AHjAf8B+gHyAesB/wH9AfgB9AH/AeMBrgGGAf8B+gHxAeoB/wHVAYkBSQH/AdoBmQFiAf8BvQE/
+        AREB/4cAAf8BAAKAAf8DAAH/IwAB/wEAAoAB/wMAAf8EAAHmAacBdQH/AfABywGwAf8B/QH4AfUB/wHq
         AboBmAH/Af0B+AH0Af8B5wGzAYwB/wH9AfgB9QH/AeMBqgGAAf8B+QHuAeUB/wHuAc0BtAH/Af0B+AH1
-        Af8B5QGzAY4B/wH9AfkB9gH/AdgBjwFVAf8B3QGeAWsB/wHAAUwBFAH/hwAB/wEAAoAB/wMAAf8jAAH/
+        Af8B5QGzAY4B/wH9AfkB9gH/AdgBjwFTAf8B3QGeAWkB/wHAAUoBEgH/hwAB/wEAAoAB/wMAAf8jAAH/
         AQACgAH/AwAB/wQAAeoBqwGAAf8B8gHPAbUB/wH8AfQB7gH/AewBvwGfAf8B+wHzAe0B/wH9AfgB9AH/
         Af0B9wH0Af8B/AH3AfMB/wH0AdsByQH/AecBtAGOAf8B9wHmAdoB/wHjAa0BgwH/AfYB5AHWAf8B2wGX
-        AWAB/wHfAaMBdAH/AcQBVwEWAf+HAAH/AQACgAH/AwAB/yMAAf8BAAKAAf8DAAH/BAAB6gGrAYAB/wHz
+        AV4B/wHfAaMBcgH/AcQBVQEUAf+HAAH/AQACgAH/AwAB/yMAAf8BAAKAAf8DAAH/BAAB6gGrAYAB/wHz
         AdABtwH/Ae8BxgGpAf8B7wHEAaYB/wHuAcIBogH/AewBvwGeAf8B6wG8AZgB/wHpAbgBkwH/AegBtAGO
-        Af8B5gGwAYgB/wHjAawBgQH/AeIBpwF5Af8B4AGjAXIB/wHeAZ4BbAH/AeIBqgGAAf8ByQFgARgB/4cA
-        Af8BAAKAAf8DAAH/IwAB/wEAAlIB/wMAAf8EAAHqAasBgAH/AfMB0AG3Af8B8wHQAbcB/wHzAdABtwH/
+        Af8B5gGwAYgB/wHjAawBgQH/AeIBpwF3Af8B4AGjAXAB/wHeAZ4BagH/AeIBqgGAAf8ByQFeARYB/4cA
+        Af8BAAKAAf8DAAH/IwAB/wEAAlAB/wMAAf8EAAHqAasBgAH/AfMB0AG3Af8B8wHQAbcB/wHzAdABtwH/
         AfIB0AG3Af8B8QHOAbMB/wHwAcsBsAH/Ae8ByQGsAf8B7gHGAagB/wHtAcIBowH/AesBwAGeAf8B6gG7
-        AZkB/wHoAbcBlAH/AeYBtAGPAf8B5AGwAYkB/wHNAWwBIQH/hwAB/wEAAoAB/wMAAf8jAAH/A1kBzwMA
-        Af8EAAHqAasBgAH/AeoBqwGAAf8B6gGrAYAB/wHqAasBgAH/AeoBqwGAAf8B6gGrAYAB/wHoAakBegH/
-        AeYBpAF1Af8B4gGgAW4B/wHiAZsBaQH/AeEBlwFgAf8B3QGQAVcB/wHZAYsBUAH/AdgBhQFHAf8B1gGA
-        ATwB/wHSAXUBMwH/hwAB/wEAAmIB/wMAAf8DFwEgAxcBIAMXASADFwEgAxcBIAMXASADFwEgAxcBIAMA
+        AZkB/wHoAbcBlAH/AeYBtAGPAf8B5AGwAYkB/wHNAWoBHwH/hwAB/wEAAoAB/wMAAf8jAAH/A1kBzwMA
+        Af8EAAHqAasBgAH/AeoBqwGAAf8B6gGrAYAB/wHqAasBgAH/AeoBqwGAAf8B6gGrAYAB/wHoAakBeAH/
+        AeYBpAFzAf8B4gGgAWwB/wHiAZsBZwH/AeEBlwFeAf8B3QGQAVUB/wHZAYsBTgH/AdgBhQFFAf8B1gGA
+        AToB/wHSAXMBMQH/hwAB/wEAAmAB/wMAAf8DFwEgAxcBIAMXASADFwEgAxcBIAMXASADFwEgAxcBIAMA
         Af8DFwEgAwAB/8gAA0oB7wNKAe8DSgHvA0oB7wNKAe8DSgHvA0oB7wNKAe8DSgHvA0oB7wNKAe8DSgHv
         A0oB7wNKAe//AP8AAgAE/8sAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
         DwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/FwAB/wMAAf8DAAH/
         AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8EAANWAd8DVgHfA1YB3wNW
         Ad8DVgHfA1YB3wNWAd8DVgHfA1YB3wNWAd8DVgHfGwAB/ycAAf8HAAH/CwAp/wMAAf8XAAH/DwAB/xMA
-        Af8PAAH/BwAB/wMAAf8BAAJaAf8BAAJaAf8BAAJaAf8BAAJaAf8BAAJaAf8BAAJaAf8BAAJaAf8BAAJa
-        Af8BAAJaAf8DWQHPEwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
+        Af8PAAH/BwAB/wMAAf8BAAJYAf8BAAJYAf8BAAJYAf8BAAJYAf8BAAJYAf8BAAJYAf8BAAJYAf8BAAJY
+        Af8BAAJYAf8DWQHPEwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
         AwAB/wcAAf8HAAX/AwAB/wMABf8DAAH/AwAB/wMAAf8DAAH/AwAF/wMAAf8XAAH/DwAB/xMAAf8PAAH/
-        BwAB/wEAAr8B/wEAAhIB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEA
-        AoAB/wEAAlIB/wNXAb8PAAH/GQAD/wEAA/8BAAP/CwAB/wMAAf8DAAH/BwAp/wMAAf8XAAH/AwAB/wMA
+        BwAB/wEAAr8B/wEAAhAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEA
+        AoAB/wEAAlAB/wNXAb8PAAH/GQAD/wEAA/8BAAP/CwAB/wMAAf8DAAH/BwAp/wMAAf8XAAH/AwAB/wMA
         Af8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wcAAf8BrwP/AQACrwH/
-        AQACGgH/AQACgAH/AQACgAH/AQACgAH/AQACgAH/AQACgAH/AQACgAH/AQACgAH/AQACgAH/AQACSgH/
+        AQACGAH/AQACgAH/AQACgAH/AQACgAH/AQACgAH/AQACgAH/AQACgAH/AQACgAH/AQACgAH/AQACSAH/
         A1QBrwsAAf8YAAOAAf8DgAH/A4AB/wsAAf8HAAH/BwAF/wMAAf8DAAX/AwAB/wMAAf8DAAH/AwAB/wMA
-        Bf8DAAH/FwAB/w8AAf8TAAH/DwAB/wcAAf8BUgP/AZ8D/wEAAp8B/wEAAiIB/wEAAoAB/wEAAoAB/wEA
-        AoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAkIB/wNQAZ8HAAH/AwAB/wMAAf8DAAH/
+        Bf8DAAH/FwAB/w8AAf8TAAH/DwAB/wcAAf8BUAP/AZ8D/wEAAp8B/wEAAiAB/wEAAoAB/wEAAoAB/wEA
+        AoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAoAB/wEAAkAB/wNQAZ8HAAH/AwAB/wMAAf8DAAH/
         AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/CwAB/wMAKf8DAAH/FwAB/w8AAf8TAAH/
-        DwAB/wcAAf8BjwP/AWID/wGPA/8BAAKPAf8BAAIqAf8BAAIqAf8BAAIqAf8BAAIqAf8BAAIqAf8BAAIq
-        Af8BAAIqAf8BAAIqAf8BAAIqAf8DAAH/AUwCSwGPAwAB/ysAAf8HAAH/BwAB/wMAHf8DAAn/AwAB/xcA
+        DwAB/wcAAf8BjwP/AWAD/wGPA/8BAAKPAf8BAAIoAf8BAAIoAf8BAAIoAf8BAAIoAf8BAAIoAf8BAAIo
+        Af8BAAIoAf8BAAIoAf8BAAIoAf8DAAH/AUwCSwGPAwAB/ysAAf8HAAH/BwAB/wMAHf8DAAn/AwAB/xcA
         Af8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/BwAB/wGA
         A/8BgAP/AYAD/wGAA/8BAAKAAf8DgAH/AQACgAH/A4AB/wEAAoAB/wMAAf8BRwJGAYABRwJGAYABRwJG
         AYABRwJGAYABRwJGAYAHAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/BwAB/wcA
-        Af8DAAH/AwAF/wMAAf8DAA3/AwAB/wcABf8DAAH/FwAB/w8AAf8TAAH/DwAB/wcAAf8BYgP/AY8D/wFi
-        A/8BjwP/AWID/wGPA/8BYgP/AY8D/wFiA/8DAAH/HwAh/wMAAf8HAAH/BwAB/wMABf8DAAH/BwAF/wMA
-        Af8HAAH/BwAB/wMAAf8DAAH/BAABgAIAAf8BgAIAAf8HAAH/DwAB/xMAAf8PAAH/BwAB/wGfA/8BUgP/
+        Af8DAAH/AwAF/wMAAf8DAA3/AwAB/wcABf8DAAH/FwAB/w8AAf8TAAH/DwAB/wcAAf8BYAP/AY8D/wFg
+        A/8BjwP/AWAD/wGPA/8BYAP/AY8D/wFgA/8DAAH/HwAh/wMAAf8HAAH/BwAB/wMABf8DAAH/BwAF/wMA
+        Af8HAAH/BwAB/wMAAf8DAAH/BAABgAIAAf8BgAIAAf8HAAH/DwAB/xMAAf8PAAH/BwAB/wGfA/8BUAP/
         AZ8D/wEAAp8B/wOfAf8BAAKfAf8DnwH/AQACnwH/A58B/wMAAf8jAAX/AwAB/wMAAf8DAAH/AwAB/wMA
         Bf8DAAH/AwAB/wMAAf8DAAH/BwAJ/wMAAf8HAAH/BwAB/wcAAf8PAAH/AYACAAH/AYACAAH/BwAC/wIA
         Af8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8EAANUAa8BAAKv
@@ -535,7 +565,7 @@
     <value>NoControl</value>
   </data>
   <data name="editorToolbar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 272</value>
+    <value>0, 0</value>
   </data>
   <data name="editorToolbar.ShowToolTips" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -753,6 +783,9 @@
   <data name="menuMainSep2.Text" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="menuMainSep2.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="menuInsertLine.Text" xml:space="preserve">
     <value>Line</value>
   </data>
@@ -774,6 +807,9 @@
   <data name="menuInsert.Text" xml:space="preserve">
     <value>Insert</value>
   </data>
+  <data name="menuInsert.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="editorWebBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -781,7 +817,7 @@
     <value>True</value>
   </data>
   <data name="editorWebBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 28</value>
   </data>
   <data name="editorWebBrowser.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>

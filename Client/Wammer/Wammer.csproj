@@ -122,6 +122,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compoment\MultiPanel\MultiPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\MultiPanel\MultiPanelDesigner.cs" />
+    <Compile Include="Compoment\MultiPanel\MultiPanelPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\MultiPanel\MultiPanelPageDesigner.cs" />
+    <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
     <Compile Include="Data\ServerImageAddressUtility.cs" />
     <Compile Include="FileUploadToStation.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
@@ -451,7 +460,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="app.config" />
     <None Include="Resources\lightbulb.png" />
     <None Include="Resources\disk.png" />
     <None Include="Resources\edit.png" />
@@ -762,6 +770,14 @@
     <None Include="Resources\PostItem\postItem_arrow_out.png" />
     <None Include="Resources\arrow_divide.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\content.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\white_edit.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
 </Project>

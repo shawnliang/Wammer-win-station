@@ -90,13 +90,6 @@ namespace Waveface.PostUI
             e.Cancel = false;
         }
 
-        private void buttonTest_Click(object sender, EventArgs e)
-        {
-            //htmlEditorControl.OpenFilePrompt();
-            htmlEditorControl.NavigateToUrl(@"http://www.apple.com");
-            htmlEditorControl.Focus();
-        }
-
         private void ToXHTML()
         {
             try

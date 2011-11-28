@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo));
-            this.richTextBox = new System.Windows.Forms.RichTextBox();
             this.contextMenuStripEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,9 +37,9 @@
             this.panel = new System.Windows.Forms.Panel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.removeAllToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.addToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.removeToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.removeAllToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.rotateCCWToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.rotateCWToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -60,19 +59,6 @@
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // richTextBox
-            // 
-            this.richTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBox.ContextMenuStrip = this.contextMenuStripEdit;
-            this.richTextBox.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.richTextBox.Location = new System.Drawing.Point(6, 6);
-            this.richTextBox.Name = "richTextBox";
-            this.richTextBox.Size = new System.Drawing.Size(609, 128);
-            this.richTextBox.TabIndex = 5;
-            this.richTextBox.Text = "";
-            // 
             // contextMenuStripEdit
             // 
             this.contextMenuStripEdit.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -81,27 +67,27 @@
             this.copyToolStripMenuItem,
             this.pasteToolStripMenuItem});
             this.contextMenuStripEdit.Name = "contextMenuStrip1";
-            this.contextMenuStripEdit.Size = new System.Drawing.Size(153, 92);
+            this.contextMenuStripEdit.Size = new System.Drawing.Size(105, 70);
             this.contextMenuStripEdit.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripEdit_Opening);
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.cutToolStripMenuItem.Text = "Cut";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.copyToolStripMenuItem.Text = "Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.pasteToolStripMenuItem.Text = "Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
@@ -112,9 +98,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel.Controls.Add(this.imageListView);
             this.panel.Controls.Add(this.toolStrip);
-            this.panel.Location = new System.Drawing.Point(6, 142);
+            this.panel.Location = new System.Drawing.Point(6, 6);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(609, 215);
+            this.panel.Size = new System.Drawing.Size(606, 227);
             this.panel.TabIndex = 8;
             // 
             // imageListView
@@ -126,7 +112,7 @@
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Location = new System.Drawing.Point(0, 25);
             this.imageListView.Name = "imageListView";
-            this.imageListView.Size = new System.Drawing.Size(609, 190);
+            this.imageListView.Size = new System.Drawing.Size(606, 202);
             this.imageListView.TabIndex = 2;
             this.imageListView.ThumbnailSize = new System.Drawing.Size(120, 120);
             this.imageListView.ItemCollectionChanged += new Manina.Windows.Forms.ItemCollectionChangedEventHandler(this.imageListView_ItemCollectionChanged);
@@ -134,9 +120,9 @@
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeAllToolStripButton,
             this.addToolStripButton,
             this.removeToolStripButton,
-            this.removeAllToolStripButton,
             this.toolStripSeparator1,
             this.rotateCCWToolStripButton,
             this.rotateCWToolStripButton,
@@ -147,8 +133,18 @@
             this.toolStripComboBoxResize});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(609, 25);
+            this.toolStrip.Size = new System.Drawing.Size(606, 25);
             this.toolStrip.TabIndex = 1;
+            // 
+            // removeAllToolStripButton
+            // 
+            this.removeAllToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.removeAllToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("removeAllToolStripButton.Image")));
+            this.removeAllToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.removeAllToolStripButton.Name = "removeAllToolStripButton";
+            this.removeAllToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.removeAllToolStripButton.Text = "Remove All Files";
+            this.removeAllToolStripButton.Click += new System.EventHandler(this.removeAllToolStripButton_Click);
             // 
             // addToolStripButton
             // 
@@ -169,16 +165,6 @@
             this.removeToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.removeToolStripButton.Text = "Remove Selected Files";
             this.removeToolStripButton.Click += new System.EventHandler(this.removeToolStripButton_Click);
-            // 
-            // removeAllToolStripButton
-            // 
-            this.removeAllToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.removeAllToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("removeAllToolStripButton.Image")));
-            this.removeAllToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.removeAllToolStripButton.Name = "removeAllToolStripButton";
-            this.removeAllToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.removeAllToolStripButton.Text = "Remove All Files";
-            this.removeAllToolStripButton.Click += new System.EventHandler(this.removeAllToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
@@ -283,14 +269,14 @@
             // btnBatchPost
             // 
             this.btnBatchPost.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnBatchPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBatchPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBatchPost.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnBatchPost.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnBatchPost.Image = global::Waveface.Properties.Resources.arrow_divide;
             this.btnBatchPost.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBatchPost.Location = new System.Drawing.Point(621, 44);
+            this.btnBatchPost.Location = new System.Drawing.Point(458, 242);
             this.btnBatchPost.Name = "btnBatchPost";
-            this.btnBatchPost.Size = new System.Drawing.Size(74, 32);
+            this.btnBatchPost.Size = new System.Drawing.Size(74, 28);
             this.btnBatchPost.TabIndex = 7;
             this.btnBatchPost.Text = "Post";
             this.btnBatchPost.UseVisualStyleBackColor = true;
@@ -300,16 +286,16 @@
             // btnSend
             // 
             this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnSend.Image = global::Waveface.Properties.Resources.Post;
             this.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSend.Location = new System.Drawing.Point(621, 6);
+            this.btnSend.Location = new System.Drawing.Point(538, 242);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(74, 32);
+            this.btnSend.Size = new System.Drawing.Size(74, 28);
             this.btnSend.TabIndex = 6;
-            this.btnSend.Text = "Send";
+            this.btnSend.Text = "Create";
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
@@ -318,13 +304,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel);
-            this.Controls.Add(this.btnBatchPost);
-            this.Controls.Add(this.richTextBox);
             this.Controls.Add(this.btnSend);
+            this.Controls.Add(this.btnBatchPost);
             this.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.MinimumSize = new System.Drawing.Size(500, 130);
             this.Name = "Photo";
-            this.Size = new System.Drawing.Size(700, 360);
+            this.Size = new System.Drawing.Size(618, 277);
             this.contextMenuStripEdit.ResumeLayout(false);
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
@@ -338,7 +322,6 @@
         #endregion
 
         private Component.XPButton btnBatchPost;
-        private System.Windows.Forms.RichTextBox richTextBox;
         private Component.XPButton btnSend;
         private System.Windows.Forms.Panel panel;
         private Manina.Windows.Forms.ImageListView imageListView;

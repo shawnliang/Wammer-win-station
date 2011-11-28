@@ -81,6 +81,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap content {
+            get {
+                object obj = ResourceManager.GetObject("content", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Copy {
             get {
                 object obj = ResourceManager.GetObject("Copy", resourceCulture);
@@ -147,6 +154,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap Outlook {
             get {
                 object obj = ResourceManager.GetObject("Outlook", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap page {
+            get {
+                object obj = ResourceManager.GetObject("page", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -238,6 +252,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap webcam {
             get {
                 object obj = ResourceManager.GetObject("webcam", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap white_edit {
+            get {
+                object obj = ResourceManager.GetObject("white_edit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -224,6 +224,8 @@ namespace Waveface
 
             // Let them know we handled it
             e.Handled = true;
+
+            Application.DoEvents();
         }
 
         private void Draw_Link(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, int thumbnailRectWidth)
@@ -351,6 +353,8 @@ namespace Waveface
                     return DrawDocThumbnail(thumbnailRect, g, post);
             }
 
+            Application.DoEvents();
+
             return false;
         }
 
@@ -447,6 +451,8 @@ namespace Waveface
                 _img = null;
 
                 _img = new Bitmap(localPicPath);
+
+                Application.DoEvents();
             }
 
             return _img;
