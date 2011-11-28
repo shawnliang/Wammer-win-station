@@ -32,15 +32,22 @@
     <CustomAction Id="NoDowngradeAction" Error="!(loc.DOWNGRADE.ERROR)" />
     <!-- Signoff station when uninstallation -->
     <CustomAction Id='SignoffStationAction' BinaryKey='InstallHelperDll' DllEntry='SignoffStation'/>
+    <!-- Clean station registry and DB -->
+    <CustomAction Id='CleanStationInfoAction' BinaryKey='InstallHelperDll' DllEntry='CleanStationInfo'/>
+    
     <InstallExecuteSequence>
       <Custom Action="NoDowngradeAction" After="FindRelatedProducts">NEWERFOUND</Custom>
       <Custom Action="SignoffStationAction" Before="RemoveFiles">
+        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <Custom Action="CleanStationInfoAction" After="SignoffStationAction">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
     </InstallExecuteSequence>
 
     <UI>
       <ProgressText Action="SignoffStationAction">!(loc.SIGNOFF.STATION.DESC)</ProgressText>
+      <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
     </UI>
     <!-- Program Menu-->
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">

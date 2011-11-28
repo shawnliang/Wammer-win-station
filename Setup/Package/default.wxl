@@ -24,4 +24,5 @@
   <String Id="SHORTCUT.AddUser.NAME">Add a user</String>
   <String Id="DOWNGRADE.ERROR">A later version of [ProductName] is already installed. Setup will now exit.</String>
   <String Id="SIGNOFF.STATION.DESC">Signing off this waveface windows station</String>
+  <String Id="CLEAN.STATION.INFO.DESC">Cleaning station registry and database</String>
 </WixLocalization>
