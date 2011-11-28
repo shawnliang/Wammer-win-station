@@ -15,6 +15,7 @@ using Wammer.Utility;
 using Wammer.Cloud;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.Management
 {
@@ -190,6 +191,174 @@ namespace Wammer.Station.Management
 			}
 		}
 
+		/// <summary>
+		/// List all detected cloud storages
+		/// </summary>
+		public static List<StorageStatus> ListCloudStorage()
+		{
+			List<StorageStatus> cloudstorages = new List<StorageStatus>();
+
+			if (DropboxHelper.IsInstalled())
+			{
+				Model.CloudStorage storage = Model.CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
+				if (storage != null)
+				{
+					cloudstorages.Add(new StorageStatus
+						{
+							type = "dropbox",
+							connected = true,
+							quota = storage.Quota,
+							used = storage.Used
+						}
+					);
+				}
+				else
+				{
+					cloudstorages.Add(new StorageStatus
+						{
+							type = "dropbox",
+							connected = false
+						}
+					);
+				}
+			}
+
+			return cloudstorages;
+		}
+
+		/// <summary>
+		/// Get Dropbox OAuth URL 
+		/// </summary>
+		/// <exception cref="Wammer.Station.Management.GetDropboxOAuthException">
+		/// Unable to get Dropbox OAuth information
+		/// </exception>
+		public static string GetDropboxOAuthUrl()
+		{
+			try
+			{
+				GetDropboxOAuthResponse res = CloudServer.request<GetDropboxOAuthResponse>(
+					new WebClient(),
+					"http://localhost:9981/v2/cloudstorage/dropbox/oauth",
+					new Dictionary<object, object>(),
+					true
+				);
+				return res.oauth_url;
+			}
+			catch (Cloud.WammerCloudException e)
+			{
+				switch (e.WammerError)
+				{
+					case (int)DropboxApiError.GetOAuthFailed:
+						throw new GetDropboxOAuthException("Unable to get Dropbox OAuth information");
+
+					default:
+						throw;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Connect Waveface to Dropbox
+		/// </summary>
+		/// <param name="quota"></param>
+		/// <exception cref="Wammer.Station.Management.DropboxNoSyncFolderException">
+		/// Dropbox sync folder does not exist
+		/// </exception>
+		/// <exception cref="Wammer.Station.Management.DropboxNotInstalledException">
+		/// Dropbox is not installed
+		/// </exception>
+		public static void ConnectDropbox(long quota)
+		{
+			if (DropboxHelper.IsInstalled())
+			{
+				try
+				{
+					string folder = DropboxHelper.GetSyncFolder();
+					CloudResponse res = CloudServer.request<CloudResponse>(
+						new WebClient(),
+						"http://localhost:9981/v2/cloudstorage/dropbox/connect",
+						new Dictionary<object, object> { { "quota", quota }, { "folder", folder } },
+						true
+					);
+				}
+				catch (Cloud.WammerCloudException e)
+				{
+					switch (e.WammerError)
+					{
+						case (int)DropboxApiError.NoSyncFolder:
+							throw new DropboxNoSyncFolderException("Dropbox sync folder does not exist");
+
+						default:
+							throw;
+					}
+				}
+			}
+			else
+			{
+				throw new DropboxNotInstalledException("Dropbox is not installed");
+			}
+		}
+
+		/// <summary>
+		/// Update Dropbox quota for Waveface
+		/// </summary>
+		/// <param name="quota"></param>
+		/// <exception cref="Wammer.Station.Management.DropboxNotConnectedException">
+		/// Waveface has not connected to Dropbox
+		/// </exception>
+		/// <exception cref="Wammer.Station.Management.DropboxNotInstalledException">
+		/// Dropbox is not installed
+		/// </exception>
+		public static void UpdateDropbox(long quota)
+		{
+			if (DropboxHelper.IsInstalled())
+			{
+				try
+				{
+					CloudResponse res = CloudServer.request<CloudResponse>(
+						new WebClient(),
+						"http://localhost:9981/v2/cloudstorage/dropbox/update",
+						new Dictionary<object, object> { { "quota", quota } },
+						true
+					);
+				}
+				catch (Cloud.WammerCloudException e)
+				{
+					switch (e.WammerError)
+					{
+						case (int)DropboxApiError.DropboxNotConnected:
+							throw new DropboxNotConnectedException("Dropbox is not connected");
+
+						default:
+							throw;
+					}
+				}
+			}
+			else
+			{
+				throw new DropboxNotInstalledException("Dropbox is not installed");
+			}
+		}
+
+		/// <summary>
+		/// Disconnect Waveface from Dropbox
+		/// </summary>
+		public static void DisconnectDropbox()
+		{
+			try
+			{
+				CloudResponse res = CloudServer.request<CloudResponse>(
+					new WebClient(),
+					"http://localhost:9981/v2/cloudstorage/dropbox/disconnect",
+					new Dictionary<object, object>(),
+					true
+				);
+			}
+			catch (Cloud.WammerCloudException e)
+			{
+				throw;
+			}
+		}
 		#region private accessors
 
 		/// <summary>
@@ -321,6 +490,38 @@ namespace Wammer.Station.Management
 
 		public UserAlreadyHasStationException()
 			:base()
+		{
+		}
+	}
+
+	public class GetDropboxOAuthException : Exception
+	{
+		public GetDropboxOAuthException(string msg)
+			: base(msg)
+		{
+		}
+	}
+
+	public class DropboxNotInstalledException : Exception
+	{
+		public DropboxNotInstalledException(string msg)
+			: base(msg)
+		{
+		}
+	}
+
+	public class DropboxNoSyncFolderException : Exception
+	{
+		public DropboxNoSyncFolderException(string msg)
+			: base(msg)
+		{
+		}
+	}
+
+	public class DropboxNotConnectedException : Exception
+	{
+		public DropboxNotConnectedException(string msg)
+			: base(msg)
 		{
 		}
 	}

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Wammer.Utility
 {
-	class DropboxHelper
+	public class DropboxHelper
 	{
 		private static string hostDb = @"Dropbox\host.db";
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxHelper));
@@ -15,6 +15,8 @@ namespace Wammer.Utility
 		{
 			string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 			string hostDbPath = Path.Combine(appData, hostDb);
+
+			logger.DebugFormat("Dropbox path for verification: {0}", hostDbPath);
 
 			return File.Exists(hostDbPath);
 		}

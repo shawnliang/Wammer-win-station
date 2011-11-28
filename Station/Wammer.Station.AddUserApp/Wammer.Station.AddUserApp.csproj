@@ -83,6 +83,9 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\3rd_party\fastJSON\fastJSON.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\3rd_party\log4net-1.2.11\log4net.dll</HintPath>
     </Reference>

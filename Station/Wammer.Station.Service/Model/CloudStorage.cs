@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace Wammer.Model
 {
-	class CloudStorage
+	public class CloudStorage
 	{
 		[BsonIgnore]
 		public static MongoCollection<CloudStorage> collection = Database.wammer.GetCollection<CloudStorage>("cloudstorage");
