@@ -15,14 +15,17 @@ namespace TestCloud
 	{
 		static void Main(string[] args)
 		{
+			string username = args[0];
+			string password = args[1];
+			string filepath = args[2];
 			try
 			{
 				string apiKey = "e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2";
 				using (WebClient agent = new WebClient())
 				{
-					User user = User.LogIn(agent, "steven.shen@waveface.com", "steven", apiKey);
+					User user = User.LogIn(agent, username, password, apiKey);
 
-					string thumbnail = @"C:\Users\shawnliang\bin\0dc93a4e-7625-46d4-89bc-c3dbe2c1fbd6.jpeg";
+					string thumbnail = filepath;
 
 					using (FileStream s = File.OpenRead(thumbnail))
 					{

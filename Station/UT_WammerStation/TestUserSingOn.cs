@@ -89,55 +89,6 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestStationSignUp()
-		{
-			Wammer.Cloud.StationSignUpResponse stationRes = 
-				new Wammer.Cloud.StationSignUpResponse(200, DateTime.Now.ToUniversalTime(), "stationToken1");
-
-			using (FakeCloud fakeCloud = new FakeCloud(stationRes))
-			using (WebClient agent = new WebClient())
-			{
-				Wammer.Cloud.Station station = 
-					Wammer.Cloud.Station.SignUp(agent, "stationId1", "userToken1");
-
-				Assert.AreEqual("/v9999/stations/signup",
-					fakeCloud.RequestedPath);
-				Assert.AreEqual("session_token=userToken1&station_id=stationId1&apikey=apiKey1",
-					fakeCloud.PostData);
-				Assert.AreEqual("application/x-www-form-urlencoded",
-					fakeCloud.RequestedContentType);
-
-				Assert.AreEqual("stationId1", station.Id);
-				Assert.AreEqual("stationToken1", station.Token);
-			}
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(Wammer.Cloud.WammerCloudException))]
-		public void TestStationSignUpError()
-		{
-			Wammer.Cloud.StationSignUpResponse stationRes = 
-				new Wammer.Cloud.StationSignUpResponse(501, DateTime.Now.ToUniversalTime(), "");
-
-			using (FakeCloud fakeCloud = new FakeCloud(stationRes))
-			using (WebClient agent = new WebClient())
-			{
-				Wammer.Cloud.Station.SignUp(agent, "stationId1", "userToken1");
-			}
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(Wammer.Cloud.WammerCloudException))]
-		public void TestStationSignUpError2()
-		{
-			using (FakeErrorCloud fakeCloud = new FakeErrorCloud(403))
-			using (WebClient agent = new WebClient())
-			{
-				Wammer.Cloud.Station.SignUp(agent, "stationId1", "userToken1");
-			}
-		}
-
-		[TestMethod]
 		public void TestStationLogOn()
 		{
 			using (FakeCloud fakeCloud = new FakeCloud(new Wammer.Cloud.StationLogOnResponse(200, DateTime.Now.ToUniversalTime(), "newToken1")))

@@ -21,26 +21,11 @@ namespace Wammer.Model
 		public string email { get; set; }
 		public string folder { get; set; }
 		public List<UserGroup> groups { get; set; }
+		public string session_token { get; set; }
 
 		public Drivers()
 		{
 			groups = new List<UserGroup>();
-		}
-
-		public static void RequestToAdd(string url, string email, string password)
-		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
-			{
-				{"email", email},
-				{"password", password},
-			};
-
-			CloudResponse res = CloudServer.request<CloudResponse>(
-				new WebClient(), url, parameters);
-
-			if (res.api_ret_code != 0)
-				throw new WammerCloudException(
-					"Unable to add user", WebExceptionStatus.Success, res.api_ret_code);
 		}
 	}
 }

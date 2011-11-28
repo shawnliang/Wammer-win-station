@@ -39,12 +39,28 @@
     <Content Include="Product.Uninstaller.wxi" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Client\Wammer\Wammer.csproj">
+      <Name>Wammer</Name>
+      <Project>{2cffca13-b00a-4605-b6a4-d49a616cfcb4}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\Station\Wammer.Station.AddUserApp\Wammer.Station.AddUserApp.csproj">
       <Name>Wammer.Station.AddUserApp</Name>
       <Project>{3936a35e-6eb1-439e-a575-02b3a25c8752}</Project>
       <Private>True</Private>
       <DoNotHarvest>
       </DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Station\Wammer.Station.Management\Wammer.Station.Management.csproj">
+      <Name>Wammer.Station.Management</Name>
+      <Project>{87c11605-fdc7-444e-9c9d-4e1743182b6f}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>

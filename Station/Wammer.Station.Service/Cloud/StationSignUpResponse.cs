@@ -7,7 +7,7 @@ namespace Wammer.Cloud
 	public class StationSignUpResponse : CloudResponse
 	{
 		public string session_token { get; set; }
-
+		public UserStation station { get; set; }
 		public StationSignUpResponse(int status, DateTime timestamp, string stationToken)
 			: base(status, timestamp)
 		{

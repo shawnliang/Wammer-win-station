@@ -73,71 +73,63 @@ namespace Wammer.Station
 			{
 				try
 				{
-					logger.DebugFormat("login with given driver information, email={0}", email);
-					User user = User.LogIn(agent, email, password);
-
-					if (user.Stations != null && user.Stations.Count > 0)
-						return AlreadyHasStation(user);
-
 					string baseurl = NetworkHelper.GetBaseURL();
-					Dictionary<object, object> location = new Dictionary<object, object>
-												{ {"location", baseurl} };
+					Cloud.Station station = Cloud.Station.SignUp(
+														agent, stationId, email, password, baseurl);
 
-					logger.DebugFormat("cloud signup, stationId={0}, token={1}, location={2}", stationId, user.Token, baseurl);
-					Cloud.Station station = Cloud.Station.SignUp(agent, 
-																stationId, user.Token, location);
-					logger.DebugFormat("cloud logon, session token={0}", station.Token);
-					station.LogOn(agent, location);
+					User user = User.LogIn(agent, email, password);
 					Drivers.collection.Save(
 						new Drivers {
 							email = email,
 							folder = Path.Combine(resourceBasePath, user.Groups[0].name),
 							user_id = user.Id,
-							groups = user.Groups
+							groups = user.Groups,
+							session_token = user.Token
 						}
 					);
 
-					StationInfo sinfo = StationInfo.collection.FindOne();
-					if (sinfo == null)
-					{
-						logger.Debug("first add driver, save station information");
-						StationInfo.collection.Save(
-							new StationInfo
-							{
-								Id = stationId,
-								SessionToken = station.Token,
-								Location = baseurl,
-								LastLogOn = DateTime.Now
-							}
-						);
-					}
-					else
-					{
-						logger.Debug("update station information");
-						sinfo.Location = baseurl;
-						sinfo.LastLogOn = DateTime.Now;
-						StationInfo.collection.Save(sinfo);
-					}
+					StationInfo.collection.Save(
+						new StationInfo
+						{
+							Id = stationId,
+							SessionToken = station.Token,
+							Location = baseurl,
+							LastLogOn = DateTime.Now
+						}
+					);
+
+					
 				}
 				catch (WammerCloudException ex)
 				{
+					logger.WarnFormat("Unable to add user {0} to station", email);
+					logger.Warn(ex.ToString());
+
 					if (ex.WammerError == 4097)
 						return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 							HttpStatusCode.Unauthorized, (int)StationApiError.AuthFailed,
 							"Bad user name or password");
+					else if (ex.WammerError == 16387)
+					{
+						return AlreadyHasStation(ex.response);
+					}
 					else
 						return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 							HttpStatusCode.BadRequest, (int)StationApiError.Error,
-							"Error logon user: " + ex.ToString());
+							"Error add user: " + ex.ToString());
 				}
 				catch (Exception ex)
 				{
+					logger.WarnFormat("Unable to add user {0} to station", email);
+					logger.Warn(ex.ToString());
+
 					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 							HttpStatusCode.BadRequest, (int)StationApiError.Error,
-							"Error logon station: " + ex.ToString());
+							"Error add station: " + ex.ToString());
 				}
 			}
 
+			logger.InfoFormat("user {0} is added to this station successfully", email);
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current);
 		}
 
@@ -146,7 +138,6 @@ namespace Wammer.Station
 			logger.Debug("GetStatus is called");
 			StationStatus res = StatusChecker.GetStatus();
 
-			//return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, res);
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, new GetStatusResponse
 			{
 				api_ret_code = 0,
@@ -196,8 +187,9 @@ namespace Wammer.Station
 			}
 		}
 
-		private static MemoryStream AlreadyHasStation(User user)
+		private static MemoryStream AlreadyHasStation(string responseJson)
 		{
+			AddUserResponse resp = fastJSON.JSON.Instance.ToObject<AddUserResponse>(responseJson);
 			return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 										HttpStatusCode.Conflict,
 										new AddUserResponse
@@ -206,8 +198,7 @@ namespace Wammer.Station
 											api_ret_msg = "already has a station",
 											status = (int)HttpStatusCode.Conflict,
 											timestamp = DateTime.UtcNow,
-											station = user.Stations[0],
-											session_token = user.Token
+											station = resp.station
 										}
 									);
 		}
