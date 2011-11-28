@@ -10,6 +10,7 @@ bin
 Debug
 Release
 .vagrant
+ipch
 
 *.msi
 *.cache
