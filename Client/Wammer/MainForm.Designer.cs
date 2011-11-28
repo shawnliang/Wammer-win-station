@@ -65,6 +65,7 @@
             this.timerGetNewestPost = new System.Windows.Forms.Timer(this.components);
             this.timerFetchOlderPost = new System.Windows.Forms.Timer(this.components);
             this.panelTop = new System.Windows.Forms.Panel();
+            this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
             this.radioButtonCloud = new System.Windows.Forms.RadioButton();
@@ -78,6 +79,7 @@
             this.statusStrip1.SuspendLayout();
             this.mnuTray.SuspendLayout();
             this.panelTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
             this.panelStation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAvatar)).BeginInit();
             this.SuspendLayout();
@@ -370,7 +372,8 @@
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.Orange;
+            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(171)))), ((int)(((byte)(104)))));
+            this.panelTop.Controls.Add(this.pictureBoxLogo);
             this.panelTop.Controls.Add(this.panelStation);
             this.panelTop.Controls.Add(this.linkLabelLogin);
             this.panelTop.Controls.Add(this.labelName);
@@ -382,13 +385,22 @@
             this.panelTop.Size = new System.Drawing.Size(1078, 70);
             this.panelTop.TabIndex = 12;
             // 
+            // pictureBoxLogo
+            // 
+            this.pictureBoxLogo.Image = global::Waveface.Properties.Resources.desktop_logo;
+            this.pictureBoxLogo.Location = new System.Drawing.Point(11, 9);
+            this.pictureBoxLogo.Name = "pictureBoxLogo";
+            this.pictureBoxLogo.Size = new System.Drawing.Size(200, 52);
+            this.pictureBoxLogo.TabIndex = 5;
+            this.pictureBoxLogo.TabStop = false;
+            // 
             // panelStation
             // 
             this.panelStation.BackColor = System.Drawing.SystemColors.Control;
             this.panelStation.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelStation.Controls.Add(this.radioButtonStation);
             this.panelStation.Controls.Add(this.radioButtonCloud);
-            this.panelStation.Location = new System.Drawing.Point(12, 12);
+            this.panelStation.Location = new System.Drawing.Point(275, 12);
             this.panelStation.Name = "panelStation";
             this.panelStation.Size = new System.Drawing.Size(94, 47);
             this.panelStation.TabIndex = 4;
@@ -435,7 +447,7 @@
             // 
             this.labelName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelName.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelName.ForeColor = System.Drawing.Color.White;
+            this.labelName.ForeColor = System.Drawing.Color.Black;
             this.labelName.Location = new System.Drawing.Point(884, 21);
             this.labelName.Name = "labelName";
             this.labelName.Size = new System.Drawing.Size(120, 25);
@@ -484,6 +496,7 @@
             this.mnuTray.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
             this.panelStation.ResumeLayout(false);
             this.panelStation.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAvatar)).EndInit();
@@ -534,6 +547,7 @@
         private System.Windows.Forms.Panel panelStation;
         private System.Windows.Forms.RadioButton radioButtonStation;
         private System.Windows.Forms.RadioButton radioButtonCloud;
+        private System.Windows.Forms.PictureBox pictureBoxLogo;
 	}
 }
 

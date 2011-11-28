@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using CustomControls;
@@ -18,10 +17,8 @@ namespace Waveface
 {
     public partial class LeftArea : UserControl
     {
-        private int m_antOffset;
         private List<NewPostItem> m_batchPostItems = new List<NewPostItem>();
         private FilterManager m_filterManager;
-        private AdvSelection m_selection;
         private Button m_buttonAddNewFilter;
 
         public int MyWidth
@@ -51,18 +48,14 @@ namespace Waveface
             //taskPaneFilter.UseCustomTheme("panther.dll");
             taskPaneFilter.UseClassicTheme();
 
-            initAnt();
             initBatchPostItems();
             //initTimeline();
-
-            AntTimer.Start();
         }
 
         public void SetUI()
         {
             buttonCreatePost.Visible = true;
             taskPaneFilter.Visible = true;
-            btnTimeline.Visible = true;
         }
 
         private void resetAllTaskItemForeColor()
@@ -320,58 +313,9 @@ namespace Waveface
 
         #endregion
 
-        #region Ant
-
-        private void pictureBoxHintDrop_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.DrawImageUnscaled(pbHintDrop.Image, 0, 0);
-
-            Pen _pen = new Pen(Color.White, 2);
-            _pen.DashStyle = DashStyle.Dash;
-            _pen.DashPattern = new float[]
-                                   {
-                                       3, 3
-                                   };
-            _pen.DashOffset = m_antOffset;
-
-            Bitmap _ant = new Bitmap(pbHintDrop.Width, pbHintDrop.Height);
-            Graphics _g = Graphics.FromImage(_ant);
-            _g.Clear(Color.Magenta);
-            _g.DrawPath(new Pen(Color.Black), m_selection.Line());
-            _g.DrawPath(_pen, m_selection.Line());
-            _g.FillRegion(new SolidBrush(Color.Magenta), m_selection.Selected);
-
-            _ant.MakeTransparent(Color.Magenta);
-            e.Graphics.DrawImageUnscaled(_ant, 0, 0);
-
-            TextRenderer.DrawText(e.Graphics, "Drag && drop the file to start the sharing", new Font("Tahoma", 11),
-                                  new Rectangle(8, 8, pbHintDrop.Width - 16, pbHintDrop.Height - 16),
-                                  SystemColors.ControlDarkDark,
-                                  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter);
-        }
-
-        private void AntTimer_Tick(object sender, EventArgs e)
-        {
-            m_antOffset++;
-            m_antOffset %= 6;
-
-            pbHintDrop.Refresh();
-        }
-
-        private void initAnt()
-        {
-            pbHintDrop.Image = new Bitmap(pbHintDrop.Width, pbHintDrop.Height);
-
-            m_selection = new AdvSelection();
-            m_selection.AddRectangle(new Rectangle(4, 4, pbHintDrop.Width - 8, pbHintDrop.Height - 8));
-        }
-
         private void LeftArea_Resize(object sender, EventArgs e)
         {
-            initAnt();
         }
-
-        #endregion
 
         private void monthCalendar_DateClicked(object sender, DateEventArgs e)
         {
@@ -383,93 +327,4 @@ namespace Waveface
             MainForm.THIS.Post();
         }
     }
-
-    #region AdvSelection
-
-    internal class AdvSelection
-    {
-        private GraphicsPath m_gp;
-        private Region m_region;
-
-        public AdvSelection()
-        {
-            m_region = new Region();
-            m_gp = new GraphicsPath();
-
-            Clear();
-        }
-
-        public Region Selected
-        {
-            get
-            {
-                return m_region;
-            }
-        }
-
-        public GraphicsPath Outline
-        {
-            get
-            {
-                return m_gp;
-            }
-        }
-
-        public void AddRectangle(Rectangle rectangle)
-        {
-            m_gp.AddRectangle(rectangle);
-            m_region.Union(m_gp);
-        }
-
-        public void AddCircle(Rectangle rectangle)
-        {
-            m_gp.AddEllipse(rectangle);
-            m_region.Union(m_gp);
-        }
-
-        public void AddFreeform(Point[] points)
-        {
-            m_gp.AddPolygon(points);
-            m_region.Union(m_gp);
-        }
-
-        public void RemoveRectangle(Rectangle rectangle)
-        {
-            m_gp.AddRectangle(rectangle);
-            m_region.Exclude(m_gp);
-        }
-
-        public void RemoveCircle(Rectangle rectangle)
-        {
-            m_gp.AddEllipse(rectangle);
-            m_region.Exclude(m_gp);
-        }
-
-        public void RemoveFreeform(Point[] points)
-        {
-            m_gp.AddPolygon(points);
-            m_region.Exclude(m_gp);
-        }
-
-        public void Clear()
-        {
-            m_region.MakeEmpty();
-            m_gp.Reset();
-        }
-
-        public GraphicsPath Line()
-        {
-            GraphicsPath _gp = new GraphicsPath();
-
-            if (m_gp.PointCount > 0)
-            {
-                _gp.AddPath(m_gp, false);
-                _gp.Widen(new Pen(Color.White, 2));
-            }
-
-            return _gp;
-        }
-    }
-
-    #endregion
 }

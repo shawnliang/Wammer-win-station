@@ -84,7 +84,7 @@ namespace Waveface
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.Gray;
+            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(96)))), ((int)(((byte)(0)))));
             this.panelTop.Controls.Add(this.linkLabelRemove);
             this.panelTop.Controls.Add(this.labelWho);
             this.panelTop.Controls.Add(this.labelTime);
@@ -98,12 +98,12 @@ namespace Waveface
             // 
             this.linkLabelRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelRemove.AutoSize = true;
-            this.linkLabelRemove.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabelRemove.ForeColor = System.Drawing.Color.White;
-            this.linkLabelRemove.LinkColor = System.Drawing.Color.White;
-            this.linkLabelRemove.Location = new System.Drawing.Point(486, 10);
+            this.linkLabelRemove.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabelRemove.ForeColor = System.Drawing.SystemColors.Window;
+            this.linkLabelRemove.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(255)))), ((int)(((byte)(204)))));
+            this.linkLabelRemove.Location = new System.Drawing.Point(481, 10);
             this.linkLabelRemove.Name = "linkLabelRemove";
-            this.linkLabelRemove.Size = new System.Drawing.Size(46, 13);
+            this.linkLabelRemove.Size = new System.Drawing.Size(51, 14);
             this.linkLabelRemove.TabIndex = 2;
             this.linkLabelRemove.TabStop = true;
             this.linkLabelRemove.Text = "Remove";
