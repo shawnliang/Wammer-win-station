@@ -780,5 +780,11 @@
   <ItemGroup>
     <None Include="Resources\white_edit.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\desktop_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dragNdrop-area.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
 </Project>

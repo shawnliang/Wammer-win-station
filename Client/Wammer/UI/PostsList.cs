@@ -9,8 +9,6 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using Waveface.API.V2;
 using Waveface.Component;
-using Waveface.Properties;
-
 #endregion
 
 namespace Waveface
@@ -21,7 +19,6 @@ namespace Waveface
         private DataGridView dataGridView;
         private int m_clickIndex;
         private DetailView m_detailView;
-        private Bitmap m_emptyImage;
         private Font m_font;
         private BindingSource m_postBS;
         private DataGridViewTextBoxColumn creatoridDataGridViewTextBoxColumn;
@@ -141,8 +138,6 @@ namespace Waveface
 
         private void PostsList_Load(object sender, EventArgs e)
         {
-            m_emptyImage = Resources.Error;
-
             SetFont();
 
             // Add UPChanged
@@ -154,12 +149,20 @@ namespace Waveface
             SetFont();
         }
 
+        private Brush m_bg1 = new SolidBrush(Color.FromArgb(224, 208, 170));
+        private Brush m_bg2 = new SolidBrush(Color.FromArgb(225, 225, 225));
+        private Color m_inforColor1 = Color.White;
+        private Color m_inforColor2 = Color.FromArgb(63, 63, 63);
+        private Font m_fontPostTime = new Font("Arial", 9);
+        private Font m_fontPhotoInfo = new Font("Arial", 9, FontStyle.Bold);
+        private Font m_fontText = new Font("Arial", 10);
+
         private void dataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             try
             {
                 const int picHeight = 102; //115
-                const int picWidth =  102; //115
+                const int picWidth = 102; //115
 
                 bool _isDrawThumbnail = false;
 
@@ -169,15 +172,8 @@ namespace Waveface
 
                 bool _selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
 
-                Color _fcolor = (_selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
-                Color _bcolor = (_selected ? e.CellStyle.SelectionBackColor : e.CellStyle.BackColor);
-
-                Font _fontPostTime = new Font("Arial", 9);
-                Font _fontPhotoInfo = new Font("Arial", 9, FontStyle.Bold);
-                Font _fontText = new Font("Arial", 10);
-
-                Font _fontLarge = new Font(e.CellStyle.Font.FontFamily, e.CellStyle.Font.Size + 1);
-                Font _fontSmall = new Font(e.CellStyle.Font.FontFamily, e.CellStyle.Font.Size - 1);
+                //Color _fcolor = (_selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
+                //Color _bcolor = (_selected ? e.CellStyle.SelectionBackColor : e.CellStyle.BackColor);
 
                 int _X = e.CellBounds.Left + e.CellStyle.Padding.Left;
                 int _Y = e.CellBounds.Top + e.CellStyle.Padding.Top;
@@ -187,9 +183,15 @@ namespace Waveface
                 Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
 
                 // Draw background
-                _g.FillRectangle(new SolidBrush(_bcolor), e.CellBounds);
 
-                Rectangle _timeRect = DrawPostTime(_g, _fontPostTime, _cellRect, _post);
+                if (_selected)
+                    _g.FillRectangle(m_bg1, e.CellBounds);
+                else
+                    _g.FillRectangle(m_bg2, e.CellBounds);
+
+                _g.DrawRectangle(Pens.White, e.CellBounds.X + 1, e.CellBounds.Y + 1, e.CellBounds.Width - 2, e.CellBounds.Height - 2);
+
+                Rectangle _timeRect = DrawPostTime(_g, m_fontPostTime, _cellRect, _post);
 
                 Rectangle _thumbnailRect = new Rectangle(_X + 4, _Y + 8, picWidth, picHeight);
 
@@ -200,20 +202,20 @@ namespace Waveface
                 switch (_post.type)
                 {
                     case "text":
-                        Draw_Text_Post(_g, _post, _cellRect, _timeRect.Height, _fontText);
+                        Draw_Text_Post(_g, _post, _cellRect, _timeRect.Height, m_fontText);
                         break;
 
                     case "rtf":
-                        Draw_RichText_Post(_g, _post, _cellRect, _timeRect.Height, _fontText, _thumbnailRect.Width);
+                        Draw_RichText_Post(_g, _post, _cellRect, _timeRect.Height, m_fontText, _thumbnailRect.Width);
                         break;
 
                     case "image":
                     case "doc":
-                        Draw_Photo_Doc_Post(_g, _post, _cellRect, _timeRect.Height, _fontPhotoInfo, _fontText, _thumbnailRect.Width);
+                        Draw_Photo_Doc_Post(_g, _post, _cellRect, _timeRect.Height, m_fontPhotoInfo, m_fontText, _thumbnailRect.Width, _selected);
                         break;
 
                     case "link":
-                        Draw_Link(_g, _post, _cellRect, _timeRect.Height, _fontPhotoInfo, _thumbnailRect.Width);
+                        Draw_Link(_g, _post, _cellRect, _timeRect.Height, m_fontPhotoInfo, _thumbnailRect.Width, _selected);
                         break;
                 }
             }
@@ -228,46 +230,19 @@ namespace Waveface
             Application.DoEvents();
         }
 
-        private void Draw_Link(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, int thumbnailRectWidth)
+        private void Draw_Link(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, int thumbnailRectWidth, bool selected)
         {
-            Rectangle _infoRect = DrawPostInfo(g, fontPhotoInfo, rect, post, thumbnailRectWidth);
+            Rectangle _infoRect = DrawPostInfo(g, fontPhotoInfo, rect, post, thumbnailRectWidth, selected);
 
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 12, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 20);
 
-            //if (post.content == string.Empty)
-            {
-                TextRenderer.DrawText(g, "\"" + post.preview.title + "\"", new Font("Arial", 10, FontStyle.Bold), _rectAll, Color.FromArgb(23, 53, 93),
-                     TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
-            }
-            /*
-            else
-            {
-                Font _contentFont = new Font("Arial", 12);
-
-                SizeF _contentSize = g.MeasureString(post.content, _contentFont);
-
-                int _contentHeight;
-
-                if ((_rectAll.Height / 2) < _contentSize.Height)
-                    _contentHeight = _rectAll.Height / 2;
-                else
-                    _contentHeight = (int)_contentSize.Height;
-
-                Rectangle _contentRect = new Rectangle(_rectAll.Location, new Size(_rectAll.Width, _contentHeight));
-                TextRenderer.DrawText(g, post.content, _contentFont, _contentRect, Color.Black,
-                     TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
-
-                Rectangle _titleRect = new Rectangle(_rectAll.X, _rectAll.Y + _contentHeight + 8, _rectAll.Width, _rectAll.Height - _contentHeight - 8);
-                TextRenderer.DrawText(g, "\"" + post.preview.title + "\"", new Font("Arial", 10, FontStyle.Bold), _titleRect, Color.FromArgb(23, 53, 93),
-                     TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
-            }
-            */
-            //
+            TextRenderer.DrawText(g, "\"" + post.preview.title + "\"", new Font("Arial", 10, FontStyle.Bold), _rectAll, Color.FromArgb(23, 53, 93),
+                 TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
         }
 
-        private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, Font fontText, int thumbnailRectWidth)
+        private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, Font fontText, int thumbnailRectWidth, bool selected)
         {
-            Rectangle _infoRect = DrawPostInfo(g, fontPhotoInfo, rect, post, thumbnailRectWidth);
+            Rectangle _infoRect = DrawPostInfo(g, fontPhotoInfo, rect, post, thumbnailRectWidth, selected);
 
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 12, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 16);
 
@@ -291,7 +266,7 @@ namespace Waveface
                       TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
         }
 
-        private Rectangle DrawPostInfo(Graphics g, Font font, Rectangle cellRect, Post post, int thumbnailOffset_X)
+        private Rectangle DrawPostInfo(Graphics g, Font font, Rectangle cellRect, Post post, int thumbnailOffset_X, bool selected)
         {
             string _info = string.Empty;
 
@@ -313,7 +288,7 @@ namespace Waveface
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, font);
             Rectangle _rect = new Rectangle(cellRect.X + thumbnailOffset_X + 8, cellRect.Y + 8, cellRect.Width - thumbnailOffset_X - 4, _sizeInfo.Height);
 
-            TextRenderer.DrawText(g, _info, font, _rect, Color.FromArgb(63, 63, 63),
+            TextRenderer.DrawText(g, _info, font, _rect, (selected ? m_inforColor1 : m_inforColor2),
                                   TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
 
             return _rect;
@@ -568,9 +543,9 @@ namespace Waveface
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.creatoridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.m_postBS = new System.Windows.Forms.BindingSource(this.components);
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.creatoridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_postBS)).BeginInit();
             this.SuspendLayout();
@@ -581,7 +556,7 @@ namespace Waveface
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoGenerateColumns = false;
-            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -615,17 +590,6 @@ namespace Waveface
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
             this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
             // 
-            // m_postBS
-            // 
-            this.m_postBS.DataSource = typeof(Waveface.API.V2.Post);
-            this.m_postBS.PositionChanged += new System.EventHandler(this.postBS_PositionChanged);
-            // 
-            // timer
-            // 
-            this.timer.Enabled = true;
-            this.timer.Interval = 30000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
             // creatoridDataGridViewTextBoxColumn
             // 
             this.creatoridDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -636,6 +600,17 @@ namespace Waveface
             this.creatoridDataGridViewTextBoxColumn.Name = "creatoridDataGridViewTextBoxColumn";
             this.creatoridDataGridViewTextBoxColumn.ReadOnly = true;
             this.creatoridDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // m_postBS
+            // 
+            this.m_postBS.DataSource = typeof(Waveface.API.V2.Post);
+            this.m_postBS.PositionChanged += new System.EventHandler(this.postBS_PositionChanged);
+            // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Interval = 30000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // PostsList
             // 
