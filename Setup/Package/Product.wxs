@@ -19,6 +19,7 @@
     <Property Id="ALLUSERS" Value="1" />
     <Property Id="TEST" Value="NO" />
     <Icon Id="icon.ico" SourceFile="..\ProductBuild\sampleIcon.ico" />
+    <Icon Id="Wammer.ico" SourceFile="$(var.Wammer.ProjectDir)\Resources\Icon.ico"/>
 
     <!-- Upgrade -->
     <Upgrade Id="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
@@ -153,7 +154,8 @@
 
       <Component Id="StationSetup.exe" Guid="{7C8AE609-024C-462B-8291-9AA522CB1193}">
         <File Id="StationSetup.exe" Source="$(var.StationSetup.TargetPath)" KeyPath="yes" Checksum="yes">
-          <Shortcut Id="StartWavefaceShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes" />
+          <Shortcut Id="StartWavefaceShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" WorkingDirectory="INSTALLDIR" Icon="Wammer.ico" IconIndex="0" Advertise="yes" />
+          <Shortcut Id="DesktopShortcut" Advertise="yes" Directory="DesktopFolder" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" Icon="Wammer.ico" IconIndex="0" WorkingDirectory="INSTALLDIR"/>
         </File>
       </Component>
 
