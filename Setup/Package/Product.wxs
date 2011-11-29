@@ -236,7 +236,7 @@
     </DirectoryRef>
     
     <!-- Features -->
-    <Feature Id='MainFeature' Level='1' Title='!(loc.FEATURE.MAINFEATURE.TITLE)' Description='!(loc.FEATURE.MAINFEATURE.DESCRIPTION)' Display='collapse'>
+    <Feature Id='MainFeature' Level='1' Display='collapse'>
       <ComponentRef Id="MongoDB.Data"/>
       <ComponentRef Id="MongoDB.Data.DB"/>
       <ComponentRef Id="log.folder"/>
