@@ -35,4 +35,19 @@
     <en-US>You need to first uninstall Waveface Station to proceed. Uninstall now?  </en-US>
     <zh-TW>您必須移除舊的Waveface主程式後, 才能安裝新的。</zh-TW>
   </WItem>
+  <WItem>
+    <ID>StationSvcDown</ID>
+    <en-US>Waveface station service seems not running. Please start it and try again. </en-US>
+    <zh-TW>Waveface station服務尚未啟動  請啟動該服務並再試一次</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>NetworkDown</ID>
+    <en-US>Unable to connect to Waveface Cloud. Please check network connectivity and try again</en-US>
+    <zh-TW>無法連線到Waveface Cloud  請檢查網路是否正常並再試一次</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>SignupUnknownError</ID>
+    <en-US>Unable to sign up station with Waveface Cloud for unidentified reason. Please try again.</en-US>
+    <zh-TW>因為無法辨識的錯誤無法登錄這台Station  請再試一次</zh-TW>
+  </WItem>
 </WItems>

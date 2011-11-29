@@ -101,6 +101,24 @@ namespace Wammer.Station
 
 				ShowErrorDialogAndExit(L.T("StationHasAlreadyHasDriver"));
 			}
+			catch (StationServiceDownException _e)
+			{
+				Cursor.Current = Cursors.Default;
+
+				MessageBox.Show(L.T("StationSvcDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (ConnectToCloudException _e)
+			{
+				Cursor.Current = Cursors.Default;
+
+				MessageBox.Show(L.T("NetworkDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch
+			{
+				Cursor.Current = Cursors.Default;
+
+				MessageBox.Show(L.T("SignupUnknownError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
 
 		private void ShowErrorDialogAndExit(string message)

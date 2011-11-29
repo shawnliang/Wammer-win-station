@@ -12,6 +12,7 @@ namespace Wammer.Station
 		BadPath = -31,
 		AuthFailed = -32,
 		AlreadyHasStaion = -33,
+		ConnectToCloudError = -34
 	}
 
 	public enum DropboxApiError
