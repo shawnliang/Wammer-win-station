@@ -18,36 +18,16 @@ namespace Waveface
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                string _email;
-                string _password;
+                string _email = string.Empty;
+                string _password = string.Empty;
 
                 if (args.Length == 2)
                 {
                     _email = args[0];
                     _password = args[1];
                 }
-                else
-                {
-                    LoginForm _loginForm = new LoginForm();
-                    DialogResult _dr = _loginForm.ShowDialog();
 
-                    if (_dr != DialogResult.OK)
-                        return;
-
-                    _email = _loginForm.User;
-                    _password = _loginForm.Password;
-                }
-
-                MainForm _mailForm = new MainForm();
-
-                if (!_mailForm.Login(_email, _password))
-                {
-                    MessageBox.Show("Login Error!");
-                }
-                else
-                {
-                    _mailForm.ShowDialog();
-                }
+                Application.Run(new LoginForm(_email, _password));
             }
             catch (Exception _e)
             {
