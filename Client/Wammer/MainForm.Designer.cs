@@ -434,14 +434,14 @@
             // 
             this.linkLabelLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelLogin.AutoSize = true;
-            this.linkLabelLogin.Location = new System.Drawing.Point(970, 51);
+            this.linkLabelLogin.Location = new System.Drawing.Point(960, 51);
             this.linkLabelLogin.Name = "linkLabelLogin";
-            this.linkLabelLogin.Size = new System.Drawing.Size(36, 14);
+            this.linkLabelLogin.Size = new System.Drawing.Size(46, 14);
             this.linkLabelLogin.TabIndex = 3;
             this.linkLabelLogin.TabStop = true;
-            this.linkLabelLogin.Text = "Login";
+            this.linkLabelLogin.Text = "Logout";
             this.linkLabelLogin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkLabelLogin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelLogin_LinkClicked);
+            this.linkLabelLogin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelLogout_LinkClicked);
             // 
             // labelName
             // 

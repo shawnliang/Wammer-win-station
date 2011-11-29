@@ -86,8 +86,11 @@ namespace Waveface
 
         #endregion
 
-        public LoginForm()
+        public LoginForm(string email, string password)
         {
+            if ((email != string.Empty) && (password != string.Empty))
+                doLogin(email, password);
+
             InitializeComponent();
 
             m_formSettings = new FormSettings(this);
@@ -283,6 +286,7 @@ namespace Waveface
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.Panel1.ResumeLayout(false);
             this.Panel1.PerformLayout();
@@ -300,6 +304,27 @@ namespace Waveface
             txtUserName.Focus();
         }
 
+        private void doLogin(string email, string password)
+        {
+            Hide();
+
+            MainForm _mailForm = new MainForm();
+            _mailForm.Reset();
+
+            if (_mailForm.Login(email, password))
+            {
+                _mailForm.ShowDialog();
+                _mailForm.Dispose();
+                _mailForm = null;
+            }
+            else
+            {
+                MessageBox.Show("Login Error!");
+            }
+
+            Show();
+        }
+
         private void btnOK_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.None;
@@ -308,8 +333,7 @@ namespace Waveface
             {
                 m_formSettings.Save();
 
-                DialogResult = DialogResult.OK;
-                Close();
+                doLogin(txtUserName.Text.Trim(), txtPassword.Text.Trim());
             }
             else
             {
