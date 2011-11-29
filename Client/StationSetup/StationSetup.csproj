@@ -61,6 +61,9 @@
     <EmbeddedResource Include="RemoveStationForm.resx">
       <DependentUpon>RemoveStationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RemoveStationForm.zh-TW.resx">
+      <DependentUpon>RemoveStationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SignInForm.resx">
       <DependentUpon>SignInForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -73,6 +76,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SignInForm.zh-TW.resx">
+      <DependentUpon>SignInForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -87,6 +93,10 @@
     <ProjectReference Include="..\..\Station\Wammer.Station.Management\Wammer.Station.Management.csproj">
       <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
       <Name>Wammer.Station.Management</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libs\Waveface.Localization.Editor\Localizer\Localizer.csproj">
+      <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
+      <Name>Localizer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
