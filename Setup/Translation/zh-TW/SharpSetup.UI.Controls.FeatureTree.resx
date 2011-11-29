@@ -112,18 +112,18 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="miInstallAll.Text" xml:space="preserve">
-    <value>Install all on hard disk</value>
+    <value>Install all on hard disk (繁中)</value>
   </data>
   <data name="miInstallNone.Text" xml:space="preserve">
-    <value>Don't install</value>
+    <value>Don't install (繁中)</value>
   </data>
   <data name="miInstallOne.Text" xml:space="preserve">
-    <value>Install on hard disk</value>
+    <value>Install on hard disk (繁中)</value>
   </data>
 </root>
