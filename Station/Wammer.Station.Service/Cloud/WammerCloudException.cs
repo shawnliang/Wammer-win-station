@@ -93,10 +93,9 @@ namespace Wammer.Cloud
 		{
 			try
 			{
-				using (BinaryReader r = new BinaryReader(e.Response.GetResponseStream()))
+				using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
 				{
-					byte[] res = r.ReadBytes((int)e.Response.ContentLength);
-					return Encoding.UTF8.GetString(res);
+					return r.ReadToEnd();
 				}
 			}
 			catch
