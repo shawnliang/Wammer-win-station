@@ -73,6 +73,8 @@
               <CreateFolder/>
             </Component>
           </Directory>
+          <Directory Id="zh_TW" Name="zh-TW">
+          </Directory>
           <Directory Id="MongoDB" Name="MongoDB">
             <Directory Id="Data" Name="Data">
               <Component Id="MongoDB.Data" Guid="{295718C0-D799-465D-8F12-2B090EAA2028}">
@@ -120,6 +122,9 @@
       <ComponentRef Id="Waveface.Configuration.WindowsForms.dll"/>
       <ComponentRef Id="WebCam_Capture.dll"/>
       <ComponentRef Id="XPExplorerBar.dll"/>
+      <ComponentRef Id="StationML.xml"/>
+      <ComponentRef Id="waveface.localization.dll"/>
+      <ComponentRef Id="StationSetup.resources.dll"/> 
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
@@ -217,9 +222,22 @@
       <Component Id="XPExplorerBar.dll" Guid="{21ACDE2C-59C9-468F-9C5B-12C30F6447EA}">
         <File Id="XPExplorerBar.dll" Source="$(var.Wammer.TargetDir)\XPExplorerBar.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-
+      <Component Id="StationML.xml" Guid="{C164BC1B-FF51-48AF-8F0B-E5228DE32A5B}">
+        <File Id="StationML.xML" Source="$(var.StationSetup.ProjectDir)\StationML.xml"/>
+      </Component>
+      <Component Id="waveface.localization.dll" Guid="{57E17EB6-BEA0-437F-987C-D5D0E569F855}">
+        <File Id="waveface.localization.dll" Source="$(var.Localizer.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
     </DirectoryRef>
 
+    <!-- localization resources -->
+    <DirectoryRef Id="zh_TW">
+      <Component Id="StationSetup.resources.dll" Guid="{F5EC7157-F950-4449-AFB3-8E59DDCEB331}">
+        <File Id="StationSetup.resources.dll" Source="$(var.StationSetup.TargetDir)\zh-TW\StationSetup.resources.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+    <!-- mongo db files -->
     <DirectoryRef Id="MongoDB">
       <Component Id="mongod.exe" Guid="{1163C7C1-0494-4DFD-890D-2611FDCD3C19}">
         <File Id="mongod.exe" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongod.exe" KeyPath="yes" Checksum="yes"/>
