@@ -11,6 +11,16 @@
     <zh-TW>錯誤的電子郵件格式</zh-TW>
   </WItem>
   <WItem>
+    <ID>AuthFailed</ID>
+    <en-US>Invalid email or password.</en-US>
+    <zh-TW>帳號或密碼錯誤</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>StationHasAlreadyHasDriver</ID>
+    <en-US>Unable to sign in the user because station already has a owner.</en-US>
+    <zh-TW>無法登入使用者因為Station已經在為另一個使用者服務</zh-TW>
+  </WItem>
+  <WItem>
     <ID>SignInSuccess</ID>
     <en-US>Sign in successful!</en-US>
     <zh-TW>登入成功!</zh-TW>
