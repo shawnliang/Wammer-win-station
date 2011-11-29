@@ -54,10 +54,6 @@ namespace Waveface
         private MR_auth_login m_login;
         private RunTimeData m_runTimeData = new RunTimeData();
 
-        //Test
-        private GroupManager m_groupManager;
-        private TestForm m_testForm;
-
         #endregion
 
         #region Properties
@@ -91,12 +87,7 @@ namespace Waveface
 
             InitTaskbarNotifier();
 
-            ///// Test
-            //m_groupManager = new GroupManager();
-            //m_groupManager.Show();
-
-            //m_testForm = new TestForm();
-            //m_testForm.Show();
+            m_serviceV2 = new BEService2();
         }
 
         #region Init
@@ -175,7 +166,8 @@ namespace Waveface
 
         private void linkLabelLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Login();
+            if(!Login("", ""))
+                MessageBox.Show("Login Error!");
         }
 
         #endregion
@@ -541,19 +533,26 @@ namespace Waveface
             postsArea.ShowTypeUI(false);
         }
 
-        public bool Login()
+        public bool Login(string email, string password)
         {
             bool _ret = false;
 
-            LoginForm _loginForm = new LoginForm();
-            DialogResult _dr = _loginForm.ShowDialog();
+            bool _fromThisForm = (email == string.Empty) && (password == string.Empty);
 
-            if (_dr != DialogResult.OK)
-                return false;
+            if (_fromThisForm)
+            {
+                LoginForm _loginForm = new LoginForm();
+                DialogResult _dr = _loginForm.ShowDialog();
 
-            m_serviceV2 = new BEService2();
+                if (_dr != DialogResult.OK)
+                    return false;
 
-            m_loginOK = Login_Service(_loginForm.User, _loginForm.Password);
+                m_loginOK = Login_Service(_loginForm.User, _loginForm.Password);
+            }
+            else
+            {
+                m_loginOK = Login_Service(email, password);
+            }
 
             Cursor.Current = Cursors.WaitCursor;
 
@@ -605,7 +604,7 @@ namespace Waveface
 
                         //test
                         m_stationIP = _ip;
-                        //@ panelStation.Visible = true;
+                        //panelStation.Visible = true;
 
                         RT.IsStationOK = true;
 
@@ -626,8 +625,7 @@ namespace Waveface
             Cursor.Current = Cursors.Default;
 
             if (m_login == null)
-            {
-                MessageBox.Show("Login Error!");
+            {            
                 return false;
             }
 
@@ -1176,7 +1174,7 @@ namespace Waveface
 
         private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
         {
-            if(radioButtonCloud.Checked)
+            if (radioButtonCloud.Checked)
             {
                 BEService2.StationIP = BEService2.CloundIP;
                 RT.IsStationOK = false;

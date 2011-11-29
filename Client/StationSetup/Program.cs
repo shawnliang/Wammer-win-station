@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using Wammer.Station;
+using Waveface.Localization;
 
 namespace StationSetup
 {
@@ -12,10 +14,13 @@ namespace StationSetup
 		[STAThread]
 		static void Main()
 		{
-			Application.EnableVisualStyles();
+		    CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
+            //CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+            //CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+
+            Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-
-
+              
 			if (WammerZHelper.IsAlreadyResistered())
 			{
 				WammerZHelper.StartWammerZ();

@@ -155,7 +155,7 @@ namespace Waveface
             this.lHeader.Name = "lHeader";
             this.lHeader.Size = new System.Drawing.Size(136, 20);
             this.lHeader.TabIndex = 6;
-            this.lHeader.Text = "Wammer Login";
+            this.lHeader.Text = "Waveface Login";
             this.lHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lText

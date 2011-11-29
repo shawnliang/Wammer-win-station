@@ -1,0 +1,53 @@
+<?xml version="1.0" standalone="yes"?>
+<WItems>
+  <WItem>
+    <ID>FillAllFields</ID>
+    <en-US>Please fill in all the fields.</en-US>
+    <zh-TW>請填寫所有欄位.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>InvalidEmail</ID>
+    <en-US>Invalid email format.</en-US>
+    <zh-TW>錯誤的電子郵件格式</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>AuthFailed</ID>
+    <en-US>Invalid email or password.</en-US>
+    <zh-TW>帳號或密碼錯誤</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>StationHasAlreadyHasDriver</ID>
+    <en-US>Unable to sign in the user because station already has a owner.</en-US>
+    <zh-TW>無法登入使用者因為Station已經在為另一個使用者服務</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>SignInSuccess</ID>
+    <en-US>Sign in successful!</en-US>
+    <zh-TW>登入成功!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>SignOffStationError</ID>
+    <en-US>An error occurred when sign off Waveface Station.</en-US>
+    <zh-TW>移除Waveface主程式發生錯誤!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>MustRemoveOld</ID>
+    <en-US>You need to first uninstall Waveface Station to proceed. Uninstall now?  </en-US>
+    <zh-TW>您必須移除舊的Waveface主程式後, 才能安裝新的。</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>StationSvcDown</ID>
+    <en-US>Waveface station service seems not running. Please start it and try again. </en-US>
+    <zh-TW>Waveface station服務尚未啟動  請啟動該服務並再試一次</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>NetworkDown</ID>
+    <en-US>Unable to connect to Waveface Cloud. Please check network connectivity and try again</en-US>
+    <zh-TW>無法連線到Waveface Cloud  請檢查網路是否正常並再試一次</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>SignupUnknownError</ID>
+    <en-US>Unable to sign up station with Waveface Cloud for unidentified reason. Please try again.</en-US>
+    <zh-TW>因為無法辨識的錯誤無法登錄這台Station  請再試一次</zh-TW>
+  </WItem>
+</WItems>
