@@ -167,6 +167,7 @@
     <EmbeddedResource Include="Properties\Resources.zh-TW.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.zh-TW.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SetupWizard.resx">
       <DependentUpon>SetupWizard.cs</DependentUpon>
@@ -191,7 +192,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="ResourceFiles\LicenseStep.rtf" />
-    <None Include="ResourceFiles\LicenseStep_zh-TW.rtf" />
+    <None Include="ResourceFiles\LicenseStep.zh-TW.rtf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
