@@ -41,8 +41,7 @@ namespace Waveface.PostUI
         {
             // Refresh UI cues
             removeToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
-            removeToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
-            removeAllToolStripButton.Enabled = (imageListView.Items.Count > 0);
+            //removeAllToolStripButton.Enabled = (imageListView.Items.Count > 0);
 
             deleteToolStripMenuItem.Enabled = (imageListView.SelectedItems.Count > 0);
 
@@ -76,6 +75,8 @@ namespace Waveface.PostUI
         private void removeAllToolStripButton_Click(object sender, EventArgs e)
         {
             imageListView.Items.Clear();
+
+            MyParent.toPureText_Mode();
         }
 
         private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
@@ -234,7 +235,7 @@ namespace Waveface.PostUI
             }
 
             //單純文字
-            if (richTextBox.Text.Equals(string.Empty))
+            if (MyParent.richTextBox.Text.Equals(string.Empty))
             {
                 MessageBox.Show("Text cannot be empty!");
             }
@@ -253,7 +254,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = MainForm.THIS.Post_CreateNewPost(richTextBox.Text, files, "", _type);
+                MR_posts_new _np = MainForm.THIS.Post_CreateNewPost(MyParent.richTextBox.Text, files, "", _type);
 
                 if (_np == null)
                 {
@@ -274,7 +275,7 @@ namespace Waveface.PostUI
         private void btnBatchPost_Click(object sender, EventArgs e)
         {
             NewPostItem _newPostItem = new NewPostItem();
-            _newPostItem.Text = richTextBox.Text;
+            _newPostItem.Text = MyParent.richTextBox.Text;
             _newPostItem.ResizeRatio = toolStripComboBoxResize.Text;
             _newPostItem.OrgPostTime = DateTime.Now;
 
@@ -293,13 +294,13 @@ namespace Waveface.PostUI
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Clipboard.SetDataObject(richTextBox.SelectedText);
-            richTextBox.SelectedText = "";
+            Clipboard.SetDataObject(MyParent.richTextBox.SelectedText);
+            MyParent.richTextBox.SelectedText = "";
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Clipboard.SetDataObject(richTextBox.SelectedText);
+            Clipboard.SetDataObject(MyParent.richTextBox.SelectedText);
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -308,7 +309,7 @@ namespace Waveface.PostUI
 
             if (_data.GetDataPresent(DataFormats.Text))
             {
-                richTextBox.SelectedText = _data.GetData(DataFormats.Text).ToString();
+                MyParent.richTextBox.SelectedText = _data.GetData(DataFormats.Text).ToString();
             }
         }
 

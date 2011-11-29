@@ -109,6 +109,7 @@ namespace Waveface.PostUI
 
         private void removeAllFilesButton_Click(object sender, EventArgs e)
         {
+            /*
             if (listViewFiles.Items.Count > 0)
             {
                 string _msg = String.Format("Are you sure you want to remove All item(s)?");
@@ -119,6 +120,11 @@ namespace Waveface.PostUI
                     resetUI(true);
                 }
             }
+            */
+
+            resetUI(true);
+
+            MyParent.toPureText_Mode();
         }
 
         private void listViewFiles_Resize(object sender, EventArgs e)
@@ -234,13 +240,13 @@ namespace Waveface.PostUI
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Clipboard.SetDataObject(richTextBox.SelectedText);
-            richTextBox.SelectedText = "";
+            Clipboard.SetDataObject(MyParent.richTextBox.SelectedText);
+            MyParent.richTextBox.SelectedText = "";
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Clipboard.SetDataObject(richTextBox.SelectedText);
+            Clipboard.SetDataObject(MyParent.richTextBox.SelectedText);
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -249,7 +255,7 @@ namespace Waveface.PostUI
 
             if (_data.GetDataPresent(DataFormats.Text))
             {
-                richTextBox.SelectedText = _data.GetData(DataFormats.Text).ToString();
+                MyParent.richTextBox.SelectedText = _data.GetData(DataFormats.Text).ToString();
             }
         }
 
@@ -356,7 +362,7 @@ namespace Waveface.PostUI
             }
 
             //單純文字
-            if (richTextBox.Text.Equals(string.Empty))
+            if (MyParent.richTextBox.Text.Equals(string.Empty))
             {
                 MessageBox.Show("Text cannot be empty!");
             }
@@ -375,7 +381,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = MainForm.THIS.Post_CreateNewPost(richTextBox.Text, files, "", _type);
+                MR_posts_new _np = MainForm.THIS.Post_CreateNewPost(MyParent.richTextBox.Text, files, "", _type);
 
                 if (_np == null)
                 {
@@ -391,6 +397,11 @@ namespace Waveface.PostUI
                 MessageBox.Show(_e.Message);
                 return false;
             }
+        }
+
+        public void ResizeUI()
+        {
+            previewHandlerHost.Invalidate();
         }
     }
 }

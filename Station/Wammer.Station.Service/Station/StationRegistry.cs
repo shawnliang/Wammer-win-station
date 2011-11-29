@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Win32;
 
 namespace Wammer.Station
 {
@@ -17,7 +18,24 @@ namespace Wammer.Station
 
 		public static void SetValue(string valueName, object value)
 		{
-			Microsoft.Win32.Registry.SetValue(KEY_PATH, valueName, value);
+			Registry.SetValue(KEY_PATH, valueName, value);
+		}
+
+		public static void DeleteValue(string valueName)
+		{
+			RegistryKey wammerRegKey =
+				Registry.LocalMachine.OpenSubKey("Software").OpenSubKey("Wammer");
+
+			if (wammerRegKey == null)
+				return;
+
+			RegistryKey stationRegKey =
+				wammerRegKey.OpenSubKey("WinStation", true);
+
+			if (stationRegKey == null)
+				return;
+
+			stationRegKey.DeleteValue(valueName, false);
 		}
 	}
 }

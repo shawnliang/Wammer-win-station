@@ -83,9 +83,6 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\3rd_party\fastJSON\fastJSON.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\3rd_party\log4net-1.2.11\log4net.dll</HintPath>
     </Reference>
@@ -131,6 +128,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Wammer.Station.Management\Wammer.Station.Management.csproj">
+      <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
+      <Name>Wammer.Station.Management</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wammer.Station.Service\Wammer.Station.Service.csproj">
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
       <Name>Wammer.Station.Service</Name>

@@ -8,9 +8,12 @@ namespace Gui
 	[System.ComponentModel.ToolboxItem(false)]
 	public partial class FinishStep : ModernInfoStep
 	{
-		public FinishStep()
+		private InstallationMode mode;
+
+		public FinishStep(InstallationMode mode)
 		{
 			InitializeComponent();
+			this.mode = mode;
 		}
 
 		private void FinishStep_Entered(object sender, EventArgs e)
@@ -26,7 +29,7 @@ namespace Gui
 
 		private void FinishStep_Entering(object sender, ChangeStepEventArgs e)
 		{
-			cbRunNow.Visible = Wizard.GetVariable<bool>("AllowRunOnFinish");
+			cbRunNow.Visible = (this.mode == InstallationMode.Install);
 		}
 	}
 }

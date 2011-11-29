@@ -32,15 +32,22 @@
     <CustomAction Id="NoDowngradeAction" Error="!(loc.DOWNGRADE.ERROR)" />
     <!-- Signoff station when uninstallation -->
     <CustomAction Id='SignoffStationAction' BinaryKey='InstallHelperDll' DllEntry='SignoffStation'/>
+    <!-- Clean station registry and DB -->
+    <CustomAction Id='CleanStationInfoAction' BinaryKey='InstallHelperDll' DllEntry='CleanStationInfo'/>
+    
     <InstallExecuteSequence>
       <Custom Action="NoDowngradeAction" After="FindRelatedProducts">NEWERFOUND</Custom>
       <Custom Action="SignoffStationAction" Before="RemoveFiles">
+        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <Custom Action="CleanStationInfoAction" After="SignoffStationAction">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
     </InstallExecuteSequence>
 
     <UI>
       <ProgressText Action="SignoffStationAction">!(loc.SIGNOFF.STATION.DESC)</ProgressText>
+      <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
     </UI>
     <!-- Program Menu-->
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
@@ -89,10 +96,30 @@
       <ComponentRef Id="log4net.dll"/>
       <ComponentRef Id="MongoDB.Bson.dll"/>
       <ComponentRef Id="MongoDB.Driver.dll"/>
-      <ComponentRef Id="Wammer.Station.AddUserApp.exe" />
-      <ComponentRef Id="Wammer.Station.AddUserApp.exe.config"/>
+      <ComponentRef Id="StationSetup.exe"/>
     </ComponentGroup>
 
+    <ComponentGroup Id="Wammer.Client">
+      <ComponentRef Id="AxInterop.SHDocVw.dll"/>
+      <ComponentRef Id="Common.Logging.dll"/>
+      <ComponentRef Id="DropableNotifyIcon.dll"/>
+      <ComponentRef Id="HTML2XHTML.dll"/>
+      <ComponentRef Id="HTMLEditor.dll"/>
+      <ComponentRef Id="ImageListView.dll"/>
+      <ComponentRef Id="Interop.SHDocVw.dll"/>
+      <ComponentRef Id="LinqBridge.dll"/>
+      <ComponentRef Id="MonthCalendarControl.dll"/>
+      <ComponentRef Id="Newtonsoft.Json.Net20.dll"/>
+      <ComponentRef Id="Spring.Http.Converters.NJson.dll"/>
+      <ComponentRef Id="Spring.Rest.dll"/>
+      <ComponentRef Id="UtilityLibrary.dll"/>
+      <ComponentRef Id="WammerHelper.exe"/>
+      <ComponentRef Id="WammerZ.exe"/>
+      <ComponentRef Id="Waveface.Configuration.dll"/>
+      <ComponentRef Id="Waveface.Configuration.WindowsForms.dll"/>
+      <ComponentRef Id="WebCam_Capture.dll"/>
+      <ComponentRef Id="XPExplorerBar.dll"/>
+    </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
       <Component Id="wammer.station.service.exe" Guid="{C428C8C2-9C38-4E40-8372-E39C56970A82}">
@@ -120,16 +147,75 @@
       <Component Id="MongoDB.Driver.dll" Guid="{DA8A66C8-D977-4524-AA1E-8C95767F0C30}">
         <File Id="MongoDB.Driver.dll" Source="$(var.Wammer.Station.Service.TargetDir)\MongoDB.Driver.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="Wammer.Station.AddUserApp.exe" Guid="{04A20A9C-94AC-44A2-88D1-CCD40307A45D}">
-        <File Id="Wammer.Station.AddUserApp.exe" Source="$(var.Wammer.Station.AddUserApp.TargetPath)" KeyPath="yes" Checksum="yes">
-          <Shortcut Id="AddUserAppShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.AddUser.NAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes" Arguments="!(loc.CULTURE)" />
+      <Component Id="Wammer.Station.Management.exe" Guid="{F6BE5F51-E2BB-4BC3-BA4E-9488DCBA4D5B}">
+        <File Id="Wammer.Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+
+      <Component Id="StationSetup.exe" Guid="{7C8AE609-024C-462B-8291-9AA522CB1193}">
+        <File Id="StationSetup.exe" Source="$(var.StationSetup.TargetPath)" KeyPath="yes" Checksum="yes">
+          <Shortcut Id="StartWavefaceShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes" />
         </File>
       </Component>
-      <Component Id="Wammer.Station.AddUserApp.exe.config" Guid="{0A116587-0FF0-404A-A737-60686DE767BE}">
-        <File Id="Wammer.Station.AddUserApp.exe.config"
-              Source="$(var.Wammer.Station.AddUserApp.ProjectDir)\app.config"
-              Name="$(var.Wammer.Station.AddUserApp.TargetFileName).config" KeyPath="yes"/>
+
+      <!-- client files -->
+      <Component Id="AxInterop.SHDocVw.dll" Guid="{345D9FC1-4BF7-43E0-883F-F94AAD20D530}">
+        <File Id="AxInterop.SHDocVw.dll" Source="$(var.Wammer.TargetDir)\AxInterop.SHDocVw.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Id="Common.Logging.dll" Guid="{6F289D00-2E06-42A3-9EF5-0C5E94BF4735}">
+        <File Id="Common.Logging.dll" Source="$(var.Wammer.TargetDir)\Common.Logging.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="DropableNotifyIcon.dll" Guid="{752C2F95-AEBB-4628-B7DA-15BDD61475B9}">
+        <File Id="DropableNotifyIcon.dll" Source="$(var.Wammer.TargetDir)\DropableNotifyIcon.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="HTML2XHTML.dll" Guid="{9F7744E6-36B0-4131-8CD7-993A52FBFF3C}">
+        <File Id="HTML2XHTML.dll" Source="$(var.Wammer.TargetDir)\HTML2XHTML.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="HTMLEditor.dll" Guid="{B4CFC23E-3B35-459B-B731-E0EB456F1E0D}">
+        <File Id="HTMLEditor.dll" Source="$(var.Wammer.TargetDir)\HTMLEditor.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="ImageListView.dll" Guid="{153ADAA8-301F-47D0-9727-6CDB0A804E86}">
+        <File Id="ImageListView.dll" Source="$(var.Wammer.TargetDir)\ImageListView.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="Interop.SHDocVw.dll" Guid="{2D2F5819-C702-4D65-9349-D2B818BAE5DD}">
+        <File Id="Interop.SHDocVw.dll" Source="$(var.Wammer.TargetDir)\Interop.SHDocVw.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="LinqBridge.dll" Guid="{B36EB6EC-9188-4493-BC78-3A666CAC713F}">
+        <File Id="LinqBridge.dll" Source="$(var.Wammer.TargetDir)\LinqBridge.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="MonthCalendarControl.dll" Guid="{811AB789-99DE-45DE-BCBB-D7FBAE8B4148}">
+        <File Id="MonthCalendarControl.dll" Source="$(var.Wammer.TargetDir)\MonthCalendarControl.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="Newtonsoft.Json.Net20.dll" Guid="{F9C05527-45EB-42FD-800B-3A6602049BBC}">
+        <File Id="Newtonsoft.Json.Net20.dll" Source="$(var.Wammer.TargetDir)\Newtonsoft.Json.Net20.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="Spring.Http.Converters.NJson.dll" Guid="{C27ABBBA-BBB5-4954-A9D8-5FC91E15CEB2}">
+        <File Id="Spring.Http.Converters.NJson.dll" Source="$(var.Wammer.TargetDir)\Spring.Http.Converters.NJson.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="Spring.Rest.dll" Guid="{37E1BC3A-4CEA-42B3-8FB9-1CE8F30D97B9}">
+        <File Id="Spring.Rest.dll" Source="$(var.Wammer.TargetDir)\Spring.Rest.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="UtilityLibrary.dll" Guid="{A8DC5CB9-C1AD-4EA1-AA88-A0AFFE0A15B5}">
+        <File Id="UtilityLibrary.dll" Source="$(var.Wammer.TargetDir)\UtilityLibrary.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="WammerHelper.exe" Guid="{C33E6305-13B0-43EE-8000-BCE3B0507117}">
+        <File Id="WammerHelper.exe" Source="$(var.Wammer.TargetDir)\WammerHelper.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="WammerZ.exe" Guid="{7168B0C6-A08E-41FB-9339-86C3B6FBC43C}">
+        <File Id="WammerZ.exe" Source="$(var.Wammer.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="Waveface.Configuration.dll" Guid="{A33A4D78-12AB-42CD-8F32-22E79780E355}">
+        <File Id="Waveface.Configuration.dll" Source="$(var.Wammer.TargetDir)\Waveface.Configuration.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="Waveface.Configuration.WindowsForms.dll" Guid="{427E4DF2-5FF0-4403-94B6-E87ABC97C639}">
+        <File Id="Waveface.Configuration.WindowsForms.dll" Source="$(var.Wammer.TargetDir)\Waveface.Configuration.WindowsForms.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="WebCam_Capture.dll" Guid="{6FB4742B-8748-4ED4-AEE5-83EF7CC2BA2F}">
+        <File Id="WebCam_Capture.dll" Source="$(var.Wammer.TargetDir)\WebCam_Capture.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="XPExplorerBar.dll" Guid="{21ACDE2C-59C9-468F-9C5B-12C30F6447EA}">
+        <File Id="XPExplorerBar.dll" Source="$(var.Wammer.TargetDir)\XPExplorerBar.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+
     </DirectoryRef>
 
     <DirectoryRef Id="MongoDB">
@@ -157,8 +243,12 @@
       <ComponentRef Id="mongod.exe"/>
       <ComponentRef Id="mongos.exe"/>
       <ComponentRef Id="mongo.exe"/>
+      <ComponentRef Id="Wammer.Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>
+    </Feature>
+    <Feature Id='ClientFeature' Level='1' Title='Windows client' Description='Windows client'>
+      <ComponentGroupRef Id='Wammer.Client'/>
     </Feature>
 
     <Binary Id='InstallHelperDll' SourceFile="$(var.InstallHelper.TargetDir)\InstallHelperPkg.dll"/>

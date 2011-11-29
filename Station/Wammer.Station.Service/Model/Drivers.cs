@@ -27,18 +27,5 @@ namespace Wammer.Model
 		{
 			groups = new List<UserGroup>();
 		}
-
-		public static void RequestToAdd(string url, string email, string password)
-		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
-			{
-				{"email", email},
-				{"password", password},
-			};
-
-			
-				CloudResponse res = CloudServer.request<CloudResponse>(
-					new WebClient(), url, parameters);
-		}
 	}
 }

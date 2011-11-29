@@ -124,21 +124,72 @@ namespace Wammer.Station.Management
 		}
 
 
+		/// <summary>
+		/// Add a user to a station
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="password"></param>
+		/// <exception cref="Wammer.Station.Management.AuthenticationException">
+		/// Invalid user name or password
+		/// </exception>
+		/// <exception cref="Wammer.Station.Management.StationAlreadyHasDriverException">
+		/// The station already has an driver
+		/// </exception>
+		/// <exception cref="Wammer.Station.Management.UserAlreadyHasStationException">
+		/// The user already has a station. The station's info, such as id/location/sync time, can 
+		/// be retrieved from the exception
+		/// </exception>
 		public static void AddUser(string email, string password)
 		{
-			//Dictionary<object, object> parameters = new Dictionary<object, object>
-			//{
-			//    {"email", email},
-			//    {"password", password},
-			//};
-
-			//CloudResponse res = CloudServer.request<CloudResponse>(
-			//    new WebClient(), url, parameters);
-
-			//if (res.api_ret_code != 0)
-			//    throw new WammerCloudException(
-			//        "Unable to add user", WebExceptionStatus.Success, res.api_ret_code);
+			try
+			{
+				CloudResponse res = CloudServer.request<CloudResponse>(
+					new WebClient(),
+					"http://localhost:9981/v2/station/drivers/add",
+					new Dictionary<object, object>{
+					{ "email", email},
+					{ "password", password}
+				});
+			}
+			catch (Cloud.WammerCloudException e)
+			{
+				switch (e.WammerError)
+				{
+					case (int)StationApiError.AuthFailed:
+						throw new AuthenticationException("Invalid user name or password");
+					case (int)StationApiError.DriverExist:
+						throw new StationAlreadyHasDriverException("A station can serve only one driver.");
+					case (int)StationApiError.AlreadyHasStaion:
+						StationSignUpResponse resp = fastJSON.JSON.Instance.
+												ToObject<Cloud.StationSignUpResponse>(e.response);
+						throw new UserAlreadyHasStationException
+						{
+							Id = resp.station.station_id,
+							Location = resp.station.location,
+							LastSyncTime = resp.station.LastSeen,
+						};
+						
+					default:
+						throw;
+				}
+			}
 		}
+
+		/// <summary>
+		/// Sign off a station on behavior of its driver
+		/// </summary>
+		/// <param name="stationId"></param>
+		/// <param name="driverEmail"></param>
+		/// <param name="password"></param>
+		public static void SignoffStation(string stationId, string driverEmail, string password)
+		{
+			using (WebClient agent = new WebClient())
+			{
+				User user = User.LogIn(agent, driverEmail, password);
+				Cloud.Station.SignOff(agent, stationId, user.Token);
+			}
+		}
+
 		#region private accessors
 
 		/// <summary>
@@ -231,6 +282,46 @@ namespace Wammer.Station.Management
 				Console.WriteLine(e.Message);
 				return 1;
 			}
+		}
+	}
+
+
+	public class AuthenticationException: Exception
+	{
+		public AuthenticationException(string msg)
+			:base(msg)
+		{
+		}
+	}
+
+	public class StationAlreadyHasDriverException: Exception
+	{
+		public StationAlreadyHasDriverException(string msg)
+			:base(msg)
+		{
+		}
+	}
+
+	public class UserAlreadyHasStationException: Exception
+	{
+		/// <summary>
+		/// Existing station's id
+		/// </summary>
+		public string Id { get; set; }
+
+		/// <summary>
+		/// Existing station's url
+		/// </summary>
+		public string Location { get; set; }
+
+		/// <summary>
+		/// Existing station's id
+		/// </summary>
+		public DateTime LastSyncTime { get; set; }
+
+		public UserAlreadyHasStationException()
+			:base()
+		{
 		}
 	}
 }
