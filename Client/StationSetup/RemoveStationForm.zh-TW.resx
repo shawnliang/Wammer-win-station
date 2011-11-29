@@ -117,29 +117,62 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DowngradeNotSupported" xml:space="preserve">
-    <value>The wizard has detected that newer version of Waveface Windows Station is already installed on your computer. Setup cannot continue. (繁中)</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9.75pt</value>
   </data>
-  <data name="FinishStepCommand" xml:space="preserve">
-    <value>{0}\StationSetup.exe</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>在本台機器上, 您已經安裝過Waveface個人工作站</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="LicenseStepRtf" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ResourceFiles\LicenseStep.zh-TW.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
+  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9.75pt</value>
   </data>
-  <data name="MainMsiFile" xml:space="preserve">
-    <value>Package.msi</value>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>47, 39</value>
   </data>
-  <data name="WelcomeStepGreetingInstall" xml:space="preserve">
-    <value>The wizard will install Waveface Windows Station on your computer. (繁中)</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>名稱:</value>
   </data>
-  <data name="WelcomeStepGreetingModify" xml:space="preserve">
-    <value>The wizard will modify Waveface Windows Station on your computer. (繁中)</value>
+  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9.75pt</value>
   </data>
-  <data name="WelcomeStepGreetingReinstall" xml:space="preserve">
-    <value>The wizard will reinstall Waveface Windows Station on your computer. (繁中)</value>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 67</value>
   </data>
-  <data name="WelcomeStepGreetingUninstall" xml:space="preserve">
-    <value>The wizard will uninstall Waveface Windows Station from your computer. (繁中)</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 19</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>網路位置:</value>
+  </data>
+  <data name="labelName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>100, 40</value>
+  </data>
+  <data name="labelLocation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>100, 68</value>
+  </data>
+  <data name="label4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9.75pt</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 19</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>是否將它移除, 以利安裝新的?</value>
+  </data>
+  <data name="buttonYes.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9.75pt</value>
+  </data>
+  <data name="buttonYes.Text" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="buttonNo.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9.75pt</value>
+  </data>
+  <data name="buttonNo.Text" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>移除已安裝工作站</value>
   </data>
 </root>
