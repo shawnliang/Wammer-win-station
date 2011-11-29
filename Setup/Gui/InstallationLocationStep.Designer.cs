@@ -37,7 +37,6 @@ namespace Gui
 			// dpInstallLocation
 			// 
 			resources.ApplyResources(this.dpInstallLocation, "dpInstallLocation");
-			this.dpInstallLocation.DefaultPathSuffix = null;
 			this.dpInstallLocation.Name = "dpInstallLocation";
 			// 
 			// lblDescription

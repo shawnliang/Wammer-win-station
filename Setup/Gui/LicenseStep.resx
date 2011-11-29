@@ -117,85 +117,88 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="rtbLicense.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="rtbLicense.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 79</value>
   </data>
+  <data name="rtbLicense.Size" type="System.Drawing.Size, System.Drawing">
+    <value>476, 188</value>
+  </data>
+  <data name="&gt;&gt;cbAccept.Name" xml:space="preserve">
+    <value>cbAccept</value>
+  </data>
+  <data name="rtbLicense.Text" xml:space="preserve">
+    <value>license file</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="rtbLicense.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 15, 10, 10</value>
   </data>
-  <data name="rtbLicense.Size" type="System.Drawing.Size, System.Drawing">
-    <value>476, 188</value>
+  <data name="&gt;&gt;cbAccept.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cbAccept.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 287</value>
+  </data>
+  <data name="cbAccept.Size" type="System.Drawing.Size, System.Drawing">
+    <value>476, 17</value>
+  </data>
+  <data name="cbAccept.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;rtbLicense.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="rtbLicense.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
-  <data name="rtbLicense.Text" xml:space="preserve">
-    <value>license file</value>
-  </data>
-  <data name="&gt;&gt;rtbLicense.Name" xml:space="preserve">
-    <value>rtbLicense</value>
-  </data>
-  <data name="&gt;&gt;rtbLicense.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rtbLicense.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
   <data name="&gt;&gt;rtbLicense.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="cbAccept.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
-  </data>
-  <data name="cbAccept.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 287</value>
-  </data>
-  <data name="cbAccept.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 10, 10, 10</value>
-  </data>
-  <data name="cbAccept.Size" type="System.Drawing.Size, System.Drawing">
-    <value>476, 17</value>
-  </data>
-  <data name="cbAccept.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="cbAccept.Text" xml:space="preserve">
-    <value>I &amp;accept the license agreement</value>
-  </data>
-  <data name="&gt;&gt;cbAccept.Name" xml:space="preserve">
-    <value>cbAccept</value>
-  </data>
-  <data name="&gt;&gt;cbAccept.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbAccept.Parent" xml:space="preserve">
-    <value>$this</value>
   </data>
   <data name="&gt;&gt;cbAccept.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+  <data name="cbAccept.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
   </data>
-  <data name="$this.Subtitle" xml:space="preserve">
-    <value>Please carefully read the license agreement and accept it.</value>
-  </data>
-  <data name="$this.Title" xml:space="preserve">
-    <value>Accept license agreement</value>
+  <data name="&gt;&gt;cbAccept.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>LicenseStep</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SharpSetup.UI.Forms.Modern.ModernActionStep, SharpSetup, Version=1.4.1.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SharpSetup.UI.Forms.Modern.ModernActionStep, SharpSetup, Version=1.4.1.158, Culture=neutral, PublicKeyToken=null</value>
   </data>
+  <data name="&gt;&gt;rtbLicense.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="cbAccept.Text" xml:space="preserve">
+    <value>I &amp;accept the license agreement</value>
+  </data>
+  <data name="$this.Title" xml:space="preserve">
+    <value>Accept license agreement</value>
+  </data>
+  <data name="$this.Subtitle" xml:space="preserve">
+    <value>Please carefully read the license agreement and accept it.</value>
+  </data>
+  <data name="cbAccept.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="rtbLicense.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="&gt;&gt;rtbLicense.Name" xml:space="preserve">
+    <value>rtbLicense</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-TW</value>
+  </metadata>
 </root>
