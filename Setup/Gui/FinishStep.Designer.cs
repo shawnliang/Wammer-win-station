@@ -36,6 +36,10 @@ namespace Gui
 			((System.ComponentModel.ISupportInitialize)(this.pbLeft)).BeginInit();
 			this.SuspendLayout();
 			// 
+			// pbLeft
+			// 
+			resources.ApplyResources(this.pbLeft, "pbLeft");
+			// 
 			// lblInstruction
 			// 
 			resources.ApplyResources(this.lblInstruction, "lblInstruction");
@@ -66,9 +70,9 @@ namespace Gui
 			this.Controls.Add(this.lblFinished);
 			this.Name = "FinishStep";
 			this.StepType = SharpSetup.UI.Forms.Modern.ModernStepType.Last;
-			this.Entered += new System.EventHandler<System.EventArgs>(this.FinishStep_Entered);
 			this.Finish += new System.EventHandler<SharpSetup.Base.ChangeStepEventArgs>(this.FinishStep_Finish);
 			this.Entering += new System.EventHandler<SharpSetup.Base.ChangeStepEventArgs>(this.FinishStep_Entering);
+			this.Entered += new System.EventHandler<System.EventArgs>(this.FinishStep_Entered);
 			this.Controls.SetChildIndex(this.pbLeft, 0);
 			this.Controls.SetChildIndex(this.lblFinished, 0);
 			this.Controls.SetChildIndex(this.lblDetails, 0);
