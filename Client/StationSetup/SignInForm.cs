@@ -52,7 +52,7 @@ namespace Wammer.Station
                 MessageBox.Show(L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
 
 				StationSetup.WavefaceWindowsClientHelper.SetRegistered();
-				StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient();
+				StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient(textBoxMail.Text, textBoxPassword.Text);
 				Close();
 			}
 			catch (AuthenticationException _e)
