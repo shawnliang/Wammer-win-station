@@ -21,9 +21,9 @@ namespace StationSetup
             Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
               
-			if (WammerZHelper.IsAlreadyResistered())
+			if (WavefaceWindowsClientHelper.IsAlreadyResistered())
 			{
-				WammerZHelper.StartWammerZ();
+				WavefaceWindowsClientHelper.StartWavefaceWindowsClient();
 				return;
 			}
 
@@ -31,7 +31,7 @@ namespace StationSetup
 		}
 	}
 
-	public class WammerZHelper
+	public class WavefaceWindowsClientHelper
 	{
 		public static void SetRegistered()
 		{
@@ -42,17 +42,18 @@ namespace StationSetup
 			return Wammer.Station.Management.StationController.GetOwner() != null;
 		}
 
-		public static void StartWammerZ()
+		public static void StartWavefaceWindowsClient()
 		{
 			string ProgramDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			string WammerZPath = Path.Combine(ProgramDir, "WammerZ.exe");
+            string WavefaceWindowsClientPath = Path.Combine(ProgramDir, "WavefaceWindowsClient.exe");
+
 			try
 			{
-				Process.Start(WammerZPath, null);
+				Process.Start(WavefaceWindowsClientPath, null);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show("Unable to start " + WammerZPath, "Program error");
+				MessageBox.Show("Unable to start " + WavefaceWindowsClientPath, "Program error");
 			}
 		}
 	}

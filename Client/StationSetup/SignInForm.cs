@@ -51,8 +51,8 @@ namespace Wammer.Station
 
                 MessageBox.Show(L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
 
-				StationSetup.WammerZHelper.SetRegistered();
-				StationSetup.WammerZHelper.StartWammerZ();
+				StationSetup.WavefaceWindowsClientHelper.SetRegistered();
+				StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient();
 				Close();
 			}
 			catch (AuthenticationException _e)

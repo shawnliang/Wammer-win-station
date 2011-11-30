@@ -13,10 +13,10 @@ namespace Waveface
     internal static class Program
     {
         // context menu name in the registry
-        private const string KeyName = "Wammer Context Menu";
+        private const string KeyName = "Waveface Context Menu";
 
         // context menu text
-        private const string MenuText = "Send to Wammer";
+        private const string MenuText = "Send to Waveface";
 
         [STAThread]
         private static void Main(string[] args)
