@@ -128,7 +128,7 @@ namespace UT_WammerStation
 				user = new UserInfo { user_id = "uid1" }
 			};
 
-			using (FakeCloud cloud = new FakeCloud(res1))
+			using (FakeCloud cloud = new FakeCloud(res1, res1.status))
 			{
 				try
 				{
@@ -169,7 +169,7 @@ namespace UT_WammerStation
 				}
 			};
 
-			using (FakeCloud cloud = new FakeCloud(res1))
+			using (FakeCloud cloud = new FakeCloud(res1, res1.status))
 			{
 				try
 				{

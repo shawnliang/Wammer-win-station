@@ -69,6 +69,12 @@
     <Compile Include="InitializationStep.Designer.cs">
       <DependentUpon>InitializationStep.cs</DependentUpon>
     </Compile>
+    <Compile Include="InstallationLocationStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InstallationLocationStep.Designer.cs">
+      <DependentUpon>InstallationLocationStep.cs</DependentUpon>
+    </Compile>
     <Compile Include="InstallationModeStep.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -88,6 +94,11 @@
       <DependentUpon>LicenseStep.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.zh-TW.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.zh-TW.resx</DependentUpon>
+    </Compile>
     <Compile Include="SetupProgram.cs" />
     <Compile Include="SetupWizard.cs">
       <SubType>Form</SubType>
@@ -104,19 +115,43 @@
     <EmbeddedResource Include="FatalErrorStep.resx">
       <DependentUpon>FatalErrorStep.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FatalErrorStep.zh-TW.resx">
+      <DependentUpon>FatalErrorStep.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FinishStep.resx">
+      <DependentUpon>FinishStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FinishStep.zh-TW.resx">
       <DependentUpon>FinishStep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InitializationStep.resx">
       <DependentUpon>InitializationStep.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InitializationStep.zh-TW.resx">
+      <DependentUpon>InitializationStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InstallationLocationStep.resx">
+      <DependentUpon>InstallationLocationStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InstallationLocationStep.zh-TW.resx">
+      <DependentUpon>InstallationLocationStep.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InstallationModeStep.resx">
+      <DependentUpon>InstallationModeStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InstallationModeStep.zh-TW.resx">
       <DependentUpon>InstallationModeStep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InstallationStep.resx">
       <DependentUpon>InstallationStep.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InstallationStep.zh-TW.resx">
+      <DependentUpon>InstallationStep.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LicenseStep.resx">
+      <DependentUpon>LicenseStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LicenseStep.zh-TW.resx">
       <DependentUpon>LicenseStep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -129,11 +164,21 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.zh-TW.resx" />
+    <EmbeddedResource Include="Properties\Resources.zh-TW.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.zh-TW.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SetupWizard.resx">
       <DependentUpon>SetupWizard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SetupWizard.zh-TW.resx">
+      <DependentUpon>SetupWizard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WelcomeStep.resx">
+      <DependentUpon>WelcomeStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WelcomeStep.zh-TW.resx">
       <DependentUpon>WelcomeStep.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
@@ -147,6 +192,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="ResourceFiles\LicenseStep.rtf" />
+    <None Include="ResourceFiles\LicenseStep.zh-TW.rtf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />

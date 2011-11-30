@@ -807,6 +807,7 @@ namespace Waveface.Component.HtmlEditor
             // 
             this.toolBarEditSep5.Name = "toolBarEditSep5";
             this.toolBarEditSep5.Style = System.Windows.Forms.ToolBarButtonStyle.Separator;
+            resources.ApplyResources(this.toolBarEditSep5, "toolBarEditSep5");
             // 
             // toolBarInsertLine
             // 
@@ -836,6 +837,7 @@ namespace Waveface.Component.HtmlEditor
             // 
             this.toolBarEditSep6.Name = "toolBarEditSep6";
             this.toolBarEditSep6.Style = System.Windows.Forms.ToolBarButtonStyle.Separator;
+            resources.ApplyResources(this.toolBarEditSep6, "toolBarEditSep6");
             // 
             // toolBarFindReplace
             // 
@@ -853,6 +855,7 @@ namespace Waveface.Component.HtmlEditor
             // 
             this.toolBarEditSep7.Name = "toolBarEditSep7";
             this.toolBarEditSep7.Style = System.Windows.Forms.ToolBarButtonStyle.Separator;
+            resources.ApplyResources(this.toolBarEditSep7, "toolBarEditSep7");
             // 
             // toolBarHTML
             // 

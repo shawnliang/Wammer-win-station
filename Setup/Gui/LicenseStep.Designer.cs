@@ -52,8 +52,8 @@ namespace Gui
 			this.Controls.Add(this.rtbLicense);
 			this.Controls.Add(this.cbAccept);
 			this.Name = "LicenseStep";
-			this.Load += new System.EventHandler(this.LicenseStep_Load);
 			this.Entered += new System.EventHandler<System.EventArgs>(this.cbAccept_CheckedChanged);
+			this.Load += new System.EventHandler(this.LicenseStep_Load);
 			this.Controls.SetChildIndex(this.cbAccept, 0);
 			this.Controls.SetChildIndex(this.rtbLicense, 0);
 			this.ResumeLayout(false);

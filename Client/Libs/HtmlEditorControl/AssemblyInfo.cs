@@ -1,5 +1,6 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Security.Permissions;
+using System.Runtime.InteropServices;
 
 // define the securty sectting for the class
 // ask for full trust or unmanaged code access (both should not be needed)
@@ -11,12 +12,12 @@ using System.Security.Permissions;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("HtmlEditorControl")]
-[assembly: AssemblyDescription("HTML Editor Control")]
+[assembly: AssemblyTitle("Waveface Windows Client")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCompany("Waveface")]
+[assembly: AssemblyProduct("Waveface Windows Client")]
+[assembly: AssemblyCopyright("Copyright © Waveface 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
@@ -61,3 +62,5 @@ using System.Security.Permissions;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
+[assembly: AssemblyFileVersionAttribute("1.0.0.0")]
+[assembly: GuidAttribute("2D5AF8B0-230E-4F9F-8DD5-D01D381AD779")]

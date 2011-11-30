@@ -54,10 +54,6 @@ namespace Waveface
         private MR_auth_login m_login;
         private RunTimeData m_runTimeData = new RunTimeData();
 
-        //Test
-        private GroupManager m_groupManager;
-        private TestForm m_testForm;
-
         #endregion
 
         #region Properties
@@ -87,16 +83,11 @@ namespace Waveface
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
-            initVirtualFolderForm();
+            //initVirtualFolderForm();
 
             InitTaskbarNotifier();
 
-            ///// Test
-            //m_groupManager = new GroupManager();
-            //m_groupManager.Show();
-
-            //m_testForm = new TestForm();
-            //m_testForm.Show();
+            m_serviceV2 = new BEService2();
         }
 
         #region Init
@@ -165,17 +156,15 @@ namespace Waveface
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             m_dropableNotifyIcon.Dispose();
+
+            if (m_virtualFolderForm != null)
+                m_virtualFolderForm.Close();
         }
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
         {
             PreferenceForm _form = new PreferenceForm();
             _form.ShowDialog();
-        }
-
-        private void linkLabelLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Login();
         }
 
         #endregion
@@ -245,7 +234,7 @@ namespace Waveface
             if (FormWindowState.Minimized == WindowState)
             {
                 m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
-                Hide();
+                //Hide();
             }
         }
 
@@ -534,26 +523,20 @@ namespace Waveface
 
         #region Login
 
-        private void Reset()
+        public void Reset()
         {
             RT.Reset();
+
+            BEService2.StationIP = "";
 
             postsArea.ShowTypeUI(false);
         }
 
-        public bool Login()
+        public bool Login(string email, string password)
         {
             bool _ret = false;
 
-            LoginForm _loginForm = new LoginForm();
-            DialogResult _dr = _loginForm.ShowDialog();
-
-            if (_dr != DialogResult.OK)
-                return false;
-
-            m_serviceV2 = new BEService2();
-
-            m_loginOK = Login_Service(_loginForm.User, _loginForm.Password);
+            m_loginOK = Login_Service(email, password);
 
             Cursor.Current = Cursors.WaitCursor;
 
@@ -605,7 +588,7 @@ namespace Waveface
 
                         //test
                         m_stationIP = _ip;
-                        panelStation.Visible = true;
+                        //panelStation.Visible = true;
 
                         RT.IsStationOK = true;
 
@@ -627,7 +610,6 @@ namespace Waveface
 
             if (m_login == null)
             {
-                MessageBox.Show("Login Error!");
                 return false;
             }
 
@@ -732,19 +714,26 @@ namespace Waveface
 
             m_canAutoFetchNewestPosts = false;
 
-            PostForm _form = new PostForm(pics, postType);
-            DialogResult _dr = _form.ShowDialog();
-
-            switch (_dr)
+            try
             {
-                case DialogResult.Yes:
-                    // ------------------ OLD_showAllPosts();
-                    RestoreWindow();
-                    break;
+                PostForm _form = new PostForm(pics, postType);
+                DialogResult _dr = _form.ShowDialog();
 
-                case DialogResult.OK:
-                    leftArea.AddNewPostItem(_form.NewPostItem); //@
-                    break;
+                switch (_dr)
+                {
+                    case DialogResult.Yes:
+                        // ------------------ OLD_showAllPosts();
+                        RestoreWindow();
+                        break;
+
+                    case DialogResult.OK:
+                        leftArea.AddNewPostItem(_form.NewPostItem); //@
+                        break;
+                }
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message, "Waveface");
             }
 
             m_canAutoFetchNewestPosts = true;
@@ -1176,7 +1165,7 @@ namespace Waveface
 
         private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
         {
-            if(radioButtonCloud.Checked)
+            if (radioButtonCloud.Checked)
             {
                 BEService2.StationIP = BEService2.CloundIP;
                 RT.IsStationOK = false;
@@ -1186,6 +1175,11 @@ namespace Waveface
                 BEService2.StationIP = m_stationIP;
                 RT.IsStationOK = true;
             }
+        }
+
+        private void linkLabelLogout_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Close();
         }
     }
 }

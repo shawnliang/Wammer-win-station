@@ -105,6 +105,12 @@ namespace Wammer.Station
 					logger.WarnFormat("Unable to add user {0} to station", email);
 					logger.Warn(ex.ToString());
 
+					if (ex.HttpError != WebExceptionStatus.ProtocolError)
+					{
+						return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
+							HttpStatusCode.ServiceUnavailable, (int)StationApiError.ConnectToCloudError,
+							"Unable to connect to waveface cloud. Network error?");
+					}
 					if (ex.WammerError == 4097)
 						return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 							HttpStatusCode.Unauthorized, (int)StationApiError.AuthFailed,

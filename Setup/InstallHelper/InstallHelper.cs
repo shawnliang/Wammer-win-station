@@ -2,17 +2,34 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Net;
+
 using Microsoft.Deployment.WindowsInstaller;
+
 using Wammer.Cloud;
 using Wammer.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System.Net;
+using log4net;
 
 namespace Wammer.Station
 {
 	public class InstallHelper
 	{
+		private static ILog Logger;
+
+		static InstallHelper()
+		{
+			Stream stream =
+				System.Reflection.Assembly.GetExecutingAssembly().
+				GetManifestResourceStream("InstallHelper.log4net.config");
+
+			if (stream != null)
+				log4net.Config.XmlConfigurator.Configure(stream);
+
+			Logger = log4net.LogManager.GetLogger("InstallHelper");
+		}
+
 		[CustomAction]
 		public static ActionResult SignoffStation(Session session)
 		{
@@ -20,33 +37,61 @@ namespace Wammer.Station
 			if (wavefaceDir == null)
 				return ActionResult.Failure;
 
-			string logFile = Path.Combine(wavefaceDir, @"log\uninstall.log");
-
 			try
 			{
 				StationInfo station = StationInfo.collection.FindOne();
 				if (station == null || station.Id == null || station.SessionToken == null)
-				    return ActionResult.Success;
-
-				Wammer.Cloud.Station.SignOff(new WebClient(), station.Id, station.SessionToken);
-
-				using (StreamWriter w = new StreamWriter(File.OpenWrite(logFile)))
 				{
-					w.WriteLine("success");
+					Logger.Info("No station Id or token exist. Skip sign off station.");
+					return ActionResult.Success;
 				}
 
+				Wammer.Cloud.Station.SignOff(new WebClient(), station.Id, station.SessionToken);
+				Logger.Info("Sign off station success");
 				return ActionResult.Success;
 			}
 			catch (Exception e)
 			{
-				using (StreamWriter w = new StreamWriter(File.OpenWrite(logFile)))
-				{
-					w.WriteLine(e.ToString());
-				}
-
-				// Signoff failure is not critical, still return success.
+				Logger.Warn("Sign off station not success. Continue as if without error.", e);
 				return ActionResult.Success;
 			}
+		}
+
+		[CustomAction]
+		public static ActionResult CleanStationInfo(Session session)
+		{
+			string wavefaceDir = session["INSTALLLOCATION"];
+			if (wavefaceDir == null)
+				return ActionResult.Failure;
+
+			try
+			{
+				StationRegistry.DeleteValue("stationId");
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete station id in registry", e);
+			}
+
+			try
+			{
+				Model.Drivers.collection.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete station driver from MongoDB", e);
+			}
+
+			try
+			{
+				Model.StationInfo.collection.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete station info from MongoDB", e);
+			}
+
+			return ActionResult.Success;
 		}
 	}
 }

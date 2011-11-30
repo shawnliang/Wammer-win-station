@@ -72,7 +72,7 @@
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(424, 247);
+            this.tabControl.Size = new System.Drawing.Size(421, 247);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageGeneral
@@ -83,7 +83,7 @@
             this.tabPageGeneral.Location = new System.Drawing.Point(4, 23);
             this.tabPageGeneral.Name = "tabPageGeneral";
             this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGeneral.Size = new System.Drawing.Size(416, 220);
+            this.tabPageGeneral.Size = new System.Drawing.Size(413, 220);
             this.tabPageGeneral.TabIndex = 0;
             this.tabPageGeneral.Text = "General";
             this.tabPageGeneral.UseVisualStyleBackColor = true;
@@ -126,7 +126,7 @@
             this.tabPageWebStorage.Location = new System.Drawing.Point(4, 23);
             this.tabPageWebStorage.Name = "tabPageWebStorage";
             this.tabPageWebStorage.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWebStorage.Size = new System.Drawing.Size(416, 214);
+            this.tabPageWebStorage.Size = new System.Drawing.Size(413, 220);
             this.tabPageWebStorage.TabIndex = 1;
             this.tabPageWebStorage.Text = "Web Storage";
             this.tabPageWebStorage.UseVisualStyleBackColor = true;
@@ -207,7 +207,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.Location = new System.Drawing.Point(16, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(386, 35);
+            this.label1.Size = new System.Drawing.Size(383, 35);
             this.label1.TabIndex = 0;
             this.label1.Text = "Web storage can be a backup of the Waveface station. When the station id off, the" +
     " files can be accessible from anywhere.";
@@ -218,7 +218,7 @@
             this.tabPageAdvanceSettings.Controls.Add(this.groupBox1);
             this.tabPageAdvanceSettings.Location = new System.Drawing.Point(4, 23);
             this.tabPageAdvanceSettings.Name = "tabPageAdvanceSettings";
-            this.tabPageAdvanceSettings.Size = new System.Drawing.Size(416, 220);
+            this.tabPageAdvanceSettings.Size = new System.Drawing.Size(413, 220);
             this.tabPageAdvanceSettings.TabIndex = 2;
             this.tabPageAdvanceSettings.Text = "Advance Settings";
             this.tabPageAdvanceSettings.UseVisualStyleBackColor = true;
@@ -312,7 +312,7 @@
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(276, 267);
+            this.buttonOK.Location = new System.Drawing.Point(273, 267);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 28);
             this.buttonOK.TabIndex = 1;
@@ -323,7 +323,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(357, 267);
+            this.buttonCancel.Location = new System.Drawing.Point(354, 267);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 28);
             this.buttonCancel.TabIndex = 2;
@@ -335,7 +335,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 303);
+            this.ClientSize = new System.Drawing.Size(445, 303);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.tabControl);

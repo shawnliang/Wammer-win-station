@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using Waveface.Diagnostics;
+using Waveface.Localization;
 
 namespace Waveface
 {
     internal static class Program
     {
         [STAThread]
-        private static void Main()
+        private static void Main(string[] args)
         {
+            CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
+            //CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+            //CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
@@ -17,7 +23,17 @@ namespace Waveface
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainForm());
+
+                string _email = string.Empty;
+                string _password = string.Empty;
+
+                if (args.Length == 2)
+                {
+                    _email = args[0];
+                    _password = args[1];
+                }
+
+                Application.Run(new LoginForm(_email, _password));
             }
             catch (Exception _e)
             {

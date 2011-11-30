@@ -90,17 +90,17 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
             this.PanelAddComment = new System.Windows.Forms.Panel();
-            this.buttonAddComment = new Waveface.Component.XPButton();
             this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelDocumentView = new System.Windows.Forms.Panel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.listViewFiles = new System.Windows.Forms.ListView();
-            this.previewHandlerHost = new Waveface.Component.PreviewHandlerHost();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.buttonAddComment = new Waveface.Component.XPButton();
+            this.previewHandlerHost = new Waveface.Component.PreviewHandlerHost();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
@@ -146,21 +146,8 @@ namespace Waveface.DetailUI
             this.PanelAddComment.Dock = System.Windows.Forms.DockStyle.Top;
             this.PanelAddComment.Location = new System.Drawing.Point(0, 355);
             this.PanelAddComment.Name = "PanelAddComment";
-            this.PanelAddComment.Size = new System.Drawing.Size(500, 67);
+            this.PanelAddComment.Size = new System.Drawing.Size(500, 50);
             this.PanelAddComment.TabIndex = 3;
-            // 
-            // buttonAddComment
-            // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(32, 35);
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.Size = new System.Drawing.Size(102, 29);
-            this.buttonAddComment.TabIndex = 1;
-            this.buttonAddComment.Text = "Add Comment";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // textBoxComment
             // 
@@ -168,8 +155,10 @@ namespace Waveface.DetailUI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxComment.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxComment.Location = new System.Drawing.Point(32, 3);
+            this.textBoxComment.Multiline = true;
             this.textBoxComment.Name = "textBoxComment";
-            this.textBoxComment.Size = new System.Drawing.Size(462, 26);
+            this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxComment.Size = new System.Drawing.Size(365, 44);
             this.textBoxComment.TabIndex = 0;
             // 
             // webBrowserComment
@@ -223,18 +212,6 @@ namespace Waveface.DetailUI
             this.listViewFiles.View = System.Windows.Forms.View.SmallIcon;
             this.listViewFiles.Click += new System.EventHandler(this.listViewFiles_Click);
             // 
-            // previewHandlerHost
-            // 
-            this.previewHandlerHost.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.previewHandlerHost.BackColor = System.Drawing.Color.White;
-            this.previewHandlerHost.Location = new System.Drawing.Point(3, 36);
-            this.previewHandlerHost.Name = "previewHandlerHost";
-            this.previewHandlerHost.Size = new System.Drawing.Size(494, 122);
-            this.previewHandlerHost.TabIndex = 5;
-            this.previewHandlerHost.Text = "previewHandlerHost";
-            // 
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -269,6 +246,32 @@ namespace Waveface.DetailUI
             this.webBrowserTop.Size = new System.Drawing.Size(500, 97);
             this.webBrowserTop.TabIndex = 0;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
+            // 
+            // buttonAddComment
+            // 
+            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.buttonAddComment.Location = new System.Drawing.Point(403, 3);
+            this.buttonAddComment.Name = "buttonAddComment";
+            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
+            this.buttonAddComment.TabIndex = 1;
+            this.buttonAddComment.Text = "Send";
+            this.buttonAddComment.UseVisualStyleBackColor = true;
+            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
+            // 
+            // previewHandlerHost
+            // 
+            this.previewHandlerHost.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.previewHandlerHost.BackColor = System.Drawing.Color.White;
+            this.previewHandlerHost.Location = new System.Drawing.Point(3, 36);
+            this.previewHandlerHost.Name = "previewHandlerHost";
+            this.previewHandlerHost.Size = new System.Drawing.Size(494, 122);
+            this.previewHandlerHost.TabIndex = 5;
+            this.previewHandlerHost.Text = "previewHandlerHost";
             // 
             // Document_DV
             // 

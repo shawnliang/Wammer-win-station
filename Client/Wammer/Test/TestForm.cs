@@ -48,17 +48,6 @@ namespace Waveface
 
         #region API
 
-        private void DoLoginUI()
-        {
-            LoginForm _loginForm = new LoginForm();
-            DialogResult _dr = _loginForm.ShowDialog();
-
-            if (_dr != DialogResult.OK)
-                return;
-
-            DoLogin(_loginForm.User, _loginForm.Password);
-        }
-
         private void DoLogin(string email, string password)
         {
             m_mrAuthLogin = m_service2.auth_login(email, password);

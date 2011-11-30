@@ -140,6 +140,12 @@ namespace Wammer.Station.Management
 		/// The user already has a station. The station's info, such as id/location/sync time, can 
 		/// be retrieved from the exception
 		/// </exception>
+		/// <exception cref="Wammer.Station.Management.StationServiceDownException">
+		/// Unable to connect to station service, service down?
+		/// </exception>
+		/// <exception cref="Wammer.Station.Management.ConnectToCloudException">
+		/// Unable to connect to waveface cloud, network down?
+		/// </exception>
 		public static void AddUser(string email, string password)
 		{
 			try
@@ -154,12 +160,17 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
+				if (e.HttpError == WebExceptionStatus.ConnectFailure)
+					throw new StationServiceDownException("Station service down?");
+
 				switch (e.WammerError)
 				{
+					case (int)StationApiError.ConnectToCloudError:
+						throw new ConnectToCloudException(e.Message);
 					case (int)StationApiError.AuthFailed:
-						throw new AuthenticationException("Invalid user name or password");
+						throw new AuthenticationException(e.Message);
 					case (int)StationApiError.DriverExist:
-						throw new StationAlreadyHasDriverException("A station can serve only one driver.");
+						throw new StationAlreadyHasDriverException(e.Message);
 					case (int)StationApiError.AlreadyHasStaion:
 						StationSignUpResponse resp = fastJSON.JSON.Instance.
 												ToObject<Cloud.StationSignUpResponse>(e.response);
@@ -469,6 +480,22 @@ namespace Wammer.Station.Management
 			:base(msg)
 		{
 		}
+	}
+
+	public class StationServiceDownException: Exception
+	{
+		public StationServiceDownException(string msg)
+			:base(msg)
+		{
+		}
+	}
+
+	public class ConnectToCloudException: Exception
+	{
+		public ConnectToCloudException(string msg)
+			:base(msg)
+		{
+		} 
 	}
 
 	public class UserAlreadyHasStationException: Exception

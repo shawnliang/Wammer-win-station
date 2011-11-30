@@ -10,16 +10,15 @@ class SetupBootstrapper : public BootstrapperBase
 public:
 	virtual DWORD OnUnpackingComplete()
 	{
-		/*
 		PrerequisiteManager pm(*this);
 		if(!isInstalledMsi(L"3.1"))
 			installMsi(&pm, L"3.1");
-		if(!isInstalledDotNet(L"2.0"))
-			installDotNet(&pm, L"2.0", 2);
+		if(!isInstalledDotNet(L"3.5"))
+			installDotNet(&pm, L"3.5");
 
 		pm.getFiles();
 		pm.performInstall();
-		*/
+
 		return S_OK;
 	}
 };
