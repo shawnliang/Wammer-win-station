@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Waveface</RootNamespace>
-    <AssemblyName>WammerZ</AssemblyName>
+    <AssemblyName>Waveface</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -113,6 +113,9 @@
     </Reference>
     <Reference Include="Waveface.Configuration.WindowsForms">
       <HintPath>..\Libs\Waveface.Configuration.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Waveface.Localization">
+      <HintPath>..\Libs\Waveface.Localization.Editor\Localizer\bin\Waveface.Localization.dll</HintPath>
     </Reference>
     <Reference Include="WebCam_Capture">
       <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
@@ -421,7 +424,7 @@
     <Compile Include="UI\ProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\LoginForm.cs">
+    <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\PhotoView.cs">
@@ -572,6 +575,9 @@
     <EmbeddedResource Include="Compoment\XPButton.resx">
       <DependentUpon>XPButton.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.zh-TW.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Test\Group And User\Password.resx">
       <DependentUpon>Password.cs</DependentUpon>
     </EmbeddedResource>
@@ -643,7 +649,7 @@
     <EmbeddedResource Include="UI\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\LoginForm.resx">
+    <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PhotoView.resx">

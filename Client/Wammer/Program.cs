@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using Waveface.Diagnostics;
+using Waveface.Localization;
 
 namespace Waveface
 {
@@ -10,6 +12,10 @@ namespace Waveface
         [STAThread]
         private static void Main(string[] args)
         {
+            CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
+            //CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+            //CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 

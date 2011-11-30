@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Waveface</RootNamespace>
-    <AssemblyName>WammerHelper</AssemblyName>
+    <AssemblyName>WavefaceHelper</AssemblyName>
     <StartupObject>Waveface.Program</StartupObject>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileUpgradeFlags>

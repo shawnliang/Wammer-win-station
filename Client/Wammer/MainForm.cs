@@ -536,24 +536,7 @@ namespace Waveface
         {
             bool _ret = false;
 
-            /*
-            bool _fromThisForm = (email == string.Empty) && (password == string.Empty);
-
-            if (_fromThisForm)
-            {
-                LoginForm _loginForm = new LoginForm("", "");
-                DialogResult _dr = _loginForm.ShowDialog();
-
-                if (_dr != DialogResult.OK)
-                    return false;
-
-                m_loginOK = Login_Service(_loginForm.User, _loginForm.Password);
-            }
-            else
-            */
-            {
-                m_loginOK = Login_Service(email, password);
-            }
+            m_loginOK = Login_Service(email, password);
 
             Cursor.Current = Cursors.WaitCursor;
 

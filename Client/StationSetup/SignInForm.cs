@@ -10,16 +10,16 @@ namespace Wammer.Station
 {
 	public partial class SignInForm : Form
 	{
-		private const string SignUpURL = @"http://develop.waveface.com:4343/signup";
-		private Localizer L;
+        private const string SignUpURL = @"http://develop.waveface.com:4343/signup";
+        private Localizer L;
 
 		public SignInForm()
 		{
-			L = new Localizer();
-			L.WItemsFullPath = Application.StartupPath + "\\StationML.xml";
-			L.CurrentCulture = CultureManager.ApplicationUICulture;
-			
-			InitializeComponent();
+            L = new Localizer();
+            L.WItemsFullPath = Application.StartupPath + "\\StationML.xml";
+		    L.CurrentCulture = CultureManager.ApplicationUICulture;
+            
+            InitializeComponent();
 		}
 
 		private void buttonOK_Click(object sender, EventArgs e)
@@ -27,14 +27,14 @@ namespace Wammer.Station
 			// 檢查是否都有填值
 			if ((textBoxMail.Text == string.Empty) || (textBoxPassword.Text == string.Empty))
 			{
-				MessageBox.Show(L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
 			// 檢查email格式
 			if (!TestEmailFormat(textBoxMail.Text))
 			{
-				MessageBox.Show(L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -49,7 +49,7 @@ namespace Wammer.Station
 			{
 				StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
 
-				MessageBox.Show(L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
+                MessageBox.Show(L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
 
 				StationSetup.WammerZHelper.SetRegistered();
 				StationSetup.WammerZHelper.StartWammerZ();
@@ -59,7 +59,7 @@ namespace Wammer.Station
 			{
 				Cursor.Current = Cursors.Default;
 
-				MessageBox.Show(L.T("AuthFailed"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
 				textBoxPassword.Text = string.Empty;
 
@@ -87,37 +87,19 @@ namespace Wammer.Station
 					{
 						Cursor.Current = Cursors.Default;
 
-						ShowErrorDialogAndExit(L.T("SignOffStationError"));
+                        ShowErrorDialogAndExit(L.T("SignOffStationError"));
 					}
 				}
 				else
 				{
-					ShowErrorDialogAndExit(L.T("MustRemoveOld"));
+                    ShowErrorDialogAndExit(L.T("MustRemoveOld"));
 				}
 			}
 			catch (StationAlreadyHasDriverException _e)
 			{
 				Cursor.Current = Cursors.Default;
 
-				ShowErrorDialogAndExit(L.T("StationHasAlreadyHasDriver"));
-			}
-			catch (StationServiceDownException _e)
-			{
-				Cursor.Current = Cursors.Default;
-
-				MessageBox.Show(L.T("StationSvcDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch (ConnectToCloudException _e)
-			{
-				Cursor.Current = Cursors.Default;
-
-				MessageBox.Show(L.T("NetworkDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch
-			{
-				Cursor.Current = Cursors.Default;
-
-				MessageBox.Show(L.T("SignupUnknownError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				ShowErrorDialogAndExit(_e.Message);
 			}
 		}
 
@@ -147,9 +129,9 @@ namespace Wammer.Station
 			AddUser();
 		}
 
-		private void linkLabelNew_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			Process.Start(SignUpURL, null);
-		}
+        private void linkLabelNew_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(SignUpURL, null);
+        }
 	}
 }
