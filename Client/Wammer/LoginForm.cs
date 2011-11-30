@@ -1,28 +1,26 @@
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Forms;
 using Waveface.Component;
 using Waveface.Configuration;
+using Waveface.Localization;
 
 namespace Waveface
 {
     public class LoginForm : Form
     {
         internal CheckBox cbRemember;
-        internal Panel Panel1;
         internal Label lblUserName;
         internal TextBox txtPassword;
         internal TextBox txtUserName;
         internal Label lblPassword;
         private IContainer components;
-
-        private Label lHeader;
         private Label lText;
-        private PictureBox pbImage;
         private XPButton btnCancel;
         private XPButton btnOK;
         private GroupBox groupBox1;
-        private Localization.CultureManager cultureManager;
+        private CultureManager cultureManager;
 
         private FormSettings m_formSettings;
 
@@ -91,6 +89,7 @@ namespace Waveface
             InitializeComponent();
 
             m_formSettings = new FormSettings(this);
+            m_formSettings.UseSize = false;
             m_formSettings.SaveOnClose = false;
             m_formSettings.Settings.Add(new PropertySetting(this, "UserSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "PasswordSetting"));
@@ -116,10 +115,7 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.cbRemember = new System.Windows.Forms.CheckBox();
-            this.Panel1 = new System.Windows.Forms.Panel();
-            this.lHeader = new System.Windows.Forms.Label();
             this.lText = new System.Windows.Forms.Label();
-            this.pbImage = new System.Windows.Forms.PictureBox();
             this.lblUserName = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
@@ -128,8 +124,6 @@ namespace Waveface
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.btnCancel = new Waveface.Component.XPButton();
             this.btnOK = new Waveface.Component.XPButton();
-            this.Panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -138,30 +132,10 @@ namespace Waveface
             resources.ApplyResources(this.cbRemember, "cbRemember");
             this.cbRemember.Name = "cbRemember";
             // 
-            // Panel1
-            // 
-            this.Panel1.BackColor = System.Drawing.Color.White;
-            this.Panel1.Controls.Add(this.lHeader);
-            this.Panel1.Controls.Add(this.lText);
-            this.Panel1.Controls.Add(this.pbImage);
-            resources.ApplyResources(this.Panel1, "Panel1");
-            this.Panel1.Name = "Panel1";
-            // 
-            // lHeader
-            // 
-            resources.ApplyResources(this.lHeader, "lHeader");
-            this.lHeader.Name = "lHeader";
-            // 
             // lText
             // 
             resources.ApplyResources(this.lText, "lText");
             this.lText.Name = "lText";
-            // 
-            // pbImage
-            // 
-            resources.ApplyResources(this.pbImage, "pbImage");
-            this.pbImage.Name = "pbImage";
-            this.pbImage.TabStop = false;
             // 
             // lblUserName
             // 
@@ -187,9 +161,9 @@ namespace Waveface
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.lblUserName);
             this.groupBox1.Controls.Add(this.txtUserName);
             this.groupBox1.Controls.Add(this.txtPassword);
+            this.groupBox1.Controls.Add(this.lblUserName);
             this.groupBox1.Controls.Add(this.lblPassword);
             this.groupBox1.Controls.Add(this.cbRemember);
             resources.ApplyResources(this.groupBox1, "groupBox1");
@@ -199,6 +173,7 @@ namespace Waveface
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
+            this.cultureManager.UICultureChanged += new Waveface.Localization.CultureManager.CultureChangedHandler(this.cultureManager_UICultureChanged);
             // 
             // btnCancel
             // 
@@ -224,9 +199,9 @@ namespace Waveface
             // 
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.lText);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.Panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -234,9 +209,7 @@ namespace Waveface
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.TopMost = true;
             this.Load += new System.EventHandler(this.LoginForm_Load);
-            this.Panel1.ResumeLayout(false);
-            this.Panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbImage)).EndInit();
+            this.DoubleClick += new System.EventHandler(this.LoginForm_DoubleClick);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -256,11 +229,16 @@ namespace Waveface
 
             MainForm _mailForm = new MainForm();
             _mailForm.Reset();
+            Application.DoEvents();
 
             if (_mailForm.Login(email, password))
             {
+                Application.DoEvents();
+
                 Cursor.Current = Cursors.Default;
                 Hide();
+
+                Application.DoEvents();
 
                 _mailForm.ShowDialog();
                 _mailForm.Dispose();
@@ -270,7 +248,7 @@ namespace Waveface
             {
                 Cursor.Current = Cursors.Default;
 
-                MessageBox.Show("Login Error!");
+                MessageBox.Show(I18n.L.T("LoginForm.SignInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             Show();
@@ -288,7 +266,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show("Please re-type your information.", "System Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("LoginForm.FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -308,6 +286,26 @@ namespace Waveface
             }
 
             base.Dispose(disposing);
+        }
+
+        private void LoginForm_DoubleClick(object sender, EventArgs e)
+        {
+            if (CultureManager.ApplicationUICulture.Name == "en-US")
+            {
+                CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+                return;
+            }
+
+            if (CultureManager.ApplicationUICulture.Name == "zh-TW")
+            {
+                CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+                return;
+            }            
+        }
+
+        private void cultureManager_UICultureChanged(CultureInfo newCulture)
+        {
+            I18n.L.CurrentCulture = newCulture;
         }
     }
 }

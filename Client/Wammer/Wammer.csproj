@@ -260,6 +260,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Data\PostType.cs" />
+    <Compile Include="I18n.cs" />
     <Compile Include="Test\Group And User\Password.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -791,6 +792,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\dragNdrop-area.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\waveface_icon32.ico" />
+    <None Include="Resources\waveface_icon64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
 </Project>

@@ -1,0 +1,13 @@
+<?xml version="1.0" standalone="yes"?>
+<WItems>
+  <WItem>
+    <ID>LoginForm.FillAllFields</ID>
+    <en-US>Please fill all the fields!</en-US>
+    <zh-TW>請填寫所有欄位.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>LoginForm.SignInError</ID>
+    <en-US>Sign In error. Please try again.</en-US>
+    <zh-TW>登錄時發生錯誤, 請重新輸入.</zh-TW>
+  </WItem>
+</WItems>

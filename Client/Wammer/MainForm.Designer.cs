@@ -37,12 +37,9 @@
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.panelPost = new System.Windows.Forms.Panel();
-            this.postsArea = new Waveface.PostArea();
             this.splitterLeft = new System.Windows.Forms.Splitter();
             this.panelLeftInfo = new System.Windows.Forms.Panel();
-            this.leftArea = new Waveface.LeftArea();
             this.panelMain = new System.Windows.Forms.Panel();
-            this.detailView = new Waveface.DetailView();
             this.itemCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.connectedStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -72,6 +69,9 @@
             this.linkLabelLogin = new System.Windows.Forms.LinkLabel();
             this.labelName = new System.Windows.Forms.Label();
             this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
+            this.detailView = new Waveface.DetailView();
+            this.postsArea = new Waveface.PostArea();
+            this.leftArea = new Waveface.LeftArea();
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -143,17 +143,6 @@
             this.panelPost.Size = new System.Drawing.Size(328, 597);
             this.panelPost.TabIndex = 7;
             // 
-            // postsArea
-            // 
-            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
-            this.postsArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.postsArea.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.postsArea.Location = new System.Drawing.Point(0, 0);
-            this.postsArea.Margin = new System.Windows.Forms.Padding(0);
-            this.postsArea.Name = "postsArea";
-            this.postsArea.Size = new System.Drawing.Size(328, 597);
-            this.postsArea.TabIndex = 4;
-            // 
             // splitterLeft
             // 
             this.splitterLeft.Location = new System.Drawing.Point(180, 0);
@@ -173,18 +162,6 @@
             this.panelLeftInfo.Size = new System.Drawing.Size(180, 597);
             this.panelLeftInfo.TabIndex = 6;
             // 
-            // leftArea
-            // 
-            this.leftArea.BackColor = System.Drawing.Color.Transparent;
-            this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.leftArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.leftArea.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.leftArea.Location = new System.Drawing.Point(0, 0);
-            this.leftArea.Name = "leftArea";
-            this.leftArea.Size = new System.Drawing.Size(180, 597);
-            this.leftArea.TabIndex = 3;
-            this.leftArea.TabStop = false;
-            // 
             // panelMain
             // 
             this.panelMain.Controls.Add(this.detailView);
@@ -194,20 +171,6 @@
             this.panelMain.Name = "panelMain";
             this.panelMain.Size = new System.Drawing.Size(566, 597);
             this.panelMain.TabIndex = 11;
-            // 
-            // detailView
-            // 
-            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.detailView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.detailView.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.detailView.Location = new System.Drawing.Point(0, 0);
-            this.detailView.Margin = new System.Windows.Forms.Padding(0);
-            this.detailView.MinimumSize = new System.Drawing.Size(200, 2);
-            this.detailView.Name = "detailView";
-            this.detailView.Post = null;
-            this.detailView.Size = new System.Drawing.Size(566, 597);
-            this.detailView.TabIndex = 8;
-            this.detailView.User = null;
             // 
             // itemCountLabel
             // 
@@ -464,6 +427,43 @@
             this.pictureBoxAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxAvatar.TabIndex = 1;
             this.pictureBoxAvatar.TabStop = false;
+            // 
+            // detailView
+            // 
+            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.detailView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.detailView.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.detailView.Location = new System.Drawing.Point(0, 0);
+            this.detailView.Margin = new System.Windows.Forms.Padding(0);
+            this.detailView.MinimumSize = new System.Drawing.Size(200, 2);
+            this.detailView.Name = "detailView";
+            this.detailView.Post = null;
+            this.detailView.Size = new System.Drawing.Size(566, 597);
+            this.detailView.TabIndex = 8;
+            this.detailView.User = null;
+            // 
+            // postsArea
+            // 
+            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
+            this.postsArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.postsArea.Font = new System.Drawing.Font("Tahoma", 9F);
+            this.postsArea.Location = new System.Drawing.Point(0, 0);
+            this.postsArea.Margin = new System.Windows.Forms.Padding(0);
+            this.postsArea.Name = "postsArea";
+            this.postsArea.Size = new System.Drawing.Size(328, 597);
+            this.postsArea.TabIndex = 4;
+            // 
+            // leftArea
+            // 
+            this.leftArea.BackColor = System.Drawing.Color.Transparent;
+            this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.leftArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.leftArea.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.leftArea.Location = new System.Drawing.Point(0, 0);
+            this.leftArea.Name = "leftArea";
+            this.leftArea.Size = new System.Drawing.Size(180, 597);
+            this.leftArea.TabIndex = 3;
+            this.leftArea.TabStop = false;
             // 
             // MainForm
             // 
