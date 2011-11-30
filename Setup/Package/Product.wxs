@@ -13,7 +13,7 @@
   <Product Id="$(var.AppProductCode)" Name="$(var.AppCode)" Language="!(loc.LANGUAGE)" 
            Version="$(var.AppVersion)" Manufacturer="$(var.AppManufacturer)" 
            UpgradeCode="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
-    <Package Id="*" InstallerVersion="200" Compressed="yes" />
+    <Package Id="*" InstallerVersion="200" Compressed="yes"/>
     <Media Id="1" Cabinet="media1.cab" EmbedCab="no" />
     <Property Id="INSTALLLEVEL" Value="100" />
     <Property Id="ALLUSERS" Value="1" />
@@ -55,7 +55,7 @@
       <Directory Id="ProgramMenuFolder" Name="Programs">
         <Directory Id="ProgramMenuDir" Name="!(loc.APPNAME)">
           <Component Id="pmd" Guid="{60fa9a1b-662a-43df-a97b-d7667e79cb19}">
-            <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes" />
+            <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
             <RemoveFolder Id="ProgramMenuDirRF" On="uninstall" />
           </Component>
         </Directory>
@@ -63,6 +63,17 @@
       <Directory Id="DesktopFolder" Name="Desktop" />
     </Directory>
 
+    <!-- Compatibility Mode -->
+    <DirectoryRef Id="TARGETDIR">
+      <Component Id="AppCompatibilitySettings" Guid="{BE1ABB42-3AE4-4789-933C-1C22FE779F07}">
+        <RegistryKey Root="HKLM"
+                     Key="Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers">
+          <RegistryValue Type="string" Name="[INSTALLLOCATION]StationSetup.exe" Value="VISTARTM" KeyPath="yes"/>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+    
+    
     <?include Product.Uninstaller.wxi ?>
     <!-- Directory Structure -->
     <DirectoryRef Id="TARGETDIR">
@@ -278,6 +289,7 @@
       <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>
+      <ComponentRef Id='AppCompatibilitySettings'/>
     </Feature>
     <Feature Id='ClientFeature' Level='1' Title='Windows client' Description='Windows client'>
       <ComponentGroupRef Id='Wammer.Client'/>
