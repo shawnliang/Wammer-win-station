@@ -3,13 +3,13 @@
   <!-- This is translation to Chinese (Traditional, Taiwan) -->
   <String Id="LANGUAGE">1028</String>
   <String Id="CULTURE">zh-TW</String>
-  <String Id="APPNAME">(繁中) Waveface Windows Station</String>
-  <String Id="SHORTCUT.UNINSTALLER.NAME">(繁中) Uninstaller</String>
-  <String Id="MONGO_SVC_DESC">(繁中) MongoDB for Waveface Windows Station</String>
-  <String Id="STATION_SVC_DESC">(繁中) Waveface Windows Station service</String>
-  <String Id="SHORTCUT.AddUser.NAME">(繁中) Add a user</String>
-  <String Id="SHORTCUT.STARTWAVEFACE.NAME">(繁中) Waveface</String>
-  <String Id="DOWNGRADE.ERROR">(繁中) A later version of [ProductName] is already installed. Setup will now exit.</String>
-  <String Id="SIGNOFF.STATION.DESC">(繁中) Signing off this waveface windows station</String>
-  <String Id="CLEAN.STATION.INFO.DESC">(繁中) Cleaning station registry and database</String>
+  <String Id="APPNAME">Waveface Station</String>
+  <String Id="SHORTCUT.UNINSTALLER.NAME">解除安裝程式</String>
+  <String Id="MONGO_SVC_DESC">Waveface主程式的MongoDB</String>
+  <String Id="STATION_SVC_DESC">Waveface主程式服務</String>
+  <String Id="SHORTCUT.AddUser.NAME">增加一個使用者</String>
+  <String Id="SHORTCUT.STARTWAVEFACE.NAME">Waveface</String>
+  <String Id="DOWNGRADE.ERROR">您已安裝了比較新的 [ProductName] 版本. 安裝程序即將結束</String>
+  <String Id="SIGNOFF.STATION.DESC">退出Waveface主程式</String>
+  <String Id="CLEAN.STATION.INFO.DESC">清除Waveface主程式註冊碼與資料庫</String>
 </WixLocalization>

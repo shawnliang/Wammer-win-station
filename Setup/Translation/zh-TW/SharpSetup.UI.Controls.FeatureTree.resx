@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="miInstallAll.Text" xml:space="preserve">
-    <value>Install all on hard disk (繁中)</value>
+    <value>全部安裝至磁碟上</value>
   </data>
   <data name="miInstallNone.Text" xml:space="preserve">
-    <value>Don't install (繁中)</value>
+    <value>不要安裝</value>
   </data>
   <data name="miInstallOne.Text" xml:space="preserve">
-    <value>Install on hard disk (繁中)</value>
+    <value>安裝至磁碟上</value>
   </data>
 </root>

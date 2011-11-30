@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lblInstallation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="ipProgress.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -133,6 +133,9 @@
   </data>
   <data name="&gt;&gt;pbInstallation.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="pbInstallation.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 5, 10</value>
   </data>
   <data name="&gt;&gt;ipProgress.Type" xml:space="preserve">
     <value>SharpSetup.UI.Controls.InstallationProgress, SharpSetup, Version=1.4.1.158, Culture=neutral, PublicKeyToken=null</value>
@@ -186,9 +189,6 @@
   <data name="pbInstallation.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
   </data>
-  <data name="lblInstallation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>68, 90</value>
-  </data>
   <data name="lblInstallation.Text" xml:space="preserve">
     <value>Please wait while setup configures required application components. This may take a few minutes.</value>
   </data>
@@ -210,8 +210,8 @@
   <data name="ipProgress.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
   </data>
-  <data name="ipProgress.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+  <data name="lblInstallation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>68, 90</value>
   </data>
   <data name="&gt;&gt;ipProgress.Name" xml:space="preserve">
     <value>ipProgress</value>
@@ -219,8 +219,8 @@
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 3, 10, 3</value>
   </data>
-  <data name="pbInstallation.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 10, 5, 10</value>
+  <data name="lblInstallation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

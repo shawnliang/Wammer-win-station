@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblInstall.Text" xml:space="preserve">
-    <value>Please wait while installer is initializing... (繁體中文)</value>
+    <value>安裝精靈初始中…</value>
   </data>
   <data name="lblInitializing.Text" xml:space="preserve">
-    <value>Please wait... (繁體中文)</value>
+    <value>請稍待片刻…</value>
   </data>
 </root>

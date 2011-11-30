@@ -131,8 +131,11 @@
   <data name="&gt;&gt;dpInstallLocation.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="$this.Title" xml:space="preserve">
-    <value>Installation location</value>
+  <data name="lblDescription.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 13</value>
+  </data>
+  <data name="&gt;&gt;sdcbDiskSpace.Name" xml:space="preserve">
+    <value>sdcbDiskSpace</value>
   </data>
   <data name="&gt;&gt;dpInstallLocation.Type" xml:space="preserve">
     <value>SharpSetup.UI.Controls.DestinationPath, SharpSetup, Version=1.4.1.158, Culture=neutral, PublicKeyToken=null</value>
@@ -171,9 +174,6 @@
   <data name="dpInstallLocation.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 102</value>
   </data>
-  <data name="&gt;&gt;dpInstallLocation.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
   <data name="&gt;&gt;sdcbDiskSpace.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
@@ -189,6 +189,9 @@
   <data name="$this.Subtitle" xml:space="preserve">
     <value>Please choose where the program should be installed</value>
   </data>
+  <data name="sdcbDiskSpace.Size" type="System.Drawing.Size, System.Drawing">
+    <value>476, 67</value>
+  </data>
   <data name="dpInstallLocation.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
@@ -201,17 +204,14 @@
   <data name="&gt;&gt;sdcbDiskSpace.Type" xml:space="preserve">
     <value>SharpSetup.UI.Controls.SimpleDiskCostBox, SharpSetup, Version=1.4.1.158, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="lblDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 13</value>
-  </data>
   <data name="&gt;&gt;sdcbDiskSpace.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="sdcbDiskSpace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>476, 67</value>
+  <data name="$this.Title" xml:space="preserve">
+    <value>Installation location</value>
   </data>
-  <data name="&gt;&gt;sdcbDiskSpace.Name" xml:space="preserve">
-    <value>sdcbDiskSpace</value>
+  <data name="&gt;&gt;dpInstallLocation.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="sdcbDiskSpace.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 237</value>

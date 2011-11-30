@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="rbReinstall.Text" xml:space="preserve">
-    <value>Reinstall (繁中)</value>
+    <value>重新安裝</value>
   </data>
   <data name="rbCustom.Text" xml:space="preserve">
-    <value>Custom (繁中)</value>
+    <value>自訂</value>
   </data>
   <data name="rbUpgrade.Text" xml:space="preserve">
-    <value>Upgrade (繁中)</value>
+    <value>更新</value>
   </data>
   <data name="rbUninstall.Text" xml:space="preserve">
-    <value>Uninstall (繁中)</value>
+    <value>解除安裝</value>
   </data>
   <data name="rbInstall.Text" xml:space="preserve">
-    <value>Install (繁中)</value>
+    <value>安裝</value>
   </data>
   <data name="rbModify.Text" xml:space="preserve">
-    <value>Modify (繁中)</value>
+    <value>修改</value>
   </data>
 </root>

@@ -121,15 +121,15 @@
     <value>SharpSetup Wizard1 (繁中)</value>
   </data>
   <data name="btnFinish.Text" xml:space="preserve">
-    <value>&amp;Finish</value>
+    <value>&amp;完成</value>
   </data>
   <data name="btnCancel.Text" xml:space="preserve">
-    <value>&amp;Cancel</value>
+    <value>&amp;取消</value>
   </data>
   <data name="btnBack.Text" xml:space="preserve">
-    <value>&lt; &amp;Back</value>
+    <value>&lt; &amp;返回</value>
   </data>
   <data name="btnNext.Text" xml:space="preserve">
-    <value>&amp;Next &gt;</value>
+    <value>&amp;下一步&gt;</value>
   </data>
 </root>

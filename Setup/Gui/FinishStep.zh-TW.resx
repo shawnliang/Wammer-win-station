@@ -118,20 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblInstruction.Text" xml:space="preserve">
-    <value>Press Finish to exit installer. (繁體中文)</value>
+    <value>請按 完成" 結束安裝精靈。</value>
   </data>
   <data name="lblDetails.Text" xml:space="preserve">
-    <value>The installer has finished configuring application on this computer. (繁體中文)</value>
+    <value>安裝精靈已完成您電腦上的設定。</value>
   </data>
   <data name="lblFinished.Text" xml:space="preserve">
-    <value>Configuration finished (繁體中文)</value>
+    <value>設定完成。</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cbRunNow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 17</value>
+    <value>146, 17</value>
   </data>
   <data name="cbRunNow.Text" xml:space="preserve">
-    <value>Run application now (繁體中文)</value>
+    <value>完成後自動啟動程式。</value>
   </data>
   <data name="$this.Subtitle" xml:space="preserve">
     <value>Installation has finished (繁體中文)</value>

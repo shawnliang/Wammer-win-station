@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblTitle.Text" xml:space="preserve">
-    <value>Waveface Windows Station installation error (繁體中文)</value>
+    <value>Waveface主程式安裝錯誤。</value>
   </data>
   <data name="lblDetails.Text" xml:space="preserve">
-    <value>An unexpected error has occurred. Setup cannot continue. (繁體中文)</value>
+    <value>安裝失敗! 出現不明錯誤。</value>
   </data>
   <data name="lblInstruction.Text" xml:space="preserve">
-    <value>Press Finish to exit installer. (繁體中文)</value>
+    <value>請按 完成" 結束安裝精靈。</value>
   </data>
 </root>
