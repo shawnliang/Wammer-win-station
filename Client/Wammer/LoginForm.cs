@@ -248,7 +248,7 @@ namespace Waveface
             {
                 Cursor.Current = Cursors.Default;
 
-                MessageBox.Show(I18n.L.T("LoginForm.SignInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             Show();

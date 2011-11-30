@@ -437,10 +437,10 @@
             this.linkLabelLogin.LinkColor = System.Drawing.Color.White;
             this.linkLabelLogin.Location = new System.Drawing.Point(951, 51);
             this.linkLabelLogin.Name = "linkLabelLogin";
-            this.linkLabelLogin.Size = new System.Drawing.Size(53, 14);
+            this.linkLabelLogin.Size = new System.Drawing.Size(50, 14);
             this.linkLabelLogin.TabIndex = 3;
             this.linkLabelLogin.TabStop = true;
-            this.linkLabelLogin.Text = "Sign out";
+            this.linkLabelLogin.Text = "Log out";
             this.linkLabelLogin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkLabelLogin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelLogout_LinkClicked);
             // 

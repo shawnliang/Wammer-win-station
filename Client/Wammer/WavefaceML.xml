@@ -6,8 +6,8 @@
     <zh-TW>請填寫所有欄位.</zh-TW>
   </WItem>
   <WItem>
-    <ID>LoginForm.SignInError</ID>
-    <en-US>Sign In error. Please try again.</en-US>
+    <ID>LoginForm.LogInError</ID>
+    <en-US>Log In error. Please try again.</en-US>
     <zh-TW>登錄時發生錯誤, 請重新輸入.</zh-TW>
   </WItem>
 </WItems>

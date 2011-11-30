@@ -798,7 +798,6 @@
     <None Include="Resources\waveface_icon64.png" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <COMReference Include="MSHTML">
       <Guid>{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}</Guid>
       <VersionMajor>4</VersionMajor>
@@ -809,11 +808,9 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <Private>True</Private>
     </COMReference>
-=======
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
->>>>>>> 7b81fbfbf1bd63cc90c4e10f2de890d246f46db1
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
 </Project>
