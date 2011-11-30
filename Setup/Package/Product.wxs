@@ -127,6 +127,7 @@
       <ComponentRef Id="StationSetup.resources.dll"/>
       <ComponentRef Id="WavefaceWindowsClient.resources.dll"/>
       <ComponentRef Id="WavefaceML.xml"/>
+      <ComponentRef Id="Microsoft.mshtml.dll"/>
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
@@ -232,6 +233,9 @@
       </Component>
       <Component Id="waveface.localization.dll" Guid="{57E17EB6-BEA0-437F-987C-D5D0E569F855}">
         <File Id="waveface.localization.dll" Source="$(var.Localizer.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="Microsoft.mshtml.dll" Guid="{E3444381-2FBC-45A9-B3B2-6134E428CC49}">
+        <File Id="Microsoft.mshtml.dll" Source="$(var.Wammer.ProjectDir)\..\Libs\Microsoft.mshtml.dll"/>
       </Component>
     </DirectoryRef>
 
