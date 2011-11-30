@@ -51,7 +51,7 @@ namespace Wammer.Station
 
 				MessageBox.Show(L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
 
-				StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient();
+				StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient(textBoxMail.Text, textBoxPassword.Text);
 				Close();
 			}
 			catch (AuthenticationException _e)
@@ -79,7 +79,7 @@ namespace Wammer.Station
 
 						StationController.SignoffStation(_e.Id, textBoxMail.Text, textBoxPassword.Text);
 						StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
-						StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient();
+                        StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient(textBoxMail.Text, textBoxPassword.Text);
 					}
 					catch
 					{
