@@ -93,8 +93,8 @@
    
     <!-- Components -->
     <ComponentGroup Id="Wammer.Station.Service">
-      <ComponentRef Id="wammer.station.service.exe"/>
-      <ComponentRef Id="wammer.station.service.exe.config"/>
+      <ComponentRef Id="station.service.exe"/>
+      <ComponentRef Id="station.service.exe.config"/>
       <ComponentRef Id="fastJSON.dll"/>
       <ComponentRef Id="log4net.dll"/>
       <ComponentRef Id="MongoDB.Bson.dll"/>
@@ -116,8 +116,8 @@
       <ComponentRef Id="Spring.Http.Converters.NJson.dll"/>
       <ComponentRef Id="Spring.Rest.dll"/>
       <ComponentRef Id="UtilityLibrary.dll"/>
-      <ComponentRef Id="WammerHelper.exe"/>
-      <ComponentRef Id="WammerZ.exe"/>
+      <ComponentRef Id="WavefaceWindowsClientHelper.exe"/>
+      <ComponentRef Id="WavefaceWindowsClient.exe"/>
       <ComponentRef Id="Waveface.Configuration.dll"/>
       <ComponentRef Id="Waveface.Configuration.WindowsForms.dll"/>
       <ComponentRef Id="WebCam_Capture.dll"/>
@@ -128,16 +128,16 @@
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
-      <Component Id="wammer.station.service.exe" Guid="{C428C8C2-9C38-4E40-8372-E39C56970A82}">
-        <File Id="wammer.station.service.exe" Source="$(var.Wammer.Station.Service.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      <Component Id="station.service.exe" Guid="{C428C8C2-9C38-4E40-8372-E39C56970A82}">
+        <File Id="station.service.exe" Source="$(var.Wammer.Station.Service.TargetPath)" KeyPath="yes" Checksum="yes"/>
         <ServiceInstall Description="!(loc.STATION_SVC_DESC)" DisplayName="Waveface Station"
                         Name="WavefaceStation" Start="auto" Type="ownProcess" ErrorControl="ignore">
           <ServiceDependency Id="MongoDbForWaveface"/>
         </ServiceInstall>
         <ServiceControl Name='WavefaceStation' Id='WavefaceStationSvcControl' Start='install' Remove='uninstall' Stop='both' Wait='yes'/>
       </Component>
-      <Component Id="wammer.station.service.exe.config" Guid="{17767F57-1550-4788-87E6-1B3C3A72D46D}">
-        <File Id="wammer.station.service.exe.config" 
+      <Component Id="station.service.exe.config" Guid="{17767F57-1550-4788-87E6-1B3C3A72D46D}">
+        <File Id="station.service.exe.config" 
               Source="$(var.Wammer.Station.Service.ProjectDir)\app.config" 
               Name="$(var.Wammer.Station.Service.TargetFileName).config" KeyPath="yes"/>
       </Component>
@@ -153,8 +153,8 @@
       <Component Id="MongoDB.Driver.dll" Guid="{DA8A66C8-D977-4524-AA1E-8C95767F0C30}">
         <File Id="MongoDB.Driver.dll" Source="$(var.Wammer.Station.Service.TargetDir)\MongoDB.Driver.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="Wammer.Station.Management.exe" Guid="{F6BE5F51-E2BB-4BC3-BA4E-9488DCBA4D5B}">
-        <File Id="Wammer.Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      <Component Id="Station.Management.exe" Guid="{F6BE5F51-E2BB-4BC3-BA4E-9488DCBA4D5B}">
+        <File Id="Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
 
       <Component Id="StationSetup.exe" Guid="{7C8AE609-024C-462B-8291-9AA522CB1193}">
@@ -204,11 +204,11 @@
       <Component Id="UtilityLibrary.dll" Guid="{A8DC5CB9-C1AD-4EA1-AA88-A0AFFE0A15B5}">
         <File Id="UtilityLibrary.dll" Source="$(var.Wammer.TargetDir)\UtilityLibrary.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="WammerHelper.exe" Guid="{C33E6305-13B0-43EE-8000-BCE3B0507117}">
-        <File Id="WammerHelper.exe" Source="$(var.Wammer.TargetDir)\WammerHelper.exe" KeyPath="yes" Checksum="yes"/>
+      <Component Id="WavefaceWindowsClientHelper.exe" Guid="{C33E6305-13B0-43EE-8000-BCE3B0507117}">
+        <File Id="WavefaceWindowsClientHelper.exe" Source="$(var.Wammer Helper.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="WammerZ.exe" Guid="{7168B0C6-A08E-41FB-9339-86C3B6FBC43C}">
-        <File Id="WammerZ.exe" Source="$(var.Wammer.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      <Component Id="WavefaceWindowsClient.exe" Guid="{7168B0C6-A08E-41FB-9339-86C3B6FBC43C}">
+        <File Id="WavefaceWindowsClient.exe" Source="$(var.Wammer.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="Waveface.Configuration.dll" Guid="{A33A4D78-12AB-42CD-8F32-22E79780E355}">
         <File Id="Waveface.Configuration.dll" Source="$(var.Wammer.TargetDir)\Waveface.Configuration.dll" KeyPath="yes" Checksum="yes"/>
@@ -263,7 +263,7 @@
       <ComponentRef Id="mongod.exe"/>
       <ComponentRef Id="mongos.exe"/>
       <ComponentRef Id="mongo.exe"/>
-      <ComponentRef Id="Wammer.Station.Management.exe"/>
+      <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>
     </Feature>
