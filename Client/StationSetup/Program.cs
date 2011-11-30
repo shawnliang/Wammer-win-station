@@ -47,7 +47,7 @@ namespace StationSetup
 			{
 			    if ((email == string.Empty) || (password == string.Empty))
 			    {
-			        Process.Start(WavefaceWindowsClientPath, null);
+					Process.Start(WavefaceWindowsClientPath, null);
 			    }
 			    else
 			    {

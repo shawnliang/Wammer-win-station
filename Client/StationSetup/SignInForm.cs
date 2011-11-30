@@ -79,7 +79,8 @@ namespace Wammer.Station
 
 						StationController.SignoffStation(_e.Id, textBoxMail.Text, textBoxPassword.Text);
 						StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
-                        StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient(textBoxMail.Text, textBoxPassword.Text);
+						StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient(textBoxMail.Text, textBoxPassword.Text);
+						Close();
 					}
 					catch
 					{
