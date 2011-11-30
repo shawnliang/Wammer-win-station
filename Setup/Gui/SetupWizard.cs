@@ -56,7 +56,7 @@ namespace Gui
 						//AddStep(new PrerequisiteCheckStep());
 						//AddStep(new UserRegistrationStep());
 						//AddStep(new InstallationTypeStep());
-						AddStep(new InstallationLocationStep());
+						//AddStep(new InstallationLocationStep());
 						//AddStep(new FeatureSelectionStep());
 						//AddStep(new Step1());
 						//AddStep(new ReadyStep());
