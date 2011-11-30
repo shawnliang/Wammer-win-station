@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DowngradeNotSupported" xml:space="preserve">
-    <value>The wizard has detected that newer version of Waveface Windows Station is already installed on your computer. Setup cannot continue. (繁中)</value>
+    <value>安裝精靈偵測到您已有較新版本的Waveface主程式安裝在此部電腦上。安裝動作無法繼續。</value>
   </data>
   <data name="FinishStepCommand" xml:space="preserve">
     <value>{0}\StationSetup.exe</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="LicenseStepRtf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ResourceFiles\LicenseStep.zh-TW.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
   </data>
@@ -131,15 +131,15 @@
     <value>Package.msi</value>
   </data>
   <data name="WelcomeStepGreetingInstall" xml:space="preserve">
-    <value>The wizard will install Waveface Windows Station on your computer. (繁中)</value>
+    <value>安裝精靈將安裝Waveface主程式的動作。</value>
   </data>
   <data name="WelcomeStepGreetingModify" xml:space="preserve">
-    <value>The wizard will modify Waveface Windows Station on your computer. (繁中)</value>
+    <value>安裝精靈將修改Waveface主程式。</value>
   </data>
   <data name="WelcomeStepGreetingReinstall" xml:space="preserve">
-    <value>The wizard will reinstall Waveface Windows Station on your computer. (繁中)</value>
+    <value>安裝精靈將重新安裝Waveface主程式。</value>
   </data>
   <data name="WelcomeStepGreetingUninstall" xml:space="preserve">
-    <value>The wizard will uninstall Waveface Windows Station from your computer. (繁中)</value>
+    <value>安裝精靈將執行解除安裝Waveface主程式的動作。</value>
   </data>
 </root>

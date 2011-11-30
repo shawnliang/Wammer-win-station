@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblInstallation.Text" xml:space="preserve">
-    <value>Please wait while setup configures required application components. This may take a few minutes. (繁體中文)</value>
+    <value>必要元件的初始設定進行中，請稍等幾分鐘。</value>
   </data>
   <data name="$this.Subtitle" xml:space="preserve">
-    <value>Choosen application components are being configured (繁體中文)</value>
+    <value>正在設定選擇的安裝元件。</value>
   </data>
   <data name="$this.Title" xml:space="preserve">
-    <value>Configuring product (繁體中文)</value>
+    <value>設定產品。</value>
   </data>
 </root>

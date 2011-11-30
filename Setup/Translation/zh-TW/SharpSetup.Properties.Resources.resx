@@ -118,46 +118,46 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PL_Warning" xml:space="preserve">
-    <value>Warning (繁中)</value>
+    <value>警告</value>
   </data>
   <data name="InstallNotSupportedDialogText" xml:space="preserve">
-    <value>Normal installation not supported. (繁中)</value>
+    <value>不支援正常安裝程序</value>
   </data>
   <data name="PL_Rule" xml:space="preserve">
-    <value>Rule (繁中)</value>
+    <value>規則</value>
   </data>
   <data name="PL_Result" xml:space="preserve">
-    <value>Result (繁中)</value>
+    <value>結果</value>
   </data>
   <data name="ThreadExceptionDialogCaption" xml:space="preserve">
     <value>%APPNAME%</value>
   </data>
   <data name="SilentInstallNotSupportedDialogText" xml:space="preserve">
-    <value>Silent installation not supported. (繁中)</value>
+    <value>不支援靜默安裝。</value>
   </data>
   <data name="ApplicationName" xml:space="preserve">
     <value>%APPNAME%</value>
   </data>
   <data name="ExitDialogQuestion" xml:space="preserve">
-    <value>Do you really want to quit %APPNAME% installation wizard? (繁中)</value>
+    <value>您是否要退出 %APPNAME% 的安裝精靈?</value>
   </data>
   <data name="PL_Error" xml:space="preserve">
-    <value>Failed (繁中)</value>
+    <value>失敗</value>
   </data>
   <data name="PL_Image" xml:space="preserve">
     <value />
   </data>
   <data name="ChooseTargetFolder" xml:space="preserve">
-    <value>Please choose target folder location: (繁中)</value>
+    <value>請選擇指定的資料夾:</value>
   </data>
   <data name="PL_Ok" xml:space="preserve">
-    <value>Passed (繁中)</value>
+    <value>通過</value>
   </data>
   <data name="ExitDialogCaption" xml:space="preserve">
     <value>%APPNAME%</value>
   </data>
   <data name="PL_CheckInProgress" xml:space="preserve">
-    <value>Prerequisite '{0}' is being checked. (繁中)</value>
+    <value>'{0}' 條件已檢測.</value>
   </data>
   <data name="InstallNotSupportedDialogCaption" xml:space="preserve">
     <value>%APPNAME%</value>
@@ -166,7 +166,7 @@
     <value>%APPNAME%</value>
   </data>
   <data name="PL_InProgress" xml:space="preserve">
-    <value>Checking... (繁中)</value>
+    <value>檢測中…</value>
   </data>
   <data name="PL_Unknown" xml:space="preserve">
     <value />

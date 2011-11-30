@@ -61,7 +61,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard has detected that newer version of Waveface Windows Station is already installed on your computer. Setup cannot continue..
+        ///   Looks up a localized string similar to The wizard has detected that newer version of Waveface Station is already installed on your computer. Setup cannot continue..
         /// </summary>
         internal static string DowngradeNotSupported {
             get {
@@ -110,7 +110,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will install Waveface Windows Station on your computer..
+        ///   Looks up a localized string similar to The wizard will install Waveface Station on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingInstall {
             get {
@@ -119,7 +119,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will modify Waveface Windows Station on your computer..
+        ///   Looks up a localized string similar to The wizard will modify Waveface Station on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingModify {
             get {
@@ -128,7 +128,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will reinstall Waveface Windows Station on your computer..
+        ///   Looks up a localized string similar to The wizard will reinstall Waveface Station on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingReinstall {
             get {
@@ -137,7 +137,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will uninstall Waveface Windows Station from your computer..
+        ///   Looks up a localized string similar to The wizard will uninstall Waveface Station from your computer..
         /// </summary>
         internal static string WelcomeStepGreetingUninstall {
             get {

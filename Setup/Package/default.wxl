@@ -3,13 +3,13 @@
   <!-- This is translation to English (United States) -->
   <String Id="LANGUAGE">1033</String>
   <String Id="CULTURE">en-US</String>
-  <String Id="APPNAME">Waveface Windows Station</String>
+  <String Id="APPNAME">Waveface Station</String>
   <String Id="SHORTCUT.UNINSTALLER.NAME">Uninstaller</String>
-  <String Id="MONGO_SVC_DESC">MongoDB for Waveface Windows Station</String>
-  <String Id="STATION_SVC_DESC">Waveface Windows Station service</String>
+  <String Id="MONGO_SVC_DESC">MongoDB for Waveface Station </String>
+  <String Id="STATION_SVC_DESC">Waveface Station service</String>
   <String Id="SHORTCUT.AddUser.NAME">Add a user</String>
   <String Id="SHORTCUT.STARTWAVEFACE.NAME">Waveface</String>
   <String Id="DOWNGRADE.ERROR">A later version of [ProductName] is already installed. Setup will now exit.</String>
-  <String Id="SIGNOFF.STATION.DESC">Signing off this waveface windows station</String>
+  <String Id="SIGNOFF.STATION.DESC">Signing off this Waveface Station</String>
   <String Id="CLEAN.STATION.INFO.DESC">Cleaning station registry and database</String>
 </WixLocalization>

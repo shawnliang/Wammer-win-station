@@ -121,19 +121,19 @@
     <value>0 kB</value>
   </data>
   <data name="lblSpaceRequired.Text" xml:space="preserve">
-    <value>Required space: (繁中)</value>
+    <value>需要空間:</value>
   </data>
   <data name="lblSpaceRemains.Text" xml:space="preserve">
-    <value>Remaining space: (繁中)</value>
+    <value>剩餘空間:</value>
   </data>
   <data name="lblDiskName.Text" xml:space="preserve">
-    <value>Disk name: (繁中)</value>
+    <value>磁碟名稱:</value>
   </data>
   <data name="lblSpaceFree.Text" xml:space="preserve">
-    <value>Free space: (繁中)</value>
+    <value>可用空間:</value>
   </data>
   <data name="lblSpaceTotal.Text" xml:space="preserve">
-    <value>Total space: (繁中)</value>
+    <value>總空間:</value>
   </data>
   <data name="lblSpaceRequiredAmount.Text" xml:space="preserve">
     <value>0 kB</value>
@@ -145,7 +145,7 @@
     <value>0 kB</value>
   </data>
   <data name="gbDiskSpace.Text" xml:space="preserve">
-    <value>Disk space (繁中)</value>
+    <value>磁碟空間:</value>
   </data>
   <data name="lblSpaceFreeAmount.Text" xml:space="preserve">
     <value>0 kB</value>

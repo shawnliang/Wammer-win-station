@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="rtbLicense.Text" xml:space="preserve">
-    <value>license file (繁體中文)</value>
+    <value>license file</value>
   </data>
   <data name="cbAccept.Text" xml:space="preserve">
-    <value>I &amp;accept the license agreement (繁體中文)</value>
+    <value>我同意使用條款。</value>
   </data>
   <data name="$this.Subtitle" xml:space="preserve">
-    <value>Please carefully read the license agreement and accept it. (繁體中文)</value>
+    <value>請仔細閱讀並同意使用條款。</value>
   </data>
   <data name="$this.Title" xml:space="preserve">
-    <value>Accept license agreement (繁體中文)</value>
+    <value>同意使用條款。</value>
   </data>
 </root>

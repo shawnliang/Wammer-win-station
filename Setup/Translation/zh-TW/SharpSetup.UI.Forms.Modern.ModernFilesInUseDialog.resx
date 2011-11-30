@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
-    <value>Files in use dialog (繁中)</value>
+    <value>使用中檔案訊息</value>
   </data>
   <data name="lblMessage.Text" xml:space="preserve">
     <value>(This text will be provided by Windows Installer)</value>
   </data>
   <data name="btnIgnore.Text" xml:space="preserve">
-    <value>Ignore (繁中)</value>
+    <value>忽略</value>
   </data>
   <data name="btnCancel.Text" xml:space="preserve">
-    <value>Cancel (繁中)</value>
+    <value>取消</value>
   </data>
   <data name="btnRetry.Text" xml:space="preserve">
-    <value>Retry (繁中)</value>
+    <value>重試</value>
   </data>
 </root>
