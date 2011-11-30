@@ -14,13 +14,13 @@ namespace StationSetup
 		[STAThread]
 		static void Main()
 		{
-		    CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
-            //CultureManager.ApplicationUICulture = new CultureInfo("en-US");
-            //CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+			CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
+			//CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+			//CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
 
-            Application.EnableVisualStyles();
+			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-              
+			  
 			if (WavefaceWindowsClientHelper.IsAlreadyResistered())
 			{
 				WavefaceWindowsClientHelper.StartWavefaceWindowsClient();
@@ -33,10 +33,6 @@ namespace StationSetup
 
 	public class WavefaceWindowsClientHelper
 	{
-		public static void SetRegistered()
-		{
-		}
-
 		public static bool IsAlreadyResistered()
 		{
 			return Wammer.Station.Management.StationController.GetOwner() != null;
@@ -45,7 +41,7 @@ namespace StationSetup
 		public static void StartWavefaceWindowsClient()
 		{
 			string ProgramDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string WavefaceWindowsClientPath = Path.Combine(ProgramDir, "WavefaceWindowsClient.exe");
+			string WavefaceWindowsClientPath = Path.Combine(ProgramDir, "WavefaceWindowsClient.exe");
 
 			try
 			{

@@ -10,16 +10,16 @@ namespace Wammer.Station
 {
 	public partial class SignInForm : Form
 	{
-        private const string SignUpURL = @"http://develop.waveface.com:4343/signup";
-        private Localizer L;
+		private const string SignUpURL = @"http://develop.waveface.com:4343/signup";
+		private Localizer L;
 
 		public SignInForm()
 		{
-            L = new Localizer();
-            L.WItemsFullPath = Application.StartupPath + "\\StationML.xml";
-		    L.CurrentCulture = CultureManager.ApplicationUICulture;
-            
-            InitializeComponent();
+			L = new Localizer();
+			L.WItemsFullPath = Application.StartupPath + "\\StationML.xml";
+			L.CurrentCulture = CultureManager.ApplicationUICulture;
+			
+			InitializeComponent();
 		}
 
 		private void buttonOK_Click(object sender, EventArgs e)
@@ -27,14 +27,14 @@ namespace Wammer.Station
 			// 檢查是否都有填值
 			if ((textBoxMail.Text == string.Empty) || (textBoxPassword.Text == string.Empty))
 			{
-                MessageBox.Show(L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
 			// 檢查email格式
 			if (!TestEmailFormat(textBoxMail.Text))
 			{
-                MessageBox.Show(L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -49,9 +49,8 @@ namespace Wammer.Station
 			{
 				StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
 
-                MessageBox.Show(L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
+				MessageBox.Show(L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
 
-				StationSetup.WavefaceWindowsClientHelper.SetRegistered();
 				StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient();
 				Close();
 			}
@@ -79,20 +78,19 @@ namespace Wammer.Station
 						Cursor.Current = Cursors.WaitCursor;
 
 						StationController.SignoffStation(_e.Id, textBoxMail.Text, textBoxPassword.Text);
-
-						//重新呼叫 StationController.AddUser
-						timerDelay.Enabled = true;
+						StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
+						StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient();
 					}
 					catch
 					{
 						Cursor.Current = Cursors.Default;
 
-                        ShowErrorDialogAndExit(L.T("SignOffStationError"));
+						ShowErrorDialogAndExit(L.T("SignOffStationError"));
 					}
 				}
 				else
 				{
-                    ShowErrorDialogAndExit(L.T("MustRemoveOld"));
+					ShowErrorDialogAndExit(L.T("MustRemoveOld"));
 				}
 			}
 			catch (StationAlreadyHasDriverException _e)
@@ -122,16 +120,9 @@ namespace Wammer.Station
 			return _reStrict.IsMatch(emailAddress);
 		}
 
-		private void timerDelay_Tick(object sender, EventArgs e)
+		private void linkLabelNew_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			timerDelay.Enabled = false;
-
-			AddUser();
+			Process.Start(SignUpURL, null);
 		}
-
-        private void linkLabelNew_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start(SignUpURL, null);
-        }
 	}
 }
