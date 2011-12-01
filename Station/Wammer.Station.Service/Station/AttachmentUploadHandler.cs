@@ -50,7 +50,7 @@ namespace Wammer.Station
 			{
 				file.object_id = Guid.NewGuid().ToString();
 			}
-
+			 
 			if (Parameters["apikey"] == null || Parameters["session_token"] == null)
 				throw new FormatException("apikey or session_token is missing");
 			

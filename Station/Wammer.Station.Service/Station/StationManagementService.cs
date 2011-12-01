@@ -142,30 +142,46 @@ namespace Wammer.Station
 		public Stream GetStatus()
 		{
 			logger.Debug("GetStatus is called");
-			StationStatus res = StatusChecker.GetStatus();
-
-			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, new GetStatusResponse
+			try
 			{
-				api_ret_code = 0,
-				api_ret_msg = "success",
-				status = 200,
-				timestamp = DateTime.UtcNow,
-				station_status = res
-			});
+				StationStatus res = StatusChecker.GetStatus();
+
+				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, new GetStatusResponse
+				{
+					api_ret_code = 0,
+					api_ret_msg = "success",
+					status = 200,
+					timestamp = DateTime.UtcNow,
+					station_status = res
+				});
+			}
+			catch (Exception e)
+			{
+				logger.Error("Error in GetStatus", e);
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, -1, e.Message);
+			}
 		}
 
 		public Stream GetResourceDir()
 		{
-			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
-				new GetResourceDirResponse
-				{
-					status = 200,
-					api_ret_code = 0,
-					api_ret_msg = "success",
-					timestamp = DateTime.UtcNow,
-					path = Path.IsPathRooted(resourceBasePath)?
-							resourceBasePath : Path.GetFullPath(resourceBasePath)
-				});
+			try
+			{
+				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current,
+					new GetResourceDirResponse
+					{
+						status = 200,
+						api_ret_code = 0,
+						api_ret_msg = "success",
+						timestamp = DateTime.UtcNow,
+						path = Path.IsPathRooted(resourceBasePath) ?
+								resourceBasePath : Path.GetFullPath(resourceBasePath)
+					});
+			}
+			catch (Exception e)
+			{
+				logger.Error("Error in GetResourceDir", e);
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, -1, e.Message);
+			}
 		}
 		
 		public Stream SetResourceDir(Stream requestContent)
@@ -188,6 +204,7 @@ namespace Wammer.Station
 			}
 			catch (Exception e)
 			{
+				logger.Error("Error in SetResourceDir", e);
 				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current,
 					HttpStatusCode.InternalServerError, -1, e.Message);
 			}

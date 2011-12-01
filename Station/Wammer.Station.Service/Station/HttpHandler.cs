@@ -37,6 +37,8 @@ namespace Wammer.Station
 		private const string URL_ENCODED_FORM = "application/x-www-form-urlencoded";
 		private const string MULTIPART_FORM = "multipart/form-data";
 
+		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
+
 		protected HttpHandler()
 		{
 		}
@@ -63,6 +65,17 @@ namespace Wammer.Station
 					ExtractParamsFromMultiPartFormData(part);
 				}
 			}
+
+			if (logger.IsDebugEnabled)
+			{
+				logger.Debug("====== Request " + Request.Url.AbsolutePath + 
+								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
+				foreach (string key in Parameters.AllKeys)
+					logger.DebugFormat("{0} : {1}", key, Parameters[key]);
+				foreach (UploadedFile file in Files)
+					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Length);
+			}
+
 
 			HandleRequest();
 		}

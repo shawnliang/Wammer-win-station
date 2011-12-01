@@ -19,6 +19,7 @@ namespace Wammer.Station
 		private HttpHandlerProxy defaultHandler;
 		private bool stopping = false;
 		private bool started = false;
+		log4net.ILog logger = null;
 
 		public HttpServer(int port)
 		{
@@ -26,6 +27,7 @@ namespace Wammer.Station
 			this.listener = new HttpListener();
 			this.handlers = new Dictionary<string, HttpHandlerProxy>();
 			this.defaultHandler = null;
+			this.logger = log4net.LogManager.GetLogger("HttpServer");
 		}
 
 		public void AddHandler(string path, IHttpHandler handler)
@@ -102,29 +104,36 @@ namespace Wammer.Station
 			try
 			{
 				context = listener.EndGetContext(result);
+
+				listener.BeginGetContext(this.ConnectionAccepted, null);
+
+				if (context != null)
+				{
+					HttpHandlerProxy handler = FindBestMatch(
+												context.Request.Url.AbsolutePath);
+
+					if (handler != null)
+						ThreadPool.QueueUserWorkItem(handler.Do, context);
+					else
+						respond404NotFound(context);
+				}
+			}
+			catch (ObjectDisposedException e)
+			{
+				logger.Info("Http server disposed. Shutdown server");
 			}
 			catch (Exception e)
 			{
 				if (stopping)
+				{
+					logger.Info("Shutdown server");
 					return;
+				}
 				else
 				{
-					//TODO: write log...
-					throw;
+					logger.Info("Shutdown server", e);
+					return;
 				}
-			}
-
-			listener.BeginGetContext(this.ConnectionAccepted, null);
-
-			if (context != null)
-			{
-				HttpHandlerProxy handler = FindBestMatch(
-											context.Request.Url.AbsolutePath);
-
-				if (handler != null)
-					ThreadPool.QueueUserWorkItem(handler.Do, context);
-				else
-					respond404NotFound(context);
 			}
 		}
 

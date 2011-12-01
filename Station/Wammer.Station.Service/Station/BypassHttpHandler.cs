@@ -13,6 +13,7 @@ namespace Wammer.Station
 		private readonly string host;
 		private readonly int port;
 		private readonly List<string> exceptPrefixes = new List<string>();
+		private static log4net.ILog logger = log4net.LogManager.GetLogger("BypassTraffic");
 
 		public BypassHttpHandler(string baseUrl)
 		{
@@ -41,6 +42,7 @@ namespace Wammer.Station
 
 		public void HandleRequest(HttpListenerRequest origReq, HttpListenerResponse response)
 		{
+			logger.Debug("Forward to cloud: " + origReq.Url.AbsolutePath);
 			try
 			{
 				if (HasNotAllowedPrefix(origReq.Url.AbsolutePath))
@@ -72,12 +74,12 @@ namespace Wammer.Station
 				{
 					try
 					{
+						logger.Debug("Cloud responded error: " + errResponse.StatusCode);
 						CopyResponseData(errResponse, response);
 					}
 					catch (Exception ex)
 					{
-						log4net.ILog logger = log4net.LogManager.GetLogger(typeof(BypassHttpHandler));
-						logger.Error("Error reply error", ex);
+						logger.Error("Error when replying cloud error", ex);
 					}
 				}
 			}
