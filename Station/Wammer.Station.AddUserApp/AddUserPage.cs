@@ -100,5 +100,50 @@ namespace Wammer.Station.StartUp
 			e.Link.Visited = true;
 			System.Diagnostics.Process.Start(e.Link.LinkData as string);
 		}
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+			long quota = Convert.ToInt64(quotaText.Text);
+			try
+			{
+				StationController.ConnectDropbox(quota);
+				MessageBox.Show("Connect Dropbox successfullly.");
+			}
+			catch (DropboxNotInstalledException ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+			catch (DropboxNoSyncFolderException ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			List<StorageStatus> storages = StationController.ListCloudStorage();
+			cloudStorageListTextBox.Text = fastJSON.JSON.Instance.ToJSON(storages, false, false, false, false);
+		}
+
+		private void button5_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				string url = StationController.GetDropboxOAuthUrl();
+				dropboxOAuthUrlTextBox.Text = url;
+			}
+			catch (GetDropboxOAuthException ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
 	}
 }

@@ -100,6 +100,9 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\3rd_party\sqlite\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
@@ -116,6 +119,8 @@
     <Compile Include="Cloud\ObjectUploadResponse.cs" />
     <Compile Include="Cloud\Station.cs" />
     <Compile Include="Cloud\StationSignUpResponse.cs" />
+    <Compile Include="Cloud\Storage.cs" />
+    <Compile Include="Cloud\StorageResponse.cs" />
     <Compile Include="Cloud\User.cs" />
     <Compile Include="Cloud\UserLogInResponse.cs" />
     <Compile Include="Cloud\WammerCloudException.cs" />
@@ -126,6 +131,7 @@
     <Compile Include="Station\AttachmentService.cs" />
     <Compile Include="Station\AtomicDictionary.cs" />
     <Compile Include="Model\Database.cs" />
+    <Compile Include="Station\CloudStorageApiRetCode.cs" />
     <Compile Include="Station\CloudStorageService.cs" />
     <Compile Include="Station\CloudStorageSync.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
