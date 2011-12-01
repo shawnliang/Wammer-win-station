@@ -27,13 +27,15 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
+			ImageMeta imageMeta = ImageMeta.None;
+
 			try
 			{
 				string objectId = Parameters["object_id"];
 				if (objectId == null)
 					throw new ArgumentException("missing required param: object_id");
 
-				ImageMeta imageMeta;
+				
 
 				if (Parameters["image_meta"] == null)
 					imageMeta = ImageMeta.Origin;
@@ -84,7 +86,11 @@ namespace Wammer.Station
 			}
 			catch (FileNotFoundException e)
 			{
-				TunnelToCloud();
+				if (imageMeta == ImageMeta.Origin)
+					HttpHelper.RespondFailure(Response,
+						new CloudResponse((int)HttpStatusCode.NotFound, -1, "No such resource"));
+				else
+					TunnelToCloud();
 			}
 		}
 	}

@@ -274,7 +274,7 @@ namespace UT_WammerStation
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
 										"http://localhost:8080/v1/objects/view" +
-										"?object_id=abc&apikey=123&session_token=token123");
+										"?object_id=abc&apikey=123&session_token=token123&image_meta=medium");
 				req.Method = "GET";
 
 				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
@@ -315,7 +315,7 @@ namespace UT_WammerStation
 				req.Method = "POST";
 				using (StreamWriter fs = new StreamWriter(req.GetRequestStream()))
 				{
-					fs.Write("object_id=abc&apikey=123&session_token=token123");
+					fs.Write("object_id=abc&apikey=123&session_token=token123&image_meta=medium");
 				}
 
 				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
@@ -334,17 +334,8 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestView_ForwardToCloud_CloudReturnError()
+		public void TestView_BodyWontBeForward()
 		{
-			CloudServer.BaseUrl = "http://localhost/v2/";
-
-			JsonResponseWriter writer = new JsonResponseWriter
-			{
-				json = fastJSON.JSON.Instance.ToJSON(new CloudResponse(405, -1, "cloud error")),
-				status = 405
-			};
-
-			using (FakeCloud cloud = new FakeCloud(writer))
 			using (HttpServer server = new HttpServer(8080))
 			{
 				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
@@ -366,15 +357,7 @@ namespace UT_WammerStation
 				catch (WebException e)
 				{
 					HttpWebResponse response = (HttpWebResponse) e.Response;
-					Assert.AreEqual(HttpStatusCode.MethodNotAllowed, response.StatusCode);
-					Assert.AreEqual("application/json", response.ContentType);
-
-					using (StreamReader r = new StreamReader(response.GetResponseStream()))
-					{
-						string resText = r.ReadToEnd();
-						Assert.AreEqual(writer.json, resText);
-					}
-
+					Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
 					return;
 				}
 
