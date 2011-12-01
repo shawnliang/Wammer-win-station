@@ -95,12 +95,14 @@ namespace Wammer.Station
 				{
 				    try
 				    {
-				        storage.StorageLink(agent, new Dictionary<object, object>
-							{
-								{ "type", "dropbox" },
-								{ "account", account }
-							}
-						);
+						if (string.IsNullOrEmpty(account))
+						{
+							storage.StorageLink(agent, new Dictionary<object, object> {	{ "type", "dropbox" } });
+						}
+						else
+						{
+							storage.StorageLink(agent, new Dictionary<object, object> {	{ "type", "dropbox" }, { "account", account } });
+						}
 						StorageCheckResponse res = storage.StorageCheck(agent, new Dictionary<object,object> { { "type", "dropbox" } });
 						if (res.storages.status != 0)
 						{
