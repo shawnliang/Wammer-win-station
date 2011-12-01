@@ -128,6 +128,6 @@
     <value>請選擇指定的安裝路徑。</value>
   </data>
   <data name="$this.Title" xml:space="preserve">
-    <value>安裝路徑。</value>
+    <value>安裝路徑</value>
   </data>
 </root>

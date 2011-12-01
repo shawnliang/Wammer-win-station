@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblWelcome.Text" xml:space="preserve">
-    <value>歡迎使用Waveface主程式安裝精靈。</value>
+    <value>歡迎使用Waveface主程式安裝精靈</value>
   </data>
   <data name="lblMode.Text" xml:space="preserve">
     <value>安裝精靈將自動在您的電腦上開始設定Waveface主程式。</value>
