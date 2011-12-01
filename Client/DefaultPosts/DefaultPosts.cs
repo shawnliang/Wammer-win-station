@@ -1,4 +1,5 @@
-﻿
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,6 +8,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Waveface.API.V2;
+
+#endregion
 
 namespace Waveface
 {
@@ -53,7 +56,7 @@ namespace Waveface
 
             CheckStation(m_login.stations);
 
-            getGroupAndUser();
+            //getGroupAndUser();
 
             //預設群組
             RT.CurrentGroupID = m_login.groups[0].group_id;
@@ -110,190 +113,6 @@ namespace Waveface
 
         #endregion
 
-        #region API
-
-        public string attachments_getRedirectURL(string orgURL, string object_id)
-        {
-            return ServerImageAddressUtility.attachments_getRedirectURL(orgURL, SessionToken, object_id);
-        }
-
-        public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url, out string fileName)
-        {
-            return ServerImageAddressUtility.attachments_getRedirectURL_Image(SessionToken, a, imageType, out url, out fileName);
-        }
-
-        public MR_posts_new Post_CreateNewPost(string text, string files, string previews, string type)
-        {
-            MR_posts_new _postsNew = m_serviceV2.posts_new(SessionToken, RT.CurrentGroupID, text, files, previews, type);
-
-            if ((_postsNew != null) && (_postsNew.status == "200"))
-            {
-                return _postsNew;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_posts_newComment Posts_NewComment(string post_id, string content, string objects, string previews)
-        {
-            MR_posts_newComment _newComment = m_serviceV2.posts_newComment(SessionToken, RT.CurrentGroupID, post_id, content, objects, previews);
-
-            if ((_newComment != null) && (_newComment.status == "200"))
-            {
-                return _newComment;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_posts_getSingle Posts_GetSingle(string post_id)
-        {
-            MR_posts_getSingle _getSingle = m_serviceV2.posts_getSingle(SessionToken, RT.CurrentGroupID, post_id);
-
-            if ((_getSingle != null) && (_getSingle.status == "200"))
-            {
-                return _getSingle;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_previews_get_adv Preview_GetAdvancedPreview(string url)
-        {
-            MR_previews_get_adv _previewsGetAdv = m_serviceV2.previews_get_adv(SessionToken, url);
-
-            if ((_previewsGetAdv != null) && (_previewsGetAdv.status == "200"))
-            {
-                return _previewsGetAdv;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage)
-        {
-            MR_attachments_upload _attachmentsUpload;
-            string _resizedImageFilePath = string.Empty;
-
-            if (isImage)
-            {
-                if (RT.IsStationOK) //如果有Station則上傳原圖, 否則就上512中圖
-                {
-                    _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text, "", "image", "origin", object_id);
-                }
-                else
-                {
-                    _resizedImageFilePath = ResizeImage(filePath, text, "512", 50);
-                    _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, _resizedImageFilePath, text, "", "image", "medium", object_id);
-                }
-            }
-            else
-            {
-                _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text, "", "doc", "", "");
-            }
-
-            if ((_attachmentsUpload != null) && (_attachmentsUpload.status == "200"))
-            {
-                // 如果傳中圖到Cloud, 則要把原圖Cache起來, 待有Station在傳原圖
-                if (_resizedImageFilePath != string.Empty)
-                {
-                    string _ext = ".jpg";
-
-                    int _idx = text.IndexOf(".");
-
-                    if (_idx != -1)
-                        _ext = text.Substring(_idx);
-
-                    string _originCacheFile = GCONST.ImageUploadCachePath + _attachmentsUpload.object_id + _ext;
-                    File.Copy(filePath, _originCacheFile);
-                }
-
-                return _attachmentsUpload;
-            }
-
-            return null;
-        }
-
-        public MR_posts_get Posts_Search(string search_filter)
-        {
-            MR_posts_get _postsGet = m_serviceV2.posts_search(SessionToken, RT.CurrentGroupID, search_filter);
-
-            if ((_postsGet != null) && (_postsGet.status == "200"))
-            {
-                return _postsGet;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_searchfilters_list SearchFilters_List()
-        {
-            MR_searchfilters_list _filtersList = m_serviceV2.searchfilters_list(SessionToken);
-
-            if ((_filtersList != null) && (_filtersList.status == "200"))
-            {
-                return _filtersList;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_searchfilters_item SearchFilters_New(string filter_name, string filter, string tag)
-        {
-            MR_searchfilters_item _item = m_serviceV2.searchfilters_new(SessionToken, filter_name, filter, tag);
-
-            if ((_item != null) && (_item.status == "200"))
-            {
-                return _item;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_searchfilters_item SearchFilters_Update(string searchfilter_id, string filter_name, string filter, string tag)
-        {
-            MR_searchfilters_item _item = m_serviceV2.searchfilters_update(SessionToken, searchfilter_id, filter_name, filter, tag);
-
-            if ((_item != null) && (_item.status == "200"))
-            {
-                return _item;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_users_findMyStation Users_findMyStation()
-        {
-            MR_users_findMyStation _findMyStation = m_serviceV2.users_findMyStation(SessionToken);
-
-            if ((_findMyStation != null) && (_findMyStation.status == "200"))
-            {
-                return _findMyStation;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        #endregion
-
         #region Post Text
 
         public bool PostText(string text)
@@ -309,8 +128,6 @@ namespace Waveface
                 return false;
             }
         }
-
-
 
         #endregion
 
@@ -468,6 +285,127 @@ namespace Waveface
 
         #endregion
 
+        #region API
+
+        public string attachments_getRedirectURL(string orgURL, string object_id)
+        {
+            return ServerImageAddressUtility.attachments_getRedirectURL(orgURL, SessionToken, object_id);
+        }
+
+        public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url,
+                                                       out string fileName)
+        {
+            return ServerImageAddressUtility.attachments_getRedirectURL_Image(SessionToken, a, imageType, out url,
+                                                                              out fileName);
+        }
+
+        public MR_posts_new Post_CreateNewPost(string text, string files, string previews, string type)
+        {
+            MR_posts_new _postsNew = m_serviceV2.posts_new(SessionToken, RT.CurrentGroupID, text, files, previews, type);
+
+            if ((_postsNew != null) && (_postsNew.status == "200"))
+            {
+                return _postsNew;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_posts_newComment Posts_NewComment(string post_id, string content, string objects, string previews)
+        {
+            MR_posts_newComment _newComment = m_serviceV2.posts_newComment(SessionToken, RT.CurrentGroupID, post_id,
+                                                                           content, objects, previews);
+
+            if ((_newComment != null) && (_newComment.status == "200"))
+            {
+                return _newComment;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_posts_getSingle Posts_GetSingle(string post_id)
+        {
+            MR_posts_getSingle _getSingle = m_serviceV2.posts_getSingle(SessionToken, RT.CurrentGroupID, post_id);
+
+            if ((_getSingle != null) && (_getSingle.status == "200"))
+            {
+                return _getSingle;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_previews_get_adv Preview_GetAdvancedPreview(string url)
+        {
+            MR_previews_get_adv _previewsGetAdv = m_serviceV2.previews_get_adv(SessionToken, url);
+
+            if ((_previewsGetAdv != null) && (_previewsGetAdv.status == "200"))
+            {
+                return _previewsGetAdv;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage)
+        {
+            MR_attachments_upload _attachmentsUpload;
+            string _resizedImageFilePath = string.Empty;
+
+            if (isImage)
+            {
+                if (RT.IsStationOK) //如果有Station則上傳原圖, 否則就上512中圖
+                {
+                    _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text,
+                                                                        "", "image", "origin", object_id);
+                }
+                else
+                {
+                    _resizedImageFilePath = ResizeImage(filePath, text, "512", 50);
+                    _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID,
+                                                                        _resizedImageFilePath, text, "", "image",
+                                                                        "medium", object_id);
+                }
+            }
+            else
+            {
+                _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text, "",
+                                                                    "doc", "", "");
+            }
+
+            if ((_attachmentsUpload != null) && (_attachmentsUpload.status == "200"))
+            {
+                // 如果傳中圖到Cloud, 則要把原圖Cache起來, 待有Station在傳原圖
+                if (_resizedImageFilePath != string.Empty)
+                {
+                    string _ext = ".jpg";
+
+                    int _idx = text.IndexOf(".");
+
+                    if (_idx != -1)
+                        _ext = text.Substring(_idx);
+
+                    string _originCacheFile = GCONST.ImageUploadCachePath + _attachmentsUpload.object_id + _ext;
+                    File.Copy(filePath, _originCacheFile);
+                }
+
+                return _attachmentsUpload;
+            }
+
+            return null;
+        }
+
+        #endregion
+
         #region Resize Image
 
         public static string ResizeImage(string orgImageFilePath, string fileName, string resizeRatio, int ratio)
@@ -534,16 +472,17 @@ namespace Waveface
             try
             {
                 float _scale = (image.Width > image.Height
-                                    ? (longestSide) / ((float)image.Width)
-                                    : (longestSide) / ((float)image.Height));
+                                    ? (longestSide)/((float) image.Width)
+                                    : (longestSide)/((float) image.Height));
 
-                int _width = (int)(image.Width * _scale);
-                int _height = (int)(image.Height * _scale);
+                int _width = (int) (image.Width*_scale);
+                int _height = (int) (image.Height*_scale);
                 _newImage = new Bitmap(_width, _height);
 
                 Graphics _g = Graphics.FromImage(_newImage);
                 _g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                _g.DrawImage(image, new Rectangle(0, 0, _width, _height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel);
+                _g.DrawImage(image, new Rectangle(0, 0, _width, _height), 0, 0, image.Width, image.Height,
+                             GraphicsUnit.Pixel);
                 _g.Dispose();
             }
             catch
@@ -569,11 +508,11 @@ namespace Waveface
                 _image = new Bitmap(imagePath);
 
                 float _scale = (_image.Width > _image.Height
-                                    ? (longestSide) / ((float)_image.Width)
-                                    : (longestSide) / ((float)_image.Height));
+                                    ? (longestSide)/((float) _image.Width)
+                                    : (longestSide)/((float) _image.Height));
 
-                int _width = (int)(_image.Width * _scale);
-                int _height = (int)(_image.Height * _scale);
+                int _width = (int) (_image.Width*_scale);
+                int _height = (int) (_image.Height*_scale);
                 _newImage = new Bitmap(_width, _height);
 
                 Graphics _g = Graphics.FromImage(_newImage);
