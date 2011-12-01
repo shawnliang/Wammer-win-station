@@ -284,11 +284,12 @@ namespace Wammer.Station.Management
 			{
 				try
 				{
+					string account = DropboxHelper.GetAccount();
 					string folder = DropboxHelper.GetSyncFolder();
 					CloudResponse res = CloudServer.request<CloudResponse>(
 						new WebClient(),
 						"http://localhost:9981/v2/cloudstorage/dropbox/connect",
-						new Dictionary<object, object> { { "quota", quota }, { "folder", folder } },
+						new Dictionary<object, object> { { "quota", quota }, { "folder", folder }, { "account", account }},
 						true
 					);
 				}
@@ -298,6 +299,9 @@ namespace Wammer.Station.Management
 					{
 						case (int)DropboxApiError.NoSyncFolder:
 							throw new DropboxNoSyncFolderException("Dropbox sync folder does not exist");
+
+						case (int)DropboxApiError.LinkWrongAccount:
+							throw new DropboxWrongAccountException("Link to inconsistent Dropbox account");
 
 						default:
 							throw;
@@ -540,6 +544,14 @@ namespace Wammer.Station.Management
 	public class DropboxNoSyncFolderException : Exception
 	{
 		public DropboxNoSyncFolderException(string msg)
+			: base(msg)
+		{
+		}
+	}
+
+	public class DropboxWrongAccountException : Exception
+	{
+		public DropboxWrongAccountException(string msg)
 			: base(msg)
 		{
 		}

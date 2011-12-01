@@ -12,6 +12,7 @@ namespace Wammer.Station
 		DropboxNotConnected = Base + 2,
 		NoSyncFolder = Base + 3,
 		GetOAuthFailed = Base + 4,
-		ConnectDropboxFailed = Base + 5
+		ConnectDropboxFailed = Base + 5,
+		LinkWrongAccount = Base + 6
 	}
 }

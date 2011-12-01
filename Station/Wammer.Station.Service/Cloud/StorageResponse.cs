@@ -25,44 +25,40 @@ namespace Wammer.Cloud
 			public string authorization_url { get; set; }
 		}
 
-		public StorageUrl storage { get; set; }
+		public StorageUrl storages { get; set; }
 		
 		public StorageAuthResponse()
 			: base()
 		{
 		}
 
-		public StorageAuthResponse(int status, DateTime timestamp, StorageUrl storage)
+		public StorageAuthResponse(int status, DateTime timestamp, StorageUrl storages)
 			: base(status, timestamp)
 		{
-			this.storage = storage;
+			this.storages = storages;
 		}
 	}
 
 	public class StorageCheckResponse : StorageResponse
 	{
-		public class DropboxStatus
+		public class StorageStatus
 		{
 			public int status { get; set; }
 			public long updatetime { get; set; }
+			public string account { get; set; }
 		}
 
-		public class StorageStatus
-		{
-			public DropboxStatus dropbox { get; set; }
-		}
-
-		public StorageStatus storage;
+		public StorageStatus storages;
 
 		public StorageCheckResponse()
 			: base()
 		{
 		}
 
-		public StorageCheckResponse(int status, DateTime timestamp, StorageStatus storage)
+		public StorageCheckResponse(int status, DateTime timestamp, StorageStatus storages)
 			: base(status, timestamp)
 		{
-			this.storage = storage;
+			this.storages = storages;
 		}
 	}
 }

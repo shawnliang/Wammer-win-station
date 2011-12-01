@@ -108,7 +108,14 @@ namespace Wammer.Cloud
 				byte[] rawResponse = null;
 				if (isGet)
 				{
-					rawResponse = agent.DownloadData(url + "?" + parameters);
+					if (string.IsNullOrEmpty(parameters))
+					{
+						rawResponse = agent.DownloadData(url);
+					}
+					else
+					{
+						rawResponse = agent.DownloadData(url + "?" + parameters);
+					}
 				}
 				else
 				{
