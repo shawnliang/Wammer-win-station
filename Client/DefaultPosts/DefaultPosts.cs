@@ -15,6 +15,8 @@ namespace Waveface
 {
     public class DefaultPosts
     {
+        private const string PREVIEW = "{\"provider_url\":\"[URL]\",\"provider_name\":\"[TITLE]\",\"title\":\"[TITLE]\",\"url\":\"[URL]\",\"description\":\"[DESCRIPTION]\",\"thumbnail_url\":\"[IMAGE_URL]\",\"type\":\"html\",\"thumbnail_width\":\"[IMAGE_W]\",\"thumbnail_height\":\"[IMAGE_H]\"}";
+
         private BEService2 m_serviceV2;
         private MR_auth_login m_login;
         public static GCONST GCONST = new GCONST();
@@ -54,7 +56,7 @@ namespace Waveface
 
             RT.Reset();
 
-            CheckStation(m_login.stations);
+            //CheckStation(m_login.stations);
 
             //getGroupAndUser();
 
@@ -156,6 +158,21 @@ namespace Waveface
             }
         }
 
+        public string GetPreview(string url, string title, string description, string imageURL, int image_w, int image_h)
+        {
+            string _s = PREVIEW;
+
+            _s = _s.Replace("[URL]", url);
+            _s = _s.Replace("[TITLE]", title);
+            _s = _s.Replace("[DESCRIPTION]", description);
+            _s = _s.Replace("[IMAGE_URL]", imageURL);
+            _s = _s.Replace("[IMAGE_W]", image_w.ToString());
+            _s = _s.Replace("[IMAGE_H]", image_h.ToString());
+
+            return _s;
+        }
+
+        /*
         private Preview_OpenGraph CreateOpenGraph()
         {
             Preview_AdvancedOpenGraph _aog = null; //@Hack m_mrPreviewsGetAdv.preview;
@@ -174,6 +191,7 @@ namespace Waveface
 
             return _og;
         }
+        */
 
         #endregion
 
@@ -313,35 +331,6 @@ namespace Waveface
             }
         }
 
-        public MR_posts_newComment Posts_NewComment(string post_id, string content, string objects, string previews)
-        {
-            MR_posts_newComment _newComment = m_serviceV2.posts_newComment(SessionToken, RT.CurrentGroupID, post_id,
-                                                                           content, objects, previews);
-
-            if ((_newComment != null) && (_newComment.status == "200"))
-            {
-                return _newComment;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_posts_getSingle Posts_GetSingle(string post_id)
-        {
-            MR_posts_getSingle _getSingle = m_serviceV2.posts_getSingle(SessionToken, RT.CurrentGroupID, post_id);
-
-            if ((_getSingle != null) && (_getSingle.status == "200"))
-            {
-                return _getSingle;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public MR_previews_get_adv Preview_GetAdvancedPreview(string url)
         {
             MR_previews_get_adv _previewsGetAdv = m_serviceV2.previews_get_adv(SessionToken, url);
@@ -463,39 +452,6 @@ namespace Waveface
             }
 
             return orgImageFilePath;
-        }
-
-        public static Bitmap ResizeImage(Bitmap image, int longestSide)
-        {
-            Bitmap _newImage = null;
-
-            try
-            {
-                float _scale = (image.Width > image.Height
-                                    ? (longestSide)/((float) image.Width)
-                                    : (longestSide)/((float) image.Height));
-
-                int _width = (int) (image.Width*_scale);
-                int _height = (int) (image.Height*_scale);
-                _newImage = new Bitmap(_width, _height);
-
-                Graphics _g = Graphics.FromImage(_newImage);
-                _g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                _g.DrawImage(image, new Rectangle(0, 0, _width, _height), 0, 0, image.Width, image.Height,
-                             GraphicsUnit.Pixel);
-                _g.Dispose();
-            }
-            catch
-            {
-                return null;
-            }
-            finally
-            {
-                if ((image != null))
-                    image.Dispose();
-            }
-
-            return _newImage;
         }
 
         private static Bitmap ResizeImage_Impl(string imagePath, int longestSide)

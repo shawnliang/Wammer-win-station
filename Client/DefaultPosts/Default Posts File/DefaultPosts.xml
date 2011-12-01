@@ -1,0 +1,31 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<posts>
+  	<post type ="text">
+    		<content></content>
+		<file>Welcome.txt</file>
+  	</post>
+
+  	<post type ="link">
+		<content>一定要把它幹掉</content>
+		<url>http://chinese.engadget.com/2010/01/12/asus-waveface-concept-line-shown-off-during-our-lifetime-might/</url>
+		<title></title>
+		<description></description>
+		<image_url></image_url>
+		<image_w></image_w>
+		<image_h></image_h>
+	</post>
+
+  	<post type ="image">
+  		<content>CEO its harder than you think</content>
+		<files>
+			<file>CEO its harder than you think.jpg</file>
+			<file>Team photos1.png</file>
+			<file>Team photos2.jpg</file>
+		</files>  	
+	</post>
+
+  	<post type ="doc">
+    		<content>Waveface 101 for dummies</content>
+		<file>demo.pdf</file>  		
+	</post>
+</posts>
