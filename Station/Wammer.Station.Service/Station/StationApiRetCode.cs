@@ -14,12 +14,4 @@ namespace Wammer.Station
 		AlreadyHasStaion = -33,
 		ConnectToCloudError = -34
 	}
-
-	public enum DropboxApiError
-	{
-		Base = -200,
-		DropboxNotInstalled = Base + 1,
-		DropboxNotConnected = Base + 2,
-		NoSyncFolder = Base + 3
-	}
 }

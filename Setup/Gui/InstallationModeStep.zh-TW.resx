@@ -124,6 +124,6 @@
     <value>您已有安裝Waveface主程式在此部電腦上。請從選單中選擇方案後，按 "下一步" 繼續安裝。</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
-    <value>歡迎使用Waveface主程式安裝精靈。</value>
+    <value>歡迎使用Waveface主程式安裝精靈</value>
   </data>
 </root>
