@@ -14,10 +14,22 @@ namespace Waveface
         {
             DefaultPosts _defaultPosts = new DefaultPosts();
 
-            if(args.Length > 1)
-                _defaultPosts.AutoPost(args[0], args[1]);
-            else
-                _defaultPosts.AutoPost("ren.cheng@waveface.com", "123456");
+            try
+            {
+                if (args.Length > 1)
+                    _defaultPosts.AutoPost(args[0], args[1]);
+                else
+                    _defaultPosts.AutoPost("ren.cheng@waveface.com", "123456");
+            }
+            catch (Exception _e)
+            {
+                Console.WriteLine(_e.Message);
+
+                Console.ReadLine();
+            }
+
+            Console.WriteLine("Post OK!");
+            Console.ReadLine();
         }
 
         private void AutoPost(string email, string password)
@@ -96,7 +108,7 @@ namespace Waveface
             List<string> _docs = new List<string>();
             _docs.Add(_file);
             m_postService.PostDocs("[Default Docs Post]:" + DateTime.Now.ToString() + "\n" + _content, _docs);
-            
+
             Console.WriteLine("PostDocs OK!");
         }
 

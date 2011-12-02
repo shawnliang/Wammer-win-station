@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Net;
+using System.Web;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using Waveface.API.V2;
@@ -277,7 +278,7 @@ namespace Waveface
                     break;
 
                 case "doc":
-                    _info = post.attachments[0].file_name;
+                    _info = HttpUtility.UrlDecode(post.attachments[0].file_name);
                     break;
 
                 case "link":
