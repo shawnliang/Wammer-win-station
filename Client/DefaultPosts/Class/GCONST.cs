@@ -1,5 +1,6 @@
 ﻿
 using System.IO;
+using System;
 
 namespace Waveface
 {
@@ -7,20 +8,30 @@ namespace Waveface
     {
         public static int GetPostOffset = 10;
 
+        public string AppDataPath;
         public string TempPath;
         public string CachePath;
         public string ImageUploadCachePath;
 
         public GCONST()
         {
+            InitAppDataPath();
             InitTempDir();
             InitCacheDir();
             InitImageUploadCacheDir();
         }
 
+        private void InitAppDataPath()
+        {
+            AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Waveface\\";
+
+            if (!Directory.Exists(AppDataPath))
+                Directory.CreateDirectory(AppDataPath);
+        }
+
         private void InitTempDir()
         {
-            TempPath = System.Windows.Forms.Application.StartupPath + "\\TempDir\\";
+            TempPath = AppDataPath +  "TempDir\\";
             Directory.CreateDirectory(TempPath);
 
             string[] _filePaths = Directory.GetFiles(TempPath);
@@ -31,14 +42,28 @@ namespace Waveface
 
         private void InitCacheDir()
         {
-            CachePath = System.Windows.Forms.Application.StartupPath + "\\Cache\\";
+            CachePath = AppDataPath + "Cache\\";
             Directory.CreateDirectory(CachePath);
+
+            
+            string[] _filePaths = Directory.GetFiles(CachePath);
+
+            foreach (string _filePath in _filePaths)
+                File.Delete(_filePath);
+            
         }
 
         private void InitImageUploadCacheDir()
         {
-            ImageUploadCachePath = System.Windows.Forms.Application.StartupPath + "\\ImageUploadCache\\";
+            ImageUploadCachePath = AppDataPath + "ImageUploadCache\\";
             Directory.CreateDirectory(ImageUploadCachePath);
+
+            
+            string[] _filePaths = Directory.GetFiles(ImageUploadCachePath);
+
+            foreach (string _filePath in _filePaths)
+                File.Delete(_filePath);
+            
         }
     }
 }

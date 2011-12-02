@@ -327,10 +327,10 @@ namespace Waveface.DetailUI
         {
             StringBuilder _sb = new StringBuilder();
 
-            _sb.Append("<p><strong>[Text]</strong></p>");
+            _sb.Append("<p>[Text]</p>");
 
             string _html = _sb.ToString();
-            _html = _html.Replace("[Text]", Post.content);
+            _html = _html.Replace("[Text]", Post.content.Replace(Environment.NewLine, "<BR>"));
 
             webBrowserTop.DocumentText = _html;
         }

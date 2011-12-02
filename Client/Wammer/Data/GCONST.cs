@@ -23,7 +23,7 @@ namespace Waveface
 
         private void InitAppDataPath()
         {
-            AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Waveface");
+            AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Waveface\\";
 
             if (!Directory.Exists(AppDataPath))
                 Directory.CreateDirectory(AppDataPath);
@@ -31,7 +31,7 @@ namespace Waveface
 
         private void InitTempDir()
         {
-            TempPath = Path.Combine(AppDataPath, "TempDir");
+            TempPath = AppDataPath +  "TempDir\\";
             Directory.CreateDirectory(TempPath);
 
             string[] _filePaths = Directory.GetFiles(TempPath);
@@ -42,7 +42,7 @@ namespace Waveface
 
         private void InitCacheDir()
         {
-            CachePath = Path.Combine(AppDataPath, "Cache");
+            CachePath = AppDataPath + "Cache\\";
             Directory.CreateDirectory(CachePath);
 
             
@@ -55,7 +55,7 @@ namespace Waveface
 
         private void InitImageUploadCacheDir()
         {
-            ImageUploadCachePath = Path.Combine(AppDataPath, "ImageUploadCache");
+            ImageUploadCachePath = AppDataPath + "ImageUploadCache\\";
             Directory.CreateDirectory(ImageUploadCachePath);
 
             

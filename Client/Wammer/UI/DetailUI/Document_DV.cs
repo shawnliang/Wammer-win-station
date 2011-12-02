@@ -324,10 +324,10 @@ namespace Waveface.DetailUI
         {
             StringBuilder _sb = new StringBuilder();
 
-            _sb.Append("<p><strong>[Text]</strong></p>");
+            _sb.Append("<p>[Text]</p>");
 
             string _html = _sb.ToString();
-            _html = _html.Replace("[Text]", Post.content);
+            _html = _html.Replace("[Text]", Post.content.Replace(Environment.NewLine, "<BR>"));
 
             webBrowserTop.DocumentText = _html;
         }
@@ -361,7 +361,7 @@ namespace Waveface.DetailUI
 
         private void downloadFile(Attachment attachment)
         {
-            string _file = MainForm.GCONST.CachePath + attachment.object_id + attachment.file_name;
+            string _file = MainForm.GCONST.CachePath + attachment.object_id + HttpUtility.UrlDecode(attachment.file_name);
 
             m_currentAttachment = attachment;
 
