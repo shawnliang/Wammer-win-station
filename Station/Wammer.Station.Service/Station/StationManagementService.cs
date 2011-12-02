@@ -144,7 +144,7 @@ namespace Wammer.Station
 			logger.Debug("GetStatus is called");
 			try
 			{
-				StationStatus res = StatusChecker.GetStatus();
+				StationDetail res = StatusChecker.GetDetail();
 
 				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, new GetStatusResponse
 				{
@@ -239,7 +239,7 @@ namespace Wammer.Station
 
 	public class GetStatusResponse : CloudResponse
 	{
-		public StationStatus station_status { get; set; }
+		public StationDetail station_status { get; set; }
 		
 		public GetStatusResponse()
 			:base()

@@ -24,11 +24,11 @@ namespace Wammer.Station
 			timer = new Timer(tcb, null, 0, timerPeriod);
 		}
 
-		public static StationStatus GetStatus()
+		public static StationDetail GetDetail()
 		{
 			string baseurl = NetworkHelper.GetBaseURL();
 
-			StationStatus status = new StationStatus
+			StationDetail status = new StationDetail
 			{
 				location = baseurl,
 				diskusage = new List<DiskUsage>()
@@ -52,7 +52,8 @@ namespace Wammer.Station
 
 		private void SendHeartbeat(Object obj)
 		{
-			StationStatus status = GetStatus();
+			StationDetail detail = GetDetail();
+			string detailJson = fastJSON.JSON.Instance.ToJSON(detail, false, false, false, false);
 
 			using (WebClient agent = new WebClient())
 			{
@@ -75,8 +76,7 @@ namespace Wammer.Station
 						logger.Debug("cloud logon start");
 						try
 						{
-							Dictionary<object, object> locParam = new Dictionary<object, object> { { "location", baseurl } };
-							station.LogOn(agent, locParam);
+							station.LogOn(agent, new Dictionary<object, object> { { "detail", detailJson } });
 							logon = true;
 
 							// update station info in database
@@ -90,9 +90,6 @@ namespace Wammer.Station
 						}
 					}
 
-					Dictionary<object, object> statusParam = new Dictionary<object, object> {
-						{ "status", fastJSON.JSON.Instance.ToJSON(status, false, false, false, false) }
-					};
 					try
 					{
 						if (locChange)
@@ -101,7 +98,7 @@ namespace Wammer.Station
 							logger.Debug("update station information");
 							Model.StationInfo.collection.Save(sinfo);
 						}
-						station.Heartbeat(agent, statusParam);
+						station.Heartbeat(agent, new Dictionary<object, object> { { "detail", detailJson } });
 					}
 					catch (Exception ex)
 					{
@@ -133,7 +130,7 @@ namespace Wammer.Station
 		}
 	}
 
-	public class StationStatus
+	public class StationDetail
 	{
 		public string location { get; set; }
 		public List<DiskUsage> diskusage { get; set; }
