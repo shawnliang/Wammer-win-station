@@ -83,10 +83,10 @@ namespace Wammer.Station
 			else 
 				file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
 
-			string savedName = GetSavedFilename(file, meta);
-			
+			file.saved_file_name = GetSavedFilename(file, meta);
+
 			FileStorage storage = new FileStorage(driver.folder);
-			storage.Save(savedName, file.RawData);
+			storage.Save(file.saved_file_name, file.RawData);
 			file.file_size = file.RawData.Length;
 			file.modify_time = DateTime.UtcNow;
 			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
@@ -107,7 +107,7 @@ namespace Wammer.Station
 				FolderPath = driver.folder
 			};
 
-			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
+			BsonDocument dbDoc = CreateDbDocument(file, meta, file.saved_file_name);
 			BsonDocument existDoc = Attachments.collection.FindOneAs<BsonDocument>(
 													new QueryDocument("_id", file.object_id));
 			if (existDoc != null)

@@ -19,7 +19,7 @@ namespace Wammer.Station
 			// just for avoiding race condition, might cause bad performance
 			lock (cs)
 			{
-				string fileName = evt.Attachment.file_name;
+				string fileName = evt.Attachment.saved_file_name;
 				long fileSize = evt.Attachment.file_size;
 				string origFolder = evt.FolderPath;
 

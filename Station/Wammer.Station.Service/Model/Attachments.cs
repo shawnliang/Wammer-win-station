@@ -260,6 +260,8 @@ namespace Wammer.Model
 		public DateTime modify_time { get; set; }
 		[BsonIgnoreIfNull]
 		public ImageProperty image_meta { get; set; }
+		[BsonIgnoreIfNull]
+		public string saved_file_name { get; set; }
 
 		[BsonIgnore]
 		[System.Xml.Serialization.XmlIgnore]
@@ -307,6 +309,7 @@ namespace Wammer.Model
 			image_meta = lhs.image_meta;
 			RawData = lhs.RawData;
 			group_id = lhs.group_id;
+			saved_file_name = lhs.saved_file_name;
 		}
 
 		public bool ShouldSerializefile_size()
