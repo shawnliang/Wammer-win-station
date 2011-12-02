@@ -361,7 +361,7 @@ namespace Waveface.DetailUI
 
         private void downloadFile(Attachment attachment)
         {
-            string _file = MainForm.GCONST.CachePath + attachment.object_id + attachment.file_name;
+            string _file = MainForm.GCONST.CachePath + attachment.object_id + HttpUtility.UrlDecode(attachment.file_name);
 
             m_currentAttachment = attachment;
 
