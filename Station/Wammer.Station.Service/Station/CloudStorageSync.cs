@@ -71,7 +71,7 @@ namespace Wammer.Station
 				{
 					// delete the least accessed file until storage has enough space
 					DirectoryInfo di = new DirectoryInfo(storage.Folder);
-					FileInfo fi = di.GetFiles().OrderByDescending(f => f.LastAccessTime).First();
+					FileInfo fi = di.GetFiles().OrderBy(f => f.LastAccessTime).First();
 					try
 					{
 						logger.InfoFormat("Cloud storage has no quota, delete file {0}", fi.FullName);
