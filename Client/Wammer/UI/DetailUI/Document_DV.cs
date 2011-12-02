@@ -449,7 +449,7 @@ namespace Waveface.DetailUI
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            saveFileDialog.FileName = m_currentAttachment.file_name;
+            saveFileDialog.FileName = HttpUtility.UrlDecode(m_currentAttachment.file_name);
             DialogResult _dr = saveFileDialog.ShowDialog();
 
             if (_dr == DialogResult.OK)
