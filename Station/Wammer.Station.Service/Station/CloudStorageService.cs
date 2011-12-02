@@ -123,13 +123,25 @@ namespace Wammer.Station
 				    }
 				}
 
+				long used = 0;
+				if (Directory.Exists(folder))
+				{
+					// calculate the sync folder size since it might contain old files
+					DirectoryInfo di = new DirectoryInfo(folder);
+					FileInfo[] fis = di.GetFiles();
+					foreach (FileInfo fi in fis)
+					{
+						used = used + fi.Length;
+					}
+				}
+
 				CloudStorage.collection.Save(new CloudStorage
 					{
 						Id = Guid.NewGuid().ToString(),
 						Type = "dropbox",
 						Folder = folder,
 						Quota = quota,
-						Used = 0
+						Used = used
 					}
 				);
 			}
