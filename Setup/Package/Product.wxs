@@ -111,6 +111,7 @@
       <ComponentRef Id="MongoDB.Bson.dll"/>
       <ComponentRef Id="MongoDB.Driver.dll"/>
       <ComponentRef Id="StationSetup.exe"/>
+      <ComponentRef Id="System.Data.SQLite.dll"/>
     </ComponentGroup>
 
     <ComponentGroup Id="Wammer.Client">
@@ -167,10 +168,12 @@
       <Component Id="MongoDB.Driver.dll" Guid="{DA8A66C8-D977-4524-AA1E-8C95767F0C30}">
         <File Id="MongoDB.Driver.dll" Source="$(var.Wammer.Station.Service.TargetDir)\MongoDB.Driver.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Id="System.Data.SQLite.dll" Guid="{B753EDC1-5CC9-496B-B5C1-4251E438907E}">
+        <File Id="System.Data.SQLite.dll" Source="$(var.Wammer.Station.Service.TargetDir)\System.Data.SQLite.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="Station.Management.exe" Guid="{F6BE5F51-E2BB-4BC3-BA4E-9488DCBA4D5B}">
         <File Id="Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
-
       <Component Id="StationSetup.exe" Guid="{7C8AE609-024C-462B-8291-9AA522CB1193}">
         <File Id="StationSetup.exe" Source="$(var.StationSetup.TargetPath)" KeyPath="yes" Checksum="yes">
           <Shortcut Id="StartWavefaceShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" WorkingDirectory="INSTALLDIR" Icon="Wammer.ico" IconIndex="0" Advertise="yes" />
