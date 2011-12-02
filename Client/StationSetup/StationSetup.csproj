@@ -8,10 +8,25 @@
     <ProjectGuid>{F28E6912-415E-4808-B973-F0E19B31EEB6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StationSetup</RootNamespace>
+    <RootNamespace>Wammer.Station</RootNamespace>
     <AssemblyName>StationSetup</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -33,8 +48,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="StationSetup, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -44,6 +63,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compoment\MultiPanel\MultiPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\MultiPanel\MultiPanelDesigner.cs" />
+    <Compile Include="Compoment\MultiPanel\MultiPanelPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\MultiPanel\MultiPanelPageDesigner.cs" />
+    <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
+    <Compile Include="Dropbox\TryInstallDropboxAgainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dropbox\TryInstallDropboxAgainForm.Designer.cs">
+      <DependentUpon>TryInstallDropboxAgainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetupCompletedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetupCompletedForm.Designer.cs">
+      <DependentUpon>SetupCompletedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dropbox\DropboxInstallForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dropbox\DropboxInstallForm.Designer.cs">
+      <DependentUpon>DropboxInstallForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dropbox\DropboxLinkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dropbox\DropboxLinkForm.Designer.cs">
+      <DependentUpon>DropboxLinkForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dropbox\DropboxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dropbox\DropboxForm.Designer.cs">
+      <DependentUpon>DropboxForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="RemoveStationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +116,36 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dropbox\TryInstallDropboxAgainForm.resx">
+      <DependentUpon>TryInstallDropboxAgainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dropbox\TryInstallDropboxAgainForm.zh-TW.resx">
+      <DependentUpon>TryInstallDropboxAgainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupCompletedForm.resx">
+      <DependentUpon>SetupCompletedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetupCompletedForm.zh-TW.resx">
+      <DependentUpon>SetupCompletedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dropbox\DropboxInstallForm.resx">
+      <DependentUpon>DropboxInstallForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dropbox\DropboxInstallForm.zh-TW.resx">
+      <DependentUpon>DropboxInstallForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dropbox\DropboxLinkForm.resx">
+      <DependentUpon>DropboxLinkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dropbox\DropboxLinkForm.zh-TW.resx">
+      <DependentUpon>DropboxLinkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dropbox\DropboxForm.resx">
+      <DependentUpon>DropboxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dropbox\DropboxForm.zh-TW.resx">
+      <DependentUpon>DropboxForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RemoveStationForm.resx">
       <DependentUpon>RemoveStationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -75,6 +163,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SignInForm.zh-TW.resx">
       <DependentUpon>SignInForm.cs</DependentUpon>
@@ -94,6 +183,10 @@
       <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
       <Name>Wammer.Station.Management</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Station\Wammer.Station.Service\Wammer.Station.Service.csproj">
+      <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
+      <Name>Wammer.Station.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Libs\Waveface.Localization.Editor\Localizer\Localizer.csproj">
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
       <Name>Localizer</Name>
@@ -103,6 +196,23 @@
     <Content Include="StationML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
