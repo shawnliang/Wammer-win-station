@@ -155,7 +155,10 @@ namespace Wammer.MultiPart
 				if (commonPrefix == whatBytes.Length)
 					return startFrom;
 
-				startFrom += commonPrefix + 1;
+				if (commonPrefix > 0)
+					startFrom += commonPrefix;
+				else
+					startFrom += 1;
 			}
 
 			return -1;
