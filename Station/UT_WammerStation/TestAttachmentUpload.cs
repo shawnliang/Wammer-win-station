@@ -93,6 +93,8 @@ namespace UT_WammerStation
 				status = 200,
 				timestamp = DateTime.UtcNow
 			};
+
+			Directory.CreateDirectory("log");
 		}
 
 		[TestCleanup]

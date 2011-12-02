@@ -16,6 +16,9 @@ namespace Wammer.Station
 
 		public void HandleAttachmentSaved(object sender, AttachmentEventArgs evt)
 		{
+			if (evt.Attachment.saved_file_name == null) // this attachment is a thumbnail
+				return;
+
 			// just for avoiding race condition, might cause bad performance
 			lock (cs)
 			{

@@ -58,6 +58,8 @@ namespace Wammer.Station
 			if (driver==null)
 				throw new FormatException("group_id is not assocaited with a registered user");
 
+			string savedName = GetSavedFilename(file, meta);
+
 			// Upload to cloud and then save to local to ensure cloud post API
 			// can process post with attachments correctly.
 			// In the future when station is able to handle post and sync data with cloud
@@ -79,14 +81,21 @@ namespace Wammer.Station
 					width = file.Bitmap.Width,
 					height = file.Bitmap.Height
 				};
+				file.saved_file_name = savedName;
 			}
-			else 
+			else if (file.type == AttachmentType.doc)
+			{
+				file.saved_file_name = savedName;
 				file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
+			}
+			else if (file.type == AttachmentType.image && meta != ImageMeta.Origin)
+			{
+				file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
+			}
 
-			file.saved_file_name = GetSavedFilename(file, meta);
 
 			FileStorage storage = new FileStorage(driver.folder);
-			storage.Save(file.saved_file_name, file.RawData);
+			storage.Save(savedName, file.RawData);
 			file.file_size = file.RawData.Length;
 			file.modify_time = DateTime.UtcNow;
 			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
@@ -107,7 +116,7 @@ namespace Wammer.Station
 				FolderPath = driver.folder
 			};
 
-			BsonDocument dbDoc = CreateDbDocument(file, meta, file.saved_file_name);
+			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
 			BsonDocument existDoc = Attachments.collection.FindOneAs<BsonDocument>(
 													new QueryDocument("_id", file.object_id));
 			if (existDoc != null)
