@@ -53,17 +53,7 @@ namespace Wammer.Station
 
 			if (HasMultiPartFormData(request))
 			{
-				string boundary = GetMultipartBoundary(request.ContentType);
-				MultiPart.Parser parser = new Parser(boundary);
-
-				Part[] parts = parser.Parse(new MemoryStream(RawPostData));
-				foreach (Part part in parts)
-				{
-					if (part.ContentDisposition == null)
-						continue;
-
-					ExtractParamsFromMultiPartFormData(part);
-				}
+				ParseMultiPartData(request);
 			}
 
 			if (logger.IsDebugEnabled)
@@ -78,6 +68,34 @@ namespace Wammer.Station
 
 
 			HandleRequest();
+		}
+
+		private void ParseMultiPartData(HttpListenerRequest request)
+		{
+			try
+			{
+				string boundary = GetMultipartBoundary(request.ContentType);
+				MultiPart.Parser parser = new Parser(boundary);
+
+				Part[] parts = parser.Parse(new MemoryStream(RawPostData));
+				foreach (Part part in parts)
+				{
+					if (part.ContentDisposition == null)
+						continue;
+
+					ExtractParamsFromMultiPartFormData(part);
+				}
+			}
+			catch (FormatException e)
+			{
+				string filename = Guid.NewGuid().ToString();
+				using (BinaryWriter w = new BinaryWriter(File.OpenWrite(@"log\" + filename)))
+				{
+					w.Write(this.RawPostData);
+				}
+				logger.Warn("Parsing multipart data error. Post data written to log\\" + filename);
+				throw;
+			}
 		}
 
 		private byte[] InitRawPostData()
