@@ -53,11 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultPosts.cs" />
+    <Compile Include="PostService.cs" />
     <Compile Include="Class\FileUtility.cs" />
     <Compile Include="Class\FilterItem.cs" />
     <Compile Include="Class\GCONST.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="DefaultPosts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="REST\BEService2.cs" />
     <Compile Include="REST\Data2.cs" />
