@@ -30,8 +30,9 @@ namespace StationSetup
 
 			SignInForm form = new SignInForm();
 			Application.Run(form);
-			//Application.Run(new DropboxForm());
 
+			Environment.CurrentDirectory =
+				Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			DefaultPosts posts = new DefaultPosts();
 			posts.AutoPost(form.UserEmail, form.UserPassword);
 		}

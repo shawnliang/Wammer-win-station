@@ -3,15 +3,15 @@
 	<post type ="image">
 			<content>CEO its harder than you think</content>
 		<files>
-			<file>default\CEO its harder than you think.jpg</file>
-			<file>default\Team photos1.png</file>
-			<file>default\Team photos2.jpg</file>
+			<file>DefaultResources\CEO its harder than you think.jpg</file>
+			<file>DefaultResources\Team photos1.png</file>
+			<file>DefaultResources\Team photos2.jpg</file>
 		</files>  	
 	</post>
 
 	<post type ="doc">
 				<content>Waveface 101 for dummies</content>
-		<file>default\Waveface 101 for dummies.pdf</file>  		
+		<file>DefaultResources\Waveface 101 for dummies.pdf</file>  		
 	</post>
 
 	<post type ="link">
@@ -26,6 +26,6 @@
 
 	<post type ="text">
 		<content></content>
-	  <file>default\Welcome.txt</file>
+	  <file>DefaultResources\Welcome.txt</file>
 	</post>
 </posts>

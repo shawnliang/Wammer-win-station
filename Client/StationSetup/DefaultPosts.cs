@@ -19,11 +19,11 @@ namespace StationSetup
 				m_loginOK = m_postService.Login();
 
 				if (!m_loginOK)
-					return;
+					throw new Exception("Login failure");
 
 				//
 				XmlDocument _doc = new XmlDocument();
-				_doc.Load(@"default\DefaultPosts.xml");
+				_doc.Load(@"DefaultResources\DefaultPosts.xml");
 				XmlElement _root = _doc.DocumentElement;
 				XmlNodeList _nodes = _root.SelectNodes("//posts/post");
 

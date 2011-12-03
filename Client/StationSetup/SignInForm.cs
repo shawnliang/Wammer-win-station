@@ -12,6 +12,8 @@ namespace Wammer.Station
 	{
 		private const string SignUpURL = @"http://develop.waveface.com:4343/signup";
 		private Localizer L;
+		private string userEmail;
+		private string userPassword;
 
 		public SignInForm()
 		{
@@ -52,6 +54,8 @@ namespace Wammer.Station
 				MessageBox.Show(L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
 
 				StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient(textBoxMail.Text, textBoxPassword.Text);
+				userEmail = textBoxMail.Text;
+				userPassword = textBoxPassword.Text;
 				Close();
 			}
 			catch (AuthenticationException _e)
@@ -80,6 +84,8 @@ namespace Wammer.Station
 						StationController.SignoffStation(_e.Id, textBoxMail.Text, textBoxPassword.Text);
 						StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
 						StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient(textBoxMail.Text, textBoxPassword.Text);
+						userEmail = textBoxMail.Text;
+						userPassword = textBoxPassword.Text;
 						Close();
 					}
 					catch
@@ -128,12 +134,12 @@ namespace Wammer.Station
 
 		public string UserEmail
 		{
-			get { return textBoxMail.Text; }
+			get { return userEmail; }
 		}
 
 		public string UserPassword
 		{
-			get { return textBoxPassword.Text; }
+			get { return userPassword; }
 		}
 	}
 }

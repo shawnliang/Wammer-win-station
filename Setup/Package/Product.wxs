@@ -84,7 +84,7 @@
               <CreateFolder/>
             </Component>
           </Directory>
-          <Directory Id="DefaultResourceDir" Name="default"/>
+          <Directory Id="DefaultResourceDir" Name="DefaultResources"/>
           <Directory Id="zh_TW" Name="zh-TW"/>
           <Directory Id="MongoDB" Name="MongoDB">
             <Directory Id="Data" Name="Data">
