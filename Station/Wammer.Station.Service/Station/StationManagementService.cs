@@ -75,7 +75,13 @@ namespace Wammer.Station
 				{
 					string baseurl = NetworkHelper.GetBaseURL();
 					Cloud.Station station = Cloud.Station.SignUp(
-														agent, stationId, email, password, baseurl);
+														agent, stationId, email, password);
+
+					station.LogOn(agent,
+						new Dictionary<object, object>
+						{
+							{"detail", fastJSON.JSON.Instance.ToJSON(StatusChecker.GetDetail(), false, false, false, false)}
+						});
 
 					User user = User.LogIn(agent, email, password);
 					Drivers.collection.Save(

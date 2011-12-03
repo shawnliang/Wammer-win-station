@@ -17,28 +17,13 @@ namespace Wammer.Cloud
 			this.Token = stationToken;
 		}
 
-		//public static Station SignUp(WebClient agent, string stationId, string sessionToken)
-		//{
-		//    Dictionary<object, object> param = new Dictionary<object, object>();
-		//    param.Add(CloudServer.PARAM_SESSION_TOKEN, sessionToken);
-		//    param.Add(CloudServer.PARAM_STATION_ID, stationId);
-		//    param.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
-
-		//    StationSignUpResponse res =
-		//        CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param);
-
-		//    return new Station(stationId, res.session_token);
-		//}
-
-		public static Station SignUp(WebClient agent, string stationId, string email, string passwd,
-			string location)
+		public static Station SignUp(WebClient agent, string stationId, string email, string passwd)
 		{
 			Dictionary<object, object> param = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_EMAIL, email},
 				{CloudServer.PARAM_PASSWORD, passwd},
 				{CloudServer.PARAM_STATION_ID, stationId},
-				{CloudServer.PARAM_LOCATION, location},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 			
