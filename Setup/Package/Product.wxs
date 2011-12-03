@@ -84,8 +84,8 @@
               <CreateFolder/>
             </Component>
           </Directory>
-          <Directory Id="zh_TW" Name="zh-TW">
-          </Directory>
+          <Directory Id="DefaultResourceDir" Name="default"/>
+          <Directory Id="zh_TW" Name="zh-TW"/>
           <Directory Id="MongoDB" Name="MongoDB">
             <Directory Id="Data" Name="Data">
               <Component Id="MongoDB.Data" Guid="{295718C0-D799-465D-8F12-2B090EAA2028}">
@@ -140,6 +140,13 @@
       <ComponentRef Id="WavefaceWindowsClient.resources.dll"/>
       <ComponentRef Id="WavefaceML.xml"/>
       <ComponentRef Id="Microsoft.mshtml.dll"/>
+
+      <ComponentRef Id="CEO_letter"/>
+      <ComponentRef Id="DefaultPosts.xml"/>
+      <ComponentRef Id="Team_photos1.png"/>
+      <ComponentRef Id="Team_photos2.jpg"/>
+      <ComponentRef Id="Wavefacepdf"/>
+      <ComponentRef Id="Welcome.txt"/>
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
@@ -278,6 +285,29 @@
       </Component>
       <Component Id="mongo.exe" Guid="{03376030-6756-4698-B1FF-AD92F18BABE5}">
         <File Id="mongo.exe" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongo.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+
+
+    <!-- default posts templates -->
+    <DirectoryRef Id="DefaultResourceDir">
+      <Component Id="CEO_letter" Guid="{23E8DD37-BC81-4EAB-A83B-63CF57516BB9}">
+        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\CEO its harder than you think.jpg" KeyPath="yes"/>
+      </Component>
+      <Component Id="DefaultPosts.xml" Guid="{7B277A5A-C88E-49F0-96A3-2B67C1F88E0C}">
+        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\DefaultPosts.xml" KeyPath="yes"/>
+      </Component>
+      <Component Id="Team_photos1.png" Guid="{887DD161-8758-47DA-BD04-749B175E352D}">
+        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\Team photos1.png" KeyPath="yes"/>
+      </Component>
+      <Component Id="Team_photos2.jpg" Guid="{7E645418-20E7-4A0B-BB30-D179EED7F253}">
+        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\Team photos2.jpg" KeyPath="yes"/>
+      </Component>
+      <Component Id="Wavefacepdf" Guid="{4354F699-95E1-42C3-BF4A-C72141B0649B}">
+        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\Waveface 101 for dummies.pdf" KeyPath="yes"/>
+      </Component>
+      <Component Id="Welcome.txt" Guid="{D9714583-4EC6-46EB-AE23-21217EB97F9E}">
+        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\Welcome.txt" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
     

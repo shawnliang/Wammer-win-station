@@ -4,7 +4,7 @@ namespace Waveface
     using System.IO;
     using Microsoft.Win32;
 
-    class FileUtility
+    public class FileUtility
     {
         public static string GetMimeType(FileInfo fileInfo)
         {

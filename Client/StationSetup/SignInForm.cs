@@ -125,5 +125,15 @@ namespace Wammer.Station
 		{
 			Process.Start(SignUpURL, null);
 		}
+
+		public string UserEmail
+		{
+			get { return textBoxMail.Text; }
+		}
+
+		public string UserPassword
+		{
+			get { return textBoxPassword.Text; }
+		}
 	}
 }

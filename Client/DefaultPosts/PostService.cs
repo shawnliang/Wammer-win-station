@@ -11,7 +11,7 @@ using Waveface.API.V2;
 
 #endregion
 
-namespace Waveface
+namespace StationSetup
 {
     public class PostService
     {

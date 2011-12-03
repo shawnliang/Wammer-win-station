@@ -27,7 +27,11 @@ namespace StationSetup
 				return;
 			}
 
-			Application.Run(new SignInForm());
+			SignInForm form = new SignInForm();
+			Application.Run(form);
+
+			DefaultPosts posts = new DefaultPosts();
+			posts.AutoPost(form.UserEmail, form.UserPassword);
 		}
 	}
 
