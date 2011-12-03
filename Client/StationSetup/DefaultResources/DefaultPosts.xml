@@ -1,0 +1,31 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<posts>
+	<post type ="image">
+			<content>CEO its harder than you think</content>
+		<files>
+			<file>default\CEO its harder than you think.jpg</file>
+			<file>default\Team photos1.png</file>
+			<file>default\Team photos2.jpg</file>
+		</files>  	
+	</post>
+
+	<post type ="doc">
+				<content>Waveface 101 for dummies</content>
+		<file>default\Waveface 101 for dummies.pdf</file>  		
+	</post>
+
+	<post type ="link">
+		<content>一定要把它幹掉</content>
+		<url>http://chinese.engadget.com/2010/01/12/asus-waveface-concept-line-shown-off-during-our-lifetime-might/</url>
+		<title>CES 2010：華碩Waveface概念系列產品</title>
+		<description>由 Peter Chiang 於 1 year 之前發表 Tags: asus, ces, ces 2010, Ces2010, Waveface, waveface casa, waveface light, waveface ultra, WavefaceCasa, WavefaceLight, WavefaceUltra</description>
+		<image_url>http://www.blogcdn.com/chinese.engadget.com/media/2010/01/2010-01-08-waveface-top.jpg</image_url>
+		<image_w>600</image_w>
+		<image_h>400</image_h>
+	</post>
+
+	<post type ="text">
+		<content></content>
+	  <file>default\Welcome.txt</file>
+	</post>
+</posts>

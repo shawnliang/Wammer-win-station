@@ -15,6 +15,7 @@ ipch
 *.sdf
 *.msi
 *.cache
+*.orig
 TestResults/
 
 Wammer-windows.opensdf

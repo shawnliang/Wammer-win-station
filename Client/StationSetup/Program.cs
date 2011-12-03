@@ -20,7 +20,8 @@ namespace StationSetup
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			  
+
+
 			if (WavefaceWindowsClientHelper.IsAlreadyResistered())
 			{
 				WavefaceWindowsClientHelper.StartWavefaceWindowsClient("", "");
@@ -29,6 +30,7 @@ namespace StationSetup
 
 			SignInForm form = new SignInForm();
 			Application.Run(form);
+			//Application.Run(new DropboxForm());
 
 			DefaultPosts posts = new DefaultPosts();
 			posts.AutoPost(form.UserEmail, form.UserPassword);
@@ -49,14 +51,14 @@ namespace StationSetup
 
 			try
 			{
-			    if ((email == string.Empty) || (password == string.Empty))
-			    {
+				if ((email == string.Empty) || (password == string.Empty))
+				{
 					Process.Start(WavefaceWindowsClientPath, null);
-			    }
-			    else
-			    {
-			        Process.Start(WavefaceWindowsClientPath, email + " " + password);
-			    }
+				}
+				else
+				{
+					Process.Start(WavefaceWindowsClientPath, email + " " + password);
+				}
 			}
 			catch (Exception e)
 			{
