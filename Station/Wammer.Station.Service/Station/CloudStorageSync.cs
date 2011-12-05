@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Net;
 
 using Wammer.Model;
+using Wammer.Cloud;
 using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
@@ -13,6 +15,7 @@ namespace Wammer.Station
 	{
 		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StationManagementService));
 		private object cs = new object();
+		private string resourceFolder = "resource";
 
 		public void HandleAttachmentSaved(object sender, AttachmentEventArgs evt)
 		{
@@ -23,8 +26,10 @@ namespace Wammer.Station
 			lock (cs)
 			{
 				string fileName = evt.Attachment.saved_file_name;
+				string objectId = evt.Attachment.object_id;
 				long fileSize = evt.Attachment.file_size;
 				string origFolder = evt.FolderPath;
+				string driverId = evt.DriverId;
 
 				CloudStorage storage = CloudStorage.collection.FindOne();
 				if (storage != null)
@@ -35,16 +40,21 @@ namespace Wammer.Station
 					}
 					else
 					{
-						BackupAttachment(fileName, fileSize, origFolder, storage);
-
-						// storage.Used might be changed after BackupAttachment
-						CloudStorage.collection.Save(storage);
+						try
+						{
+							BackupAttachment(fileName, fileSize, origFolder, storage, driverId, objectId);
+						}
+						finally
+						{
+							// storage.Used might be changed after BackupAttachment
+							CloudStorage.collection.Save(storage);
+						}
 					}
 				}
 			}
 		}
 
-		private void BackupAttachment(string fileName, long fileSize, string origFolder, CloudStorage storage)
+		private void BackupAttachment(string fileName, long fileSize, string origFolder, CloudStorage storage, string driverId, string objectId)
 		{
 			if (!Directory.Exists(storage.Folder))
 			{
@@ -53,14 +63,22 @@ namespace Wammer.Station
 			}
 
 			string origFilePath = Path.Combine(origFolder, fileName);
-			string backupFilePath = Path.Combine(storage.Folder, fileName);
+			string backupFileRelativePath = Path.Combine(resourceFolder, fileName);
+			string backupFilePath = Path.Combine(storage.Folder, backupFileRelativePath);
 
+			Attachment attachment = new Attachment(driverId);
 			if (storage.Quota - storage.Used >= fileSize)
 			{
 				if (CopyAtttachment(origFilePath, backupFilePath))
 				{
+					attachment.AttachmentSetLoc(new WebClient(), new Dictionary<object, object>
+						{
+							{ "loc", (int)Attachment.Location.Dropbox },
+							{ "object_id", objectId },
+							{ "file_path", backupFileRelativePath }
+						}
+					);
 					storage.Used += fileSize;
-					CloudStorage.collection.Save(storage);
 				}
 			}
 			else
@@ -93,6 +111,12 @@ namespace Wammer.Station
 				{
 					if (CopyAtttachment(origFilePath, backupFilePath))
 					{
+						attachment.AttachmentSetLoc(new WebClient(), new Dictionary<object, object>
+							{
+								{ "loc", (int)Attachment.Location.Dropbox },
+								{ "file_path", backupFileRelativePath }
+							}
+						);
 						storage.Used += fileSize;
 					}
 				}
@@ -116,6 +140,10 @@ namespace Wammer.Station
 				logger.Error("Unable to copy attachments to cloud storage folder", ex);
 				return false;
 			}
+		}
+
+		private void NotifyCloud(string relativePath)
+		{
 		}
 	}
 }

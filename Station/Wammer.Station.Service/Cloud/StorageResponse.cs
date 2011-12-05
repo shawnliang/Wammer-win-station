@@ -39,6 +39,26 @@ namespace Wammer.Cloud
 		}
 	}
 
+	public class StorageLinkResponse : StorageResponse
+	{
+		public class StorageInfo
+		{
+			public string token { get; set; }
+		}
+
+		public StorageInfo storages;
+
+		public StorageLinkResponse()
+			: base()
+		{
+		}
+
+		public StorageLinkResponse(int status, DateTime timestamp, StorageInfo storages)
+			: base(status, timestamp)
+		{
+			this.storages = storages;
+		}
+	}
 	public class StorageCheckResponse : StorageResponse
 	{
 		public class StorageStatus

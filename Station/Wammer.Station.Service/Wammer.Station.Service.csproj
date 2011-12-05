@@ -114,6 +114,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cloud\Attachment.cs" />
     <Compile Include="Cloud\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
     <Compile Include="Cloud\ObjectUploadResponse.cs" />

@@ -12,7 +12,7 @@ namespace Wammer.Utility
 	{
 		private static string hostDb = @"Dropbox\host.db";
 		private static string configDb = @"Dropbox\config.db";
-		private static string syncFolder = @"Waveface\resource";
+		private static string syncFolder = @"Waveface";
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxHelper));
 
 		public static bool IsInstalled()
