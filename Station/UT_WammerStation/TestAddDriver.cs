@@ -46,6 +46,7 @@ namespace UT_WammerStation
 			CloudServer.BaseUrl = "http://localhost/v2/";
 
 			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").RemoveAll();
+			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
 		}
 
 		[TestCleanup]
@@ -57,6 +58,7 @@ namespace UT_WammerStation
 				Directory.Delete(@"C:\TempUT", true);
 
 			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").RemoveAll();
+			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
 		}
 
 		[TestMethod]
@@ -89,8 +91,12 @@ namespace UT_WammerStation
 				user = new UserInfo { user_id = "uid1" }
 			};
 
+			StationLogOnResponse res3 = new StationLogOnResponse(200, DateTime.UtcNow, "token3");
+			res3.api_ret_code = 0;
+
 		    using (FakeCloud cloud = new FakeCloud(res1))
 		    {
+				cloud.addJsonResponse(res3);
 				cloud.addJsonResponse(res2);
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/add",
 					new Dictionary<object, object>{ 
@@ -111,6 +117,11 @@ namespace UT_WammerStation
 		        Assert.AreEqual(res2.groups[0].group_id, driver.groups[0].group_id);
 				Assert.AreEqual(res2.groups[0].name, driver.groups[0].name);
 				Assert.AreEqual(res2.groups[0].description, driver.groups[0].description);
+
+				//verify station
+				Wammer.Model.StationInfo s = Wammer.Model.StationInfo.collection.FindOne();
+				Assert.IsNotNull(s);
+				Assert.AreEqual("token3", s.SessionToken);
 		    }
 		}
 
