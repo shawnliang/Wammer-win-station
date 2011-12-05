@@ -85,7 +85,7 @@ namespace Wammer.Station
 			{
 				// run at most 50 times to avoid infinite loop
 				int retry = 50;
-				while (retry > 0)
+				while (storage.Quota - storage.Used >= fileSize)
 				{
 					// delete the least accessed file until storage has enough space
 					DirectoryInfo di = new DirectoryInfo(storage.Folder);
@@ -94,6 +94,14 @@ namespace Wammer.Station
 					{
 						logger.InfoFormat("Cloud storage has no quota, delete file {0}", fi.FullName);
 						fi.Delete();
+						// file name should be unique since all attachments are in the same folder
+						Attachments deletedAttachment = Attachments.collection.FindOne(Query.EQ("file_name", fi.FullName));
+						attachment.AttachmentUnsetLoc(new WebClient(), new Dictionary<object, object>
+							{
+								{ "loc", (int)Attachment.Location.Dropbox},
+								{"object_id", deletedAttachment.object_id}
+							}
+						);
 						storage.Used -= fi.Length;
 					}
 					catch
@@ -101,10 +109,11 @@ namespace Wammer.Station
 						logger.WarnFormat("Unable to delete file {0}", fi.FullName);
 					}
 
-					if (storage.Quota - storage.Used >= fileSize)
-						break;
-
 					retry--;
+					if (retry == 0)
+					{
+						break;
+					}
 				}
 
 				if (storage.Quota - storage.Used >= fileSize)
@@ -114,6 +123,7 @@ namespace Wammer.Station
 						attachment.AttachmentSetLoc(new WebClient(), new Dictionary<object, object>
 							{
 								{ "loc", (int)Attachment.Location.Dropbox },
+								{ "object_id", objectId },
 								{ "file_path", backupFileRelativePath }
 							}
 						);
