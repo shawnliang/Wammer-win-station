@@ -72,34 +72,10 @@
     </Compile>
     <Compile Include="Compoment\MultiPanel\MultiPanelPageDesigner.cs" />
     <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
-    <Compile Include="Dropbox\TryInstallDropboxAgainForm.cs">
+    <Compile Include="DropboxForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dropbox\TryInstallDropboxAgainForm.Designer.cs">
-      <DependentUpon>TryInstallDropboxAgainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetupCompletedForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetupCompletedForm.Designer.cs">
-      <DependentUpon>SetupCompletedForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dropbox\DropboxInstallForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dropbox\DropboxInstallForm.Designer.cs">
-      <DependentUpon>DropboxInstallForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dropbox\DropboxLinkForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dropbox\DropboxLinkForm.Designer.cs">
-      <DependentUpon>DropboxLinkForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dropbox\DropboxForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dropbox\DropboxForm.Designer.cs">
+    <Compile Include="DropboxForm.Designer.cs">
       <DependentUpon>DropboxForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RemoveStationForm.cs">
@@ -116,34 +92,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Dropbox\TryInstallDropboxAgainForm.resx">
-      <DependentUpon>TryInstallDropboxAgainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dropbox\TryInstallDropboxAgainForm.zh-TW.resx">
-      <DependentUpon>TryInstallDropboxAgainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetupCompletedForm.resx">
-      <DependentUpon>SetupCompletedForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetupCompletedForm.zh-TW.resx">
-      <DependentUpon>SetupCompletedForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dropbox\DropboxInstallForm.resx">
-      <DependentUpon>DropboxInstallForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dropbox\DropboxInstallForm.zh-TW.resx">
-      <DependentUpon>DropboxInstallForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dropbox\DropboxLinkForm.resx">
-      <DependentUpon>DropboxLinkForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dropbox\DropboxLinkForm.zh-TW.resx">
-      <DependentUpon>DropboxLinkForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dropbox\DropboxForm.resx">
+    <EmbeddedResource Include="DropboxForm.resx">
       <DependentUpon>DropboxForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dropbox\DropboxForm.zh-TW.resx">
+    <EmbeddedResource Include="DropboxForm.zh-TW.resx">
       <DependentUpon>DropboxForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RemoveStationForm.resx">
@@ -193,6 +145,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\P1.PNG" />
+    <None Include="Resources\P2.png" />
+    <None Include="Resources\P3.PNG" />
+    <None Include="Resources\P4.PNG" />
+    <None Include="Resources\P5.PNG" />
+    <None Include="Resources\P6.PNG" />
+    <None Include="Resources\P7.png" />
     <Content Include="StationML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -214,6 +173,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

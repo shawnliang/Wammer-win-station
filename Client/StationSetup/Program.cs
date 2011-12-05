@@ -15,8 +15,8 @@ namespace StationSetup
         static void Main()
         {
             //CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
-            CultureManager.ApplicationUICulture = new CultureInfo("en-US");
-            //CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+            //CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+            CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
