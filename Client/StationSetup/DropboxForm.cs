@@ -294,5 +294,10 @@ namespace Wammer.Station
             WavefaceWindowsClientHelper.StartWavefaceWindowsClient(m_email, m_password);
             Close();
         }
+
+		private void DropboxForm_Load(object sender, EventArgs e)
+		{
+
+		}
     }
 }
