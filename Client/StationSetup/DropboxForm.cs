@@ -20,18 +20,13 @@ namespace Wammer.Station
     {
         private const string HOST = "http://develop.waveface.com:4343/";
 
-        //Debug
-        private bool m_debug = false;
-        private bool m_installedDropbox_1 = true;
-        private bool m_installedDropbox_2 = true;
-        private bool m_Verify_OK;
-        //
-
         private bool m_canExit;
         private bool m_doAutoPost;
         private string m_email;
         private string m_password;
         private string m_dropboxOAuthUrl = string.Empty;
+        private bool m_verifyOK;
+        private bool m_verifying;
 
         public DropboxForm(string email, string password)
         {
@@ -41,6 +36,38 @@ namespace Wammer.Station
             InitializeComponent();
 
             gotoPage(Page_Welcome); // 1-1
+        }
+
+        private void DropboxForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (m_verifying)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            if (m_doAutoPost)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            if (m_canExit)
+            {
+                OpenWindowsClient();
+            }
+            else
+            {
+                DialogResult _dr = MessageBox.Show(I18n.L.T("QuitDropboxSetupProcess"), "Waveface",
+                                                   MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+
+                if (_dr == DialogResult.OK)
+                {
+                    gotoPage(Page_SetupCompleted); // 1-2
+                }
+
+                e.Cancel = true;
+            }
         }
 
         private void gotoPage(MultiPanelPage page)
@@ -58,7 +85,7 @@ namespace Wammer.Station
 
         private void btn_Welcome_UseDropbox_Click(object sender, EventArgs e)
         {
-            if (CheckDropboxInstalled_1())
+            if (CheckDropboxInstalled())
             {
                 gotoPage(Page_Linkage_1); // 3-1
             }
@@ -82,7 +109,7 @@ namespace Wammer.Station
 
         private void btn_InstallDropbox_2_continue_Click(object sender, EventArgs e)
         {
-            if (CheckDropboxInstalled_2())
+            if (CheckDropboxInstalled())
             {
                 gotoPage(Page_Linkage_1); // 3-1
             }
@@ -126,14 +153,13 @@ namespace Wammer.Station
 
         private void btn_Linkage_2_Verift_Click(object sender, EventArgs e)
         {
-            doVerify();
-        }
-
-        private void doVerify()
-        {
             gotoPage(Page_Verifying); //4-1
 
-            doVerify_Real();
+            Application.DoEvents();
+
+            m_verifying = true;
+
+            backgroundWorkerVerifying.RunWorkerAsync();
         }
 
         private void btn_ConnectionSuccessfully_OpenWaveface_Click(object sender, EventArgs e)
@@ -153,56 +179,9 @@ namespace Wammer.Station
             gotoPage(Page_Welcome); //1-1
         }
 
-        private void DropboxForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (m_doAutoPost)
-            {
-                e.Cancel = true;
-                return;
-            }
+        #region Misc
 
-            if (m_canExit)
-            {
-                OpenWindowsClient();
-            }
-            else
-            {
-                DialogResult _dr = MessageBox.Show(I18n.L.T("QuitDropboxSetupProcess"), "Waveface",
-                                                   MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-
-                if (_dr == DialogResult.OK)
-                {
-                    gotoPage(Page_SetupCompleted); // 1-2
-                }
-
-                e.Cancel = true;
-            }
-        }
-
-        #region Real Work
-
-        // CheckDropboxInstalled_1() 與 CheckDropboxInstalled_2() 程式碼一樣, 為了測試流程方便
-        private bool CheckDropboxInstalled_1()
-        {
-            if (m_debug)
-            {
-                return m_installedDropbox_1;
-            }
-
-            return CheckDropboxInstalled_Real();
-        }
-
-        private bool CheckDropboxInstalled_2()
-        {
-            if (m_debug)
-            {
-                return m_installedDropbox_2;
-            }
-
-            return CheckDropboxInstalled_Real();
-        }
-
-        private bool CheckDropboxInstalled_Real()
+        private bool CheckDropboxInstalled()
         {
             List<StorageStatus> _storageStatuses = StationController.ListCloudStorage();
 
@@ -218,51 +197,13 @@ namespace Wammer.Station
             return false;
         }
 
-        private void doVerify_Real()
-        {
-            bool _isOK = true;
-
-            try
-            {
-                StationController.ConnectDropbox(1024 * 1024 * 500);
-            }
-            catch (DropboxNoSyncFolderException)
-            {
-                _isOK = false;
-            }
-            catch (DropboxWrongAccountException)
-            {
-                _isOK = false;
-            }
-            catch
-            {
-                _isOK = false;
-            }
-
-            if (m_debug)
-            {
-                _isOK = m_Verify_OK;
-            }
-
-            if (_isOK)
-            {
-                gotoPage(Page_ConnectionSuccessfully); //5-1
-            }
-            else
-            {
-                gotoPage(Page_ConnectionFailed); //4-2
-            }
-        }
-
-        #endregion
-
         private void OpenWindowsClient()
         {
             gotoPage(Page_DefaultPosts);
 
             m_doAutoPost = true;
 
-            backgroundWorker.RunWorkerAsync();
+            backgroundWorkerDefaultPosts.RunWorkerAsync();
         }
 
         private void OpenDropboxInstallWeb()
@@ -280,14 +221,18 @@ namespace Wammer.Station
             Process.Start(HOST + "to?url=" + HttpUtility.UrlEncode(m_dropboxOAuthUrl), null);
         }
 
-        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        #endregion
+
+        #region BackgroundWorker
+
+        private void backgroundWorkerDefaultPosts_DoWork(object sender, DoWorkEventArgs e)
         {
             Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             DefaultPosts _posts = new DefaultPosts();
             _posts.AutoPost(m_email, m_password);
         }
 
-        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void backgroundWorkerDefaultPosts_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             m_doAutoPost = false;
 
@@ -295,9 +240,44 @@ namespace Wammer.Station
             Close();
         }
 
-		private void DropboxForm_Load(object sender, EventArgs e)
-		{
+        private void backgroundWorkerVerifying_DoWork(object sender, DoWorkEventArgs e)
+        {
+            m_verifyOK = true;
 
-		}
+            try
+            {
+                StationController.ConnectDropbox(1024 * 1024 * 500); //500MB
+            }
+            catch (DropboxNoSyncFolderException)
+            {
+                m_verifyOK = false;
+            }
+            catch (DropboxWrongAccountException)
+            {
+                m_verifyOK = false;
+            }
+            catch
+            {
+                m_verifyOK = false;
+            }
+        }
+
+        private void backgroundWorkerVerifying_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            m_verifying = false;
+
+            if (m_verifyOK)
+            {
+                gotoPage(Page_ConnectionSuccessfully); //5-1
+            }
+            else
+            {
+                gotoPage(Page_ConnectionFailed); //4-2
+            }
+
+            Application.DoEvents();
+        }
+
+        #endregion
     }
 }
