@@ -27,6 +27,7 @@ namespace Wammer.Station
         private string m_dropboxOAuthUrl = string.Empty;
         private bool m_verifyOK;
         private bool m_verifying;
+        private bool m_autoPostOK;
 
         public DropboxForm(string email, string password)
         {
@@ -40,6 +41,9 @@ namespace Wammer.Station
 
         private void DropboxForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (m_autoPostOK)
+                return;
+
             if (m_verifying)
             {
                 e.Cancel = true;
@@ -169,7 +173,7 @@ namespace Wammer.Station
         {
             OpenWindowsClient();
         }
-
+          
         private void btn_SetupCompleted_OpenWaveface_Click(object sender, EventArgs e)
         {
             OpenWindowsClient();
@@ -240,6 +244,9 @@ namespace Wammer.Station
             m_doAutoPost = false;
 
             WavefaceWindowsClientHelper.StartWavefaceWindowsClient(m_email, m_password);
+
+            m_autoPostOK = true;
+
             Close();
         }
 
