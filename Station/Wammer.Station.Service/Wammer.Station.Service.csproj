@@ -112,6 +112,9 @@
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
+    <Reference Include="TCMPortMapper, Version=1.0.4.1, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\3rd_party\DotNetPortMapper\TCMPortMapper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cloud\CloudResponse.cs" />
@@ -135,6 +138,7 @@
     <Compile Include="Station\CloudStorageService.cs" />
     <Compile Include="Station\CloudStorageSync.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
+    <Compile Include="Station\PublicPortMapping.cs" />
     <Compile Include="Station\StationApiRetCode.cs" />
     <Compile Include="Station\StationManagementService.cs" />
     <Compile Include="Station\StationTimer.cs" />
@@ -203,7 +207,14 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="miniupnp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="natpmp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

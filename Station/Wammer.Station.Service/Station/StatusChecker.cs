@@ -16,7 +16,7 @@ namespace Wammer.Station
 	{
 		private Timer timer;
 		private bool logon = false;  // logOn is needed for every time service start
-		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
+		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
 
 		public StatusChecker(long timerPeriod)
 		{
@@ -31,7 +31,8 @@ namespace Wammer.Station
 			StationDetail status = new StationDetail
 			{
 				location = baseurl,
-				diskusage = new List<DiskUsage>()
+				diskusage = new List<DiskUsage>(),
+				upnp = PublicPortMapping.Instance.GetUPnPInfo()
 			};
 
 			MongoDB.Driver.MongoCursor<Drivers> drivers = Drivers.collection.FindAll();
@@ -134,6 +135,7 @@ namespace Wammer.Station
 	{
 		public string location { get; set; }
 		public List<DiskUsage> diskusage { get; set; }
+		public UPnPInfo upnp { get; set; }
 	}
 
 	public class DiskUsage
@@ -141,6 +143,13 @@ namespace Wammer.Station
 		public string group_id { get; set; }
 		public long used { get; set; }
 		public long avail { get; set; }
+	}
+
+	public class UPnPInfo
+	{
+		public bool status { get; set; }
+		public string public_addr { get; set; }
+		public int public_port { get; set; }
 	}
 
 }

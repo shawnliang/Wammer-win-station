@@ -15,6 +15,7 @@ using Microsoft.Win32;
 using Wammer.Station;
 using Wammer.Cloud;
 using Wammer.Model;
+using TCMPortMapper;
 
 namespace Wammer.Station.Service
 {
@@ -93,7 +94,12 @@ namespace Wammer.Station.Service
 			AddWebServiceHost(statMgmtSvc, 9981, "station/");
 
 			AddWebServiceHost(new CloudStorageService(), 9981, "cloudstorage/");
+
+
+			statMgmtSvc.DriverAdded += PublicPortMapping.Instance.DriverAdded;
 		}
+
+		
 
 		protected override void OnStop()
 		{
@@ -106,6 +112,8 @@ namespace Wammer.Station.Service
 
 			server.Stop();
 			server.Close();
+
+			PublicPortMapping.Instance.Close();
 		}
 
 		private void AddWebServiceHost(object service, int port, string basePath)

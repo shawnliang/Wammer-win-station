@@ -43,6 +43,8 @@ namespace Wammer.Station
 		ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public class StationManagementService : IStationManagementService
 	{
+		public EventHandler<DriverAddedEvtArgs> DriverAdded;
+
 		private readonly string resourceBasePath;
 		private readonly string stationId;
 		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StationManagementService));
@@ -84,15 +86,15 @@ namespace Wammer.Station
 						});
 
 					User user = User.LogIn(agent, email, password);
-					Drivers.collection.Save(
-						new Drivers {
-							email = email,
-							folder = Path.Combine(resourceBasePath, user.Groups[0].name),
-							user_id = user.Id,
-							groups = user.Groups,
-							session_token = user.Token
-						}
-					);
+					Drivers driver = new Drivers {
+						email = email,
+						folder = Path.Combine(resourceBasePath, user.Groups[0].name),
+						user_id = user.Id,
+						groups = user.Groups,
+						session_token = user.Token
+					};
+
+					Drivers.collection.Save(driver);
 
 					StationInfo.collection.Save(
 						new StationInfo
@@ -104,7 +106,7 @@ namespace Wammer.Station
 						}
 					);
 
-					
+					OnDriverAdded(new DriverAddedEvtArgs(driver));
 				}
 				catch (WammerCloudException ex)
 				{
@@ -143,6 +145,14 @@ namespace Wammer.Station
 
 			logger.InfoFormat("user {0} is added to this station successfully", email);
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current);
+		}
+
+		private void OnDriverAdded(DriverAddedEvtArgs args)
+		{
+			EventHandler<DriverAddedEvtArgs> handler = this.DriverAdded;
+
+			if (handler != null)
+				handler(this, args);
 		}
 
 		public Stream GetStatus()
@@ -261,6 +271,17 @@ namespace Wammer.Station
 		public AddUserResponse()
 			:base()
 		{
+		}
+	}
+
+	public class DriverAddedEvtArgs: EventArgs
+	{
+		public Drivers Driver { get; private set; }
+
+		public DriverAddedEvtArgs(Drivers driver)
+			:base()
+		{
+			this.Driver = driver;
 		}
 	}
 }
