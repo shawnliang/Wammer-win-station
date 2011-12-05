@@ -8,7 +8,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Waveface.API.V2;
-
+using Waveface;
 #endregion
 
 namespace StationSetup
@@ -91,41 +91,23 @@ namespace StationSetup
 
         #region Post Text
 
-        public bool PostText(string text)
+        public void PostText(string text)
         {
-            try
-            {
-                MR_posts_new _np = Post_CreateNewPost(text, "", "", "text");
-
-                return (_np != null);
-            }
-            catch
-            {
-                return false;
-            }
+            MR_posts_new _np = Post_CreateNewPost(text, "", "", "text");
+            if (_np == null)
+                throw new Exception("create default text post failure");
         }
 
         #endregion
 
         #region Post Link
 
-        public bool PostLink(string text, string previews)
+        public void PostLink(string text, string previews)
         {
-            try
-            {
-                MR_posts_new _np = Post_CreateNewPost(text, "", previews, "link");
+            MR_posts_new _np = Post_CreateNewPost(text, "", previews, "link");
 
-                if (_np == null)
-                {
-                    return false;
-                }
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            if (_np == null)
+                throw new Exception("create default web link post failure");
         }
 
         public string GetPreview(string url, string title, string description, string imageURL, string image_w, string image_h)
@@ -146,25 +128,14 @@ namespace StationSetup
 
         #region Post Photo
 
-        public bool PostPhotos(string text, List<string> images)
+        public void PostPhotos(string text, List<string> images)
         {
             string _files = postImages(images);
 
-            try
-            {
-                MR_posts_new _np = Post_CreateNewPost(text, _files, "", "image");
+            MR_posts_new _np = Post_CreateNewPost(text, _files, "", "image");
 
-                if (_np == null)
-                {
-                    return false;
-                }
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            if (_np == null)
+                throw new Exception("create default photo post failure");
         }
 
         private string postImages(List<string> images)
@@ -200,25 +171,14 @@ namespace StationSetup
 
         #region Post Doc
 
-        public bool PostDocs(string text, List<string> docs)
+        public void PostDocs(string text, List<string> docs)
         {
             string _files = doPostDocs(docs);
 
-            try
-            {
-                MR_posts_new _np = Post_CreateNewPost(text, _files, "", "doc");
+            MR_posts_new _np = Post_CreateNewPost(text, _files, "", "doc");
 
-                if (_np == null)
-                {
-                    return false;
-                }
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            if (_np == null)
+                throw new Exception("create default doc post failure");
         }
 
         private string doPostDocs(List<string> docs)

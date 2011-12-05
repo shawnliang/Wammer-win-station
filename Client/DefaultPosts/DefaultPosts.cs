@@ -19,7 +19,7 @@ namespace Waveface
                 if (args.Length > 1)
                     _defaultPosts.AutoPost(args[0], args[1]);
                 else
-                    _defaultPosts.AutoPost("ren.cheng@waveface.com", "123456");
+                    _defaultPosts.AutoPost("shawn1@waveface.com", "123456");
             }
             catch (Exception _e)
             {

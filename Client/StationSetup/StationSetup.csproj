@@ -48,9 +48,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="StationSetup, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <ExecutableExtension>.exe</ExecutableExtension>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -63,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultPosts.cs" />
+    <Compile Include="PostService.cs" />
     <Compile Include="Compoment\MultiPanel\MultiPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -120,6 +119,9 @@
     <EmbeddedResource Include="SignInForm.zh-TW.resx">
       <DependentUpon>SignInForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="DefaultResources\Waveface 101 for dummies.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -143,6 +145,10 @@
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
       <Name>Localizer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Wammer\Wammer.csproj">
+      <Project>{2CFFCA13-B00A-4605-B6A4-D49A616CFCB4}</Project>
+      <Name>Wammer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\P1.PNG" />
@@ -152,6 +158,21 @@
     <None Include="Resources\P5.PNG" />
     <None Include="Resources\P6.PNG" />
     <None Include="Resources\P7.png" />
+    <Content Include="DefaultResources\CEO its harder than you think.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DefaultResources\DefaultPosts.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DefaultResources\Team photos1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DefaultResources\Team photos2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DefaultResources\Welcome.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="StationML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

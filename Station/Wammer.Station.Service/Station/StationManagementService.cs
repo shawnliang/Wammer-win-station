@@ -75,7 +75,13 @@ namespace Wammer.Station
 				{
 					string baseurl = NetworkHelper.GetBaseURL();
 					Cloud.Station station = Cloud.Station.SignUp(
-														agent, stationId, email, password, baseurl);
+														agent, stationId, email, password);
+
+					station.LogOn(agent,
+						new Dictionary<object, object>
+						{
+							{"detail", fastJSON.JSON.Instance.ToJSON(StatusChecker.GetDetail(), false, false, false, false)}
+						});
 
 					User user = User.LogIn(agent, email, password);
 					Drivers.collection.Save(
@@ -144,7 +150,7 @@ namespace Wammer.Station
 			logger.Debug("GetStatus is called");
 			try
 			{
-				StationStatus res = StatusChecker.GetStatus();
+				StationDetail res = StatusChecker.GetDetail();
 
 				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, new GetStatusResponse
 				{
@@ -239,7 +245,7 @@ namespace Wammer.Station
 
 	public class GetStatusResponse : CloudResponse
 	{
-		public StationStatus station_status { get; set; }
+		public StationDetail station_status { get; set; }
 		
 		public GetStatusResponse()
 			:base()

@@ -1,0 +1,45 @@
+﻿給使用者的信 第一版 中英文
+
+
+
+
+------------------------
+
+中文
+
+------------------------
+
+非常感謝您嘗試使用我們的App，我叫做 Will，是Waveface的創辦人兼CEO。 
+經過半年來的努力，我們從兩人，三人，到現在有二十名熱血的團隊成員，日夜揮灑手指頭上的汗水，把Waveface用程式碼，一步一腳印地生了出來。 
+
+我們自己相信，在這個多元的數位時代，每個人生活的片段都零碎地存在周遭的手機、筆電、桌機或平板電腦裡面。 
+而我們自己遭遇的最大的問題，即是各個不同的品牌，都積極地建立屬於自己的私人島嶼，要是您今天有一支Android手機，但是用Windows桌機，iPad平板，光一張用手機照的相片，想要傳到iPad上看，想要儲存到桌機裡，就已經是個大工程。(目前最好的方法還是用Gmail寄信給自己，或是用雲端服務傳送。) 
+
+因此，我產生把大家的數位裝置，搭一座橋樑連結起來的想法，把一個個的私人島嶼打通。 
+今天我很高興得把這座橋梁給您使用，希望Waveface會成為您生活中，連結數位記憶的最好幫手。 
+請盡情享用！ 
+
+Will, 以及Waveface 團隊敬上。 
+
+
+------------------------
+
+English
+
+------------------------
+
+Hi there!  
+
+Thanks for giving our App a try, I'm Will, founder and CEO of Waveface. And this is a little bit of our story. 
+After six months, we started from 3 nerdy founders to a 20 man team. All of the guys and gals in our team busted our big behinds and drained through countless espressos to build Waveface one code at a time.  
+
+We all believe that in this digital era, all our life memories are scattered around multiple gadgets, smart phones, Laptops, desktops, tablets, etc.  
+
+And the biggest problem we encountered is our gadgets are isolated in different islands, created by big brands in the industry. Just imagine taking a photo with your android cell, wanting to view it on your iPad, and back it up on your Windows desktop. The simplest way to do this is sending a mail to yourself via Gmail, or using other cloud services. 
+
+Based on this problem, I came up with the thought of building a bridge between all these islands, blocked by invisible digital oceans, and give everyone a simple, comfortable, and stylish way to connect your digital life.  
+
+Today, I'm proud to say we constructed that bridge, and we hope Waveface can be a part of your life.  
+Enjoy! 
+
+Will & Team Waveface 
