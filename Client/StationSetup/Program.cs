@@ -21,7 +21,6 @@ namespace StationSetup
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-
 			if (WavefaceWindowsClientHelper.IsAlreadyResistered())
 			{
 				WavefaceWindowsClientHelper.StartWavefaceWindowsClient("", "");
@@ -29,12 +28,8 @@ namespace StationSetup
 			}
 
 			SignInForm form = new SignInForm();
-			Application.Run(form);
-
-			Environment.CurrentDirectory =
-				Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			DefaultPosts posts = new DefaultPosts();
-			posts.AutoPost(form.UserEmail, form.UserPassword);
+    
+            Application.Run(form);
 		}
 	}
 

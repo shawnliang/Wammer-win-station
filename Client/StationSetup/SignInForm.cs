@@ -3,24 +3,19 @@ using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using StationSetup;
 using Wammer.Station.Management;
-using Waveface.Localization;
 
 namespace Wammer.Station
 {
 	public partial class SignInForm : Form
 	{
 		private const string SignUpURL = @"http://develop.waveface.com:4343/signup";
-		private Localizer L;
 		private string userEmail;
 		private string userPassword;
 
 		public SignInForm()
 		{
-			L = new Localizer();
-			L.WItemsFullPath = Application.StartupPath + "\\StationML.xml";
-			L.CurrentCulture = CultureManager.ApplicationUICulture;
-			
 			InitializeComponent();
 		}
 
@@ -29,14 +24,14 @@ namespace Wammer.Station
 			// 檢查是否都有填值
 			if ((textBoxMail.Text == string.Empty) || (textBoxPassword.Text == string.Empty))
 			{
-				MessageBox.Show(L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(I18n.L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
 			// 檢查email格式
 			if (!TestEmailFormat(textBoxMail.Text))
 			{
-				MessageBox.Show(L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(I18n.L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -51,10 +46,11 @@ namespace Wammer.Station
 			{
 				StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
 
-				MessageBox.Show(L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
+                MessageBox.Show(I18n.L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
 
-				StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient(textBoxMail.Text, textBoxPassword.Text);
-				userEmail = textBoxMail.Text;
+				DropboxInstallAndLink();
+
+			    userEmail = textBoxMail.Text;
 				userPassword = textBoxPassword.Text;
 				Close();
 			}
@@ -83,8 +79,10 @@ namespace Wammer.Station
 
 						StationController.SignoffStation(_e.Id, textBoxMail.Text, textBoxPassword.Text);
 						StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
-						StationSetup.WavefaceWindowsClientHelper.StartWavefaceWindowsClient(textBoxMail.Text, textBoxPassword.Text);
-						userEmail = textBoxMail.Text;
+
+					    DropboxInstallAndLink();
+                        
+                        userEmail = textBoxMail.Text;
 						userPassword = textBoxPassword.Text;
 						Close();
 					}
@@ -92,12 +90,12 @@ namespace Wammer.Station
 					{
 						Cursor.Current = Cursors.Default;
 
-						ShowErrorDialogAndExit(L.T("SignOffStationError"));
+                        ShowErrorDialogAndExit(I18n.L.T("SignOffStationError"));
 					}
 				}
 				else
 				{
-					ShowErrorDialogAndExit(L.T("MustRemoveOld"));
+                    ShowErrorDialogAndExit(I18n.L.T("MustRemoveOld"));
 				}
 			}
 			catch (StationAlreadyHasDriverException _e)
@@ -108,7 +106,15 @@ namespace Wammer.Station
 			}
 		}
 
-		private void ShowErrorDialogAndExit(string message)
+	    private void DropboxInstallAndLink()
+	    {
+	        Hide();
+
+	        DropboxForm _dropboxForm = new DropboxForm(textBoxMail.Text, textBoxPassword.Text);
+	        _dropboxForm.ShowDialog();
+	    }
+
+	    private void ShowErrorDialogAndExit(string message)
 		{
 			MessageBox.Show(message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
