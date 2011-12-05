@@ -49,14 +49,14 @@
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
             this.label1.BackColor = System.Drawing.SystemColors.Window;
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
             // label2
             // 
-            resources.ApplyResources(this.label2, "label2");
             this.label2.BackColor = System.Drawing.SystemColors.Window;
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
             // labelName

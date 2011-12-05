@@ -55,6 +55,9 @@ namespace Wammer.Station
             if (m_canExit)
             {
                 OpenWindowsClient();
+
+                e.Cancel = true;
+                return;
             }
             else
             {

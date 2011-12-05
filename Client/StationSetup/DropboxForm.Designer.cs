@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DropboxForm));
             this.backgroundWorkerDefaultPosts = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorkerVerifying = new System.ComponentModel.BackgroundWorker();
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_Welcome = new Waveface.Component.MultiPage.MultiPanelPage();
             this.pb_Welcome = new System.Windows.Forms.PictureBox();
@@ -92,7 +93,6 @@
             this.pb_DefaultPosts = new System.Windows.Forms.PictureBox();
             this.lb_DefaultPosts = new System.Windows.Forms.Label();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.backgroundWorkerVerifying = new System.ComponentModel.BackgroundWorker();
             this.multiPanel.SuspendLayout();
             this.Page_Welcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Welcome)).BeginInit();
@@ -123,6 +123,11 @@
             this.backgroundWorkerDefaultPosts.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerDefaultPosts_DoWork);
             this.backgroundWorkerDefaultPosts.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerDefaultPosts_RunWorkerCompleted);
             // 
+            // backgroundWorkerVerifying
+            // 
+            this.backgroundWorkerVerifying.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerVerifying_DoWork);
+            this.backgroundWorkerVerifying.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerVerifying_RunWorkerCompleted);
+            // 
             // multiPanel
             // 
             this.multiPanel.Controls.Add(this.Page_Welcome);
@@ -138,7 +143,7 @@
             this.multiPanel.Controls.Add(this.Page_DefaultPosts);
             resources.ApplyResources(this.multiPanel, "multiPanel");
             this.multiPanel.Name = "multiPanel";
-            this.multiPanel.SelectedPage = this.Page_Verifying;
+            this.multiPanel.SelectedPage = this.Page_ConnectionFailed;
             // 
             // Page_Welcome
             // 
@@ -542,11 +547,6 @@
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
-            // 
-            // backgroundWorkerVerifying
-            // 
-            this.backgroundWorkerVerifying.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerVerifying_DoWork);
-            this.backgroundWorkerVerifying.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerVerifying_RunWorkerCompleted);
             // 
             // DropboxForm
             // 
