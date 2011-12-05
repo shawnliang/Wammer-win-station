@@ -117,50 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="backgroundWorkerDefaultPosts.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>161, 17</value>
-  </metadata>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="pb_Welcome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pb_Welcome.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
+  <data name="lb_InstallationFailed_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
   </data>
-  <data name="pb_Welcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 64</value>
+  <data name="Page_DefaultPosts.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="pb_Welcome.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+  <data name="&gt;&gt;lb_SetupCompleted_1.Parent" xml:space="preserve">
+    <value>Page_SetupCompleted</value>
   </data>
-  <data name="&gt;&gt;pb_Welcome.Name" xml:space="preserve">
-    <value>pb_Welcome</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
   </data>
-  <data name="&gt;&gt;pb_Welcome.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;lb_SetupCompleted_2.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="&gt;&gt;pb_Welcome.Parent" xml:space="preserve">
-    <value>Page_Welcome</value>
+  <data name="Page_ConnectionSuccessfully.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
   </data>
-  <data name="&gt;&gt;pb_Welcome.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;btn_Linkage_2_Verify.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
-  <data name="lb_Welcome_2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11pt</value>
+  <data name="&gt;&gt;lb_SetupCompleted_2.Name" xml:space="preserve">
+    <value>lb_SetupCompleted_2</value>
   </data>
-  <data name="lb_Welcome_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;lb_ConnectionFailed_2.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="lb_Welcome_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 70</value>
-  </data>
-  <data name="lb_Welcome_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>365, 190</value>
-  </data>
-  <data name="lb_Welcome_2.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+  <data name="&gt;&gt;btn_Linkage_2_ConnectAgain.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="lb_Welcome_2.Text" xml:space="preserve">
     <value>Connecting Dropbox has the following benefits:
@@ -171,194 +158,1606 @@
 
 Click “Next” to start the process and enjoy the benefits now. Or “Skip” to do it latter.</value>
   </data>
-  <data name="&gt;&gt;lb_Welcome_2.Name" xml:space="preserve">
-    <value>lb_Welcome_2</value>
+  <data name="lb_Linkage_2_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>162, 12</value>
   </data>
-  <data name="&gt;&gt;lb_Welcome_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_Welcome_2.Parent" xml:space="preserve">
-    <value>Page_Welcome</value>
-  </data>
-  <data name="&gt;&gt;lb_Welcome_2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lb_Welcome_1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
-  </data>
-  <data name="lb_Welcome_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_Welcome_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 12</value>
-  </data>
-  <data name="lb_Welcome_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>387, 47</value>
-  </data>
-  <data name="lb_Welcome_1.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="lb_Welcome_1.Text" xml:space="preserve">
-    <value>Waveface can Connect to Dropbox to provide you more features! </value>
+  <data name="&gt;&gt;Page_InstallDropbox_2.ZOrder" xml:space="preserve">
+    <value>9</value>
   </data>
   <data name="&gt;&gt;lb_Welcome_1.Name" xml:space="preserve">
     <value>lb_Welcome_1</value>
   </data>
-  <data name="&gt;&gt;lb_Welcome_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;lb_ConnectionFailed_2.Parent" xml:space="preserve">
+    <value>Page_ConnectionFailed</value>
   </data>
-  <data name="&gt;&gt;lb_Welcome_1.Parent" xml:space="preserve">
-    <value>Page_Welcome</value>
+  <data name="&gt;&gt;pb_ConnectionSuccessfully.Name" xml:space="preserve">
+    <value>pb_ConnectionSuccessfully</value>
   </data>
-  <data name="&gt;&gt;lb_Welcome_1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btn_Welcome_UseDropbox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_Welcome_UseDropbox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>411, 263</value>
-  </data>
-  <data name="btn_Welcome_UseDropbox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 27</value>
-  </data>
-  <data name="btn_Welcome_UseDropbox.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="btn_Welcome_UseDropbox.Text" xml:space="preserve">
-    <value>Next</value>
-  </data>
-  <data name="&gt;&gt;btn_Welcome_UseDropbox.Name" xml:space="preserve">
-    <value>btn_Welcome_UseDropbox</value>
-  </data>
-  <data name="&gt;&gt;btn_Welcome_UseDropbox.Type" xml:space="preserve">
+  <data name="&gt;&gt;btn_InstallDropbox_2_InstallAgain.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btn_Welcome_UseDropbox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lb_Welcome_2.Parent" xml:space="preserve">
     <value>Page_Welcome</value>
   </data>
-  <data name="&gt;&gt;btn_Welcome_UseDropbox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="btn_Welcome_Skip.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_Welcome_Skip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>341, 263</value>
-  </data>
-  <data name="btn_Welcome_Skip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 27</value>
-  </data>
-  <data name="btn_Welcome_Skip.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="btn_Welcome_Skip.Text" xml:space="preserve">
-    <value>Skip</value>
-  </data>
-  <data name="&gt;&gt;btn_Welcome_Skip.Name" xml:space="preserve">
-    <value>btn_Welcome_Skip</value>
-  </data>
-  <data name="&gt;&gt;btn_Welcome_Skip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_Welcome_Skip.Parent" xml:space="preserve">
-    <value>Page_Welcome</value>
-  </data>
-  <data name="&gt;&gt;btn_Welcome_Skip.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="Page_Welcome.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_Welcome.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_Welcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_Welcome.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="Page_Welcome.Text" xml:space="preserve">
-    <value>Page_Welcome</value>
-  </data>
-  <data name="&gt;&gt;Page_Welcome.Name" xml:space="preserve">
-    <value>Page_Welcome</value>
-  </data>
-  <data name="&gt;&gt;Page_Welcome.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_Welcome.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_Welcome.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btn_SetupCompleted_InstallAgain.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_SetupCompleted_InstallAgain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>277, 263</value>
-  </data>
-  <data name="btn_SetupCompleted_InstallAgain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 27</value>
-  </data>
-  <data name="btn_SetupCompleted_InstallAgain.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="btn_SetupCompleted_InstallAgain.Text" xml:space="preserve">
-    <value>Try Again</value>
-  </data>
-  <data name="&gt;&gt;btn_SetupCompleted_InstallAgain.Name" xml:space="preserve">
-    <value>btn_SetupCompleted_InstallAgain</value>
-  </data>
-  <data name="&gt;&gt;btn_SetupCompleted_InstallAgain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_SetupCompleted_InstallAgain.Parent" xml:space="preserve">
-    <value>Page_SetupCompleted</value>
-  </data>
-  <data name="&gt;&gt;btn_SetupCompleted_InstallAgain.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pb_SetupCompleted.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pb_SetupCompleted.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pb_SetupCompleted.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 64</value>
-  </data>
-  <data name="pb_SetupCompleted.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;pb_SetupCompleted.Name" xml:space="preserve">
-    <value>pb_SetupCompleted</value>
-  </data>
-  <data name="&gt;&gt;pb_SetupCompleted.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pb_SetupCompleted.Parent" xml:space="preserve">
-    <value>Page_SetupCompleted</value>
-  </data>
-  <data name="&gt;&gt;pb_SetupCompleted.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lb_SetupCompleted_2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11pt</value>
-  </data>
-  <data name="lb_SetupCompleted_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;btn_Linkage_1_Connect.Name" xml:space="preserve">
+    <value>btn_Linkage_1_Connect</value>
   </data>
   <data name="lb_SetupCompleted_2.Location" type="System.Drawing.Point, System.Drawing">
     <value>94, 70</value>
   </data>
-  <data name="lb_SetupCompleted_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 171</value>
+  <data name="&gt;&gt;lb_InstallDropbox_2_2.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallDropbox_1.Name" xml:space="preserve">
+    <value>pb_InstallDropbox_1</value>
+  </data>
+  <data name="lb_Linkage_1_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>162, 12</value>
+  </data>
+  <data name="&gt;&gt;pb_ConnectionFailed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_1_1.Name" xml:space="preserve">
+    <value>lb_Linkage_1_1</value>
+  </data>
+  <data name="pb_Welcome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;Page_DefaultPosts.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="&gt;&gt;btn_Linkage_1_Connect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btn_InstallDropbox_2_continue.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallDropbox_2_InstallAgain.Name" xml:space="preserve">
+    <value>btn_InstallDropbox_2_InstallAgain</value>
+  </data>
+  <data name="pb_Linkage_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Page_Verifying.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;lb_SetupCompleted_1.Name" xml:space="preserve">
+    <value>lb_SetupCompleted_1</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionFailed_Skip.Name" xml:space="preserve">
+    <value>btn_ConnectionFailed_Skip</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_2_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btn_Welcome_UseDropbox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="btn_Linkage_1_Connect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 263</value>
+  </data>
+  <data name="lb_InstallDropbox_1_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>363, 84</value>
+  </data>
+  <data name="&gt;&gt;Page_Verifying.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="lb_InstallDropbox_1_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallationFailed_1.Parent" xml:space="preserve">
+    <value>Page_InstallationFailed</value>
+  </data>
+  <data name="&gt;&gt;Page_Linkage_2.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="&gt;&gt;pb_SetupCompleted.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btn_SetupCompleted_InstallAgain.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="btn_InstallDropbox_2_continue.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;btn_Welcome_Skip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;multiPanel.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanel, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_2_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_InstallationFailed_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="&gt;&gt;btn_SetupCompleted_InstallAgain.Parent" xml:space="preserve">
+    <value>Page_SetupCompleted</value>
+  </data>
+  <data name="btn_SetupCompleted_InstallAgain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>277, 263</value>
+  </data>
+  <data name="&gt;&gt;Page_ConnectionSuccessfully.Name" xml:space="preserve">
+    <value>Page_ConnectionSuccessfully</value>
+  </data>
+  <data name="&gt;&gt;Page_DefaultPosts.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="btn_InstallDropbox_1_Install.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallationFailedSkip_Retry.Parent" xml:space="preserve">
+    <value>Page_InstallationFailed</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionSuccessfully_2.Name" xml:space="preserve">
+    <value>lb_ConnectionSuccessfully_2</value>
+  </data>
+  <data name="&gt;&gt;lb_SetupCompleted_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionSuccessfully_1.Parent" xml:space="preserve">
+    <value>Page_ConnectionSuccessfully</value>
+  </data>
+  <data name="btn_Welcome_Skip.Text" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="&gt;&gt;btn_Linkage_2_Verify.Parent" xml:space="preserve">
+    <value>Page_Linkage_2</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallDropbox_1.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Skip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 27</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallationFailed_2.Parent" xml:space="preserve">
+    <value>Page_InstallationFailed</value>
+  </data>
+  <data name="pb_Linkage_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_2_1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;pb_Linkage_1.Parent" xml:space="preserve">
+    <value>Page_Linkage_1</value>
+  </data>
+  <data name="pb_Verifying.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 64</value>
+  </data>
+  <data name="pb_ConnectionFailed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;lb_Welcome_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_InstallDropbox_1_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 39</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_2_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pb_Linkage_1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lb_SetupCompleted_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
+  </data>
+  <data name="Page_Verifying.Text" xml:space="preserve">
+    <value>Verifying</value>
+  </data>
+  <data name="pb_InstallDropbox_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 64</value>
+  </data>
+  <data name="btn_InstallDropbox_1_Install.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 27</value>
+  </data>
+  <data name="btn_Linkage_2_ConnectAgain.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Retry.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 27</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_1_1.Name" xml:space="preserve">
+    <value>lb_InstallDropbox_1_1</value>
+  </data>
+  <data name="pb_Welcome.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 64</value>
+  </data>
+  <data name="lb_Linkage_1_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Page_InstallationFailed.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="btn_Linkage_2_ConnectAgain.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Connect to Dropbox</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Skip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>414, 263</value>
+  </data>
+  <data name="&gt;&gt;pb_ConnectionFailed.Name" xml:space="preserve">
+    <value>pb_ConnectionFailed</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_1_2.Name" xml:space="preserve">
+    <value>lb_Linkage_1_2</value>
+  </data>
+  <data name="btn_SetupCompleted_OpenWaveface.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 27</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallDropbox_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_InstallDropbox_1_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 12</value>
+  </data>
+  <data name="&gt;&gt;backgroundWorkerDefaultPosts.Name" xml:space="preserve">
+    <value>backgroundWorkerDefaultPosts</value>
+  </data>
+  <data name="pb_InstallDropbox_1.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="lb_InstallationFailed_2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11pt</value>
+  </data>
+  <data name="lb_Linkage_1_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pb_InstallDropbox_1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>StretchImage</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionFailed_1.Parent" xml:space="preserve">
+    <value>Page_ConnectionFailed</value>
+  </data>
+  <data name="&gt;&gt;lb_DefaultPosts.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Page_InstallDropbox_1.Text" xml:space="preserve">
+    <value>Install Dropbox 1</value>
+  </data>
+  <data name="btn_ConnectionSuccessfully_OpenWaveface.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lb_SetupCompleted_1.Text" xml:space="preserve">
+    <value>Congratulations! Waveface Setup Completed.</value>
+  </data>
+  <data name="&gt;&gt;Page_Welcome.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="lb_ConnectionFailed_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>94, 70</value>
+  </data>
+  <data name="pb_Welcome.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionFailed_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="multiPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="btn_Linkage_2_Verify.Location" type="System.Drawing.Point, System.Drawing">
+    <value>413, 263</value>
+  </data>
+  <data name="Page_Linkage_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="btn_Welcome_Skip.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;Page_ConnectionFailed.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="btn_Linkage_2_Verify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 27</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionSuccessfully_OpenWaveface.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionFailed_Retry.Name" xml:space="preserve">
+    <value>btn_ConnectionFailed_Retry</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Retry.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionFailed_1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;btn_SetupCompleted_OpenWaveface.Name" xml:space="preserve">
+    <value>btn_SetupCompleted_OpenWaveface</value>
+  </data>
+  <data name="pb_ConnectionSuccessfully.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;Page_Welcome.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="btn_Welcome_Skip.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="lb_InstallationFailed_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Page_Welcome.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lb_InstallationFailed_1.Text" xml:space="preserve">
+    <value>Oops! You haven’t installed Dropbox yet!</value>
+  </data>
+  <data name="lb_InstallDropbox_2_2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11pt</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Skip.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_2_1.Name" xml:space="preserve">
+    <value>lb_Linkage_2_1</value>
+  </data>
+  <data name="pBar_DefaultPosts.Location" type="System.Drawing.Point, System.Drawing">
+    <value>126, 128</value>
+  </data>
+  <data name="btn_ConnectionFailed_Skip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 27</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>94, 70</value>
+  </data>
+  <data name="lb_Linkage_1_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
+  </data>
+  <data name="&gt;&gt;pBar_Verifying.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pb_Linkage_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="Page_InstallDropbox_1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 14</value>
+  </data>
+  <data name="Page_Verifying.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="lb_Linkage_1_2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11pt</value>
+  </data>
+  <data name="pb_InstallDropbox_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Page_DefaultPosts.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="Page_ConnectionSuccessfully.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lb_Linkage_1_2.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallationFailed.Parent" xml:space="preserve">
+    <value>Page_InstallationFailed</value>
+  </data>
+  <data name="Page_Verifying.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lb_Linkage_1_2.Text" xml:space="preserve">
+    <value>First, you need to log in your dropbox account to proceed.
+
+Click "Connect" and we will open the Dropbox webpage for you using your web browser. 
+
+After you log in, please follow the instruction provided by dropbox to make the connection.
+</value>
+  </data>
+  <data name="pb_Linkage_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 64</value>
+  </data>
+  <data name="&gt;&gt;pb_ConnectionSuccessfully.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Page_Verifying.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_2_2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;pb_ConnectionFailed.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pb_ConnectionFailed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="Page_Linkage_2.Text" xml:space="preserve">
+    <value>Linkage_2 </value>
+  </data>
+  <data name="lb_InstallDropbox_1_1.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="Page_Welcome.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lb_ConnectionFailed_2.Text" xml:space="preserve">
+    <value>The Connection between Waveface and Dropbox was not successful.
+
+Click "Try Again" to connect to Dropbox again, or "Skip" to do it latter.
+</value>
+  </data>
+  <data name="&gt;&gt;btn_SetupCompleted_InstallAgain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_InstallationFailed_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lb_Linkage_2_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btn_InstallDropbox_2_InstallAgain.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;pb_Welcome.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Page_Linkage_2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="btn_ConnectionSuccessfully_OpenWaveface.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 27</value>
+  </data>
+  <data name="&gt;&gt;pb_DefaultPosts.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;pb_Linkage_2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btn_ConnectionFailed_Skip.Text" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="Page_InstallationFailed.Text" xml:space="preserve">
+    <value>Installation Failed</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionFailed_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_Welcome_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_2.Text" xml:space="preserve">
+    <value>Waveface and Dropbox has been successfully configured! 
+Enjoy Waveface with full gears and start connecting your digital life.</value>
+  </data>
+  <data name="Page_Welcome.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionFailed_2.Name" xml:space="preserve">
+    <value>lb_ConnectionFailed_2</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallDropbox_1.Name" xml:space="preserve">
+    <value>Page_InstallDropbox_1</value>
+  </data>
+  <data name="btn_SetupCompleted_InstallAgain.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lb_DefaultPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lb_SetupCompleted_2.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
+  </data>
+  <data name="&gt;&gt;lb_DefaultPosts.Parent" xml:space="preserve">
+    <value>Page_DefaultPosts</value>
+  </data>
+  <data name="lb_Verifying_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;btn_Welcome_UseDropbox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Page_ConnectionSuccessfully.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="btn_ConnectionSuccessfully_OpenWaveface.Text" xml:space="preserve">
+    <value>Open Waveface</value>
+  </data>
+  <data name="lb_SetupCompleted_1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;btn_Linkage_2_ConnectAgain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btn_ConnectionFailed_Retry.Text" xml:space="preserve">
+    <value>Try Again</value>
+  </data>
+  <data name="&gt;&gt;Page_ConnectionSuccessfully.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="pb_InstallationFailed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;pb_Linkage_2.Parent" xml:space="preserve">
+    <value>Page_Linkage_2</value>
+  </data>
+  <data name="Page_Welcome.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="Page_SetupCompleted.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="&gt;&gt;btn_Welcome_UseDropbox.Name" xml:space="preserve">
+    <value>btn_Welcome_UseDropbox</value>
+  </data>
+  <data name="&gt;&gt;Page_Linkage_1.Name" xml:space="preserve">
+    <value>Page_Linkage_1</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionSuccessfully_2.Parent" xml:space="preserve">
+    <value>Page_ConnectionSuccessfully</value>
+  </data>
+  <data name="&gt;&gt;lb_Verifying_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionSuccessfully_1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;lb_Welcome_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lb_Verifying_1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lb_ConnectionFailed_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
+  </data>
+  <data name="pb_InstallationFailed.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="lb_Welcome_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>365, 190</value>
+  </data>
+  <data name="btn_Linkage_2_ConnectAgain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 27</value>
+  </data>
+  <data name="&gt;&gt;lb_Verifying_1.Name" xml:space="preserve">
+    <value>lb_Verifying_1</value>
+  </data>
+  <data name="btn_ConnectionFailed_Retry.Location" type="System.Drawing.Point, System.Drawing">
+    <value>389, 263</value>
+  </data>
+  <data name="btn_Welcome_UseDropbox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;pb_Verifying.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Page_InstallDropbox_2.Text" xml:space="preserve">
+    <value>Install Dropbox 2</value>
+  </data>
+  <data name="lb_ConnectionFailed_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>360, 103</value>
+  </data>
+  <data name="btn_InstallDropbox_2_InstallAgain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 27</value>
+  </data>
+  <data name="&gt;&gt;btn_SetupCompleted_InstallAgain.Name" xml:space="preserve">
+    <value>btn_SetupCompleted_InstallAgain</value>
+  </data>
+  <data name="&gt;&gt;Page_Verifying.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_2.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="btn_SetupCompleted_InstallAgain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 27</value>
+  </data>
+  <data name="lb_InstallDropbox_2_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
+  </data>
+  <data name="&gt;&gt;btn_SetupCompleted_OpenWaveface.Parent" xml:space="preserve">
+    <value>Page_SetupCompleted</value>
+  </data>
+  <data name="&gt;&gt;lb_Welcome_2.Name" xml:space="preserve">
+    <value>lb_Welcome_2</value>
+  </data>
+  <data name="multiPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallationFailed.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="btn_Welcome_UseDropbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 27</value>
+  </data>
+  <data name="btn_ConnectionSuccessfully_OpenWaveface.Location" type="System.Drawing.Point, System.Drawing">
+    <value>369, 263</value>
+  </data>
+  <data name="pb_InstallDropbox_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lb_InstallationFailed_1.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="pb_SetupCompleted.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 64</value>
+  </data>
+  <data name="btn_Linkage_2_Verify.Text" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="lb_SetupCompleted_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btn_Linkage_1_Connect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;pb_DefaultPosts.Parent" xml:space="preserve">
+    <value>Page_DefaultPosts</value>
+  </data>
+  <data name="btn_ConnectionFailed_Skip.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lb_Welcome_1.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_1_1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;btn_Welcome_Skip.Name" xml:space="preserve">
+    <value>btn_Welcome_Skip</value>
+  </data>
+  <data name="Page_InstallationFailed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pb_ConnectionFailed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 64</value>
+  </data>
+  <data name="lb_Linkage_2_2.Text" xml:space="preserve">
+    <value>Already done? Awesome!
+
+Now, click "Verify" to start verifying your connection between Waveface and Dropbox.
+</value>
+  </data>
+  <data name="pb_InstallDropbox_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;btn_Linkage_1_Connect.Parent" xml:space="preserve">
+    <value>Page_Linkage_1</value>
+  </data>
+  <data name="lb_InstallDropbox_1_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
+  </data>
+  <data name="lb_ConnectionFailed_2.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="btn_InstallDropbox_2_continue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 27</value>
+  </data>
+  <data name="pBar_Verifying.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="pb_ConnectionSuccessfully.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 64</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallDropbox_1_Install.Parent" xml:space="preserve">
+    <value>Page_InstallDropbox_1</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Retry.Location" type="System.Drawing.Point, System.Drawing">
+    <value>305, 263</value>
+  </data>
+  <data name="pBar_DefaultPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btn_SetupCompleted_OpenWaveface.Location" type="System.Drawing.Point, System.Drawing">
+    <value>369, 263</value>
+  </data>
+  <data name="&gt;&gt;pBar_DefaultPosts.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pb_Verifying.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallDropbox_1.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="&gt;&gt;Page_ConnectionFailed.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="pb_ConnectionFailed.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="Page_Verifying.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="lb_Welcome_2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11pt</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallationFailedSkip_Retry.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_InstallDropbox_1_1.Text" xml:space="preserve">
+    <value>Installing Dropbox</value>
+  </data>
+  <data name="&gt;&gt;Page_Welcome.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lb_Linkage_2_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>164, 70</value>
+  </data>
+  <data name="&gt;&gt;Page_SetupCompleted.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionFailed_Retry.Parent" xml:space="preserve">
+    <value>Page_ConnectionFailed</value>
+  </data>
+  <data name="Page_SetupCompleted.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="Page_ConnectionFailed.Text" xml:space="preserve">
+    <value>Connection Failed</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallDropbox_2_continue.Parent" xml:space="preserve">
+    <value>Page_InstallDropbox_2</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallationFailedSkip_Retry.Name" xml:space="preserve">
+    <value>btn_InstallationFailedSkip_Retry</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_1.Text" xml:space="preserve">
+    <value>Congratulations! Waveface Setup Completed.</value>
+  </data>
+  <data name="lb_SetupCompleted_2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11pt</value>
+  </data>
+  <data name="pb_SetupCompleted.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;pb_DefaultPosts.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Page_ConnectionSuccessfully.Text" xml:space="preserve">
+    <value>Connection Successfully</value>
+  </data>
+  <data name="lb_Welcome_1.Text" xml:space="preserve">
+    <value>Waveface can Connect to Dropbox to provide you more features! </value>
+  </data>
+  <data name="&gt;&gt;pb_Linkage_1.Name" xml:space="preserve">
+    <value>pb_Linkage_1</value>
+  </data>
+  <data name="&gt;&gt;Page_DefaultPosts.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="Page_Linkage_2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lb_Welcome_2.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;Page_Linkage_2.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="pBar_DefaultPosts.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;pBar_DefaultPosts.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_1_1.Parent" xml:space="preserve">
+    <value>Page_Linkage_1</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallDropbox_2.Parent" xml:space="preserve">
+    <value>Page_InstallDropbox_2</value>
+  </data>
+  <data name="&gt;&gt;btn_Welcome_UseDropbox.Parent" xml:space="preserve">
+    <value>Page_Welcome</value>
+  </data>
+  <data name="&gt;&gt;pBar_Verifying.Name" xml:space="preserve">
+    <value>pBar_Verifying</value>
+  </data>
+  <data name="&gt;&gt;btn_Linkage_2_Verify.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pBar_Verifying.Size" type="System.Drawing.Size, System.Drawing">
+    <value>248, 28</value>
+  </data>
+  <data name="Page_Linkage_1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionFailed_Retry.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Page_SetupCompleted.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="btn_SetupCompleted_OpenWaveface.Text" xml:space="preserve">
+    <value>Open Waveface</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_1_1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lb_Linkage_2_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>310, 114</value>
+  </data>
+  <data name="&gt;&gt;Page_SetupCompleted.Name" xml:space="preserve">
+    <value>Page_SetupCompleted</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallDropbox_1_Install.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lb_Verifying_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
+  </data>
+  <data name="pb_InstallDropbox_2.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="lb_InstallDropbox_1_2.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="Page_ConnectionSuccessfully.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="lb_InstallDropbox_2_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_1_1.Parent" xml:space="preserve">
+    <value>Page_InstallDropbox_1</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
+    <value>cultureManager</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallationFailed_1.Name" xml:space="preserve">
+    <value>lb_InstallationFailed_1</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallationFailed.Name" xml:space="preserve">
+    <value>Page_InstallationFailed</value>
+  </data>
+  <data name="pb_InstallationFailed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 64</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallDropbox_2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lb_Linkage_2_1.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;lb_Welcome_1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="pb_Linkage_2.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="lb_ConnectionFailed_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btn_ConnectionFailed_Skip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>320, 263</value>
+  </data>
+  <data name="&gt;&gt;Page_SetupCompleted.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="lb_DefaultPosts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>387, 64</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallationFailed.Name" xml:space="preserve">
+    <value>pb_InstallationFailed</value>
+  </data>
+  <data name="pb_DefaultPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lb_Linkage_1_1.Text" xml:space="preserve">
+    <value>Connecting Dropbox</value>
+  </data>
+  <data name="&gt;&gt;pb_ConnectionSuccessfully.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Page_Linkage_1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;backgroundWorkerDefaultPosts.Type" xml:space="preserve">
+    <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_Linkage_2_1.Text" xml:space="preserve">
+    <value>Connecting Dropbox</value>
+  </data>
+  <data name="&gt;&gt;btn_Linkage_2_ConnectAgain.Parent" xml:space="preserve">
+    <value>Page_Linkage_2</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionFailed_Skip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>389, 47</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallationFailed_2.Name" xml:space="preserve">
+    <value>lb_InstallationFailed_2</value>
+  </data>
+  <data name="pBar_Verifying.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallationFailed_1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;pb_ConnectionFailed.Parent" xml:space="preserve">
+    <value>Page_ConnectionFailed</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallationFailed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_ConnectionFailed_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 32</value>
+  </data>
+  <data name="&gt;&gt;Page_DefaultPosts.Name" xml:space="preserve">
+    <value>Page_DefaultPosts</value>
+  </data>
+  <data name="&gt;&gt;Page_Linkage_2.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="pb_InstallDropbox_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 64</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallationFailed.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lb_Linkage_2_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 35</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallationFailedSkip_Skip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_Verifying_1.Text" xml:space="preserve">
+    <value>Verifying the connection between Waveface and Dropbox</value>
+  </data>
+  <data name="btn_InstallDropbox_1_Install.Location" type="System.Drawing.Point, System.Drawing">
+    <value>374, 266</value>
+  </data>
+  <data name="Page_SetupCompleted.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lb_InstallationFailed_2.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallDropbox_2_continue.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Retry.Text" xml:space="preserve">
+    <value>Install Dropbox</value>
+  </data>
+  <data name="btn_InstallDropbox_2_InstallAgain.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallationFailed_2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lb_Linkage_2_2.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="pb_InstallDropbox_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="btn_Linkage_1_Connect.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="Page_SetupCompleted.Text" xml:space="preserve">
+    <value>Setup Completed</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallDropbox_1_Install.Name" xml:space="preserve">
+    <value>btn_InstallDropbox_1_Install</value>
+  </data>
+  <data name="&gt;&gt;lb_Verifying_1.Parent" xml:space="preserve">
+    <value>Page_Verifying</value>
+  </data>
+  <data name="&gt;&gt;pb_SetupCompleted.Parent" xml:space="preserve">
+    <value>Page_SetupCompleted</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_1_2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lb_Verifying_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
+    <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="pb_ConnectionSuccessfully.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_InstallationFailed_2.Text" xml:space="preserve">
+    <value>We can’t find the Dropbox installed on this computer. 
+Click "Install Dropbox" to start the installation process and connect to Dropbox now. 
+Or "Skip" to do it latter.</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_2_2.Name" xml:space="preserve">
+    <value>lb_Linkage_2_2</value>
+  </data>
+  <data name="&gt;&gt;btn_SetupCompleted_OpenWaveface.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Skip.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="Page_Linkage_1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="btn_ConnectionFailed_Retry.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 27</value>
+  </data>
+  <data name="btn_SetupCompleted_OpenWaveface.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="Page_DefaultPosts.Text" xml:space="preserve">
+    <value>Default Posts</value>
+  </data>
+  <data name="pBar_DefaultPosts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>248, 28</value>
+  </data>
+  <data name="&gt;&gt;pBar_Verifying.Parent" xml:space="preserve">
+    <value>Page_Verifying</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallDropbox_2_continue.Name" xml:space="preserve">
+    <value>btn_InstallDropbox_2_continue</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallDropbox_2.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="multiPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>DropboxForm</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallationFailed.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="btn_Linkage_1_Connect.Text" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="lb_Welcome_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
+  </data>
+  <data name="btn_ConnectionFailed_Retry.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;Page_SetupCompleted.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallationFailedSkip_Skip.Name" xml:space="preserve">
+    <value>btn_InstallationFailedSkip_Skip</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionFailed_Skip.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_2_1.Name" xml:space="preserve">
+    <value>lb_InstallDropbox_2_1</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionFailed_Retry.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pb_Verifying.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lb_DefaultPosts.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_Welcome_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>94, 70</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
+  </data>
+  <data name="lb_Linkage_1_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>314, 159</value>
+  </data>
+  <data name="lb_InstallDropbox_2_1.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallationFailedSkip_Retry.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Page_DefaultPosts.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_1_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Page_Linkage_1.Text" xml:space="preserve">
+    <value>Linkage 1</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallationFailedSkip_Skip.Parent" xml:space="preserve">
+    <value>Page_InstallationFailed</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallDropbox_1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallDropbox_1.Parent" xml:space="preserve">
+    <value>Page_InstallDropbox_1</value>
+  </data>
+  <data name="&gt;&gt;Page_ConnectionSuccessfully.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="lb_Linkage_1_1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="lb_DefaultPosts.Text" xml:space="preserve">
+    <value>Initializing Waveface, Please wait...</value>
+  </data>
+  <data name="Page_InstallDropbox_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionSuccessfully_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btn_Welcome_UseDropbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>411, 263</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="pb_ConnectionSuccessfully.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;btn_SetupCompleted_InstallAgain.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lb_SetupCompleted_1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lb_InstallationFailed_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>94, 70</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_2_1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Page_InstallDropbox_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallDropbox_1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pb_Welcome.Name" xml:space="preserve">
+    <value>pb_Welcome</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallationFailedSkip_Skip.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="Page_InstallDropbox_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallDropbox_2_continue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pBar_Verifying.Location" type="System.Drawing.Point, System.Drawing">
+    <value>120, 137</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Skip.Text" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="Page_ConnectionFailed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="lb_DefaultPosts.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
+  </data>
+  <data name="Page_InstallDropbox_2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;pb_DefaultPosts.Name" xml:space="preserve">
+    <value>pb_DefaultPosts</value>
+  </data>
+  <data name="&gt;&gt;lb_SetupCompleted_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lb_DefaultPosts.Name" xml:space="preserve">
+    <value>lb_DefaultPosts</value>
+  </data>
+  <data name="btn_InstallDropbox_2_InstallAgain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>301, 263</value>
+  </data>
+  <data name="lb_Verifying_1.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="lb_Linkage_1_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 35</value>
+  </data>
+  <data name="pb_Welcome.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;pb_Verifying.Parent" xml:space="preserve">
+    <value>Page_Verifying</value>
+  </data>
+  <data name="&gt;&gt;lb_Welcome_2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lb_InstallDropbox_1_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>93, 70</value>
+  </data>
+  <data name="lb_InstallationFailed_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>359, 113</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionSuccessfully_OpenWaveface.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;pb_Welcome.Parent" xml:space="preserve">
+    <value>Page_Welcome</value>
+  </data>
+  <data name="Page_ConnectionFailed.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionFailed_1.Name" xml:space="preserve">
+    <value>lb_ConnectionFailed_1</value>
+  </data>
+  <data name="pb_Linkage_1.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;btn_Linkage_2_ConnectAgain.Name" xml:space="preserve">
+    <value>btn_Linkage_2_ConnectAgain</value>
+  </data>
+  <data name="btn_Linkage_2_ConnectAgain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>309, 263</value>
+  </data>
+  <data name="pb_Linkage_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_2_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Page_InstallationFailed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="&gt;&gt;pb_Welcome.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_SetupCompleted_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;backgroundWorkerVerifying.Name" xml:space="preserve">
+    <value>backgroundWorkerVerifying</value>
+  </data>
+  <data name="&gt;&gt;multiPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pb_ConnectionSuccessfully.Parent" xml:space="preserve">
+    <value>Page_ConnectionSuccessfully</value>
+  </data>
+  <data name="Page_InstallDropbox_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="pb_Verifying.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pb_SetupCompleted.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btn_InstallDropbox_1_Install.Text" xml:space="preserve">
+    <value>Install Dropbox</value>
+  </data>
+  <data name="lb_Linkage_1_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>163, 70</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_2_2.Parent" xml:space="preserve">
+    <value>Page_InstallDropbox_2</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_2_2.Name" xml:space="preserve">
+    <value>lb_InstallDropbox_2_2</value>
+  </data>
+  <data name="lb_Linkage_2_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lb_InstallDropbox_1_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionSuccessfully_OpenWaveface.Parent" xml:space="preserve">
+    <value>Page_ConnectionSuccessfully</value>
+  </data>
+  <data name="btn_InstallDropbox_2_continue.Text" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="pb_DefaultPosts.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_1_2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lb_InstallDropbox_2_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btn_InstallDropbox_1_Install.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Page_Linkage_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="&gt;&gt;pb_SetupCompleted.Name" xml:space="preserve">
+    <value>pb_SetupCompleted</value>
+  </data>
+  <data name="lb_ConnectionFailed_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lb_InstallDropbox_2_2.Text" xml:space="preserve">
+    <value>After successfully installing, click "Continue" to proceed. </value>
+  </data>
+  <data name="&gt;&gt;Page_Linkage_1.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="&gt;&gt;pb_SetupCompleted.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;btn_SetupCompleted_OpenWaveface.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;pBar_Verifying.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallDropbox_1_Install.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lb_Welcome_1.Parent" xml:space="preserve">
+    <value>Page_Welcome</value>
+  </data>
+  <data name="lb_SetupCompleted_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>372, 190</value>
+  </data>
+  <data name="&gt;&gt;pb_Verifying.Name" xml:space="preserve">
+    <value>pb_Verifying</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_1_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallDropbox_2.Name" xml:space="preserve">
+    <value>Page_InstallDropbox_2</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Page_ConnectionSuccessfully.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="pb_InstallDropbox_2.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>StretchImage</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionFailed_Skip.Parent" xml:space="preserve">
+    <value>Page_ConnectionFailed</value>
+  </data>
+  <data name="&gt;&gt;pBar_DefaultPosts.Name" xml:space="preserve">
+    <value>pBar_DefaultPosts</value>
+  </data>
+  <data name="Page_ConnectionFailed.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lb_SetupCompleted_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_1_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pb_Linkage_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 64</value>
+  </data>
+  <data name="&gt;&gt;Page_InstallDropbox_2.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="lb_DefaultPosts.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="lb_InstallDropbox_2_2.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="lb_InstallationFailed_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>379, 47</value>
+  </data>
+  <data name="btn_Linkage_2_ConnectAgain.Text" xml:space="preserve">
+    <value>Connect Again</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionSuccessfully_1.Name" xml:space="preserve">
+    <value>lb_ConnectionSuccessfully_1</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_2_1.Parent" xml:space="preserve">
+    <value>Page_InstallDropbox_2</value>
+  </data>
+  <data name="lb_ConnectionFailed_1.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="pb_DefaultPosts.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionSuccessfully_2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;pBar_DefaultPosts.Parent" xml:space="preserve">
+    <value>Page_DefaultPosts</value>
+  </data>
+  <data name="lb_Linkage_2_2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11pt</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallDropbox_2.Name" xml:space="preserve">
+    <value>pb_InstallDropbox_2</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_1_2.Name" xml:space="preserve">
+    <value>lb_InstallDropbox_1_2</value>
+  </data>
+  <data name="&gt;&gt;Page_Linkage_1.Type" xml:space="preserve">
+    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lb_ConnectionSuccessfully_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Page_Linkage_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_1_2.Parent" xml:space="preserve">
+    <value>Page_Linkage_1</value>
+  </data>
+  <data name="&gt;&gt;btn_Linkage_1_Connect.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;btn_Welcome_Skip.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallationFailed_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Page_ConnectionFailed.Parent" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="lb_ConnectionFailed_2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11pt</value>
+  </data>
+  <data name="&gt;&gt;pb_Linkage_2.Name" xml:space="preserve">
+    <value>pb_Linkage_2</value>
+  </data>
+  <data name="btn_SetupCompleted_OpenWaveface.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;btn_InstallDropbox_2_InstallAgain.Parent" xml:space="preserve">
+    <value>Page_InstallDropbox_2</value>
+  </data>
+  <data name="multiPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Retry.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;backgroundWorkerVerifying.Type" xml:space="preserve">
+    <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Page_InstallationFailed.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pb_Verifying.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_1_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11pt</value>
+  </data>
+  <data name="&gt;&gt;btn_Welcome_Skip.Parent" xml:space="preserve">
+    <value>Page_Welcome</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallDropbox_1_2.Parent" xml:space="preserve">
+    <value>Page_InstallDropbox_1</value>
+  </data>
+  <data name="&gt;&gt;lb_InstallationFailed_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;multiPanel.Name" xml:space="preserve">
+    <value>multiPanel</value>
+  </data>
+  <data name="&gt;&gt;pb_InstallationFailed.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btn_Welcome_Skip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 27</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_2_1.Parent" xml:space="preserve">
+    <value>Page_Linkage_2</value>
+  </data>
+  <data name="&gt;&gt;Page_Welcome.Name" xml:space="preserve">
+    <value>Page_Welcome</value>
+  </data>
+  <data name="btn_Welcome_UseDropbox.Text" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Page_ConnectionFailed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
+  </data>
+  <data name="lb_InstallDropbox_2_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="btn_ConnectionFailed_Skip.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;Page_ConnectionFailed.Name" xml:space="preserve">
+    <value>Page_ConnectionFailed</value>
+  </data>
+  <data name="lb_Welcome_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btn_Linkage_2_Verify.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;lb_Linkage_2_2.Parent" xml:space="preserve">
+    <value>Page_Linkage_2</value>
+  </data>
+  <data name="lb_Linkage_2_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 14pt</value>
+  </data>
+  <data name="pb_InstallationFailed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="lb_Welcome_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>387, 47</value>
+  </data>
+  <data name="Page_InstallDropbox_2.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;multiPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btn_Linkage_2_Verify.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;btn_ConnectionSuccessfully_OpenWaveface.Name" xml:space="preserve">
+    <value>btn_ConnectionSuccessfully_OpenWaveface</value>
+  </data>
+  <data name="lb_InstallDropbox_2_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>91, 70</value>
+  </data>
+  <data name="btn_InstallDropbox_2_InstallAgain.Text" xml:space="preserve">
+    <value>Install Again</value>
+  </data>
+  <data name="lb_Welcome_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pb_Linkage_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;btn_Welcome_UseDropbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lb_InstallDropbox_2_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>374, 136</value>
+  </data>
+  <data name="btn_Welcome_Skip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>341, 263</value>
+  </data>
+  <data name="lb_ConnectionSuccessfully_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>388, 94</value>
+  </data>
+  <data name="Page_InstallDropbox_1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lb_InstallDropbox_1_2.Text" xml:space="preserve">
+    <value>You need to install Dropbox to proceed.
+
+Click "Install Dropbox" and we will open the Dropbox webpage for you using your web browser.</value>
+  </data>
+  <data name="btn_Linkage_1_Connect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 27</value>
+  </data>
+  <data name="lb_SetupCompleted_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>366, 39</value>
+  </data>
+  <data name="btn_InstallDropbox_2_continue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>396, 263</value>
+  </data>
+  <data name="Page_Welcome.Text" xml:space="preserve">
+    <value>Page_Welcome</value>
   </data>
   <data name="lb_SetupCompleted_2.Text" xml:space="preserve">
     <value>You can enable the connection between Waveface and Dropbox latter in the setting page. 
@@ -369,1434 +1768,71 @@ The setup process has been completed.
 
 Enjoy Waveface with full gears and start connecting your digital life.</value>
   </data>
-  <data name="&gt;&gt;lb_SetupCompleted_2.Name" xml:space="preserve">
-    <value>lb_SetupCompleted_2</value>
-  </data>
-  <data name="&gt;&gt;lb_SetupCompleted_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_SetupCompleted_2.Parent" xml:space="preserve">
-    <value>Page_SetupCompleted</value>
-  </data>
-  <data name="&gt;&gt;lb_SetupCompleted_2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lb_SetupCompleted_1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
-  </data>
-  <data name="lb_SetupCompleted_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_SetupCompleted_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 12</value>
-  </data>
-  <data name="lb_SetupCompleted_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>366, 39</value>
-  </data>
-  <data name="lb_SetupCompleted_1.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="lb_SetupCompleted_1.Text" xml:space="preserve">
-    <value>Congratulations! Waveface Setup Completed.</value>
-  </data>
-  <data name="&gt;&gt;lb_SetupCompleted_1.Name" xml:space="preserve">
-    <value>lb_SetupCompleted_1</value>
-  </data>
-  <data name="&gt;&gt;lb_SetupCompleted_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_SetupCompleted_1.Parent" xml:space="preserve">
-    <value>Page_SetupCompleted</value>
-  </data>
-  <data name="&gt;&gt;lb_SetupCompleted_1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="btn_SetupCompleted_OpenWaveface.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_SetupCompleted_OpenWaveface.Location" type="System.Drawing.Point, System.Drawing">
-    <value>369, 263</value>
-  </data>
-  <data name="btn_SetupCompleted_OpenWaveface.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 27</value>
-  </data>
-  <data name="btn_SetupCompleted_OpenWaveface.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="btn_SetupCompleted_OpenWaveface.Text" xml:space="preserve">
-    <value>Open Waveface</value>
-  </data>
-  <data name="&gt;&gt;btn_SetupCompleted_OpenWaveface.Name" xml:space="preserve">
-    <value>btn_SetupCompleted_OpenWaveface</value>
-  </data>
-  <data name="&gt;&gt;btn_SetupCompleted_OpenWaveface.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_SetupCompleted_OpenWaveface.Parent" xml:space="preserve">
-    <value>Page_SetupCompleted</value>
-  </data>
-  <data name="&gt;&gt;btn_SetupCompleted_OpenWaveface.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="Page_SetupCompleted.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_SetupCompleted.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_SetupCompleted.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_SetupCompleted.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="Page_SetupCompleted.Text" xml:space="preserve">
-    <value>Setup Completed</value>
-  </data>
-  <data name="&gt;&gt;Page_SetupCompleted.Name" xml:space="preserve">
-    <value>Page_SetupCompleted</value>
-  </data>
-  <data name="&gt;&gt;Page_SetupCompleted.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_SetupCompleted.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_SetupCompleted.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="pb_Linkage_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pb_Linkage_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pb_Linkage_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 64</value>
-  </data>
-  <data name="pb_Linkage_1.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;pb_Linkage_1.Name" xml:space="preserve">
-    <value>pb_Linkage_1</value>
-  </data>
-  <data name="&gt;&gt;pb_Linkage_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pb_Linkage_1.Parent" xml:space="preserve">
-    <value>Page_Linkage_1</value>
-  </data>
-  <data name="&gt;&gt;pb_Linkage_1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lb_Linkage_1_2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11pt</value>
-  </data>
-  <data name="lb_Linkage_1_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_Linkage_1_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>163, 70</value>
-  </data>
-  <data name="lb_Linkage_1_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>314, 159</value>
-  </data>
-  <data name="lb_Linkage_1_2.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="lb_Linkage_1_2.Text" xml:space="preserve">
-    <value>First, you need to log in your dropbox account to proceed.
-
-Click "Connect" and we will open the Dropbox webpage for you using your web browser. 
-
-After you log in, please follow the instruction provided by dropbox to make the connection.
-</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_1_2.Name" xml:space="preserve">
-    <value>lb_Linkage_1_2</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_1_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_1_2.Parent" xml:space="preserve">
-    <value>Page_Linkage_1</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_1_2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lb_Linkage_1_1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
-  </data>
-  <data name="lb_Linkage_1_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_Linkage_1_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>162, 12</value>
-  </data>
-  <data name="lb_Linkage_1_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>274, 35</value>
-  </data>
-  <data name="lb_Linkage_1_1.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="lb_Linkage_1_1.Text" xml:space="preserve">
-    <value>Connecting Dropbox</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_1_1.Name" xml:space="preserve">
-    <value>lb_Linkage_1_1</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_1_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_1_1.Parent" xml:space="preserve">
-    <value>Page_Linkage_1</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_1_1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btn_Linkage_1_Connect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_Linkage_1_Connect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>400, 263</value>
-  </data>
-  <data name="btn_Linkage_1_Connect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 27</value>
-  </data>
-  <data name="btn_Linkage_1_Connect.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="btn_Linkage_1_Connect.Text" xml:space="preserve">
-    <value>Connect</value>
-  </data>
-  <data name="&gt;&gt;btn_Linkage_1_Connect.Name" xml:space="preserve">
-    <value>btn_Linkage_1_Connect</value>
-  </data>
-  <data name="&gt;&gt;btn_Linkage_1_Connect.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_Linkage_1_Connect.Parent" xml:space="preserve">
-    <value>Page_Linkage_1</value>
-  </data>
-  <data name="&gt;&gt;btn_Linkage_1_Connect.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="Page_Linkage_1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_Linkage_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_Linkage_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_Linkage_1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="Page_Linkage_1.Text" xml:space="preserve">
-    <value>Linkage 1</value>
-  </data>
-  <data name="&gt;&gt;Page_Linkage_1.Name" xml:space="preserve">
-    <value>Page_Linkage_1</value>
-  </data>
-  <data name="&gt;&gt;Page_Linkage_1.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_Linkage_1.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_Linkage_1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="pb_InstallDropbox_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pb_InstallDropbox_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pb_InstallDropbox_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 64</value>
-  </data>
-  <data name="pb_InstallDropbox_1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>StretchImage</value>
-  </data>
-  <data name="pb_InstallDropbox_1.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallDropbox_1.Name" xml:space="preserve">
-    <value>pb_InstallDropbox_1</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallDropbox_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallDropbox_1.Parent" xml:space="preserve">
-    <value>Page_InstallDropbox_1</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallDropbox_1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lb_InstallDropbox_1_2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11pt</value>
-  </data>
-  <data name="lb_InstallDropbox_1_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_InstallDropbox_1_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>93, 70</value>
-  </data>
-  <data name="lb_InstallDropbox_1_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>363, 84</value>
-  </data>
-  <data name="lb_InstallDropbox_1_2.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="lb_InstallDropbox_1_2.Text" xml:space="preserve">
-    <value>You need to install Dropbox to proceed.
-
-Click "Install Dropbox" and we will open the Dropbox webpage for you using your web browser.</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_1_2.Name" xml:space="preserve">
-    <value>lb_InstallDropbox_1_2</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_1_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_1_2.Parent" xml:space="preserve">
-    <value>Page_InstallDropbox_1</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_1_2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lb_InstallDropbox_1_1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
-  </data>
-  <data name="lb_InstallDropbox_1_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_InstallDropbox_1_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>92, 12</value>
-  </data>
-  <data name="lb_InstallDropbox_1_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>268, 39</value>
-  </data>
-  <data name="lb_InstallDropbox_1_1.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="lb_InstallDropbox_1_1.Text" xml:space="preserve">
-    <value>Installing Dropbox</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_1_1.Name" xml:space="preserve">
-    <value>lb_InstallDropbox_1_1</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_1_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_1_1.Parent" xml:space="preserve">
-    <value>Page_InstallDropbox_1</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_1_1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btn_InstallDropbox_1_Install.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_InstallDropbox_1_Install.Location" type="System.Drawing.Point, System.Drawing">
-    <value>374, 266</value>
-  </data>
-  <data name="btn_InstallDropbox_1_Install.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 27</value>
-  </data>
-  <data name="btn_InstallDropbox_1_Install.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="btn_InstallDropbox_1_Install.Text" xml:space="preserve">
-    <value>Install Dropbox</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_1_Install.Name" xml:space="preserve">
-    <value>btn_InstallDropbox_1_Install</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_1_Install.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_1_Install.Parent" xml:space="preserve">
-    <value>Page_InstallDropbox_1</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_1_Install.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="Page_InstallDropbox_1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_InstallDropbox_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_InstallDropbox_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_InstallDropbox_1.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="Page_InstallDropbox_1.Text" xml:space="preserve">
-    <value>Install Dropbox 1</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallDropbox_1.Name" xml:space="preserve">
-    <value>Page_InstallDropbox_1</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallDropbox_1.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallDropbox_1.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallDropbox_1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="pb_Linkage_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pb_Linkage_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pb_Linkage_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 64</value>
-  </data>
-  <data name="pb_Linkage_2.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="&gt;&gt;pb_Linkage_2.Name" xml:space="preserve">
-    <value>pb_Linkage_2</value>
-  </data>
-  <data name="&gt;&gt;pb_Linkage_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pb_Linkage_2.Parent" xml:space="preserve">
-    <value>Page_Linkage_2</value>
-  </data>
-  <data name="&gt;&gt;pb_Linkage_2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btn_Linkage_2_ConnectAgain.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_Linkage_2_ConnectAgain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>309, 263</value>
-  </data>
-  <data name="btn_Linkage_2_ConnectAgain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 27</value>
-  </data>
-  <data name="btn_Linkage_2_ConnectAgain.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="btn_Linkage_2_ConnectAgain.Text" xml:space="preserve">
-    <value>Connect Again</value>
-  </data>
-  <data name="&gt;&gt;btn_Linkage_2_ConnectAgain.Name" xml:space="preserve">
-    <value>btn_Linkage_2_ConnectAgain</value>
-  </data>
-  <data name="&gt;&gt;btn_Linkage_2_ConnectAgain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_Linkage_2_ConnectAgain.Parent" xml:space="preserve">
-    <value>Page_Linkage_2</value>
-  </data>
-  <data name="&gt;&gt;btn_Linkage_2_ConnectAgain.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lb_Linkage_2_2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11pt</value>
-  </data>
-  <data name="lb_Linkage_2_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_Linkage_2_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>164, 70</value>
-  </data>
-  <data name="lb_Linkage_2_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>310, 114</value>
-  </data>
-  <data name="lb_Linkage_2_2.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="lb_Linkage_2_2.Text" xml:space="preserve">
-    <value>Already done? Awesome!
-
-Now, click "Verify" to start verifying your connection between Waveface and Dropbox.
-</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_2_2.Name" xml:space="preserve">
-    <value>lb_Linkage_2_2</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_2_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_2_2.Parent" xml:space="preserve">
-    <value>Page_Linkage_2</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_2_2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lb_Linkage_2_1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
-  </data>
-  <data name="lb_Linkage_2_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_Linkage_2_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>162, 12</value>
-  </data>
-  <data name="lb_Linkage_2_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 35</value>
-  </data>
-  <data name="lb_Linkage_2_1.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="lb_Linkage_2_1.Text" xml:space="preserve">
-    <value>Connecting Dropbox</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_2_1.Name" xml:space="preserve">
-    <value>lb_Linkage_2_1</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_2_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_2_1.Parent" xml:space="preserve">
-    <value>Page_Linkage_2</value>
-  </data>
-  <data name="&gt;&gt;lb_Linkage_2_1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="btn_Linkage_2_Verify.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_Linkage_2_Verify.Location" type="System.Drawing.Point, System.Drawing">
-    <value>413, 263</value>
-  </data>
-  <data name="btn_Linkage_2_Verify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 27</value>
-  </data>
-  <data name="btn_Linkage_2_Verify.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="btn_Linkage_2_Verify.Text" xml:space="preserve">
-    <value>Verify</value>
+  <data name="lb_ConnectionFailed_1.Text" xml:space="preserve">
+    <value>Something went wrong!.</value>
+  </data>
+  <data name="lb_InstallDropbox_2_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>361, 39</value>
   </data>
   <data name="&gt;&gt;btn_Linkage_2_Verify.Name" xml:space="preserve">
     <value>btn_Linkage_2_Verify</value>
   </data>
-  <data name="&gt;&gt;btn_Linkage_2_Verify.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_Linkage_2_Verify.Parent" xml:space="preserve">
-    <value>Page_Linkage_2</value>
-  </data>
-  <data name="&gt;&gt;btn_Linkage_2_Verify.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="Page_Linkage_2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_Linkage_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_Linkage_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_Linkage_2.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="Page_Linkage_2.Text" xml:space="preserve">
-    <value>Linkage_2 </value>
-  </data>
-  <data name="&gt;&gt;Page_Linkage_2.Name" xml:space="preserve">
-    <value>Page_Linkage_2</value>
-  </data>
-  <data name="&gt;&gt;Page_Linkage_2.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_Linkage_2.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_Linkage_2.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="pb_InstallationFailed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pb_InstallationFailed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pb_InstallationFailed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 64</value>
-  </data>
-  <data name="pb_InstallationFailed.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallationFailed.Name" xml:space="preserve">
-    <value>pb_InstallationFailed</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallationFailed.Type" xml:space="preserve">
+  <data name="&gt;&gt;pb_Linkage_2.Type" xml:space="preserve">
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;pb_InstallationFailed.Parent" xml:space="preserve">
-    <value>Page_InstallationFailed</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallationFailed.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lb_InstallationFailed_2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11pt</value>
-  </data>
-  <data name="lb_InstallationFailed_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_InstallationFailed_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 70</value>
-  </data>
-  <data name="lb_InstallationFailed_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>359, 113</value>
-  </data>
-  <data name="lb_InstallationFailed_2.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="lb_InstallationFailed_2.Text" xml:space="preserve">
-    <value>We can’t find the Dropbox installed on this computer. 
-Click "Install Dropbox" to start the installation process and connect to Dropbox now. 
-Or "Skip" to do it latter.</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallationFailed_2.Name" xml:space="preserve">
-    <value>lb_InstallationFailed_2</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallationFailed_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallationFailed_2.Parent" xml:space="preserve">
-    <value>Page_InstallationFailed</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallationFailed_2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lb_InstallationFailed_1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
-  </data>
-  <data name="lb_InstallationFailed_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_InstallationFailed_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 12</value>
-  </data>
-  <data name="lb_InstallationFailed_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>379, 47</value>
-  </data>
-  <data name="lb_InstallationFailed_1.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="lb_InstallationFailed_1.Text" xml:space="preserve">
-    <value>Oops! You haven’t installed Dropbox yet!</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallationFailed_1.Name" xml:space="preserve">
-    <value>lb_InstallationFailed_1</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallationFailed_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallationFailed_1.Parent" xml:space="preserve">
-    <value>Page_InstallationFailed</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallationFailed_1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btn_InstallationFailedSkip_Retry.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_InstallationFailedSkip_Retry.Location" type="System.Drawing.Point, System.Drawing">
-    <value>305, 263</value>
-  </data>
-  <data name="btn_InstallationFailedSkip_Retry.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 27</value>
-  </data>
-  <data name="btn_InstallationFailedSkip_Retry.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="btn_InstallationFailedSkip_Retry.Text" xml:space="preserve">
-    <value>Install Dropbox</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallationFailedSkip_Retry.Name" xml:space="preserve">
-    <value>btn_InstallationFailedSkip_Retry</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallationFailedSkip_Retry.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallationFailedSkip_Retry.Parent" xml:space="preserve">
-    <value>Page_InstallationFailed</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallationFailedSkip_Retry.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="btn_InstallationFailedSkip_Skip.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_InstallationFailedSkip_Skip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>414, 263</value>
-  </data>
-  <data name="btn_InstallationFailedSkip_Skip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 27</value>
-  </data>
-  <data name="btn_InstallationFailedSkip_Skip.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="btn_InstallationFailedSkip_Skip.Text" xml:space="preserve">
-    <value>Skip</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallationFailedSkip_Skip.Name" xml:space="preserve">
-    <value>btn_InstallationFailedSkip_Skip</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallationFailedSkip_Skip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallationFailedSkip_Skip.Parent" xml:space="preserve">
-    <value>Page_InstallationFailed</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallationFailedSkip_Skip.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="Page_InstallationFailed.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_InstallationFailed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_InstallationFailed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_InstallationFailed.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="Page_InstallationFailed.Text" xml:space="preserve">
-    <value>Installation Failed</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallationFailed.Name" xml:space="preserve">
-    <value>Page_InstallationFailed</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallationFailed.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallationFailed.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallationFailed.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="pb_ConnectionSuccessfully.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pb_ConnectionSuccessfully.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pb_ConnectionSuccessfully.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 64</value>
-  </data>
-  <data name="pb_ConnectionSuccessfully.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;pb_ConnectionSuccessfully.Name" xml:space="preserve">
-    <value>pb_ConnectionSuccessfully</value>
-  </data>
-  <data name="&gt;&gt;pb_ConnectionSuccessfully.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pb_ConnectionSuccessfully.Parent" xml:space="preserve">
-    <value>Page_ConnectionSuccessfully</value>
-  </data>
-  <data name="&gt;&gt;pb_ConnectionSuccessfully.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11pt</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 70</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>388, 94</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_2.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_2.Text" xml:space="preserve">
-    <value>Waveface and Dropbox has been successfully configured! 
-Enjoy Waveface with full gears and start connecting your digital life.</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionSuccessfully_2.Name" xml:space="preserve">
-    <value>lb_ConnectionSuccessfully_2</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionSuccessfully_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionSuccessfully_2.Parent" xml:space="preserve">
-    <value>Page_ConnectionSuccessfully</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionSuccessfully_2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 12</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 47</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_1.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="lb_ConnectionSuccessfully_1.Text" xml:space="preserve">
-    <value>Congratulations! Waveface Setup Completed.</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionSuccessfully_1.Name" xml:space="preserve">
-    <value>lb_ConnectionSuccessfully_1</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionSuccessfully_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionSuccessfully_1.Parent" xml:space="preserve">
-    <value>Page_ConnectionSuccessfully</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionSuccessfully_1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btn_ConnectionSuccessfully_OpenWaveface.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_ConnectionSuccessfully_OpenWaveface.Location" type="System.Drawing.Point, System.Drawing">
-    <value>369, 263</value>
-  </data>
-  <data name="btn_ConnectionSuccessfully_OpenWaveface.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 27</value>
+  <data name="&gt;&gt;lb_SetupCompleted_2.Parent" xml:space="preserve">
+    <value>Page_SetupCompleted</value>
   </data>
   <data name="btn_ConnectionSuccessfully_OpenWaveface.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="btn_ConnectionSuccessfully_OpenWaveface.Text" xml:space="preserve">
-    <value>Open Waveface</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionSuccessfully_OpenWaveface.Name" xml:space="preserve">
-    <value>btn_ConnectionSuccessfully_OpenWaveface</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionSuccessfully_OpenWaveface.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionSuccessfully_OpenWaveface.Parent" xml:space="preserve">
-    <value>Page_ConnectionSuccessfully</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionSuccessfully_OpenWaveface.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="Page_ConnectionSuccessfully.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_ConnectionSuccessfully.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_ConnectionSuccessfully.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_ConnectionSuccessfully.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="Page_ConnectionSuccessfully.Text" xml:space="preserve">
-    <value>Connection Successfully</value>
-  </data>
-  <data name="&gt;&gt;Page_ConnectionSuccessfully.Name" xml:space="preserve">
-    <value>Page_ConnectionSuccessfully</value>
-  </data>
-  <data name="&gt;&gt;Page_ConnectionSuccessfully.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_ConnectionSuccessfully.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_ConnectionSuccessfully.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="pBar_Verifying.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pBar_Verifying.Location" type="System.Drawing.Point, System.Drawing">
-    <value>120, 137</value>
-  </data>
-  <data name="pBar_Verifying.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 28</value>
-  </data>
-  <data name="pBar_Verifying.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="&gt;&gt;pBar_Verifying.Name" xml:space="preserve">
-    <value>pBar_Verifying</value>
-  </data>
-  <data name="&gt;&gt;pBar_Verifying.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pBar_Verifying.Parent" xml:space="preserve">
-    <value>Page_Verifying</value>
-  </data>
-  <data name="&gt;&gt;pBar_Verifying.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pb_Verifying.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pb_Verifying.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pb_Verifying.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 64</value>
-  </data>
-  <data name="pb_Verifying.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;pb_Verifying.Name" xml:space="preserve">
-    <value>pb_Verifying</value>
-  </data>
-  <data name="&gt;&gt;pb_Verifying.Type" xml:space="preserve">
+  <data name="&gt;&gt;pb_InstallDropbox_2.Type" xml:space="preserve">
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;pb_Verifying.Parent" xml:space="preserve">
-    <value>Page_Verifying</value>
+  <data name="Page_DefaultPosts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 302</value>
   </data>
-  <data name="&gt;&gt;pb_Verifying.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="lb_InstallDropbox_2_1.Text" xml:space="preserve">
+    <value>Installing Dropbox</value>
   </data>
-  <data name="lb_Verifying_1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
+  <data name="btn_SetupCompleted_InstallAgain.Text" xml:space="preserve">
+    <value>Try Again</value>
   </data>
-  <data name="lb_Verifying_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="pb_DefaultPosts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 64</value>
   </data>
-  <data name="lb_Verifying_1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lb_ConnectionFailed_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="Page_Linkage_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="btn_ConnectionFailed_Retry.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="lb_DefaultPosts.Location" type="System.Drawing.Point, System.Drawing">
     <value>90, 12</value>
   </data>
   <data name="lb_Verifying_1.Size" type="System.Drawing.Size, System.Drawing">
     <value>378, 47</value>
   </data>
-  <data name="lb_Verifying_1.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="lb_Verifying_1.Text" xml:space="preserve">
-    <value>Verifying the connection between Waveface and Dropbox</value>
-  </data>
-  <data name="&gt;&gt;lb_Verifying_1.Name" xml:space="preserve">
-    <value>lb_Verifying_1</value>
-  </data>
-  <data name="&gt;&gt;lb_Verifying_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_Verifying_1.Parent" xml:space="preserve">
-    <value>Page_Verifying</value>
-  </data>
-  <data name="&gt;&gt;lb_Verifying_1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btn_InstallDropbox_2_InstallAgain.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="Page_Verifying.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_Verifying.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_Verifying.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_Verifying.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="Page_Verifying.Text" xml:space="preserve">
-    <value>Verifying</value>
   </data>
   <data name="&gt;&gt;Page_Verifying.Name" xml:space="preserve">
     <value>Page_Verifying</value>
   </data>
-  <data name="&gt;&gt;Page_Verifying.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_Verifying.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_Verifying.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="pb_ConnectionFailed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pb_ConnectionFailed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pb_ConnectionFailed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 64</value>
-  </data>
-  <data name="pb_ConnectionFailed.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;pb_ConnectionFailed.Name" xml:space="preserve">
-    <value>pb_ConnectionFailed</value>
-  </data>
-  <data name="&gt;&gt;pb_ConnectionFailed.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pb_ConnectionFailed.Parent" xml:space="preserve">
-    <value>Page_ConnectionFailed</value>
-  </data>
-  <data name="&gt;&gt;pb_ConnectionFailed.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lb_ConnectionFailed_2.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="lb_InstallDropbox_1_2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 11pt</value>
   </data>
-  <data name="lb_ConnectionFailed_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_ConnectionFailed_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 70</value>
-  </data>
-  <data name="lb_ConnectionFailed_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>360, 103</value>
-  </data>
-  <data name="lb_ConnectionFailed_2.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="lb_ConnectionFailed_2.Text" xml:space="preserve">
-    <value>The Connection between Waveface and Dropbox was not successful.
-
-Click "Try Again" to connect to Dropbox again, or "Skip" to do it latter.
-</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionFailed_2.Name" xml:space="preserve">
-    <value>lb_ConnectionFailed_2</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionFailed_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionFailed_2.Parent" xml:space="preserve">
-    <value>Page_ConnectionFailed</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionFailed_2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lb_ConnectionFailed_1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
-  </data>
-  <data name="lb_ConnectionFailed_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_ConnectionFailed_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 12</value>
-  </data>
-  <data name="lb_ConnectionFailed_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>349, 32</value>
-  </data>
-  <data name="lb_ConnectionFailed_1.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="lb_ConnectionFailed_1.Text" xml:space="preserve">
-    <value>Something went wrong!.</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionFailed_1.Name" xml:space="preserve">
-    <value>lb_ConnectionFailed_1</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionFailed_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionFailed_1.Parent" xml:space="preserve">
-    <value>Page_ConnectionFailed</value>
-  </data>
-  <data name="&gt;&gt;lb_ConnectionFailed_1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btn_ConnectionFailed_Retry.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_ConnectionFailed_Retry.Location" type="System.Drawing.Point, System.Drawing">
-    <value>389, 263</value>
-  </data>
-  <data name="btn_ConnectionFailed_Retry.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 27</value>
-  </data>
-  <data name="btn_ConnectionFailed_Retry.TabIndex" type="System.Int32, mscorlib">
+  <data name="pb_SetupCompleted.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
-  <data name="btn_ConnectionFailed_Retry.Text" xml:space="preserve">
-    <value>Try Again</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionFailed_Retry.Name" xml:space="preserve">
-    <value>btn_ConnectionFailed_Retry</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionFailed_Retry.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionFailed_Retry.Parent" xml:space="preserve">
-    <value>Page_ConnectionFailed</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionFailed_Retry.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="btn_ConnectionFailed_Skip.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_ConnectionFailed_Skip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>320, 263</value>
-  </data>
-  <data name="btn_ConnectionFailed_Skip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 27</value>
-  </data>
-  <data name="btn_ConnectionFailed_Skip.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="btn_ConnectionFailed_Skip.Text" xml:space="preserve">
-    <value>Skip</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionFailed_Skip.Name" xml:space="preserve">
-    <value>btn_ConnectionFailed_Skip</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionFailed_Skip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionFailed_Skip.Parent" xml:space="preserve">
-    <value>Page_ConnectionFailed</value>
-  </data>
-  <data name="&gt;&gt;btn_ConnectionFailed_Skip.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="Page_ConnectionFailed.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_ConnectionFailed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_ConnectionFailed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_ConnectionFailed.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="Page_ConnectionFailed.Text" xml:space="preserve">
-    <value>Connection Failed</value>
-  </data>
-  <data name="&gt;&gt;Page_ConnectionFailed.Name" xml:space="preserve">
-    <value>Page_ConnectionFailed</value>
-  </data>
-  <data name="&gt;&gt;Page_ConnectionFailed.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_ConnectionFailed.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_ConnectionFailed.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="pb_InstallDropbox_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pb_InstallDropbox_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pb_InstallDropbox_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 64</value>
-  </data>
-  <data name="pb_InstallDropbox_2.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>StretchImage</value>
-  </data>
-  <data name="pb_InstallDropbox_2.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallDropbox_2.Name" xml:space="preserve">
-    <value>pb_InstallDropbox_2</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallDropbox_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallDropbox_2.Parent" xml:space="preserve">
-    <value>Page_InstallDropbox_2</value>
-  </data>
-  <data name="&gt;&gt;pb_InstallDropbox_2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btn_InstallDropbox_2_continue.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_InstallDropbox_2_continue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 263</value>
-  </data>
-  <data name="btn_InstallDropbox_2_continue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 27</value>
-  </data>
-  <data name="btn_InstallDropbox_2_continue.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="btn_InstallDropbox_2_continue.Text" xml:space="preserve">
-    <value>Continue</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_2_continue.Name" xml:space="preserve">
-    <value>btn_InstallDropbox_2_continue</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_2_continue.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_2_continue.Parent" xml:space="preserve">
-    <value>Page_InstallDropbox_2</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_2_continue.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btn_InstallDropbox_2_InstallAgain.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btn_InstallDropbox_2_InstallAgain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>301, 263</value>
-  </data>
-  <data name="btn_InstallDropbox_2_InstallAgain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 27</value>
-  </data>
-  <data name="btn_InstallDropbox_2_InstallAgain.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="btn_InstallDropbox_2_InstallAgain.Text" xml:space="preserve">
-    <value>Install Again</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_2_InstallAgain.Name" xml:space="preserve">
-    <value>btn_InstallDropbox_2_InstallAgain</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_2_InstallAgain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_2_InstallAgain.Parent" xml:space="preserve">
-    <value>Page_InstallDropbox_2</value>
-  </data>
-  <data name="&gt;&gt;btn_InstallDropbox_2_InstallAgain.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lb_InstallDropbox_2_2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11pt</value>
-  </data>
-  <data name="lb_InstallDropbox_2_2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_InstallDropbox_2_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>91, 70</value>
-  </data>
-  <data name="lb_InstallDropbox_2_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>374, 136</value>
-  </data>
-  <data name="lb_InstallDropbox_2_2.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="lb_InstallDropbox_2_2.Text" xml:space="preserve">
-    <value>After successfully installing, click "Continue" to proceed. </value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_2_2.Name" xml:space="preserve">
-    <value>lb_InstallDropbox_2_2</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_2_2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_2_2.Parent" xml:space="preserve">
-    <value>Page_InstallDropbox_2</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_2_2.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="lb_InstallDropbox_2_1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
-  </data>
-  <data name="lb_InstallDropbox_2_1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_InstallDropbox_2_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 12</value>
-  </data>
-  <data name="lb_InstallDropbox_2_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>361, 39</value>
-  </data>
-  <data name="lb_InstallDropbox_2_1.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="lb_InstallDropbox_2_1.Text" xml:space="preserve">
-    <value>Installing Dropbox</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_2_1.Name" xml:space="preserve">
-    <value>lb_InstallDropbox_2_1</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_2_1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_2_1.Parent" xml:space="preserve">
-    <value>Page_InstallDropbox_2</value>
-  </data>
-  <data name="&gt;&gt;lb_InstallDropbox_2_1.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="Page_InstallDropbox_2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_InstallDropbox_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_InstallDropbox_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_InstallDropbox_2.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="Page_InstallDropbox_2.Text" xml:space="preserve">
-    <value>Install Dropbox 2</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallDropbox_2.Name" xml:space="preserve">
-    <value>Page_InstallDropbox_2</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallDropbox_2.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallDropbox_2.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_InstallDropbox_2.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="pBar_DefaultPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pBar_DefaultPosts.Location" type="System.Drawing.Point, System.Drawing">
-    <value>126, 128</value>
-  </data>
-  <data name="pBar_DefaultPosts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 28</value>
-  </data>
-  <data name="pBar_DefaultPosts.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;pBar_DefaultPosts.Name" xml:space="preserve">
-    <value>pBar_DefaultPosts</value>
-  </data>
-  <data name="&gt;&gt;pBar_DefaultPosts.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pBar_DefaultPosts.Parent" xml:space="preserve">
-    <value>Page_DefaultPosts</value>
-  </data>
-  <data name="&gt;&gt;pBar_DefaultPosts.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pb_DefaultPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pb_DefaultPosts.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pb_DefaultPosts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 64</value>
-  </data>
-  <data name="pb_DefaultPosts.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="&gt;&gt;pb_DefaultPosts.Name" xml:space="preserve">
-    <value>pb_DefaultPosts</value>
-  </data>
-  <data name="&gt;&gt;pb_DefaultPosts.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pb_DefaultPosts.Parent" xml:space="preserve">
-    <value>Page_DefaultPosts</value>
-  </data>
-  <data name="&gt;&gt;pb_DefaultPosts.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lb_DefaultPosts.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 14pt</value>
-  </data>
-  <data name="lb_DefaultPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lb_DefaultPosts.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 12</value>
-  </data>
-  <data name="lb_DefaultPosts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>387, 64</value>
-  </data>
-  <data name="lb_DefaultPosts.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="lb_DefaultPosts.Text" xml:space="preserve">
-    <value>Initializing Waveface, Please wait...</value>
-  </data>
-  <data name="&gt;&gt;lb_DefaultPosts.Name" xml:space="preserve">
-    <value>lb_DefaultPosts</value>
-  </data>
-  <data name="&gt;&gt;lb_DefaultPosts.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lb_DefaultPosts.Parent" xml:space="preserve">
-    <value>Page_DefaultPosts</value>
-  </data>
-  <data name="&gt;&gt;lb_DefaultPosts.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="Page_DefaultPosts.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_DefaultPosts.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_DefaultPosts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="Page_DefaultPosts.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="Page_DefaultPosts.Text" xml:space="preserve">
-    <value>Default Posts</value>
-  </data>
-  <data name="&gt;&gt;Page_DefaultPosts.Name" xml:space="preserve">
-    <value>Page_DefaultPosts</value>
-  </data>
-  <data name="&gt;&gt;Page_DefaultPosts.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_DefaultPosts.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_DefaultPosts.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="multiPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="multiPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="multiPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="multiPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;multiPanel.Name" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;multiPanel.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanel, StationSetup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;multiPanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;multiPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+  <data name="&gt;&gt;Page_Linkage_2.Name" xml:space="preserve">
+    <value>Page_Linkage_2</value>
+  </data>
+  <metadata name="backgroundWorkerVerifying.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>399, 17</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -1804,46 +1840,10 @@ Click "Try Again" to connect to Dropbox again, or "Skip" to do it latter.
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>50</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 14</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>489, 302</value>
-  </data>
-  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterScreen</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Connect to Dropbox</value>
-  </data>
-  <data name="&gt;&gt;backgroundWorkerDefaultPosts.Name" xml:space="preserve">
-    <value>backgroundWorkerDefaultPosts</value>
-  </data>
-  <data name="&gt;&gt;backgroundWorkerDefaultPosts.Type" xml:space="preserve">
-    <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
-    <value>cultureManager</value>
-  </data>
-  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;backgroundWorkerVerifying.Name" xml:space="preserve">
-    <value>backgroundWorkerVerifying</value>
-  </data>
-  <data name="&gt;&gt;backgroundWorkerVerifying.Type" xml:space="preserve">
-    <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>DropboxForm</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <metadata name="backgroundWorkerVerifying.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>399, 17</value>
+  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="backgroundWorkerDefaultPosts.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>161, 17</value>
   </metadata>
 </root>
