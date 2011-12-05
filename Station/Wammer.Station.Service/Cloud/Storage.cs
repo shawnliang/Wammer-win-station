@@ -31,13 +31,14 @@ namespace Wammer.Cloud
 			return res;
 		}
 
-		public void StorageLink(WebClient agent, Dictionary<object, object> param)
+		public StorageLinkResponse StorageLink(WebClient agent, Dictionary<object, object> param)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>(param);
 			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.userToken);
 			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
 
-			StorageResponse res = CloudServer.requestPath<StorageResponse>(agent, "storages/link", parameters);
+			StorageLinkResponse res = CloudServer.requestPath<StorageLinkResponse>(agent, "storages/link", parameters);
+			return res;
 		}
 
 		public StorageCheckResponse StorageCheck(WebClient agent, Dictionary<object, object> param)
@@ -48,6 +49,15 @@ namespace Wammer.Cloud
 
 			StorageCheckResponse res = CloudServer.requestPath<StorageCheckResponse>(agent, "storages/check", parameters);
 			return res;
+		}
+
+		public void StorageUnlink(WebClient agent, Dictionary<object, object> param)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>(param);
+			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.userToken);
+			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+
+			CloudServer.requestPath<StorageResponse>(agent, "storages/unlink", parameters);
 		}
 	}
 }

@@ -7,6 +7,7 @@ using System.Web;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Net;
+using System.Threading;
 
 using Wammer.Station;
 using Wammer.Utility;
@@ -95,14 +96,37 @@ namespace Wammer.Station
 				{
 				    try
 				    {
+						StorageLinkResponse linkRes;
 						if (string.IsNullOrEmpty(account))
 						{
-							storage.StorageLink(agent, new Dictionary<object, object> {	{ "type", "dropbox" } });
+							linkRes = storage.StorageLink(agent, new Dictionary<object, object> { { "type", "dropbox" } });
 						}
 						else
 						{
-							storage.StorageLink(agent, new Dictionary<object, object> {	{ "type", "dropbox" }, { "account", account } });
+							linkRes = storage.StorageLink(agent, new Dictionary<object, object> { { "type", "dropbox" }, { "account", account } });
 						}
+						
+						// cloud will put a token file on Waveface folder for account verification, verify it in at most 3 secs
+						string tokenFilePath = Path.Combine(folder, "waveface_"+linkRes.storages.token);
+						int retry = 10;
+						logger.DebugFormat("Check token file existence, path = {0}", tokenFilePath);
+						while (!File.Exists(tokenFilePath))
+						{
+							Thread.Sleep(500);
+							retry--;
+							if (retry == 0)
+							{
+								break;
+							}
+						}
+						if (!File.Exists(tokenFilePath))
+						{
+							// notify cloud to unlink dropbox if linked to wrong account
+							logger.ErrorFormat("Dropbox token file does not exist, path = {0}", tokenFilePath);
+							storage.StorageUnlink(agent, new Dictionary<object, object> { { "type", "dropbox" } });
+							return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.LinkWrongAccount);
+						}
+						
 						StorageCheckResponse res = storage.StorageCheck(agent, new Dictionary<object,object> { { "type", "dropbox" } });
 						if (res.storages.status != 0)
 						{
@@ -116,6 +140,8 @@ namespace Wammer.Station
 						switch (ex.WammerError)
 						{
 							case 61446:
+								// notify cloud to unlink dropbox if linked to wrong account
+								storage.StorageUnlink(agent, new Dictionary<object, object> { { "type", "dropbox" } });
 								return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.LinkWrongAccount);
 							default:
 								return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.ConnectDropboxFailed);								

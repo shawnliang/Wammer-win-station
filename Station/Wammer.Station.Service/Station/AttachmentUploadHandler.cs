@@ -103,7 +103,8 @@ namespace Wammer.Station
 			AttachmentEventArgs aEvtArgs = new AttachmentEventArgs
 			{
 				Attachment = file,
-				FolderPath = driver.folder
+				FolderPath = driver.folder,
+				DriverId = driver.user_id
 			};
 
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
@@ -290,6 +291,7 @@ namespace Wammer.Station
 	{
 		public Attachments Attachment { get; set; }
 		public string FolderPath { get; set; }
+		public string DriverId { get; set; }
 
 		public AttachmentEventArgs()
 		{

@@ -22,7 +22,13 @@
   </WItem>
   <WItem>
     <ID>MustRemoveOld</ID>
-    <en-US>You need to first uninstall Waveface Station to proceed. Uninstall now?  </en-US>
+    <en-US>You need to first uninstall Waveface Station to proceed. Uninstall now?</en-US>
     <zh-TW>您必須移除舊的Waveface主程式後, 才能安裝新的。</zh-TW>
   </WItem>
+  <WItem>
+    <ID>QuitDropboxSetupProcess</ID>
+    <en-US>Are you sure to quit the Dropbox setup process?</en-US>
+    <zh-TW>您是否確定要結束Dropbox安裝、連結程序?</zh-TW>
+  </WItem>  
+  
 </WItems>

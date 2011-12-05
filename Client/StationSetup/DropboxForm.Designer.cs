@@ -30,7 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DropboxForm));
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.backgroundWorkerDefaultPosts = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorkerVerifying = new System.ComponentModel.BackgroundWorker();
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_Welcome = new Waveface.Component.MultiPage.MultiPanelPage();
             this.pb_Welcome = new System.Windows.Forms.PictureBox();
@@ -39,9 +40,10 @@
             this.btn_Welcome_UseDropbox = new System.Windows.Forms.Button();
             this.btn_Welcome_Skip = new System.Windows.Forms.Button();
             this.Page_SetupCompleted = new Waveface.Component.MultiPage.MultiPanelPage();
+            this.btn_SetupCompleted_InstallAgain = new System.Windows.Forms.Button();
             this.pb_SetupCompleted = new System.Windows.Forms.PictureBox();
-            this.lb_InstallDropbox_1_2 = new System.Windows.Forms.Label();
-            this.lb_InstallDropbox_1_1 = new System.Windows.Forms.Label();
+            this.lb_SetupCompleted_2 = new System.Windows.Forms.Label();
+            this.lb_SetupCompleted_1 = new System.Windows.Forms.Label();
             this.btn_SetupCompleted_OpenWaveface = new System.Windows.Forms.Button();
             this.Page_Linkage_1 = new Waveface.Component.MultiPage.MultiPanelPage();
             this.pb_Linkage_1 = new System.Windows.Forms.PictureBox();
@@ -50,19 +52,19 @@
             this.btn_Linkage_1_Connect = new System.Windows.Forms.Button();
             this.Page_InstallDropbox_1 = new Waveface.Component.MultiPage.MultiPanelPage();
             this.pb_InstallDropbox_1 = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lb_InstallDropbox_1_2 = new System.Windows.Forms.Label();
+            this.lb_InstallDropbox_1_1 = new System.Windows.Forms.Label();
             this.btn_InstallDropbox_1_Install = new System.Windows.Forms.Button();
             this.Page_Linkage_2 = new Waveface.Component.MultiPage.MultiPanelPage();
             this.pb_Linkage_2 = new System.Windows.Forms.PictureBox();
             this.btn_Linkage_2_ConnectAgain = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lb_Linkage_2_2 = new System.Windows.Forms.Label();
+            this.lb_Linkage_2_1 = new System.Windows.Forms.Label();
             this.btn_Linkage_2_Verify = new System.Windows.Forms.Button();
             this.Page_InstallationFailed = new Waveface.Component.MultiPage.MultiPanelPage();
             this.pb_InstallationFailed = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lb_InstallationFailed_2 = new System.Windows.Forms.Label();
+            this.lb_InstallationFailed_1 = new System.Windows.Forms.Label();
             this.btn_InstallationFailedSkip_Retry = new System.Windows.Forms.Button();
             this.btn_InstallationFailedSkip_Skip = new System.Windows.Forms.Button();
             this.Page_ConnectionSuccessfully = new Waveface.Component.MultiPage.MultiPanelPage();
@@ -71,8 +73,9 @@
             this.lb_ConnectionSuccessfully_1 = new System.Windows.Forms.Label();
             this.btn_ConnectionSuccessfully_OpenWaveface = new System.Windows.Forms.Button();
             this.Page_Verifying = new Waveface.Component.MultiPage.MultiPanelPage();
+            this.pBar_Verifying = new System.Windows.Forms.ProgressBar();
             this.pb_Verifying = new System.Windows.Forms.PictureBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lb_Verifying_1 = new System.Windows.Forms.Label();
             this.Page_ConnectionFailed = new Waveface.Component.MultiPage.MultiPanelPage();
             this.pb_ConnectionFailed = new System.Windows.Forms.PictureBox();
             this.lb_ConnectionFailed_2 = new System.Windows.Forms.Label();
@@ -85,6 +88,11 @@
             this.btn_InstallDropbox_2_InstallAgain = new System.Windows.Forms.Button();
             this.lb_InstallDropbox_2_2 = new System.Windows.Forms.Label();
             this.lb_InstallDropbox_2_1 = new System.Windows.Forms.Label();
+            this.Page_DefaultPosts = new Waveface.Component.MultiPage.MultiPanelPage();
+            this.pBar_DefaultPosts = new System.Windows.Forms.ProgressBar();
+            this.pb_DefaultPosts = new System.Windows.Forms.PictureBox();
+            this.lb_DefaultPosts = new System.Windows.Forms.Label();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.multiPanel.SuspendLayout();
             this.Page_Welcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Welcome)).BeginInit();
@@ -106,11 +114,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.pb_ConnectionFailed)).BeginInit();
             this.Page_InstallDropbox_2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_InstallDropbox_2)).BeginInit();
+            this.Page_DefaultPosts.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_DefaultPosts)).BeginInit();
             this.SuspendLayout();
             // 
-            // cultureManager
+            // backgroundWorkerDefaultPosts
             // 
-            this.cultureManager.ManagedControl = this;
+            this.backgroundWorkerDefaultPosts.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerDefaultPosts_DoWork);
+            this.backgroundWorkerDefaultPosts.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerDefaultPosts_RunWorkerCompleted);
+            // 
+            // backgroundWorkerVerifying
+            // 
+            this.backgroundWorkerVerifying.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerVerifying_DoWork);
+            this.backgroundWorkerVerifying.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerVerifying_RunWorkerCompleted);
             // 
             // multiPanel
             // 
@@ -124,6 +140,7 @@
             this.multiPanel.Controls.Add(this.Page_Verifying);
             this.multiPanel.Controls.Add(this.Page_ConnectionFailed);
             this.multiPanel.Controls.Add(this.Page_InstallDropbox_2);
+            this.multiPanel.Controls.Add(this.Page_DefaultPosts);
             resources.ApplyResources(this.multiPanel, "multiPanel");
             this.multiPanel.Name = "multiPanel";
             this.multiPanel.SelectedPage = this.Page_ConnectionFailed;
@@ -171,12 +188,20 @@
             // 
             // Page_SetupCompleted
             // 
+            this.Page_SetupCompleted.Controls.Add(this.btn_SetupCompleted_InstallAgain);
             this.Page_SetupCompleted.Controls.Add(this.pb_SetupCompleted);
-            this.Page_SetupCompleted.Controls.Add(this.lb_InstallDropbox_1_2);
-            this.Page_SetupCompleted.Controls.Add(this.lb_InstallDropbox_1_1);
+            this.Page_SetupCompleted.Controls.Add(this.lb_SetupCompleted_2);
+            this.Page_SetupCompleted.Controls.Add(this.lb_SetupCompleted_1);
             this.Page_SetupCompleted.Controls.Add(this.btn_SetupCompleted_OpenWaveface);
             resources.ApplyResources(this.Page_SetupCompleted, "Page_SetupCompleted");
             this.Page_SetupCompleted.Name = "Page_SetupCompleted";
+            // 
+            // btn_SetupCompleted_InstallAgain
+            // 
+            resources.ApplyResources(this.btn_SetupCompleted_InstallAgain, "btn_SetupCompleted_InstallAgain");
+            this.btn_SetupCompleted_InstallAgain.Name = "btn_SetupCompleted_InstallAgain";
+            this.btn_SetupCompleted_InstallAgain.UseVisualStyleBackColor = true;
+            this.btn_SetupCompleted_InstallAgain.Click += new System.EventHandler(this.btn_SetupCompleted_InstallAgain_Click);
             // 
             // pb_SetupCompleted
             // 
@@ -185,21 +210,22 @@
             this.pb_SetupCompleted.Name = "pb_SetupCompleted";
             this.pb_SetupCompleted.TabStop = false;
             // 
-            // lb_InstallDropbox_1_2
+            // lb_SetupCompleted_2
             // 
-            resources.ApplyResources(this.lb_InstallDropbox_1_2, "lb_InstallDropbox_1_2");
-            this.lb_InstallDropbox_1_2.Name = "lb_InstallDropbox_1_2";
+            resources.ApplyResources(this.lb_SetupCompleted_2, "lb_SetupCompleted_2");
+            this.lb_SetupCompleted_2.Name = "lb_SetupCompleted_2";
             // 
-            // lb_InstallDropbox_1_1
+            // lb_SetupCompleted_1
             // 
-            resources.ApplyResources(this.lb_InstallDropbox_1_1, "lb_InstallDropbox_1_1");
-            this.lb_InstallDropbox_1_1.Name = "lb_InstallDropbox_1_1";
+            resources.ApplyResources(this.lb_SetupCompleted_1, "lb_SetupCompleted_1");
+            this.lb_SetupCompleted_1.Name = "lb_SetupCompleted_1";
             // 
             // btn_SetupCompleted_OpenWaveface
             // 
             resources.ApplyResources(this.btn_SetupCompleted_OpenWaveface, "btn_SetupCompleted_OpenWaveface");
             this.btn_SetupCompleted_OpenWaveface.Name = "btn_SetupCompleted_OpenWaveface";
             this.btn_SetupCompleted_OpenWaveface.UseVisualStyleBackColor = true;
+            this.btn_SetupCompleted_OpenWaveface.Click += new System.EventHandler(this.btn_SetupCompleted_OpenWaveface_Click);
             // 
             // Page_Linkage_1
             // 
@@ -237,8 +263,8 @@
             // Page_InstallDropbox_1
             // 
             this.Page_InstallDropbox_1.Controls.Add(this.pb_InstallDropbox_1);
-            this.Page_InstallDropbox_1.Controls.Add(this.label3);
-            this.Page_InstallDropbox_1.Controls.Add(this.label4);
+            this.Page_InstallDropbox_1.Controls.Add(this.lb_InstallDropbox_1_2);
+            this.Page_InstallDropbox_1.Controls.Add(this.lb_InstallDropbox_1_1);
             this.Page_InstallDropbox_1.Controls.Add(this.btn_InstallDropbox_1_Install);
             resources.ApplyResources(this.Page_InstallDropbox_1, "Page_InstallDropbox_1");
             this.Page_InstallDropbox_1.Name = "Page_InstallDropbox_1";
@@ -250,15 +276,15 @@
             this.pb_InstallDropbox_1.Name = "pb_InstallDropbox_1";
             this.pb_InstallDropbox_1.TabStop = false;
             // 
-            // label3
+            // lb_InstallDropbox_1_2
             // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
+            resources.ApplyResources(this.lb_InstallDropbox_1_2, "lb_InstallDropbox_1_2");
+            this.lb_InstallDropbox_1_2.Name = "lb_InstallDropbox_1_2";
             // 
-            // label4
+            // lb_InstallDropbox_1_1
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
+            resources.ApplyResources(this.lb_InstallDropbox_1_1, "lb_InstallDropbox_1_1");
+            this.lb_InstallDropbox_1_1.Name = "lb_InstallDropbox_1_1";
             // 
             // btn_InstallDropbox_1_Install
             // 
@@ -271,8 +297,8 @@
             // 
             this.Page_Linkage_2.Controls.Add(this.pb_Linkage_2);
             this.Page_Linkage_2.Controls.Add(this.btn_Linkage_2_ConnectAgain);
-            this.Page_Linkage_2.Controls.Add(this.label5);
-            this.Page_Linkage_2.Controls.Add(this.label6);
+            this.Page_Linkage_2.Controls.Add(this.lb_Linkage_2_2);
+            this.Page_Linkage_2.Controls.Add(this.lb_Linkage_2_1);
             this.Page_Linkage_2.Controls.Add(this.btn_Linkage_2_Verify);
             resources.ApplyResources(this.Page_Linkage_2, "Page_Linkage_2");
             this.Page_Linkage_2.Name = "Page_Linkage_2";
@@ -291,15 +317,15 @@
             this.btn_Linkage_2_ConnectAgain.UseVisualStyleBackColor = true;
             this.btn_Linkage_2_ConnectAgain.Click += new System.EventHandler(this.btn_Linkage_2_ConnectAgain_Click);
             // 
-            // label5
+            // lb_Linkage_2_2
             // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
+            resources.ApplyResources(this.lb_Linkage_2_2, "lb_Linkage_2_2");
+            this.lb_Linkage_2_2.Name = "lb_Linkage_2_2";
             // 
-            // label6
+            // lb_Linkage_2_1
             // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
+            resources.ApplyResources(this.lb_Linkage_2_1, "lb_Linkage_2_1");
+            this.lb_Linkage_2_1.Name = "lb_Linkage_2_1";
             // 
             // btn_Linkage_2_Verify
             // 
@@ -311,8 +337,8 @@
             // Page_InstallationFailed
             // 
             this.Page_InstallationFailed.Controls.Add(this.pb_InstallationFailed);
-            this.Page_InstallationFailed.Controls.Add(this.label1);
-            this.Page_InstallationFailed.Controls.Add(this.label2);
+            this.Page_InstallationFailed.Controls.Add(this.lb_InstallationFailed_2);
+            this.Page_InstallationFailed.Controls.Add(this.lb_InstallationFailed_1);
             this.Page_InstallationFailed.Controls.Add(this.btn_InstallationFailedSkip_Retry);
             this.Page_InstallationFailed.Controls.Add(this.btn_InstallationFailedSkip_Skip);
             resources.ApplyResources(this.Page_InstallationFailed, "Page_InstallationFailed");
@@ -325,15 +351,15 @@
             this.pb_InstallationFailed.Name = "pb_InstallationFailed";
             this.pb_InstallationFailed.TabStop = false;
             // 
-            // label1
+            // lb_InstallationFailed_2
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.lb_InstallationFailed_2, "lb_InstallationFailed_2");
+            this.lb_InstallationFailed_2.Name = "lb_InstallationFailed_2";
             // 
-            // label2
+            // lb_InstallationFailed_1
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            resources.ApplyResources(this.lb_InstallationFailed_1, "lb_InstallationFailed_1");
+            this.lb_InstallationFailed_1.Name = "lb_InstallationFailed_1";
             // 
             // btn_InstallationFailedSkip_Retry
             // 
@@ -384,10 +410,18 @@
             // 
             // Page_Verifying
             // 
+            this.Page_Verifying.Controls.Add(this.pBar_Verifying);
             this.Page_Verifying.Controls.Add(this.pb_Verifying);
-            this.Page_Verifying.Controls.Add(this.label7);
+            this.Page_Verifying.Controls.Add(this.lb_Verifying_1);
             resources.ApplyResources(this.Page_Verifying, "Page_Verifying");
             this.Page_Verifying.Name = "Page_Verifying";
+            // 
+            // pBar_Verifying
+            // 
+            resources.ApplyResources(this.pBar_Verifying, "pBar_Verifying");
+            this.pBar_Verifying.MarqueeAnimationSpeed = 50;
+            this.pBar_Verifying.Name = "pBar_Verifying";
+            this.pBar_Verifying.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             // 
             // pb_Verifying
             // 
@@ -396,10 +430,10 @@
             this.pb_Verifying.Name = "pb_Verifying";
             this.pb_Verifying.TabStop = false;
             // 
-            // label7
+            // lb_Verifying_1
             // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
+            resources.ApplyResources(this.lb_Verifying_1, "lb_Verifying_1");
+            this.lb_Verifying_1.Name = "lb_Verifying_1";
             // 
             // Page_ConnectionFailed
             // 
@@ -483,6 +517,37 @@
             resources.ApplyResources(this.lb_InstallDropbox_2_1, "lb_InstallDropbox_2_1");
             this.lb_InstallDropbox_2_1.Name = "lb_InstallDropbox_2_1";
             // 
+            // Page_DefaultPosts
+            // 
+            this.Page_DefaultPosts.Controls.Add(this.pBar_DefaultPosts);
+            this.Page_DefaultPosts.Controls.Add(this.pb_DefaultPosts);
+            this.Page_DefaultPosts.Controls.Add(this.lb_DefaultPosts);
+            resources.ApplyResources(this.Page_DefaultPosts, "Page_DefaultPosts");
+            this.Page_DefaultPosts.Name = "Page_DefaultPosts";
+            // 
+            // pBar_DefaultPosts
+            // 
+            resources.ApplyResources(this.pBar_DefaultPosts, "pBar_DefaultPosts");
+            this.pBar_DefaultPosts.MarqueeAnimationSpeed = 50;
+            this.pBar_DefaultPosts.Name = "pBar_DefaultPosts";
+            this.pBar_DefaultPosts.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            // 
+            // pb_DefaultPosts
+            // 
+            this.pb_DefaultPosts.Image = global::Wammer.Station.Properties.Resources.P2;
+            resources.ApplyResources(this.pb_DefaultPosts, "pb_DefaultPosts");
+            this.pb_DefaultPosts.Name = "pb_DefaultPosts";
+            this.pb_DefaultPosts.TabStop = false;
+            // 
+            // lb_DefaultPosts
+            // 
+            resources.ApplyResources(this.lb_DefaultPosts, "lb_DefaultPosts");
+            this.lb_DefaultPosts.Name = "lb_DefaultPosts";
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
             // DropboxForm
             // 
             resources.ApplyResources(this, "$this");
@@ -515,6 +580,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pb_ConnectionFailed)).EndInit();
             this.Page_InstallDropbox_2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pb_InstallDropbox_2)).EndInit();
+            this.Page_DefaultPosts.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_DefaultPosts)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -545,23 +612,23 @@
         private System.Windows.Forms.Button btn_ConnectionFailed_Skip;
         private System.Windows.Forms.Label lb_Welcome_2;
         private System.Windows.Forms.Label lb_Welcome_1;
+        private System.Windows.Forms.Label lb_SetupCompleted_2;
+        private System.Windows.Forms.Label lb_SetupCompleted_1;
         private System.Windows.Forms.Label lb_InstallDropbox_1_2;
         private System.Windows.Forms.Label lb_InstallDropbox_1_1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
         private Waveface.Component.MultiPage.MultiPanelPage Page_InstallDropbox_2;
         private System.Windows.Forms.Button btn_InstallDropbox_2_continue;
         private System.Windows.Forms.Button btn_InstallDropbox_2_InstallAgain;
         private System.Windows.Forms.Label lb_InstallDropbox_2_2;
         private System.Windows.Forms.Label lb_InstallDropbox_2_1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lb_InstallationFailed_2;
+        private System.Windows.Forms.Label lb_InstallationFailed_1;
         private System.Windows.Forms.Label lb_Linkage_1_2;
         private System.Windows.Forms.Label lb_Linkage_1_1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lb_Linkage_2_2;
+        private System.Windows.Forms.Label lb_Linkage_2_1;
         private System.Windows.Forms.Button btn_Linkage_2_ConnectAgain;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lb_Verifying_1;
         private System.Windows.Forms.Label lb_ConnectionSuccessfully_2;
         private System.Windows.Forms.Label lb_ConnectionSuccessfully_1;
         private System.Windows.Forms.Label lb_ConnectionFailed_2;
@@ -576,5 +643,13 @@
         private System.Windows.Forms.PictureBox pb_InstallDropbox_2;
         private System.Windows.Forms.PictureBox pb_ConnectionFailed;
         private System.Windows.Forms.PictureBox pb_Linkage_2;
+        private System.Windows.Forms.Button btn_SetupCompleted_InstallAgain;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerDefaultPosts;
+        private Waveface.Component.MultiPage.MultiPanelPage Page_DefaultPosts;
+        private System.Windows.Forms.ProgressBar pBar_DefaultPosts;
+        private System.Windows.Forms.PictureBox pb_DefaultPosts;
+        private System.Windows.Forms.Label lb_DefaultPosts;
+        private System.Windows.Forms.ProgressBar pBar_Verifying;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerVerifying;
     }
 }
