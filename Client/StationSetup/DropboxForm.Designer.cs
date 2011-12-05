@@ -130,7 +130,6 @@
             // 
             // multiPanel
             // 
-            resources.ApplyResources(this.multiPanel, "multiPanel");
             this.multiPanel.Controls.Add(this.Page_Welcome);
             this.multiPanel.Controls.Add(this.Page_SetupCompleted);
             this.multiPanel.Controls.Add(this.Page_Linkage_1);
@@ -142,23 +141,24 @@
             this.multiPanel.Controls.Add(this.Page_ConnectionFailed);
             this.multiPanel.Controls.Add(this.Page_InstallDropbox_2);
             this.multiPanel.Controls.Add(this.Page_DefaultPosts);
+            resources.ApplyResources(this.multiPanel, "multiPanel");
             this.multiPanel.Name = "multiPanel";
-            this.multiPanel.SelectedPage = this.Page_Linkage_2;
+            this.multiPanel.SelectedPage = this.Page_ConnectionFailed;
             // 
             // Page_Welcome
             // 
-            resources.ApplyResources(this.Page_Welcome, "Page_Welcome");
             this.Page_Welcome.Controls.Add(this.pb_Welcome);
             this.Page_Welcome.Controls.Add(this.lb_Welcome_2);
             this.Page_Welcome.Controls.Add(this.lb_Welcome_1);
             this.Page_Welcome.Controls.Add(this.btn_Welcome_UseDropbox);
             this.Page_Welcome.Controls.Add(this.btn_Welcome_Skip);
+            resources.ApplyResources(this.Page_Welcome, "Page_Welcome");
             this.Page_Welcome.Name = "Page_Welcome";
             // 
             // pb_Welcome
             // 
-            resources.ApplyResources(this.pb_Welcome, "pb_Welcome");
             this.pb_Welcome.Image = global::Wammer.Station.Properties.Resources.P1;
+            resources.ApplyResources(this.pb_Welcome, "pb_Welcome");
             this.pb_Welcome.Name = "pb_Welcome";
             this.pb_Welcome.TabStop = false;
             // 
@@ -188,12 +188,12 @@
             // 
             // Page_SetupCompleted
             // 
-            resources.ApplyResources(this.Page_SetupCompleted, "Page_SetupCompleted");
             this.Page_SetupCompleted.Controls.Add(this.btn_SetupCompleted_InstallAgain);
             this.Page_SetupCompleted.Controls.Add(this.pb_SetupCompleted);
             this.Page_SetupCompleted.Controls.Add(this.lb_SetupCompleted_2);
             this.Page_SetupCompleted.Controls.Add(this.lb_SetupCompleted_1);
             this.Page_SetupCompleted.Controls.Add(this.btn_SetupCompleted_OpenWaveface);
+            resources.ApplyResources(this.Page_SetupCompleted, "Page_SetupCompleted");
             this.Page_SetupCompleted.Name = "Page_SetupCompleted";
             // 
             // btn_SetupCompleted_InstallAgain
@@ -205,8 +205,8 @@
             // 
             // pb_SetupCompleted
             // 
-            resources.ApplyResources(this.pb_SetupCompleted, "pb_SetupCompleted");
             this.pb_SetupCompleted.Image = global::Wammer.Station.Properties.Resources.P2;
+            resources.ApplyResources(this.pb_SetupCompleted, "pb_SetupCompleted");
             this.pb_SetupCompleted.Name = "pb_SetupCompleted";
             this.pb_SetupCompleted.TabStop = false;
             // 
@@ -229,17 +229,17 @@
             // 
             // Page_Linkage_1
             // 
-            resources.ApplyResources(this.Page_Linkage_1, "Page_Linkage_1");
             this.Page_Linkage_1.Controls.Add(this.pb_Linkage_1);
             this.Page_Linkage_1.Controls.Add(this.lb_Linkage_1_2);
             this.Page_Linkage_1.Controls.Add(this.lb_Linkage_1_1);
             this.Page_Linkage_1.Controls.Add(this.btn_Linkage_1_Connect);
+            resources.ApplyResources(this.Page_Linkage_1, "Page_Linkage_1");
             this.Page_Linkage_1.Name = "Page_Linkage_1";
             // 
             // pb_Linkage_1
             // 
-            resources.ApplyResources(this.pb_Linkage_1, "pb_Linkage_1");
             this.pb_Linkage_1.Image = global::Wammer.Station.Properties.Resources.P5;
+            resources.ApplyResources(this.pb_Linkage_1, "pb_Linkage_1");
             this.pb_Linkage_1.Name = "pb_Linkage_1";
             this.pb_Linkage_1.TabStop = false;
             // 
@@ -262,17 +262,17 @@
             // 
             // Page_InstallDropbox_1
             // 
-            resources.ApplyResources(this.Page_InstallDropbox_1, "Page_InstallDropbox_1");
             this.Page_InstallDropbox_1.Controls.Add(this.pb_InstallDropbox_1);
             this.Page_InstallDropbox_1.Controls.Add(this.lb_InstallDropbox_1_2);
             this.Page_InstallDropbox_1.Controls.Add(this.lb_InstallDropbox_1_1);
             this.Page_InstallDropbox_1.Controls.Add(this.btn_InstallDropbox_1_Install);
+            resources.ApplyResources(this.Page_InstallDropbox_1, "Page_InstallDropbox_1");
             this.Page_InstallDropbox_1.Name = "Page_InstallDropbox_1";
             // 
             // pb_InstallDropbox_1
             // 
-            resources.ApplyResources(this.pb_InstallDropbox_1, "pb_InstallDropbox_1");
             this.pb_InstallDropbox_1.Image = global::Wammer.Station.Properties.Resources.P3;
+            resources.ApplyResources(this.pb_InstallDropbox_1, "pb_InstallDropbox_1");
             this.pb_InstallDropbox_1.Name = "pb_InstallDropbox_1";
             this.pb_InstallDropbox_1.TabStop = false;
             // 
@@ -295,18 +295,18 @@
             // 
             // Page_Linkage_2
             // 
-            resources.ApplyResources(this.Page_Linkage_2, "Page_Linkage_2");
             this.Page_Linkage_2.Controls.Add(this.pb_Linkage_2);
             this.Page_Linkage_2.Controls.Add(this.btn_Linkage_2_ConnectAgain);
             this.Page_Linkage_2.Controls.Add(this.lb_Linkage_2_2);
             this.Page_Linkage_2.Controls.Add(this.lb_Linkage_2_1);
             this.Page_Linkage_2.Controls.Add(this.btn_Linkage_2_Verify);
+            resources.ApplyResources(this.Page_Linkage_2, "Page_Linkage_2");
             this.Page_Linkage_2.Name = "Page_Linkage_2";
             // 
             // pb_Linkage_2
             // 
-            resources.ApplyResources(this.pb_Linkage_2, "pb_Linkage_2");
             this.pb_Linkage_2.Image = global::Wammer.Station.Properties.Resources.P5;
+            resources.ApplyResources(this.pb_Linkage_2, "pb_Linkage_2");
             this.pb_Linkage_2.Name = "pb_Linkage_2";
             this.pb_Linkage_2.TabStop = false;
             // 
@@ -336,18 +336,18 @@
             // 
             // Page_InstallationFailed
             // 
-            resources.ApplyResources(this.Page_InstallationFailed, "Page_InstallationFailed");
             this.Page_InstallationFailed.Controls.Add(this.pb_InstallationFailed);
             this.Page_InstallationFailed.Controls.Add(this.lb_InstallationFailed_2);
             this.Page_InstallationFailed.Controls.Add(this.lb_InstallationFailed_1);
             this.Page_InstallationFailed.Controls.Add(this.btn_InstallationFailedSkip_Retry);
             this.Page_InstallationFailed.Controls.Add(this.btn_InstallationFailedSkip_Skip);
+            resources.ApplyResources(this.Page_InstallationFailed, "Page_InstallationFailed");
             this.Page_InstallationFailed.Name = "Page_InstallationFailed";
             // 
             // pb_InstallationFailed
             // 
-            resources.ApplyResources(this.pb_InstallationFailed, "pb_InstallationFailed");
             this.pb_InstallationFailed.Image = global::Wammer.Station.Properties.Resources.P4;
+            resources.ApplyResources(this.pb_InstallationFailed, "pb_InstallationFailed");
             this.pb_InstallationFailed.Name = "pb_InstallationFailed";
             this.pb_InstallationFailed.TabStop = false;
             // 
@@ -377,17 +377,17 @@
             // 
             // Page_ConnectionSuccessfully
             // 
-            resources.ApplyResources(this.Page_ConnectionSuccessfully, "Page_ConnectionSuccessfully");
             this.Page_ConnectionSuccessfully.Controls.Add(this.pb_ConnectionSuccessfully);
             this.Page_ConnectionSuccessfully.Controls.Add(this.lb_ConnectionSuccessfully_2);
             this.Page_ConnectionSuccessfully.Controls.Add(this.lb_ConnectionSuccessfully_1);
             this.Page_ConnectionSuccessfully.Controls.Add(this.btn_ConnectionSuccessfully_OpenWaveface);
+            resources.ApplyResources(this.Page_ConnectionSuccessfully, "Page_ConnectionSuccessfully");
             this.Page_ConnectionSuccessfully.Name = "Page_ConnectionSuccessfully";
             // 
             // pb_ConnectionSuccessfully
             // 
-            resources.ApplyResources(this.pb_ConnectionSuccessfully, "pb_ConnectionSuccessfully");
             this.pb_ConnectionSuccessfully.Image = global::Wammer.Station.Properties.Resources.P7;
+            resources.ApplyResources(this.pb_ConnectionSuccessfully, "pb_ConnectionSuccessfully");
             this.pb_ConnectionSuccessfully.Name = "pb_ConnectionSuccessfully";
             this.pb_ConnectionSuccessfully.TabStop = false;
             // 
@@ -410,10 +410,10 @@
             // 
             // Page_Verifying
             // 
-            resources.ApplyResources(this.Page_Verifying, "Page_Verifying");
             this.Page_Verifying.Controls.Add(this.pBar_Verifying);
             this.Page_Verifying.Controls.Add(this.pb_Verifying);
             this.Page_Verifying.Controls.Add(this.lb_Verifying_1);
+            resources.ApplyResources(this.Page_Verifying, "Page_Verifying");
             this.Page_Verifying.Name = "Page_Verifying";
             // 
             // pBar_Verifying
@@ -425,8 +425,8 @@
             // 
             // pb_Verifying
             // 
-            resources.ApplyResources(this.pb_Verifying, "pb_Verifying");
             this.pb_Verifying.Image = global::Wammer.Station.Properties.Resources.P6;
+            resources.ApplyResources(this.pb_Verifying, "pb_Verifying");
             this.pb_Verifying.Name = "pb_Verifying";
             this.pb_Verifying.TabStop = false;
             // 
@@ -437,18 +437,18 @@
             // 
             // Page_ConnectionFailed
             // 
-            resources.ApplyResources(this.Page_ConnectionFailed, "Page_ConnectionFailed");
             this.Page_ConnectionFailed.Controls.Add(this.pb_ConnectionFailed);
             this.Page_ConnectionFailed.Controls.Add(this.lb_ConnectionFailed_2);
             this.Page_ConnectionFailed.Controls.Add(this.lb_ConnectionFailed_1);
             this.Page_ConnectionFailed.Controls.Add(this.btn_ConnectionFailed_Retry);
             this.Page_ConnectionFailed.Controls.Add(this.btn_ConnectionFailed_Skip);
+            resources.ApplyResources(this.Page_ConnectionFailed, "Page_ConnectionFailed");
             this.Page_ConnectionFailed.Name = "Page_ConnectionFailed";
             // 
             // pb_ConnectionFailed
             // 
-            resources.ApplyResources(this.pb_ConnectionFailed, "pb_ConnectionFailed");
             this.pb_ConnectionFailed.Image = global::Wammer.Station.Properties.Resources.P4;
+            resources.ApplyResources(this.pb_ConnectionFailed, "pb_ConnectionFailed");
             this.pb_ConnectionFailed.Name = "pb_ConnectionFailed";
             this.pb_ConnectionFailed.TabStop = false;
             // 
@@ -478,18 +478,18 @@
             // 
             // Page_InstallDropbox_2
             // 
-            resources.ApplyResources(this.Page_InstallDropbox_2, "Page_InstallDropbox_2");
             this.Page_InstallDropbox_2.Controls.Add(this.pb_InstallDropbox_2);
             this.Page_InstallDropbox_2.Controls.Add(this.btn_InstallDropbox_2_continue);
             this.Page_InstallDropbox_2.Controls.Add(this.btn_InstallDropbox_2_InstallAgain);
             this.Page_InstallDropbox_2.Controls.Add(this.lb_InstallDropbox_2_2);
             this.Page_InstallDropbox_2.Controls.Add(this.lb_InstallDropbox_2_1);
+            resources.ApplyResources(this.Page_InstallDropbox_2, "Page_InstallDropbox_2");
             this.Page_InstallDropbox_2.Name = "Page_InstallDropbox_2";
             // 
             // pb_InstallDropbox_2
             // 
-            resources.ApplyResources(this.pb_InstallDropbox_2, "pb_InstallDropbox_2");
             this.pb_InstallDropbox_2.Image = global::Wammer.Station.Properties.Resources.P3;
+            resources.ApplyResources(this.pb_InstallDropbox_2, "pb_InstallDropbox_2");
             this.pb_InstallDropbox_2.Name = "pb_InstallDropbox_2";
             this.pb_InstallDropbox_2.TabStop = false;
             // 
@@ -519,10 +519,10 @@
             // 
             // Page_DefaultPosts
             // 
-            resources.ApplyResources(this.Page_DefaultPosts, "Page_DefaultPosts");
             this.Page_DefaultPosts.Controls.Add(this.pBar_DefaultPosts);
             this.Page_DefaultPosts.Controls.Add(this.pb_DefaultPosts);
             this.Page_DefaultPosts.Controls.Add(this.lb_DefaultPosts);
+            resources.ApplyResources(this.Page_DefaultPosts, "Page_DefaultPosts");
             this.Page_DefaultPosts.Name = "Page_DefaultPosts";
             // 
             // pBar_DefaultPosts
@@ -534,8 +534,8 @@
             // 
             // pb_DefaultPosts
             // 
-            resources.ApplyResources(this.pb_DefaultPosts, "pb_DefaultPosts");
             this.pb_DefaultPosts.Image = global::Wammer.Station.Properties.Resources.P2;
+            resources.ApplyResources(this.pb_DefaultPosts, "pb_DefaultPosts");
             this.pb_DefaultPosts.Name = "pb_DefaultPosts";
             this.pb_DefaultPosts.TabStop = false;
             // 
