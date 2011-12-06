@@ -112,6 +112,9 @@
       <ComponentRef Id="MongoDB.Driver.dll"/>
       <ComponentRef Id="StationSetup.exe"/>
       <ComponentRef Id="System.Data.SQLite.dll"/>
+      <ComponentRef Id="TCMPortMapper.dll"/>
+      <ComponentRef Id="miniupnp.dll"/>
+      <ComponentRef Id="natpmp.dll"/>
     </ComponentGroup>
 
     <ComponentGroup Id="Wammer.Client">
@@ -187,7 +190,16 @@
           <Shortcut Id="DesktopShortcut" Advertise="yes" Directory="DesktopFolder" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" Icon="Wammer.ico" IconIndex="0" WorkingDirectory="INSTALLDIR"/>
         </File>
       </Component>
-
+      <Component Guid="*">
+        <File Id="TCMPortMapper.dll" Source="$(var.Wammer.Station.Service.TargetDir)\TCMPortMapper.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Guid="*">
+        <File Id="miniupnp.dll" Source="$(var.Wammer.Station.Service.TargetDir)\miniupnp.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Guid="*">
+        <File Id="natpmp.dll" Source="$(var.Wammer.Station.Service.TargetDir)\natpmp.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      
       <!-- client files -->
       <Component Id="AxInterop.SHDocVw.dll" Guid="{345D9FC1-4BF7-43E0-883F-F94AAD20D530}">
         <File Id="AxInterop.SHDocVw.dll" Source="$(var.Wammer.TargetDir)\AxInterop.SHDocVw.dll" KeyPath="yes" Checksum="yes"/>
