@@ -159,6 +159,13 @@ namespace Waveface.Component
                 return false;
             }
 
+            // 目前64bit PDF Reader 有問題
+            if (isWin64AndPDF(filename))
+            {
+                ErrorMessage = "No file loaded.";
+                return false;
+            }
+
             // try to get GUID for the preview handler
             Guid _guid = GetPreviewHandlerGUID(filename);
             ErrorMessage = "";
@@ -218,6 +225,17 @@ namespace Waveface.Component
             else
             {
                 ErrorMessage = "No preview available.";
+            }
+
+            return false;
+        }
+
+        private bool isWin64AndPDF(string filename)
+        {
+            if(".pdf" == Path.GetExtension(filename).ToLower())
+            {
+                if (OsUtility.Is64BitOperatingSystem)
+                    return true;
             }
 
             return false;

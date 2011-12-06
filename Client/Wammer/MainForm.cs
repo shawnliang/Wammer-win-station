@@ -375,9 +375,9 @@ namespace Waveface
             return null;
         }
 
-        public MR_posts_get Posts_Search(string search_filter)
+        public MR_posts_get Posts_FetchByFilter(string filter_entity)
         {
-            MR_posts_get _postsGet = m_serviceV2.posts_search(SessionToken, RT.CurrentGroupID, search_filter);
+            MR_posts_get _postsGet = m_serviceV2.posts_fetchByFilter(SessionToken, RT.CurrentGroupID, filter_entity);
 
             if ((_postsGet != null) && (_postsGet.status == "200"))
             {
@@ -389,9 +389,9 @@ namespace Waveface
             }
         }
 
-        public MR_searchfilters_list SearchFilters_List()
+        public MR_fetchfilters_list SearchFilters_List()
         {
-            MR_searchfilters_list _filtersList = m_serviceV2.searchfilters_list(SessionToken);
+            MR_fetchfilters_list _filtersList = m_serviceV2.fetchfilters_list(SessionToken);
 
             if ((_filtersList != null) && (_filtersList.status == "200"))
             {
@@ -403,9 +403,9 @@ namespace Waveface
             }
         }
 
-        public MR_searchfilters_item SearchFilters_New(string filter_name, string filter, string tag)
+        public MR_fetchfilters_item FetchFilters_New(string filter_name, string filter_entity, string tag)
         {
-            MR_searchfilters_item _item = m_serviceV2.searchfilters_new(SessionToken, filter_name, filter, tag);
+            MR_fetchfilters_item _item = m_serviceV2.fetchfilters_new(SessionToken, filter_name, filter_entity, tag);
 
             if ((_item != null) && (_item.status == "200"))
             {
@@ -417,9 +417,9 @@ namespace Waveface
             }
         }
 
-        public MR_searchfilters_item SearchFilters_Update(string searchfilter_id, string filter_name, string filter, string tag)
+        public MR_fetchfilters_item FetchFilters_Update(string searchfilter_id, string filter_name, string filter_entity, string tag)
         {
-            MR_searchfilters_item _item = m_serviceV2.searchfilters_update(SessionToken, searchfilter_id, filter_name, filter, tag);
+            MR_fetchfilters_item _item = m_serviceV2.fetchfilters_update(SessionToken, searchfilter_id, filter_name, filter_entity, tag);
 
             if ((_item != null) && (_item.status == "200"))
             {
@@ -444,80 +444,6 @@ namespace Waveface
                 return null;
             }
         }
-
-        #region Hide
-
-        public MR_hide_ret Hide_Set_Post(string object_id)
-        {
-            MR_hide_ret _ret = m_serviceV2.hide_set(SessionToken, RT.CurrentGroupID, "post", object_id);
-
-            if ((_ret != null) && (_ret.status == "200"))
-            {
-                return _ret;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_hide_ret Hide_Set_Attachment(string object_id)
-        {
-            MR_hide_ret _ret = m_serviceV2.hide_set(SessionToken, RT.CurrentGroupID, "attachment", object_id);
-
-            if ((_ret != null) && (_ret.status == "200"))
-            {
-                return _ret;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_hide_ret Hide_Unset_Post(string object_id)
-        {
-            MR_hide_ret _ret = m_serviceV2.hide_unset(SessionToken, RT.CurrentGroupID, "post", object_id);
-
-            if ((_ret != null) && (_ret.status == "200"))
-            {
-                return _ret;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_hide_ret Hide_Unset_Attachment(string object_id)
-        {
-            MR_hide_ret _ret = m_serviceV2.hide_unset(SessionToken, RT.CurrentGroupID, "attachment", object_id);
-
-            if ((_ret != null) && (_ret.status == "200"))
-            {
-                return _ret;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_hide_list Hide_List(string object_type)
-        {
-            MR_hide_list _ret = m_serviceV2.hide_list(SessionToken, RT.CurrentGroupID, object_type);
-
-            if ((_ret != null) && (_ret.status == "200"))
-            {
-                return _ret;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        #endregion
 
         #endregion
 
@@ -745,6 +671,7 @@ namespace Waveface
 
         public void HidePost(string postId)
         {
+            /*
             MR_hide_ret _ret = Hide_Set_Post(postId);
 
             if (_ret != null)
@@ -754,33 +681,7 @@ namespace Waveface
                 RT.HideList = Hide_List("all");
                 ShowPostToUI(false);
             }
-        }
-
-        private List<Post> GetUnhidePosts(List<Post> posts)
-        {
-            if (RT.HideList.post_count == 0)
-                return posts;
-
-            List<Post> _ret = new List<Post>();
-
-            foreach (Post _p1 in posts)
-            {
-                bool _flag = false;
-
-                foreach (Post _p2 in RT.HideList.posts)
-                {
-                    if (_p1.post_id == _p2.post_id)
-                    {
-                        _flag = true;
-                        break;
-                    }
-                }
-
-                if (!_flag)
-                    _ret.Add(_p1);
-            }
-
-            return _ret;
+            */
         }
 
         #endregion
@@ -970,7 +871,7 @@ namespace Waveface
 
             Cursor.Current = Cursors.WaitCursor;
 
-            MR_posts_get _postsGet = Posts_Search(_filter);
+            MR_posts_get _postsGet = Posts_FetchByFilter(_filter);
 
             if (_postsGet != null)
             {

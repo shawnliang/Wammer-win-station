@@ -217,7 +217,7 @@ namespace Waveface
             if (m_post.preview.url != null)
                 return PostType.Link;
 
-            if (m_post.attachments_count > 0)
+            if (m_post.attachment_count > 0)
             {
                 foreach (Attachment _a in m_post.attachments)
                 {

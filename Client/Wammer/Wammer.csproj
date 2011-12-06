@@ -261,6 +261,7 @@
     </Compile>
     <Compile Include="Data\PostType.cs" />
     <Compile Include="I18n.cs" />
+    <Compile Include="Libs\Utility\OsUtility.cs" />
     <Compile Include="Test\Group And User\Password.cs">
       <SubType>Form</SubType>
     </Compile>

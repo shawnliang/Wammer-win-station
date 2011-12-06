@@ -24,7 +24,7 @@ namespace Waveface.API.V2
         public int comment_count { get; set; }
         public List<Comment> comments { get; set; }
 
-        public int attachments_count { get; set; }
+        public int attachment_count { get; set; }
         public List<Attachment> attachments { get; set; }
         public List<string> attachment_id_array { get; set; }
 
@@ -186,14 +186,14 @@ namespace Waveface.API.V2
     {
     }
 
-    public class SearchFilter
+    public class Fetch_Filter
     {
         public string timestamp { get; set; }
         public string creator_id { get; set; }
         public string tag { get; set; }
-        public string searchfilter_id { get; set; }
+        public string filter_id { get; set; }
         public string filter_name { get; set; }
-        public JObject filter { get; set; }
+        public JObject filter_entity { get; set; }
     }
 
     public class Stations
@@ -416,15 +416,15 @@ namespace Waveface.API.V2
 
     #region MR_searchfilters
 
-    public class MR_searchfilters_item : General_R
+    public class MR_fetchfilters_item : General_R
     {
-        public SearchFilter searchfilter { get; set; }
+        public Fetch_Filter fetch_filter { get; set; }
     }
 
-    public class MR_searchfilters_list : General_R
+    public class MR_fetchfilters_list : General_R
     {
-        public List<SearchFilter> search_filters { get; set; }
-        public int search_filter_count { get; set; }
+        public List<Fetch_Filter> fetch_filters { get; set; }
+        public int fetch_filter_count { get; set; }
     }
 
     #endregion
@@ -436,14 +436,6 @@ namespace Waveface.API.V2
         public string object_type { get; set; }
         public string object_id { get; set; }
         public string object_status { get; set; }
-    }
-
-    public class MR_hide_list : General_R
-    {
-        public int post_count { get; set; }
-        public List<Post> posts { get; set; }
-        public int attachment_count { get; set; }
-        public List<Attachment> attachments { get; set; }
     }
 
     #endregion

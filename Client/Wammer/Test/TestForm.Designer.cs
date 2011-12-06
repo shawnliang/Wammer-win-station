@@ -240,7 +240,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(43, 13);
             this.label6.TabIndex = 21;
-            this.label6.Text = "filter";
+            this.label6.Text = "filter_entity";
             // 
             // textBoxFilter
             // 

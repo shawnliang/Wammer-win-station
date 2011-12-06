@@ -143,7 +143,7 @@
             this.multiPanel.Controls.Add(this.Page_InstallDropbox_2);
             this.multiPanel.Controls.Add(this.Page_DefaultPosts);
             this.multiPanel.Name = "multiPanel";
-            this.multiPanel.SelectedPage = this.Page_Welcome;
+            this.multiPanel.SelectedPage = this.Page_ConnectionFailed;
             // 
             // Page_Welcome
             // 
@@ -154,6 +154,7 @@
             this.Page_Welcome.Controls.Add(this.btn_Welcome_UseDropbox);
             this.Page_Welcome.Controls.Add(this.btn_Welcome_Skip);
             this.Page_Welcome.Name = "Page_Welcome";
+            this.Page_Welcome.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // pb_Welcome
             // 
@@ -195,6 +196,7 @@
             this.Page_SetupCompleted.Controls.Add(this.lb_SetupCompleted_1);
             this.Page_SetupCompleted.Controls.Add(this.btn_SetupCompleted_OpenWaveface);
             this.Page_SetupCompleted.Name = "Page_SetupCompleted";
+            this.Page_SetupCompleted.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // btn_SetupCompleted_InstallAgain
             // 
@@ -235,6 +237,7 @@
             this.Page_Linkage_1.Controls.Add(this.lb_Linkage_1_1);
             this.Page_Linkage_1.Controls.Add(this.btn_Linkage_1_Connect);
             this.Page_Linkage_1.Name = "Page_Linkage_1";
+            this.Page_Linkage_1.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // pb_Linkage_1
             // 
@@ -268,6 +271,7 @@
             this.Page_InstallDropbox_1.Controls.Add(this.lb_InstallDropbox_1_1);
             this.Page_InstallDropbox_1.Controls.Add(this.btn_InstallDropbox_1_Install);
             this.Page_InstallDropbox_1.Name = "Page_InstallDropbox_1";
+            this.Page_InstallDropbox_1.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // pb_InstallDropbox_1
             // 
@@ -302,6 +306,7 @@
             this.Page_Linkage_2.Controls.Add(this.lb_Linkage_2_1);
             this.Page_Linkage_2.Controls.Add(this.btn_Linkage_2_Verify);
             this.Page_Linkage_2.Name = "Page_Linkage_2";
+            this.Page_Linkage_2.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // pb_Linkage_2
             // 
@@ -343,6 +348,7 @@
             this.Page_InstallationFailed.Controls.Add(this.btn_InstallationFailedSkip_Retry);
             this.Page_InstallationFailed.Controls.Add(this.btn_InstallationFailedSkip_Skip);
             this.Page_InstallationFailed.Name = "Page_InstallationFailed";
+            this.Page_InstallationFailed.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // pb_InstallationFailed
             // 
@@ -383,6 +389,7 @@
             this.Page_ConnectionSuccessfully.Controls.Add(this.lb_ConnectionSuccessfully_1);
             this.Page_ConnectionSuccessfully.Controls.Add(this.btn_ConnectionSuccessfully_OpenWaveface);
             this.Page_ConnectionSuccessfully.Name = "Page_ConnectionSuccessfully";
+            this.Page_ConnectionSuccessfully.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // pb_ConnectionSuccessfully
             // 
@@ -415,6 +422,7 @@
             this.Page_Verifying.Controls.Add(this.pb_Verifying);
             this.Page_Verifying.Controls.Add(this.lb_Verifying_1);
             this.Page_Verifying.Name = "Page_Verifying";
+            this.Page_Verifying.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // pBar_Verifying
             // 
@@ -444,6 +452,7 @@
             this.Page_ConnectionFailed.Controls.Add(this.btn_ConnectionFailed_Retry);
             this.Page_ConnectionFailed.Controls.Add(this.btn_ConnectionFailed_Skip);
             this.Page_ConnectionFailed.Name = "Page_ConnectionFailed";
+            this.Page_ConnectionFailed.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // pb_ConnectionFailed
             // 
@@ -485,6 +494,7 @@
             this.Page_InstallDropbox_2.Controls.Add(this.lb_InstallDropbox_2_2);
             this.Page_InstallDropbox_2.Controls.Add(this.lb_InstallDropbox_2_1);
             this.Page_InstallDropbox_2.Name = "Page_InstallDropbox_2";
+            this.Page_InstallDropbox_2.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // pb_InstallDropbox_2
             // 
@@ -524,6 +534,7 @@
             this.Page_DefaultPosts.Controls.Add(this.pb_DefaultPosts);
             this.Page_DefaultPosts.Controls.Add(this.lb_DefaultPosts);
             this.Page_DefaultPosts.Name = "Page_DefaultPosts";
+            this.Page_DefaultPosts.DoubleClick += new System.EventHandler(this.ChengeCulture_DoubleClick);
             // 
             // pBar_DefaultPosts
             // 

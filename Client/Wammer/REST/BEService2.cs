@@ -690,23 +690,23 @@ namespace Waveface.API.V2
             return _ret;
         }
 
-        public MR_posts_get posts_search(string session_token, string group_id, string search_filter)
+        public MR_posts_get posts_fetchByFilter(string session_token, string group_id, string filter_entity)
         {
             MR_posts_get _ret;
 
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
-            search_filter = HttpUtility.UrlEncode(search_filter);
+            filter_entity = HttpUtility.UrlEncode(filter_entity);
 
             try
             {
-                string _url = BaseURL + "/posts/search";
+                string _url = BaseURL + "/posts/fetchByFilter";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
                         "session_token" + "=" + session_token + "&" +
                         "group_id" + "=" + group_id + "&" +
-                        "search_filter" + "=" + search_filter;
+                        "filter_entity" + "=" + filter_entity;
 
                 string _r = m_rest.GetForObject<string>(_url);
                 _r = StringUtility.UTF8ToISO_8859_1(_r);
@@ -824,7 +824,7 @@ namespace Waveface.API.V2
                 _dic.Add("file", _data);
 
                 string _userAgent = "Windows";
-                HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic, HttpUtility.UrlEncode(new FileInfo(fileName).Name), _mimeType);
+                HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic, new FileInfo(fileName).Name, _mimeType); //HttpUtility.UrlEncode(new FileInfo(fileName).Name)
 
                 // Process response
                 StreamReader _responseReader = new StreamReader(_webResponse.GetResponseStream());
@@ -902,32 +902,32 @@ namespace Waveface.API.V2
 
         #endregion
 
-        #region searchfilters
+        #region fetchfilters
 
-        public MR_searchfilters_item searchfilters_new(string session_token, string filter_name, string filter, string tag)
+        public MR_fetchfilters_item fetchfilters_new(string session_token, string filter_name, string filter_entity, string tag)
         {
-            MR_searchfilters_item _ret;
+            MR_fetchfilters_item _ret;
 
             session_token = HttpUtility.UrlEncode(session_token);
             filter_name = HttpUtility.UrlEncode(filter_name);
-            filter = HttpUtility.UrlEncode(filter);
+            filter_entity = HttpUtility.UrlEncode(filter_entity);
             tag = HttpUtility.UrlEncode(tag);
 
             try
             {
-                string _url = BaseURL + "/searchfilters/new";
+                string _url = BaseURL + "/fetchfilters/new";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
                         "session_token" + "=" + session_token + "&" +
                         "filter_name" + "=" + filter_name + "&" +
-                        "filter" + "=" + filter + "&" +
+                        "filter_entity" + "=" + filter_entity + "&" +
                         "tag" + "=" + tag;
 
                 string _r = m_rest.GetForObject<string>(_url);
                 _r = StringUtility.UTF8ToISO_8859_1(_r);
 
-                _ret = JsonConvert.DeserializeObject<MR_searchfilters_item>(_r);
+                _ret = JsonConvert.DeserializeObject<MR_fetchfilters_item>(_r);
             }
             catch (Exception _e)
             {
@@ -938,32 +938,32 @@ namespace Waveface.API.V2
             return _ret;
         }
 
-        public MR_searchfilters_item searchfilters_update(string session_token, string searchfilter_id, string filter_name, string filter, string tag)
+        public MR_fetchfilters_item fetchfilters_update(string session_token, string filter_id, string filter_name, string filter_entity, string tag)
         {
-            MR_searchfilters_item _ret;
+            MR_fetchfilters_item _ret;
 
             session_token = HttpUtility.UrlEncode(session_token);
-            searchfilter_id = HttpUtility.UrlEncode(searchfilter_id);
+            filter_id = HttpUtility.UrlEncode(filter_id);
             filter_name = HttpUtility.UrlEncode(filter_name);
-            filter = HttpUtility.UrlEncode(filter);
+            filter_entity = HttpUtility.UrlEncode(filter_entity);
             tag = HttpUtility.UrlEncode(tag);
 
             try
             {
-                string _url = BaseURL + "/searchfilters/update";
+                string _url = BaseURL + "/fetchfilters/update";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
-                        "searchfilter_id" + "=" + searchfilter_id + "&" +
+                        "filter_id" + "=" + filter_id + "&" +
                         "session_token" + "=" + session_token + "&" +
                         "filter_name" + "=" + filter_name + "&" +
-                        "filter" + "=" + filter + "&" +
+                        "filter_entity" + "=" + filter_entity + "&" +
                         "tag" + "=" + tag;
 
                 string _r = m_rest.GetForObject<string>(_url);
                 _r = StringUtility.UTF8ToISO_8859_1(_r);
 
-                _ret = JsonConvert.DeserializeObject<MR_searchfilters_item>(_r);
+                _ret = JsonConvert.DeserializeObject<MR_fetchfilters_item>(_r);
             }
             catch (Exception _e)
             {
@@ -974,15 +974,15 @@ namespace Waveface.API.V2
             return _ret;
         }
 
-        public MR_searchfilters_list searchfilters_list(string session_token)
+        public MR_fetchfilters_list fetchfilters_list(string session_token)
         {
-            MR_searchfilters_list _ret;
+            MR_fetchfilters_list _ret;
 
             session_token = HttpUtility.UrlEncode(session_token);
 
             try
             {
-                string _url = BaseURL + "/searchfilters/list";
+                string _url = BaseURL + "/fetchfilters/list";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
@@ -991,7 +991,7 @@ namespace Waveface.API.V2
                 string _r = m_rest.GetForObject<string>(_url);
                 _r = StringUtility.UTF8ToISO_8859_1(_r);
 
-                _ret = JsonConvert.DeserializeObject<MR_searchfilters_list>(_r);
+                _ret = JsonConvert.DeserializeObject<MR_fetchfilters_list>(_r);
             }
             catch (Exception _e)
             {
@@ -1006,6 +1006,7 @@ namespace Waveface.API.V2
 
         #region hide
 
+        /*
         public MR_hide_ret hide_set(string session_token, string group_id, string object_type, string object_id)
         {
             MR_hide_ret _ret;
@@ -1073,38 +1074,7 @@ namespace Waveface.API.V2
 
             return _ret;
         }
-
-        public MR_hide_list hide_list(string session_token, string group_id, string object_type)
-        {
-            MR_hide_list _ret;
-
-            session_token = HttpUtility.UrlEncode(session_token);
-            group_id = HttpUtility.UrlEncode(group_id);
-            object_type = HttpUtility.UrlEncode(object_type);
-
-            try
-            {
-                string _url = BaseURL + "/hide/list";
-
-                _url += "?" +
-                        "apikey" + "=" + APIKEY + "&" +
-                        "session_token" + "=" + session_token + "&" +
-                        "group_id" + "=" + group_id + "&" +
-                        "object_type" + "=" + object_type;
-
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_hide_list>(_r);
-            }
-            catch (Exception _e)
-            {
-                //MessageBox.Show(_e.Message);
-                return null;
-            }
-
-            return _ret;
-        }
+        */
 
         #endregion
     }

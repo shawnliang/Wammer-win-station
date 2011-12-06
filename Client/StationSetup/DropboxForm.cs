@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Web;
@@ -11,6 +12,7 @@ using System.Windows.Forms;
 using StationSetup;
 using Wammer.Station.Management;
 using Waveface.Component.MultiPage;
+using Waveface.Localization;
 
 #endregion
 
@@ -133,7 +135,8 @@ namespace Wammer.Station
 
         private void btn_ConnectionFailed_Retry_Click(object sender, EventArgs e)
         {
-            gotoPage(Page_Linkage_1); // 3-1
+            OpenLinkageWebPage();
+            gotoPage(Page_Linkage_2); // 3-1
         }
 
         private void btn_InstallationFailed_Skip_Click(object sender, EventArgs e)
@@ -289,5 +292,20 @@ namespace Wammer.Station
         }
 
         #endregion
+
+        private void ChengeCulture_DoubleClick(object sender, EventArgs e)
+        {
+            if (CultureManager.ApplicationUICulture.Name == "en-US")
+            {
+                CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+                return;
+            }
+
+            if (CultureManager.ApplicationUICulture.Name == "zh-TW")
+            {
+                CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+                return;
+            }
+        }
     }
 }

@@ -7,14 +7,14 @@ namespace Waveface.FilterUI
 {
     public class FilterHelper
     {
-        public static List<SearchFilter> GetList()
+        public static List<Fetch_Filter> GetList()
         {
-            MR_searchfilters_list _list = MainForm.THIS.SearchFilters_List();
+            MR_fetchfilters_list _list = MainForm.THIS.SearchFilters_List();
 
             if (_list == null)
                 return null;
             else
-                return _list.search_filters;
+                return _list.fetch_filters;
         }
 
         public static FilterItem CreateAllPostFilterItem()
@@ -28,7 +28,7 @@ namespace Waveface.FilterUI
 
         public static string GetAllPostFilter()
         {
-            return GetTimeStampFilterJson(DateTime.Now.AddYears(1), -20, "[type]", "[offset]"); //@
+            return GetTimeStampFilterJson(DateTime.Now.AddYears(1), -50, "[type]", "[offset]"); //@
         }
 
         #region TimeRangeFilter
