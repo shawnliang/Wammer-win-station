@@ -214,18 +214,6 @@ namespace StationSetup
 
         #region API
 
-        public string attachments_getRedirectURL(string orgURL, string object_id, bool isImage)
-        {
-            return ServerImageAddressUtility.attachments_getRedirectURL(orgURL, SessionToken, object_id, isImage);
-        }
-
-        public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url,
-                                                       out string fileName)
-        {
-            return ServerImageAddressUtility.attachments_getRedirectURL_Image(SessionToken, a, imageType, out url,
-                                                                              out fileName);
-        }
-
         public MR_posts_new Post_CreateNewPost(string text, string files, string previews, string type)
         {
             MR_posts_new _postsNew = m_serviceV2.posts_new(SessionToken, RT.CurrentGroupID, text, files, previews, type);

@@ -86,7 +86,7 @@ namespace Wammer.Station
 			}
 			catch (FileNotFoundException e)
 			{
-				if (imageMeta == ImageMeta.Origin)
+                if (imageMeta == ImageMeta.Origin && Parameters["target"] != null)
 					HttpHelper.RespondFailure(Response,
 						new CloudResponse((int)HttpStatusCode.NotFound, -1, "No such resource"));
 				else
