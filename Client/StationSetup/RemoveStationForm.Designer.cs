@@ -112,6 +112,7 @@
             this.Name = "RemoveStationForm";
             this.ShowInTaskbar = false;
             this.TopMost = true;
+            this.DoubleClick += new System.EventHandler(this.RemoveStationForm_DoubleClick);
             this.ResumeLayout(false);
             this.PerformLayout();
 

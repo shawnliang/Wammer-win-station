@@ -1,16 +1,14 @@
 ﻿
 using System;
-using System.Drawing;
 using System.Net;
 using System.Web;
-using System.Windows.Forms;
 using Waveface.API.V2;
 
 namespace Waveface
 {
     public class ServerImageAddressUtility
     {
-        public static string attachments_getRedirectURL(string orgURL, string session_token, string object_id)
+        public static string attachments_getRedirectURL(string orgURL, string session_token, string object_id, bool isImage)
         {
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
@@ -20,12 +18,24 @@ namespace Waveface
 
             if (orgURL == string.Empty)
             {
-                _url += "/v2/attachments/view?object_id=" + object_id + _a_s + "&image_meta=medium";
+                _url += "/v2/attachments/view?object_id=" + object_id + _a_s + (isImage ? "&image_meta=medium" : "");
             }
             else
             {
                 _url += _a_s;
             }
+
+            return _url;
+        }
+
+
+        public static string attachments_getRedirectURL_PdfCoverPage(string orgURL, string session_token)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+
+            string _url = BEService2.HostIP + orgURL;
+            string _a_s = "&" + "apikey" + "=" + BEService2.APIKEY + "&" + "session_token" + "=" + session_token;
+            _url += _a_s;
 
             return _url;
         }
@@ -46,7 +56,7 @@ namespace Waveface
                             "apikey" + "=" + BEService2.APIKEY + "&" +
                             "session_token" + "=" + session_token;
 
-            if(imageType == SMALL)
+            if (imageType == SMALL)
             {
                 if (a.image_meta.small != null)
                 {
@@ -65,7 +75,7 @@ namespace Waveface
                     _imageType = ORIGIN;
 
                     url = _url;
-                    fileName = a.object_id + "_"  + a.image_meta.medium.file_name;
+                    fileName = a.object_id + "_" + a.image_meta.medium.file_name;
 
                     return _imageType;
                 }

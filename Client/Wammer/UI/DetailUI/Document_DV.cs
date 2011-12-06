@@ -381,7 +381,7 @@ namespace Waveface.DetailUI
             WebClient _webClient = new WebClient();
             _webClient.DownloadFileCompleted += Completed;
             _webClient.DownloadProgressChanged += ProgressChanged;
-            _webClient.DownloadFileAsync(new Uri(MainForm.THIS.attachments_getRedirectURL(attachment.url, attachment.object_id)), _file);
+            _webClient.DownloadFileAsync(new Uri(MainForm.THIS.attachments_getRedirectURL(attachment.url, attachment.object_id, false)), _file);
         }
 
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)

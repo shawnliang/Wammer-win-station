@@ -344,7 +344,7 @@ namespace Waveface
                     break;
 
                 case "doc":
-                    _info = HttpUtility.UrlDecode(post.attachments[0].file_name);
+                    _info = post.attachments[0].file_name; //HttpUtility.UrlDecode(post.attachments[0].file_name)
                     break;
 
                 case "link":
@@ -404,9 +404,25 @@ namespace Waveface
         {
             try
             {
-                ////
-                g.FillRectangle(new SolidBrush(Color.DarkRed), thumbnailRect);
-                g.DrawRectangle(new Pen(Color.Black), thumbnailRect);
+                Attachment _a = post.attachments[0];
+
+                if (_a.image == string.Empty)
+                {
+                    g.FillRectangle(new SolidBrush(SystemColors.Info), thumbnailRect);
+                    g.DrawRectangle(new Pen(Color.Black), thumbnailRect);
+                }
+                else
+                {
+                    string _localPic = MainForm.GCONST.CachePath + _a.object_id + "_thumbnail" + ".jpg";
+
+                    string _url = _a.image;
+
+                    _url = MainForm.THIS.attachments_getRedirectURL_PdfCoverPage(_url);
+
+                    Bitmap _img = LoadThumbnail(_url, _localPic);
+
+                    DrawResizedThumbnail(thumbnailRect, g, _img);
+                }
             }
             catch
             {
