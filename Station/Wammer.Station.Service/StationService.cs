@@ -50,6 +50,9 @@ namespace Wammer.Station.Service
 
 		protected override void OnStart(string[] args)
 		{
+			AppDomain.CurrentDomain.UnhandledException +=
+				new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
 			Environment.CurrentDirectory = Path.GetDirectoryName(
 									Assembly.GetExecutingAssembly().Location);
 
@@ -97,6 +100,19 @@ namespace Wammer.Station.Service
 
 
 			statMgmtSvc.DriverAdded += PublicPortMapping.Instance.DriverAdded;
+		}
+
+		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			if (e.IsTerminating)
+			{
+				logger.Fatal("Unhandled exception. Program terminates");
+				logger.Fatal(e.ToString());
+			}
+			else
+			{
+				logger.Fatal("Unhandled exception" + e.ToString());
+			}
 		}
 
 		
