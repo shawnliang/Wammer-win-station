@@ -56,10 +56,10 @@ namespace Wammer.Station
 
 		private void BackupAttachment(string fileName, long fileSize, string origFolder, CloudStorage storage, string driverId, string objectId)
 		{
-			if (!Directory.Exists(storage.Folder))
+			if (!Directory.Exists(Path.Combine(storage.Folder, resourceFolder)))
 			{
-				logger.DebugFormat("Folder does not exist, create folder {0}", storage.Folder);
-				Directory.CreateDirectory(storage.Folder);
+				logger.DebugFormat("Folder does not exist, create folder {0}", Path.Combine(storage.Folder, resourceFolder));
+				Directory.CreateDirectory(Path.Combine(storage.Folder, resourceFolder));
 			}
 
 			string origFilePath = Path.Combine(origFolder, fileName);
@@ -88,7 +88,7 @@ namespace Wammer.Station
 				while (storage.Quota - storage.Used >= fileSize)
 				{
 					// delete the least accessed file until storage has enough space
-					DirectoryInfo di = new DirectoryInfo(storage.Folder);
+					DirectoryInfo di = new DirectoryInfo(Path.Combine(storage.Folder, resourceFolder));
 					FileInfo fi = di.GetFiles().OrderBy(f => f.LastAccessTime).First();
 					try
 					{
