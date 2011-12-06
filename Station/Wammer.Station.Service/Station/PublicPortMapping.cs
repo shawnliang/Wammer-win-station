@@ -60,7 +60,7 @@ namespace Wammer.Station
 			{
 				UPnPState newState = this.state.CheckAndTransit();
 
-				if (this.state == null)
+				if (newState == null)
 				{
 					logger.Debug("UPnP state checker reaches end state.");
 					this.checkTimer.Change(Timeout.Infinite, Timeout.Infinite);
