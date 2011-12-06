@@ -21,6 +21,9 @@ namespace Wammer.Station
 		private object lockObj = new object();
 		private static PublicPortMapping instance = null;
 
+		private Timer checkTimer;
+		private UPnPState state;
+
 		static PublicPortMapping()
 		{
 			instance = new PublicPortMapping();
@@ -46,10 +49,32 @@ namespace Wammer.Station
 			TCMPortMapper.PortMapper.SharedInstance.Start();
 
 
-			Timer delayPortMapping = new Timer(this.addPortMapping, null, 10 * 1000, -1);
+			this.state = new NoUPnPDeviceFoundState();
+			this.checkTimer = new Timer(this.CheckState, null, 30 * 1000, 60 * 1000);
 		}
 
-		private void addPortMapping(object state)
+		private void CheckState(object notUsed)
+		{
+			lock (lockObj)
+			{
+				UPnPState newState = this.state.CheckAndTransit();
+
+				if (this.state == null)
+				{
+					logger.Debug("UPnP state checker reaches end state.");
+					this.checkTimer.Change(Timeout.Infinite, Timeout.Infinite);
+					return;
+				}
+
+				if (this.state != newState)
+				{
+					newState.CheckAndTransit();
+					this.state = newState;
+				}
+			}
+		}
+
+		private void AddMapping()
 		{
 			myMapping = new PortMapping(9981, 21981, PortMappingTransportProtocol.TCP);
 			TCMPortMapper.PortMapper.SharedInstance.AddPortMapping(myMapping);
@@ -175,5 +200,43 @@ namespace Wammer.Station
 				logger.Warn("Unable to notify external ip/port to cloud", e);
 			}
 		}
+
+
+		
+		////////////////////////////////////////////////////////////////////////////
+		// Innter classes
+		////////////////////////////////////////////////////////////////////////////
+		interface UPnPState
+		{
+			UPnPState CheckAndTransit();
+		}
+
+		class NoUPnPDeviceFoundState : UPnPState
+		{
+			public UPnPState CheckAndTransit()
+			{
+				if (PublicPortMapping.Instance.externalIP != null)
+					return new NoExternalPortState();
+
+
+				logger.Debug("Refresh to find UPnP Gateway");
+				PortMapper.SharedInstance.Refresh();
+				return this;
+			}
+		}
+
+		class NoExternalPortState: UPnPState
+		{
+			public UPnPState CheckAndTransit()
+			{
+				if (PublicPortMapping.Instance.externalPort != 0)
+					return null;
+
+				logger.Debug("Add port mapping");
+				PublicPortMapping.Instance.AddMapping();
+				return this;
+			}
+		}
 	}
+	
 }
