@@ -111,6 +111,7 @@
             this.MinimizeBox = false;
             this.Name = "RemoveStationForm";
             this.ShowInTaskbar = false;
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 
