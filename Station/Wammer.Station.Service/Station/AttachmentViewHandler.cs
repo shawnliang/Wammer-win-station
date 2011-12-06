@@ -86,11 +86,17 @@ namespace Wammer.Station
 			}
 			catch (FileNotFoundException e)
 			{
-                if (imageMeta == ImageMeta.Origin && Parameters["target"] != null)
+				if (imageMeta == ImageMeta.Large ||
+					imageMeta == ImageMeta.Medium ||
+					imageMeta == ImageMeta.Small ||
+					imageMeta == ImageMeta.Square ||
+					Parameters["target"] != null)
+				{
+					TunnelToCloud();
+				}
+				else
 					HttpHelper.RespondFailure(Response,
 						new CloudResponse((int)HttpStatusCode.NotFound, -1, "No such resource"));
-				else
-					TunnelToCloud();
 			}
 		}
 	}
