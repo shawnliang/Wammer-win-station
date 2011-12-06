@@ -22,7 +22,6 @@ namespace Waveface
         public string CurrentGroupID { get; set; }
         public int FilterPostsAllCount { get; set; }
         public bool IsFirstTimeGetData { get; set; }
-        public MR_hide_list HideList { get; set; }
         public bool IsStationOK { get; set; }
 
         public List<Post> CurrentGroupPosts
@@ -99,7 +98,6 @@ namespace Waveface
             IsTimelineFilter = true;
             FilterPostsAllCount = -1;
             IsFirstTimeGetData = true;
-            HideList = null;
             IsStationOK = false;
         }
     }

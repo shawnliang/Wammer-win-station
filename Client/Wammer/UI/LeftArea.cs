@@ -83,15 +83,15 @@ namespace Waveface
             expandoQuicklist.Items.Clear();
 
             // --
-            List<SearchFilter> _filters = FilterHelper.GetList();
+            List<Fetch_Filter> _filters = FilterHelper.GetList();
 
             if (_filters != null)
             {
-                foreach (SearchFilter _f in _filters)
+                foreach (Fetch_Filter _f in _filters)
                 {
                     FilterItem _item = new FilterItem();
                     _item.Name = _f.filter_name;
-                    _item.Filter = _f.filter.ToString();
+                    _item.Filter = _f.filter_entity.ToString();
                     _item.IsAllPost = false;
 
                     TaskItem _taskItem = CreateTaskItem(_item, true);

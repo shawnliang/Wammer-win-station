@@ -1,10 +1,12 @@
 ﻿
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using StationSetup;
 using Wammer.Station.Management;
+using Waveface.Localization;
 
 namespace Wammer.Station
 {
@@ -147,5 +149,20 @@ namespace Wammer.Station
 		{
 			get { return userPassword; }
 		}
+
+        private void SignInForm_DoubleClick(object sender, EventArgs e)
+        {
+            if (CultureManager.ApplicationUICulture.Name == "en-US")
+            {
+                CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+                return;
+            }
+
+            if (CultureManager.ApplicationUICulture.Name == "zh-TW")
+            {
+                CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+                return;
+            }
+        }
 	}
 }

@@ -80,9 +80,9 @@ namespace Waveface
             }
         }
 
-        private void posts_get(string session_token, string group_id, string limit, string datum, string filter)
+        private void posts_get(string session_token, string group_id, string limit, string datum, string filter_entity)
         {
-            m_mrPostsGet = m_service2.posts_get(session_token, group_id, limit, datum, filter);
+            m_mrPostsGet = m_service2.posts_get(session_token, group_id, limit, datum, filter_entity);
 
             if (m_mrPostsGet == null)
             {

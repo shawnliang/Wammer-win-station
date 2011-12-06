@@ -5,17 +5,23 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using Waveface.API.V2;
 using Waveface.Component;
+using Timer = System.Windows.Forms.Timer;
+
 #endregion
 
 namespace Waveface
 {
     public class PostsList : UserControl
     {
+        private const int PicHeight = 102; //115
+        private const int PicWidth = 102; //115
+
         private IContainer components;
         private DataGridView dataGridView;
         private int m_clickIndex;
@@ -25,6 +31,8 @@ namespace Waveface
         private DataGridViewTextBoxColumn creatoridDataGridViewTextBoxColumn;
         private Timer timer;
         private List<Post> m_posts;
+
+        private Dictionary<string, string> m_undownloadThumbnails = new Dictionary<string, string>();
 
         #region Properties
 
@@ -92,6 +100,52 @@ namespace Waveface
             InitializeComponent();
 
             MouseWheelRedirector.Attach(dataGridView);
+
+            ThreadPool.QueueUserWorkItem(state => { ThreadMethod(); });
+        }
+
+        private void ThreadMethod()
+        {
+            Image _img;
+            Dictionary<string, string> _undownloadFiles = new Dictionary<string, string>();
+
+            while (true)
+            {
+                if (m_undownloadThumbnails.Count != 0)
+                {
+                    _undownloadFiles.Clear();
+
+                    lock (m_undownloadThumbnails)
+                    {
+                        foreach (KeyValuePair<string, string> _pair in m_undownloadThumbnails)
+                        {
+                            _undownloadFiles.Add(_pair.Key, _pair.Value);
+                        }
+
+                        m_undownloadThumbnails.Clear();
+                    }
+
+                    foreach (KeyValuePair<string, string> _pair in _undownloadFiles)
+                    {
+                        try
+                        {
+                            WebRequest _wReq = WebRequest.Create(_pair.Key);
+                            WebResponse _wRep = _wReq.GetResponse();
+                            _img = Image.FromStream(_wRep.GetResponseStream());
+                            _img.Save(_pair.Value);
+                            _img = null;
+                        }
+                        catch
+                        { }
+                    }
+
+                    _undownloadFiles.Clear();
+
+                    RefreshUI();
+                }
+
+                Thread.Sleep(1000);
+            }
         }
 
         private void SetFont()
@@ -108,11 +162,26 @@ namespace Waveface
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            dataGridView.SuspendLayout();
+            RefreshUI();
+        }
 
-            dataGridView.Refresh();
-
-            dataGridView.ResumeLayout();
+        public void RefreshUI()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate
+                           {
+                               RefreshUI();
+                           }
+                           ));
+            }
+            else
+            {
+                dataGridView.SuspendLayout();
+                dataGridView.Refresh();
+                dataGridView.ResumeLayout();
+            }
         }
 
         public void ScrollToDay(DateTime date)
@@ -162,9 +231,6 @@ namespace Waveface
         {
             try
             {
-                const int picHeight = 102; //115
-                const int picWidth = 102; //115
-
                 bool _isDrawThumbnail = false;
 
                 Graphics _g = e.Graphics;
@@ -194,7 +260,7 @@ namespace Waveface
 
                 Rectangle _timeRect = DrawPostTime(_g, m_fontPostTime, _cellRect, _post);
 
-                Rectangle _thumbnailRect = new Rectangle(_X + 4, _Y + 8, picWidth, picHeight);
+                Rectangle _thumbnailRect = new Rectangle(_X + 4, _Y + 8, PicWidth, PicHeight);
 
                 _isDrawThumbnail = DrawThumbnail(_g, _thumbnailRect, _post);
 
@@ -274,11 +340,11 @@ namespace Waveface
             switch (post.type)
             {
                 case "image":
-                    _info = post.attachments_count + ((post.attachments_count > 1) ? " photos" : " photo");
+                    _info = post.attachment_count + ((post.attachment_count > 1) ? " photos" : " photo");
                     break;
 
                 case "doc":
-                    _info = HttpUtility.UrlDecode(post.attachments[0].file_name);
+                    _info = post.attachments[0].file_name; //HttpUtility.UrlDecode(post.attachments[0].file_name)
                     break;
 
                 case "link":
@@ -338,8 +404,25 @@ namespace Waveface
         {
             try
             {
-                g.FillRectangle(new SolidBrush(Color.DarkRed), thumbnailRect);
-                g.DrawRectangle(new Pen(Color.Black), thumbnailRect);
+                Attachment _a = post.attachments[0];
+
+                if (_a.image == string.Empty)
+                {
+                    g.FillRectangle(new SolidBrush(SystemColors.Info), thumbnailRect);
+                    g.DrawRectangle(new Pen(Color.Black), thumbnailRect);
+                }
+                else
+                {
+                    string _localPic = MainForm.GCONST.CachePath + _a.object_id + "_thumbnail" + ".jpg";
+
+                    string _url = _a.image;
+
+                    _url = MainForm.THIS.attachments_getRedirectURL_PdfCoverPage(_url);
+
+                    Bitmap _img = LoadThumbnail(_url, _localPic);
+
+                    DrawResizedThumbnail(thumbnailRect, g, _img);
+                }
             }
             catch
             {
@@ -420,13 +503,16 @@ namespace Waveface
             }
             else
             {
-                WebRequest _wReq = WebRequest.Create(url);
-                WebResponse _wRep = _wReq.GetResponse();
-                _img = (Bitmap)Image.FromStream(_wRep.GetResponseStream());
-                _img.Save(localPicPath);
-                _img = null;
+                lock (m_undownloadThumbnails)
+                {
+                    m_undownloadThumbnails.Add(url, localPicPath);
+                }
 
-                _img = new Bitmap(localPicPath);
+                _img = new Bitmap(PicWidth, PicHeight);
+                Graphics _g = Graphics.FromImage(_img);
+                Rectangle _r = new Rectangle(0, 0, PicWidth, PicHeight);
+                _g.FillRectangle(new SolidBrush(SystemColors.Info), _r);
+                _g.DrawRectangle(new Pen(Color.Black), _r);
 
                 Application.DoEvents();
             }
@@ -434,11 +520,11 @@ namespace Waveface
             return _img;
         }
 
-        private void DrawResizedThumbnail_2(Rectangle thumbnailRect, Graphics g, Attachment _a)
+        private void DrawResizedThumbnail_2(Rectangle thumbnailRect, Graphics g, Attachment a)
         {
             string _url = string.Empty;
             string _fileName = string.Empty;
-            MainForm.THIS.attachments_getRedirectURL_Image(_a, "small", out _url, out _fileName);
+            MainForm.THIS.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName);
 
             string _localPic = MainForm.GCONST.CachePath + _fileName;
 

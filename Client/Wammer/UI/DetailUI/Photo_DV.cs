@@ -308,7 +308,7 @@ namespace Waveface.DetailUI
 
         private void ReLayout()
         {
-            if (Post.attachments_count > 0)
+            if (Post.attachment_count > 0)
             {
                 PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
             }
@@ -364,7 +364,7 @@ namespace Waveface.DetailUI
 
             imageFileIndex = 0;
 
-            if (Post.attachments_count > 0)
+            if (Post.attachment_count > 0)
             {
                 panelPictureInfo.Visible = true;
                 //m_downloadFileName = m_imageAttachments[imageFileIndex].file_name;

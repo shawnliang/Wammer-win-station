@@ -214,9 +214,9 @@ namespace StationSetup
 
         #region API
 
-        public string attachments_getRedirectURL(string orgURL, string object_id)
+        public string attachments_getRedirectURL(string orgURL, string object_id, bool isImage)
         {
-            return ServerImageAddressUtility.attachments_getRedirectURL(orgURL, SessionToken, object_id);
+            return ServerImageAddressUtility.attachments_getRedirectURL(orgURL, SessionToken, object_id, isImage);
         }
 
         public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url,
