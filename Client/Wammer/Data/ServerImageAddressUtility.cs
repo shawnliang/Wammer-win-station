@@ -28,12 +28,11 @@ namespace Waveface
             return _url;
         }
 
-
         public static string attachments_getRedirectURL_PdfCoverPage(string orgURL, string session_token)
         {
             session_token = HttpUtility.UrlEncode(session_token);
 
-            string _url = BEService2.HostIP + orgURL;
+            string _url = BEService2.CloundIP + orgURL; //Hack:HostIP
             string _a_s = "&" + "apikey" + "=" + BEService2.APIKEY + "&" + "session_token" + "=" + session_token;
             _url += _a_s;
 
