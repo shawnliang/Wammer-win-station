@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Document));
             this.removeAllFilesButton = new System.Windows.Forms.ToolStripButton();
             this.removeFileButton = new System.Windows.Forms.ToolStripButton();
@@ -38,6 +37,7 @@
             this.panel = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelPreview = new System.Windows.Forms.Panel();
+            this.previewHandlerHost = new Waveface.Component.PreviewHandlerHost();
             this.splitter = new System.Windows.Forms.Splitter();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.listViewFiles = new System.Windows.Forms.ListView();
@@ -46,21 +46,15 @@
             this.labeFilelSize = new System.Windows.Forms.Label();
             this.labelFTime = new System.Windows.Forms.Label();
             this.labelFSize = new System.Windows.Forms.Label();
-            this.contextMenuStripEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.btnBatchPost = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
-            this.previewHandlerHost = new Waveface.Component.PreviewHandlerHost();
             this.toolStrip.SuspendLayout();
             this.panel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panelPreview.SuspendLayout();
             this.panelLeft.SuspendLayout();
             this.panelFileInfo.SuspendLayout();
-            this.contextMenuStripEdit.SuspendLayout();
             this.SuspendLayout();
             // 
             // removeAllFilesButton
@@ -142,6 +136,16 @@
             this.panelPreview.Name = "panelPreview";
             this.panelPreview.Size = new System.Drawing.Size(344, 186);
             this.panelPreview.TabIndex = 2;
+            // 
+            // previewHandlerHost
+            // 
+            this.previewHandlerHost.BackColor = System.Drawing.Color.White;
+            this.previewHandlerHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.previewHandlerHost.Location = new System.Drawing.Point(0, 0);
+            this.previewHandlerHost.Name = "previewHandlerHost";
+            this.previewHandlerHost.Size = new System.Drawing.Size(344, 186);
+            this.previewHandlerHost.TabIndex = 0;
+            this.previewHandlerHost.Text = "previewHandlerHost";
             // 
             // splitter
             // 
@@ -226,38 +230,6 @@
             this.labelFSize.TabIndex = 0;
             this.labelFSize.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // contextMenuStripEdit
-            // 
-            this.contextMenuStripEdit.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.contextMenuStripEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cutToolStripMenuItem,
-            this.copyToolStripMenuItem,
-            this.pasteToolStripMenuItem});
-            this.contextMenuStripEdit.Name = "contextMenuStrip1";
-            this.contextMenuStripEdit.Size = new System.Drawing.Size(105, 70);
-            this.contextMenuStripEdit.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripEdit_Opening);
-            // 
-            // cutToolStripMenuItem
-            // 
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
-            this.cutToolStripMenuItem.Text = "Cut";
-            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
-            // 
-            // copyToolStripMenuItem
-            // 
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
-            this.copyToolStripMenuItem.Text = "Copy";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
-            // 
-            // pasteToolStripMenuItem
-            // 
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
-            this.pasteToolStripMenuItem.Text = "Paste";
-            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
-            // 
             // openFileDialog
             // 
             this.openFileDialog.Filter = resources.GetString("openFileDialog.Filter");
@@ -296,16 +268,6 @@
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // previewHandlerHost
-            // 
-            this.previewHandlerHost.BackColor = System.Drawing.Color.White;
-            this.previewHandlerHost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.previewHandlerHost.Location = new System.Drawing.Point(0, 0);
-            this.previewHandlerHost.Name = "previewHandlerHost";
-            this.previewHandlerHost.Size = new System.Drawing.Size(344, 186);
-            this.previewHandlerHost.TabIndex = 0;
-            this.previewHandlerHost.Text = "previewHandlerHost";
-            // 
             // Document
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -325,7 +287,6 @@
             this.panelPreview.ResumeLayout(false);
             this.panelLeft.ResumeLayout(false);
             this.panelFileInfo.ResumeLayout(false);
-            this.contextMenuStripEdit.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -352,9 +313,5 @@
         private System.Windows.Forms.Label labeFilelSize;
         private System.Windows.Forms.Label labelFTime;
         private System.Windows.Forms.Label labelFSize;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripEdit;
-        private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
     }
 }

@@ -34,6 +34,7 @@ namespace Waveface
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_RichText = new Waveface.Component.MultiPage.MultiPanelPage();
             this.panelRichTextPanel = new System.Windows.Forms.Panel();
@@ -57,6 +58,10 @@ namespace Waveface
             this.panelText = new System.Windows.Forms.Panel();
             this.buttonRichText = new Waveface.Component.XPButton();
             this.richTextBox = new System.Windows.Forms.RichTextBox();
+            this.contextMenuStripEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.multiPanel.SuspendLayout();
             this.Page_RichText.SuspendLayout();
             this.panelRichTextPanel.SuspendLayout();
@@ -70,6 +75,7 @@ namespace Waveface
             this.Page__DOC.SuspendLayout();
             this.panelMiddleBar.SuspendLayout();
             this.panelText.SuspendLayout();
+            this.contextMenuStripEdit.SuspendLayout();
             this.SuspendLayout();
             // 
             // multiPanel
@@ -344,6 +350,38 @@ namespace Waveface
             this.richTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
             this.richTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
             // 
+            // contextMenuStripEdit
+            // 
+            this.contextMenuStripEdit.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contextMenuStripEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cutToolStripMenuItem,
+            this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem});
+            this.contextMenuStripEdit.Name = "contextMenuStrip1";
+            this.contextMenuStripEdit.Size = new System.Drawing.Size(105, 70);
+            this.contextMenuStripEdit.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripEdit_Opening);
+            // 
+            // cutToolStripMenuItem
+            // 
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.cutToolStripMenuItem.Text = "Cut";
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.pasteToolStripMenuItem.Text = "Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            // 
             // PostForm
             // 
             this.AllowDrop = true;
@@ -376,6 +414,7 @@ namespace Waveface
             this.Page__DOC.ResumeLayout(false);
             this.panelMiddleBar.ResumeLayout(false);
             this.panelText.ResumeLayout(false);
+            this.contextMenuStripEdit.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -405,6 +444,10 @@ namespace Waveface
         private Panel panelRichText_Main;
         private Panel panelRichText_Top;
         private XPButton btnPureText;
+        private ContextMenuStrip contextMenuStripEdit;
+        private ToolStripMenuItem cutToolStripMenuItem;
+        private ToolStripMenuItem copyToolStripMenuItem;
+        private ToolStripMenuItem pasteToolStripMenuItem;
     }
 }
 

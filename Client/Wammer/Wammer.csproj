@@ -135,7 +135,7 @@
     </Compile>
     <Compile Include="Compoment\MultiPanel\MultiPanelPageDesigner.cs" />
     <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
-    <Compile Include="Data\AttachmentUrlUtility.cs" />
+    <Compile Include="Libs\Utility\AttachmentUrlUtility.cs" />
     <Compile Include="FileUploadToStation.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
     <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
@@ -260,7 +260,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Data\PostType.cs" />
-    <Compile Include="I18n.cs" />
+    <Compile Include="Data\I18n.cs" />
     <Compile Include="Libs\Utility\OsUtility.cs" />
     <Compile Include="Test\Group And User\Password.cs">
       <SubType>Form</SubType>
@@ -327,7 +327,7 @@
     <Compile Include="Test\Group And User\Signup.Designer.cs">
       <DependentUpon>Signup.cs</DependentUpon>
     </Compile>
-    <Compile Include="RunTimeData.cs" />
+    <Compile Include="Data\RunTimeData.cs" />
     <Compile Include="Test\TestForm.cs">
       <SubType>Form</SubType>
     </Compile>

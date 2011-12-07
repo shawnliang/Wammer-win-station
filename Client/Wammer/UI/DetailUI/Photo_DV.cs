@@ -406,7 +406,7 @@ namespace Waveface.DetailUI
 
         private void pictureBoxRemote_LoadProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            labelPictureInfo.Text = "[" + imageFileIndex + "/" + m_imageAttachments.Count + "] " + e.ProgressPercentage + "%";
+            labelPictureInfo.Text = e.ProgressPercentage + "%" + " [" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
             Application.DoEvents();
         }
 
