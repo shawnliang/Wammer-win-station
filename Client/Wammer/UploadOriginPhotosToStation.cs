@@ -8,14 +8,14 @@ using Waveface.API.V2;
 
 namespace Waveface
 {
-    public class FileUploadToStation
+    public class UploadOriginPhotosToStation
     {
         private bool m_exit;
 
         public int SleepTime { get; set; }
         public bool Pause { get; set; }
 
-        public FileUploadToStation()
+        public UploadOriginPhotosToStation()
         {
             SleepTime = 3000;
 

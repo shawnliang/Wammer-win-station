@@ -35,7 +35,7 @@ namespace Waveface
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private Popup m_trayIconPopup;
         private TrayIconPanel m_trayIconPanel;
-        private FileUploadToStation m_fileUploadToStation;
+        private UploadOriginPhotosToStation m_uploadOriginPhotosToStation;
 
         private string m_stationIP;
 
@@ -110,7 +110,7 @@ namespace Waveface
             //-- Send To
             CreateFileWatcher();
 
-            m_fileUploadToStation = new FileUploadToStation();
+            m_uploadOriginPhotosToStation = new UploadOriginPhotosToStation();
         }
 
         private void InitmDropableNotifyIcon()

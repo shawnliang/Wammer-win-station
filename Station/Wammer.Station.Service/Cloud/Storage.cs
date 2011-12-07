@@ -21,43 +21,60 @@ namespace Wammer.Cloud
 			this.userToken = driver.session_token;
 		}
 
-		public StorageAuthResponse StorageAuthorize(WebClient agent, Dictionary<object, object> param)
+		public StorageAuthResponse StorageAuthorize(WebClient agent, string type)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>(param);
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.userToken);
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ "type", type },
+				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken },
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
+			};
 
 			StorageAuthResponse res = CloudServer.requestPath<StorageAuthResponse>(agent, "storages/authorize", parameters);
 			return res;
 		}
 
-		public StorageLinkResponse StorageLink(WebClient agent, Dictionary<object, object> param)
+		public StorageLinkResponse StorageLink(WebClient agent, string type)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>(param);
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.userToken);
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ "type", type },
+				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken },
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
+			};
 
 			StorageLinkResponse res = CloudServer.requestPath<StorageLinkResponse>(agent, "storages/link", parameters);
 			return res;
 		}
 
-		public StorageCheckResponse StorageCheck(WebClient agent, Dictionary<object, object> param)
+		public StorageCheckResponse StorageCheck(WebClient agent, string type)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>(param);
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.userToken);
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ "type", type },
+				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken },
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
+			};
 
 			StorageCheckResponse res = CloudServer.requestPath<StorageCheckResponse>(agent, "storages/check", parameters);
 			return res;
 		}
 
-		public void StorageUnlink(WebClient agent, Dictionary<object, object> param)
+		public void StorageUnlink(WebClient agent, string type)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>(param);
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.userToken);
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ "type", type },
+				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken },
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
+			};
 
 			CloudServer.requestPath<StorageResponse>(agent, "storages/unlink", parameters);
 		}
 	}
+
+	public class CloudStorageType
+	{
+		public const string DROPBOX = "dropbox";
+	};
 }
