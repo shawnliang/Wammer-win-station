@@ -94,7 +94,6 @@ namespace Wammer.Station
 				// try connecting Dropbox if cloudstorage has no Dropbox info
 				if (storageDoc == null)
 				{
-
 					using (WebClient agent = new WebClient())
 					{
 						StorageLinkResponse linkRes;
@@ -188,9 +187,9 @@ namespace Wammer.Station
 
 		private void VerifyAccountLink(string folder, string token)
 		{
-			// cloud will put a token file on Waveface folder for account verification, verify it in at most 3 secs
+			// cloud will put a token file on Waveface folder for account verification, verify it in at most 10 secs
 			string tokenFilePath = Path.Combine(folder, "waveface_" + token);
-			int retry = 10;
+			int retry = 20;
 			logger.DebugFormat("Check token file existence, path = {0}", tokenFilePath);
 			while (!File.Exists(tokenFilePath))
 			{
