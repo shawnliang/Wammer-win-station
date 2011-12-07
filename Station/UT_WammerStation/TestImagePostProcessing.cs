@@ -298,7 +298,8 @@ namespace UT_WammerStation
 					mime_type = "image/jpeg",
 					type = AttachmentType.image,
 					RawData = imageRawData,
-					object_id = object_id1
+					object_id = object_id1,
+					file_name = "orig_file.jpeg"
 				},
 				Meta = ImageMeta.Origin,
 				DbDocs = mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments"),
@@ -324,7 +325,8 @@ namespace UT_WammerStation
 			Assert.AreEqual(512, doc.image_meta.medium.width);
 			Assert.AreEqual(384, doc.image_meta.medium.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.medium.mime_type);
-			Assert.AreEqual(object_id1 + "_medium.jpeg", doc.image_meta.medium.file_name);
+			Assert.AreEqual(object_id1 + "_medium.jpeg", doc.image_meta.medium.saved_file_name);
+			Assert.AreEqual(args.Attachment.file_name, doc.image_meta.medium.file_name);
 			Assert.IsTrue(doc.image_meta.medium.file_size > 0);
 			Assert.IsTrue(doc.image_meta.medium.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 		}
@@ -367,7 +369,7 @@ namespace UT_WammerStation
 			Assert.AreEqual(120, doc.image_meta.small.width);
 			Assert.AreEqual(90, doc.image_meta.small.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.small.mime_type);
-			Assert.AreEqual(object_id1+"_small.jpeg", doc.image_meta.small.file_name);
+			Assert.AreEqual(object_id1+"_small.jpeg", doc.image_meta.small.saved_file_name);
 			Assert.IsTrue(doc.image_meta.small.file_size > 0);
 			Assert.IsTrue(doc.image_meta.small.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 
@@ -377,7 +379,7 @@ namespace UT_WammerStation
 			Assert.AreEqual(1024, doc.image_meta.large.width);
 			Assert.AreEqual(768, doc.image_meta.large.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.large.mime_type);
-			Assert.AreEqual(object_id1 + "_large.jpeg", doc.image_meta.large.file_name);
+			Assert.AreEqual(object_id1 + "_large.jpeg", doc.image_meta.large.saved_file_name);
 			Assert.IsTrue(doc.image_meta.large.file_size > 0);
 			Assert.IsTrue(doc.image_meta.large.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 
@@ -387,7 +389,7 @@ namespace UT_WammerStation
 			Assert.AreEqual(128, doc.image_meta.square.width);
 			Assert.AreEqual(128, doc.image_meta.square.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.square.mime_type);
-			Assert.AreEqual(object_id1 + "_square.jpeg", doc.image_meta.square.file_name);
+			Assert.AreEqual(object_id1 + "_square.jpeg", doc.image_meta.square.saved_file_name);
 			Assert.IsTrue(doc.image_meta.square.file_size > 0);
 			Assert.IsTrue(doc.image_meta.square.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 		}
