@@ -124,6 +124,8 @@ namespace Waveface
                         m_undownloadThumbnails.Clear();
                     }
 
+                    int k = 0;
+
                     foreach (KeyValuePair<string, string> _pair in _undownloadFiles)
                     {
                         try
@@ -136,6 +138,9 @@ namespace Waveface
                         }
                         catch
                         { }
+
+                        if ((k++ % 3) == 0)
+                            RefreshUI();
                     }
 
                     _undownloadFiles.Clear();
@@ -510,7 +515,7 @@ namespace Waveface
                 _img = new Bitmap(PicWidth, PicHeight);
                 Graphics _g = Graphics.FromImage(_img);
                 _g.FillRectangle(new SolidBrush(SystemColors.Info), new Rectangle(0, 0, PicWidth, PicHeight));
-                _g.DrawRectangle(new Pen(Color.Black), new Rectangle(0, 0, PicWidth -1, PicHeight-1));
+                _g.DrawRectangle(new Pen(Color.Black), new Rectangle(0, 0, PicWidth - 1, PicHeight - 1));
 
                 Application.DoEvents();
             }

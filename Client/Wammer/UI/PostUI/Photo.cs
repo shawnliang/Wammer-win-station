@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.API.V2;
+using Waveface.Component;
 using Waveface.WebCam;
 
 namespace Waveface.PostUI
@@ -35,6 +36,8 @@ namespace Waveface.PostUI
         private void InitImageListView()
         {
             Application.Idle += Application_Idle;
+
+            imageListView.SetRenderer(new MyImageListViewRenderer());
         }
 
         private void Application_Idle(object sender, EventArgs e)
