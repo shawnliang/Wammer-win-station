@@ -12,6 +12,15 @@ namespace Waveface
         [STAThread]
         private static void Main(string[] args)
         {
+            bool _createdNew;
+            Mutex _mutex = new Mutex(true, "Waveface Windows Client", out _createdNew);
+
+            if (!_createdNew)
+            {
+                MessageBox.Show("Another instance is already running.");
+                return;
+            }
+
             CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
             //CultureManager.ApplicationUICulture = new CultureInfo("en-US");
             //CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
@@ -40,6 +49,8 @@ namespace Waveface
                 CrashReporter _errorDlg = new CrashReporter(_e);
                 _errorDlg.ShowDialog();
             }
+
+            GC.KeepAlive(_mutex);
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

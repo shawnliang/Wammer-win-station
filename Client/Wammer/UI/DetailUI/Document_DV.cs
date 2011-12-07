@@ -334,12 +334,16 @@ namespace Waveface.DetailUI
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            Application.DoEvents();
+
             int _h = webBrowserTop.Document.Body.ScrollRectangle.Height;
             webBrowserTop.Height = _h;
         }
 
         private void webBrowserComment_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            Application.DoEvents();
+
             int _h = webBrowserComment.Document.Body.ScrollRectangle.Height;
             webBrowserComment.Height = _h;
         }
@@ -369,7 +373,8 @@ namespace Waveface.DetailUI
             {
                 if (new FileInfo(_file).Length == long.Parse(attachment.file_size))
                 {
-                    setPreview();
+                    setPreview();                
+
                     return;
                 }
             }
@@ -396,6 +401,8 @@ namespace Waveface.DetailUI
 
         private void setPreview()
         {
+            Application.DoEvents();
+
             progressBar.Visible = false;
             buttonSave.Enabled = true;
             buttonOpen.Enabled = true;
@@ -407,7 +414,7 @@ namespace Waveface.DetailUI
                     Cursor.Current = Cursors.WaitCursor;
 
                     string _file = MainForm.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
-                    string _destFile = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+                    string _destFile = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
 
                     File.Copy(_file, _destFile);
 
@@ -420,6 +427,8 @@ namespace Waveface.DetailUI
                     Cursor.Current = Cursors.Default;
                 }
             }
+
+            Application.DoEvents();
         }
 
         private void DetailView_Resize(object sender, EventArgs e)

@@ -450,6 +450,20 @@ namespace Waveface
             }
         }
 
+        public MR_posts_hide_ret Posts_hide(string post_id)
+        {
+            MR_posts_hide_ret _ret = m_serviceV2.posts_hide(SessionToken, RT.CurrentGroupID, post_id);
+
+            if ((_ret != null) && (_ret.status == "200"))
+            {
+                return _ret;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         #endregion
 
         #region Login
@@ -674,17 +688,14 @@ namespace Waveface
 
         public void HidePost(string postId)
         {
-            /*
-            MR_hide_ret _ret = Hide_Set_Post(postId);
+            MR_posts_hide_ret _ret = Posts_hide(postId);
 
             if (_ret != null)
             {
                 MessageBox.Show("Remove Post Success!");
 
-                RT.HideList = Hide_List("all");
                 ShowPostToUI(false);
             }
-            */
         }
 
         #endregion

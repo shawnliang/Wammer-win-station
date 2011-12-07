@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Net;
 using System.Threading;
-using System.Web;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using Waveface.API.V2;
@@ -510,9 +509,8 @@ namespace Waveface
 
                 _img = new Bitmap(PicWidth, PicHeight);
                 Graphics _g = Graphics.FromImage(_img);
-                Rectangle _r = new Rectangle(0, 0, PicWidth, PicHeight);
-                _g.FillRectangle(new SolidBrush(SystemColors.Info), _r);
-                _g.DrawRectangle(new Pen(Color.Black), _r);
+                _g.FillRectangle(new SolidBrush(SystemColors.Info), new Rectangle(0, 0, PicWidth, PicHeight));
+                _g.DrawRectangle(new Pen(Color.Black), new Rectangle(0, 0, PicWidth -1, PicHeight-1));
 
                 Application.DoEvents();
             }

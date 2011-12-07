@@ -78,10 +78,6 @@ namespace Waveface
 
                     return _imageType;
                 }
-                else
-                {
-                    _imageType = MEDIUM;
-                }
             }
 
             url = _url + "&" + "image_meta=" + _imageType;
