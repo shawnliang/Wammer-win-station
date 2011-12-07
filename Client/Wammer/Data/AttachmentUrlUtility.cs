@@ -6,9 +6,9 @@ using Waveface.API.V2;
 
 namespace Waveface
 {
-    public class ServerImageAddressUtility
+    public class AttachmentUrlUtility
     {
-        public static string attachments_getRedirectURL(string orgURL, string session_token, string object_id, bool isImage)
+        public static string GetRedirectURL(string orgURL, string session_token, string object_id, bool isImage)
         {
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
@@ -28,7 +28,7 @@ namespace Waveface
             return _url;
         }
 
-        public static string attachments_getRedirectURL_PdfCoverPage(string orgURL, string session_token)
+        public static string GetRedirectURL_PdfCoverPage(string orgURL, string session_token)
         {
             session_token = HttpUtility.UrlEncode(session_token);
 
@@ -39,7 +39,7 @@ namespace Waveface
             return _url;
         }
 
-        public static string attachments_getRedirectURL_Image(string session_token, Attachment a, string imageType, out string url, out string fileName)
+        public static string GetRedirectURL_Image(string session_token, Attachment a, string imageType, out string url, out string fileName)
         {
             const string SMALL = "small";
             const string MEDIUM = "medium";

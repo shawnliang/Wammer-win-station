@@ -267,17 +267,17 @@ namespace Waveface
 
         public string attachments_getRedirectURL(string orgURL, string object_id, bool isImage)
         {
-            return ServerImageAddressUtility.attachments_getRedirectURL(orgURL, SessionToken, object_id, isImage);
+            return AttachmentUrlUtility.GetRedirectURL(orgURL, SessionToken, object_id, isImage);
         }
 
         public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url, out string fileName)
         {
-            return ServerImageAddressUtility.attachments_getRedirectURL_Image(SessionToken, a, imageType, out url, out fileName);
+            return AttachmentUrlUtility.GetRedirectURL_Image(SessionToken, a, imageType, out url, out fileName);
         }
 
         public string attachments_getRedirectURL_PdfCoverPage(string orgURL)
         {
-            return ServerImageAddressUtility.attachments_getRedirectURL_PdfCoverPage(orgURL, SessionToken);
+            return AttachmentUrlUtility.GetRedirectURL_PdfCoverPage(orgURL, SessionToken);
         }
 
         public MR_posts_new Post_CreateNewPost(string text, string files, string previews, string type)
