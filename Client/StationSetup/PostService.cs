@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
@@ -56,7 +56,7 @@ namespace StationSetup
 
             CheckStation(m_login.stations);
 
-            //預設群組
+            //�設群�
             RT.CurrentGroupID = m_login.groups[0].group_id;
 
             return true;
@@ -161,7 +161,7 @@ namespace StationSetup
                 }
             }
 
-            _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
+            _ids = _ids.Substring(0, _ids.Length - 1); // ��後�,"
             _ids += "]";
 
             return (_ids);
@@ -204,7 +204,7 @@ namespace StationSetup
                 }
             }
 
-            _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
+            _ids = _ids.Substring(0, _ids.Length - 1); // ��後�,"
             _ids += "]";
 
             return (_ids);
@@ -261,7 +261,7 @@ namespace StationSetup
 
             if (isImage)
             {
-                if (RT.IsStationOK) //如果有Station則上傳原圖, 否則就上512中圖
+                if (RT.IsStationOK) //如�Station��� ��就�512中�
                 {
                     _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text,
                                                                         "", "image", "origin", object_id);
@@ -282,7 +282,7 @@ namespace StationSetup
 
             if ((_attachmentsUpload != null) && (_attachmentsUpload.status == "200"))
             {
-                // 如果傳中圖到Cloud, 則要把原圖Cache起來, 待有Station在傳原圖
+                // 如�中�到Cloud, ���Cache起�, 待�Station�傳��
                 if (_resizedImageFilePath != string.Empty)
                 {
                     string _ext = ".jpg";

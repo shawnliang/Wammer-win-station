@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4981BF57-6935-45EE-9560-886C29987A0A}"
 	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		Wammer-win-station.vsmdi = Wammer-win-station.vsmdi
 	EndProjectSection
