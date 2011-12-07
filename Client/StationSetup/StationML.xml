@@ -29,6 +29,20 @@
     <ID>QuitDropboxSetupProcess</ID>
     <en-US>Are you sure to quit the Dropbox setup process?</en-US>
     <zh-TW>您是否確定要結束Dropbox安裝、連結程序?</zh-TW>
-  </WItem>  
-  
+  </WItem>
+  <WItem>
+    <ID>AuthError</ID>
+    <en-US>Invalid user name or password. Please try again.</en-US>
+    <zh-TW>帳號或密碼錯誤 請再試一次</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>StationDown</ID>
+    <en-US>Waveface Station service is down? Please make sure Waveface Station windows service is runnung and try again.</en-US>
+    <zh-TW>Waveface Station服務已停止? 請確定Waveface Station服務已啟動並再試一次</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>UnknownSigninError</ID>
+    <en-US>Unexpected error occured. Please try again.</en-US>
+    <zh-TW>發生了不預期的錯誤 請再試一次</zh-TW>
+  </WItem>
 </WItems>

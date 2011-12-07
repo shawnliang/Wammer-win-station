@@ -48,11 +48,11 @@ namespace Wammer.Station
 			{
 				StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
 
-                MessageBox.Show(I18n.L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
+				MessageBox.Show(I18n.L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
 
 				DropboxInstallAndLink();
 
-			    userEmail = textBoxMail.Text;
+				userEmail = textBoxMail.Text;
 				userPassword = textBoxPassword.Text;
 				Close();
 			}
@@ -60,7 +60,7 @@ namespace Wammer.Station
 			{
 				Cursor.Current = Cursors.Default;
 
-				MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(I18n.L.T("AuthError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
 				textBoxPassword.Text = string.Empty;
 
@@ -82,9 +82,9 @@ namespace Wammer.Station
 						StationController.SignoffStation(_e.Id, textBoxMail.Text, textBoxPassword.Text);
 						StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
 
-					    DropboxInstallAndLink();
-                        
-                        userEmail = textBoxMail.Text;
+						DropboxInstallAndLink();
+
+						userEmail = textBoxMail.Text;
 						userPassword = textBoxPassword.Text;
 						Close();
 					}
@@ -92,12 +92,12 @@ namespace Wammer.Station
 					{
 						Cursor.Current = Cursors.Default;
 
-                        ShowErrorDialogAndExit(I18n.L.T("SignOffStationError"));
+						ShowErrorDialogAndExit(I18n.L.T("SignOffStationError"));
 					}
 				}
 				else
 				{
-                    ShowErrorDialogAndExit(I18n.L.T("MustRemoveOld"));
+					ShowErrorDialogAndExit(I18n.L.T("MustRemoveOld"));
 				}
 			}
 			catch (StationAlreadyHasDriverException _e)
@@ -105,6 +105,16 @@ namespace Wammer.Station
 				Cursor.Current = Cursors.Default;
 
 				ShowErrorDialogAndExit(_e.Message);
+			}
+			catch (StationServiceDownException _e)
+			{
+				Cursor.Current = Cursors.Default;
+				MessageBox.Show(I18n.L.T("StationDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (Exception _e)
+			{
+				Cursor.Current = Cursors.Default;
+				MessageBox.Show(I18n.L.T("UnknownSigninError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 
