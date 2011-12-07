@@ -239,17 +239,23 @@ namespace Waveface.DetailUI
 
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
+            Application.DoEvents();
+
             webBrowser.Navigate(m_htmlFile);
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            Application.DoEvents();
+
             int _h = webBrowser.Document.Body.ScrollRectangle.Height;
             webBrowser.Height = _h;
         }
 
         private void webBrowserComment_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            Application.DoEvents();
+
             int _h = webBrowserComment.Document.Body.ScrollRectangle.Height;
             webBrowserComment.Height = _h;
         }

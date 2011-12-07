@@ -40,7 +40,7 @@ namespace Waveface.API.V2
             get { return HostIP + "/v2"; }
         }
 
-        public static  string StationIP { get; set; }
+        public static string StationIP { get; set; }
 
         public BEService2()
         {
@@ -722,6 +722,68 @@ namespace Waveface.API.V2
             return _ret;
         }
 
+        public MR_posts_hide_ret posts_hide(string session_token, string group_id, string post_id)
+        {
+            MR_posts_hide_ret _ret;
+
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+            post_id = HttpUtility.UrlEncode(post_id);
+
+            try
+            {
+                string _url = BaseURL + "/posts/hide";
+
+                _url += "?" +
+                        "apikey" + "=" + APIKEY + "&" +
+                        "session_token" + "=" + session_token + "&" +
+                        "group_id" + "=" + group_id + "&" +
+                        "post_id" + "=" + post_id;
+
+                string _r = m_rest.GetForObject<string>(_url);
+                _r = StringUtility.UTF8ToISO_8859_1(_r);
+
+                _ret = JsonConvert.DeserializeObject<MR_posts_hide_ret>(_r);
+            }
+            catch (Exception _e)
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
+        public MR_posts_hide_ret posts_unhide(string session_token, string group_id, string post_id)
+        {
+            MR_posts_hide_ret _ret;
+
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+            post_id = HttpUtility.UrlEncode(post_id);
+
+            try
+            {
+                string _url = BaseURL + "/posts/unhide";
+
+                _url += "?" +
+                        "apikey" + "=" + APIKEY + "&" +
+                        "session_token" + "=" + session_token + "&" +
+                        "group_id" + "=" + group_id + "&" +
+                        "post_id" + "=" + post_id;
+
+                string _r = m_rest.GetForObject<string>(_url);
+                _r = StringUtility.UTF8ToISO_8859_1(_r);
+
+                _ret = JsonConvert.DeserializeObject<MR_posts_hide_ret>(_r);
+            }
+            catch (Exception _e)
+            {
+                return null;
+            }
+
+            return _ret;
+        }
+
         #endregion
 
         #region previews
@@ -1007,9 +1069,9 @@ namespace Waveface.API.V2
         #region hide
 
         /*
-        public MR_hide_ret hide_set(string session_token, string group_id, string object_type, string object_id)
+        public MR_posts_hide_ret hide_set(string session_token, string group_id, string object_type, string object_id)
         {
-            MR_hide_ret _ret;
+            MR_posts_hide_ret _ret;
 
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
@@ -1030,7 +1092,7 @@ namespace Waveface.API.V2
                 string _r = m_rest.GetForObject<string>(_url);
                 _r = StringUtility.UTF8ToISO_8859_1(_r);
 
-                _ret = JsonConvert.DeserializeObject<MR_hide_ret>(_r);
+                _ret = JsonConvert.DeserializeObject<MR_posts_hide_ret>(_r);
             }
             catch (Exception _e)
             {
@@ -1041,9 +1103,9 @@ namespace Waveface.API.V2
             return _ret;
         }
 
-        public MR_hide_ret hide_unset(string session_token, string group_id, string object_type, string object_id)
+        public MR_posts_hide_ret hide_unset(string session_token, string group_id, string object_type, string object_id)
         {
-            MR_hide_ret _ret;
+            MR_posts_hide_ret _ret;
 
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
@@ -1064,7 +1126,7 @@ namespace Waveface.API.V2
                 string _r = m_rest.GetForObject<string>(_url);
                 _r = StringUtility.UTF8ToISO_8859_1(_r);
 
-                _ret = JsonConvert.DeserializeObject<MR_hide_ret>(_r);
+                _ret = JsonConvert.DeserializeObject<MR_posts_hide_ret>(_r);
             }
             catch (Exception _e)
             {

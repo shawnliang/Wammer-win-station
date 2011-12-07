@@ -431,11 +431,9 @@ namespace Waveface.API.V2
 
     #region MR_hide
 
-    public class MR_hide_ret : General_R
+    public class MR_posts_hide_ret : General_R
     {
-        public string object_type { get; set; }
-        public string object_id { get; set; }
-        public string object_status { get; set; }
+        public string post_id { get; set; }
     }
 
     #endregion
