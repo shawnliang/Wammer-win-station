@@ -24,7 +24,11 @@ namespace Waveface
             }
 
             imageListView.View = Manina.Windows.Forms.View.Gallery;
-            imageListView.SetRenderer(new MyImageListViewRenderer());
+
+            ImageListView.ImageListViewRenderer _renderers = new MyImageListViewRenderer();
+            _renderers.Clip = true;
+
+            imageListView.SetRenderer(_renderers);
 
             foreach (ImageListViewItem _item in imageListView.Items)
             {
