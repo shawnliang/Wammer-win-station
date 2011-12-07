@@ -135,7 +135,7 @@
     </Compile>
     <Compile Include="Compoment\MultiPanel\MultiPanelPageDesigner.cs" />
     <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
-    <Compile Include="Data\ServerImageAddressUtility.cs" />
+    <Compile Include="Data\AttachmentUrlUtility.cs" />
     <Compile Include="FileUploadToStation.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
     <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
