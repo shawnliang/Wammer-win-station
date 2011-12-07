@@ -1415,7 +1415,7 @@ namespace Waveface
         {
             byte[] _ret;
 
-            using (FileStream _fr = new FileStream(fileName, FileMode.Open))
+            using (FileStream _fr = File.OpenRead(fileName))
             {
                 _ret = ReadFully(_fr);
 

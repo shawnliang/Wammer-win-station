@@ -144,21 +144,9 @@ namespace StationSetup
 
             foreach (string _file in images)
             {
-                try
-                {
-                    MR_attachments_upload _uf = File_UploadFile(new FileInfo(_file).Name, _file, "", true);
+                MR_attachments_upload _uf = File_UploadFile(new FileInfo(_file).Name, _file, "", true);
 
-                    if (_uf == null)
-                    {
-                        return "";
-                    }
-
-                    _ids += "\"" + _uf.object_id + "\"" + ",";
-                }
-                catch
-                {
-                    return "";
-                }
+                _ids += "\"" + _uf.object_id + "\"" + ",";
             }
 
             _ids = _ids.Substring(0, _ids.Length - 1); // »æ€å¾Œä,"
@@ -268,10 +256,12 @@ namespace StationSetup
                 }
                 else
                 {
-                    _resizedImageFilePath = ResizeImage(filePath, text, "512", 50);
-                    _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID,
-                                                                        _resizedImageFilePath, text, "", "image",
-                                                                        "medium", object_id);
+                    //_resizedImageFilePath = ResizeImage(filePath, text, "512", 50);
+                    //_attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID,
+                    //                                                    _resizedImageFilePath, text, "", "image",
+                    //                                                    "medium", object_id);
+
+                    throw new Exception("Unable to upload attachment for default post becuase not connected with station");
                 }
             }
             else
@@ -299,7 +289,8 @@ namespace StationSetup
                 return _attachmentsUpload;
             }
 
-            return null;
+            //return null;
+            throw new Exception("Upload attachment for default posts failed.");
         }
 
         #endregion
