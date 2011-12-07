@@ -82,7 +82,7 @@ namespace UT_WammerStation
 					medium = new ThumbnailInfo
 					{
 						mime_type = "image/jpeg",
-						file_size = 10
+						file_size = 5
 					}
 				}
 			});
