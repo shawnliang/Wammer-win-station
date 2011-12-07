@@ -275,6 +275,9 @@ namespace Wammer.Station.Management
 		/// <exception cref="Wammer.Station.Management.DropboxNoSyncFolderException">
 		/// Dropbox sync folder does not exist
 		/// </exception>
+		/// <exception cref="Wammer.Station.Management.WrongAccountException">
+		/// Link to inconsistent Dropbox account
+		/// </exception>
 		/// <exception cref="Wammer.Station.Management.DropboxNotInstalledException">
 		/// Dropbox is not installed
 		/// </exception>
@@ -284,12 +287,11 @@ namespace Wammer.Station.Management
 			{
 				try
 				{
-					string account = DropboxHelper.GetAccount();
 					string folder = DropboxHelper.GetSyncFolder();
 					CloudResponse res = CloudServer.request<CloudResponse>(
 						new WebClient(),
 						"http://localhost:9981/v2/cloudstorage/dropbox/connect",
-						new Dictionary<object, object> { { "quota", quota }, { "folder", folder }, { "account", account }},
+						new Dictionary<object, object> { { "quota", quota }, { "folder", folder } },
 						true
 					);
 				}
@@ -563,5 +565,13 @@ namespace Wammer.Station.Management
 			: base(msg)
 		{
 		}
+	}
+
+	public class StorageStatus
+	{
+		public string type { get; set; }
+		public bool connected { get; set; }
+		public long quota { get; set; }
+		public long used { get; set; }
 	}
 }
