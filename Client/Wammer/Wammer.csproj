@@ -133,7 +133,7 @@
     <Compile Include="Compoment\MultiPanel\MultiPanelPageDesigner.cs" />
     <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
     <Compile Include="Libs\Utility\AttachmentUrlUtility.cs" />
-    <Compile Include="FileUploadToStation.cs" />
+    <Compile Include="UploadOriginPhotosToStation.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
     <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
       <SubType>UserControl</SubType>
