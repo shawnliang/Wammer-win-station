@@ -117,8 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>$this</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="linkLabelNew.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 209</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Glad to see you. Login Waveface Station and stay connect with your precious stuff. </value>
@@ -127,13 +128,8 @@
   <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 16</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="linkLabelNew.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+  <data name="textBoxMail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 23</value>
   </data>
   <data name="textBoxMail.Location" type="System.Drawing.Point, System.Drawing">
     <value>126, 90</value>
@@ -144,12 +140,10 @@
   <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="textBoxMail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 23</value>
-  </data>
   <data name="&gt;&gt;textBoxMail.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="textBoxMail.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
@@ -172,10 +166,10 @@
     <value>3</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 19</value>
+    <value>175, 19</value>
   </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="linkLabelNew.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 16</value>
@@ -213,11 +207,11 @@
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>367, 36</value>
+  <data name="buttonOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;textBoxPassword.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>379, 36</value>
   </data>
   <data name="&gt;&gt;label2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -231,8 +225,8 @@
   <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 16</value>
   </data>
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
     <value>$this</value>
@@ -246,8 +240,8 @@
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
   </data>
-  <data name="buttonOK.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+  <data name="&gt;&gt;textBoxPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9.75pt</value>
@@ -270,8 +264,8 @@
   <data name="&gt;&gt;buttonOK.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="linkLabelNew.Text" xml:space="preserve">
     <value>Create one now!</value>
@@ -279,13 +273,16 @@
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="buttonOK.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
   <data name="linkLabelNew.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 14</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="buttonOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -300,8 +297,8 @@
   <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9.75pt, style=Bold</value>
   </data>
-  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
+    <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -320,9 +317,6 @@
   </data>
   <data name="&gt;&gt;linkLabelNew.Parent" xml:space="preserve">
     <value>$this</value>
-  </data>
-  <data name="&gt;&gt;textBoxPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 9</value>
@@ -345,8 +339,8 @@
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 62</value>
   </data>
-  <data name="&gt;&gt;timerDelay.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>81, 93</value>
   </data>
   <data name="&gt;&gt;textBoxMail.Parent" xml:space="preserve">
     <value>$this</value>
@@ -366,9 +360,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Waveface Sign-in</value>
   </data>
-  <data name="&gt;&gt;timerDelay.Name" xml:space="preserve">
-    <value>timerDelay</value>
-  </data>
   <data name="&gt;&gt;linkLabelNew.Name" xml:space="preserve">
     <value>linkLabelNew</value>
   </data>
@@ -385,7 +376,7 @@
     <value>219, 23</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>387, 232</value>
+    <value>399, 239</value>
   </data>
   <data name="linkLabelNew.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -396,8 +387,8 @@
   <data name="&gt;&gt;buttonOK.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="linkLabelNew.Location" type="System.Drawing.Point, System.Drawing">
-    <value>171, 209</value>
+  <data name="&gt;&gt;textBoxPassword.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -408,23 +399,17 @@
   <data name="&gt;&gt;linkLabelNew.Type" xml:space="preserve">
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>81, 93</value>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>zh-TW</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>61</value>
-  </metadata>
-  <metadata name="timerDelay.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
   </metadata>
   <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>132, 17</value>

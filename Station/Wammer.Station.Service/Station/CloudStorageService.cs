@@ -26,8 +26,8 @@ namespace Wammer.Station
 		Stream GetDropboxOAuth();
 
 		[OperationContract]
-		[WebGet(UriTemplate = "dropbox/connect?quota={quota}&folder={folder}&account={account}")]
-		Stream ConnectDropbox(long quota, string folder, string account);
+		[WebGet(UriTemplate = "dropbox/connect?quota={quota}&folder={folder}")]
+		Stream ConnectDropbox(long quota, string folder);
 
 		[OperationContract]
 		[WebGet(UriTemplate = "dropbox/update?quota={quota}")]
@@ -47,131 +47,119 @@ namespace Wammer.Station
 
 		public Stream GetDropboxOAuth()
 		{
-			logger.Debug("Get Dropbox OAuth info");
-
-			// currently only support one driver
-			Drivers driver = Drivers.collection.FindOne();
-			Storage storage = new Storage(driver.user_id);
-			using (WebClient agent = new WebClient())
+			try
 			{
-				try
-				{
-					Dictionary<object, object> param = new Dictionary<object, object> { { "type", "dropbox" } };
-					StorageAuthResponse res = storage.StorageAuthorize(agent, param);
-					logger.DebugFormat("Dropbox OAuth URL = {0}", res.storages.authorization_url);
-					return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, new GetDropboxOAuthResponse
-						{
-							api_ret_code = 0,
-							api_ret_msg = "success",
-							status = 200,
-							timestamp = DateTime.UtcNow,
-							oauth_url = res.storages.authorization_url
-						}
-					);
-				}
-				catch (WammerCloudException ex)
-				{
-					logger.Error("Unable to get Dropbox OAuth info", ex);
-					return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.GetOAuthFailed);
-				}
-			}
-		}
+				logger.Debug("Get Dropbox OAuth info");
 
-		public Stream ConnectDropbox(long quota, string folder, string account)
-		{
-			if (string.IsNullOrEmpty(folder))
-			{
-				logger.Error("Dropbox sync folder is empty");
-				WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.NoSyncFolder);
-			}
-
-			logger.Debug("Dropbox is installed, connect to Dropbox");
-			CloudStorage storageDoc = CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
-			if (storageDoc == null)
-			{
 				// currently only support one driver
 				Drivers driver = Drivers.collection.FindOne();
 				Storage storage = new Storage(driver.user_id);
-				using (WebClient agent = new WebClient())
-				{
-				    try
-				    {
-						StorageLinkResponse linkRes;
-						if (string.IsNullOrEmpty(account))
-						{
-							linkRes = storage.StorageLink(agent, new Dictionary<object, object> { { "type", "dropbox" } });
-						}
-						else
-						{
-							linkRes = storage.StorageLink(agent, new Dictionary<object, object> { { "type", "dropbox" }, { "account", account } });
-						}
-						
-						// cloud will put a token file on Waveface folder for account verification, verify it in at most 3 secs
-						string tokenFilePath = Path.Combine(folder, "waveface_"+linkRes.storages.token);
-						int retry = 10;
-						logger.DebugFormat("Check token file existence, path = {0}", tokenFilePath);
-						while (!File.Exists(tokenFilePath))
-						{
-							Thread.Sleep(500);
-							retry--;
-							if (retry == 0)
-							{
-								break;
-							}
-						}
-						if (!File.Exists(tokenFilePath))
-						{
-							// notify cloud to unlink dropbox if linked to wrong account
-							logger.ErrorFormat("Dropbox token file does not exist, path = {0}", tokenFilePath);
-							storage.StorageUnlink(agent, new Dictionary<object, object> { { "type", "dropbox" } });
-							return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.LinkWrongAccount);
-						}
-						
-						StorageCheckResponse res = storage.StorageCheck(agent, new Dictionary<object,object> { { "type", "dropbox" } });
-						if (res.storages.status != 0)
-						{
-							logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", fastJSON.JSON.Instance.ToJSON(res, false, false, false, false));
-							return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.ConnectDropboxFailed);
-						}
-				    }
-				    catch (WammerCloudException ex)
-				    {
-						logger.Error("Unable to connect to Dropbox", ex);
-						switch (ex.WammerError)
-						{
-							case 61446:
-								// notify cloud to unlink dropbox if linked to wrong account
-								storage.StorageUnlink(agent, new Dictionary<object, object> { { "type", "dropbox" } });
-								return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.LinkWrongAccount);
-							default:
-								return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.ConnectDropboxFailed);								
-						}
-				    }
-				}
-
-				long used = 0;
-				if (Directory.Exists(folder))
-				{
-					// calculate the sync folder size since it might contain old files
-					DirectoryInfo di = new DirectoryInfo(folder);
-					FileInfo[] fis = di.GetFiles();
-					foreach (FileInfo fi in fis)
+				StorageAuthResponse res = storage.StorageAuthorize(new WebClient(), CloudStorageType.DROPBOX);
+				logger.DebugFormat("Dropbox OAuth URL = {0}", res.storages.authorization_url);
+				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current, new GetDropboxOAuthResponse
 					{
-						used = used + fi.Length;
-					}
-				}
-
-				CloudStorage.collection.Save(new CloudStorage
-					{
-						Id = Guid.NewGuid().ToString(),
-						Type = "dropbox",
-						Folder = folder,
-						Quota = quota,
-						Used = used
+						api_ret_code = 0,
+						api_ret_msg = "success",
+						status = 200,
+						timestamp = DateTime.UtcNow,
+						oauth_url = res.storages.authorization_url
 					}
 				);
 			}
-			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current);
+			catch (WammerCloudException ex)
+			{
+				logger.Error("Unable to connect to Dropbox due to cloud error", ex);
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, ex.WammerError, ex.Message);
+			}
+			catch (Exception ex)
+			{
+				logger.Error("Unable to connect to Dropbox due to unknown exception", ex);
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)StationApiError.Error, ex.Message);
+			}
+		}
+
+		public Stream ConnectDropbox(long quota, string folder)
+		{
+			bool linked = false;
+	
+			// currently only support one driver
+			Drivers driver = Drivers.collection.FindOne();
+			Storage storage = new Storage(driver.user_id);
+
+			try
+			{
+				logger.Debug("Dropbox is installed, connect to Dropbox");
+				CloudStorage storageDoc = CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
+
+				// try connecting Dropbox if cloudstorage has no Dropbox info
+				if (storageDoc == null)
+				{
+
+					using (WebClient agent = new WebClient())
+					{
+						StorageLinkResponse linkRes;
+						linkRes = storage.StorageLink(agent, CloudStorageType.DROPBOX);
+						linked = true;
+
+						VerifyAccountLink(folder, linkRes.storages.token);
+
+						StorageCheckResponse res = storage.StorageCheck(agent, CloudStorageType.DROPBOX);
+						if (res.storages.status != 0)
+						{
+							logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", fastJSON.JSON.Instance.ToJSON(res, false, false, false, false));
+							throw new WammerStationException("Dropbox has not linked yet", (int)DropboxApiError.ConnectDropboxFailed);
+						}
+					}
+
+					// TODO: use generic storage for dropbox
+					long used = 0;
+					if (Directory.Exists(Path.Combine(folder, "resource")))
+					{
+						// calculate the sync folder size since it might contain old files
+						DirectoryInfo di = new DirectoryInfo(Path.Combine(folder, "resource"));
+						FileInfo[] fis = di.GetFiles();
+						foreach (FileInfo fi in fis)
+						{
+							used = used + fi.Length;
+						}
+					}
+
+					CloudStorage.collection.Save(new CloudStorage
+						{
+							Id = Guid.NewGuid().ToString(),
+							Type = "dropbox",
+							Folder = folder,
+							Quota = quota,
+							Used = used
+						}
+					);
+				}
+
+				return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current);
+			}
+			catch (WammerStationException ex)
+			{
+				if (linked)
+					storage.StorageUnlink(new WebClient(), CloudStorageType.DROPBOX);
+
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, ex.WammerError, ex.Message);
+			}
+			catch (WammerCloudException ex)
+			{
+				if (linked)
+					storage.StorageUnlink(new WebClient(), CloudStorageType.DROPBOX);
+
+				logger.Error("Unable to connect to Dropbox due to cloud error", ex);
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, ex.WammerError, ex.Message);
+			}
+			catch (Exception ex)
+			{
+				if (linked)
+					storage.StorageUnlink(new WebClient(), CloudStorageType.DROPBOX);
+
+				logger.Error("Unable to connect to Dropbox due to unknown exception", ex);
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)StationApiError.Error, ex.Message);
+			}
 		}
 
 		public Stream UpdateDropbox(long quota)
@@ -187,7 +175,7 @@ namespace Wammer.Station
 			else
 			{
 				logger.Error("Dropbox is not connected, unable to update");
-				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.DropboxNotConnected);
+				return WCFRestHelper.GenerateErrStream(WebOperationContext.Current, HttpStatusCode.BadRequest, (int)DropboxApiError.DropboxNotConnected, "Dropbox is not connected");
 			}
 		}
 
@@ -197,14 +185,28 @@ namespace Wammer.Station
 			CloudStorage.collection.Remove(Query.EQ("Type", "dropbox"));
 			return WCFRestHelper.GenerateSucessStream(WebOperationContext.Current);
 		}
-	}
 
-	public class StorageStatus
-	{
-		public string type { get; set; }
-		public bool connected { get; set; }
-		public long quota { get; set; }
-		public long used { get; set; }
+		private void VerifyAccountLink(string folder, string token)
+		{
+			// cloud will put a token file on Waveface folder for account verification, verify it in at most 3 secs
+			string tokenFilePath = Path.Combine(folder, "waveface_" + token);
+			int retry = 10;
+			logger.DebugFormat("Check token file existence, path = {0}", tokenFilePath);
+			while (!File.Exists(tokenFilePath))
+			{
+				Thread.Sleep(500);
+				retry--;
+				if (retry == 0)
+				{
+					break;
+				}
+			}
+			if (!File.Exists(tokenFilePath))
+			{
+				logger.ErrorFormat("Dropbox token file does not exist, path = {0}", tokenFilePath);
+				throw new WammerStationException("Link to wrong Dropbox account", (int)DropboxApiError.LinkWrongAccount);
+			}
+		}
 	}
 
 	public class GetDropboxOAuthResponse : CloudResponse

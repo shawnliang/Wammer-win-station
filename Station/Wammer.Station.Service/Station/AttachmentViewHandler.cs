@@ -66,14 +66,11 @@ namespace Wammer.Station
 				using (FileStream fs = storage.LoadByNameWithNoSuffix(namePart))
 				{
 					Response.StatusCode = 200;
+					Response.ContentLength64 = fs.Length;
+					Response.ContentType = doc.mime_type;
 
-					if (doc.type == AttachmentType.image)
-					{
-						if (imageMeta == ImageMeta.Origin)
-							Response.ContentType = doc.mime_type;
-						else
-							Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
-					}
+					if (doc.type == AttachmentType.image && imageMeta != ImageMeta.Origin)
+						Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
 
 					Wammer.Utility.StreamHelper.Copy(fs, Response.OutputStream);
 					fs.Close();

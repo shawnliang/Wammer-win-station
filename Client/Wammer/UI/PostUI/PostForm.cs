@@ -295,5 +295,42 @@ namespace Waveface
         }
 
         #endregion
+
+        #region richTextBox
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetDataObject(richTextBox.SelectedText);
+            richTextBox.SelectedText = "";
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetDataObject(richTextBox.SelectedText);
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IDataObject _data = Clipboard.GetDataObject();
+
+            if (_data.GetDataPresent(DataFormats.Text))
+            {
+                richTextBox.SelectedText = _data.GetData(DataFormats.Text).ToString();
+            }
+        }
+
+        private void contextMenuStripEdit_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!Clipboard.ContainsData(DataFormats.Text))
+            {
+                pasteToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                pasteToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        #endregion
     }
 }

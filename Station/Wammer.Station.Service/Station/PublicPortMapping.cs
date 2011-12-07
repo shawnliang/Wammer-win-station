@@ -60,24 +60,29 @@ namespace Wammer.Station
 			{
 				UPnPState newState = this.state.CheckAndTransit();
 
+				while (newState != null && this.state != newState)
+				{
+					this.state = newState;
+					newState = this.state.CheckAndTransit();
+				}
+
 				if (newState == null)
 				{
 					logger.Debug("UPnP state checker reaches end state.");
 					this.checkTimer.Change(Timeout.Infinite, Timeout.Infinite);
 					return;
 				}
-
-				if (this.state != newState)
-				{
-					newState.CheckAndTransit();
-					this.state = newState;
-				}
+				else
+					logger.Debug("Current state is " + newState.ToString() + "Try again later..");
 			}
 		}
 
 		private void AddMapping()
 		{
-			myMapping = new PortMapping(9981, 21981, PortMappingTransportProtocol.TCP);
+			Random r = new Random();
+			int desiredPort = r.Next(10000, 60000);
+
+			myMapping = new PortMapping(9981, (ushort)desiredPort, PortMappingTransportProtocol.TCP);
 			TCMPortMapper.PortMapper.SharedInstance.AddPortMapping(myMapping);
 		}
 

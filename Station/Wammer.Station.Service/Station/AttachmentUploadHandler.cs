@@ -68,7 +68,7 @@ namespace Wammer.Station
 			{
 				file.Bitmap = new Bitmap(new MemoryStream(file.RawData));
 				ThumbnailInfo medium = ImagePostProcessing.MakeThumbnail(
-									file.Bitmap, ImageMeta.Medium, file.object_id, driver.folder);
+					file.Bitmap, ImageMeta.Medium, file.object_id, driver.folder, file.file_name);
 				Attachments thumb = new Attachments(file);
 				thumb.RawData = medium.RawData;
 				thumb.file_size = medium.file_size;

@@ -19,7 +19,7 @@ namespace Waveface.DetailUI
     {
         #region Fields
 
-        private IContainer components = null;
+        private IContainer components;
         private Panel panelMain;
         private Panel panelRight;
         private WebBrowser webBrowserTop;
@@ -94,14 +94,14 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
             this.PanelAddComment = new System.Windows.Forms.Panel();
-            this.buttonAddComment = new Waveface.Component.XPButton();
             this.textBoxComment = new System.Windows.Forms.TextBox();
-            this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelPictures = new System.Windows.Forms.Panel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.pictureBoxRemote = new System.Windows.Forms.PictureBox();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
+            this.buttonAddComment = new Waveface.Component.XPButton();
+            this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
@@ -154,20 +154,6 @@ namespace Waveface.DetailUI
             this.PanelAddComment.Size = new System.Drawing.Size(510, 50);
             this.PanelAddComment.TabIndex = 3;
             // 
-            // buttonAddComment
-            // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(412, 2);
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
-            this.buttonAddComment.TabIndex = 1;
-            this.buttonAddComment.Text = "Send";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
-            // 
             // textBoxComment
             // 
             this.textBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -179,17 +165,6 @@ namespace Waveface.DetailUI
             this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxComment.Size = new System.Drawing.Size(374, 44);
             this.textBoxComment.TabIndex = 0;
-            // 
-            // webBrowserComment
-            // 
-            this.webBrowserComment.AllowWebBrowserDrop = false;
-            this.webBrowserComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.webBrowserComment.Location = new System.Drawing.Point(0, 282);
-            this.webBrowserComment.Name = "webBrowserComment";
-            this.webBrowserComment.ScrollBarsEnabled = false;
-            this.webBrowserComment.Size = new System.Drawing.Size(510, 97);
-            this.webBrowserComment.TabIndex = 2;
-            this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
             // 
             // PanelPictures
             // 
@@ -229,6 +204,7 @@ namespace Waveface.DetailUI
             this.pictureBoxRemote.TabStop = false;
             this.pictureBoxRemote.Visible = false;
             this.pictureBoxRemote.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pictureBoxRemote_LoadCompleted);
+            this.pictureBoxRemote.LoadProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.pictureBoxRemote_LoadProgressChanged);
             // 
             // panelPictureInfo
             // 
@@ -245,11 +221,36 @@ namespace Waveface.DetailUI
             // 
             this.labelPictureInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelPictureInfo.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.labelPictureInfo.Location = new System.Drawing.Point(399, 1);
+            this.labelPictureInfo.Location = new System.Drawing.Point(383, 1);
             this.labelPictureInfo.Name = "labelPictureInfo";
-            this.labelPictureInfo.Size = new System.Drawing.Size(109, 20);
+            this.labelPictureInfo.Size = new System.Drawing.Size(125, 20);
             this.labelPictureInfo.TabIndex = 0;
             this.labelPictureInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // buttonAddComment
+            // 
+            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.buttonAddComment.Location = new System.Drawing.Point(412, 2);
+            this.buttonAddComment.Name = "buttonAddComment";
+            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
+            this.buttonAddComment.TabIndex = 1;
+            this.buttonAddComment.Text = "Send";
+            this.buttonAddComment.UseVisualStyleBackColor = true;
+            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
+            // 
+            // webBrowserComment
+            // 
+            this.webBrowserComment.AllowWebBrowserDrop = false;
+            this.webBrowserComment.Dock = System.Windows.Forms.DockStyle.Top;
+            this.webBrowserComment.Location = new System.Drawing.Point(0, 282);
+            this.webBrowserComment.Name = "webBrowserComment";
+            this.webBrowserComment.ScrollBarsEnabled = false;
+            this.webBrowserComment.Size = new System.Drawing.Size(510, 97);
+            this.webBrowserComment.TabIndex = 2;
+            this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
             // 
             // webBrowserTop
             // 
@@ -337,12 +338,16 @@ namespace Waveface.DetailUI
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            Application.DoEvents();
+
             int _h = webBrowserTop.Document.Body.ScrollRectangle.Height;
             webBrowserTop.Height = _h;
         }
 
         private void webBrowserComment_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            Application.DoEvents();
+
             int _h = webBrowserComment.Document.Body.ScrollRectangle.Height;
             webBrowserComment.Height = _h;
         }
@@ -367,26 +372,29 @@ namespace Waveface.DetailUI
             if (Post.attachment_count > 0)
             {
                 panelPictureInfo.Visible = true;
-                //m_downloadFileName = m_imageAttachments[imageFileIndex].file_name;
-                DownloadRemoteFile();
+
+                DownloadRemoteFile("origin");
             }
         }
 
         #region File Download [Picture]
 
-        private void DownloadRemoteFile()
+        private void DownloadRemoteFile(string imageType)
         {
             labelPictureInfo.Text = "[" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
 
             string _url = string.Empty;
             string _fileName = string.Empty;
-            MainForm.THIS.attachments_getRedirectURL_Image(m_imageAttachments[imageFileIndex], "medium", out _url, out _fileName); //origin
+            MainForm.THIS.attachments_getRedirectURL_Image(m_imageAttachments[imageFileIndex], imageType, out _url, out _fileName); //origin medium
 
             string _localFile = MainForm.GCONST.CachePath + _fileName;
 
             if (System.IO.File.Exists(_localFile))
             {
                 imageListView.Items.Add(_localFile);
+
+                Application.DoEvents();
+
                 DownloadRemoteFileNext();
             }
             else
@@ -396,25 +404,38 @@ namespace Waveface.DetailUI
             }
         }
 
+        private void pictureBoxRemote_LoadProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            labelPictureInfo.Text = e.ProgressPercentage + "%" + " [" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
+            Application.DoEvents();
+        }
+
         private void pictureBoxRemote_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            try
+            if (e.Error != null)
             {
-                string _localFile = MainForm.GCONST.CachePath + m_downloadFileName;
-
-                pictureBoxRemote.Image.Save(_localFile);
-
-                imageListView.Items.Add(_localFile);
-
-                Application.DoEvents();
-
-                DownloadRemoteFileNext();
-
-                PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
+                DownloadRemoteFile("medium");
             }
-            catch (Exception _e)
+            else
             {
-                Console.WriteLine(_e.Message);
+                try
+                {
+                    string _localFile = MainForm.GCONST.CachePath + m_downloadFileName;
+
+                    pictureBoxRemote.Image.Save(_localFile);
+
+                    imageListView.Items.Add(_localFile);
+
+                    Application.DoEvents();
+
+                    DownloadRemoteFileNext();
+
+                    PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
+                }
+                catch (Exception _e)
+                {
+                    Console.WriteLine(_e.Message);
+                }
             }
         }
 
@@ -423,15 +444,18 @@ namespace Waveface.DetailUI
             imageFileIndex++;
 
             labelPictureInfo.Text = "[" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
+
             Application.DoEvents();
 
             if (imageFileIndex < m_imageAttachments.Count)
             {
-                DownloadRemoteFile();
+                DownloadRemoteFile("origin");
             }
             else
             {
                 panelPictureInfo.Visible = false;
+                
+                ReLayout();
             }
         }
 

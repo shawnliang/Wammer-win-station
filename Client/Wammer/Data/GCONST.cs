@@ -44,26 +44,22 @@ namespace Waveface
         {
             CachePath = AppDataPath + "Cache\\";
             Directory.CreateDirectory(CachePath);
-
-            
+      
             string[] _filePaths = Directory.GetFiles(CachePath);
 
-            foreach (string _filePath in _filePaths)
-                File.Delete(_filePath);
-            
+            //foreach (string _filePath in _filePaths)
+            //    File.Delete(_filePath);      
         }
 
         private void InitImageUploadCacheDir()
         {
             ImageUploadCachePath = AppDataPath + "ImageUploadCache\\";
             Directory.CreateDirectory(ImageUploadCachePath);
-
-            
+    
             string[] _filePaths = Directory.GetFiles(ImageUploadCachePath);
 
-            foreach (string _filePath in _filePaths)
-                File.Delete(_filePath);
-            
+            //foreach (string _filePath in _filePaths)
+            //    File.Delete(_filePath);
         }
     }
 }

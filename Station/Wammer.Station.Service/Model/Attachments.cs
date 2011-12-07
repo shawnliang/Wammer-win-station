@@ -64,6 +64,8 @@ namespace Wammer.Model
 		public string file_name { get; set; }
 		[BsonIgnoreIfNull]
 		public string md5 { get; set; }
+		[BsonIgnoreIfNull]
+		public string saved_file_name { get; set; }
 
 		[BsonIgnore]
 		[System.Xml.Serialization.XmlIgnore]

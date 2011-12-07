@@ -114,9 +114,6 @@
     <Reference Include="Waveface.Configuration.WindowsForms">
       <HintPath>..\Libs\Waveface.Configuration.WindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="Waveface.Localization">
-      <HintPath>..\Libs\Waveface.Localization.Editor\Localizer\bin\Waveface.Localization.dll</HintPath>
-    </Reference>
     <Reference Include="WebCam_Capture">
       <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
     </Reference>
@@ -135,8 +132,8 @@
     </Compile>
     <Compile Include="Compoment\MultiPanel\MultiPanelPageDesigner.cs" />
     <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
-    <Compile Include="Data\ServerImageAddressUtility.cs" />
-    <Compile Include="FileUploadToStation.cs" />
+    <Compile Include="Libs\Utility\AttachmentUrlUtility.cs" />
+    <Compile Include="UploadOriginPhotosToStation.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
     <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
       <SubType>UserControl</SubType>
@@ -260,7 +257,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Data\PostType.cs" />
-    <Compile Include="I18n.cs" />
+    <Compile Include="Data\I18n.cs" />
     <Compile Include="Libs\Utility\OsUtility.cs" />
     <Compile Include="Test\Group And User\Password.cs">
       <SubType>Form</SubType>
@@ -327,7 +324,7 @@
     <Compile Include="Test\Group And User\Signup.Designer.cs">
       <DependentUpon>Signup.cs</DependentUpon>
     </Compile>
-    <Compile Include="RunTimeData.cs" />
+    <Compile Include="Data\RunTimeData.cs" />
     <Compile Include="Test\TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -759,6 +756,10 @@
     <ProjectReference Include="..\Libs\HtmlEditorControl\HTMLEditorControl.csproj">
       <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
       <Name>HTMLEditorControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libs\Waveface.Localization.Editor\Localizer\Localizer.csproj">
+      <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
+      <Name>Localizer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Wammer Helper\Wammer Helper.csproj">
       <Project>{DAE8EDAE-A615-4C45-BA67-6D32454938CD}</Project>

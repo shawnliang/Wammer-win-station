@@ -35,7 +35,7 @@ namespace Waveface
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private Popup m_trayIconPopup;
         private TrayIconPanel m_trayIconPanel;
-        private FileUploadToStation m_fileUploadToStation;
+        private UploadOriginPhotosToStation m_uploadOriginPhotosToStation;
 
         private string m_stationIP;
 
@@ -110,7 +110,7 @@ namespace Waveface
             //-- Send To
             CreateFileWatcher();
 
-            m_fileUploadToStation = new FileUploadToStation();
+            m_uploadOriginPhotosToStation = new UploadOriginPhotosToStation();
         }
 
         private void InitmDropableNotifyIcon()
@@ -267,17 +267,17 @@ namespace Waveface
 
         public string attachments_getRedirectURL(string orgURL, string object_id, bool isImage)
         {
-            return ServerImageAddressUtility.attachments_getRedirectURL(orgURL, SessionToken, object_id, isImage);
+            return AttachmentUrlUtility.GetRedirectURL(orgURL, SessionToken, object_id, isImage);
         }
 
         public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url, out string fileName)
         {
-            return ServerImageAddressUtility.attachments_getRedirectURL_Image(SessionToken, a, imageType, out url, out fileName);
+            return AttachmentUrlUtility.GetRedirectURL_Image(SessionToken, a, imageType, out url, out fileName);
         }
 
         public string attachments_getRedirectURL_PdfCoverPage(string orgURL)
         {
-            return ServerImageAddressUtility.attachments_getRedirectURL_PdfCoverPage(orgURL, SessionToken);
+            return AttachmentUrlUtility.GetRedirectURL_PdfCoverPage(orgURL, SessionToken);
         }
 
         public MR_posts_new Post_CreateNewPost(string text, string files, string previews, string type)
@@ -443,6 +443,20 @@ namespace Waveface
             if ((_findMyStation != null) && (_findMyStation.status == "200"))
             {
                 return _findMyStation;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_posts_hide_ret Posts_hide(string post_id)
+        {
+            MR_posts_hide_ret _ret = m_serviceV2.posts_hide(SessionToken, RT.CurrentGroupID, post_id);
+
+            if ((_ret != null) && (_ret.status == "200"))
+            {
+                return _ret;
             }
             else
             {
@@ -674,17 +688,14 @@ namespace Waveface
 
         public void HidePost(string postId)
         {
-            /*
-            MR_hide_ret _ret = Hide_Set_Post(postId);
+            MR_posts_hide_ret _ret = Posts_hide(postId);
 
             if (_ret != null)
             {
                 MessageBox.Show("Remove Post Success!");
 
-                RT.HideList = Hide_List("all");
                 ShowPostToUI(false);
             }
-            */
         }
 
         #endregion
