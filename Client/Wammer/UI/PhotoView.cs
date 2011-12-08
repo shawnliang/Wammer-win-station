@@ -1,7 +1,7 @@
 ﻿#region
 
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.Component;
@@ -12,11 +12,14 @@ namespace Waveface
 {
     public partial class PhotoView : Form
     {
+        public PhotoView()
+        {
+            InitializeComponent();
+        }
+
         public PhotoView(List<string> files, string fileName)
         {
             InitializeComponent();
-
-            Application.Idle += Application_Idle;
 
             foreach (string _file in files)
             {
@@ -25,10 +28,7 @@ namespace Waveface
 
             imageListView.View = Manina.Windows.Forms.View.Gallery;
 
-            ImageListView.ImageListViewRenderer _renderers = new MyImageListViewRenderer();
-            _renderers.Clip = true;
-
-            imageListView.SetRenderer(_renderers);
+            imageListView.SetRenderer(new MyImageListViewRenderer());
 
             foreach (ImageListViewItem _item in imageListView.Items)
             {
@@ -40,10 +40,62 @@ namespace Waveface
             }
         }
 
-        private void Application_Idle(object sender, EventArgs e)
+        #region Save
+
+        private void miSave_Click(object sender, System.EventArgs e)
         {
-            toolStripStatusLabel1.Text = string.Format("{0} Items",
-                                                       imageListView.Items.Count);
+            SavePic();
         }
+
+        private void miSaveAll_Click(object sender, System.EventArgs e)
+        {
+            SaveAllPics();
+        }
+
+        private void btnSave_Click(object sender, System.EventArgs e)
+        {
+            SavePic();
+        }
+
+        private void btnSaveAll_Click(object sender, System.EventArgs e)
+        {
+            SaveAllPics();
+        }
+
+        private void SavePic()
+        {
+            if (imageListView.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            string _picFile = imageListView.SelectedItems[0].FileName;
+
+            saveFileDialog.FileName = new FileInfo(_picFile).Name;
+            DialogResult _dr = saveFileDialog.ShowDialog();
+
+            if (_dr == DialogResult.OK)
+            {
+                try
+                {
+                    string _destFile = saveFileDialog.FileName;
+
+                    File.Copy(_picFile, _destFile);
+
+                    MessageBox.Show("File Save Successful!");
+                }
+                catch
+                {
+                    MessageBox.Show("File Save Error!");
+                }
+            }
+        }
+
+        private void SaveAllPics()
+        {
+
+        }
+
+        #endregion
     }
 }
