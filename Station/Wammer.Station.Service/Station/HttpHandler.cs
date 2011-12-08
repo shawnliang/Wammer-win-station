@@ -86,7 +86,7 @@ namespace Wammer.Station
 					ExtractParamsFromMultiPartFormData(part);
 				}
 			}
-			catch (FormatException e)
+			catch (FormatException)
 			{
 				string filename = Guid.NewGuid().ToString();
 				using (BinaryWriter w = new BinaryWriter(File.OpenWrite(@"log\" + filename)))

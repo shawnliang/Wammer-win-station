@@ -70,10 +70,6 @@ namespace Waveface.Component.ListBarControl
         /// </summary>
         private Timer buttonPressed = new Timer();
 
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
-        private Container components;
 
         /// <summary>
         /// The object that was last hovered over during
@@ -295,13 +291,6 @@ namespace Waveface.Component.ListBarControl
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
             base.Dispose(disposing);
         }
 

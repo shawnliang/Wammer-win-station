@@ -248,8 +248,6 @@ namespace Waveface.Component.TimePickerEx
 
         #endregion
 
-        private Container components;
-
         private int m_nAMPMRange;
         private int m_nEndRange;
         private int m_nHourRange;

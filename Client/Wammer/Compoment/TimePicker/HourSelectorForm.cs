@@ -56,8 +56,6 @@ namespace Waveface.Component.TimePickerEx
 
         #endregion
 
-        private Container components;
-
         private Button m_oOldHourButton;
 
         public HourSelectorForm()
@@ -72,14 +70,6 @@ namespace Waveface.Component.TimePickerEx
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-
             base.Dispose(disposing);
         }
 

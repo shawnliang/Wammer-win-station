@@ -12,7 +12,6 @@ namespace Waveface.Component.HtmlEditor
     // Input based on the HtmlTableProperty struct
     internal class TablePropertyForm : Form
     {
-        private Container components;
         private Button bCancel;
         private Button bInsert;
         private TextBox textTableCaption;
@@ -148,14 +147,6 @@ namespace Waveface.Component.HtmlEditor
         // Clean up any resources being used.
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-
             base.Dispose(disposing);
         }
 

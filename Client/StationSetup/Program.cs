@@ -58,7 +58,8 @@ namespace StationSetup
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show("Unable to start " + WavefaceWindowsClientPath, "Program error");
+				MessageBox.Show("Unable to start Waveface Windows Client: " + e.Message, "Waveface",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 	}

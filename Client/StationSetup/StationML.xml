@@ -45,4 +45,9 @@
     <en-US>Unexpected error occured. Please try again.</en-US>
     <zh-TW>發生了不預期的錯誤 請再試一次</zh-TW>
   </WItem>
+  <WItem>
+    <ID>StationHasDriverError</ID>
+    <en-US>Waveface Station already has a registered user. Adding another one is not allowed.</en-US>
+    <zh-TW>Waveface Station已經有了一個已註冊的使用者, 無法再增加另一位</zh-TW>
+  </WItem>
 </WItems>

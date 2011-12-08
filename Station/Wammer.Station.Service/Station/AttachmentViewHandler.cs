@@ -81,7 +81,7 @@ namespace Wammer.Station
 			{
 				HttpHelper.RespondFailure(Response, e, (int)HttpStatusCode.BadRequest);
 			}
-			catch (FileNotFoundException e)
+			catch (FileNotFoundException)
 			{
 				if (imageMeta == ImageMeta.Large ||
 					imageMeta == ImageMeta.Medium ||

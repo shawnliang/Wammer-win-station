@@ -16,7 +16,6 @@ namespace Waveface.Component.HtmlEditor
         private TextBox m_htmlText;
         private Button bOK;
         private Button bCancel;
-        private Container components;
 
         // read only property for the form
         private bool m_readOnly;
@@ -73,14 +72,6 @@ namespace Waveface.Component.HtmlEditor
         // Clean up any resources being used.
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-
             base.Dispose(disposing);
         }
 
