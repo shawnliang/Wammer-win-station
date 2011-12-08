@@ -280,7 +280,6 @@ namespace Wammer.Station
 		public MongoCollection DbDocs { get; set; }
 		public string UserApiKey { get; set; }
 		public string UserSessionToken { get; set; }
-		public string FolderPath { get; set; }
 
 		public ImageAttachmentEventArgs()
 		{
