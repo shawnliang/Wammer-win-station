@@ -60,13 +60,13 @@ namespace Waveface.Component.MozBar
         [Browsable(true)]
         [Description("Indicates that the control has been scrolled horizontally.")]
         [Category("Panel")]
-        public event MozScrollEventHandler HorizontalScroll;
+        public event MozScrollEventHandler HorizontalScrolled;
 
 
         [Browsable(true)]
         [Description("Indicates that the control has been scrolled vertically.")]
         [Category("Panel")]
-        public event MozScrollEventHandler VerticalScroll;
+        public event MozScrollEventHandler VerticalScrolled;
 
         #endregion
 
@@ -90,14 +90,14 @@ namespace Waveface.Component.MozBar
             // Was this a horizontal scroll message?
             if (m.Msg == WM_HSCROLL)
             {
-                if (HorizontalScroll != null)
+                if (HorizontalScrolled != null)
                 {
                     uint _wParam = (uint) m.WParam.ToInt32();
                     SCROLLINFO _si = new SCROLLINFO();
                     _si.cbSize = Marshal.SizeOf(_si);
                     _si.fMask = SIF_ALL;
                     bool _ret = GetScrollInfo(Handle, SB_HORZ, ref _si);
-                    HorizontalScroll(this,
+                    HorizontalScrolled(this,
                                      new MozScrollEventArgs(
                                          GetEventType(_wParam & 0xffff), (int) (_wParam >> 16), _si));
                 }
@@ -105,14 +105,14 @@ namespace Waveface.Component.MozBar
                 // or a vertical scroll message?
             else if (m.Msg == WM_VSCROLL)
             {
-                if (VerticalScroll != null)
+                if (VerticalScrolled != null)
                 {
                     uint _wParam = (uint) m.WParam.ToInt32();
                     SCROLLINFO _si = new SCROLLINFO();
                     _si.cbSize = Marshal.SizeOf(_si);
                     _si.fMask = SIF_ALL;
                     bool _ret = GetScrollInfo(Handle, SB_VERT, ref _si);
-                    VerticalScroll(this,
+                    VerticalScrolled(this,
                                    new MozScrollEventArgs(
                                        GetEventType(_wParam & 0xffff), (int) (_wParam >> 16), _si));
                 }

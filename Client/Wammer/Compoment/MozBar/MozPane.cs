@@ -1225,11 +1225,11 @@ namespace Waveface.Component.MozBar
 
         private void GetThemeColors()
         {
-            int EPB_HEADERBACKGROUND = 1;
-            int EPB_NORMALGROUPBACKGROUND = 5;
+            //int EPB_HEADERBACKGROUND = 1;
+            //int EPB_NORMALGROUPBACKGROUND = 5;
 
-            int TMT_GRADIENTCOLOR1 = 3810;
-            int TMT_GRADIENTCOLOR2 = 3811;
+            //int TMT_GRADIENTCOLOR1 = 3810;
+            //int TMT_GRADIENTCOLOR2 = 3811;
 
             Color selectColor = new Color();
             Color focusColor = new Color();

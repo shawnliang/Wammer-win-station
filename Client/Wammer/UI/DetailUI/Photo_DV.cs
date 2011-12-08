@@ -19,7 +19,6 @@ namespace Waveface.DetailUI
     {
         #region Fields
 
-        private IContainer components;
         private Panel panelMain;
         private Panel panelRight;
         private WebBrowser webBrowserTop;
@@ -69,14 +68,6 @@ namespace Waveface.DetailUI
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-
             base.Dispose(disposing);
         }
 

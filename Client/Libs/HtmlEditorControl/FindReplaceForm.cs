@@ -30,8 +30,6 @@ namespace Waveface.Component.HtmlEditor
         private Panel panelOptions;
         private Panel panelInput;
 
-        private Container components;
-
         // private variables defining the state of the form
         private bool options;
         private bool findNotReplace = true;
@@ -110,14 +108,6 @@ namespace Waveface.Component.HtmlEditor
         // Clean up any resources being used.
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-
             base.Dispose(disposing);
         }
 
