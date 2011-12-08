@@ -36,6 +36,7 @@ namespace Waveface.DetailUI
         private PhotoView m_photoView;
         private Panel panelPictureInfo;
         private Label labelPictureInfo;
+        private Dictionary<string, string> m_filesMapping; 
 
         #endregion
 
@@ -65,6 +66,8 @@ namespace Waveface.DetailUI
             InitializeComponent();
 
             imageListView.SetRenderer(new MyImageListViewRenderer());
+
+            m_filesMapping = new Dictionary<string, string>();
         }
 
         protected override void Dispose(bool disposing)
@@ -368,6 +371,7 @@ namespace Waveface.DetailUI
                 return;
 
             imageFileIndex = 0;
+            m_filesMapping.Clear();
 
             if (Post.attachment_count > 0)
             {
@@ -383,11 +387,18 @@ namespace Waveface.DetailUI
         {
             labelPictureInfo.Text = "[" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
 
+            Attachment _attachment = m_imageAttachments[imageFileIndex];
             string _url = string.Empty;
             string _fileName = string.Empty;
-            MainForm.THIS.attachments_getRedirectURL_Image(m_imageAttachments[imageFileIndex], imageType, out _url, out _fileName); //origin medium
+            MainForm.THIS.attachments_getRedirectURL_Image(_attachment, imageType, out _url, out _fileName); //origin medium
 
             string _localFile = MainForm.GCONST.CachePath + _fileName;
+
+            if (!m_filesMapping.ContainsKey(_fileName))
+            {
+                if (_attachment.file_name != string.Empty)
+                    m_filesMapping.Add(_fileName, _attachment.file_name);
+            }
 
             if (System.IO.File.Exists(_localFile))
             {
@@ -471,7 +482,7 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            m_photoView = new PhotoView(_files, e.Item.FileName);
+            m_photoView = new PhotoView(_files, m_filesMapping, e.Item.FileName);
             m_photoView.ShowDialog();
         }
 

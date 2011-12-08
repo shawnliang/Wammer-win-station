@@ -212,7 +212,6 @@ namespace Waveface
         private PostType getPostType()
         {
             bool _haveDOC = false;
-            bool _haveHTML = false;
 
             if (m_post.preview.url != null)
                 return PostType.Link;
@@ -224,16 +223,11 @@ namespace Waveface
                     if (_a.type == "doc")
                     {
                         _haveDOC = true;
-
-                        if (_a.title == "_RichText_")
-                        {
-                            _haveHTML = true;
-                            break;
-                        }
+                        break;
                     }
                 }
 
-                if (_haveHTML)
+                if (m_post.type == "rtf")
                     return PostType.RichText;
 
                 if (_haveDOC)

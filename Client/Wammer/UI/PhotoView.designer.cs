@@ -46,12 +46,14 @@ namespace Waveface
             // imageListView
             // 
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.imageListView.ContextMenuStrip = this.contextMenuStrip;
             this.imageListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Location = new System.Drawing.Point(0, 0);
             this.imageListView.Name = "imageListView";
             this.imageListView.Size = new System.Drawing.Size(728, 413);
             this.imageListView.TabIndex = 0;
+            this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
             // 
             // contextMenuStrip
             // 
@@ -86,7 +88,6 @@ namespace Waveface
             this.btnSave.Size = new System.Drawing.Size(24, 24);
             this.btnSave.TabIndex = 1;
             this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Visible = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnSaveAll
@@ -100,7 +101,6 @@ namespace Waveface
             this.btnSaveAll.Size = new System.Drawing.Size(24, 24);
             this.btnSaveAll.TabIndex = 2;
             this.btnSaveAll.UseVisualStyleBackColor = true;
-            this.btnSaveAll.Visible = false;
             this.btnSaveAll.Click += new System.EventHandler(this.btnSaveAll_Click);
             // 
             // PhotoView
