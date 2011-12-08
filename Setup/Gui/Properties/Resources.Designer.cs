@@ -86,13 +86,8 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg1250\deff0{\fonttbl{\f0\fswiss\fcharset238{\*\fname Arial;}Arial CE;}{\f1\fnil\fcharset0 ;}}
-        ///{\*\generator Msftedit 5.41.21.2509;}\viewkind4\uc1\pard\qc\lang1045\b\f0\fs20 END USER LICENSE AGREEMENT\b0\par
-        ///\par
-        ///Put end user license agreement for your product here.\par
-        ///\lang1033\f1\par
-        ///}
-        /// .
+        ///   Looks up a localized string similar to {\rtf1\adeflang1025\ansi\ansicpg950\uc2\adeff31507\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi31507\deflang1033\deflangfe1028\themelang1033\themelangfe1028\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f1\fbidi \fswiss\fcharset0\fprq2{\*\panose 020b0604020202020204}Arial;}
+        ///{\f14\fbidi \froman\fcharset136\fprq2{\*\panose 02020500000000000000}\&apos;b7\&apos;73\&apos;b2\&apos;d3\&apos;a9\&apos;fa\&apos;c5\&apos;e9{\*\falt PMingLiU};}{\f14\fbidi \froman\fcharset136\fprq2{\*\ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string LicenseStepRtf {
             get {
@@ -110,7 +105,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will install Waveface Station on your computer..
+        ///   Looks up a localized string similar to The wizard will install the Waveface Station on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingInstall {
             get {
@@ -119,7 +114,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will modify Waveface Station on your computer..
+        ///   Looks up a localized string similar to The wizard will modify the Waveface Station on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingModify {
             get {
@@ -128,7 +123,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will reinstall Waveface Station on your computer..
+        ///   Looks up a localized string similar to The wizard will reinstall the Waveface Station on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingReinstall {
             get {
@@ -137,7 +132,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will uninstall Waveface Station from your computer..
+        ///   Looks up a localized string similar to The wizard will uninstall the Waveface Station from your computer..
         /// </summary>
         internal static string WelcomeStepGreetingUninstall {
             get {

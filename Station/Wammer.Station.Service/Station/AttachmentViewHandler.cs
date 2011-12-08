@@ -83,7 +83,6 @@ namespace Wammer.Station
 			}
 			catch (FileNotFoundException e)
 			{
-
 				if (imageMeta == ImageMeta.Large ||
 					imageMeta == ImageMeta.Medium ||
 					imageMeta == ImageMeta.Small ||

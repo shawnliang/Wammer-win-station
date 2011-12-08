@@ -228,7 +228,7 @@ namespace Wammer.Station
                 m_dropboxOAuthUrl = StationController.GetDropboxOAuthUrl();
             }
 
-            Process.Start(HOST + "to?url=" + HttpUtility.UrlEncode(m_dropboxOAuthUrl), null);
+            Process.Start(m_dropboxOAuthUrl, null);
         }
 
         #endregion

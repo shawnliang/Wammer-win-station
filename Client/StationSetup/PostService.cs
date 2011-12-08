@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
@@ -56,7 +56,7 @@ namespace StationSetup
 
             CheckStation(m_login.stations);
 
-            //預設群組
+            //�設群�
             RT.CurrentGroupID = m_login.groups[0].group_id;
 
             return true;
@@ -144,24 +144,12 @@ namespace StationSetup
 
             foreach (string _file in images)
             {
-                try
-                {
-                    MR_attachments_upload _uf = File_UploadFile(new FileInfo(_file).Name, _file, "", true);
+                MR_attachments_upload _uf = File_UploadFile(new FileInfo(_file).Name, _file, "", true);
 
-                    if (_uf == null)
-                    {
-                        return "";
-                    }
-
-                    _ids += "\"" + _uf.object_id + "\"" + ",";
-                }
-                catch
-                {
-                    return "";
-                }
+                _ids += "\"" + _uf.object_id + "\"" + ",";
             }
 
-            _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
+            _ids = _ids.Substring(0, _ids.Length - 1); // ��後�,"
             _ids += "]";
 
             return (_ids);
@@ -204,7 +192,7 @@ namespace StationSetup
                 }
             }
 
-            _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
+            _ids = _ids.Substring(0, _ids.Length - 1); // ��後�,"
             _ids += "]";
 
             return (_ids);
@@ -261,17 +249,19 @@ namespace StationSetup
 
             if (isImage)
             {
-                if (RT.IsStationOK) //如果有Station則上傳原圖, 否則就上512中圖
+                if (RT.IsStationOK) //如�Station��� ��就�512中�
                 {
                     _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text,
                                                                         "", "image", "origin", object_id);
                 }
                 else
                 {
-                    _resizedImageFilePath = ResizeImage(filePath, text, "512", 50);
-                    _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID,
-                                                                        _resizedImageFilePath, text, "", "image",
-                                                                        "medium", object_id);
+                    //_resizedImageFilePath = ResizeImage(filePath, text, "512", 50);
+                    //_attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID,
+                    //                                                    _resizedImageFilePath, text, "", "image",
+                    //                                                    "medium", object_id);
+
+                    throw new Exception("Unable to upload attachment for default post becuase not connected with station");
                 }
             }
             else
@@ -282,7 +272,7 @@ namespace StationSetup
 
             if ((_attachmentsUpload != null) && (_attachmentsUpload.status == "200"))
             {
-                // 如果傳中圖到Cloud, 則要把原圖Cache起來, 待有Station在傳原圖
+                // 如�中�到Cloud, ���Cache起�, 待�Station�傳��
                 if (_resizedImageFilePath != string.Empty)
                 {
                     string _ext = ".jpg";
@@ -299,7 +289,8 @@ namespace StationSetup
                 return _attachmentsUpload;
             }
 
-            return null;
+            //return null;
+            throw new Exception("Upload attachment for default posts failed.");
         }
 
         #endregion

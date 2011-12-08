@@ -407,13 +407,14 @@ namespace Waveface.DetailUI
         private void pictureBoxRemote_LoadProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             labelPictureInfo.Text = e.ProgressPercentage + "%" + " [" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
-            Application.DoEvents();
         }
 
         private void pictureBoxRemote_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
+                Application.DoEvents();
+
                 DownloadRemoteFile("medium");
             }
             else

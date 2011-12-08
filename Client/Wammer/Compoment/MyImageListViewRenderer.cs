@@ -1,8 +1,11 @@
-﻿
+﻿#region
+
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using Manina.Windows.Forms;
+
+#endregion
 
 namespace Waveface.Component
 {
@@ -12,10 +15,7 @@ namespace Waveface.Component
 
         public float ZoomRatio
         {
-            get
-            {
-                return m_zoomRatio;
-            }
+            get { return m_zoomRatio; }
             set
             {
                 m_zoomRatio = value;
@@ -118,16 +118,23 @@ namespace Waveface.Component
                     }
 
                     if ((ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None)) ||
-                        (!ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None) && ((state & ItemState.Hovered) != ItemState.None)))
+                        (!ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None) &&
+                         ((state & ItemState.Hovered) != ItemState.None)))
                     {
-                        using (Brush _bSelected = new LinearGradientBrush(bounds, ImageListView.Colors.SelectedColor1, ImageListView.Colors.SelectedColor2, LinearGradientMode.Vertical))
+                        using (
+                            Brush _bSelected = new LinearGradientBrush(bounds, ImageListView.Colors.SelectedColor1,
+                                                                       ImageListView.Colors.SelectedColor2,
+                                                                       LinearGradientMode.Vertical))
                         {
                             Utility.FillRoundedRectangle(g, _bSelected, bounds, 5);
                         }
                     }
                     else if (!ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None))
                     {
-                        using (Brush _bGray64 = new LinearGradientBrush(bounds, ImageListView.Colors.UnFocusedColor1, ImageListView.Colors.UnFocusedColor2, LinearGradientMode.Vertical))
+                        using (
+                            Brush _bGray64 = new LinearGradientBrush(bounds, ImageListView.Colors.UnFocusedColor1,
+                                                                     ImageListView.Colors.UnFocusedColor2,
+                                                                     LinearGradientMode.Vertical))
                         {
                             Utility.FillRoundedRectangle(g, _bGray64, bounds, 5);
                         }
@@ -135,7 +142,10 @@ namespace Waveface.Component
 
                     if (((state & ItemState.Hovered) != ItemState.None))
                     {
-                        using (Brush _bHovered = new LinearGradientBrush(bounds, ImageListView.Colors.HoverColor1, ImageListView.Colors.HoverColor2, LinearGradientMode.Vertical))
+                        using (
+                            Brush _bHovered = new LinearGradientBrush(bounds, ImageListView.Colors.HoverColor1,
+                                                                      ImageListView.Colors.HoverColor2,
+                                                                      LinearGradientMode.Vertical))
                         {
                             Utility.FillRoundedRectangle(g, _bHovered, bounds, 5);
                         }
@@ -156,7 +166,8 @@ namespace Waveface.Component
                         {
                             using (Pen _pInnerBorder = new Pen(ImageListView.Colors.ImageInnerBorderColor))
                             {
-                                g.DrawRectangle(_pInnerBorder, _imageX + 1, _imageY + 1, _imageWidth - 2, _imageHeight - 2);
+                                g.DrawRectangle(_pInnerBorder, _imageX + 1, _imageY + 1, _imageWidth - 2,
+                                                _imageHeight - 2);
                             }
                         }
                     }
@@ -183,28 +194,32 @@ namespace Waveface.Component
                 // Item border
                 using (Pen _pWhite128 = new Pen(Color.FromArgb(128, ImageListView.Colors.ControlBackColor)))
                 {
-                    Utility.DrawRoundedRectangle(g, _pWhite128, bounds.Left + 1, bounds.Top + 1, bounds.Width - 3, bounds.Height - 3, 4);
+                    Utility.DrawRoundedRectangle(g, _pWhite128, bounds.Left + 1, bounds.Top + 1, bounds.Width - 3,
+                                                 bounds.Height - 3, 4);
                 }
 
                 if (ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None))
                 {
                     using (Pen _pHighlight128 = new Pen(ImageListView.Colors.SelectedBorderColor))
                     {
-                        Utility.DrawRoundedRectangle(g, _pHighlight128, bounds.Left, bounds.Top, bounds.Width - 1, bounds.Height - 1, 4);
+                        Utility.DrawRoundedRectangle(g, _pHighlight128, bounds.Left, bounds.Top, bounds.Width - 1,
+                                                     bounds.Height - 1, 4);
                     }
                 }
                 else if (!ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None))
                 {
                     using (Pen _pGray128 = new Pen(ImageListView.Colors.UnFocusedBorderColor))
                     {
-                        Utility.DrawRoundedRectangle(g, _pGray128, bounds.Left, bounds.Top, bounds.Width - 1, bounds.Height - 1, 4);
+                        Utility.DrawRoundedRectangle(g, _pGray128, bounds.Left, bounds.Top, bounds.Width - 1,
+                                                     bounds.Height - 1, 4);
                     }
                 }
                 else if ((state & ItemState.Selected) == ItemState.None)
                 {
                     using (Pen _pGray64 = new Pen(ImageListView.Colors.BorderColor))
                     {
-                        Utility.DrawRoundedRectangle(g, _pGray64, bounds.Left, bounds.Top, bounds.Width - 1, bounds.Height - 1, 4);
+                        Utility.DrawRoundedRectangle(g, _pGray64, bounds.Left, bounds.Top, bounds.Width - 1,
+                                                     bounds.Height - 1, 4);
                     }
                 }
 
@@ -212,7 +227,8 @@ namespace Waveface.Component
                 {
                     using (Pen _pHighlight64 = new Pen(ImageListView.Colors.HoverBorderColor))
                     {
-                        Utility.DrawRoundedRectangle(g, _pHighlight64, bounds.Left, bounds.Top, bounds.Width - 1, bounds.Height - 1, 4);
+                        Utility.DrawRoundedRectangle(g, _pHighlight64, bounds.Left, bounds.Top, bounds.Width - 1,
+                                                     bounds.Height - 1, 4);
                     }
                 }
             }
@@ -229,5 +245,87 @@ namespace Waveface.Component
             if (ImageListView.View == View.Details)
                 base.DrawFileIcon(g, item, bounds);
         }
+
+        public override void DrawGalleryImage(Graphics g, ImageListViewItem item, Image image, Rectangle bounds)
+        {
+            if (item != null && image != null)
+            {
+                // Calculate image bounds
+                Size _itemMargin = MeasureItemMargin(ImageListView.View);
+                Rectangle _pos = GetSizedImageBounds(image,
+                                                            new Rectangle(bounds.Location + _itemMargin,
+                                                                          bounds.Size - _itemMargin - _itemMargin));
+
+                Bitmap _bmp = new Bitmap(item.FileName);
+                g.DrawImage(_bmp, _pos, new Rectangle(0, 0, _bmp.Width, _bmp.Height), GraphicsUnit.Pixel);
+                _bmp = null;
+
+                // Draw image border
+                if (Math.Min(_pos.Width, _pos.Height) > 32)
+                {
+                    using (Pen _pOuterBorder = new Pen(ImageListView.Colors.ImageOuterBorderColor))
+                    using (Pen _pInnerBorder = new Pen(ImageListView.Colors.ImageInnerBorderColor))
+                    {
+                        g.DrawRectangle(_pOuterBorder, _pos);
+                        g.DrawRectangle(_pInnerBorder, Rectangle.Inflate(_pos, -1, -1));
+                    }
+                }
+            }
+        }
+
+        #region GetSizedImageBounds
+
+        /// <summary>
+        /// Gets the scaled size of an image required to fit
+        /// in to the given size keeping the image aspect ratio.
+        /// </summary>
+        /// <param name="image">The source image.</param>
+        /// <param name="fit">The size to fit in to.</param>
+        /// <returns>New image size.</returns>
+        internal static Size GetSizedImageBounds(Image image, Size fit)
+        {
+            float f = Math.Max(image.Width / (float)fit.Width, image.Height / (float)fit.Height);
+            if (f < 1.0f) f = 1.0f; // Do not upsize small images
+            int width = (int)Math.Round(image.Width / f);
+            int height = (int)Math.Round(image.Height / f);
+            return new Size(width, height);
+        }
+
+        /// <summary>
+        /// Gets the bounding rectangle of an image required to fit
+        /// in to the given rectangle keeping the image aspect ratio.
+        /// </summary>
+        /// <param name="image">The source image.</param>
+        /// <param name="fit">The rectangle to fit in to.</param>
+        /// <param name="hAlign">Horizontal image aligment in percent.</param>
+        /// <param name="vAlign">Vertical image aligment in percent.</param>
+        /// <returns>New image size.</returns>
+        public static Rectangle GetSizedImageBounds(Image image, Rectangle fit, float hAlign, float vAlign)
+        {
+            if (hAlign < 0 || hAlign > 100.0f)
+                throw new ArgumentException("hAlign must be between 0.0 and 100.0 (inclusive).", "hAlign");
+            if (vAlign < 0 || vAlign > 100.0f)
+                throw new ArgumentException("vAlign must be between 0.0 and 100.0 (inclusive).", "vAlign");
+            Size scaled = GetSizedImageBounds(image, fit.Size);
+            int x = fit.Left + (int)(hAlign / 100.0f * (fit.Width - scaled.Width));
+            int y = fit.Top + (int)(vAlign / 100.0f * (fit.Height - scaled.Height));
+
+            return new Rectangle(x, y, scaled.Width, scaled.Height);
+        }
+
+        /// <summary>
+        /// Gets the bounding rectangle of an image required to fit
+        /// in to the given rectangle keeping the image aspect ratio.
+        /// The image will be centered in the fit box.
+        /// </summary>
+        /// <param name="image">The source image.</param>
+        /// <param name="fit">The rectangle to fit in to.</param>
+        /// <returns>New image size.</returns>
+        public static Rectangle GetSizedImageBounds(Image image, Rectangle fit)
+        {
+            return GetSizedImageBounds(image, fit, 50.0f, 50.0f);
+        }
+
+        #endregion
     }
 }

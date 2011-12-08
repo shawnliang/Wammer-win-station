@@ -54,7 +54,7 @@ namespace StationSetup
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show("Unable to generate default posts.\r\n" + e.Message, "Waveface", 
+				MessageBox.Show("Unable to generate default posts.\r\n" + e.ToString(), "Waveface", 
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
