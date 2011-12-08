@@ -256,17 +256,24 @@ namespace Waveface
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.None;
-
-            if ((txtUserName.Text.Trim() != "") && (txtPassword.Text.Trim() != ""))
+            try
             {
-                m_formSettings.Save();
+                DialogResult = DialogResult.None;
 
-                doLogin(txtUserName.Text.Trim(), txtPassword.Text.Trim());
+                if ((txtUserName.Text.Trim() != "") && (txtPassword.Text.Trim() != ""))
+                {
+                    m_formSettings.Save();
+
+                    doLogin(txtUserName.Text.Trim(), txtPassword.Text.Trim());
+                }
+                else
+                {
+                    MessageBox.Show(I18n.L.T("LoginForm.FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (Exception _ex)
             {
-                MessageBox.Show(I18n.L.T("LoginForm.FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(_ex.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

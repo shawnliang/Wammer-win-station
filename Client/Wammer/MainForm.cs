@@ -217,7 +217,16 @@ namespace Waveface
 
         private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
         {
-            Invoke(new MethodInvoker(UpdateStatusBar));
+            try
+            {
+                if (IsHandleCreated)
+                    Invoke(new MethodInvoker(UpdateStatusBar));
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.ToString(), "Waveface", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
         }
 
         #endregion
