@@ -40,6 +40,11 @@ namespace Waveface.API.V2
             get { return HostIP + "/v2"; }
         }
 
+        public static string BaseURLForGroupUserAuth
+        {
+            get { return CloundIP + "/v2"; }
+        }
+
         public static string StationIP { get; set; }
 
         public BEService2()
@@ -63,7 +68,7 @@ namespace Waveface.API.V2
 
             try
             {
-                string _url = BaseURL + "/auth/signup";
+                string _url = BaseURLForGroupUserAuth + "/auth/signup";
 
                 string _parms =
                     "apikey" + "=" + APIKEY + "&" +
@@ -82,10 +87,9 @@ namespace Waveface.API.V2
 
                 _ret = JsonConvert.DeserializeObject<MR_auth_signup>(_r);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
 
             return _ret;
@@ -100,7 +104,7 @@ namespace Waveface.API.V2
 
             try
             {
-                string _url = BaseURL + "/auth/login";
+                string _url = BaseURLForGroupUserAuth + "/auth/login";
 
                 string _parms = "apikey" + "=" + APIKEY + "&" +
                                 "email" + "=" + email + "&" +
@@ -116,41 +120,40 @@ namespace Waveface.API.V2
 
                 _ret = JsonConvert.DeserializeObject<MR_auth_login>(_r);
             }
-            catch (Exception _e)
+            catch
             {
-                // MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
 
             return _ret;
         }
 
+
+        private T HttpGetObject<T>(string _url)
+        {
+            string _r = m_rest.GetForObject<string>(_url);
+            _r = StringUtility.UTF8ToISO_8859_1(_r);
+            return JsonConvert.DeserializeObject<T>(_r);
+        }
+
         public MR_auth_logout auth_logout(string session_token)
         {
-            MR_auth_logout _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
 
             try
             {
-                string _url = BaseURL + "/auth/logout";
+                string _url = BaseURLForGroupUserAuth + "/auth/logout";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
                         "session_token" + "=" + session_token;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_auth_logout>(_r);
+                return HttpGetObject<MR_auth_logout>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                // MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         #endregion
@@ -159,38 +162,28 @@ namespace Waveface.API.V2
 
         public MR_users_get users_get(string session_token, string user_id)
         {
-            MR_users_get _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             user_id = HttpUtility.UrlEncode(user_id);
 
             try
             {
-                string _url = BaseURL + "/users/get";
+                string _url = BaseURLForGroupUserAuth + "/users/get";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
                         "session_token" + "=" + session_token + "&" +
                         "user_id" + "=" + user_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_users_get>(_r);
+                return HttpGetObject<MR_users_get>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                // MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_users_update users_update(string session_token, string user_id, string nickname, string avatar_url)
         {
-            MR_users_update _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             user_id = HttpUtility.UrlEncode(user_id);
             nickname = HttpUtility.UrlEncode(nickname);
@@ -198,7 +191,7 @@ namespace Waveface.API.V2
 
             try
             {
-                string _url = BaseURL + "/users/update";
+                string _url = BaseURLForGroupUserAuth + "/users/update";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
@@ -207,31 +200,23 @@ namespace Waveface.API.V2
                         "nickname" + "=" + nickname + "&" +
                         "avatar_url" + "=" + avatar_url;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_users_update>(_r);
+                return HttpGetObject<MR_users_update>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_users_passwd users_passwd(string session_token, string old_passwd, string new_passwd)
         {
-            MR_users_passwd _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             old_passwd = HttpUtility.UrlEncode(old_passwd);
             new_passwd = HttpUtility.UrlEncode(new_passwd);
 
             try
             {
-                string _url = BaseURL + "/users/passwd";
+                string _url = BaseURLForGroupUserAuth + "/users/passwd";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
@@ -239,46 +224,32 @@ namespace Waveface.API.V2
                         "old_passwd" + "=" + old_passwd + "&" +
                         "new_passwd" + "=" + new_passwd;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_users_passwd>(_r);
+                return HttpGetObject<MR_users_passwd>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_users_findMyStation users_findMyStation(string session_token)
         {
-            MR_users_findMyStation _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
 
             try
             {
-                string _url = BaseURL + "/users/findMyStation";
+                string _url = BaseURLForGroupUserAuth + "/users/findMyStation";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
                         "session_token" + "=" + session_token;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_users_findMyStation>(_r);
+                return HttpGetObject<MR_users_findMyStation>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                // MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         #endregion
@@ -287,15 +258,13 @@ namespace Waveface.API.V2
 
         public MR_groups_create groups_create(string session_token, string name, string description)
         {
-            MR_groups_create _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             name = HttpUtility.UrlEncode(name);
             description = HttpUtility.UrlEncode(description);
 
             try
             {
-                string _url = BaseURL + "/groups/create";
+                string _url = BaseURLForGroupUserAuth + "/groups/create";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
@@ -303,54 +272,38 @@ namespace Waveface.API.V2
                         "name" + "=" + name + "&" +
                         "description" + "=" + description;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_groups_create>(_r);
+                return HttpGetObject<MR_groups_create>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_groups_get groups_get(string session_token, string group_id)
         {
-            MR_groups_get _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
 
             try
             {
-                string _url = BaseURL + "/groups/get";
+                string _url = BaseURLForGroupUserAuth + "/groups/get";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
                         "session_token" + "=" + session_token + "&" +
                         "group_id" + "=" + group_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_groups_get>(_r);
+                return HttpGetObject<MR_groups_get>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_groups_update groups_update(string session_token, string group_id, string name, string description)
         {
-            MR_groups_update _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             name = HttpUtility.UrlEncode(name);
@@ -358,7 +311,7 @@ namespace Waveface.API.V2
 
             try
             {
-                string _url = BaseURL + "/groups/update";
+                string _url = BaseURLForGroupUserAuth + "/groups/update";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
@@ -367,60 +320,45 @@ namespace Waveface.API.V2
                         "name" + "=" + name + "&" +
                         "description" + "=" + description;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_groups_update>(_r);
+                return HttpGetObject<MR_groups_update>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_groups_delete groups_delete(string session_token, string group_id)
         {
-            MR_groups_delete _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
 
             try
             {
-                string _url = BaseURL + "/groups/delete";
+                string _url = BaseURLForGroupUserAuth + "/groups/delete";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
                         "session_token" + "=" + session_token + "&" +
                         "group_id" + "=" + group_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_groups_delete>(_r);
+                return HttpGetObject<MR_groups_delete>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_groups_inviteUser groups_inviteUser(string session_token, string group_id, string email)
         {
-            MR_groups_inviteUser _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             email = HttpUtility.UrlEncode(email);
 
             try
             {
-                string _url = BaseURL + "/groups/inviteUser";
+                string _url = BaseURLForGroupUserAuth + "/groups/inviteUser";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
@@ -428,31 +366,24 @@ namespace Waveface.API.V2
                         "group_id" + "=" + group_id + "&" +
                         "email" + "=" + email;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_groups_inviteUser>(_r);
+                return HttpGetObject<MR_groups_inviteUser>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                // MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
 
-            return _ret;
         }
 
         public MR_groups_kickUser groups_kickUser(string session_token, string group_id, string user_id)
         {
-            MR_groups_kickUser _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             user_id = HttpUtility.UrlEncode(user_id);
 
             try
             {
-                string _url = BaseURL + "/groups/kickUser";
+                string _url = BaseURLForGroupUserAuth + "/groups/kickUser";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
@@ -460,18 +391,12 @@ namespace Waveface.API.V2
                         "group_id" + "=" + group_id + "&" +
                         "user_id" + "=" + user_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_groups_kickUser>(_r);
+                return HttpGetObject<MR_groups_kickUser>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                // MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         #endregion
@@ -480,8 +405,6 @@ namespace Waveface.API.V2
 
         public MR_posts_getSingle posts_getSingle(string session_token, string group_id, string post_id)
         {
-            MR_posts_getSingle _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             post_id = HttpUtility.UrlEncode(post_id);
@@ -496,24 +419,16 @@ namespace Waveface.API.V2
                         "group_id" + "=" + group_id + "&" +
                         "post_id" + "=" + post_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_getSingle>(_r);
+                return HttpGetObject<MR_posts_getSingle>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_posts_get posts_get(string session_token, string group_id, string limit, string datum, string filter)
         {
-            MR_posts_get _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             limit = HttpUtility.UrlEncode(limit);
@@ -532,24 +447,16 @@ namespace Waveface.API.V2
                         "datum" + "=" + datum + "&" +
                         "filter" + "=" + filter;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_get>(_r);
+                return HttpGetObject<MR_posts_get>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_posts_getLatest posts_getLatest(string session_token, string group_id, string limit)
         {
-            MR_posts_getLatest _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             limit = HttpUtility.UrlEncode(limit);
@@ -564,24 +471,16 @@ namespace Waveface.API.V2
                         "group_id" + "=" + group_id + "&" +
                         "limit" + "=" + limit;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_getLatest>(_r);
+                return HttpGetObject<MR_posts_getLatest>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_posts_new posts_new(string session_token, string group_id, string content, string attachment_id_array, string preview, string type)
         {
-            MR_posts_new _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             content = HttpUtility.UrlEncode(content);
@@ -606,24 +505,16 @@ namespace Waveface.API.V2
 
                 _url += "group_id" + "=" + group_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_new>(_r);
+                return HttpGetObject<MR_posts_new>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_posts_newComment posts_newComment(string session_token, string group_id, string post_id, string content, string objects, string previews)
         {
-            MR_posts_newComment _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             post_id = HttpUtility.UrlEncode(post_id);
@@ -644,24 +535,16 @@ namespace Waveface.API.V2
                         "objects" + "=" + objects + "&" +
                         "previews" + "=" + previews;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_newComment>(_r);
+                return HttpGetObject<MR_posts_newComment>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_posts_getComments posts_getComments(string session_token, string group_id, string post_id)
         {
-            MR_posts_getComments _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             post_id = HttpUtility.UrlEncode(post_id);
@@ -676,24 +559,16 @@ namespace Waveface.API.V2
                         "group_id" + "=" + group_id + "&" +
                         "post_id" + "=" + post_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_getComments>(_r);
+                return HttpGetObject<MR_posts_getComments>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_posts_get posts_fetchByFilter(string session_token, string group_id, string filter_entity)
         {
-            MR_posts_get _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             filter_entity = HttpUtility.UrlEncode(filter_entity);
@@ -708,24 +583,17 @@ namespace Waveface.API.V2
                         "group_id" + "=" + group_id + "&" +
                         "filter_entity" + "=" + filter_entity;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_get>(_r);
+                return HttpGetObject<MR_posts_get>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
 
-            return _ret;
         }
 
         public MR_posts_hide_ret posts_hide(string session_token, string group_id, string post_id)
         {
-            MR_posts_hide_ret _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             post_id = HttpUtility.UrlEncode(post_id);
@@ -740,23 +608,16 @@ namespace Waveface.API.V2
                         "group_id" + "=" + group_id + "&" +
                         "post_id" + "=" + post_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_hide_ret>(_r);
+                return HttpGetObject<MR_posts_hide_ret>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_posts_hide_ret posts_unhide(string session_token, string group_id, string post_id)
         {
-            MR_posts_hide_ret _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
             post_id = HttpUtility.UrlEncode(post_id);
@@ -771,17 +632,12 @@ namespace Waveface.API.V2
                         "group_id" + "=" + group_id + "&" +
                         "post_id" + "=" + post_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_hide_ret>(_r);
+                return HttpGetObject<MR_posts_hide_ret>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         #endregion
@@ -790,8 +646,6 @@ namespace Waveface.API.V2
 
         public MR_previews_get previews_get(string session_token, string url)
         {
-            MR_previews_get _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             url = HttpUtility.UrlEncode(url);
 
@@ -805,18 +659,12 @@ namespace Waveface.API.V2
                         "url" + "=" + url + "&" +
                         "adv" + "=" + "false";
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_previews_get>(_r);
+                return HttpGetObject<MR_previews_get>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_previews_get_adv previews_get_adv(string session_token, string url)
@@ -844,10 +692,9 @@ namespace Waveface.API.V2
 
                 _ret = JsonConvert.DeserializeObject<MR_previews_get_adv>(_r, _settings);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
 
             return _ret;
@@ -895,10 +742,9 @@ namespace Waveface.API.V2
 
                 _ret = JsonConvert.DeserializeObject<MR_attachments_upload>(_r);
             }
-            catch (Exception _e)
+            catch
             {
-                // MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
 
             return _ret;
@@ -906,8 +752,6 @@ namespace Waveface.API.V2
 
         public MR_attachments_get attachments_get(string session_token, string object_id)
         {
-            MR_attachments_get _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
 
@@ -920,23 +764,16 @@ namespace Waveface.API.V2
                         "session_token" + "=" + session_token + "&" +
                         "object_id" + "=" + object_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_attachments_get>(_r);
+                return HttpGetObject<MR_attachments_get>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_attachments_delete attachments_delete(string session_token, string object_id)
         {
-            MR_attachments_delete _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
 
@@ -949,17 +786,12 @@ namespace Waveface.API.V2
                         "session_token" + "=" + session_token + "&" +
                         "object_id" + "=" + object_id;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_attachments_delete>(_r);
+                return HttpGetObject<MR_attachments_delete>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         #endregion
@@ -968,8 +800,6 @@ namespace Waveface.API.V2
 
         public MR_fetchfilters_item fetchfilters_new(string session_token, string filter_name, string filter_entity, string tag)
         {
-            MR_fetchfilters_item _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             filter_name = HttpUtility.UrlEncode(filter_name);
             filter_entity = HttpUtility.UrlEncode(filter_entity);
@@ -986,24 +816,16 @@ namespace Waveface.API.V2
                         "filter_entity" + "=" + filter_entity + "&" +
                         "tag" + "=" + tag;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_fetchfilters_item>(_r);
+                return HttpGetObject<MR_fetchfilters_item>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_fetchfilters_item fetchfilters_update(string session_token, string filter_id, string filter_name, string filter_entity, string tag)
         {
-            MR_fetchfilters_item _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             filter_id = HttpUtility.UrlEncode(filter_id);
             filter_name = HttpUtility.UrlEncode(filter_name);
@@ -1022,24 +844,16 @@ namespace Waveface.API.V2
                         "filter_entity" + "=" + filter_entity + "&" +
                         "tag" + "=" + tag;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_fetchfilters_item>(_r);
+                return HttpGetObject<MR_fetchfilters_item>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         public MR_fetchfilters_list fetchfilters_list(string session_token)
         {
-            MR_fetchfilters_list _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
 
             try
@@ -1050,18 +864,12 @@ namespace Waveface.API.V2
                         "apikey" + "=" + APIKEY + "&" +
                         "session_token" + "=" + session_token;
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_fetchfilters_list>(_r);
+                return HttpGetObject<MR_fetchfilters_list>(_url);
             }
-            catch (Exception _e)
+            catch
             {
-                //MessageBox.Show(_e.Message);
-                return null;
+                throw;
             }
-
-            return _ret;
         }
 
         #endregion
