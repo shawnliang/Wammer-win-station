@@ -62,7 +62,7 @@ namespace Wammer.Station
 					throw new FileNotFoundException();
 
 				Drivers driver = Drivers.collection.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", doc.group_id)));
-				FileStorage storage = new FileStorage(driver.folder);
+				FileStorage storage = new FileStorage(driver);
 				using (FileStream fs = storage.LoadByNameWithNoSuffix(namePart))
 				{
 					Response.StatusCode = 200;

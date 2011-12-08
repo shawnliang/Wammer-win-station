@@ -4,15 +4,26 @@ using System.Text;
 using System.IO;
 using System.Threading;
 
+using Wammer.Model;
+using Wammer.Utility;
+
 namespace Wammer.Station
 {
+	public interface IFileStorage
+	{
+		void SaveAttachment(Attachments attachment);
+		void SaveFile(string filename, byte[] data);
+		long GetAvailSize();
+		long GetUsedSize();
+	}
+
 	public class FileStorage
 	{
 		private readonly string basePath;
 
-		public FileStorage(string basePath)
+		public FileStorage(Drivers driver)
 		{
-			this.basePath = basePath;
+			this.basePath = driver.folder;
 			CreateFolder(basePath);
 		}
 
@@ -22,14 +33,19 @@ namespace Wammer.Station
 				Directory.CreateDirectory(basePath);
 		}
 
-		public void Save(string filename, byte[] data)
+		public void SaveAttachment(Attachments attachment)
+		{
+			SaveFile(attachment.saved_file_name, attachment.RawData);
+		}
+
+		public void SaveFile(string filename, byte[] data)
 		{
 			string filePath = Path.Combine(basePath, filename);
 
 			using (BinaryWriter w = new BinaryWriter(File.Open(filePath, FileMode.Create)))
 			{
 				w.Write(data);
-			}
+			}		
 		}
 
 		public FileStream Load(string filename)
@@ -75,33 +91,12 @@ namespace Wammer.Station
 
 		public long GetAvailSize()
 		{
-			string root = Path.GetPathRoot(Environment.CurrentDirectory);
-			DriveInfo di = new DriveInfo(root);
-			return di.AvailableFreeSpace;
+			return FileStorageHelper.GetAvailSize(Environment.CurrentDirectory);
 		}
 
 		public long GetUsedSize()
 		{
-			DirectoryInfo d = new DirectoryInfo(basePath);
-			return DirSize(d);
-		}
-		
-		private long DirSize(DirectoryInfo d)
-		{
-			long size = 0;
-			// add file sizes
-			FileInfo[] fis = d.GetFiles();
-			foreach (FileInfo fi in fis)
-			{
-				size += fi.Length;
-			}
-			// add subdirectory sizes
-			DirectoryInfo[] dis = d.GetDirectories();
-			foreach (DirectoryInfo di in dis)
-			{
-				size += DirSize(di);
-			}
-			return size;
+			return FileStorageHelper.GetUsedSize(basePath);
 		}
 	}
 

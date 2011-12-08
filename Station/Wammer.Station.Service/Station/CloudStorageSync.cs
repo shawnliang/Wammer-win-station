@@ -13,9 +13,8 @@ namespace Wammer.Station
 {
 	class CloudStorageSync
 	{
-		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StationManagementService));
+		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(CloudStorageSync));
 		private object cs = new object();
-		private string resourceFolder = "resource";
 
 		public void HandleAttachmentSaved(object sender, AttachmentEventArgs evt)
 		{
@@ -25,135 +24,13 @@ namespace Wammer.Station
 			// just for avoiding race condition, might cause bad performance
 			lock (cs)
 			{
-				string fileName = evt.Attachment.saved_file_name;
-				string objectId = evt.Attachment.object_id;
-				long fileSize = evt.Attachment.file_size;
-				string origFolder = evt.FolderPath;
-				string driverId = evt.DriverId;
-
-				CloudStorage storage = CloudStorage.collection.FindOne();
-				if (storage != null)
+				CloudStorage cloudstorage = CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
+				if (cloudstorage != null)
 				{
-					if (fileSize > storage.Quota)
-					{
-						logger.WarnFormat("File size is too large, do not backup. file = {0}, size = {1}, quota = {2}", fileName, fileSize, storage.Quota);
-					}
-					else
-					{
-						try
-						{
-							BackupAttachment(fileName, fileSize, origFolder, storage, driverId, objectId);
-						}
-						finally
-						{
-							// storage.Used might be changed after BackupAttachment
-							CloudStorage.collection.Save(storage);
-						}
-					}
+					logger.DebugFormat("Trying to backup file {0} to Dropbox", evt.Attachment.saved_file_name);
+					new DropboxFileStorage(evt.Driver, cloudstorage).SaveAttachment(evt.Attachment);
 				}
 			}
-		}
-
-		private void BackupAttachment(string fileName, long fileSize, string origFolder, CloudStorage storage, string driverId, string objectId)
-		{
-			if (!Directory.Exists(Path.Combine(storage.Folder, resourceFolder)))
-			{
-				logger.DebugFormat("Folder does not exist, create folder {0}", Path.Combine(storage.Folder, resourceFolder));
-				Directory.CreateDirectory(Path.Combine(storage.Folder, resourceFolder));
-			}
-
-			string origFilePath = Path.Combine(origFolder, fileName);
-			string backupFileRelativePath = Path.Combine(resourceFolder, fileName);
-			string backupFilePath = Path.Combine(storage.Folder, backupFileRelativePath);
-
-			Attachment attachment = new Attachment(driverId);
-			if (storage.Quota - storage.Used >= fileSize)
-			{
-				if (CopyAtttachment(origFilePath, backupFilePath))
-				{
-					attachment.AttachmentSetLoc(new WebClient(), new Dictionary<object, object>
-						{
-							{ "loc", (int)Attachment.Location.Dropbox },
-							{ "object_id", objectId },
-							{ "file_path", backupFileRelativePath }
-						}
-					);
-					storage.Used += fileSize;
-				}
-			}
-			else
-			{
-				// run at most 50 times to avoid infinite loop
-				int retry = 50;
-				while (storage.Quota - storage.Used >= fileSize)
-				{
-					// delete the least accessed file until storage has enough space
-					DirectoryInfo di = new DirectoryInfo(Path.Combine(storage.Folder, resourceFolder));
-					FileInfo fi = di.GetFiles().OrderBy(f => f.LastAccessTime).First();
-					try
-					{
-						logger.InfoFormat("Cloud storage has no quota, delete file {0}", fi.FullName);
-						fi.Delete();
-						// file name should be unique since all attachments are in the same folder
-						Attachments deletedAttachment = Attachments.collection.FindOne(Query.EQ("file_name", fi.FullName));
-						attachment.AttachmentUnsetLoc(new WebClient(), new Dictionary<object, object>
-							{
-								{ "loc", (int)Attachment.Location.Dropbox},
-								{"object_id", deletedAttachment.object_id}
-							}
-						);
-						storage.Used -= fi.Length;
-					}
-					catch
-					{
-						logger.WarnFormat("Unable to delete file {0}", fi.FullName);
-					}
-
-					retry--;
-					if (retry == 0)
-					{
-						break;
-					}
-				}
-
-				if (storage.Quota - storage.Used >= fileSize)
-				{
-					if (CopyAtttachment(origFilePath, backupFilePath))
-					{
-						attachment.AttachmentSetLoc(new WebClient(), new Dictionary<object, object>
-							{
-								{ "loc", (int)Attachment.Location.Dropbox },
-								{ "object_id", objectId },
-								{ "file_path", backupFileRelativePath }
-							}
-						);
-						storage.Used += fileSize;
-					}
-				}
-				else
-				{
-					logger.WarnFormat("Unable to allocate enough space for file {0}, size = {1}", origFilePath, fileSize);
-				}
-			}
-		}
-
-		private bool CopyAtttachment(string origFilePath, string backupFilePath)
-		{
-			try
-			{
-				logger.DebugFormat("Copy {0} to {1}", origFilePath, backupFilePath);
-				File.Copy(origFilePath, backupFilePath, true);
-				return true;
-			}
-			catch (Exception ex)
-			{
-				logger.Error("Unable to copy attachments to cloud storage folder", ex);
-				return false;
-			}
-		}
-
-		private void NotifyCloud(string relativePath)
-		{
 		}
 	}
 }

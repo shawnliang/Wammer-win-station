@@ -10,7 +10,7 @@ using MongoDB.Driver.Builders;
 
 namespace Wammer.Cloud
 {
-	public class Attachment
+	public class AttachmentApi
 	{
 		private string userToken { get; set; }
 
@@ -21,7 +21,7 @@ namespace Wammer.Cloud
 			Dropbox = 2
 		}
 
-		public Attachment(string user_id)
+		public AttachmentApi(string user_id)
 		{
 			Drivers driver = Drivers.collection.FindOne(Query.EQ("_id", user_id));
 			this.userToken = driver.session_token;
