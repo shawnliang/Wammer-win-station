@@ -140,6 +140,7 @@ namespace Wammer.Station
 
 		protected void TunnelToCloud()
 		{
+			logger.Debug("Forward to cloud");
 			Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
 			UriBuilder uri = new UriBuilder("http", baseUri.Host, baseUri.Port,
 				Request.Url.AbsolutePath, Request.Url.Query);
