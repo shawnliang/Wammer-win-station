@@ -128,8 +128,7 @@ namespace Wammer.Station
 							Id = Guid.NewGuid().ToString(),
 							Type = "dropbox",
 							Folder = folder,
-							Quota = quota,
-							Used = used
+							Quota = quota
 						}
 					);
 				}

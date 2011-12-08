@@ -211,15 +211,17 @@ namespace Wammer.Station.Management
 
 			if (DropboxHelper.IsInstalled())
 			{
-				Model.CloudStorage storage = Model.CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
-				if (storage != null)
+				// currently only support one driver
+				Model.Drivers driver = Model.Drivers.collection.FindOne();
+				Model.CloudStorage cloudstorage = Model.CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
+				if (cloudstorage != null)
 				{
 					cloudstorages.Add(new StorageStatus
 						{
 							type = "dropbox",
 							connected = true,
-							quota = storage.Quota,
-							used = storage.Used
+							quota = cloudstorage.Quota,
+							used = new DropboxFileStorage(driver, cloudstorage).GetUsedSize()
 						}
 					);
 				}

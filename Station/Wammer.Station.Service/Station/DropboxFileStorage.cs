@@ -80,7 +80,7 @@ namespace Wammer.Station
 			if (cloudstorage.Quota - GetUsedSize() >= attachment.file_size)
 				return true;
 
-			// run at most 50 times to avoid infinite loop
+			// run at most 100 times to avoid infinite loop
 			int retry = 100;
 			while (cloudstorage.Quota - GetUsedSize() < attachment.file_size)
 			{
@@ -91,14 +91,18 @@ namespace Wammer.Station
 				{
 					logger.InfoFormat("Cloud storage has no quota, delete file {0}", fi.FullName);
 					fi.Delete();
-					
-					AttachmentApi api = new AttachmentApi(driver.user_id);
-					api.AttachmentUnsetLoc(new WebClient(), new Dictionary<object, object>
-							{
-								{ "loc", (int)AttachmentApi.Location.Dropbox},
-								{"object_id", attachment.object_id}
-							}
-					);
+
+					Attachments purgedAttachment = Attachments.collection.FindOne(Query.EQ("file_name", fi.FullName));
+					if (purgedAttachment != null)
+					{
+						AttachmentApi api = new AttachmentApi(driver.user_id);
+						api.AttachmentUnsetLoc(new WebClient(), new Dictionary<object, object>
+								{
+									{ "loc", (int)AttachmentApi.Location.Dropbox},
+									{"object_id", purgedAttachment.object_id}
+								}
+						);
+					}
 				}
 				catch
 				{

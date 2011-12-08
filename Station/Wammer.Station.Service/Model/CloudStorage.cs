@@ -18,6 +18,5 @@ namespace Wammer.Model
 		public string Type { get; set; }
 		public string Folder { get; set; }
 		public long Quota { get; set; }
-		public long Used { get; set; }
 	}
 }
