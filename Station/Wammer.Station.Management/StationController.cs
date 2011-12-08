@@ -364,19 +364,12 @@ namespace Wammer.Station.Management
 		/// </summary>
 		public static void DisconnectDropbox()
 		{
-			try
-			{
-				CloudResponse res = CloudServer.request<CloudResponse>(
-					new WebClient(),
-					"http://localhost:9981/v2/cloudstorage/dropbox/disconnect",
-					new Dictionary<object, object>(),
-					true
-				);
-			}
-			catch (Cloud.WammerCloudException e)
-			{
-				throw;
-			}
+			CloudResponse res = CloudServer.request<CloudResponse>(
+				new WebClient(),
+				"http://localhost:9981/v2/cloudstorage/dropbox/disconnect",
+				new Dictionary<object, object>(),
+				true
+			);
 		}
 		#region private accessors
 
@@ -458,7 +451,7 @@ namespace Wammer.Station.Management
 							return 0;
 						default:
 							Console.WriteLine("Unknown parameter: " + args[i]);
-							return 1;
+							break;
 					}
 				}
 

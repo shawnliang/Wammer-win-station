@@ -118,7 +118,7 @@ namespace Wammer.Station
 						respond404NotFound(context);
 				}
 			}
-			catch (ObjectDisposedException e)
+			catch (ObjectDisposedException)
 			{
 				logger.Info("Http server disposed. Shutdown server");
 			}
