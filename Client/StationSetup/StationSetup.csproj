@@ -64,15 +64,6 @@
     <Compile Include="DefaultPosts.cs" />
     <Compile Include="I18n.cs" />
     <Compile Include="PostService.cs" />
-    <Compile Include="Compoment\MultiPanel\MultiPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Compoment\MultiPanel\MultiPanelDesigner.cs" />
-    <Compile Include="Compoment\MultiPanel\MultiPanelPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Compoment\MultiPanel\MultiPanelPageDesigner.cs" />
-    <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
     <Compile Include="DropboxForm.cs">
       <SubType>Form</SubType>
     </Compile>
