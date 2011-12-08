@@ -54,7 +54,7 @@ def main():
             parser.feed(str(data))
             logging.info("The latest version is {0}".format(parser.maxver))
             target_exe = 'WavefaceSetup-{0}.exe'.format(parser.maxver)
-        except Exception,e:
+        except Exception as e:
             logging.error("Get latest build info failed. error: {}".format(e))
             return
         try:
@@ -64,7 +64,7 @@ def main():
             request.urlretrieve(target_url, filePath)
             logging.info('download {} success'.format(filePath))
             subprocess.call(shlex.split(filePath), shell=True)
-        except Exception,e:
+        except Exception as e:
             logging.info("Unable to get/install {}, error: {}".format(target_url,e))
         input('press any key to continue')
 
