@@ -85,7 +85,6 @@ namespace Waveface.Component.MozBar
 
         #region private class members
 
-        private Container components;
         private Image image;
 
         private ImageCollection m_imageCollection;
@@ -135,11 +134,6 @@ namespace Waveface.Component.MozBar
         {
             if (disposing)
             {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-
                 // Delete images...
                 if (image != null)
                     image.Dispose();

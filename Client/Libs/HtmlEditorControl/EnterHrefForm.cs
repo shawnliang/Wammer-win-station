@@ -22,8 +22,6 @@ namespace Waveface.Component.HtmlEditor
         private Label labelTarget;
         private ComboBox listTargets;
 
-        private Container components;
-
         // property for the text to display
         public string HrefText
         {
@@ -58,13 +56,6 @@ namespace Waveface.Component.HtmlEditor
         // Clean up any resources being used.
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
             base.Dispose(disposing);
         }
 

@@ -16,7 +16,6 @@ namespace Waveface.Component.HtmlEditor
     {
         private Button bCancel;
         private Button bApply;
-        private Container components;
         private CheckBox checkBold;
         private CheckBox checkUnderline;
         private CheckBox checkItalic;
@@ -135,14 +134,6 @@ namespace Waveface.Component.HtmlEditor
         // Clean up any resources being used.
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-
             base.Dispose(disposing);
         }
 
