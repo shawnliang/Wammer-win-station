@@ -145,7 +145,7 @@ namespace UT_WammerStation
 			{
 				context = listener.EndGetContext(result);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return;
 			}
