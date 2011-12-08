@@ -117,7 +117,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cloud\Attachment.cs" />
+    <Compile Include="Cloud\AttachmentApi.cs" />
     <Compile Include="Cloud\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
     <Compile Include="Cloud\ObjectUploadResponse.cs" />
@@ -138,6 +138,7 @@
     <Compile Include="Station\CloudStorageApiRetCode.cs" />
     <Compile Include="Station\CloudStorageService.cs" />
     <Compile Include="Station\CloudStorageSync.cs" />
+    <Compile Include="Station\DropboxFileStorage.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\PublicPortMapping.cs" />
     <Compile Include="Station\StationApiRetCode.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\DropboxHelper.cs" />
+    <Compile Include="Utility\FileStorageHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
     <Compile Include="Utility\ServiceHelper.cs" />

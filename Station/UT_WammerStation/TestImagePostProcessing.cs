@@ -120,13 +120,13 @@ namespace UT_WammerStation
 				{
 					email = "driver1@waveface.com",
 					user_id = "driver1_id",
-					folder = "resource",
+					folder = @"resource\group1",
 					groups = groups
 				}
 			);
 
-			if (!Directory.Exists("resource"))
-				Directory.CreateDirectory("resource");
+			if (!Directory.Exists(@"resource\group1"))
+				Directory.CreateDirectory(@"resource\group1");
 		}
 
 		[TestCleanup]
@@ -145,7 +145,9 @@ namespace UT_WammerStation
 			using (HttpServer cloud = new HttpServer(8080))
 			using (HttpServer server = new HttpServer(80))
 			{
-				FileStorage fileStore = new FileStorage("resource");
+				List<UserGroup> groups = new List<UserGroup>();
+				groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
+				FileStorage fileStore = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
 				AttachmentUploadHandler handler = new AttachmentUploadHandler();
 
 				DummyRequestCompletedHandler evtHandler = new DummyRequestCompletedHandler();
@@ -190,7 +192,9 @@ namespace UT_WammerStation
 			using (HttpServer cloud = new HttpServer(8080))
 			using (HttpServer server = new HttpServer(80))
 			{
-				FileStorage fileStore = new FileStorage("resource");
+				List<UserGroup> groups = new List<UserGroup>();
+				groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
+				FileStorage fileStore = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
 				AttachmentUploadHandler handler = new AttachmentUploadHandler();
 				server.AddHandler("/test/", handler);
 				server.Start();
@@ -239,7 +243,9 @@ namespace UT_WammerStation
 			using (HttpServer cloud = new HttpServer(8080))
 			using (HttpServer server = new HttpServer(80))
 			{
-				FileStorage fileStore = new FileStorage("resource");
+				List<UserGroup> groups = new List<UserGroup>();
+				groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
+				FileStorage fileStore = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
 				AttachmentUploadHandler handler = new AttachmentUploadHandler();
 				server.AddHandler("/test/", handler);
 				server.Start();
@@ -290,6 +296,9 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestHandleImageAttachmentSaved()
 		{
+			List<UserGroup> groups = new List<UserGroup>();
+			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
+
 			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs
 			{
 				Attachment = new Attachments
@@ -305,7 +314,7 @@ namespace UT_WammerStation
 				DbDocs = mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments"),
 				UserApiKey = "key1",
 				UserSessionToken = "token1",
-				FolderPath = "resource"
+				Driver = new Drivers { email = "driver1@waveface.com", folder = "resource", groups = groups, session_token = "session_token1", user_id = "id1" }
 			};
 
 			ImagePostProcessing post = new ImagePostProcessing();
@@ -334,6 +343,9 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestHandleImageCompleted()
 		{
+			List<UserGroup> groups = new List<UserGroup>();
+			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
+
 			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs
 			{
 				Attachment = new Attachments
@@ -348,7 +360,7 @@ namespace UT_WammerStation
 				DbDocs = mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments"),
 				UserSessionToken = "session1",
 				UserApiKey = "apikey1",
-				FolderPath = "resource"
+				Driver = new Drivers { email = "driver1@waveface.com", folder = "resource", groups = groups, session_token = "session_token1", user_id = "id1" }
 			};
 
 			ImagePostProcessing post = new ImagePostProcessing();
