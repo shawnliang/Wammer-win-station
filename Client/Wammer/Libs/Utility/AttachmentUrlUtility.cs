@@ -32,7 +32,7 @@ namespace Waveface
         {
             session_token = HttpUtility.UrlEncode(session_token);
 
-            string _url = BEService2.CloundIP + orgURL; //Hack:HostIP
+            string _url = BEService2.HostIP + orgURL; //Hack: CloundIP
             string _a_s = "&" + "apikey" + "=" + BEService2.APIKEY + "&" + "session_token" + "=" + session_token;
             _url += _a_s;
 

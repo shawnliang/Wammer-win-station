@@ -569,7 +569,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DropboxForm";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DropboxForm_FormClosing);
             this.multiPanel.ResumeLayout(false);
             this.Page_Welcome.ResumeLayout(false);
