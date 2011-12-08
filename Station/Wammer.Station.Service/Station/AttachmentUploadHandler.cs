@@ -59,7 +59,7 @@ namespace Wammer.Station
 				throw new FormatException("group_id is not assocaited with a registered user");
 
 			string savedName = GetSavedFilename(file, meta);
-
+			FileStorage storage = new FileStorage(driver);
 			// Upload to cloud and then save to local to ensure cloud post API
 			// can process post with attachments correctly.
 			// In the future when station is able to handle post and sync data with cloud
@@ -68,7 +68,7 @@ namespace Wammer.Station
 			{
 				file.Bitmap = new Bitmap(new MemoryStream(file.RawData));
 				ThumbnailInfo medium = ImagePostProcessing.MakeThumbnail(
-					file.Bitmap, ImageMeta.Medium, file.object_id, driver.folder, file.file_name);
+					file.Bitmap, ImageMeta.Medium, file.object_id, driver, file.file_name);
 				Attachments thumb = new Attachments(file);
 				thumb.RawData = medium.RawData;
 				thumb.file_size = medium.file_size;
@@ -82,20 +82,28 @@ namespace Wammer.Station
 					height = file.Bitmap.Height
 				};
 				file.saved_file_name = savedName;
+				storage.SaveAttachment(file);
 			}
 			else if (file.type == AttachmentType.doc)
 			{
 				file.saved_file_name = savedName;
 				file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
+				storage.SaveAttachment(file);
 			}
 			else if (file.type == AttachmentType.image && meta != ImageMeta.Origin)
 			{
 				file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
+				storage.SaveFile(savedName, file.RawData);
+			}
+			else
+			{
+				file.saved_file_name = savedName;
+				storage.SaveAttachment(file);
 			}
 
 
-			FileStorage storage = new FileStorage(driver.folder);
-			storage.Save(savedName, file.RawData);
+			//FileStorage storage = new FileStorage(driver);
+			//storage.SaveAttachment(file);
 			file.file_size = file.RawData.Length;
 			file.modify_time = DateTime.UtcNow;
 			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
@@ -103,8 +111,7 @@ namespace Wammer.Station
 			AttachmentEventArgs aEvtArgs = new AttachmentEventArgs
 			{
 				Attachment = file,
-				FolderPath = driver.folder,
-				DriverId = driver.user_id
+				Driver = driver
 			};
 
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
@@ -114,7 +121,7 @@ namespace Wammer.Station
 				Meta = meta,
 				UserApiKey = Parameters["apikey"],
 				UserSessionToken = Parameters["session_token"],
-				FolderPath = driver.folder
+				Driver = driver
 			};
 
 			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
@@ -166,7 +173,8 @@ namespace Wammer.Station
 							file_size = file.file_size,
 							file_name = savedName,
 							width = img.Width,
-							height = img.Height
+							height = img.Height,
+							saved_file_name = savedName
 						});
 
 					thumbnailAttachment.mime_type = null;
@@ -280,7 +288,6 @@ namespace Wammer.Station
 		public MongoCollection DbDocs { get; set; }
 		public string UserApiKey { get; set; }
 		public string UserSessionToken { get; set; }
-		public string FolderPath { get; set; }
 
 		public ImageAttachmentEventArgs()
 		{
@@ -290,8 +297,7 @@ namespace Wammer.Station
 	public class AttachmentEventArgs : EventArgs
 	{
 		public Attachments Attachment { get; set; }
-		public string FolderPath { get; set; }
-		public string DriverId { get; set; }
+		public Drivers Driver { get; set; }
 
 		public AttachmentEventArgs()
 		{

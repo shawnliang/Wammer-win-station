@@ -35,7 +35,7 @@ namespace Wammer.Station
 				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
 				{
 					ThumbnailInfo medium = MakeThumbnail(origImage, ImageMeta.Medium,
-														evt.Attachment.object_id, evt.FolderPath,
+														evt.Attachment.object_id, evt.Driver,
 														evt.Attachment.file_name);
 
 					Attachments update = new Attachments
@@ -98,11 +98,11 @@ namespace Wammer.Station
 				{
 					string origImgObjectId = evt.Attachment.object_id;
 					ThumbnailInfo small = MakeThumbnail(origImage, ImageMeta.Small,
-										origImgObjectId, evt.FolderPath, evt.Attachment.file_name);
+										origImgObjectId, evt.Driver, evt.Attachment.file_name);
 					ThumbnailInfo large = MakeThumbnail(origImage, ImageMeta.Large,
-										origImgObjectId, evt.FolderPath, evt.Attachment.file_name);
+										origImgObjectId, evt.Driver, evt.Attachment.file_name);
 					ThumbnailInfo square = MakeThumbnail(origImage, ImageMeta.Square,
-										origImgObjectId, evt.FolderPath, evt.Attachment.file_name);
+										origImgObjectId, evt.Driver, evt.Attachment.file_name);
 
 					Attachments update = new Attachments
 					{
@@ -143,7 +143,7 @@ namespace Wammer.Station
 		}
 
 		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, string attachmentId, 
-			string folderPath, string origFileName)
+			Drivers driver, string origFileName)
 		{
 			Bitmap thumbnail = null;
 
@@ -161,7 +161,7 @@ namespace Wammer.Station
 				string thumbFileName = string.Format("{0}_{1}.jpeg",
 														attachmentId, meta.ToString().ToLower());
 				
-				new FileStorage(folderPath).Save(thumbFileName, rawData);
+				new FileStorage(driver).SaveFile(thumbFileName, rawData);
 
 				return new ThumbnailInfo
 				{

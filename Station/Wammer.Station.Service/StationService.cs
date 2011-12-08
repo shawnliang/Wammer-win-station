@@ -70,8 +70,6 @@ namespace Wammer.Station.Service
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/stations/");
 			server.AddDefaultHandler(cloudForwarder);
 
-			FileStorage storage = new FileStorage(resourceBasePath);
-
 			server.AddHandler("/", new DummyHandler());
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
 							new AttachmentViewHandler());
