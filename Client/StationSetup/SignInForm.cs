@@ -56,7 +56,7 @@ namespace Wammer.Station
                 userPassword = textBoxPassword.Text;
                 Close();
             }
-            catch (AuthenticationException _e)
+            catch (AuthenticationException)
             {
                 Cursor.Current = Cursors.Default;
 
@@ -100,18 +100,18 @@ namespace Wammer.Station
                     ShowErrorDialogAndExit(I18n.L.T("MustRemoveOld"));
                 }
             }
-            catch (StationAlreadyHasDriverException _e)
+            catch (StationAlreadyHasDriverException)
             {
                 Cursor.Current = Cursors.Default;
 
-                ShowErrorDialogAndExit(_e.Message);
+                ShowErrorDialogAndExit(I18n.L.T("StationHasDriverError"));
             }
-            catch (StationServiceDownException _e)
+            catch (StationServiceDownException)
             {
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show(I18n.L.T("StationDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            catch (Exception _e)
+            catch (Exception)
             {
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show(I18n.L.T("UnknownSigninError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
