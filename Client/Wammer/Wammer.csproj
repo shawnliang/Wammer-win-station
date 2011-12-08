@@ -469,7 +469,6 @@
     <None Include="Resources\AllTime.png" />
     <None Include="Resources\Month.png" />
     <None Include="Resources\script.png" />
-    <None Include="Resources\script_edit.png" />
     <None Include="Resources\scriptedit.png" />
     <Compile Include="Libs\Utility\ImageUtility.cs" />
     <Compile Include="Libs\Utility\Shadow.cs" />
@@ -653,6 +652,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PhotoView.resx">
       <DependentUpon>PhotoView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\BatchPostViewerForm.resx">
       <DependentUpon>BatchPostViewerForm.cs</DependentUpon>
@@ -796,7 +796,6 @@
     <None Include="Resources\dragNdrop-area.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\waveface_icon32.ico" />
     <None Include="Resources\waveface_icon64.png" />
   </ItemGroup>
   <ItemGroup>
@@ -810,6 +809,8 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <Private>True</Private>
     </COMReference>
+    <None Include="Resources\Save.png" />
+    <None Include="Resources\SaveAll.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

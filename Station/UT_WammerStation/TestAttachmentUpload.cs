@@ -41,7 +41,9 @@ namespace UT_WammerStation
 		public TestAttachmentUpload()
 		{
 			mongo = MongoServer.Create("mongodb://localhost:10319/?safe=true");
-			storage = new FileStorage("resource");
+			List<UserGroup> groups = new List<UserGroup>();
+			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
+			storage = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource/group1", groups = groups, session_token = "session_token1", user_id = "id1" });
 		}
 
 		private Part CreatePart(byte[] data)
@@ -79,7 +81,7 @@ namespace UT_WammerStation
 				new Drivers{
 					email = "driver1@waveface.com",
 					user_id = "driver1_id",
-					folder = "resource",
+					folder = @"resource\group1",
 					groups = groups
 				}
 			);
@@ -107,10 +109,12 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestFileStorage()
 		{
-			FileStorage storage = new FileStorage("resource");
-			storage.Save("id1.jpeg", file);
+			List<UserGroup> groups = new List<UserGroup>();
+			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none"});
+			FileStorage storage = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1"});
+			storage.SaveFile("id1.jpeg", file);
 
-			using (FileStream f = File.OpenRead(@"resource\id1.jpeg"))
+			using (FileStream f = File.OpenRead(@"resource\group1\id1.jpeg"))
 			{
 				Assert.AreEqual(file.Length, f.Length);
 				byte[] savedFile = new byte[file.Length];
@@ -124,12 +128,14 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestAsyncSave()
 		{
-			FileStorage storage = new FileStorage("resource");
+			List<UserGroup> groups = new List<UserGroup>();
+			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
+			FileStorage storage = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
 			IAsyncResult async = storage.BeginSave("id1.jpeg", file, null, null);
 
 			storage.EndSave(async);
 
-			using (FileStream f = File.OpenRead(@"resource\id1.jpeg"))
+			using (FileStream f = File.OpenRead(@"resource\group1\id1.jpeg"))
 			{
 				Assert.AreEqual(file.Length, f.Length);
 				byte[] savedFile = new byte[file.Length];
@@ -186,13 +192,16 @@ namespace UT_WammerStation
 									+ "&image_meta=medium",
 									saveData.image_meta.medium.url);
 
-					using (Bitmap origImg = new Bitmap(Path.Combine("resource", res.object_id + ".jpg")))
+
+					Assert.IsTrue(File.Exists(Path.Combine(@"resource\group1", res.object_id + ".jpg")));
+					using (Bitmap origImg = new Bitmap(Path.Combine(@"resource\group1", res.object_id + ".jpg")))
 					{
 						Assert.AreEqual(1024, origImg.Width);
 						Assert.AreEqual(768, origImg.Height);
 					}
 
-					using (Bitmap mediumImg = new Bitmap(Path.Combine("resource", res.object_id + "_medium.jpeg")))
+
+					using (Bitmap mediumImg = new Bitmap(Path.Combine(@"resource\group1", res.object_id + "_medium.jpeg")))
 					{
 						Assert.AreEqual(512, mediumImg.Width);
 						Assert.AreEqual(384, mediumImg.Height);
@@ -248,9 +257,9 @@ namespace UT_WammerStation
 									+ "&image_meta=large",
 									saveData.image_meta.large.url);
 
-					Assert.IsFalse(File.Exists("resource\\" + res.object_id + ".jpg"));
+					Assert.IsFalse(File.Exists(@"resource\group1\" + res.object_id + ".jpg"));
 
-					using (Bitmap largeImg = new Bitmap("resource\\" + res.object_id + "_large.jpg"))
+					using (Bitmap largeImg = new Bitmap(@"resource\group1\" + res.object_id + "_large.jpg"))
 					{
 						Assert.AreEqual(1024, largeImg.Width);
 						Assert.AreEqual(768, largeImg.Height);

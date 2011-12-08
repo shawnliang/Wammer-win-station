@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
-using System.Text;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
@@ -15,7 +14,7 @@ namespace Waveface.DetailUI
 {
     public class RichText_DV : UserControl
     {
-        private IContainer components = null;
+        private IContainer components;
         private Panel panelMain;
         private Panel panelRight;
         private WebBrowser webBrowser;
@@ -210,7 +209,7 @@ namespace Waveface.DetailUI
         {
             foreach (Attachment _a in m_post.attachments)
             {
-                if(_a.title == "_RichText_")
+                if (_a.mime_type == "text/html")
                 {
                     m_htmlFile = MainForm.GCONST.CachePath + _a.object_id + ".html";
 
@@ -223,7 +222,7 @@ namespace Waveface.DetailUI
                         string _url = MainForm.THIS.attachments_getRedirectURL(_a.url, _a.object_id, false);
 
                         WebClient _webClient = new WebClient();
-                        _webClient.DownloadFileCompleted += Completed;
+                        _webClient.DownloadFileCompleted += WebClientOnDownloadFileCompleted;
                         _webClient.DownloadProgressChanged += ProgressChanged;
                         _webClient.DownloadFileAsync(new Uri(_url), m_htmlFile);
                     }
@@ -237,27 +236,27 @@ namespace Waveface.DetailUI
         {
         }
 
-        private void Completed(object sender, AsyncCompletedEventArgs e)
+        private void WebClientOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            Application.DoEvents();
-
             webBrowser.Navigate(m_htmlFile);
+
+            Application.DoEvents();
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            Application.DoEvents();
-
             int _h = webBrowser.Document.Body.ScrollRectangle.Height;
             webBrowser.Height = _h;
+
+            Application.DoEvents();
         }
 
         private void webBrowserComment_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            Application.DoEvents();
-
             int _h = webBrowserComment.Document.Body.ScrollRectangle.Height;
             webBrowserComment.Height = _h;
+
+            Application.DoEvents();
         }
 
         private void buttonAddComment_Click(object sender, EventArgs e)

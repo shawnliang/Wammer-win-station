@@ -108,7 +108,7 @@ namespace Waveface.DetailUI
             this.panelMain.Controls.Add(this.panelRight);
             this.panelMain.Location = new System.Drawing.Point(3, 3);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(529, 487);
+            this.panelMain.Size = new System.Drawing.Size(529, 583);
             this.panelMain.TabIndex = 0;
             // 
             // panelRight
@@ -123,7 +123,7 @@ namespace Waveface.DetailUI
             this.panelRight.Controls.Add(this.webBrowserTop);
             this.panelRight.Location = new System.Drawing.Point(4, 4);
             this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(518, 476);
+            this.panelRight.Size = new System.Drawing.Size(518, 572);
             this.panelRight.TabIndex = 2;
             // 
             // PanelAddComment
@@ -134,7 +134,7 @@ namespace Waveface.DetailUI
             this.PanelAddComment.Controls.Add(this.buttonAddComment);
             this.PanelAddComment.Controls.Add(this.textBoxComment);
             this.PanelAddComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelAddComment.Location = new System.Drawing.Point(0, 359);
+            this.PanelAddComment.Location = new System.Drawing.Point(0, 462);
             this.PanelAddComment.Name = "PanelAddComment";
             this.PanelAddComment.Size = new System.Drawing.Size(518, 84);
             this.PanelAddComment.TabIndex = 3;
@@ -170,7 +170,7 @@ namespace Waveface.DetailUI
             // 
             this.webBrowserComment.AllowWebBrowserDrop = false;
             this.webBrowserComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.webBrowserComment.Location = new System.Drawing.Point(0, 262);
+            this.webBrowserComment.Location = new System.Drawing.Point(0, 365);
             this.webBrowserComment.Name = "webBrowserComment";
             this.webBrowserComment.ScrollBarsEnabled = false;
             this.webBrowserComment.Size = new System.Drawing.Size(518, 97);
@@ -182,7 +182,7 @@ namespace Waveface.DetailUI
             this.panelWebBrowser.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.panelWebBrowser.Controls.Add(this.tabControl);
             this.panelWebBrowser.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelWebBrowser.Location = new System.Drawing.Point(0, 97);
+            this.panelWebBrowser.Location = new System.Drawing.Point(0, 200);
             this.panelWebBrowser.Name = "panelWebBrowser";
             this.panelWebBrowser.Size = new System.Drawing.Size(518, 165);
             this.panelWebBrowser.TabIndex = 5;
@@ -250,7 +250,7 @@ namespace Waveface.DetailUI
             this.webBrowserTop.Location = new System.Drawing.Point(0, 0);
             this.webBrowserTop.Name = "webBrowserTop";
             this.webBrowserTop.ScrollBarsEnabled = false;
-            this.webBrowserTop.Size = new System.Drawing.Size(518, 97);
+            this.webBrowserTop.Size = new System.Drawing.Size(518, 200);
             this.webBrowserTop.TabIndex = 0;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
@@ -260,7 +260,7 @@ namespace Waveface.DetailUI
             this.Controls.Add(this.panelMain);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Text_Link_DV";
-            this.Size = new System.Drawing.Size(535, 493);
+            this.Size = new System.Drawing.Size(535, 589);
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.PanelAddComment.ResumeLayout(false);
@@ -298,7 +298,7 @@ namespace Waveface.DetailUI
             string _html = _sb.ToString();
             _html = _html.Replace("[Text]", Post.content.Replace(Environment.NewLine, "<BR>"));
 
-            if (Post.preview.url != null) //?!
+            if (Post.preview.url != null)
             {
                 Preview_OpenGraph _p = Post.preview;
                 StringBuilder _s = new StringBuilder();
@@ -330,7 +330,7 @@ namespace Waveface.DetailUI
             }
 
             webBrowserTop.DocumentText = _html;
-            webBrowserSoul.DocumentText = m_post.soul; // +"iv>";
+            webBrowserSoul.DocumentText = m_post.soul;
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -338,7 +338,7 @@ namespace Waveface.DetailUI
             int _h = webBrowserTop.Document.Body.ScrollRectangle.Height;
             webBrowserTop.Height = _h;
         }
-
+         
         private void webBrowserComment_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             int _h = webBrowserComment.Document.Body.ScrollRectangle.Height;

@@ -1390,6 +1390,22 @@ namespace Waveface
 
         #endregion
 
+        public static string saveFileWithoutOverwrite(string fileName, string saveToFolder)
+        {
+            int _count = 1;
+            string[] _fileNameSplit = fileName.Split(new[] { '.' });
+            string _ext = "." + _fileNameSplit[_fileNameSplit.Length - 1];
+            string _prefix = fileName.Substring(0, fileName.Length - _ext.Length);
+
+            while (File.Exists(saveToFolder + fileName))
+            {
+                fileName = _prefix + " (" + _count.ToString() + ")" + _ext;
+                _count++;
+            }
+
+            return saveToFolder + fileName;
+        }
+
         // Reads data from a stream until the end is reached. The
         // data is returned as a byte array. An IOException is
         // thrown if any of the underlying IO calls fail.

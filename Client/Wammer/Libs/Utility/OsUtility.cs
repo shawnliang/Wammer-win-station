@@ -31,6 +31,13 @@ namespace Waveface
             }
         }
 
+        public static bool IsWinXP()
+        {
+            OperatingSystem _os = Environment.OSVersion;
+
+            return (_os.Platform == PlatformID.Win32NT) && (_os.Version.Major == 5) && (_os.Version.Minor >= 1);
+        }
+
         private static bool ModuleContainsFunction(string moduleName, string methodName)
         {
             IntPtr _hModule = GetModuleHandle(moduleName);

@@ -48,7 +48,7 @@ namespace Wammer.Station
             {
                 StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
 
-                MessageBox.Show(I18n.L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
+                // MessageBox.Show(I18n.L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
 
                 DropboxInstallAndLink();
 

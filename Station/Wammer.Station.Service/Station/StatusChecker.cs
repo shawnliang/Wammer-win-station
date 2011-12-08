@@ -39,7 +39,7 @@ namespace Wammer.Station
 
 			foreach (Drivers driver in drivers)
 			{
-				FileStorage storage = new FileStorage(driver.folder);
+				FileStorage storage = new FileStorage(driver);
 				foreach (UserGroup group in driver.groups)
 				{
 					status.diskusage.Add(new DiskUsage { group_id = group.group_id,

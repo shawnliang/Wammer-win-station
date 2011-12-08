@@ -398,7 +398,7 @@ namespace Waveface.DetailUI
             buttonSave.Enabled = true;
             buttonOpen.Enabled = true;
 
-            if (!isWinXP())
+            if (!OsUtility.IsWinXP())
             {
                 try
                 {
@@ -430,13 +430,6 @@ namespace Waveface.DetailUI
         private void buttonAddComment_Click(object sender, EventArgs e)
         {
             MyParent.PostComment(textBoxComment, Post);
-        }
-
-        public static bool isWinXP()
-        {
-            OperatingSystem _os = Environment.OSVersion;
-
-            return (_os.Platform == PlatformID.Win32NT) && (_os.Version.Major == 5) && (_os.Version.Minor >= 1);
         }
 
         private void listViewFiles_Click(object sender, EventArgs e)
