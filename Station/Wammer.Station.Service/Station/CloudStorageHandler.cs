@@ -84,26 +84,13 @@ namespace Wammer.Station
 						}
 					}
 
-					// TODO: use generic storage for dropbox
-					long used = 0;
-					if (Directory.Exists(Path.Combine(folder, "resource")))
-					{
-						// calculate the sync folder size since it might contain old files
-						DirectoryInfo di = new DirectoryInfo(Path.Combine(folder, "resource"));
-						FileInfo[] fis = di.GetFiles();
-						foreach (FileInfo fi in fis)
-						{
-							used = used + fi.Length;
-						}
-					}
-
 					CloudStorage.collection.Save(new CloudStorage
-					{
-						Id = Guid.NewGuid().ToString(),
-						Type = "dropbox",
-						Folder = folder,
-						Quota = quota
-					}
+						{
+							Id = Guid.NewGuid().ToString(),
+							Type = "dropbox",
+							Folder = folder,
+							Quota = quota
+						}
 					);
 				}
 
