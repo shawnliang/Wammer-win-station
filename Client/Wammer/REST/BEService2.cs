@@ -1,6 +1,5 @@
 ﻿#region
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -15,7 +14,7 @@ namespace Waveface.API.V2
 {
     public class BEService2
     {
-        public const string CloundIP = "http://develop.waveface.com:8080";
+        public const string CloundIP = "https://develop.waveface.com"; //http://develop.waveface.com:8080
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
 
         private RestTemplate m_rest;
@@ -794,6 +793,64 @@ namespace Waveface.API.V2
             }
         }
 
+        //
+        // http://api.waveface.com/v2/attachments/hide
+        //
+
+        //
+        // http://api.waveface.com/v2/attachments/unhide
+        //
+
+        #endregion
+
+        #region footprints
+
+        public MR_footprints_LastScan footprints_getLastScan(string session_token, string group_id)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+
+            try
+            {
+                string _url = BaseURL + "/footprints/getLastScan";
+
+                _url += "?" +
+                        "apikey" + "=" + APIKEY + "&" +
+                        "session_token" + "=" + session_token + "&" +
+                        "group_id" + "=" + group_id;
+
+                return HttpGetObject<MR_footprints_LastScan>(_url);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public MR_footprints_LastScan footprints_setLastScan(string session_token, string group_id, string post_id)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+            post_id = HttpUtility.UrlEncode(post_id);
+
+            try
+            {
+                string _url = BaseURL + "/footprints/setLastScan";
+
+                _url += "?" +
+                        "apikey" + "=" + APIKEY + "&" +
+                        "session_token" + "=" + session_token + "&" +
+                        "group_id" + "=" + group_id + "&" +
+                        "post_id" + "=" + post_id;
+
+                return HttpGetObject<MR_footprints_LastScan>(_url);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         #endregion
 
         #region fetchfilters
@@ -871,80 +928,6 @@ namespace Waveface.API.V2
                 throw;
             }
         }
-
-        #endregion
-
-        #region hide
-
-        /*
-        public MR_posts_hide_ret hide_set(string session_token, string group_id, string object_type, string object_id)
-        {
-            MR_posts_hide_ret _ret;
-
-            session_token = HttpUtility.UrlEncode(session_token);
-            group_id = HttpUtility.UrlEncode(group_id);
-            object_type = HttpUtility.UrlEncode(object_type);
-            object_id = HttpUtility.UrlEncode(object_id);
-
-            try
-            {
-                string _url = BaseURL + "/hide/set";
-
-                _url += "?" +
-                        "apikey" + "=" + APIKEY + "&" +
-                        "session_token" + "=" + session_token + "&" +
-                        "group_id" + "=" + group_id + "&" +
-                        "object_type" + "=" + object_type + "&" +
-                        "object_id" + "=" + object_id;
-
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_hide_ret>(_r);
-            }
-            catch (Exception _e)
-            {
-                //MessageBox.Show(_e.Message);
-                return null;
-            }
-
-            return _ret;
-        }
-
-        public MR_posts_hide_ret hide_unset(string session_token, string group_id, string object_type, string object_id)
-        {
-            MR_posts_hide_ret _ret;
-
-            session_token = HttpUtility.UrlEncode(session_token);
-            group_id = HttpUtility.UrlEncode(group_id);
-            object_type = HttpUtility.UrlEncode(object_type);
-            object_id = HttpUtility.UrlEncode(object_id);
-
-            try
-            {
-                string _url = BaseURL + "/hide/unset";
-
-                _url += "?" +
-                        "apikey" + "=" + APIKEY + "&" +
-                        "session_token" + "=" + session_token + "&" +
-                        "group_id" + "=" + group_id + "&" +
-                        "object_type" + "=" + object_type + "&" +
-                        "object_id" + "=" + object_id;
-
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                _ret = JsonConvert.DeserializeObject<MR_posts_hide_ret>(_r);
-            }
-            catch (Exception _e)
-            {
-                //MessageBox.Show(_e.Message);
-                return null;
-            }
-
-            return _ret;
-        }
-        */
 
         #endregion
     }

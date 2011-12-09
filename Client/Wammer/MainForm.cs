@@ -540,7 +540,7 @@ namespace Waveface
 
                         //test
                         m_stationIP = _ip;
-                        //panelStation.Visible = true;
+                        panelStation.Visible = true;
 
                         RT.IsStationOK = true;
 
