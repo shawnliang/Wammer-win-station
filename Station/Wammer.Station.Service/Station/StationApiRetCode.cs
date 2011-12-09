@@ -8,6 +8,7 @@ namespace Wammer.Station
 	public enum StationApiError
 	{
 		Error = -1,
+		NotFound = -10,
 		DriverExist = -30,
 		BadPath = -31,
 		AuthFailed = -32,

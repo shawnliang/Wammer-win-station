@@ -218,5 +218,15 @@ namespace Wammer.Station
 
 			return new NameValueCollection();
 		}
+
+		protected void RespondSuccess()
+		{
+			HttpHelper.RespondSuccess(Response, new Cloud.CloudResponse(200, DateTime.UtcNow));
+		}
+
+		protected void RespondSuccess(object json)
+		{
+			HttpHelper.RespondSuccess(Response, json);
+		}
 	}
 }

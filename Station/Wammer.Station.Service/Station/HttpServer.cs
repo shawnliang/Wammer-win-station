@@ -178,6 +178,17 @@ namespace Wammer.Station
 			{
 				this.handler.HandleRequest(ctx.Request, ctx.Response);
 			}
+			catch (Cloud.WammerCloudException e)
+			{
+				HttpHelper.RespondFailure(ctx.Response, 
+					new WammerStationException(e.ToString(), e.WammerError), (int)HttpStatusCode.BadRequest);
+				logger.Warn("Connecting to cloud error", e);
+			}
+			catch (WammerStationException e)
+			{
+				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.BadRequest);
+				logger.Warn("Http handler error", e);
+			}
 			catch (FormatException e)
 			{
 				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.BadRequest);
@@ -187,7 +198,7 @@ namespace Wammer.Station
 			{
 				Wammer.Cloud.WammerCloudException ex = new Cloud.WammerCloudException("Request to cloud failed", e);
 				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
-				logger.Warn(ex.ToString());
+				logger.Warn("Connecting to cloud error", ex);
 			}
 			catch (Exception e)
 			{
