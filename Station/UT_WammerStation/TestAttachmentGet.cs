@@ -27,8 +27,9 @@ namespace UT_WammerStation
 		
 		Attachments doc;
 		string objectId1;
-		WebServiceHost host;
-		AttachmentService svc;
+
+		HttpServer server;
+		AttachmentGetHandler handler;
 
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
@@ -56,9 +57,13 @@ namespace UT_WammerStation
 
 			Attachments.collection.Insert(doc);
 
-			svc = new AttachmentService();
-			host = new WebServiceHost(svc, new Uri("http://localhost:8080/api/"));
-			host.Open();
+
+			handler = new AttachmentGetHandler();
+			server = new HttpServer(8080);
+			server.AddHandler("/api/get/", handler);
+			server.Start();
+			//host = new WebServiceHost(svc, new Uri("http://localhost:8080/api/"));
+			//host.Open();
 		}
 
 		[TestCleanup]
@@ -66,7 +71,8 @@ namespace UT_WammerStation
 		{
 			if (wammerDb.CollectionExists("attachments"))
 				wammerDb.DropCollection("attachments");
-			host.Close();
+			
+			server.Close();
 		}
 
 		[TestMethod]
@@ -161,15 +167,14 @@ namespace UT_WammerStation
 			catch (WebException e)
 			{
 				HttpWebResponse res = (HttpWebResponse)e.Response;
-				Assert.AreEqual(HttpStatusCode.NotFound, res.StatusCode);
+				Assert.AreEqual(HttpStatusCode.BadRequest, res.StatusCode);
 
 				using (StreamReader r = new StreamReader(res.GetResponseStream()))
 				{
 					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(
 						r.ReadToEnd());
-					Assert.AreEqual(-1, json.api_ret_code);
-					Assert.AreEqual((int)HttpStatusCode.NotFound, json.status);
-					Assert.AreEqual("object not found: 123", json.api_ret_msg);
+					Assert.AreEqual((int)StationApiError.NotFound, json.api_ret_code);
+					Assert.AreEqual("Resource not found: 123", json.api_ret_msg);
 				}
 				return;
 			}

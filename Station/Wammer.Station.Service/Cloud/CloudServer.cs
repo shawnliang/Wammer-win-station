@@ -17,6 +17,7 @@ namespace Wammer.Cloud
 		private static string apiKey = null;
 		private static string baseUrl = null;
 
+		public const string PARAM_DETAIL = "detail";
 		public const string PARAM_API_KEY = "apikey";
 		public const string PARAM_EMAIL = "email";
 		public const string PARAM_PASSWORD = "password";

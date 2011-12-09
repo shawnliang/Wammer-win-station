@@ -20,10 +20,8 @@ namespace UT_WammerStation
 	public class TestAddDriver
 	{
 		static MongoServer mongodb;
-
-		WebServiceHost host;
-		StationManagementService svc;
-
+		HttpServer server;
+		AddDriverHandler handler;
 
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
@@ -34,9 +32,10 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void setUp()
 		{
-			svc = new StationManagementService("resource", "stationId");
-			host = new WebServiceHost(svc, new Uri("http://localhost:8080/v2/station/"));
-			host.Open();
+			server = new HttpServer(8080);
+			handler = new AddDriverHandler("stationId", "resource");
+			server.AddHandler("/v2/station/drivers/add/", handler);
+			server.Start();
 
 			if (!Directory.Exists(@"C:\TempUT"))
 				Directory.CreateDirectory(@"c:\TempUT");
@@ -52,7 +51,7 @@ namespace UT_WammerStation
 		[TestCleanup]
 		public void tearDown()
 		{
-			host.Close();
+			server.Close();
 
 			if (Directory.Exists(@"C:\TempUT"))
 				Directory.Delete(@"C:\TempUT", true);

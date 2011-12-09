@@ -8,8 +8,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using System.ServiceModel;
-using System.ServiceModel.Web;
+
 
 using Microsoft.Win32;
 using Wammer.Station;
@@ -26,7 +25,6 @@ namespace Wammer.Station.Service
 
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 		private HttpServer server;
-		private List<WebServiceHost> serviceHosts = new List<WebServiceHost>();
 		private StationTimer stationTimer;
 		private string stationId;
 		private string resourceBasePath;
@@ -81,23 +79,40 @@ namespace Wammer.Station.Service
 			
 			CloudStorageSync cloudSync = new CloudStorageSync();
 			attachmentHandler.AttachmentSaved += cloudSync.HandleAttachmentSaved;
-			
+
 			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
 							attachmentHandler);
 
+			AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/",
+							addDriverHandler);
+			addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
+
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/",
+							new StatusGetHandler());
+
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/get/",
+							new ResouceDirGetHandler(resourceBasePath));
+
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/set/",
+							new ResouceDirSetHandler());
+
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/get/",
+							new AttachmentGetHandler());
+
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/",
+							new DropBoxOAuthHandler());
+
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/connect/",
+							new DropBoxConnectHandler());
+
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/update/",
+							new DropBoxUpdateHandler());
+
+			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/",
+							new DropboxDisconnectHandler());
+
 			server.Start();
-
-
-			// Start WCF REST services
-			AddWebServiceHost(new AttachmentService(), 9981, "attachments/");
-			
-			StationManagementService statMgmtSvc = new StationManagementService("resource", stationId);
-			AddWebServiceHost(statMgmtSvc, 9981, "station/");
-
-			AddWebServiceHost(new CloudStorageService(), 9981, "cloudstorage/");
-
-
-			statMgmtSvc.DriverAdded += PublicPortMapping.Instance.DriverAdded;
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -119,25 +134,10 @@ namespace Wammer.Station.Service
 		{
 			stationTimer.Stop();
 
-			foreach (WebServiceHost svc in serviceHosts)
-			{
-				svc.Close();
-			}
-
 			server.Stop();
 			server.Close();
 
 			PublicPortMapping.Instance.Close();
-		}
-
-		private void AddWebServiceHost(object service, int port, string basePath)
-		{
-			string url = string.Format("http://{0}:{1}/{2}/{3}", 
-				Dns.GetHostName(), port, CloudServer.DEF_BASE_PATH, basePath);
-
-			WebServiceHost svcHost = new WebServiceHost(service, new Uri(url));
-			svcHost.Open();
-			serviceHosts.Add(svcHost);
 		}
 
 		private void InitResourceBasePath()

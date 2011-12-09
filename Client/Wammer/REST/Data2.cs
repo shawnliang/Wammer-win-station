@@ -212,6 +212,14 @@ namespace Waveface.API.V2
         public string name { get; set; }
     }
 
+    public class LastScan
+    {
+        public string timestamp { get; set; }
+        public string user_id { get; set; }
+        public string group_id { get; set; }
+        public string post_id { get; set; }
+    }
+
     #endregion
 
     public class General_R
@@ -410,6 +418,15 @@ namespace Waveface.API.V2
 
     public class MR_attachments_delete : General_R
     {
+    }
+
+    #endregion
+
+    #region MR_footprints
+
+    public class MR_footprints_LastScan : General_R
+    {
+        public LastScan last_scan { get; set; }
     }
 
     #endregion

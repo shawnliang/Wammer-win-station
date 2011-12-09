@@ -130,26 +130,4 @@ namespace Wammer.Station
 			}
 		}
 	}
-
-	public class StationDetail
-	{
-		public string location { get; set; }
-		public List<DiskUsage> diskusage { get; set; }
-		public UPnPInfo upnp { get; set; }
-	}
-
-	public class DiskUsage
-	{
-		public string group_id { get; set; }
-		public long used { get; set; }
-		public long avail { get; set; }
-	}
-
-	public class UPnPInfo
-	{
-		public bool status { get; set; }
-		public string public_addr { get; set; }
-		public int public_port { get; set; }
-	}
-
 }

@@ -37,6 +37,20 @@ namespace Wammer.Cloud
 		{
 			this.LogOn(agent, new Dictionary<object, object>());
 		}
+		
+		public void LogOn(WebClient agent, StationDetail detail)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>();
+			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.Token);
+			parameters.Add(CloudServer.PARAM_STATION_ID, this.Id);
+			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+			parameters.Add(CloudServer.PARAM_DETAIL,
+				fastJSON.JSON.Instance.ToJSON(detail, false, false, false, false));
+
+			StationLogOnResponse res =
+				CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", parameters);
+			this.Token = res.session_token;
+		}
 
 		public void LogOn(WebClient agent, Dictionary<object, object> param)
 		{
@@ -90,4 +104,27 @@ namespace Wammer.Cloud
 		public string Token { get; private set;}
 
 	}
+
+
+	public class StationDetail
+	{
+		public string location { get; set; }
+		public List<DiskUsage> diskusage { get; set; }
+		public UPnPInfo upnp { get; set; }
+	}
+
+	public class DiskUsage
+	{
+		public string group_id { get; set; }
+		public long used { get; set; }
+		public long avail { get; set; }
+	}
+
+	public class UPnPInfo
+	{
+		public bool status { get; set; }
+		public string public_addr { get; set; }
+		public int public_port { get; set; }
+	}
+
 }

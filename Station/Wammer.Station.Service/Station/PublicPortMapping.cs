@@ -86,11 +86,11 @@ namespace Wammer.Station
 			TCMPortMapper.PortMapper.SharedInstance.AddPortMapping(myMapping);
 		}
 
-		public UPnPInfo GetUPnPInfo()
+		public Cloud.UPnPInfo GetUPnPInfo()
 		{
 			lock (lockObj)
 			{
-				UPnPInfo info = new UPnPInfo();
+				Cloud.UPnPInfo info = new Cloud.UPnPInfo();
 				if (IsReadyToNotifyCloud())
 				{
 					info.status = true;
