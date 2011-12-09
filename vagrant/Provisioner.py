@@ -6,6 +6,7 @@ import shlex
 import winreg
 import logging
 import re
+import os
 
 SHAWNLIANG_PC = 'http://192.168.1.197:9191'
 
@@ -53,13 +54,19 @@ def main():
             parser.feed(str(data))
             logging.info("The latest version is {0}".format(parser.maxver))
             target_exe = 'WavefaceSetup-{0}.exe'.format(parser.maxver)
+        except Exception as e:
+            logging.error("Get latest build info failed. error: {}".format(e))
+            return
+        try:
             target_url = '{0}/{1}'.format(SHAWNLIANG_PC, target_exe)
             logging.info('Downloading {0}'.format(target_url))
-            request.urlretrieve(target_url, target_exe)
-            subprocess.call(shlex.split(target_exe), shell=True)
-        except Exception:
-            logging.info("Unable to get/install WammerStation.msi, please check your network/environment")
-            input('press any key to continue')
+            filePath=os.path.join('C:/',target_exe)
+            request.urlretrieve(target_url, filePath)
+            logging.info('download {} success'.format(filePath))
+            subprocess.call(shlex.split(filePath), shell=True)
+        except Exception as e:
+            logging.info("Unable to get/install {}, error: {}".format(target_url,e))
+        input('press any key to continue')
 
 
 if __name__ == '__main__':
