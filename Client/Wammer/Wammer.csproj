@@ -316,8 +316,8 @@
     <Compile Include="Libs\DragDropLib\NativeStructures.cs" />
     <Compile Include="Data\NewPostItem.cs" />
     <Compile Include="Libs\Utility\WebPostHelper.cs" />
-    <Compile Include="REST\BEService2.cs" />
-    <Compile Include="REST\Data2.cs" />
+    <Compile Include="REST\WService.cs" />
+    <Compile Include="REST\WData.cs" />
     <Compile Include="Test\Group And User\Signup.cs">
       <SubType>Form</SubType>
     </Compile>

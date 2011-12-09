@@ -23,6 +23,15 @@ namespace Waveface
         public int FilterPostsAllCount { get; set; }
         public bool IsFirstTimeGetData { get; set; }
         public bool IsStationOK { get; set; }
+        public MR_auth_login Login{ get; set; }
+
+        public bool LoginOK
+        {
+            get
+            {
+                return Login != null;
+            }
+        }
 
         public List<Post> CurrentGroupPosts
         {
@@ -99,6 +108,7 @@ namespace Waveface
             FilterPostsAllCount = -1;
             IsFirstTimeGetData = true;
             IsStationOK = false;
+            Login = null;
         }
     }
 }

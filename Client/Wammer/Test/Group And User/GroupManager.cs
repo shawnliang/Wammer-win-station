@@ -15,7 +15,7 @@ namespace Waveface
         private Dictionary<string, string> m_groupCreator;
         private Dictionary<string, MR_groups_get> m_groupUsers;
         private MR_auth_login m_mrAuthLogin;
-        private BEService2 m_service2;
+        private WService m_service2;
 
         public GroupManager()
         {
@@ -41,7 +41,7 @@ namespace Waveface
 
         private void GroupManager_Load(object sender, EventArgs e)
         {
-            m_service2 = new BEService2();
+            m_service2 = new WService();
 
             DoLogin("ren.cheng@waveface.com", "123456");
             // DoLogin("michael.chen@waveface.com", "michael");

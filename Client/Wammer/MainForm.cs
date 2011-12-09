@@ -28,7 +28,6 @@ namespace Waveface
 
         public static GCONST GCONST = new GCONST();
         private bool m_canAutoFetchNewestPosts = true;
-        private bool m_loginOK;
         private List<string> m_delayPostPicList = new List<string>();
 
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
@@ -50,8 +49,7 @@ namespace Waveface
         private MyTaskbarNotifier m_taskbarNotifier;
 
         //V2
-        private BEService2 m_serviceV2;
-        private MR_auth_login m_login;
+        private WService m_serviceV2;
         private RunTimeData m_runTimeData = new RunTimeData();
 
         #endregion
@@ -66,7 +64,7 @@ namespace Waveface
 
         private string SessionToken
         {
-            get { return m_login.session_token; }
+            get { return RT.Login.session_token; }
         }
 
         #endregion
@@ -87,7 +85,7 @@ namespace Waveface
 
             InitTaskbarNotifier();
 
-            m_serviceV2 = new BEService2();
+            m_serviceV2 = new WService();
         }
 
         #region Init
@@ -481,7 +479,7 @@ namespace Waveface
         {
             RT.Reset();
 
-            BEService2.StationIP = "";
+            WService.StationIP = "";
 
             postsArea.ShowTypeUI(false);
         }
@@ -490,15 +488,27 @@ namespace Waveface
         {
             bool _ret = false;
 
-            m_loginOK = Login_Service(email, password);
-
             Cursor.Current = Cursors.WaitCursor;
 
-            if (m_loginOK)
+            MR_auth_login _login = m_serviceV2.auth_login(email, password);
+            bool _loginOK;
+
+            if (_login == null)
+            {
+                _loginOK =  false;
+            }
+            else
+            {
+                _loginOK = (_login.status == "200");
+            }
+
+            if (_loginOK)
             {
                 Reset();
 
-                CheckStation(m_login.stations);
+                RT.Login = _login;
+
+                CheckStation(RT.Login.stations);
 
                 getGroupAndUser();
 
@@ -506,7 +516,7 @@ namespace Waveface
                 fillGroupAndUser();
 
                 //預設群組
-                RT.CurrentGroupID = m_login.groups[0].group_id;
+                RT.CurrentGroupID = RT.Login.groups[0].group_id;
 
                 //顯示所有Post
                 DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
@@ -536,7 +546,7 @@ namespace Waveface
                         if (_ip.EndsWith("/"))
                             _ip = _ip.Substring(0, _ip.Length - 1);
 
-                        BEService2.StationIP = _ip;
+                        WService.StationIP = _ip;
 
                         //test
                         m_stationIP = _ip;
@@ -552,33 +562,17 @@ namespace Waveface
             RT.IsStationOK = false;
         }
 
-        private bool Login_Service(string email, string password)
-        {
-            Cursor.Current = Cursors.WaitCursor;
-
-            m_login = m_serviceV2.auth_login(email, password);
-
-            Cursor.Current = Cursors.Default;
-
-            if (m_login == null)
-            {
-                return false;
-            }
-
-            return (m_login.status == "200");
-        }
-
         private void fillUserInformation()
         {
-            labelName.Text = m_login.user.nickname;
+            labelName.Text = RT.Login.user.nickname;
 
-            if (m_login.user.avatar_url == string.Empty)
+            if (RT.Login.user.avatar_url == string.Empty)
             {
                 pictureBoxAvatar.Image = null;
             }
             else
             {
-                pictureBoxAvatar.LoadAsync(m_login.user.avatar_url);
+                pictureBoxAvatar.LoadAsync(RT.Login.user.avatar_url);
             }
         }
 
@@ -589,7 +583,7 @@ namespace Waveface
 
         private void getGroupAndUser()
         {
-            foreach (Group _g in m_login.groups)
+            foreach (Group _g in RT.Login.groups)
             {
                 MR_groups_get _mrGroupsGet = m_serviceV2.groups_get(SessionToken, _g.group_id);
 
@@ -613,7 +607,7 @@ namespace Waveface
 
         public void DoTimelineFilter(FilterItem item, bool isTimelineFilter)
         {
-            if (!m_loginOK)
+            if (!RT.LoginOK)
                 return;
 
             if (item != null) //會null是由PostArea的comboBoxType發出
@@ -658,7 +652,7 @@ namespace Waveface
 
         public void Post(List<string> pics, PostType postType)
         {
-            if (!m_loginOK)
+            if (!RT.LoginOK)
             {
                 MessageBox.Show("Please Login first.", "Waveface");
                 return;
@@ -783,7 +777,7 @@ namespace Waveface
 
         public bool RefreshNewestPosts()
         {
-            if (m_loginOK)
+            if (RT.LoginOK)
             {
                 if (RT.CurrentGroupPosts.Count > 0)
                 {
@@ -1091,12 +1085,12 @@ namespace Waveface
         {
             if (radioButtonCloud.Checked)
             {
-                BEService2.StationIP = BEService2.CloundIP;
+                WService.StationIP = WService.CloundIP;
                 RT.IsStationOK = false;
             }
             else
             {
-                BEService2.StationIP = m_stationIP;
+                WService.StationIP = m_stationIP;
                 RT.IsStationOK = true;
             }
         }

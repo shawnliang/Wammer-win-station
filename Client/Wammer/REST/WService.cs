@@ -12,7 +12,7 @@ using Spring.Rest.Client;
 
 namespace Waveface.API.V2
 {
-    public class BEService2
+    public class WService
     {
         public const string CloundIP = "https://develop.waveface.com"; //http://develop.waveface.com:8080
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
@@ -46,7 +46,7 @@ namespace Waveface.API.V2
 
         public static string StationIP { get; set; }
 
-        public BEService2()
+        public WService()
         {
             m_rest = new RestTemplate();
 
@@ -844,6 +844,54 @@ namespace Waveface.API.V2
                         "post_id" + "=" + post_id;
 
                 return HttpGetObject<MR_footprints_LastScan>(_url);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public MR_footprints_LastRead footprints_getLastRead(string session_token, string group_id, string post_id_array)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+            post_id_array = HttpUtility.UrlEncode(post_id_array);
+
+            try
+            {
+                string _url = BaseURL + "/footprints/getLastRead";
+
+                _url += "?" +
+                        "apikey" + "=" + APIKEY + "&" +
+                        "session_token" + "=" + session_token + "&" +
+                        "group_id" + "=" + group_id + "&" +
+                        "post_id_array" + "=" + post_id_array;
+
+                return HttpGetObject<MR_footprints_LastRead>(_url);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public MR_footprints_LastRead footprints_setLastRead(string session_token, string group_id, string last_read_input_array)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+            last_read_input_array = HttpUtility.UrlEncode(last_read_input_array);
+
+            try
+            {
+                string _url = BaseURL + "/footprints/setLastRead";
+
+                _url += "?" +
+                        "apikey" + "=" + APIKEY + "&" +
+                        "session_token" + "=" + session_token + "&" +
+                        "group_id" + "=" + group_id + "&" +
+                        "last_read_input_array" + "=" + last_read_input_array;
+
+                return HttpGetObject<MR_footprints_LastRead>(_url);
             }
             catch
             {

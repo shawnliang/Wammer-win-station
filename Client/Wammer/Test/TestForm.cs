@@ -7,7 +7,7 @@ namespace Waveface
 {
     public partial class TestForm : Form
     {
-        private BEService2 m_service2 = new BEService2();
+        private WService m_service2 = new WService();
         private MR_auth_login m_mrAuthLogin;
         private MR_posts_getLatest m_mrPostsGetLatest;
         private MR_posts_getSingle m_mrPostsGetSingle;
