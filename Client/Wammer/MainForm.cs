@@ -48,8 +48,6 @@ namespace Waveface
         private VirtualFolderForm m_virtualFolderForm;
         private MyTaskbarNotifier m_taskbarNotifier;
 
-        //V2
-        private WService m_serviceV2;
         private RunTimeData m_runTimeData = new RunTimeData();
 
         #endregion
@@ -60,11 +58,6 @@ namespace Waveface
         {
             get { return m_runTimeData; }
             set { m_runTimeData = value; }
-        }
-
-        private string SessionToken
-        {
-            get { return RT.Login.session_token; }
         }
 
         #endregion
@@ -83,9 +76,7 @@ namespace Waveface
 
             //initVirtualFolderForm();
 
-            InitTaskbarNotifier();
-
-            m_serviceV2 = new WService();
+            InitTaskbarNotifier();    
         }
 
         #region Init
@@ -272,205 +263,6 @@ namespace Waveface
 
         #region API
 
-        public string attachments_getRedirectURL(string orgURL, string object_id, bool isImage)
-        {
-            return AttachmentUrlUtility.GetRedirectURL(orgURL, SessionToken, object_id, isImage);
-        }
-
-        public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url, out string fileName)
-        {
-            return AttachmentUrlUtility.GetRedirectURL_Image(SessionToken, a, imageType, out url, out fileName);
-        }
-
-        public string attachments_getRedirectURL_PdfCoverPage(string orgURL)
-        {
-            return AttachmentUrlUtility.GetRedirectURL_PdfCoverPage(orgURL, SessionToken);
-        }
-
-        public MR_posts_new Post_CreateNewPost(string text, string files, string previews, string type)
-        {
-            MR_posts_new _postsNew = m_serviceV2.posts_new(SessionToken, RT.CurrentGroupID, text, files, previews, type);
-
-            if ((_postsNew != null) && (_postsNew.status == "200"))
-            {
-                return _postsNew;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_posts_newComment Posts_NewComment(string post_id, string content, string objects, string previews)
-        {
-            MR_posts_newComment _newComment = m_serviceV2.posts_newComment(SessionToken, RT.CurrentGroupID, post_id, content, objects, previews);
-
-            if ((_newComment != null) && (_newComment.status == "200"))
-            {
-                return _newComment;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_posts_getSingle Posts_GetSingle(string post_id)
-        {
-            MR_posts_getSingle _getSingle = m_serviceV2.posts_getSingle(SessionToken, RT.CurrentGroupID, post_id);
-
-            if ((_getSingle != null) && (_getSingle.status == "200"))
-            {
-                return _getSingle;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_previews_get_adv Preview_GetAdvancedPreview(string url)
-        {
-            MR_previews_get_adv _previewsGetAdv = m_serviceV2.previews_get_adv(SessionToken, url);
-
-            if ((_previewsGetAdv != null) && (_previewsGetAdv.status == "200"))
-            {
-                return _previewsGetAdv;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage)
-        {
-            MR_attachments_upload _attachmentsUpload;
-            string _resizedImageFilePath = string.Empty;
-
-            if (isImage)
-            {
-                if (RT.IsStationOK) //如果有Station則上傳原圖, 否則就上512中圖
-                {
-                    _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text, "", "image", "origin", object_id);
-                }
-                else
-                {
-                    _resizedImageFilePath = ImageUtility.ResizeImage(filePath, text, "512", 50);
-                    _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, _resizedImageFilePath, text, "", "image", "medium", object_id);
-                }
-            }
-            else
-            {
-                _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text, "", "doc", "", "");
-            }
-
-            if ((_attachmentsUpload != null) && (_attachmentsUpload.status == "200"))
-            {
-                // 如果傳中圖到Cloud, 則要把原圖Cache起來, 待有Station在傳原圖
-                if (_resizedImageFilePath != string.Empty)
-                {
-                    string _ext = ".jpg";
-
-                    int _idx = text.IndexOf(".");
-
-                    if (_idx != -1)
-                        _ext = text.Substring(_idx);
-
-                    string _originCacheFile = GCONST.ImageUploadCachePath + _attachmentsUpload.object_id + _ext;
-                    File.Copy(filePath, _originCacheFile);
-                }
-
-                return _attachmentsUpload;
-            }
-
-            return null;
-        }
-
-        public MR_posts_get Posts_FetchByFilter(string filter_entity)
-        {
-            MR_posts_get _postsGet = m_serviceV2.posts_fetchByFilter(SessionToken, RT.CurrentGroupID, filter_entity);
-
-            if ((_postsGet != null) && (_postsGet.status == "200"))
-            {
-                return _postsGet;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_fetchfilters_list SearchFilters_List()
-        {
-            MR_fetchfilters_list _filtersList = m_serviceV2.fetchfilters_list(SessionToken);
-
-            if ((_filtersList != null) && (_filtersList.status == "200"))
-            {
-                return _filtersList;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_fetchfilters_item FetchFilters_New(string filter_name, string filter_entity, string tag)
-        {
-            MR_fetchfilters_item _item = m_serviceV2.fetchfilters_new(SessionToken, filter_name, filter_entity, tag);
-
-            if ((_item != null) && (_item.status == "200"))
-            {
-                return _item;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_fetchfilters_item FetchFilters_Update(string searchfilter_id, string filter_name, string filter_entity, string tag)
-        {
-            MR_fetchfilters_item _item = m_serviceV2.fetchfilters_update(SessionToken, searchfilter_id, filter_name, filter_entity, tag);
-
-            if ((_item != null) && (_item.status == "200"))
-            {
-                return _item;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_users_findMyStation Users_findMyStation()
-        {
-            MR_users_findMyStation _findMyStation = m_serviceV2.users_findMyStation(SessionToken);
-
-            if ((_findMyStation != null) && (_findMyStation.status == "200"))
-            {
-                return _findMyStation;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public MR_posts_hide_ret Posts_hide(string post_id)
-        {
-            MR_posts_hide_ret _ret = m_serviceV2.posts_hide(SessionToken, RT.CurrentGroupID, post_id);
-
-            if ((_ret != null) && (_ret.status == "200"))
-            {
-                return _ret;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         #endregion
 
         #region Login
@@ -490,7 +282,7 @@ namespace Waveface
 
             Cursor.Current = Cursors.WaitCursor;
 
-            MR_auth_login _login = m_serviceV2.auth_login(email, password);
+            MR_auth_login _login = RT.REST.Service.auth_login(email, password);
             bool _loginOK;
 
             if (_login == null)
@@ -585,7 +377,7 @@ namespace Waveface
         {
             foreach (Group _g in RT.Login.groups)
             {
-                MR_groups_get _mrGroupsGet = m_serviceV2.groups_get(SessionToken, _g.group_id);
+                MR_groups_get _mrGroupsGet = RT.REST.Service.groups_get(RT.REST.SessionToken, _g.group_id);
 
                 if ((_mrGroupsGet != null) && (_mrGroupsGet.status == "200"))
                 {
@@ -691,7 +483,7 @@ namespace Waveface
 
         public void HidePost(string postId)
         {
-            MR_posts_hide_ret _ret = Posts_hide(postId);
+            MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
 
             if (_ret != null)
             {
@@ -707,7 +499,7 @@ namespace Waveface
 
         public void AfterPostComment(string post_id)
         {
-            MR_posts_getSingle _singlePost = THIS.Posts_GetSingle(post_id);
+            MR_posts_getSingle _singlePost = RT.REST.Posts_GetSingle(post_id);
 
             if ((_singlePost != null) && (_singlePost.post != null))
             {
@@ -784,7 +576,7 @@ namespace Waveface
                     string _newestPostTime = RT.CurrentGroupPosts[0].timestamp;
                     string _newestPostID = RT.CurrentGroupPosts[0].post_id;
 
-                    MR_posts_get _postsGet = m_serviceV2.posts_get(SessionToken, RT.CurrentGroupID, "+100",
+                    MR_posts_get _postsGet = RT.REST.Service.posts_get(RT.REST.SessionToken, RT.CurrentGroupID, "+100",
                                                                    _newestPostTime, "");
 
                     if ((_postsGet != null) && (_postsGet.status == "200"))
@@ -888,7 +680,7 @@ namespace Waveface
 
             Cursor.Current = Cursors.WaitCursor;
 
-            MR_posts_get _postsGet = Posts_FetchByFilter(_filter);
+            MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter(_filter);
 
             if (_postsGet != null)
             {

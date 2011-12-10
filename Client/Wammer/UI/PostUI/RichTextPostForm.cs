@@ -266,7 +266,7 @@ namespace Waveface.PostUI
 
                          try
                          {
-                             MR_attachments_upload _uf = MainForm.THIS.File_UploadFile(_imageURL, _imageFile, "", true);
+                             MR_attachments_upload _uf = MainForm.THIS.RT.REST.File_UploadFile(_imageURL, _imageFile, "", true);
 
                              if (_uf == null)
                              {
@@ -287,7 +287,7 @@ namespace Waveface.PostUI
 
                          try
                          {
-                             MR_attachments_upload _uf = MainForm.THIS.File_UploadFile("_RichText_", MyParent.GetHtmlFile(), "", false);
+                             MR_attachments_upload _uf = MainForm.THIS.RT.REST.File_UploadFile("_RichText_", MyParent.GetHtmlFile(), "", false);
 
                              if (_uf == null)
                              {
@@ -338,7 +338,7 @@ namespace Waveface.PostUI
         {
             try
             {
-                MR_posts_new _np = MainForm.THIS.Post_CreateNewPost(richTextBox.Text, files, "", "rtf");
+                MR_posts_new _np = MainForm.THIS.RT.REST.Post_CreateNewPost(richTextBox.Text, files, "", "rtf");
 
                 if (_np == null)
                 {

@@ -421,7 +421,7 @@ namespace Waveface
 
                     string _url = _a.image;
 
-                    _url = MainForm.THIS.attachments_getRedirectURL_PdfCoverPage(_url);
+                    _url = MainForm.THIS.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
 
                     Bitmap _img = LoadThumbnail(_url, _localPic);
 
@@ -527,7 +527,7 @@ namespace Waveface
         {
             string _url = string.Empty;
             string _fileName = string.Empty;
-            MainForm.THIS.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName);
+            MainForm.THIS.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName);
 
             string _localPic = MainForm.GCONST.CachePath + _fileName;
 

@@ -203,7 +203,7 @@ namespace Waveface
             {
                 try
                 {
-                    MR_posts_new _np = MainForm.THIS.Post_CreateNewPost(richTextBox.Text, "", "", "text");
+                    MR_posts_new _np = MainForm.THIS.RT.REST.Post_CreateNewPost(richTextBox.Text, "", "", "text");
 
                     if (_np == null)
                     {

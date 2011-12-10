@@ -324,7 +324,7 @@ namespace Waveface
                 return;
             }
 
-            MR_posts_newComment _postsNewComment = MainForm.THIS.Posts_NewComment(post.post_id, textBox.Text, "", "");
+            MR_posts_newComment _postsNewComment = MainForm.THIS.RT.REST.Posts_NewComment(post.post_id, textBox.Text, "", "");
 
             if (_postsNewComment != null)
             {

@@ -9,7 +9,7 @@ namespace Waveface.FilterUI
     {
         public static List<Fetch_Filter> GetList()
         {
-            MR_fetchfilters_list _list = MainForm.THIS.SearchFilters_List();
+            MR_fetchfilters_list _list = MainForm.THIS.RT.REST.SearchFilters_List();
 
             if (_list == null)
                 return null;

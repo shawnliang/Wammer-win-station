@@ -37,7 +37,7 @@ namespace Waveface
 
                         FileName _fileName = new FileName(_file);
 
-                        MR_attachments_upload _uf = MainForm.THIS.File_UploadFile(_fileName.Name, _file, _fileName.NameNoExt, true);
+                        MR_attachments_upload _uf = MainForm.THIS.RT.REST.File_UploadFile(_fileName.Name, _file, _fileName.NameNoExt, true);
 
                         if (_uf != null)
                         {

@@ -10,6 +10,8 @@ namespace Waveface
 {
     public class RunTimeData
     {
+        private RT_REST m_rest;
+
         public bool IsTimelineFilter { get; set; }
         public Dictionary<string, MR_groups_get> GroupSets { get; set; }
         public Dictionary<string, List<Post>> GroupPosts { get; set; }
@@ -24,6 +26,14 @@ namespace Waveface
         public bool IsFirstTimeGetData { get; set; }
         public bool IsStationOK { get; set; }
         public MR_auth_login Login{ get; set; }
+
+        public RT_REST REST
+        {
+            get
+            {
+                return m_rest;
+            }
+        }
 
         public bool LoginOK
         {
@@ -91,6 +101,11 @@ namespace Waveface
                 else
                     FilterPostsAllCount = value;
             }
+        }
+
+        public RunTimeData()
+        {
+            m_rest = new RT_REST(this);
         }
 
         public void Reset()

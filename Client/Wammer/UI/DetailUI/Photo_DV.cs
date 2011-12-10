@@ -381,7 +381,7 @@ namespace Waveface.DetailUI
             Attachment _attachment = m_imageAttachments[imageFileIndex];
             string _url = string.Empty;
             string _fileName = string.Empty;
-            MainForm.THIS.attachments_getRedirectURL_Image(_attachment, imageType, out _url, out _fileName); //origin medium
+            MainForm.THIS.RT.REST.attachments_getRedirectURL_Image(_attachment, imageType, out _url, out _fileName); //origin medium
 
             string _localFile = MainForm.GCONST.CachePath + _fileName;
 
