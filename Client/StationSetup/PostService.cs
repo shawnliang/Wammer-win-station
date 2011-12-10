@@ -20,7 +20,7 @@ namespace StationSetup
         private WService m_serviceV2;
         private MR_auth_login m_login;
         public static GCONST GCONST = new GCONST();
-        private RunTimeData RT;
+        private RunTime RT;
 
         private string m_email;
         private string m_password;
@@ -32,7 +32,7 @@ namespace StationSetup
 
         public PostService(string email, string password)
         {
-            RT = new RunTimeData();
+            RT = new RunTime();
 
             m_email = email;
             m_password = password;

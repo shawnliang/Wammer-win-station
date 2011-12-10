@@ -23,10 +23,10 @@ namespace Waveface
     public partial class MainForm : Form
     {
         public static MainForm THIS;
+        public static GCONST GCONST = new GCONST();
 
         #region Fields
 
-        public static GCONST GCONST = new GCONST();
         private bool m_canAutoFetchNewestPosts = true;
         private List<string> m_delayPostPicList = new List<string>();
 
@@ -48,16 +48,16 @@ namespace Waveface
         private VirtualFolderForm m_virtualFolderForm;
         private MyTaskbarNotifier m_taskbarNotifier;
 
-        private RunTimeData m_runTimeData = new RunTimeData();
+        private RunTime m_runTime = new RunTime();
 
         #endregion
 
         #region Properties
 
-        public RunTimeData RT
+        public RunTime RT
         {
-            get { return m_runTimeData; }
-            set { m_runTimeData = value; }
+            get { return m_runTime; }
+            set { m_runTime = value; }
         }
 
         #endregion
@@ -76,7 +76,7 @@ namespace Waveface
 
             //initVirtualFolderForm();
 
-            InitTaskbarNotifier();    
+            InitTaskbarNotifier();
         }
 
         #region Init
@@ -87,6 +87,7 @@ namespace Waveface
             m_onlineImage = Resources.Outlook;
             m_offlineImage = Resources.Error;
             NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+
             UpdateStatusBar();
 
             InitmDropableNotifyIcon();
@@ -137,8 +138,6 @@ namespace Waveface
         }
 
         #endregion
-
-        #region Main
 
         #region Event
 
@@ -196,11 +195,15 @@ namespace Waveface
             {
                 connectedImageLabel.Text = " Connected";
                 connectedImageLabel.Image = m_onlineImage;
+
+                RT.REST.IsNetworkAvailable = true;
             }
             else
             {
                 connectedImageLabel.Text = " Disconnected";
                 connectedImageLabel.Image = m_offlineImage;
+
+                RT.REST.IsNetworkAvailable = false;
             }
         }
 
@@ -213,8 +216,7 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show(_e.ToString(), "Waveface", MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                MessageBox.Show(_e.ToString(), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -226,7 +228,7 @@ namespace Waveface
         {
             panelLeftInfo.Width = leftArea.MyWidth + 8;
 
-            m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Wammer";
+            m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
             m_dropableNotifyIcon.NotifyIcon.BalloonTipText = "Minimize to Tray App";
 
             if (FormWindowState.Minimized == WindowState)
@@ -259,12 +261,6 @@ namespace Waveface
 
         #endregion
 
-        #endregion
-
-        #region API
-
-        #endregion
-
         #region Login
 
         public void Reset()
@@ -287,7 +283,7 @@ namespace Waveface
 
             if (_login == null)
             {
-                _loginOK =  false;
+                _loginOK = false;
             }
             else
             {
@@ -310,8 +306,10 @@ namespace Waveface
                 //預設群組
                 RT.CurrentGroupID = RT.Login.groups[0].group_id;
 
-                //顯示所有Post
-                DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
+                bgWorkerGetAllData.RunWorkerAsync();
+
+                // 顯示所有Post
+                //DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
 
                 //
                 leftArea.FillCustomizedFilters();
@@ -630,28 +628,6 @@ namespace Waveface
 
         #endregion
 
-        #region Misc
-
-        private void showTaskbarNotifier(Post post)
-        {
-            string _url = string.Empty;
-            string _name = string.Empty;
-
-            foreach (User _u in RT.AllUsers)
-            {
-                if (post.creator_id == _u.user_id)
-                {
-                    _url = _u.avatar_url;
-                    _name = _u.nickname;
-                }
-            }
-
-            m_taskbarNotifier.AvatarImage = ImageUtility.GetAvatarImage(post.creator_id, _url);
-            m_taskbarNotifier.Show(_name, post.content, 333, 2000, 333);
-        }
-
-        #endregion
-
         #region Helper
 
         private void FetchPostsAndShow(bool firstTime)
@@ -707,11 +683,7 @@ namespace Waveface
         {
             List<Post> _posts = RT.CurrentPosts;
 
-            //List<Post> _unhidePosts = GetUnhidePosts(_posts);
-
             setCalendarBoldedDates(_posts);
-
-            // int _dt = _posts.Count - _unhidePosts.Count;
 
             postsArea.ShowPostInfo(RT.CurrentPostsAllCount, _posts.Count);
 
@@ -863,6 +835,26 @@ namespace Waveface
 
         #endregion
 
+        #region Misc
+
+        private void showTaskbarNotifier(Post post)
+        {
+            string _url = string.Empty;
+            string _name = string.Empty;
+
+            foreach (User _u in RT.AllUsers)
+            {
+                if (post.creator_id == _u.user_id)
+                {
+                    _url = _u.avatar_url;
+                    _name = _u.nickname;
+                }
+            }
+
+            m_taskbarNotifier.AvatarImage = ImageUtility.GetAvatarImage(post.creator_id, _url);
+            m_taskbarNotifier.Show(_name, post.content, 333, 2000, 333);
+        }
+
         public void FillTimelineComboBox(List<FilterItem> list)
         {
             postsArea.FillTimelineComboBox(list);
@@ -890,6 +882,79 @@ namespace Waveface
         private void linkLabelLogout_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Close();
+        }
+
+        #endregion
+
+        private void bgWorkerGetAllData_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            string _firstGetCount = "200"; //須為正
+            string _continueGetCount = "-200"; //須為負
+
+            MR_posts_get _postsGet = null;
+            Dictionary<string, Post> _allPosts = new Dictionary<string, Post>();
+            string _datum = string.Empty;
+
+            // 先取得第一批
+            MR_posts_getLatest _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+
+            if (_getLatest != null)
+            {
+                foreach (Post _p in _getLatest.posts)
+                {
+                    _allPosts.Add(_p.post_id, _p);
+                    _datum = _p.timestamp;
+                }
+
+                // 若未取完
+                if (_getLatest.get_count < _getLatest.total_count)
+                {
+                    // 假設還有很多沒取得
+                    int _remainingCount = int.MaxValue;
+
+                    while (_remainingCount > 0)
+                    {
+                        _datum = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
+
+                        _postsGet = RT.REST.Posts_get(_continueGetCount, _datum, "");
+
+                        if (_postsGet != null)
+                        {
+                            foreach (Post _p in _postsGet.posts)
+                            {
+                                if (!_allPosts.ContainsKey(_p.post_id))
+                                {
+                                    _allPosts.Add(_p.post_id, _p);
+                                    _datum = _p.timestamp;
+                                }
+                            }
+
+                            _remainingCount = _postsGet.remaining_count;
+                        }
+                    }
+                }
+            }
+
+            List<Post> _tmpPosts = new List<Post>();
+
+            foreach (Post _p in _allPosts.Values)
+            {
+                _tmpPosts.Add(_p);
+            }
+
+            if (RT.GroupAllPosts.ContainsKey(RT.CurrentGroupID))
+                RT.GroupAllPosts[RT.CurrentGroupID] = _tmpPosts;
+            else
+                RT.GroupAllPosts.Add(RT.CurrentGroupID, _tmpPosts);
+        }
+
+        private void bgWorkerGetAllData_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            List<Post> _posts = RT.GroupAllPosts[RT.CurrentGroupID];
+
+            setCalendarBoldedDates(_posts);
+
+            postsArea.PostsList.SetPosts(_posts, false, RT.IsFirstTimeGetData);
         }
     }
 }

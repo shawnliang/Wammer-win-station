@@ -193,7 +193,7 @@ namespace Waveface
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult _dr = MessageBox.Show("Are you sure you want to delete this item?", "Wammer", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            DialogResult _dr = MessageBox.Show("Are you sure you want to delete this item?", "Waveface", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
 
             if (_dr == DialogResult.Yes)
                 DeleteThis();

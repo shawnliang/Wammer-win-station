@@ -23,7 +23,7 @@ namespace Waveface.DragDropLib
     /// passing an instance of DataObject as the only constructor parameter. For
     /// example:</para>
     /// <code>
-    /// System.Windows.DataObject data = new System.Windows.DataObject(new Wammer.DragDropLib.DataObject());
+    /// System.Windows.DataObject data = new System.Windows.DataObject(new Waveface.DragDropLib.DataObject());
     /// </code>
     /// </remarks>
     [ComVisible(true)]

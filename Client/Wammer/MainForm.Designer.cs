@@ -72,6 +72,7 @@
             this.linkLabelLogin = new System.Windows.Forms.LinkLabel();
             this.labelName = new System.Windows.Forms.Label();
             this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
+            this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -466,6 +467,11 @@
             this.pictureBoxAvatar.TabIndex = 1;
             this.pictureBoxAvatar.TabStop = false;
             // 
+            // bgWorkerGetAllData
+            // 
+            this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
+            this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -549,6 +555,7 @@
         private System.Windows.Forms.RadioButton radioButtonStation;
         private System.Windows.Forms.RadioButton radioButtonCloud;
         private System.Windows.Forms.PictureBox pictureBoxLogo;
+        private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
 	}
 }
 
