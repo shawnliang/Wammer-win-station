@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using System.Net;
 using System.Threading;
+
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -19,7 +22,21 @@ namespace Wammer.Station
 		private HttpHandlerProxy defaultHandler;
 		private bool stopping = false;
 		private bool started = false;
-		log4net.ILog logger = null;
+		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpServer");
+
+		/// <summary>
+		/// Gets or sets offline key. A request to shutdown or bring up server has to 
+		/// have a matching offline key.
+		/// </summary>
+		public string OfflineKey { get; set; }
+
+		/// <summary>
+		/// Gets or sets the server online or offline
+		/// </summary>
+		public bool Online { get; set; }
+
+		public static string OFFLINE_API = "/station/offline";
+		public static string ONLINE_API = "/station/online";
 
 		public HttpServer(int port)
 		{
@@ -27,7 +44,11 @@ namespace Wammer.Station
 			this.listener = new HttpListener();
 			this.handlers = new Dictionary<string, HttpHandlerProxy>();
 			this.defaultHandler = null;
-			this.logger = log4net.LogManager.GetLogger("HttpServer");
+			this.Online = true;
+			this.OfflineKey = "";
+
+			this.AddHandler(OFFLINE_API, new ServerOfflineHandler(this));
+			this.AddHandler(ONLINE_API, new ServerOnlineHandler(this));
 		}
 
 		public void AddHandler(string path, IHttpHandler handler)
@@ -109,6 +130,9 @@ namespace Wammer.Station
 
 				if (context != null)
 				{
+					if (!this.Online && !context.Request.Url.AbsolutePath.StartsWith(ONLINE_API))
+						respond503Unavailable(context);
+
 					HttpHandlerProxy handler = FindBestMatch(
 												context.Request.Url.AbsolutePath);
 
@@ -139,8 +163,37 @@ namespace Wammer.Station
 
 		private static void respond404NotFound(HttpListenerContext ctx)
 		{
-			ctx.Response.StatusCode = 404;
-			ctx.Response.Close();
+			try
+			{
+				ctx.Response.StatusCode = (int)HttpStatusCode.NotFound;
+				ctx.Response.Close();
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unable to respond 404 Not Found", e);
+			}
+		}
+
+		private static void respond503Unavailable(HttpListenerContext ctx)
+		{
+			try
+			{
+				ctx.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
+				using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+				{
+					Cloud.CloudResponse json = new Cloud.CloudResponse(
+						ctx.Response.StatusCode,
+						DateTime.UtcNow,
+						(int)StationApiError.ServerOffline,
+						"Server offline");
+					w.Write(json.ToFastJSON());
+				}
+				//ctx.Response.Close();
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unable to respond 503 Service Unavailable", e);
+			}
 		}
 
 		private HttpHandlerProxy FindBestMatch(string requestAbsPath)
@@ -205,6 +258,60 @@ namespace Wammer.Station
 				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
 				logger.Warn("Internal server error", e);
 			}
+		}
+	}
+
+	class ServerOfflineHandler: HttpHandler
+	{
+		private readonly HttpServer server;
+
+		public ServerOfflineHandler(HttpServer server)
+		{
+			this.server = server;
+		}
+
+		protected override void HandleRequest()
+		{
+			string key = Parameters["key"];
+
+			if (key == null || !key.Equals(server.OfflineKey))
+				throw new WammerStationException("Offline key error", -1);
+
+			server.Online = false;
+
+			RespondSuccess();
+		}
+
+		public override object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+	}
+
+	class ServerOnlineHandler : HttpHandler
+	{
+		private readonly HttpServer server;
+
+		public ServerOnlineHandler(HttpServer server)
+		{
+			this.server = server;
+		}
+
+		protected override void HandleRequest()
+		{
+			string key = Parameters["key"];
+
+			if (key == null || !key.Equals(server.OfflineKey))
+				throw new WammerStationException("Offline key error", -1);
+
+			server.Online = true;
+
+			RespondSuccess();
+		}
+
+		public override object Clone()
+		{
+			return this.MemberwiseClone();
 		}
 	}
 }
