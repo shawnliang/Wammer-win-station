@@ -192,13 +192,13 @@ namespace Wammer.Station
 				if (stationInfo == null)
 					return;
 
-				Cloud.Station station = new Cloud.Station(stationInfo.Id, stationInfo.SessionToken);
+				Cloud.StationApi api = new Cloud.StationApi(stationInfo.Id, stationInfo.SessionToken);
 
 				string json = StatusChecker.GetDetail().ToFastJSON();
 
 				logger.Debug("detail: " + json);
 
-				station.Heartbeat(new WebClient(), new Dictionary<object, object>{
+				api.Heartbeat(new WebClient(), new Dictionary<object, object>{
 					{ "detail",  json }
 				});
 			}

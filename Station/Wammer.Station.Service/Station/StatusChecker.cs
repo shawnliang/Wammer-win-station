@@ -71,13 +71,13 @@ namespace Wammer.Station
 						locChange = true;
 					}
 
-					Cloud.Station station = new Cloud.Station(sinfo.Id, sinfo.SessionToken);
+					Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
 					if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
 					{
 						logger.Debug("cloud logon start");
 						try
 						{
-							station.LogOn(agent, new Dictionary<object, object> { { "detail", detailJson } });
+							api.LogOn(agent, new Dictionary<object, object> { { "detail", detailJson } });
 							logon = true;
 
 							// update station info in database
@@ -99,7 +99,7 @@ namespace Wammer.Station
 							logger.Debug("update station information");
 							Model.StationInfo.collection.Save(sinfo);
 						}
-						station.Heartbeat(agent, new Dictionary<object, object> { { "detail", detailJson } });
+						api.Heartbeat(agent, new Dictionary<object, object> { { "detail", detailJson } });
 					}
 					catch (Exception ex)
 					{
@@ -119,8 +119,8 @@ namespace Wammer.Station
 				{
 					try
 					{
-						Cloud.Station station = new Cloud.Station(sinfo.Id, sinfo.SessionToken);
-						station.Offline(agent);
+						Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
+						api.Offline(agent);
 					}
 					catch (Exception ex)
 					{

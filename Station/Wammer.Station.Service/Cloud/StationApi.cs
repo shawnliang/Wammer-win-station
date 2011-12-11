@@ -9,16 +9,16 @@ using Wammer.Utility;
 
 namespace Wammer.Cloud
 {
-	public class Station
+	public class StationApi
 	{
 
-		public Station(string stationId, string stationToken)
+		public StationApi(string stationId, string stationToken)
 		{
 			this.Id = stationId;
 			this.Token = stationToken;
 		}
 
-		public static Station SignUp(WebClient agent, string stationId, string email, string passwd)
+		public static StationApi SignUp(WebClient agent, string stationId, string email, string passwd)
 		{
 			Dictionary<object, object> param = new Dictionary<object, object>
 			{
@@ -31,7 +31,7 @@ namespace Wammer.Cloud
 			StationSignUpResponse res =
 				CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param);
 
-			return new Station(stationId, res.session_token);
+			return new StationApi(stationId, res.session_token);
 		}
 
 		public void LogOn(WebClient agent)

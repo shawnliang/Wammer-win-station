@@ -119,7 +119,7 @@
     <Compile Include="Cloud\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
     <Compile Include="Cloud\ObjectUploadResponse.cs" />
-    <Compile Include="Cloud\Station.cs" />
+    <Compile Include="Cloud\StationApi.cs" />
     <Compile Include="Cloud\StationSignUpResponse.cs" />
     <Compile Include="Cloud\StorageApi.cs" />
     <Compile Include="Cloud\StorageResponse.cs" />

@@ -42,8 +42,8 @@ namespace Wammer.Station
 			{
 				try
 				{
-					Cloud.Station station = Cloud.Station.SignUp(agent, stationId, email, password);
-					station.LogOn(agent, StatusChecker.GetDetail());
+					Cloud.StationApi api = Cloud.StationApi.SignUp(agent, stationId, email, password);
+					api.LogOn(agent, StatusChecker.GetDetail());
 
 					User user = User.LogIn(agent, email, password);
 					Drivers driver = new Drivers
@@ -61,7 +61,7 @@ namespace Wammer.Station
 						new StationInfo
 						{
 							Id = stationId,
-							SessionToken = station.Token,
+							SessionToken = api.Token,
 							Location = NetworkHelper.GetBaseURL(),
 							LastLogOn = DateTime.Now
 						}

@@ -94,15 +94,15 @@ namespace UT_WammerStation
 			using (FakeCloud fakeCloud = new FakeCloud(new Wammer.Cloud.StationLogOnResponse(200, DateTime.Now.ToUniversalTime(), "newToken1")))
 			using (WebClient agent = new WebClient())
 			{
-				Wammer.Cloud.Station station = new Wammer.Cloud.Station("sid1", "token1");
-				station.LogOn(agent);
+				Wammer.Cloud.StationApi api = new Wammer.Cloud.StationApi("sid1", "token1");
+				api.LogOn(agent);
 				Assert.AreEqual("/v9999/stations/logOn",
 					fakeCloud.RequestedPath);
 				Assert.AreEqual("session_token=token1&station_id=sid1&apikey=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
 					fakeCloud.RequestedContentType);
-				Assert.AreEqual("newToken1", station.Token);
+				Assert.AreEqual("newToken1", api.Token);
 			}
 
 		}
@@ -113,13 +113,13 @@ namespace UT_WammerStation
 			using (FakeCloud fakeCloud = new FakeCloud(new Wammer.Cloud.StationLogOnResponse(200, DateTime.Now.ToUniversalTime(), "newToken1")))
 			using (WebClient agent = new WebClient())
 			{
-				Wammer.Cloud.Station station = new Wammer.Cloud.Station("sid1", "token1");
+				Wammer.Cloud.StationApi api = new Wammer.Cloud.StationApi("sid1", "token1");
 
 				Dictionary<object, object> param = new Dictionary<object, object>();
 				param.Add("host_name", "hostname1");
 				param.Add("ip_address", "ip1");
 				param.Add("port", "9999");
-				station.LogOn(agent, param);
+				api.LogOn(agent, param);
 
 				Assert.AreEqual("/v9999/stations/logOn",
 					fakeCloud.RequestedPath);
@@ -129,9 +129,9 @@ namespace UT_WammerStation
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
 					fakeCloud.RequestedContentType);
-				Assert.AreEqual("newToken1", station.Token);
+				Assert.AreEqual("newToken1", api.Token);
 
-				Assert.AreEqual("newToken1", station.Token);
+				Assert.AreEqual("newToken1", api.Token);
 			}
 		}
 
@@ -141,11 +141,11 @@ namespace UT_WammerStation
 			using (FakeCloud fakeCloud = new FakeCloud(new Wammer.Cloud.StationLogOnResponse(200, DateTime.Now.ToUniversalTime(), "newToken1")))
 			using (WebClient agent = new WebClient())
 			{
-				Wammer.Cloud.Station station = new Wammer.Cloud.Station("sid1", "token1");
+				Wammer.Cloud.StationApi api = new Wammer.Cloud.StationApi("sid1", "token1");
 
 				Dictionary<object, object> param = new Dictionary<object, object>();
 				param.Add("key", @"<>+@/\|");
-				station.LogOn(agent, param);
+				api.LogOn(agent, param);
 
 				Assert.AreEqual("/v9999/stations/logOn",
 					fakeCloud.RequestedPath);
@@ -155,9 +155,9 @@ namespace UT_WammerStation
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
 					fakeCloud.RequestedContentType);
-				Assert.AreEqual("newToken1", station.Token);
+				Assert.AreEqual("newToken1", api.Token);
 
-				Assert.AreEqual("newToken1", station.Token);
+				Assert.AreEqual("newToken1", api.Token);
 			}
 		}
 	}
