@@ -54,7 +54,7 @@ namespace Wammer.Station
 		private void SendHeartbeat(Object obj)
 		{
 			StationDetail detail = GetDetail();
-			string detailJson = fastJSON.JSON.Instance.ToJSON(detail, false, false, false, false);
+			string detailJson = detail.ToFastJSON();
 
 			using (WebClient agent = new WebClient())
 			{

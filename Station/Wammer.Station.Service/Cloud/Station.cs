@@ -5,6 +5,7 @@ using System.Net;
 using System.Web;
 
 using Wammer.Model;
+using Wammer.Utility;
 
 namespace Wammer.Cloud
 {
@@ -40,12 +41,13 @@ namespace Wammer.Cloud
 		
 		public void LogOn(WebClient agent, StationDetail detail)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>();
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.Token);
-			parameters.Add(CloudServer.PARAM_STATION_ID, this.Id);
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
-			parameters.Add(CloudServer.PARAM_DETAIL,
-				fastJSON.JSON.Instance.ToJSON(detail, false, false, false, false));
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ CloudServer.PARAM_SESSION_TOKEN, this.Token },
+				{ CloudServer.PARAM_STATION_ID, this.Id },
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey },
+				{ CloudServer.PARAM_DETAIL, detail.ToFastJSON() }
+			};
 
 			StationLogOnResponse res =
 				CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", parameters);

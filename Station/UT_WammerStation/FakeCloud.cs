@@ -5,6 +5,8 @@ using System.Text;
 using System.Net;
 using System.IO;
 
+using Wammer.Utility;
+
 namespace UT_WammerStation
 {
 	interface IResponseWiter
@@ -92,7 +94,7 @@ namespace UT_WammerStation
 
 		public FakeCloud(object json)
 		{
-			string js = fastJSON.JSON.Instance.ToJSON(json, false, false, false, false);
+			string js = json.ToFastJSON();
 			this.resWriters.Add(new JsonResponseWriter(js));
 			this.listener = new System.Net.HttpListener();
 			this.listener.Prefixes.Add("http://+:80/");
@@ -108,7 +110,7 @@ namespace UT_WammerStation
 
 		public FakeCloud(object json, int status)
 		{
-			string js = fastJSON.JSON.Instance.ToJSON(json, false, false, false, false);
+			string js = json.ToFastJSON();
 			JsonResponseWriter w = new JsonResponseWriter(js);
 			w.status = status;
 			this.resWriters.Add(w);

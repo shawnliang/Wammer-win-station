@@ -12,6 +12,7 @@ using System.ServiceProcess;
 using Microsoft.Win32;
 using Wammer.Station;
 using Wammer.Station.Management;
+using Wammer.Utility;
 
 namespace Wammer.Station.StartUp
 {
@@ -126,7 +127,7 @@ namespace Wammer.Station.StartUp
 		private void button4_Click(object sender, EventArgs e)
 		{
 			List<StorageStatus> storages = StationController.ListCloudStorage();
-			cloudStorageListTextBox.Text = fastJSON.JSON.Instance.ToJSON(storages, false, false, false, false);
+			cloudStorageListTextBox.Text = storages.ToFastJSON();
 		}
 
 		private void button5_Click(object sender, EventArgs e)

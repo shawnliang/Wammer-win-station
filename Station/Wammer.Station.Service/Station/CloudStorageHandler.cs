@@ -79,7 +79,7 @@ namespace Wammer.Station
 						StorageCheckResponse res = api.StorageCheck(agent, CloudStorageType.DROPBOX);
 						if (res.storages.status != 0)
 						{
-							logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", fastJSON.JSON.Instance.ToJSON(res, false, false, false, false));
+							logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", res.ToFastJSON());
 							throw new WammerStationException("Dropbox has not linked yet", (int)DropboxApiError.ConnectDropboxFailed);
 						}
 					}

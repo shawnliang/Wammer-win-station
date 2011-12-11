@@ -147,6 +147,7 @@
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\DropboxHelper.cs" />
+    <Compile Include="Utility\FastJSONHelper.cs" />
     <Compile Include="Utility\FileStorageHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
