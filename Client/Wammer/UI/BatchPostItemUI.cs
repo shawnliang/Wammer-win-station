@@ -92,7 +92,7 @@ namespace Waveface
 
                     try
                     {
-                        MR_posts_new _np = MainForm.THIS.RT.REST.Post_CreateNewPost(m_newPostItem.Text, _ids, "", "image");
+                        MR_posts_new _np = MainForm.THIS.RT.REST.Posts_New(m_newPostItem.Text, _ids, "", "image");
 
                         if (_np == null)
                         {
