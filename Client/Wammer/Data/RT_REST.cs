@@ -151,7 +151,7 @@ namespace Waveface
 
             if (isImage)
             {
-                if (m_rt.IsStationOK) //如果有Station則上傳原圖, 否則就上512中圖
+                if (m_rt.StationMode) //如果有Station則上傳原圖, 否則就上512中圖
                 {
                     _attachmentsUpload = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, filePath, text, "", "image", "origin", object_id);
                 }

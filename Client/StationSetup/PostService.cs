@@ -77,14 +77,14 @@ namespace StationSetup
 
                         WService.StationIP = _ip;
 
-                        RT.IsStationOK = true;
+                        RT.StationMode = true;
 
                         return;
                     }
                 }
             }
 
-            RT.IsStationOK = false;
+            RT.StationMode = false;
         }
 
         #endregion
@@ -249,7 +249,7 @@ namespace StationSetup
 
             if (isImage)
             {
-                if (RT.IsStationOK) //å¦‚æ‰Station‡ä³å ¦åå°±ä512ä¸­å
+                if (RT.StationMode) //å¦‚æ‰Station‡ä³å ¦åå°±ä512ä¸­å
                 {
                     _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text,
                                                                         "", "image", "origin", object_id);

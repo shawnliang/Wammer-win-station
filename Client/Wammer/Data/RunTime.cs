@@ -25,7 +25,7 @@ namespace Waveface
         public string CurrentGroupID { get; set; }
         public int FilterPostsAllCount { get; set; }
         public bool IsFirstTimeGetData { get; set; }
-        public bool IsStationOK { get; set; }
+        public bool StationMode { get; set; }
         public bool OnlineMode { get; set; }
         public MR_auth_login Login { get; set; }
 
@@ -125,7 +125,7 @@ namespace Waveface
             IsTimelineFilter = true;
             FilterPostsAllCount = -1;
             IsFirstTimeGetData = true;
-            IsStationOK = false;
+            StationMode = false;
             OnlineMode = false;
             Login = null;
         }

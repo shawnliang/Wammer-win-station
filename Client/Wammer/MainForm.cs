@@ -296,10 +296,10 @@ namespace Waveface
                 //預設群組
                 RT.CurrentGroupID = RT.Login.groups[0].group_id;
 
-                bgWorkerGetAllData.RunWorkerAsync();
+                //bgWorkerGetAllData.RunWorkerAsync();
 
                 // 顯示所有Post
-                // DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
+                DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
 
                 leftArea.SetUI(true);
 
@@ -333,17 +333,17 @@ namespace Waveface
                         WService.StationIP = _ip;
 
                         //test
-                        m_stationIP = _ip;
+                        //m_stationIP = _ip;
                         //panelStation.Visible = true;
 
-                        RT.IsStationOK = true;
+                        RT.StationMode = true;
 
                         return;
                     }
                 }
             }
 
-            RT.IsStationOK = false;
+            RT.StationMode = false;
         }
 
         private void fillUserInformation()
@@ -400,8 +400,8 @@ namespace Waveface
             RT.IsTimelineFilter = isTimelineFilter; // 是Timeline才秀Type
             postsArea.ShowTypeUI(RT.IsTimelineFilter);
 
-            string _title = "[" + RT.CurrentFilterItem.Name + "]";
-            _title += (postsArea.GetPostTypeText() == "All Posts") ? "" : (" - " + postsArea.GetPostTypeText());
+            //string _title = "[" + RT.CurrentFilterItem.Name + "]";
+            //_title += (postsArea.GetPostTypeText() == "All Posts") ? "" : (" - " + postsArea.GetPostTypeText());
 
             FetchPostsAndShow(true);
         }
@@ -844,12 +844,12 @@ namespace Waveface
             if (radioButtonCloud.Checked)
             {
                 WService.StationIP = WService.CloundIP;
-                RT.IsStationOK = false;
+                RT.StationMode = false;
             }
             else
             {
                 WService.StationIP = m_stationIP;
-                RT.IsStationOK = true;
+                RT.StationMode = true;
             }
         }
 

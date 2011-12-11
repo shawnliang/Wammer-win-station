@@ -26,7 +26,7 @@ namespace Waveface
         {
             while (!m_exit)
             {
-                if (MainForm.THIS.RT.IsStationOK)
+                if (MainForm.THIS.RT.StationMode)
                 {
                     string[] _filePaths = Directory.GetFiles(MainForm.GCONST.ImageUploadCachePath);
 
