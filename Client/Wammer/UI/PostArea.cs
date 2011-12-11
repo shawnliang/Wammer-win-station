@@ -45,16 +45,8 @@ namespace Waveface
         {
             panelButtom.Visible = true;
 
-            if (flag)
-            {
-                labelDisplay.Visible = true;
-                comboBoxType.Visible = true;
-            }
-            else
-            {
-                labelDisplay.Visible = false;
-                comboBoxType.Visible = false;
-            }
+            labelDisplay.Visible = flag;
+            comboBoxType.Visible = flag;
         }
 
         public string GetPostType()
@@ -90,32 +82,6 @@ namespace Waveface
         private void linkLabelReadMore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MainForm.THIS.ReadMorePost();
-        }
-
-        public void ShowNewPostInfo(int count)
-        {
-            btnNewPost.Visible = count > 0;
-
-            btnNewPost.Text = count + " new " + ((count > 1) ? "posts" : "post");
-        }
-
-        private void btnNewPost_Click(object sender, System.EventArgs e)
-        {
-
-        }
-
-        /*
-        private void cmbTimeline_SelectedIndexChanged(object sender, System.EventArgs e)
-        {
-            FilterItem _filterItem = (FilterItem) comboBoxTimeline.SelectedItem;
-
-            MainForm.THIS.DoTimelineFilter(_filterItem, true);
-        }
-        */
-
-        public void ShowTimelineComboBox(bool visible)
-        {
-            //comboBoxTimeline.Visible = visible;
         }
     }
 }

@@ -26,6 +26,7 @@ namespace Waveface
         public int FilterPostsAllCount { get; set; }
         public bool IsFirstTimeGetData { get; set; }
         public bool IsStationOK { get; set; }
+        public bool OnlineMode { get; set; }
         public MR_auth_login Login { get; set; }
 
         public RT_REST REST
@@ -125,6 +126,7 @@ namespace Waveface
             FilterPostsAllCount = -1;
             IsFirstTimeGetData = true;
             IsStationOK = false;
+            OnlineMode = false;
             Login = null;
         }
     }

@@ -69,7 +69,6 @@
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
             this.radioButtonCloud = new System.Windows.Forms.RadioButton();
-            this.linkLabelLogin = new System.Windows.Forms.LinkLabel();
             this.labelName = new System.Windows.Forms.Label();
             this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
@@ -376,7 +375,6 @@
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(171)))), ((int)(((byte)(104)))));
             this.panelTop.Controls.Add(this.pictureBoxLogo);
             this.panelTop.Controls.Add(this.panelStation);
-            this.panelTop.Controls.Add(this.linkLabelLogin);
             this.panelTop.Controls.Add(this.labelName);
             this.panelTop.Controls.Add(this.pictureBoxAvatar);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
@@ -430,20 +428,6 @@
             this.radioButtonCloud.Text = "Cloud";
             this.radioButtonCloud.UseVisualStyleBackColor = true;
             this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
-            // 
-            // linkLabelLogin
-            // 
-            this.linkLabelLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabelLogin.AutoSize = true;
-            this.linkLabelLogin.LinkColor = System.Drawing.Color.White;
-            this.linkLabelLogin.Location = new System.Drawing.Point(951, 51);
-            this.linkLabelLogin.Name = "linkLabelLogin";
-            this.linkLabelLogin.Size = new System.Drawing.Size(50, 14);
-            this.linkLabelLogin.TabIndex = 3;
-            this.linkLabelLogin.TabStop = true;
-            this.linkLabelLogin.Text = "Log out";
-            this.linkLabelLogin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.linkLabelLogin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelLogout_LinkClicked);
             // 
             // labelName
             // 
@@ -502,7 +486,6 @@
             this.statusStrip1.PerformLayout();
             this.mnuTray.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
-            this.panelTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
             this.panelStation.ResumeLayout(false);
             this.panelStation.PerformLayout();
@@ -548,7 +531,6 @@
         private System.Windows.Forms.PictureBox pictureBoxAvatar;
         private System.Windows.Forms.Label labelName;
         private LeftArea leftArea;
-        private System.Windows.Forms.LinkLabel linkLabelLogin;
         private System.Windows.Forms.ToolStripMenuItem preferencesMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.Panel panelStation;

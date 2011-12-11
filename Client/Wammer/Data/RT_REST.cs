@@ -60,7 +60,35 @@ namespace Waveface
 
         #endregion
 
-        public MR_posts_new Post_CreateNewPost(string text, string files, string previews, string type)
+        public MR_auth_login Auth_Login(string email, string password)
+        {
+            MR_auth_login _login = m_service.auth_login(email, password);
+
+            if ((_login != null) && (_login.status == "200"))
+            {
+                return _login;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_groups_get Groups_Get(string group_id)
+        {
+            MR_groups_get _groupsGet = m_service.groups_get(SessionToken, group_id);
+
+            if ((_groupsGet != null) && (_groupsGet.status == "200"))
+            {
+                return _groupsGet;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public MR_posts_new Posts_New(string text, string files, string previews, string type)
         {
             MR_posts_new _postsNew = m_service.posts_new(SessionToken, m_rt.CurrentGroupID, text, files, previews, type);
 

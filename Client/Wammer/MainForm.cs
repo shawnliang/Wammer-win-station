@@ -66,7 +66,7 @@ namespace Waveface
         {
             THIS = this;
 
-            File.Delete(m_shellContentMenuFilePath); //Hack
+            File.Delete(m_shellContentMenuFilePath);
 
             InitializeComponent();
 
@@ -278,30 +278,20 @@ namespace Waveface
 
             Cursor.Current = Cursors.WaitCursor;
 
-            MR_auth_login _login = RT.REST.Service.auth_login(email, password);
-            bool _loginOK;
+            MR_auth_login _login = RT.REST.Auth_Login(email, password);
 
-            if (_login == null)
-            {
-                _loginOK = false;
-            }
-            else
-            {
-                _loginOK = (_login.status == "200");
-            }
-
-            if (_loginOK)
+            if (_login != null)
             {
                 Reset();
 
                 RT.Login = _login;
+                RT.OnlineMode = true;
 
                 CheckStation(RT.Login.stations);
 
                 getGroupAndUser();
 
                 fillUserInformation();
-                fillGroupAndUser();
 
                 //預設群組
                 RT.CurrentGroupID = RT.Login.groups[0].group_id;
@@ -309,13 +299,17 @@ namespace Waveface
                 bgWorkerGetAllData.RunWorkerAsync();
 
                 // 顯示所有Post
-                //DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
+                // DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
 
-                //
-                leftArea.FillCustomizedFilters();
-                leftArea.SetUI();
+                leftArea.SetUI(true);
 
                 _ret = true;
+            }
+            else //離線模式
+            {
+                RT.OnlineMode = false;
+
+
             }
 
             Cursor.Current = Cursors.Default;
@@ -340,7 +334,7 @@ namespace Waveface
 
                         //test
                         m_stationIP = _ip;
-                        panelStation.Visible = true;
+                        //panelStation.Visible = true;
 
                         RT.IsStationOK = true;
 
@@ -366,18 +360,13 @@ namespace Waveface
             }
         }
 
-        private void fillGroupAndUser()
-        {
-            leftArea.fillGroupAndUser();
-        }
-
         private void getGroupAndUser()
         {
             foreach (Group _g in RT.Login.groups)
             {
-                MR_groups_get _mrGroupsGet = RT.REST.Service.groups_get(RT.REST.SessionToken, _g.group_id);
+                MR_groups_get _mrGroupsGet = RT.REST.Groups_Get(_g.group_id);
 
-                if ((_mrGroupsGet != null) && (_mrGroupsGet.status == "200"))
+                if (_mrGroupsGet != null)
                 {
                     if (!RT.GroupSets.ContainsKey(_g.group_id)) //Hack
                         RT.GroupSets.Add(_g.group_id, _mrGroupsGet);
@@ -415,6 +404,162 @@ namespace Waveface
             _title += (postsArea.GetPostTypeText() == "All Posts") ? "" : (" - " + postsArea.GetPostTypeText());
 
             FetchPostsAndShow(true);
+        }
+
+        #endregion
+
+        #region Newer or Older Post
+
+        public void ReadMorePost()
+        {
+            timerFetchOlderPost.Enabled = true;
+        }
+
+        private void timerFetchOlderPost_Tick(object sender, EventArgs e)
+        {
+            timerFetchOlderPost.Enabled = false;
+
+            m_canAutoFetchNewestPosts = false;
+
+            FetchPostsAndShow(false);
+
+            m_canAutoFetchNewestPosts = true;
+        }
+
+        private void timerGetNewestPost_Tick(object sender, EventArgs e)
+        {
+            timerGetNewestPost.Enabled = false;
+
+            if (m_canAutoFetchNewestPosts)
+            {
+                //RefreshNewestPosts();
+            }
+
+            timerGetNewestPost.Enabled = true;
+        }
+
+        public bool RefreshNewestPosts()
+        {
+            if (RT.LoginOK)
+            {
+                if (RT.CurrentGroupPosts.Count > 0)
+                {
+                    string _newestPostTime = RT.CurrentGroupPosts[0].timestamp;
+                    string _newestPostID = RT.CurrentGroupPosts[0].post_id;
+
+                    MR_posts_get _postsGet = RT.REST.Posts_get("+200", _newestPostTime, "");
+
+                    if (_postsGet != null)
+                    {
+                        if (_postsGet.posts.Count > 0)
+                        {
+                            //刪除比較基準的那個Post, 如果有回傳的話!
+                            Post _toDel = null;
+
+                            foreach (Post _p in _postsGet.posts)
+                            {
+                                if (_p.post_id == _newestPostID)
+                                {
+                                    _toDel = _p;
+                                    break;
+                                }
+                            }
+
+                            if (_toDel != null)
+                            {
+                                _postsGet.posts.Remove(_toDel);
+                            }
+
+                            if (_postsGet.posts.Count > 0)
+                            {
+                                //@ RT.CurrentGroupPosts.InsertRange(0, _postsGet.posts);
+                                // MessageBox.Show(_postsGet.posts.Count + " New Post");
+                            }
+
+                            //showTaskbarNotifier(_posts[0]);
+
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public void AfterBatchPostDone()
+        {
+            m_canAutoFetchNewestPosts = false;
+
+            // --------------------------   OLD_showAllPosts();
+
+            m_canAutoFetchNewestPosts = true;
+        }
+
+        #endregion
+
+        #region Helper
+
+        private void FetchPostsAndShow(bool firstTime)
+        {
+            int _offset = GCONST.GetPostOffset;
+
+            if (RT.IsAllPostMode)
+            {
+                if (RT.CurrentGroupPosts != null)
+                    _offset = RT.CurrentGroupPosts.Count;
+            }
+            else
+            {
+                _offset = RT.FilterPosts.Count;
+            }
+
+            string _filter = RT.CurrentFilterItem.Filter;
+            _filter = _filter.Replace("[type]", postsArea.GetPostType());
+            _filter = _filter.Replace("[offset]", _offset.ToString());
+
+            if (RT.CurrentPostsAllCount == RT.CurrentPosts.Count) //已經都抓完了
+                return;
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter(_filter);
+
+            if (_postsGet != null)
+            {
+                RT.CurrentPosts.AddRange(_postsGet.posts);
+
+                if (firstTime)
+                {
+                    RT.CurrentPostsAllCount = _postsGet.remaining_count + _postsGet.get_count;
+
+                    RT.IsFirstTimeGetData = true;
+                }
+                else
+                {
+                    RT.IsFirstTimeGetData = false;
+                }
+            }
+
+            Cursor.Current = Cursors.Default;
+
+            ShowPostToUI(false);
+        }
+
+        private void ShowPostToUI(bool refreshCurrentPost)
+        {
+            List<Post> _posts = RT.CurrentPosts;
+
+            setCalendarBoldedDates(_posts);
+
+            postsArea.ShowPostInfo(RT.CurrentPostsAllCount, _posts.Count);
+
+            postsArea.PostsList.SetPosts(_posts, refreshCurrentPost, RT.IsFirstTimeGetData);
+        }
+
+        public void PostListClick(int clickIndex)
+        {
+            RT.IsFirstTimeGetData = false;
         }
 
         #endregion
@@ -477,22 +622,6 @@ namespace Waveface
 
         #endregion
 
-        #region Hide Post、Attachment
-
-        public void HidePost(string postId)
-        {
-            MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
-
-            if (_ret != null)
-            {
-                MessageBox.Show("Remove Post Success!");
-
-                ShowPostToUI(false);
-            }
-        }
-
-        #endregion
-
         #region AfterPostComment
 
         public void AfterPostComment(string post_id)
@@ -531,168 +660,6 @@ namespace Waveface
             }
 
             return false;
-        }
-
-        #endregion
-
-        #region Newer or Older Post
-
-        public void ReadMorePost()
-        {
-            timerFetchOlderPost.Enabled = true;
-        }
-
-        private void timerFetchOlderPost_Tick(object sender, EventArgs e)
-        {
-            timerFetchOlderPost.Enabled = false;
-
-            m_canAutoFetchNewestPosts = false;
-
-            FetchPostsAndShow(false);
-
-            m_canAutoFetchNewestPosts = true;
-        }
-
-        private void timerGetNewestPost_Tick(object sender, EventArgs e)
-        {
-            timerGetNewestPost.Enabled = false;
-
-            if (m_canAutoFetchNewestPosts)
-            {
-                //RefreshNewestPosts();
-            }
-
-            timerGetNewestPost.Enabled = true;
-        }
-
-        public bool RefreshNewestPosts()
-        {
-            if (RT.LoginOK)
-            {
-                if (RT.CurrentGroupPosts.Count > 0)
-                {
-                    string _newestPostTime = RT.CurrentGroupPosts[0].timestamp;
-                    string _newestPostID = RT.CurrentGroupPosts[0].post_id;
-
-                    MR_posts_get _postsGet = RT.REST.Service.posts_get(RT.REST.SessionToken, RT.CurrentGroupID, "+100",
-                                                                   _newestPostTime, "");
-
-                    if ((_postsGet != null) && (_postsGet.status == "200"))
-                    {
-                        if (_postsGet.posts.Count > 0)
-                        {
-                            //刪除比較基準的那個Post, 如果有回傳的話!
-                            Post _toDel = null;
-
-                            foreach (Post _p in _postsGet.posts)
-                            {
-                                if (_p.post_id == _newestPostID)
-                                {
-                                    _toDel = _p;
-                                    break;
-                                }
-                            }
-
-                            if (_toDel != null)
-                            {
-                                _postsGet.posts.Remove(_toDel);
-                            }
-
-                            if (_postsGet.posts.Count > 0)
-                            {
-                                //@ RT.CurrentGroupPosts.InsertRange(0, _postsGet.posts);
-                                // MessageBox.Show(_postsGet.posts.Count + " New Post");
-
-                                postsArea.ShowNewPostInfo(_postsGet.posts.Count);
-                            }
-
-                            //showTaskbarNotifier(_posts[0]);
-
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public void AfterBatchPostDone()
-        {
-            m_canAutoFetchNewestPosts = false;
-
-            // --------------------------   OLD_showAllPosts();
-
-            m_canAutoFetchNewestPosts = true;
-        }
-
-        #endregion
-
-        #region Helper
-
-        private void FetchPostsAndShow(bool firstTime)
-        {
-            int _offset = GCONST.GetPostOffset;
-
-            if (RT.IsAllPostMode)
-            {
-                if (RT.CurrentGroupPosts != null)
-                    _offset = RT.CurrentGroupPosts.Count;
-
-                if (firstTime)
-                    postsArea.ShowNewPostInfo(0);
-            }
-            else
-            {
-                _offset = RT.FilterPosts.Count;
-            }
-
-            string _filter = RT.CurrentFilterItem.Filter;
-            _filter = _filter.Replace("[type]", postsArea.GetPostType());
-            _filter = _filter.Replace("[offset]", _offset.ToString());
-
-            if (RT.CurrentPostsAllCount == RT.CurrentPosts.Count) //已經都抓完了
-                return;
-
-            Cursor.Current = Cursors.WaitCursor;
-
-            MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter(_filter);
-
-            if (_postsGet != null)
-            {
-                RT.CurrentPosts.AddRange(_postsGet.posts);
-
-                if (firstTime)
-                {
-                    RT.CurrentPostsAllCount = _postsGet.remaining_count + _postsGet.get_count;
-
-                    RT.IsFirstTimeGetData = true;
-                }
-                else
-                {
-                    RT.IsFirstTimeGetData = false;
-                }
-            }
-
-            Cursor.Current = Cursors.Default;
-
-            ShowPostToUI(false);
-        }
-
-        private void ShowPostToUI(bool refreshCurrentPost)
-        {
-            List<Post> _posts = RT.CurrentPosts;
-
-            setCalendarBoldedDates(_posts);
-
-            postsArea.ShowPostInfo(RT.CurrentPostsAllCount, _posts.Count);
-
-            postsArea.PostsList.SetPosts(_posts, refreshCurrentPost, RT.IsFirstTimeGetData);
-        }
-
-        public void PostListClick(int clickIndex)
-        {
-            RT.IsFirstTimeGetData = false;
         }
 
         #endregion
@@ -837,6 +804,18 @@ namespace Waveface
 
         #region Misc
 
+        public void HidePost(string postId)
+        {
+            MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
+
+            if (_ret != null)
+            {
+                MessageBox.Show("Remove Post Success!");
+
+                ShowPostToUI(false);
+            }
+        }
+
         private void showTaskbarNotifier(Post post)
         {
             string _url = string.Empty;
@@ -860,11 +839,6 @@ namespace Waveface
             postsArea.FillTimelineComboBox(list);
         }
 
-        public void ShowPostAreaTimelineComboBox(bool visible)
-        {
-            postsArea.ShowTimelineComboBox(visible);
-        }
-
         private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonCloud.Checked)
@@ -879,12 +853,9 @@ namespace Waveface
             }
         }
 
-        private void linkLabelLogout_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Close();
-        }
-
         #endregion
+
+        #region GetAllData
 
         private void bgWorkerGetAllData_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
@@ -956,5 +927,7 @@ namespace Waveface
 
             postsArea.PostsList.SetPosts(_posts, false, RT.IsFirstTimeGetData);
         }
+
+        #endregion
     }
 }

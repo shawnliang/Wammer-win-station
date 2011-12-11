@@ -49,22 +49,14 @@ namespace Waveface
             taskPaneFilter.UseClassicTheme();
 
             initBatchPostItems();
+
             //initTimeline();
         }
 
-        public void SetUI()
+        public void SetUI(bool flag)
         {
-            buttonCreatePost.Visible = true;
-            taskPaneFilter.Visible = true;
-        }
-
-        private void resetAllTaskItemForeColor()
-        {
-            foreach (Control _control in expandoQuicklist.Items)
-            {
-                if (_control is TaskItem)
-                    ((TaskItem)_control).CustomSettings.LinkColor = SystemColors.HotTrack;
-            }
+            buttonCreatePost.Visible = flag;
+            taskPaneFilter.Visible = flag;
         }
 
         #region CustomizedFilters
@@ -113,12 +105,22 @@ namespace Waveface
 
         private void taskPaneFilter_Resize(object sender, EventArgs e)
         {
-            m_buttonAddNewFilter.Width = expandoQuicklist.Width - 16;
+            if (m_buttonAddNewFilter != null)
+                m_buttonAddNewFilter.Width = expandoQuicklist.Width - 16;
         }
 
         #endregion
 
         #region Timeline
+
+        private void resetAllTaskItemForeColor()
+        {
+            foreach (Control _control in expandoQuicklist.Items)
+            {
+                if (_control is TaskItem)
+                    ((TaskItem)_control).CustomSettings.LinkColor = SystemColors.HotTrack;
+            }
+        }
 
         public void initTimeline()
         {
@@ -134,7 +136,14 @@ namespace Waveface
                 string _m = _dt.ToString("y");
 
                 DateTime _from = new DateTime(_dt.Year, _dt.Month, 1, 0, 0, 0);
-                DateTime _to = new DateTime(_dt.Year, _dt.Month + 1, 1, 0, 0, 0);
+
+                DateTime _to;
+
+                if (_dt.Month == 12)
+                    _to = new DateTime(_dt.Year + 1, 1, 1, 0, 0, 0);
+                else
+                    _to = new DateTime(_dt.Year, _dt.Month + 1, 1, 0, 0, 0);
+
                 _to = _to.AddSeconds(-1);
 
                 FilterItem _item = new FilterItem();
@@ -173,7 +182,6 @@ namespace Waveface
 
             FilterItem _item = (FilterItem)_taskItem.Tag;
 
-            MainForm.THIS.ShowPostAreaTimelineComboBox(false);
             MainForm.THIS.DoTimelineFilter(_item, false);
         }
 
@@ -200,12 +208,6 @@ namespace Waveface
 
             return Enumerable.Range(0, (d1.Year - d0.Year) * 12 + (d1.Month - d0.Month + 1))
                 .Select(m => new DateTime(d0.Year, d0.Month, 1).AddMonths(m));
-        }
-
-        private void btnTimeline_Click(object sender, EventArgs e)
-        {
-            MainForm.THIS.ShowPostAreaTimelineComboBox(true);
-            initTimeline();
         }
 
         #endregion
@@ -304,18 +306,7 @@ namespace Waveface
                 imageListLarge.Images.RemoveAt(imageListLarge.Images.Count - 1);
         }
 
-        /*
-        private void monthCalendar_DateClicked(object sender, DateEventArgs e)
-        {
-            MainForm.THIS.ClickCalendar(e.Date);
-        }
-        */
-
         #endregion
-
-        private void LeftArea_Resize(object sender, EventArgs e)
-        {
-        }
 
         private void monthCalendar_DateClicked(object sender, DateEventArgs e)
         {

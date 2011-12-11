@@ -284,7 +284,6 @@ namespace Waveface
             this.Font = new System.Drawing.Font("Tahoma", 9F);
             this.Name = "LeftArea";
             this.Size = new System.Drawing.Size(191, 607);
-            this.Resize += new System.EventHandler(this.LeftArea_Resize);
             this.panelBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbHintDrop)).EndInit();
             this.panelMain.ResumeLayout(false);

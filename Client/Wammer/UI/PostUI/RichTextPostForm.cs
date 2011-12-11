@@ -338,7 +338,7 @@ namespace Waveface.PostUI
         {
             try
             {
-                MR_posts_new _np = MainForm.THIS.RT.REST.Post_CreateNewPost(richTextBox.Text, files, "", "rtf");
+                MR_posts_new _np = MainForm.THIS.RT.REST.Posts_New(richTextBox.Text, files, "", "rtf");
 
                 if (_np == null)
                 {

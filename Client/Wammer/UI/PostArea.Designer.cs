@@ -31,7 +31,6 @@
             this.panelTop = new System.Windows.Forms.Panel();
             this.labelDisplay = new System.Windows.Forms.Label();
             this.comboBoxType = new System.Windows.Forms.ComboBox();
-            this.btnNewPost = new System.Windows.Forms.Button();
             this.panelList = new System.Windows.Forms.Panel();
             this.postList = new Waveface.PostsList();
             this.panelButtom = new System.Windows.Forms.Panel();
@@ -49,7 +48,6 @@
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(96)))), ((int)(((byte)(0)))));
             this.panelTop.Controls.Add(this.labelDisplay);
             this.panelTop.Controls.Add(this.comboBoxType);
-            this.panelTop.Controls.Add(this.btnNewPost);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Margin = new System.Windows.Forms.Padding(0);
@@ -87,19 +85,6 @@
             this.comboBoxType.Visible = false;
             this.comboBoxType.SelectedIndexChanged += new System.EventHandler(this.comboBoxType_SelectedIndexChanged);
             // 
-            // btnNewPost
-            // 
-            this.btnNewPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNewPost.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewPost.ForeColor = System.Drawing.Color.Red;
-            this.btnNewPost.Location = new System.Drawing.Point(297, 4);
-            this.btnNewPost.Name = "btnNewPost";
-            this.btnNewPost.Size = new System.Drawing.Size(84, 25);
-            this.btnNewPost.TabIndex = 2;
-            this.btnNewPost.UseVisualStyleBackColor = true;
-            this.btnNewPost.Visible = false;
-            this.btnNewPost.Click += new System.EventHandler(this.btnNewPost_Click);
-            // 
             // panelList
             // 
             this.panelList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -116,7 +101,7 @@
             this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.postList.DetailView = null;
             this.postList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.postList.Font = new System.Drawing.Font("Microsoft JhengHei", 9F);
+            this.postList.Font = new System.Drawing.Font("微軟正黑體", 9F);
             this.postList.Location = new System.Drawing.Point(0, 0);
             this.postList.Margin = new System.Windows.Forms.Padding(0);
             this.postList.Name = "postList";
@@ -200,7 +185,6 @@
         private System.Windows.Forms.Panel panelMain;
         private System.Windows.Forms.Label labelPostInfo;
         private System.Windows.Forms.LinkLabel linkLabelReadMore;
-        private System.Windows.Forms.Button btnNewPost;
         private System.Windows.Forms.Label labelDisplay;
     }
 }
