@@ -12,6 +12,7 @@ namespace Wammer.Station
 	{
 		private readonly string host;
 		private readonly int port;
+		private readonly string scheme;
 		private readonly List<string> exceptPrefixes = new List<string>();
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("BypassTraffic");
 
@@ -20,19 +21,7 @@ namespace Wammer.Station
 			Uri url = new Uri(baseUrl);
 			this.host = url.Host;
 			this.port = url.Port;
-		}
-
-		public BypassHttpHandler(string host, int port)
-		{
-			this.host = host;
-			this.port = port;
-		}
-
-		public BypassHttpHandler(string host, int port, List<string> exceptPrefixes)
-		{
-			this.host = host;
-			this.port = port;
-			this.exceptPrefixes = exceptPrefixes;
+			this.scheme = url.Scheme;
 		}
 
 		public object Clone()
@@ -146,6 +135,7 @@ namespace Wammer.Station
 			UriBuilder url = new UriBuilder(request.Url);
 			url.Host = this.host;
 			url.Port = this.port;
+			url.Scheme = this.scheme;
 			Uri targetUri = url.Uri;
 			return targetUri;
 		}

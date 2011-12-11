@@ -93,7 +93,7 @@ namespace UT_WammerStation
 				targetServer.AddHandler("/target/", target);
 				targetServer.Start();
 				proxyServer.AddHandler("/", new MyHandler("21212")); // dummy
-				proxyServer.AddDefaultHandler(new BypassHttpHandler("localhost", 8080));
+				proxyServer.AddDefaultHandler(new BypassHttpHandler("http://localhost:8080"));
 				proxyServer.Start();
 
 				HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
@@ -145,7 +145,7 @@ namespace UT_WammerStation
 			using (HttpServer proxyServer = new HttpServer(80))
 			{
 				proxyServer.AddHandler("/", new MyHandler("dummy")); // dummy
-				BypassHttpHandler bypasser = new BypassHttpHandler("localhost", 8080);
+				BypassHttpHandler bypasser = new BypassHttpHandler("http://localhost:8080");
 				bypasser.AddExceptPrefix("/bypass/");
 				proxyServer.AddDefaultHandler(bypasser);
 				proxyServer.Start();
@@ -180,7 +180,7 @@ namespace UT_WammerStation
 			using (HttpServer proxyServer = new HttpServer(80))
 			{
 				proxyServer.AddHandler("/", new MyHandler("dummy")); // dummy
-				BypassHttpHandler bypasser = new BypassHttpHandler("localhost", 8080);
+				BypassHttpHandler bypasser = new BypassHttpHandler("http://localhost:8080");
 				bypasser.AddExceptPrefix("/bypass/");
 				proxyServer.AddDefaultHandler(bypasser);
 				proxyServer.Start();
@@ -215,7 +215,7 @@ namespace UT_WammerStation
 			using (HttpServer proxyServer = new HttpServer(80))
 			{
 				proxyServer.AddHandler("/", new MyHandler("dummy")); // dummy
-				BypassHttpHandler bypasser = new BypassHttpHandler("localhost", 8080);
+				BypassHttpHandler bypasser = new BypassHttpHandler("http://localhost:8080");
 				bypasser.AddExceptPrefix("/bypass/");
 				proxyServer.AddDefaultHandler(bypasser);
 				proxyServer.Start();
@@ -251,7 +251,7 @@ namespace UT_WammerStation
 			using (HttpServer targetServer = new HttpServer(8080))
 			{
 				proxyServer.AddHandler("/", new MyHandler("dummy")); // dummy
-				BypassHttpHandler bypasser = new BypassHttpHandler("localhost", 8080);
+				BypassHttpHandler bypasser = new BypassHttpHandler("http://localhost:8080");
 				proxyServer.AddDefaultHandler(bypasser);
 				proxyServer.Start();
 
@@ -286,7 +286,7 @@ namespace UT_WammerStation
 			using (HttpServer targetServer = new HttpServer(8080))
 			{
 				proxyServer.AddHandler("/", new MyHandler("dummy")); // dummy
-				BypassHttpHandler bypasser = new BypassHttpHandler("localhost", 8080);
+				BypassHttpHandler bypasser = new BypassHttpHandler("http://localhost:8080");
 				proxyServer.AddDefaultHandler(bypasser);
 				proxyServer.Start();
 
