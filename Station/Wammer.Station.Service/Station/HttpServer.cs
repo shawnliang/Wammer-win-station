@@ -188,7 +188,6 @@ namespace Wammer.Station
 						"Server offline");
 					w.Write(json.ToFastJSON());
 				}
-				//ctx.Response.Close();
 			}
 			catch (Exception e)
 			{
@@ -261,13 +260,15 @@ namespace Wammer.Station
 		}
 	}
 
-	class ServerOfflineHandler: HttpHandler
+	class OnlineOfflineHandler : HttpHandler
 	{
 		private readonly HttpServer server;
+		private readonly bool onoff;
 
-		public ServerOfflineHandler(HttpServer server)
+		public OnlineOfflineHandler(HttpServer server, bool onoff)
 		{
 			this.server = server;
+			this.onoff = onoff;
 		}
 
 		protected override void HandleRequest()
@@ -277,7 +278,7 @@ namespace Wammer.Station
 			if (key == null || !key.Equals(server.OfflineKey))
 				throw new WammerStationException("Offline key error", -1);
 
-			server.Online = false;
+			server.Online = onoff;
 
 			RespondSuccess();
 		}
@@ -288,30 +289,20 @@ namespace Wammer.Station
 		}
 	}
 
-	class ServerOnlineHandler : HttpHandler
+	class ServerOfflineHandler : OnlineOfflineHandler
 	{
-		private readonly HttpServer server;
+		public ServerOfflineHandler(HttpServer server)
+			:base(server, false)
+		{
+		}
+	}
 
+	class ServerOnlineHandler : OnlineOfflineHandler
+	{
 		public ServerOnlineHandler(HttpServer server)
+			:base(server, true)
 		{
-			this.server = server;
 		}
 
-		protected override void HandleRequest()
-		{
-			string key = Parameters["key"];
-
-			if (key == null || !key.Equals(server.OfflineKey))
-				throw new WammerStationException("Offline key error", -1);
-
-			server.Online = true;
-
-			RespondSuccess();
-		}
-
-		public override object Clone()
-		{
-			return this.MemberwiseClone();
-		}
 	}
 }
