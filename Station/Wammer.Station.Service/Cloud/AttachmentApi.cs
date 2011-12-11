@@ -27,20 +27,29 @@ namespace Wammer.Cloud
 			this.userToken = driver.session_token;
 		}
 
-		public void AttachmentSetLoc(WebClient agent, Dictionary<object, object> param)
+		public void AttachmentSetLoc(WebClient agent, int loc, string object_id, string file_path)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>(param);
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.userToken);
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ "loc", loc },
+				{ "object_id", object_id },
+				{ "file_path", file_path },
+				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken},
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			};
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/setloc", parameters);
 		}
 
-		public void AttachmentUnsetLoc(WebClient agent, Dictionary<object, object> param)
+		public void AttachmentUnsetLoc(WebClient agent, int loc, string object_id)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>(param);
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.userToken);
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ "loc", loc },
+				{ "object_id", object_id },
+				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken },
+				{ CloudServer.PARAM_API_KEY, CloudServer.PARAM_API_KEY }
+			};
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/unsetloc", parameters);
 		}

@@ -45,13 +45,12 @@ namespace Wammer.Station
 				SaveFile(attachment.file_name, attachment.RawData);
 
 				AttachmentApi api = new AttachmentApi(driver.user_id);
-				api.AttachmentSetLoc(new WebClient(), new Dictionary<object, object>
-					{
-						{ "loc", (int)AttachmentApi.Location.Dropbox },
-						{ "object_id", attachment.object_id },
-						{ "file_path", Path.Combine(driver.folder, attachment.saved_file_name) }
-					}
-				);			
+				api.AttachmentSetLoc(
+					new WebClient(),
+					(int)AttachmentApi.Location.Dropbox,
+					attachment.object_id,
+					Path.Combine(driver.folder, attachment.saved_file_name)
+				);
 			}
 		}
 
@@ -96,11 +95,10 @@ namespace Wammer.Station
 					if (purgedAttachment != null)
 					{
 						AttachmentApi api = new AttachmentApi(driver.user_id);
-						api.AttachmentUnsetLoc(new WebClient(), new Dictionary<object, object>
-								{
-									{ "loc", (int)AttachmentApi.Location.Dropbox},
-									{"object_id", purgedAttachment.object_id}
-								}
+						api.AttachmentUnsetLoc(
+							new WebClient(), 
+							(int)AttachmentApi.Location.Dropbox,
+							purgedAttachment.object_id
 						);
 					}
 				}
