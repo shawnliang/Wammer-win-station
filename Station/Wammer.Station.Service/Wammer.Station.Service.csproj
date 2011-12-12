@@ -1,4 +1,4 @@
-ï»¿<?xml version="1.0" encoding="utf-8"?>
+ï»?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -141,8 +141,8 @@
     <Compile Include="Station\PublicPortMapping.cs" />
     <Compile Include="Station\ResouceDirHandler.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
-    <Compile Include="Station\StationOfflineHandler.cs" />
     <Compile Include="Station\StationOnlineHandler.cs" />
+    <Compile Include="Station\StationOfflineHandler.cs" />
     <Compile Include="Station\StationTimer.cs" />
     <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Station\StatusGetHandler.cs" />
