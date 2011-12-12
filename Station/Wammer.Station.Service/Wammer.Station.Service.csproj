@@ -134,14 +134,15 @@
     <Compile Include="Station\AddDriverHandler.cs" />
     <Compile Include="Station\AttachmentGetHandler.cs" />
     <Compile Include="Model\Database.cs" />
-    <Compile Include="Station\CloudStorageApiRetCode.cs" />
     <Compile Include="Station\CloudStorageHandler.cs" />
     <Compile Include="Station\CloudStorageSync.cs" />
     <Compile Include="Station\DropboxFileStorage.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\PublicPortMapping.cs" />
     <Compile Include="Station\ResouceDirHandler.cs" />
-    <Compile Include="Station\StationApiRetCode.cs" />
+    <Compile Include="Station\RestApiRetCode.cs" />
+    <Compile Include="Station\StationOnlineHandler.cs" />
+    <Compile Include="Station\StationOfflineHandler.cs" />
     <Compile Include="Station\StationTimer.cs" />
     <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Station\StatusGetHandler.cs" />

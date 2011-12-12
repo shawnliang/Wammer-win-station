@@ -23,6 +23,7 @@ namespace Wammer.Station
 		private bool stopping = false;
 		private bool started = false;
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpServer");
+		private object cs = new object();
 
 		/// <summary>
 		/// Gets or sets offline key. A request to shutdown or bring up server has to 
@@ -90,20 +91,26 @@ namespace Wammer.Station
 
 		public void Start()
 		{
-			if (started)
-				throw new InvalidOperationException("Http server already started");
+			lock (cs)
+			{
+				if (started)
+					throw new InvalidOperationException("Http server already started");
 
-			listener.Start();
-			started = true;
-			listener.BeginGetContext(this.ConnectionAccepted, null);
+				listener.Start();
+				started = true;
+				listener.BeginGetContext(this.ConnectionAccepted, null);
+			}
 		}
 
 		public void Stop()
 		{
-			if (started && !stopping)
+			lock (cs)
 			{
-				stopping = true;
-				listener.Stop();
+				if (started && !stopping)
+				{
+					stopping = true;
+					listener.Stop();
+				}
 			}
 		}
 

@@ -15,7 +15,7 @@ namespace Wammer.Station
 {
 	public class AddDriverHandler: HttpHandler
 	{
-		private static ILog logger = LogManager.GetLogger("StationManagement");
+		private static ILog logger = LogManager.GetLogger("AddDriverHandler");
 		private readonly string stationId;
 		private readonly string resourceBasePath;
 		
