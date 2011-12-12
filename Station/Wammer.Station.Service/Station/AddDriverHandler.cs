@@ -54,11 +54,12 @@ namespace Wammer.Station
 					Cloud.StationApi api = Cloud.StationApi.SignUp(agent, stationId, email, password);
 					StationLogOnResponse logonRes = api.LogOn(agent, StatusChecker.GetDetail());
 
-					logger.Debug("Station logon successfully");
+					logger.Debug("Station logon successfully, start function http server");
 					if (functionServer != null)
 					{
 						functionServer.Start();
 						WriteOnlineStateToDB();
+						logger.Debug("function server started successfully");
 					}
 
 					User user = User.LogIn(agent, email, password);
@@ -85,7 +86,7 @@ namespace Wammer.Station
 
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
-					RespondSuccess(new AddUserResponse {session_token = logonRes.session_token});
+					RespondSuccess(new AddUserResponse {session_token = logonRes.session_token, status = 200, timestamp = DateTime.UtcNow, api_ret_code = 0, api_ret_msg = "success" });
 				}
 				catch (WammerCloudException ex)
 				{
