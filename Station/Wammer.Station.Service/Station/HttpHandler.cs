@@ -142,7 +142,7 @@ namespace Wammer.Station
 		{
 			logger.Debug("Forward to cloud");
 			Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
-			UriBuilder uri = new UriBuilder("http", baseUri.Host, baseUri.Port,
+			UriBuilder uri = new UriBuilder(baseUri.Scheme, baseUri.Host, baseUri.Port,
 				Request.Url.AbsolutePath, Request.Url.Query);
 
 			HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri.Uri);
