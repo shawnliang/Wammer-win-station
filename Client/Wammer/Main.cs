@@ -922,6 +922,7 @@ namespace Waveface
                 MessageBox.Show(ex.Message, "Waveface");
             }
 
+            m_exitToLogin = true;
             this.Close();
         }
     }
