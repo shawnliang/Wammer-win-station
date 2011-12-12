@@ -62,7 +62,6 @@ namespace Wammer.Station.Service
 			stationTimer = new StationTimer();
 
 			functionServer = new HttpServer(9981); // TODO: remove hard code
-			functionServer.OfflineKey = InitOfflineKey();
 			BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/auth/");
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/users/");
@@ -109,11 +108,17 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/",
 							new DropboxDisconnectHandler());
 
-			functionServer.Start();
-
+			Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+			if (svc != null)
+			{
+				if (svc.State == ServiceState.Online)
+				{
+					functionServer.Start();
+				}
+			}
 
 			managementServer = new HttpServer(9989);
-			AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
+			AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath, functionServer);
 			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer));
 			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer));
 			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
@@ -166,21 +171,6 @@ namespace Wammer.Station.Service
 				stationId = Guid.NewGuid().ToString();
 				StationRegistry.SetValue("stationId", stationId);
 			}
-		}
-
-		private string InitOfflineKey()
-		{
-			Model.Service svc = Model.ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
-			if (svc == null)
-			{
-				svc = new Model.Service();
-				svc.Id = "StationService";
-			}
-
-			svc.OfflineKey = Guid.NewGuid().ToString();
-			Model.ServiceCollection.Save(svc);
-
-			return svc.OfflineKey;
 		}
 	}
 

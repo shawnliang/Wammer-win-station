@@ -7,6 +7,7 @@ using log4net;
 
 using Wammer.Model;
 using Wammer.Cloud;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
@@ -39,12 +40,28 @@ namespace Wammer.Station
 				throw new WammerStationException("Invalid driver", (int)StationApiError.InvalidDriver);
 			}
 
-			logger.DebugFormat("Station login with stationId = {0}, email = {1}", stationId, email);
+			logger.DebugFormat("Station logon with stationId = {0}, email = {1}", stationId, email);
 			StationApi.LogOn(new WebClient(), stationId, email, password);
 
+			logger.Debug("Station logon successfully");
 			this.functionServer.Start();
 
+			WriteOnlineStateToDB();
+
 			RespondSuccess();
+		}
+
+		private static void WriteOnlineStateToDB()
+		{
+			Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+			if (svc == null)
+			{
+				svc = new Model.Service { Id = "StationService", State = ServiceState.Online };
+			}
+			else
+				svc.State = ServiceState.Online;
+
+			ServiceCollection.Save(svc);
 		}
 
 		public override object Clone()

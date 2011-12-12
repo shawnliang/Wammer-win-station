@@ -54,7 +54,6 @@ namespace Wammer.Station
 		private void SendHeartbeat(Object obj)
 		{
 			StationDetail detail = GetDetail();
-			string detailJson = detail.ToFastJSON();
 
 			using (WebClient agent = new WebClient())
 			{
@@ -77,7 +76,7 @@ namespace Wammer.Station
 						logger.Debug("cloud logon start");
 						try
 						{
-							api.LogOn(agent, new Dictionary<object, object> { { "detail", detailJson } });
+							api.LogOn(agent, detail);
 							logon = true;
 
 							// update station info in database
@@ -99,7 +98,7 @@ namespace Wammer.Station
 							logger.Debug("update station information");
 							Model.StationInfo.collection.Save(sinfo);
 						}
-						api.Heartbeat(agent, new Dictionary<object, object> { { "detail", detailJson } });
+						api.Heartbeat(agent, detail);
 					}
 					catch (Exception ex)
 					{
