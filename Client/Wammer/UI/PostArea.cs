@@ -27,24 +27,10 @@ namespace Waveface
             m_init = true;
         }
 
-        public void FillTimelineComboBox(List<FilterItem> list)
-        {
-            /*
-            comboBoxTimeline.Items.Clear();
-
-            foreach (FilterItem _item in list)
-            {
-                comboBoxTimeline.Items.Add(_item);
-            }
-
-            comboBoxTimeline.SelectedIndex = 0;
-            */
-        }
-
         public void ShowTypeUI(bool flag)
         {
-            panelButtom.Visible = true;
-
+            // panelButtom.Visible = flag;
+            
             labelDisplay.Visible = flag;
             comboBoxType.Visible = flag;
         }
@@ -81,7 +67,7 @@ namespace Waveface
 
         private void linkLabelReadMore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Main.Current.ReadMorePost();
+            Main.Current.FilterReadMorePost();
         }
     }
 }

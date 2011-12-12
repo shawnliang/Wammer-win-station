@@ -63,7 +63,7 @@
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
             this.splitterRight = new System.Windows.Forms.Splitter();
             this.timerGetNewestPost = new System.Windows.Forms.Timer(this.components);
-            this.timerFetchOlderPost = new System.Windows.Forms.Timer(this.components);
+            this.timerFilterReadmore = new System.Windows.Forms.Timer(this.components);
             this.panelTop = new System.Windows.Forms.Panel();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
             this.panelStation = new System.Windows.Forms.Panel();
@@ -277,7 +277,9 @@
             this.logoutMenuItem,
             this.mnuExit});
             this.mnuTray.Name = "mnuTree";
+            this.mnuTray.Size = new System.Drawing.Size(151, 110);
             this.mnuTray.Size = new System.Drawing.Size(153, 154);
+            this.mnuTray.Size = new System.Drawing.Size(153, 132);
             // 
             // restoreMenuItem
             // 
@@ -369,8 +371,8 @@
             // 
             // timerFetchOlderPost
             // 
-            this.timerFetchOlderPost.Interval = 500;
-            this.timerFetchOlderPost.Tick += new System.EventHandler(this.timerFetchOlderPost_Tick);
+            this.timerFilterReadmore.Interval = 500;
+            this.timerFilterReadmore.Tick += new System.EventHandler(this.timerFilterReadmore_Tick);
             // 
             // panelTop
             // 
@@ -535,7 +537,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.Timer timerDelayPost;
         private System.Windows.Forms.Timer timerGetNewestPost;
-        private System.Windows.Forms.Timer timerFetchOlderPost;
+        private System.Windows.Forms.Timer timerFilterReadmore;
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.PictureBox pictureBoxAvatar;
         private System.Windows.Forms.Label labelName;

@@ -201,7 +201,7 @@ namespace Waveface
 
         private void DeleteThis()
         {
-            m_leftArea.DeletePostItem(this, m_expando, m_newPostItem);
+            //# m_leftArea.DeletePostItem(this, m_expando, m_newPostItem);
         }
 
         private void buttonDetail_Click(object sender, EventArgs e)
