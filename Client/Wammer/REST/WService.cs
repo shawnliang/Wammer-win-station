@@ -1,5 +1,5 @@
 ﻿#region
-
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -977,6 +977,28 @@ namespace Waveface.API.V2
             }
         }
 
+        #endregion
+
+
+        #region station login/logout
+
+        public static void LogoutStation(string session_token)
+        {
+            try
+            {
+                using (WebClient agent = new WebClient())
+                {
+                    string url = string.Format("http://localhost:9989/v2/station/offline?session_token={0}&apikey={1}",
+                        HttpUtility.UrlEncode(session_token), APIKEY);
+
+                    agent.DownloadData(url);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Unable to logout station with Waveface cloud", e);
+            }
+        }
         #endregion
     }
 }
