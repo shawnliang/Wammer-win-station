@@ -20,35 +20,32 @@ using Waveface.SettingUI;
 
 namespace Waveface
 {
-    public partial class MainForm : Form
+    public partial class Main : Form
     {
-        public static MainForm THIS;
+        public static Main Current;
         public static GCONST GCONST = new GCONST();
 
         #region Fields
 
-        private bool m_canAutoFetchNewestPosts = true;
-        private List<string> m_delayPostPicList = new List<string>();
+        //ScreenShot
+        private ImageStorage m_screenShotImageStorage;
 
-        private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
+        //Main
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
+        private VirtualFolderForm m_virtualFolderForm;
+        private MyTaskbarNotifier m_taskbarNotifier;
+        private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
         private Popup m_trayIconPopup;
         private TrayIconPanel m_trayIconPanel;
         private UploadOriginPhotosToStation m_uploadOriginPhotosToStation;
 
-        private string m_stationIP;
-
-        //ScreenShot
-        private ImageStorage m_imageStorage;
-
-        //Main
-        private Bitmap m_offlineImage;
-        private Bitmap m_onlineImage;
+        private bool m_canAutoFetchNewestPosts = true;
+        private List<string> m_delayPostPicList = new List<string>();
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
-        private VirtualFolderForm m_virtualFolderForm;
-        private MyTaskbarNotifier m_taskbarNotifier;
 
         private RunTime m_runTime = new RunTime();
+
+        private string m_stationIP;
 
         #endregion
 
@@ -62,9 +59,9 @@ namespace Waveface
 
         #endregion
 
-        public MainForm()
+        public Main()
         {
-            THIS = this;
+            Current = this;
 
             File.Delete(m_shellContentMenuFilePath);
 
@@ -83,24 +80,22 @@ namespace Waveface
 
         private void Form_Load(object sender, EventArgs e)
         {
-            //-- Main
-            m_onlineImage = Resources.Outlook;
-            m_offlineImage = Resources.Error;
             NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 
-            UpdateStatusBar();
+            UpdateNetworkStatus();
 
             InitmDropableNotifyIcon();
 
             m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
 
             //-- Screen Shot
-            m_imageStorage = new ImageStorage(GCONST.CachePath);
+            m_screenShotImageStorage = new ImageStorage(GCONST.CachePath);
 
             //-- Send To
             CreateFileWatcher();
 
             m_uploadOriginPhotosToStation = new UploadOriginPhotosToStation();
+            m_uploadOriginPhotosToStation.Start();
         }
 
         private void InitmDropableNotifyIcon()
@@ -116,7 +111,7 @@ namespace Waveface
 
         private void initVirtualFolderForm()
         {
-            m_virtualFolderForm = new VirtualFolderForm(this);
+            m_virtualFolderForm = new VirtualFolderForm();
             m_virtualFolderForm.Top = Screen.PrimaryScreen.Bounds.Height - m_virtualFolderForm.Height * 3;
             m_virtualFolderForm.Left = Screen.PrimaryScreen.Bounds.Width - m_virtualFolderForm.Width;
             m_virtualFolderForm.Show();
@@ -189,19 +184,19 @@ namespace Waveface
 
         #region Network Status
 
-        private void UpdateStatusBar()
+        private void UpdateNetworkStatus()
         {
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 connectedImageLabel.Text = " Connected";
-                connectedImageLabel.Image = m_onlineImage;
+                connectedImageLabel.Image = Resources.Outlook;
 
                 RT.REST.IsNetworkAvailable = true;
             }
             else
             {
                 connectedImageLabel.Text = " Disconnected";
-                connectedImageLabel.Image = m_offlineImage;
+                connectedImageLabel.Image = Resources.Error;
 
                 RT.REST.IsNetworkAvailable = false;
             }
@@ -212,7 +207,7 @@ namespace Waveface
             try
             {
                 if (IsHandleCreated)
-                    Invoke(new MethodInvoker(UpdateStatusBar));
+                    Invoke(new MethodInvoker(UpdateNetworkStatus));
             }
             catch (Exception _e)
             {
@@ -296,10 +291,10 @@ namespace Waveface
                 //預設群組
                 RT.CurrentGroupID = RT.Login.groups[0].group_id;
 
-                //bgWorkerGetAllData.RunWorkerAsync();
+                bgWorkerGetAllData.RunWorkerAsync();
 
                 // 顯示所有Post
-                DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
+                //DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
 
                 leftArea.SetUI(true);
 
@@ -333,8 +328,8 @@ namespace Waveface
                         WService.StationIP = _ip;
 
                         //test
-                        //m_stationIP = _ip;
-                        //panelStation.Visible = true;
+                        m_stationIP = _ip;
+                        panelStation.Visible = true;
 
                         RT.StationMode = true;
 
@@ -754,7 +749,7 @@ namespace Waveface
 
         private void capture(ShotType shotType)
         {
-            if (m_imageStorage == null)
+            if (m_screenShotImageStorage == null)
                 return;
 
             try
@@ -772,7 +767,7 @@ namespace Waveface
                     string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), _imgFormat).ToLower();
 
                 Image _img = _captureForm.Image;
-                m_imageStorage.SaveImage(_img, _imgFormat, _filename);
+                m_screenShotImageStorage.SaveImage(_img, _imgFormat, _filename);
 
                 Post(new List<string> { GCONST.CachePath + _filename }, PostType.Photo);
             }

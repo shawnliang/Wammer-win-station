@@ -324,11 +324,11 @@ namespace Waveface
                 return;
             }
 
-            MR_posts_newComment _postsNewComment = MainForm.THIS.RT.REST.Posts_NewComment(post.post_id, textBox.Text, "", "");
+            MR_posts_newComment _postsNewComment = Main.Current.RT.REST.Posts_NewComment(post.post_id, textBox.Text, "", "");
 
             if (_postsNewComment != null)
             {
-                MainForm.THIS.AfterPostComment(post.post_id);
+                Main.Current.AfterPostComment(post.post_id);
             }
 
             textBox.Text = "";
@@ -373,7 +373,7 @@ namespace Waveface
                 _html = _html.Replace("[CommentTime]", DateTimeHelp.ISO8601ToDotNet(_c.timestamp));
                 _html = _html.Replace("[code_name]", _c.code_name);
 
-                foreach (User _user in MainForm.THIS.RT.AllUsers)
+                foreach (User _user in Main.Current.RT.AllUsers)
                 {
                     if (_user.user_id == _c.creator_id)
                     {
@@ -395,7 +395,7 @@ namespace Waveface
             if (_dr != DialogResult.Yes)
                 return;
 
-            MainForm.THIS.HidePost(m_post.post_id);
+            Main.Current.HidePost(m_post.post_id);
         }
     }
 }

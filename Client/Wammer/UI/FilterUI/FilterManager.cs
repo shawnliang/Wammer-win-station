@@ -109,7 +109,7 @@ namespace Waveface.FilterUI
                 return;
             }
 
-            MR_fetchfilters_item _item = MainForm.THIS.RT.REST.FetchFilters_New(textBoxName.Text, GetFilterString(), "");
+            MR_fetchfilters_item _item = Main.Current.RT.REST.FetchFilters_New(textBoxName.Text, GetFilterString(), "");
 
             if (_item == null)
             {
@@ -132,7 +132,7 @@ namespace Waveface.FilterUI
                 return;
             }
 
-            MR_fetchfilters_item _item = MainForm.THIS.RT.REST.FetchFilters_Update(m_currentFilterItem.searchfilter_id, textBoxName.Text, GetFilterString(), "");
+            MR_fetchfilters_item _item = Main.Current.RT.REST.FetchFilters_Update(m_currentFilterItem.searchfilter_id, textBoxName.Text, GetFilterString(), "");
 
             if (_item == null)
             {

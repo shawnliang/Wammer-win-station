@@ -263,7 +263,7 @@ namespace Waveface.PostUI
 
                                        try
                                        {
-                                           MR_attachments_upload _uf = MainForm.THIS.RT.REST.File_UploadFile(_uploadFiles[_path], _path, "", false);
+                                           MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_uploadFiles[_path], _path, "", false);
 
                                            if (_uf == null)
                                            {
@@ -344,7 +344,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = MainForm.THIS.RT.REST.Posts_New(MyParent.richTextBox.Text, files, "", _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.richTextBox.Text, files, "", _type);
 
                 if (_np == null)
                 {

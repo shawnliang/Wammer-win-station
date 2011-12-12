@@ -106,7 +106,7 @@ namespace Waveface.PostUI
 
         public string GetHtmlFile()
         {
-            string _localPath = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html";
+            string _localPath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmss") + ".html";
             string _content = htmlEditorControl.DocumentHtml;
 
             _content = _content.Replace("<HEAD>", "<HEAD><meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">");

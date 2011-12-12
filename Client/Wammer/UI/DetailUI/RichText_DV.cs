@@ -211,7 +211,7 @@ namespace Waveface.DetailUI
             {
                 if (_a.mime_type == "text/html")
                 {
-                    m_htmlFile = MainForm.GCONST.CachePath + _a.object_id + ".html";
+                    m_htmlFile = Main.GCONST.CachePath + _a.object_id + ".html";
 
                     if (File.Exists(m_htmlFile))
                     {
@@ -219,7 +219,7 @@ namespace Waveface.DetailUI
                     }
                     else
                     {
-                        string _url = MainForm.THIS.RT.REST.attachments_getRedirectURL(_a.url, _a.object_id, false);
+                        string _url = Main.Current.RT.REST.attachments_getRedirectURL(_a.url, _a.object_id, false);
 
                         WebClient _webClient = new WebClient();
                         _webClient.DownloadFileCompleted += WebClientOnDownloadFileCompleted;

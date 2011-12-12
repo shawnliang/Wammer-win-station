@@ -183,7 +183,7 @@ namespace Waveface.PostUI
                                  {
                                      string _resizedImage = ImageUtility.ResizeImage(_item.FileName, _item.Text, _resizeRatio, 100);
 
-                                     MR_attachments_upload _uf = MainForm.THIS.RT.REST.File_UploadFile(_item.Text, _resizedImage, "", true);
+                                     MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_item.Text, _resizedImage, "", true);
 
                                      if (_uf == null)
                                      {
@@ -257,7 +257,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = MainForm.THIS.RT.REST.Posts_New(MyParent.richTextBox.Text, files, "", _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.richTextBox.Text, files, "", _type);
 
                 if (_np == null)
                 {

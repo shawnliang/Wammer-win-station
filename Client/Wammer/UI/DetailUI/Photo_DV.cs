@@ -381,9 +381,9 @@ namespace Waveface.DetailUI
             Attachment _attachment = m_imageAttachments[imageFileIndex];
             string _url = string.Empty;
             string _fileName = string.Empty;
-            MainForm.THIS.RT.REST.attachments_getRedirectURL_Image(_attachment, imageType, out _url, out _fileName); //origin medium
+            Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, imageType, out _url, out _fileName); //origin medium
 
-            string _localFile = MainForm.GCONST.CachePath + _fileName;
+            string _localFile = Main.GCONST.CachePath + _fileName;
 
             if (!m_filesMapping.ContainsKey(_fileName))
             {
@@ -423,7 +423,7 @@ namespace Waveface.DetailUI
             {
                 try
                 {
-                    string _localFile = MainForm.GCONST.CachePath + m_downloadFileName;
+                    string _localFile = Main.GCONST.CachePath + m_downloadFileName;
 
                     pictureBoxRemote.Image.Save(_localFile);
 

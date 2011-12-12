@@ -178,7 +178,7 @@ namespace Waveface
                     if (_idx != -1)
                         _ext = text.Substring(_idx);
 
-                    string _originCacheFile = MainForm.GCONST.ImageUploadCachePath + _attachmentsUpload.object_id + _ext;
+                    string _originCacheFile = Main.GCONST.ImageUploadCachePath + _attachmentsUpload.object_id + _ext;
                     
                     File.Copy(filePath, _originCacheFile);
                 }

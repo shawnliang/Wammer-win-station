@@ -155,7 +155,7 @@ namespace Waveface
                 _filterItems.Add(_item);
             }
 
-            MainForm.THIS.FillTimelineComboBox(_filterItems);
+            Main.Current.FillTimelineComboBox(_filterItems);
         }
 
         private TaskItem CreateTaskItem(FilterItem item, bool isCustom)
@@ -182,7 +182,7 @@ namespace Waveface
 
             FilterItem _item = (FilterItem)_taskItem.Tag;
 
-            MainForm.THIS.DoTimelineFilter(_item, false);
+            Main.Current.DoTimelineFilter(_item, false);
         }
 
         private void FilterlinkLabel_Click(object sender, EventArgs e)
@@ -194,7 +194,7 @@ namespace Waveface
 
             FilterItem _item = (FilterItem)_taskItem.Tag;
 
-            MainForm.THIS.DoTimelineFilter(_item, true);
+            Main.Current.DoTimelineFilter(_item, true);
         }
 
         private IEnumerable<DateTime> MonthsBetween(DateTime d0, DateTime d1)
@@ -259,7 +259,7 @@ namespace Waveface
             vsNetListBarGroups.Groups.Clear();
             removeImageListLargeIcon();
 
-            Dictionary<string, MR_groups_get> _mrGroups = MainForm.THIS.RT.GroupSets;
+            Dictionary<string, MR_groups_get> _mrGroups = Main.Current.RT.GroupSets;
 
             int k = 0;
             int _imageIndex; //在這裡是正確的
@@ -310,12 +310,12 @@ namespace Waveface
 
         private void monthCalendar_DateClicked(object sender, DateEventArgs e)
         {
-            MainForm.THIS.ClickCalendar(e.Date);
+            Main.Current.ClickCalendar(e.Date);
         }
 
         private void buttonCreatePost_Click(object sender, EventArgs e)
         {
-            MainForm.THIS.Post();
+            Main.Current.Post();
         }
     }
 }

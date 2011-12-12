@@ -40,7 +40,7 @@ namespace Waveface
                 e.Effect = DragDropEffects.None; // Unknown data, ignore it
             }
 
-            FlashWindow.Start(MainForm.THIS);
+            FlashWindow.Start(Main.Current);
         }
 
         public void Drag_Over(DragEventArgs e)
@@ -74,7 +74,7 @@ namespace Waveface
 
         public void Drag_Drop(DragEventArgs e)
         {
-            FlashWindow.Stop(MainForm.THIS);
+            FlashWindow.Stop(Main.Current);
 
             try
             {
@@ -94,7 +94,7 @@ namespace Waveface
 
         public void Drag_Leave()
         {
-            FlashWindow.Stop(MainForm.THIS);
+            FlashWindow.Stop(Main.Current);
 
             IDropTargetHelper _dropHelper = (IDropTargetHelper)new DragDropHelper();
             _dropHelper.DragLeave();
@@ -141,7 +141,7 @@ namespace Waveface
 
                             if (_imageFileInDir.Count > 0)
                             {
-                                MainForm.THIS.Post(_imageFileInDir, PostType.Photo);
+                                Main.Current.Post(_imageFileInDir, PostType.Photo);
                                 return;
                             }
                         }
@@ -157,7 +157,7 @@ namespace Waveface
 
                     if (_pics.Count > 0)
                     {
-                        MainForm.THIS.Post(_pics, PostType.Photo);
+                        Main.Current.Post(_pics, PostType.Photo);
                     }
                 }
                 catch
@@ -185,11 +185,11 @@ namespace Waveface
 
                     Image _image = HttpHelp.DownloadImage(_imgURL);
 
-                    string _imgLocalPath = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
+                    string _imgLocalPath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
 
                     _image.Save(_imgLocalPath);
 
-                    MainForm.THIS.Post(new List<string>
+                    Main.Current.Post(new List<string>
                                         {
                                             _imgLocalPath
                                         }, PostType.Photo);

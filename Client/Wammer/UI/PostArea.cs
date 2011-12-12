@@ -62,7 +62,7 @@ namespace Waveface
         private void comboBoxType_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             if (m_init)
-                MainForm.THIS.DoTimelineFilter(null, true);
+                Main.Current.DoTimelineFilter(null, true);
         }
 
         public void ShowPostInfo(int all, int getPostCounts)
@@ -81,7 +81,7 @@ namespace Waveface
 
         private void linkLabelReadMore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MainForm.THIS.ReadMorePost();
+            Main.Current.ReadMorePost();
         }
     }
 }

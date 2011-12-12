@@ -82,7 +82,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = MainForm.THIS.RT.REST.Posts_New(MyParent.richTextBox.Text, "", previews, _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.richTextBox.Text, "", previews, _type);
 
                 if (_np == null)
                 {
@@ -104,7 +104,7 @@ namespace Waveface.PostUI
         {
             string _url = url;
 
-            m_mrPreviewsGetAdv = MainForm.THIS.RT.REST.Preview_GetAdvancedPreview(_url);
+            m_mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
 
             // 如果回傳Null, 則沒Preview, 也表示當下沒用Preview
             if ((m_mrPreviewsGetAdv == null) || (m_mrPreviewsGetAdv.preview.images.Count == 0))

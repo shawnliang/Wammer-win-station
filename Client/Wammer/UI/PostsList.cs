@@ -417,11 +417,11 @@ namespace Waveface
                 }
                 else
                 {
-                    string _localPic = MainForm.GCONST.CachePath + _a.object_id + "_thumbnail" + ".jpg";
+                    string _localPic = Main.GCONST.CachePath + _a.object_id + "_thumbnail" + ".jpg";
 
                     string _url = _a.image;
 
-                    _url = MainForm.THIS.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
+                    _url = Main.Current.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
 
                     Bitmap _img = LoadThumbnail(_url, _localPic);
 
@@ -467,7 +467,7 @@ namespace Waveface
             {
                 string _url = post.preview.thumbnail_url;
 
-                string _localPic = MainForm.GCONST.CachePath + post.post_id + "_previewthumbnail_" + ".jpg";
+                string _localPic = Main.GCONST.CachePath + post.post_id + "_previewthumbnail_" + ".jpg";
 
                 Bitmap _img = LoadThumbnail(_url, _localPic);
 
@@ -527,9 +527,9 @@ namespace Waveface
         {
             string _url = string.Empty;
             string _fileName = string.Empty;
-            MainForm.THIS.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName);
+            Main.Current.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName);
 
-            string _localPic = MainForm.GCONST.CachePath + _fileName;
+            string _localPic = Main.GCONST.CachePath + _fileName;
 
             Bitmap _img = LoadThumbnail(_url, _localPic);
 
@@ -586,7 +586,7 @@ namespace Waveface
         {
             m_clickIndex = m_postBS.Position;
 
-            MainForm.THIS.PostListClick(m_clickIndex);
+            Main.Current.PostListClick(m_clickIndex);
 
             if (m_clickIndex > -1)
             {
@@ -597,7 +597,7 @@ namespace Waveface
 
             if (m_clickIndex == (m_postBS.Count - 1))
             {
-                MainForm.THIS.ReadMorePost();
+                Main.Current.ReadMorePost();
             }
         }
 
@@ -605,14 +605,14 @@ namespace Waveface
         {
             Post _post = m_postBS[m_postBS.Position] as Post;
 
-            MainForm.THIS.setCalendarDay(DateTimeHelp.ISO8601ToDateTime(_post.timestamp).Date);
+            Main.Current.setCalendarDay(DateTimeHelp.ISO8601ToDateTime(_post.timestamp).Date);
         }
 
         private void NotifyDetailView()
         {
             Post _post = m_postBS.Current as Post;
 
-            foreach (User _user in MainForm.THIS.RT.AllUsers)
+            foreach (User _user in Main.Current.RT.AllUsers)
             {
                 if (_user.user_id == _post.creator_id)
                 {

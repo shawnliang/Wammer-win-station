@@ -18,7 +18,10 @@ namespace Waveface
         public UploadOriginPhotosToStation()
         {
             SleepTime = 3000;
+        }
 
+        public void Start()
+        {
             ThreadPool.QueueUserWorkItem(state => { ThreadMethod(); });
         }
 
@@ -26,9 +29,9 @@ namespace Waveface
         {
             while (!m_exit)
             {
-                if (MainForm.THIS.RT.StationMode)
+                if (Main.Current.RT.StationMode)
                 {
-                    string[] _filePaths = Directory.GetFiles(MainForm.GCONST.ImageUploadCachePath);
+                    string[] _filePaths = Directory.GetFiles(Main.GCONST.ImageUploadCachePath);
 
                     foreach (string _file in _filePaths)
                     {
@@ -37,7 +40,7 @@ namespace Waveface
 
                         FileName _fileName = new FileName(_file);
 
-                        MR_attachments_upload _uf = MainForm.THIS.RT.REST.File_UploadFile(_fileName.Name, _file, _fileName.NameNoExt, true);
+                        MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_fileName.Name, _file, _fileName.NameNoExt, true);
 
                         if (_uf != null)
                         {

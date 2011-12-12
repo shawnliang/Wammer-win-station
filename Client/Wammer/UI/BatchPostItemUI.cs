@@ -50,7 +50,7 @@ namespace Waveface
                         string _text = new FileName(_item).Name;
                         string _resizedImage = ImageUtility.ResizeImage(_item, _text, m_newPostItem.ResizeRatio, 100);
 
-                        MR_attachments_upload _uf = MainForm.THIS.RT.REST.File_UploadFile(_text, _resizedImage, "", true);
+                        MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, "", true);
 
                         if (_uf == null)
                         {
@@ -92,7 +92,7 @@ namespace Waveface
 
                     try
                     {
-                        MR_posts_new _np = MainForm.THIS.RT.REST.Posts_New(m_newPostItem.Text, _ids, "", "image");
+                        MR_posts_new _np = Main.Current.RT.REST.Posts_New(m_newPostItem.Text, _ids, "", "image");
 
                         if (_np == null)
                         {
@@ -148,7 +148,7 @@ namespace Waveface
             }
             else
             {
-                MainForm.THIS.AfterBatchPostDone();
+                Main.Current.AfterBatchPostDone();
                 DeleteThis();
             }
         }

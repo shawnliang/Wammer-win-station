@@ -40,7 +40,7 @@ namespace Waveface.ImageCapture
                 if ((captureInfo == null) || (captureInfo.Url == null) || string.IsNullOrEmpty(captureInfo.Path))
                     return false;
 
-                return System.IO.File.Exists(captureInfo.Path);
+                return File.Exists(captureInfo.Path);
             }
         }
 
