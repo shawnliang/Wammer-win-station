@@ -8,7 +8,7 @@ using MongoDB.Driver;
 namespace Wammer.Model
 {
 
-	enum ServiceState
+	public enum ServiceState
 	{
 		Online,
 		Offline
@@ -18,8 +18,6 @@ namespace Wammer.Model
 	{
 		[BsonId]
 		public string Id { get; set; }
-		[BsonIgnoreIfNull]
-		public string OfflineKey { get; set; }
 		[BsonIgnoreIfNull]
 		public ServiceState State { get; set; }
 	}
