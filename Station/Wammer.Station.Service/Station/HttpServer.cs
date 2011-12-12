@@ -25,31 +25,12 @@ namespace Wammer.Station
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpServer");
 		private object cs = new object();
 
-		/// <summary>
-		/// Gets or sets offline key. A request to shutdown or bring up server has to 
-		/// have a matching offline key.
-		/// </summary>
-		public string OfflineKey { get; set; }
-
-		/// <summary>
-		/// Gets or sets the server online or offline
-		/// </summary>
-		public bool Online { get; set; }
-
-		public static string OFFLINE_API = "/station/offline";
-		public static string ONLINE_API = "/station/online";
-
 		public HttpServer(int port)
 		{
 			this.port = port;
 			this.listener = new HttpListener();
 			this.handlers = new Dictionary<string, HttpHandlerProxy>();
 			this.defaultHandler = null;
-			this.Online = true;
-			this.OfflineKey = "";
-
-			this.AddHandler(OFFLINE_API, new ServerOfflineHandler(this));
-			this.AddHandler(ONLINE_API, new ServerOnlineHandler(this));
 		}
 
 		public void AddHandler(string path, IHttpHandler handler)
@@ -137,9 +118,6 @@ namespace Wammer.Station
 
 				if (context != null)
 				{
-					if (!this.Online && !context.Request.Url.AbsolutePath.StartsWith(ONLINE_API))
-						respond503Unavailable(context);
-
 					HttpHandlerProxy handler = FindBestMatch(
 												context.Request.Url.AbsolutePath);
 
@@ -267,49 +245,4 @@ namespace Wammer.Station
 		}
 	}
 
-	class OnlineOfflineHandler : HttpHandler
-	{
-		private readonly HttpServer server;
-		private readonly bool onoff;
-
-		public OnlineOfflineHandler(HttpServer server, bool onoff)
-		{
-			this.server = server;
-			this.onoff = onoff;
-		}
-
-		protected override void HandleRequest()
-		{
-			string key = Parameters["key"];
-
-			if (key == null || !key.Equals(server.OfflineKey))
-				throw new WammerStationException("Offline key error", -1);
-
-			server.Online = onoff;
-
-			RespondSuccess();
-		}
-
-		public override object Clone()
-		{
-			return this.MemberwiseClone();
-		}
-	}
-
-	class ServerOfflineHandler : OnlineOfflineHandler
-	{
-		public ServerOfflineHandler(HttpServer server)
-			:base(server, false)
-		{
-		}
-	}
-
-	class ServerOnlineHandler : OnlineOfflineHandler
-	{
-		public ServerOnlineHandler(HttpServer server)
-			:base(server, true)
-		{
-		}
-
-	}
 }

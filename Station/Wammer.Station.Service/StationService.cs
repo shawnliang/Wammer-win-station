@@ -62,7 +62,6 @@ namespace Wammer.Station.Service
 			stationTimer = new StationTimer();
 
 			functionServer = new HttpServer(9981); // TODO: remove hard code
-			functionServer.OfflineKey = InitOfflineKey();
 			BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/auth/");
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/users/");
@@ -166,21 +165,6 @@ namespace Wammer.Station.Service
 				stationId = Guid.NewGuid().ToString();
 				StationRegistry.SetValue("stationId", stationId);
 			}
-		}
-
-		private string InitOfflineKey()
-		{
-			Model.Service svc = Model.ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
-			if (svc == null)
-			{
-				svc = new Model.Service();
-				svc.Id = "StationService";
-			}
-
-			svc.OfflineKey = Guid.NewGuid().ToString();
-			Model.ServiceCollection.Save(svc);
-
-			return svc.OfflineKey;
 		}
 	}
 
