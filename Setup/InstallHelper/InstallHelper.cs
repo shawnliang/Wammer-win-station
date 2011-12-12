@@ -46,7 +46,7 @@ namespace Wammer.Station
 					return ActionResult.Success;
 				}
 
-				Wammer.Cloud.Station.SignOff(new WebClient(), station.Id, station.SessionToken);
+				Wammer.Cloud.StationApi.SignOff(new WebClient(), station.Id, station.SessionToken);
 				Logger.Info("Sign off station success");
 				return ActionResult.Success;
 			}

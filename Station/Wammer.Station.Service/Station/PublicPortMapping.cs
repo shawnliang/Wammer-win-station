@@ -6,6 +6,8 @@ using TCMPortMapper;
 using System.Net;
 using System.Threading;
 
+using Wammer.Utility;
+
 namespace Wammer.Station
 {
 	public class PublicPortMapping
@@ -190,14 +192,13 @@ namespace Wammer.Station
 				if (stationInfo == null)
 					return;
 
-				Cloud.Station station = new Cloud.Station(stationInfo.Id, stationInfo.SessionToken);
+				Cloud.StationApi api = new Cloud.StationApi(stationInfo.Id, stationInfo.SessionToken);
 
-				string json = fastJSON.JSON.Instance.ToJSON(
-					StatusChecker.GetDetail(),false,false,false,false);
+				string json = StatusChecker.GetDetail().ToFastJSON();
 
 				logger.Debug("detail: " + json);
 
-				station.Heartbeat(new WebClient(), new Dictionary<object, object>{
+				api.Heartbeat(new WebClient(), new Dictionary<object, object>{
 					{ "detail",  json }
 				});
 			}

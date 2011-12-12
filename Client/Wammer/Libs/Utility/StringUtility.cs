@@ -1,7 +1,12 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.IO;
 using System.IO.Compression;
+using System.Security.Cryptography;
 using System.Text;
+
+#endregion
 
 namespace Waveface
 {
@@ -64,7 +69,7 @@ namespace Waveface
         {
             int _idx = url.LastIndexOf("/");
 
-            if(_idx > 0)
+            if (_idx > 0)
             {
                 return url.Substring(_idx + 1);
             }
@@ -78,6 +83,21 @@ namespace Waveface
             byte[] _iso_8859_1_Bytes = Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("iso-8859-1"), _utf8Bytes);
 
             return Encoding.UTF8.GetString(_iso_8859_1_Bytes);
+        }
+
+        public static string CalculateMD5Hash(string strInput)
+        {
+            MD5 _md5 = MD5.Create();
+
+            byte[] _inputBytes = Encoding.ASCII.GetBytes(strInput);
+            byte[] _hash = _md5.ComputeHash(_inputBytes);
+
+            StringBuilder _sb = new StringBuilder();
+
+            for (int i = 0; i < _hash.Length; i++)
+                _sb.Append(_hash[i].ToString("x2"));
+
+            return _sb.ToString();
         }
     }
 }

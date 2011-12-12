@@ -44,7 +44,6 @@ namespace Waveface.FilterUI
                     FilterItem _item = new FilterItem();
                     _item.Name = _f.filter_name;
                     _item.Filter = _f.filter_entity.ToString();
-                    _item.IsAllPost = false;
                     _item.searchfilter_id = _f.filter_id;
 
                     ListViewItem _lvi = new ListViewItem(_f.filter_name, 0);
@@ -109,7 +108,7 @@ namespace Waveface.FilterUI
                 return;
             }
 
-            MR_fetchfilters_item _item = MainForm.THIS.FetchFilters_New(textBoxName.Text, GetFilterString(), "");
+            MR_fetchfilters_item _item = Main.Current.RT.REST.FetchFilters_New(textBoxName.Text, GetFilterString(), "");
 
             if (_item == null)
             {
@@ -132,7 +131,7 @@ namespace Waveface.FilterUI
                 return;
             }
 
-            MR_fetchfilters_item _item = MainForm.THIS.FetchFilters_Update(m_currentFilterItem.searchfilter_id, textBoxName.Text, GetFilterString(), "");
+            MR_fetchfilters_item _item = Main.Current.RT.REST.FetchFilters_Update(m_currentFilterItem.searchfilter_id, textBoxName.Text, GetFilterString(), "");
 
             if (_item == null)
             {

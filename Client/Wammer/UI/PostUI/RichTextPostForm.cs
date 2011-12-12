@@ -59,7 +59,7 @@ namespace Waveface.PostUI
             {
                 try
                 {
-                    string _localFile = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + ".png";
+                    string _localFile = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + ".png";
 
                     Image _img = HttpHelp.DownloadImage(_path);
 
@@ -137,8 +137,8 @@ namespace Waveface.PostUI
 
                     if (_bmp != null)
                     {
-                        string _imgLocalPath = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + ".png";
-                        string _imgLocalPath_1 = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_1.png";
+                        string _imgLocalPath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + ".png";
+                        string _imgLocalPath_1 = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_1.png";
 
                         _bmp.Save(_imgLocalPath_1, ImageFormat.Png);
 
@@ -266,7 +266,7 @@ namespace Waveface.PostUI
 
                          try
                          {
-                             MR_attachments_upload _uf = MainForm.THIS.File_UploadFile(_imageURL, _imageFile, "", true);
+                             MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_imageURL, _imageFile, "", true);
 
                              if (_uf == null)
                              {
@@ -287,7 +287,7 @@ namespace Waveface.PostUI
 
                          try
                          {
-                             MR_attachments_upload _uf = MainForm.THIS.File_UploadFile("_RichText_", MyParent.GetHtmlFile(), "", false);
+                             MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile("_RichText_", MyParent.GetHtmlFile(), "", false);
 
                              if (_uf == null)
                              {
@@ -338,7 +338,7 @@ namespace Waveface.PostUI
         {
             try
             {
-                MR_posts_new _np = MainForm.THIS.Post_CreateNewPost(richTextBox.Text, files, "", "rtf");
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(richTextBox.Text, files, "", "rtf");
 
                 if (_np == null)
                 {

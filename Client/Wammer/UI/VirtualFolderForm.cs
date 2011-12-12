@@ -52,16 +52,13 @@ namespace Waveface
 
         #endregion
 
-        private MainForm m_mainForm;
         private StickyWindow m_stickyWindow;
 
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
-        public VirtualFolderForm(MainForm mainForm)
+        public VirtualFolderForm()
         {
             InitializeComponent();
-
-            m_mainForm = mainForm;
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 

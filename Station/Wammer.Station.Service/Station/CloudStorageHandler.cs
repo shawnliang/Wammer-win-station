@@ -25,8 +25,8 @@ namespace Wammer.Station
 		{
 			// currently only support one driver
 			Drivers driver = Drivers.collection.FindOne();
-			Storage storage = new Storage(driver.user_id);
-			StorageAuthResponse res = storage.StorageAuthorize(new WebClient(), CloudStorageType.DROPBOX);
+			StorageApi api = new StorageApi(driver.user_id);
+			StorageAuthResponse res = api.StorageAuthorize(new WebClient(), CloudStorageType.DROPBOX);
 			logger.DebugFormat("Dropbox OAuth URL = {0}", res.storages.authorization_url);
 
 			RespondSuccess(
@@ -59,7 +59,7 @@ namespace Wammer.Station
 
 			// currently only support one driver
 			Drivers driver = Drivers.collection.FindOne();
-			Storage storage = new Storage(driver.user_id);
+			StorageApi api = new StorageApi(driver.user_id);
 
 			try
 			{
@@ -71,15 +71,15 @@ namespace Wammer.Station
 					using (WebClient agent = new WebClient())
 					{
 						StorageLinkResponse linkRes;
-						linkRes = storage.StorageLink(agent, CloudStorageType.DROPBOX);
+						linkRes = api.StorageLink(agent, CloudStorageType.DROPBOX);
 						linked = true;
 
 						VerifyAccountLink(folder, linkRes.storages.token);
 
-						StorageCheckResponse res = storage.StorageCheck(agent, CloudStorageType.DROPBOX);
+						StorageCheckResponse res = api.StorageCheck(agent, CloudStorageType.DROPBOX);
 						if (res.storages.status != 0)
 						{
-							logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", fastJSON.JSON.Instance.ToJSON(res, false, false, false, false));
+							logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", res.ToFastJSON());
 							throw new WammerStationException("Dropbox has not linked yet", (int)DropboxApiError.ConnectDropboxFailed);
 						}
 					}
@@ -99,7 +99,7 @@ namespace Wammer.Station
 			catch (Exception)
 			{
 				if (linked)
-					storage.StorageUnlink(new WebClient(), CloudStorageType.DROPBOX);
+					api.StorageUnlink(new WebClient(), CloudStorageType.DROPBOX);
 
 				throw;
 			}

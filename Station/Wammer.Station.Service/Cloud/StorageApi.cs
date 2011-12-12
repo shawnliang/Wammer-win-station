@@ -11,11 +11,11 @@ using MongoDB.Driver.Builders;
 
 namespace Wammer.Cloud
 {
-	public class Storage
+	public class StorageApi
 	{
 		private string userToken { get; set; }
 
-		public Storage(string user_id)
+		public StorageApi(string user_id)
 		{
 			Drivers driver = Drivers.collection.FindOne(Query.EQ("_id", user_id));
 			this.userToken = driver.session_token;

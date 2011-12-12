@@ -50,33 +50,29 @@ namespace Waveface.API.V2
         public string mime_type { get; set; }
         public string md5 { get; set; }
 
-        public ImageMeta image_meta{ get; set; }
+        public ImageMeta image_meta { get; set; }
         //@ public string doc_meta{ get; set; }
     }
-
-    #region 
 
     public class ImageMeta
     {
         public ImageMetaItem small { get; set; }
         public ImageMetaItem medium { get; set; }
         public ImageMetaItem large { get; set; }
-        public ImageMetaItem square { get; set; }  
+        public ImageMetaItem square { get; set; }
     }
 
     public class ImageMetaItem
     {
         public string url { get; set; }
-        public string file_name { get; set; }       
+        public string file_name { get; set; }
         public string height { get; set; }
-        public string width { get; set; }  
+        public string width { get; set; }
         public string modify_time { get; set; }
-        public string file_size { get; set; }       
+        public string file_size { get; set; }
         public string mime_type { get; set; }
-        public string md5 { get; set; }  
+        public string md5 { get; set; }
     }
-
-    #endregion
 
     public class Comment
     {
@@ -218,6 +214,26 @@ namespace Waveface.API.V2
         public string user_id { get; set; }
         public string group_id { get; set; }
         public string post_id { get; set; }
+    }
+
+    public class LastRead
+    {
+        public string timestamp { get; set; }
+        public string user_id { get; set; }
+        public string group_id { get; set; }
+        public string post_id { get; set; }
+
+        public string attachment_id { get; set; }
+        public string comment_timestamp { get; set; }
+        public string text_position { get; set; }
+    }
+
+    public class LastReadInput
+    {
+        public string post_id { get; set; }
+        public string attachment_id { get; set; }
+        public string comment_timestamp { get; set; }
+        public string text_position { get; set; }
     }
 
     #endregion
@@ -427,6 +443,12 @@ namespace Waveface.API.V2
     public class MR_footprints_LastScan : General_R
     {
         public LastScan last_scan { get; set; }
+    }
+
+    public class MR_footprints_LastRead : General_R
+    {
+        public int last_read_count { get; set; }
+        public List<LastRead> last_reads { get; set; }
     }
 
     #endregion

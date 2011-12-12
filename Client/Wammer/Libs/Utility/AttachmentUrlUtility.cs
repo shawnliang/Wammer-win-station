@@ -13,8 +13,8 @@ namespace Waveface
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
 
-            string _url = BEService2.HostIP + orgURL;
-            string _a_s = "&" + "apikey" + "=" + BEService2.APIKEY + "&" + "session_token" + "=" + session_token;
+            string _url = WService.HostIP + orgURL;
+            string _a_s = "&" + "apikey" + "=" + WService.APIKEY + "&" + "session_token" + "=" + session_token;
 
             if (orgURL == string.Empty)
             {
@@ -32,8 +32,8 @@ namespace Waveface
         {
             session_token = HttpUtility.UrlEncode(session_token);
 
-            string _url = BEService2.HostIP + orgURL; //Hack: CloundIP
-            string _a_s = "&" + "apikey" + "=" + BEService2.APIKEY + "&" + "session_token" + "=" + session_token;
+            string _url = WService.HostIP + orgURL; //Hack: CloundIP
+            string _a_s = "&" + "apikey" + "=" + WService.APIKEY + "&" + "session_token" + "=" + session_token;
             _url += _a_s;
 
             return _url;
@@ -51,8 +51,8 @@ namespace Waveface
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
 
-            string _url = BEService2.HostIP + "/v2/attachments/view?object_id=" + object_id + "&" +
-                            "apikey" + "=" + BEService2.APIKEY + "&" +
+            string _url = WService.HostIP + "/v2/attachments/view?object_id=" + object_id + "&" +
+                            "apikey" + "=" + WService.APIKEY + "&" +
                             "session_token" + "=" + session_token;
 
             if (imageType == SMALL)

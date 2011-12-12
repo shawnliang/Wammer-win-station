@@ -21,6 +21,8 @@ namespace Waveface
         private FilterManager m_filterManager;
         private Button m_buttonAddNewFilter;
 
+        #region Properties
+
         public int MyWidth
         {
             get
@@ -41,6 +43,8 @@ namespace Waveface
             set { monthCalendar = value; }
         }
 
+        #endregion
+
         public LeftArea()
         {
             InitializeComponent();
@@ -49,22 +53,14 @@ namespace Waveface
             taskPaneFilter.UseClassicTheme();
 
             initBatchPostItems();
-            //initTimeline();
+
+            initTimeline();
         }
 
-        public void SetUI()
+        public void SetUI(bool flag)
         {
-            buttonCreatePost.Visible = true;
-            taskPaneFilter.Visible = true;
-        }
-
-        private void resetAllTaskItemForeColor()
-        {
-            foreach (Control _control in expandoQuicklist.Items)
-            {
-                if (_control is TaskItem)
-                    ((TaskItem)_control).CustomSettings.LinkColor = SystemColors.HotTrack;
-            }
+            buttonCreatePost.Visible = flag;
+            taskPaneFilter.Visible = flag;
         }
 
         #region CustomizedFilters
@@ -92,7 +88,6 @@ namespace Waveface
                     FilterItem _item = new FilterItem();
                     _item.Name = _f.filter_name;
                     _item.Filter = _f.filter_entity.ToString();
-                    _item.IsAllPost = false;
 
                     TaskItem _taskItem = CreateTaskItem(_item, true);
                     _taskItem.ImageList = imageListCustomFilter;
@@ -113,12 +108,22 @@ namespace Waveface
 
         private void taskPaneFilter_Resize(object sender, EventArgs e)
         {
-            m_buttonAddNewFilter.Width = expandoQuicklist.Width - 16;
+            if (m_buttonAddNewFilter != null)
+                m_buttonAddNewFilter.Width = expandoQuicklist.Width - 16;
         }
 
         #endregion
 
         #region Timeline
+
+        private void resetAllTaskItemForeColor()
+        {
+            foreach (Control _control in expandoQuicklist.Items)
+            {
+                if (_control is TaskItem)
+                    ((TaskItem)_control).CustomSettings.LinkColor = SystemColors.HotTrack;
+            }
+        }
 
         public void initTimeline()
         {
@@ -134,19 +139,23 @@ namespace Waveface
                 string _m = _dt.ToString("y");
 
                 DateTime _from = new DateTime(_dt.Year, _dt.Month, 1, 0, 0, 0);
-                DateTime _to = new DateTime(_dt.Year, _dt.Month + 1, 1, 0, 0, 0);
+
+                DateTime _to;
+
+                if (_dt.Month == 12)
+                    _to = new DateTime(_dt.Year + 1, 1, 1, 0, 0, 0);
+                else
+                    _to = new DateTime(_dt.Year, _dt.Month + 1, 1, 0, 0, 0);
+
                 _to = _to.AddSeconds(-1);
 
                 FilterItem _item = new FilterItem();
                 _item.Name = _m;
                 //_item.Filter = FilterHelper.GetTimeRangeFilterJson(_from, _to, -10, "[type]", "[offset]"); //@
                 _item.Filter = FilterHelper.GetTimeStampFilterJson(_to, -20, "[type]", "[offset]");
-                _item.IsAllPost = false;
 
                 _filterItems.Add(_item);
             }
-
-            MainForm.THIS.FillTimelineComboBox(_filterItems);
         }
 
         private TaskItem CreateTaskItem(FilterItem item, bool isCustom)
@@ -173,8 +182,7 @@ namespace Waveface
 
             FilterItem _item = (FilterItem)_taskItem.Tag;
 
-            MainForm.THIS.ShowPostAreaTimelineComboBox(false);
-            MainForm.THIS.DoTimelineFilter(_item, false);
+            Main.Current.DoTimelineFilter(_item, false);
         }
 
         private void FilterlinkLabel_Click(object sender, EventArgs e)
@@ -186,7 +194,7 @@ namespace Waveface
 
             FilterItem _item = (FilterItem)_taskItem.Tag;
 
-            MainForm.THIS.DoTimelineFilter(_item, true);
+            Main.Current.DoTimelineFilter(_item, true);
         }
 
         private IEnumerable<DateTime> MonthsBetween(DateTime d0, DateTime d1)
@@ -200,12 +208,6 @@ namespace Waveface
 
             return Enumerable.Range(0, (d1.Year - d0.Year) * 12 + (d1.Month - d0.Month + 1))
                 .Select(m => new DateTime(d0.Year, d0.Month, 1).AddMonths(m));
-        }
-
-        private void btnTimeline_Click(object sender, EventArgs e)
-        {
-            MainForm.THIS.ShowPostAreaTimelineComboBox(true);
-            initTimeline();
         }
 
         #endregion
@@ -257,7 +259,7 @@ namespace Waveface
             vsNetListBarGroups.Groups.Clear();
             removeImageListLargeIcon();
 
-            Dictionary<string, MR_groups_get> _mrGroups = MainForm.THIS.RT.GroupSets;
+            Dictionary<string, MR_groups_get> _mrGroups = Main.Current.RT.GroupGetReturnSets;
 
             int k = 0;
             int _imageIndex; //在這裡是正確的
@@ -304,27 +306,16 @@ namespace Waveface
                 imageListLarge.Images.RemoveAt(imageListLarge.Images.Count - 1);
         }
 
-        /*
-        private void monthCalendar_DateClicked(object sender, DateEventArgs e)
-        {
-            MainForm.THIS.ClickCalendar(e.Date);
-        }
-        */
-
         #endregion
 
-        private void LeftArea_Resize(object sender, EventArgs e)
-        {
-        }
-
         private void monthCalendar_DateClicked(object sender, DateEventArgs e)
         {
-            MainForm.THIS.ClickCalendar(e.Date);
+            Main.Current.ClickCalendar(e.Date);
         }
 
         private void buttonCreatePost_Click(object sender, EventArgs e)
         {
-            MainForm.THIS.Post();
+            Main.Current.Post();
         }
     }
 }

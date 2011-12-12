@@ -5,19 +5,20 @@ using System.Net;
 using System.Web;
 
 using Wammer.Model;
+using Wammer.Utility;
 
 namespace Wammer.Cloud
 {
-	public class Station
+	public class StationApi
 	{
 
-		public Station(string stationId, string stationToken)
+		public StationApi(string stationId, string stationToken)
 		{
 			this.Id = stationId;
 			this.Token = stationToken;
 		}
 
-		public static Station SignUp(WebClient agent, string stationId, string email, string passwd)
+		public static StationApi SignUp(WebClient agent, string stationId, string email, string passwd)
 		{
 			Dictionary<object, object> param = new Dictionary<object, object>
 			{
@@ -30,7 +31,7 @@ namespace Wammer.Cloud
 			StationSignUpResponse res =
 				CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param);
 
-			return new Station(stationId, res.session_token);
+			return new StationApi(stationId, res.session_token);
 		}
 
 		public void LogOn(WebClient agent)
@@ -40,12 +41,13 @@ namespace Wammer.Cloud
 		
 		public void LogOn(WebClient agent, StationDetail detail)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>();
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.Token);
-			parameters.Add(CloudServer.PARAM_STATION_ID, this.Id);
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
-			parameters.Add(CloudServer.PARAM_DETAIL,
-				fastJSON.JSON.Instance.ToJSON(detail, false, false, false, false));
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ CloudServer.PARAM_SESSION_TOKEN, this.Token },
+				{ CloudServer.PARAM_STATION_ID, this.Id },
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey },
+				{ CloudServer.PARAM_DETAIL, detail.ToFastJSON() }
+			};
 
 			StationLogOnResponse res =
 				CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", parameters);

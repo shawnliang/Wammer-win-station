@@ -53,7 +53,7 @@ namespace Wammer.Station
 			 
 			if (Parameters["apikey"] == null || Parameters["session_token"] == null)
 				throw new FormatException("apikey or session_token is missing");
-			
+
 			Drivers driver = Drivers.collection.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));
 			if (driver==null)
 				throw new FormatException("group_id is not assocaited with a registered user");

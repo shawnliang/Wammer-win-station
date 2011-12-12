@@ -18,7 +18,7 @@ namespace Waveface
         {
             Image _img;
 
-            string _localAvatarPath = MainForm.GCONST.CachePath + creatorId + ".jpg";
+            string _localAvatarPath = Main.GCONST.CachePath + creatorId + ".jpg";
 
             if (System.IO.File.Exists(_localAvatarPath))
             {
@@ -270,7 +270,7 @@ namespace Waveface
                 if ((_bmp.Height < _longestSide) && (_bmp.Width < _longestSide))
                     return orgImageFilePath;
 
-                string _newPath = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" +
+                string _newPath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" +
                                   fileName;
 
 

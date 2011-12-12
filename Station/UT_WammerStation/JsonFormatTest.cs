@@ -7,6 +7,8 @@ using Wammer.Cloud;
 using Wammer.Model;
 using System.Collections.Specialized;
 
+using Wammer.Utility;
+
 namespace UT_WammerStation
 {
 	[TestClass]
@@ -58,7 +60,7 @@ namespace UT_WammerStation
 				title = "123"
 			};
 
-			string json = fastJSON.JSON.Instance.ToJSON(a, false, false, false, false);
+			string json = a.ToFastJSON();
 			Assert.AreEqual("{\"title\":\"123\",\"type\":\"image\",\"file_size\":0,\"modify_time\":\"0001-01-01T00:00:00\",}", json);
 		}
 
@@ -69,7 +71,7 @@ namespace UT_WammerStation
 			obj.Array.Add(new MyClass3 { Data = "123" });
 			obj.Array.Add(new MyClass3 { Data = "456" });
 
-			string json = fastJSON.JSON.Instance.ToJSON(obj, false, false, false, false);
+			string json = obj.ToFastJSON();
 			Assert.AreEqual("{\"Array\":[{\"Data\":\"123\"},{\"Data\":\"456\"}]}", json);
 		}
 	}

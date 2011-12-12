@@ -356,7 +356,7 @@ namespace Waveface.DetailUI
 
         private void downloadFile(Attachment attachment)
         {
-            string _file = MainForm.GCONST.CachePath + attachment.object_id + attachment.file_name; //HttpUtility.UrlDecode(attachment.file_name)
+            string _file = Main.GCONST.CachePath + attachment.object_id + attachment.file_name; //HttpUtility.UrlDecode(attachment.file_name)
 
             m_currentAttachment = attachment;
 
@@ -377,7 +377,7 @@ namespace Waveface.DetailUI
             WebClient _webClient = new WebClient();
             _webClient.DownloadFileCompleted += Completed;
             _webClient.DownloadProgressChanged += ProgressChanged;
-            _webClient.DownloadFileAsync(new Uri(MainForm.THIS.attachments_getRedirectURL(attachment.url, attachment.object_id, false)), _file);
+            _webClient.DownloadFileAsync(new Uri(Main.Current.RT.REST.attachments_getRedirectURL(attachment.url, attachment.object_id, false)), _file);
         }
 
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -404,8 +404,8 @@ namespace Waveface.DetailUI
                 {
                     Cursor.Current = Cursors.WaitCursor;
 
-                    string _file = MainForm.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
-                    string _destFile = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+                    string _file = Main.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+                    string _destFile = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
 
                     File.Copy(_file, _destFile);
 
@@ -449,7 +449,7 @@ namespace Waveface.DetailUI
             {
                 try
                 {
-                    string _file = MainForm.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+                    string _file = Main.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
                     string _destFile = saveFileDialog.FileName;
 
                     File.Copy(_file, _destFile);
@@ -467,8 +467,8 @@ namespace Waveface.DetailUI
         {
             try
             {
-                string _file = MainForm.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; // HttpUtility.UrlDecode(m_currentAttachment.file_name)
-                string _destFile = MainForm.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+                string _file = Main.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; // HttpUtility.UrlDecode(m_currentAttachment.file_name)
+                string _destFile = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
 
                 File.Copy(_file, _destFile);
 

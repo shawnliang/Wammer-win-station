@@ -50,7 +50,7 @@ namespace Waveface
                         string _text = new FileName(_item).Name;
                         string _resizedImage = ImageUtility.ResizeImage(_item, _text, m_newPostItem.ResizeRatio, 100);
 
-                        MR_attachments_upload _uf = MainForm.THIS.File_UploadFile(_text, _resizedImage, "", true);
+                        MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, "", true);
 
                         if (_uf == null)
                         {
@@ -92,7 +92,7 @@ namespace Waveface
 
                     try
                     {
-                        MR_posts_new _np = MainForm.THIS.Post_CreateNewPost(m_newPostItem.Text, _ids, "", "image");
+                        MR_posts_new _np = Main.Current.RT.REST.Posts_New(m_newPostItem.Text, _ids, "", "image");
 
                         if (_np == null)
                         {
@@ -148,7 +148,7 @@ namespace Waveface
             }
             else
             {
-                MainForm.THIS.AfterBatchPostDone();
+                Main.Current.AfterBatchPostDone();
                 DeleteThis();
             }
         }
@@ -193,7 +193,7 @@ namespace Waveface
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult _dr = MessageBox.Show("Are you sure you want to delete this item?", "Wammer", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            DialogResult _dr = MessageBox.Show("Are you sure you want to delete this item?", "Waveface", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
 
             if (_dr == DialogResult.Yes)
                 DeleteThis();
@@ -201,7 +201,7 @@ namespace Waveface
 
         private void DeleteThis()
         {
-            m_leftArea.DeletePostItem(this, m_expando, m_newPostItem);
+            //# m_leftArea.DeletePostItem(this, m_expando, m_newPostItem);
         }
 
         private void buttonDetail_Click(object sender, EventArgs e)

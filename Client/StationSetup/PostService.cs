@@ -17,10 +17,10 @@ namespace StationSetup
     {
         private const string PREVIEW = "{\"provider_url\":\"[URL]\",\"provider_name\":\"[TITLE]\",\"title\":\"[TITLE]\",\"url\":\"[URL]\",\"description\":\"[DESCRIPTION]\",\"thumbnail_url\":\"[IMAGE_URL]\",\"type\":\"html\",\"thumbnail_width\":\"[IMAGE_W]\",\"thumbnail_height\":\"[IMAGE_H]\"}";
 
-        private BEService2 m_serviceV2;
+        private WService m_serviceV2;
         private MR_auth_login m_login;
         public static GCONST GCONST = new GCONST();
-        private RunTimeData RT;
+        private RunTime RT;
 
         private string m_email;
         private string m_password;
@@ -32,7 +32,7 @@ namespace StationSetup
 
         public PostService(string email, string password)
         {
-            RT = new RunTimeData();
+            RT = new RunTime();
 
             m_email = email;
             m_password = password;
@@ -42,7 +42,7 @@ namespace StationSetup
 
         public bool Login()
         {
-            m_serviceV2 = new BEService2();
+            m_serviceV2 = new WService();
 
             m_login = m_serviceV2.auth_login(m_email, m_password);
 
@@ -75,16 +75,16 @@ namespace StationSetup
                         if (_ip.EndsWith("/"))
                             _ip = _ip.Substring(0, _ip.Length - 1);
 
-                        BEService2.StationIP = _ip;
+                        WService.StationIP = _ip;
 
-                        RT.IsStationOK = true;
+                        RT.StationMode = true;
 
                         return;
                     }
                 }
             }
 
-            RT.IsStationOK = false;
+            RT.StationMode = false;
         }
 
         #endregion
@@ -249,7 +249,7 @@ namespace StationSetup
 
             if (isImage)
             {
-                if (RT.IsStationOK) //å¦‚æ‰Station‡ä³å ¦åå°±ä512ä¸­å
+                if (RT.StationMode) //å¦‚æ‰Station‡ä³å ¦åå°±ä512ä¸­å
                 {
                     _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text,
                                                                         "", "image", "origin", object_id);

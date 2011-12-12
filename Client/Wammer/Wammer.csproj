@@ -133,6 +133,7 @@
     <Compile Include="Compoment\MultiPanel\MultiPanelPageDesigner.cs" />
     <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
     <Compile Include="Libs\Utility\AttachmentUrlUtility.cs" />
+    <Compile Include="Data\RT_REST.cs" />
     <Compile Include="UploadOriginPhotosToStation.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
     <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
@@ -316,15 +317,15 @@
     <Compile Include="Libs\DragDropLib\NativeStructures.cs" />
     <Compile Include="Data\NewPostItem.cs" />
     <Compile Include="Libs\Utility\WebPostHelper.cs" />
-    <Compile Include="REST\BEService2.cs" />
-    <Compile Include="REST\Data2.cs" />
+    <Compile Include="REST\WService.cs" />
+    <Compile Include="REST\WData.cs" />
     <Compile Include="Test\Group And User\Signup.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Test\Group And User\Signup.Designer.cs">
       <DependentUpon>Signup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\RunTimeData.cs" />
+    <Compile Include="Data\RunTime.cs" />
     <Compile Include="Test\TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -398,7 +399,6 @@
       <DependentUpon>CaptureForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Subs\ImageCapture\CaptureInfo.cs" />
-    <Compile Include="Subs\ImageCapture\ImageStorages\ImageStorage.cs" />
     <Compile Include="Subs\ImageCapture\States\BaseState.cs" />
     <Compile Include="Subs\ImageCapture\States\GeneralState.cs" />
     <Compile Include="Subs\ImageCapture\States\ICaptureState.cs" />
@@ -455,11 +455,11 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Data\GCONST.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -657,8 +657,8 @@
     <EmbeddedResource Include="UI\BatchPostViewerForm.resx">
       <DependentUpon>BatchPostViewerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

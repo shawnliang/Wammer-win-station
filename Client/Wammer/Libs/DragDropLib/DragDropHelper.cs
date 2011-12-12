@@ -28,7 +28,7 @@ namespace Waveface.DragDropLib
     //        }
     //    }
     //
-    //    DataObject data = new DataObject(new Wammer.DragDropLib.DataObject());
+    //    DataObject data = new DataObject(new Waveface.DragDropLib.DataObject());
     //
     //    ShDragImage shdi = new ShDragImage();
     //    Win32Size size;

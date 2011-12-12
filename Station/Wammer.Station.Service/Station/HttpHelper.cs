@@ -6,6 +6,8 @@ using System.IO;
 using Wammer.Cloud;
 using log4net;
 
+using Wammer.Utility;
+
 namespace Wammer.Station
 {
 	public class HttpHelper
@@ -16,8 +18,7 @@ namespace Wammer.Station
 		{
 			try
 			{
-				string resText = fastJSON.JSON.Instance.ToJSON(
-							  json, false, false, false, false);
+				string resText = json.ToFastJSON();
 
 				response.StatusCode = json.status;
 				response.ContentType = "application/json";

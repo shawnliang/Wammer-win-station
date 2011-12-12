@@ -227,11 +227,12 @@ namespace Waveface
         {
             Cursor.Current = Cursors.WaitCursor;
 
-            MainForm _mailForm = new MainForm();
-            _mailForm.Reset();
+            Main _main = new Main();
+            _main.Reset();
+
             Application.DoEvents();
 
-            if (_mailForm.Login(email, password))
+            if (_main.Login(email, password))
             {
                 Application.DoEvents();
 
@@ -240,9 +241,9 @@ namespace Waveface
 
                 Application.DoEvents();
 
-                _mailForm.ShowDialog();
-                _mailForm.Dispose();
-                _mailForm = null;
+                _main.ShowDialog();
+                _main.Dispose();
+                _main = null;
             }
             else
             {
