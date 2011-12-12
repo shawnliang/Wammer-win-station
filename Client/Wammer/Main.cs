@@ -306,8 +306,7 @@ namespace Waveface
 
                 fillUserInformation();
 
-                //預設群組
-                RT.CurrentGroupID = RT.Login.groups[0].group_id;
+                RT.CurrentGroupID = RT.Login.groups[0].group_id; //預設群組
 
                 bgWorkerGetAllData.RunWorkerAsync();
 
@@ -394,7 +393,7 @@ namespace Waveface
 
         #region Filter
 
-        public void DoTimelineFilter(FilterItem item, bool isTimelineFilter)
+        public void DoTimelineFilter(FilterItem item, bool isFilterTimelineMode)
         {
             if (!RT.LoginOK)
                 return;
@@ -408,8 +407,8 @@ namespace Waveface
 
             RT.FilterPosts = new List<Post>(); //Reset
 
-            RT.TimelineFilterMode = isTimelineFilter;
-            postsArea.ShowTypeUI(RT.TimelineFilterMode); //是Timeline才秀Type
+            RT.FilterTimelineMode = isFilterTimelineMode;
+            postsArea.ShowTypeUI(RT.FilterTimelineMode); //是Timeline才秀Type
 
             FilterFetchPostsAndShow(true);
         }
@@ -897,6 +896,13 @@ namespace Waveface
             }
 
             RT.CurrentGroupPosts = _tmpPosts;
+
+            string _lastReadPostID = RT.REST.Footprints_getLastScan();
+
+            if(!string.IsNullOrEmpty(_lastReadPostID))
+            {
+                RT.CurrentGroupLastRead = _lastReadPostID;
+            }
         }
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -905,7 +911,7 @@ namespace Waveface
 
             setCalendarBoldedDates(_posts);
 
-            postsArea.PostsList.SetPosts(_posts);
+            postsArea.PostsList.SetPosts(_posts, RT.GetCurrentGroupLastReadPosition());
         }
 
         #endregion

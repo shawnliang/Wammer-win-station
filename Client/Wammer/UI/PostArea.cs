@@ -29,8 +29,8 @@ namespace Waveface
 
         public void ShowTypeUI(bool flag)
         {
-            panelButtom.Visible = true;
-
+            // panelButtom.Visible = flag;
+            
             labelDisplay.Visible = flag;
             comboBoxType.Visible = flag;
         }
