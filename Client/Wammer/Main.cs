@@ -929,6 +929,20 @@ namespace Waveface
 
         #endregion
 
+		public bool stationLogin(string email, string password)
+		{
+			try
+			{
+				WService.LoginStation(email, password);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Waveface");
+				return false;
+			}
+		}
+
         private void logoutMenuItem_Click(object sender, EventArgs e)
         {
             try

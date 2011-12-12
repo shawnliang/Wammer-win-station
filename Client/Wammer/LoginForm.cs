@@ -100,7 +100,7 @@ namespace Waveface
                 txtUserName.Text = email;
                 txtPassword.Text = password;
 
-                doLogin(email, password);
+                doLogin(email, password, false);
             }
         }
 
@@ -223,38 +223,53 @@ namespace Waveface
             txtUserName.Focus();
         }
 
-        private void doLogin(string email, string password)
+        private void doLogin(string email, string password, bool loginStation)
         {
-            Cursor.Current = Cursors.WaitCursor;
+			Cursor.Current = Cursors.WaitCursor;
 
-            Main _main = new Main();
-            _main.Reset();
+			Main _main = new Main();
+			_main.Reset();
 
-            Application.DoEvents();
+			Application.DoEvents();
 
-            if (_main.Login(email, password))
-            {
-                Application.DoEvents();
-
-                Cursor.Current = Cursors.Default;
-                Hide();
-
-                Application.DoEvents();
-
-                _main.ShowDialog();
-                _main.Dispose();
-                _main = null;
-            }
-            else
-            {
-                Cursor.Current = Cursors.Default;
-
-                MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            Show();
+			if (loginStation)
+			{
+				if (_main.stationLogin(email, password))
+				{
+					_doLogin(_main, email, password);
+				}
+			}
+			else
+			{
+				_doLogin(_main, email, password);
+			}
         }
 
+		private void _doLogin(Main _main, string email, string password)
+		{
+			if (_main.Login(email, password))
+			{
+				Application.DoEvents();
+
+				Cursor.Current = Cursors.Default;
+				Hide();
+
+				Application.DoEvents();
+
+				_main.ShowDialog();
+				_main.Dispose();
+				_main = null;
+			}
+			else
+			{
+				Cursor.Current = Cursors.Default;
+
+				MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
+			Show();
+		}
+		
         private void btnOK_Click(object sender, EventArgs e)
         {
             try
@@ -265,7 +280,7 @@ namespace Waveface
                 {
                     m_formSettings.Save();
 
-                    doLogin(txtUserName.Text.Trim(), txtPassword.Text.Trim());
+                    doLogin(txtUserName.Text.Trim(), txtPassword.Text.Trim(), true);
                 }
                 else
                 {
