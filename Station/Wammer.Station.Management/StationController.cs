@@ -130,6 +130,7 @@ namespace Wammer.Station.Management
 		/// </summary>
 		/// <param name="email"></param>
 		/// <param name="password"></param>
+		/// <returns>station's session token</returns>
 		/// <exception cref="Wammer.Station.Management.AuthenticationException">
 		/// Invalid user name or password
 		/// </exception>
@@ -146,17 +147,19 @@ namespace Wammer.Station.Management
 		/// <exception cref="Wammer.Station.Management.ConnectToCloudException">
 		/// Unable to connect to waveface cloud, network down?
 		/// </exception>
-		public static void AddUser(string email, string password)
+		public static string AddUser(string email, string password)
 		{
 			try
 			{
-				CloudResponse res = CloudServer.request<CloudResponse>(
+				AddUserResponse res = CloudServer.request<AddUserResponse>(
 					new WebClient(),
 					"http://localhost:9981/v2/station/drivers/add", 
 					new Dictionary<object, object>{
 					{ "email", email},
 					{ "password", password}
 				});
+
+				return res.session_token;
 			}
 			catch (Cloud.WammerCloudException e)
 			{

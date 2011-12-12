@@ -35,14 +35,16 @@ namespace Waveface
 
                 string _email = string.Empty;
                 string _password = string.Empty;
+                string _token = string.Empty;
 
-                if (args.Length == 2)
+                if (args.Length == 3)
                 {
                     _email = args[0];
                     _password = args[1];
+                    _token = args[2];
                 }
 
-                Application.Run(new LoginForm(_email, _password));
+                Application.Run(new LoginForm(_email, _password, _token));
             }
             catch (Exception _e)
             {

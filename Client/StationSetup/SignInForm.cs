@@ -13,8 +13,6 @@ namespace Wammer.Station
     public partial class SignInForm : Form
     {
         private const string SignUpURL = @"http://develop.waveface.com:4343/signup";
-        private string userEmail;
-        private string userPassword;
 
         public SignInForm()
         {
@@ -46,14 +44,10 @@ namespace Wammer.Station
 
             try
             {
-                StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
+                string session_token = StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
 
-                // MessageBox.Show(I18n.L.T("SignInSuccess"), "Waveface", MessageBoxButtons.OK);
+                DropboxInstallAndLink(textBoxMail.Text, textBoxPassword.Text, session_token);
 
-                DropboxInstallAndLink();
-
-                userEmail = textBoxMail.Text;
-                userPassword = textBoxPassword.Text;
                 Close();
             }
             catch (AuthenticationException)
@@ -80,12 +74,10 @@ namespace Wammer.Station
                         Cursor.Current = Cursors.WaitCursor;
 
                         StationController.SignoffStation(_e.Id, textBoxMail.Text, textBoxPassword.Text);
-                        StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
+                        string token = StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
 
-                        DropboxInstallAndLink();
+                        DropboxInstallAndLink(textBoxMail.Text, textBoxPassword.Text, token);
 
-                        userEmail = textBoxMail.Text;
-                        userPassword = textBoxPassword.Text;
                         Close();
                     }
                     catch
@@ -118,11 +110,11 @@ namespace Wammer.Station
             }
         }
 
-        private void DropboxInstallAndLink()
+        private void DropboxInstallAndLink(string email, string password, string token)
         {
             Hide();
 
-            DropboxForm _dropboxForm = new DropboxForm(textBoxMail.Text, textBoxPassword.Text);
+            DropboxForm _dropboxForm = new DropboxForm(email, password, token);
             _dropboxForm.ShowDialog();
         }
 
@@ -148,16 +140,6 @@ namespace Wammer.Station
         private void linkLabelNew_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(SignUpURL, null);
-        }
-
-        public string UserEmail
-        {
-            get { return userEmail; }
-        }
-
-        public string UserPassword
-        {
-            get { return userPassword; }
         }
 
         private void SignInForm_DoubleClick(object sender, EventArgs e)

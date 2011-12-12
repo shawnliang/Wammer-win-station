@@ -56,12 +56,13 @@ namespace Waveface
             set { m_runTime = value; }
         }
 
+        public string StationToken { get; private set; }
         #endregion
 
-        public Main()
+        public Main(string stationToken)
         {
             Current = this;
-
+            this.StationToken = stationToken;
             File.Delete(m_shellContentMenuFilePath);
 
             InitializeComponent();
