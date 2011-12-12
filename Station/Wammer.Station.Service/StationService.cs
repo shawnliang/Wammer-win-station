@@ -24,7 +24,8 @@ namespace Wammer.Station.Service
 		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
-		private HttpServer server;
+		private HttpServer managementServer;
+		private HttpServer functionServer;
 		private StationTimer stationTimer;
 		private string stationId;
 		private string resourceBasePath;
@@ -60,17 +61,17 @@ namespace Wammer.Station.Service
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
 			stationTimer = new StationTimer();
 
-			server = new HttpServer(9981); // TODO: remove hard code
-			server.OfflineKey = InitOfflineKey();
+			functionServer = new HttpServer(9981); // TODO: remove hard code
+			functionServer.OfflineKey = InitOfflineKey();
 			BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/auth/");
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/users/");
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/groups/");
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/stations/");
-			server.AddDefaultHandler(cloudForwarder);
+			functionServer.AddDefaultHandler(cloudForwarder);
 
-			server.AddHandler("/", new DummyHandler());
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
+			functionServer.AddHandler("/", new DummyHandler());
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
 							new AttachmentViewHandler());
 
 			AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
@@ -81,39 +82,43 @@ namespace Wammer.Station.Service
 			CloudStorageSync cloudSync = new CloudStorageSync();
 			attachmentHandler.AttachmentSaved += cloudSync.HandleAttachmentSaved;
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
 							attachmentHandler);
 
-			AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/",
-							addDriverHandler);
-			addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
-
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/",
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/",
 							new StatusGetHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/get/",
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/get/",
 							new ResouceDirGetHandler(resourceBasePath));
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/set/",
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/set/",
 							new ResouceDirSetHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/get/",
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/get/",
 							new AttachmentGetHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/",
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/",
 							new DropBoxOAuthHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/connect/",
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/connect/",
 							new DropBoxConnectHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/update/",
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/update/",
 							new DropBoxUpdateHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/",
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/",
 							new DropboxDisconnectHandler());
 
-			server.Start();
+			functionServer.Start();
+
+
+			managementServer = new HttpServer(9989);
+			AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
+			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer));
+			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer));
+			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
+			addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
+			managementServer.Start();
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -135,8 +140,8 @@ namespace Wammer.Station.Service
 		{
 			stationTimer.Stop();
 
-			server.Stop();
-			server.Close();
+			functionServer.Stop();
+			functionServer.Close();
 
 			PublicPortMapping.Instance.Close();
 		}
