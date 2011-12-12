@@ -910,5 +910,19 @@ namespace Waveface
         }
 
         #endregion
+
+        private void logoutMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                WService.LogoutStation(this.RT.REST.SessionToken);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Waveface");
+            }
+
+            this.Close();
+        }
     }
 }
