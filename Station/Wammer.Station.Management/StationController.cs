@@ -152,7 +152,7 @@ namespace Wammer.Station.Management
 			{
 				CloudResponse res = CloudServer.request<CloudResponse>(
 					new WebClient(),
-					"http://localhost:9989/v2/station/drivers/add", 
+					"http://localhost:9989/v2/station/drivers/add",
 					new Dictionary<object, object>{
 					{ "email", email},
 					{ "password", password}

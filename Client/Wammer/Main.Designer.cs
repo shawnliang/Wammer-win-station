@@ -72,6 +72,7 @@
             this.labelName = new System.Windows.Forms.Label();
             this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
+            this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -215,20 +216,20 @@
             this.itemCountLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.itemCountLabel.Name = "itemCountLabel";
             this.itemCountLabel.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
-            this.itemCountLabel.Size = new System.Drawing.Size(64, 20);
+            this.itemCountLabel.Size = new System.Drawing.Size(61, 20);
             this.itemCountLabel.Text = "{0} Items";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(739, 20);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(758, 20);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // connectedStatusLabel
             // 
             this.connectedStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.connectedStatusLabel.Name = "connectedStatusLabel";
-            this.connectedStatusLabel.Size = new System.Drawing.Size(154, 20);
+            this.connectedStatusLabel.Size = new System.Drawing.Size(143, 20);
             this.connectedStatusLabel.Text = "All folders are up to date.";
             // 
             // connectedImageLabel
@@ -238,7 +239,7 @@
             this.connectedImageLabel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.connectedImageLabel.Margin = new System.Windows.Forms.Padding(0);
             this.connectedImageLabel.Name = "connectedImageLabel";
-            this.connectedImageLabel.Size = new System.Drawing.Size(102, 25);
+            this.connectedImageLabel.Size = new System.Drawing.Size(97, 25);
             this.connectedImageLabel.Text = "Connected";
             // 
             // toolStripStatusLabel4
@@ -273,21 +274,22 @@
             this.toolStripMenuItem3,
             this.preferencesMenuItem,
             this.toolStripMenuItem2,
+            this.logoutMenuItem,
             this.mnuExit});
             this.mnuTray.Name = "mnuTree";
-            this.mnuTray.Size = new System.Drawing.Size(151, 110);
+            this.mnuTray.Size = new System.Drawing.Size(153, 154);
             // 
             // restoreMenuItem
             // 
             this.restoreMenuItem.Name = "restoreMenuItem";
-            this.restoreMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.restoreMenuItem.Size = new System.Drawing.Size(152, 22);
             this.restoreMenuItem.Text = "Restore";
             this.restoreMenuItem.Click += new System.EventHandler(this.restoreMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(147, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
             // 
             // screenShotMenu
             // 
@@ -296,51 +298,51 @@
             this.windowsMenuItem,
             this.screenMenuItem});
             this.screenShotMenu.Name = "screenShotMenu";
-            this.screenShotMenu.Size = new System.Drawing.Size(150, 22);
+            this.screenShotMenu.Size = new System.Drawing.Size(152, 22);
             this.screenShotMenu.Text = "Screen Shot";
             // 
             // regionMenuItem
             // 
             this.regionMenuItem.Name = "regionMenuItem";
-            this.regionMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.regionMenuItem.Size = new System.Drawing.Size(123, 22);
             this.regionMenuItem.Text = "Region";
             this.regionMenuItem.Click += new System.EventHandler(this.regionMenuItem_Click);
             // 
             // windowsMenuItem
             // 
             this.windowsMenuItem.Name = "windowsMenuItem";
-            this.windowsMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.windowsMenuItem.Size = new System.Drawing.Size(123, 22);
             this.windowsMenuItem.Text = "Windows";
             this.windowsMenuItem.Click += new System.EventHandler(this.windowsMenuItem_Click);
             // 
             // screenMenuItem
             // 
             this.screenMenuItem.Name = "screenMenuItem";
-            this.screenMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.screenMenuItem.Size = new System.Drawing.Size(123, 22);
             this.screenMenuItem.Text = "Desktop";
             this.screenMenuItem.Click += new System.EventHandler(this.screenMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(147, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
             // 
             // preferencesMenuItem
             // 
             this.preferencesMenuItem.Name = "preferencesMenuItem";
-            this.preferencesMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.preferencesMenuItem.Size = new System.Drawing.Size(152, 22);
             this.preferencesMenuItem.Text = "Preferences...";
             this.preferencesMenuItem.Click += new System.EventHandler(this.preferencesMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(147, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(150, 22);
+            this.mnuExit.Size = new System.Drawing.Size(152, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.OnMenuExitClick);
             // 
@@ -456,7 +458,14 @@
             this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
             this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
             // 
-            // MainForm
+            // logoutMenuItem
+            // 
+            this.logoutMenuItem.Name = "logoutMenuItem";
+            this.logoutMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.logoutMenuItem.Text = "Log Out";
+            this.logoutMenuItem.Click += new System.EventHandler(this.logoutMenuItem_Click);
+            // 
+            // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -538,6 +547,7 @@
         private System.Windows.Forms.RadioButton radioButtonCloud;
         private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
+        private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
 	}
 }
 
