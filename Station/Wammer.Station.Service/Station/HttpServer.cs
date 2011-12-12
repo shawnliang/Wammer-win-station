@@ -91,6 +91,7 @@ namespace Wammer.Station
 				{
 					stopping = true;
 					listener.Stop();
+					started = false;
 				}
 			}
 		}

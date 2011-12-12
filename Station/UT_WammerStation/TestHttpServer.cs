@@ -150,6 +150,27 @@ namespace UT_WammerStation
 			}
 		}
 
-		
+		[TestMethod]
+		public void TestRestartHttpServer()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				string reply1 = "from handler1";
+
+				server.AddHandler("/class1/action1/", new MyHandler(reply1));
+				server.Start();
+
+				WebClient agent = new WebClient();
+				Assert.AreEqual(reply1, agent.DownloadString("http://127.0.0.1:80/class1/action1"));
+
+
+				server.Stop();
+
+				System.Threading.Thread.Sleep(1000);
+				server.Start();
+
+				Assert.AreEqual(reply1, agent.DownloadString("http://127.0.0.1:80/class1/action1"));
+			}
+		}
 	}
 }
