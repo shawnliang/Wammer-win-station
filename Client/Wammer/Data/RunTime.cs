@@ -1,6 +1,8 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Waveface.API.V2;
 using Waveface.FilterUI;
 
@@ -128,6 +130,21 @@ namespace Waveface
             StationMode = false;
             OnlineMode = false;
             Login = null;
+        }
+
+        public bool SaveJSON()
+        {
+            try
+            {
+                string _str = JsonConvert.SerializeObject(this);
+
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

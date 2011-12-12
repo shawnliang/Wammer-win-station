@@ -423,6 +423,8 @@ namespace Waveface
 
             FetchPostsAndShow(false);
 
+            RT.SaveJSON(); //Test --------------------------------
+
             m_canAutoFetchNewestPosts = true;
         }
 
@@ -926,6 +928,8 @@ namespace Waveface
             setCalendarBoldedDates(_posts);
 
             postsArea.PostsList.SetPosts(_posts, false, RT.IsFirstTimeGetData);
+
+            RT.SaveJSON();
         }
 
         #endregion
