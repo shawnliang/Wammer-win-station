@@ -9,7 +9,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 
-
+using MongoDB.Driver.Builders;
 using Microsoft.Win32;
 using Wammer.Station;
 using Wammer.Cloud;
@@ -61,6 +61,7 @@ namespace Wammer.Station.Service
 			stationTimer = new StationTimer();
 
 			server = new HttpServer(9981); // TODO: remove hard code
+			server.OfflineKey = InitOfflineKey();
 			BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/auth/");
 			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/users/");
@@ -160,6 +161,21 @@ namespace Wammer.Station.Service
 				stationId = Guid.NewGuid().ToString();
 				StationRegistry.SetValue("stationId", stationId);
 			}
+		}
+
+		private string InitOfflineKey()
+		{
+			Model.Service svc = Model.ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+			if (svc == null)
+			{
+				svc = new Model.Service();
+				svc.Id = "StationService";
+			}
+
+			svc.OfflineKey = Guid.NewGuid().ToString();
+			Model.ServiceCollection.Save(svc);
+
+			return svc.OfflineKey;
 		}
 	}
 
