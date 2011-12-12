@@ -17,20 +17,6 @@ namespace Waveface.FilterUI
                 return _list.fetch_filters;
         }
 
-        public static FilterItem CreateAllPostFilterItem()
-        {
-            FilterItem _item = new FilterItem();
-            _item.Name = "All Time";
-            _item.Filter = GetAllPostFilter();
-            _item.IsAllPost = true;
-            return _item;
-        }
-
-        public static string GetAllPostFilter()
-        {
-            return GetTimeStampFilterJson(DateTime.Now.AddYears(1), -50, "[type]", "[offset]"); //@
-        }
-
         #region TimeRangeFilter
 
         public static TimeRangeFilter GetTimeRangeFilter(DateTime from_, DateTime to, int limit, string type, string offset)

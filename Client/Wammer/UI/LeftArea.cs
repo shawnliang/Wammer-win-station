@@ -21,6 +21,8 @@ namespace Waveface
         private FilterManager m_filterManager;
         private Button m_buttonAddNewFilter;
 
+        #region Properties
+
         public int MyWidth
         {
             get
@@ -41,6 +43,8 @@ namespace Waveface
             set { monthCalendar = value; }
         }
 
+        #endregion
+
         public LeftArea()
         {
             InitializeComponent();
@@ -50,7 +54,7 @@ namespace Waveface
 
             initBatchPostItems();
 
-            //initTimeline();
+            initTimeline();
         }
 
         public void SetUI(bool flag)
@@ -84,7 +88,6 @@ namespace Waveface
                     FilterItem _item = new FilterItem();
                     _item.Name = _f.filter_name;
                     _item.Filter = _f.filter_entity.ToString();
-                    _item.IsAllPost = false;
 
                     TaskItem _taskItem = CreateTaskItem(_item, true);
                     _taskItem.ImageList = imageListCustomFilter;
@@ -150,12 +153,9 @@ namespace Waveface
                 _item.Name = _m;
                 //_item.Filter = FilterHelper.GetTimeRangeFilterJson(_from, _to, -10, "[type]", "[offset]"); //@
                 _item.Filter = FilterHelper.GetTimeStampFilterJson(_to, -20, "[type]", "[offset]");
-                _item.IsAllPost = false;
 
                 _filterItems.Add(_item);
             }
-
-            Main.Current.FillTimelineComboBox(_filterItems);
         }
 
         private TaskItem CreateTaskItem(FilterItem item, bool isCustom)
@@ -259,7 +259,7 @@ namespace Waveface
             vsNetListBarGroups.Groups.Clear();
             removeImageListLargeIcon();
 
-            Dictionary<string, MR_groups_get> _mrGroups = Main.Current.RT.GroupSets;
+            Dictionary<string, MR_groups_get> _mrGroups = Main.Current.RT.GroupGetReturnSets;
 
             int k = 0;
             int _imageIndex; //在這裡是正確的

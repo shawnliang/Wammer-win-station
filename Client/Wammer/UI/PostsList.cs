@@ -35,7 +35,46 @@ namespace Waveface
 
         #region Properties
 
-        public void SetPosts(List<Post> posts, bool refreshCurrentPost, bool isFirstTimeGetData)
+        public int SelectedRow
+        {
+            set { dataGridView.Rows[value].Selected = true; }
+        }
+
+        public DetailView DetailView
+        {
+            get { return m_detailView; }
+            set { m_detailView = value; }
+        }
+
+        #endregion
+
+        public PostsList()
+        {
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.DoubleBuffer, true);
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.UserPaint, true);
+
+            InitializeComponent();
+        }
+
+        private void PostsList_Load(object sender, EventArgs e)
+        {
+            SetFont();
+
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+
+            MouseWheelRedirector.Attach(dataGridView);
+
+            ThreadPool.QueueUserWorkItem(state => { GetThumbnailsThread(); });
+        }
+
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            SetFont();
+        }
+
+        public void SetFilterPosts(List<Post> posts, bool refreshCurrentPost, bool isFirstTimeGetData)
         {
             dataGridView.Enabled = false;
 
@@ -76,152 +115,28 @@ namespace Waveface
             dataGridView.Enabled = true;
         }
 
-        public int SelectedRow
+        public void SetPosts(List<Post> posts)
         {
-            set { dataGridView.Rows[value].Selected = true; }
-        }
+            dataGridView.Enabled = false;
 
-        public DetailView DetailView
-        {
-            get { return m_detailView; }
-            set { m_detailView = value; }
-        }
+            m_posts = posts;
+            m_postBS.DataSource = posts;
+            m_postBS.Position = 0;
 
-        #endregion
-
-        public PostsList()
-        {
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            SetStyle(ControlStyles.DoubleBuffer, true);
-            SetStyle(ControlStyles.ResizeRedraw, true);
-            SetStyle(ControlStyles.UserPaint, true);
-
-            InitializeComponent();
-
-            MouseWheelRedirector.Attach(dataGridView);
-
-            ThreadPool.QueueUserWorkItem(state => { ThreadMethod(); });
-        }
-
-        private void ThreadMethod()
-        {
-            Image _img;
-            Dictionary<string, string> _undownloadFiles = new Dictionary<string, string>();
-
-            while (true)
+            try
             {
-                if (m_undownloadThumbnails.Count != 0)
-                {
-                    _undownloadFiles.Clear();
-
-                    lock (m_undownloadThumbnails)
-                    {
-                        foreach (KeyValuePair<string, string> _pair in m_undownloadThumbnails)
-                        {
-                            _undownloadFiles.Add(_pair.Key, _pair.Value);
-                        }
-
-                        m_undownloadThumbnails.Clear();
-                    }
-
-                    int k = 0;
-
-                    foreach (KeyValuePair<string, string> _pair in _undownloadFiles)
-                    {
-                        try
-                        {
-                            WebRequest _wReq = WebRequest.Create(_pair.Key);
-                            WebResponse _wRep = _wReq.GetResponse();
-                            _img = Image.FromStream(_wRep.GetResponseStream());
-                            _img.Save(_pair.Value);
-                            _img = null;
-                        }
-                        catch
-                        { }
-
-                        if ((k++ % 3) == 0)
-                            RefreshUI();
-                    }
-
-                    _undownloadFiles.Clear();
-
-                    RefreshUI();
-                }
-
-                Thread.Sleep(1000);
-            }
-        }
-
-        private void SetFont()
-        {
-            m_font = SystemFonts.IconTitleFont;
-
-            if (Font != m_font)
-            {
-                Font = m_font;
-
-                dataGridView.RowTemplate.Height = 120; //140
-            }
-        }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            RefreshUI();
-        }
-
-        public void RefreshUI()
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(
-                           delegate
-                           {
-                               RefreshUI();
-                           }
-                           ));
-            }
-            else
-            {
-                dataGridView.SuspendLayout();
+                dataGridView.DataSource = null;
+                dataGridView.DataSource = m_postBS;
                 dataGridView.Refresh();
-                dataGridView.ResumeLayout();
             }
-        }
-
-        public void ScrollToDay(DateTime date)
-        {
-            int k = -1;
-
-            for (int i = 0; i < m_posts.Count; i++)
+            catch (Exception _e)
             {
-                if (DateTimeHelp.ISO8601ToDateTime(m_posts[i].timestamp).Date == date)
-                {
-                    k = i;
-                    break;
-                }
+                Console.WriteLine(_e.Message);
             }
 
-            if (k != -1)
-            {
-                dataGridView.FirstDisplayedScrollingRowIndex = k;
-                m_postBS.Position = k;
-            }
+            dataGridView.Enabled = true;
         }
-
-        #region Event Handlers
-
-        private void PostsList_Load(object sender, EventArgs e)
-        {
-            SetFont();
-
-            // Add UPChanged
-            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
-        }
-
-        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-        {
-            SetFont();
-        }
+        #region DataGridView
 
         private Brush m_bg1 = new SolidBrush(Color.FromArgb(224, 208, 170));
         private Brush m_bg2 = new SolidBrush(Color.FromArgb(225, 225, 225));
@@ -235,7 +150,7 @@ namespace Waveface
         {
             try
             {
-                bool _isDrawThumbnail = false;
+                bool _isDrawThumbnail;
 
                 Graphics _g = e.Graphics;
 
@@ -586,7 +501,7 @@ namespace Waveface
         {
             m_clickIndex = m_postBS.Position;
 
-            Main.Current.PostListClick(m_clickIndex);
+            Main.Current.PostListClick(m_clickIndex, m_postBS[m_postBS.Position] as Post);
 
             if (m_clickIndex > -1)
             {
@@ -597,7 +512,7 @@ namespace Waveface
 
             if (m_clickIndex == (m_postBS.Count - 1))
             {
-                Main.Current.ReadMorePost();
+                Main.Current.FilterReadMorePost();
             }
         }
 
@@ -621,6 +536,115 @@ namespace Waveface
             }
 
             m_detailView.Post = _post;
+        }
+
+        #endregion
+
+        #region Misc
+
+        private void GetThumbnailsThread()
+        {
+            Image _img;
+            Dictionary<string, string> _undownloadFiles = new Dictionary<string, string>();
+
+            while (true)
+            {
+                if (m_undownloadThumbnails.Count != 0)
+                {
+                    _undownloadFiles.Clear();
+
+                    lock (m_undownloadThumbnails)
+                    {
+                        foreach (KeyValuePair<string, string> _pair in m_undownloadThumbnails)
+                        {
+                            _undownloadFiles.Add(_pair.Key, _pair.Value);
+                        }
+
+                        m_undownloadThumbnails.Clear();
+                    }
+
+                    int k = 0;
+
+                    foreach (KeyValuePair<string, string> _pair in _undownloadFiles)
+                    {
+                        try
+                        {
+                            WebRequest _wReq = WebRequest.Create(_pair.Key);
+                            WebResponse _wRep = _wReq.GetResponse();
+                            _img = Image.FromStream(_wRep.GetResponseStream());
+                            _img.Save(_pair.Value);
+                            _img = null;
+                        }
+                        catch
+                        { }
+
+                        if ((k++ % 3) == 0)
+                            RefreshUI();
+                    }
+
+                    _undownloadFiles.Clear();
+
+                    RefreshUI();
+                }
+
+                Thread.Sleep(1000);
+            }
+        }
+
+        private void SetFont()
+        {
+            m_font = SystemFonts.IconTitleFont;
+
+            if (Font != m_font)
+            {
+                Font = m_font;
+
+                dataGridView.RowTemplate.Height = 120; //140
+            }
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+
+        public void RefreshUI()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate
+                           {
+                               RefreshUI();
+                           }
+                           ));
+            }
+            else
+            {
+                dataGridView.SuspendLayout();
+                dataGridView.Refresh();
+                dataGridView.ResumeLayout();
+            }
+        }
+
+        public void ScrollToDay(DateTime date)
+        {
+            int k = -1;
+
+            for (int i = 0; i < m_posts.Count; i++)
+            {
+                if (DateTimeHelp.ISO8601ToDateTime(m_posts[i].timestamp).Date == date)
+                {
+                    k = i;
+                    break;
+                }
+            }
+
+            if (k != -1)
+            {
+                dataGridView.FirstDisplayedScrollingRowIndex = k;
+                m_postBS.Position = k;
+            }
         }
 
         #endregion

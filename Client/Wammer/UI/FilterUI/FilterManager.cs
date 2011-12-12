@@ -44,7 +44,6 @@ namespace Waveface.FilterUI
                     FilterItem _item = new FilterItem();
                     _item.Name = _f.filter_name;
                     _item.Filter = _f.filter_entity.ToString();
-                    _item.IsAllPost = false;
                     _item.searchfilter_id = _f.filter_id;
 
                     ListViewItem _lvi = new ListViewItem(_f.filter_name, 0);

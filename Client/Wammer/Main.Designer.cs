@@ -63,7 +63,7 @@
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
             this.splitterRight = new System.Windows.Forms.Splitter();
             this.timerGetNewestPost = new System.Windows.Forms.Timer(this.components);
-            this.timerFetchOlderPost = new System.Windows.Forms.Timer(this.components);
+            this.timerFilterReadmore = new System.Windows.Forms.Timer(this.components);
             this.panelTop = new System.Windows.Forms.Panel();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
             this.panelStation = new System.Windows.Forms.Panel();
@@ -275,19 +275,19 @@
             this.toolStripMenuItem2,
             this.mnuExit});
             this.mnuTray.Name = "mnuTree";
-            this.mnuTray.Size = new System.Drawing.Size(151, 110);
+            this.mnuTray.Size = new System.Drawing.Size(153, 132);
             // 
             // restoreMenuItem
             // 
             this.restoreMenuItem.Name = "restoreMenuItem";
-            this.restoreMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.restoreMenuItem.Size = new System.Drawing.Size(152, 22);
             this.restoreMenuItem.Text = "Restore";
             this.restoreMenuItem.Click += new System.EventHandler(this.restoreMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(147, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
             // 
             // screenShotMenu
             // 
@@ -296,7 +296,7 @@
             this.windowsMenuItem,
             this.screenMenuItem});
             this.screenShotMenu.Name = "screenShotMenu";
-            this.screenShotMenu.Size = new System.Drawing.Size(150, 22);
+            this.screenShotMenu.Size = new System.Drawing.Size(152, 22);
             this.screenShotMenu.Text = "Screen Shot";
             // 
             // regionMenuItem
@@ -323,24 +323,24 @@
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(147, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
             // 
             // preferencesMenuItem
             // 
             this.preferencesMenuItem.Name = "preferencesMenuItem";
-            this.preferencesMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.preferencesMenuItem.Size = new System.Drawing.Size(152, 22);
             this.preferencesMenuItem.Text = "Preferences...";
             this.preferencesMenuItem.Click += new System.EventHandler(this.preferencesMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(147, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(150, 22);
+            this.mnuExit.Size = new System.Drawing.Size(152, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.OnMenuExitClick);
             // 
@@ -367,8 +367,8 @@
             // 
             // timerFetchOlderPost
             // 
-            this.timerFetchOlderPost.Interval = 500;
-            this.timerFetchOlderPost.Tick += new System.EventHandler(this.timerFetchOlderPost_Tick);
+            this.timerFilterReadmore.Interval = 500;
+            this.timerFilterReadmore.Tick += new System.EventHandler(this.timerFilterReadmore_Tick);
             // 
             // panelTop
             // 
@@ -456,7 +456,7 @@
             this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
             this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
             // 
-            // MainForm
+            // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -526,7 +526,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.Timer timerDelayPost;
         private System.Windows.Forms.Timer timerGetNewestPost;
-        private System.Windows.Forms.Timer timerFetchOlderPost;
+        private System.Windows.Forms.Timer timerFilterReadmore;
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.PictureBox pictureBoxAvatar;
         private System.Windows.Forms.Label labelName;

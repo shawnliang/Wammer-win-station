@@ -1,6 +1,5 @@
 ﻿#region
 
-using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Waveface.API.V2;
@@ -12,24 +11,14 @@ namespace Waveface
 {
     public class RunTime
     {
+        #region System
+
         private RT_REST m_rest;
+        public MR_auth_login Login { get; set; }
 
-        public bool IsTimelineFilter { get; set; }
-        public Dictionary<string, MR_groups_get> GroupSets { get; set; }
-        public Dictionary<string, List<Post>> GroupPosts { get; set; }
-        public Dictionary<string, List<Post>> GroupAllPosts { get; set; }
-        public Dictionary<string, int> GroupPostsAllCount { get; set; }
-
-        public List<User> AllUsers { get; set; }
-        public List<Post> FilterPosts { get; set; }
-        public FilterItem CurrentFilterItem { get; set; }
-        public bool IsAllPostMode { get; set; }
-        public string CurrentGroupID { get; set; }
-        public int FilterPostsAllCount { get; set; }
-        public bool IsFirstTimeGetData { get; set; }
         public bool StationMode { get; set; }
         public bool OnlineMode { get; set; }
-        public MR_auth_login Login { get; set; }
+        public bool FilterMode { get; set; }
 
         public RT_REST REST
         {
@@ -47,6 +36,24 @@ namespace Waveface
             }
         }
 
+        #endregion
+
+        #region Filter
+
+        public bool IsFilterFirstTimeGetData { get; set; }
+        public bool TimelineFilterMode { get; set; }
+        public List<Post> FilterPosts { get; set; }
+        public FilterItem CurrentFilterItem { get; set; }
+        public int FilterPostsAllCount { get; set; }
+
+        #endregion
+
+        #region Group
+
+        public string CurrentGroupID { get; set; }
+        public Dictionary<string, MR_groups_get> GroupGetReturnSets { get; set; }
+        private Dictionary<string, List<Post>> GroupPosts { get; set; }
+
         public List<Post> CurrentGroupPosts
         {
             get
@@ -59,53 +66,9 @@ namespace Waveface
             set { GroupPosts[CurrentGroupID] = value; }
         }
 
-        public int CurrentGroupPostsAllCount
-        {
-            get
-            {
-                if (!GroupPostsAllCount.ContainsKey(CurrentGroupID))
-                    GroupPostsAllCount[CurrentGroupID] = -1;
+        #endregion
 
-                return GroupPostsAllCount[CurrentGroupID];
-            }
-            set { GroupPostsAllCount[CurrentGroupID] = value; }
-        }
-
-        public List<Post> CurrentPosts
-        {
-            get
-            {
-                if (IsAllPostMode)
-                    return CurrentGroupPosts;
-                else
-                    return FilterPosts;
-            }
-            set
-            {
-                if (IsAllPostMode)
-                    CurrentGroupPosts = value;
-                else
-                    FilterPosts = value;
-            }
-        }
-
-        public int CurrentPostsAllCount
-        {
-            get
-            {
-                if (IsAllPostMode)
-                    return CurrentGroupPostsAllCount;
-                else
-                    return FilterPostsAllCount;
-            }
-            set
-            {
-                if (IsAllPostMode)
-                    CurrentGroupPostsAllCount = value;
-                else
-                    FilterPostsAllCount = value;
-            }
-        }
+        public List<User> AllUsers { get; set; }
 
         public RunTime()
         {
@@ -114,22 +77,22 @@ namespace Waveface
 
         public void Reset()
         {
-            GroupSets = new Dictionary<string, MR_groups_get>();
-            GroupPosts = new Dictionary<string, List<Post>>();
-            GroupAllPosts = new Dictionary<string, List<Post>>();
-            GroupPostsAllCount = new Dictionary<string, int>();
-
-            AllUsers = new List<User>();
-            FilterPosts = new List<Post>();
-            CurrentFilterItem = null;
-            IsAllPostMode = true;
-            CurrentGroupID = string.Empty;
-            IsTimelineFilter = true;
-            FilterPostsAllCount = -1;
-            IsFirstTimeGetData = true;
+            Login = null;
             StationMode = false;
             OnlineMode = false;
-            Login = null;
+            FilterMode = false;
+
+            CurrentGroupID = string.Empty;
+            GroupGetReturnSets = new Dictionary<string, MR_groups_get>();
+            GroupPosts = new Dictionary<string, List<Post>>();
+
+            FilterPosts = new List<Post>();
+            CurrentFilterItem = null;
+            FilterPostsAllCount = -1;
+            IsFilterFirstTimeGetData = true;
+            TimelineFilterMode = true;
+
+            AllUsers = new List<User>();
         }
 
         public bool SaveJSON()
@@ -137,7 +100,6 @@ namespace Waveface
             try
             {
                 string _str = JsonConvert.SerializeObject(this);
-
             }
             catch
             {

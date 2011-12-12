@@ -399,7 +399,6 @@
       <DependentUpon>CaptureForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Subs\ImageCapture\CaptureInfo.cs" />
-    <Compile Include="Subs\ImageCapture\ImageStorages\ImageStorage.cs" />
     <Compile Include="Subs\ImageCapture\States\BaseState.cs" />
     <Compile Include="Subs\ImageCapture\States\GeneralState.cs" />
     <Compile Include="Subs\ImageCapture\States\ICaptureState.cs" />

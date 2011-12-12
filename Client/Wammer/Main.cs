@@ -27,9 +27,6 @@ namespace Waveface
 
         #region Fields
 
-        //ScreenShot
-        private ImageStorage m_screenShotImageStorage;
-
         //Main
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private VirtualFolderForm m_virtualFolderForm;
@@ -39,10 +36,12 @@ namespace Waveface
         private TrayIconPanel m_trayIconPanel;
         private UploadOriginPhotosToStation m_uploadOriginPhotosToStation;
 
+        private bool m_exitToLogin;
         private bool m_canAutoFetchNewestPosts = true;
+
         private List<string> m_delayPostPicList = new List<string>();
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
-
+        private FormWindowState m_oldWindowState = FormWindowState.Maximized;
         private RunTime m_runTime = new RunTime();
 
         private string m_stationIP;
@@ -87,9 +86,6 @@ namespace Waveface
             InitmDropableNotifyIcon();
 
             m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
-
-            //-- Screen Shot
-            m_screenShotImageStorage = new ImageStorage(GCONST.CachePath);
 
             //-- Send To
             CreateFileWatcher();
@@ -138,6 +134,16 @@ namespace Waveface
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (!m_exitToLogin)
+            {
+                m_oldWindowState = WindowState;
+
+                WindowState = FormWindowState.Minimized;
+
+                e.Cancel = true;
+                return;
+            }
+
             m_dropableNotifyIcon.Dispose();
 
             if (m_virtualFolderForm != null)
@@ -148,6 +154,57 @@ namespace Waveface
         {
             PreferenceForm _form = new PreferenceForm();
             _form.ShowDialog();
+        }
+
+        private void OnMenuExitClick(object sender, EventArgs e)
+        {
+            m_exitToLogin = true;
+
+            Close();
+        }
+
+        #endregion
+
+        #region Windows Size
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            panelLeftInfo.Width = leftArea.MyWidth + 8;
+
+            if (FormWindowState.Minimized == WindowState)
+            {
+                m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
+                m_dropableNotifyIcon.NotifyIcon.BalloonTipText = "Minimize to Tray App";
+                m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
+            }
+        }
+
+        private void RestoreWindow()
+        {
+            Show();
+
+            WindowState = m_oldWindowState;
+
+            if (WindowState == FormWindowState.Normal)
+            {
+                Size = RestoreBounds.Size;
+                Location = RestoreBounds.Location;
+            }
+        }
+
+        private void restoreMenuItem_Click(object sender, EventArgs e)
+        {
+            RestoreWindow();
+        }
+
+        private void taskbarNotifier_ContentClick(object sender, EventArgs e)
+        {
+            RestoreWindow();
+        }
+
+        void NotifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+            RestoreWindow();
         }
 
         #endregion
@@ -217,45 +274,6 @@ namespace Waveface
 
         #endregion
 
-        #region Windows Size
-
-        private void MainForm_Resize(object sender, EventArgs e)
-        {
-            panelLeftInfo.Width = leftArea.MyWidth + 8;
-
-            m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
-            m_dropableNotifyIcon.NotifyIcon.BalloonTipText = "Minimize to Tray App";
-
-            if (FormWindowState.Minimized == WindowState)
-            {
-                m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
-                //Hide();
-            }
-        }
-
-        private void RestoreWindow()
-        {
-            Show();
-            WindowState = FormWindowState.Maximized;
-        }
-
-        private void restoreMenuItem_Click(object sender, EventArgs e)
-        {
-            RestoreWindow();
-        }
-
-        private void taskbarNotifier_ContentClick(object sender, EventArgs e)
-        {
-            RestoreWindow();
-        }
-
-        void NotifyIcon_DoubleClick(object sender, EventArgs e)
-        {
-            RestoreWindow();
-        }
-
-        #endregion
-
         #region Login
 
         public void Reset()
@@ -293,9 +311,6 @@ namespace Waveface
 
                 bgWorkerGetAllData.RunWorkerAsync();
 
-                // 顯示所有Post
-                //DoTimelineFilter(FilterHelper.CreateAllPostFilterItem(), true);
-
                 leftArea.SetUI(true);
 
                 _ret = true;
@@ -303,11 +318,11 @@ namespace Waveface
             else //離線模式
             {
                 RT.OnlineMode = false;
-
-
             }
 
             Cursor.Current = Cursors.Default;
+
+            RT.FilterMode = false;
 
             return _ret;
         }
@@ -363,8 +378,8 @@ namespace Waveface
 
                 if (_mrGroupsGet != null)
                 {
-                    if (!RT.GroupSets.ContainsKey(_g.group_id)) //Hack
-                        RT.GroupSets.Add(_g.group_id, _mrGroupsGet);
+                    if (!RT.GroupGetReturnSets.ContainsKey(_g.group_id)) //Hack
+                        RT.GroupGetReturnSets.Add(_g.group_id, _mrGroupsGet);
 
                     foreach (User _u in _mrGroupsGet.active_members)
                     {
@@ -384,44 +399,84 @@ namespace Waveface
             if (!RT.LoginOK)
                 return;
 
+            RT.FilterMode = true;
+
             if (item != null) //會null是由PostArea的comboBoxType發出
             {
-                RT.IsAllPostMode = item.IsAllPost;
                 RT.CurrentFilterItem = item;
             }
 
-            RT.CurrentPosts = new List<Post>(); //Reset
+            RT.FilterPosts = new List<Post>(); //Reset
 
-            RT.IsTimelineFilter = isTimelineFilter; // 是Timeline才秀Type
-            postsArea.ShowTypeUI(RT.IsTimelineFilter);
+            RT.TimelineFilterMode = isTimelineFilter;
+            postsArea.ShowTypeUI(RT.TimelineFilterMode); //是Timeline才秀Type
 
-            //string _title = "[" + RT.CurrentFilterItem.Name + "]";
-            //_title += (postsArea.GetPostTypeText() == "All Posts") ? "" : (" - " + postsArea.GetPostTypeText());
+            FilterFetchPostsAndShow(true);
+        }
 
-            FetchPostsAndShow(true);
+        public void FilterReadMorePost()
+        {
+            if (RT.FilterMode)
+                timerFilterReadmore.Enabled = true;
+        }
+
+        private void timerFilterReadmore_Tick(object sender, EventArgs e)
+        {
+            timerFilterReadmore.Enabled = false;
+
+            FilterFetchPostsAndShow(false);
+        }
+
+        private void FilterFetchPostsAndShow(bool firstTime)
+        {
+            if (RT.FilterPostsAllCount == RT.FilterPosts.Count) //已經都抓完了
+                return;
+
+            int _offset = RT.FilterPosts.Count;
+
+            string _filter = RT.CurrentFilterItem.Filter;
+            _filter = _filter.Replace("[type]", postsArea.GetPostType());
+            _filter = _filter.Replace("[offset]", _offset.ToString());
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter(_filter);
+
+            if (_postsGet != null)
+            {
+                RT.FilterPosts.AddRange(_postsGet.posts);
+
+                if (firstTime)
+                {
+                    RT.FilterPostsAllCount = _postsGet.remaining_count + _postsGet.get_count;
+
+                    RT.IsFilterFirstTimeGetData = true;
+                }
+                else
+                {
+                    RT.IsFilterFirstTimeGetData = false;
+                }
+            }
+
+            Cursor.Current = Cursors.Default;
+
+            ShowPostToUI(false);
+        }
+
+        private void ShowPostToUI(bool refreshCurrentPost)
+        {
+            List<Post> _posts = RT.FilterPosts;
+
+            setCalendarBoldedDates(_posts);
+
+            postsArea.ShowPostInfo(RT.FilterPostsAllCount, _posts.Count);
+
+            postsArea.PostsList.SetFilterPosts(_posts, refreshCurrentPost, RT.IsFilterFirstTimeGetData);
         }
 
         #endregion
 
-        #region Newer or Older Post
-
-        public void ReadMorePost()
-        {
-            timerFetchOlderPost.Enabled = true;
-        }
-
-        private void timerFetchOlderPost_Tick(object sender, EventArgs e)
-        {
-            timerFetchOlderPost.Enabled = false;
-
-            m_canAutoFetchNewestPosts = false;
-
-            FetchPostsAndShow(false);
-
-            RT.SaveJSON(); //Test --------------------------------
-
-            m_canAutoFetchNewestPosts = true;
-        }
+        #region Newest Post
 
         private void timerGetNewestPost_Tick(object sender, EventArgs e)
         {
@@ -497,66 +552,10 @@ namespace Waveface
 
         #region Helper
 
-        private void FetchPostsAndShow(bool firstTime)
+        public void PostListClick(int clickIndex, Post post)
         {
-            int _offset = GCONST.GetPostOffset;
 
-            if (RT.IsAllPostMode)
-            {
-                if (RT.CurrentGroupPosts != null)
-                    _offset = RT.CurrentGroupPosts.Count;
-            }
-            else
-            {
-                _offset = RT.FilterPosts.Count;
-            }
-
-            string _filter = RT.CurrentFilterItem.Filter;
-            _filter = _filter.Replace("[type]", postsArea.GetPostType());
-            _filter = _filter.Replace("[offset]", _offset.ToString());
-
-            if (RT.CurrentPostsAllCount == RT.CurrentPosts.Count) //已經都抓完了
-                return;
-
-            Cursor.Current = Cursors.WaitCursor;
-
-            MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter(_filter);
-
-            if (_postsGet != null)
-            {
-                RT.CurrentPosts.AddRange(_postsGet.posts);
-
-                if (firstTime)
-                {
-                    RT.CurrentPostsAllCount = _postsGet.remaining_count + _postsGet.get_count;
-
-                    RT.IsFirstTimeGetData = true;
-                }
-                else
-                {
-                    RT.IsFirstTimeGetData = false;
-                }
-            }
-
-            Cursor.Current = Cursors.Default;
-
-            ShowPostToUI(false);
-        }
-
-        private void ShowPostToUI(bool refreshCurrentPost)
-        {
-            List<Post> _posts = RT.CurrentPosts;
-
-            setCalendarBoldedDates(_posts);
-
-            postsArea.ShowPostInfo(RT.CurrentPostsAllCount, _posts.Count);
-
-            postsArea.PostsList.SetPosts(_posts, refreshCurrentPost, RT.IsFirstTimeGetData);
-        }
-
-        public void PostListClick(int clickIndex)
-        {
-            RT.IsFirstTimeGetData = false;
+            RT.IsFilterFirstTimeGetData = false;
         }
 
         #endregion
@@ -605,7 +604,7 @@ namespace Waveface
                         break;
 
                     case DialogResult.OK:
-                        leftArea.AddNewPostItem(_form.NewPostItem); //@
+                        leftArea.AddNewPostItem(_form.NewPostItem);
                         break;
                 }
             }
@@ -749,9 +748,6 @@ namespace Waveface
 
         private void capture(ShotType shotType)
         {
-            if (m_screenShotImageStorage == null)
-                return;
-
             try
             {
                 CaptureForm _captureForm = new CaptureForm(shotType);
@@ -761,13 +757,13 @@ namespace Waveface
                     return;
                 }
 
-                ImageFormat _imgFormat = ImageFormat.Jpeg;
-
-                string _filename =
-                    string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), _imgFormat).ToLower();
+                string _filename = string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), ImageFormat.Jpeg).ToLower();
 
                 Image _img = _captureForm.Image;
-                m_screenShotImageStorage.SaveImage(_img, _imgFormat, _filename);
+
+                string _pathToSave = Path.Combine(GCONST.CachePath, _filename);
+
+                _img.Save(_pathToSave, ImageFormat.Jpeg);
 
                 Post(new List<string> { GCONST.CachePath + _filename }, PostType.Photo);
             }
@@ -775,11 +771,6 @@ namespace Waveface
             {
                 MessageBox.Show(_e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void OnMenuExitClick(object sender, EventArgs e)
-        {
-            Application.Exit();
         }
 
         private void regionMenuItem_Click(object sender, EventArgs e)
@@ -831,11 +822,6 @@ namespace Waveface
             m_taskbarNotifier.Show(_name, post.content, 333, 2000, 333);
         }
 
-        public void FillTimelineComboBox(List<FilterItem> list)
-        {
-            postsArea.FillTimelineComboBox(list);
-        }
-
         private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonCloud.Checked)
@@ -859,7 +845,7 @@ namespace Waveface
             string _firstGetCount = "200"; //須為正
             string _continueGetCount = "-200"; //須為負
 
-            MR_posts_get _postsGet = null;
+            MR_posts_get _postsGet;
             Dictionary<string, Post> _allPosts = new Dictionary<string, Post>();
             string _datum = string.Empty;
 
@@ -910,21 +896,16 @@ namespace Waveface
                 _tmpPosts.Add(_p);
             }
 
-            if (RT.GroupAllPosts.ContainsKey(RT.CurrentGroupID))
-                RT.GroupAllPosts[RT.CurrentGroupID] = _tmpPosts;
-            else
-                RT.GroupAllPosts.Add(RT.CurrentGroupID, _tmpPosts);
+            RT.CurrentGroupPosts = _tmpPosts;
         }
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            List<Post> _posts = RT.GroupAllPosts[RT.CurrentGroupID];
+            List<Post> _posts = RT.CurrentGroupPosts;
 
             setCalendarBoldedDates(_posts);
 
-            postsArea.PostsList.SetPosts(_posts, false, RT.IsFirstTimeGetData);
-
-            RT.SaveJSON();
+            postsArea.PostsList.SetPosts(_posts);
         }
 
         #endregion
