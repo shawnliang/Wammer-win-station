@@ -733,7 +733,7 @@ namespace Waveface
             // 
             // timerDisplayedScrolling
             // 
-            this.timerDisplayedScrolling.Interval = 200;
+            this.timerDisplayedScrolling.Interval = 500;
             this.timerDisplayedScrolling.Tick += new System.EventHandler(this.timerDisplayedScrolling_Tick);
             // 
             // PostsList
