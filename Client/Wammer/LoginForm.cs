@@ -81,19 +81,11 @@ namespace Waveface
                 cbRemember.Checked = value;
             }
         }
-
-        public string StationTokenSetting
-        {
-            get;
-            set;
-        }
         #endregion
 
-        public LoginForm(string email, string password, string stationToken)
+        public LoginForm(string email, string password)
         {
             InitializeComponent();
-
-            this.StationTokenSetting = stationToken;
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseSize = false;
@@ -101,7 +93,6 @@ namespace Waveface
             m_formSettings.Settings.Add(new PropertySetting(this, "UserSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "PasswordSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "RememberPassword"));
-            m_formSettings.Settings.Add(new PropertySetting(this, "StationTokenSetting"));
 
             if ((email != string.Empty) && (password != string.Empty))
             {
@@ -235,8 +226,8 @@ namespace Waveface
         {
 			Cursor.Current = Cursors.WaitCursor;
 
-            Main _main = new Main(this.StationTokenSetting);
-            _main.Reset();
+            Main _main = new Main();
+            //_main.Reset();
 
 			Application.DoEvents();
 

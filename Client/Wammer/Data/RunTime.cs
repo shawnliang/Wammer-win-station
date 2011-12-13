@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 using Waveface.API.V2;
 using Waveface.FilterUI;
@@ -12,6 +13,8 @@ namespace Waveface
     public class RunTime
     {
         #region System
+
+        private string RUN_TIME_FILE = "Waveface System.dat";
 
         private RT_REST m_rest;
         public MR_auth_login Login { get; set; }
@@ -81,6 +84,7 @@ namespace Waveface
         public RunTime()
         {
             m_rest = new RT_REST(this);
+            Reset();
         }
 
         public void Reset()
@@ -108,7 +112,14 @@ namespace Waveface
         {
             try
             {
-                string _str = JsonConvert.SerializeObject(this);
+                string _json = JsonConvert.SerializeObject(this);
+
+                string _filePath = Main.GCONST.CachePath + RUN_TIME_FILE;
+
+                using (StreamWriter _outfile = new StreamWriter(_filePath))
+                {
+                    _outfile.Write(_json);
+                }
             }
             catch
             {
@@ -129,6 +140,26 @@ namespace Waveface
             }
 
             return 0;
+        }
+
+        public RunTime LoadJSON()
+        {
+            try
+            {
+                string _json = string.Empty;
+                string _filePath = Main.GCONST.CachePath + RUN_TIME_FILE;
+
+                StreamReader _sr = File.OpenText(_filePath);
+                _json = _sr.ReadToEnd();
+                _sr.Close();
+
+                RunTime _rt = JsonConvert.DeserializeObject<RunTime>(_json);
+                return _rt;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

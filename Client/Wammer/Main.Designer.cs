@@ -59,6 +59,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.preferencesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
             this.splitterRight = new System.Windows.Forms.Splitter();
@@ -72,7 +73,6 @@
             this.labelName = new System.Windows.Forms.Label();
             this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
-            this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -277,8 +277,6 @@
             this.logoutMenuItem,
             this.mnuExit});
             this.mnuTray.Name = "mnuTree";
-            this.mnuTray.Size = new System.Drawing.Size(151, 110);
-            this.mnuTray.Size = new System.Drawing.Size(153, 154);
             this.mnuTray.Size = new System.Drawing.Size(153, 132);
             // 
             // restoreMenuItem
@@ -341,6 +339,13 @@
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
             // 
+            // logoutMenuItem
+            // 
+            this.logoutMenuItem.Name = "logoutMenuItem";
+            this.logoutMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.logoutMenuItem.Text = "Log Out";
+            this.logoutMenuItem.Click += new System.EventHandler(this.logoutMenuItem_Click);
+            // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
@@ -369,7 +374,7 @@
             this.timerGetNewestPost.Interval = 10000;
             this.timerGetNewestPost.Tick += new System.EventHandler(this.timerGetNewestPost_Tick);
             // 
-            // timerFetchOlderPost
+            // timerFilterReadmore
             // 
             this.timerFilterReadmore.Interval = 500;
             this.timerFilterReadmore.Tick += new System.EventHandler(this.timerFilterReadmore_Tick);
@@ -460,13 +465,6 @@
             this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
             this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
             // 
-            // logoutMenuItem
-            // 
-            this.logoutMenuItem.Name = "logoutMenuItem";
-            this.logoutMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.logoutMenuItem.Text = "Log Out";
-            this.logoutMenuItem.Click += new System.EventHandler(this.logoutMenuItem_Click);
-            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -483,6 +481,7 @@
             this.Text = "Waveface";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Form_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form_DragEnter);
