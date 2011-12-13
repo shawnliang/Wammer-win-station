@@ -72,7 +72,7 @@ namespace Waveface.FilterUI
 
         private void btnSaveUpdate_Click(object sender, EventArgs e)
         {
-            if(m_isAddMode)
+            if (m_isAddMode)
                 DoSave();
             else
                 DoUpdate();

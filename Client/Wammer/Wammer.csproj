@@ -134,6 +134,7 @@
     <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
     <Compile Include="Libs\Utility\AttachmentUrlUtility.cs" />
     <Compile Include="Data\RT_REST.cs" />
+    <Compile Include="Exception\Station401Exception.cs" />
     <Compile Include="UploadOriginPhotosToStation.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
     <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
