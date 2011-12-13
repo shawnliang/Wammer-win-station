@@ -925,18 +925,10 @@ namespace Waveface
             m_exitToLogin = true;
             this.Close();
         }
-        public bool stationLogin(string email, string password)
+
+		public void stationLogin(string email, string password)
         {
-            try
-            {
-                this.StationToken = WService.LoginStation(email, password);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Waveface");
-                return false;
-            }
+            this.StationToken = WService.LoginStation(email, password);
         }
     }
 }

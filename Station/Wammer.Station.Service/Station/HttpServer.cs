@@ -208,9 +208,14 @@ namespace Wammer.Station
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				HttpHelper.RespondFailure(ctx.Response, 
+				HttpHelper.RespondFailure(ctx.Response,
 					new WammerStationException(e.ToString(), e.WammerError), (int)HttpStatusCode.BadRequest);
 				logger.Warn("Connecting to cloud error", e);
+			}
+			catch (ServiceUnavailableException e)
+			{
+				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.ServiceUnavailable);
+				logger.Warn("Service unavailable", e);
 			}
 			catch (WammerStationException e)
 			{

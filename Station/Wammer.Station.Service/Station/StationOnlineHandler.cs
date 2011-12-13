@@ -33,7 +33,18 @@ namespace Wammer.Station
 			}
 
 			Drivers driver = Drivers.collection.FindOne();
-			if (driver == null || driver.email != email)
+			if (driver == null)
+			{
+				logger.Error("No driver detected");
+				
+				// function server should be stopped if driver's info is removed
+				logger.Debug("Try to stop function server");
+				functionServer.Stop();
+
+				throw new ServiceUnavailableException("Station cannot work without driver", (int)StationApiError.ServiceUnavailable);
+			}
+
+			if (driver.email != email)
 			{
 				logger.Error("Driver is null or email inconsistent");
 				throw new WammerStationException("Invalid driver", (int)StationApiError.InvalidDriver);

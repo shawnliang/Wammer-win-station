@@ -53,6 +53,10 @@ namespace Wammer.Station
 				{
 					Cloud.StationApi api = Cloud.StationApi.SignUp(agent, stationId, email, password);
 					StationLogOnResponse logonRes = api.LogOn(agent, StatusChecker.GetDetail());
+					
+					logger.Debug("Station logon successfully, start function server");
+					functionServer.Start();
+					WriteOnlineStateToDB();
 
 					User user = User.LogIn(agent, email, password);
 					Drivers driver = new Drivers

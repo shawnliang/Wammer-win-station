@@ -987,25 +987,38 @@ namespace Waveface.API.V2
             email = email.Replace("@", "%40");
             password = HttpUtility.UrlEncode(password);
 
-            try
-            {
-                using (WebClient agent = new WebClient())
-                {
-                    string url = string.Format("http://localhost:9989/v2/station/online?email={0}&password={1}&apikey={2}",
-                        email, password, APIKEY);
+			try
+			{
+				using (WebClient agent = new WebClient())
+				{
+					string url = string.Format("http://localhost:9989/v2/station/online?email={0}&password={1}&apikey={2}",
+						email, password, APIKEY);
 
-                    byte[] resp = agent.DownloadData(url);
-                    string respText = System.Text.Encoding.UTF8.GetString(resp);
+					byte[] resp = agent.DownloadData(url);
+					string respText = System.Text.Encoding.UTF8.GetString(resp);
 
-                    General_R r = JsonConvert.DeserializeObject<General_R>(respText);
+					General_R r = JsonConvert.DeserializeObject<General_R>(respText);
 
-                    return r.session_token;
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Unable to login station with Waveface cloud", e);
-            }
+					return r.session_token;
+				}
+			}
+			catch (WebException e)
+			{
+				HttpWebResponse res = (HttpWebResponse)e.Response;
+				if (res != null)
+				{
+					if (res.StatusCode == HttpStatusCode.ServiceUnavailable)
+					{
+						throw new ServiceUnavailableException("Service unavailable. The station might be unregistered by its driver.");
+					}
+				}
+
+				throw;
+			}
+			catch (Exception e)
+			{
+				throw new Exception("Unable to login station with Waveface cloud", e);
+			}
         }
         
         public static void LogoutStation(string session_token)
@@ -1027,4 +1040,12 @@ namespace Waveface.API.V2
         }
         #endregion
     }
+
+	public class ServiceUnavailableException : Exception
+	{
+		public ServiceUnavailableException(string msg)
+			: base(msg)
+		{
+		}
+	}
 }

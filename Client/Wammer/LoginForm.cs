@@ -240,9 +240,19 @@ namespace Waveface
 
 			Application.DoEvents();
 
-			if (_main.stationLogin(email, password))
+			try
 			{
+				_main.stationLogin(email, password);
 				_doLogin(_main, email, password);
+			}
+			catch (Waveface.API.V2.ServiceUnavailableException ex)
+			{
+				MessageBox.Show(ex.Message, "Waveface");
+				Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Waveface");
 			}
         }
 
