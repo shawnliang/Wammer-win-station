@@ -100,7 +100,7 @@ namespace Waveface
                 txtUserName.Text = email;
                 txtPassword.Text = password;
 
-                doLogin(email, password, false);
+                doLogin(email, password);
             }
         }
 
@@ -223,7 +223,7 @@ namespace Waveface
             txtUserName.Focus();
         }
 
-        private void doLogin(string email, string password, bool loginStation)
+        private void doLogin(string email, string password)
         {
 			Cursor.Current = Cursors.WaitCursor;
 
@@ -232,14 +232,7 @@ namespace Waveface
 
 			Application.DoEvents();
 
-			if (loginStation)
-			{
-				if (_main.stationLogin(email, password))
-				{
-					_doLogin(_main, email, password);
-				}
-			}
-			else
+			if (_main.stationLogin(email, password))
 			{
 				_doLogin(_main, email, password);
 			}
@@ -280,7 +273,7 @@ namespace Waveface
                 {
                     m_formSettings.Save();
 
-                    doLogin(txtUserName.Text.Trim(), txtPassword.Text.Trim(), true);
+                    doLogin(txtUserName.Text.Trim(), txtPassword.Text.Trim());
                 }
                 else
                 {
