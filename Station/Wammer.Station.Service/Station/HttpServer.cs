@@ -20,7 +20,6 @@ namespace Wammer.Station
 		private HttpListener listener;
 		private Dictionary<string, HttpHandlerProxy> handlers;
 		private HttpHandlerProxy defaultHandler;
-		private bool stopping = false;
 		private bool started = false;
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpServer");
 		private object cs = new object();
@@ -87,9 +86,8 @@ namespace Wammer.Station
 		{
 			lock (cs)
 			{
-				if (started && !stopping)
+				if (started)
 				{
-					stopping = true;
 					listener.Stop();
 					started = false;
 				}
@@ -134,16 +132,8 @@ namespace Wammer.Station
 			}
 			catch (Exception e)
 			{
-				if (stopping)
-				{
-					logger.Info("Shutdown server");
-					return;
-				}
-				else
-				{
-					logger.Info("Shutdown server", e);
-					return;
-				}
+				logger.Info("Shutdown server", e);
+				return;
 			}
 		}
 
