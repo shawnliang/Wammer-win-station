@@ -24,7 +24,8 @@ namespace Wammer.Station.Service
 		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
-		private HttpServer server;
+		private HttpServer managementServer;
+		private HttpServer functionServer;
 		private StationTimer stationTimer;
 		private string stationId;
 		private string resourceBasePath;
@@ -48,72 +49,98 @@ namespace Wammer.Station.Service
 
 		protected override void OnStart(string[] args)
 		{
-			AppDomain.CurrentDomain.UnhandledException +=
-				new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+			try
+			{
+				AppDomain.CurrentDomain.UnhandledException +=
+					new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-			Environment.CurrentDirectory = Path.GetDirectoryName(
-									Assembly.GetExecutingAssembly().Location);
+				Environment.CurrentDirectory = Path.GetDirectoryName(
+										Assembly.GetExecutingAssembly().Location);
 
-			InitStationId();
-			InitResourceBasePath();
+				logger.Debug("Initialize Waveface Service");
+				InitStationId();
+				InitResourceBasePath();
 
-			fastJSON.JSON.Instance.UseUTCDateTime = true;
-			stationTimer = new StationTimer();
+				fastJSON.JSON.Instance.UseUTCDateTime = true;
+				stationTimer = new StationTimer();
 
-			server = new HttpServer(9981); // TODO: remove hard code
-			server.OfflineKey = InitOfflineKey();
-			BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
-			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/auth/");
-			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/users/");
-			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/groups/");
-			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/stations/");
-			server.AddDefaultHandler(cloudForwarder);
+				functionServer = new HttpServer(9981); // TODO: remove hard code
 
-			server.AddHandler("/", new DummyHandler());
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
-							new AttachmentViewHandler());
+				logger.Debug("Add cloud forwarders to function server");
+				BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
+				cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/auth/");
+				cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/users/");
+				cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/groups/");
+				cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/stations/");
+				functionServer.AddDefaultHandler(cloudForwarder);
 
-			AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
-			ImagePostProcessing imgProc = new ImagePostProcessing();
-			attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
-			attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
-			
-			CloudStorageSync cloudSync = new CloudStorageSync();
-			attachmentHandler.AttachmentSaved += cloudSync.HandleAttachmentSaved;
+				logger.Debug("Add handlers to function server");
+				functionServer.AddHandler("/", new DummyHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
+								new AttachmentViewHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
-							attachmentHandler);
+				AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
+				ImagePostProcessing imgProc = new ImagePostProcessing();
+				attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
+				attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
 
-			AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/",
-							addDriverHandler);
-			addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
+				CloudStorageSync cloudSync = new CloudStorageSync();
+				attachmentHandler.AttachmentSaved += cloudSync.HandleAttachmentSaved;
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/",
-							new StatusGetHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
+								attachmentHandler);
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/get/",
-							new ResouceDirGetHandler(resourceBasePath));
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/",
+								new StatusGetHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/set/",
-							new ResouceDirSetHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/get/",
+								new ResouceDirGetHandler(resourceBasePath));
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/get/",
-							new AttachmentGetHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/set/",
+								new ResouceDirSetHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/",
-							new DropBoxOAuthHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/get/",
+								new AttachmentGetHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/connect/",
-							new DropBoxConnectHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/",
+								new DropBoxOAuthHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/update/",
-							new DropBoxUpdateHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/connect/",
+								new DropBoxConnectHandler());
 
-			server.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/",
-							new DropboxDisconnectHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/update/",
+								new DropBoxUpdateHandler());
 
-			server.Start();
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/",
+								new DropboxDisconnectHandler());
+
+				logger.Debug("Check if need to start function server");
+				Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+				if (svc != null)
+				{
+					if (svc.State == ServiceState.Online)
+					{
+						logger.Debug("Start function server");
+						functionServer.Start();
+					}
+				}
+
+				logger.Debug("Add handlers to management server");
+				managementServer = new HttpServer(9989);
+				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath, functionServer);
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer));
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer));
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
+				addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
+
+				logger.Debug("Start management server");
+				managementServer.Start();
+			}
+			catch (Exception ex)
+			{
+				logger.Error("Unknown exception", ex);
+				throw;
+			}
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -135,8 +162,8 @@ namespace Wammer.Station.Service
 		{
 			stationTimer.Stop();
 
-			server.Stop();
-			server.Close();
+			functionServer.Stop();
+			functionServer.Close();
 
 			PublicPortMapping.Instance.Close();
 		}
@@ -161,21 +188,6 @@ namespace Wammer.Station.Service
 				stationId = Guid.NewGuid().ToString();
 				StationRegistry.SetValue("stationId", stationId);
 			}
-		}
-
-		private string InitOfflineKey()
-		{
-			Model.Service svc = Model.ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
-			if (svc == null)
-			{
-				svc = new Model.Service();
-				svc.Id = "StationService";
-			}
-
-			svc.OfflineKey = Guid.NewGuid().ToString();
-			Model.ServiceCollection.Save(svc);
-
-			return svc.OfflineKey;
 		}
 	}
 

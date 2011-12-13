@@ -29,8 +29,8 @@ namespace Waveface
 
         public void ShowTypeUI(bool flag)
         {
-            panelButtom.Visible = true;
-
+            // panelButtom.Visible = flag;
+            
             labelDisplay.Visible = flag;
             comboBoxType.Visible = flag;
         }
@@ -68,6 +68,11 @@ namespace Waveface
         private void linkLabelReadMore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Main.Current.FilterReadMorePost();
+        }
+
+        private void Refresh_Click(object sender, System.EventArgs e)
+        {
+            Main.Current.RefreshTimelineAsync();
         }
     }
 }

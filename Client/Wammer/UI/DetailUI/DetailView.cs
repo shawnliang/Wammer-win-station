@@ -84,7 +84,7 @@ namespace Waveface
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(96)))), ((int)(((byte)(0)))));
+            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
             this.panelTop.Controls.Add(this.linkLabelRemove);
             this.panelTop.Controls.Add(this.labelWho);
             this.panelTop.Controls.Add(this.labelTime);

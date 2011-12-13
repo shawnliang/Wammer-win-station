@@ -30,6 +30,8 @@ namespace Waveface
         private DataGridViewTextBoxColumn creatoridDataGridViewTextBoxColumn;
         private Timer timer;
         private List<Post> m_posts;
+        private Timer timerDisplayedScrolling;
+        private int m_lastRead;
 
         private Dictionary<string, string> m_undownloadThumbnails = new Dictionary<string, string>();
 
@@ -115,13 +117,12 @@ namespace Waveface
             dataGridView.Enabled = true;
         }
 
-        public void SetPosts(List<Post> posts)
+        public void SetPosts(List<Post> posts, int lastRead)
         {
             dataGridView.Enabled = false;
 
             m_posts = posts;
             m_postBS.DataSource = posts;
-            m_postBS.Position = 0;
 
             try
             {
@@ -135,7 +136,10 @@ namespace Waveface
             }
 
             dataGridView.Enabled = true;
+
+            DoDisplayedScrolling(lastRead);
         }
+
         #region DataGridView
 
         private Brush m_bg1 = new SolidBrush(Color.FromArgb(224, 208, 170));
@@ -660,6 +664,7 @@ namespace Waveface
             this.creatoridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.m_postBS = new System.Windows.Forms.BindingSource(this.components);
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.timerDisplayedScrolling = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_postBS)).BeginInit();
             this.SuspendLayout();
@@ -726,6 +731,11 @@ namespace Waveface
             this.timer.Interval = 30000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // timerDisplayedScrolling
+            // 
+            this.timerDisplayedScrolling.Interval = 200;
+            this.timerDisplayedScrolling.Tick += new System.EventHandler(this.timerDisplayedScrolling_Tick);
+            // 
             // PostsList
             // 
             this.BackColor = System.Drawing.SystemColors.Window;
@@ -742,5 +752,20 @@ namespace Waveface
         }
 
         #endregion
+
+        public void DoDisplayedScrolling(int lastRead)
+        {
+            m_lastRead = lastRead;
+            m_postBS.Position = m_lastRead;
+
+            timerDisplayedScrolling.Enabled = true;
+        }
+
+        private void timerDisplayedScrolling_Tick(object sender, EventArgs e)
+        {
+            timerDisplayedScrolling.Enabled = false;
+
+            dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
+        }
     }
 }

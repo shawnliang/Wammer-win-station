@@ -1,7 +1,8 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -15,6 +16,7 @@ using Waveface.FilterUI;
 using Waveface.ImageCapture;
 using Waveface.Properties;
 using Waveface.SettingUI;
+using MonthCalendar = CustomControls.MonthCalendar;
 
 #endregion
 
@@ -24,6 +26,8 @@ namespace Waveface
     {
         public static Main Current;
         public static GCONST GCONST = new GCONST();
+
+        private ProgramSetting settings = new ProgramSetting();
 
         #region Fields
 
@@ -37,6 +41,7 @@ namespace Waveface
         private UploadOriginPhotosToStation m_uploadOriginPhotosToStation;
 
         private bool m_exitToLogin;
+        private bool m_process401Exception;
         private bool m_canAutoFetchNewestPosts = true;
 
         private List<string> m_delayPostPicList = new List<string>();
@@ -56,12 +61,16 @@ namespace Waveface
             set { m_runTime = value; }
         }
 
+        private string StationToken
+        {
+            get { return settings.StationToken; }
+            set { settings.StationToken = value; }
+        }
         #endregion
 
         public Main()
         {
             Current = this;
-
             File.Delete(m_shellContentMenuFilePath);
 
             InitializeComponent();
@@ -128,6 +137,77 @@ namespace Waveface
             m_taskbarNotifier.ReShowOnMouseOver = true;
         }
 
+        private bool LoadRunTime()
+        {
+            RunTime _rt = RT.LoadJSON();
+
+            if (_rt != null)
+            {
+                RT = _rt;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void SaveRunTime()
+        {
+            RT.SaveJSON();
+        }
+
+        private void GetLastReadPos()
+        {
+            string _lastReadPostID = RT.REST.Footprints_getLastScan();
+
+            if (!string.IsNullOrEmpty(_lastReadPostID))
+            {
+                RT.CurrentGroupLastRead = _lastReadPostID;
+            }
+        }
+
+        private void SetLastReadPos()
+        {
+            try
+            {
+                RT.REST.Footprints_setLastScan(RT.CurrentGroupLastRead);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unabel to set last scan position:" + ex.Message);
+            }
+        }
+
+        public void Station401ExceptionHandler(string message)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate
+                           {
+                               Station401ExceptionHandler(message);
+                           }
+                           ));
+            }
+            else
+            {
+                MessageBox.Show(message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+
+                m_exitToLogin = true;
+                m_process401Exception = true;
+
+                Close();
+            }
+        }
+
+        public void RefreshTimelineAsync()
+        {
+            Cursor.Current = Cursors.WaitCursor;
+
+            bgWorkerGetAllData.RunWorkerAsync();
+        }
+
         #endregion
 
         #region Event
@@ -148,6 +228,11 @@ namespace Waveface
 
             if (m_virtualFolderForm != null)
                 m_virtualFolderForm.Close();
+
+            if (!m_process401Exception)
+                SetLastReadPos();
+
+            SaveRunTime();
         }
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
@@ -173,6 +258,8 @@ namespace Waveface
 
             if (FormWindowState.Minimized == WindowState)
             {
+                SetLastReadPos();
+
                 m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
                 m_dropableNotifyIcon.NotifyIcon.BalloonTipText = "Minimize to Tray App";
                 m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
@@ -190,6 +277,8 @@ namespace Waveface
                 Size = RestoreBounds.Size;
                 Location = RestoreBounds.Location;
             }
+
+            GetLastReadPos();
         }
 
         private void restoreMenuItem_Click(object sender, EventArgs e)
@@ -202,7 +291,7 @@ namespace Waveface
             RestoreWindow();
         }
 
-        void NotifyIcon_DoubleClick(object sender, EventArgs e)
+        private void NotifyIcon_DoubleClick(object sender, EventArgs e)
         {
             RestoreWindow();
         }
@@ -231,7 +320,7 @@ namespace Waveface
             m_dragDropClipboardHelper.Drag_Over(e);
         }
 
-        void DropableNotifyIcon_DragEnter(object sender, DragEventArgs e)
+        private void DropableNotifyIcon_DragEnter(object sender, DragEventArgs e)
         {
             if (!m_trayIconPopup.Visible)
                 m_trayIconPopup.Show(m_dropableNotifyIcon.GetLocation());
@@ -276,9 +365,12 @@ namespace Waveface
 
         #region Login
 
-        public void Reset()
+        public void Reset(bool online)
         {
+            if (online)
             RT.Reset();
+
+            m_process401Exception = false;
 
             WService.StationIP = "";
 
@@ -287,44 +379,56 @@ namespace Waveface
 
         public bool Login(string email, string password)
         {
-            bool _ret = false;
-
             Cursor.Current = Cursors.WaitCursor;
+
+            UpdateNetworkStatus();
 
             MR_auth_login _login = RT.REST.Auth_Login(email, password);
 
-            if (_login != null)
+            if (_login == null)
             {
-                Reset();
+                Reset(false);
+
+                if (!LoadRunTime())
+                {
+                    Cursor.Current = Cursors.Default;
+                    return false;
+                }
+
+                RT.OnlineMode = false;
+            }
+            else
+            {
+                Reset(true);
 
                 RT.Login = _login;
+
                 RT.OnlineMode = true;
 
                 CheckStation(RT.Login.stations);
+            }
 
                 getGroupAndUser();
-
                 fillUserInformation();
 
-                //預設群組
-                RT.CurrentGroupID = RT.Login.groups[0].group_id;
-
-                bgWorkerGetAllData.RunWorkerAsync();
+            RT.CurrentGroupID = RT.Login.groups[0].group_id;
+            RT.FilterMode = false;
 
                 leftArea.SetUI(true);
 
-                _ret = true;
-            }
-            else //離線模式
-            {
-                RT.OnlineMode = false;
-            }
-
             Cursor.Current = Cursors.Default;
 
-            RT.FilterMode = false;
+            if (_login == null)
+            {
+                ShowAllTimeline();
+            }
+            else
+            {
 
-            return _ret;
+                RefreshTimelineAsync();
+            }
+
+            return true;
         }
 
         private void CheckStation(List<Station> stations)
@@ -343,8 +447,8 @@ namespace Waveface
                         WService.StationIP = _ip;
 
                         //test
-                        m_stationIP = _ip;
-                        panelStation.Visible = true;
+                        //m_stationIP = _ip;
+                        //panelStation.Visible = true;
 
                         RT.StationMode = true;
 
@@ -394,22 +498,22 @@ namespace Waveface
 
         #region Filter
 
-        public void DoTimelineFilter(FilterItem item, bool isTimelineFilter)
+        public void DoTimelineFilter(FilterItem item, bool isFilterTimelineMode)
         {
             if (!RT.LoginOK)
                 return;
 
             RT.FilterMode = true;
 
-            if (item != null) //會null是由PostArea的comboBoxType發出
+            if (item != null) //�null�由PostArea�comboBoxType�出
             {
                 RT.CurrentFilterItem = item;
             }
 
             RT.FilterPosts = new List<Post>(); //Reset
 
-            RT.TimelineFilterMode = isTimelineFilter;
-            postsArea.ShowTypeUI(RT.TimelineFilterMode); //是Timeline才秀Type
+            RT.FilterTimelineMode = isFilterTimelineMode;
+            postsArea.ShowTypeUI(RT.FilterTimelineMode); //�Timeline��Type
 
             FilterFetchPostsAndShow(true);
         }
@@ -429,7 +533,7 @@ namespace Waveface
 
         private void FilterFetchPostsAndShow(bool firstTime)
         {
-            if (RT.FilterPostsAllCount == RT.FilterPosts.Count) //已經都抓完了
+            if (RT.FilterPostsAllCount == RT.FilterPosts.Count) //已��完�
                 return;
 
             int _offset = RT.FilterPosts.Count;
@@ -505,7 +609,7 @@ namespace Waveface
                     {
                         if (_postsGet.posts.Count > 0)
                         {
-                            //刪除比較基準的那個Post, 如果有回傳的話!
+                            //�除比��那�Post, 如����
                             Post _toDel = null;
 
                             foreach (Post _p in _postsGet.posts)
@@ -552,9 +656,30 @@ namespace Waveface
 
         #region Helper
 
+        private void ShowAllTimeline()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate
+                           {
+                               ShowAllTimeline();
+                           }
+                           ));
+            }
+            else
+            {
+                List<Post> _posts = RT.CurrentGroupPosts;
+
+                setCalendarBoldedDates(_posts);
+
+                postsArea.PostsList.SetPosts(_posts, RT.GetCurrentGroupLastReadPosition());
+            }
+        }
+
         public void PostListClick(int clickIndex, Post post)
         {
-
+            RT.CurrentGroupLastRead = post.post_id;
             RT.IsFilterFirstTimeGetData = false;
         }
 
@@ -626,8 +751,7 @@ namespace Waveface
 
             if ((_singlePost != null) && (_singlePost.post != null))
             {
-                // AllPosts 跟 FilterPosts 都要更新, 如果有的話
-                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
+                // AllPosts �FilterPosts ��新, 如���                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
                 ReplacePostInList(_singlePost.post, RT.FilterPosts);
 
                 ShowPostToUI(true);
@@ -647,8 +771,7 @@ namespace Waveface
                 }
             }
 
-            // 不要將此段寫在上面迴圈的 if 裡
-            if (k != -1)
+            // 不�將此段寫��迴�� if �            if (k != -1)
             {
                 posts[k] = post;
 
@@ -664,7 +787,7 @@ namespace Waveface
 
         private void setCalendarBoldedDates(List<Post> posts)
         {
-            CustomControls.MonthCalendar _mc = leftArea.MonthCalendar;
+            MonthCalendar _mc = leftArea.MonthCalendar;
 
             _mc.SuspendLayout();
 
@@ -685,7 +808,7 @@ namespace Waveface
 
         public void ClickCalendar(DateTime date)
         {
-            CustomControls.MonthCalendar _calendar = leftArea.MonthCalendar;
+            MonthCalendar _calendar = leftArea.MonthCalendar;
 
             if (!_calendar.BoldedDates.Contains(date.Date))
                 return;
@@ -695,7 +818,7 @@ namespace Waveface
 
         public void setCalendarDay(DateTime date)
         {
-            CustomControls.MonthCalendar _calendar = leftArea.MonthCalendar;
+            MonthCalendar _calendar = leftArea.MonthCalendar;
             _calendar.SelectionStart = date;
             _calendar.SelectionEnd = date;
         }
@@ -757,7 +880,8 @@ namespace Waveface
                     return;
                 }
 
-                string _filename = string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), ImageFormat.Jpeg).ToLower();
+                string _filename =
+                    string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), ImageFormat.Jpeg).ToLower();
 
                 Image _img = _captureForm.Image;
 
@@ -840,16 +964,13 @@ namespace Waveface
 
         #region GetAllData
 
-        private void bgWorkerGetAllData_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void bgWorkerGetAllData_DoWork(object sender, DoWorkEventArgs e)
         {
-            string _firstGetCount = "200"; //須為正
-            string _continueGetCount = "-200"; //須為負
-
-            MR_posts_get _postsGet;
+            string _firstGetCount = "200";
+            string _continueGetCount = "-200";
             Dictionary<string, Post> _allPosts = new Dictionary<string, Post>();
             string _datum = string.Empty;
 
-            // 先取得第一批
             MR_posts_getLatest _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
 
             if (_getLatest != null)
@@ -860,17 +981,16 @@ namespace Waveface
                     _datum = _p.timestamp;
                 }
 
-                // 若未取完
                 if (_getLatest.get_count < _getLatest.total_count)
                 {
-                    // 假設還有很多沒取得
                     int _remainingCount = int.MaxValue;
 
                     while (_remainingCount > 0)
                     {
-                        _datum = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
+                        _datum =
+                            DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
 
-                        _postsGet = RT.REST.Posts_get(_continueGetCount, _datum, "");
+                        MR_posts_get _postsGet = RT.REST.Posts_get(_continueGetCount, _datum, "");
 
                         if (_postsGet != null)
                         {
@@ -897,17 +1017,45 @@ namespace Waveface
             }
 
             RT.CurrentGroupPosts = _tmpPosts;
-        }
 
-        private void bgWorkerGetAllData_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+            GetLastReadPos();
+            }
+
+        private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            List<Post> _posts = RT.CurrentGroupPosts;
+            ShowAllTimeline();
 
-            setCalendarBoldedDates(_posts);
-
-            postsArea.PostsList.SetPosts(_posts);
+            Cursor.Current = Cursors.Default;
+            
+            // Test
+            // RT.Login.session_token = "";
         }
 
         #endregion
+
+        private void logoutMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                WService.LogoutStation(this.StationToken);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Waveface");
+            }
+
+            m_exitToLogin = true;
+            this.Close();
+        }
+
+		public void stationLogin(string email, string password)
+        {
+            this.StationToken = WService.LoginStation(email, password);
+        }
+
+        private void Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.settings.Save();
+        }
     }
 }

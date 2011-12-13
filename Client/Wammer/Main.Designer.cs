@@ -59,6 +59,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.preferencesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
             this.splitterRight = new System.Windows.Forms.Splitter();
@@ -215,20 +216,20 @@
             this.itemCountLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.itemCountLabel.Name = "itemCountLabel";
             this.itemCountLabel.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
-            this.itemCountLabel.Size = new System.Drawing.Size(64, 20);
+            this.itemCountLabel.Size = new System.Drawing.Size(61, 20);
             this.itemCountLabel.Text = "{0} Items";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(739, 20);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(758, 20);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // connectedStatusLabel
             // 
             this.connectedStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.connectedStatusLabel.Name = "connectedStatusLabel";
-            this.connectedStatusLabel.Size = new System.Drawing.Size(154, 20);
+            this.connectedStatusLabel.Size = new System.Drawing.Size(143, 20);
             this.connectedStatusLabel.Text = "All folders are up to date.";
             // 
             // connectedImageLabel
@@ -238,7 +239,7 @@
             this.connectedImageLabel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.connectedImageLabel.Margin = new System.Windows.Forms.Padding(0);
             this.connectedImageLabel.Name = "connectedImageLabel";
-            this.connectedImageLabel.Size = new System.Drawing.Size(102, 25);
+            this.connectedImageLabel.Size = new System.Drawing.Size(97, 25);
             this.connectedImageLabel.Text = "Connected";
             // 
             // toolStripStatusLabel4
@@ -273,6 +274,7 @@
             this.toolStripMenuItem3,
             this.preferencesMenuItem,
             this.toolStripMenuItem2,
+            this.logoutMenuItem,
             this.mnuExit});
             this.mnuTray.Name = "mnuTree";
             this.mnuTray.Size = new System.Drawing.Size(153, 132);
@@ -302,21 +304,21 @@
             // regionMenuItem
             // 
             this.regionMenuItem.Name = "regionMenuItem";
-            this.regionMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.regionMenuItem.Size = new System.Drawing.Size(123, 22);
             this.regionMenuItem.Text = "Region";
             this.regionMenuItem.Click += new System.EventHandler(this.regionMenuItem_Click);
             // 
             // windowsMenuItem
             // 
             this.windowsMenuItem.Name = "windowsMenuItem";
-            this.windowsMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.windowsMenuItem.Size = new System.Drawing.Size(123, 22);
             this.windowsMenuItem.Text = "Windows";
             this.windowsMenuItem.Click += new System.EventHandler(this.windowsMenuItem_Click);
             // 
             // screenMenuItem
             // 
             this.screenMenuItem.Name = "screenMenuItem";
-            this.screenMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.screenMenuItem.Size = new System.Drawing.Size(123, 22);
             this.screenMenuItem.Text = "Desktop";
             this.screenMenuItem.Click += new System.EventHandler(this.screenMenuItem_Click);
             // 
@@ -336,6 +338,13 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
+            // 
+            // logoutMenuItem
+            // 
+            this.logoutMenuItem.Name = "logoutMenuItem";
+            this.logoutMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.logoutMenuItem.Text = "Log Out";
+            this.logoutMenuItem.Click += new System.EventHandler(this.logoutMenuItem_Click);
             // 
             // mnuExit
             // 
@@ -365,14 +374,14 @@
             this.timerGetNewestPost.Interval = 10000;
             this.timerGetNewestPost.Tick += new System.EventHandler(this.timerGetNewestPost_Tick);
             // 
-            // timerFetchOlderPost
+            // timerFilterReadmore
             // 
             this.timerFilterReadmore.Interval = 500;
             this.timerFilterReadmore.Tick += new System.EventHandler(this.timerFilterReadmore_Tick);
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(171)))), ((int)(((byte)(104)))));
+            this.panelTop.BackColor = System.Drawing.Color.Chocolate;
             this.panelTop.Controls.Add(this.pictureBoxLogo);
             this.panelTop.Controls.Add(this.panelStation);
             this.panelTop.Controls.Add(this.labelName);
@@ -472,6 +481,7 @@
             this.Text = "Waveface";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Form_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form_DragEnter);
@@ -538,6 +548,7 @@
         private System.Windows.Forms.RadioButton radioButtonCloud;
         private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
+        private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
 	}
 }
 

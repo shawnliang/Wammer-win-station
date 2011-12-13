@@ -81,7 +81,6 @@ namespace Waveface
                 cbRemember.Checked = value;
             }
         }
-
         #endregion
 
         public LoginForm(string email, string password)
@@ -225,36 +224,54 @@ namespace Waveface
 
         private void doLogin(string email, string password)
         {
-            Cursor.Current = Cursors.WaitCursor;
+			Cursor.Current = Cursors.WaitCursor;
 
             Main _main = new Main();
-            _main.Reset();
+            //_main.Reset();
 
-            Application.DoEvents();
+			Application.DoEvents();
 
-            if (_main.Login(email, password))
-            {
-                Application.DoEvents();
-
-                Cursor.Current = Cursors.Default;
-                Hide();
-
-                Application.DoEvents();
-
-                _main.ShowDialog();
-                _main.Dispose();
-                _main = null;
-            }
-            else
-            {
-                Cursor.Current = Cursors.Default;
-
-                MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            Show();
+			try
+			{
+				_main.stationLogin(email, password);
+				_doLogin(_main, email, password);
+			}
+			catch (Waveface.API.V2.ServiceUnavailableException ex)
+			{
+				MessageBox.Show(ex.Message, "Waveface");
+				Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Waveface");
+			}
         }
 
+		private void _doLogin(Main _main, string email, string password)
+		{
+			if (_main.Login(email, password))
+			{
+				Application.DoEvents();
+
+				Cursor.Current = Cursors.Default;
+				Hide();
+
+				Application.DoEvents();
+
+				_main.ShowDialog();
+				_main.Dispose();
+				_main = null;
+			}
+			else
+			{
+				Cursor.Current = Cursors.Default;
+
+				MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
+			Show();
+		}
+		
         private void btnOK_Click(object sender, EventArgs e)
         {
             try

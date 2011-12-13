@@ -141,6 +141,9 @@
     <Compile Include="Station\PublicPortMapping.cs" />
     <Compile Include="Station\ResouceDirHandler.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
+    <Compile Include="Station\ServiceUnavailableException.cs" />
+    <Compile Include="Station\StationOfflineHandler.cs" />
+    <Compile Include="Station\StationOnlineHandler.cs" />
     <Compile Include="Station\StationTimer.cs" />
     <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Station\StatusGetHandler.cs" />

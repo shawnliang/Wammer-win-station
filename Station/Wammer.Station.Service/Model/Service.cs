@@ -7,12 +7,19 @@ using MongoDB.Driver;
 
 namespace Wammer.Model
 {
+
+	public enum ServiceState
+	{
+		Online,
+		Offline
+	}
+
 	public class Service
 	{
 		[BsonId]
 		public string Id { get; set; }
 		[BsonIgnoreIfNull]
-		public string OfflineKey { get; set; }
+		public ServiceState State { get; set; }
 	}
 
 
@@ -29,6 +36,11 @@ namespace Wammer.Model
 		public static void Save(Service svc)
 		{
 			collection.Save(svc);
+		}
+
+		public static void RemoveAll()
+		{
+			collection.RemoveAll();
 		}
 	}
 }
