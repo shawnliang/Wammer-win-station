@@ -9,6 +9,7 @@ using MongoDB.Driver;
 
 namespace Wammer.Model
 {
+	[BsonIgnoreExtraElements]
 	public class StationInfo
 	{
 		[BsonIgnore]
