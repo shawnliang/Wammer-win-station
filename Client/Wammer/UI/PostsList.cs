@@ -115,13 +115,12 @@ namespace Waveface
             dataGridView.Enabled = true;
         }
 
-        public void SetPosts(List<Post> posts)
+        public void SetPosts(List<Post> posts, int lastRead)
         {
             dataGridView.Enabled = false;
 
             m_posts = posts;
             m_postBS.DataSource = posts;
-            m_postBS.Position = 0;
 
             try
             {
@@ -135,7 +134,11 @@ namespace Waveface
             }
 
             dataGridView.Enabled = true;
+
+            dataGridView.FirstDisplayedScrollingRowIndex = lastRead;
+            m_postBS.Position = lastRead;
         }
+
         #region DataGridView
 
         private Brush m_bg1 = new SolidBrush(Color.FromArgb(224, 208, 170));

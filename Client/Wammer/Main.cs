@@ -1,4 +1,4 @@
-﻿#region
+�region
 
 using System;
 using System.Collections.Generic;
@@ -307,8 +307,7 @@ namespace Waveface
 
                 fillUserInformation();
 
-                //預設群組
-                RT.CurrentGroupID = RT.Login.groups[0].group_id;
+                RT.CurrentGroupID = RT.Login.groups[0].group_id; //�設群�
 
                 bgWorkerGetAllData.RunWorkerAsync();
 
@@ -316,7 +315,7 @@ namespace Waveface
 
                 _ret = true;
             }
-            else //離線模式
+            else //��模�
             {
                 RT.OnlineMode = false;
             }
@@ -395,22 +394,22 @@ namespace Waveface
 
         #region Filter
 
-        public void DoTimelineFilter(FilterItem item, bool isTimelineFilter)
+        public void DoTimelineFilter(FilterItem item, bool isFilterTimelineMode)
         {
             if (!RT.LoginOK)
                 return;
 
             RT.FilterMode = true;
 
-            if (item != null) //會null是由PostArea的comboBoxType發出
+            if (item != null) //�null�由PostArea�comboBoxType�出
             {
                 RT.CurrentFilterItem = item;
             }
 
             RT.FilterPosts = new List<Post>(); //Reset
 
-            RT.TimelineFilterMode = isTimelineFilter;
-            postsArea.ShowTypeUI(RT.TimelineFilterMode); //是Timeline才秀Type
+            RT.FilterTimelineMode = isFilterTimelineMode;
+            postsArea.ShowTypeUI(RT.FilterTimelineMode); //�Timeline��Type
 
             FilterFetchPostsAndShow(true);
         }
@@ -430,7 +429,7 @@ namespace Waveface
 
         private void FilterFetchPostsAndShow(bool firstTime)
         {
-            if (RT.FilterPostsAllCount == RT.FilterPosts.Count) //已經都抓完了
+            if (RT.FilterPostsAllCount == RT.FilterPosts.Count) //已��完�
                 return;
 
             int _offset = RT.FilterPosts.Count;
@@ -506,7 +505,7 @@ namespace Waveface
                     {
                         if (_postsGet.posts.Count > 0)
                         {
-                            //刪除比較基準的那個Post, 如果有回傳的話!
+                            //�除比��那�Post, 如����
                             Post _toDel = null;
 
                             foreach (Post _p in _postsGet.posts)
@@ -627,8 +626,7 @@ namespace Waveface
 
             if ((_singlePost != null) && (_singlePost.post != null))
             {
-                // AllPosts 跟 FilterPosts 都要更新, 如果有的話
-                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
+                // AllPosts �FilterPosts ��新, 如���                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
                 ReplacePostInList(_singlePost.post, RT.FilterPosts);
 
                 ShowPostToUI(true);
@@ -648,8 +646,7 @@ namespace Waveface
                 }
             }
 
-            // 不要將此段寫在上面迴圈的 if 裡
-            if (k != -1)
+            // 不�將此段寫��迴�� if �            if (k != -1)
             {
                 posts[k] = post;
 
@@ -843,15 +840,12 @@ namespace Waveface
 
         private void bgWorkerGetAllData_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            string _firstGetCount = "200"; //須為正
-            string _continueGetCount = "-200"; //須為負
-
+            string _firstGetCount = "200"; //�為�            string _continueGetCount = "-200"; //�為�
             MR_posts_get _postsGet;
             Dictionary<string, Post> _allPosts = new Dictionary<string, Post>();
             string _datum = string.Empty;
 
-            // 先取得第一批
-            MR_posts_getLatest _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+            // ��得第一            MR_posts_getLatest _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
 
             if (_getLatest != null)
             {
@@ -861,11 +855,10 @@ namespace Waveface
                     _datum = _p.timestamp;
                 }
 
-                // 若未取完
+                // �未��
                 if (_getLatest.get_count < _getLatest.total_count)
                 {
-                    // 假設還有很多沒取得
-                    int _remainingCount = int.MaxValue;
+                    // �設��很�沒��                    int _remainingCount = int.MaxValue;
 
                     while (_remainingCount > 0)
                     {
@@ -898,6 +891,13 @@ namespace Waveface
             }
 
             RT.CurrentGroupPosts = _tmpPosts;
+
+            string _lastReadPostID = RT.REST.Footprints_getLastScan();
+
+            if(!string.IsNullOrEmpty(_lastReadPostID))
+            {
+                RT.CurrentGroupLastRead = _lastReadPostID;
+            }
         }
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -906,7 +906,7 @@ namespace Waveface
 
             setCalendarBoldedDates(_posts);
 
-            postsArea.PostsList.SetPosts(_posts);
+            postsArea.PostsList.SetPosts(_posts, RT.GetCurrentGroupLastReadPosition());
         }
 
         #endregion
@@ -925,5 +925,18 @@ namespace Waveface
             m_exitToLogin = true;
             this.Close();
         }
+		public bool stationLogin(string email, string password)
+		{
+			try
+			{
+				WService.LoginStation(email, password);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Waveface");
+				return false;
+			}
+		}
     }
 }

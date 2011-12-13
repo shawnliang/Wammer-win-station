@@ -37,5 +37,10 @@ namespace Wammer.Model
 		{
 			collection.Save(svc);
 		}
+
+		public static void RemoveAll()
+		{
+			collection.RemoveAll();
+		}
 	}
 }

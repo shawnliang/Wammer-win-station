@@ -108,7 +108,14 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/",
 							new DropboxDisconnectHandler());
 
-			functionServer.Start();
+			Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+			if (svc != null)
+			{
+				if (svc.State == ServiceState.Online)
+				{
+					functionServer.Start();
+				}
+			}
 
 
 			managementServer = new HttpServer(9989);

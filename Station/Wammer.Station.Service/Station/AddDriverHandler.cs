@@ -10,6 +10,7 @@ using log4net;
 using Wammer.Model;
 using Wammer.Utility;
 using Wammer.Cloud;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
@@ -18,6 +19,7 @@ namespace Wammer.Station
 		private static ILog logger = LogManager.GetLogger("AddDriverHandler");
 		private readonly string stationId;
 		private readonly string resourceBasePath;
+		private readonly HttpServer functionServer;
 		
 		public EventHandler<DriverAddedEvtArgs> DriverAdded;
 
@@ -25,6 +27,13 @@ namespace Wammer.Station
 		{
 			this.stationId = stationId;
 			this.resourceBasePath = resourceBasePath;
+		}
+
+		public AddDriverHandler(string stationId, string resourceBasePath, HttpServer functionServer)
+		{
+			this.stationId = stationId;
+			this.resourceBasePath = resourceBasePath;
+			this.functionServer = functionServer;
 		}
 
 		protected override void HandleRequest()
@@ -43,7 +52,7 @@ namespace Wammer.Station
 				try
 				{
 					Cloud.StationApi api = Cloud.StationApi.SignUp(agent, stationId, email, password);
-					api.LogOn(agent, StatusChecker.GetDetail());
+					StationLogOnResponse logonRes = api.LogOn(agent, StatusChecker.GetDetail());
 
 					User user = User.LogIn(agent, email, password);
 					Drivers driver = new Drivers
@@ -114,6 +123,19 @@ namespace Wammer.Station
 
 			if (handler != null)
 				handler(this, args);
+		}
+
+		private static void WriteOnlineStateToDB()
+		{
+			Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+			if (svc == null)
+			{
+				svc = new Model.Service { Id = "StationService", State = ServiceState.Online };
+			}
+			else
+				svc.State = ServiceState.Online;
+
+			ServiceCollection.Save(svc);
 		}
 
 		public override object Clone()

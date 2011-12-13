@@ -277,6 +277,8 @@
             this.logoutMenuItem,
             this.mnuExit});
             this.mnuTray.Name = "mnuTree";
+            this.mnuTray.Size = new System.Drawing.Size(151, 110);
+            this.mnuTray.Size = new System.Drawing.Size(153, 154);
             this.mnuTray.Size = new System.Drawing.Size(153, 132);
             // 
             // restoreMenuItem

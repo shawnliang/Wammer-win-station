@@ -300,5 +300,33 @@ namespace Waveface
                 return null;
             }
         }
+
+        public string Footprints_getLastScan()
+        {
+            MR_footprints_LastScan _lastScan = m_service.footprints_getLastScan(SessionToken, m_rt.CurrentGroupID);
+
+            if ((_lastScan != null) && (_lastScan.status == "200"))
+            {
+                return _lastScan.last_scan.post_id;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string Footprints_setLastScan(string post_id)
+        {
+            MR_footprints_LastScan _lastScan = m_service.footprints_setLastScan(SessionToken, m_rt.CurrentGroupID, post_id);
+
+            if ((_lastScan != null) && (_lastScan.status == "200"))
+            {
+                return _lastScan.last_scan.post_id;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
