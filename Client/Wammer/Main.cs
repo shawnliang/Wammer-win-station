@@ -25,6 +25,8 @@ namespace Waveface
         public static Main Current;
         public static GCONST GCONST = new GCONST();
 
+        private ProgramSetting settings = new ProgramSetting();
+
         #region Fields
 
         //Main
@@ -56,13 +58,16 @@ namespace Waveface
             set { m_runTime = value; }
         }
 
-        public string StationToken { get; private set; }
+        private string StationToken
+        {
+            get { return settings.StationToken; }
+            set { settings.StationToken = value; }
+        }
         #endregion
 
-        public Main(string stationToken)
+        public Main()
         {
             Current = this;
-            this.StationToken = stationToken;
             File.Delete(m_shellContentMenuFilePath);
 
             InitializeComponent();
@@ -937,6 +942,11 @@ namespace Waveface
                 MessageBox.Show(ex.Message, "Waveface");
                 return false;
             }
+        }
+
+        private void Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.settings.Save();
         }
     }
 }
