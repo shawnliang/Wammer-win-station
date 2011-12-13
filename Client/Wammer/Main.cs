@@ -915,7 +915,7 @@ namespace Waveface
         {
             try
             {
-                WService.LogoutStation(this.RT.REST.SessionToken);
+                WService.LogoutStation(this.StationToken);
             }
             catch (Exception ex)
             {

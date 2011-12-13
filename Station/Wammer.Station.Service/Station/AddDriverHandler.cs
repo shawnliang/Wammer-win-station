@@ -69,7 +69,7 @@ namespace Wammer.Station
 
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
-					RespondSuccess();
+					RespondSuccess(new AddUserResponse(api.Token));
 				}
 				catch (WammerCloudException ex)
 				{
@@ -131,6 +131,12 @@ namespace Wammer.Station
 		public AddUserResponse()
 			: base()
 		{
+		}
+
+		public AddUserResponse(string session_token)
+			: base(200, DateTime.UtcNow, 0, "success")
+		{
+			this.session_token = session_token;
 		}
 	}
 
