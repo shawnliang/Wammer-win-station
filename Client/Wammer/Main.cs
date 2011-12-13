@@ -637,11 +637,23 @@ namespace Waveface
 
         private void ShowAllTimeline()
         {
-            List<Post> _posts = RT.CurrentGroupPosts;
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate
+                           {
+                               ShowAllTimeline();
+                           }
+                           ));
+            }
+            else
+            {
+                List<Post> _posts = RT.CurrentGroupPosts;
 
-            setCalendarBoldedDates(_posts);
+                setCalendarBoldedDates(_posts);
 
-            postsArea.PostsList.SetPosts(_posts, RT.GetCurrentGroupLastReadPosition());
+                postsArea.PostsList.SetPosts(_posts, RT.GetCurrentGroupLastReadPosition());
+            }
         }
 
         public void PostListClick(int clickIndex, Post post)
