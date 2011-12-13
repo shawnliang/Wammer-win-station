@@ -227,7 +227,7 @@ namespace Waveface
 			Cursor.Current = Cursors.WaitCursor;
 
             Main _main = new Main();
-            _main.Reset();
+            //_main.Reset();
 
 			Application.DoEvents();
 

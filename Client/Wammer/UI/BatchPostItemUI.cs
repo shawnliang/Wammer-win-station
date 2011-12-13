@@ -30,7 +30,7 @@ namespace Waveface
 
         private void BatchPostItemUI_Load(object sender, EventArgs e)
         {
-            ThreadPool.QueueUserWorkItem(state => { ThreadMethod(); }); 
+            ThreadPool.QueueUserWorkItem(state => { ThreadMethod(); });
         }
 
         private void ThreadMethod()
@@ -68,7 +68,7 @@ namespace Waveface
 
                     int _count = m_newPostItem.Files.Count;
 
-                    ChangeProgressBarUI(m_count*100/_count, m_count + "/" + _count);
+                    ChangeProgressBarUI(m_count * 100 / _count, m_count + "/" + _count);
 
                     if (m_count == _count)
                         break;
@@ -123,9 +123,9 @@ namespace Waveface
             {
                 Invoke(new MethodInvoker(
                            delegate
-                               {
-                                   ChangeProgressBarUI(count, countText);
-                               }
+                           {
+                               ChangeProgressBarUI(count, countText);
+                           }
                            ));
             }
             else
@@ -141,9 +141,9 @@ namespace Waveface
             {
                 Invoke(new MethodInvoker(
                            delegate
-                               {
-                                   PostDone(text);
-                               }
+                           {
+                               PostDone(text);
+                           }
                            ));
             }
             else
@@ -159,9 +159,9 @@ namespace Waveface
             {
                 Invoke(new MethodInvoker(
                            delegate
-                               {
-                                   SetLight(yes);
-                               }
+                           {
+                               SetLight(yes);
+                           }
                            ));
             }
             else

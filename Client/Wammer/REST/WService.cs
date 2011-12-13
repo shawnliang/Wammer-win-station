@@ -54,6 +54,13 @@ namespace Waveface.API.V2
             m_rest.MessageConverters.Add(new StringHttpMessageConverter());
         }
 
+        private T HttpGetObject<T>(string _url)
+        {
+            string _r = m_rest.GetForObject<string>(_url);
+            _r = StringUtility.UTF8ToISO_8859_1(_r);
+            return JsonConvert.DeserializeObject<T>(_r);
+        }
+
         #region auth
 
         public MR_auth_signup auth_signup(string email, string password, string nickname, string avatar_url)
@@ -85,6 +92,13 @@ namespace Waveface.API.V2
                 string _r = _webPos.getContent();
 
                 _ret = JsonConvert.DeserializeObject<MR_auth_signup>(_r);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+                    
+                throw;
             }
             catch
             {
@@ -119,20 +133,19 @@ namespace Waveface.API.V2
 
                 _ret = JsonConvert.DeserializeObject<MR_auth_login>(_r);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
             }
 
             return _ret;
-        }
-
-
-        private T HttpGetObject<T>(string _url)
-        {
-            string _r = m_rest.GetForObject<string>(_url);
-            _r = StringUtility.UTF8ToISO_8859_1(_r);
-            return JsonConvert.DeserializeObject<T>(_r);
         }
 
         public MR_auth_logout auth_logout(string session_token)
@@ -148,6 +161,13 @@ namespace Waveface.API.V2
                         "session_token" + "=" + session_token;
 
                 return HttpGetObject<MR_auth_logout>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -175,6 +195,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_users_get>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -201,6 +228,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_users_update>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -225,6 +259,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_users_passwd>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -244,6 +285,13 @@ namespace Waveface.API.V2
                         "session_token" + "=" + session_token;
 
                 return HttpGetObject<MR_users_findMyStation>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -273,6 +321,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_groups_create>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -294,6 +349,13 @@ namespace Waveface.API.V2
                         "group_id" + "=" + group_id;
 
                 return HttpGetObject<MR_groups_get>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -321,6 +383,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_groups_update>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -342,6 +411,13 @@ namespace Waveface.API.V2
                         "group_id" + "=" + group_id;
 
                 return HttpGetObject<MR_groups_delete>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -367,11 +443,17 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_groups_inviteUser>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
             }
-
         }
 
         public MR_groups_kickUser groups_kickUser(string session_token, string group_id, string user_id)
@@ -391,6 +473,13 @@ namespace Waveface.API.V2
                         "user_id" + "=" + user_id;
 
                 return HttpGetObject<MR_groups_kickUser>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -420,6 +509,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_getSingle>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -448,6 +544,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_get>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -471,6 +574,13 @@ namespace Waveface.API.V2
                         "limit" + "=" + limit;
 
                 return HttpGetObject<MR_posts_getLatest>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -506,6 +616,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_new>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -536,6 +653,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_newComment>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -559,6 +683,13 @@ namespace Waveface.API.V2
                         "post_id" + "=" + post_id;
 
                 return HttpGetObject<MR_posts_getComments>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -584,11 +715,17 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_get>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
             }
-
         }
 
         public MR_posts_hide_ret posts_hide(string session_token, string group_id, string post_id)
@@ -608,6 +745,13 @@ namespace Waveface.API.V2
                         "post_id" + "=" + post_id;
 
                 return HttpGetObject<MR_posts_hide_ret>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -632,6 +776,13 @@ namespace Waveface.API.V2
                         "post_id" + "=" + post_id;
 
                 return HttpGetObject<MR_posts_hide_ret>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -659,6 +810,13 @@ namespace Waveface.API.V2
                         "adv" + "=" + "false";
 
                 return HttpGetObject<MR_previews_get>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -690,6 +848,13 @@ namespace Waveface.API.V2
                 _settings.MissingMemberHandling = MissingMemberHandling.Ignore;
 
                 _ret = JsonConvert.DeserializeObject<MR_previews_get_adv>(_r, _settings);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -741,6 +906,13 @@ namespace Waveface.API.V2
 
                 _ret = JsonConvert.DeserializeObject<MR_attachments_upload>(_r);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -765,6 +937,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_attachments_get>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -786,6 +965,13 @@ namespace Waveface.API.V2
                         "object_id" + "=" + object_id;
 
                 return HttpGetObject<MR_attachments_delete>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -821,6 +1007,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_footprints_LastScan>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -844,6 +1037,13 @@ namespace Waveface.API.V2
                         "post_id" + "=" + post_id;
 
                 return HttpGetObject<MR_footprints_LastScan>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+                else
+                    throw;
             }
             catch
             {
@@ -869,6 +1069,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_footprints_LastRead>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -892,6 +1099,13 @@ namespace Waveface.API.V2
                         "last_read_input_array" + "=" + last_read_input_array;
 
                 return HttpGetObject<MR_footprints_LastRead>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
@@ -923,6 +1137,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_fetchfilters_item>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -951,6 +1172,13 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_fetchfilters_item>(_url);
             }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
+            }
             catch
             {
                 throw;
@@ -970,6 +1198,13 @@ namespace Waveface.API.V2
                         "session_token" + "=" + session_token;
 
                 return HttpGetObject<MR_fetchfilters_list>(_url);
+            }
+            catch (HttpResponseException _e)
+            {
+                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new Station401Exception();
+
+                throw;
             }
             catch
             {
