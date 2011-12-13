@@ -188,6 +188,13 @@ namespace Waveface
             }
         }
 
+        public void RefreshTimelineAsync()
+        {
+            Cursor.Current = Cursors.WaitCursor;
+
+            bgWorkerGetAllData.RunWorkerAsync();
+        }
+
         #endregion
 
         #region Event
@@ -396,16 +403,17 @@ namespace Waveface
 
             leftArea.SetUI(true);
 
+            Cursor.Current = Cursors.Default;
+
             if (_login == null)
             {
                 ShowAllTimeline();
             }
             else
             {
-                bgWorkerGetAllData.RunWorkerAsync();
-            }
 
-            Cursor.Current = Cursors.Default;
+                RefreshTimelineAsync();
+            }
 
             return true;
         }
@@ -1007,8 +1015,10 @@ namespace Waveface
         {
             ShowAllTimeline();
 
-            //TEST
-            //RT.Login.session_token = "";
+            Cursor.Current = Cursors.Default;
+            
+            // Test
+            // RT.Login.session_token = "";
         }
 
         #endregion

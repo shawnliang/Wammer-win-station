@@ -812,6 +812,9 @@
     </COMReference>
     <None Include="Resources\Save.png" />
     <None Include="Resources\SaveAll.png" />
+    <None Include="Resources\refresh.png" />
+    <None Include="Resources\trash.png" />
+    <None Include="Resources\write_comment.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

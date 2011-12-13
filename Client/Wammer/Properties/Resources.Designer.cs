@@ -235,6 +235,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap refresh {
+            get {
+                object obj = ResourceManager.GetObject("refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap rewind {
             get {
                 object obj = ResourceManager.GetObject("rewind", resourceCulture);
@@ -277,6 +284,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap trash {
+            get {
+                object obj = ResourceManager.GetObject("trash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap waveface_icon64 {
             get {
                 object obj = ResourceManager.GetObject("waveface_icon64", resourceCulture);
@@ -294,6 +308,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap white_edit {
             get {
                 object obj = ResourceManager.GetObject("white_edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap write_comment {
+            get {
+                object obj = ResourceManager.GetObject("write_comment", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

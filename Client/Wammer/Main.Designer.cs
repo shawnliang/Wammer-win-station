@@ -365,14 +365,14 @@
             this.timerGetNewestPost.Interval = 10000;
             this.timerGetNewestPost.Tick += new System.EventHandler(this.timerGetNewestPost_Tick);
             // 
-            // timerFetchOlderPost
+            // timerFilterReadmore
             // 
             this.timerFilterReadmore.Interval = 500;
             this.timerFilterReadmore.Tick += new System.EventHandler(this.timerFilterReadmore_Tick);
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(171)))), ((int)(((byte)(104)))));
+            this.panelTop.BackColor = System.Drawing.Color.Chocolate;
             this.panelTop.Controls.Add(this.pictureBoxLogo);
             this.panelTop.Controls.Add(this.panelStation);
             this.panelTop.Controls.Add(this.labelName);
