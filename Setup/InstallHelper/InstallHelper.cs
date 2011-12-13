@@ -100,6 +100,15 @@ namespace Wammer.Station
 				Logger.Warn("Unable to delete cloud storage from MongoDB", e);
 			}
 
+			try
+			{
+				Model.ServiceCollection.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete service collection from MongoDB", e);
+			}
+
 			return ActionResult.Success;
 		}
 	}

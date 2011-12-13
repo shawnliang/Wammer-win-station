@@ -10,14 +10,16 @@ using log4net;
 using Wammer.Model;
 using Wammer.Utility;
 using Wammer.Cloud;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
 	public class AddDriverHandler: HttpHandler
 	{
-		private static ILog logger = LogManager.GetLogger("StationManagement");
+		private static ILog logger = LogManager.GetLogger("AddDriverHandler");
 		private readonly string stationId;
 		private readonly string resourceBasePath;
+		private readonly HttpServer functionServer;
 		
 		public EventHandler<DriverAddedEvtArgs> DriverAdded;
 
@@ -25,6 +27,13 @@ namespace Wammer.Station
 		{
 			this.stationId = stationId;
 			this.resourceBasePath = resourceBasePath;
+		}
+
+		public AddDriverHandler(string stationId, string resourceBasePath, HttpServer functionServer)
+		{
+			this.stationId = stationId;
+			this.resourceBasePath = resourceBasePath;
+			this.functionServer = functionServer;
 		}
 
 		protected override void HandleRequest()
@@ -43,7 +52,11 @@ namespace Wammer.Station
 				try
 				{
 					Cloud.StationApi api = Cloud.StationApi.SignUp(agent, stationId, email, password);
-					api.LogOn(agent, StatusChecker.GetDetail());
+					StationLogOnResponse logonRes = api.LogOn(agent, StatusChecker.GetDetail());
+					
+					logger.Debug("Station logon successfully, start function server");
+					functionServer.Start();
+					WriteOnlineStateToDB();
 
 					User user = User.LogIn(agent, email, password);
 					Drivers driver = new Drivers
@@ -69,7 +82,7 @@ namespace Wammer.Station
 
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
-					RespondSuccess();
+					RespondSuccess(new AddUserResponse(api.Token));
 				}
 				catch (WammerCloudException ex)
 				{
@@ -116,6 +129,19 @@ namespace Wammer.Station
 				handler(this, args);
 		}
 
+		private static void WriteOnlineStateToDB()
+		{
+			Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+			if (svc == null)
+			{
+				svc = new Model.Service { Id = "StationService", State = ServiceState.Online };
+			}
+			else
+				svc.State = ServiceState.Online;
+
+			ServiceCollection.Save(svc);
+		}
+
 		public override object Clone()
 		{
 			return this.MemberwiseClone();
@@ -131,6 +157,12 @@ namespace Wammer.Station
 		public AddUserResponse()
 			: base()
 		{
+		}
+
+		public AddUserResponse(string session_token)
+			: base(200, DateTime.UtcNow, 0, "success")
+		{
+			this.session_token = session_token;
 		}
 	}
 

@@ -23,7 +23,7 @@ namespace StationSetup
 
 			if (WavefaceWindowsClientHelper.IsAlreadyResistered())
 			{
-				WavefaceWindowsClientHelper.StartWavefaceWindowsClient("", "");
+				WavefaceWindowsClientHelper.StartWavefaceWindowsClient("", "", "");
 				return;
 			}
 
@@ -40,7 +40,7 @@ namespace StationSetup
 			return Wammer.Station.Management.StationController.GetOwner() != null;
 		}
 
-		public static void StartWavefaceWindowsClient(string email, string password)
+		public static void StartWavefaceWindowsClient(string email, string password, string token)
 		{
 			string ProgramDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			string WavefaceWindowsClientPath = Path.Combine(ProgramDir, "WavefaceWindowsClient.exe");
@@ -53,7 +53,7 @@ namespace StationSetup
 				}
 				else
 				{
-					Process.Start(WavefaceWindowsClientPath, email + " " + password);
+					Process.Start(WavefaceWindowsClientPath, email + " " + password + " " + token);
 				}
 			}
 			catch (Exception e)

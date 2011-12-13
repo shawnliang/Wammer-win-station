@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
@@ -26,6 +26,8 @@ namespace Waveface
     {
         public static Main Current;
         public static GCONST GCONST = new GCONST();
+
+        private ProgramSetting settings = new ProgramSetting();
 
         #region Fields
 
@@ -59,12 +61,16 @@ namespace Waveface
             set { m_runTime = value; }
         }
 
+        private string StationToken
+        {
+            get { return settings.StationToken; }
+            set { settings.StationToken = value; }
+        }
         #endregion
 
         public Main()
         {
             Current = this;
-
             File.Delete(m_shellContentMenuFilePath);
 
             InitializeComponent();
@@ -163,7 +169,14 @@ namespace Waveface
 
         private void SetLastReadPos()
         {
-            RT.REST.Footprints_setLastScan(RT.CurrentGroupLastRead);
+            try
+            {
+                RT.REST.Footprints_setLastScan(RT.CurrentGroupLastRead);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unabel to set last scan position:" + ex.Message);
+            }
         }
 
         public void Station401ExceptionHandler(string message)
@@ -356,7 +369,7 @@ namespace Waveface
         public void Reset(bool online)
         {
             if (online)
-                RT.Reset();
+            RT.Reset();
 
             m_process401Exception = false;
 
@@ -396,13 +409,13 @@ namespace Waveface
                 CheckStation(RT.Login.stations);
             }
 
-            getGroupAndUser();
-            fillUserInformation();
+                getGroupAndUser();
+                fillUserInformation();
 
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
             RT.FilterMode = false;
 
-            leftArea.SetUI(true);
+                leftArea.SetUI(true);
 
             Cursor.Current = Cursors.Default;
 
@@ -493,7 +506,7 @@ namespace Waveface
 
             RT.FilterMode = true;
 
-            if (item != null) //會null是由PostArea的comboBoxType發出
+            if (item != null) //�null�由PostArea�comboBoxType�出
             {
                 RT.CurrentFilterItem = item;
             }
@@ -501,7 +514,7 @@ namespace Waveface
             RT.FilterPosts = new List<Post>(); //Reset
 
             RT.FilterTimelineMode = isFilterTimelineMode;
-            postsArea.ShowTypeUI(RT.FilterTimelineMode); //是Timeline才秀Type
+            postsArea.ShowTypeUI(RT.FilterTimelineMode); //�Timeline��Type
 
             FilterFetchPostsAndShow(true);
         }
@@ -521,7 +534,7 @@ namespace Waveface
 
         private void FilterFetchPostsAndShow(bool firstTime)
         {
-            if (RT.FilterPostsAllCount == RT.FilterPosts.Count) //已經都抓完了
+            if (RT.FilterPostsAllCount == RT.FilterPosts.Count) //已��完�
                 return;
 
             int _offset = RT.FilterPosts.Count;
@@ -597,7 +610,7 @@ namespace Waveface
                     {
                         if (_postsGet.posts.Count > 0)
                         {
-                            //刪除比較基準的那個Post, 如果有回傳的話!
+                            //�除比��那�Post, 如����
                             Post _toDel = null;
 
                             foreach (Post _p in _postsGet.posts)
@@ -739,8 +752,7 @@ namespace Waveface
 
             if ((_singlePost != null) && (_singlePost.post != null))
             {
-                // AllPosts 跟 FilterPosts 都要更新, 如果有的話
-                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
+                // AllPosts �FilterPosts ��新, 如���                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
                 ReplacePostInList(_singlePost.post, RT.FilterPosts);
 
                 ShowPostToUI(true);
@@ -760,8 +772,7 @@ namespace Waveface
                 }
             }
 
-            // 不要將此段寫在上面迴圈的 if 裡
-            if (k != -1)
+            // 不�將此段寫��迴�� if �            if (k != -1)
             {
                 posts[k] = post;
 
@@ -958,7 +969,6 @@ namespace Waveface
         {
             string _firstGetCount = "200";
             string _continueGetCount = "-200";
-
             Dictionary<string, Post> _allPosts = new Dictionary<string, Post>();
             string _datum = string.Empty;
 
@@ -1010,7 +1020,7 @@ namespace Waveface
             RT.CurrentGroupPosts = _tmpPosts;
 
             GetLastReadPos();
-        }
+            }
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -1023,5 +1033,30 @@ namespace Waveface
         }
 
         #endregion
+
+        private void logoutMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                WService.LogoutStation(this.StationToken);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Waveface");
+            }
+
+            m_exitToLogin = true;
+            this.Close();
+        }
+
+		public void stationLogin(string email, string password)
+        {
+            this.StationToken = WService.LoginStation(email, password);
+        }
+
+        private void Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.settings.Save();
+        }
     }
 }

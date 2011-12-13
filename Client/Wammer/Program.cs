@@ -32,14 +32,19 @@ namespace Waveface
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                ProgramSetting settings = new ProgramSetting();
 
                 string _email = string.Empty;
                 string _password = string.Empty;
+                string _token = string.Empty;
 
-                if (args.Length == 2)
+                if (args.Length == 3)
                 {
                     _email = args[0];
                     _password = args[1];
+                    _token = args[2];
+                    settings.StationToken = _token;
+                    settings.Save();
                 }
 
                 Application.Run(new LoginForm(_email, _password));

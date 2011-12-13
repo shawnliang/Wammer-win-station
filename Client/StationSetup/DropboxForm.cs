@@ -26,15 +26,17 @@ namespace Wammer.Station
         private bool m_doAutoPost;
         private string m_email;
         private string m_password;
+        private string m_token;
         private string m_dropboxOAuthUrl = string.Empty;
         private bool m_verifyOK;
         private bool m_verifying;
         private bool m_autoPostOK;
-
-        public DropboxForm(string email, string password)
+        
+        public DropboxForm(string email, string password, string token)
         {
             m_email = email;
             m_password = password;
+            m_token = token;
 
             InitializeComponent();
 
@@ -246,7 +248,7 @@ namespace Wammer.Station
         {
             m_doAutoPost = false;
 
-            WavefaceWindowsClientHelper.StartWavefaceWindowsClient(m_email, m_password);
+            WavefaceWindowsClientHelper.StartWavefaceWindowsClient(m_email, m_password, m_token);
 
             m_autoPostOK = true;
 

@@ -20,23 +20,9 @@ namespace Wammer.Station
 		private HttpListener listener;
 		private Dictionary<string, HttpHandlerProxy> handlers;
 		private HttpHandlerProxy defaultHandler;
-		private bool stopping = false;
 		private bool started = false;
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpServer");
-
-		/// <summary>
-		/// Gets or sets offline key. A request to shutdown or bring up server has to 
-		/// have a matching offline key.
-		/// </summary>
-		public string OfflineKey { get; set; }
-
-		/// <summary>
-		/// Gets or sets the server online or offline
-		/// </summary>
-		public bool Online { get; set; }
-
-		public static string OFFLINE_API = "/station/offline";
-		public static string ONLINE_API = "/station/online";
+		private object cs = new object();
 
 		public HttpServer(int port)
 		{
@@ -44,11 +30,6 @@ namespace Wammer.Station
 			this.listener = new HttpListener();
 			this.handlers = new Dictionary<string, HttpHandlerProxy>();
 			this.defaultHandler = null;
-			this.Online = true;
-			this.OfflineKey = "";
-
-			this.AddHandler(OFFLINE_API, new ServerOfflineHandler(this));
-			this.AddHandler(ONLINE_API, new ServerOnlineHandler(this));
 		}
 
 		public void AddHandler(string path, IHttpHandler handler)
@@ -90,20 +71,26 @@ namespace Wammer.Station
 
 		public void Start()
 		{
-			if (started)
-				throw new InvalidOperationException("Http server already started");
+			lock (cs)
+			{
+				if (started)
+					return;
 
-			listener.Start();
-			started = true;
-			listener.BeginGetContext(this.ConnectionAccepted, null);
+				listener.Start();
+				started = true;
+				listener.BeginGetContext(this.ConnectionAccepted, null);
+			}
 		}
 
 		public void Stop()
 		{
-			if (started && !stopping)
+			lock (cs)
 			{
-				stopping = true;
-				listener.Stop();
+				if (started)
+				{
+					listener.Stop();
+					started = false;
+				}
 			}
 		}
 
@@ -130,9 +117,6 @@ namespace Wammer.Station
 
 				if (context != null)
 				{
-					if (!this.Online && !context.Request.Url.AbsolutePath.StartsWith(ONLINE_API))
-						respond503Unavailable(context);
-
 					HttpHandlerProxy handler = FindBestMatch(
 												context.Request.Url.AbsolutePath);
 
@@ -148,16 +132,8 @@ namespace Wammer.Station
 			}
 			catch (Exception e)
 			{
-				if (stopping)
-				{
-					logger.Info("Shutdown server");
-					return;
-				}
-				else
-				{
-					logger.Info("Shutdown server", e);
-					return;
-				}
+				logger.Info("Shutdown server", e);
+				return;
 			}
 		}
 
@@ -232,9 +208,14 @@ namespace Wammer.Station
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				HttpHelper.RespondFailure(ctx.Response, 
+				HttpHelper.RespondFailure(ctx.Response,
 					new WammerStationException(e.ToString(), e.WammerError), (int)HttpStatusCode.BadRequest);
 				logger.Warn("Connecting to cloud error", e);
+			}
+			catch (ServiceUnavailableException e)
+			{
+				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.ServiceUnavailable);
+				logger.Warn("Service unavailable", e);
 			}
 			catch (WammerStationException e)
 			{
@@ -260,49 +241,4 @@ namespace Wammer.Station
 		}
 	}
 
-	class OnlineOfflineHandler : HttpHandler
-	{
-		private readonly HttpServer server;
-		private readonly bool onoff;
-
-		public OnlineOfflineHandler(HttpServer server, bool onoff)
-		{
-			this.server = server;
-			this.onoff = onoff;
-		}
-
-		protected override void HandleRequest()
-		{
-			string key = Parameters["key"];
-
-			if (key == null || !key.Equals(server.OfflineKey))
-				throw new WammerStationException("Offline key error", -1);
-
-			server.Online = onoff;
-
-			RespondSuccess();
-		}
-
-		public override object Clone()
-		{
-			return this.MemberwiseClone();
-		}
-	}
-
-	class ServerOfflineHandler : OnlineOfflineHandler
-	{
-		public ServerOfflineHandler(HttpServer server)
-			:base(server, false)
-		{
-		}
-	}
-
-	class ServerOnlineHandler : OnlineOfflineHandler
-	{
-		public ServerOnlineHandler(HttpServer server)
-			:base(server, true)
-		{
-		}
-
-	}
 }
