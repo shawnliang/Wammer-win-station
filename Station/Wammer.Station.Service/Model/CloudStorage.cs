@@ -8,6 +8,7 @@ using MongoDB.Driver;
 
 namespace Wammer.Model
 {
+	[BsonIgnoreExtraElements]
 	public class CloudStorage
 	{
 		[BsonIgnore]

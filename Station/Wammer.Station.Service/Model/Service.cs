@@ -14,6 +14,7 @@ namespace Wammer.Model
 		Offline
 	}
 
+	[BsonIgnoreExtraElements]
 	public class Service
 	{
 		[BsonId]
