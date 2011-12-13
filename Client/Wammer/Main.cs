@@ -279,6 +279,7 @@ namespace Waveface
             }
 
             GetLastReadPos();
+            ShowAllTimeline();
         }
 
         private void restoreMenuItem_Click(object sender, EventArgs e)
