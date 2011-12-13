@@ -381,7 +381,7 @@
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(171)))), ((int)(((byte)(104)))));
+            this.panelTop.BackColor = System.Drawing.Color.Chocolate;
             this.panelTop.Controls.Add(this.pictureBoxLogo);
             this.panelTop.Controls.Add(this.panelStation);
             this.panelTop.Controls.Add(this.labelName);

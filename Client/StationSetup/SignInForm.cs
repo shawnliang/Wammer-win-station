@@ -80,11 +80,11 @@ namespace Wammer.Station
 
                         Close();
                     }
-                    catch
+                    catch (Exception e)
                     {
                         Cursor.Current = Cursors.Default;
 
-                        ShowErrorDialogAndExit(I18n.L.T("SignOffStationError"));
+                        ShowErrorDialogAndExit(I18n.L.T("SignOffStationError") + " : " + e.ToString());
                     }
                 }
                 else
