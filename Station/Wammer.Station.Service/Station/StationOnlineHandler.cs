@@ -40,6 +40,7 @@ namespace Wammer.Station
 				// function server should be stopped if driver's info is removed
 				logger.Debug("Try to stop function server");
 				functionServer.Stop();
+				WriteServiceStateToDB(ServiceState.Offline);
 
 				throw new ServiceUnavailableException("Station cannot work without driver", (int)StationApiError.ServiceUnavailable);
 			}
@@ -57,26 +58,49 @@ namespace Wammer.Station
 				throw new InvalidOperationException("Station collection is empty");
 			}
 
-			logger.DebugFormat("Station logon with stationId = {0}, email = {1}", stationInfo.Id, email);
-			StationLogOnResponse logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password);
+			try
+			{
+				logger.DebugFormat("Station logon with stationId = {0}, email = {1}", stationInfo.Id, email);
+				StationLogOnResponse logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password);
+				
+				logger.Debug("Station logon successfully, start function server");
+				functionServer.Start();
+				WriteServiceStateToDB(ServiceState.Online);
 
-			logger.Debug("Station logon successfully, start function server");
-			functionServer.Start();
-			WriteOnlineStateToDB();
+				logger.Debug("Start function server successfully");
+				RespondSuccess(new StationOnlineResponse { session_token = logonRes.session_token, status = 200, timestamp = DateTime.UtcNow, api_ret_code = 0, api_ret_msg = "success" });
+			}
+			catch (WammerCloudException e)
+			{
+				if (e.WammerError == 0x4000 + 3) // driver already registered another station
+				{
+					logger.Error("Driver already registered another station");
 
-			logger.Debug("Start function server successfully");
-			RespondSuccess(new StationOnlineResponse { session_token = logonRes.session_token, status = 200, timestamp = DateTime.UtcNow, api_ret_code = 0, api_ret_msg = "success" });
+					// remove driver and cloudstorage info since driver already registered another station
+					Drivers.collection.RemoveAll();
+					CloudStorage.collection.RemoveAll();
+					
+					// function server should be stopped if driver's info is removed
+					logger.Debug("Try to stop function server");
+					functionServer.Stop();
+					WriteServiceStateToDB(ServiceState.Offline);
+
+					throw new ServiceUnavailableException("Driver already registered another station", (int)StationApiError.ServiceUnavailable);
+				}
+				else
+					throw;
+			}
 		}
 
-		private static void WriteOnlineStateToDB()
+		private static void WriteServiceStateToDB(ServiceState state)
 		{
 			Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
 			if (svc == null)
 			{
-				svc = new Model.Service { Id = "StationService", State = ServiceState.Online };
+				svc = new Model.Service { Id = "StationService", State = state };
 			}
 			else
-				svc.State = ServiceState.Online;
+				svc.State = state;
 
 			ServiceCollection.Save(svc);
 		}
