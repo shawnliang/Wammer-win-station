@@ -69,5 +69,10 @@ namespace Waveface
         {
             Main.Current.FilterReadMorePost();
         }
+
+        private void Refresh_Click(object sender, System.EventArgs e)
+        {
+            Main.Current.RefreshTimelineAsync();
+        }
     }
 }
