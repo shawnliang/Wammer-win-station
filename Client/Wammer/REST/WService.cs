@@ -1,4 +1,4 @@
-ï»region
+#region
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -982,28 +982,33 @@ namespace Waveface.API.V2
 
         #region station login/logout
 
-        public static void LoginStation(string email, string password)
-		{
-			email = email.Replace("@", "%40");
-			password = HttpUtility.UrlEncode(password);
+        public static string LoginStation(string email, string password)
+        {
+            email = email.Replace("@", "%40");
+            password = HttpUtility.UrlEncode(password);
 
-			try
-			{
-				using (WebClient agent = new WebClient())
-				{
-					string url = string.Format("http://localhost:9989/v2/station/online?email={0}&password={1}&apikey={2}",
-						email, password, APIKEY);
+            try
+            {
+                using (WebClient agent = new WebClient())
+                {
+                    string url = string.Format("http://localhost:9989/v2/station/online?email={0}&password={1}&apikey={2}",
+                        email, password, APIKEY);
 
-					agent.DownloadData(url);
-				}
-			}
-			catch (Exception e)
-			{
-				throw new Exception("Unable to login station with Waveface cloud", e);
-			}
-		}
-		
-		public static void LogoutStation(string session_token)
+                    byte[] resp = agent.DownloadData(url);
+                    string respText = System.Text.Encoding.UTF8.GetString(resp);
+
+                    General_R r = JsonConvert.DeserializeObject<General_R>(respText);
+
+                    return r.session_token;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Unable to login station with Waveface cloud", e);
+            }
+        }
+        
+        public static void LogoutStation(string session_token)
         {
             try
             {

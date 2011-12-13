@@ -1,4 +1,4 @@
-Ôªregion
+#region
 
 using System;
 using System.Collections.Generic;
@@ -309,7 +309,7 @@ namespace Waveface
 
                 RT.CurrentGroupID = RT.Login.groups[0].group_id; //êË®≠Áæ§Á
 
-                bgWorkerGetAllData.RunWorkerAsync();
+                //bgWorkerGetAllData.RunWorkerAsync();
 
                 leftArea.SetUI(true);
 
@@ -840,12 +840,13 @@ namespace Waveface
 
         private void bgWorkerGetAllData_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            string _firstGetCount = "200"; //àÁÇ∫Ê≠            string _continueGetCount = "-200"; //àÁÇ∫Ë≤
+            string _firstGetCount = "200";
+            string _continueGetCount = "-200";
             MR_posts_get _postsGet;
             Dictionary<string, Post> _allPosts = new Dictionary<string, Post>();
             string _datum = string.Empty;
 
-            // àÂÂæóÁ¨¨‰∏Ä            MR_posts_getLatest _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+            MR_posts_getLatest _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
 
             if (_getLatest != null)
             {
@@ -855,10 +856,9 @@ namespace Waveface
                     _datum = _p.timestamp;
                 }
 
-                // •Êú™ñÂ
                 if (_getLatest.get_count < _getLatest.total_count)
                 {
-                    // áË®≠ÑÊÂæàÂÊ≤íÂÂæ                    int _remainingCount = int.MaxValue;
+                    int _remainingCount = int.MaxValue;
 
                     while (_remainingCount > 0)
                     {
@@ -925,18 +925,18 @@ namespace Waveface
             m_exitToLogin = true;
             this.Close();
         }
-		public bool stationLogin(string email, string password)
-		{
-			try
-			{
-				WService.LoginStation(email, password);
-				return true;
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message, "Waveface");
-				return false;
-			}
-		}
+        public bool stationLogin(string email, string password)
+        {
+            try
+            {
+                this.StationToken = WService.LoginStation(email, password);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Waveface");
+                return false;
+            }
+        }
     }
 }

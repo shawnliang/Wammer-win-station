@@ -44,7 +44,7 @@ namespace Wammer.Cloud
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
-			StationLogOnResponse res = CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logon", param);
+			StationLogOnResponse res = CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", param);
 			return res;
 		}
 

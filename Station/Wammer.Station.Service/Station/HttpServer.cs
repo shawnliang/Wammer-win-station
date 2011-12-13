@@ -75,7 +75,7 @@ namespace Wammer.Station
 			lock (cs)
 			{
 				if (started)
-					throw new InvalidOperationException("Http server already started");
+					return;
 
 				listener.Start();
 				started = true;
