@@ -1246,9 +1246,21 @@ namespace Waveface.API.V2
 					{
 						throw new ServiceUnavailableException("Service unavailable. The station might be unregistered by its driver.");
 					}
+					else if (res.StatusCode == HttpStatusCode.BadRequest)
+					{
+						using (StreamReader reader = new StreamReader(res.GetResponseStream()))
+						{
+							string resText = reader.ReadToEnd();
+							General_R r = JsonConvert.DeserializeObject<General_R>(resText);
+							if (r.api_ret_code == "4097")
+							{
+								throw new Exception("User email/password is invalid.", e);
+							}
+						}
+					}
 				}
 
-				throw;
+				throw new Exception("Unable to login station with Waveface cloud", e);
 			}
 			catch (Exception e)
 			{
