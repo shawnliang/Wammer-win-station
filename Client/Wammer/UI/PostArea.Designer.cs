@@ -1,4 +1,6 @@
-﻿namespace Waveface
+﻿using Waveface.Component;
+
+namespace Waveface
 {
     partial class PostArea
     {
@@ -29,8 +31,7 @@
         private void InitializeComponent()
         {
             this.panelTop = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pbRefresh = new System.Windows.Forms.PictureBox();
+            this.btnRefresh = new Waveface.Component.XPButton();
             this.labelDisplay = new System.Windows.Forms.Label();
             this.comboBoxType = new System.Windows.Forms.ComboBox();
             this.panelList = new System.Windows.Forms.Panel();
@@ -40,7 +41,6 @@
             this.labelPostInfo = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbRefresh)).BeginInit();
             this.panelList.SuspendLayout();
             this.panelButtom.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -49,8 +49,7 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.panelTop.Controls.Add(this.label1);
-            this.panelTop.Controls.Add(this.pbRefresh);
+            this.panelTop.Controls.Add(this.btnRefresh);
             this.panelTop.Controls.Add(this.labelDisplay);
             this.panelTop.Controls.Add(this.comboBoxType);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
@@ -60,29 +59,23 @@
             this.panelTop.Size = new System.Drawing.Size(386, 32);
             this.panelTop.TabIndex = 0;
             // 
-            // label1
+            // btnRefresh
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(197)))), ((int)(((byte)(197)))));
-            this.label1.Location = new System.Drawing.Point(331, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 14);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Refresh";
-            this.label1.Click += new System.EventHandler(this.Refresh_Click);
-            // 
-            // pbRefresh
-            // 
-            this.pbRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbRefresh.Image = global::Waveface.Properties.Resources.refresh;
-            this.pbRefresh.Location = new System.Drawing.Point(307, 5);
-            this.pbRefresh.Name = "pbRefresh";
-            this.pbRefresh.Size = new System.Drawing.Size(24, 24);
-            this.pbRefresh.TabIndex = 4;
-            this.pbRefresh.TabStop = false;
-            this.pbRefresh.Click += new System.EventHandler(this.Refresh_Click);
+            this.btnRefresh.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefresh.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnRefresh.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnRefresh.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnRefresh.Image = global::Waveface.Properties.Resources.refresh;
+            this.btnRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRefresh.Location = new System.Drawing.Point(300, 3);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(81, 26);
+            this.btnRefresh.TabIndex = 6;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Visible = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // labelDisplay
             // 
@@ -196,7 +189,6 @@
             this.Size = new System.Drawing.Size(386, 467);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbRefresh)).EndInit();
             this.panelList.ResumeLayout(false);
             this.panelButtom.ResumeLayout(false);
             this.panelButtom.PerformLayout();
@@ -216,7 +208,6 @@
         private System.Windows.Forms.Label labelPostInfo;
         private System.Windows.Forms.LinkLabel linkLabelReadMore;
         private System.Windows.Forms.Label labelDisplay;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pbRefresh;
+        private XPButton btnRefresh;
     }
 }

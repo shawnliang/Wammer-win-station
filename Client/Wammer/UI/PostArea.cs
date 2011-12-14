@@ -1,8 +1,6 @@
 ﻿#region
 
-using System.Collections.Generic;
 using System.Windows.Forms;
-using Waveface.FilterUI;
 
 #endregion
 
@@ -30,7 +28,7 @@ namespace Waveface
         public void ShowTypeUI(bool flag)
         {
             // panelButtom.Visible = flag;
-            
+
             labelDisplay.Visible = flag;
             comboBoxType.Visible = flag;
         }
@@ -70,9 +68,19 @@ namespace Waveface
             Main.Current.FilterReadMorePost();
         }
 
-        private void Refresh_Click(object sender, System.EventArgs e)
+        private void btnRefresh_Click(object sender, System.EventArgs e)
         {
-            Main.Current.RefreshTimelineAsync();
+            Main.Current.GetAllDataAsync();
+        }
+
+        public void updateRefreshUI(bool flag)
+        {
+            btnRefresh.Enabled = flag;
+        }
+
+        public void showRefreshUI(bool flag)
+        {
+            btnRefresh.Visible = flag;
         }
     }
 }

@@ -465,7 +465,7 @@ namespace Waveface
             return null;
         }
 
-        public string Footprints_getLastScan()
+        public LastScan Footprints_getLastScan()
         {
             if (!IsNetworkAvailable)
                 return null;
@@ -484,7 +484,7 @@ namespace Waveface
             if (_ret != null)
             {
                 if (_ret.status == "200")
-                    return _ret.last_scan.post_id;
+                    return _ret.last_scan;
             }
 
             return null;

@@ -74,6 +74,7 @@
             this.labelName = new System.Windows.Forms.Label();
             this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
+            this.timerReloadAllData = new System.Windows.Forms.Timer(this.components);
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -387,6 +388,11 @@
             this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
             this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
             // 
+            // timerReloadAllData
+            // 
+            this.timerReloadAllData.Interval = 500;
+            this.timerReloadAllData.Tick += new System.EventHandler(this.timerReloadAllData_Tick);
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -468,6 +474,7 @@
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
         private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeOwnerMenuItem;
+        private System.Windows.Forms.Timer timerReloadAllData;
 	}
 }
 
