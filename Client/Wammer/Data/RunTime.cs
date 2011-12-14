@@ -15,6 +15,7 @@ namespace Waveface
         #region System
 
         private string RUN_TIME_FILE = "Waveface System.dat";
+        private string LAST_READ_FILE = "Waveface Last Read.dat";
 
         private RT_REST m_rest;
         public MR_auth_login Login { get; set; }
@@ -48,10 +49,9 @@ namespace Waveface
         #region Group
 
         public string CurrentGroupID { get; set; }
-        public Dictionary<string, MR_groups_get> GroupGetReturnSets { get; set; }
 
+        public Dictionary<string, MR_groups_get> GroupGetReturnSets { get; set; }
         private Dictionary<string, List<Post>> m_groupPosts { get; set; }
-        private Dictionary<string, string> m_groupLastRead { get; set; }
 
         public List<Post> CurrentGroupPosts
         {
@@ -65,16 +65,67 @@ namespace Waveface
             set { m_groupPosts[CurrentGroupID] = value; }
         }
 
-        public string CurrentGroupLastRead
+        #endregion
+
+        #region LastRead
+
+        private Dictionary<string, string> m_groupLastReadID { get; set; }
+        private Dictionary<string, string> m_groupLastReadTime { get; set; }
+        private Dictionary<string, string> m_groupLocalLastReadID { get; set; }
+        private Dictionary<string, string> m_groupLocalLastReadTime { get; set; }
+
+        public string CurrentGroupLastReadID
         {
             get
             {
-                if (!m_groupLastRead.ContainsKey(CurrentGroupID))
-                    m_groupLastRead[CurrentGroupID] = string.Empty;
+                if (!m_groupLastReadID.ContainsKey(CurrentGroupID))
+                    m_groupLastReadID[CurrentGroupID] = string.Empty;
 
-                return m_groupLastRead[CurrentGroupID];
+                return m_groupLastReadID[CurrentGroupID];
             }
-            set { m_groupLastRead[CurrentGroupID] = value; }
+            set
+            {
+                m_groupLastReadID[CurrentGroupID] = value;
+            }
+        }
+
+        public string CurrentGroupLastReadTime
+        {
+            get
+            {
+                if (!m_groupLastReadTime.ContainsKey(CurrentGroupID))
+                    m_groupLastReadTime[CurrentGroupID] = string.Empty;
+
+                return m_groupLastReadTime[CurrentGroupID];
+            }
+            set { m_groupLastReadTime[CurrentGroupID] = value; }
+        }
+
+        public string CurrentGroupLocalLastReadID
+        {
+            get
+            {
+                if (!m_groupLocalLastReadID.ContainsKey(CurrentGroupID))
+                    m_groupLocalLastReadID[CurrentGroupID] = string.Empty;
+
+                return m_groupLocalLastReadID[CurrentGroupID];
+            }
+            set
+            {
+                m_groupLocalLastReadID[CurrentGroupID] = value;
+            }
+        }
+
+        public string CurrentGroupLocalLastReadTime
+        {
+            get
+            {
+                if (!m_groupLocalLastReadTime.ContainsKey(CurrentGroupID))
+                    m_groupLocalLastReadTime[CurrentGroupID] = string.Empty;
+
+                return m_groupLocalLastReadTime[CurrentGroupID];
+            }
+            set { m_groupLocalLastReadTime[CurrentGroupID] = value; }
         }
 
         #endregion
@@ -97,7 +148,11 @@ namespace Waveface
             CurrentGroupID = string.Empty;
             GroupGetReturnSets = new Dictionary<string, MR_groups_get>();
             m_groupPosts = new Dictionary<string, List<Post>>();
-            m_groupLastRead = new Dictionary<string, string>();
+
+            m_groupLastReadID = new Dictionary<string, string>();
+            m_groupLastReadTime = new Dictionary<string, string>();
+            m_groupLocalLastReadID = new Dictionary<string, string>();
+            m_groupLocalLastReadTime = new Dictionary<string, string>();
 
             FilterPosts = new List<Post>();
             CurrentFilterItem = null;
@@ -106,6 +161,38 @@ namespace Waveface
             FilterTimelineMode = true;
 
             AllUsers = new List<User>();
+        }
+
+        public int GetMyTimelinePosition()
+        {
+            string _id = CurrentGroupLastReadID;
+
+            /*
+            if ((CurrentGroupLastReadTime != string.Empty) && (CurrentGroupLocalLastReadTime != string.Empty))
+            {
+                if (DateTimeHelp.CompareISO8601_New(CurrentGroupLastReadTime, CurrentGroupLocalLastReadTime))
+                {
+                    _id = CurrentGroupLocalLastReadID;
+                }
+                else
+                {
+                    _id = CurrentGroupLastReadID;
+                }
+            }
+            */
+
+            if (_id != string.Empty)
+            {
+                for (int i = 0; i < CurrentGroupPosts.Count; i++)
+                {
+                    if (CurrentGroupPosts[i].post_id == _id)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return 0;
         }
 
         public bool SaveJSON()
@@ -129,19 +216,6 @@ namespace Waveface
             return true;
         }
 
-        public int GetCurrentGroupLastReadPosition()
-        {
-            for (int i = 0; i < CurrentGroupPosts.Count; i++)
-            {
-                if (CurrentGroupPosts[i].post_id == CurrentGroupLastRead)
-                {
-                    return i;
-                }
-            }
-
-            return 0;
-        }
-
         public RunTime LoadJSON()
         {
             try
@@ -161,5 +235,61 @@ namespace Waveface
                 return null;
             }
         }
+
+        #region LocalLastRead
+
+        public class LocalLastRead
+        {
+            public Dictionary<string, string> GroupLocalLastReadID { get; set; }
+            public Dictionary<string, string> GroupLocalLastReadTime { get; set; }
+        }
+
+        public bool SaveGroupLocalLastRead()
+        {
+            LocalLastRead _lr = new LocalLastRead();
+            _lr.GroupLocalLastReadID = m_groupLocalLastReadID;
+            _lr.GroupLocalLastReadTime = m_groupLocalLastReadTime;
+
+            try
+            {
+                string _json = JsonConvert.SerializeObject(_lr);
+
+                string _filePath = Main.GCONST.CachePath + LAST_READ_FILE;
+
+                using (StreamWriter _outfile = new StreamWriter(_filePath))
+                {
+                    _outfile.Write(_json);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public void LoadGroupLocalLastRead()
+        {
+            try
+            {
+                string _json = string.Empty;
+                string _filePath = Main.GCONST.CachePath + LAST_READ_FILE;
+
+                StreamReader _sr = File.OpenText(_filePath);
+                _json = _sr.ReadToEnd();
+                _sr.Close();
+
+                LocalLastRead _lr = JsonConvert.DeserializeObject<LocalLastRead>(_json);
+
+                m_groupLocalLastReadID = _lr.GroupLocalLastReadID;
+                m_groupLocalLastReadTime = _lr.GroupLocalLastReadTime;
+            }
+            catch
+            {
+            }
+        }
+
+        #endregion
     }
 }
