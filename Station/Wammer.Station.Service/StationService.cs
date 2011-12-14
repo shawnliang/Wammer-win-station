@@ -62,7 +62,6 @@ namespace Wammer.Station.Service
 				InitResourceBasePath();
 
 				fastJSON.JSON.Instance.UseUTCDateTime = true;
-				stationTimer = new StationTimer();
 
 				functionServer = new HttpServer(9981); // TODO: remove hard code
 
@@ -135,6 +134,8 @@ namespace Wammer.Station.Service
 
 				logger.Debug("Start management server");
 				managementServer.Start();
+
+				stationTimer = new StationTimer(functionServer);
 			}
 			catch (Exception ex)
 			{

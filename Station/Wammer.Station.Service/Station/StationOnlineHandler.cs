@@ -64,6 +64,7 @@ namespace Wammer.Station
 				StationLogOnResponse logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password);
 				
 				logger.Debug("Station logon successfully, start function server");
+				functionServer.BlockAuth(false);
 				functionServer.Start();
 				WriteServiceStateToDB(ServiceState.Online);
 
@@ -79,6 +80,7 @@ namespace Wammer.Station
 					// remove driver and cloudstorage info since driver already registered another station
 					Drivers.collection.RemoveAll();
 					CloudStorage.collection.RemoveAll();
+					StationInfo.collection.RemoveAll();
 					
 					// function server should be stopped if driver's info is removed
 					logger.Debug("Try to stop function server");

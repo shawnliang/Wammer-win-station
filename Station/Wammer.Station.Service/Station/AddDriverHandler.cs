@@ -55,6 +55,7 @@ namespace Wammer.Station
 					StationLogOnResponse logonRes = api.LogOn(agent, StatusChecker.GetDetail());
 					
 					logger.Debug("Station logon successfully, start function server");
+					functionServer.BlockAuth(false);
 					functionServer.Start();
 					WriteOnlineStateToDB();
 

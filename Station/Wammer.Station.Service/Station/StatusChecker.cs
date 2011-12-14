@@ -17,11 +17,13 @@ namespace Wammer.Station
 		private Timer timer;
 		private bool logon = false;  // logOn is needed for every time service start
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
+		private readonly HttpServer functionServer;
 
-		public StatusChecker(long timerPeriod)
+		public StatusChecker(long timerPeriod, HttpServer functionServer)
 		{
 			TimerCallback tcb = SendHeartbeat;
-			timer = new Timer(tcb, null, 0, timerPeriod);
+			this.timer = new Timer(tcb, null, 0, timerPeriod);
+			this.functionServer = functionServer;
 		}
 
 		public static StationDetail GetDetail()
@@ -55,55 +57,66 @@ namespace Wammer.Station
 		{
 			StationDetail detail = GetDetail();
 
-			using (WebClient agent = new WebClient())
+			Model.StationInfo sinfo = Model.StationInfo.collection.FindOne();
+			if (sinfo != null)
 			{
-				Model.StationInfo sinfo = Model.StationInfo.collection.FindOne();
-				if (sinfo != null)
+				bool locChange = false;
+				string baseurl = NetworkHelper.GetBaseURL();
+				if (baseurl != sinfo.Location)
 				{
-					bool locChange = false;
-					string baseurl = NetworkHelper.GetBaseURL();
-					if (baseurl != sinfo.Location)
-					{
-						// update location if baseurl changed
-						logger.DebugFormat("station location changed: {0}", baseurl);
-						sinfo.Location = baseurl;
-						locChange = true;
-					}
+					// update location if baseurl changed
+					logger.DebugFormat("station location changed: {0}", baseurl);
+					sinfo.Location = baseurl;
+					locChange = true;
+				}
 
+				try
+				{
+					WebClient agent = new WebClient();
 					Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
 					if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
 					{
 						logger.Debug("cloud logon start");
-						try
-						{
-							api.LogOn(agent, detail);
-							logon = true;
+						api.LogOn(agent, detail);
+						logon = true;
 
-							// update station info in database
-							logger.Debug("update station information");
-							sinfo.LastLogOn = DateTime.Now;
-							Model.StationInfo.collection.Save(sinfo);
-						}
-						catch (Exception ex)
-						{
-							logger.Warn("cloud logon error", ex);
-						}
+						// update station info in database
+						logger.Debug("update station information");
+						sinfo.LastLogOn = DateTime.Now;
+						Model.StationInfo.collection.Save(sinfo);
 					}
 
-					try
+					if (locChange)
 					{
-						if (locChange)
+						// update station info in database
+						logger.Debug("update station information");
+						Model.StationInfo.collection.Save(sinfo);
+					}
+					api.Heartbeat(agent, detail);
+				}
+				catch (WammerCloudException ex)
+				{
+					WebException webex = (WebException)ex.InnerException;
+					if (webex != null)
+					{
+						HttpWebResponse response = (HttpWebResponse)webex.Response;
+						if (response != null)
 						{
-							// update station info in database
-							logger.Debug("update station information");
-							Model.StationInfo.collection.Save(sinfo);
+							if (response.StatusCode == HttpStatusCode.Unauthorized)
+							{
+								// station's session token expired, it might be caused by:
+								// 1. server maintenance
+								// 2. driver registered another station
+								// in this situation, client has to re-login/re-register the station
+								functionServer.BlockAuth(true);
+							}
 						}
-						api.Heartbeat(agent, detail);
 					}
-					catch (Exception ex)
-					{
-						logger.Warn("cloud heartbeat error", ex);
-					}
+					logger.Warn("cloud send heartbeat error", ex);
+				}
+				catch (Exception ex)
+				{
+					logger.Warn("cloud send heartbeat error", ex);
 				}
 			}
 		}

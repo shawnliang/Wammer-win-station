@@ -30,7 +30,8 @@ namespace Wammer.Station
 			}
 
 			LogOutStationFromCloud(session_token);
-			
+
+			functionServer.BlockAuth(true);
 			functionServer.Stop();
 
 			WriteOfflineStateToDB();

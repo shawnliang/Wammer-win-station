@@ -14,9 +14,9 @@ namespace Wammer.Station
 #endif
 		private StatusChecker statusChecker;
 
-		public StationTimer()
+		public StationTimer(HttpServer functionServer)
 		{
-			statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);
+			statusChecker = new StatusChecker(STATUS_CHECK_PERIOD, functionServer);
 		}
 
 		public void Stop()

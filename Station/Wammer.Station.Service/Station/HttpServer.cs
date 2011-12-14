@@ -23,6 +23,7 @@ namespace Wammer.Station
 		private bool started = false;
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpServer");
 		private object cs = new object();
+		private bool authblocked;
 
 		public HttpServer(int port)
 		{
@@ -30,6 +31,7 @@ namespace Wammer.Station
 			this.listener = new HttpListener();
 			this.handlers = new Dictionary<string, HttpHandlerProxy>();
 			this.defaultHandler = null;
+			this.authblocked = false;
 		}
 
 		public void AddHandler(string path, IHttpHandler handler)
@@ -94,6 +96,11 @@ namespace Wammer.Station
 			}
 		}
 
+		public void BlockAuth(bool blocked)
+		{
+			authblocked = blocked;
+		}
+
 		public void Close()
 		{
 			Stop();
@@ -117,13 +124,20 @@ namespace Wammer.Station
 
 				if (context != null)
 				{
-					HttpHandlerProxy handler = FindBestMatch(
-												context.Request.Url.AbsolutePath);
-
-					if (handler != null)
-						ThreadPool.QueueUserWorkItem(handler.Do, context);
+					if (authblocked)
+					{
+						respond401Unauthorized(context);
+					}
 					else
-						respond404NotFound(context);
+					{
+						HttpHandlerProxy handler = FindBestMatch(
+													context.Request.Url.AbsolutePath);
+
+						if (handler != null)
+							ThreadPool.QueueUserWorkItem(handler.Do, context);
+						else
+							respond404NotFound(context);
+					}
 				}
 			}
 			catch (ObjectDisposedException)
@@ -171,6 +185,27 @@ namespace Wammer.Station
 			}
 		}
 
+		private static void respond401Unauthorized(HttpListenerContext ctx)
+		{
+			try
+			{
+				ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+				using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+				{
+					Cloud.CloudResponse json = new Cloud.CloudResponse(
+						ctx.Response.StatusCode,
+						DateTime.UtcNow,
+						(int)StationApiError.AlreadyHasStaion,
+						"Driver already registered another station"
+					);
+					w.Write(json.ToFastJSON());
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unable to respond 401 Unauthorized");
+			}
+		}
 		private HttpHandlerProxy FindBestMatch(string requestAbsPath)
 		{
 			string path = requestAbsPath;
