@@ -33,7 +33,7 @@ namespace UT_WammerStation
 		public void setUp()
 		{
 			server = new HttpServer(8080);
-			handler = new AddDriverHandler("stationId", "resource");
+			handler = new AddDriverHandler("stationId", "resource", new HttpServer(9981));
 			server.AddHandler("/v2/station/drivers/add/", handler);
 			server.Start();
 
