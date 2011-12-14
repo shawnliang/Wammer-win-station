@@ -1073,11 +1073,8 @@ namespace Waveface
 
         private void changeOwnerMenuItem_Click(object sender, EventArgs e)
         {
-            // TODO: I18N
-            DialogResult confirm = MessageBox.Show(
-                "Changing station owner will cause current user unable to download " +
-                "original image and blah blah. *&^$%^@#$%^#\r\n" +
-                "Proceed?", "Waveface", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult confirm = MessageBox.Show(I18n.L.T("Main.ChangeOwnerWarning", settings.Email), "Waveface",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (confirm == System.Windows.Forms.DialogResult.No)
                 return;
@@ -1087,8 +1084,7 @@ namespace Waveface
             try {
                 WService.RemoveOwner(settings.Email, settings.Password, StationToken);
 
-                MessageBox.Show(settings.Email + " is unassociating with Waveface Station successfully. \r\n" +
-                    "Please restart Waveface program to assign a new Waveface Station owner.");
+                MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", settings.Email), "waveface");
 
                 settings.Email = settings.Password = StationToken = "";
                 settings.IsLoggedIn = false;

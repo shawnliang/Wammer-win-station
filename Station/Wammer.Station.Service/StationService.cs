@@ -166,6 +166,9 @@ namespace Wammer.Station.Service
 			functionServer.Stop();
 			functionServer.Close();
 
+			managementServer.Stop();
+			managementServer.Close();
+
 			PublicPortMapping.Instance.Close();
 		}
 
