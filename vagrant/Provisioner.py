@@ -60,12 +60,12 @@ def main():
         try:
             target_url = '{0}/{1}'.format(SHAWNLIANG_PC, target_exe)
             logging.info('Downloading {0}'.format(target_url))
-            filePath=os.path.join('C:/',target_exe)
+            filePath = os.path.join('C:/Users/waveface/', target_exe)
             request.urlretrieve(target_url, filePath)
             logging.info('download {} success'.format(filePath))
             subprocess.call(shlex.split(filePath), shell=True)
         except Exception as e:
-            logging.info("Unable to get/install {}, error: {}".format(target_url,e))
+            logging.info("Unable to get/install {}, error: {}".format(target_url, e))
         input('press any key to continue')
 
 
