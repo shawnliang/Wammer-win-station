@@ -109,6 +109,20 @@ namespace Wammer.Station
 				Logger.Warn("Unable to delete service collection from MongoDB", e);
 			}
 
+			string userDataFolder = "";
+			try
+			{
+				string appPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+				userDataFolder = Path.Combine(appPath, "waveface");
+
+				Logger.Info("Deleting " + userDataFolder);
+				Directory.Delete(userDataFolder, true);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete " + userDataFolder, e);
+			}
+
 			return ActionResult.Success;
 		}
 	}
