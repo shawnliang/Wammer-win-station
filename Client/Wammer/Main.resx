@@ -400,16 +400,16 @@
     <value>1</value>
   </data>
   <data name="itemCountLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 20</value>
+    <value>64, 20</value>
   </data>
   <data name="itemCountLabel.Text" xml:space="preserve">
     <value>{0} Items</value>
   </data>
   <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>758, 20</value>
+    <value>739, 20</value>
   </data>
   <data name="connectedStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 20</value>
+    <value>154, 20</value>
   </data>
   <data name="connectedStatusLabel.Text" xml:space="preserve">
     <value>All folders are up to date.</value>
@@ -441,7 +441,7 @@
     <value>Magenta</value>
   </data>
   <data name="connectedImageLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 25</value>
+    <value>102, 25</value>
   </data>
   <data name="connectedImageLabel.Text" xml:space="preserve">
     <value>Connected</value>
@@ -489,19 +489,19 @@
     <value>190, 6</value>
   </data>
   <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="regionMenuItem.Text" xml:space="preserve">
     <value>Region</value>
   </data>
   <data name="windowsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="windowsMenuItem.Text" xml:space="preserve">
     <value>Windows</value>
   </data>
   <data name="screenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="screenMenuItem.Text" xml:space="preserve">
     <value>Desktop</value>
@@ -782,11 +782,11 @@
   <metadata name="bgWorkerGetAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="timerReloadAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>886, 19</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>49</value>
@@ -1004,6 +1004,12 @@
   </data>
   <data name="&gt;&gt;bgWorkerGetAllData.Type" xml:space="preserve">
     <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;timerReloadAllData.Name" xml:space="preserve">
+    <value>timerReloadAllData</value>
+  </data>
+  <data name="&gt;&gt;timerReloadAllData.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>

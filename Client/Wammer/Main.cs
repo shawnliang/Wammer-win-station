@@ -199,8 +199,9 @@ namespace Waveface
 
                 m_exitToLogin = true;
                 m_process401Exception = true;
-                this.QuitOption = Waveface.QuitOption.Logout;
-                this.settings.IsLoggedIn = false;
+                QuitOption = QuitOption.Logout;
+                settings.IsLoggedIn = false;
+
                 Close();
             }
         }
@@ -253,7 +254,7 @@ namespace Waveface
         private void OnMenuExitClick(object sender, EventArgs e)
         {
             m_exitToLogin = true;
-            this.QuitOption = Waveface.QuitOption.QuitProgram;
+            QuitOption = QuitOption.QuitProgram;
             Close();
         }
 
@@ -445,10 +446,10 @@ namespace Waveface
             }
             else
             {
+                settings.Email = email;
+                settings.Password = password;
+                settings.IsLoggedIn = true;
 
-                this.settings.Email = email;
-                this.settings.Password = password;
-                this.settings.IsLoggedIn = true;
                 GetAllDataAsync();
             }
 
@@ -695,7 +696,11 @@ namespace Waveface
             {
                 LastScan _lastRead = RT.REST.Footprints_getLastScan();
 
-                if (!string.IsNullOrEmpty(_lastRead.post_id))
+                if (string.IsNullOrEmpty(_lastRead.post_id))
+                {
+                    ShowAllTimeline();
+                }
+                else
                 {
                     RT.CurrentGroupLastReadID = _lastRead.post_id;
                     RT.CurrentGroupLastReadTime = _lastRead.timestamp;
@@ -731,8 +736,6 @@ namespace Waveface
 
             return false;
         }
-
-
 
         public void GetAllDataAsync()
         {
@@ -1114,7 +1117,7 @@ namespace Waveface
             m_logoutStation = true;
             m_exitToLogin = true;
 
-          ;
+            ;
             this.QuitOption = Waveface.QuitOption.Logout;
             this.settings.IsLoggedIn = false;
             this.Close();
@@ -1140,7 +1143,8 @@ namespace Waveface
 
             Cursor.Current = Cursors.WaitCursor;
 
-            try {
+            try
+            {
                 WService.RemoveOwner(settings.Email, settings.Password, StationToken);
 
                 MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", settings.Email), "waveface");
@@ -1152,11 +1156,12 @@ namespace Waveface
                 this.QuitOption = Waveface.QuitOption.QuitProgram;
                 Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Uable to change user :" + ex.ToString(), "waveface");
             }
-            finally{
+            finally
+            {
                 Cursor.Current = Cursors.Default;
             }
         }
