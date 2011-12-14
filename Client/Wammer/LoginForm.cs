@@ -86,17 +86,19 @@ namespace Waveface
         {
             InitializeComponent();
 
+            if (email != string.Empty)
+            {
+                txtUserName.Text = email;
+                txtPassword.Text = password;
+            }
+
             m_formSettings = new FormSettings(this);
             m_formSettings.UseSize = false;
             m_formSettings.SaveOnClose = false;
             m_formSettings.Settings.Add(new PropertySetting(this, "UserSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "PasswordSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "RememberPassword"));
-            if (email != string.Empty)
-            {
-                txtUserName.Text = email;
-                txtPassword.Text = password;
-            }
+            
         }
 
         #region Windows Form Designer generated code
@@ -147,6 +149,7 @@ namespace Waveface
             // 
             resources.ApplyResources(this.txtUserName, "txtUserName");
             this.txtUserName.Name = "txtUserName";
+            this.txtUserName.ReadOnly = true;
             // 
             // lblPassword
             // 
@@ -269,6 +272,8 @@ namespace Waveface
                 quit = _main.QuitOption;
 				_main.Dispose();
 				_main = null;
+
+                m_formSettings.Save();
 			}
 			else
 			{
