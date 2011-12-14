@@ -139,6 +139,7 @@
     <Compile Include="Station\DropboxFileStorage.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\PublicPortMapping.cs" />
+    <Compile Include="Station\RemoveOwnerHandler.cs" />
     <Compile Include="Station\ResouceDirHandler.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
     <Compile Include="Station\ServiceUnavailableException.cs" />

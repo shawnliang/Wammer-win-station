@@ -73,6 +73,7 @@
             this.labelName = new System.Windows.Forms.Label();
             this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
+            this.changeOwnerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -274,22 +275,23 @@
             this.toolStripMenuItem3,
             this.preferencesMenuItem,
             this.toolStripMenuItem2,
+            this.changeOwnerMenuItem,
             this.logoutMenuItem,
             this.mnuExit});
             this.mnuTray.Name = "mnuTree";
-            this.mnuTray.Size = new System.Drawing.Size(153, 132);
+            this.mnuTray.Size = new System.Drawing.Size(194, 176);
             // 
             // restoreMenuItem
             // 
             this.restoreMenuItem.Name = "restoreMenuItem";
-            this.restoreMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.restoreMenuItem.Size = new System.Drawing.Size(193, 22);
             this.restoreMenuItem.Text = "Restore";
             this.restoreMenuItem.Click += new System.EventHandler(this.restoreMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(190, 6);
             // 
             // screenShotMenu
             // 
@@ -298,7 +300,7 @@
             this.windowsMenuItem,
             this.screenMenuItem});
             this.screenShotMenu.Name = "screenShotMenu";
-            this.screenShotMenu.Size = new System.Drawing.Size(152, 22);
+            this.screenShotMenu.Size = new System.Drawing.Size(193, 22);
             this.screenShotMenu.Text = "Screen Shot";
             // 
             // regionMenuItem
@@ -325,31 +327,31 @@
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(190, 6);
             // 
             // preferencesMenuItem
             // 
             this.preferencesMenuItem.Name = "preferencesMenuItem";
-            this.preferencesMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.preferencesMenuItem.Size = new System.Drawing.Size(193, 22);
             this.preferencesMenuItem.Text = "Preferences...";
             this.preferencesMenuItem.Click += new System.EventHandler(this.preferencesMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(190, 6);
             // 
             // logoutMenuItem
             // 
             this.logoutMenuItem.Name = "logoutMenuItem";
-            this.logoutMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.logoutMenuItem.Size = new System.Drawing.Size(193, 22);
             this.logoutMenuItem.Text = "Log Out";
             this.logoutMenuItem.Click += new System.EventHandler(this.logoutMenuItem_Click);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(152, 22);
+            this.mnuExit.Size = new System.Drawing.Size(193, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.OnMenuExitClick);
             // 
@@ -465,6 +467,13 @@
             this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
             this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
             // 
+            // changeOwnerMenuItem
+            // 
+            this.changeOwnerMenuItem.Name = "changeOwnerMenuItem";
+            this.changeOwnerMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.changeOwnerMenuItem.Text = "Change Station Owner";
+            this.changeOwnerMenuItem.Click += new System.EventHandler(this.changeOwnerMenuItem_Click);
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -549,6 +558,7 @@
         private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
         private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeOwnerMenuItem;
 	}
 }
 
