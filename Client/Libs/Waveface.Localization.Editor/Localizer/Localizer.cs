@@ -214,6 +214,11 @@ namespace Waveface.Localization
             return GetTranslatedText(itemText);
         }
 
+        public string T(string itemText, params object[] args)
+        {
+            return GetTranslatedText(itemText, args);
+        }
+
         public string GetTranslatedText(string itemText)
         {
             string _ret = itemText.Trim();
@@ -228,6 +233,27 @@ namespace Waveface.Localization
                 if (!String.IsNullOrEmpty(_translatedText.Trim()))
                 {
                     _ret = _translatedText.Trim();
+                }
+            }
+
+            return _ret;
+        }
+
+        public string GetTranslatedText(string itemText, params object[] args)
+        {
+            string _ret = itemText.Trim();
+
+            if (String.IsNullOrEmpty(itemText.Trim()))
+                return _ret;
+
+            if (m_currentWItems.ContainsKey(itemText.Trim()))
+            {
+                string _translatedText = m_currentWItems[itemText.Trim()].ToString().Trim();
+
+                if (!String.IsNullOrEmpty(_translatedText.Trim()))
+                {
+                    _ret = _translatedText.Trim();
+                    _ret = string.Format(_ret, args);
                 }
             }
 

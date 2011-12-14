@@ -62,7 +62,6 @@ namespace Wammer.Station.Service
 				InitResourceBasePath();
 
 				fastJSON.JSON.Instance.UseUTCDateTime = true;
-				stationTimer = new StationTimer();
 
 				functionServer = new HttpServer(9981); // TODO: remove hard code
 
@@ -131,10 +130,13 @@ namespace Wammer.Station.Service
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/remove/", new RemoveOwnerHandler(stationId, functionServer));
 				addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
 
 				logger.Debug("Start management server");
 				managementServer.Start();
+
+				stationTimer = new StationTimer(functionServer);
 			}
 			catch (Exception ex)
 			{
@@ -164,6 +166,9 @@ namespace Wammer.Station.Service
 
 			functionServer.Stop();
 			functionServer.Close();
+
+			managementServer.Stop();
+			managementServer.Close();
 
 			PublicPortMapping.Instance.Close();
 		}

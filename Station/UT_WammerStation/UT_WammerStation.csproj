@@ -94,6 +94,7 @@
     <Compile Include="TestImagePostProcessing.cs" />
     <Compile Include="TestMultiPart.cs" />
     <Compile Include="TestAttachmentUpload.cs" />
+    <Compile Include="TestNetworkHelper.cs" />
     <Compile Include="TestServiceHelper.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
