@@ -18,4 +18,9 @@ namespace Waveface
         }
     }
 
+    public enum QuitOption
+    {
+        Logout,
+        QuitProgram
+    }
 }

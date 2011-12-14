@@ -66,10 +66,17 @@ namespace Waveface
             get { return settings.StationToken; }
             set { settings.StationToken = value; }
         }
+
+        public QuitOption QuitOption
+        {
+            get;
+            private set;
+        }
         #endregion
 
         public Main()
         {
+            this.QuitOption = Waveface.QuitOption.QuitProgram;
             Current = this;
             File.Delete(m_shellContentMenuFilePath);
 
@@ -196,7 +203,7 @@ namespace Waveface
 
                 m_exitToLogin = true;
                 m_process401Exception = true;
-
+                this.QuitOption = Waveface.QuitOption.Logout;
                 Close();
             }
         }
@@ -244,7 +251,7 @@ namespace Waveface
         private void OnMenuExitClick(object sender, EventArgs e)
         {
             m_exitToLogin = true;
-
+            this.QuitOption = Waveface.QuitOption.QuitProgram;
             Close();
         }
 
@@ -1046,6 +1053,7 @@ namespace Waveface
             }
 
             m_exitToLogin = true;
+            this.QuitOption = Waveface.QuitOption.Logout;
             this.Close();
         }
 
