@@ -59,6 +59,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.preferencesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.changeOwnerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
@@ -87,127 +88,89 @@
             // 
             // BottomToolStripPanel
             // 
-            this.BottomToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.BottomToolStripPanel, "BottomToolStripPanel");
             this.BottomToolStripPanel.Name = "BottomToolStripPanel";
             this.BottomToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.BottomToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.BottomToolStripPanel.Size = new System.Drawing.Size(0, 0);
             // 
             // TopToolStripPanel
             // 
-            this.TopToolStripPanel.Location = new System.Drawing.Point(0, 0);
-            this.TopToolStripPanel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            resources.ApplyResources(this.TopToolStripPanel, "TopToolStripPanel");
             this.TopToolStripPanel.Name = "TopToolStripPanel";
             this.TopToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.TopToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.TopToolStripPanel.Size = new System.Drawing.Size(0, 0);
             // 
             // RightToolStripPanel
             // 
-            this.RightToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.RightToolStripPanel, "RightToolStripPanel");
             this.RightToolStripPanel.Name = "RightToolStripPanel";
             this.RightToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.RightToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.RightToolStripPanel.Size = new System.Drawing.Size(0, 0);
             // 
             // LeftToolStripPanel
             // 
-            this.LeftToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.LeftToolStripPanel, "LeftToolStripPanel");
             this.LeftToolStripPanel.Name = "LeftToolStripPanel";
             this.LeftToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.LeftToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.LeftToolStripPanel.Size = new System.Drawing.Size(0, 0);
             // 
             // ContentPanel
             // 
-            this.ContentPanel.Size = new System.Drawing.Size(1078, 549);
+            resources.ApplyResources(this.ContentPanel, "ContentPanel");
             // 
             // panelLeft
             // 
             this.panelLeft.Controls.Add(this.panelPost);
             this.panelLeft.Controls.Add(this.splitterLeft);
             this.panelLeft.Controls.Add(this.panelLeftInfo);
-            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelLeft.Location = new System.Drawing.Point(0, 70);
-            this.panelLeft.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.panelLeft, "panelLeft");
             this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(510, 597);
-            this.panelLeft.TabIndex = 9;
             // 
             // panelPost
             // 
             this.panelPost.Controls.Add(this.postsArea);
-            this.panelPost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPost.Location = new System.Drawing.Point(182, 0);
-            this.panelPost.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.panelPost, "panelPost");
             this.panelPost.Name = "panelPost";
-            this.panelPost.Size = new System.Drawing.Size(328, 597);
-            this.panelPost.TabIndex = 7;
             // 
             // postsArea
             // 
             this.postsArea.BackColor = System.Drawing.SystemColors.Window;
-            this.postsArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.postsArea.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.postsArea.Location = new System.Drawing.Point(0, 0);
-            this.postsArea.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.postsArea, "postsArea");
             this.postsArea.Name = "postsArea";
-            this.postsArea.Size = new System.Drawing.Size(328, 597);
-            this.postsArea.TabIndex = 4;
             // 
             // splitterLeft
             // 
-            this.splitterLeft.Location = new System.Drawing.Point(180, 0);
-            this.splitterLeft.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.splitterLeft, "splitterLeft");
             this.splitterLeft.Name = "splitterLeft";
-            this.splitterLeft.Size = new System.Drawing.Size(2, 597);
-            this.splitterLeft.TabIndex = 5;
             this.splitterLeft.TabStop = false;
             // 
             // panelLeftInfo
             // 
             this.panelLeftInfo.Controls.Add(this.leftArea);
-            this.panelLeftInfo.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelLeftInfo.Location = new System.Drawing.Point(0, 0);
-            this.panelLeftInfo.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.panelLeftInfo, "panelLeftInfo");
             this.panelLeftInfo.Name = "panelLeftInfo";
-            this.panelLeftInfo.Size = new System.Drawing.Size(180, 597);
-            this.panelLeftInfo.TabIndex = 6;
             // 
             // leftArea
             // 
             this.leftArea.BackColor = System.Drawing.Color.Transparent;
             this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.leftArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.leftArea.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.leftArea.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.leftArea, "leftArea");
             this.leftArea.Name = "leftArea";
-            this.leftArea.Size = new System.Drawing.Size(180, 597);
-            this.leftArea.TabIndex = 3;
             this.leftArea.TabStop = false;
             // 
             // panelMain
             // 
             this.panelMain.Controls.Add(this.detailView);
-            this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMain.Location = new System.Drawing.Point(512, 70);
-            this.panelMain.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(566, 597);
-            this.panelMain.TabIndex = 11;
             // 
             // detailView
             // 
             this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.detailView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.detailView.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.detailView.Location = new System.Drawing.Point(0, 0);
-            this.detailView.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.detailView, "detailView");
             this.detailView.MinimumSize = new System.Drawing.Size(200, 2);
             this.detailView.Name = "detailView";
             this.detailView.Post = null;
-            this.detailView.Size = new System.Drawing.Size(566, 597);
-            this.detailView.TabIndex = 8;
             this.detailView.User = null;
             // 
             // itemCountLabel
@@ -216,54 +179,43 @@
             this.itemCountLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.itemCountLabel.Name = "itemCountLabel";
             this.itemCountLabel.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
-            this.itemCountLabel.Size = new System.Drawing.Size(61, 20);
-            this.itemCountLabel.Text = "{0} Items";
+            resources.ApplyResources(this.itemCountLabel, "itemCountLabel");
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(758, 20);
+            resources.ApplyResources(this.toolStripStatusLabel2, "toolStripStatusLabel2");
             this.toolStripStatusLabel2.Spring = true;
             // 
             // connectedStatusLabel
             // 
             this.connectedStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.connectedStatusLabel.Name = "connectedStatusLabel";
-            this.connectedStatusLabel.Size = new System.Drawing.Size(143, 20);
-            this.connectedStatusLabel.Text = "All folders are up to date.";
+            resources.ApplyResources(this.connectedStatusLabel, "connectedStatusLabel");
             // 
             // connectedImageLabel
             // 
-            this.connectedImageLabel.Image = ((System.Drawing.Image)(resources.GetObject("connectedImageLabel.Image")));
-            this.connectedImageLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.connectedImageLabel.ImageTransparentColor = System.Drawing.Color.Magenta;
+            resources.ApplyResources(this.connectedImageLabel, "connectedImageLabel");
             this.connectedImageLabel.Margin = new System.Windows.Forms.Padding(0);
             this.connectedImageLabel.Name = "connectedImageLabel";
-            this.connectedImageLabel.Size = new System.Drawing.Size(97, 25);
-            this.connectedImageLabel.Text = "Connected";
             // 
             // toolStripStatusLabel4
             // 
             this.toolStripStatusLabel4.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.toolStripStatusLabel4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(4, 20);
-            this.toolStripStatusLabel4.Text = "toolStripStatusLabel4";
+            resources.ApplyResources(this.toolStripStatusLabel4, "toolStripStatusLabel4");
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            resources.ApplyResources(this.statusStrip1, "statusStrip1");
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.itemCountLabel,
             this.toolStripStatusLabel2,
             this.connectedStatusLabel,
             this.connectedImageLabel,
             this.toolStripStatusLabel4});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1078, 25);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "19 Items";
             // 
             // mnuTray
             // 
@@ -274,22 +226,22 @@
             this.toolStripMenuItem3,
             this.preferencesMenuItem,
             this.toolStripMenuItem2,
+            this.changeOwnerMenuItem,
             this.logoutMenuItem,
             this.mnuExit});
             this.mnuTray.Name = "mnuTree";
-            this.mnuTray.Size = new System.Drawing.Size(153, 132);
+            resources.ApplyResources(this.mnuTray, "mnuTray");
             // 
             // restoreMenuItem
             // 
             this.restoreMenuItem.Name = "restoreMenuItem";
-            this.restoreMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.restoreMenuItem.Text = "Restore";
+            resources.ApplyResources(this.restoreMenuItem, "restoreMenuItem");
             this.restoreMenuItem.Click += new System.EventHandler(this.restoreMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
             // 
             // screenShotMenu
             // 
@@ -298,59 +250,58 @@
             this.windowsMenuItem,
             this.screenMenuItem});
             this.screenShotMenu.Name = "screenShotMenu";
-            this.screenShotMenu.Size = new System.Drawing.Size(152, 22);
-            this.screenShotMenu.Text = "Screen Shot";
+            resources.ApplyResources(this.screenShotMenu, "screenShotMenu");
             // 
             // regionMenuItem
             // 
             this.regionMenuItem.Name = "regionMenuItem";
-            this.regionMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.regionMenuItem.Text = "Region";
+            resources.ApplyResources(this.regionMenuItem, "regionMenuItem");
             this.regionMenuItem.Click += new System.EventHandler(this.regionMenuItem_Click);
             // 
             // windowsMenuItem
             // 
             this.windowsMenuItem.Name = "windowsMenuItem";
-            this.windowsMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.windowsMenuItem.Text = "Windows";
+            resources.ApplyResources(this.windowsMenuItem, "windowsMenuItem");
             this.windowsMenuItem.Click += new System.EventHandler(this.windowsMenuItem_Click);
             // 
             // screenMenuItem
             // 
             this.screenMenuItem.Name = "screenMenuItem";
-            this.screenMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.screenMenuItem.Text = "Desktop";
+            resources.ApplyResources(this.screenMenuItem, "screenMenuItem");
             this.screenMenuItem.Click += new System.EventHandler(this.screenMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
             // 
             // preferencesMenuItem
             // 
             this.preferencesMenuItem.Name = "preferencesMenuItem";
-            this.preferencesMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.preferencesMenuItem.Text = "Preferences...";
+            resources.ApplyResources(this.preferencesMenuItem, "preferencesMenuItem");
             this.preferencesMenuItem.Click += new System.EventHandler(this.preferencesMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
+            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
+            // 
+            // changeOwnerMenuItem
+            // 
+            this.changeOwnerMenuItem.Name = "changeOwnerMenuItem";
+            resources.ApplyResources(this.changeOwnerMenuItem, "changeOwnerMenuItem");
+            this.changeOwnerMenuItem.Click += new System.EventHandler(this.changeOwnerMenuItem_Click);
             // 
             // logoutMenuItem
             // 
             this.logoutMenuItem.Name = "logoutMenuItem";
-            this.logoutMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.logoutMenuItem.Text = "Log Out";
+            resources.ApplyResources(this.logoutMenuItem, "logoutMenuItem");
             this.logoutMenuItem.Click += new System.EventHandler(this.logoutMenuItem_Click);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(152, 22);
-            this.mnuExit.Text = "Exit";
+            resources.ApplyResources(this.mnuExit, "mnuExit");
             this.mnuExit.Click += new System.EventHandler(this.OnMenuExitClick);
             // 
             // timerDelayPost
@@ -361,11 +312,8 @@
             // 
             // splitterRight
             // 
-            this.splitterRight.Location = new System.Drawing.Point(510, 70);
-            this.splitterRight.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.splitterRight, "splitterRight");
             this.splitterRight.Name = "splitterRight";
-            this.splitterRight.Size = new System.Drawing.Size(2, 597);
-            this.splitterRight.TabIndex = 10;
             this.splitterRight.TabStop = false;
             // 
             // timerGetNewestPost
@@ -386,20 +334,14 @@
             this.panelTop.Controls.Add(this.panelStation);
             this.panelTop.Controls.Add(this.labelName);
             this.panelTop.Controls.Add(this.pictureBoxAvatar);
-            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Location = new System.Drawing.Point(0, 0);
-            this.panelTop.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1078, 70);
-            this.panelTop.TabIndex = 12;
             // 
             // pictureBoxLogo
             // 
             this.pictureBoxLogo.Image = global::Waveface.Properties.Resources.desktop_logo;
-            this.pictureBoxLogo.Location = new System.Drawing.Point(11, 9);
+            resources.ApplyResources(this.pictureBoxLogo, "pictureBoxLogo");
             this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(200, 52);
-            this.pictureBoxLogo.TabIndex = 5;
             this.pictureBoxLogo.TabStop = false;
             // 
             // panelStation
@@ -408,56 +350,36 @@
             this.panelStation.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelStation.Controls.Add(this.radioButtonStation);
             this.panelStation.Controls.Add(this.radioButtonCloud);
-            this.panelStation.Location = new System.Drawing.Point(275, 12);
+            resources.ApplyResources(this.panelStation, "panelStation");
             this.panelStation.Name = "panelStation";
-            this.panelStation.Size = new System.Drawing.Size(94, 47);
-            this.panelStation.TabIndex = 4;
-            this.panelStation.Visible = false;
             // 
             // radioButtonStation
             // 
-            this.radioButtonStation.AutoSize = true;
+            resources.ApplyResources(this.radioButtonStation, "radioButtonStation");
             this.radioButtonStation.Checked = true;
-            this.radioButtonStation.Location = new System.Drawing.Point(18, 22);
             this.radioButtonStation.Name = "radioButtonStation";
-            this.radioButtonStation.Size = new System.Drawing.Size(64, 18);
-            this.radioButtonStation.TabIndex = 1;
             this.radioButtonStation.TabStop = true;
-            this.radioButtonStation.Text = "Station";
             this.radioButtonStation.UseVisualStyleBackColor = true;
             this.radioButtonStation.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
             // 
             // radioButtonCloud
             // 
-            this.radioButtonCloud.AutoSize = true;
-            this.radioButtonCloud.Location = new System.Drawing.Point(18, 3);
+            resources.ApplyResources(this.radioButtonCloud, "radioButtonCloud");
             this.radioButtonCloud.Name = "radioButtonCloud";
-            this.radioButtonCloud.Size = new System.Drawing.Size(55, 18);
-            this.radioButtonCloud.TabIndex = 0;
-            this.radioButtonCloud.Text = "Cloud";
             this.radioButtonCloud.UseVisualStyleBackColor = true;
             this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
             // 
             // labelName
             // 
-            this.labelName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelName.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            resources.ApplyResources(this.labelName, "labelName");
             this.labelName.ForeColor = System.Drawing.Color.Black;
-            this.labelName.Location = new System.Drawing.Point(884, 21);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(120, 25);
-            this.labelName.TabIndex = 2;
-            this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // pictureBoxAvatar
             // 
-            this.pictureBoxAvatar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.pictureBoxAvatar, "pictureBoxAvatar");
             this.pictureBoxAvatar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxAvatar.Location = new System.Drawing.Point(1012, 5);
             this.pictureBoxAvatar.Name = "pictureBoxAvatar";
-            this.pictureBoxAvatar.Size = new System.Drawing.Size(60, 60);
-            this.pictureBoxAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxAvatar.TabIndex = 1;
             this.pictureBoxAvatar.TabStop = false;
             // 
             // bgWorkerGetAllData
@@ -468,17 +390,13 @@
             // Main
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1078, 667);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.splitterRight);
             this.Controls.Add(this.panelLeft);
             this.Controls.Add(this.panelTop);
-            this.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
-            this.Text = "Waveface";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
@@ -549,6 +467,7 @@
         private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
         private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeOwnerMenuItem;
 	}
 }
 

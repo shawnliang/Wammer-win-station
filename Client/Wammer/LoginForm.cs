@@ -21,7 +21,6 @@ namespace Waveface
         private XPButton btnOK;
         private GroupBox groupBox1;
         private CultureManager cultureManager;
-
         private FormSettings m_formSettings;
 
         #region Properties
@@ -93,13 +92,10 @@ namespace Waveface
             m_formSettings.Settings.Add(new PropertySetting(this, "UserSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "PasswordSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "RememberPassword"));
-
-            if ((email != string.Empty) && (password != string.Empty))
+            if (email != string.Empty)
             {
                 txtUserName.Text = email;
                 txtPassword.Text = password;
-
-                doLogin(email, password);
             }
         }
 
@@ -220,6 +216,11 @@ namespace Waveface
         private void LoginForm_Load(object sender, EventArgs e)
         {
             txtUserName.Focus();
+
+            if ((txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty))
+            {
+                doLogin(txtUserName.Text, txtPassword.Text);
+            }
         }
 
         private void doLogin(string email, string password)
@@ -234,21 +235,27 @@ namespace Waveface
 			try
 			{
 				_main.stationLogin(email, password);
-				_doLogin(_main, email, password);
+                if (_doLogin(_main, email, password) == QuitOption.QuitProgram)
+                    Close();
+                else
+                    Show();
 			}
 			catch (Waveface.API.V2.ServiceUnavailableException ex)
 			{
 				MessageBox.Show(ex.Message, "Waveface");
-				Close();
+                Close();
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message, "Waveface");
+                Show();
 			}
         }
 
-		private void _doLogin(Main _main, string email, string password)
+		private QuitOption _doLogin(Main _main, string email, string password)
 		{
+            QuitOption quit;
+
 			if (_main.Login(email, password))
 			{
 				Application.DoEvents();
@@ -259,6 +266,7 @@ namespace Waveface
 				Application.DoEvents();
 
 				_main.ShowDialog();
+                quit = _main.QuitOption;
 				_main.Dispose();
 				_main = null;
 			}
@@ -267,9 +275,9 @@ namespace Waveface
 				Cursor.Current = Cursors.Default;
 
 				MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                quit = QuitOption.Logout;
 			}
-
-			Show();
+            return quit;
 		}
 		
         private void btnOK_Click(object sender, EventArgs e)

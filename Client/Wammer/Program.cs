@@ -34,20 +34,31 @@ namespace Waveface
                 Application.SetCompatibleTextRenderingDefault(false);
                 ProgramSetting settings = new ProgramSetting();
 
-                string _email = string.Empty;
-                string _password = string.Empty;
-                string _token = string.Empty;
-
+                LoginForm loginForm = null;
                 if (args.Length == 3)
                 {
-                    _email = args[0];
-                    _password = args[1];
-                    _token = args[2];
+                    string _email = args[0];
+                    string _password = args[1];
+                    string _token = args[2];
+                    
+                    settings.Email = _email;
+                    settings.Password = _password;
                     settings.StationToken = _token;
                     settings.Save();
+
+                    loginForm = new LoginForm(_email, _password);
+                }
+                else if (settings.IsLoggedIn)
+                {
+                    loginForm = new LoginForm(settings.Email, settings.Password);
+                }
+                else
+                {
+                    loginForm = new LoginForm("", "");
                 }
 
-                Application.Run(new LoginForm(_email, _password));
+                Application.Run(loginForm);
+                
             }
             catch (Exception _e)
             {

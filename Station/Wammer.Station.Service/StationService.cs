@@ -130,6 +130,7 @@ namespace Wammer.Station.Service
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/remove/", new RemoveOwnerHandler(stationId, functionServer));
 				addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
 
 				logger.Debug("Start management server");
@@ -165,6 +166,9 @@ namespace Wammer.Station.Service
 
 			functionServer.Stop();
 			functionServer.Close();
+
+			managementServer.Stop();
+			managementServer.Close();
 
 			PublicPortMapping.Instance.Close();
 		}

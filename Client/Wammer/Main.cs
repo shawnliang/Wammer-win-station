@@ -66,10 +66,17 @@ namespace Waveface
             get { return settings.StationToken; }
             set { settings.StationToken = value; }
         }
+
+        public QuitOption QuitOption
+        {
+            get;
+            private set;
+        }
         #endregion
 
         public Main()
         {
+            this.QuitOption = Waveface.QuitOption.QuitProgram;
             Current = this;
             File.Delete(m_shellContentMenuFilePath);
 
@@ -196,7 +203,8 @@ namespace Waveface
 
                 m_exitToLogin = true;
                 m_process401Exception = true;
-
+                this.QuitOption = Waveface.QuitOption.Logout;
+                this.settings.IsLoggedIn = false;
                 Close();
             }
         }
@@ -244,7 +252,7 @@ namespace Waveface
         private void OnMenuExitClick(object sender, EventArgs e)
         {
             m_exitToLogin = true;
-
+            this.QuitOption = Waveface.QuitOption.QuitProgram;
             Close();
         }
 
@@ -425,7 +433,9 @@ namespace Waveface
             }
             else
             {
-
+                this.settings.Email = email;
+                this.settings.Password = password;
+                this.settings.IsLoggedIn = true;
                 RefreshTimelineAsync();
             }
 
@@ -1046,6 +1056,8 @@ namespace Waveface
             }
 
             m_exitToLogin = true;
+            this.QuitOption = Waveface.QuitOption.Logout;
+            this.settings.IsLoggedIn = false;
             this.Close();
         }
 
@@ -1057,6 +1069,37 @@ namespace Waveface
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.settings.Save();
+        }
+
+        private void changeOwnerMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult confirm = MessageBox.Show(I18n.L.T("Main.ChangeOwnerWarning", settings.Email), "Waveface",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirm == System.Windows.Forms.DialogResult.No)
+                return;
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            try {
+                WService.RemoveOwner(settings.Email, settings.Password, StationToken);
+
+                MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", settings.Email), "waveface");
+
+                settings.Email = settings.Password = StationToken = "";
+                settings.IsLoggedIn = false;
+
+                m_exitToLogin = true;
+                this.QuitOption = Waveface.QuitOption.QuitProgram;
+                Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Uable to change user :" + ex.ToString(), "waveface");
+            }
+            finally{
+                Cursor.Current = Cursors.Default;
+            }
         }
     }
 }

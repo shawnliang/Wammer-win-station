@@ -1215,7 +1215,7 @@ namespace Waveface.API.V2
         #endregion
 
 
-        #region station login/logout
+        #region station login/logout/remove owner
 
         public static string LoginStation(string email, string password)
         {
@@ -1271,6 +1271,20 @@ namespace Waveface.API.V2
             catch (Exception e)
             {
                 throw new Exception("Unable to logout station with Waveface cloud", e);
+            }
+        }
+
+        public static void RemoveOwner(string email, string password, string token)
+        {
+            using (WebClient agent = new WebClient())
+            {
+                string url = string.Format("http://localhost:9989/v2/station/drivers/remove?session_token={0}&apikey={1}&email={2}&password={3}",
+                    HttpUtility.UrlEncode(token),
+                    APIKEY,
+                    HttpUtility.UrlEncode(email),
+                    HttpUtility.UrlEncode(password));
+
+                agent.DownloadData(url);
             }
         }
         #endregion
