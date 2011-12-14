@@ -27,11 +27,11 @@ namespace Waveface
         public static Main Current;
         public static GCONST GCONST = new GCONST();
 
-        private ProgramSetting settings = new ProgramSetting();
-
         #region Fields
 
         //Main
+        private ProgramSetting settings = new ProgramSetting();
+
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private VirtualFolderForm m_virtualFolderForm;
         private MyTaskbarNotifier m_taskbarNotifier;
@@ -43,6 +43,8 @@ namespace Waveface
         private bool m_exitToLogin;
         private bool m_process401Exception;
         private bool m_canAutoFetchNewestPosts = true;
+        private bool m_logoutStation;
+        private bool m_showInTaskbarHack;
 
         private List<string> m_delayPostPicList = new List<string>();
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
@@ -66,6 +68,7 @@ namespace Waveface
             get { return settings.StationToken; }
             set { settings.StationToken = value; }
         }
+
         #endregion
 
         public Main()
@@ -157,57 +160,6 @@ namespace Waveface
             RT.SaveJSON();
         }
 
-        private void GetLastReadPos()
-        {
-            string _lastReadPostID = RT.REST.Footprints_getLastScan();
-
-            if (!string.IsNullOrEmpty(_lastReadPostID))
-            {
-                RT.CurrentGroupLastRead = _lastReadPostID;
-            }
-        }
-
-        private void SetLastReadPos()
-        {
-            try
-            {
-                RT.REST.Footprints_setLastScan(RT.CurrentGroupLastRead);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Unabel to set last scan position:" + ex.Message);
-            }
-        }
-
-        public void Station401ExceptionHandler(string message)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(
-                           delegate
-                           {
-                               Station401ExceptionHandler(message);
-                           }
-                           ));
-            }
-            else
-            {
-                MessageBox.Show(message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-
-                m_exitToLogin = true;
-                m_process401Exception = true;
-
-                Close();
-            }
-        }
-
-        public void RefreshTimelineAsync()
-        {
-            Cursor.Current = Cursors.WaitCursor;
-
-            bgWorkerGetAllData.RunWorkerAsync();
-        }
-
         #endregion
 
         #region Event
@@ -233,6 +185,18 @@ namespace Waveface
                 SetLastReadPos();
 
             SaveRunTime();
+
+            if (m_logoutStation)
+            {
+                try
+                {
+                    WService.LogoutStation(StationToken);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Waveface");
+                }
+            }
         }
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
@@ -254,10 +218,15 @@ namespace Waveface
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
+            if (m_showInTaskbarHack)
+                return;
+
             panelLeftInfo.Width = leftArea.MyWidth + 8;
 
             if (FormWindowState.Minimized == WindowState)
             {
+                //ShowInTaskbar = false;
+
                 SetLastReadPos();
 
                 m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
@@ -278,8 +247,11 @@ namespace Waveface
                 Location = RestoreBounds.Location;
             }
 
-            GetLastReadPos();
-            ShowAllTimeline();
+            //m_showInTaskbarHack = true;
+            //ShowInTaskbar = true;
+            //m_showInTaskbarHack = false;
+
+            GetLastReadAndShow();
         }
 
         private void restoreMenuItem_Click(object sender, EventArgs e)
@@ -369,13 +341,15 @@ namespace Waveface
         public void Reset(bool online)
         {
             if (online)
-            RT.Reset();
+                RT.Reset();
 
+            m_logoutStation = false;
             m_process401Exception = false;
 
             WService.StationIP = "";
 
             postsArea.ShowTypeUI(false);
+            postsArea.showRefreshUI(false);
         }
 
         public bool Login(string email, string password)
@@ -409,13 +383,14 @@ namespace Waveface
                 CheckStation(RT.Login.stations);
             }
 
-                getGroupAndUser();
-                fillUserInformation();
+            getGroupAndUser();
+            fillUserInformation();
 
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
             RT.FilterMode = false;
 
-                leftArea.SetUI(true);
+            leftArea.SetUI(true);
+            postsArea.showRefreshUI(true);
 
             Cursor.Current = Cursors.Default;
 
@@ -425,8 +400,7 @@ namespace Waveface
             }
             else
             {
-
-                RefreshTimelineAsync();
+                GetAllDataAsync();
             }
 
             return true;
@@ -657,30 +631,118 @@ namespace Waveface
 
         #region Helper
 
-        private void ShowAllTimeline()
+        private void GetLastReadAndShow()
         {
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
                            delegate
                            {
-                               ShowAllTimeline();
+                               GetLastReadAndShow();
                            }
                            ));
             }
             else
             {
-                List<Post> _posts = RT.CurrentGroupPosts;
+                LastScan _lastRead = RT.REST.Footprints_getLastScan();
 
-                setCalendarBoldedDates(_posts);
+                if (!string.IsNullOrEmpty(_lastRead.post_id))
+                {
+                    RT.CurrentGroupLastReadID = _lastRead.post_id;
+                    RT.CurrentGroupLastReadTime = _lastRead.timestamp;
 
-                postsArea.PostsList.SetPosts(_posts, RT.GetCurrentGroupLastReadPosition());
+                    if (IsLastReadPostInCacheData(_lastRead.post_id))
+                    {
+                        ShowAllTimeline();
+                    }
+                    else
+                    {
+                        timerReloadAllData.Enabled = true;
+                    }
+                }
             }
+        }
+
+        private void timerReloadAllData_Tick(object sender, EventArgs e)
+        {
+            timerReloadAllData.Enabled = false;
+
+            GetAllDataAsync();
+        }
+
+        private bool IsLastReadPostInCacheData(string _postID)
+        {
+            foreach (Post _p in RT.CurrentGroupPosts)
+            {
+                if (_p.post_id == _postID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void SetLastReadPos()
+        {
+            try
+            {
+                //@ if (DateTimeHelp.CompareISO8601_New(RT.CurrentGroupLastReadTime, RT.CurrentGroupLocalLastReadTime))
+                {
+                    RT.REST.Footprints_setLastScan(RT.CurrentGroupLastReadID);
+                }
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show("Unabel to set last scan position:" + _e.Message);
+            }
+        }
+
+        public void Station401ExceptionHandler(string message)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate
+                           {
+                               Station401ExceptionHandler(message);
+                           }
+                           ));
+            }
+            else
+            {
+                MessageBox.Show(message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+
+                m_exitToLogin = true;
+                m_process401Exception = true;
+
+                Close();
+            }
+        }
+
+        public void GetAllDataAsync()
+        {
+            Cursor.Current = Cursors.WaitCursor;
+
+            postsArea.updateRefreshUI(false);
+
+            bgWorkerGetAllData.RunWorkerAsync();
+        }
+
+        private void ShowAllTimeline()
+        {
+            List<Post> _posts = RT.CurrentGroupPosts;
+
+            setCalendarBoldedDates(_posts);
+
+            postsArea.PostsList.SetPosts(_posts, RT.GetMyTimelinePosition());
         }
 
         public void PostListClick(int clickIndex, Post post)
         {
-            RT.CurrentGroupLastRead = post.post_id;
+            RT.CurrentGroupLocalLastReadID = post.post_id;
+            RT.CurrentGroupLocalLastReadTime = post.timestamp;
+
             RT.IsFilterFirstTimeGetData = false;
         }
 
@@ -752,7 +814,7 @@ namespace Waveface
 
             if ((_singlePost != null) && (_singlePost.post != null))
             {
-                // AllPosts Ë∑FilterPosts ΩË¥Êñ∞, Â¶ÇÊâÁË©                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
+                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
                 ReplacePostInList(_singlePost.post, RT.FilterPosts);
 
                 ShowPostToUI(true);
@@ -772,7 +834,7 @@ namespace Waveface
                 }
             }
 
-            // ‰∏çËÂ∞áÊ≠§ÊÆµÂØ´®‰¢Ëø¥àÁ if Ë£            if (k != -1)
+            if (k != -1)
             {
                 posts[k] = post;
 
@@ -1018,45 +1080,39 @@ namespace Waveface
             }
 
             RT.CurrentGroupPosts = _tmpPosts;
-
-            GetLastReadPos();
-            }
+        }
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            ShowAllTimeline();
-
             Cursor.Current = Cursors.Default;
-            
-            // Test
-            // RT.Login.session_token = "";
+
+            postsArea.updateRefreshUI(true);
+
+            GetLastReadAndShow();
         }
 
         #endregion
 
+        #region Station
+
         private void logoutMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                WService.LogoutStation(this.StationToken);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Waveface");
-            }
-
+            m_logoutStation = true;
             m_exitToLogin = true;
-            this.Close();
+
+            Close();
         }
 
-		public void stationLogin(string email, string password)
+        public void stationLogin(string email, string password)
         {
-            this.StationToken = WService.LoginStation(email, password);
+            StationToken = WService.LoginStation(email, password);
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.settings.Save();
+            settings.Save();
         }
+
+        #endregion
     }
 }

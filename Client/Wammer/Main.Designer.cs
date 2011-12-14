@@ -73,6 +73,7 @@
             this.labelName = new System.Windows.Forms.Label();
             this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
+            this.timerReloadAllData = new System.Windows.Forms.Timer(this.components);
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -216,20 +217,20 @@
             this.itemCountLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.itemCountLabel.Name = "itemCountLabel";
             this.itemCountLabel.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
-            this.itemCountLabel.Size = new System.Drawing.Size(61, 20);
+            this.itemCountLabel.Size = new System.Drawing.Size(64, 20);
             this.itemCountLabel.Text = "{0} Items";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(758, 20);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(739, 20);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // connectedStatusLabel
             // 
             this.connectedStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.connectedStatusLabel.Name = "connectedStatusLabel";
-            this.connectedStatusLabel.Size = new System.Drawing.Size(143, 20);
+            this.connectedStatusLabel.Size = new System.Drawing.Size(154, 20);
             this.connectedStatusLabel.Text = "All folders are up to date.";
             // 
             // connectedImageLabel
@@ -239,7 +240,7 @@
             this.connectedImageLabel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.connectedImageLabel.Margin = new System.Windows.Forms.Padding(0);
             this.connectedImageLabel.Name = "connectedImageLabel";
-            this.connectedImageLabel.Size = new System.Drawing.Size(97, 25);
+            this.connectedImageLabel.Size = new System.Drawing.Size(102, 25);
             this.connectedImageLabel.Text = "Connected";
             // 
             // toolStripStatusLabel4
@@ -277,7 +278,7 @@
             this.logoutMenuItem,
             this.mnuExit});
             this.mnuTray.Name = "mnuTree";
-            this.mnuTray.Size = new System.Drawing.Size(153, 132);
+            this.mnuTray.Size = new System.Drawing.Size(153, 154);
             // 
             // restoreMenuItem
             // 
@@ -304,21 +305,21 @@
             // regionMenuItem
             // 
             this.regionMenuItem.Name = "regionMenuItem";
-            this.regionMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.regionMenuItem.Size = new System.Drawing.Size(128, 22);
             this.regionMenuItem.Text = "Region";
             this.regionMenuItem.Click += new System.EventHandler(this.regionMenuItem_Click);
             // 
             // windowsMenuItem
             // 
             this.windowsMenuItem.Name = "windowsMenuItem";
-            this.windowsMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.windowsMenuItem.Size = new System.Drawing.Size(128, 22);
             this.windowsMenuItem.Text = "Windows";
             this.windowsMenuItem.Click += new System.EventHandler(this.windowsMenuItem_Click);
             // 
             // screenMenuItem
             // 
             this.screenMenuItem.Name = "screenMenuItem";
-            this.screenMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.screenMenuItem.Size = new System.Drawing.Size(128, 22);
             this.screenMenuItem.Text = "Desktop";
             this.screenMenuItem.Click += new System.EventHandler(this.screenMenuItem_Click);
             // 
@@ -465,6 +466,11 @@
             this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
             this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
             // 
+            // timerReloadAllData
+            // 
+            this.timerReloadAllData.Interval = 500;
+            this.timerReloadAllData.Tick += new System.EventHandler(this.timerReloadAllData_Tick);
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -549,6 +555,7 @@
         private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
         private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
+        private System.Windows.Forms.Timer timerReloadAllData;
 	}
 }
 

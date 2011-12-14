@@ -32,6 +32,7 @@ namespace Waveface
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+
                 ProgramSetting settings = new ProgramSetting();
 
                 string _email = string.Empty;

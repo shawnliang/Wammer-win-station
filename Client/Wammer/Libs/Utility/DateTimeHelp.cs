@@ -47,6 +47,22 @@ namespace Waveface
             return _dt;
         }
 
+        public static int CompareISO8601(string dt1, string dt2)
+        {
+            DateTime _dt1 = ISO8601ToDateTime(dt1);
+            DateTime _dt2 = ISO8601ToDateTime(dt2);
+
+            return _dt1.CompareTo(_dt2);
+        }
+        
+        public static bool CompareISO8601_New(string dt1, string dt2) //Old, New
+        {
+            DateTime _dt1 = ISO8601ToDateTime(dt1);
+            DateTime _dt2 = ISO8601ToDateTime(dt2);
+
+            return _dt1.CompareTo(_dt2) < 0;
+        }
+
         public static string PrettyDate(String TimeSubmitted)
         {
             // accepts standard DateTime: 5/12/2011 2:36:00 PM 

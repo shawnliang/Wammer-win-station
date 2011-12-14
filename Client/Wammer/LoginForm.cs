@@ -227,7 +227,6 @@ namespace Waveface
 			Cursor.Current = Cursors.WaitCursor;
 
             Main _main = new Main();
-            //_main.Reset();
 
 			Application.DoEvents();
 
@@ -236,7 +235,7 @@ namespace Waveface
 				_main.stationLogin(email, password);
 				_doLogin(_main, email, password);
 			}
-			catch (Waveface.API.V2.ServiceUnavailableException ex)
+			catch (API.V2.ServiceUnavailableException ex)
 			{
 				MessageBox.Show(ex.Message, "Waveface");
 				Close();
