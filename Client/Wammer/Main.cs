@@ -204,6 +204,7 @@ namespace Waveface
                 m_exitToLogin = true;
                 m_process401Exception = true;
                 this.QuitOption = Waveface.QuitOption.Logout;
+                this.settings.IsLoggedIn = false;
                 Close();
             }
         }
@@ -432,7 +433,9 @@ namespace Waveface
             }
             else
             {
-
+                this.settings.Email = email;
+                this.settings.Password = password;
+                this.settings.IsLoggedIn = true;
                 RefreshTimelineAsync();
             }
 
@@ -1054,6 +1057,7 @@ namespace Waveface
 
             m_exitToLogin = true;
             this.QuitOption = Waveface.QuitOption.Logout;
+            this.settings.IsLoggedIn = false;
             this.Close();
         }
 

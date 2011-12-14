@@ -21,7 +21,6 @@ namespace Waveface
         private XPButton btnOK;
         private GroupBox groupBox1;
         private CultureManager cultureManager;
-
         private FormSettings m_formSettings;
 
         #region Properties
@@ -93,7 +92,6 @@ namespace Waveface
             m_formSettings.Settings.Add(new PropertySetting(this, "UserSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "PasswordSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "RememberPassword"));
-
             if (email != string.Empty)
             {
                 txtUserName.Text = email;
