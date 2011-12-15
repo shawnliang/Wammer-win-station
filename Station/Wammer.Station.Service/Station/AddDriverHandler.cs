@@ -115,7 +115,7 @@ namespace Wammer.Station
 				new AddUserResponse
 				{
 					api_ret_code = (int)StationApiError.AlreadyHasStaion,
-					api_ret_msg = "already has a station",
+					api_ret_message = "already has a station",
 					status = (int)HttpStatusCode.Conflict,
 					timestamp = DateTime.UtcNow,
 					station = resp.station

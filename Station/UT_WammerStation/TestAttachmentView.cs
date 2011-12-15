@@ -220,7 +220,7 @@ namespace UT_WammerStation
 						CloudResponse res = fastJSON.JSON.Instance.ToObject<CloudResponse>(responseText);
 						Assert.AreEqual(400, res.status);
 						Assert.AreEqual(-1, res.api_ret_code);
-						Assert.AreEqual("missing required param: object_id", res.api_ret_msg);
+						Assert.AreEqual("missing required param: object_id", res.api_ret_message);
 					}
 
 					return;

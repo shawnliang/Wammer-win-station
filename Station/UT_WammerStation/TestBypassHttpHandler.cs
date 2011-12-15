@@ -165,7 +165,7 @@ namespace UT_WammerStation
 						Assert.AreEqual(-1, resp.api_ret_code);
 						Assert.AreEqual(403, resp.status);
 						Assert.AreEqual("Station does not support this REST API; only Cloud does",
-																				resp.api_ret_msg);
+																				resp.api_ret_message);
 					}
 					return;
 				}
@@ -200,7 +200,7 @@ namespace UT_WammerStation
 						Assert.AreEqual(-1, resp.api_ret_code);
 						Assert.AreEqual(403, resp.status);
 						Assert.AreEqual("Station does not support this REST API; only Cloud does",
-																				resp.api_ret_msg);
+																				resp.api_ret_message);
 					}
 					return;
 				}
@@ -235,7 +235,7 @@ namespace UT_WammerStation
 						Assert.AreEqual(-1, resp.api_ret_code);
 						Assert.AreEqual(403, resp.status);
 						Assert.AreEqual("Station does not support this REST API; only Cloud does",
-																				resp.api_ret_msg);
+																				resp.api_ret_message);
 					}
 					return;
 				}

@@ -69,7 +69,7 @@ namespace Wammer.Station
 				WriteServiceStateToDB(ServiceState.Online);
 
 				logger.Debug("Start function server successfully");
-				RespondSuccess(new StationOnlineResponse { session_token = logonRes.session_token, status = 200, timestamp = DateTime.UtcNow, api_ret_code = 0, api_ret_msg = "success" });
+				RespondSuccess(new StationOnlineResponse { session_token = logonRes.session_token, status = 200, timestamp = DateTime.UtcNow, api_ret_code = 0, api_ret_message = "success" });
 			}
 			catch (WammerCloudException e)
 			{
