@@ -168,14 +168,15 @@ namespace Waveface
             RT.SaveJSON();
         }
 
-
         private void SetLastReadPos()
         {
             try
             {
-                //@ if (DateTimeHelp.CompareISO8601_New(RT.CurrentGroupLastReadTime, RT.CurrentGroupLocalLastReadTime))
+                string _id = RT.CurrentGroupLocalLastReadID;
+
+                if (_id != string.Empty)
                 {
-                    RT.REST.Footprints_setLastScan(RT.CurrentGroupLastReadID);
+                    RT.REST.Footprints_setLastScan(_id);
                 }
             }
             catch (Exception _e)
@@ -703,8 +704,7 @@ namespace Waveface
                 }
                 else
                 {
-                    RT.CurrentGroupLastReadID = _lastRead.post_id;
-                    RT.CurrentGroupLastReadTime = _lastRead.timestamp;
+                    RT.SetCurrentGroupLastRead(_lastRead);
 
                     if (IsLastReadPostInCacheData(_lastRead.post_id))
                     {
@@ -742,6 +742,8 @@ namespace Waveface
         {
             Cursor.Current = Cursors.WaitCursor;
 
+            Application.DoEvents();
+
             postsArea.updateRefreshUI(false);
 
             bgWorkerGetAllData.RunWorkerAsync();
@@ -758,8 +760,7 @@ namespace Waveface
 
         public void PostListClick(int clickIndex, Post post)
         {
-            RT.CurrentGroupLocalLastReadID = post.post_id;
-            RT.CurrentGroupLocalLastReadTime = post.timestamp;
+            RT.SetCurrentGroupLocalLastRead(post);
 
             RT.IsFilterFirstTimeGetData = false;
         }
