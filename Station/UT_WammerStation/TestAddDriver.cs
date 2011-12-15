@@ -118,7 +118,7 @@ namespace UT_WammerStation
 				Assert.AreEqual(res2.groups[0].description, driver.groups[0].description);
 
 				//verify station
-				Wammer.Model.StationInfo s = Wammer.Model.StationInfo.collection.FindOne();
+				Wammer.Model.StationInfo s = Wammer.Model.StationCollection.FindOne();
 				Assert.IsNotNull(s);
 				Assert.AreEqual("token3", s.SessionToken);
 		    }

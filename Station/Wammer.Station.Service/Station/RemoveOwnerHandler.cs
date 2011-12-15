@@ -32,7 +32,7 @@ namespace Wammer.Station
 			functionServer.Stop();
 
 			Model.Drivers.collection.RemoveAll();
-			Model.StationInfo.collection.RemoveAll();
+			Model.StationCollection.RemoveAll();
 
 			//TODO: move to ServiceCollection
 			Model.Service service = Model.ServiceCollection.FindOne(Query.EQ("_id", "StationService"));

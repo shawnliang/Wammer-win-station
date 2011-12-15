@@ -51,7 +51,7 @@ namespace Wammer.Station
 				throw new WammerStationException("Invalid driver", (int)StationApiError.InvalidDriver);
 			}
 
-			StationInfo stationInfo = StationInfo.collection.FindOne();
+			StationInfo stationInfo = StationCollection.FindOne();
 			if (stationInfo == null)
 			{
 				logger.Error("Station has no info");
@@ -80,7 +80,7 @@ namespace Wammer.Station
 					// remove driver and cloudstorage info since driver already registered another station
 					Drivers.collection.RemoveAll();
 					CloudStorage.collection.RemoveAll();
-					StationInfo.collection.RemoveAll();
+					StationCollection.RemoveAll();
 					
 					// function server should be stopped if driver's info is removed
 					logger.Debug("Try to stop function server");

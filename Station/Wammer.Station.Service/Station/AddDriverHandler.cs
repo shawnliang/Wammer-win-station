@@ -71,7 +71,7 @@ namespace Wammer.Station
 
 					Drivers.collection.Save(driver);
 
-					StationInfo.collection.Save(
+					StationCollection.Save(
 						new StationInfo
 						{
 							Id = stationId,

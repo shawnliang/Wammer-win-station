@@ -182,7 +182,7 @@ namespace UT_WammerStation
 			{
 				listener.BeginGetContext(this.connected, listener);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return;
 			}
