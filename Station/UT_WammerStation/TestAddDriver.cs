@@ -109,7 +109,7 @@ namespace UT_WammerStation
 		            Query.EQ("email", "user1@gmail.com"));
 
 		        Assert.AreEqual("user1@gmail.com", driver.email);
-		        Assert.AreEqual(@"resource\group1", driver.folder);
+		        Assert.AreEqual(@"resource\user_uid1", driver.folder);
 		        Assert.AreEqual(res2.user.user_id, driver.user_id);
 		        Assert.AreEqual(1, driver.groups.Count);
 				Assert.AreEqual(res2.session_token, driver.session_token);
