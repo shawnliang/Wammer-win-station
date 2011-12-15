@@ -1146,6 +1146,7 @@ namespace Waveface
 
             try
             {
+                SetLastReadPos();
                 WService.RemoveOwner(settings.Email, settings.Password, StationToken);
 
                 MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", settings.Email), "waveface");
@@ -1155,7 +1156,7 @@ namespace Waveface
 
                 m_exitToLogin = true;
                 QuitOption = QuitOption.QuitProgram;
-
+                m_process401Exception = true;
                 Close();
             }
             catch (Exception ex)
