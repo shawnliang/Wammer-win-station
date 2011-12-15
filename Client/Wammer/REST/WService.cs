@@ -1,8 +1,10 @@
 #region
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Web;
 using NLog;
 using Newtonsoft.Json;
@@ -118,7 +120,7 @@ namespace Waveface.API.V2
         public MR_auth_login auth_login(string email, string password)
         {
             //email = email.Replace("@", "%40");
-			email = HttpUtility.UrlEncode(email);
+            email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
             MR_auth_login _ret;
@@ -656,7 +658,8 @@ namespace Waveface.API.V2
             }
         }
 
-        public MR_posts_new posts_new(string session_token, string group_id, string content, string attachment_id_array, string preview, string type)
+        public MR_posts_new posts_new(string session_token, string group_id, string content, string attachment_id_array,
+                                      string preview, string type)
         {
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
@@ -701,7 +704,8 @@ namespace Waveface.API.V2
             }
         }
 
-        public MR_posts_newComment posts_newComment(string session_token, string group_id, string post_id, string content, string objects, string previews)
+        public MR_posts_newComment posts_newComment(string session_token, string group_id, string post_id,
+                                                    string content, string objects, string previews)
         {
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
@@ -968,7 +972,9 @@ namespace Waveface.API.V2
 
         #region attachments
 
-        public MR_attachments_upload attachments_upload(string session_token, string group_id, string fileName, string title, string description, string type, string image_meta, string object_id)
+        public MR_attachments_upload attachments_upload(string session_token, string group_id, string fileName,
+                                                        string title, string description, string type, string image_meta,
+                                                        string object_id)
         {
             MR_attachments_upload _ret;
 
@@ -997,7 +1003,10 @@ namespace Waveface.API.V2
                 _dic.Add("file", _data);
 
                 string _userAgent = "Windows";
-                HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic, new FileInfo(fileName).Name, _mimeType); //HttpUtility.UrlEncode(new FileInfo(fileName).Name)
+                HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic,
+                                                                                                 new FileInfo(fileName).
+                                                                                                     Name, _mimeType);
+                    //HttpUtility.UrlEncode(new FileInfo(fileName).Name)
 
                 // Process response
                 StreamReader _responseReader = new StreamReader(_webResponse.GetResponseStream());
@@ -1206,7 +1215,8 @@ namespace Waveface.API.V2
             }
         }
 
-        public MR_footprints_LastRead footprints_setLastRead(string session_token, string group_id, string last_read_input_array)
+        public MR_footprints_LastRead footprints_setLastRead(string session_token, string group_id,
+                                                             string last_read_input_array)
         {
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
@@ -1245,7 +1255,8 @@ namespace Waveface.API.V2
 
         #region fetchfilters
 
-        public MR_fetchfilters_item fetchfilters_new(string session_token, string filter_name, string filter_entity, string tag)
+        public MR_fetchfilters_item fetchfilters_new(string session_token, string filter_name, string filter_entity,
+                                                     string tag)
         {
             session_token = HttpUtility.UrlEncode(session_token);
             filter_name = HttpUtility.UrlEncode(filter_name);
@@ -1282,7 +1293,8 @@ namespace Waveface.API.V2
             }
         }
 
-        public MR_fetchfilters_item fetchfilters_update(string session_token, string filter_id, string filter_name, string filter_entity, string tag)
+        public MR_fetchfilters_item fetchfilters_update(string session_token, string filter_id, string filter_name,
+                                                        string filter_entity, string tag)
         {
             session_token = HttpUtility.UrlEncode(session_token);
             filter_id = HttpUtility.UrlEncode(filter_id);
@@ -1359,58 +1371,59 @@ namespace Waveface.API.V2
         public static string LoginStation(string email, string password)
         {
             //email = email.Replace("@", "%40");
-			email = HttpUtility.UrlEncode(email);
+            email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
             try
             {
                 using (WebClient agent = new WebClient())
                 {
-                    string url = string.Format("http://localhost:9989/v2/station/online?email={0}&password={1}&apikey={2}",
-                        email, password, APIKEY);
+                    string url =
+                        string.Format("http://localhost:9989/v2/station/online?email={0}&password={1}&apikey={2}",
+                                      email, password, APIKEY);
 
                     byte[] resp = agent.DownloadData(url);
-                    string respText = System.Text.Encoding.UTF8.GetString(resp);
+                    string respText = Encoding.UTF8.GetString(resp);
 
                     General_R r = JsonConvert.DeserializeObject<General_R>(respText);
 
-					return r.session_token;
-				}
-			}
-			catch (WebException e)
-			{
-				HttpWebResponse res = (HttpWebResponse)e.Response;
-				if (res != null)
-				{
-					if (res.StatusCode == HttpStatusCode.ServiceUnavailable)
-					{
-						using (StreamReader reader = new StreamReader(res.GetResponseStream()))
-						{
-							string resText = reader.ReadToEnd();
-							General_R r = JsonConvert.DeserializeObject<General_R>(resText);
-							if (int.Parse(r.api_ret_code) == -33) // already has station
-							{
-								throw new ServiceUnavailableException("Driver already registered another station.");
-							}
-							else if (int.Parse(r.api_ret_code) == -36) // invalid driver
-							{
-								throw new ServiceUnavailableException("Driver email is invalid");
-							}
-						}
-					}
-					else if (res.StatusCode == HttpStatusCode.BadRequest)
-					{
-						using (StreamReader reader = new StreamReader(res.GetResponseStream()))
-						{
-							string resText = reader.ReadToEnd();
-							General_R r = JsonConvert.DeserializeObject<General_R>(resText);
-							if (int.Parse(r.api_ret_code) == 0x1000 + 1) // user name/password invalid
-							{
-								throw new Exception("User email/password is invalid.", e);
-							}
-						}
-					}
-				}
+                    return r.session_token;
+                }
+            }
+            catch (WebException e)
+            {
+                HttpWebResponse res = (HttpWebResponse) e.Response;
+                if (res != null)
+                {
+                    if (res.StatusCode == HttpStatusCode.ServiceUnavailable)
+                    {
+                        using (StreamReader reader = new StreamReader(res.GetResponseStream()))
+                        {
+                            string resText = reader.ReadToEnd();
+                            General_R r = JsonConvert.DeserializeObject<General_R>(resText);
+                            if (int.Parse(r.api_ret_code) == -33) // already has station
+                            {
+                                throw new ServiceUnavailableException("Driver already registered another station.");
+                            }
+                            else if (int.Parse(r.api_ret_code) == -36) // invalid driver
+                            {
+                                throw new ServiceUnavailableException("Driver email is invalid");
+                            }
+                        }
+                    }
+                    else if (res.StatusCode == HttpStatusCode.BadRequest)
+                    {
+                        using (StreamReader reader = new StreamReader(res.GetResponseStream()))
+                        {
+                            string resText = reader.ReadToEnd();
+                            General_R r = JsonConvert.DeserializeObject<General_R>(resText);
+                            if (int.Parse(r.api_ret_code) == 0x1000 + 1) // user name/password invalid
+                            {
+                                throw new Exception("User email/password is invalid.", e);
+                            }
+                        }
+                    }
+                }
 
                 throw new Exception("Unable to login station with Waveface cloud", e);
             }
@@ -1427,7 +1440,7 @@ namespace Waveface.API.V2
                 using (WebClient agent = new WebClient())
                 {
                     string url = string.Format("http://localhost:9989/v2/station/offline?session_token={0}&apikey={1}",
-                        HttpUtility.UrlEncode(session_token), APIKEY);
+                                               HttpUtility.UrlEncode(session_token), APIKEY);
 
                     agent.DownloadData(url);
                 }
@@ -1442,15 +1455,18 @@ namespace Waveface.API.V2
         {
             using (WebClient agent = new WebClient())
             {
-                string url = string.Format("http://localhost:9989/v2/station/drivers/remove?session_token={0}&apikey={1}&email={2}&password={3}",
-                    HttpUtility.UrlEncode(token),
-                    APIKEY,
-                    HttpUtility.UrlEncode(email),
-                    HttpUtility.UrlEncode(password));
+                string url =
+                    string.Format(
+                        "http://localhost:9989/v2/station/drivers/remove?session_token={0}&apikey={1}&email={2}&password={3}",
+                        HttpUtility.UrlEncode(token),
+                        APIKEY,
+                        HttpUtility.UrlEncode(email),
+                        HttpUtility.UrlEncode(password));
 
                 agent.DownloadData(url);
             }
         }
+
         #endregion
     }
 

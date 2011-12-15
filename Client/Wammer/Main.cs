@@ -46,6 +46,7 @@ namespace Waveface
         private bool m_logoutStation;
         private bool m_showInTaskbar_Hack;
         private bool m_eventFromRestoreWindow_Hack;
+        private bool m_keepTimelineIndex;
 
         private List<string> m_delayPostPicList = new List<string>();
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
@@ -181,7 +182,8 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show("Unabel to set last scan position:" + _e.Message);
+
+                //MessageBox.Show("Unabel to set last scan position:" + _e.Message);
             }
         }
 
@@ -359,6 +361,8 @@ namespace Waveface
                 connectedImageLabel.Image = Resources.Outlook;
 
                 RT.REST.IsNetworkAvailable = true;
+
+                //MessageBox.Show("Network Connected.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
@@ -366,6 +370,8 @@ namespace Waveface
                 connectedImageLabel.Image = Resources.Error;
 
                 RT.REST.IsNetworkAvailable = false;
+
+                MessageBox.Show("Network Disconnected.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -444,7 +450,7 @@ namespace Waveface
 
             if (_login == null)
             {
-                ShowAllTimeline();
+                ShowAllTimeline(false);
             }
             else
             {
@@ -452,7 +458,7 @@ namespace Waveface
                 settings.Password = password;
                 settings.IsLoggedIn = true;
 
-                GetAllDataAsync();
+                GetAllDataAsync(false);
             }
 
             return true;
@@ -532,7 +538,7 @@ namespace Waveface
 
             RT.FilterMode = true;
 
-            if (item != null) //ÉnullØÁî±PostAreaÑcomboBoxTypeºÂá∫
+            if (item != null)
             {
                 RT.CurrentFilterItem = item;
             }
@@ -540,7 +546,7 @@ namespace Waveface
             RT.FilterPosts = new List<Post>(); //Reset
 
             RT.FilterTimelineMode = isFilterTimelineMode;
-            postsArea.ShowTypeUI(RT.FilterTimelineMode); //ØTimelineçÁType
+            postsArea.ShowTypeUI(RT.FilterTimelineMode);
 
             FilterFetchPostsAndShow(true);
         }
@@ -700,7 +706,7 @@ namespace Waveface
 
                 if ((_lastRead == null) || string.IsNullOrEmpty(_lastRead.post_id))
                 {
-                    ShowAllTimeline();
+                    ShowAllTimeline(m_keepTimelineIndex);
                 }
                 else
                 {
@@ -708,7 +714,7 @@ namespace Waveface
 
                     if (IsLastReadPostInCacheData(_lastRead.post_id))
                     {
-                        ShowAllTimeline();
+                        ShowAllTimeline(m_keepTimelineIndex);
                     }
                     else
                     {
@@ -722,7 +728,7 @@ namespace Waveface
         {
             timerReloadAllData.Enabled = false;
 
-            GetAllDataAsync();
+            GetAllDataAsync(false);
         }
 
         private bool IsLastReadPostInCacheData(string _postID)
@@ -738,8 +744,10 @@ namespace Waveface
             return false;
         }
 
-        public void GetAllDataAsync()
+        public void GetAllDataAsync(bool keepTimelineIndex)
         {
+            m_keepTimelineIndex = keepTimelineIndex;
+
             Cursor.Current = Cursors.WaitCursor;
 
             Application.DoEvents();
@@ -749,13 +757,13 @@ namespace Waveface
             bgWorkerGetAllData.RunWorkerAsync();
         }
 
-        private void ShowAllTimeline()
+        private void ShowAllTimeline(bool keepTimelineIndex)
         {
             List<Post> _posts = RT.CurrentGroupPosts;
 
             setCalendarBoldedDates(_posts);
 
-            postsArea.PostsList.SetPosts(_posts, RT.GetMyTimelinePosition());
+            postsArea.PostsList.SetPosts(_posts, RT.GetMyTimelinePosition(keepTimelineIndex)); 
         }
 
         public void PostListClick(int clickIndex, Post post)
@@ -834,9 +842,9 @@ namespace Waveface
             if ((_singlePost != null) && (_singlePost.post != null))
             {
                 ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
-                ReplacePostInList(_singlePost.post, RT.FilterPosts);
+                //ReplacePostInList(_singlePost.post, RT.FilterPosts);
 
-                ShowPostToUI(true);
+                ShowAllTimeline(true);
             }
         }
 

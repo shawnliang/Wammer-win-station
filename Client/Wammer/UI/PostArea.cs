@@ -70,7 +70,7 @@ namespace Waveface
 
         private void btnRefresh_Click(object sender, System.EventArgs e)
         {
-            Main.Current.GetAllDataAsync();
+            Main.Current.GetAllDataAsync(true);
         }
 
         public void updateRefreshUI(bool flag)

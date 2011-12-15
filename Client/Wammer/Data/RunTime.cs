@@ -169,9 +169,18 @@ namespace Waveface
 
         #region Last Read
 
-        public int GetMyTimelinePosition()
+        public int GetMyTimelinePosition(bool keepTimelineIndex)
         {
-            string _id = GetMyReadPositionID();
+            string _id;
+
+            if (keepTimelineIndex)
+            {
+                _id = CurrentGroupLocalLastReadID;
+            }
+            else
+            {
+                _id = GetMyReadPositionID();
+            }
 
             if (_id != string.Empty)
             {
