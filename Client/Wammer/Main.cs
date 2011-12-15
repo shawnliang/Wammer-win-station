@@ -198,7 +198,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                // MessageBox.Show(message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
                 m_exitToLogin = true;
                 m_process401Exception = true;
@@ -698,7 +698,7 @@ namespace Waveface
             {
                 LastScan _lastRead = RT.REST.Footprints_getLastScan();
 
-                if (string.IsNullOrEmpty(_lastRead.post_id))
+                if ((_lastRead == null) || string.IsNullOrEmpty(_lastRead.post_id))
                 {
                     ShowAllTimeline();
                 }
@@ -1148,6 +1148,7 @@ namespace Waveface
             try
             {
                 SetLastReadPos();
+
                 WService.RemoveOwner(settings.Email, settings.Password, StationToken);
 
                 MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", settings.Email), "waveface");
