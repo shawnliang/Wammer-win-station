@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Web;
 using StationSetup;
 using Wammer.Station.Management;
 using Waveface.Localization;
@@ -35,18 +36,20 @@ namespace Wammer.Station
                 return;
             }
 
-            AddUser();
+            AddUser(textBoxMail.Text, textBoxPassword.Text);
         }
 
-        private void AddUser()
+        private void AddUser(string email, string password)
         {
             Cursor.Current = Cursors.WaitCursor;
 
             try
             {
-                string session_token = StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
+				email = HttpUtility.UrlEncode(email);
+				password = HttpUtility.UrlEncode(password);
+                string session_token = StationController.AddUser(email, password);
 
-                DropboxInstallAndLink(textBoxMail.Text, textBoxPassword.Text, session_token);
+                DropboxInstallAndLink(email, password, session_token);
 
                 Close();
             }

@@ -110,7 +110,8 @@ namespace Waveface.API.V2
 
         public MR_auth_login auth_login(string email, string password)
         {
-            email = email.Replace("@", "%40");
+            //email = email.Replace("@", "%40");
+			email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
             MR_auth_login _ret;
@@ -1219,7 +1220,8 @@ namespace Waveface.API.V2
 
         public static string LoginStation(string email, string password)
         {
-            email = email.Replace("@", "%40");
+            //email = email.Replace("@", "%40");
+			email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
 			try
@@ -1244,7 +1246,19 @@ namespace Waveface.API.V2
 				{
 					if (res.StatusCode == HttpStatusCode.ServiceUnavailable)
 					{
-						throw new ServiceUnavailableException("Service unavailable. The station might be unregistered by its driver.");
+						using (StreamReader reader = new StreamReader(res.GetResponseStream()))
+						{
+							string resText = reader.ReadToEnd();
+							General_R r = JsonConvert.DeserializeObject<General_R>(resText);
+							if (int.Parse(r.api_ret_code) == -33) // already has station
+							{
+								throw new ServiceUnavailableException("Driver already registered another station.");
+							}
+							else if (int.Parse(r.api_ret_code) == -36) // invalid driver
+							{
+								throw new ServiceUnavailableException("Driver email is invalid");
+							}
+						}
 					}
 					else if (res.StatusCode == HttpStatusCode.BadRequest)
 					{
@@ -1252,7 +1266,7 @@ namespace Waveface.API.V2
 						{
 							string resText = reader.ReadToEnd();
 							General_R r = JsonConvert.DeserializeObject<General_R>(resText);
-							if (r.api_ret_code == "4097")
+							if (int.Parse(r.api_ret_code) == 0x1000 + 1) // user name/password invalid
 							{
 								throw new Exception("User email/password is invalid.", e);
 							}

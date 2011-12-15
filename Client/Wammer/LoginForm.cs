@@ -225,10 +225,12 @@ namespace Waveface
                     Close();
                 else
                     Show();
-            }
-            catch (API.V2.ServiceUnavailableException ex)
-            {
-                MessageBox.Show(ex.Message, "Waveface");
+			}
+			catch (API.V2.ServiceUnavailableException ex)
+			{
+				// user should re-register station if receive service unavailable exception
+				// so we close the login page here
+				MessageBox.Show(ex.Message, "Waveface");
                 Close();
             }
             catch (Exception ex)
