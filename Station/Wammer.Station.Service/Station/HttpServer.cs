@@ -203,7 +203,7 @@ namespace Wammer.Station
 			}
 			catch (Exception e)
 			{
-				logger.Warn("Unable to respond 401 Unauthorized");
+				logger.Warn("Unable to respond 401 Unauthorized", e);
 			}
 		}
 		private HttpHandlerProxy FindBestMatch(string requestAbsPath)

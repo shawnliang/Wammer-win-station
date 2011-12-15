@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Forms;
+using NLog;
 using Waveface.Component;
 using Waveface.Configuration;
 using Waveface.Localization;
@@ -10,6 +11,8 @@ namespace Waveface
 {
     public class LoginForm : Form
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         internal CheckBox cbRemember;
         internal Label lblUserName;
         internal TextBox txtPassword;
@@ -98,7 +101,6 @@ namespace Waveface
             m_formSettings.Settings.Add(new PropertySetting(this, "UserSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "PasswordSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "RememberPassword"));
-            
         }
 
         #region Windows Form Designer generated code

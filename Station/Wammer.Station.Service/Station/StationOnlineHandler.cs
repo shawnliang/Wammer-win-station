@@ -51,7 +51,7 @@ namespace Wammer.Station
 				throw new WammerStationException("Invalid driver", (int)StationApiError.InvalidDriver);
 			}
 
-			StationInfo stationInfo = StationInfo.collection.FindOne();
+			StationInfo stationInfo = StationCollection.FindOne();
 			if (stationInfo == null)
 			{
 				logger.Error("Station has no info");
@@ -110,7 +110,7 @@ namespace Wammer.Station
 		{
 			Drivers.collection.RemoveAll();
 			CloudStorage.collection.RemoveAll();
-			StationInfo.collection.RemoveAll();
+			StationCollection.RemoveAll();
 		}
 
 		private static void WriteServiceStateToDB(ServiceState state)

@@ -471,6 +471,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Resources\lightbulb.png" />
     <None Include="Resources\disk.png" />

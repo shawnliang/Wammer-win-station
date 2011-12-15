@@ -143,7 +143,9 @@
       <ComponentRef Id="WavefaceWindowsClient.resources.dll"/>
       <ComponentRef Id="WavefaceML.xml"/>
       <ComponentRef Id="Microsoft.mshtml.dll"/>
-
+      <ComponentRef Id="nlog.config"/>
+      <ComponentRef Id="nlog.dll"/>
+      
       <ComponentRef Id="CEO_letter"/>
       <ComponentRef Id="DefaultPosts.xml"/>
       <ComponentRef Id="Team_photos1.png"/>
@@ -269,6 +271,12 @@
       </Component>
       <Component Id="Microsoft.mshtml.dll" Guid="{E3444381-2FBC-45A9-B3B2-6134E428CC49}">
         <File Id="Microsoft.mshtml.dll" Source="$(var.Wammer.ProjectDir)\..\Libs\Microsoft.mshtml.dll"/>
+      </Component>
+      <Component Id="nlog.dll" Guid="{8E785CA1-3EA7-481C-9FF8-959C711835A1}">
+        <File Id="nlog.dll" Source="$(var.Wammer.ProjectDir)\..\Libs\NLog.dll"/>
+      </Component>
+      <Component Id="nlog.config" Guid="{873B6B1B-036A-444E-A530-418F095A2A11}">
+        <File Id="nlog.config" Source="$(var.Wammer.ProjectDir)\nlog.config"/>
       </Component>
     </DirectoryRef>
 

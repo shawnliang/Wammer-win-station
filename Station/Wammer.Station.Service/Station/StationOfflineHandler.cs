@@ -55,7 +55,7 @@ namespace Wammer.Station
 		private static void LogOutStationFromCloud(string session_token)
 		{
 			logger.DebugFormat("Station logout with session_token = {0}", session_token);
-			Model.StationInfo station = Model.StationInfo.collection.FindOne();
+			Model.StationInfo station = Model.StationCollection.FindOne();
 			if (station == null)
 				throw new InvalidOperationException("station is null in station collection");
 
