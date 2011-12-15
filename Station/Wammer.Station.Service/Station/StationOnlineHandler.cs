@@ -87,7 +87,7 @@ namespace Wammer.Station
 
 					throw new ServiceUnavailableException("Driver already registered another station", (int)StationApiError.AlreadyHasStaion);
 				}
-				else if (e.WammerError == 0x2000 + 1) // user does not exist
+				else if (e.WammerError == 0x4000 + 4) // user does not exist
 				{
 					logger.Error("Driver account does not exist");
 
