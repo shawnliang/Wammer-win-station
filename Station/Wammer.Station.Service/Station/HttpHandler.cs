@@ -56,6 +56,11 @@ namespace Wammer.Station
 				ParseMultiPartData(request);
 			}
 
+			foreach (string key in Parameters.AllKeys)
+			{
+				Parameters[key] = HttpUtility.UrlDecode(Parameters[key]);
+			}
+
 			if (logger.IsDebugEnabled)
 			{
 				logger.Debug("====== Request " + Request.Url.AbsolutePath + 

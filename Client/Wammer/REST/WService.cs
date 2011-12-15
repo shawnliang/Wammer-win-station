@@ -110,7 +110,8 @@ namespace Waveface.API.V2
 
         public MR_auth_login auth_login(string email, string password)
         {
-            email = email.Replace("@", "%40");
+            //email = email.Replace("@", "%40");
+			email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
             MR_auth_login _ret;
@@ -1219,7 +1220,8 @@ namespace Waveface.API.V2
 
         public static string LoginStation(string email, string password)
         {
-            email = email.Replace("@", "%40");
+            //email = email.Replace("@", "%40");
+			email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
 			try
