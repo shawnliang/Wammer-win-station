@@ -53,15 +53,15 @@ namespace Waveface
                     settings.StationToken = _token;
                     settings.Save();
 
-                    loginForm = new LoginForm(_email, _password);
+                    loginForm = new LoginForm(_email, _password, true);
                 }
                 else if (settings.IsLoggedIn)
                 {
-                    loginForm = new LoginForm(settings.Email, settings.Password);
+                    loginForm = new LoginForm(settings.Email, settings.Password, true);
                 }
                 else
                 {
-                    loginForm = new LoginForm("", "");
+                    loginForm = new LoginForm(settings.Email, settings.Password, false);
                 }
 
                 Application.Run(loginForm);

@@ -117,7 +117,8 @@ namespace Waveface.API.V2
 
         public MR_auth_login auth_login(string email, string password)
         {
-            email = email.Replace("@", "%40");
+            //email = email.Replace("@", "%40");
+			email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
             MR_auth_login _ret;
@@ -1357,7 +1358,8 @@ namespace Waveface.API.V2
 
         public static string LoginStation(string email, string password)
         {
-            email = email.Replace("@", "%40");
+            //email = email.Replace("@", "%40");
+			email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
             try
@@ -1372,31 +1374,43 @@ namespace Waveface.API.V2
 
                     General_R r = JsonConvert.DeserializeObject<General_R>(respText);
 
-                    return r.session_token;
-                }
-            }
-            catch (WebException e)
-            {
-                HttpWebResponse res = (HttpWebResponse)e.Response;
-                if (res != null)
-                {
-                    if (res.StatusCode == HttpStatusCode.ServiceUnavailable)
-                    {
-                        throw new ServiceUnavailableException("Service unavailable. The station might be unregistered by its driver.");
-                    }
-                    else if (res.StatusCode == HttpStatusCode.BadRequest)
-                    {
-                        using (StreamReader reader = new StreamReader(res.GetResponseStream()))
-                        {
-                            string resText = reader.ReadToEnd();
-                            General_R r = JsonConvert.DeserializeObject<General_R>(resText);
-                            if (r.api_ret_code == "4097")
-                            {
-                                throw new Exception("User email/password is invalid.", e);
-                            }
-                        }
-                    }
-                }
+					return r.session_token;
+				}
+			}
+			catch (WebException e)
+			{
+				HttpWebResponse res = (HttpWebResponse)e.Response;
+				if (res != null)
+				{
+					if (res.StatusCode == HttpStatusCode.ServiceUnavailable)
+					{
+						using (StreamReader reader = new StreamReader(res.GetResponseStream()))
+						{
+							string resText = reader.ReadToEnd();
+							General_R r = JsonConvert.DeserializeObject<General_R>(resText);
+							if (int.Parse(r.api_ret_code) == -33) // already has station
+							{
+								throw new ServiceUnavailableException("Driver already registered another station.");
+							}
+							else if (int.Parse(r.api_ret_code) == -36) // invalid driver
+							{
+								throw new ServiceUnavailableException("Driver email is invalid");
+							}
+						}
+					}
+					else if (res.StatusCode == HttpStatusCode.BadRequest)
+					{
+						using (StreamReader reader = new StreamReader(res.GetResponseStream()))
+						{
+							string resText = reader.ReadToEnd();
+							General_R r = JsonConvert.DeserializeObject<General_R>(resText);
+							if (int.Parse(r.api_ret_code) == 0x1000 + 1) // user name/password invalid
+							{
+								throw new Exception("User email/password is invalid.", e);
+							}
+						}
+					}
+				}
 
                 throw new Exception("Unable to login station with Waveface cloud", e);
             }
