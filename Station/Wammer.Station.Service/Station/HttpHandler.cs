@@ -61,7 +61,16 @@ namespace Wammer.Station
 				logger.Debug("====== Request " + Request.Url.AbsolutePath + 
 								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
 				foreach (string key in Parameters.AllKeys)
-					logger.DebugFormat("{0} : {1}", key, Parameters[key]);
+				{
+					if (key == "password")
+					{
+						logger.DebugFormat("{0} : *", key);
+					}
+					else
+					{
+						logger.DebugFormat("{0} : {1}", key, Parameters[key]);
+					}
+				}
 				foreach (UploadedFile file in Files)
 					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Length);
 			}
