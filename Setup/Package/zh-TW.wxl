@@ -12,4 +12,5 @@
   <String Id="DOWNGRADE.ERROR">您已安裝了比較新的 [ProductName] 版本. 安裝程序即將結束</String>
   <String Id="SIGNOFF.STATION.DESC">退出Waveface主程式</String>
   <String Id="CLEAN.STATION.INFO.DESC">清除Waveface主程式註冊碼與資料庫</String>
+  <String Id="KILL.PROCESS.DESC">關閉執行中的程式</String>
 </WixLocalization>

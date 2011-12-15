@@ -35,10 +35,15 @@
     <CustomAction Id='SignoffStationAction' BinaryKey='InstallHelperDll' DllEntry='SignoffStation'/>
     <!-- Clean station registry and DB -->
     <CustomAction Id='CleanStationInfoAction' BinaryKey='InstallHelperDll' DllEntry='CleanStationInfo'/>
+    <!-- Kill running process -->
+    <CustomAction Id='KillClientProcess' BinaryKey='InstallHelperDll' DllEntry='KillClientProcess' />
     
     <InstallExecuteSequence>
       <Custom Action="NoDowngradeAction" After="FindRelatedProducts">NEWERFOUND</Custom>
       <Custom Action="SignoffStationAction" Before="RemoveFiles">
+        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <Custom Action="KillClientProcess" Before="RemoveFiles">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
       <Custom Action="CleanStationInfoAction" After="SignoffStationAction">
@@ -47,6 +52,7 @@
     </InstallExecuteSequence>
 
     <UI>
+      <ProgressText Action="KillClientProcess">!(loc.KILL.PROCESS.DESC)</ProgressText>
       <ProgressText Action="SignoffStationAction">!(loc.SIGNOFF.STATION.DESC)</ProgressText>
       <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
     </UI>
