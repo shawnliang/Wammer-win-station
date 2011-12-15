@@ -63,7 +63,7 @@ namespace Wammer.Station
 					Drivers driver = new Drivers
 					{
 						email = email,
-						folder = Path.Combine(resourceBasePath, user.Groups[0].name),
+						folder = Path.Combine(resourceBasePath, "user_" + user.Id),
 						user_id = user.Id,
 						groups = user.Groups,
 						session_token = user.Token
