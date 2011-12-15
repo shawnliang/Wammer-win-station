@@ -47,20 +47,20 @@ namespace Waveface
             return _dt;
         }
 
-        public static int CompareISO8601(string dt1, string dt2)
+        public static int CompareISO8601(string dtNew, string dtOld)
         {
-            DateTime _dt1 = ISO8601ToDateTime(dt1);
-            DateTime _dt2 = ISO8601ToDateTime(dt2);
+            DateTime _dt1 = ISO8601ToDateTime(dtNew);
+            DateTime _dt2 = ISO8601ToDateTime(dtOld);
 
             return _dt1.CompareTo(_dt2);
         }
         
-        public static bool CompareISO8601_New(string dt1, string dt2) //Old, New
+        public static bool CompareISO8601_New(string dtNew, string dtOld) //New, Old
         {
-            DateTime _dt1 = ISO8601ToDateTime(dt1);
-            DateTime _dt2 = ISO8601ToDateTime(dt2);
+            DateTime _dt1 = ISO8601ToDateTime(dtNew);
+            DateTime _dt2 = ISO8601ToDateTime(dtOld);
 
-            return _dt1.CompareTo(_dt2) < 0;
+            return _dt1.CompareTo(_dt2) > 0;
         }
 
         public static string PrettyDate(String TimeSubmitted)

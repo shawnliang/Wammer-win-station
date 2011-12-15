@@ -86,6 +86,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\Spring.Rest-1.0.1\bin\net\2.0\Release\Newtonsoft.Json.Net20.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="Spring.Http.Converters.NJson, Version=1.0.1.17720, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\Spring.Rest-1.0.1\bin\net\2.0\Release\Spring.Http.Converters.NJson.dll</HintPath>
@@ -465,6 +469,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\lightbulb.png" />
     <None Include="Resources\disk.png" />
     <None Include="Resources\edit.png" />
