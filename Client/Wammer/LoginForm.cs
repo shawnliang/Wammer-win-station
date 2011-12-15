@@ -237,6 +237,7 @@ namespace Waveface
 			try
 			{
 				_main.stationLogin(email, password);
+
                 if (_doLogin(_main, email, password) == QuitOption.QuitProgram)
                     Close();
                 else
@@ -281,6 +282,7 @@ namespace Waveface
 				MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 quit = QuitOption.Logout;
 			}
+
             return quit;
 		}
 		

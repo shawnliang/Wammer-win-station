@@ -407,11 +407,11 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Load += new System.EventHandler(this.Form_Load);
+            this.SizeChanged += new System.EventHandler(this.Main_SizeChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form_DragEnter);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.Form_DragOver);
             this.DragLeave += new System.EventHandler(this.Form_DragLeave);
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.panelLeft.ResumeLayout(false);
             this.panelPost.ResumeLayout(false);
             this.panelLeftInfo.ResumeLayout(false);

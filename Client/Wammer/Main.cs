@@ -44,11 +44,11 @@ namespace Waveface
         private bool m_process401Exception;
         private bool m_canAutoFetchNewestPosts = true;
         private bool m_logoutStation;
-        private bool m_showInTaskbarHack;
+        private bool m_showInTaskbar_Hack;
+        private bool m_eventFromRestoreWindow_Hack;
 
         private List<string> m_delayPostPicList = new List<string>();
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
-        private FormWindowState m_oldWindowState = FormWindowState.Maximized;
         private RunTime m_runTime = new RunTime();
 
         private string m_stationIP;
@@ -78,8 +78,10 @@ namespace Waveface
 
         public Main()
         {
-            this.QuitOption = Waveface.QuitOption.QuitProgram;
+            QuitOption = QuitOption.QuitProgram;
+
             Current = this;
+
             File.Delete(m_shellContentMenuFilePath);
 
             InitializeComponent();
@@ -212,10 +214,15 @@ namespace Waveface
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (m_eventFromRestoreWindow_Hack)
+            {
+                e.Cancel = true;
+                m_eventFromRestoreWindow_Hack = false;
+                return;
+            }
+
             if (!m_exitToLogin)
             {
-                m_oldWindowState = WindowState;
-
                 WindowState = FormWindowState.Minimized;
 
                 e.Cancel = true;
@@ -254,7 +261,9 @@ namespace Waveface
         private void OnMenuExitClick(object sender, EventArgs e)
         {
             m_exitToLogin = true;
+            m_eventFromRestoreWindow_Hack = false;
             QuitOption = QuitOption.QuitProgram;
+
             Close();
         }
 
@@ -262,17 +271,19 @@ namespace Waveface
 
         #region Windows Size
 
-        private void MainForm_Resize(object sender, EventArgs e)
+        private void Main_SizeChanged(object sender, EventArgs e)
         {
-            if (m_showInTaskbarHack)
+            if (m_showInTaskbar_Hack)
                 return;
 
             panelLeftInfo.Width = leftArea.MyWidth + 8;
 
+            m_showInTaskbar_Hack = true;
+            ShowInTaskbar = (FormWindowState.Minimized != WindowState);
+            m_showInTaskbar_Hack = false;
+
             if (FormWindowState.Minimized == WindowState)
             {
-                //ShowInTaskbar = false;
-
                 SetLastReadPos();
 
                 m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
@@ -283,21 +294,11 @@ namespace Waveface
 
         private void RestoreWindow()
         {
-            Show();
-
-            WindowState = m_oldWindowState;
-
-            if (WindowState == FormWindowState.Normal)
-            {
-                Size = RestoreBounds.Size;
-                Location = RestoreBounds.Location;
-            }
-
-            //m_showInTaskbarHack = true;
-            //ShowInTaskbar = true;
-            //m_showInTaskbarHack = false;
+            WindowState = FormWindowState.Maximized;
 
             GetLastReadAndShow();
+
+            m_eventFromRestoreWindow_Hack = true;
         }
 
         private void restoreMenuItem_Click(object sender, EventArgs e)
@@ -1116,11 +1117,11 @@ namespace Waveface
         {
             m_logoutStation = true;
             m_exitToLogin = true;
+            m_eventFromRestoreWindow_Hack = false;
 
-            ;
-            this.QuitOption = Waveface.QuitOption.Logout;
-            this.settings.IsLoggedIn = false;
-            this.Close();
+            QuitOption = QuitOption.Logout;
+            settings.IsLoggedIn = false;
+            Close();
         }
 
         public void stationLogin(string email, string password)
@@ -1138,7 +1139,7 @@ namespace Waveface
             DialogResult confirm = MessageBox.Show(I18n.L.T("Main.ChangeOwnerWarning", settings.Email), "Waveface",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (confirm == System.Windows.Forms.DialogResult.No)
+            if (confirm == DialogResult.No)
                 return;
 
             Cursor.Current = Cursors.WaitCursor;
@@ -1153,12 +1154,13 @@ namespace Waveface
                 settings.IsLoggedIn = false;
 
                 m_exitToLogin = true;
-                this.QuitOption = Waveface.QuitOption.QuitProgram;
+                QuitOption = QuitOption.QuitProgram;
+
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Uable to change user :" + ex.ToString(), "waveface");
+                MessageBox.Show("Uable to change user :" + ex, "waveface");
             }
             finally
             {
