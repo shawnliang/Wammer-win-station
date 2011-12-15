@@ -42,12 +42,12 @@ namespace Wammer.Station
 				functionServer.Stop();
 				WriteServiceStateToDB(ServiceState.Offline);
 
-				throw new ServiceUnavailableException("Station cannot work without driver", (int)StationApiError.ServiceUnavailable);
+				throw new ServiceUnavailableException("Station cannot work without driver", (int)StationApiError.InvalidDriver);
 			}
 
 			if (driver.email != email)
 			{
-				logger.Error("Driver is null or email inconsistent");
+				logger.Error("Invalid driver");
 				throw new WammerStationException("Invalid driver", (int)StationApiError.InvalidDriver);
 			}
 
@@ -77,21 +77,40 @@ namespace Wammer.Station
 				{
 					logger.Error("Driver already registered another station");
 
-					// remove driver and cloudstorage info since driver already registered another station
-					Drivers.collection.RemoveAll();
-					CloudStorage.collection.RemoveAll();
-					StationInfo.collection.RemoveAll();
-					
+					// force user re-register the station on next startup
+					CleanDB();
+
 					// function server should be stopped if driver's info is removed
 					logger.Debug("Try to stop function server");
 					functionServer.Stop();
 					WriteServiceStateToDB(ServiceState.Offline);
 
-					throw new ServiceUnavailableException("Driver already registered another station", (int)StationApiError.ServiceUnavailable);
+					throw new ServiceUnavailableException("Driver already registered another station", (int)StationApiError.AlreadyHasStaion);
+				}
+				else if (e.WammerError == 0x2000 + 1) // user does not exist
+				{
+					logger.Error("Driver account does not exist");
+
+					// force user re-register the station on next startup
+					CleanDB();
+
+					// function server should be stopped if driver's info is removed
+					logger.Debug("Try to stop function server");
+					functionServer.Stop();
+					WriteServiceStateToDB(ServiceState.Offline);
+
+					throw new ServiceUnavailableException("Driver account does not exist", (int)StationApiError.InvalidDriver);
 				}
 				else
 					throw;
 			}
+		}
+
+		private static void CleanDB()
+		{
+			Drivers.collection.RemoveAll();
+			CloudStorage.collection.RemoveAll();
+			StationInfo.collection.RemoveAll();
 		}
 
 		private static void WriteServiceStateToDB(ServiceState state)
