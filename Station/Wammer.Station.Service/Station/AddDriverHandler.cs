@@ -63,7 +63,7 @@ namespace Wammer.Station
 					Drivers driver = new Drivers
 					{
 						email = email,
-						folder = Path.Combine(resourceBasePath, user.Groups[0].name),
+						folder = Path.Combine(resourceBasePath, "user_" + user.Id),
 						user_id = user.Id,
 						groups = user.Groups,
 						session_token = user.Token
@@ -115,7 +115,7 @@ namespace Wammer.Station
 				new AddUserResponse
 				{
 					api_ret_code = (int)StationApiError.AlreadyHasStaion,
-					api_ret_msg = "already has a station",
+					api_ret_message = "already has a station",
 					status = (int)HttpStatusCode.Conflict,
 					timestamp = DateTime.UtcNow,
 					station = resp.station

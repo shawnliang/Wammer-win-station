@@ -16,7 +16,7 @@ namespace Wammer.Station
 		}
 
 		public WammerStationException(Cloud.CloudResponse errorResp)
-			: base(errorResp.api_ret_msg)
+			: base(errorResp.api_ret_message)
 		{
 			this.wammerError = errorResp.api_ret_code;
 			this.ErrorResponse = errorResp;

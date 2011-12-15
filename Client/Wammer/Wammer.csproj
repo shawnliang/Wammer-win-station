@@ -138,6 +138,7 @@
     <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
     <Compile Include="Libs\Utility\AttachmentUrlUtility.cs" />
     <Compile Include="Data\RT_REST.cs" />
+    <Compile Include="Libs\Utility\NLogUtility.cs" />
     <Compile Include="ProgramSetting.cs" />
     <Compile Include="Exception\Station401Exception.cs" />
     <Compile Include="UploadOriginPhotosToStation.cs" />
@@ -471,6 +472,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Resources\lightbulb.png" />
     <None Include="Resources\disk.png" />

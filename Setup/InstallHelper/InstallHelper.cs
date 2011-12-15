@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Net;
-
+using System.Diagnostics;
 using Microsoft.Deployment.WindowsInstaller;
 
 using Wammer.Cloud;
@@ -54,6 +54,37 @@ namespace Wammer.Station
 			{
 				Logger.Warn("Sign off station not success. Continue as if without error.", e);
 				return ActionResult.Success;
+			}
+		}
+
+		[CustomAction]
+		public static ActionResult KillClientProcess(Session session)
+		{
+			string wavefaceDir = session["INSTALLLOCATION"];
+			if (wavefaceDir == null)
+				return ActionResult.Failure;
+
+			KillProcess("WavefaceWindowsClient");
+			KillProcess("StationSetup");
+
+			return ActionResult.Success;
+		}
+
+
+		private static void KillProcess(string name)
+		{
+			try
+			{
+				Process[] procs = Process.GetProcessesByName(name);
+				if (procs == null)
+					return;
+
+				foreach (Process p in procs)
+					p.Kill();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Cannot kill process " + name, e);
 			}
 		}
 

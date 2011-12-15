@@ -98,11 +98,6 @@ namespace Waveface
                     m_postBS.Position = m_clickIndex;
             }
 
-            if (refreshCurrentPost) //After New Comment
-            {
-                NotifyDetailView();
-            }
-
             try
             {
                 dataGridView.DataSource = null;
@@ -138,6 +133,8 @@ namespace Waveface
             dataGridView.Enabled = true;
 
             DoDisplayedScrolling(lastRead);
+
+            NotifyDetailView();
         }
 
         #region DataGridView
@@ -505,6 +502,9 @@ namespace Waveface
         {
             m_clickIndex = m_postBS.Position;
 
+            if (m_clickIndex < 0)
+                return;
+
             Main.Current.PostListClick(m_clickIndex, m_postBS[m_postBS.Position] as Post);
 
             if (m_clickIndex > -1)
@@ -539,7 +539,11 @@ namespace Waveface
                 }
             }
 
+            Application.DoEvents();
+
             m_detailView.Post = _post;
+        
+            Application.DoEvents();
         }
 
         #endregion

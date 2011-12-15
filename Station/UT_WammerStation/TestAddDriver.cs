@@ -66,7 +66,7 @@ namespace UT_WammerStation
 			StationSignUpResponse res1 = new StationSignUpResponse
 			{
 				api_ret_code = 0,
-				api_ret_msg = "success",
+				api_ret_message = "success",
 				session_token = "token1",
 				status = 200,
 				timestamp = DateTime.UtcNow
@@ -74,7 +74,7 @@ namespace UT_WammerStation
 
 			UserLogInResponse res2 = new UserLogInResponse
 			{
-				api_ret_msg = "success",
+				api_ret_message = "success",
 				api_ret_code = 0,
 				session_token = "token2",
 				status = 200,
@@ -109,7 +109,7 @@ namespace UT_WammerStation
 		            Query.EQ("email", "user1@gmail.com"));
 
 		        Assert.AreEqual("user1@gmail.com", driver.email);
-		        Assert.AreEqual(@"resource\group1", driver.folder);
+		        Assert.AreEqual(@"resource\user_uid1", driver.folder);
 		        Assert.AreEqual(res2.user.user_id, driver.user_id);
 		        Assert.AreEqual(1, driver.groups.Count);
 				Assert.AreEqual(res2.session_token, driver.session_token);
@@ -129,7 +129,7 @@ namespace UT_WammerStation
 		{
 			UserLogInResponse res1 = new UserLogInResponse
 			{
-				api_ret_msg = "station res msg",
+				api_ret_message = "station res msg",
 				api_ret_code = 4097, // cloud retuns 4097 for invalid user name or password
 				session_token = "token1",
 				status = (int)HttpStatusCode.Forbidden,
@@ -165,7 +165,7 @@ namespace UT_WammerStation
 		{
 			StationSignUpResponse res1 = new StationSignUpResponse
 			{
-				api_ret_msg = "fail",
+				api_ret_message = "fail",
 				api_ret_code = 16387, // already has station
 				timestamp = DateTime.UtcNow,
 				status = 400,

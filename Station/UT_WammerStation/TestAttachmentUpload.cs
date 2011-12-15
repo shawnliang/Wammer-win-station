@@ -91,7 +91,7 @@ namespace UT_WammerStation
 			cloudResponse = new ObjectUploadResponse
 			{
 				api_ret_code = 0,
-				api_ret_msg = "success",
+				api_ret_message = "success",
 				status = 200,
 				timestamp = DateTime.UtcNow
 			};
@@ -289,7 +289,7 @@ namespace UT_WammerStation
 				Assert.AreEqual(400, res.status);
 				Assert.IsNotNull(res.timestamp);
 				Assert.AreNotEqual(0, res.api_ret_code);
-				Assert.AreNotEqual("Success", res.api_ret_msg);
+				Assert.AreNotEqual("Success", res.api_ret_message);
 				Assert.AreEqual(null, res.object_id);
 			}
 		}
