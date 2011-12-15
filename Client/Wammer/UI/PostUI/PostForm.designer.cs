@@ -35,6 +35,10 @@ namespace Waveface
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.contextMenuStripEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_RichText = new Waveface.Component.MultiPage.MultiPanelPage();
             this.panelRichTextPanel = new System.Windows.Forms.Panel();
@@ -58,10 +62,7 @@ namespace Waveface
             this.panelText = new System.Windows.Forms.Panel();
             this.buttonRichText = new Waveface.Component.XPButton();
             this.richTextBox = new System.Windows.Forms.RichTextBox();
-            this.contextMenuStripEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripEdit.SuspendLayout();
             this.multiPanel.SuspendLayout();
             this.Page_RichText.SuspendLayout();
             this.panelRichTextPanel.SuspendLayout();
@@ -75,8 +76,39 @@ namespace Waveface
             this.Page__DOC.SuspendLayout();
             this.panelMiddleBar.SuspendLayout();
             this.panelText.SuspendLayout();
-            this.contextMenuStripEdit.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // contextMenuStripEdit
+            // 
+            this.contextMenuStripEdit.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contextMenuStripEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cutToolStripMenuItem,
+            this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem});
+            this.contextMenuStripEdit.Name = "contextMenuStrip1";
+            this.contextMenuStripEdit.Size = new System.Drawing.Size(105, 70);
+            this.contextMenuStripEdit.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripEdit_Opening);
+            // 
+            // cutToolStripMenuItem
+            // 
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.cutToolStripMenuItem.Text = "Cut";
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.pasteToolStripMenuItem.Text = "Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // multiPanel
             // 
@@ -277,6 +309,7 @@ namespace Waveface
             this.btnAddDoc.TabIndex = 13;
             this.btnAddDoc.Text = "Add Document";
             this.btnAddDoc.UseVisualStyleBackColor = true;
+            this.btnAddDoc.Visible = false;
             this.btnAddDoc.Click += new System.EventHandler(this.btnAddDoc_Click);
             // 
             // btnAddPhoto
@@ -334,6 +367,7 @@ namespace Waveface
             this.buttonRichText.Size = new System.Drawing.Size(26, 26);
             this.buttonRichText.TabIndex = 8;
             this.buttonRichText.UseVisualStyleBackColor = true;
+            this.buttonRichText.Visible = false;
             this.buttonRichText.Click += new System.EventHandler(this.buttonRichText_Click);
             // 
             // richTextBox
@@ -343,45 +377,13 @@ namespace Waveface
             this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox.ContextMenuStrip = this.contextMenuStripEdit;
             this.richTextBox.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.richTextBox.Location = new System.Drawing.Point(8, 36);
+            this.richTextBox.Location = new System.Drawing.Point(8, 12);
             this.richTextBox.Name = "richTextBox";
-            this.richTextBox.Size = new System.Drawing.Size(609, 124);
+            this.richTextBox.Size = new System.Drawing.Size(609, 148);
             this.richTextBox.TabIndex = 6;
             this.richTextBox.Text = "";
             this.richTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
             this.richTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
-            // 
-            // contextMenuStripEdit
-            // 
-            this.contextMenuStripEdit.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.contextMenuStripEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cutToolStripMenuItem,
-            this.copyToolStripMenuItem,
-            this.pasteToolStripMenuItem});
-            this.contextMenuStripEdit.Name = "contextMenuStrip1";
-            this.contextMenuStripEdit.Size = new System.Drawing.Size(105, 70);
-            this.contextMenuStripEdit.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripEdit_Opening);
-            // 
-            // cutToolStripMenuItem
-            // 
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
-            this.cutToolStripMenuItem.Text = "Cut";
-            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
-            // 
-            // copyToolStripMenuItem
-            // 
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
-            this.copyToolStripMenuItem.Text = "Copy";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
-            // 
-            // pasteToolStripMenuItem
-            // 
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
-            this.pasteToolStripMenuItem.Text = "Paste";
-            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // PostForm
             // 
@@ -402,6 +404,7 @@ namespace Waveface
             this.Text = "New Post";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PostForm_FormClosing);
             this.Resize += new System.EventHandler(this.PostForm_Resize);
+            this.contextMenuStripEdit.ResumeLayout(false);
             this.multiPanel.ResumeLayout(false);
             this.Page_RichText.ResumeLayout(false);
             this.panelRichTextPanel.ResumeLayout(false);
@@ -415,7 +418,6 @@ namespace Waveface
             this.Page__DOC.ResumeLayout(false);
             this.panelMiddleBar.ResumeLayout(false);
             this.panelText.ResumeLayout(false);
-            this.contextMenuStripEdit.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

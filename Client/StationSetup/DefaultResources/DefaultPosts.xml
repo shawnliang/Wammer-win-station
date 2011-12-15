@@ -9,6 +9,7 @@
 		</files>  	
 	</post>
 
+  <!--
 	<post type ="doc">
 				<content>Waveface 101 for dummies</content>
 		<file>DefaultResources\Waveface 101 for dummies.pdf</file>  		
@@ -23,7 +24,8 @@
 		<image_w>600</image_w>
 		<image_h>400</image_h>
 	</post>
-
+  -->
+  
 	<post type ="text">
 		<content></content>
 	  <file>DefaultResources\Welcome.txt</file>
