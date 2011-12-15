@@ -177,7 +177,8 @@ namespace Waveface
         private void doShow()
         {
             setupTitle();
-            linkLabelRemove.Visible = true;
+            
+            //@ linkLabelRemove.Visible = true;
 
             PostType _postType = getPostType();
 

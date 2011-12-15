@@ -39,7 +39,7 @@ namespace Wammer.Station
 
 			try
 			{
-				StationInfo station = StationInfo.collection.FindOne();
+				StationInfo station = StationCollection.FindOne();
 				if (station == null || station.Id == null || station.SessionToken == null)
 				{
 					Logger.Info("No station Id or token exist. Skip sign off station.");
@@ -84,7 +84,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.StationInfo.collection.RemoveAll();
+				Model.StationCollection.RemoveAll();
 			}
 			catch (Exception e)
 			{

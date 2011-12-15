@@ -44,11 +44,11 @@ namespace Waveface
         private bool m_process401Exception;
         private bool m_canAutoFetchNewestPosts = true;
         private bool m_logoutStation;
-        private bool m_showInTaskbarHack;
+        private bool m_showInTaskbar_Hack;
+        private bool m_eventFromRestoreWindow_Hack;
 
         private List<string> m_delayPostPicList = new List<string>();
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
-        private FormWindowState m_oldWindowState = FormWindowState.Maximized;
         private RunTime m_runTime = new RunTime();
 
         private string m_stationIP;
@@ -78,8 +78,10 @@ namespace Waveface
 
         public Main()
         {
-            this.QuitOption = Waveface.QuitOption.QuitProgram;
+            QuitOption = QuitOption.QuitProgram;
+
             Current = this;
+
             File.Delete(m_shellContentMenuFilePath);
 
             InitializeComponent();
@@ -166,14 +168,15 @@ namespace Waveface
             RT.SaveJSON();
         }
 
-
         private void SetLastReadPos()
         {
             try
             {
-                //@ if (DateTimeHelp.CompareISO8601_New(RT.CurrentGroupLastReadTime, RT.CurrentGroupLocalLastReadTime))
+                string _id = RT.CurrentGroupLocalLastReadID;
+
+                if (_id != string.Empty)
                 {
-                    RT.REST.Footprints_setLastScan(RT.CurrentGroupLastReadID);
+                    RT.REST.Footprints_setLastScan(_id);
                 }
             }
             catch (Exception _e)
@@ -199,8 +202,9 @@ namespace Waveface
 
                 m_exitToLogin = true;
                 m_process401Exception = true;
-                this.QuitOption = Waveface.QuitOption.Logout;
-                this.settings.IsLoggedIn = false;
+                QuitOption = QuitOption.Logout;
+                settings.IsLoggedIn = false;
+
                 Close();
             }
         }
@@ -211,10 +215,15 @@ namespace Waveface
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (m_eventFromRestoreWindow_Hack)
+            {
+                e.Cancel = true;
+                m_eventFromRestoreWindow_Hack = false;
+                return;
+            }
+
             if (!m_exitToLogin)
             {
-                m_oldWindowState = WindowState;
-
                 WindowState = FormWindowState.Minimized;
 
                 e.Cancel = true;
@@ -253,7 +262,9 @@ namespace Waveface
         private void OnMenuExitClick(object sender, EventArgs e)
         {
             m_exitToLogin = true;
-            this.QuitOption = Waveface.QuitOption.QuitProgram;
+            m_eventFromRestoreWindow_Hack = false;
+            QuitOption = QuitOption.QuitProgram;
+
             Close();
         }
 
@@ -261,17 +272,19 @@ namespace Waveface
 
         #region Windows Size
 
-        private void MainForm_Resize(object sender, EventArgs e)
+        private void Main_SizeChanged(object sender, EventArgs e)
         {
-            if (m_showInTaskbarHack)
+            if (m_showInTaskbar_Hack)
                 return;
 
             panelLeftInfo.Width = leftArea.MyWidth + 8;
 
+            m_showInTaskbar_Hack = true;
+            ShowInTaskbar = (FormWindowState.Minimized != WindowState);
+            m_showInTaskbar_Hack = false;
+
             if (FormWindowState.Minimized == WindowState)
             {
-                //ShowInTaskbar = false;
-
                 SetLastReadPos();
 
                 m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
@@ -282,21 +295,11 @@ namespace Waveface
 
         private void RestoreWindow()
         {
-            Show();
-
-            WindowState = m_oldWindowState;
-
-            if (WindowState == FormWindowState.Normal)
-            {
-                Size = RestoreBounds.Size;
-                Location = RestoreBounds.Location;
-            }
-
-            //m_showInTaskbarHack = true;
-            //ShowInTaskbar = true;
-            //m_showInTaskbarHack = false;
+            WindowState = FormWindowState.Maximized;
 
             GetLastReadAndShow();
+
+            m_eventFromRestoreWindow_Hack = true;
         }
 
         private void restoreMenuItem_Click(object sender, EventArgs e)
@@ -445,10 +448,10 @@ namespace Waveface
             }
             else
             {
+                settings.Email = email;
+                settings.Password = password;
+                settings.IsLoggedIn = true;
 
-                this.settings.Email = email;
-                this.settings.Password = password;
-                this.settings.IsLoggedIn = true;
                 GetAllDataAsync();
             }
 
@@ -695,10 +698,13 @@ namespace Waveface
             {
                 LastScan _lastRead = RT.REST.Footprints_getLastScan();
 
-                if (!string.IsNullOrEmpty(_lastRead.post_id))
+                if (string.IsNullOrEmpty(_lastRead.post_id))
                 {
-                    RT.CurrentGroupLastReadID = _lastRead.post_id;
-                    RT.CurrentGroupLastReadTime = _lastRead.timestamp;
+                    ShowAllTimeline();
+                }
+                else
+                {
+                    RT.SetCurrentGroupLastRead(_lastRead);
 
                     if (IsLastReadPostInCacheData(_lastRead.post_id))
                     {
@@ -732,11 +738,11 @@ namespace Waveface
             return false;
         }
 
-
-
         public void GetAllDataAsync()
         {
             Cursor.Current = Cursors.WaitCursor;
+
+            Application.DoEvents();
 
             postsArea.updateRefreshUI(false);
 
@@ -754,8 +760,7 @@ namespace Waveface
 
         public void PostListClick(int clickIndex, Post post)
         {
-            RT.CurrentGroupLocalLastReadID = post.post_id;
-            RT.CurrentGroupLocalLastReadTime = post.timestamp;
+            RT.SetCurrentGroupLocalLastRead(post);
 
             RT.IsFilterFirstTimeGetData = false;
         }
@@ -1113,11 +1118,11 @@ namespace Waveface
         {
             m_logoutStation = true;
             m_exitToLogin = true;
+            m_eventFromRestoreWindow_Hack = false;
 
-          ;
-            this.QuitOption = Waveface.QuitOption.Logout;
-            this.settings.IsLoggedIn = false;
-            this.Close();
+            QuitOption = QuitOption.Logout;
+            settings.IsLoggedIn = false;
+            Close();
         }
 
         public void stationLogin(string email, string password)
@@ -1135,12 +1140,14 @@ namespace Waveface
             DialogResult confirm = MessageBox.Show(I18n.L.T("Main.ChangeOwnerWarning", settings.Email), "Waveface",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (confirm == System.Windows.Forms.DialogResult.No)
+            if (confirm == DialogResult.No)
                 return;
 
             Cursor.Current = Cursors.WaitCursor;
 
-            try {
+            try
+            {
+                SetLastReadPos();
                 WService.RemoveOwner(settings.Email, settings.Password, StationToken);
 
                 MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", settings.Email), "waveface");
@@ -1149,14 +1156,16 @@ namespace Waveface
                 settings.IsLoggedIn = false;
 
                 m_exitToLogin = true;
-                this.QuitOption = Waveface.QuitOption.QuitProgram;
+                QuitOption = QuitOption.QuitProgram;
+                m_process401Exception = true;
                 Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Uable to change user :" + ex.ToString(), "waveface");
+                MessageBox.Show("Uable to change user :" + ex, "waveface");
             }
-            finally{
+            finally
+            {
                 Cursor.Current = Cursors.Default;
             }
         }

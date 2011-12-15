@@ -13,6 +13,8 @@ namespace Waveface
 {
     public partial class PostForm : Form
     {
+        private bool WAMMER_201112 = true;
+
         private PostType m_postType;
         private bool m_webLinkCheckdOneTime;
 
@@ -97,6 +99,9 @@ namespace Waveface
 
         private void doWebLink(string url)
         {
+            if (WAMMER_201112)
+                return;
+
             if ((m_postType != PostType.Text) && (m_postType != PostType.All))
                 return;
 
@@ -225,6 +230,9 @@ namespace Waveface
 
         private void richTextBox_TextChanged(object sender, EventArgs e)
         {
+            if (WAMMER_201112)
+                return;
+
             if (m_webLinkCheckdOneTime)
                 return;
 
@@ -287,9 +295,6 @@ namespace Waveface
 
                 return _match.Value;
             }
-
-
-
 
             return "";
         }

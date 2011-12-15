@@ -188,7 +188,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.StationInfo stationInfo = Model.StationInfo.collection.FindOne();
+				Model.StationInfo stationInfo = Model.StationCollection.FindOne();
 				if (stationInfo == null)
 					return;
 

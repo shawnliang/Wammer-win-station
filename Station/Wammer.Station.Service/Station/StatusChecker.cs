@@ -57,7 +57,7 @@ namespace Wammer.Station
 		{
 			StationDetail detail = GetDetail();
 
-			Model.StationInfo sinfo = Model.StationInfo.collection.FindOne();
+			Model.StationInfo sinfo = Model.StationCollection.FindOne();
 			if (sinfo != null)
 			{
 				bool locChange = false;
@@ -83,14 +83,14 @@ namespace Wammer.Station
 						// update station info in database
 						logger.Debug("update station information");
 						sinfo.LastLogOn = DateTime.Now;
-						Model.StationInfo.collection.Save(sinfo);
+						Model.StationCollection.Save(sinfo);
 					}
 
 					if (locChange)
 					{
 						// update station info in database
 						logger.Debug("update station information");
-						Model.StationInfo.collection.Save(sinfo);
+						Model.StationCollection.Save(sinfo);
 					}
 					api.Heartbeat(agent, detail);
 				}
@@ -126,7 +126,7 @@ namespace Wammer.Station
 			timer.Dispose();
 			using (WebClient agent = new WebClient())
 			{
-				Model.StationInfo sinfo = Model.StationInfo.collection.FindOne();
+				Model.StationInfo sinfo = Model.StationCollection.FindOne();
 				if (sinfo != null)
 				{
 					try
