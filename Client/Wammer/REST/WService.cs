@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Web;
+using NLog;
 using Newtonsoft.Json;
 using Spring.Http.Converters;
 using Spring.Rest.Client;
@@ -14,6 +15,8 @@ namespace Waveface.API.V2
 {
     public class WService
     {
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
         public const string CloundIP = "https://develop.waveface.com"; //http://develop.waveface.com:8080
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
 
@@ -95,13 +98,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "auth_signup");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
-                    
+
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "auth_signup");
+
                 throw;
             }
 
@@ -136,13 +143,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "auth_login");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "auth_login");
+
                 throw;
             }
 
@@ -165,13 +176,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "auth_logout");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "auth_logout");
+
                 throw;
             }
         }
@@ -198,13 +213,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "users_get");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "users_get");
+
                 throw;
             }
         }
@@ -231,13 +250,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "users_update");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "users_update");
+
                 throw;
             }
         }
@@ -262,13 +285,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "users_passwd");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "users_passwd");
+
                 throw;
             }
         }
@@ -289,13 +316,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "users_findMyStation");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "users_findMyStation");
+
                 throw;
             }
         }
@@ -324,13 +355,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_create");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_create");
+
                 throw;
             }
         }
@@ -353,13 +388,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_get");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_get");
+
                 throw;
             }
         }
@@ -386,13 +425,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_update");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_update");
+
                 throw;
             }
         }
@@ -415,13 +458,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_delete");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_delete");
+
                 throw;
             }
         }
@@ -446,13 +493,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_inviteUser");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_inviteUser");
+
                 throw;
             }
         }
@@ -477,13 +528,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_kickUser");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "groups_kickUser");
+
                 throw;
             }
         }
@@ -512,13 +567,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_getSingle");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_getSingle");
+
                 throw;
             }
         }
@@ -547,13 +606,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_get");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_get");
+
                 throw;
             }
         }
@@ -578,13 +641,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_getLatest");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_getLatest");
+
                 throw;
             }
         }
@@ -619,13 +686,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_new");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_new");
+
                 throw;
             }
         }
@@ -656,13 +727,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_newComment");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_newComment");
+
                 throw;
             }
         }
@@ -687,13 +762,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_getComments");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_getComments");
+
                 throw;
             }
         }
@@ -718,13 +797,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_fetchByFilter");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_fetchByFilter");
+
                 throw;
             }
         }
@@ -749,13 +832,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_hide");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_hide");
+
                 throw;
             }
         }
@@ -780,13 +867,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_unhide");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "posts_unhide");
+
                 throw;
             }
         }
@@ -814,13 +905,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "previews_get");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "previews_get");
+
                 throw;
             }
         }
@@ -852,13 +947,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "previews_get_adv");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "previews_get_adv");
+
                 throw;
             }
 
@@ -909,13 +1008,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "attachments_upload");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "attachments_upload");
+
                 throw;
             }
 
@@ -940,13 +1043,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "attachments_get");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "attachments_get");
+
                 throw;
             }
         }
@@ -969,13 +1076,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "attachments_delete");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "attachments_delete");
+
                 throw;
             }
         }
@@ -1010,13 +1121,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "footprints_getLastScan");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "footprints_getLastScan");
+
                 throw;
             }
         }
@@ -1041,13 +1156,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "footprints_setLastScan");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
-                else
-                    throw;
+
+                throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "footprints_setLastScan");
+
                 throw;
             }
         }
@@ -1072,13 +1191,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "footprints_getLastRead");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "footprints_getLastRead");
+
                 throw;
             }
         }
@@ -1103,13 +1226,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "footprints_setLastRead");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "footprints_setLastRead");
+
                 throw;
             }
         }
@@ -1140,13 +1267,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "fetchfilters_new");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "fetchfilters_new");
+
                 throw;
             }
         }
@@ -1175,13 +1306,17 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "fetchfilters_update");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "fetchfilters_update");
+
                 throw;
             }
         }
@@ -1202,19 +1337,22 @@ namespace Waveface.API.V2
             }
             catch (HttpResponseException _e)
             {
+                NLogUtility.Exception(s_logger, _e, "fetchfilters_list");
+
                 if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
                     throw new Station401Exception();
 
                 throw;
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "fetchfilters_list");
+
                 throw;
             }
         }
 
         #endregion
-
 
         #region station login/logout/remove owner
 
@@ -1224,17 +1362,17 @@ namespace Waveface.API.V2
 			email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
-			try
-			{
-				using (WebClient agent = new WebClient())
-				{
-					string url = string.Format("http://localhost:9989/v2/station/online?email={0}&password={1}&apikey={2}",
-						email, password, APIKEY);
+            try
+            {
+                using (WebClient agent = new WebClient())
+                {
+                    string url = string.Format("http://localhost:9989/v2/station/online?email={0}&password={1}&apikey={2}",
+                        email, password, APIKEY);
 
-					byte[] resp = agent.DownloadData(url);
-					string respText = System.Text.Encoding.UTF8.GetString(resp);
+                    byte[] resp = agent.DownloadData(url);
+                    string respText = System.Text.Encoding.UTF8.GetString(resp);
 
-					General_R r = JsonConvert.DeserializeObject<General_R>(respText);
+                    General_R r = JsonConvert.DeserializeObject<General_R>(respText);
 
 					return r.session_token;
 				}
@@ -1274,14 +1412,14 @@ namespace Waveface.API.V2
 					}
 				}
 
-				throw new Exception("Unable to login station with Waveface cloud", e);
-			}
-			catch (Exception e)
-			{
-				throw new Exception("Unable to login station with Waveface cloud", e);
-			}
+                throw new Exception("Unable to login station with Waveface cloud", e);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Unable to login station with Waveface cloud", e);
+            }
         }
-        
+
         public static void LogoutStation(string session_token)
         {
             try
@@ -1316,11 +1454,11 @@ namespace Waveface.API.V2
         #endregion
     }
 
-	public class ServiceUnavailableException : Exception
-	{
-		public ServiceUnavailableException(string msg)
-			: base(msg)
-		{
-		}
-	}
+    public class ServiceUnavailableException : Exception
+    {
+        public ServiceUnavailableException(string msg)
+            : base(msg)
+        {
+        }
+    }
 }

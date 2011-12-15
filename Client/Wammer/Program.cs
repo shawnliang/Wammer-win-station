@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
+using NLog;
 using Waveface.Diagnostics;
 using Waveface.Localization;
 
@@ -9,9 +10,13 @@ namespace Waveface
 {
     internal static class Program
     {
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
         [STAThread]
         private static void Main(string[] args)
         {
+            s_logger.Trace("Windows Client Start.");
+
             bool _createdNew;
             Mutex _mutex = new Mutex(true, "Waveface Windows Client", out _createdNew);
 
@@ -35,13 +40,14 @@ namespace Waveface
 
                 ProgramSetting settings = new ProgramSetting();
 
-                LoginForm loginForm = null;
+                LoginForm loginForm;
+
                 if (args.Length == 3)
                 {
                     string _email = args[0];
                     string _password = args[1];
                     string _token = args[2];
-                    
+
                     settings.Email = _email;
                     settings.Password = _password;
                     settings.StationToken = _token;
@@ -59,7 +65,6 @@ namespace Waveface
                 }
 
                 Application.Run(loginForm);
-                
             }
             catch (Exception _e)
             {
@@ -68,6 +73,8 @@ namespace Waveface
             }
 
             GC.KeepAlive(_mutex);
+
+            s_logger.Trace("Windows Client Exit.");
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -80,6 +87,8 @@ namespace Waveface
         {
             //CrashReporter _errorDlg = new CrashReporter(e.Exception);
             //_errorDlg.ShowDialog();
+
+            //NLogUtility.Exception(s_logger, e.Exception, "Application_ThreadException");
         }
     }
 }

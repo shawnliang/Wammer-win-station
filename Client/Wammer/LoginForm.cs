@@ -11,7 +11,7 @@ namespace Waveface
 {
     public class LoginForm : Form
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         internal CheckBox cbRemember;
         internal Label lblUserName;
@@ -72,8 +72,8 @@ namespace Waveface
             this.autoLogin = autoLogin;
             this.savePassword = password;
 
-            txtUserName.Text = email;
-            txtPassword.Text = password;
+                txtUserName.Text = email;
+                txtPassword.Text = password;
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseSize = false;
@@ -211,15 +211,15 @@ namespace Waveface
 
         private void doLogin(string email, string password)
         {
-            Cursor.Current = Cursors.WaitCursor;
+			Cursor.Current = Cursors.WaitCursor;
 
             Main _main = new Main();
 
-            Application.DoEvents();
+			Application.DoEvents();
 
-            try
-            {
-                _main.stationLogin(email, password);
+			try
+			{
+				_main.stationLogin(email, password);
 
                 if (_doLogin(_main, email, password) == QuitOption.QuitProgram)
                     Close();
@@ -228,47 +228,51 @@ namespace Waveface
 			}
 			catch (API.V2.ServiceUnavailableException ex)
 			{
+                s_logger.Error(ex.Message);
+
 				// user should re-register station if receive service unavailable exception
 				// so we close the login page here
 				MessageBox.Show(ex.Message, "Waveface");
                 Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Waveface");
+			}
+			catch (Exception ex)
+			{
+                s_logger.Error(ex.Message);
+
+				MessageBox.Show(ex.Message, "Waveface");
                 Show();
-            }
+			}
         }
 
-        private QuitOption _doLogin(Main _main, string email, string password)
-        {
+		private QuitOption _doLogin(Main _main, string email, string password)
+		{
             QuitOption quit;
 
-            if (_main.Login(email, password))
-            {
-                Application.DoEvents();
+			if (_main.Login(email, password))
+			{
+				Application.DoEvents();
 
-                Cursor.Current = Cursors.Default;
-                Hide();
+				Cursor.Current = Cursors.Default;
+				Hide();
 
-                Application.DoEvents();
+				Application.DoEvents();
 
-                _main.ShowDialog();
+				_main.ShowDialog();
                 quit = _main.QuitOption;
-                _main.Dispose();
-                _main = null;
-            }
-            else
-            {
-                Cursor.Current = Cursors.Default;
+				_main.Dispose();
+				_main = null;
+			}
+			else
+			{
+				Cursor.Current = Cursors.Default;
 
-                MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 quit = QuitOption.Logout;
-            }
+			}
 
             return quit;
-        }
-        
+		}
+		
         private void btnOK_Click(object sender, EventArgs e)
         {
             try
