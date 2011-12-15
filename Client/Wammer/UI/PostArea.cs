@@ -70,6 +70,9 @@ namespace Waveface
 
         private void btnRefresh_Click(object sender, System.EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+            
             Main.Current.GetAllDataAsync(true);
         }
 

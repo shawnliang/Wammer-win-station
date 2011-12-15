@@ -353,25 +353,30 @@ namespace Waveface
 
         #region Network Status
 
-        private void UpdateNetworkStatus()
+        public void UpdateNetworkStatus()
         {
             if (NetworkInterface.GetIsNetworkAvailable())
             {
-                connectedImageLabel.Text = " Connected";
-                connectedImageLabel.Image = Resources.Outlook;
-
                 RT.REST.IsNetworkAvailable = true;
-
-                //MessageBox.Show("Network Connected.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
-                connectedImageLabel.Text = " Disconnected";
-                connectedImageLabel.Image = Resources.Error;
-
                 RT.REST.IsNetworkAvailable = false;
 
                 MessageBox.Show("Network Disconnected.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        public bool CheckNetworkStatus()
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Network Disconnected.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
             }
         }
 
@@ -814,8 +819,7 @@ namespace Waveface
                 switch (_dr)
                 {
                     case DialogResult.Yes:
-                        // ------------------ OLD_showAllPosts();
-                        RestoreWindow();
+                        GetAllDataAsync(true);
                         break;
 
                     case DialogResult.OK:

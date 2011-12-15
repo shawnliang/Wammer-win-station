@@ -162,6 +162,9 @@ namespace Waveface.PostUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+            
             //有圖片要上傳
             if (imageListView.Items.Count > 0)
             {

@@ -70,9 +70,7 @@ namespace Waveface
         #region LastRead
 
         private Dictionary<string, string> m_groupLastReadID { get; set; }
-        private Dictionary<string, string> m_groupLastReadTime { get; set; }
         private Dictionary<string, string> m_groupLocalLastReadID { get; set; }
-        private Dictionary<string, string> m_groupLocalLastReadTime { get; set; }
 
         public string CurrentGroupLastReadID
         {
@@ -87,18 +85,6 @@ namespace Waveface
             {
                 m_groupLastReadID[CurrentGroupID] = value;
             }
-        }
-
-        public string CurrentGroupLastReadTime
-        {
-            get
-            {
-                if (!m_groupLastReadTime.ContainsKey(CurrentGroupID))
-                    m_groupLastReadTime[CurrentGroupID] = string.Empty;
-
-                return m_groupLastReadTime[CurrentGroupID];
-            }
-            set { m_groupLastReadTime[CurrentGroupID] = value; }
         }
 
         public string CurrentGroupLocalLastReadID
@@ -116,18 +102,6 @@ namespace Waveface
 
                 SaveGroupLocalLastRead();
             }
-        }
-
-        public string CurrentGroupLocalLastReadTime
-        {
-            get
-            {
-                if (!m_groupLocalLastReadTime.ContainsKey(CurrentGroupID))
-                    m_groupLocalLastReadTime[CurrentGroupID] = string.Empty;
-
-                return m_groupLocalLastReadTime[CurrentGroupID];
-            }
-            set { m_groupLocalLastReadTime[CurrentGroupID] = value; }
         }
 
         #endregion
@@ -152,9 +126,7 @@ namespace Waveface
             m_groupPosts = new Dictionary<string, List<Post>>();
 
             m_groupLastReadID = new Dictionary<string, string>();
-            m_groupLastReadTime = new Dictionary<string, string>();
             m_groupLocalLastReadID = new Dictionary<string, string>();
-            m_groupLocalLastReadTime = new Dictionary<string, string>();
 
             FilterPosts = new List<Post>();
             CurrentFilterItem = null;
@@ -198,40 +170,47 @@ namespace Waveface
 
         public string GetMyReadPositionID()
         {
-            string _id = string.Empty;
-
             if (CurrentGroupLastReadID == string.Empty)
             {
-                _id = CurrentGroupLocalLastReadID;
+                return CurrentGroupLocalLastReadID;
             }
             else
             {
-                if ((CurrentGroupLastReadTime != string.Empty) && (CurrentGroupLocalLastReadTime != string.Empty))
-                {
-                    if (DateTimeHelp.CompareISO8601_New(CurrentGroupLastReadTime, CurrentGroupLocalLastReadTime))
-                    {
-                        _id = CurrentGroupLastReadID;
-                    }
-                    else
-                    {
-                        _id = CurrentGroupLocalLastReadID;
-                    }
-                }
-            }
+                int _lastRead = -1;
+                int _localLastRead = -1;
 
-            return _id;
+                for(int i=0; i< CurrentGroupPosts.Count; i++)
+                {
+                    Post _p = CurrentGroupPosts[i];
+
+                    if (_p.post_id == CurrentGroupLastReadID)
+                        _lastRead = i;
+
+                    if (_p.post_id == CurrentGroupLocalLastReadID)
+                        _localLastRead = i; 
+                }
+
+                if (_lastRead == -1)
+                    return CurrentGroupLocalLastReadID;
+
+                if (_localLastRead == -1)
+                    return string.Empty;
+
+                if (_lastRead < _localLastRead)
+                    return CurrentGroupLocalLastReadID;
+                else
+                    return CurrentGroupLastReadID;
+            }
         }
 
         public void SetCurrentGroupLocalLastRead(Post post)
         {
             CurrentGroupLocalLastReadID = post.post_id;
-            CurrentGroupLocalLastReadTime = post.timestamp;
         }
 
         public void SetCurrentGroupLastRead(LastScan lastScan)
         {
             CurrentGroupLastReadID = lastScan.post_id;
-            CurrentGroupLastReadTime = lastScan.timestamp;
         }
 
         #endregion
@@ -288,14 +267,12 @@ namespace Waveface
         public class LocalLastReadRT
         {
             public Dictionary<string, string> GroupLocalLastReadID { get; set; }
-            public Dictionary<string, string> GroupLocalLastReadTime { get; set; }
         }
 
         public bool SaveGroupLocalLastRead()
         {
             LocalLastReadRT _lr = new LocalLastReadRT();
             _lr.GroupLocalLastReadID = m_groupLocalLastReadID;
-            _lr.GroupLocalLastReadTime = m_groupLocalLastReadTime;
 
             try
             {
@@ -330,7 +307,6 @@ namespace Waveface
                 LocalLastReadRT _lr = JsonConvert.DeserializeObject<LocalLastReadRT>(_json);
 
                 m_groupLocalLastReadID = _lr.GroupLocalLastReadID;
-                m_groupLocalLastReadTime = _lr.GroupLocalLastReadTime;
             }
             catch
             {

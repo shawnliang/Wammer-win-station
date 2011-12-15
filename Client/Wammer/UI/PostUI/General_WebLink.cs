@@ -22,6 +22,9 @@ namespace Waveface.PostUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             //[1] 有Preview
             if (m_mrPreviewsGetAdv != null)
             {
