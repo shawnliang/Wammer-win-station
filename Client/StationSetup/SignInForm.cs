@@ -1,4 +1,4 @@
-Ôªusing System;
+Ôªøusing System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -21,13 +21,11 @@ namespace Wammer.Station
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            // Ê™¢Êü•ØÂê¶ΩÊÂ°´ÂÄ            if ((textBoxMail.Text == string.Empty) || (textBoxPassword.Text == string.Empty))
+            if ((textBoxMail.Text == string.Empty) || (textBoxPassword.Text == string.Empty))
             {
                 MessageBox.Show(I18n.L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            // Ê™¢Êü•emailºÂ
             if (!TestEmailFormat(textBoxMail.Text))
             {
                 MessageBox.Show(I18n.L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
