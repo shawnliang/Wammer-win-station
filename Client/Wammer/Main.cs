@@ -237,25 +237,28 @@ namespace Waveface
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (m_eventFromRestoreWindow_Hack)
-            {
-                m_eventFromRestoreWindow_Hack = false;
+			if (e.CloseReason != CloseReason.WindowsShutDown)
+			{
+				if (m_eventFromRestoreWindow_Hack)
+				{
+					m_eventFromRestoreWindow_Hack = false;
 
-                s_logger.Trace("MainForm_FormClosing.m_eventFromRestoreWindow_Hack - Return");
+					s_logger.Trace("MainForm_FormClosing.m_eventFromRestoreWindow_Hack - Return");
 
-                e.Cancel = true;
-                return;
-            }
+					e.Cancel = true;
+					return;
+				}
 
-            if (!m_exitToLogin)
-            {
-                WindowState = FormWindowState.Minimized;
+				if (!m_exitToLogin)
+				{
+					WindowState = FormWindowState.Minimized;
 
-                s_logger.Trace("MainForm_FormClosing.!m_exitToLogin - Return");
+					s_logger.Trace("MainForm_FormClosing.!m_exitToLogin - Return");
 
-                e.Cancel = true;
-                return;
-            }
+					e.Cancel = true;
+					return;
+				}
+			}
 
             m_dropableNotifyIcon.Dispose();
 
