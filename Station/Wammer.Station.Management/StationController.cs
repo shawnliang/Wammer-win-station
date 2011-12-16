@@ -183,7 +183,8 @@ namespace Wammer.Station.Management
 							Location = resp.station.location,
 							LastSyncTime = resp.station.LastSeen,
 						};
-						
+					case 0x4000 + 4: // user not exist
+						throw new AuthenticationException(e.Message);
 					default:
 						throw;
 				}
@@ -262,14 +263,12 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				switch (e.WammerError)
-				{
-					case (int)DropboxApiError.GetOAuthFailed:
-						throw new GetDropboxOAuthException("Unable to get Dropbox OAuth information");
+				string msg = ExtractApiRetMsg(e);
 
-					default:
-						throw;
-				}
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
 			}
 		}
 
@@ -288,36 +287,27 @@ namespace Wammer.Station.Management
 		/// </exception>
 		public static void ConnectDropbox(long quota)
 		{
-			if (DropboxHelper.IsInstalled())
+			try
 			{
-				try
-				{
-					string folder = DropboxHelper.GetSyncFolder();
-					CloudResponse res = CloudServer.request<CloudResponse>(
-						new WebClient(),
-						"http://localhost:9981/v2/cloudstorage/dropbox/connect",
-						new Dictionary<object, object> { { "quota", quota }, { "folder", folder } },
-						true
-					);
-				}
-				catch (Cloud.WammerCloudException e)
-				{
-					switch (e.WammerError)
-					{
-						case (int)DropboxApiError.NoSyncFolder:
-							throw new DropboxNoSyncFolderException("Dropbox sync folder does not exist");
+				if (!DropboxHelper.IsInstalled())
+					throw new DropboxNotInstalledException("Dropbox is not installed");
 
-						case (int)DropboxApiError.LinkWrongAccount:
-							throw new DropboxWrongAccountException("Link to inconsistent Dropbox account");
-
-						default:
-							throw;
-					}
-				}
+				string folder = DropboxHelper.GetSyncFolder();
+				CloudResponse res = CloudServer.request<CloudResponse>(
+					new WebClient(),
+					"http://localhost:9981/v2/cloudstorage/dropbox/connect",
+					new Dictionary<object, object> { { "quota", quota }, { "folder", folder } },
+					true
+				);
 			}
-			else
+			catch (Cloud.WammerCloudException e)
 			{
-				throw new DropboxNotInstalledException("Dropbox is not installed");
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
 			}
 		}
 
@@ -333,32 +323,26 @@ namespace Wammer.Station.Management
 		/// </exception>
 		public static void UpdateDropbox(long quota)
 		{
-			if (DropboxHelper.IsInstalled())
+			try
 			{
-				try
-				{
-					CloudResponse res = CloudServer.request<CloudResponse>(
-						new WebClient(),
-						"http://localhost:9981/v2/cloudstorage/dropbox/update",
-						new Dictionary<object, object> { { "quota", quota } },
-						true
-					);
-				}
-				catch (Cloud.WammerCloudException e)
-				{
-					switch (e.WammerError)
-					{
-						case (int)DropboxApiError.DropboxNotConnected:
-							throw new DropboxNotConnectedException("Dropbox is not connected");
-
-						default:
-							throw;
-					}
-				}
+				if (!DropboxHelper.IsInstalled())
+					throw new DropboxNotInstalledException("Dropbox is not installed");
+					
+				CloudResponse res = CloudServer.request<CloudResponse>(
+					new WebClient(),
+					"http://localhost:9981/v2/cloudstorage/dropbox/update",
+					new Dictionary<object, object> { { "quota", quota } },
+					true
+				);
 			}
-			else
+			catch (Cloud.WammerCloudException e)
 			{
-				throw new DropboxNotInstalledException("Dropbox is not installed");
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
 			}
 		}
 
@@ -367,12 +351,47 @@ namespace Wammer.Station.Management
 		/// </summary>
 		public static void DisconnectDropbox()
 		{
-			CloudResponse res = CloudServer.request<CloudResponse>(
-				new WebClient(),
-				"http://localhost:9981/v2/cloudstorage/dropbox/disconnect",
-				new Dictionary<object, object>(),
-				true
-			);
+			try
+			{
+				CloudResponse res = CloudServer.request<CloudResponse>(
+					new WebClient(),
+					"http://localhost:9981/v2/cloudstorage/dropbox/disconnect",
+					new Dictionary<object, object>(),
+					true
+				);
+			}
+			catch (Cloud.WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
+		}
+
+		private static string ExtractApiRetMsg(Cloud.WammerCloudException e)
+		{
+			WebException webex = (WebException)e.InnerException;
+			if (webex != null)
+			{
+				HttpWebResponse webres = (HttpWebResponse)webex.Response;
+				if (webres != null)
+				{
+					if (webres.StatusCode == HttpStatusCode.BadRequest)
+					{
+						using (StreamReader reader = new StreamReader(webres.GetResponseStream()))
+						{
+							string resText = reader.ReadToEnd();
+							Cloud.CloudResponse r = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(resText);
+							return r.api_ret_message;
+						}
+					}
+				}
+			}
+
+			return string.Empty;
 		}
 		#region private accessors
 
