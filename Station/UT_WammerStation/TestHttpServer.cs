@@ -76,6 +76,27 @@ namespace UT_WammerStation
 			}
 		}
 
+		[TestMethod]
+		public void TestEncoding_POST()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				MyHandler2 h2 = new MyHandler2();
+				server.AddHandler("/class1/action1/", h2);
+				server.Start();
+
+				WebClient agent = new WebClient();
+				string text = "email=sh%40wave.com&password=a+b&fuck=KE1fz9mriidjlLmhGgF7WVXl.K5xxvp8gb1rQVKjBNcrrQq8xjtCxhmAxo%2bqWzwoEy0g";
+				agent.Headers.Add("Content-Type:application/x-www-form-urlencoded");
+				agent.UploadData("http://127.0.0.1:80/class1/action1/", Encoding.UTF8.GetBytes(text));
+
+
+				Assert.AreEqual("sh@wave.com", MyHandler2.SavedParameters["email"]);
+				Assert.AreEqual("a b", MyHandler2.SavedParameters["password"]);
+				Assert.AreEqual("KE1fz9mriidjlLmhGgF7WVXl.K5xxvp8gb1rQVKjBNcrrQq8xjtCxhmAxo+qWzwoEy0g", MyHandler2.SavedParameters["fuck"]);
+			}
+		}
+
 
 		[TestMethod]
 		public void TestDispatchToHandlers()
