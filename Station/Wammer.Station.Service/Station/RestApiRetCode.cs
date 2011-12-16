@@ -15,8 +15,7 @@ namespace Wammer.Station
 		AlreadyHasStaion = -33,
 		ConnectToCloudError = -34,
 		ServerOffline = -35,
-		InvalidDriver = -36,
-		ServiceUnavailable = -37
+		InvalidDriver = -36
 	}
 
 	public enum DropboxApiError

@@ -33,7 +33,7 @@ namespace Wammer.Station
 				new GetDropboxOAuthResponse
 				{
 					api_ret_code = 0,
-					api_ret_msg = "success",
+					api_ret_message = "success",
 					status = 200,
 					timestamp = DateTime.UtcNow,
 					oauth_url = res.storages.authorization_url

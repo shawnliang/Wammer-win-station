@@ -87,7 +87,7 @@ namespace UT_WammerStation
 			AttachmentResponse res = fastJSON.JSON.Instance.ToObject<AttachmentResponse>(output);
 			Assert.AreEqual(200, res.status);
 			Assert.AreEqual(0, res.api_ret_code);
-			Assert.AreEqual("success", res.api_ret_msg);
+			Assert.AreEqual("success", res.api_ret_message);
 			Assert.AreEqual(doc.object_id, res.attachment.object_id);
 			Assert.AreEqual(doc.title, res.attachment.title);
 			Assert.AreEqual(doc.description, res.attachment.description);
@@ -104,7 +104,7 @@ namespace UT_WammerStation
 			AttachmentResponse res = fastJSON.JSON.Instance.ToObject<AttachmentResponse>(output);
 			Assert.AreEqual(200, res.status);
 			Assert.AreEqual(0, res.api_ret_code);
-			Assert.AreEqual("success", res.api_ret_msg);
+			Assert.AreEqual("success", res.api_ret_message);
 			Assert.AreEqual(doc.object_id, res.attachment.object_id);
 			Assert.AreEqual(doc.title, res.attachment.title);
 			Assert.AreEqual(doc.description, res.attachment.description);
@@ -121,7 +121,7 @@ namespace UT_WammerStation
 			AttachmentResponse res = fastJSON.JSON.Instance.ToObject<AttachmentResponse>(output);
 			Assert.AreEqual(200, res.status);
 			Assert.AreEqual(0, res.api_ret_code);
-			Assert.AreEqual("success", res.api_ret_msg);
+			Assert.AreEqual("success", res.api_ret_message);
 			Assert.AreEqual(doc.object_id, res.attachment.object_id);
 			Assert.AreEqual(doc.title, res.attachment.title);
 			Assert.AreEqual(doc.description, res.attachment.description);
@@ -148,7 +148,7 @@ namespace UT_WammerStation
 						r.ReadToEnd());
 					Assert.AreEqual(-1, json.api_ret_code);
 					Assert.AreEqual((int)HttpStatusCode.BadRequest, json.status);
-					Assert.AreEqual("missing parameter: object_id" , json.api_ret_msg);
+					Assert.AreEqual("missing parameter: object_id" , json.api_ret_message);
 				}
 				return;
 			}
@@ -174,7 +174,7 @@ namespace UT_WammerStation
 					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(
 						r.ReadToEnd());
 					Assert.AreEqual((int)StationApiError.NotFound, json.api_ret_code);
-					Assert.AreEqual("Resource not found: 123", json.api_ret_msg);
+					Assert.AreEqual("Resource not found: 123", json.api_ret_message);
 				}
 				return;
 			}

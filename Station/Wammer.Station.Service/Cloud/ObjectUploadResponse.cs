@@ -15,7 +15,7 @@ namespace Wammer.Cloud
 		{
 			ObjectUploadResponse res = new ObjectUploadResponse();
 			res.api_ret_code = 0;
-			res.api_ret_msg = "Success";
+			res.api_ret_message = "Success";
 			res.status = 200;
 			res.timestamp = DateTime.Now.ToUniversalTime();
 			res.object_id = objectId;
@@ -28,7 +28,7 @@ namespace Wammer.Cloud
 		{
 			ObjectUploadResponse res = new ObjectUploadResponse();
 			res.api_ret_code = -1;
-			res.api_ret_msg = e.Message;
+			res.api_ret_message = e.Message;
 			res.status = httpStatus;
 			res.timestamp = DateTime.Now.ToUniversalTime();
 			res.object_id = objectId;

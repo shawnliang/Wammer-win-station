@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Forms;
+using NLog;
 using Waveface.Component;
 using Waveface.Configuration;
 using Waveface.Localization;
@@ -10,6 +11,8 @@ namespace Waveface
 {
     public class LoginForm : Form
     {
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
         internal CheckBox cbRemember;
         internal Label lblUserName;
         internal TextBox txtPassword;
@@ -22,7 +25,8 @@ namespace Waveface
         private GroupBox groupBox1;
         private CultureManager cultureManager;
         private FormSettings m_formSettings;
-
+        private bool autoLogin;
+        private string savePassword = "";
         #region Properties
 
         public string User
@@ -45,30 +49,6 @@ namespace Waveface
 
         #region Setting
 
-        public string UserSetting
-        {
-            get
-            {
-                return txtUserName.Text.Trim();
-            }
-            set
-            {
-                txtUserName.Text = value;
-            }
-        }
-
-        public string PasswordSetting
-        {
-            get
-            {
-                return RememberPassword ? txtPassword.Text.Trim() : "";
-            }
-            set
-            {
-                txtPassword.Text = value;
-            }
-        }
-
         public bool RememberPassword
         {
             get
@@ -78,27 +58,27 @@ namespace Waveface
             set
             {
                 cbRemember.Checked = value;
+                if (!cbRemember.Checked)
+                    txtPassword.Text = "";
+                else
+                    txtPassword.Text = savePassword;
             }
         }
         #endregion
 
-        public LoginForm(string email, string password)
+        public LoginForm(string email, string password, bool autoLogin)
         {
             InitializeComponent();
+            this.autoLogin = autoLogin;
+            this.savePassword = password;
 
-            if (email != string.Empty)
-            {
                 txtUserName.Text = email;
                 txtPassword.Text = password;
-            }
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseSize = false;
             m_formSettings.SaveOnClose = false;
-            m_formSettings.Settings.Add(new PropertySetting(this, "UserSetting"));
-            m_formSettings.Settings.Add(new PropertySetting(this, "PasswordSetting"));
             m_formSettings.Settings.Add(new PropertySetting(this, "RememberPassword"));
-            
         }
 
         #region Windows Form Designer generated code
@@ -139,6 +119,7 @@ namespace Waveface
             resources.ApplyResources(this.lblUserName, "lblUserName");
             this.lblUserName.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.lblUserName.Name = "lblUserName";
+            this.lblUserName.DoubleClick += new System.EventHandler(this.lblUserName_DoubleClick);
             // 
             // txtPassword
             // 
@@ -220,10 +201,13 @@ namespace Waveface
         {
             txtUserName.Focus();
 
-            if ((txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty))
+            if ((txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty) && autoLogin)
             {
                 doLogin(txtUserName.Text, txtPassword.Text);
             }
+
+            if (!cbRemember.Checked)
+                txtPassword.Text = "";
         }
 
         private void doLogin(string email, string password)
@@ -245,11 +229,17 @@ namespace Waveface
 			}
 			catch (API.V2.ServiceUnavailableException ex)
 			{
+                s_logger.Error(ex.Message);
+
+				// user should re-register station if receive service unavailable exception
+				// so we close the login page here
 				MessageBox.Show(ex.Message, "Waveface");
                 Close();
 			}
 			catch (Exception ex)
 			{
+                s_logger.Error(ex.Message);
+
 				MessageBox.Show(ex.Message, "Waveface");
                 Show();
 			}
@@ -272,8 +262,6 @@ namespace Waveface
                 quit = _main.QuitOption;
 				_main.Dispose();
 				_main = null;
-
-                m_formSettings.Save();
 			}
 			else
 			{
@@ -345,6 +333,11 @@ namespace Waveface
         private void cultureManager_UICultureChanged(CultureInfo newCulture)
         {
             I18n.L.CurrentCulture = newCulture;
+        }
+
+        private void lblUserName_DoubleClick(object sender, EventArgs e)
+        {
+            txtUserName.ReadOnly = !txtUserName.ReadOnly;
         }
     }
 }

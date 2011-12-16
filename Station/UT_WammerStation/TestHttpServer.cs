@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 using System.IO;
+using System.Collections.Specialized;
 
 using Wammer.Station;
 
@@ -37,10 +38,41 @@ namespace UT_WammerStation
 		}
 	}
 
+	class MyHandler2 : HttpHandler
+	{
+		public static NameValueCollection SavedParameters; 
+		public override object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+
+		protected override void HandleRequest()
+		{
+			SavedParameters = this.Parameters;
+			this.RespondSuccess();
+		}
+	}
 
 	[TestClass]
 	public class TestHttpServer
 	{
+		[TestMethod]
+		public void TestEncoding()
+		{
+			using (HttpServer server = new HttpServer(80))
+			{
+				MyHandler2 h2 = new MyHandler2();
+				server.AddHandler("/class1/action1/", h2);
+				server.Start();
+
+				WebClient agent = new WebClient();
+				string replyFromHandler1 = agent.DownloadString(
+										"http://127.0.0.1:80/class1/action1/?email=sh%40wave.com");
+
+
+				Assert.AreEqual("sh@wave.com", MyHandler2.SavedParameters["email"]);
+			}
+		}
 		[TestMethod]
 		public void TestDispatchToHandlers()
 		{

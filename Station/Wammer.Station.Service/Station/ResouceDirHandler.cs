@@ -25,7 +25,7 @@ namespace Wammer.Station
 				{
 					status = 200,
 					api_ret_code = 0,
-					api_ret_msg = "success",
+					api_ret_message = "success",
 					timestamp = DateTime.UtcNow,
 					path = Path.IsPathRooted(resourceBasePath) ?
 							resourceBasePath : Path.GetFullPath(resourceBasePath)

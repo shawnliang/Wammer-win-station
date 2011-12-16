@@ -251,6 +251,7 @@
             this.btnBatchPost.Text = "Post";
             this.btnBatchPost.UseVisualStyleBackColor = true;
             this.btnBatchPost.Visible = false;
+            this.btnBatchPost.Click += new System.EventHandler(this.btnBatchPost_Click);
             // 
             // btnSend
             // 
