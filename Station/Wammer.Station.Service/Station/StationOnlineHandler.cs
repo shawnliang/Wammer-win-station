@@ -61,7 +61,11 @@ namespace Wammer.Station
 			try
 			{
 				logger.DebugFormat("Station logon with stationId = {0}, email = {1}", stationInfo.Id, email);
-				StationLogOnResponse logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password);
+				StationLogOnResponse logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password, StatusChecker.GetDetail());
+				
+				// update session in DB
+				stationInfo.SessionToken = logonRes.session_token;
+				StationCollection.Save(stationInfo);
 				
 				logger.Debug("Station logon successfully, start function server");
 				functionServer.BlockAuth(false);

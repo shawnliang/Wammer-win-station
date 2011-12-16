@@ -220,7 +220,9 @@ namespace Waveface
             }
             else
             {
-                m_exitToLogin = true;
+				MessageBox.Show("Your authentication is expired. Re-enter your password to log in again.", "Waveface");
+
+				m_exitToLogin = true;
                 m_process401Exception = true;
                 QuitOption = QuitOption.Logout;
                 settings.IsLoggedIn = false;

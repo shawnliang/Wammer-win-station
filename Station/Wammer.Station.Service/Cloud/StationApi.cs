@@ -34,14 +34,15 @@ namespace Wammer.Cloud
 			return new StationApi(stationId, res.session_token);
 		}
 
-		public static StationLogOnResponse LogOn(WebClient agent, string stationId, string email, string passwd)
+		public static StationLogOnResponse LogOn(WebClient agent, string stationId, string email, string passwd, StationDetail detail)
 		{
 			Dictionary<object, object> param = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_EMAIL, email},
 				{CloudServer.PARAM_PASSWORD, passwd},
 				{CloudServer.PARAM_STATION_ID, stationId},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+				{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
 			};
 
 			StationLogOnResponse res = CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", param);
