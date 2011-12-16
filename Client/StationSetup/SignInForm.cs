@@ -1,5 +1,4 @@
-﻿
-using System;
+�using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -22,14 +21,13 @@ namespace Wammer.Station
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            // 檢查是否都有填值
-            if ((textBoxMail.Text == string.Empty) || (textBoxPassword.Text == string.Empty))
+            // 檢查�否��填�            if ((textBoxMail.Text == string.Empty) || (textBoxPassword.Text == string.Empty))
             {
                 MessageBox.Show(I18n.L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 檢查email格式
+            // 檢查email��
             if (!TestEmailFormat(textBoxMail.Text))
             {
                 MessageBox.Show(I18n.L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -45,8 +43,6 @@ namespace Wammer.Station
 
             try
             {
-				email = HttpUtility.UrlEncode(email);
-				password = HttpUtility.UrlEncode(password);
                 string session_token = StationController.AddUser(email, password);
 
                 DropboxInstallAndLink(email, password, session_token);

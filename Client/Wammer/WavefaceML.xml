@@ -15,28 +15,33 @@
   <WItem>
     <ID>Main.ChangeOwnerWarning</ID>
     <en-US>
-      Changeing Waveface Station user will cause {0} unable to access archived original image files.
 
-      Proceed anyway?
+<!-- 請勿更改縮排 -->
+Changeing Waveface Station user will cause {0} unable to access archived original image files.
+
+Proceed anyway?
     </en-US>
     <zh-TW>
-      變更Station使用者後, {0} 將無法下載已保存的原始圖檔
+<!-- 請勿更改縮排 -->
+變更Station使用者後, {0} 將無法下載已保存的原始圖檔
 
-      繼續執行嗎?
+繼續執行嗎?
     </zh-TW>
   </WItem>
 
   <WItem>
     <ID>Main.ChangeOwnerSuccess</ID>
     <en-US>
-      User '{0}' is unassociated with Waveface Station successfully.
+<!-- 請勿更改縮排 -->
+User '{0}' is unassociated with Waveface Station successfully.
 
-      Please restart Waveface to continue assign a new Waveface Station user
+Please restart Waveface to continue assign a new Waveface Station user
     </en-US>
     <zh-TW>
-      Waveface Station已經成功的和 {0} 分離
+<!-- 請勿更改縮排 -->
+Waveface Station已經成功的和 {0} 分離
 
-      請重新啟動程式後繼續指定Waveface Station使用者
+請重新啟動程式後繼續指定Waveface Station使用者
     </zh-TW>
   </WItem>
 

@@ -93,9 +93,7 @@ namespace StationSetup
 
         public void PostText(string text)
         {
-            MR_posts_new _np = Post_CreateNewPost(text, "", "", "text");
-            if (_np == null)
-                throw new Exception("create default text post failure");
+            Post_CreateNewPost(text, "", "", "text");
         }
 
         #endregion
@@ -149,7 +147,7 @@ namespace StationSetup
                 _ids += "\"" + _uf.object_id + "\"" + ",";
             }
 
-            _ids = _ids.Substring(0, _ids.Length - 1); // »æ€å¾Œä,"
+            _ids = _ids.Substring(0, _ids.Length - 1);
             _ids += "]";
 
             return (_ids);
@@ -216,16 +214,30 @@ namespace StationSetup
 
         public MR_posts_new Post_CreateNewPost(string text, string files, string previews, string type)
         {
-            MR_posts_new _postsNew = m_serviceV2.posts_new(SessionToken, RT.CurrentGroupID, text, files, previews, type);
+            int try_count = 0;
+            MR_posts_new _post = null;
 
-            if ((_postsNew != null) && (_postsNew.status == "200"))
+            do
             {
-                return _postsNew;
+                try
+                {
+                    _post = m_serviceV2.posts_new(SessionToken, RT.CurrentGroupID, text, files, previews, type);
+                }
+                catch
+                {
+                    if (try_count == 3)
+                        throw;
+
+                    System.Threading.Thread.Sleep(100);
+                }
+                finally
+                {
+                    ++try_count;
+                }
             }
-            else
-            {
-                return null;
-            }
+            while (_post == null || _post.status != "200");
+
+            return _post;
         }
 
         public MR_previews_get_adv Preview_GetAdvancedPreview(string url)
@@ -242,25 +254,19 @@ namespace StationSetup
             }
         }
 
-        public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage)
+        public MR_attachments_upload File_UploadFile_NoRetry(string text, string filePath, string object_id, bool isImage)
         {
             MR_attachments_upload _attachmentsUpload;
-            string _resizedImageFilePath = string.Empty;
 
             if (isImage)
             {
-                if (RT.StationMode) //å¦‚æ‰Station‡ä³å ¦åå°±ä512ä¸­å
+                if (RT.StationMode)
                 {
                     _attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID, filePath, text,
                                                                         "", "image", "origin", object_id);
                 }
                 else
                 {
-                    //_resizedImageFilePath = ResizeImage(filePath, text, "512", 50);
-                    //_attachmentsUpload = m_serviceV2.attachments_upload(SessionToken, RT.CurrentGroupID,
-                    //                                                    _resizedImageFilePath, text, "", "image",
-                    //                                                    "medium", object_id);
-
                     throw new Exception("Unable to upload attachment for default post becuase not connected with station");
                 }
             }
@@ -272,25 +278,39 @@ namespace StationSetup
 
             if ((_attachmentsUpload != null) && (_attachmentsUpload.status == "200"))
             {
-                // å¦‚æ³ä¸­–åˆ°Cloud, ‡èŠå–Cacheèµ·ä, å¾…æStation¨å‚³Ÿå
-                if (_resizedImageFilePath != string.Empty)
-                {
-                    string _ext = ".jpg";
-
-                    int _idx = text.IndexOf(".");
-
-                    if (_idx != -1)
-                        _ext = text.Substring(_idx);
-
-                    string _originCacheFile = GCONST.ImageUploadCachePath + _attachmentsUpload.object_id + _ext;
-                    File.Copy(filePath, _originCacheFile);
-                }
-
                 return _attachmentsUpload;
             }
 
             //return null;
             throw new Exception("Upload attachment for default posts failed.");
+        }
+
+        public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage)
+        {
+            MR_attachments_upload ret = null;
+            int retry = 0;
+
+            do
+            {
+                try
+                {
+                    ret = File_UploadFile_NoRetry(text, filePath, object_id, isImage);
+                }
+                catch
+                {
+                    if (retry == 3)
+                        throw;
+
+                    System.Threading.Thread.Sleep(300);
+                }
+                finally
+                {
+                    ++retry;
+                }
+            }
+            while (ret == null || ret.status != "200");
+
+            return ret;
         }
 
         #endregion

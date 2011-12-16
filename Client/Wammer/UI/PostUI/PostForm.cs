@@ -200,6 +200,9 @@ namespace Waveface
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             if (richTextBox.Text.Equals(string.Empty))
             {
                 MessageBox.Show("Text cannot be empty!");

@@ -315,6 +315,9 @@ namespace Waveface
 
         private void buttonCreatePost_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             Main.Current.Post();
         }
     }

@@ -56,11 +56,6 @@ namespace Wammer.Station
 				ParseMultiPartData(request);
 			}
 
-			foreach (string key in Parameters.AllKeys)
-			{
-				Parameters[key] = HttpUtility.UrlDecode(Parameters[key]);
-			}
-
 			if (logger.IsDebugEnabled)
 			{
 				logger.Debug("====== Request " + Request.Url.AbsolutePath + 
@@ -223,7 +218,7 @@ namespace Wammer.Station
 				String.Compare(req.ContentType, URL_ENCODED_FORM, true) == 0)
 			{
 				string postData = Encoding.UTF8.GetString(this.RawPostData);
-				return HttpUtility.ParseQueryString(postData);
+				return UrlDecode(HttpUtility.ParseQueryString(postData));
 			}
 			else if (req.HttpMethod.ToUpper().Equals("GET"))
 			{
@@ -232,6 +227,17 @@ namespace Wammer.Station
 
 			return new NameValueCollection();
 		}
+
+		private static NameValueCollection UrlDecode(NameValueCollection param)
+		{
+			foreach (string key in param.AllKeys)
+			{
+				param[key] = HttpUtility.UrlDecode(param[key]);
+			}
+
+			return param;
+		}
+
 
 		protected void RespondSuccess()
 		{

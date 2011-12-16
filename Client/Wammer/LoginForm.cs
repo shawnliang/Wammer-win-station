@@ -119,6 +119,7 @@ namespace Waveface
             resources.ApplyResources(this.lblUserName, "lblUserName");
             this.lblUserName.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.lblUserName.Name = "lblUserName";
+            this.lblUserName.DoubleClick += new System.EventHandler(this.lblUserName_DoubleClick);
             // 
             // txtPassword
             // 
@@ -332,6 +333,11 @@ namespace Waveface
         private void cultureManager_UICultureChanged(CultureInfo newCulture)
         {
             I18n.L.CurrentCulture = newCulture;
+        }
+
+        private void lblUserName_DoubleClick(object sender, EventArgs e)
+        {
+            txtUserName.ReadOnly = !txtUserName.ReadOnly;
         }
     }
 }

@@ -238,6 +238,9 @@ namespace Waveface.PostUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             if (listViewFiles.Items.Count > 0)
             {
                 Dictionary<string, string> _uploadFiles = new Dictionary<string, string>();
@@ -365,6 +368,11 @@ namespace Waveface.PostUI
         public void ResizeUI()
         {
             previewHandlerHost.Invalidate();
+        }
+
+        private void btnBatchPost_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
