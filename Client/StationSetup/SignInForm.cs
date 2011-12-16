@@ -26,7 +26,6 @@ namespace Wammer.Station
                 MessageBox.Show(I18n.L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
             if (!TestEmailFormat(textBoxMail.Text))
             {
                 MessageBox.Show(I18n.L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
