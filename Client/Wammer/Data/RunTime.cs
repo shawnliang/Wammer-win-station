@@ -1,7 +1,9 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.IO;
+using NLog;
 using Newtonsoft.Json;
 using Waveface.API.V2;
 using Waveface.FilterUI;
@@ -12,6 +14,8 @@ namespace Waveface
 {
     public class RunTime
     {
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
         #region System
 
         private string RUN_TIME_FILE = "Waveface System.dat";
@@ -172,6 +176,8 @@ namespace Waveface
         {
             if (CurrentGroupLastReadID == string.Empty)
             {
+                s_logger.Trace("GetMyReadPositionID:CurrentGroupLocalLastReadID = " + CurrentGroupLocalLastReadID);
+
                 return CurrentGroupLocalLastReadID;
             }
             else
@@ -179,7 +185,7 @@ namespace Waveface
                 int _lastRead = -1;
                 int _localLastRead = -1;
 
-                for(int i=0; i< CurrentGroupPosts.Count; i++)
+                for (int i = 0; i < CurrentGroupPosts.Count; i++)
                 {
                     Post _p = CurrentGroupPosts[i];
 
@@ -187,19 +193,35 @@ namespace Waveface
                         _lastRead = i;
 
                     if (_p.post_id == CurrentGroupLocalLastReadID)
-                        _localLastRead = i; 
+                        _localLastRead = i;
                 }
 
                 if (_lastRead == -1)
+                {
+                    s_logger.Trace("GetMyReadPositionID:CurrentGroupLocalLastReadID = " + CurrentGroupLocalLastReadID);
+
                     return CurrentGroupLocalLastReadID;
+                }
 
                 if (_localLastRead == -1)
+                {
+                    s_logger.Trace("GetMyReadPositionID:Empty");
+
                     return string.Empty;
+                }
 
                 if (_lastRead < _localLastRead)
+                {
+                    s_logger.Trace("GetMyReadPositionID:CurrentGroupLocalLastReadID = " + CurrentGroupLocalLastReadID);
+
                     return CurrentGroupLocalLastReadID;
+                }
                 else
+                {
+                    s_logger.Trace("GetMyReadPositionID:CurrentGroupLastReadID = " + CurrentGroupLastReadID);
+
                     return CurrentGroupLastReadID;
+                }
             }
         }
 
@@ -232,10 +254,14 @@ namespace Waveface
 
                 SaveGroupLocalLastRead();
             }
-            catch
+            catch(Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "SaveJSON");
+
                 return false;
             }
+
+            s_logger.Trace("SaveJSON: OK");
 
             return true;
         }
@@ -252,10 +278,15 @@ namespace Waveface
                 _sr.Close();
 
                 RunTime _rt = JsonConvert.DeserializeObject<RunTime>(_json);
+
+                s_logger.Trace("LoadJSON: OK");
+
                 return _rt;
             }
-            catch
+            catch(Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "LoadJSON");
+
                 return null;
             }
         }
@@ -285,10 +316,14 @@ namespace Waveface
                     _outfile.Write(_json);
                 }
             }
-            catch
+            catch(Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "SaveGroupLocalLastRead");
+
                 return false;
             }
+
+            s_logger.Trace("SaveGroupLocalLastRead: OK");
 
             return true;
         }
@@ -307,9 +342,12 @@ namespace Waveface
                 LocalLastReadRT _lr = JsonConvert.DeserializeObject<LocalLastReadRT>(_json);
 
                 m_groupLocalLastReadID = _lr.GroupLocalLastReadID;
+
+                s_logger.Trace("LoadGroupLocalLastRead:OK LocalLastReadID="+ CurrentGroupLocalLastReadID);
             }
-            catch
+            catch(Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "LoadGroupLocalLastRead");
             }
         }
 

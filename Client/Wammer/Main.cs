@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
+using NLog;
 using Waveface.API.V2;
 using Waveface.Compoment.PopupControl;
 using Waveface.Component;
@@ -26,6 +27,8 @@ namespace Waveface
     {
         public static Main Current;
         public static GCONST GCONST = new GCONST();
+
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         #region Fields
 
@@ -94,6 +97,8 @@ namespace Waveface
             //initVirtualFolderForm();
 
             InitTaskbarNotifier();
+
+            s_logger.Trace("Constructor: OK");
         }
 
         #region Init
@@ -113,6 +118,8 @@ namespace Waveface
 
             m_uploadOriginPhotosToStation = new UploadOriginPhotosToStation();
             m_uploadOriginPhotosToStation.Start();
+
+            s_logger.Trace("Form_Load: OK");
         }
 
         private void InitmDropableNotifyIcon()
@@ -177,13 +184,17 @@ namespace Waveface
 
                 if (_id != string.Empty)
                 {
-                    RT.REST.Footprints_setLastScan(_id);
+                    string _ret = RT.REST.Footprints_setLastScan(_id);
+
+                    if (_ret == null)
+                        s_logger.Trace("SetLastReadPos.Footprints_setLastScan: null");
+                    else
+                        s_logger.Trace("SetLastReadPos.Footprints_setLastScan: " + _ret);
                 }
             }
             catch (Exception _e)
             {
-
-                //MessageBox.Show("Unabel to set last scan position:" + _e.Message);
+                NLogUtility.Exception(s_logger, _e, "SetLastReadPos");
             }
         }
 
@@ -200,8 +211,6 @@ namespace Waveface
             }
             else
             {
-                // MessageBox.Show(message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-
                 m_exitToLogin = true;
                 m_process401Exception = true;
                 QuitOption = QuitOption.Logout;
@@ -219,14 +228,19 @@ namespace Waveface
         {
             if (m_eventFromRestoreWindow_Hack)
             {
-                e.Cancel = true;
                 m_eventFromRestoreWindow_Hack = false;
+
+                s_logger.Trace("MainForm_FormClosing.m_eventFromRestoreWindow_Hack - Return");
+
+                e.Cancel = true;
                 return;
             }
 
             if (!m_exitToLogin)
             {
                 WindowState = FormWindowState.Minimized;
+
+                s_logger.Trace("MainForm_FormClosing.!m_exitToLogin - Return");
 
                 e.Cancel = true;
                 return;
@@ -248,9 +262,9 @@ namespace Waveface
                 {
                     WService.LogoutStation(StationToken);
                 }
-                catch (Exception ex)
+                catch (Exception _e)
                 {
-                    MessageBox.Show(ex.Message, "Waveface");
+                    NLogUtility.Exception(s_logger, _e, "MainForm_FormClosing");
                 }
             }
         }
@@ -266,6 +280,8 @@ namespace Waveface
             m_exitToLogin = true;
             m_eventFromRestoreWindow_Hack = false;
             QuitOption = QuitOption.QuitProgram;
+
+            s_logger.Trace("OnMenuExitClick");
 
             Close();
         }
@@ -292,11 +308,15 @@ namespace Waveface
                 m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
                 m_dropableNotifyIcon.NotifyIcon.BalloonTipText = "Minimize to Tray App";
                 m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
+
+                s_logger.Trace("Main_SizeChanged: FormWindowState.Minimized");
             }
         }
 
         private void RestoreWindow()
         {
+            s_logger.Trace("RestoreWindow");
+
             WindowState = FormWindowState.Maximized;
 
             GetLastReadAndShow();
@@ -358,12 +378,16 @@ namespace Waveface
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 RT.REST.IsNetworkAvailable = true;
+
+                s_logger.Trace("UpdateNetworkStatus: Connrcted");
             }
             else
             {
                 RT.REST.IsNetworkAvailable = false;
 
                 MessageBox.Show("Network Disconnected.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                s_logger.Trace("UpdateNetworkStatus: Disconnected");
             }
         }
 
@@ -390,6 +414,8 @@ namespace Waveface
             catch (Exception _e)
             {
                 MessageBox.Show(_e.ToString(), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                NLogUtility.Exception(s_logger, _e, "NetworkChange_NetworkAvailabilityChanged");
             }
         }
 
@@ -409,6 +435,8 @@ namespace Waveface
 
             postsArea.ShowTypeUI(false);
             postsArea.showRefreshUI(false);
+
+            s_logger.Trace("Reset.Online" + online.ToString());
         }
 
         public bool Login(string email, string password)
@@ -421,10 +449,14 @@ namespace Waveface
 
             if (_login == null)
             {
+                s_logger.Trace("Login.Auth_Login: null");
+
                 Reset(false);
 
                 if (!LoadRunTime())
                 {
+                    s_logger.Trace("Login.Auth_Login.null: !LoadRunTime()");
+
                     Cursor.Current = Cursors.Default;
                     return false;
                 }
@@ -433,6 +465,8 @@ namespace Waveface
             }
             else
             {
+                s_logger.Trace("Login.Auth_Login: OK");
+
                 Reset(true);
 
                 RT.Login = _login;
@@ -455,6 +489,8 @@ namespace Waveface
 
             if (_login == null)
             {
+                s_logger.Trace("Login.Auth_Login.null: ShowAllTimeline(false)");
+
                 ShowAllTimeline(false);
             }
             else
@@ -462,6 +498,8 @@ namespace Waveface
                 settings.Email = email;
                 settings.Password = password;
                 settings.IsLoggedIn = true;
+
+                s_logger.Trace("Login.Auth_Login.OK: GetAllDataAsync(false)");
 
                 GetAllDataAsync(false);
             }
@@ -490,10 +528,14 @@ namespace Waveface
 
                         RT.StationMode = true;
 
+                        s_logger.Trace("CheckStation:" + _ip);
+
                         return;
                     }
                 }
             }
+
+            s_logger.Trace("CheckStation: Not Found");
 
             RT.StationMode = false;
         }
@@ -711,10 +753,14 @@ namespace Waveface
 
                 if ((_lastRead == null) || string.IsNullOrEmpty(_lastRead.post_id))
                 {
+                    s_logger.Trace("GetLastReadAndShow.getLastScan: null");
+
                     ShowAllTimeline(m_keepTimelineIndex);
                 }
                 else
                 {
+                    s_logger.Trace("GetLastReadAndShow.getLastScan:" + _lastRead.post_id);
+
                     RT.SetCurrentGroupLastRead(_lastRead);
 
                     if (IsLastReadPostInCacheData(_lastRead.post_id))
@@ -723,6 +769,8 @@ namespace Waveface
                     }
                     else
                     {
+                        s_logger.Trace("GetLastReadAndShow: Get more posts");
+
                         timerReloadAllData.Enabled = true;
                     }
                 }
@@ -751,6 +799,8 @@ namespace Waveface
 
         public void GetAllDataAsync(bool keepTimelineIndex)
         {
+            s_logger.Trace("GetAllDataAsync.keepTimelineIndex: " + keepTimelineIndex);
+
             m_keepTimelineIndex = keepTimelineIndex;
 
             Cursor.Current = Cursors.WaitCursor;
@@ -768,11 +818,17 @@ namespace Waveface
 
             setCalendarBoldedDates(_posts);
 
-            postsArea.PostsList.SetPosts(_posts, RT.GetMyTimelinePosition(keepTimelineIndex)); 
+            int _index = RT.GetMyTimelinePosition(keepTimelineIndex);
+
+            s_logger.Trace("ShowAllTimeline: keepTimelineIndex=" + keepTimelineIndex + ", TimelineIndex=" + _index);
+
+            postsArea.PostsList.SetPosts(_posts, _index);
         }
 
         public void PostListClick(int clickIndex, Post post)
         {
+            s_logger.Trace("SetCurrentGroupLocalLastRead:" + post.post_id);
+
             RT.SetCurrentGroupLocalLastRead(post);
 
             RT.IsFilterFirstTimeGetData = false;
@@ -830,6 +886,8 @@ namespace Waveface
             catch (Exception _e)
             {
                 MessageBox.Show(_e.Message, "Waveface");
+
+                NLogUtility.Exception(s_logger, _e, "Post");
             }
 
             m_canAutoFetchNewestPosts = true;
@@ -847,6 +905,8 @@ namespace Waveface
             {
                 ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
                 //ReplacePostInList(_singlePost.post, RT.FilterPosts);
+
+                s_logger.Trace("AfterPostComment.ShowAllTimeline(true)");
 
                 ShowAllTimeline(true);
             }
