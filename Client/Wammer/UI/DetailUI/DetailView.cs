@@ -319,6 +319,9 @@ namespace Waveface
 
         public void PostComment(TextBox textBox, Post post)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             if (textBox.Text.Equals(""))
             {
                 MessageBox.Show("Comment Text cannot be empty!");
