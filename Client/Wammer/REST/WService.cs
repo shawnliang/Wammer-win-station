@@ -1379,44 +1379,14 @@ namespace Waveface.API.V2
 			}
 			catch (WebException e)
 			{
-				HttpWebResponse res = (HttpWebResponse)e.Response;
-				if (res != null)
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
 				{
-					if (res.StatusCode == HttpStatusCode.ServiceUnavailable)
-					{
-						using (StreamReader reader = new StreamReader(res.GetResponseStream()))
-						{
-							string resText = reader.ReadToEnd();
-							General_R r = JsonConvert.DeserializeObject<General_R>(resText);
-							if (int.Parse(r.api_ret_code) == -33) // already has station
-							{
-								throw new ServiceUnavailableException("Driver already registered another station.");
-							}
-							else if (int.Parse(r.api_ret_code) == -36) // invalid driver
-							{
-								throw new ServiceUnavailableException("Driver email is invalid");
-							}
-						}
-					}
-					else if (res.StatusCode == HttpStatusCode.BadRequest)
-					{
-						using (StreamReader reader = new StreamReader(res.GetResponseStream()))
-						{
-							string resText = reader.ReadToEnd();
-							General_R r = JsonConvert.DeserializeObject<General_R>(resText);
-							if (int.Parse(r.api_ret_code) == 0x1000 + 1) // user name/password invalid
-							{
-								throw new Exception("User email/password is invalid.", e);
-							}
-						}
-					}
+					throw new Exception(msg);
 				}
 
-                throw new Exception("Unable to login station with Waveface cloud", e);
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Unable to login station with Waveface cloud", e);
+				throw;
             }
         }
 
@@ -1432,11 +1402,36 @@ namespace Waveface.API.V2
                     agent.DownloadData(url);
                 }
             }
-            catch (Exception e)
-            {
-                throw new Exception("Unable to logout station with Waveface cloud", e);
-            }
+			catch (WebException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
         }
+
+		public static string ExtractApiRetMsg(WebException e)
+		{
+			HttpWebResponse res = (HttpWebResponse)e.Response;
+			if (res != null)
+			{
+				using (StreamReader reader = new StreamReader(res.GetResponseStream()))
+				{
+					string resText = reader.ReadToEnd();
+					General_R r = JsonConvert.DeserializeObject<General_R>(resText);
+
+					if (res.StatusCode == HttpStatusCode.ServiceUnavailable)
+						throw new ServiceUnavailableException(r.api_ret_message);
+
+					return r.api_ret_message;
+				}
+			}
+
+			return string.Empty;
+		}
 
         public static void RemoveOwner(string email, string password, string token)
         {

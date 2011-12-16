@@ -248,7 +248,7 @@ namespace Waveface
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Waveface");
+                    MessageBox.Show("Unable to logout Waveface station.\r\n" + ex.Message, "Waveface");
                 }
             }
         }

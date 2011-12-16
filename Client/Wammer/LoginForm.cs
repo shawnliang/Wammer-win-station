@@ -232,14 +232,14 @@ namespace Waveface
 
 				// user should re-register station if receive service unavailable exception
 				// so we close the login page here
-				MessageBox.Show(ex.Message, "Waveface");
+				MessageBox.Show("The station needs to be re-registered.\r\n" + ex.Message, "Waveface");
                 Close();
 			}
 			catch (Exception ex)
 			{
                 s_logger.Error(ex.Message);
 
-				MessageBox.Show(ex.Message, "Waveface");
+				MessageBox.Show("Unable to login Waveface station.\r\n" + ex.Message, "Waveface");
                 Show();
 			}
         }
