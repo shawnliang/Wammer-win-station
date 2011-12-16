@@ -45,8 +45,6 @@ namespace Wammer.Station
 
             try
             {
-				email = HttpUtility.UrlEncode(email);
-				password = HttpUtility.UrlEncode(password);
                 string session_token = StationController.AddUser(email, password);
 
                 DropboxInstallAndLink(email, password, session_token);

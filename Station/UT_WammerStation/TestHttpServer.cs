@@ -67,12 +67,16 @@ namespace UT_WammerStation
 
 				WebClient agent = new WebClient();
 				string replyFromHandler1 = agent.DownloadString(
-										"http://127.0.0.1:80/class1/action1/?email=sh%40wave.com");
+										"http://127.0.0.1:80/class1/action1/?email=sh%40wave.com&password=a+b&fuck=KE1fz9mriidjlLmhGgF7WVXl.K5xxvp8gb1rQVKjBNcrrQq8xjtCxhmAxo%2bqWzwoEy0g");
 
 
 				Assert.AreEqual("sh@wave.com", MyHandler2.SavedParameters["email"]);
+				Assert.AreEqual("a b", MyHandler2.SavedParameters["password"]);
+				Assert.AreEqual("KE1fz9mriidjlLmhGgF7WVXl.K5xxvp8gb1rQVKjBNcrrQq8xjtCxhmAxo+qWzwoEy0g", MyHandler2.SavedParameters["fuck"]);
 			}
 		}
+
+
 		[TestMethod]
 		public void TestDispatchToHandlers()
 		{
