@@ -424,8 +424,6 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show(_e.ToString(), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 NLogUtility.Exception(s_logger, _e, "NetworkChange_NetworkAvailabilityChanged");
             }
         }
@@ -896,7 +894,7 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show(_e.Message, "Waveface");
+                MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface");
 
                 NLogUtility.Exception(s_logger, _e, "Post");
             }
@@ -1248,7 +1246,7 @@ namespace Waveface
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Uable to change user :" + ex, "waveface");
+                MessageBox.Show(I18n.L.T("ChangeOwnerError") + " : " + ex, "waveface");
             }
             finally
             {

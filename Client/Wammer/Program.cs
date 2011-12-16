@@ -22,7 +22,7 @@ namespace Waveface
 
             if (!_createdNew)
             {
-                MessageBox.Show("Another instance is already running.");
+                MessageBox.Show(I18n.L.T("AnotherInstanceRunning"));
                 return;
             }
 

@@ -5,7 +5,7 @@
     <en-US>Please fill all the fields!</en-US>
     <zh-TW>請填寫所有欄位.</zh-TW>
   </WItem>
-  
+
   <WItem>
     <ID>LoginForm.LogInError</ID>
     <en-US>Log In error. Please try again.</en-US>
@@ -14,35 +14,43 @@
 
   <WItem>
     <ID>Main.ChangeOwnerWarning</ID>
-    <en-US>
-
-<!-- 請勿更改縮排 -->
-Changeing Waveface Station user will cause {0} unable to access archived original image files.
-
+    <en-US>Changeing Waveface Station user will cause {0} unable to access archived original image files.
 Proceed anyway?
     </en-US>
-    <zh-TW>
-<!-- 請勿更改縮排 -->
-變更Station使用者後, {0} 將無法下載已保存的原始圖檔
-
+    <zh-TW>變更Station使用者後, {0} 將無法下載已保存的原始圖檔
 繼續執行嗎?
     </zh-TW>
   </WItem>
 
   <WItem>
     <ID>Main.ChangeOwnerSuccess</ID>
-    <en-US>
-<!-- 請勿更改縮排 -->
-User '{0}' is unassociated with Waveface Station successfully.
-
+    <en-US>User '{0}' is unassociated with Waveface Station successfully.
 Please restart Waveface to continue assign a new Waveface Station user
     </en-US>
-    <zh-TW>
-<!-- 請勿更改縮排 -->
-Waveface Station已經成功的和 {0} 分離
-
+    <zh-TW>Waveface Station已經成功的和 {0} 分離
 請重新啟動程式後繼續指定Waveface Station使用者
     </zh-TW>
   </WItem>
-
+  <WItem>
+    <ID>RegisteredRequired</ID>
+    <en-US>Waveface Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
+Please restart the program to initialize Waveface Station.</en-US>
+    <zh-TW>無法使用Waveface Station, 因為{0}設定了另一個Waveface Station或是該帳號不存在
+請重新啟動程式再次初始化Waveface Station</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PostError</ID>
+    <en-US>Unable to post. Please try again.</en-US>
+    <zh-TW>無法張貼文章 請再試一次</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>ChangeOwnerError</ID>
+    <en-US>Unable to deassociate user with Waveface Station. Please try again.</en-US>
+    <zh-TW>無法分離使用者與Waveface station  請再試一次</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>AnotherInstanceRunning</ID>
+    <en-US>Program is already running</en-US>
+    <zh-TW>程式已經啟動了</zh-TW>
+  </WItem>
 </WItems>

@@ -228,7 +228,7 @@ namespace Wammer.Station
 			return new NameValueCollection();
 		}
 
-        protected void RespondSuccess()
+		protected void RespondSuccess()
 		{
 			HttpHelper.RespondSuccess(Response, new Cloud.CloudResponse(200, DateTime.UtcNow));
 		}
