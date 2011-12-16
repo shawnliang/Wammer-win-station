@@ -76,7 +76,9 @@
     <Compile Include="RemoveStationForm.Designer.cs">
       <DependentUpon>RemoveStationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SignInForm.cs" />
+    <Compile Include="SignInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SignInForm.Designer.cs">
       <DependentUpon>SignInForm.cs</DependentUpon>
     </Compile>

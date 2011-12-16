@@ -212,88 +212,80 @@ namespace Waveface
 
         private void doLogin(string email, string password)
         {
-			Cursor.Current = Cursors.WaitCursor;
+            Cursor.Current = Cursors.WaitCursor;
 
             Main _main = new Main();
 
-			Application.DoEvents();
+            Application.DoEvents();
 
-			try
-			{
-				_main.stationLogin(email, password);
+            try
+            {
+                _main.stationLogin(email, password);
 
                 if (_doLogin(_main, email, password) == QuitOption.QuitProgram)
                     Close();
                 else
                     Show();
-			}
-			catch (API.V2.ServiceUnavailableException ex)
-			{
+            }
+            catch (API.V2.ServiceUnavailableException ex)
+            {
                 s_logger.Error(ex.Message);
 
-				// user should re-register station if receive service unavailable exception
-				// so we close the login page here
-				MessageBox.Show("The station needs to be re-registered.\r\n" + ex.Message, "Waveface");
+                // user should re-register station if receive service unavailable exception
+                // so we close the login page here
+                MessageBox.Show(I18n.L.T("RegisteredRequired", txtUserName.Text), "Waveface");
                 Close();
-			}
-			catch (Exception ex)
-			{
+            }
+            catch (Exception ex)
+            {
                 s_logger.Error(ex.Message);
 
-				MessageBox.Show("Unable to login Waveface station.\r\n" + ex.Message, "Waveface");
+                MessageBox.Show(I18n.L.T("LoginForm.LogInError") + " : " + ex.Message, "Waveface");
                 Show();
-			}
+            }
         }
 
-		private QuitOption _doLogin(Main _main, string email, string password)
-		{
+        private QuitOption _doLogin(Main _main, string email, string password)
+        {
             QuitOption quit;
 
-			if (_main.Login(email, password))
-			{
-				Application.DoEvents();
+            if (_main.Login(email, password))
+            {
+                Application.DoEvents();
 
-				Cursor.Current = Cursors.Default;
-				Hide();
+                Cursor.Current = Cursors.Default;
+                Hide();
 
-				Application.DoEvents();
+                Application.DoEvents();
 
-				_main.ShowDialog();
+                _main.ShowDialog();
                 quit = _main.QuitOption;
-				_main.Dispose();
-				_main = null;
-			}
-			else
-			{
-				Cursor.Current = Cursors.Default;
+                _main.Dispose();
+                _main = null;
+            }
+            else
+            {
+                Cursor.Current = Cursors.Default;
 
-				MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 quit = QuitOption.Logout;
-			}
+            }
 
             return quit;
-		}
-		
+        }
+        
         private void btnOK_Click(object sender, EventArgs e)
         {
-            try
+            DialogResult = DialogResult.None;
+            if ((txtUserName.Text.Trim() != "") && (txtPassword.Text.Trim() != ""))
             {
-                DialogResult = DialogResult.None;
+                m_formSettings.Save();
 
-                if ((txtUserName.Text.Trim() != "") && (txtPassword.Text.Trim() != ""))
-                {
-                    m_formSettings.Save();
-
-                    doLogin(txtUserName.Text.Trim(), txtPassword.Text.Trim());
-                }
-                else
-                {
-                    MessageBox.Show(I18n.L.T("LoginForm.FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                doLogin(txtUserName.Text.Trim(), txtPassword.Text.Trim());
             }
-            catch (Exception _ex)
+            else
             {
-                MessageBox.Show(_ex.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(I18n.L.T("LoginForm.FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
