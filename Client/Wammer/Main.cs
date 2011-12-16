@@ -180,7 +180,16 @@ namespace Waveface
         {
             try
             {
-                string _id = RT.CurrentGroupLocalLastReadID;
+                //string _id = RT.CurrentGroupLocalLastReadID;
+
+                if (RT.CurrentGroupPosts.Count == 0)
+                {
+                    s_logger.Trace("SetLastReadPos RT.CurrentGroupPosts.Count = 0");
+
+                    return;
+                }
+
+                string _id = RT.CurrentGroupPosts[0].post_id;
 
                 if (_id != string.Empty)
                 {
@@ -189,7 +198,7 @@ namespace Waveface
                     if (_ret == null)
                         s_logger.Trace("SetLastReadPos.Footprints_setLastScan: null");
                     else
-                        s_logger.Trace("SetLastReadPos.Footprints_setLastScan: " + _ret);
+                        s_logger.Info("SetLastReadPos.Footprints_setLastScan: " + _ret);
                 }
             }
             catch (Exception _e)
@@ -379,7 +388,7 @@ namespace Waveface
             {
                 RT.REST.IsNetworkAvailable = true;
 
-                s_logger.Trace("UpdateNetworkStatus: Connrcted");
+                s_logger.Info("UpdateNetworkStatus: Connrcted");
             }
             else
             {
@@ -387,7 +396,7 @@ namespace Waveface
 
                 MessageBox.Show("Network Disconnected.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                s_logger.Trace("UpdateNetworkStatus: Disconnected");
+                s_logger.Info("UpdateNetworkStatus: Disconnected");
             }
         }
 
@@ -528,7 +537,7 @@ namespace Waveface
 
                         RT.StationMode = true;
 
-                        s_logger.Trace("CheckStation:" + _ip);
+                        s_logger.Info("CheckStation:" + _ip);
 
                         return;
                     }
@@ -759,7 +768,7 @@ namespace Waveface
                 }
                 else
                 {
-                    s_logger.Trace("GetLastReadAndShow.getLastScan:" + _lastRead.post_id);
+                    s_logger.Info("GetLastReadAndShow.getLastScan:" + _lastRead.post_id);
 
                     RT.SetCurrentGroupLastRead(_lastRead);
 
@@ -781,7 +790,7 @@ namespace Waveface
         {
             timerReloadAllData.Enabled = false;
 
-            GetAllDataAsync(false);
+            GetAllDataAsync(m_keepTimelineIndex);
         }
 
         private bool IsLastReadPostInCacheData(string _postID)
@@ -799,7 +808,7 @@ namespace Waveface
 
         public void GetAllDataAsync(bool keepTimelineIndex)
         {
-            s_logger.Trace("GetAllDataAsync.keepTimelineIndex: " + keepTimelineIndex);
+            s_logger.Info("GetAllDataAsync.keepTimelineIndex: " + keepTimelineIndex);
 
             m_keepTimelineIndex = keepTimelineIndex;
 
@@ -820,14 +829,14 @@ namespace Waveface
 
             int _index = RT.GetMyTimelinePosition(keepTimelineIndex);
 
-            s_logger.Trace("ShowAllTimeline: keepTimelineIndex=" + keepTimelineIndex + ", TimelineIndex=" + _index);
+            s_logger.Info("ShowAllTimeline: keepTimelineIndex=" + keepTimelineIndex + ", TimelineIndex=" + _index);
 
             postsArea.PostsList.SetPosts(_posts, _index);
         }
 
         public void PostListClick(int clickIndex, Post post)
         {
-            s_logger.Trace("SetCurrentGroupLocalLastRead:" + post.post_id);
+            s_logger.Info("SetCurrentGroupLocalLastRead:" + post.post_id + ", TimelineIndex="+ clickIndex);
 
             RT.SetCurrentGroupLocalLastRead(post);
 
@@ -875,7 +884,7 @@ namespace Waveface
                 switch (_dr)
                 {
                     case DialogResult.Yes:
-                        GetAllDataAsync(true);
+                        
                         break;
 
                     case DialogResult.OK:
@@ -1171,6 +1180,8 @@ namespace Waveface
             }
 
             RT.CurrentGroupPosts = _tmpPosts;
+
+            s_logger.Info("bgWorkerGetAllData_DoWork. Get Post Count:" + _tmpPosts.Count);
         }
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

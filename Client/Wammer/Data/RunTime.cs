@@ -155,7 +155,8 @@ namespace Waveface
             }
             else
             {
-                _id = GetMyReadPositionID();
+                _id = ""; 
+                //_id = GetMyReadPositionID();
             }
 
             if (_id != string.Empty)
@@ -343,7 +344,7 @@ namespace Waveface
 
                 m_groupLocalLastReadID = _lr.GroupLocalLastReadID;
 
-                s_logger.Trace("LoadGroupLocalLastRead:OK LocalLastReadID="+ CurrentGroupLocalLastReadID);
+                s_logger.Trace("LoadGroupLocalLastRead:OK");
             }
             catch(Exception _e)
             {
