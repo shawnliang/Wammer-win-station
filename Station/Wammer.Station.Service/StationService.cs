@@ -76,7 +76,7 @@ namespace Wammer.Station.Service
 				logger.Debug("Add handlers to function server");
 				functionServer.AddHandler("/", new DummyHandler());
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
-								new AttachmentViewHandler());
+								new AttachmentViewHandler(stationId));
 
 				AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
 				ImagePostProcessing imgProc = new ImagePostProcessing();

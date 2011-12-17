@@ -147,23 +147,41 @@ namespace Wammer.Station
 			}
 		}
 
-		protected void TunnelToCloud()
+		protected void TunnelToCloud(string additionalParam)
 		{
+			if (additionalParam == null || additionalParam.Length == 0)
+				throw new ArgumentException("param cannot be null or empty. If you really need it blank, change the code.");
+
 			logger.Debug("Forward to cloud");
+
 			Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
+
+			string queryString = Request.Url.Query;
+
+			if (string.Compare(Request.HttpMethod, "GET", true) == 0)
+				if (queryString == null || queryString.Length == 0)
+					queryString = additionalParam;
+				else
+					queryString += "&" + additionalParam;
+
 			UriBuilder uri = new UriBuilder(baseUri.Scheme, baseUri.Host, baseUri.Port,
-				Request.Url.AbsolutePath, Request.Url.Query);
+				Request.Url.AbsolutePath, queryString);
 
 			HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri.Uri);
 			req.Method = Request.HttpMethod;
+			req.ContentType = Request.ContentType;
 
-			if (string.Compare(req.Method, "POST", true)==0)
+			if (string.Compare(req.Method, "POST", true) == 0)
 			{
 				using (Stream reqStream = req.GetRequestStream())
 				{
 					Wammer.Utility.StreamHelper.Copy(
 						new MemoryStream(this.RawPostData),
 						reqStream);
+
+					StreamWriter w = new StreamWriter(reqStream);
+					w.Write("&" + additionalParam);
+					w.Flush();
 				}
 			}
 
@@ -236,6 +254,17 @@ namespace Wammer.Station
 		protected void RespondSuccess(object json)
 		{
 			HttpHelper.RespondSuccess(Response, json);
+		}
+
+		protected void RespondSuccess(string contentType, byte[] data)
+		{
+			Response.StatusCode = 200;
+			Response.ContentType = contentType;
+
+			using (BinaryWriter w = new BinaryWriter(Response.OutputStream))
+			{
+				w.Write(data);
+			}
 		}
 	}
 }

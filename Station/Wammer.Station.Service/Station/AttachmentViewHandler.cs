@@ -16,10 +16,12 @@ namespace Wammer.Station
 	public class AttachmentViewHandler: HttpHandler
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("AttachView");
+		private string AdditionalParam;
 
-		public AttachmentViewHandler()
+		public AttachmentViewHandler(string stationId)
 			:base()
 		{
+			this.AdditionalParam = "station_id=" + stationId;
 		}
 
 		public override object Clone()
@@ -86,20 +88,7 @@ namespace Wammer.Station
 			}
 			catch (FileNotFoundException)
 			{
-				if (imageMeta == ImageMeta.Large ||
-					imageMeta == ImageMeta.Medium ||
-					imageMeta == ImageMeta.Small ||
-					imageMeta == ImageMeta.Square ||
-					Parameters["target"] != null)
-				{
-					TunnelToCloud();
-				}
-				else
-				{
-					logger.Warn("No such resource: " + Parameters["object_id"]);
-					HttpHelper.RespondFailure(Response,
-						new CloudResponse((int)HttpStatusCode.NotFound, -1, "No such resource"));
-				}
+				TunnelToCloud(AdditionalParam);
 			}
 		}
 	}

@@ -117,7 +117,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -146,7 +146,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -171,7 +171,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -196,7 +196,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -235,7 +235,7 @@ namespace UT_WammerStation
 		{
 			using (HttpServer server = new HttpServer(80))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -269,7 +269,7 @@ namespace UT_WammerStation
 			using (FakeCloud cloud = new FakeCloud(writer))
 			using (HttpServer server = new HttpServer(8080))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -306,7 +306,7 @@ namespace UT_WammerStation
 			using (FakeCloud cloud = new FakeCloud(writer))
 			using (HttpServer server = new HttpServer(8080))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -334,11 +334,17 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestView_BodyWontBeForward()
+		public void TestView_AlsoForwardBodyRequestToCloud_ByPost()
 		{
+			CloudServer.BaseUrl = "http://localhost/v2/";
+
+			using (HttpServer cloud = new HttpServer(80))
 			using (HttpServer server = new HttpServer(8080))
 			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler());
+				cloud.AddHandler("/v1/objects/view", new FakeCloudRemoteHandler());
+				cloud.Start();
+
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
 				server.Start();
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
@@ -350,19 +356,71 @@ namespace UT_WammerStation
 					fs.Write("object_id=abc&apikey=123&session_token=token123");
 				}
 
-				try
+				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+				Assert.AreEqual("image/jpeg", response.ContentType);
+
+				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
 				{
-					HttpWebResponse response = (HttpWebResponse)req.GetResponse();
-				}
-				catch (WebException e)
-				{
-					HttpWebResponse response = (HttpWebResponse) e.Response;
-					Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-					return;
+					byte[] readData = reader.ReadBytes(1000);
+					Assert.AreEqual(10, readData.Length);
+
+					for (int i = 0; i < readData.Length; i++)
+						Assert.AreEqual((byte)i+1, readData[i]);
 				}
 
-				Assert.Fail("expected exception is not thrown");
+				Assert.AreEqual("sid", FakeCloudRemoteHandler.SavedParams["station_id"]);
+			}
+		}
+
+		[TestMethod]
+		public void TestView_AlsoForwardBodyRequestToCloud_ByGet()
+		{
+			using (HttpServer cloud = new HttpServer(80))
+			using (HttpServer server = new HttpServer(8080))
+			{
+				cloud.AddHandler("/v1/objects/view", new FakeCloudRemoteHandler());
+				cloud.Start();
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
+				server.Start();
+
+				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
+										"http://localhost:8080/v1/objects/view" +
+										"?object_id=abc&apikey=123&session_token=token123");
+
+				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+				Assert.AreEqual("image/jpeg", response.ContentType);
+
+				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+				{
+					byte[] readData = reader.ReadBytes(1000);
+					Assert.AreEqual(10, readData.Length);
+
+					for (int i = 0; i < readData.Length; i++)
+						Assert.AreEqual((byte)i+1, readData[i]);
+				}
+
+				Assert.AreEqual("sid", FakeCloudRemoteHandler.SavedParams["station_id"]);
 			}
 		}
 	}
+
+	class FakeCloudRemoteHandler: HttpHandler
+	{
+		public static System.Collections.Specialized.NameValueCollection SavedParams;
+
+		protected override void HandleRequest()
+		{
+			SavedParams = this.Parameters;
+
+			RespondSuccess("image/jpeg", new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
+		}
+
+		public override object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+	}
+
 }
