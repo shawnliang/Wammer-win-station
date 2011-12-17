@@ -37,9 +37,9 @@ namespace Wammer.Station
 				upnp = PublicPortMapping.Instance.GetUPnPInfo()
 			};
 
-			MongoDB.Driver.MongoCursor<Drivers> drivers = Drivers.collection.FindAll();
+			MongoDB.Driver.MongoCursor<Driver> drivers = DriverCollection.Instance.FindAll();
 
-			foreach (Drivers driver in drivers)
+			foreach (Driver driver in drivers)
 			{
 				FileStorage storage = new FileStorage(driver);
 				foreach (UserGroup group in driver.groups)
@@ -57,7 +57,7 @@ namespace Wammer.Station
 		{
 			StationDetail detail = GetDetail();
 
-			Model.StationInfo sinfo = Model.StationCollection.FindOne();
+			Model.StationInfo sinfo = Model.StationCollection.Instance.FindOne();
 			if (sinfo != null)
 			{
 				bool locChange = false;
@@ -83,14 +83,14 @@ namespace Wammer.Station
 						// update station info in database
 						logger.Debug("update station information");
 						sinfo.LastLogOn = DateTime.Now;
-						Model.StationCollection.Save(sinfo);
+						Model.StationCollection.Instance.Save(sinfo);
 					}
 
 					if (locChange)
 					{
 						// update station info in database
 						logger.Debug("update station information");
-						Model.StationCollection.Save(sinfo);
+						Model.StationCollection.Instance.Save(sinfo);
 					}
 					api.Heartbeat(agent, detail);
 				}
@@ -126,7 +126,7 @@ namespace Wammer.Station
 			timer.Dispose();
 			using (WebClient agent = new WebClient())
 			{
-				Model.StationInfo sinfo = Model.StationCollection.FindOne();
+				Model.StationInfo sinfo = Model.StationCollection.Instance.FindOne();
 				if (sinfo != null)
 				{
 					try

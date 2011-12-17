@@ -41,7 +41,7 @@ namespace Wammer.Station
 
 		private static void WriteOfflineStateToDB()
 		{
-			Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+			Model.Service svc = ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
 			if (svc == null)
 			{
 				svc = new Model.Service { Id = "StationService", State = ServiceState.Offline };
@@ -49,13 +49,13 @@ namespace Wammer.Station
 			else
 				svc.State = ServiceState.Offline;
 
-			ServiceCollection.Save(svc);
+			ServiceCollection.Instance.Save(svc);
 		}
 
 		private static void LogOutStationFromCloud(string session_token)
 		{
 			logger.DebugFormat("Station logout with session_token = {0}", session_token);
-			Model.StationInfo station = Model.StationCollection.FindOne();
+			Model.StationInfo station = Model.StationCollection.Instance.FindOne();
 			if (station == null)
 				throw new InvalidOperationException("station is null in station collection");
 

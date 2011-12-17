@@ -42,7 +42,7 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			Attachments file = GetFileFromMultiPartData();
+			Attachment file = GetFileFromMultiPartData();
 			ImageMeta meta = GetImageMeta();
 			bool isNewOrigImage = file.object_id == null && meta == ImageMeta.Origin;
 
@@ -54,7 +54,7 @@ namespace Wammer.Station
 			if (Parameters["apikey"] == null || Parameters["session_token"] == null)
 				throw new FormatException("apikey or session_token is missing");
 
-			Drivers driver = Drivers.collection.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));
+			Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));
 			if (driver==null)
 				throw new FormatException("group_id is not assocaited with a registered user");
 
@@ -69,7 +69,7 @@ namespace Wammer.Station
 				file.Bitmap = new Bitmap(new MemoryStream(file.RawData));
 				ThumbnailInfo medium = ImagePostProcessing.MakeThumbnail(
 					file.Bitmap, ImageMeta.Medium, file.object_id, driver, file.file_name);
-				Attachments thumb = new Attachments(file);
+				Attachment thumb = new Attachment(file);
 				thumb.RawData = medium.RawData;
 				thumb.file_size = medium.file_size;
 				thumb.mime_type = medium.mime_type;
@@ -117,7 +117,6 @@ namespace Wammer.Station
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
 			{
 				Attachment = file,
-				DbDocs = Attachments.collection,
 				Meta = meta,
 				UserApiKey = Parameters["apikey"],
 				UserSessionToken = Parameters["session_token"],
@@ -125,15 +124,15 @@ namespace Wammer.Station
 			};
 
 			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
-			BsonDocument existDoc = Attachments.collection.FindOneAs<BsonDocument>(
+			BsonDocument existDoc = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
 													new QueryDocument("_id", file.object_id));
 			if (existDoc != null)
 			{
 				existDoc.DeepMerge(dbDoc);
-				Attachments.collection.Save(existDoc);
+				AttachmentCollection.Instance.Save(existDoc);
 			}
 			else
-				Attachments.collection.Insert(dbDoc);
+				AttachmentCollection.Instance.Save(dbDoc);
 
 			OnAttachmentSaved(aEvtArgs);
 
@@ -147,7 +146,7 @@ namespace Wammer.Station
 				OnImageAttachmentCompleted(evtArgs);
 		}
 
-		private static BsonDocument CreateDbDocument(Attachments file, ImageMeta meta,
+		private static BsonDocument CreateDbDocument(Attachment file, ImageMeta meta,
 																				string savedName)
 		{
 			if (meta == ImageMeta.None)
@@ -162,7 +161,7 @@ namespace Wammer.Station
 			{
 				using (Bitmap img = new Bitmap(new MemoryStream(file.RawData)))
 				{
-					Attachments thumbnailAttachment = new Attachments(file);
+					Attachment thumbnailAttachment = new Attachment(file);
 					thumbnailAttachment.image_meta = new ImageProperty();
 					thumbnailAttachment.image_meta.SetThumbnailInfo(meta,
 						new ThumbnailInfo
@@ -224,7 +223,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private static string GetSavedFilename(Attachments file, ImageMeta meta)
+		private static string GetSavedFilename(Attachment file, ImageMeta meta)
 		{
 			string name = file.object_id;
 
@@ -244,9 +243,9 @@ namespace Wammer.Station
 			}
 		}
 
-		private Attachments GetFileFromMultiPartData()
+		private Attachment GetFileFromMultiPartData()
 		{
-			Attachments file = new Attachments();
+			Attachment file = new Attachment();
 
 			file.object_id = Parameters["object_id"];
 			file.RawData = Files[0].Data;
@@ -285,7 +284,6 @@ namespace Wammer.Station
 	public class ImageAttachmentEventArgs : AttachmentEventArgs
 	{
 		public ImageMeta Meta { get; set; }
-		public MongoCollection DbDocs { get; set; }
 		public string UserApiKey { get; set; }
 		public string UserSessionToken { get; set; }
 
@@ -296,8 +294,8 @@ namespace Wammer.Station
 
 	public class AttachmentEventArgs : EventArgs
 	{
-		public Attachments Attachment { get; set; }
-		public Drivers Driver { get; set; }
+		public Attachment Attachment { get; set; }
+		public Driver Driver { get; set; }
 
 		public AttachmentEventArgs()
 		{

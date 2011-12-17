@@ -26,7 +26,7 @@ namespace Wammer.Station
 			if (object_id == null)
 				throw new FormatException("missing parameter: object_id");
 
-			Attachments doc = Attachments.collection.FindOne(Query.EQ("_id", object_id));
+			Attachment doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id));
 			if (doc == null)
 				throw new WammerStationException("Resource not found: " + object_id, (int)StationApiError.NotFound);
 

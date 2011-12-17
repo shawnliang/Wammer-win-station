@@ -25,7 +25,7 @@ namespace UT_WammerStation
 		static MongoServer mongodb;
 		static MongoDatabase wammerDb;
 		
-		Attachments doc;
+		Attachment doc;
 		string objectId1;
 
 		HttpServer server;
@@ -48,14 +48,14 @@ namespace UT_WammerStation
 
 			objectId1 = Guid.NewGuid().ToString();
 
-			doc = new Attachments
+			doc = new Attachment
 			{
 				object_id = objectId1,
 				title = "title1",
 				description = "description1"
 			};
 
-			Attachments.collection.Insert(doc);
+			AttachmentCollection.Instance.Save(doc);
 
 
 			handler = new AttachmentGetHandler();
@@ -184,7 +184,7 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestAttachmentMD5()
 		{
-			Attachments a = new Attachments();
+			Attachment a = new Attachment();
 			byte[] data = new byte[100];
 			for (int i = 0; i < data.Length; i++)
 				data[i] = (byte)i;

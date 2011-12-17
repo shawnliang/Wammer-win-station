@@ -32,7 +32,7 @@ namespace Wammer.Station
 				throw new FormatException("email or password is missing");
 			}
 
-			Drivers driver = Drivers.collection.FindOne();
+			Driver driver = DriverCollection.Instance.FindOne();
 			if (driver == null)
 			{
 				logger.Error("No driver detected");
@@ -51,7 +51,7 @@ namespace Wammer.Station
 				throw new WammerStationException("Invalid driver", (int)StationApiError.InvalidDriver);
 			}
 
-			StationInfo stationInfo = StationCollection.FindOne();
+			StationInfo stationInfo = StationCollection.Instance.FindOne();
 			if (stationInfo == null)
 			{
 				logger.Error("Station has no info");
@@ -65,7 +65,7 @@ namespace Wammer.Station
 				
 				// update session in DB
 				stationInfo.SessionToken = logonRes.session_token;
-				StationCollection.Save(stationInfo);
+				StationCollection.Instance.Save(stationInfo);
 				
 				logger.Debug("Station logon successfully, start function server");
 				functionServer.BlockAuth(false);
@@ -112,14 +112,14 @@ namespace Wammer.Station
 
 		private static void CleanDB()
 		{
-			Drivers.collection.RemoveAll();
-			CloudStorage.collection.RemoveAll();
-			StationCollection.RemoveAll();
+			DriverCollection.Instance.RemoveAll();
+			CloudStorageCollection.Instance.RemoveAll();
+			StationCollection.Instance.RemoveAll();
 		}
 
 		private static void WriteServiceStateToDB(ServiceState state)
 		{
-			Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+			Model.Service svc = ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
 			if (svc == null)
 			{
 				svc = new Model.Service { Id = "StationService", State = state };
@@ -127,7 +127,7 @@ namespace Wammer.Station
 			else
 				svc.State = state;
 
-			ServiceCollection.Save(svc);
+			ServiceCollection.Instance.Save(svc);
 		}
 
 		public override object Clone()

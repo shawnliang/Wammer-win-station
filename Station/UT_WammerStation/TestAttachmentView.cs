@@ -57,7 +57,7 @@ namespace UT_WammerStation
 
 			db.CreateCollection("attachments");	
 
-			db.GetCollection<Attachments>("attachments").Insert(new Attachments
+			db.GetCollection<Attachment>("attachments").Insert(new Attachment
 			{
 				object_id = object_id1.ToString(),
 				group_id = "group1",
@@ -73,7 +73,7 @@ namespace UT_WammerStation
 				}
 			});
 
-			db.GetCollection<Attachments>("attachments").Insert(new Attachments
+			db.GetCollection<Attachment>("attachments").Insert(new Attachment
 			{
 				object_id = object_id2.ToString(),
 				type = AttachmentType.image,
@@ -87,8 +87,8 @@ namespace UT_WammerStation
 				}
 			});
 
-			Drivers.collection.Save(
-				new Drivers
+			DriverCollection.Instance.Save(
+				new Driver
 				{
 					email = "driver1@waveface.com",
 					user_id = "driver1_id",

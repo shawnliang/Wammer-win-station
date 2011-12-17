@@ -38,7 +38,7 @@ namespace Wammer.Station
 														evt.Attachment.object_id, evt.Driver,
 														evt.Attachment.file_name);
 
-					Attachments update = new Attachments
+					Attachment update = new Attachment
 					{
 						object_id = evt.Attachment.object_id,
 						image_meta = new ImageProperty
@@ -49,10 +49,10 @@ namespace Wammer.Station
 						}
 					};
 
-					BsonDocument exist = evt.DbDocs.FindOneAs<BsonDocument>(
+					BsonDocument exist = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
 														Query.EQ("_id", evt.Attachment.object_id));
 					exist.DeepMerge(update.ToBsonDocument());
-					evt.DbDocs.Save(exist);
+					AttachmentCollection.Instance.Save(exist);
 
 					ThreadPool.QueueUserWorkItem(this.UpstreamThumbnail,
 						new UpstreamArgs
@@ -104,7 +104,7 @@ namespace Wammer.Station
 					ThumbnailInfo square = MakeThumbnail(origImage, ImageMeta.Square,
 										origImgObjectId, evt.Driver, evt.Attachment.file_name);
 
-					Attachments update = new Attachments
+					Attachment update = new Attachment
 					{
 						object_id = evt.Attachment.object_id,
 						image_meta = new ImageProperty
@@ -115,10 +115,10 @@ namespace Wammer.Station
 						}
 					};
 
-					BsonDocument doc = evt.DbDocs.FindOneAs<BsonDocument>(
+					BsonDocument doc = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
 																	Query.EQ("_id", origImgObjectId));
 					doc.DeepMerge(update.ToBsonDocument());
-					evt.DbDocs.Save<BsonDocument>(doc);
+					AttachmentCollection.Instance.Save(doc);
 
 					UpstreamThumbnail(small, evt.Attachment.group_id, evt.Attachment.object_id,
 						ImageMeta.Small, evt.UserApiKey, evt.UserSessionToken);
@@ -143,7 +143,7 @@ namespace Wammer.Station
 		}
 
 		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, string attachmentId, 
-			Drivers driver, string origFileName)
+			Driver driver, string origFileName)
 		{
 			Bitmap thumbnail = null;
 
@@ -211,7 +211,7 @@ namespace Wammer.Station
 		{
 			using (MemoryStream output = new MemoryStream())
 			{
-				Attachments.UploadImage(thumbnail.RawData, groupId, fullImgId, 
+				Attachment.UploadImage(thumbnail.RawData, groupId, fullImgId, 
 												thumbnail.file_name, "image/jpeg", meta, apiKey, token);
 
 				logger.DebugFormat("Thumbnail {0} is uploaded to Cloud", thumbnail.file_name);

@@ -11,7 +11,7 @@ namespace Wammer.Station
 {
 	public interface IFileStorage
 	{
-		void SaveAttachment(Attachments attachment);
+		void SaveAttachment(Attachment attachment);
 		void SaveFile(string filename, byte[] data);
 		long GetAvailSize();
 		long GetUsedSize();
@@ -21,7 +21,7 @@ namespace Wammer.Station
 	{
 		private readonly string basePath;
 
-		public FileStorage(Drivers driver)
+		public FileStorage(Driver driver)
 		{
 			this.basePath = driver.folder;
 			CreateFolder(basePath);
@@ -33,7 +33,7 @@ namespace Wammer.Station
 				Directory.CreateDirectory(basePath);
 		}
 
-		public void SaveAttachment(Attachments attachment)
+		public void SaveAttachment(Attachment attachment)
 		{
 			SaveFile(attachment.saved_file_name, attachment.RawData);
 		}

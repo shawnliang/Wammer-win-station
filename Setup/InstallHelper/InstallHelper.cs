@@ -39,7 +39,7 @@ namespace Wammer.Station
 
 			try
 			{
-				StationInfo station = StationCollection.FindOne();
+				StationInfo station = StationCollection.Instance.FindOne();
 				if (station == null || station.Id == null || station.SessionToken == null)
 				{
 					Logger.Info("No station Id or token exist. Skip sign off station.");
@@ -106,7 +106,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.Drivers.collection.RemoveAll();
+				Model.DriverCollection.Instance.RemoveAll();
 			}
 			catch (Exception e)
 			{
@@ -115,7 +115,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.StationCollection.RemoveAll();
+				Model.StationCollection.Instance.RemoveAll();
 			}
 			catch (Exception e)
 			{
@@ -124,7 +124,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.CloudStorage.collection.RemoveAll();
+				Model.CloudStorageCollection.Instance.RemoveAll();
 			}
 			catch (Exception e)
 			{
@@ -133,7 +133,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.ServiceCollection.RemoveAll();
+				Model.ServiceCollection.Instance.RemoveAll();
 			}
 			catch (Exception e)
 			{

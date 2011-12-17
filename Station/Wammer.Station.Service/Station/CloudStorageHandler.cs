@@ -24,7 +24,7 @@ namespace Wammer.Station
 		protected override void HandleRequest()
 		{
 			// currently only support one driver
-			Drivers driver = Drivers.collection.FindOne();
+			Driver driver = DriverCollection.Instance.FindOne();
 			StorageApi api = new StorageApi(driver.user_id);
 			StorageAuthResponse res = api.StorageAuthorize(new WebClient(), CloudStorageType.DROPBOX);
 			logger.DebugFormat("Dropbox OAuth URL = {0}", res.storages.authorization_url);
@@ -58,12 +58,12 @@ namespace Wammer.Station
 			bool linked = false;
 
 			// currently only support one driver
-			Drivers driver = Drivers.collection.FindOne();
+			Driver driver = DriverCollection.Instance.FindOne();
 			StorageApi api = new StorageApi(driver.user_id);
 
 			try
 			{
-				CloudStorage storageDoc = CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
+				CloudStorage storageDoc = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
 
 				// try connecting Dropbox if cloudstorage has no Dropbox info
 				if (storageDoc == null)
@@ -84,7 +84,7 @@ namespace Wammer.Station
 						}
 					}
 
-					CloudStorage.collection.Save(new CloudStorage
+					CloudStorageCollection.Instance.Save(new CloudStorage
 						{
 							Id = Guid.NewGuid().ToString(),
 							Type = "dropbox",
@@ -142,12 +142,12 @@ namespace Wammer.Station
 		{
 			long quota = Convert.ToInt64(Parameters["quota"]);
 
-			CloudStorage storageDoc = CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
+			CloudStorage storageDoc = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
 			if (storageDoc == null)
 				throw new WammerStationException("Dropbox is not connected", (int)DropboxApiError.DropboxNotConnected);
 
 			storageDoc.Quota = quota;
-			CloudStorage.collection.Save(storageDoc);
+			CloudStorageCollection.Instance.Save(storageDoc);
 			RespondSuccess();
 		}
 
@@ -163,7 +163,7 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			CloudStorage.collection.Remove(Query.EQ("Type", "dropbox"));
+			CloudStorageCollection.Instance.Remove(Query.EQ("Type", "dropbox"));
 			RespondSuccess();
 		}
 

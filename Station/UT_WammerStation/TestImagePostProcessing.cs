@@ -95,7 +95,7 @@ namespace UT_WammerStation
 				mongodb.GetDatabase("wammer").DropCollection("attachments");
 
 			object_id1 = Guid.NewGuid().ToString();
-			Attachments.collection.Insert(new Attachments
+			AttachmentCollection.Instance.Save(new Attachment
 			{
 				object_id = object_id1,
 				title = "orig_title",
@@ -115,8 +115,8 @@ namespace UT_WammerStation
 
 			List<UserGroup> groups = new List<UserGroup>();
 			groups.Add(new UserGroup { group_id = "group1", description = "group1 descript", creator_id = "driver1_id", name = "group1" });
-			Drivers.collection.Save(
-				new Drivers
+			DriverCollection.Instance.Save(
+				new Driver
 				{
 					email = "driver1@waveface.com",
 					user_id = "driver1_id",
@@ -147,7 +147,7 @@ namespace UT_WammerStation
 			{
 				List<UserGroup> groups = new List<UserGroup>();
 				groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
-				FileStorage fileStore = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
+				FileStorage fileStore = new FileStorage(new Driver { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
 				AttachmentUploadHandler handler = new AttachmentUploadHandler();
 
 				DummyRequestCompletedHandler evtHandler = new DummyRequestCompletedHandler();
@@ -160,7 +160,7 @@ namespace UT_WammerStation
 				                                                    new DummyImageUploadHandler());
 				cloud.Start();
 
-				ObjectUploadResponse res = Wammer.Model.Attachments.UploadImage(
+				ObjectUploadResponse res = Wammer.Model.Attachment.UploadImage(
 					"http://localhost:80/test/", imageRawData, "group1", null,
 					"orig_name.jpeg", "image/jpeg", ImageMeta.Origin, "apiKey1", "token1");
 
@@ -177,7 +177,7 @@ namespace UT_WammerStation
 				server.AddHandler("/test/", handler);
 				server.Start();
 
-				ObjectUploadResponse res = Wammer.Model.Attachments.UploadImage(
+				ObjectUploadResponse res = Wammer.Model.Attachment.UploadImage(
 					"http://localhost:80/test/", imageRawData, "group1", null,
 					"orig_name.jpeg", "image/jpeg", ImageMeta.Origin, "apikey1", "token1");
 
@@ -194,7 +194,7 @@ namespace UT_WammerStation
 			{
 				List<UserGroup> groups = new List<UserGroup>();
 				groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
-				FileStorage fileStore = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
+				FileStorage fileStore = new FileStorage(new Driver { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
 				AttachmentUploadHandler handler = new AttachmentUploadHandler();
 				server.AddHandler("/test/", handler);
 				server.Start();
@@ -202,7 +202,7 @@ namespace UT_WammerStation
 		                                                            new DummyImageUploadHandler());
 				cloud.Start();
 
-				ObjectUploadResponse res = Wammer.Model.Attachments.UploadImage(
+				ObjectUploadResponse res = Wammer.Model.Attachment.UploadImage(
 					"http://localhost:80/test/", imageRawData, "group1", object_id1, 
 					"orig_name2.png", "image/png", ImageMeta.Origin, "apikey1", "token1");
 
@@ -219,13 +219,13 @@ namespace UT_WammerStation
 				}
 
 				// verify db
-				MongoCursor<Attachments> cursor = 
-				mongodb.GetDatabase("wammer").GetCollection<Attachments>("attachments")
+				MongoCursor<Attachment> cursor = 
+				mongodb.GetDatabase("wammer").GetCollection<Attachment>("attachments")
 					.Find(new QueryDocument("_id", object_id1));
 
 
 				Assert.AreEqual<long>(1,cursor.Count());
-				foreach (Attachments doc in cursor)
+				foreach (Attachment doc in cursor)
 				{
 					Assert.AreEqual(object_id1, doc.object_id);
 					Assert.AreEqual("orig_desc", doc.description);
@@ -245,7 +245,7 @@ namespace UT_WammerStation
 			{
 				List<UserGroup> groups = new List<UserGroup>();
 				groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
-				FileStorage fileStore = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
+				FileStorage fileStore = new FileStorage(new Driver { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
 				AttachmentUploadHandler handler = new AttachmentUploadHandler();
 				server.AddHandler("/test/", handler);
 				server.Start();
@@ -254,7 +254,7 @@ namespace UT_WammerStation
 				cloud.Start();
 
 				string oid = Guid.NewGuid().ToString();
-				ObjectUploadResponse res = Wammer.Model.Attachments.UploadImage(
+				ObjectUploadResponse res = Wammer.Model.Attachment.UploadImage(
 					"http://localhost:80/test/", imageRawData, "group1", oid, 
 					"orig_name2.jpeg", "image/jpeg", ImageMeta.Large, "apikey1", "token1");
 
@@ -301,7 +301,7 @@ namespace UT_WammerStation
 
 			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs
 			{
-				Attachment = new Attachments
+				Attachment = new Attachment
 				{
 					title = "title1",
 					mime_type = "image/jpeg",
@@ -311,18 +311,17 @@ namespace UT_WammerStation
 					file_name = "orig_file.jpeg"
 				},
 				Meta = ImageMeta.Origin,
-				DbDocs = mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments"),
 				UserApiKey = "key1",
 				UserSessionToken = "token1",
-				Driver = new Drivers { email = "driver1@waveface.com", folder = "resource", groups = groups, session_token = "session_token1", user_id = "id1" }
+				Driver = new Driver { email = "driver1@waveface.com", folder = "resource", groups = groups, session_token = "session_token1", user_id = "id1" }
 			};
 
 			ImagePostProcessing post = new ImagePostProcessing();
 			post.HandleImageAttachmentSaved(this, args);
 
 			//save
-			Attachments doc = mongodb.GetDatabase("wammer").
-				GetCollection<Attachments>("attachments").FindOne(
+			Attachment doc = mongodb.GetDatabase("wammer").
+				GetCollection<Attachment>("attachments").FindOne(
 				new QueryDocument("_id", args.Attachment.object_id));
 
 			Assert.AreEqual(1024, doc.image_meta.width);
@@ -348,7 +347,7 @@ namespace UT_WammerStation
 
 			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs
 			{
-				Attachment = new Attachments
+				Attachment = new Attachment
 				{
 					title = "title1",
 					mime_type = "image/jpeg",
@@ -357,18 +356,17 @@ namespace UT_WammerStation
 					object_id = object_id1
 				},
 				Meta = ImageMeta.Origin,
-				DbDocs = mongodb.GetDatabase("wammer").GetCollection<BsonDocument>("attachments"),
 				UserSessionToken = "session1",
 				UserApiKey = "apikey1",
-				Driver = new Drivers { email = "driver1@waveface.com", folder = "resource", groups = groups, session_token = "session_token1", user_id = "id1" }
+				Driver = new Driver { email = "driver1@waveface.com", folder = "resource", groups = groups, session_token = "session_token1", user_id = "id1" }
 			};
 
 			ImagePostProcessing post = new ImagePostProcessing();
 			post.HandleImageAttachmentCompletedSync(args);
 
 			//save
-			Attachments doc = mongodb.GetDatabase("wammer").
-				GetCollection<Attachments>("attachments").FindOne(
+			Attachment doc = mongodb.GetDatabase("wammer").
+				GetCollection<Attachment>("attachments").FindOne(
 				new QueryDocument("_id", args.Attachment.object_id));
 
 			Assert.IsNotNull(doc.image_meta.small);

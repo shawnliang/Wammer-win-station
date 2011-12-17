@@ -24,24 +24,23 @@ namespace Wammer.Model
 	}
 
 
-	public static class ServiceCollection
+	public class ServiceCollection : Collection<Service>
 	{
-		private static MongoCollection<Service> collection =
-			Database.wammer.GetCollection<Service>("service");
+		private static ServiceCollection instance;
 
-		public static Service FindOne(IMongoQuery query)
+		private ServiceCollection()
+			:base("service")
 		{
-			return collection.FindOne(query);
 		}
 
-		public static void Save(Service svc)
+		static ServiceCollection()
 		{
-			collection.Save(svc);
+			instance = new ServiceCollection();
 		}
 
-		public static void RemoveAll()
+		public static ServiceCollection Instance
 		{
-			collection.RemoveAll();
+			get { return instance; }
 		}
 	}
 }

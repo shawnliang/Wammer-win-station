@@ -43,7 +43,7 @@ namespace UT_WammerStation
 			mongo = MongoServer.Create("mongodb://localhost:10319/?safe=true");
 			List<UserGroup> groups = new List<UserGroup>();
 			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
-			storage = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource/group1", groups = groups, session_token = "session_token1", user_id = "id1" });
+			storage = new FileStorage(new Driver { email = "driver1@waveface.com", folder = @"resource/group1", groups = groups, session_token = "session_token1", user_id = "id1" });
 		}
 
 		private Part CreatePart(byte[] data)
@@ -77,8 +77,8 @@ namespace UT_WammerStation
 
 			List<UserGroup> groups = new List<UserGroup>();
 			groups.Add(new UserGroup{group_id="group1", description="group1 descript", creator_id="driver1_id", name="group1"});
-			Drivers.collection.Save(
-				new Drivers{
+			DriverCollection.Instance.Save(
+				new Driver{
 					email = "driver1@waveface.com",
 					user_id = "driver1_id",
 					folder = @"resource\group1",
@@ -111,7 +111,7 @@ namespace UT_WammerStation
 		{
 			List<UserGroup> groups = new List<UserGroup>();
 			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none"});
-			FileStorage storage = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1"});
+			FileStorage storage = new FileStorage(new Driver { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1"});
 			storage.SaveFile("id1.jpeg", file);
 
 			using (FileStream f = File.OpenRead(@"resource\group1\id1.jpeg"))
@@ -130,7 +130,7 @@ namespace UT_WammerStation
 		{
 			List<UserGroup> groups = new List<UserGroup>();
 			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
-			FileStorage storage = new FileStorage(new Drivers { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
+			FileStorage storage = new FileStorage(new Driver { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
 			IAsyncResult async = storage.BeginSave("id1.jpeg", file, null, null);
 
 			storage.EndSave(async);
@@ -160,7 +160,7 @@ namespace UT_WammerStation
 				using (MemoryStream output = new MemoryStream())
 				{
 					input.CopyTo(output);
-					res = Attachments.UploadImage("http://localhost:8080/test/", output.ToArray(),
+					res = Attachment.UploadImage("http://localhost:8080/test/", output.ToArray(),
 						"group1", null, "filename1.jpg", "image/jpeg",
 						ImageMeta.Origin, "key1", "token");
 
@@ -172,8 +172,8 @@ namespace UT_WammerStation
 					MongoDatabase db = mongo.GetDatabase("wammer");
 					Assert.IsNotNull(db);
 					MongoCollection<BsonDocument> attachments = db.GetCollection("attachments");
-					Attachments saveData =
-						attachments.FindOneAs<Attachments>(new QueryDocument("_id", res.object_id));
+					Attachment saveData =
+						attachments.FindOneAs<Attachment>(new QueryDocument("_id", res.object_id));
 
 					Assert.IsNotNull(saveData);
 					Assert.AreEqual("group1", saveData.group_id);
@@ -225,7 +225,7 @@ namespace UT_WammerStation
 				using (MemoryStream output = new MemoryStream())
 				{
 					input.CopyTo(output);
-					res = Attachments.UploadImage("http://localhost:8080/test/", output.ToArray(),
+					res = Attachment.UploadImage("http://localhost:8080/test/", output.ToArray(),
 						"group1", null, "filename1.jpg", "image/jpeg",
 						ImageMeta.Large, "key1", "token");
 
@@ -236,8 +236,8 @@ namespace UT_WammerStation
 
 					MongoCollection<BsonDocument> attachments = mongo.GetDatabase("wammer").
 																GetCollection("attachments");
-					Attachments saveData =
-						attachments.FindOneAs<Attachments>(new QueryDocument("_id", res.object_id));
+					Attachment saveData =
+						attachments.FindOneAs<Attachment>(new QueryDocument("_id", res.object_id));
 
 					Assert.IsNotNull(saveData);
 					Assert.AreEqual("group1", saveData.group_id);

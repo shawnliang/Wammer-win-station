@@ -175,11 +175,8 @@ namespace Wammer.Model
 	}
 
 	[BsonIgnoreExtraElements]
-	public class Attachments
+	public class Attachment
 	{
-		[BsonIgnore]
-		public static MongoCollection<Attachments> collection = Database.wammer.GetCollection<Attachments>("attachments");
-
 		#region Upload utility functions
 		public static ObjectUploadResponse Upload(string url, byte[] imageData, string groupId,
 											string objectId, string fileName, string contentType,
@@ -292,11 +289,11 @@ namespace Wammer.Model
 			}
 		}
 
-		public Attachments()
+		public Attachment()
 		{
 		}
 
-		public Attachments(Attachments lhs)
+		public Attachment(Attachment lhs)
 		{
 			object_id = lhs.object_id;
 			file_name = lhs.file_name;
@@ -322,16 +319,36 @@ namespace Wammer.Model
 		private byte[] rawData;
 	}
 
+	public class AttachmentCollection : Collection<Attachment>
+	{
+		private static AttachmentCollection instance;
+
+		static AttachmentCollection()
+		{
+			instance = new AttachmentCollection();
+		}
+
+		private AttachmentCollection()
+			: base("attachments")
+		{
+		}
+
+		public static AttachmentCollection Instance
+		{
+			get { return instance; }
+		}
+	}
+
 	public class AttachmentResponse : CloudResponse
 	{
-		public Attachments attachment { get; set; }
+		public Attachment attachment { get; set; }
 
 		public AttachmentResponse()
 			: base(200, 0, "success")
 		{
 		}
 
-		public AttachmentResponse(Attachments att)
+		public AttachmentResponse(Attachment att)
 			: base(200, 0, "success")
 		{
 			attachment = att;

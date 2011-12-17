@@ -38,7 +38,7 @@ namespace TestCloud
 							throw new InvalidDataException("User does not have a valid group");
 
 						string thbnId = Guid.NewGuid().ToString();
-						ObjectUploadResponse thbnResp = Attachments.UploadImage(
+						ObjectUploadResponse thbnResp = Attachment.UploadImage(
 										"http://localhost:9981/v2/attachments/upload",
 										buffer, user.Groups[0].group_id, null, 
 										thbnId + ".jpeg", "image/jpeg",
@@ -46,7 +46,7 @@ namespace TestCloud
 
 						Console.WriteLine("thumbnail uploaded: " + thbnId);
 
-						ObjectUploadResponse origResp = Attachments.UploadImage(
+						ObjectUploadResponse origResp = Attachment.UploadImage(
 										"http://localhost:9981/v2/attachments/upload",
 										buffer, user.Groups[0].group_id, null, "big.jpeg",
 										"image/jpeg", ImageMeta.Origin,

@@ -139,7 +139,7 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void testMixedMerge()
 		{
-			Wammer.Model.Attachments a = new Wammer.Model.Attachments
+			Wammer.Model.Attachment a = new Wammer.Model.Attachment
 			{
 				type = Wammer.Model.AttachmentType.image,
 				object_id = "1234567890",
@@ -152,7 +152,7 @@ namespace UT_WammerStation
 				}
 			};
 
-			Wammer.Model.Attachments b = new Wammer.Model.Attachments
+			Wammer.Model.Attachment b = new Wammer.Model.Attachment
 			{
 				type = Wammer.Model.AttachmentType.image,
 				title = "this is title",

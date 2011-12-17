@@ -51,7 +51,7 @@ namespace Wammer.Station.Management
 		/// <returns>Owner's email. If owner is not set yet, null is returned.</returns>
 		public static string GetOwner()
 		{
-			Model.Drivers driver = Model.Drivers.collection.FindOne();
+			Model.Driver driver = Model.DriverCollection.Instance.FindOne();
 			if (driver == null)
 				return null;
 
@@ -65,7 +65,7 @@ namespace Wammer.Station.Management
 		/// <returns></returns>
 		public static string GetDefaultFolder()
 		{
-			Model.Drivers driver = Model.Drivers.collection.FindOne();
+			Model.Driver driver = Model.DriverCollection.Instance.FindOne();
 			if (driver == null)
 				return null;
 
@@ -216,8 +216,8 @@ namespace Wammer.Station.Management
 			if (DropboxHelper.IsInstalled())
 			{
 				// currently only support one driver
-				Model.Drivers driver = Model.Drivers.collection.FindOne();
-				Model.CloudStorage cloudstorage = Model.CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
+				Model.Driver driver = Model.DriverCollection.Instance.FindOne();
+				Model.CloudStorage cloudstorage = Model.CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
 				if (cloudstorage != null)
 				{
 					cloudstorages.Add(new StorageStatus
@@ -449,12 +449,12 @@ namespace Wammer.Station.Management
 
 		private static void SetDefaultFolder(string absPath)
 		{
-			Model.Drivers driver = Model.Drivers.collection.FindOne();
+			Model.Driver driver = Model.DriverCollection.Instance.FindOne();
 			if (driver == null)
 				throw new InvalidOperationException("Cannot set default folder before driver is not set yet.");
 
 			driver.folder = absPath;
-			Model.Drivers.collection.Save(driver);
+			Model.DriverCollection.Instance.Save(driver);
 		}
 		#endregion
 

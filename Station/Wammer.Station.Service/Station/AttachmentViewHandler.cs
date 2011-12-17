@@ -59,11 +59,11 @@ namespace Wammer.Station
 					namePart += "_" + metaStr;
 				}
 				
-				Attachments doc = Attachments.collection.FindOne(Query.EQ("_id", objectId));
+				Attachment doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", objectId));
 				if (doc == null)
 					throw new FileNotFoundException();
 
-				Drivers driver = Drivers.collection.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", doc.group_id)));
+				Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", doc.group_id)));
 				FileStorage storage = new FileStorage(driver);
 				using (FileStream fs = storage.LoadByNameWithNoSuffix(namePart))
 				{

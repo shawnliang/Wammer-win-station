@@ -24,7 +24,7 @@ namespace Wammer.Station
 			// just for avoiding race condition, might cause bad performance
 			lock (cs)
 			{
-				CloudStorage cloudstorage = CloudStorage.collection.FindOne(Query.EQ("Type", "dropbox"));
+				CloudStorage cloudstorage = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
 				if (cloudstorage != null)
 				{
 					logger.DebugFormat("Trying to backup file {0} to Dropbox", evt.Attachment.saved_file_name);

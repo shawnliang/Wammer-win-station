@@ -31,15 +31,15 @@ namespace Wammer.Station
 
 			functionServer.Stop();
 
-			Model.Drivers.collection.RemoveAll();
-			Model.StationCollection.RemoveAll();
+			Model.DriverCollection.Instance.RemoveAll();
+			Model.StationCollection.Instance.RemoveAll();
 
 			//TODO: move to ServiceCollection
-			Model.Service service = Model.ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+			Model.Service service = Model.ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
 			if (service != null)
 			{
 				service.State = Model.ServiceState.Offline;
-				Model.ServiceCollection.Save(service);
+				Model.ServiceCollection.Instance.Save(service);
 			}
 
 			RespondSuccess();

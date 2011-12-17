@@ -44,7 +44,7 @@ namespace UT_WammerStation
 
 			CloudServer.BaseUrl = "http://localhost/v2/";
 
-			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").RemoveAll();
+			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
 		}
 
@@ -56,7 +56,7 @@ namespace UT_WammerStation
 			if (Directory.Exists(@"C:\TempUT"))
 				Directory.Delete(@"C:\TempUT", true);
 
-			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").RemoveAll();
+			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
 		}
 
@@ -104,8 +104,8 @@ namespace UT_WammerStation
 
 
 		        // verify db
-		        Drivers driver = mongodb.GetDatabase("wammer").
-		            GetCollection<Drivers>("drivers").FindOne(
+		        Driver driver = mongodb.GetDatabase("wammer").
+		            GetCollection<Driver>("drivers").FindOne(
 		            Query.EQ("email", "user1@gmail.com"));
 
 		        Assert.AreEqual("user1@gmail.com", driver.email);
@@ -118,7 +118,7 @@ namespace UT_WammerStation
 				Assert.AreEqual(res2.groups[0].description, driver.groups[0].description);
 
 				//verify station
-				Wammer.Model.StationInfo s = Wammer.Model.StationCollection.FindOne();
+				Wammer.Model.StationInfo s = Wammer.Model.StationCollection.Instance.FindOne();
 				Assert.IsNotNull(s);
 				Assert.AreEqual("token3", s.SessionToken);
 		    }

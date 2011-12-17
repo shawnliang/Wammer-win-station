@@ -44,7 +44,7 @@ namespace Wammer.Station
 			if (email == null || password == null)
 				throw new FormatException("Parameter email or password is missing");
 
-			if (Drivers.collection.FindOne() != null)
+			if (DriverCollection.Instance.FindOne() != null)
 				throw new WammerStationException("Already has a driver", (int)StationApiError.DriverExist);
 
 			using (WebClient agent = new WebClient())
@@ -60,7 +60,7 @@ namespace Wammer.Station
 					WriteOnlineStateToDB();
 
 					User user = User.LogIn(agent, email, password);
-					Drivers driver = new Drivers
+					Driver driver = new Driver
 					{
 						email = email,
 						folder = Path.Combine(resourceBasePath, "user_" + user.Id),
@@ -69,9 +69,9 @@ namespace Wammer.Station
 						session_token = user.Token
 					};
 
-					Drivers.collection.Save(driver);
+					DriverCollection.Instance.Save(driver);
 
-					StationCollection.Save(
+					StationCollection.Instance.Save(
 						new StationInfo
 						{
 							Id = stationId,
@@ -132,7 +132,7 @@ namespace Wammer.Station
 
 		private static void WriteOnlineStateToDB()
 		{
-			Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+			Model.Service svc = ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
 			if (svc == null)
 			{
 				svc = new Model.Service { Id = "StationService", State = ServiceState.Online };
@@ -140,7 +140,7 @@ namespace Wammer.Station
 			else
 				svc.State = ServiceState.Online;
 
-			ServiceCollection.Save(svc);
+			ServiceCollection.Instance.Save(svc);
 		}
 
 		public override object Clone()
@@ -169,9 +169,9 @@ namespace Wammer.Station
 
 	public class DriverAddedEvtArgs : EventArgs
 	{
-		public Drivers Driver { get; private set; }
+		public Driver Driver { get; private set; }
 
-		public DriverAddedEvtArgs(Drivers driver)
+		public DriverAddedEvtArgs(Driver driver)
 			: base()
 		{
 			this.Driver = driver;

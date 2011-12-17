@@ -46,9 +46,9 @@ namespace UT_WammerStation
 
 			CloudServer.BaseUrl = "http://localhost/v2/";
 
-			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").RemoveAll();
-			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").Insert(
-				new Drivers
+			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
+			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").Insert(
+				new Driver
 				{
 					user_id = "exist_uid",
 					email = "exist@gmail.com",
@@ -65,7 +65,7 @@ namespace UT_WammerStation
 			if (Directory.Exists(@"C:\TempUT"))
 				Directory.Delete(@"C:\TempUT", true);
 
-			mongodb.GetDatabase("wammer").GetCollection<Drivers>("drivers").RemoveAll();
+			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 		}
 
 		[TestMethod]

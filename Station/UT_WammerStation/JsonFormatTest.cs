@@ -54,7 +54,7 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestAttachment_RawDataIsNotSerialized()
 		{
-			Attachments a = new Attachments
+			Attachment a = new Attachment
 			{
 				RawData = null,
 				title = "123"

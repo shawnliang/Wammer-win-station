@@ -11,13 +11,33 @@ namespace Wammer.Model
 	[BsonIgnoreExtraElements]
 	public class CloudStorage
 	{
-		[BsonIgnore]
-		public static MongoCollection<CloudStorage> collection = Database.wammer.GetCollection<CloudStorage>("cloudstorage");
-
 		[BsonId]
 		public string Id { get; set; }
+		[BsonIgnoreIfNull]
 		public string Type { get; set; }
+		[BsonIgnoreIfNull]
 		public string Folder { get; set; }
+		[BsonIgnoreIfNull]
 		public long Quota { get; set; }
+	}
+
+	public class CloudStorageCollection : Collection<CloudStorage>
+	{
+		private static CloudStorageCollection instance;
+
+		static CloudStorageCollection()
+		{
+			instance = new CloudStorageCollection();
+		}
+
+		private CloudStorageCollection()
+			: base("cloudstorage")
+		{
+		}
+
+		public static CloudStorageCollection Instance
+		{
+			get { return instance; }
+		}
 	}
 }

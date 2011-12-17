@@ -23,7 +23,7 @@ namespace Wammer.Cloud
 
 		public AttachmentApi(string user_id)
 		{
-			Drivers driver = Drivers.collection.FindOne(Query.EQ("_id", user_id));
+			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", user_id));
 			this.userToken = driver.session_token;
 		}
 

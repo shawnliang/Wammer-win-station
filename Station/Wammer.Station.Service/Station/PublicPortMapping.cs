@@ -41,7 +41,7 @@ namespace Wammer.Station
 
 		private PublicPortMapping()
 		{
-			this.hasDriver = (Model.Drivers.collection.FindOne() != null);
+			this.hasDriver = (Model.DriverCollection.Instance.FindOne() != null);
 
 			TCMPortMapper.PortMapper.SharedInstance.DidChangeMappingStatus += new PortMapper.PMDidChangeMappingStatus(PortMappingChanged);
 			TCMPortMapper.PortMapper.SharedInstance.ExternalIPAddressDidChange += new PortMapper.PMExternalIPAddressDidChange(ExternalIPChanged);
@@ -188,7 +188,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.StationInfo stationInfo = Model.StationCollection.FindOne();
+				Model.StationInfo stationInfo = Model.StationCollection.Instance.FindOne();
 				if (stationInfo == null)
 					return;
 

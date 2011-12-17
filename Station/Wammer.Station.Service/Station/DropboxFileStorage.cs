@@ -16,11 +16,11 @@ namespace Wammer.Station
 	public class DropboxFileStorage : IFileStorage
 	{
 		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxFileStorage));
-		private Drivers driver;
+		private Driver driver;
 		private CloudStorage cloudstorage;
 		private string basePath;
 
-		public DropboxFileStorage(Drivers driver, CloudStorage cloudstorage)
+		public DropboxFileStorage(Driver driver, CloudStorage cloudstorage)
 		{
 			this.driver = driver;
 			this.cloudstorage = cloudstorage;
@@ -32,7 +32,7 @@ namespace Wammer.Station
 			}
 		}
 
-		public void SaveAttachment(Attachments attachment)
+		public void SaveAttachment(Attachment attachment)
 		{
 			if (attachment.file_size > cloudstorage.Quota)
 			{
@@ -74,7 +74,7 @@ namespace Wammer.Station
 			return FileStorageHelper.GetUsedSize(basePath);
 		}
 
-		private bool AllocateSpace(Attachments attachment)
+		private bool AllocateSpace(Attachment attachment)
 		{
 			if (cloudstorage.Quota - GetUsedSize() >= attachment.file_size)
 				return true;
@@ -91,7 +91,7 @@ namespace Wammer.Station
 					logger.InfoFormat("Cloud storage has no quota, delete file {0}", fi.FullName);
 					fi.Delete();
 
-					Attachments purgedAttachment = Attachments.collection.FindOne(Query.EQ("file_name", fi.FullName));
+					Attachment purgedAttachment = AttachmentCollection.Instance.FindOne(Query.EQ("file_name", fi.FullName));
 					if (purgedAttachment != null)
 					{
 						AttachmentApi api = new AttachmentApi(driver.user_id);

@@ -22,28 +22,23 @@ namespace Wammer.Model
 		public string Location { get; set; }
 	}
 
-	public class StationCollection
+	public class StationCollection : Collection<StationInfo>
 	{
-		private static MongoCollection<StationInfo> collection = Database.wammer.GetCollection<StationInfo>("station");
+		private static StationCollection instance;
 
-		public static void RemoveAll()
+		static StationCollection()
 		{
-			collection.RemoveAll();
+			instance = new StationCollection();
 		}
 
-		public static StationInfo FindOne()
+		private StationCollection()
+			:base("station")
 		{
-			return collection.FindOne();
 		}
 
-		public static StationInfo FindOne(IMongoQuery query)
+		public static StationCollection Instance
 		{
-			return collection.FindOne(query);
-		}
-
-		public static void Save(StationInfo station)
-		{
-			collection.Save(station);
+			get { return instance; }
 		}
 	}
 }

@@ -12,21 +12,45 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace Wammer.Model
 {
 	[BsonIgnoreExtraElements]
-	public class Drivers
+	public class Driver
 	{
 		[BsonIgnore]
-		public static MongoCollection<Drivers> collection = Database.wammer.GetCollection<Drivers>("drivers");
+		public static MongoCollection<Driver> collection = Database.wammer.GetCollection<Driver>("drivers");
 
 		[BsonId]
 		public string user_id { get; set; }
+		[BsonIgnoreIfNull]
 		public string email { get; set; }
+		[BsonIgnoreIfNull]
 		public string folder { get; set; }
+		[BsonIgnoreIfNull]
 		public List<UserGroup> groups { get; set; }
+		[BsonIgnoreIfNull]
 		public string session_token { get; set; }
 
-		public Drivers()
+		public Driver()
 		{
 			groups = new List<UserGroup>();
+		}
+	}
+
+	public class DriverCollection : Collection<Driver>
+	{
+		private static DriverCollection instance;
+
+		static DriverCollection()
+		{
+			instance = new DriverCollection();
+		}
+
+		private DriverCollection()
+			:base("drivers")
+		{
+		}
+
+		public static DriverCollection Instance
+		{
+			get { return instance; }
 		}
 	}
 }

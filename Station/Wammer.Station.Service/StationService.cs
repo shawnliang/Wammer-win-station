@@ -114,7 +114,7 @@ namespace Wammer.Station.Service
 								new DropboxDisconnectHandler());
 
 				logger.Debug("Check if need to start function server");
-				Model.Service svc = ServiceCollection.FindOne(Query.EQ("_id", "StationService"));
+				Model.Service svc = ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
 				if (svc != null)
 				{
 					if (svc.State == ServiceState.Online)
