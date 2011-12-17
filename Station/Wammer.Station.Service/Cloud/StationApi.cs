@@ -134,6 +134,8 @@ namespace Wammer.Cloud
 		public string location { get; set; }
 		public List<DiskUsage> diskusage { get; set; }
 		public UPnPInfo upnp { get; set; }
+		public string computer_name { get; set; }
+		public string version { get; set; }
 	}
 
 	public class DiskUsage

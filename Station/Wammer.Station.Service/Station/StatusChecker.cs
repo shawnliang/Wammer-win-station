@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Net;
+using System.Reflection;
 
 using Wammer.Cloud;
 using Wammer.Model;
@@ -34,7 +35,9 @@ namespace Wammer.Station
 			{
 				location = baseurl,
 				diskusage = new List<DiskUsage>(),
-				upnp = PublicPortMapping.Instance.GetUPnPInfo()
+				upnp = PublicPortMapping.Instance.GetUPnPInfo(),
+				computer_name = Environment.MachineName,
+				version = Assembly.GetExecutingAssembly().GetName().Version.ToString()
 			};
 
 			MongoDB.Driver.MongoCursor<Driver> drivers = DriverCollection.Instance.FindAll();
