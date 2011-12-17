@@ -73,7 +73,7 @@ namespace Waveface
             if (!Main.Current.CheckNetworkStatus())
                 return;
             
-            Main.Current.GetAllDataAsync(true);
+            Main.Current.GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
         }
 
         public void updateRefreshUI(bool flag)
