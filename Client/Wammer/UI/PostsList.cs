@@ -185,6 +185,7 @@ namespace Waveface
                     else
                     {
                         _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
+                        // _g.FillRectangle(Brushes.OrangeRed, new Rectangle(2, e.CellBounds.Y, 1, e.CellBounds.Height));
                     }
                 }
 
@@ -497,11 +498,11 @@ namespace Waveface
 
         private void dataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            if (e.RowIndex == m_postBS.Position)
-            {
-                e.DrawFocus(e.RowBounds, true);
-            }
-            else
+            //if (e.RowIndex == m_postBS.Position)
+            //{
+            //    e.DrawFocus(e.RowBounds, true);
+            //}
+            //else
             {
                 using (Pen _p = new Pen(Color.LightGray))
                 {

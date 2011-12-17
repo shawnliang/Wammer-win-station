@@ -555,8 +555,9 @@ namespace Waveface
 
         private void fillUserInformation()
         {
-            labelName.Text = RT.Login.user.nickname;
-
+            panelTop.UserName = RT.Login.user.nickname;
+            
+            /*
             if (RT.Login.user.avatar_url == string.Empty)
             {
                 pictureBoxAvatar.Image = null;
@@ -565,6 +566,7 @@ namespace Waveface
             {
                 pictureBoxAvatar.LoadAsync(RT.Login.user.avatar_url);
             }
+            */
         }
 
         private void getGroupAndUser()

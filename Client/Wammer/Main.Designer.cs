@@ -37,12 +37,9 @@
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.panelPost = new System.Windows.Forms.Panel();
-            this.postsArea = new Waveface.PostArea();
             this.splitterLeft = new System.Windows.Forms.Splitter();
             this.panelLeftInfo = new System.Windows.Forms.Panel();
-            this.leftArea = new Waveface.LeftArea();
             this.panelMain = new System.Windows.Forms.Panel();
-            this.detailView = new Waveface.DetailView();
             this.itemCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.connectedStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -66,15 +63,15 @@
             this.splitterRight = new System.Windows.Forms.Splitter();
             this.timerGetNewestPost = new System.Windows.Forms.Timer(this.components);
             this.timerFilterReadmore = new System.Windows.Forms.Timer(this.components);
-            this.panelTop = new System.Windows.Forms.Panel();
-            this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
+            this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
+            this.timerReloadAllData = new System.Windows.Forms.Timer(this.components);
+            this.detailView = new Waveface.DetailView();
+            this.postsArea = new Waveface.PostArea();
+            this.leftArea = new Waveface.LeftArea();
+            this.panelTop = new Waveface.BgPanel();
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
             this.radioButtonCloud = new System.Windows.Forms.RadioButton();
-            this.labelName = new System.Windows.Forms.Label();
-            this.pictureBoxAvatar = new System.Windows.Forms.PictureBox();
-            this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
-            this.timerReloadAllData = new System.Windows.Forms.Timer(this.components);
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -82,9 +79,7 @@
             this.statusStrip1.SuspendLayout();
             this.mnuTray.SuspendLayout();
             this.panelTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
             this.panelStation.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAvatar)).BeginInit();
             this.SuspendLayout();
             // 
             // BottomToolStripPanel
@@ -133,12 +128,6 @@
             resources.ApplyResources(this.panelPost, "panelPost");
             this.panelPost.Name = "panelPost";
             // 
-            // postsArea
-            // 
-            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
-            resources.ApplyResources(this.postsArea, "postsArea");
-            this.postsArea.Name = "postsArea";
-            // 
             // splitterLeft
             // 
             resources.ApplyResources(this.splitterLeft, "splitterLeft");
@@ -151,28 +140,11 @@
             resources.ApplyResources(this.panelLeftInfo, "panelLeftInfo");
             this.panelLeftInfo.Name = "panelLeftInfo";
             // 
-            // leftArea
-            // 
-            this.leftArea.BackColor = System.Drawing.Color.Transparent;
-            this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.leftArea, "leftArea");
-            this.leftArea.Name = "leftArea";
-            this.leftArea.TabStop = false;
-            // 
             // panelMain
             // 
             this.panelMain.Controls.Add(this.detailView);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            // 
-            // detailView
-            // 
-            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.detailView, "detailView");
-            this.detailView.MinimumSize = new System.Drawing.Size(200, 2);
-            this.detailView.Name = "detailView";
-            this.detailView.Post = null;
-            this.detailView.User = null;
             // 
             // itemCountLabel
             // 
@@ -328,22 +300,46 @@
             this.timerFilterReadmore.Interval = 500;
             this.timerFilterReadmore.Tick += new System.EventHandler(this.timerFilterReadmore_Tick);
             // 
+            // bgWorkerGetAllData
+            // 
+            this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
+            this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
+            // 
+            // timerReloadAllData
+            // 
+            this.timerReloadAllData.Interval = 500;
+            this.timerReloadAllData.Tick += new System.EventHandler(this.timerReloadAllData_Tick);
+            // 
+            // detailView
+            // 
+            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.detailView, "detailView");
+            this.detailView.MinimumSize = new System.Drawing.Size(200, 2);
+            this.detailView.Name = "detailView";
+            this.detailView.Post = null;
+            this.detailView.User = null;
+            // 
+            // postsArea
+            // 
+            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
+            resources.ApplyResources(this.postsArea, "postsArea");
+            this.postsArea.Name = "postsArea";
+            // 
+            // leftArea
+            // 
+            this.leftArea.BackColor = System.Drawing.Color.Transparent;
+            this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.leftArea, "leftArea");
+            this.leftArea.Name = "leftArea";
+            this.leftArea.TabStop = false;
+            // 
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Chocolate;
-            this.panelTop.Controls.Add(this.pictureBoxLogo);
             this.panelTop.Controls.Add(this.panelStation);
-            this.panelTop.Controls.Add(this.labelName);
-            this.panelTop.Controls.Add(this.pictureBoxAvatar);
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
-            // 
-            // pictureBoxLogo
-            // 
-            this.pictureBoxLogo.Image = global::Waveface.Properties.Resources.desktop_logo;
-            resources.ApplyResources(this.pictureBoxLogo, "pictureBoxLogo");
-            this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.TabStop = false;
+            this.panelTop.UserName = "";
             // 
             // panelStation
             // 
@@ -369,29 +365,6 @@
             this.radioButtonCloud.Name = "radioButtonCloud";
             this.radioButtonCloud.UseVisualStyleBackColor = true;
             this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
-            // 
-            // labelName
-            // 
-            resources.ApplyResources(this.labelName, "labelName");
-            this.labelName.ForeColor = System.Drawing.Color.Black;
-            this.labelName.Name = "labelName";
-            // 
-            // pictureBoxAvatar
-            // 
-            resources.ApplyResources(this.pictureBoxAvatar, "pictureBoxAvatar");
-            this.pictureBoxAvatar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxAvatar.Name = "pictureBoxAvatar";
-            this.pictureBoxAvatar.TabStop = false;
-            // 
-            // bgWorkerGetAllData
-            // 
-            this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
-            this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
-            // 
-            // timerReloadAllData
-            // 
-            this.timerReloadAllData.Interval = 500;
-            this.timerReloadAllData.Tick += new System.EventHandler(this.timerReloadAllData_Tick);
             // 
             // Main
             // 
@@ -420,10 +393,8 @@
             this.statusStrip1.PerformLayout();
             this.mnuTray.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
             this.panelStation.ResumeLayout(false);
             this.panelStation.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAvatar)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -461,16 +432,13 @@
         private System.Windows.Forms.Timer timerDelayPost;
         private System.Windows.Forms.Timer timerGetNewestPost;
         private System.Windows.Forms.Timer timerFilterReadmore;
-        private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.PictureBox pictureBoxAvatar;
-        private System.Windows.Forms.Label labelName;
+        private BgPanel panelTop;
         private LeftArea leftArea;
         private System.Windows.Forms.ToolStripMenuItem preferencesMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.Panel panelStation;
         private System.Windows.Forms.RadioButton radioButtonStation;
         private System.Windows.Forms.RadioButton radioButtonCloud;
-        private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
         private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeOwnerMenuItem;
