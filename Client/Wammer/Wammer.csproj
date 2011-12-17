@@ -127,6 +127,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UI\BgPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Compoment\MultiPanel\MultiPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -830,6 +833,7 @@
     <None Include="Resources\refresh.png" />
     <None Include="Resources\trash.png" />
     <None Include="Resources\write_comment.png" />
+    <None Include="Resources\titlebar.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
