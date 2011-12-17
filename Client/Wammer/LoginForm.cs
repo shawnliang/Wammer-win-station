@@ -331,5 +331,14 @@ namespace Waveface
         {
             txtUserName.ReadOnly = !txtUserName.ReadOnly;
         }
+
+		protected override bool ProcessDialogKey(Keys keyData)
+		{
+			if (keyData == Keys.Enter && !this.btnOK.Focused)
+			{
+				btnOK_Click(null, null);
+			}
+			return base.ProcessDialogKey(keyData);
+		}
     }
 }

@@ -139,8 +139,9 @@ namespace Waveface
 
         #region DataGridView
 
-        private Brush m_bg1 = new SolidBrush(Color.FromArgb(224, 208, 170));
-        private Brush m_bg2 = new SolidBrush(Color.FromArgb(225, 225, 225));
+        private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(224, 208, 170));
+        private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225));
+        private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(192, 192, 192));
         private Color m_inforColor1 = Color.White;
         private Color m_inforColor2 = Color.FromArgb(63, 63, 63);
         private Font m_fontPostTime = new Font("Arial", 9);
@@ -172,9 +173,20 @@ namespace Waveface
                 // Draw background
 
                 if (_selected)
-                    _g.FillRectangle(m_bg1, e.CellBounds);
+                {
+                    _g.FillRectangle(m_bgSelectedBrush, e.CellBounds);
+                }
                 else
-                    _g.FillRectangle(m_bg2, e.CellBounds);
+                {
+                    if (Main.Current.RT.CurrentGroupHaveReadPosts.Contains(_post.post_id))
+                    {
+                        _g.FillRectangle(m_bgReadBrush, e.CellBounds);
+                    }
+                    else
+                    {
+                        _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
+                    }
+                }
 
                 _g.DrawRectangle(Pens.White, e.CellBounds.X + 1, e.CellBounds.Y + 1, e.CellBounds.Width - 2, e.CellBounds.Height - 2);
 
@@ -542,7 +554,7 @@ namespace Waveface
             Application.DoEvents();
 
             m_detailView.Post = _post;
-        
+
             Application.DoEvents();
         }
 

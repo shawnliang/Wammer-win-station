@@ -18,8 +18,8 @@ namespace Waveface
 
         #region System
 
-        private string RUN_TIME_FILE = "Waveface System.dat";
-        private string LAST_READ_FILE = "Waveface Last Read.dat";
+        private string RUN_TIME_FILE = "Waveface RunTime.dat";
+        private string LAST_READ_FILE = "Waveface Read.dat";
 
         private RT_REST m_rest;
         public MR_auth_login Login { get; set; }
@@ -56,6 +56,7 @@ namespace Waveface
 
         public Dictionary<string, MR_groups_get> GroupGetReturnSets { get; set; }
         private Dictionary<string, List<Post>> m_groupPosts { get; set; }
+        private Dictionary<string, List<string>> m_groupHaveReadPosts { get; set; }
 
         public List<Post> CurrentGroupPosts
         {
@@ -67,6 +68,18 @@ namespace Waveface
                 return m_groupPosts[CurrentGroupID];
             }
             set { m_groupPosts[CurrentGroupID] = value; }
+        }
+
+        public List<string> CurrentGroupHaveReadPosts
+        {
+            get
+            {
+                if (!m_groupHaveReadPosts.ContainsKey(CurrentGroupID))
+                    m_groupHaveReadPosts[CurrentGroupID] = new List<string>();
+
+                return m_groupHaveReadPosts[CurrentGroupID];
+            }
+            set { m_groupHaveReadPosts[CurrentGroupID] = value; }
         }
 
         #endregion
@@ -104,7 +117,10 @@ namespace Waveface
             {
                 m_groupLocalLastReadID[CurrentGroupID] = value;
 
-                SaveGroupLocalLastRead();
+                if (!CurrentGroupHaveReadPosts.Contains(value))
+                    CurrentGroupHaveReadPosts.Add(value);
+
+                SaveGroupLocalRead();
             }
         }
 
@@ -128,6 +144,7 @@ namespace Waveface
             CurrentGroupID = string.Empty;
             GroupGetReturnSets = new Dictionary<string, MR_groups_get>();
             m_groupPosts = new Dictionary<string, List<Post>>();
+            m_groupHaveReadPosts = new Dictionary<string, List<string>>();
 
             m_groupLastReadID = new Dictionary<string, string>();
             m_groupLocalLastReadID = new Dictionary<string, string>();
@@ -140,23 +157,46 @@ namespace Waveface
 
             AllUsers = new List<User>();
 
-            LoadGroupLocalLastRead();
+            LoadGroupLocalRead();
+        }
+
+        public void SetAllCurrentGroupPostHaveRead()
+        {
+            foreach (Post _p in CurrentGroupPosts)
+            {
+                if (!CurrentGroupHaveReadPosts.Contains(_p.post_id))
+                    CurrentGroupHaveReadPosts.Add(_p.post_id);
+            }
+
+            SaveGroupLocalRead();
         }
 
         #region Last Read
 
-        public int GetMyTimelinePosition(bool keepTimelineIndex)
+        public int GetMyTimelinePosition(ShowTimelineIndexType showTimelineIndexType)
         {
-            string _id;
+            string _id = "";
 
-            if (keepTimelineIndex)
+            switch (showTimelineIndexType)
             {
-                _id = CurrentGroupLocalLastReadID;
-            }
-            else
-            {
-                _id = ""; 
-                //_id = GetMyReadPositionID();
+                case ShowTimelineIndexType.Newest:
+                    _id = "";
+                    break;
+
+                case ShowTimelineIndexType.LocalLastRead:
+                    _id = CurrentGroupLocalLastReadID;
+                    break;
+
+
+                case ShowTimelineIndexType.GlobalLastRead:
+                    _id = CurrentGroupLastReadID;
+
+                    break;
+
+                case ShowTimelineIndexType.Global_Local_LastRead_Compare:
+                    _id = GetMyReadPositionID();
+
+                    break;
             }
 
             if (_id != string.Empty)
@@ -253,9 +293,9 @@ namespace Waveface
                     _outfile.Write(_json);
                 }
 
-                SaveGroupLocalLastRead();
+                SaveGroupLocalRead();
             }
-            catch(Exception _e)
+            catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "SaveJSON");
 
@@ -284,7 +324,7 @@ namespace Waveface
 
                 return _rt;
             }
-            catch(Exception _e)
+            catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "LoadJSON");
 
@@ -294,17 +334,19 @@ namespace Waveface
 
         #endregion
 
-        #region LocalLastRead
+        #region LocalRead
 
-        public class LocalLastReadRT
+        public class LocalReadRT
         {
             public Dictionary<string, string> GroupLocalLastReadID { get; set; }
+            public Dictionary<string, List<string>> GroupHaveReadPosts { get; set; }
         }
 
-        public bool SaveGroupLocalLastRead()
+        public bool SaveGroupLocalRead()
         {
-            LocalLastReadRT _lr = new LocalLastReadRT();
+            LocalReadRT _lr = new LocalReadRT();
             _lr.GroupLocalLastReadID = m_groupLocalLastReadID;
+            _lr.GroupHaveReadPosts = m_groupHaveReadPosts;
 
             try
             {
@@ -317,19 +359,19 @@ namespace Waveface
                     _outfile.Write(_json);
                 }
             }
-            catch(Exception _e)
+            catch (Exception _e)
             {
-                NLogUtility.Exception(s_logger, _e, "SaveGroupLocalLastRead");
+                NLogUtility.Exception(s_logger, _e, "SaveGroupLocalRead");
 
                 return false;
             }
 
-            s_logger.Trace("SaveGroupLocalLastRead: OK");
+            s_logger.Trace("SaveGroupLocalRead: OK");
 
             return true;
         }
 
-        public void LoadGroupLocalLastRead()
+        public void LoadGroupLocalRead()
         {
             try
             {
@@ -340,15 +382,16 @@ namespace Waveface
                 _json = _sr.ReadToEnd();
                 _sr.Close();
 
-                LocalLastReadRT _lr = JsonConvert.DeserializeObject<LocalLastReadRT>(_json);
+                LocalReadRT _lr = JsonConvert.DeserializeObject<LocalReadRT>(_json);
 
                 m_groupLocalLastReadID = _lr.GroupLocalLastReadID;
+                m_groupHaveReadPosts = _lr.GroupHaveReadPosts;
 
-                s_logger.Trace("LoadGroupLocalLastRead:OK");
+                s_logger.Trace("LoadGroupLocalRead:OK");
             }
-            catch(Exception _e)
+            catch (Exception _e)
             {
-                NLogUtility.Exception(s_logger, _e, "LoadGroupLocalLastRead");
+                NLogUtility.Exception(s_logger, _e, "LoadGroupLocalRead");
             }
         }
 

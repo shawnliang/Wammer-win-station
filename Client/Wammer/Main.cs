@@ -49,7 +49,8 @@ namespace Waveface
         private bool m_logoutStation;
         private bool m_showInTaskbar_Hack;
         private bool m_eventFromRestoreWindow_Hack;
-        private bool m_keepTimelineIndex;
+        private bool m_setAllPostHaveRead;
+        private ShowTimelineIndexType m_showTimelineIndexType;
 
         private List<string> m_delayPostPicList = new List<string>();
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
@@ -237,25 +238,28 @@ namespace Waveface
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (m_eventFromRestoreWindow_Hack)
-            {
-                m_eventFromRestoreWindow_Hack = false;
+			if (e.CloseReason != CloseReason.WindowsShutDown)
+			{
+				if (m_eventFromRestoreWindow_Hack)
+				{
+					m_eventFromRestoreWindow_Hack = false;
 
-                s_logger.Trace("MainForm_FormClosing.m_eventFromRestoreWindow_Hack - Return");
+					s_logger.Trace("MainForm_FormClosing.m_eventFromRestoreWindow_Hack - Return");
 
-                e.Cancel = true;
-                return;
-            }
+					e.Cancel = true;
+					return;
+				}
 
-            if (!m_exitToLogin)
-            {
-                WindowState = FormWindowState.Minimized;
+				if (!m_exitToLogin)
+				{
+					WindowState = FormWindowState.Minimized;
 
-                s_logger.Trace("MainForm_FormClosing.!m_exitToLogin - Return");
+					s_logger.Trace("MainForm_FormClosing.!m_exitToLogin - Return");
 
-                e.Cancel = true;
-                return;
-            }
+					e.Cancel = true;
+					return;
+				}
+			}
 
             m_dropableNotifyIcon.Dispose();
 
@@ -500,7 +504,7 @@ namespace Waveface
             {
                 s_logger.Trace("Login.Auth_Login.null: ShowAllTimeline(false)");
 
-                ShowAllTimeline(false);
+                ShowAllTimeline(ShowTimelineIndexType.Global_Local_LastRead_Compare);
             }
             else
             {
@@ -510,7 +514,7 @@ namespace Waveface
 
                 s_logger.Trace("Login.Auth_Login.OK: GetAllDataAsync(false)");
 
-                GetAllDataAsync(false);
+                GetAllDataAsync(ShowTimelineIndexType.Global_Local_LastRead_Compare, false);
             }
 
             return true;
@@ -764,7 +768,7 @@ namespace Waveface
                 {
                     s_logger.Trace("GetLastReadAndShow.getLastScan: null");
 
-                    ShowAllTimeline(m_keepTimelineIndex);
+                    ShowAllTimeline(m_showTimelineIndexType);
                 }
                 else
                 {
@@ -774,7 +778,7 @@ namespace Waveface
 
                     if (IsLastReadPostInCacheData(_lastRead.post_id))
                     {
-                        ShowAllTimeline(m_keepTimelineIndex);
+                        ShowAllTimeline(m_showTimelineIndexType);
                     }
                     else
                     {
@@ -790,7 +794,7 @@ namespace Waveface
         {
             timerReloadAllData.Enabled = false;
 
-            GetAllDataAsync(m_keepTimelineIndex);
+            GetAllDataAsync(m_showTimelineIndexType, false);
         }
 
         private bool IsLastReadPostInCacheData(string _postID)
@@ -806,11 +810,12 @@ namespace Waveface
             return false;
         }
 
-        public void GetAllDataAsync(bool keepTimelineIndex)
+        public void GetAllDataAsync(ShowTimelineIndexType showTimelineIndexType, bool setAllPostHaveRead)
         {
-            s_logger.Info("GetAllDataAsync.keepTimelineIndex: " + keepTimelineIndex);
+            s_logger.Info("GetAllDataAsync.showTimelineIndexType:" + showTimelineIndexType + ", setAllPostHaveRead:" + setAllPostHaveRead);
 
-            m_keepTimelineIndex = keepTimelineIndex;
+            m_showTimelineIndexType = showTimelineIndexType;
+            m_setAllPostHaveRead = setAllPostHaveRead;
 
             Cursor.Current = Cursors.WaitCursor;
 
@@ -821,15 +826,15 @@ namespace Waveface
             bgWorkerGetAllData.RunWorkerAsync();
         }
 
-        private void ShowAllTimeline(bool keepTimelineIndex)
+        private void ShowAllTimeline(ShowTimelineIndexType showTimelineIndexType)
         {
             List<Post> _posts = RT.CurrentGroupPosts;
 
             setCalendarBoldedDates(_posts);
 
-            int _index = RT.GetMyTimelinePosition(keepTimelineIndex);
+            int _index = RT.GetMyTimelinePosition(showTimelineIndexType);
 
-            s_logger.Info("ShowAllTimeline: keepTimelineIndex=" + keepTimelineIndex + ", TimelineIndex=" + _index);
+            s_logger.Info("ShowAllTimeline: showTimelineIndexType=" + showTimelineIndexType + ", TimelineIndex=" + _index);
 
             postsArea.PostsList.SetPosts(_posts, _index);
         }
@@ -917,7 +922,7 @@ namespace Waveface
 
                 s_logger.Trace("AfterPostComment.ShowAllTimeline(true)");
 
-                ShowAllTimeline(true);
+                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
             }
         }
 
@@ -1178,6 +1183,9 @@ namespace Waveface
             {
                 _tmpPosts.Add(_p);
             }
+
+            if (m_setAllPostHaveRead)
+                RT.SetAllCurrentGroupPostHaveRead();
 
             RT.CurrentGroupPosts = _tmpPosts;
 

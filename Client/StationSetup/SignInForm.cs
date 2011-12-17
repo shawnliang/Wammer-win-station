@@ -154,5 +154,14 @@ namespace Wammer.Station
                 return;
             }
         }
+
+		protected override bool ProcessDialogKey(Keys keyData)
+		{
+			if (keyData == Keys.Enter && !this.buttonOK.Focused)
+			{
+				buttonOK_Click(null, null);
+			}
+			return base.ProcessDialogKey(keyData);
+		}
     }
 }
