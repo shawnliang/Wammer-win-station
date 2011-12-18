@@ -20,7 +20,10 @@ namespace Wammer.Station
 		private readonly string stationId;
 		private readonly string resourceBasePath;
 		private readonly HttpServer functionServer;
-		
+
+		private const int ERR_USER_HAS_ANOTHER_STATION = 16387;
+		private const int ERR_BAD_NAME_PASSWORD = 4097;
+
 		public EventHandler<DriverAddedEvtArgs> DriverAdded;
 
 		public AddDriverHandler(string stationId, string resourceBasePath)
@@ -51,8 +54,7 @@ namespace Wammer.Station
 			{
 				try
 				{
-					Cloud.StationApi api = Cloud.StationApi.SignUp(agent, stationId, email, password);
-					StationLogOnResponse logonRes = api.LogOn(agent, StatusChecker.GetDetail());
+					string stationToken = SignUpStation(email, password, agent);
 					
 					logger.Debug("Station logon successfully, start function server");
 					functionServer.BlockAuth(false);
@@ -75,7 +77,7 @@ namespace Wammer.Station
 						new StationInfo
 						{
 							Id = stationId,
-							SessionToken = api.Token,
+							SessionToken = stationToken,
 							Location = NetworkHelper.GetBaseURL(),
 							LastLogOn = DateTime.Now
 						}
@@ -83,7 +85,7 @@ namespace Wammer.Station
 
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
-					RespondSuccess(new AddUserResponse(api.Token));
+					RespondSuccess(new AddUserResponse(stationToken));
 				}
 				catch (WammerCloudException ex)
 				{
@@ -94,10 +96,10 @@ namespace Wammer.Station
 						throw new WammerStationException(
 							"Unable to connect to waveface cloud. Network error?", 
 							(int)StationApiError.ConnectToCloudError);
-					if (ex.WammerError == 4097)
+					if (ex.WammerError == ERR_BAD_NAME_PASSWORD)
 						throw new WammerStationException(
 							"Bad user name or password", (int)StationApiError.AuthFailed);
-					else if (ex.WammerError == 16387)
+					else if (ex.WammerError == ERR_USER_HAS_ANOTHER_STATION)
 					{
 						ThrowAlreadyHasStation(ex.response);
 					}
@@ -106,6 +108,27 @@ namespace Wammer.Station
 				}
 			}
 
+		}
+
+		private string SignUpStation(string email, string password, WebClient agent)
+		{
+			try
+			{
+				StationApi api = StationApi.SignUp(agent, stationId, email, password);
+				api.LogOn(agent, StatusChecker.GetDetail());
+				return api.Token;
+			}
+			catch (WammerCloudException e)
+			{
+				if (e.WammerError != ERR_USER_HAS_ANOTHER_STATION)
+					throw;
+
+				AddUserResponse resp = fastJSON.JSON.Instance.ToObject<AddUserResponse>(e.response);
+				if (resp.station.station_id != this.stationId)
+					throw;
+
+				return StationApi.LogOn(agent, stationId, email, password, StatusChecker.GetDetail()).session_token;
+			}
 		}
 		
 		private static void ThrowAlreadyHasStation(string responseJson)
@@ -132,14 +155,11 @@ namespace Wammer.Station
 
 		private static void WriteOnlineStateToDB()
 		{
-			Model.Service svc = ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
-			if (svc == null)
+			Model.Service svc = new Model.Service 
 			{
-				svc = new Model.Service { Id = "StationService", State = ServiceState.Online };
-			}
-			else
-				svc.State = ServiceState.Online;
-
+				Id = "StationService",
+				State = ServiceState.Online
+			};
 			ServiceCollection.Instance.Save(svc);
 		}
 
