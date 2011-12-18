@@ -116,9 +116,44 @@ namespace Waveface.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap dragNdrop_area {
+        internal static System.Drawing.Bitmap dragNdrop_area1 {
             get {
-                object obj = ResourceManager.GetObject("dragNdrop_area", resourceCulture);
+                object obj = ResourceManager.GetObject("dragNdrop_area1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap dragNdrop_loading0 {
+            get {
+                object obj = ResourceManager.GetObject("dragNdrop_loading0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap dragNdrop_loading1 {
+            get {
+                object obj = ResourceManager.GetObject("dragNdrop_loading1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap dragNdrop_loading2 {
+            get {
+                object obj = ResourceManager.GetObject("dragNdrop_loading2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap dragNdrop_loading3 {
+            get {
+                object obj = ResourceManager.GetObject("dragNdrop_loading3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap dragNdrop_loading4 {
+            get {
+                object obj = ResourceManager.GetObject("dragNdrop_loading4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
