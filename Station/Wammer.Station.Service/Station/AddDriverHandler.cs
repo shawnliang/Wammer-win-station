@@ -54,7 +54,8 @@ namespace Wammer.Station
 			{
 				try
 				{
-					string stationToken = SignUpStation(email, password, agent);
+					bool has_old_station;
+					string stationToken = SignUpStation(email, password, agent, out has_old_station);
 					
 					logger.Debug("Station logon successfully, start function server");
 					functionServer.BlockAuth(false);
@@ -71,6 +72,12 @@ namespace Wammer.Station
 						session_token = user.Token
 					};
 
+					if (!has_old_station)
+					{
+						Driver oldDriver = OldDriverCollection.Instance.FindOne(Query.EQ("_id", user.Id));
+						has_old_station = (oldDriver != null);
+					}
+
 					DriverCollection.Instance.Save(driver);
 
 					StationCollection.Instance.Save(
@@ -85,7 +92,7 @@ namespace Wammer.Station
 
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
-					RespondSuccess(new AddUserResponse(stationToken));
+					RespondSuccess(new AddUserResponse(stationToken, has_old_station));
 				}
 				catch (WammerCloudException ex)
 				{
@@ -110,12 +117,13 @@ namespace Wammer.Station
 
 		}
 
-		private string SignUpStation(string email, string password, WebClient agent)
+		private string SignUpStation(string email, string password, WebClient agent, out bool has_old_station)
 		{
 			try
 			{
 				StationApi api = StationApi.SignUp(agent, stationId, email, password);
 				api.LogOn(agent, StatusChecker.GetDetail());
+				has_old_station = false;
 				return api.Token;
 			}
 			catch (WammerCloudException e)
@@ -127,6 +135,7 @@ namespace Wammer.Station
 				if (resp.station.station_id != this.stationId)
 					throw;
 
+				has_old_station = true;
 				return StationApi.LogOn(agent, stationId, email, password, StatusChecker.GetDetail()).session_token;
 			}
 		}
@@ -141,7 +150,8 @@ namespace Wammer.Station
 					api_ret_message = "already has a station",
 					status = (int)HttpStatusCode.Conflict,
 					timestamp = DateTime.UtcNow,
-					station = resp.station
+					station = resp.station,
+					has_old_station = true
 				});
 		}
 
@@ -174,16 +184,18 @@ namespace Wammer.Station
 	{
 		public UserStation station { get; set; }
 		public string session_token { get; set; }
+		public bool has_old_station { get; set; }
 
 		public AddUserResponse()
 			: base()
 		{
 		}
 
-		public AddUserResponse(string session_token)
+		public AddUserResponse(string session_token, bool has_old_station)
 			: base(200, DateTime.UtcNow, 0, "success")
 		{
 			this.session_token = session_token;
+			this.has_old_station = has_old_station;
 		}
 	}
 

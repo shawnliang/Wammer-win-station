@@ -106,7 +106,18 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.DriverCollection.Instance.RemoveAll();
+				MongoCursor<Driver> drivers = DriverCollection.Instance.FindAll();
+				foreach (Driver driver in drivers)
+					OldDriverCollection.Instance.Save(driver);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to move drivers to oldDrivers", e);
+			}
+
+			try
+			{
+				DriverCollection.Instance.RemoveAll();
 			}
 			catch (Exception e)
 			{
@@ -115,7 +126,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.StationCollection.Instance.RemoveAll();
+				StationCollection.Instance.RemoveAll();
 			}
 			catch (Exception e)
 			{
@@ -124,7 +135,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.CloudStorageCollection.Instance.RemoveAll();
+				CloudStorageCollection.Instance.RemoveAll();
 			}
 			catch (Exception e)
 			{
@@ -133,7 +144,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Model.ServiceCollection.Instance.RemoveAll();
+				ServiceCollection.Instance.RemoveAll();
 			}
 			catch (Exception e)
 			{
