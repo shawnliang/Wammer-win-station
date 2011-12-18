@@ -834,6 +834,12 @@
     <None Include="Resources\trash.png" />
     <None Include="Resources\write_comment.png" />
     <None Include="Resources\titlebar.png" />
+    <None Include="Resources\DropArea\dragNdrop-area.png" />
+    <None Include="Resources\DropArea\dragNdrop-loading0.png" />
+    <None Include="Resources\DropArea\dragNdrop-loading1.png" />
+    <None Include="Resources\DropArea\dragNdrop-loading2.png" />
+    <None Include="Resources\DropArea\dragNdrop-loading3.png" />
+    <None Include="Resources\DropArea\dragNdrop-loading4.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

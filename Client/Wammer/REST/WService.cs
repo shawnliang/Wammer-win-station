@@ -671,21 +671,32 @@ namespace Waveface.API.V2
             {
                 string _url = BaseURL + "/posts/new";
 
-                _url += "?" +
+                string _parms =
                         "apikey" + "=" + APIKEY + "&" +
                         "session_token" + "=" + session_token + "&" +
                         "content" + "=" + content + "&" +
                         "type" + "=" + type + "&";
 
                 if (attachment_id_array != string.Empty)
-                    _url += "attachment_id_array" + "=" + attachment_id_array + "&";
+                    _parms += "attachment_id_array" + "=" + attachment_id_array + "&";
 
                 if (preview != string.Empty)
-                    _url += "preview" + "=" + preview + "&";
+                    _parms += "preview" + "=" + preview + "&";
 
-                _url += "group_id" + "=" + group_id;
+                _parms += "group_id" + "=" + group_id;
 
-                return HttpGetObject<MR_posts_new>(_url);
+
+                WebPostHelper _webPos = new WebPostHelper();
+                bool _isOK = _webPos.doPost(_url, _parms, null);
+
+                if (!_isOK)
+                    return null;
+
+                string _r = _webPos.getContent();
+
+                MR_posts_new _ret = JsonConvert.DeserializeObject<MR_posts_new>(_r);
+
+                return _ret;
             }
             catch (HttpResponseException _e)
             {
@@ -1003,10 +1014,15 @@ namespace Waveface.API.V2
                 _dic.Add("file", _data);
 
                 string _userAgent = "Windows";
-                HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic,
-                                                                                                 new FileInfo(fileName).
-                                                                                                     Name, _mimeType);
-                    //HttpUtility.UrlEncode(new FileInfo(fileName).Name)
+                
+                string _fileName = new FileInfo(fileName).Name;
+
+                //Hack
+                if (StringUtility.IsChineseString(_fileName))
+                    _fileName = HttpUtility.UrlEncode(_fileName);
+
+                HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic, _fileName, _mimeType);
+                    
 
                 // Process response
                 StreamReader _responseReader = new StreamReader(_webResponse.GetResponseStream());

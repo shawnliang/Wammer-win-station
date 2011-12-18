@@ -99,5 +99,96 @@ namespace Waveface
 
             return _sb.ToString();
         }
+
+        #region Chinese
+
+        public static bool IsChineseString(string testStr)
+        {
+            char[] _words = testStr.ToCharArray();
+            
+            foreach (char _word in _words)
+            {
+                if (IsBig5Code(_word.ToString()) || IsGBCode(_word.ToString()) || IsGBKCode(_word.ToString()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool IsGBCode(string word)
+        {
+            byte[] _bytes = Encoding.GetEncoding("GB2312").GetBytes(word);
+            
+            if (_bytes.Length <= 1) // if there is only one byte, it is ASCII code or other code
+            {
+                return false;
+            }
+            else
+            {
+                byte _byte1 = _bytes[0];
+                byte _byte2 = _bytes[1];
+
+                if (_byte1 >= 176 && _byte1 <= 247 && _byte2 >= 160 && _byte2 <= 254) //判断是否是GB2312
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        private static bool IsGBKCode(string word)
+        {
+            byte[] _bytes = Encoding.GetEncoding("GBK").GetBytes(word);
+
+            if (_bytes.Length <= 1) // if there is only one byte, it is ASCII code
+            {
+                return false;
+            }
+            else
+            {
+                byte _byte1 = _bytes[0];
+                byte _byte2 = _bytes[1];
+               
+                if (_byte1 >= 129 && _byte1 <= 254 && _byte2 >= 64 && _byte2 <= 254) //判断是否是GBK编码
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        private static  bool IsBig5Code(string word)
+        {
+            byte[] _bytes = Encoding.GetEncoding("Big5").GetBytes(word);
+
+            if (_bytes.Length <= 1) // if there is only one byte, it is ASCII code
+            {
+                return false;
+            }
+            else
+            {
+                byte _byte1 = _bytes[0];
+                byte _byte2 = _bytes[1];
+                
+                if ((_byte1 >= 129 && _byte1 <= 254) && ((_byte2 >= 64 && _byte2 <= 126) || (_byte2 >= 161 && _byte2 <= 254))) //判断是否是Big5编码
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Web;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.Component;
@@ -93,6 +94,10 @@ namespace Waveface
             if (m_filesMapping.ContainsKey(_trueName)) //取得原始檔名
                 _trueName = m_filesMapping[_trueName];
 
+            //Hack
+            if (_trueName.Contains("%"))
+                _trueName = HttpUtility.UrlDecode(_trueName);
+
             saveFileDialog.FileName = _trueName;
             DialogResult _dr = saveFileDialog.ShowDialog();
 
@@ -130,6 +135,11 @@ namespace Waveface
                     foreach (ImageListViewItem _item in imageListView.Items)
                     {
                         _fileName = m_filesMapping[new FileInfo(_item.FileName).Name]; // 取出真實名稱
+
+                        //Hack
+                        if (_fileName.Contains("%"))
+                            _fileName = HttpUtility.UrlDecode(_fileName);
+
                         _fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
 
                         try

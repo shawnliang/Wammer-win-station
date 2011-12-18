@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 using Timer = System.Windows.Forms.Timer;
@@ -18,6 +19,8 @@ namespace Waveface
 {
     public class PostsList : UserControl
     {
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
         private const int PicHeight = 102; //115
         private const int PicWidth = 102; //115
 
@@ -114,27 +117,34 @@ namespace Waveface
 
         public void SetPosts(List<Post> posts, int lastRead)
         {
-            dataGridView.Enabled = false;
-
-            m_posts = posts;
-            m_postBS.DataSource = posts;
-
             try
             {
-                dataGridView.DataSource = null;
-                dataGridView.DataSource = m_postBS;
-                dataGridView.Refresh();
+                dataGridView.Enabled = false;
+
+                m_posts = posts;
+                m_postBS.DataSource = posts;
+
+                try
+                {
+                    dataGridView.DataSource = null;
+                    dataGridView.DataSource = m_postBS;
+                    dataGridView.Refresh();
+                }
+                catch (Exception _e)
+                {
+                    NLogUtility.Exception(s_logger, _e, "SetPosts-1");
+                }
+
+                dataGridView.Enabled = true;
+
+                DoDisplayedScrolling(lastRead);
+
+                NotifyDetailView();
             }
             catch (Exception _e)
             {
-                Console.WriteLine(_e.Message);
+                NLogUtility.Exception(s_logger, _e, "SetPosts-2");
             }
-
-            dataGridView.Enabled = true;
-
-            DoDisplayedScrolling(lastRead);
-
-            NotifyDetailView();
         }
 
         #region DataGridView
@@ -219,9 +229,13 @@ namespace Waveface
                         break;
                 }
             }
-            catch
+            catch (Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "dataGridView_CellPainting");
+
                 e.Handled = false;
+                
+                return;
             }
 
             // Let them know we handled it
