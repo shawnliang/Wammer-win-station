@@ -258,13 +258,13 @@ namespace Waveface.Component
                                                             new Rectangle(bounds.Location + _itemMargin,
                                                                           bounds.Size - _itemMargin - _itemMargin));
 
-                if ((bounds.Size.Width > image.Width) || (bounds.Size.Height > image.Height))
-                {
-                    Bitmap _bmp = new Bitmap(item.FileName);
-                    g.DrawImage(_bmp, _pos, new Rectangle(0, 0, _bmp.Width, _bmp.Height), GraphicsUnit.Pixel);
-                    _bmp = null;
-                }
-                else
+                //if ((bounds.Size.Width > image.Width) || (bounds.Size.Height > image.Height))
+                //{
+                //    Bitmap _bmp = new Bitmap(item.FileName);
+                //    g.DrawImage(_bmp, _pos, new Rectangle(0, 0, _bmp.Width, _bmp.Height), GraphicsUnit.Pixel);
+                //    _bmp = null;
+                //}
+                //else
                 {
                     g.DrawImage(image, _pos, new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
                 }
