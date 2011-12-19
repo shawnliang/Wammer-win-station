@@ -591,7 +591,7 @@ namespace Waveface
 
         #endregion
 
-        #region Filter
+        #region Filter (NOT USED NOW)
 
         public void DoTimelineFilter(FilterItem item, bool isFilterTimelineMode)
         {
@@ -675,7 +675,7 @@ namespace Waveface
 
         #endregion
 
-        #region Newest Post
+        #region Newest Post (NOT USED NOW)
 
         private void timerGetNewestPost_Tick(object sender, EventArgs e)
         {
@@ -890,8 +890,7 @@ namespace Waveface
 
                 switch (_dr)
                 {
-                    case DialogResult.Yes:
-                        
+                    case DialogResult.Yes:  
                         break;
 
                     case DialogResult.OK:

@@ -281,6 +281,7 @@ namespace Waveface.PostUI
         private void btnBatchPost_Click(object sender, EventArgs e)
         {
             NewPostItem _newPostItem = new NewPostItem();
+            _newPostItem.PostType = PostType.Photo;
             _newPostItem.Text = MyParent.richTextBox.Text;
             _newPostItem.ResizeRatio = toolStripComboBoxResize.Text;
             _newPostItem.OrgPostTime = DateTime.Now;

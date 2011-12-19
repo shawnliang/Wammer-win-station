@@ -17,7 +17,7 @@ namespace Waveface
 {
     public partial class LeftArea : UserControl
     {
-        private List<NewPostItem> m_batchPostItems = new List<NewPostItem>();
+        private NewPostManager m_newPostManager;
         private FilterManager m_filterManager;
         private Button m_buttonAddNewFilter;
 
@@ -52,9 +52,11 @@ namespace Waveface
             //taskPaneFilter.UseCustomTheme("panther.dll");
             taskPaneFilter.UseClassicTheme();
 
+            m_newPostManager = new NewPostManager();
+
             initBatchPostItems();
 
-            initTimeline();
+            initTimeline();   
         }
 
         public void SetUI(bool flag)
@@ -212,7 +214,7 @@ namespace Waveface
 
         #endregion
 
-        #region BatchPostItems
+        #region BatchPost
 
         private void initBatchPostItems()
         {
@@ -220,13 +222,13 @@ namespace Waveface
             //±qÀÉ®×Åª¤J
             //
 
-            foreach (NewPostItem _item in m_batchPostItems)
+            foreach (NewPostItem _item in m_newPostManager.Items)
                 AddToExplorerBar(_item);
         }
 
         public void AddNewPostItem(NewPostItem newPostItem)
         {
-            m_batchPostItems.Add(newPostItem);
+            m_newPostManager.Add(newPostItem);
 
             AddToExplorerBar(newPostItem);
         }
@@ -246,7 +248,7 @@ namespace Waveface
 
         public void DeletePostItem(BatchPostItemUI batchPostItemUi, Expando expando, NewPostItem newPostItem)
         {
-            m_batchPostItems.Remove(newPostItem);
+            m_newPostManager.Remove(newPostItem);
             taskPaneBatchPost.Expandos.Remove(expando);
         }
 

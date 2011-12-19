@@ -18,8 +18,8 @@ namespace Waveface
 
         #region System
 
-        private string RUN_TIME_FILE = "Waveface RunTime.dat";
-        private string LAST_READ_FILE = "Waveface Read.dat";
+        //private string RUN_TIME_FILE = "Waveface RunTime.dat";
+        //private string LAST_READ_FILE = "Waveface Read.dat";
 
         private RT_REST m_rest;
         public MR_auth_login Login { get; set; }
@@ -286,7 +286,7 @@ namespace Waveface
             {
                 string _json = JsonConvert.SerializeObject(this);
 
-                string _filePath = Main.GCONST.CachePath + RUN_TIME_FILE;
+                string _filePath = Main.GCONST.CachePath + Login.user.user_id + "_RT.dat";
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
                 {
@@ -312,7 +312,7 @@ namespace Waveface
             try
             {
                 string _json = string.Empty;
-                string _filePath = Main.GCONST.CachePath + RUN_TIME_FILE;
+                string _filePath = Main.GCONST.CachePath + Login.user.user_id + "_RT.dat";
 
                 StreamReader _sr = File.OpenText(_filePath);
                 _json = _sr.ReadToEnd();
@@ -352,7 +352,7 @@ namespace Waveface
             {
                 string _json = JsonConvert.SerializeObject(_lr);
 
-                string _filePath = Main.GCONST.CachePath + LAST_READ_FILE;
+                string _filePath = Main.GCONST.CachePath + Login.user.user_id + "_LR.dat";
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
                 {
@@ -376,7 +376,7 @@ namespace Waveface
             try
             {
                 string _json = string.Empty;
-                string _filePath = Main.GCONST.CachePath + LAST_READ_FILE;
+                string _filePath = Main.GCONST.CachePath + Login.user.user_id + "_LR.dat";
 
                 StreamReader _sr = File.OpenText(_filePath);
                 _json = _sr.ReadToEnd();

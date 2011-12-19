@@ -127,6 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\NewPostManager.cs" />
     <Compile Include="UI\BgPanel.cs">
       <SubType>Component</SubType>
     </Compile>
