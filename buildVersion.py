@@ -30,6 +30,6 @@ def dir_traverse(dest, version):
         for subdir in dirnames:
             dir_traverse(os.path.join(dirname, subdir), version)
 
-print "[Waveface] Replace version from {0} to {1}".format(sys.argv[1], sys.argv[2])
+print "[Waveface] Replace version in {0} to {1}".format(sys.argv[1], sys.argv[2])
 dir_traverse(sys.argv[1], sys.argv[2])
 print "[Waveface] Version replacement done."

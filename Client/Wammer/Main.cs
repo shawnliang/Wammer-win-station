@@ -1217,7 +1217,7 @@ namespace Waveface
             m_exitToLogin = true;
             m_eventFromRestoreWindow_Hack = false;
 
-            QuitOption = QuitOption.Logout;
+            QuitOption = QuitOption.QuitProgram;
             settings.IsLoggedIn = false;
             Close();
         }
