@@ -26,17 +26,17 @@ namespace Wammer.Station
         private bool m_doAutoPost;
         private string m_email;
         private string m_password;
-        private string m_token;
+        private AddUserResult m_userInfo;
         private string m_dropboxOAuthUrl = string.Empty;
         private bool m_verifyOK;
         private bool m_verifying;
         private bool m_autoPostOK;
         
-        public DropboxForm(string email, string password, string token)
+        public DropboxForm(string email, string password, AddUserResult userInfo)
         {
             m_email = email;
             m_password = password;
-            m_token = token;
+            m_userInfo = userInfo;
 
             InitializeComponent();
 
@@ -239,16 +239,19 @@ namespace Wammer.Station
 
         private void backgroundWorkerDefaultPosts_DoWork(object sender, DoWorkEventArgs e)
         {
-            Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            DefaultPosts _posts = new DefaultPosts();
-            _posts.AutoPost(m_email, m_password);
+            if (!m_userInfo.has_old_station)
+            {
+                Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                DefaultPosts _posts = new DefaultPosts();
+                _posts.AutoPost(m_email, m_password);
+            }
         }
 
         private void backgroundWorkerDefaultPosts_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             m_doAutoPost = false;
 
-            WavefaceWindowsClientHelper.StartWavefaceWindowsClient(m_email, m_password, m_token);
+            WavefaceWindowsClientHelper.StartWavefaceWindowsClient(m_email, m_password, m_userInfo.session_token);
 
             m_autoPostOK = true;
 

@@ -42,9 +42,9 @@ namespace Wammer.Station
 
             try
             {
-                string session_token = StationController.AddUser(email, password);
+                AddUserResult result = StationController.AddUser(email, password);
 
-                DropboxInstallAndLink(email, password, session_token);
+                DropboxInstallAndLink(email, password, result);
 
                 Close();
             }
@@ -72,9 +72,9 @@ namespace Wammer.Station
                         Cursor.Current = Cursors.WaitCursor;
 
                         StationController.SignoffStation(_e.Id, textBoxMail.Text, textBoxPassword.Text);
-                        string token = StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
-
-                        DropboxInstallAndLink(textBoxMail.Text, textBoxPassword.Text, token);
+                        AddUserResult result = StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
+                        result.has_old_station = true;
+                        DropboxInstallAndLink(textBoxMail.Text, textBoxPassword.Text, result);
 
                         Close();
                     }
@@ -108,11 +108,11 @@ namespace Wammer.Station
             }
         }
 
-        private void DropboxInstallAndLink(string email, string password, string token)
+        private void DropboxInstallAndLink(string email, string password, AddUserResult userInfo)
         {
             Hide();
 
-            DropboxForm _dropboxForm = new DropboxForm(email, password, token);
+            DropboxForm _dropboxForm = new DropboxForm(email, password, userInfo);
             _dropboxForm.ShowDialog();
         }
 
@@ -155,13 +155,13 @@ namespace Wammer.Station
             }
         }
 
-		protected override bool ProcessDialogKey(Keys keyData)
-		{
-			if (keyData == Keys.Enter && !this.buttonOK.Focused)
-			{
-				buttonOK_Click(null, null);
-			}
-			return base.ProcessDialogKey(keyData);
-		}
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (keyData == Keys.Enter && !this.buttonOK.Focused)
+            {
+                buttonOK_Click(null, null);
+            }
+            return base.ProcessDialogKey(keyData);
+        }
     }
 }

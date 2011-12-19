@@ -53,4 +53,24 @@ namespace Wammer.Model
 			get { return instance; }
 		}
 	}
+
+	public class OldDriverCollection : Collection<Driver>
+	{
+		private static OldDriverCollection instance;
+
+		static OldDriverCollection()
+		{
+			instance = new OldDriverCollection();
+		}
+
+		private OldDriverCollection()
+			: base("oldDrivers")
+		{
+		}
+
+		public static OldDriverCollection Instance
+		{
+			get { return instance; }
+		}
+	}
 }
