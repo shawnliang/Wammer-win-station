@@ -22,11 +22,30 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			MongoCursor<CloudStorage> cursor = CloudStorageCollection.Instance.FindAll();
-			List<CloudStorage> cloudstorages = new List<CloudStorage>();
-			foreach (CloudStorage cloudstorage in cursor)
+			List<ListCloudStorageResponse> cloudstorages = new List<ListCloudStorageResponse>();
+
+			// currently only support one driver
+			Driver driver = DriverCollection.Instance.FindOne();
+			CloudStorage cloudstorage = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
+			if (cloudstorage != null)
 			{
-				cloudstorages.Add(cloudstorage);
+				cloudstorages.Add(new ListCloudStorageResponse
+					{
+						type = "dropbox",
+						connected = true,
+						quota = cloudstorage.Quota,
+						used = new DropboxFileStorage(driver, cloudstorage).GetUsedSize()
+					}
+				);
+			}
+			else
+			{
+				cloudstorages.Add(new ListCloudStorageResponse
+					{
+						type = "dropbox",
+						connected = false
+					}
+				);
 			}
 			RespondSuccess(cloudstorages);
 		}
@@ -198,6 +217,19 @@ namespace Wammer.Station
 		public string oauth_url { get; set; }
 
 		public GetDropboxOAuthResponse()
+			: base()
+		{
+		}
+	}
+
+	public class ListCloudStorageResponse : CloudResponse
+	{
+		public string type { get; set; }
+		public bool connected { get; set; }
+		public long quota { get; set; }
+		public long used { get; set; }
+
+		public ListCloudStorageResponse()
 			: base()
 		{
 		}
