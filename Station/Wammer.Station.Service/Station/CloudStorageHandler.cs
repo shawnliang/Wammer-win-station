@@ -22,14 +22,14 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			List<ListCloudStorageResponse> cloudstorages = new List<ListCloudStorageResponse>();
+			List<CloudStorageStatus> cloudstorages = new List<CloudStorageStatus>();
 
 			// currently only support one driver
 			Driver driver = DriverCollection.Instance.FindOne();
 			CloudStorage cloudstorage = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
 			if (cloudstorage != null)
 			{
-				cloudstorages.Add(new ListCloudStorageResponse
+				cloudstorages.Add(new CloudStorageStatus
 					{
 						type = "dropbox",
 						connected = true,
@@ -38,7 +38,7 @@ namespace Wammer.Station
 					}
 				);
 			}
-			RespondSuccess(cloudstorages);
+			RespondSuccess(new ListCloudStorageResponse { cloudstorages = cloudstorages });
 		}
 
 		public override object Clone()
@@ -215,14 +215,19 @@ namespace Wammer.Station
 
 	public class ListCloudStorageResponse : CloudResponse
 	{
-		public string type { get; set; }
-		public bool connected { get; set; }
-		public long quota { get; set; }
-		public long used { get; set; }
+		public List<CloudStorageStatus> cloudstorages { get; set; }
 
 		public ListCloudStorageResponse()
 			: base()
 		{
 		}
+	}
+
+	public class CloudStorageStatus
+	{
+		public string type { get; set; }
+		public bool connected { get; set; }
+		public long quota { get; set; }
+		public long used { get; set; }
 	}
 }
