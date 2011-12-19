@@ -270,6 +270,7 @@ namespace Waveface
                 SetLastReadPos();
 
             SaveRunTime();
+            leftArea.BatchPostQuit();
 
             if (m_logoutStation)
             {
@@ -498,6 +499,8 @@ namespace Waveface
             RT.FilterMode = false;
 
             leftArea.SetUI(true);
+            leftArea.InitBatchPost();
+
             postsArea.showRefreshUI(true);
 
             Cursor.Current = Cursors.Default;

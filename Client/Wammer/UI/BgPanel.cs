@@ -20,15 +20,11 @@ namespace Waveface
             m_font = new Font("Tahoma", 11, FontStyle.Bold);
         }
 
-        protected override void OnPaintBackground(PaintEventArgs e)
+        protected override void OnResize(System.EventArgs eventargs)
         {
-            base.OnPaintBackground(e);
+            base.OnResize(eventargs);
 
-            Graphics _g = e.Graphics;
-
-            _g.FillRectangle(m_backgroundBrush, e.ClipRectangle);
-            _g.DrawImage(Properties.Resources.desktop_logo, 8, 8);
-            _g.Dispose();
+            Refresh();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -36,6 +32,9 @@ namespace Waveface
             base.OnPaint(e);
 
             Graphics _g = e.Graphics;
+
+            _g.FillRectangle(m_backgroundBrush, e.ClipRectangle);
+            _g.DrawImage(Properties.Resources.desktop_logo, 8, 8);
 
             Size _size = TextRenderer.MeasureText(_g, UserName, m_font);
             _g.DrawString(UserName, m_font, SystemBrushes.WindowText, Width - _size.Width - 8, 8);

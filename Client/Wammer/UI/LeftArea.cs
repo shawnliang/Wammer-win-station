@@ -11,7 +11,9 @@ using NLog;
 using Waveface.API.V2;
 using Waveface.Component.ListBarControl;
 using Waveface.FilterUI;
+using Waveface.Properties;
 using XPExplorerBar;
+using MonthCalendar = CustomControls.MonthCalendar;
 
 #endregion
 
@@ -24,9 +26,10 @@ namespace Waveface
         private NewPostManager m_newPostManager;
         private FilterManager m_filterManager;
         private Button m_buttonAddNewFilter;
-
-        private int m_count;
         private bool m_startUpload;
+        private string m_dropAreaMessage;
+        private Image m_dropAreaImage;
+        private Font m_font = new Font("Tahoma", 10, FontStyle.Bold);
 
         #region Properties
 
@@ -39,7 +42,7 @@ namespace Waveface
             }
         }
 
-        public CustomControls.MonthCalendar MonthCalendar
+        public MonthCalendar MonthCalendar
         {
             get
             {
@@ -59,9 +62,7 @@ namespace Waveface
             //taskPaneFilter.UseCustomTheme("panther.dll");
             taskPaneFilter.UseClassicTheme();
 
-            initBatchPostItems();
-
-            //initTimeline();   
+            m_dropAreaImage = new Bitmap(150, 138);
         }
 
         #region CustomizedFilters
@@ -294,11 +295,9 @@ namespace Waveface
 
         #region BatchPost
 
-        private void initBatchPostItems()
+        public void InitBatchPost()
         {
-            m_newPostManager = new NewPostManager();
-            NewPostManager _newPostManager = m_newPostManager;
-            m_newPostManager = _newPostManager;
+            m_newPostManager = NewPostManager.Load() ?? new NewPostManager();
 
             ThreadPool.QueueUserWorkItem(state => { BatchPostThreadMethod(); });
         }
@@ -306,16 +305,27 @@ namespace Waveface
         public void AddNewPostItem(NewPostItem item)
         {
             m_newPostManager.Add(item);
+        }
+
+        public void BatchPostQuit()
+        {
             m_newPostManager.Save();
         }
 
         private void BatchPostThreadMethod()
         {
-            NewPostItem _newPost = null;
+            ShowDragDropMessage("Drag & Drop here");
+
+            Thread.Sleep(3000);
+
             m_startUpload = true;
 
             while (true)
             {
+                ShowDragDropMessage("Drag & Drop here");
+
+                NewPostItem _newPost;
+
                 lock (m_newPostManager)
                 {
                     if (m_newPostManager.Items.Count > 0)
@@ -326,6 +336,8 @@ namespace Waveface
 
                 if (_newPost != null)
                 {
+                    ShowDragDropMessage("");
+
                     if (m_startUpload)
                     {
                         NewPostItem _retItem = BatchPhotoPost(_newPost);
@@ -335,8 +347,6 @@ namespace Waveface
                             lock (m_newPostManager)
                             {
                                 m_newPostManager.Remove(_newPost);
-
-                                m_newPostManager.Save();
                             }
                         }
                         else
@@ -347,21 +357,18 @@ namespace Waveface
                             }
                         }
                     }
-                    else
-                    {
-                        continue;
-                    }
                 }
-                else
-                {
-                    Thread.Sleep(1000);
-                }
+
+                Thread.Sleep(1000);
             }
         }
 
         private NewPostItem BatchPhotoPost(NewPostItem newPost)
         {
-            s_logger.Trace("BatchPhotoPost:" + newPost.Text + ", Files=" + newPost.Files.Count);
+            int _count = 0;
+            string _tmpStamp = DateTime.Now.Ticks.ToString();
+
+            s_logger.Trace("[" + _tmpStamp + "]" + "BatchPhotoPost:" + newPost.Text + ", Files=" + newPost.Files.Count);
 
             string _ids = "[";
 
@@ -369,11 +376,13 @@ namespace Waveface
             {
                 if (m_startUpload)
                 {
-                    string _file = newPost.Files[m_count];
+                    string _file = newPost.Files[_count];
 
                     if (newPost.UploadedFiles.Keys.Contains(_file))
                     {
                         _ids += "\"" + newPost.UploadedFiles[_file] + "\"" + ",";
+
+                        s_logger.Trace("[" + _tmpStamp + "]" + "Batch Sended Photo [" + _count + "]" + _file);
                     }
                     else
                     {
@@ -382,7 +391,8 @@ namespace Waveface
                             string _text = new FileName(_file).Name;
                             string _resizedImage = ImageUtility.ResizeImage(_file, _text, newPost.ResizeRatio, 100);
 
-                            MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, "", true);
+                            MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, "",
+                                                                                             true);
 
                             if (_uf == null)
                             {
@@ -393,6 +403,8 @@ namespace Waveface
                             _ids += "\"" + _uf.object_id + "\"" + ",";
 
                             newPost.UploadedFiles.Add(_file, _uf.object_id);
+
+                            s_logger.Trace("[" + _tmpStamp + "]" + "Batch Upload Photo [" + _count + "]" + _file);
                         }
                         catch (Exception _e)
                         {
@@ -402,13 +414,14 @@ namespace Waveface
                         }
                     }
 
-                    m_count++;
+                    _count++;
 
-                    int _count = newPost.Files.Count;
+                    int _counts = newPost.Files.Count;
 
-                    ChangeProgressBarUI(m_count * 100 / _count, m_count + "/" + _count);
+                    UpdateDragAndDropUI(_count * 100 / _counts,
+                                        string.Format("Uploading {0} of {1} photos", _count, _counts));
 
-                    if (m_count == _count)
+                    if (_count == _counts)
                         break;
                 }
                 else
@@ -430,6 +443,8 @@ namespace Waveface
                     newPost.PostOK = false;
                     return newPost;
                 }
+
+                s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + newPost.Text + ", Files=" + newPost.Files.Count);
             }
             catch (Exception _e)
             {
@@ -439,102 +454,98 @@ namespace Waveface
                 return newPost;
             }
 
-            SinglePostDone("OK");
-
             newPost.PostOK = true;
             return newPost;
         }
 
-        public void ChangeProgressBarUI(int percent, string countText)
+        public void UpdateDragAndDropUI(int percent, string text)
         {
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                           delegate
-                           {
-                               ChangeProgressBarUI(percent, countText);
-                           }
+                           delegate { UpdateDragAndDropUI(percent, text); }
                            ));
             }
             else
             {
-                UpdateDragAndDropUI(percent);
-            }
-        }
+                labelDropInfor.Text = "";
 
-        public void UpdateDragAndDropUI(int percent)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(
-                           delegate
-                           {
-                               UpdateDragAndDropUI(percent);
-                           }
-                           ));
-            }
-            else
-            {
                 if ((percent == 0) || (percent == 100))
                 {
-                    pbDropArea.Image = Properties.Resources.dragNdrop_area1;
+                    DrawDropArea(Resources.dragNdrop_area1);
 
                     return;
                 }
 
                 if ((percent > 0) && (percent <= 20))
                 {
-                    pbDropArea.Image = Properties.Resources.dragNdrop_loading0;
+                    DrawDropArea(Resources.dragNdrop_loading0);
+                    labelDropInfor.Text = text;
 
                     return;
                 }
 
                 if ((percent > 20) && (percent <= 40))
                 {
-                    pbDropArea.Image = Properties.Resources.dragNdrop_loading1;
+                    DrawDropArea(Resources.dragNdrop_loading1);
+                    labelDropInfor.Text = text;
 
                     return;
                 }
 
                 if ((percent > 40) && (percent <= 60))
                 {
-                    pbDropArea.Image = Properties.Resources.dragNdrop_loading2;
+                    DrawDropArea(Resources.dragNdrop_loading2);
+                    labelDropInfor.Text = text;
 
                     return;
                 }
 
                 if ((percent > 60) && (percent <= 80))
                 {
-                    pbDropArea.Image = Properties.Resources.dragNdrop_loading3;
+                    DrawDropArea(Resources.dragNdrop_loading3);
+                    labelDropInfor.Text = text;
 
                     return;
                 }
 
                 if ((percent > 80) && (percent < 100))
                 {
-                    pbDropArea.Image = Properties.Resources.dragNdrop_loading4;
+                    DrawDropArea(Resources.dragNdrop_loading4);
+                    labelDropInfor.Text = text;
 
                     return;
                 }
             }
         }
 
-        public void SinglePostDone(string text)
+        public void ShowDragDropMessage(string text)
         {
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                           delegate
-                           {
-                               SinglePostDone(text);
-                           }
+                           delegate { ShowDragDropMessage(text); }
                            ));
             }
             else
             {
-                //Main.Current.AfterBatchPostDone();
-                //DeleteThis();
+                m_dropAreaMessage = text;
+                DrawDropArea(Resources.dragNdrop_area1);
             }
+        }
+
+        private void DrawDropArea(Image bmp)
+        {
+            using (Graphics _g = Graphics.FromImage(m_dropAreaImage))
+            {
+                _g.Clear(Color.Transparent);
+                _g.DrawImage(bmp, 0, 0);
+
+                Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                _g.DrawString(m_dropAreaMessage, m_font, Brushes.DeepSkyBlue, (bmp.Width - _size.Width) / 2, (bmp.Height - _size.Height) / 2);
+            }
+
+            pbDropArea.Image = m_dropAreaImage;
         }
 
         #endregion

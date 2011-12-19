@@ -15,7 +15,7 @@ namespace Waveface
         [STAThread]
         private static void Main(string[] args)
         {
-            s_logger.Trace("Windows Client Start.");
+            s_logger.Trace("==================== Windows Client Start ====================");
 
             bool _createdNew;
             Mutex _mutex = new Mutex(true, "Waveface Windows Client", out _createdNew);
@@ -74,7 +74,7 @@ namespace Waveface
 
             GC.KeepAlive(_mutex);
 
-            s_logger.Trace("Windows Client Exit.");
+            s_logger.Trace("==================== Windows Client Exit ====================");
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

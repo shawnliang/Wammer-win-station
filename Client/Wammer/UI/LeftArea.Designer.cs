@@ -33,6 +33,8 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeftArea));
             this.panelBottom = new System.Windows.Forms.Panel();
+            this.panelButtom2 = new System.Windows.Forms.Panel();
+            this.labelDropInfor = new System.Windows.Forms.Label();
             this.pbDropArea = new System.Windows.Forms.PictureBox();
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelFilter = new System.Windows.Forms.Panel();
@@ -49,6 +51,7 @@ namespace Waveface
             this.imageListCustomFilter = new System.Windows.Forms.ImageList(this.components);
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
             this.panelBottom.SuspendLayout();
+            this.panelButtom2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
             this.panelFilter.SuspendLayout();
@@ -63,23 +66,46 @@ namespace Waveface
             // panelBottom
             // 
             this.panelBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelBottom.Controls.Add(this.panelButtom2);
             this.panelBottom.Controls.Add(this.pbDropArea);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBottom.Location = new System.Drawing.Point(0, 425);
+            this.panelBottom.Location = new System.Drawing.Point(0, 415);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(191, 182);
+            this.panelBottom.Size = new System.Drawing.Size(191, 192);
             this.panelBottom.TabIndex = 1;
+            // 
+            // panelButtom2
+            // 
+            this.panelButtom2.Controls.Add(this.labelDropInfor);
+            this.panelButtom2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelButtom2.Location = new System.Drawing.Point(0, 170);
+            this.panelButtom2.Name = "panelButtom2";
+            this.panelButtom2.Size = new System.Drawing.Size(191, 22);
+            this.panelButtom2.TabIndex = 2;
+            // 
+            // labelDropInfor
+            // 
+            this.labelDropInfor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelDropInfor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelDropInfor.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDropInfor.Location = new System.Drawing.Point(0, 0);
+            this.labelDropInfor.Name = "labelDropInfor";
+            this.labelDropInfor.Size = new System.Drawing.Size(191, 22);
+            this.labelDropInfor.TabIndex = 1;
+            this.labelDropInfor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pbDropArea
             // 
             this.pbDropArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.pbDropArea.BackgroundImage = global::Waveface.Properties.Resources.dragNdrop_area1;
+            this.pbDropArea.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pbDropArea.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbDropArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbDropArea.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pbDropArea.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pbDropArea.Image = global::Waveface.Properties.Resources.dragNdrop_area1;
             this.pbDropArea.Location = new System.Drawing.Point(0, 0);
             this.pbDropArea.Name = "pbDropArea";
-            this.pbDropArea.Size = new System.Drawing.Size(191, 182);
+            this.pbDropArea.Size = new System.Drawing.Size(191, 192);
             this.pbDropArea.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbDropArea.TabIndex = 0;
             this.pbDropArea.TabStop = false;
@@ -95,7 +121,7 @@ namespace Waveface
             this.panelMain.Location = new System.Drawing.Point(0, 0);
             this.panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(191, 425);
+            this.panelMain.Size = new System.Drawing.Size(191, 415);
             this.panelMain.TabIndex = 2;
             // 
             // panelFilter
@@ -106,7 +132,7 @@ namespace Waveface
             this.panelFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelFilter.Location = new System.Drawing.Point(0, 195);
             this.panelFilter.Name = "panelFilter";
-            this.panelFilter.Size = new System.Drawing.Size(191, 230);
+            this.panelFilter.Size = new System.Drawing.Size(191, 220);
             this.panelFilter.TabIndex = 5;
             // 
             // panelCustomFilter
@@ -115,7 +141,7 @@ namespace Waveface
             this.panelCustomFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCustomFilter.Location = new System.Drawing.Point(0, 38);
             this.panelCustomFilter.Name = "panelCustomFilter";
-            this.panelCustomFilter.Size = new System.Drawing.Size(191, 192);
+            this.panelCustomFilter.Size = new System.Drawing.Size(191, 182);
             this.panelCustomFilter.TabIndex = 3;
             // 
             // taskPaneFilter
@@ -131,7 +157,7 @@ namespace Waveface
             this.taskPaneFilter.Location = new System.Drawing.Point(0, 0);
             this.taskPaneFilter.Margin = new System.Windows.Forms.Padding(0);
             this.taskPaneFilter.Name = "taskPaneFilter";
-            this.taskPaneFilter.Size = new System.Drawing.Size(191, 192);
+            this.taskPaneFilter.Size = new System.Drawing.Size(191, 182);
             this.taskPaneFilter.TabIndex = 1;
             this.taskPaneFilter.Text = "Filter";
             this.taskPaneFilter.Visible = false;
@@ -255,6 +281,7 @@ namespace Waveface
             this.Name = "LeftArea";
             this.Size = new System.Drawing.Size(191, 607);
             this.panelBottom.ResumeLayout(false);
+            this.panelButtom2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).EndInit();
             this.panelMain.ResumeLayout(false);
             this.panelFilter.ResumeLayout(false);
@@ -286,6 +313,8 @@ namespace Waveface
         private System.Windows.Forms.Panel panelTimeline;
         private CustomControls.MonthCalendar monthCalendar;
         private System.Windows.Forms.Button buttonCreatePost;
+        private System.Windows.Forms.Panel panelButtom2;
+        private System.Windows.Forms.Label labelDropInfor;
 
     }
 }

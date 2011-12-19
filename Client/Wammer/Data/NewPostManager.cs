@@ -21,11 +21,13 @@ namespace Waveface
         public void Add(NewPostItem item)
         {
             Items.Add(item);
+            Save();
         }
 
         public void Remove(NewPostItem item)
         {
             Items.Remove(item);
+            Save();
         }
 
         #region IO
@@ -55,7 +57,7 @@ namespace Waveface
             return true;
         }
 
-        public NewPostManager Load()
+        public static NewPostManager Load()
         {
             try
             {
