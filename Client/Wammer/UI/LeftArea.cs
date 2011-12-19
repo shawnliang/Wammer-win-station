@@ -274,21 +274,12 @@ namespace Waveface
 
         public void SetUI(bool flag)
         {
-            buttonCreatePost.Visible = flag;
             taskPaneFilter.Visible = flag;
         }
 
         private void monthCalendar_DateClicked(object sender, DateEventArgs e)
         {
             Main.Current.ClickCalendar(e.Date);
-        }
-
-        private void buttonCreatePost_Click(object sender, EventArgs e)
-        {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
-            Main.Current.Post();
         }
 
         #endregion

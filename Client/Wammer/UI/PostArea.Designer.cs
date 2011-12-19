@@ -31,15 +31,16 @@ namespace Waveface
         private void InitializeComponent()
         {
             this.panelTop = new System.Windows.Forms.Panel();
-            this.btnRefresh = new Waveface.Component.XPButton();
             this.labelDisplay = new System.Windows.Forms.Label();
             this.comboBoxType = new System.Windows.Forms.ComboBox();
             this.panelList = new System.Windows.Forms.Panel();
-            this.postList = new Waveface.PostsList();
             this.panelButtom = new System.Windows.Forms.Panel();
             this.linkLabelReadMore = new System.Windows.Forms.LinkLabel();
             this.labelPostInfo = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.postList = new Waveface.PostsList();
+            this.btnCreatePost = new Waveface.Component.XPButton();
+            this.btnRefresh = new Waveface.Component.XPButton();
             this.panelTop.SuspendLayout();
             this.panelList.SuspendLayout();
             this.panelButtom.SuspendLayout();
@@ -49,6 +50,7 @@ namespace Waveface
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.panelTop.Controls.Add(this.btnCreatePost);
             this.panelTop.Controls.Add(this.btnRefresh);
             this.panelTop.Controls.Add(this.labelDisplay);
             this.panelTop.Controls.Add(this.comboBoxType);
@@ -58,24 +60,6 @@ namespace Waveface
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(386, 32);
             this.panelTop.TabIndex = 0;
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnRefresh.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnRefresh.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnRefresh.Image = global::Waveface.Properties.Resources.refresh;
-            this.btnRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRefresh.Location = new System.Drawing.Point(300, 3);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(81, 26);
-            this.btnRefresh.TabIndex = 6;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Visible = false;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // labelDisplay
             // 
@@ -117,18 +101,6 @@ namespace Waveface
             this.panelList.Name = "panelList";
             this.panelList.Size = new System.Drawing.Size(386, 407);
             this.panelList.TabIndex = 2;
-            // 
-            // postList
-            // 
-            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.postList.DetailView = null;
-            this.postList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.postList.Font = new System.Drawing.Font("Microsoft JhengHei", 9F);
-            this.postList.Location = new System.Drawing.Point(0, 0);
-            this.postList.Margin = new System.Windows.Forms.Padding(0);
-            this.postList.Name = "postList";
-            this.postList.Size = new System.Drawing.Size(384, 405);
-            this.postList.TabIndex = 1;
             // 
             // panelButtom
             // 
@@ -177,6 +149,52 @@ namespace Waveface
             this.panelMain.Size = new System.Drawing.Size(386, 435);
             this.panelMain.TabIndex = 3;
             // 
+            // postList
+            // 
+            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.postList.DetailView = null;
+            this.postList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.postList.Font = new System.Drawing.Font("微軟正黑體", 9F);
+            this.postList.Location = new System.Drawing.Point(0, 0);
+            this.postList.Margin = new System.Windows.Forms.Padding(0);
+            this.postList.Name = "postList";
+            this.postList.Size = new System.Drawing.Size(384, 405);
+            this.postList.TabIndex = 1;
+            // 
+            // btnCreatePost
+            // 
+            this.btnCreatePost.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnCreatePost.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnCreatePost.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnCreatePost.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnCreatePost.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCreatePost.Location = new System.Drawing.Point(6, 3);
+            this.btnCreatePost.Name = "btnCreatePost";
+            this.btnCreatePost.Size = new System.Drawing.Size(118, 26);
+            this.btnCreatePost.TabIndex = 7;
+            this.btnCreatePost.Text = "Create a New Post";
+            this.btnCreatePost.UseVisualStyleBackColor = true;
+            this.btnCreatePost.Visible = false;
+            this.btnCreatePost.Click += new System.EventHandler(this.btnCreatePost_Click);
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefresh.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnRefresh.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnRefresh.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnRefresh.Image = global::Waveface.Properties.Resources.refresh;
+            this.btnRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRefresh.Location = new System.Drawing.Point(300, 3);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(81, 26);
+            this.btnRefresh.TabIndex = 6;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Visible = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // PostArea
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -209,5 +227,6 @@ namespace Waveface
         private System.Windows.Forms.LinkLabel linkLabelReadMore;
         private System.Windows.Forms.Label labelDisplay;
         private XPButton btnRefresh;
+        private XPButton btnCreatePost;
     }
 }

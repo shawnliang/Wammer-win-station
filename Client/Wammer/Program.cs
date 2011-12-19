@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using NLog;
+using Waveface.Compoment;
 using Waveface.Diagnostics;
 using Waveface.Localization;
 
@@ -17,12 +18,9 @@ namespace Waveface
         {
             s_logger.Trace("==================== Windows Client Start ====================");
 
-            bool _createdNew;
-            Mutex _mutex = new Mutex(true, "Waveface Windows Client", out _createdNew);
-
-            if (!_createdNew)
+            if (!SingleInstance.Start())
             {
-                MessageBox.Show(I18n.L.T("AnotherInstanceRunning"));
+                SingleInstance.ShowFirstInstance();
                 return;
             }
 
@@ -72,7 +70,7 @@ namespace Waveface
                 _errorDlg.ShowDialog();
             }
 
-            GC.KeepAlive(_mutex);
+            SingleInstance.Stop();
 
             s_logger.Trace("==================== Windows Client Exit ====================");
         }

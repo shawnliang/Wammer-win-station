@@ -27,8 +27,6 @@ namespace Waveface
 
         public void ShowTypeUI(bool flag)
         {
-            // panelButtom.Visible = flag;
-
             labelDisplay.Visible = flag;
             comboBoxType.Visible = flag;
         }
@@ -83,7 +81,17 @@ namespace Waveface
 
         public void showRefreshUI(bool flag)
         {
+            btnCreatePost.Visible = true;
+            
             btnRefresh.Visible = flag;
+        }
+
+        private void btnCreatePost_Click(object sender, System.EventArgs e)
+        {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
+            Main.Current.Post();
         }
     }
 }
