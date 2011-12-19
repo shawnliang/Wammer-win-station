@@ -186,6 +186,7 @@ namespace Wammer.Station.Management
 							Id = resp.station.station_id,
 							Location = resp.station.location,
 							LastSyncTime = resp.station.LastSeen,
+							ComputerName = resp.station.computer_name
 						};
 					case 0x4000 + 4: // user not exist
 						throw new AuthenticationException(e.Message);
@@ -541,6 +542,11 @@ namespace Wammer.Station.Management
 		/// Existing station's id
 		/// </summary>
 		public DateTime LastSyncTime { get; set; }
+
+		/// <summary>
+		/// Existing station's computer name
+		/// </summary>
+		public string ComputerName { get; set; }
 
 		public UserAlreadyHasStationException()
 			:base()

@@ -11,6 +11,7 @@ namespace Wammer.Cloud
 		public string creator_id { get; set; }
 		public string location { get; set; }
 		public long last_seen { get; set; }
+		public string computer_name { get; set; }
 
 		[System.Xml.Serialization.XmlIgnore]
 		public DateTime LastSeen 

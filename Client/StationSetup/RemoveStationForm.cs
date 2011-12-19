@@ -6,12 +6,11 @@ namespace Wammer.Station
 {
     public partial class RemoveStationForm : Form
     {
-        public RemoveStationForm(string name, string location)
+        public RemoveStationForm(string computerName)
         {
             InitializeComponent();
 
-            labelName.Text = name;
-            labelLocation.Text = location;
+            labelName.Text = computerName;
         }
 
         private void buttonYes_Click(object sender, System.EventArgs e)

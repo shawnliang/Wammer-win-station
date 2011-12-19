@@ -117,36 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label3.Text" xml:space="preserve">
-    <value>在本台機器上, 您已經安裝過Waveface個人工作站</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>47, 39</value>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 44</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>名稱:</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 67</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 19</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>網路位置:</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>您已經使用過該帳戶，在下列電腦上安裝一個Waveface主程式：</value>
   </data>
   <data name="labelName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 40</value>
+    <value>12, 53</value>
   </data>
-  <data name="labelLocation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 68</value>
+  <data name="labelName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 19</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 19</value>
+    <value>349, 36</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>是否將它移除, 以利安裝新的?</value>
+    <value>如果您按下 "確定"鈕， 上述電腦上的Waveface主程式將會被取代並且永久失效. </value>
   </data>
   <data name="buttonYes.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9.75pt</value>

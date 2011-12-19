@@ -62,7 +62,7 @@ namespace Wammer.Station
             {
                 Cursor.Current = Cursors.Default;
 
-                RemoveStationForm _form = new RemoveStationForm(_e.Id, _e.Location);
+                RemoveStationForm _form = new RemoveStationForm(_e.ComputerName);
                 DialogResult _dr = _form.ShowDialog();
 
                 if (_dr == DialogResult.Yes)
