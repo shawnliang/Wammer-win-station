@@ -61,7 +61,6 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.changeOwnerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
             this.splitterRight = new System.Windows.Forms.Splitter();
             this.timerGetNewestPost = new System.Windows.Forms.Timer(this.components);
@@ -223,8 +222,7 @@
             this.preferencesMenuItem,
             this.toolStripMenuItem2,
             this.changeOwnerMenuItem,
-            this.logoutMenuItem,
-            this.mnuExit});
+            this.logoutMenuItem});
             this.mnuTray.Name = "mnuTree";
             resources.ApplyResources(this.mnuTray, "mnuTray");
             // 
@@ -293,12 +291,6 @@
             this.logoutMenuItem.Name = "logoutMenuItem";
             resources.ApplyResources(this.logoutMenuItem, "logoutMenuItem");
             this.logoutMenuItem.Click += new System.EventHandler(this.logoutMenuItem_Click);
-            // 
-            // mnuExit
-            // 
-            this.mnuExit.Name = "mnuExit";
-            resources.ApplyResources(this.mnuExit, "mnuExit");
-            this.mnuExit.Click += new System.EventHandler(this.OnMenuExitClick);
             // 
             // timerDelayPost
             // 
@@ -426,7 +418,6 @@
         private System.Windows.Forms.ToolStripMenuItem windowsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem screenMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem mnuExit;
         private System.Windows.Forms.ToolStripMenuItem restoreMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.Timer timerDelayPost;
