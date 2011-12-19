@@ -344,12 +344,6 @@
     <Compile Include="Test\TestForm.Designer.cs">
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\BatchPostItemUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\BatchPostItemUI.Designer.cs">
-      <DependentUpon>BatchPostItemUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\DetailUI\RichText_DV.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -618,10 +612,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Test\TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\BatchPostItemUI.resx">
-      <DependentUpon>BatchPostItemUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\RichText_DV.resx">
       <DependentUpon>RichText_DV.cs</DependentUpon>

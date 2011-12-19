@@ -221,9 +221,9 @@ namespace Waveface
             }
             else
             {
-				MessageBox.Show("Your authentication is expired. Re-enter your password to log in again.", "Waveface");
+                MessageBox.Show("Your authentication is expired. Re-enter your password to log in again.", "Waveface");
 
-				m_exitToLogin = true;
+                m_exitToLogin = true;
                 m_process401Exception = true;
                 QuitOption = QuitOption.Logout;
                 settings.IsLoggedIn = false;
@@ -238,28 +238,28 @@ namespace Waveface
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-			if (e.CloseReason != CloseReason.WindowsShutDown)
-			{
-				if (m_eventFromRestoreWindow_Hack)
-				{
-					m_eventFromRestoreWindow_Hack = false;
+            if (e.CloseReason != CloseReason.WindowsShutDown)
+            {
+                if (m_eventFromRestoreWindow_Hack)
+                {
+                    m_eventFromRestoreWindow_Hack = false;
 
-					s_logger.Trace("MainForm_FormClosing.m_eventFromRestoreWindow_Hack - Return");
+                    s_logger.Trace("MainForm_FormClosing.m_eventFromRestoreWindow_Hack - Return");
 
-					e.Cancel = true;
-					return;
-				}
+                    e.Cancel = true;
+                    return;
+                }
 
-				if (!m_exitToLogin)
-				{
-					WindowState = FormWindowState.Minimized;
+                if (!m_exitToLogin)
+                {
+                    WindowState = FormWindowState.Minimized;
 
-					s_logger.Trace("MainForm_FormClosing.!m_exitToLogin - Return");
+                    s_logger.Trace("MainForm_FormClosing.!m_exitToLogin - Return");
 
-					e.Cancel = true;
-					return;
-				}
-			}
+                    e.Cancel = true;
+                    return;
+                }
+            }
 
             m_dropableNotifyIcon.Dispose();
 
@@ -334,6 +334,7 @@ namespace Waveface
 
             WindowState = FormWindowState.Maximized;
 
+            m_showTimelineIndexType = ShowTimelineIndexType.LocalLastRead;
             GetLastReadAndShow();
 
             m_eventFromRestoreWindow_Hack = true;
@@ -493,6 +494,7 @@ namespace Waveface
             fillUserInformation();
 
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
+            RT.LoadGroupLocalRead();
             RT.FilterMode = false;
 
             leftArea.SetUI(true);
@@ -504,7 +506,7 @@ namespace Waveface
             {
                 s_logger.Trace("Login.Auth_Login.null: ShowAllTimeline(false)");
 
-                ShowAllTimeline(ShowTimelineIndexType.Global_Local_LastRead_Compare);
+                ShowAllTimeline(ShowTimelineIndexType.GlobalLastRead);
             }
             else
             {
@@ -514,7 +516,7 @@ namespace Waveface
 
                 s_logger.Trace("Login.Auth_Login.OK: GetAllDataAsync(false)");
 
-                GetAllDataAsync(ShowTimelineIndexType.Global_Local_LastRead_Compare, false);
+                GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
             }
 
             return true;
@@ -556,7 +558,7 @@ namespace Waveface
         private void fillUserInformation()
         {
             panelTop.UserName = RT.Login.user.nickname;
-            
+
             /*
             if (RT.Login.user.avatar_url == string.Empty)
             {
@@ -838,12 +840,15 @@ namespace Waveface
 
             s_logger.Info("ShowAllTimeline: showTimelineIndexType=" + showTimelineIndexType + ", TimelineIndex=" + _index);
 
-            postsArea.PostsList.SetPosts(_posts, _index);
+            lock (this)
+            {
+                postsArea.PostsList.SetPosts(_posts, _index);
+            }
         }
 
         public void PostListClick(int clickIndex, Post post)
         {
-            s_logger.Info("SetCurrentGroupLocalLastRead:" + post.post_id + ", TimelineIndex="+ clickIndex);
+            s_logger.Info("SetCurrentGroupLocalLastRead:" + post.post_id + ", TimelineIndex=" + clickIndex);
 
             RT.SetCurrentGroupLocalLastRead(post);
 
@@ -890,7 +895,7 @@ namespace Waveface
 
                 switch (_dr)
                 {
-                    case DialogResult.Yes:  
+                    case DialogResult.Yes:
                         break;
 
                     case DialogResult.OK:

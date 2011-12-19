@@ -155,9 +155,7 @@ namespace Waveface
             IsFilterFirstTimeGetData = true;
             FilterTimelineMode = true;
 
-            AllUsers = new List<User>();
-
-            LoadGroupLocalRead();
+            AllUsers = new List<User>();      
         }
 
         public void SetAllCurrentGroupPostHaveRead()

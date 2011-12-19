@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using CustomControls;
+using NLog;
 using Waveface.API.V2;
 using Waveface.Component.ListBarControl;
 using Waveface.FilterUI;
@@ -17,9 +19,14 @@ namespace Waveface
 {
     public partial class LeftArea : UserControl
     {
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
         private NewPostManager m_newPostManager;
         private FilterManager m_filterManager;
         private Button m_buttonAddNewFilter;
+
+        private int m_count;
+        private bool m_startUpload;
 
         #region Properties
 
@@ -52,17 +59,9 @@ namespace Waveface
             //taskPaneFilter.UseCustomTheme("panther.dll");
             taskPaneFilter.UseClassicTheme();
 
-            m_newPostManager = new NewPostManager();
-
             initBatchPostItems();
 
-            initTimeline();   
-        }
-
-        public void SetUI(bool flag)
-        {
-            buttonCreatePost.Visible = flag;
-            taskPaneFilter.Visible = flag;
+            //initTimeline();   
         }
 
         #region CustomizedFilters
@@ -214,46 +213,6 @@ namespace Waveface
 
         #endregion
 
-        #region BatchPost
-
-        private void initBatchPostItems()
-        {
-            //
-            //從檔案讀入
-            //
-
-            foreach (NewPostItem _item in m_newPostManager.Items)
-                AddToExplorerBar(_item);
-        }
-
-        public void AddNewPostItem(NewPostItem newPostItem)
-        {
-            m_newPostManager.Add(newPostItem);
-
-            AddToExplorerBar(newPostItem);
-        }
-
-        private void AddToExplorerBar(NewPostItem item)
-        {
-            Expando _expando = new Expando();
-            _expando.Text = item.OrgPostTime.ToString("MM/dd HH:mm:ss");
-            _expando.Animate = true;
-
-            BatchPostItemUI _batchPostItemUi = new BatchPostItemUI(this, _expando, item);
-            _batchPostItemUi.Dock = DockStyle.Fill;
-            _expando.Controls.Add(_batchPostItemUi);
-
-            taskPaneBatchPost.Expandos.Add(_expando);
-        }
-
-        public void DeletePostItem(BatchPostItemUI batchPostItemUi, Expando expando, NewPostItem newPostItem)
-        {
-            m_newPostManager.Remove(newPostItem);
-            taskPaneBatchPost.Expandos.Remove(expando);
-        }
-
-        #endregion
-
         #region Group
 
         public void fillGroupAndUser()
@@ -310,6 +269,14 @@ namespace Waveface
 
         #endregion
 
+        #region Misc
+
+        public void SetUI(bool flag)
+        {
+            buttonCreatePost.Visible = flag;
+            taskPaneFilter.Visible = flag;
+        }
+
         private void monthCalendar_DateClicked(object sender, DateEventArgs e)
         {
             Main.Current.ClickCalendar(e.Date);
@@ -322,5 +289,254 @@ namespace Waveface
 
             Main.Current.Post();
         }
+
+        #endregion
+
+        #region BatchPost
+
+        private void initBatchPostItems()
+        {
+            m_newPostManager = new NewPostManager();
+            NewPostManager _newPostManager = m_newPostManager;
+            m_newPostManager = _newPostManager;
+
+            ThreadPool.QueueUserWorkItem(state => { BatchPostThreadMethod(); });
+        }
+
+        public void AddNewPostItem(NewPostItem item)
+        {
+            m_newPostManager.Add(item);
+            m_newPostManager.Save();
+        }
+
+        private void BatchPostThreadMethod()
+        {
+            NewPostItem _newPost = null;
+            m_startUpload = true;
+
+            while (true)
+            {
+                lock (m_newPostManager)
+                {
+                    if (m_newPostManager.Items.Count > 0)
+                        _newPost = m_newPostManager.Items[m_newPostManager.Items.Count - 1];
+                    else
+                        _newPost = null;
+                }
+
+                if (_newPost != null)
+                {
+                    if (m_startUpload)
+                    {
+                        NewPostItem _retItem = BatchPhotoPost(_newPost);
+
+                        if (_retItem.PostOK)
+                        {
+                            lock (m_newPostManager)
+                            {
+                                m_newPostManager.Remove(_newPost);
+
+                                m_newPostManager.Save();
+                            }
+                        }
+                        else
+                        {
+                            lock (m_newPostManager)
+                            {
+                                m_newPostManager.Save();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+        }
+
+        private NewPostItem BatchPhotoPost(NewPostItem newPost)
+        {
+            s_logger.Trace("BatchPhotoPost:" + newPost.Text + ", Files=" + newPost.Files.Count);
+
+            string _ids = "[";
+
+            while (true)
+            {
+                if (m_startUpload)
+                {
+                    string _file = newPost.Files[m_count];
+
+                    if (newPost.UploadedFiles.Keys.Contains(_file))
+                    {
+                        _ids += "\"" + newPost.UploadedFiles[_file] + "\"" + ",";
+                    }
+                    else
+                    {
+                        try
+                        {
+                            string _text = new FileName(_file).Name;
+                            string _resizedImage = ImageUtility.ResizeImage(_file, _text, newPost.ResizeRatio, 100);
+
+                            MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, "", true);
+
+                            if (_uf == null)
+                            {
+                                newPost.PostOK = false;
+                                return newPost;
+                            }
+
+                            _ids += "\"" + _uf.object_id + "\"" + ",";
+
+                            newPost.UploadedFiles.Add(_file, _uf.object_id);
+                        }
+                        catch (Exception _e)
+                        {
+                            NLogUtility.Exception(s_logger, _e, "BatchPhotoPost:File_UploadFile");
+                            newPost.PostOK = false;
+                            return newPost;
+                        }
+                    }
+
+                    m_count++;
+
+                    int _count = newPost.Files.Count;
+
+                    ChangeProgressBarUI(m_count * 100 / _count, m_count + "/" + _count);
+
+                    if (m_count == _count)
+                        break;
+                }
+                else
+                {
+                    newPost.PostOK = false;
+                    return newPost;
+                }
+            }
+
+            _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
+            _ids += "]";
+
+            try
+            {
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(newPost.Text, _ids, "", "image");
+
+                if (_np == null)
+                {
+                    newPost.PostOK = false;
+                    return newPost;
+                }
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "BatchPhotoPost:File_UploadFile");
+
+                newPost.PostOK = false;
+                return newPost;
+            }
+
+            SinglePostDone("OK");
+
+            newPost.PostOK = true;
+            return newPost;
+        }
+
+        public void ChangeProgressBarUI(int percent, string countText)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate
+                           {
+                               ChangeProgressBarUI(percent, countText);
+                           }
+                           ));
+            }
+            else
+            {
+                UpdateDragAndDropUI(percent);
+            }
+        }
+
+        public void UpdateDragAndDropUI(int percent)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate
+                           {
+                               UpdateDragAndDropUI(percent);
+                           }
+                           ));
+            }
+            else
+            {
+                if ((percent == 0) || (percent == 100))
+                {
+                    pbDropArea.Image = Properties.Resources.dragNdrop_area1;
+
+                    return;
+                }
+
+                if ((percent > 0) && (percent <= 20))
+                {
+                    pbDropArea.Image = Properties.Resources.dragNdrop_loading0;
+
+                    return;
+                }
+
+                if ((percent > 20) && (percent <= 40))
+                {
+                    pbDropArea.Image = Properties.Resources.dragNdrop_loading1;
+
+                    return;
+                }
+
+                if ((percent > 40) && (percent <= 60))
+                {
+                    pbDropArea.Image = Properties.Resources.dragNdrop_loading2;
+
+                    return;
+                }
+
+                if ((percent > 60) && (percent <= 80))
+                {
+                    pbDropArea.Image = Properties.Resources.dragNdrop_loading3;
+
+                    return;
+                }
+
+                if ((percent > 80) && (percent < 100))
+                {
+                    pbDropArea.Image = Properties.Resources.dragNdrop_loading4;
+
+                    return;
+                }
+            }
+        }
+
+        public void SinglePostDone(string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate
+                           {
+                               SinglePostDone(text);
+                           }
+                           ));
+            }
+            else
+            {
+                //Main.Current.AfterBatchPostDone();
+                //DeleteThis();
+            }
+        }
+
+        #endregion
     }
 }

@@ -33,7 +33,7 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeftArea));
             this.panelBottom = new System.Windows.Forms.Panel();
-            this.pbHintDrop = new System.Windows.Forms.PictureBox();
+            this.pbDropArea = new System.Windows.Forms.PictureBox();
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.panelCustomFilter = new System.Windows.Forms.Panel();
@@ -43,15 +43,13 @@ namespace Waveface
             this.buttonCreatePost = new System.Windows.Forms.Button();
             this.panelCalendar = new System.Windows.Forms.Panel();
             this.monthCalendar = new CustomControls.MonthCalendar();
-            this.panelBatchPost = new System.Windows.Forms.Panel();
-            this.taskPaneBatchPost = new XPExplorerBar.TaskPane();
             this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             this.imageListLarge = new System.Windows.Forms.ImageList(this.components);
             this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
             this.imageListCustomFilter = new System.Windows.Forms.ImageList(this.components);
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
             this.panelBottom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHintDrop)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
             this.panelFilter.SuspendLayout();
             this.panelCustomFilter.SuspendLayout();
@@ -60,41 +58,38 @@ namespace Waveface
             ((System.ComponentModel.ISupportInitialize)(this.expandoQuicklist)).BeginInit();
             this.panelTimeline.SuspendLayout();
             this.panelCalendar.SuspendLayout();
-            this.panelBatchPost.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.taskPaneBatchPost)).BeginInit();
             this.SuspendLayout();
             // 
             // panelBottom
             // 
             this.panelBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.panelBottom.Controls.Add(this.pbHintDrop);
+            this.panelBottom.Controls.Add(this.pbDropArea);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelBottom.Location = new System.Drawing.Point(0, 425);
             this.panelBottom.Name = "panelBottom";
             this.panelBottom.Size = new System.Drawing.Size(191, 182);
             this.panelBottom.TabIndex = 1;
             // 
-            // pbHintDrop
+            // pbDropArea
             // 
-            this.pbHintDrop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.pbHintDrop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbHintDrop.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pbHintDrop.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pbHintDrop.Image = global::Waveface.Properties.Resources.dragNdrop_area1;
-            this.pbHintDrop.Location = new System.Drawing.Point(0, 0);
-            this.pbHintDrop.Name = "pbHintDrop";
-            this.pbHintDrop.Size = new System.Drawing.Size(191, 182);
-            this.pbHintDrop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pbHintDrop.TabIndex = 0;
-            this.pbHintDrop.TabStop = false;
-            this.pbHintDrop.Text = "Drag && drop the file to start the sharing";
+            this.pbDropArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.pbDropArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbDropArea.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pbDropArea.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pbDropArea.Image = global::Waveface.Properties.Resources.dragNdrop_area1;
+            this.pbDropArea.Location = new System.Drawing.Point(0, 0);
+            this.pbDropArea.Name = "pbDropArea";
+            this.pbDropArea.Size = new System.Drawing.Size(191, 182);
+            this.pbDropArea.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbDropArea.TabIndex = 0;
+            this.pbDropArea.TabStop = false;
+            this.pbDropArea.Text = "Drag && drop the file to start the sharing";
             // 
             // panelMain
             // 
             this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panelMain.Controls.Add(this.panelFilter);
             this.panelMain.Controls.Add(this.panelCalendar);
-            this.panelMain.Controls.Add(this.panelBatchPost);
             this.panelMain.Controls.Add(this.vsNetListBarGroups);
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMain.Location = new System.Drawing.Point(0, 0);
@@ -109,9 +104,9 @@ namespace Waveface
             this.panelFilter.Controls.Add(this.panelCustomFilter);
             this.panelFilter.Controls.Add(this.panelTimeline);
             this.panelFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelFilter.Location = new System.Drawing.Point(0, 220);
+            this.panelFilter.Location = new System.Drawing.Point(0, 195);
             this.panelFilter.Name = "panelFilter";
-            this.panelFilter.Size = new System.Drawing.Size(191, 205);
+            this.panelFilter.Size = new System.Drawing.Size(191, 230);
             this.panelFilter.TabIndex = 5;
             // 
             // panelCustomFilter
@@ -120,7 +115,7 @@ namespace Waveface
             this.panelCustomFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCustomFilter.Location = new System.Drawing.Point(0, 38);
             this.panelCustomFilter.Name = "panelCustomFilter";
-            this.panelCustomFilter.Size = new System.Drawing.Size(191, 167);
+            this.panelCustomFilter.Size = new System.Drawing.Size(191, 192);
             this.panelCustomFilter.TabIndex = 3;
             // 
             // taskPaneFilter
@@ -136,7 +131,7 @@ namespace Waveface
             this.taskPaneFilter.Location = new System.Drawing.Point(0, 0);
             this.taskPaneFilter.Margin = new System.Windows.Forms.Padding(0);
             this.taskPaneFilter.Name = "taskPaneFilter";
-            this.taskPaneFilter.Size = new System.Drawing.Size(191, 167);
+            this.taskPaneFilter.Size = new System.Drawing.Size(191, 192);
             this.taskPaneFilter.TabIndex = 1;
             this.taskPaneFilter.Text = "Filter";
             this.taskPaneFilter.Visible = false;
@@ -187,7 +182,7 @@ namespace Waveface
             this.panelCalendar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panelCalendar.Controls.Add(this.monthCalendar);
             this.panelCalendar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelCalendar.Location = new System.Drawing.Point(0, 50);
+            this.panelCalendar.Location = new System.Drawing.Point(0, 25);
             this.panelCalendar.Name = "panelCalendar";
             this.panelCalendar.Size = new System.Drawing.Size(191, 170);
             this.panelCalendar.TabIndex = 4;
@@ -204,31 +199,6 @@ namespace Waveface
             this.monthCalendar.TabIndex = 0;
             this.monthCalendar.UseShortestDayNames = true;
             this.monthCalendar.DateClicked += new System.EventHandler<CustomControls.DateEventArgs>(this.monthCalendar_DateClicked);
-            // 
-            // panelBatchPost
-            // 
-            this.panelBatchPost.Controls.Add(this.taskPaneBatchPost);
-            this.panelBatchPost.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelBatchPost.Location = new System.Drawing.Point(0, 25);
-            this.panelBatchPost.Name = "panelBatchPost";
-            this.panelBatchPost.Size = new System.Drawing.Size(191, 25);
-            this.panelBatchPost.TabIndex = 3;
-            this.panelBatchPost.Visible = false;
-            // 
-            // taskPaneBatchPost
-            // 
-            this.taskPaneBatchPost.AllowExpandoDragging = true;
-            this.taskPaneBatchPost.AutoScrollMargin = new System.Drawing.Size(12, 12);
-            this.taskPaneBatchPost.CustomSettings.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.taskPaneBatchPost.CustomSettings.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.taskPaneBatchPost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.taskPaneBatchPost.Location = new System.Drawing.Point(0, 0);
-            this.taskPaneBatchPost.Margin = new System.Windows.Forms.Padding(0);
-            this.taskPaneBatchPost.Name = "taskPaneBatchPost";
-            this.taskPaneBatchPost.Size = new System.Drawing.Size(191, 25);
-            this.taskPaneBatchPost.TabIndex = 0;
-            this.taskPaneBatchPost.Text = "taskPaneBatchPost";
-            this.taskPaneBatchPost.Visible = false;
             // 
             // vsNetListBarGroups
             // 
@@ -285,7 +255,7 @@ namespace Waveface
             this.Name = "LeftArea";
             this.Size = new System.Drawing.Size(191, 607);
             this.panelBottom.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbHintDrop)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).EndInit();
             this.panelMain.ResumeLayout(false);
             this.panelFilter.ResumeLayout(false);
             this.panelCustomFilter.ResumeLayout(false);
@@ -294,8 +264,6 @@ namespace Waveface
             ((System.ComponentModel.ISupportInitialize)(this.expandoQuicklist)).EndInit();
             this.panelTimeline.ResumeLayout(false);
             this.panelCalendar.ResumeLayout(false);
-            this.panelBatchPost.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.taskPaneBatchPost)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -304,12 +272,10 @@ namespace Waveface
 
         private System.Windows.Forms.Panel panelBottom;
         private System.Windows.Forms.Panel panelMain;
-        private System.Windows.Forms.PictureBox pbHintDrop;
-        private XPExplorerBar.TaskPane taskPaneBatchPost;
+        private System.Windows.Forms.PictureBox pbDropArea;
         private Component.ListBarControl.VSNetListBar vsNetListBarGroups;
         private System.Windows.Forms.ImageList imageListLarge;
         private System.Windows.Forms.ImageList imageListSmall;
-        private System.Windows.Forms.Panel panelBatchPost;
         private System.Windows.Forms.Panel panelFilter;
         private XPExplorerBar.TaskPane taskPaneFilter;
         private XPExplorerBar.Expando expandoQuicklist;

@@ -162,6 +162,9 @@ namespace Waveface.PostUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            btnBatchPost_Click(sender, e);
+            return;
+
             if (!Main.Current.CheckNetworkStatus())
                 return;
             

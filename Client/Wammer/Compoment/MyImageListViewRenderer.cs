@@ -66,6 +66,7 @@ namespace Waveface.Component
                 Rectangle _controlBounds = ClientBounds;
 
                 // Zoom on mouse over
+                /*
                 if ((state & ItemState.Hovered) != ItemState.None)
                 {
                     bounds.Inflate((int)(bounds.Width * m_zoomRatio), (int)(bounds.Height * m_zoomRatio));
@@ -82,6 +83,7 @@ namespace Waveface.Component
                     if (bounds.Left < _controlBounds.Left)
                         bounds.X = _controlBounds.Left;
                 }
+                */
 
                 // Get item image
                 Image _img = null;
@@ -256,9 +258,16 @@ namespace Waveface.Component
                                                             new Rectangle(bounds.Location + _itemMargin,
                                                                           bounds.Size - _itemMargin - _itemMargin));
 
-                Bitmap _bmp = new Bitmap(item.FileName);
-                g.DrawImage(_bmp, _pos, new Rectangle(0, 0, _bmp.Width, _bmp.Height), GraphicsUnit.Pixel);
-                _bmp = null;
+                if ((bounds.Size.Width > image.Width) || (bounds.Size.Height > image.Height))
+                {
+                    Bitmap _bmp = new Bitmap(item.FileName);
+                    g.DrawImage(_bmp, _pos, new Rectangle(0, 0, _bmp.Width, _bmp.Height), GraphicsUnit.Pixel);
+                    _bmp = null;
+                }
+                else
+                {
+                    g.DrawImage(image, _pos, new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
+                }
 
                 // Draw image border
                 if (Math.Min(_pos.Width, _pos.Height) > 32)
