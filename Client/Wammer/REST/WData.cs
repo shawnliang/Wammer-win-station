@@ -134,6 +134,22 @@ namespace Waveface.API.V2
 		public long used { get; set; }
 	}
 
+	public class StationDetail
+	{
+		public string location { get; set; }
+		public List<DiskUsage> diskusage { get; set; }
+		public UPnPInfo upnp { get; set; }
+		public string computer_name { get; set; }
+		public string version { get; set; }
+	}
+
+	public class UPnPInfo
+	{
+		public bool status { get; set; }
+		public string public_addr { get; set; }
+		public int public_port { get; set; }
+	}
+
     public class Preview_OpenGraph
     {
         public string provider_url { get; set; }
@@ -507,6 +523,15 @@ namespace Waveface.API.V2
 
 	public class MR_cloudstorage_dropbox_disconnect : General_R
 	{
+	}
+
+	#endregion
+
+	#region MR_station
+
+	public class MR_station_status : General_R
+	{
+		public StationDetail station_status { get; set; }
 	}
 
 	#endregion

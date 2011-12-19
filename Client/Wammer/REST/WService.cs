@@ -1382,7 +1382,35 @@ namespace Waveface.API.V2
 
         #endregion
 
-        #region station login/logout/remove owner
+        #region station status/login/logout/remove owner
+
+		public MR_station_status GetStationStatus(string session_token)
+		{
+			try
+			{
+				string _url = BaseURL + "/station/status/get";
+				_url += "?" +
+						"apikey" + "=" + APIKEY + "&" +
+						"session_token" + "=" + session_token;
+
+				return HttpGetObject<MR_station_status>(_url);
+			}
+			catch (HttpResponseException _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "station_status");
+
+				if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+					throw new Station401Exception();
+
+				throw;
+			}
+			catch (Exception _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "station_status");
+
+				throw;
+			}
+		}
 
         public static string LoginStation(string email, string password)
         {
