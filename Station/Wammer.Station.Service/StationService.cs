@@ -101,6 +101,9 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/get/",
 								new AttachmentGetHandler());
 
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/list",
+								new ListCloudStorageHandler());
+
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/",
 								new DropBoxOAuthHandler());
 

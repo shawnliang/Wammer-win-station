@@ -16,6 +16,26 @@ using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
+	public class ListCloudStorageHandler : HttpHandler
+	{
+		private static log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
+
+		protected override void HandleRequest()
+		{
+			MongoCursor<CloudStorage> cursor = CloudStorageCollection.Instance.FindAll();
+			List<CloudStorage> cloudstorages = new List<CloudStorage>();
+			foreach (CloudStorage cloudstorage in cursor)
+			{
+				cloudstorages.Add(cloudstorage);
+			}
+			RespondSuccess(cloudstorages);
+		}
+
+		public override object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+	}
 
 	public class DropBoxOAuthHandler : HttpHandler
 	{
