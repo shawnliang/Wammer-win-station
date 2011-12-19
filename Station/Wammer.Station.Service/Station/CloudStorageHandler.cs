@@ -38,15 +38,6 @@ namespace Wammer.Station
 					}
 				);
 			}
-			else
-			{
-				cloudstorages.Add(new ListCloudStorageResponse
-					{
-						type = "dropbox",
-						connected = false
-					}
-				);
-			}
 			RespondSuccess(cloudstorages);
 		}
 
