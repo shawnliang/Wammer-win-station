@@ -1206,9 +1206,17 @@ namespace Waveface
             }
 
             if (m_setAllPostHaveRead)
+            {
                 RT.SetAllCurrentGroupPostHaveRead();
+            }
 
             RT.CurrentGroupPosts = _tmpPosts;
+
+            //Hack: Whene push "Refresh" Button
+            if (m_setAllPostHaveRead)
+            {
+                SetLastReadPos();
+            }
 
             s_logger.Info("bgWorkerGetAllData_DoWork. Get Post Count:" + _tmpPosts.Count);
         }
