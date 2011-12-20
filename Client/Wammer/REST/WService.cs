@@ -1382,7 +1382,35 @@ namespace Waveface.API.V2
 
         #endregion
 
-        #region station login/logout/remove owner
+        #region station status/login/logout/remove owner
+
+		public MR_station_status GetStationStatus(string session_token)
+		{
+			try
+			{
+				string _url = BaseURL + "/station/status/get";
+				_url += "?" +
+						"apikey" + "=" + APIKEY + "&" +
+						"session_token" + "=" + session_token;
+
+				return HttpGetObject<MR_station_status>(_url);
+			}
+			catch (HttpResponseException _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "station_status");
+
+				if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+					throw new Station401Exception();
+
+				throw;
+			}
+			catch (Exception _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "station_status");
+
+				throw;
+			}
+		}
 
         public static string LoginStation(string email, string password)
         {
@@ -1479,7 +1507,201 @@ namespace Waveface.API.V2
         }
 
         #endregion
-    }
+
+		#region cloudstorage
+
+		public MR_cloudstorage_list cloudstorage_list(string session_token)
+		{
+			try
+			{
+				string _url = BaseURL + "/cloudstorage/list";
+				_url += "?" +
+						"apikey" + "=" + APIKEY + "&" +
+						"session_token" + "=" + session_token;
+
+				MR_cloudstorage_list res = HttpGetObject<MR_cloudstorage_list>(_url);
+
+				bool dropboxConnected = false;
+				foreach (CloudStorage cloudstorage in res.cloudstorages)
+				{
+					if (cloudstorage.type == "dropbox")
+					{
+						dropboxConnected = true;
+					}
+				}
+				if (!dropboxConnected && dropboxInstalled())
+				{
+					res.cloudstorages.Add(new CloudStorage { type = "dropbox", connected = false, quota = 0, used = 0 });
+				}
+				return res;
+			}
+			catch (HttpResponseException _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "cloudstorage_list");
+
+				if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+					throw new Station401Exception();
+
+				throw;
+			}
+			catch (Exception _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "cloudstorage_list");
+
+				throw;
+			}
+		}
+
+		public MR_cloudstorage_dropbox_oauth cloudstorage_dropbox_oauth(string session_token)
+		{
+			try
+			{
+				string _url = BaseURL + "/cloudstorage/dropbox/oauth";
+				_url += "?" +
+						"apikey" + "=" + APIKEY + "&" +
+						"session_token" + "=" + session_token;
+
+				return HttpGetObject<MR_cloudstorage_dropbox_oauth>(_url);
+			}
+			catch (HttpResponseException _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_oauth");
+
+				if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+					throw new Station401Exception();
+
+				throw;
+			}
+			catch (Exception _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_oauth");
+
+				throw;
+			}
+		}
+
+		public MR_cloudstorage_dropbox_connect cloudstorage_dropbox_connect(string session_token, long quota)
+		{
+			try
+			{
+				string _url = BaseURL + "/cloudstorage/dropbox/connect";
+				_url += "?" +
+						"apikey" + "=" + APIKEY + "&" +
+						"session_token" + "=" + session_token + "&" +
+						"quota" + "=" + quota.ToString() + "&" +
+						"folder" + "=" + getSyncFolder();
+
+				return HttpGetObject<MR_cloudstorage_dropbox_connect>(_url);
+			}
+			catch (HttpResponseException _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_connect");
+
+				if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+					throw new Station401Exception();
+
+				throw;
+			}
+			catch (Exception _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_connect");
+
+				throw;
+			}
+		}
+
+		public MR_cloudstorage_dropbox_update cloudstorage_dropbox_update(string session_token, long quota)
+		{
+			try
+			{
+				string _url = BaseURL + "/cloudstorage/dropbox/update";
+				_url += "?" +
+						"apikey" + "=" + APIKEY + "&" +
+						"session_token" + "=" + session_token + "&" +
+						"quota" + "=" + quota.ToString();
+
+				return HttpGetObject<MR_cloudstorage_dropbox_update>(_url);
+			}
+			catch (HttpResponseException _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_update");
+
+				if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+					throw new Station401Exception();
+
+				throw;
+			}
+			catch (Exception _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_update");
+
+				throw;
+			}
+		}
+
+		public MR_cloudstorage_dropbox_disconnect cloudstorage_dropbox_disconnect(string session_token)
+		{
+			try
+			{
+				string _url = BaseURL + "/cloudstorage/dropbox/disconnect";
+				_url += "?" +
+						"apikey" + "=" + APIKEY + "&" +
+						"session_token" + "=" + session_token;
+
+				return HttpGetObject<MR_cloudstorage_dropbox_disconnect>(_url);
+			}
+			catch (HttpResponseException _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_disconnect");
+
+				if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+					throw new Station401Exception();
+
+				throw;
+			}
+			catch (Exception _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_disconnect");
+
+				throw;
+			}
+		}
+
+		private bool dropboxInstalled()
+		{
+			string hostDb = @"Dropbox\host.db";
+			string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			string hostDbPath = Path.Combine(appData, hostDb);
+
+			return File.Exists(hostDbPath);
+		}
+
+		private string getSyncFolder()
+		{
+			string hostDb = @"Dropbox\host.db";
+			string syncFolder = @"Waveface";
+			string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			string hostDbPath = Path.Combine(appData, hostDb);
+
+			if (!File.Exists(hostDbPath))
+				return string.Empty;
+
+			using (FileStream fs = new FileStream(hostDbPath, FileMode.Open))
+			{
+				using (StreamReader reader = new StreamReader(fs))
+				{
+					var ignore = reader.ReadLine();
+					string line = reader.ReadLine().Trim();
+					byte[] data = Convert.FromBase64String(line);
+
+					string syncFolderPath = Path.Combine(Encoding.UTF8.GetString(data), syncFolder);
+					return syncFolderPath;
+				}
+			}
+		}
+
+		#endregion
+	}
 
     public class ServiceUnavailableException : Exception
     {

@@ -530,9 +530,6 @@
   <data name="preferencesMenuItem.Text" xml:space="preserve">
     <value>Preferences...</value>
   </data>
-  <data name="preferencesMenuItem.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
     <value>190, 6</value>
   </data>

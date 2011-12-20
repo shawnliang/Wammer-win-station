@@ -692,6 +692,9 @@
     <EmbeddedResource Include="UI\SettingUI\PreferenceForm.resx">
       <DependentUpon>PreferenceForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\PreferenceForm.zh-TW.resx">
+      <DependentUpon>PreferenceForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\TrayIconPanel.resx">
       <DependentUpon>TrayIconPanel.cs</DependentUpon>
     </EmbeddedResource>
