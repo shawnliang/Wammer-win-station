@@ -486,24 +486,6 @@
     <Compile Include="Libs\Utility\Shadow.cs" />
     <Compile Include="Libs\Utility\StringUtility.cs" />
     <Compile Include="Libs\Utility\WebHelper.cs" />
-    <Compile Include="UI\SettingUI\FormOption.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SettingUI\FormOption.designer.cs">
-      <DependentUpon>FormOption.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SettingUI\PageEmail.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\SettingUI\PageEmail.designer.cs">
-      <DependentUpon>PageEmail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SettingUI\PageMain.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\SettingUI\PageMain.designer.cs">
-      <DependentUpon>PageMain.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SettingUI\PreferenceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -682,15 +664,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\SettingUI\FormOption.resx">
-      <DependentUpon>FormOption.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SettingUI\PageEmail.resx">
-      <DependentUpon>PageEmail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SettingUI\PageMain.resx">
-      <DependentUpon>PageMain.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\PreferenceForm.resx">
       <DependentUpon>PreferenceForm.cs</DependentUpon>
     </EmbeddedResource>

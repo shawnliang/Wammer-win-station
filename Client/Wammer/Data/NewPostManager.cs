@@ -11,7 +11,21 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
+        private static NewPostManager s_newPostManager;
         public List<NewPostItem> Items { get; set; }
+
+        public static NewPostManager Current
+        {
+            get
+            {
+                if (s_newPostManager == null)
+                {
+                    s_newPostManager = Load() ?? new NewPostManager();
+                }
+
+                return s_newPostManager;
+            }
+        }
 
         public NewPostManager()
         {
@@ -28,6 +42,18 @@ namespace Waveface
         {
             Items.Remove(item);
             Save();
+        }
+
+        public int GetQueuedUnsendFilesCount()
+        {
+            int _ret = 0;
+
+            foreach (NewPostItem _item in Items)
+            {
+                _ret += (_item.Files.Count - _item.UploadedFiles.Count);
+            }
+
+            return _ret;
         }
 
         #region IO

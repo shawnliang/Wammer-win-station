@@ -127,9 +127,9 @@ namespace Waveface.API.V2
 
 	public class WFStorageAvailable
 	{
-		public long available_month_image_objects { get; set; }
-		public long available_month_total_objects { get; set; }
-		public long available_month_doc_objects { get; set; }
+        public long avail_month_image_objects { get; set; }
+        public long avail_month_total_objects { get; set; }
+        public long avail_month_doc_objects { get; set; }
 	}
 
 	public class WFStorageQuota

@@ -23,7 +23,6 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private NewPostManager m_newPostManager;
         private FilterManager m_filterManager;
         private Button m_buttonAddNewFilter;
         private bool m_startUpload;
@@ -292,19 +291,17 @@ namespace Waveface
 
         public void InitBatchPost()
         {
-            m_newPostManager = NewPostManager.Load() ?? new NewPostManager();
-
             ThreadPool.QueueUserWorkItem(state => { BatchPostThreadMethod(); });
         }
 
         public void AddNewPostItem(NewPostItem item)
         {
-            m_newPostManager.Add(item);
+            NewPostManager.Current.Add(item);
         }
 
         public void BatchPostQuit()
         {
-            m_newPostManager.Save();
+            NewPostManager.Current.Save();
         }
 
         private void BatchPostThreadMethod()
@@ -321,10 +318,10 @@ namespace Waveface
 
                 NewPostItem _newPost;
 
-                lock (m_newPostManager)
+                lock (NewPostManager.Current)
                 {
-                    if (m_newPostManager.Items.Count > 0)
-                        _newPost = m_newPostManager.Items[m_newPostManager.Items.Count - 1];
+                    if (NewPostManager.Current.Items.Count > 0)
+                        _newPost = NewPostManager.Current.Items[NewPostManager.Current.Items.Count - 1];
                     else
                         _newPost = null;
                 }
@@ -339,16 +336,16 @@ namespace Waveface
 
                         if (_retItem.PostOK)
                         {
-                            lock (m_newPostManager)
+                            lock (NewPostManager.Current)
                             {
-                                m_newPostManager.Remove(_newPost);
+                                NewPostManager.Current.Remove(_newPost);
                             }
                         }
                         else
                         {
-                            lock (m_newPostManager)
+                            lock (NewPostManager.Current)
                             {
-                                m_newPostManager.Save();
+                                NewPostManager.Current.Save();
                             }
                         }
                     }
@@ -545,6 +542,8 @@ namespace Waveface
 
         #endregion
 
+        #region DropArea
+
         private void DropArea_DragDrop(object sender, DragEventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Drop(e);
@@ -564,5 +563,7 @@ namespace Waveface
         {
             m_dragDropClipboardHelper.Drag_Over(e);
         }
+
+        #endregion
     }
 }

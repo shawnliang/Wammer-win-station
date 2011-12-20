@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
+using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.WebCam;
@@ -12,6 +13,8 @@ namespace Waveface.PostUI
 {
     public partial class Photo : UserControl
     {
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
         private ProgressDialog m_progressDialog;
 
         public PostForm MyParent { get; set; }
@@ -287,9 +290,28 @@ namespace Waveface.PostUI
 
         private void btnBatchPost_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             if(imageListView.Items.Count == 0)
             {
                 SendPureText();
+                return;
+            }
+
+            long _storagesUsage = CheckStoragesUsage();
+
+            if (_storagesUsage == long.MinValue)
+            {
+                MessageBox.Show("抱歉, 系統發生未預期錯誤, 請稍後再試.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                return;
+            }
+
+            if(_storagesUsage < 0)
+            {
+                MessageBox.Show(string.Format("抱歉! 您可以上傳的照片數已經超過系統允許值, 必須先移除{0}張.", (_storagesUsage * -1)), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                 return;
             }
 
@@ -306,6 +328,29 @@ namespace Waveface.PostUI
 
             MyParent.NewPostItem = _newPostItem;
             MyParent.SetDialogResult_OK_AndClose();
+        }
+
+        private long CheckStoragesUsage()
+        {
+            try
+            {
+                int _queuedUnsendFiles = NewPostManager.Current.GetQueuedUnsendFilesCount();
+
+                MR_storages_usage _storagesUsage = Main.Current.RT.REST.Storages_Usage();
+
+                if (_storagesUsage != null)
+                {
+                    long _avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
+
+                    return _avail_month_total_objects - _queuedUnsendFiles - imageListView.Items.Count;
+                }
+            }
+            catch(Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "CheckStoragesUsage");
+            }
+
+            return long.MinValue;
         }
 
         #endregion
