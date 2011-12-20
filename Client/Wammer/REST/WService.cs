@@ -20,7 +20,7 @@ namespace Waveface.API.V2
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        public static string CloudIP = "https://api.waveface.com"; // https://develop.waveface.com
+        public static string CloudIP = "https://develop.waveface.com"; //https://api.waveface.com  ;
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
 
         private RestTemplate m_rest;

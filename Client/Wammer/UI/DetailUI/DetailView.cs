@@ -29,6 +29,9 @@ namespace Waveface
         private Timer timerGC;
         private Component.XPButton btnComment;
         private Panel panelMain;
+        private Timer timerShowCommentButton;
+
+        private IDetailViewer m_detailViewer;
 
         public Post Post
         {
@@ -78,6 +81,7 @@ namespace Waveface
             this.labelTime = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
+            this.timerShowCommentButton = new System.Windows.Forms.Timer(this.components);
             this.btnComment = new Waveface.Component.XPButton();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -124,8 +128,14 @@ namespace Waveface
             // 
             // timerGC
             // 
-            this.timerGC.Interval = 60000;
+            this.timerGC.Interval = 30000;
             this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
+            // 
+            // timerShowCommentButton
+            // 
+            this.timerShowCommentButton.Enabled = true;
+            this.timerShowCommentButton.Interval = 2000;
+            this.timerShowCommentButton.Tick += new System.EventHandler(this.timerShowCommentButton_Tick);
             // 
             // btnComment
             // 
@@ -143,6 +153,7 @@ namespace Waveface
             this.btnComment.Text = "Comment";
             this.btnComment.UseVisualStyleBackColor = true;
             this.btnComment.Visible = false;
+            this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
             // DetailView
             // 
@@ -177,9 +188,10 @@ namespace Waveface
 
         private void doShow()
         {
+            btnComment.Visible = false;
+            //linkLabelRemove.Visible = true;
+
             setupTitle();
-            
-            //@ linkLabelRemove.Visible = true;
 
             PostType _postType = getPostType();
 
@@ -257,6 +269,8 @@ namespace Waveface
             m_textLinkDv.Post = m_post; // ︽璶程
 
             panelMain.Controls.Add(m_textLinkDv);
+
+            m_detailViewer = m_textLinkDv;
         }
 
         private void ShowPhoto()
@@ -275,6 +289,8 @@ namespace Waveface
             m_photoDv.Post = m_post; // ︽璶程
 
             panelMain.Controls.Add(m_photoDv);
+
+            m_detailViewer = m_photoDv;
         }
 
         private void ShowDocument()
@@ -293,6 +309,8 @@ namespace Waveface
             m_documentDv.Post = m_post; // ︽璶程
 
             panelMain.Controls.Add(m_documentDv);
+
+            m_detailViewer = m_documentDv;
         }
 
         private void ShowRichText()
@@ -311,6 +329,8 @@ namespace Waveface
             m_richTextDv.Post = m_post; // ︽璶程
 
             panelMain.Controls.Add(m_richTextDv);
+
+            m_detailViewer = m_richTextDv;
         }
 
         private void timerGC_Tick(object sender, EventArgs e)
@@ -339,9 +359,9 @@ namespace Waveface
             textBox.Text = "";
         }
 
-        public void SetComments(WebBrowser wb, Post post)
+        public void SetComments(WebBrowser wb, Post post, bool changeBgColor)
         {
-            string _html = "<div style=\"margin: 20px;\">";
+            string _html = "<div>";
 
             if (post.comment_count > 0)
                 _html += "<HR>";
@@ -390,7 +410,31 @@ namespace Waveface
 
             _html += "</div>";
 
-            wb.DocumentText = _html;
+            _html = "<font face='稬硁タ堵砰, Helvetica, Arial, Verdana, sans-serif'>" + _html + "</font>";
+
+            if (changeBgColor)
+                wb.DocumentText = "<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>";
+            else
+                wb.DocumentText = _html;
+        }
+
+        private void btnComment_Click(object sender, EventArgs e)
+        {
+            if (m_detailViewer != null)
+                m_detailViewer.ScrollToComment();
+        }
+
+        public void ShowCommentButton(bool flag)
+        {
+            btnComment.Visible = flag;
+        }
+
+        private void timerShowCommentButton_Tick(object sender, EventArgs e)
+        {
+            if (m_detailViewer != null)
+            {
+                btnComment.Visible = m_detailViewer.WantToShowCommentButton();
+            }
         }
 
         /*

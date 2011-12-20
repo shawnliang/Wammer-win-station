@@ -66,7 +66,6 @@ namespace Waveface.Component
                 Rectangle _controlBounds = ClientBounds;
 
                 // Zoom on mouse over
-                /*
                 if ((state & ItemState.Hovered) != ItemState.None)
                 {
                     bounds.Inflate((int)(bounds.Width * m_zoomRatio), (int)(bounds.Height * m_zoomRatio));
@@ -83,7 +82,6 @@ namespace Waveface.Component
                     if (bounds.Left < _controlBounds.Left)
                         bounds.X = _controlBounds.Left;
                 }
-                */
 
                 // Get item image
                 Image _img = null;

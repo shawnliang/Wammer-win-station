@@ -12,7 +12,7 @@ using Waveface.Component;
 
 namespace Waveface.DetailUI
 {
-    public class RichText_DV : UserControl
+    public class RichText_DV : UserControl, IDetailViewer
     {
         private IContainer components;
         private Panel panelMain;
@@ -202,7 +202,7 @@ namespace Waveface.DetailUI
 
         private void Set_Comments_Part()
         {
-            MyParent.SetComments(webBrowserComment, Post);
+            MyParent.SetComments(webBrowserComment, Post, true);
         }
 
         private void Set_MainContent_Part()
@@ -263,5 +263,28 @@ namespace Waveface.DetailUI
         {
             MyParent.PostComment(textBoxComment, Post);
         }
+
+        #region IDetailViewer
+
+        public void ScrollToComment()
+        {
+            if (panelRight.VerticalScroll.Visible)
+            {
+                panelRight.VerticalScroll.Value = PanelAddComment.Top;
+                textBoxComment.Focus();
+            }
+        }
+
+        public bool WantToShowCommentButton()
+        {
+            if (panelRight.VerticalScroll.Visible)
+            {
+                return PanelAddComment.Bottom > panelRight.Height;
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }

@@ -147,6 +147,7 @@
     <Compile Include="Libs\Utility\NLogUtility.cs" />
     <Compile Include="ProgramSetting.cs" />
     <Compile Include="Exception\Station401Exception.cs" />
+    <Compile Include="UI\DetailUI\IDetailViewer.cs" />
     <Compile Include="UploadOriginPhotosToStation.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
     <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">

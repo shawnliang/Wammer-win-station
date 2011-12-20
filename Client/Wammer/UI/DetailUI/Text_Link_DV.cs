@@ -11,7 +11,7 @@ using Waveface.Component;
 
 namespace Waveface.DetailUI
 {
-    public class Text_Link_DV : UserControl
+    public class Text_Link_DV : UserControl, IDetailViewer
     {
         private IContainer components = null;
         private Panel panelMain;
@@ -146,7 +146,7 @@ namespace Waveface.DetailUI
             this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(423, 3);
+            this.buttonAddComment.Location = new System.Drawing.Point(442, 3);
             this.buttonAddComment.Name = "buttonAddComment";
             this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
             this.buttonAddComment.TabIndex = 1;
@@ -159,11 +159,11 @@ namespace Waveface.DetailUI
             this.textBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxComment.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxComment.Location = new System.Drawing.Point(32, 3);
+            this.textBoxComment.Location = new System.Drawing.Point(9, 3);
             this.textBoxComment.Multiline = true;
             this.textBoxComment.Name = "textBoxComment";
             this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxComment.Size = new System.Drawing.Size(385, 44);
+            this.textBoxComment.Size = new System.Drawing.Size(427, 44);
             this.textBoxComment.TabIndex = 0;
             // 
             // webBrowserComment
@@ -286,14 +286,14 @@ namespace Waveface.DetailUI
 
         private void Set_Comments_Part()
         {
-           MyParent.SetComments(webBrowserComment, Post);
+           MyParent.SetComments(webBrowserComment, Post, false);
         }
 
         private void Set_MainContent_Preview_Part()
         {
             StringBuilder _sb = new StringBuilder();
 
-            _sb.Append("<p>[Text]</p>");
+            _sb.Append("<font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'><p>[Text]</p></font>");
 
             string _html = _sb.ToString();
             _html = _html.Replace("[Text]", Post.content.Replace(Environment.NewLine, "<BR>"));
@@ -329,7 +329,7 @@ namespace Waveface.DetailUI
                 ShowWebBrowser(Post.preview.url);
             }
 
-            webBrowserTop.DocumentText = _html;
+            webBrowserTop.DocumentText = _html; // = "<body bgcolor=\"rgb(238,231,209)\">" +  _html + "</body>";
             webBrowserSoul.DocumentText = m_post.soul;
         }
 
@@ -365,5 +365,28 @@ namespace Waveface.DetailUI
 
             panelWebBrowser.Visible = true;
         }
+
+        #region IDetailViewer
+
+        public void ScrollToComment()
+        {
+            if (panelRight.VerticalScroll.Visible)
+            {
+                panelRight.VerticalScroll.Value = PanelAddComment.Top;
+                textBoxComment.Focus();
+            }
+        }
+
+        public bool WantToShowCommentButton()
+        {
+            if (panelRight.VerticalScroll.Visible)
+            {
+                return PanelAddComment.Bottom > panelRight.Height;
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }
