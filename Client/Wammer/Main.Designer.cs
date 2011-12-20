@@ -147,6 +147,7 @@
             // 
             // leftArea
             // 
+            this.leftArea.AllowDrop = true;
             this.leftArea.BackColor = System.Drawing.Color.Transparent;
             this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.leftArea, "leftArea");

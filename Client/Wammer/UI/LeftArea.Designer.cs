@@ -108,6 +108,10 @@ namespace Waveface
             this.pbDropArea.TabIndex = 0;
             this.pbDropArea.TabStop = false;
             this.pbDropArea.Text = "Drag && drop the file to start the sharing";
+            this.pbDropArea.DragDrop += new System.Windows.Forms.DragEventHandler(this.DropArea_DragDrop);
+            this.pbDropArea.DragEnter += new System.Windows.Forms.DragEventHandler(this.DropArea_DragEnter);
+            this.pbDropArea.DragOver += new System.Windows.Forms.DragEventHandler(this.DropArea_DragOver);
+            this.pbDropArea.DragLeave += new System.EventHandler(this.DropArea_DragLeave);
             // 
             // panelMain
             // 
@@ -253,6 +257,7 @@ namespace Waveface
             // 
             // LeftArea
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
