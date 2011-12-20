@@ -110,9 +110,9 @@ namespace Waveface.API.V2
 
     public class DiskUsage
     {
-        public string avail { get; set; }
+        public long avail { get; set; }
         public string group_id { get; set; }
-        public string used { get; set; }
+        public long used { get; set; }
     }
 
     public class Station

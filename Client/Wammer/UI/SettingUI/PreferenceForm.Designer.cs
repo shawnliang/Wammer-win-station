@@ -45,6 +45,8 @@
 			this.lblLocalStorageUsage = new System.Windows.Forms.Label();
 			this.lblLocalStorageUsageTitle = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			this.lblStartTime = new System.Windows.Forms.Label();
 			this.lblCloudStorageLimit = new System.Windows.Forms.Label();
 			this.lblLimit2 = new System.Windows.Forms.Label();
@@ -55,8 +57,6 @@
 			this.lblVersion = new System.Windows.Forms.Label();
 			this.lblCopyRight = new System.Windows.Forms.Label();
 			this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -170,6 +170,16 @@
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.TabStop = false;
 			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.Name = "label1";
+			// 
+			// label2
+			// 
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.Name = "label2";
+			// 
 			// lblStartTime
 			// 
 			resources.ApplyResources(this.lblStartTime, "lblStartTime");
@@ -221,16 +231,6 @@
 			resources.ApplyResources(this.linkLegalNotice, "linkLegalNotice");
 			this.linkLegalNotice.Name = "linkLegalNotice";
 			this.linkLegalNotice.TabStop = true;
-			// 
-			// label1
-			// 
-			resources.ApplyResources(this.label1, "label1");
-			this.label1.Name = "label1";
-			// 
-			// label2
-			// 
-			resources.ApplyResources(this.label2, "label2");
-			this.label2.Name = "label2";
 			// 
 			// PreferenceForm
 			// 

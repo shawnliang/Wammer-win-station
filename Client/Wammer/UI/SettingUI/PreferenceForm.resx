@@ -448,7 +448,7 @@
     <value>True</value>
   </data>
   <data name="lblLocalStorageUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 27</value>
+    <value>141, 27</value>
   </data>
   <data name="lblLocalStorageUsage.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 14</value>
