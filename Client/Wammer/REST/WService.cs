@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Windows.Forms;
 using NLog;
 using Newtonsoft.Json;
 using Spring.Http.Converters;
@@ -19,7 +20,7 @@ namespace Waveface.API.V2
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        public const string CloundIP = "https://develop.waveface.com"; //http://develop.waveface.com:8080
+        public static string CloudIP = "https://api.waveface.com"; // https://develop.waveface.com
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
 
         private RestTemplate m_rest;
@@ -30,7 +31,7 @@ namespace Waveface.API.V2
             {
                 if (string.IsNullOrEmpty(StationIP))
                 {
-                    return CloundIP;
+                    return CloudIP;
                 }
                 else
                 {
@@ -46,7 +47,7 @@ namespace Waveface.API.V2
 
         public static string BaseURLForGroupUserAuth
         {
-            get { return CloundIP + "/v2"; }
+            get { return CloudIP + "/v2"; }
         }
 
         public static string StationIP { get; set; }
@@ -57,6 +58,23 @@ namespace Waveface.API.V2
 
             m_rest.MessageConverters.Add(new FormHttpMessageConverter());
             m_rest.MessageConverters.Add(new StringHttpMessageConverter());
+        }
+
+        public static void SwitchCloudIP()
+        {
+            if (CloudIP == "https://api.waveface.com")
+            {
+                CloudIP = "https://develop.waveface.com";
+                MessageBox.Show("CloundIP=" + CloudIP);
+                return;
+            }
+
+            if (CloudIP == "https://develop.waveface.com")
+            {
+                CloudIP = "https://api.waveface.com";
+                MessageBox.Show("CloundIP=" + CloudIP);
+                return;
+            }
         }
 
         private T HttpGetObject<T>(string _url)

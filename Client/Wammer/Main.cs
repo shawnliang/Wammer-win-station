@@ -1139,7 +1139,7 @@ namespace Waveface
         {
             if (radioButtonCloud.Checked)
             {
-                WService.StationIP = WService.CloundIP;
+                WService.StationIP = WService.CloudIP;
                 RT.StationMode = false;
             }
             else

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Forms;
 using NLog;
+using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Configuration;
 using Waveface.Localization;
@@ -19,7 +20,7 @@ namespace Waveface
         internal TextBox txtUserName;
         internal Label lblPassword;
         private IContainer components;
-        private Label lText;
+        private Label labelTitle;
         private XPButton btnCancel;
         private XPButton btnOK;
         private GroupBox groupBox1;
@@ -72,8 +73,8 @@ namespace Waveface
             this.autoLogin = autoLogin;
             this.savePassword = password;
 
-                txtUserName.Text = email;
-                txtPassword.Text = password;
+            txtUserName.Text = email;
+            txtPassword.Text = password;
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseSize = false;
@@ -92,7 +93,7 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.cbRemember = new System.Windows.Forms.CheckBox();
-            this.lText = new System.Windows.Forms.Label();
+            this.labelTitle = new System.Windows.Forms.Label();
             this.lblUserName = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtUserName = new System.Windows.Forms.TextBox();
@@ -109,10 +110,11 @@ namespace Waveface
             resources.ApplyResources(this.cbRemember, "cbRemember");
             this.cbRemember.Name = "cbRemember";
             // 
-            // lText
+            // labelTitle
             // 
-            resources.ApplyResources(this.lText, "lText");
-            this.lText.Name = "lText";
+            resources.ApplyResources(this.labelTitle, "labelTitle");
+            this.labelTitle.Name = "labelTitle";
+            this.labelTitle.DoubleClick += new System.EventHandler(this.labelTitle_DoubleClick);
             // 
             // lblUserName
             // 
@@ -140,12 +142,12 @@ namespace Waveface
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.txtUserName);
             this.groupBox1.Controls.Add(this.txtPassword);
             this.groupBox1.Controls.Add(this.lblUserName);
             this.groupBox1.Controls.Add(this.lblPassword);
             this.groupBox1.Controls.Add(this.cbRemember);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -156,21 +158,21 @@ namespace Waveface
             // 
             // btnCancel
             // 
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnCancel.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnCancel.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOK
             // 
+            resources.ApplyResources(this.btnOK, "btnOK");
             this.btnOK.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnOK.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnOK.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            resources.ApplyResources(this.btnOK, "btnOK");
             this.btnOK.Name = "btnOK";
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
@@ -178,7 +180,7 @@ namespace Waveface
             // 
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.lText);
+            this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -273,7 +275,7 @@ namespace Waveface
 
             return quit;
         }
-        
+
         private void btnOK_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.None;
@@ -319,7 +321,7 @@ namespace Waveface
             {
                 CultureManager.ApplicationUICulture = new CultureInfo("en-US");
                 return;
-            }            
+            }
         }
 
         private void cultureManager_UICultureChanged(CultureInfo newCulture)
@@ -332,13 +334,18 @@ namespace Waveface
             txtUserName.ReadOnly = !txtUserName.ReadOnly;
         }
 
-		protected override bool ProcessDialogKey(Keys keyData)
-		{
-			if (keyData == Keys.Enter && !this.btnOK.Focused)
-			{
-				btnOK_Click(null, null);
-			}
-			return base.ProcessDialogKey(keyData);
-		}
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (keyData == Keys.Enter && !this.btnOK.Focused)
+            {
+                btnOK_Click(null, null);
+            }
+            return base.ProcessDialogKey(keyData);
+        }
+
+        private void labelTitle_DoubleClick(object sender, EventArgs e)
+        {
+            WService.SwitchCloudIP();
+        }
     }
 }

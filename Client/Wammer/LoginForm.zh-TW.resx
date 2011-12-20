@@ -124,14 +124,8 @@
   <data name="cbRemember.Text" xml:space="preserve">
     <value>記住密碼</value>
   </data>
-  <data name="lText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 15</value>
-  </data>
-  <data name="lText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 20</value>
-  </data>
-  <data name="lText.Text" xml:space="preserve">
-    <value>請輸入您的電子郵件與密碼</value>
+  <data name="labelTitle.Text" xml:space="preserve">
+    <value>請輸入您的電子郵件密碼</value>
   </data>
   <data name="lblUserName.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 15</value>
@@ -244,6 +238,10 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAE=
 </value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>登錄 Waveface</value>
