@@ -243,7 +243,11 @@ namespace Waveface.PostUI
                 return;
             }
 
-            //單純文字
+            SendPureText();
+        }
+
+        private void SendPureText()
+        {
             if (MyParent.richTextBox.Text.Equals(string.Empty))
             {
                 MessageBox.Show("Text cannot be empty!");
@@ -283,6 +287,12 @@ namespace Waveface.PostUI
 
         private void btnBatchPost_Click(object sender, EventArgs e)
         {
+            if(imageListView.Items.Count == 0)
+            {
+                SendPureText();
+                return;
+            }
+
             NewPostItem _newPostItem = new NewPostItem();
             _newPostItem.PostType = PostType.Photo;
             _newPostItem.Text = MyParent.richTextBox.Text;

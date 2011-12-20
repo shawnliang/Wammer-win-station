@@ -19,6 +19,8 @@ namespace Wammer.Model
 		public string Folder { get; set; }
 		[BsonIgnoreIfNull]
 		public long Quota { get; set; }
+		[BsonIgnoreIfNull]
+		public string UserAccount { get; set; }
 	}
 
 	public class CloudStorageCollection : Collection<CloudStorage>

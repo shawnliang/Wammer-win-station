@@ -12,7 +12,7 @@ namespace Wammer.Cloud
 	{
 		private const string DEF_API_KEY = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
 		public const string DEF_BASE_PATH = "v2";
-		public const string DEF_BASE_URL = "https://api.waveface.com/v2/"; //https://develop.waveface.com/v2/
+		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; //https://api.waveface.com/v2/
 
 		private static string apiKey = null;
 		private static string baseUrl = null;

@@ -15,7 +15,7 @@ using Waveface.Component;
 
 namespace Waveface.DetailUI
 {
-    public class Photo_DV : UserControl
+    public class Photo_DV : UserControl, IDetailViewer
     {
         #region Fields
 
@@ -35,7 +35,7 @@ namespace Waveface.DetailUI
         private PhotoView m_photoView;
         private Panel panelPictureInfo;
         private Label labelPictureInfo;
-        private Dictionary<string, string> m_filesMapping; 
+        private Dictionary<string, string> m_filesMapping;
 
         #endregion
 
@@ -66,6 +66,11 @@ namespace Waveface.DetailUI
 
             imageListView.SetRenderer(new MyImageListViewRenderer());
 
+            imageListView.BackColor = Color.FromArgb(243, 242, 238);
+            imageListView.Colors.BackColor = Color.FromArgb(243, 242, 238);
+            imageListView.Colors.DisabledBackColor = Color.FromArgb(243, 242, 238);
+            imageListView.ThumbnailSize = new Size(128, 128);
+
             m_filesMapping = new Dictionary<string, string>();
         }
 
@@ -88,14 +93,14 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
             this.PanelAddComment = new System.Windows.Forms.Panel();
+            this.buttonAddComment = new Waveface.Component.XPButton();
             this.textBoxComment = new System.Windows.Forms.TextBox();
+            this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelPictures = new System.Windows.Forms.Panel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.pictureBoxRemote = new System.Windows.Forms.PictureBox();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
-            this.buttonAddComment = new Waveface.Component.XPButton();
-            this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
@@ -110,7 +115,7 @@ namespace Waveface.DetailUI
             this.panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelMain.BackColor = System.Drawing.SystemColors.Window;
+            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelMain.Controls.Add(this.panelRight);
             this.panelMain.Location = new System.Drawing.Point(3, 3);
@@ -124,14 +129,16 @@ namespace Waveface.DetailUI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelRight.AutoScroll = true;
+            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelRight.Controls.Add(this.PanelAddComment);
             this.panelRight.Controls.Add(this.webBrowserComment);
             this.panelRight.Controls.Add(this.PanelPictures);
             this.panelRight.Controls.Add(this.panelPictureInfo);
             this.panelRight.Controls.Add(this.webBrowserTop);
-            this.panelRight.Location = new System.Drawing.Point(16, 0);
+            this.panelRight.Location = new System.Drawing.Point(8, 0);
             this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(510, 482);
+            this.panelRight.Padding = new System.Windows.Forms.Padding(0, 8, 8, 0);
+            this.panelRight.Size = new System.Drawing.Size(518, 482);
             this.panelRight.TabIndex = 2;
             // 
             // PanelAddComment
@@ -139,51 +146,78 @@ namespace Waveface.DetailUI
             this.PanelAddComment.AutoScroll = true;
             this.PanelAddComment.AutoScrollMinSize = new System.Drawing.Size(345, 0);
             this.PanelAddComment.AutoSize = true;
-            this.PanelAddComment.BackColor = System.Drawing.SystemColors.Window;
+            this.PanelAddComment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.PanelAddComment.Controls.Add(this.buttonAddComment);
             this.PanelAddComment.Controls.Add(this.textBoxComment);
             this.PanelAddComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelAddComment.Location = new System.Drawing.Point(0, 379);
+            this.PanelAddComment.Location = new System.Drawing.Point(0, 387);
             this.PanelAddComment.Name = "PanelAddComment";
             this.PanelAddComment.Size = new System.Drawing.Size(510, 50);
             this.PanelAddComment.TabIndex = 3;
+            // 
+            // buttonAddComment
+            // 
+            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.buttonAddComment.Location = new System.Drawing.Point(432, 3);
+            this.buttonAddComment.Name = "buttonAddComment";
+            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
+            this.buttonAddComment.TabIndex = 1;
+            this.buttonAddComment.Text = "Send";
+            this.buttonAddComment.UseVisualStyleBackColor = true;
+            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // textBoxComment
             // 
             this.textBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxComment.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxComment.Location = new System.Drawing.Point(32, 3);
+            this.textBoxComment.Location = new System.Drawing.Point(2, 3);
             this.textBoxComment.Multiline = true;
             this.textBoxComment.Name = "textBoxComment";
             this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxComment.Size = new System.Drawing.Size(374, 44);
+            this.textBoxComment.Size = new System.Drawing.Size(424, 44);
             this.textBoxComment.TabIndex = 0;
+            // 
+            // webBrowserComment
+            // 
+            this.webBrowserComment.AllowWebBrowserDrop = false;
+            this.webBrowserComment.Dock = System.Windows.Forms.DockStyle.Top;
+            this.webBrowserComment.Location = new System.Drawing.Point(0, 290);
+            this.webBrowserComment.Name = "webBrowserComment";
+            this.webBrowserComment.ScrollBarsEnabled = false;
+            this.webBrowserComment.Size = new System.Drawing.Size(510, 97);
+            this.webBrowserComment.TabIndex = 2;
+            this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
             // 
             // PanelPictures
             // 
             this.PanelPictures.AutoScroll = true;
             this.PanelPictures.AutoScrollMinSize = new System.Drawing.Size(345, 0);
-            this.PanelPictures.BackColor = System.Drawing.SystemColors.Window;
+            this.PanelPictures.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.PanelPictures.Controls.Add(this.imageListView);
             this.PanelPictures.Controls.Add(this.pictureBoxRemote);
             this.PanelPictures.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelPictures.Location = new System.Drawing.Point(0, 121);
+            this.PanelPictures.Location = new System.Drawing.Point(0, 129);
             this.PanelPictures.Name = "PanelPictures";
+            this.PanelPictures.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             this.PanelPictures.Size = new System.Drawing.Size(510, 161);
             this.PanelPictures.TabIndex = 1;
             // 
             // imageListView
             // 
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
             this.imageListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.imageListView.Location = new System.Drawing.Point(0, 0);
+            this.imageListView.Location = new System.Drawing.Point(0, 8);
             this.imageListView.Name = "imageListView";
-            this.imageListView.Size = new System.Drawing.Size(510, 161);
+            this.imageListView.Size = new System.Drawing.Size(510, 153);
             this.imageListView.TabIndex = 1;
             this.imageListView.ThumbnailSize = new System.Drawing.Size(120, 120);
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
@@ -202,10 +236,10 @@ namespace Waveface.DetailUI
             // 
             // panelPictureInfo
             // 
-            this.panelPictureInfo.BackColor = System.Drawing.SystemColors.Info;
+            this.panelPictureInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(208)))), ((int)(((byte)(170)))));
             this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
             this.panelPictureInfo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelPictureInfo.Location = new System.Drawing.Point(0, 97);
+            this.panelPictureInfo.Location = new System.Drawing.Point(0, 105);
             this.panelPictureInfo.Margin = new System.Windows.Forms.Padding(0);
             this.panelPictureInfo.Name = "panelPictureInfo";
             this.panelPictureInfo.Size = new System.Drawing.Size(510, 24);
@@ -221,36 +255,11 @@ namespace Waveface.DetailUI
             this.labelPictureInfo.TabIndex = 0;
             this.labelPictureInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // buttonAddComment
-            // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(412, 2);
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
-            this.buttonAddComment.TabIndex = 1;
-            this.buttonAddComment.Text = "Send";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
-            // 
-            // webBrowserComment
-            // 
-            this.webBrowserComment.AllowWebBrowserDrop = false;
-            this.webBrowserComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.webBrowserComment.Location = new System.Drawing.Point(0, 282);
-            this.webBrowserComment.Name = "webBrowserComment";
-            this.webBrowserComment.ScrollBarsEnabled = false;
-            this.webBrowserComment.Size = new System.Drawing.Size(510, 97);
-            this.webBrowserComment.TabIndex = 2;
-            this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
-            // 
             // webBrowserTop
             // 
             this.webBrowserTop.AllowWebBrowserDrop = false;
             this.webBrowserTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.webBrowserTop.Location = new System.Drawing.Point(0, 0);
+            this.webBrowserTop.Location = new System.Drawing.Point(0, 8);
             this.webBrowserTop.Name = "webBrowserTop";
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.Size = new System.Drawing.Size(510, 97);
@@ -259,6 +268,7 @@ namespace Waveface.DetailUI
             // 
             // Photo_DV
             // 
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panelMain);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -315,19 +325,25 @@ namespace Waveface.DetailUI
 
         private void Set_Comments_Part()
         {
-            MyParent.SetComments(webBrowserComment, Post);
+            MyParent.SetComments(webBrowserComment, Post, true);
         }
 
         private void Set_MainContent_Part()
         {
+            if(Post.content == string.Empty)
+            {
+                webBrowserTop.Visible = false;
+                return;
+            }
+
             StringBuilder _sb = new StringBuilder();
 
-            _sb.Append("<p>[Text]</p>");
+            _sb.Append("<font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'><p>[Text]</p></font>");
 
             string _html = _sb.ToString();
             _html = _html.Replace("[Text]", Post.content.Replace(Environment.NewLine, "<BR>"));
 
-            webBrowserTop.DocumentText = _html;
+            webBrowserTop.DocumentText = "<body bgcolor=\"rgb(238,231,209)\">" + _html + "</body>";
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -457,7 +473,7 @@ namespace Waveface.DetailUI
             else
             {
                 panelPictureInfo.Visible = false;
-                
+
                 ReLayout();
             }
         }
@@ -486,5 +502,28 @@ namespace Waveface.DetailUI
         {
             MyParent.PostComment(textBoxComment, Post);
         }
+
+        #region IDetailViewer
+
+        public void ScrollToComment()
+        {
+            if (panelRight.VerticalScroll.Visible)
+            {
+                panelRight.VerticalScroll.Value = PanelAddComment.Top;
+                textBoxComment.Focus();
+            }
+        }
+
+        public bool WantToShowCommentButton()
+        {
+            if (panelRight.VerticalScroll.Visible)
+            {
+                return PanelAddComment.Bottom > panelRight.Height;
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }

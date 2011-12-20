@@ -17,7 +17,7 @@ using Waveface.Component;
 
 namespace Waveface.DetailUI
 {
-    public class Document_DV : UserControl
+    public class Document_DV : UserControl, IDetailViewer
     {
         private Panel panelMain;
         private Panel panelRight;
@@ -308,7 +308,7 @@ namespace Waveface.DetailUI
 
         private void Set_Comments_Part()
         {
-            MyParent.SetComments(webBrowserComment, Post);
+            MyParent.SetComments(webBrowserComment, Post, true);
         }
 
         private void Set_MainContent_Part()
@@ -477,5 +477,28 @@ namespace Waveface.DetailUI
             catch
             {}
         }
+
+        #region IDetailViewer
+
+        public void ScrollToComment()
+        {
+            if (panelRight.VerticalScroll.Visible)
+            {
+                panelRight.VerticalScroll.Value = PanelAddComment.Top;
+                textBoxComment.Focus();
+            }
+        }
+
+        public bool WantToShowCommentButton()
+        {
+            if (panelRight.VerticalScroll.Visible)
+            {
+                return PanelAddComment.Bottom > panelRight.Height;
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }

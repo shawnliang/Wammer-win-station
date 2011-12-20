@@ -154,6 +154,7 @@ namespace Wammer.Station
 
 			using (MemoryStream m = new MemoryStream())
 			{
+				ImageHelper.CorrectOrientation(ImageHelper.ImageOrientation(origin), thumbnail);
 				thumbnail.Save(m, System.Drawing.Imaging.ImageFormat.Jpeg);
 
 				byte[] rawData = m.ToArray();

@@ -34,7 +34,8 @@ namespace Wammer.Station
 						type = "dropbox",
 						connected = true,
 						quota = cloudstorage.Quota,
-						used = new DropboxFileStorage(driver, cloudstorage).GetUsedSize()
+						used = new DropboxFileStorage(driver, cloudstorage).GetUsedSize(),
+						account = cloudstorage.UserAccount
 					}
 				);
 			}
@@ -112,16 +113,18 @@ namespace Wammer.Station
 							logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", res.ToFastJSON());
 							throw new WammerStationException("Dropbox has not linked yet", (int)DropboxApiError.ConnectDropboxFailed);
 						}
-					}
 
-					CloudStorageCollection.Instance.Save(new CloudStorage
-						{
-							Id = Guid.NewGuid().ToString(),
-							Type = "dropbox",
-							Folder = folder,
-							Quota = quota
-						}
-					);
+
+						CloudStorageCollection.Instance.Save(new CloudStorage
+							{
+								Id = Guid.NewGuid().ToString(),
+								Type = "dropbox",
+								Folder = folder,
+								Quota = quota,
+								UserAccount = res.storages.account
+							}
+						);
+					}
 				}
 
 				RespondSuccess();
@@ -229,5 +232,6 @@ namespace Wammer.Station
 		public bool connected { get; set; }
 		public long quota { get; set; }
 		public long used { get; set; }
+		public string account { get; set; }
 	}
 }
