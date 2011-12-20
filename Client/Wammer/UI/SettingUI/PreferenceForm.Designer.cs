@@ -35,7 +35,7 @@
 			this.lblDeviceNameTitle = new System.Windows.Forms.Label();
 			this.lblDeviceName = new System.Windows.Forms.Label();
 			this.lblDropboxStorageAccountTitle = new System.Windows.Forms.Label();
-            this.btnUnlinkDropbox = new System.Windows.Forms.Button();
+			this.btnUnlinkDropbox = new System.Windows.Forms.Button();
 			this.lblCloudUsageTitle = new System.Windows.Forms.Label();
 			this.lblLimit = new System.Windows.Forms.Label();
 			this.barCloudUsage = new System.Windows.Forms.ProgressBar();
@@ -45,6 +45,10 @@
 			this.lblLocalStorageUsage = new System.Windows.Forms.Label();
 			this.lblLocalStorageUsageTitle = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.panel_DropboxNotInUse = new System.Windows.Forms.Panel();
+			this.btnConnectDropbox = new System.Windows.Forms.Button();
+			this.panel_DropboxInUse = new System.Windows.Forms.Panel();
+			this.label_dropboxAccount = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.lblStartTime = new System.Windows.Forms.Label();
@@ -58,14 +62,10 @@
 			this.lblCopyRight = new System.Windows.Forms.Label();
 			this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
 			this.bgworkerGetAllData = new System.ComponentModel.BackgroundWorker();
-            this.label_dropboxAccount = new System.Windows.Forms.Label();
-            this.panel_DropboxInUse = new System.Windows.Forms.Panel();
-            this.panel_DropboxNotInUse = new System.Windows.Forms.Panel();
-            this.btnConnectDropbox = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
-            this.panel_DropboxInUse.SuspendLayout();
-            this.panel_DropboxNotInUse.SuspendLayout();
+			this.panel_DropboxNotInUse.SuspendLayout();
+			this.panel_DropboxInUse.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -100,12 +100,12 @@
 			resources.ApplyResources(this.lblDropboxStorageAccountTitle, "lblDropboxStorageAccountTitle");
 			this.lblDropboxStorageAccountTitle.Name = "lblDropboxStorageAccountTitle";
 			// 
-            // btnUnlinkDropbox
+			// btnUnlinkDropbox
 			// 
-            resources.ApplyResources(this.btnUnlinkDropbox, "btnUnlinkDropbox");
-            this.btnUnlinkDropbox.Name = "btnUnlinkDropbox";
-            this.btnUnlinkDropbox.UseVisualStyleBackColor = true;
-            this.btnUnlinkDropbox.Click += new System.EventHandler(this.btnUnlinkDropbox_Click);
+			resources.ApplyResources(this.btnUnlinkDropbox, "btnUnlinkDropbox");
+			this.btnUnlinkDropbox.Name = "btnUnlinkDropbox";
+			this.btnUnlinkDropbox.UseVisualStyleBackColor = true;
+			this.btnUnlinkDropbox.Click += new System.EventHandler(this.btnUnlinkDropbox_Click);
 			// 
 			// lblCloudUsageTitle
 			// 
@@ -157,8 +157,8 @@
 			// 
 			// groupBox2
 			// 
-            this.groupBox2.Controls.Add(this.panel_DropboxNotInUse);
-            this.groupBox2.Controls.Add(this.panel_DropboxInUse);
+			this.groupBox2.Controls.Add(this.panel_DropboxNotInUse);
+			this.groupBox2.Controls.Add(this.panel_DropboxInUse);
 			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Controls.Add(this.lblStartTime);
@@ -178,6 +178,31 @@
 			resources.ApplyResources(this.groupBox2, "groupBox2");
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.TabStop = false;
+			// 
+			// panel_DropboxNotInUse
+			// 
+			this.panel_DropboxNotInUse.Controls.Add(this.btnConnectDropbox);
+			resources.ApplyResources(this.panel_DropboxNotInUse, "panel_DropboxNotInUse");
+			this.panel_DropboxNotInUse.Name = "panel_DropboxNotInUse";
+			// 
+			// btnConnectDropbox
+			// 
+			resources.ApplyResources(this.btnConnectDropbox, "btnConnectDropbox");
+			this.btnConnectDropbox.Name = "btnConnectDropbox";
+			this.btnConnectDropbox.UseVisualStyleBackColor = true;
+			this.btnConnectDropbox.Click += new System.EventHandler(this.btnConnectDropbox_Click);
+			// 
+			// panel_DropboxInUse
+			// 
+			this.panel_DropboxInUse.Controls.Add(this.label_dropboxAccount);
+			this.panel_DropboxInUse.Controls.Add(this.btnUnlinkDropbox);
+			resources.ApplyResources(this.panel_DropboxInUse, "panel_DropboxInUse");
+			this.panel_DropboxInUse.Name = "panel_DropboxInUse";
+			// 
+			// label_dropboxAccount
+			// 
+			resources.ApplyResources(this.label_dropboxAccount, "label_dropboxAccount");
+			this.label_dropboxAccount.Name = "label_dropboxAccount";
 			// 
 			// label1
 			// 
@@ -242,35 +267,9 @@
 			this.linkLegalNotice.TabStop = true;
 			// 
 			// bgworkerGetAllData
-			//
+			// 
 			this.bgworkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerGetAllData_DoWork);
-			this.bgworkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerGetAllData_RunWorkerComplete
-            //
-            // label_dropboxAccount
-            // 
-            resources.ApplyResources(this.label_dropboxAccount, "label_dropboxAccount");
-            this.label_dropboxAccount.Name = "label_dropboxAccount";
-            // 
-            // panel_DropboxInUse
-            // 
-            this.panel_DropboxInUse.Controls.Add(this.label_dropboxAccount);
-            this.panel_DropboxInUse.Controls.Add(this.btnUnlinkDropbox);
-            resources.ApplyResources(this.panel_DropboxInUse, "panel_DropboxInUse");
-            this.panel_DropboxInUse.Name = "panel_DropboxInUse";
-            // 
-            // panel_DropboxNotInUse
 			// 
-            this.panel_DropboxNotInUse.Controls.Add(this.btnConnectDropbox);
-            resources.ApplyResources(this.panel_DropboxNotInUse, "panel_DropboxNotInUse");
-            this.panel_DropboxNotInUse.Name = "panel_DropboxNotInUse";
-			// 
-            // btnConnectDropbox
-            // 
-            resources.ApplyResources(this.btnConnectDropbox, "btnConnectDropbox");
-            this.btnConnectDropbox.Name = "btnConnectDropbox";
-            this.btnConnectDropbox.UseVisualStyleBackColor = true;
-            this.btnConnectDropbox.Click += new System.EventHandler(this.btnConnectDropbox_Click);
-            // 
 			// PreferenceForm
 			// 
 			resources.ApplyResources(this, "$this");
@@ -293,9 +292,9 @@
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
-            this.panel_DropboxInUse.ResumeLayout(false);
-            this.panel_DropboxInUse.PerformLayout();
-            this.panel_DropboxNotInUse.ResumeLayout(false);
+			this.panel_DropboxNotInUse.ResumeLayout(false);
+			this.panel_DropboxInUse.ResumeLayout(false);
+			this.panel_DropboxInUse.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
