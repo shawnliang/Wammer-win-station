@@ -32,6 +32,35 @@ namespace Wammer.Station
         private bool m_verifying;
         private bool m_autoPostOK;
         
+        public DropboxForm()
+        {
+            InitializeComponent();
+
+            // The constructor is used when user configures dropbox from preference page 
+            // after installation.
+
+            // Page: welcome
+            // If user clicks "skip" just close the form
+            btn_Welcome_Skip.Click -= this.btn_Welcome_Skip_Click;
+            btn_Welcome_Skip.Click += this.btn_Complete;
+
+            // Page: connect to dropbox successfully
+            // If user clicks "OK" just close the form
+            btn_ConnectionSuccessfully_OpenWaveface.Text = I18n.L.T("Btn_OK");
+            btn_ConnectionSuccessfully_OpenWaveface.Click -= this.btn_ConnectionSuccessfully_OpenWaveface_Click;
+            btn_ConnectionSuccessfully_OpenWaveface.Click += this.btn_Complete;
+
+            // Page: connect to dropbox unsuccessfully
+            // If user clicks "skip" just close the form
+            btn_ConnectionFailed_Skip.Click -= this.btn_ConnectionFailed_Skip_Click;
+            btn_ConnectionFailed_Skip.Click += this.btn_Complete;
+
+            // Just close the form if it needs to
+            this.FormClosing -= this.DropboxForm_FormClosing;
+
+            gotoPage(Page_Welcome);
+        }
+
         public DropboxForm(string email, string password, AddUserResult userInfo)
         {
             m_email = email;
@@ -172,6 +201,11 @@ namespace Wammer.Station
             m_verifying = true;
 
             backgroundWorkerVerifying.RunWorkerAsync();
+        }
+
+        private void btn_Complete(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void btn_ConnectionSuccessfully_OpenWaveface_Click(object sender, EventArgs e)

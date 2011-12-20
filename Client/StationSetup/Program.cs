@@ -12,7 +12,7 @@ namespace StationSetup
 	static class Program
 	{
 		[STAThread]
-		static void Main()
+		static void Main(string[] args)
 		{
 			CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
 			//CultureManager.ApplicationUICulture = new CultureInfo("en-US");
@@ -21,14 +21,23 @@ namespace StationSetup
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			if (WavefaceWindowsClientHelper.IsAlreadyResistered())
-			{
-				WavefaceWindowsClientHelper.StartWavefaceWindowsClient("", "", "");
-				return;
-			}
+            Form form = null;
 
-			SignInForm form = new SignInForm();
-    
+            if (args.Length == 1 && args[0].Equals("--dropbox"))
+            {
+                form = new DropboxForm();
+            }
+            else
+            {
+                if (WavefaceWindowsClientHelper.IsAlreadyResistered())
+                {
+                    WavefaceWindowsClientHelper.StartWavefaceWindowsClient("", "", "");
+                    return;
+                }
+
+                form = new SignInForm();
+            }
+
             Application.Run(form);
 		}
 	}

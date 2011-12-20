@@ -50,4 +50,9 @@
     <en-US>Waveface Station already has a registered user. Adding another one is not allowed.</en-US>
     <zh-TW>Waveface Station已經有了一個已註冊的使用者, 無法再增加另一位</zh-TW>
   </WItem>
+  <WItem>
+    <ID>Btn_OK</ID>
+    <en-US>OK</en-US>
+    <zh-TW>確定</zh-TW>
+  </WItem>
 </WItems>

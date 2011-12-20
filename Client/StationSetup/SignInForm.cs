@@ -13,7 +13,7 @@ namespace Wammer.Station
 {
     public partial class SignInForm : Form
     {
-        private const string SignUpURL = @"http://develop.waveface.com:4343/signup?device=station";
+        private const string SignUpURL = @"https://waveface.com/signup?device=station";
 
         public SignInForm()
         {
