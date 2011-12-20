@@ -132,6 +132,7 @@ namespace Waveface.API.V2
 		public bool connected { get; set; }
 		public long quota { get; set; }
 		public long used { get; set; }
+        public string account { get; set; }
 	}
 
 	public class StationDetail
