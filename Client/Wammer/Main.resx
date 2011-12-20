@@ -403,16 +403,16 @@
     <value>1</value>
   </data>
   <data name="itemCountLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 20</value>
+    <value>64, 20</value>
   </data>
   <data name="itemCountLabel.Text" xml:space="preserve">
     <value>{0} Items</value>
   </data>
   <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>758, 20</value>
+    <value>739, 20</value>
   </data>
   <data name="connectedStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 20</value>
+    <value>154, 20</value>
   </data>
   <data name="connectedStatusLabel.Text" xml:space="preserve">
     <value>All folders are up to date.</value>
@@ -444,7 +444,7 @@
     <value>Magenta</value>
   </data>
   <data name="connectedImageLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 25</value>
+    <value>102, 25</value>
   </data>
   <data name="connectedImageLabel.Text" xml:space="preserve">
     <value>Connected</value>
@@ -492,19 +492,19 @@
     <value>190, 6</value>
   </data>
   <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="regionMenuItem.Text" xml:space="preserve">
     <value>Region</value>
   </data>
   <data name="windowsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="windowsMenuItem.Text" xml:space="preserve">
     <value>Windows</value>
   </data>
   <data name="screenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="screenMenuItem.Text" xml:space="preserve">
     <value>Desktop</value>

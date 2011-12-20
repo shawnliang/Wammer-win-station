@@ -10,6 +10,7 @@ using System.Net.NetworkInformation;
 using System.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
+using Waveface.Compoment;
 using Waveface.Compoment.PopupControl;
 using Waveface.Component;
 using Waveface.Component.DropableNotifyIcon;
@@ -339,6 +340,17 @@ namespace Waveface
             GetLastReadAndShow();
 
             m_eventFromRestoreWindow_Hack = true;
+        }
+
+        protected override void WndProc(ref Message message)
+        {
+            if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
+            {
+                if(WindowState == FormWindowState.Minimized)
+                    RestoreWindow();
+            }
+
+            base.WndProc(ref message);
         }
 
         private void restoreMenuItem_Click(object sender, EventArgs e)
@@ -1127,7 +1139,7 @@ namespace Waveface
         {
             if (radioButtonCloud.Checked)
             {
-                WService.StationIP = WService.CloundIP;
+                WService.StationIP = WService.CloudIP;
                 RT.StationMode = false;
             }
             else

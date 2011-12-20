@@ -42,7 +42,6 @@ namespace Waveface
             this.taskPaneFilter = new XPExplorerBar.TaskPane();
             this.expandoQuicklist = new XPExplorerBar.Expando();
             this.panelTimeline = new System.Windows.Forms.Panel();
-            this.buttonCreatePost = new System.Windows.Forms.Button();
             this.panelCalendar = new System.Windows.Forms.Panel();
             this.monthCalendar = new CustomControls.MonthCalendar();
             this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
@@ -59,7 +58,6 @@ namespace Waveface
             ((System.ComponentModel.ISupportInitialize)(this.taskPaneFilter)).BeginInit();
             this.taskPaneFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.expandoQuicklist)).BeginInit();
-            this.panelTimeline.SuspendLayout();
             this.panelCalendar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -110,6 +108,10 @@ namespace Waveface
             this.pbDropArea.TabIndex = 0;
             this.pbDropArea.TabStop = false;
             this.pbDropArea.Text = "Drag && drop the file to start the sharing";
+            this.pbDropArea.DragDrop += new System.Windows.Forms.DragEventHandler(this.DropArea_DragDrop);
+            this.pbDropArea.DragEnter += new System.Windows.Forms.DragEventHandler(this.DropArea_DragEnter);
+            this.pbDropArea.DragOver += new System.Windows.Forms.DragEventHandler(this.DropArea_DragOver);
+            this.pbDropArea.DragLeave += new System.EventHandler(this.DropArea_DragLeave);
             // 
             // panelMain
             // 
@@ -181,27 +183,11 @@ namespace Waveface
             // panelTimeline
             // 
             this.panelTimeline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.panelTimeline.Controls.Add(this.buttonCreatePost);
             this.panelTimeline.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTimeline.Location = new System.Drawing.Point(0, 0);
             this.panelTimeline.Name = "panelTimeline";
             this.panelTimeline.Size = new System.Drawing.Size(191, 38);
             this.panelTimeline.TabIndex = 2;
-            // 
-            // buttonCreatePost
-            // 
-            this.buttonCreatePost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCreatePost.BackColor = System.Drawing.Color.Black;
-            this.buttonCreatePost.ForeColor = System.Drawing.Color.White;
-            this.buttonCreatePost.Location = new System.Drawing.Point(12, 6);
-            this.buttonCreatePost.Name = "buttonCreatePost";
-            this.buttonCreatePost.Size = new System.Drawing.Size(163, 26);
-            this.buttonCreatePost.TabIndex = 1;
-            this.buttonCreatePost.Text = "Create a New Post";
-            this.buttonCreatePost.UseVisualStyleBackColor = false;
-            this.buttonCreatePost.Visible = false;
-            this.buttonCreatePost.Click += new System.EventHandler(this.buttonCreatePost_Click);
             // 
             // panelCalendar
             // 
@@ -271,6 +257,7 @@ namespace Waveface
             // 
             // LeftArea
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
@@ -289,7 +276,6 @@ namespace Waveface
             ((System.ComponentModel.ISupportInitialize)(this.taskPaneFilter)).EndInit();
             this.taskPaneFilter.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.expandoQuicklist)).EndInit();
-            this.panelTimeline.ResumeLayout(false);
             this.panelCalendar.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -312,7 +298,6 @@ namespace Waveface
         private System.Windows.Forms.Panel panelCustomFilter;
         private System.Windows.Forms.Panel panelTimeline;
         private CustomControls.MonthCalendar monthCalendar;
-        private System.Windows.Forms.Button buttonCreatePost;
         private System.Windows.Forms.Panel panelButtom2;
         private System.Windows.Forms.Label labelDropInfor;
 

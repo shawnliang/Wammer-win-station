@@ -27,7 +27,7 @@ namespace Waveface
         private Label labelWho;
         private Label labelTime;
         private Timer timerGC;
-        private LinkLabel linkLabelRemove;
+        private Component.XPButton btnComment;
         private Panel panelMain;
 
         public Post Post
@@ -74,18 +74,18 @@ namespace Waveface
         {
             this.components = new System.ComponentModel.Container();
             this.panelTop = new System.Windows.Forms.Panel();
-            this.linkLabelRemove = new System.Windows.Forms.LinkLabel();
             this.labelWho = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
+            this.btnComment = new Waveface.Component.XPButton();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.panelTop.Controls.Add(this.linkLabelRemove);
+            this.panelTop.Controls.Add(this.btnComment);
             this.panelTop.Controls.Add(this.labelWho);
             this.panelTop.Controls.Add(this.labelTime);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
@@ -93,22 +93,6 @@ namespace Waveface
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(535, 32);
             this.panelTop.TabIndex = 0;
-            // 
-            // linkLabelRemove
-            // 
-            this.linkLabelRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabelRemove.AutoSize = true;
-            this.linkLabelRemove.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabelRemove.ForeColor = System.Drawing.SystemColors.Window;
-            this.linkLabelRemove.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(255)))), ((int)(((byte)(204)))));
-            this.linkLabelRemove.Location = new System.Drawing.Point(481, 10);
-            this.linkLabelRemove.Name = "linkLabelRemove";
-            this.linkLabelRemove.Size = new System.Drawing.Size(51, 14);
-            this.linkLabelRemove.TabIndex = 2;
-            this.linkLabelRemove.TabStop = true;
-            this.linkLabelRemove.Text = "Remove";
-            this.linkLabelRemove.Visible = false;
-            this.linkLabelRemove.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelRemove_LinkClicked);
             // 
             // labelWho
             // 
@@ -142,6 +126,23 @@ namespace Waveface
             // 
             this.timerGC.Interval = 60000;
             this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
+            // 
+            // btnComment
+            // 
+            this.btnComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnComment.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnComment.Image = global::Waveface.Properties.Resources.write_comment;
+            this.btnComment.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnComment.Location = new System.Drawing.Point(439, 3);
+            this.btnComment.Name = "btnComment";
+            this.btnComment.Size = new System.Drawing.Size(93, 26);
+            this.btnComment.TabIndex = 7;
+            this.btnComment.Text = "Comment";
+            this.btnComment.UseVisualStyleBackColor = true;
+            this.btnComment.Visible = false;
             // 
             // DetailView
             // 
@@ -392,6 +393,7 @@ namespace Waveface
             wb.DocumentText = _html;
         }
 
+        /*
         private void linkLabelRemove_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             DialogResult _dr = MessageBox.Show("Do you really want to remove this post?", "Waveface", MessageBoxButtons.YesNo);
@@ -401,5 +403,6 @@ namespace Waveface
 
             Main.Current.HidePost(m_post.post_id);
         }
+        */
     }
 }

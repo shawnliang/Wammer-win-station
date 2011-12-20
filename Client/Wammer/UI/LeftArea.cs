@@ -30,6 +30,7 @@ namespace Waveface
         private string m_dropAreaMessage;
         private Image m_dropAreaImage;
         private Font m_font = new Font("Tahoma", 10, FontStyle.Bold);
+        private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         #region Properties
 
@@ -58,6 +59,9 @@ namespace Waveface
         public LeftArea()
         {
             InitializeComponent();
+
+            m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
+            pbDropArea.AllowDrop = true;
 
             //taskPaneFilter.UseCustomTheme("panther.dll");
             taskPaneFilter.UseClassicTheme();
@@ -274,21 +278,12 @@ namespace Waveface
 
         public void SetUI(bool flag)
         {
-            buttonCreatePost.Visible = flag;
             taskPaneFilter.Visible = flag;
         }
 
         private void monthCalendar_DateClicked(object sender, DateEventArgs e)
         {
             Main.Current.ClickCalendar(e.Date);
-        }
-
-        private void buttonCreatePost_Click(object sender, EventArgs e)
-        {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
-            Main.Current.Post();
         }
 
         #endregion
@@ -549,5 +544,25 @@ namespace Waveface
         }
 
         #endregion
+
+        private void DropArea_DragDrop(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Drop(e);
+        }
+
+        private void DropArea_DragEnter(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Enter(e);
+        }
+
+        private void DropArea_DragLeave(object sender, EventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Leave();
+        }
+
+        private void DropArea_DragOver(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Over(e);
+        }
     }
 }

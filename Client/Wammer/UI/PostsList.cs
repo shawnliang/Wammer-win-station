@@ -234,7 +234,7 @@ namespace Waveface
                 NLogUtility.Exception(s_logger, _e, "dataGridView_CellPainting");
 
                 e.Handled = false;
-                
+
                 return;
             }
 
@@ -300,7 +300,7 @@ namespace Waveface
             }
 
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, font);
-            Rectangle _rect = new Rectangle(cellRect.X + thumbnailOffset_X + 8, cellRect.Y + 8, cellRect.Width - thumbnailOffset_X - 4, _sizeInfo.Height);
+            Rectangle _rect = new Rectangle(cellRect.X + thumbnailOffset_X + 8, cellRect.Y + 6, cellRect.Width - thumbnailOffset_X - 4, _sizeInfo.Height);
 
             TextRenderer.DrawText(g, _info, font, _rect, (selected ? m_inforColor1 : m_inforColor2),
                                   TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
@@ -494,7 +494,7 @@ namespace Waveface
             {
                 int dh = w * mh / mw;
 
-                Rectangle _r = new Rectangle(x, y + ((h - dh) / 2), w, dh);
+                Rectangle _r = new Rectangle(x, y, w, dh); // y + ((h - dh) / 2)
 
                 g.DrawImage(image, _r, new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
             }
@@ -796,7 +796,14 @@ namespace Waveface
         {
             timerDisplayedScrolling.Enabled = false;
 
-            dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
+            try
+            {
+                dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
+            }
+            catch(Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "timerDisplayedScrolling_Tick");
+            }
         }
     }
 }
