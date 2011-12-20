@@ -107,6 +107,60 @@ namespace Waveface.API.V2
         public string name { get; set; }
         public string description { get; set; }
     }
+	
+	public class WFStorageUsage
+	{
+		public long dropbox_objects { get; set; }
+		public long origin_sizes { get; set; }
+		public long total_objects { get; set; }
+		public long month_total_objects { get; set; }
+		public long origin_files { get; set; }
+		public long month_doc_objects { get; set; }
+		public long doc_objects { get; set; }
+		public long meta_files { get; set; }
+		public long meta_sizes { get; set; }
+		public long total_files { get; set; }
+		public long month_image_objects { get; set; }
+		public long image_objects { get; set; }
+		public long total_sizes { get; set; }
+	}
+
+	public class WFStorageAvailable
+	{
+		public long available_month_image_objects { get; set; }
+		public long available_month_total_objects { get; set; }
+		public long available_month_doc_objects { get; set; }
+	}
+
+	public class WFStorageQuota
+	{
+		public long dropbox_objects { get; set; }
+		public long origin_sizes { get; set; }
+		public long total_objects { get; set; }
+		public long month_total_objects { get; set; }
+		public long origin_files { get; set; }
+		public long month_doc_objects { get; set; }
+		public long meta_files { get; set; }
+		public long meta_sizes { get; set; }
+		public long total_files { get; set; }
+		public long month_image_objects { get; set; }
+		public long image_objects { get; set; }
+		public long total_sizes { get; set; }
+	}
+
+	public class WFStorage
+	{
+		public WFStorageUsage usage;
+		public WFStorageAvailable available;
+		public WFStorageQuota quota;
+		public long quota_starting_time;
+		public bool over_quota;
+	}
+
+	public class Storages
+	{
+		public WFStorage waveface;
+	}
 
     public class DiskUsage
     {
@@ -500,6 +554,15 @@ namespace Waveface.API.V2
     }
 
     #endregion
+
+	#region MR_storages
+
+	public class MR_storages_usage : General_R
+	{
+		public Storages storages { get; set; }
+	}
+
+	#endregion
 
 	#region MR_cloudstorage
 

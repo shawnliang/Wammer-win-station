@@ -20,7 +20,8 @@ namespace Waveface.API.V2
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        public static string CloudIP = "https://api.waveface.com"; // https://develop.waveface.com
+		public static string CloudIP = "https://develop.waveface.com";
+        //public static string CloudIP = "https://api.waveface.com";
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
 
         private RestTemplate m_rest;
@@ -1400,7 +1401,39 @@ namespace Waveface.API.V2
 
         #endregion
 
-        #region station status/login/logout/remove owner
+		#region storages
+
+		public MR_storages_usage storages_usage(string session_token)
+		{
+			try
+			{
+				string _url = BaseURLForGroupUserAuth + "/storages/usage";
+				_url += "?" +
+						"apikey" + "=" + APIKEY + "&" +
+						"session_token" + "=" + HttpUtility.UrlEncode(session_token);
+
+				return HttpGetObject<MR_storages_usage>(_url);
+			}
+			catch (HttpResponseException _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "storages_usage");
+
+				if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+					throw new Station401Exception();
+
+				throw;
+			}
+			catch (Exception _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "storages_usage");
+
+				throw;
+			}
+		}
+
+		#endregion
+
+		#region station status/login/logout/remove owner
 
 		public MR_station_status GetStationStatus(string session_token)
 		{
@@ -1409,7 +1442,7 @@ namespace Waveface.API.V2
 				string _url = BaseURL + "/station/status/get";
 				_url += "?" +
 						"apikey" + "=" + APIKEY + "&" +
-						"session_token" + "=" + session_token;
+						"session_token" + "=" + HttpUtility.UrlEncode(session_token);
 
 				return HttpGetObject<MR_station_status>(_url);
 			}
@@ -1535,7 +1568,7 @@ namespace Waveface.API.V2
 				string _url = BaseURL + "/cloudstorage/list";
 				_url += "?" +
 						"apikey" + "=" + APIKEY + "&" +
-						"session_token" + "=" + session_token;
+						"session_token" + "=" + HttpUtility.UrlEncode(session_token);
 
 				MR_cloudstorage_list res = HttpGetObject<MR_cloudstorage_list>(_url);
 
@@ -1577,7 +1610,7 @@ namespace Waveface.API.V2
 				string _url = BaseURL + "/cloudstorage/dropbox/oauth";
 				_url += "?" +
 						"apikey" + "=" + APIKEY + "&" +
-						"session_token" + "=" + session_token;
+						"session_token" + "=" + HttpUtility.UrlEncode(session_token);
 
 				return HttpGetObject<MR_cloudstorage_dropbox_oauth>(_url);
 			}
@@ -1605,9 +1638,9 @@ namespace Waveface.API.V2
 				string _url = BaseURL + "/cloudstorage/dropbox/connect";
 				_url += "?" +
 						"apikey" + "=" + APIKEY + "&" +
-						"session_token" + "=" + session_token + "&" +
+						"session_token" + "=" + HttpUtility.UrlEncode(session_token) + "&" +
 						"quota" + "=" + quota.ToString() + "&" +
-						"folder" + "=" + getSyncFolder();
+						"folder" + "=" + HttpUtility.UrlEncode(getSyncFolder());
 
 				return HttpGetObject<MR_cloudstorage_dropbox_connect>(_url);
 			}
@@ -1635,7 +1668,7 @@ namespace Waveface.API.V2
 				string _url = BaseURL + "/cloudstorage/dropbox/update";
 				_url += "?" +
 						"apikey" + "=" + APIKEY + "&" +
-						"session_token" + "=" + session_token + "&" +
+						"session_token" + "=" + HttpUtility.UrlEncode(session_token) + "&" +
 						"quota" + "=" + quota.ToString();
 
 				return HttpGetObject<MR_cloudstorage_dropbox_update>(_url);
@@ -1664,7 +1697,7 @@ namespace Waveface.API.V2
 				string _url = BaseURL + "/cloudstorage/dropbox/disconnect";
 				_url += "?" +
 						"apikey" + "=" + APIKEY + "&" +
-						"session_token" + "=" + session_token;
+						"session_token" + "=" + HttpUtility.UrlEncode(session_token);
 
 				return HttpGetObject<MR_cloudstorage_dropbox_disconnect>(_url);
 			}

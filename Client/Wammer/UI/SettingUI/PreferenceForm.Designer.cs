@@ -57,6 +57,7 @@
 			this.lblVersion = new System.Windows.Forms.Label();
 			this.lblCopyRight = new System.Windows.Forms.Label();
 			this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
+			this.bgworkerGetAllData = new System.ComponentModel.BackgroundWorker();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -232,6 +233,11 @@
 			this.linkLegalNotice.Name = "linkLegalNotice";
 			this.linkLegalNotice.TabStop = true;
 			// 
+			// bgworkerGetAllData
+			// 
+			this.bgworkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerGetAllData_DoWork);
+			this.bgworkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerGetAllData_RunWorkerCompleted);
+			// 
 			// PreferenceForm
 			// 
 			resources.ApplyResources(this, "$this");
@@ -289,5 +295,6 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.LinkLabel linkLegalNotice;
+		private System.ComponentModel.BackgroundWorker bgworkerGetAllData;
     }
 }

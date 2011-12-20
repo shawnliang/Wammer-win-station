@@ -288,7 +288,7 @@ namespace Waveface
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
         {
-            PreferenceForm _form = new PreferenceForm(settings.StationToken, settings.Email);
+            PreferenceForm _form = new PreferenceForm();
             _form.ShowDialog();
         }
 
