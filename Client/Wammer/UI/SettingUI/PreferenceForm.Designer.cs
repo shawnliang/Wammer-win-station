@@ -28,367 +28,266 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.tabPageGeneral = new System.Windows.Forms.TabPage();
-            this.ckbVirtualFolder = new System.Windows.Forms.CheckBox();
-            this.ckbNotification = new System.Windows.Forms.CheckBox();
-            this.ckbAutoStart = new System.Windows.Forms.CheckBox();
-            this.tabPageWebStorage = new System.Windows.Forms.TabPage();
-            this.panelLimitSpace = new System.Windows.Forms.Panel();
-            this.ckbLimitDropSpace = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDownGB = new System.Windows.Forms.NumericUpDown();
-            this.ckbAllowDropbox = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tabPageAdvanceSettings = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.labelDevices = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.buttonChangeFolder = new System.Windows.Forms.Button();
-            this.labelDataPath = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.buttonOK = new System.Windows.Forms.Button();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.tabControl.SuspendLayout();
-            this.tabPageGeneral.SuspendLayout();
-            this.tabPageWebStorage.SuspendLayout();
-            this.panelLimitSpace.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGB)).BeginInit();
-            this.tabPageAdvanceSettings.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // tabControl
-            // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl.Controls.Add(this.tabPageGeneral);
-            this.tabControl.Controls.Add(this.tabPageWebStorage);
-            this.tabControl.Controls.Add(this.tabPageAdvanceSettings);
-            this.tabControl.Location = new System.Drawing.Point(12, 12);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(421, 247);
-            this.tabControl.TabIndex = 0;
-            // 
-            // tabPageGeneral
-            // 
-            this.tabPageGeneral.Controls.Add(this.ckbVirtualFolder);
-            this.tabPageGeneral.Controls.Add(this.ckbNotification);
-            this.tabPageGeneral.Controls.Add(this.ckbAutoStart);
-            this.tabPageGeneral.Location = new System.Drawing.Point(4, 23);
-            this.tabPageGeneral.Name = "tabPageGeneral";
-            this.tabPageGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGeneral.Size = new System.Drawing.Size(413, 220);
-            this.tabPageGeneral.TabIndex = 0;
-            this.tabPageGeneral.Text = "General";
-            this.tabPageGeneral.UseVisualStyleBackColor = true;
-            // 
-            // ckbVirtualFolder
-            // 
-            this.ckbVirtualFolder.AutoSize = true;
-            this.ckbVirtualFolder.Location = new System.Drawing.Point(16, 88);
-            this.ckbVirtualFolder.Name = "ckbVirtualFolder";
-            this.ckbVirtualFolder.Size = new System.Drawing.Size(181, 18);
-            this.ckbVirtualFolder.TabIndex = 2;
-            this.ckbVirtualFolder.Text = "Enable desktop virtual folder";
-            this.ckbVirtualFolder.UseVisualStyleBackColor = true;
-            // 
-            // ckbNotification
-            // 
-            this.ckbNotification.AutoSize = true;
-            this.ckbNotification.Location = new System.Drawing.Point(16, 52);
-            this.ckbNotification.Name = "ckbNotification";
-            this.ckbNotification.Size = new System.Drawing.Size(169, 18);
-            this.ckbNotification.TabIndex = 1;
-            this.ckbNotification.Text = "Show desktop notification";
-            this.ckbNotification.UseVisualStyleBackColor = true;
-            // 
-            // ckbAutoStart
-            // 
-            this.ckbAutoStart.AutoSize = true;
-            this.ckbAutoStart.Location = new System.Drawing.Point(16, 16);
-            this.ckbAutoStart.Name = "ckbAutoStart";
-            this.ckbAutoStart.Size = new System.Drawing.Size(237, 18);
-            this.ckbAutoStart.TabIndex = 0;
-            this.ckbAutoStart.Text = "Start Waveface on the system startup";
-            this.ckbAutoStart.UseVisualStyleBackColor = true;
-            // 
-            // tabPageWebStorage
-            // 
-            this.tabPageWebStorage.Controls.Add(this.panelLimitSpace);
-            this.tabPageWebStorage.Controls.Add(this.ckbAllowDropbox);
-            this.tabPageWebStorage.Controls.Add(this.label1);
-            this.tabPageWebStorage.Location = new System.Drawing.Point(4, 23);
-            this.tabPageWebStorage.Name = "tabPageWebStorage";
-            this.tabPageWebStorage.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWebStorage.Size = new System.Drawing.Size(413, 220);
-            this.tabPageWebStorage.TabIndex = 1;
-            this.tabPageWebStorage.Text = "Web Storage";
-            this.tabPageWebStorage.UseVisualStyleBackColor = true;
-            // 
-            // panelLimitSpace
-            // 
-            this.panelLimitSpace.Controls.Add(this.ckbLimitDropSpace);
-            this.panelLimitSpace.Controls.Add(this.label2);
-            this.panelLimitSpace.Controls.Add(this.numericUpDownGB);
-            this.panelLimitSpace.Enabled = false;
-            this.panelLimitSpace.Location = new System.Drawing.Point(44, 87);
-            this.panelLimitSpace.Name = "panelLimitSpace";
-            this.panelLimitSpace.Size = new System.Drawing.Size(194, 59);
-            this.panelLimitSpace.TabIndex = 5;
-            // 
-            // ckbLimitDropSpace
-            // 
-            this.ckbLimitDropSpace.AutoSize = true;
-            this.ckbLimitDropSpace.Location = new System.Drawing.Point(4, 3);
-            this.ckbLimitDropSpace.Name = "ckbLimitDropSpace";
-            this.ckbLimitDropSpace.Size = new System.Drawing.Size(183, 18);
-            this.ckbLimitDropSpace.TabIndex = 2;
-            this.ckbLimitDropSpace.Text = "Limit the space usage up to:";
-            this.ckbLimitDropSpace.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(95, 30);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(23, 14);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "GB";
-            // 
-            // numericUpDownGB
-            // 
-            this.numericUpDownGB.DecimalPlaces = 1;
-            this.numericUpDownGB.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDownGB.Location = new System.Drawing.Point(41, 27);
-            this.numericUpDownGB.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDownGB.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            65536});
-            this.numericUpDownGB.Name = "numericUpDownGB";
-            this.numericUpDownGB.Size = new System.Drawing.Size(48, 22);
-            this.numericUpDownGB.TabIndex = 3;
-            this.numericUpDownGB.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            // 
-            // ckbAllowDropbox
-            // 
-            this.ckbAllowDropbox.AutoSize = true;
-            this.ckbAllowDropbox.Location = new System.Drawing.Point(19, 63);
-            this.ckbAllowDropbox.Name = "ckbAllowDropbox";
-            this.ckbAllowDropbox.Size = new System.Drawing.Size(369, 18);
-            this.ckbAllowDropbox.TabIndex = 1;
-            this.ckbAllowDropbox.Text = "Allow to access and save the data in [User]\'s dropbox account";
-            this.ckbAllowDropbox.UseVisualStyleBackColor = true;
-            this.ckbAllowDropbox.CheckedChanged += new System.EventHandler(this.ckbAllowDropbox_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(16, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(383, 35);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Web storage can be a backup of the Waveface station. When the station id off, the" +
-    " files can be accessible from anywhere.";
-            // 
-            // tabPageAdvanceSettings
-            // 
-            this.tabPageAdvanceSettings.Controls.Add(this.groupBox2);
-            this.tabPageAdvanceSettings.Controls.Add(this.groupBox1);
-            this.tabPageAdvanceSettings.Location = new System.Drawing.Point(4, 23);
-            this.tabPageAdvanceSettings.Name = "tabPageAdvanceSettings";
-            this.tabPageAdvanceSettings.Size = new System.Drawing.Size(413, 220);
-            this.tabPageAdvanceSettings.TabIndex = 2;
-            this.tabPageAdvanceSettings.Text = "Advance Settings";
-            this.tabPageAdvanceSettings.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.labelDevices);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(16, 119);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(384, 85);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Connected Devices";
-            // 
-            // labelDevices
-            // 
-            this.labelDevices.AutoSize = true;
-            this.labelDevices.Location = new System.Drawing.Point(143, 54);
-            this.labelDevices.Name = "labelDevices";
-            this.labelDevices.Size = new System.Drawing.Size(20, 16);
-            this.labelDevices.TabIndex = 3;
-            this.labelDevices.Text = "[]";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(16, 54);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(125, 14);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "Connected device(s):";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(16, 29);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(341, 14);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "Each account can have up to 5 devices to sccess the station";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.buttonChangeFolder);
-            this.groupBox1.Controls.Add(this.labelDataPath);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(16, 16);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(384, 88);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Default Station Folder";
-            // 
-            // buttonChangeFolder
-            // 
-            this.buttonChangeFolder.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonChangeFolder.Location = new System.Drawing.Point(351, 49);
-            this.buttonChangeFolder.Name = "buttonChangeFolder";
-            this.buttonChangeFolder.Size = new System.Drawing.Size(27, 19);
-            this.buttonChangeFolder.TabIndex = 2;
-            this.buttonChangeFolder.Text = "...";
-            this.buttonChangeFolder.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.buttonChangeFolder.UseVisualStyleBackColor = true;
-            this.buttonChangeFolder.Click += new System.EventHandler(this.buttonChangeFolder_Click);
-            // 
-            // labelDataPath
-            // 
-            this.labelDataPath.BackColor = System.Drawing.SystemColors.Control;
-            this.labelDataPath.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDataPath.Location = new System.Drawing.Point(16, 51);
-            this.labelDataPath.Name = "labelDataPath";
-            this.labelDataPath.Size = new System.Drawing.Size(329, 17);
-            this.labelDataPath.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(16, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(162, 14);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "All the data will be saved at:";
-            // 
-            // buttonOK
-            // 
-            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOK.Location = new System.Drawing.Point(273, 267);
-            this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 28);
-            this.buttonOK.TabIndex = 1;
-            this.buttonOK.Text = "OK";
-            this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
-            // 
-            // buttonCancel
-            // 
-            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(354, 267);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 28);
-            this.buttonCancel.TabIndex = 2;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
-            // 
-            // PreferenceForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(445, 303);
-            this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.buttonOK);
-            this.Controls.Add(this.tabControl);
-            this.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "PreferenceForm";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Waveface Preference";
-            this.Load += new System.EventHandler(this.PreferenceForm_Load);
-            this.tabControl.ResumeLayout(false);
-            this.tabPageGeneral.ResumeLayout(false);
-            this.tabPageGeneral.PerformLayout();
-            this.tabPageWebStorage.ResumeLayout(false);
-            this.tabPageWebStorage.PerformLayout();
-            this.panelLimitSpace.ResumeLayout(false);
-            this.panelLimitSpace.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownGB)).EndInit();
-            this.tabPageAdvanceSettings.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.ResumeLayout(false);
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PreferenceForm));
+			this.btnOK = new System.Windows.Forms.Button();
+			this.lblUserNameTitle = new System.Windows.Forms.Label();
+			this.lblUserName = new System.Windows.Forms.Label();
+			this.lblDeviceNameTitle = new System.Windows.Forms.Label();
+			this.lblDeviceName = new System.Windows.Forms.Label();
+			this.lblDropboxStorageAccountTitle = new System.Windows.Forms.Label();
+			this.button1 = new System.Windows.Forms.Button();
+			this.lblCloudUsageTitle = new System.Windows.Forms.Label();
+			this.lblLimit = new System.Windows.Forms.Label();
+			this.barCloudUsage = new System.Windows.Forms.ProgressBar();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.button2 = new System.Windows.Forms.Button();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.lblLocalStorageUsage = new System.Windows.Forms.Label();
+			this.lblLocalStorageUsageTitle = new System.Windows.Forms.Label();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.lblStartTime = new System.Windows.Forms.Label();
+			this.lblCloudStorageLimit = new System.Windows.Forms.Label();
+			this.lblLimit2 = new System.Windows.Forms.Label();
+			this.lblLimit1 = new System.Windows.Forms.Label();
+			this.btnEditAccount = new System.Windows.Forms.Button();
+			this.lblSwitchAccount = new System.Windows.Forms.Label();
+			this.lblVersionTitle = new System.Windows.Forms.Label();
+			this.lblVersion = new System.Windows.Forms.Label();
+			this.lblCopyRight = new System.Windows.Forms.Label();
+			this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// btnOK
+			// 
+			resources.ApplyResources(this.btnOK, "btnOK");
+			this.btnOK.Name = "btnOK";
+			this.btnOK.UseVisualStyleBackColor = true;
+			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+			// 
+			// lblUserNameTitle
+			// 
+			resources.ApplyResources(this.lblUserNameTitle, "lblUserNameTitle");
+			this.lblUserNameTitle.Name = "lblUserNameTitle";
+			// 
+			// lblUserName
+			// 
+			resources.ApplyResources(this.lblUserName, "lblUserName");
+			this.lblUserName.Name = "lblUserName";
+			// 
+			// lblDeviceNameTitle
+			// 
+			resources.ApplyResources(this.lblDeviceNameTitle, "lblDeviceNameTitle");
+			this.lblDeviceNameTitle.Name = "lblDeviceNameTitle";
+			// 
+			// lblDeviceName
+			// 
+			resources.ApplyResources(this.lblDeviceName, "lblDeviceName");
+			this.lblDeviceName.Name = "lblDeviceName";
+			// 
+			// lblDropboxStorageAccountTitle
+			// 
+			resources.ApplyResources(this.lblDropboxStorageAccountTitle, "lblDropboxStorageAccountTitle");
+			this.lblDropboxStorageAccountTitle.Name = "lblDropboxStorageAccountTitle";
+			// 
+			// button1
+			// 
+			resources.ApplyResources(this.button1, "button1");
+			this.button1.Name = "button1";
+			this.button1.UseVisualStyleBackColor = true;
+			// 
+			// lblCloudUsageTitle
+			// 
+			resources.ApplyResources(this.lblCloudUsageTitle, "lblCloudUsageTitle");
+			this.lblCloudUsageTitle.Name = "lblCloudUsageTitle";
+			// 
+			// lblLimit
+			// 
+			resources.ApplyResources(this.lblLimit, "lblLimit");
+			this.lblLimit.Name = "lblLimit";
+			// 
+			// barCloudUsage
+			// 
+			resources.ApplyResources(this.barCloudUsage, "barCloudUsage");
+			this.barCloudUsage.Name = "barCloudUsage";
+			this.barCloudUsage.Value = 69;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.button2);
+			this.groupBox1.Controls.Add(this.checkBox1);
+			this.groupBox1.Controls.Add(this.lblLocalStorageUsage);
+			this.groupBox1.Controls.Add(this.lblLocalStorageUsageTitle);
+			resources.ApplyResources(this.groupBox1, "groupBox1");
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.TabStop = false;
+			// 
+			// button2
+			// 
+			resources.ApplyResources(this.button2, "button2");
+			this.button2.Name = "button2";
+			this.button2.UseVisualStyleBackColor = true;
+			// 
+			// checkBox1
+			// 
+			resources.ApplyResources(this.checkBox1, "checkBox1");
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.UseVisualStyleBackColor = true;
+			// 
+			// lblLocalStorageUsage
+			// 
+			resources.ApplyResources(this.lblLocalStorageUsage, "lblLocalStorageUsage");
+			this.lblLocalStorageUsage.Name = "lblLocalStorageUsage";
+			// 
+			// lblLocalStorageUsageTitle
+			// 
+			resources.ApplyResources(this.lblLocalStorageUsageTitle, "lblLocalStorageUsageTitle");
+			this.lblLocalStorageUsageTitle.Name = "lblLocalStorageUsageTitle";
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.label1);
+			this.groupBox2.Controls.Add(this.label2);
+			this.groupBox2.Controls.Add(this.lblStartTime);
+			this.groupBox2.Controls.Add(this.lblCloudStorageLimit);
+			this.groupBox2.Controls.Add(this.lblLimit2);
+			this.groupBox2.Controls.Add(this.lblLimit1);
+			this.groupBox2.Controls.Add(this.btnEditAccount);
+			this.groupBox2.Controls.Add(this.lblCloudUsageTitle);
+			this.groupBox2.Controls.Add(this.barCloudUsage);
+			this.groupBox2.Controls.Add(this.lblSwitchAccount);
+			this.groupBox2.Controls.Add(this.lblLimit);
+			this.groupBox2.Controls.Add(this.lblUserNameTitle);
+			this.groupBox2.Controls.Add(this.lblUserName);
+			this.groupBox2.Controls.Add(this.lblDeviceNameTitle);
+			this.groupBox2.Controls.Add(this.button1);
+			this.groupBox2.Controls.Add(this.lblDeviceName);
+			this.groupBox2.Controls.Add(this.lblDropboxStorageAccountTitle);
+			resources.ApplyResources(this.groupBox2, "groupBox2");
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.TabStop = false;
+			// 
+			// lblStartTime
+			// 
+			resources.ApplyResources(this.lblStartTime, "lblStartTime");
+			this.lblStartTime.Name = "lblStartTime";
+			// 
+			// lblCloudStorageLimit
+			// 
+			resources.ApplyResources(this.lblCloudStorageLimit, "lblCloudStorageLimit");
+			this.lblCloudStorageLimit.Name = "lblCloudStorageLimit";
+			// 
+			// lblLimit2
+			// 
+			resources.ApplyResources(this.lblLimit2, "lblLimit2");
+			this.lblLimit2.Name = "lblLimit2";
+			// 
+			// lblLimit1
+			// 
+			resources.ApplyResources(this.lblLimit1, "lblLimit1");
+			this.lblLimit1.Name = "lblLimit1";
+			// 
+			// btnEditAccount
+			// 
+			resources.ApplyResources(this.btnEditAccount, "btnEditAccount");
+			this.btnEditAccount.Name = "btnEditAccount";
+			this.btnEditAccount.UseVisualStyleBackColor = true;
+			// 
+			// lblSwitchAccount
+			// 
+			resources.ApplyResources(this.lblSwitchAccount, "lblSwitchAccount");
+			this.lblSwitchAccount.Name = "lblSwitchAccount";
+			// 
+			// lblVersionTitle
+			// 
+			resources.ApplyResources(this.lblVersionTitle, "lblVersionTitle");
+			this.lblVersionTitle.Name = "lblVersionTitle";
+			// 
+			// lblVersion
+			// 
+			resources.ApplyResources(this.lblVersion, "lblVersion");
+			this.lblVersion.Name = "lblVersion";
+			// 
+			// lblCopyRight
+			// 
+			resources.ApplyResources(this.lblCopyRight, "lblCopyRight");
+			this.lblCopyRight.Name = "lblCopyRight";
+			// 
+			// linkLegalNotice
+			// 
+			resources.ApplyResources(this.linkLegalNotice, "linkLegalNotice");
+			this.linkLegalNotice.Name = "linkLegalNotice";
+			this.linkLegalNotice.TabStop = true;
+			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.Name = "label1";
+			// 
+			// label2
+			// 
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.Name = "label2";
+			// 
+			// PreferenceForm
+			// 
+			resources.ApplyResources(this, "$this");
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.linkLegalNotice);
+			this.Controls.Add(this.lblCopyRight);
+			this.Controls.Add(this.lblVersion);
+			this.Controls.Add(this.lblVersionTitle);
+			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.btnOK);
+			this.Controls.Add(this.groupBox2);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "PreferenceForm";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
+			this.Load += new System.EventHandler(this.PreferenceForm_Load);
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage tabPageGeneral;
-        private System.Windows.Forms.TabPage tabPageWebStorage;
-        private System.Windows.Forms.TabPage tabPageAdvanceSettings;
-        private System.Windows.Forms.Button buttonOK;
-        private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.CheckBox ckbVirtualFolder;
-        private System.Windows.Forms.CheckBox ckbNotification;
-        private System.Windows.Forms.CheckBox ckbAutoStart;
-        private System.Windows.Forms.CheckBox ckbLimitDropSpace;
-        private System.Windows.Forms.CheckBox ckbAllowDropbox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDownGB;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button buttonChangeFolder;
-        private System.Windows.Forms.Label labelDataPath;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panelLimitSpace;
-        private System.Windows.Forms.Label labelDevices;
+		private System.Windows.Forms.Button btnOK;
+		private System.Windows.Forms.Label lblUserNameTitle;
+		private System.Windows.Forms.Label lblUserName;
+		private System.Windows.Forms.Label lblDeviceNameTitle;
+		private System.Windows.Forms.Label lblDeviceName;
+		private System.Windows.Forms.Label lblDropboxStorageAccountTitle;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Label lblCloudUsageTitle;
+		private System.Windows.Forms.Label lblLimit;
+		private System.Windows.Forms.ProgressBar barCloudUsage;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Label lblLocalStorageUsageTitle;
+		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.Label lblLocalStorageUsage;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Label lblSwitchAccount;
+		private System.Windows.Forms.Button btnEditAccount;
+		private System.Windows.Forms.Label lblVersionTitle;
+		private System.Windows.Forms.Label lblVersion;
+		private System.Windows.Forms.Label lblCopyRight;
+		private System.Windows.Forms.Label lblLimit2;
+		private System.Windows.Forms.Label lblLimit1;
+		private System.Windows.Forms.Label lblStartTime;
+		private System.Windows.Forms.Label lblCloudStorageLimit;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.LinkLabel linkLegalNotice;
     }
 }
