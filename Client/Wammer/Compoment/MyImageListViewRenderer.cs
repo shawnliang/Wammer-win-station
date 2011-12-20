@@ -88,8 +88,8 @@ namespace Waveface.Component
                 // Get item image
                 Image _img = null;
 
-                if ((state & ItemState.Hovered) != ItemState.None)
-                    _img = GetImageAsync(item, new Size(bounds.Width - 8, bounds.Height - 8));
+                //if ((state & ItemState.Hovered) != ItemState.None)
+                //    _img = GetImageAsync(item, new Size(bounds.Width - 8, bounds.Height - 8));
 
                 if (_img == null)
                     _img = item.GetCachedImage(CachedImageType.Thumbnail);
