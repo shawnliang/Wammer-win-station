@@ -234,7 +234,7 @@ namespace Waveface
                 NLogUtility.Exception(s_logger, _e, "dataGridView_CellPainting");
 
                 e.Handled = false;
-                
+
                 return;
             }
 
@@ -796,7 +796,14 @@ namespace Waveface
         {
             timerDisplayedScrolling.Enabled = false;
 
-            dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
+            try
+            {
+                dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
+            }
+            catch(Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "timerDisplayedScrolling_Tick");
+            }
         }
     }
 }
