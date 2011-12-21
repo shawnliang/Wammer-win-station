@@ -11,33 +11,6 @@ namespace Waveface.Component
 {
     public class MyImageListViewRenderer : ImageListView.ImageListViewRenderer
     {
-        private float m_zoomRatio;
-
-        public float ZoomRatio
-        {
-            get { return m_zoomRatio; }
-            set
-            {
-                m_zoomRatio = value;
-
-                if (m_zoomRatio < 0.0f)
-                    m_zoomRatio = 0.0f;
-            }
-        }
-
-        public MyImageListViewRenderer()
-            : this(0.0f)
-        {
-        }
-
-        public MyImageListViewRenderer(float zoomRatio)
-        {
-            if (zoomRatio < 0.0f)
-                zoomRatio = 0.0f;
-
-            m_zoomRatio = zoomRatio;
-        }
-
         public override void InitializeGraphics(Graphics g)
         {
             base.InitializeGraphics(g);
@@ -64,24 +37,6 @@ namespace Waveface.Component
             else
             {
                 Rectangle _controlBounds = ClientBounds;
-
-                // Zoom on mouse over
-                if ((state & ItemState.Hovered) != ItemState.None)
-                {
-                    bounds.Inflate((int)(bounds.Width * m_zoomRatio), (int)(bounds.Height * m_zoomRatio));
-
-                    if (bounds.Bottom > _controlBounds.Bottom)
-                        bounds.Y = _controlBounds.Bottom - bounds.Height;
-
-                    if (bounds.Top < _controlBounds.Top)
-                        bounds.Y = _controlBounds.Top;
-
-                    if (bounds.Right > _controlBounds.Right)
-                        bounds.X = _controlBounds.Right - bounds.Width;
-
-                    if (bounds.Left < _controlBounds.Left)
-                        bounds.X = _controlBounds.Left;
-                }
 
                 // Get item image
                 Image _img = null;
@@ -256,15 +211,15 @@ namespace Waveface.Component
                                                             new Rectangle(bounds.Location + _itemMargin,
                                                                           bounds.Size - _itemMargin - _itemMargin));
 
-                //if ((bounds.Size.Width > image.Width) || (bounds.Size.Height > image.Height))
+                //if ((bounds.Size.Width < item.Dimensions.Width) || (bounds.Size.Height < item.Dimensions.Height))
                 //{
-                //    Bitmap _bmp = new Bitmap(item.FileName);
-                //    g.DrawImage(_bmp, _pos, new Rectangle(0, 0, _bmp.Width, _bmp.Height), GraphicsUnit.Pixel);
-                //    _bmp = null;
+                    //Bitmap _bmp = new Bitmap(item.FileName);
+                    //g.DrawImage(_bmp, _pos, new Rectangle(0, 0, _bmp.Width, _bmp.Height), GraphicsUnit.Pixel);
+                    //_bmp = null;
                 //}
                 //else
                 {
-                    g.DrawImage(image, _pos, new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
+                    g.DrawImage(image, _pos);
                 }
 
                 // Draw image border
