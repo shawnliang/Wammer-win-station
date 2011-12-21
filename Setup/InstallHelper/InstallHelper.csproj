@@ -68,7 +68,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(Wix36Dir)\SDK\MakeSfxCA.exe" "$(TargetDir)\InstallHelperPkg.dll" "$(Wix36Dir)\SDK\x86\sfxca.dll" "$(TargetPath)" "$(SolutionDir)\Station\3rd_party\Wix3.6\Microsoft.Deployment.WindowsInstaller.dll" "$(TargetPath).config" "$(TargetDir)\Station.Service.exe" "$(TargetDir)\fastJSON.dll" "$(TargetDir)\log4net.dll" "$(TargetDir)\MongoDB.Bson.dll" "$(TargetDir)\MongoDB.Driver.dll"</PostBuildEvent>
+    <PostBuildEvent>"$(Wix36Dir)\SDK\MakeSfxCA.exe" "$(TargetDir)\InstallHelperPkg.dll" "$(Wix36Dir)\SDK\x86\sfxca.dll" "$(TargetPath)" "$(SolutionDir)\Station\3rd_party\Wix3.6\Microsoft.Deployment.WindowsInstaller.dll" "$(TargetPath).config" "$(TargetDir)\Station.Service.exe" "$(TargetDir)\fastJSON.dll" "$(TargetDir)\log4net.dll" "$(TargetDir)\MongoDB.Bson.dll" "$(TargetDir)\MongoDB.Driver.dll"
+if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
