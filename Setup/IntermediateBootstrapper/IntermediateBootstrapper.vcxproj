@@ -84,7 +84,7 @@
       <AdditionalDependencies>BootstrapperLib_vc$(PlatformToolsetVersion).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>if $(ConfigurationName) == Release signtool.exe sign /f $(SolutionDir)\WavefaceCert.pfx /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v $(TargetPath)</Command>
+      <Command>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
