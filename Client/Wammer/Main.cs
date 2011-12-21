@@ -271,7 +271,7 @@ namespace Waveface
                 SetLastReadPos();
 
             SaveRunTime();
-            leftArea.BatchPostQuit();
+            NewPostManager.Current.Save();
 
             if (m_logoutStation)
             {
@@ -288,7 +288,7 @@ namespace Waveface
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
         {
-            PreferenceForm _form = new PreferenceForm(this.StationToken, this.RT.REST.Service);
+            PreferenceForm _form = new PreferenceForm(StationToken, RT.REST.Service);
             _form.ShowDialog();
         }
 
@@ -511,7 +511,6 @@ namespace Waveface
             RT.FilterMode = false;
 
             leftArea.SetUI(true);
-            leftArea.InitBatchPost();
 
             postsArea.showRefreshUI(true);
 
@@ -914,7 +913,7 @@ namespace Waveface
                         break;
 
                     case DialogResult.OK:
-                        leftArea.AddNewPostItem(_form.NewPostItem);
+                        NewPostManager.Current.Add(_form.NewPostItem);
                         break;
                 }
             }
