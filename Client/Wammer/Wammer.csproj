@@ -809,6 +809,7 @@
     <None Include="Resources\DropArea\dragNdrop-loading2.png" />
     <None Include="Resources\DropArea\dragNdrop-loading3.png" />
     <None Include="Resources\DropArea\dragNdrop-loading4.png" />
+    <None Include="Resources\add_photo.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

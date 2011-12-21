@@ -147,7 +147,7 @@ namespace Waveface
             WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
-            Size = new Size(640, 236);
+            Size = new Size(640, 260);
 
             richTextBox.Focus();
         }
@@ -181,6 +181,8 @@ namespace Waveface
             MaximizeBox = true;
 
             Size = new Size(640, 440);
+
+            photo_UI.AddPhoto();
         }
 
         private void toDoc_Mode()

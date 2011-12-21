@@ -183,7 +183,7 @@ namespace Waveface
                     int _counts = newPost.Files.Count;
 
                     if (UpdateUI != null)
-                        UpdateUI(_count*100/_counts, string.Format("Uploading {0} of {1} photos", _count, _counts));
+                        UpdateUI(_count * 100 / _counts, string.Format("Uploading {0} of {1} photos", _count, _counts));
 
                     if (_count == _counts)
                         break;
