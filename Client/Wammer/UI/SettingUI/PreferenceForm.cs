@@ -280,7 +280,7 @@ namespace Waveface.SettingUI
 
         private void btnTestConnection_Click(object sender, EventArgs e)
         {
-            labelConnectionStatus.Text = "Connecting...";
+            labelConnectionStatus.Text = I18n.L.T("Testing");
             btnTestConnection.Enabled = false;
 
             connectionTester.Start();
@@ -353,12 +353,11 @@ namespace Waveface.SettingUI
                 }
                 catch
                 {
-                    NotifyTestDone("Not connected");
+                    NotifyTestDone(I18n.L.T("NotConnected"));
                     return;
                 }
 
-
-                string result = "Station -> cloud OK";
+                string result = I18n.L.T("NotConnected");
                 do
                 {
                     Thread.Sleep(2000);
@@ -371,7 +370,7 @@ namespace Waveface.SettingUI
                             user.stations[0].accessible != null &&
                             user.stations[0].accessible == "available")
                         {
-                            result = "Station <-> cloud OK";
+                            result = I18n.L.T("Connected");
                             break;
                         }
                     }
