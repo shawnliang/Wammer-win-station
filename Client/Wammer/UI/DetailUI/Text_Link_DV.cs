@@ -296,7 +296,12 @@ namespace Waveface.DetailUI
             _sb.Append("<font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'><p>[Text]</p></font>");
 
             string _html = _sb.ToString();
-            _html = _html.Replace("[Text]", Post.content.Replace(Environment.NewLine, "<BR>"));
+            
+            string _content = Post.content.Replace(Environment.NewLine, "<BR>");
+            _content = _content.Replace("\n", "<BR>");
+
+            _html = _html.Replace("[Text]", _content);
+
 
             if (Post.preview.url != null)
             {
