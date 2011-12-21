@@ -40,6 +40,7 @@
             this.lblLimit = new System.Windows.Forms.Label();
             this.barCloudUsage = new System.Windows.Forms.ProgressBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelConnectionStatus = new System.Windows.Forms.Label();
             this.btnTestConnection = new System.Windows.Forms.Button();
             this.checkBox_autoStartWaveface = new System.Windows.Forms.CheckBox();
             this.lblLocalStorageUsage = new System.Windows.Forms.Label();
@@ -124,6 +125,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.labelConnectionStatus);
             this.groupBox1.Controls.Add(this.btnTestConnection);
             this.groupBox1.Controls.Add(this.checkBox_autoStartWaveface);
             this.groupBox1.Controls.Add(this.lblLocalStorageUsage);
@@ -132,11 +134,17 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
+            // labelConnectionStatus
+            // 
+            resources.ApplyResources(this.labelConnectionStatus, "labelConnectionStatus");
+            this.labelConnectionStatus.Name = "labelConnectionStatus";
+            // 
             // btnTestConnection
             // 
             resources.ApplyResources(this.btnTestConnection, "btnTestConnection");
             this.btnTestConnection.Name = "btnTestConnection";
             this.btnTestConnection.UseVisualStyleBackColor = true;
+            this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
             // 
             // checkBox_autoStartWaveface
             // 
@@ -292,6 +300,7 @@
             this.Name = "PreferenceForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PreferenceForm_FormClosing);
             this.Load += new System.EventHandler(this.PreferenceForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -341,5 +350,6 @@
         private System.Windows.Forms.Button btnConnectDropbox;
         private System.Windows.Forms.Label label_notConnected;
         private System.Windows.Forms.LinkLabel label_switchAccount;
+        private System.Windows.Forms.Label labelConnectionStatus;
     }
 }

@@ -53,4 +53,19 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Program is already running</en-US>
     <zh-TW>程式已經啟動了</zh-TW>
   </WItem>
+  <WItem>
+    <ID>Connected</ID>
+    <en-US>Connected</en-US>
+    <zh-TW>連線成功</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>NotConnected</ID>
+    <en-US>Not connected</en-US>
+    <zh-TW>連線失敗</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>Testing</ID>
+    <en-US>Testing ...</en-US>
+    <zh-TW>測試中 ...</zh-TW>
+  </WItem>
 </WItems>

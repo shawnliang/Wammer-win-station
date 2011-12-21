@@ -55,6 +55,10 @@ namespace Wammer.Station
             btn_ConnectionFailed_Skip.Click -= this.btn_ConnectionFailed_Skip_Click;
             btn_ConnectionFailed_Skip.Click += this.btn_Complete;
 
+            // Page: install dropbox unsuccessfully
+            btn_InstallationFailedSkip_Skip.Click -= this.btn_InstallationFailed_Skip_Click;
+            btn_InstallationFailedSkip_Skip.Click += this.btn_Complete;
+
             // Just close the form if it needs to
             this.FormClosing -= this.DropboxForm_FormClosing;
 

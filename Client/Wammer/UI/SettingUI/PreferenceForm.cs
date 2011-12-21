@@ -16,13 +16,14 @@ namespace Waveface.SettingUI
 {
     public partial class PreferenceForm : Form
     {
-		private static Logger s_logger = LogManager.GetCurrentClassLogger();
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         private static string AUTO_RUN_SUB_KEY = @"Software\Microsoft\Windows\CurrentVersion\Run";
         private static string AUTO_RUN_REG_KEY = @"HKEY_CURRENT_USER\" + AUTO_RUN_SUB_KEY;
         private static string AUTO_RUN_VALUE_NAME = @"WavefaceStation";
         private string stationToken;
         private WService wavefaceService;
+        private WavefaceConnectionTester connectionTester;
 
         public bool IsUserSwitched { get; private set; }
 
@@ -32,26 +33,32 @@ namespace Waveface.SettingUI
             this.wavefaceService = wavefaceService;
             this.IsUserSwitched = false;
 
+            this.connectionTester = new WavefaceConnectionTester(
+                this,
+                Main.Current.RT.Login.session_token,
+                wavefaceService,
+                Main.Current.RT.Login.user.user_id);
+
             InitializeComponent();
         }
 
         private void PreferenceForm_Load(object sender, EventArgs e)
         {
-			this.lblUserName.Text = Main.Current.RT.Login.user.email;
-			MR_station_status stationStatus = Main.Current.RT.REST.GetStationStatus();
-			long usedSize = 0;
-			foreach (DiskUsage du in stationStatus.station_status.diskusage)
-			{
-				usedSize += du.used;
-			}
-			this.lblLocalStorageUsage.Text = string.Format("{0:0.0} MB", usedSize / (1024 * 1024));
-			this.lblDeviceName.Text = stationStatus.station_status.computer_name;
-			string execPath = Assembly.GetExecutingAssembly().Location;
-			FileVersionInfo version = FileVersionInfo.GetVersionInfo(execPath);
-			this.lblVersion.Text = version.FileVersion.ToString();
+            this.lblUserName.Text = Main.Current.RT.Login.user.email;
+            MR_station_status stationStatus = Main.Current.RT.REST.GetStationStatus();
+            long usedSize = 0;
+            foreach (DiskUsage du in stationStatus.station_status.diskusage)
+            {
+                usedSize += du.used;
+            }
+            this.lblLocalStorageUsage.Text = string.Format("{0:0.0} MB", usedSize / (1024 * 1024));
+            this.lblDeviceName.Text = stationStatus.station_status.computer_name;
+            string execPath = Assembly.GetExecutingAssembly().Location;
+            FileVersionInfo version = FileVersionInfo.GetVersionInfo(execPath);
+            this.lblVersion.Text = version.FileVersion.ToString();
             LoadDropboxUI();
             LoadAutoStartCheckbox();
-			bgworkerGetAllData.RunWorkerAsync(Main.Current.RT.Login.session_token);
+            bgworkerGetAllData.RunWorkerAsync(Main.Current.RT.Login.session_token);
         }
 
         private void LoadDropboxUI()
@@ -85,51 +92,50 @@ namespace Waveface.SettingUI
             if (key == null)
                 return;
 
-
             checkBox_autoStartWaveface.Checked = (key.GetValue(AUTO_RUN_VALUE_NAME) != null);
         }
 
-		private void btnOK_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.OK;
-			Close();
-		}
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
 
-		private void RefreshCloudStorage(StorageUsage storage)
-		{
-			if (InvokeRequired)
-			{
-				Invoke(new MethodInvoker(
-						   delegate
-						   {
-							   RefreshCloudStorage(storage);
-						   }
-						   ));
-			}
-			else
-			{
-				this.lblCloudStorageLimit.Text = storage.quota.ToString();
-				this.lblStartTime.Text = storage.startTime.ToLocalTime().ToString();
-				this.barCloudUsage.Value = (int)(storage.usage * 100 / storage.quota);
-			}
-		}
+        private void RefreshCloudStorage(StorageUsage storage)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate
+                           {
+                               RefreshCloudStorage(storage);
+                           }
+                           ));
+            }
+            else
+            {
+                this.lblCloudStorageLimit.Text = storage.quota.ToString();
+                this.lblStartTime.Text = storage.startTime.ToLocalTime().ToString();
+                this.barCloudUsage.Value = (int)(storage.usage * 100 / storage.quota);
+            }
+        }
 
-		private void bgworkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			RefreshCloudStorage((StorageUsage)e.Result);
-		}
+        private void bgworkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            RefreshCloudStorage((StorageUsage)e.Result);
+        }
 
-		private void bgworkerGetAllData_DoWork(object sender, DoWorkEventArgs e)
-		{
-			string session_token = (string)e.Argument;
-			WService service = new WService();
-			MR_storages_usage storageUsage = service.storages_usage(session_token);
-			long quota = storageUsage.storages.waveface.quota.month_total_objects;
-			long usage = storageUsage.storages.waveface.usage.month_total_objects;
-			DateTime startTime = new DateTime(1970,1,1,0,0,0,0);
-			startTime = startTime.AddSeconds(storageUsage.storages.waveface.quota_starting_time);
-			e.Result = new StorageUsage{quota = quota, usage = usage, startTime = startTime};
-		}
+        private void bgworkerGetAllData_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string session_token = (string)e.Argument;
+            WService service = new WService();
+            MR_storages_usage storageUsage = service.storages_usage(session_token);
+            long quota = storageUsage.storages.waveface.quota.month_total_objects;
+            long usage = storageUsage.storages.waveface.usage.month_total_objects;
+            DateTime startTime = new DateTime(1970,1,1,0,0,0,0);
+            startTime = startTime.AddSeconds(storageUsage.storages.waveface.quota_starting_time);
+            e.Result = new StorageUsage{quota = quota, usage = usage, startTime = startTime};
+        }
 
         private void btnUnlinkDropbox_Click(object sender, EventArgs e)
         {
@@ -200,6 +206,12 @@ namespace Waveface.SettingUI
             Cursor.Current = Cursors.Default;
         }
 
+        public void TestConnectionComplete(string result)
+        {
+            labelConnectionStatus.Text = result;
+            btnTestConnection.Enabled = true;
+        }
+
         private void label_switchAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             DialogResult confirm = MessageBox.Show(I18n.L.T("Main.ChangeOwnerWarning", lblUserName.Text), "Waveface",
@@ -260,24 +272,36 @@ namespace Waveface.SettingUI
                 MessageBox.Show(ex.Message);
             }
         }
-		private void btnEditAccount_Click(object sender, EventArgs e)
-		{
-			string userProfileUrl = WService.WebURL + "/user/profile";
-			Process.Start(WService.WebURL + "/login?cont=" + HttpUtility.UrlEncode(userProfileUrl), null);
-		}
+        private void btnEditAccount_Click(object sender, EventArgs e)
+        {
+            string userProfileUrl = WService.WebURL + "/user/profile";
+            Process.Start(WService.WebURL + "/login?cont=" + HttpUtility.UrlEncode(userProfileUrl), null);
+        }
+
+        private void btnTestConnection_Click(object sender, EventArgs e)
+        {
+            labelConnectionStatus.Text = I18n.L.T("Testing");
+            btnTestConnection.Enabled = false;
+
+            connectionTester.Start();
+        }
 
 		private void linkLegalNotice_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			Process.Start(WService.WebURL + "/page/privacy", null);
 		}
+        private void PreferenceForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            connectionTester.Stop();
+        }
     }
 
-	public class StorageUsage
-	{
-		public long quota { get; set; }
-		public long usage { get; set; }
-		public DateTime startTime { get; set; }
-	}
+    public class StorageUsage
+    {
+        public long quota { get; set; }
+        public long usage { get; set; }
+        public DateTime startTime { get; set; }
+    }
 
     class WaitDropbopComplete
     {
@@ -302,6 +326,95 @@ namespace Waveface.SettingUI
                 MessageBox.Show("Waiting dropbox complete failed... " + e.Message, "Waveface");
                 form.Invoke(new MethodInvoker(form.ConnectDropboxFailed));
             }
+        }
+    }
+
+    class WavefaceConnectionTester
+    {
+        PreferenceForm form;
+        string sessionToken;
+        WService wf;
+        string userId;
+        Thread thread;
+
+        public WavefaceConnectionTester(PreferenceForm form, string sessionToken, WService wf, string userId)
+        {
+            this.form = form;
+            this.sessionToken = sessionToken;
+            this.wf = wf;
+            this.userId = userId;
+        }
+
+        private void Do()
+        {
+            try
+            {
+                DateTime startTime = DateTime.Now;
+
+                try
+                {
+                    wf.pingMyStation(sessionToken);
+                }
+                catch
+                {
+                    NotifyTestDone(I18n.L.T("NotConnected"));
+                    return;
+                }
+
+                string result = I18n.L.T("NotConnected");
+                do
+                {
+                    Thread.Sleep(2000);
+
+                    try
+                    {
+                        MR_users_get user = wf.users_get(sessionToken, userId);
+
+                        if (user.stations.Count > 0 &&
+                            user.stations[0].accessible != null &&
+                            user.stations[0].accessible == "available")
+                        {
+                            result = I18n.L.T("Connected");
+                            break;
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+                while (DateTime.Now - startTime < TimeSpan.FromSeconds(10));
+
+                NotifyTestDone(result);
+            }
+            catch (ThreadAbortException)
+            {
+
+            }
+        }
+
+        public void Start()
+        {
+            thread = new Thread(this.Do);
+            thread.Start();
+        }
+
+        public void Stop()
+        {
+            if (thread != null && thread.IsAlive)
+            {
+                thread.Abort();
+                thread.Join();
+            }
+        }
+
+        private void NotifyTestDone(string result)
+        {
+            form.Invoke(
+                    new MethodInvoker(delegate
+                    {
+                        form.TestConnectionComplete(result);
+                    })
+                );
         }
     }
 }
