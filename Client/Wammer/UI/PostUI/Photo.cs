@@ -16,6 +16,8 @@ namespace Waveface.PostUI
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         private ProgressDialog m_progressDialog;
+        private long m_avail_month_total_objects;
+        private long m_month_total_objects;
 
         public PostForm MyParent { get; set; }
 
@@ -170,7 +172,7 @@ namespace Waveface.PostUI
 
             if (!Main.Current.CheckNetworkStatus())
                 return;
-            
+
             //有圖片要上傳
             if (imageListView.Items.Count > 0)
             {
@@ -293,7 +295,7 @@ namespace Waveface.PostUI
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            if(imageListView.Items.Count == 0)
+            if (imageListView.Items.Count == 0)
             {
                 SendPureText();
                 return;
@@ -308,9 +310,9 @@ namespace Waveface.PostUI
                 return;
             }
 
-            if(_storagesUsage < 0)
+            if (_storagesUsage < 0)
             {
-                MessageBox.Show(string.Format("抱歉! 您可以上傳的照片數已經超過系統允許值, 必須先移除{0}張.", (_storagesUsage * -1)), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(string.Format("抱歉! 您可以上傳的照片數已經超過系統允許值({0}).", m_month_total_objects), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 return;
             }
@@ -334,18 +336,17 @@ namespace Waveface.PostUI
         {
             try
             {
-                int _queuedUnsendFiles = NewPostManager.Current.GetQueuedUnsendFilesCount();
-
                 MR_storages_usage _storagesUsage = Main.Current.RT.REST.Storages_Usage();
 
                 if (_storagesUsage != null)
                 {
-                    long _avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
-
-                    return _avail_month_total_objects - _queuedUnsendFiles - imageListView.Items.Count;
+                    int _queuedUnsendFiles = NewPostManager.Current.GetQueuedUnsendFilesCount();
+                    m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
+                    m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
+                    return m_avail_month_total_objects - _queuedUnsendFiles - imageListView.Items.Count;
                 }
             }
-            catch(Exception _e)
+            catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "CheckStoragesUsage");
             }

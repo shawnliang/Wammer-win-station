@@ -3,13 +3,14 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using NLog;
 using System.IO;
+using Microsoft.Win32;
+using System.Reflection;
 
 using Waveface.API.V2;
 using NLog;
 using System.Diagnostics;
 using System.Threading;
 using System.Web;
-using System.Reflection;
 
 namespace Waveface.SettingUI
 {
@@ -17,6 +18,9 @@ namespace Waveface.SettingUI
     {
 		private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
+        private static string AUTO_RUN_SUB_KEY = @"Software\Microsoft\Windows\CurrentVersion\Run";
+        private static string AUTO_RUN_REG_KEY = @"HKEY_CURRENT_USER\" + AUTO_RUN_SUB_KEY;
+        private static string AUTO_RUN_VALUE_NAME = @"WavefaceStation";
         private string stationToken;
         private WService wavefaceService;
 
@@ -46,6 +50,7 @@ namespace Waveface.SettingUI
 			FileVersionInfo version = FileVersionInfo.GetVersionInfo(execPath);
 			this.lblVersion.Text = version.FileVersion.ToString();
             LoadDropboxUI();
+            LoadAutoStartCheckbox();
 			bgworkerGetAllData.RunWorkerAsync(Main.Current.RT.Login.session_token);
         }
 
@@ -74,6 +79,15 @@ namespace Waveface.SettingUI
             }
         }
 
+        private void LoadAutoStartCheckbox()
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(AUTO_RUN_SUB_KEY);
+            if (key == null)
+                return;
+
+
+            checkBox_autoStartWaveface.Checked = (key.GetValue(AUTO_RUN_VALUE_NAME) != null);
+        }
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
@@ -221,6 +235,31 @@ namespace Waveface.SettingUI
             }
         }
 
+        private void checkBox_autoStartWaveface_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (checkBox_autoStartWaveface.Checked)
+                {
+                    string installDir = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    string stationSetupPath = System.IO.Path.Combine(installDir, "StationSetup.exe");
+                    Registry.SetValue(AUTO_RUN_REG_KEY, AUTO_RUN_VALUE_NAME, "\"" + stationSetupPath + "\"");
+                }
+                else
+                {
+                    RegistryKey CurUserRegKey = Registry.CurrentUser.OpenSubKey(AUTO_RUN_SUB_KEY, true);
+
+                    if (CurUserRegKey == null)
+                        return;
+
+                    CurUserRegKey.DeleteValue(AUTO_RUN_VALUE_NAME, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 		private void btnEditAccount_Click(object sender, EventArgs e)
 		{
 			string userProfileUrl = WService.WebURL + "/user/profile";

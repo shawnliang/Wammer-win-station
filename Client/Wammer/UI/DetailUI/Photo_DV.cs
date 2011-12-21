@@ -64,12 +64,16 @@ namespace Waveface.DetailUI
         {
             InitializeComponent();
 
-            imageListView.SetRenderer(new MyImageListViewRenderer());
+            MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer();
+            _imageListViewRenderer.Clip = false;
+
+            imageListView.SetRenderer(_imageListViewRenderer);
 
             imageListView.BackColor = Color.FromArgb(243, 242, 238);
             imageListView.Colors.BackColor = Color.FromArgb(243, 242, 238);
             imageListView.Colors.DisabledBackColor = Color.FromArgb(243, 242, 238);
             imageListView.ThumbnailSize = new Size(128, 128);
+            imageListView.CacheMode = CacheMode.Continuous;
 
             m_filesMapping = new Dictionary<string, string>();
         }

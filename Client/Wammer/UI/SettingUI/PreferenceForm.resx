@@ -417,31 +417,31 @@
   <data name="&gt;&gt;button2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="checkBox1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="checkBox_autoStartWaveface.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="checkBox1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="checkBox_autoStartWaveface.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 50</value>
   </data>
-  <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 17</value>
   </data>
-  <data name="checkBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="checkBox_autoStartWaveface.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="checkBox1.Text" xml:space="preserve">
+  <data name="checkBox_autoStartWaveface.Text" xml:space="preserve">
     <value>Start Waveface on system startup</value>
   </data>
-  <data name="&gt;&gt;checkBox1.Name" xml:space="preserve">
-    <value>checkBox1</value>
+  <data name="&gt;&gt;checkBox_autoStartWaveface.Name" xml:space="preserve">
+    <value>checkBox_autoStartWaveface</value>
   </data>
-  <data name="&gt;&gt;checkBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;checkBox_autoStartWaveface.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;checkBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;checkBox_autoStartWaveface.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;checkBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;checkBox_autoStartWaveface.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="lblLocalStorageUsage.AutoSize" type="System.Boolean, mscorlib">

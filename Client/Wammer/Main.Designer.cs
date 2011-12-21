@@ -59,7 +59,6 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.preferencesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.changeOwnerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
             this.splitterRight = new System.Windows.Forms.Splitter();
@@ -222,7 +221,6 @@
             this.toolStripMenuItem3,
             this.preferencesMenuItem,
             this.toolStripMenuItem2,
-            this.changeOwnerMenuItem,
             this.logoutMenuItem});
             this.mnuTray.Name = "mnuTree";
             resources.ApplyResources(this.mnuTray, "mnuTray");
@@ -280,12 +278,6 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
-            // 
-            // changeOwnerMenuItem
-            // 
-            this.changeOwnerMenuItem.Name = "changeOwnerMenuItem";
-            resources.ApplyResources(this.changeOwnerMenuItem, "changeOwnerMenuItem");
-            this.changeOwnerMenuItem.Click += new System.EventHandler(this.changeOwnerMenuItem_Click);
             // 
             // logoutMenuItem
             // 
@@ -433,7 +425,6 @@
         private System.Windows.Forms.RadioButton radioButtonCloud;
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
         private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem changeOwnerMenuItem;
         private System.Windows.Forms.Timer timerReloadAllData;
 	}
 }

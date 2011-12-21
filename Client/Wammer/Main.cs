@@ -271,7 +271,7 @@ namespace Waveface
                 SetLastReadPos();
 
             SaveRunTime();
-            leftArea.BatchPostQuit();
+            NewPostManager.Current.Save();
 
             if (m_logoutStation)
             {
@@ -288,7 +288,7 @@ namespace Waveface
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
         {
-            PreferenceForm _form = new PreferenceForm(this.StationToken, this.RT.REST.Service);
+            PreferenceForm _form = new PreferenceForm(StationToken, RT.REST.Service);
             _form.ShowDialog();
 
 
@@ -524,7 +524,6 @@ namespace Waveface
             RT.FilterMode = false;
 
             leftArea.SetUI(true);
-            leftArea.InitBatchPost();
 
             postsArea.showRefreshUI(true);
 
@@ -927,7 +926,7 @@ namespace Waveface
                         break;
 
                     case DialogResult.OK:
-                        leftArea.AddNewPostItem(_form.NewPostItem);
+                        NewPostManager.Current.Add(_form.NewPostItem);
                         break;
                 }
             }
@@ -1268,41 +1267,6 @@ namespace Waveface
             settings.Save();
         }
 
-        private void changeOwnerMenuItem_Click(object sender, EventArgs e)
-        {
-            DialogResult confirm = MessageBox.Show(I18n.L.T("Main.ChangeOwnerWarning", settings.Email), "Waveface",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (confirm == DialogResult.No)
-                return;
-
-            Cursor.Current = Cursors.WaitCursor;
-
-            try
-            {
-                SetLastReadPos();
-
-                WService.RemoveOwner(settings.Email, settings.Password, StationToken);
-
-                MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", settings.Email), "waveface");
-
-                settings.Email = settings.Password = StationToken = "";
-                settings.IsLoggedIn = false;
-
-                m_exitToLogin = true;
-                QuitOption = QuitOption.QuitProgram;
-                m_process401Exception = true;
-                Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(I18n.L.T("ChangeOwnerError") + " : " + ex, "waveface");
-            }
-            finally
-            {
-                Cursor.Current = Cursors.Default;
-            }
-        }
         #endregion
     }
 }
