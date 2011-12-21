@@ -51,6 +51,8 @@ namespace Wammer.Station.Service
 		{
 			try
 			{
+				ConfigThreadPool();
+
 				AppDomain.CurrentDomain.UnhandledException +=
 					new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
@@ -195,6 +197,24 @@ namespace Wammer.Station.Service
 			{
 				stationId = Guid.NewGuid().ToString();
 				StationRegistry.SetValue("stationId", stationId);
+			}
+		}
+
+		private void ConfigThreadPool()
+		{
+			int minWorker;
+			int minIO;
+
+			System.Threading.ThreadPool.GetMinThreads(out minWorker, out minIO);
+
+			minWorker = (int)StationRegistry.GetValue("MinWorkerThreads", minWorker);
+			minIO = (int)StationRegistry.GetValue("MinIOThreads", minIO);
+
+			if (minWorker > 0 && minIO > 0)
+			{
+				System.Threading.ThreadPool.SetMinThreads(minWorker, minIO);
+				logger.DebugFormat("Min worker threads {0}, min completion port threads {1}",
+					minWorker, minIO);
 			}
 		}
 	}
