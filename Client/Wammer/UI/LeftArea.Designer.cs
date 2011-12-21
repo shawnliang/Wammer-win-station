@@ -44,11 +44,11 @@ namespace Waveface
             this.panelTimeline = new System.Windows.Forms.Panel();
             this.panelCalendar = new System.Windows.Forms.Panel();
             this.monthCalendar = new CustomControls.MonthCalendar();
-            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             this.imageListLarge = new System.Windows.Forms.ImageList(this.components);
             this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
             this.imageListCustomFilter = new System.Windows.Forms.ImageList(this.components);
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
+            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             this.panelBottom.SuspendLayout();
             this.panelButtom2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
@@ -67,9 +67,9 @@ namespace Waveface
             this.panelBottom.Controls.Add(this.panelButtom2);
             this.panelBottom.Controls.Add(this.pbDropArea);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBottom.Location = new System.Drawing.Point(0, 415);
+            this.panelBottom.Location = new System.Drawing.Point(0, 417);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(191, 192);
+            this.panelBottom.Size = new System.Drawing.Size(193, 192);
             this.panelBottom.TabIndex = 1;
             // 
             // panelButtom2
@@ -78,7 +78,7 @@ namespace Waveface
             this.panelButtom2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelButtom2.Location = new System.Drawing.Point(0, 170);
             this.panelButtom2.Name = "panelButtom2";
-            this.panelButtom2.Size = new System.Drawing.Size(191, 22);
+            this.panelButtom2.Size = new System.Drawing.Size(193, 22);
             this.panelButtom2.TabIndex = 2;
             // 
             // labelDropInfor
@@ -88,7 +88,7 @@ namespace Waveface
             this.labelDropInfor.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDropInfor.Location = new System.Drawing.Point(0, 0);
             this.labelDropInfor.Name = "labelDropInfor";
-            this.labelDropInfor.Size = new System.Drawing.Size(191, 22);
+            this.labelDropInfor.Size = new System.Drawing.Size(193, 22);
             this.labelDropInfor.TabIndex = 1;
             this.labelDropInfor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -103,7 +103,7 @@ namespace Waveface
             this.pbDropArea.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pbDropArea.Location = new System.Drawing.Point(0, 0);
             this.pbDropArea.Name = "pbDropArea";
-            this.pbDropArea.Size = new System.Drawing.Size(191, 192);
+            this.pbDropArea.Size = new System.Drawing.Size(193, 192);
             this.pbDropArea.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbDropArea.TabIndex = 0;
             this.pbDropArea.TabStop = false;
@@ -123,7 +123,7 @@ namespace Waveface
             this.panelMain.Location = new System.Drawing.Point(0, 0);
             this.panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(191, 415);
+            this.panelMain.Size = new System.Drawing.Size(193, 417);
             this.panelMain.TabIndex = 2;
             // 
             // panelFilter
@@ -134,7 +134,7 @@ namespace Waveface
             this.panelFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelFilter.Location = new System.Drawing.Point(0, 195);
             this.panelFilter.Name = "panelFilter";
-            this.panelFilter.Size = new System.Drawing.Size(191, 220);
+            this.panelFilter.Size = new System.Drawing.Size(193, 222);
             this.panelFilter.TabIndex = 5;
             // 
             // panelCustomFilter
@@ -143,7 +143,7 @@ namespace Waveface
             this.panelCustomFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCustomFilter.Location = new System.Drawing.Point(0, 38);
             this.panelCustomFilter.Name = "panelCustomFilter";
-            this.panelCustomFilter.Size = new System.Drawing.Size(191, 182);
+            this.panelCustomFilter.Size = new System.Drawing.Size(193, 184);
             this.panelCustomFilter.TabIndex = 3;
             // 
             // taskPaneFilter
@@ -159,7 +159,7 @@ namespace Waveface
             this.taskPaneFilter.Location = new System.Drawing.Point(0, 0);
             this.taskPaneFilter.Margin = new System.Windows.Forms.Padding(0);
             this.taskPaneFilter.Name = "taskPaneFilter";
-            this.taskPaneFilter.Size = new System.Drawing.Size(191, 182);
+            this.taskPaneFilter.Size = new System.Drawing.Size(193, 184);
             this.taskPaneFilter.TabIndex = 1;
             this.taskPaneFilter.Text = "Filter";
             this.taskPaneFilter.Visible = false;
@@ -175,7 +175,7 @@ namespace Waveface
             this.expandoQuicklist.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.expandoQuicklist.Location = new System.Drawing.Point(12, 12);
             this.expandoQuicklist.Name = "expandoQuicklist";
-            this.expandoQuicklist.Size = new System.Drawing.Size(167, 46);
+            this.expandoQuicklist.Size = new System.Drawing.Size(169, 46);
             this.expandoQuicklist.TabIndex = 1;
             this.expandoQuicklist.Text = "Quick list";
             this.expandoQuicklist.Visible = false;
@@ -186,7 +186,7 @@ namespace Waveface
             this.panelTimeline.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTimeline.Location = new System.Drawing.Point(0, 0);
             this.panelTimeline.Name = "panelTimeline";
-            this.panelTimeline.Size = new System.Drawing.Size(191, 38);
+            this.panelTimeline.Size = new System.Drawing.Size(193, 38);
             this.panelTimeline.TabIndex = 2;
             // 
             // panelCalendar
@@ -196,14 +196,24 @@ namespace Waveface
             this.panelCalendar.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelCalendar.Location = new System.Drawing.Point(0, 25);
             this.panelCalendar.Name = "panelCalendar";
-            this.panelCalendar.Size = new System.Drawing.Size(191, 170);
+            this.panelCalendar.Size = new System.Drawing.Size(193, 170);
             this.panelCalendar.TabIndex = 4;
             this.panelCalendar.Visible = false;
             // 
             // monthCalendar
             // 
+            this.monthCalendar.ColorTable.BackgroundGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(231)))), ((int)(((byte)(209)))));
+            this.monthCalendar.ColorTable.BackgroundGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(231)))), ((int)(((byte)(209)))));
+            this.monthCalendar.ColorTable.Border = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(231)))), ((int)(((byte)(209)))));
+            this.monthCalendar.ColorTable.DayActiveGradientBegin = System.Drawing.Color.NavajoWhite;
+            this.monthCalendar.ColorTable.DaySelectedGradientBegin = System.Drawing.Color.NavajoWhite;
             this.monthCalendar.ColorTable.DayText = System.Drawing.Color.DarkGray;
+            this.monthCalendar.ColorTable.HeaderActiveGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar.ColorTable.HeaderArrow = System.Drawing.Color.Silver;
+            this.monthCalendar.ColorTable.HeaderGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar.ColorTable.MonthSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.monthCalendar.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.monthCalendar.HeaderFont = new System.Drawing.Font("Segoe UI", 10F);
             this.monthCalendar.Location = new System.Drawing.Point(3, 3);
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.SelectionMode = CustomControls.MonthCalendarSelectionMode.Day;
@@ -211,23 +221,6 @@ namespace Waveface
             this.monthCalendar.TabIndex = 0;
             this.monthCalendar.UseShortestDayNames = true;
             this.monthCalendar.DateClicked += new System.EventHandler<CustomControls.DateEventArgs>(this.monthCalendar_DateClicked);
-            // 
-            // vsNetListBarGroups
-            // 
-            this.vsNetListBarGroups.AllowDragGroups = true;
-            this.vsNetListBarGroups.AllowDragItems = true;
-            this.vsNetListBarGroups.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.vsNetListBarGroups.Dock = System.Windows.Forms.DockStyle.Top;
-            this.vsNetListBarGroups.DrawStyle = Waveface.Component.ListBarControl.ListBarDrawStyle.ListBarDrawStyleNormal;
-            this.vsNetListBarGroups.LargeImageList = this.imageListLarge;
-            this.vsNetListBarGroups.Location = new System.Drawing.Point(0, 0);
-            this.vsNetListBarGroups.Name = "vsNetListBarGroups";
-            this.vsNetListBarGroups.SelectOnMouseDown = true;
-            this.vsNetListBarGroups.Size = new System.Drawing.Size(191, 25);
-            this.vsNetListBarGroups.SmallImageList = this.imageListSmall;
-            this.vsNetListBarGroups.TabIndex = 1;
-            this.vsNetListBarGroups.ToolTip = null;
-            this.vsNetListBarGroups.Visible = false;
             // 
             // imageListLarge
             // 
@@ -255,18 +248,34 @@ namespace Waveface
             this.imageListTimeline.Images.SetKeyName(0, "AllTime.png");
             this.imageListTimeline.Images.SetKeyName(1, "Month.png");
             // 
+            // vsNetListBarGroups
+            // 
+            this.vsNetListBarGroups.AllowDragGroups = true;
+            this.vsNetListBarGroups.AllowDragItems = true;
+            this.vsNetListBarGroups.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.vsNetListBarGroups.Dock = System.Windows.Forms.DockStyle.Top;
+            this.vsNetListBarGroups.DrawStyle = Waveface.Component.ListBarControl.ListBarDrawStyle.ListBarDrawStyleNormal;
+            this.vsNetListBarGroups.LargeImageList = this.imageListLarge;
+            this.vsNetListBarGroups.Location = new System.Drawing.Point(0, 0);
+            this.vsNetListBarGroups.Name = "vsNetListBarGroups";
+            this.vsNetListBarGroups.SelectOnMouseDown = true;
+            this.vsNetListBarGroups.Size = new System.Drawing.Size(193, 25);
+            this.vsNetListBarGroups.SmallImageList = this.imageListSmall;
+            this.vsNetListBarGroups.TabIndex = 1;
+            this.vsNetListBarGroups.ToolTip = null;
+            this.vsNetListBarGroups.Visible = false;
+            // 
             // LeftArea
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelBottom);
             this.Font = new System.Drawing.Font("Tahoma", 9F);
             this.Name = "LeftArea";
-            this.Size = new System.Drawing.Size(191, 607);
+            this.Size = new System.Drawing.Size(193, 609);
             this.panelBottom.ResumeLayout(false);
             this.panelButtom2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).EndInit();

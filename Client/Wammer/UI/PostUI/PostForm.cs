@@ -49,8 +49,7 @@ namespace Waveface
                     break;
 
                 case PostType.Photo:
-                    photo_UI.Files = files;
-                    toPhoto_Mode();
+                    toPhoto_Mode(files);
                     break;
 
                 case PostType.RichText:
@@ -112,7 +111,7 @@ namespace Waveface
 
         private void btnAddPhoto_Click(object sender, EventArgs e)
         {
-            toPhoto_Mode();
+            toPhoto_Mode(null);
         }
 
         private void btnAddDoc_Click(object sender, EventArgs e)
@@ -147,7 +146,7 @@ namespace Waveface
             WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
-            Size = new Size(640, 260);
+            Size = new Size(580, 260);
 
             richTextBox.Focus();
         }
@@ -165,10 +164,10 @@ namespace Waveface
             WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
-            Size = new Size(640, 440);
+            Size = new Size(580, 440);
         }
 
-        private void toPhoto_Mode()
+        private void toPhoto_Mode(List<string> files)
         {
             m_postType = PostType.Photo;
 
@@ -180,9 +179,16 @@ namespace Waveface
             FormBorderStyle = FormBorderStyle.Sizable;
             MaximizeBox = true;
 
-            Size = new Size(640, 440);
+            Size = new Size(580, 440);
 
-            photo_UI.AddPhoto();
+            if(files == null)
+            {
+                photo_UI.AddPhoto();
+            }
+            else
+            {
+                photo_UI.Files = files;
+            }
         }
 
         private void toDoc_Mode()
@@ -197,7 +203,7 @@ namespace Waveface
             FormBorderStyle = FormBorderStyle.Sizable;
             MaximizeBox = true;
 
-            Size = new Size(640, 440);
+            Size = new Size(580, 440);
         }
 
         private void btnSend_Click(object sender, EventArgs e)

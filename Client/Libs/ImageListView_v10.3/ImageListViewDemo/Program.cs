@@ -13,7 +13,7 @@ namespace Manina.Windows.Forms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PhotoView());
+            Application.Run(new DemoForm());
         }
     }
 }

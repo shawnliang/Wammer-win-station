@@ -81,6 +81,12 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DemoForm.designer.cs">
+      <DependentUpon>DemoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PhotoView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DemoForm.resx">
+      <DependentUpon>DemoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PhotoView.resx">
       <DependentUpon>PhotoView.cs</DependentUpon>
       <SubType>Designer</SubType>
