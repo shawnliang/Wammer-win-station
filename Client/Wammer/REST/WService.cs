@@ -22,6 +22,7 @@ namespace Waveface.API.V2
 
         public static string CloudIP = "https://develop.waveface.com"; //https://api.waveface.com  ;
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
+		public static string WebURL = "http://develop.waveface.com:4343";
 
         private RestTemplate m_rest;
 

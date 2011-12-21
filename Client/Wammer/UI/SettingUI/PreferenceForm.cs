@@ -9,6 +9,7 @@ using Waveface.API.V2;
 using NLog;
 using System.Diagnostics;
 using System.Threading;
+using System.Web;
 
 
 namespace Waveface.SettingUI
@@ -256,6 +257,11 @@ namespace Waveface.SettingUI
                 MessageBox.Show(ex.Message);
             }
         }
+		private void btnEditAccount_Click(object sender, EventArgs e)
+		{
+			string userProfileUrl = WService.WebURL + "/user/profile";
+			Process.Start(WService.WebURL + "/login?cont=" + HttpUtility.UrlEncode(userProfileUrl), null);
+		}
     }
 
 	public class StorageUsage
