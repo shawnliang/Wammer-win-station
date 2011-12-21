@@ -1,4 +1,4 @@
-namespace Manina.Windows.Forms
+﻿namespace Manina.Windows.Forms
 {
     partial class DemoForm
     {
@@ -76,11 +76,11 @@ namespace Manina.Windows.Forms
             this.continuousCacheModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.columnContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.groupAscendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupDescendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.sortAscendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortDescendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
@@ -108,12 +108,12 @@ namespace Manina.Windows.Forms
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(843, 355);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(843, 389);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(843, 402);
+            this.toolStripContainer1.Size = new System.Drawing.Size(843, 436);
             this.toolStripContainer1.TabIndex = 0;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -134,7 +134,7 @@ namespace Manina.Windows.Forms
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(44, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(38, 17);
             this.toolStripStatusLabel1.Text = "Ready";
             // 
             // splitContainer1
@@ -150,7 +150,7 @@ namespace Manina.Windows.Forms
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
-            this.splitContainer1.Size = new System.Drawing.Size(843, 355);
+            this.splitContainer1.Size = new System.Drawing.Size(843, 389);
             this.splitContainer1.SplitterDistance = 601;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -167,7 +167,7 @@ namespace Manina.Windows.Forms
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.imageListView1);
-            this.splitContainer3.Size = new System.Drawing.Size(601, 355);
+            this.splitContainer3.Size = new System.Drawing.Size(601, 389);
             this.splitContainer3.SplitterDistance = 200;
             this.splitContainer3.TabIndex = 1;
             // 
@@ -180,7 +180,7 @@ namespace Manina.Windows.Forms
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(200, 355);
+            this.treeView1.Size = new System.Drawing.Size(200, 389);
             this.treeView1.TabIndex = 2;
             this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeExpand);
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -199,18 +199,16 @@ namespace Manina.Windows.Forms
             this.imageListView1.AllowDrag = true;
             this.imageListView1.AllowDrop = true;
             this.imageListView1.CheckBoxAlignment = System.Drawing.ContentAlignment.TopLeft;
-            this.imageListView1.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView1.Columns.AddRange(new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader[] {
             new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader(Manina.Windows.Forms.ColumnType.Name, "", 100, 0, true),
             new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader(Manina.Windows.Forms.ColumnType.DateTaken, "", 100, 1, true)});
             this.imageListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageListView1.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView1.Location = new System.Drawing.Point(0, 0);
             this.imageListView1.Name = "imageListView1";
-            this.imageListView1.Size = new System.Drawing.Size(397, 355);
+            this.imageListView1.Size = new System.Drawing.Size(397, 389);
             this.imageListView1.TabIndex = 0;
-            this.imageListView1.ColumnClick += new Manina.Windows.Forms.ColumnClickEventHandler(this.imageListView1_ColumnClick);
             this.imageListView1.SelectionChanged += new System.EventHandler(this.imageListView1_SelectionChanged);
+            this.imageListView1.ColumnClick += new Manina.Windows.Forms.ColumnClickEventHandler(this.imageListView1_ColumnClick);
             this.imageListView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageListView1_KeyDown);
             // 
             // propertyGrid1
@@ -218,7 +216,7 @@ namespace Manina.Windows.Forms
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(238, 355);
+            this.propertyGrid1.Size = new System.Drawing.Size(238, 389);
             this.propertyGrid1.TabIndex = 1;
             this.propertyGrid1.ToolbarVisible = false;
             // 
@@ -241,13 +239,13 @@ namespace Manina.Windows.Forms
             this.toolStripDropDownButton2});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(627, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(592, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // rendererToolStripLabel
             // 
             this.rendererToolStripLabel.Name = "rendererToolStripLabel";
-            this.rendererToolStripLabel.Size = new System.Drawing.Size(63, 22);
+            this.rendererToolStripLabel.Size = new System.Drawing.Size(56, 22);
             this.rendererToolStripLabel.Text = "Renderer:";
             // 
             // renderertoolStripComboBox
@@ -334,27 +332,27 @@ namespace Manina.Windows.Forms
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(107, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(90, 22);
             this.toolStripDropDownButton1.Text = "Thumbnail Size";
             // 
             // x96ToolStripMenuItem
             // 
             this.x96ToolStripMenuItem.Name = "x96ToolStripMenuItem";
-            this.x96ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.x96ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.x96ToolStripMenuItem.Text = "96x96";
             this.x96ToolStripMenuItem.Click += new System.EventHandler(this.x96ToolStripMenuItem_Click);
             // 
             // x120ToolStripMenuItem
             // 
             this.x120ToolStripMenuItem.Name = "x120ToolStripMenuItem";
-            this.x120ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.x120ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.x120ToolStripMenuItem.Text = "120x120";
             this.x120ToolStripMenuItem.Click += new System.EventHandler(this.x120ToolStripMenuItem_Click);
             // 
             // x200ToolStripMenuItem
             // 
             this.x200ToolStripMenuItem.Name = "x200ToolStripMenuItem";
-            this.x200ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.x200ToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.x200ToolStripMenuItem.Text = "200x200";
             this.x200ToolStripMenuItem.Click += new System.EventHandler(this.x200ToolStripMenuItem_Click);
             // 
@@ -388,122 +386,122 @@ namespace Manina.Windows.Forms
             this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
             this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
-            this.toolStripDropDownButton2.Size = new System.Drawing.Size(66, 22);
+            this.toolStripDropDownButton2.Size = new System.Drawing.Size(57, 22);
             this.toolStripDropDownButton2.Text = "Options";
             // 
             // allowCheckBoxClickToolStripMenuItem
             // 
             this.allowCheckBoxClickToolStripMenuItem.Name = "allowCheckBoxClickToolStripMenuItem";
-            this.allowCheckBoxClickToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.allowCheckBoxClickToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.allowCheckBoxClickToolStripMenuItem.Text = "Allow CheckBox Click";
             this.allowCheckBoxClickToolStripMenuItem.Click += new System.EventHandler(this.allowCheckBoxClickToolStripMenuItem_Click);
             // 
             // allowColumnClickToolStripMenuItem
             // 
             this.allowColumnClickToolStripMenuItem.Name = "allowColumnClickToolStripMenuItem";
-            this.allowColumnClickToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.allowColumnClickToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.allowColumnClickToolStripMenuItem.Text = "Allow Column Click";
             this.allowColumnClickToolStripMenuItem.Click += new System.EventHandler(this.allowColumnClickToolStripMenuItem_Click);
             // 
             // allowColumnResizeToolStripMenuItem
             // 
             this.allowColumnResizeToolStripMenuItem.Name = "allowColumnResizeToolStripMenuItem";
-            this.allowColumnResizeToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.allowColumnResizeToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.allowColumnResizeToolStripMenuItem.Text = "Allow Column Resize";
             this.allowColumnResizeToolStripMenuItem.Click += new System.EventHandler(this.allowColumnResizeToolStripMenuItem_Click);
             // 
             // allowPaneResizeToolStripMenuItem
             // 
             this.allowPaneResizeToolStripMenuItem.Name = "allowPaneResizeToolStripMenuItem";
-            this.allowPaneResizeToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.allowPaneResizeToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.allowPaneResizeToolStripMenuItem.Text = "Allow Pane Resize";
             this.allowPaneResizeToolStripMenuItem.Click += new System.EventHandler(this.allowPaneResizeToolStripMenuItem_Click);
             // 
             // multiSelectToolStripMenuItem
             // 
             this.multiSelectToolStripMenuItem.Name = "multiSelectToolStripMenuItem";
-            this.multiSelectToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.multiSelectToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.multiSelectToolStripMenuItem.Text = "Multi Select";
             this.multiSelectToolStripMenuItem.Click += new System.EventHandler(this.multiSelectToolStripMenuItem_Click);
             // 
             // integralScrollToolStripMenuItem
             // 
             this.integralScrollToolStripMenuItem.Name = "integralScrollToolStripMenuItem";
-            this.integralScrollToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.integralScrollToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.integralScrollToolStripMenuItem.Text = "Integral Scroll";
             this.integralScrollToolStripMenuItem.Click += new System.EventHandler(this.integralScrollToolStripMenuItem_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(220, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(193, 6);
             // 
             // allowDragToolStripMenuItem
             // 
             this.allowDragToolStripMenuItem.Name = "allowDragToolStripMenuItem";
-            this.allowDragToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.allowDragToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.allowDragToolStripMenuItem.Text = "Allow Drag";
             this.allowDragToolStripMenuItem.Click += new System.EventHandler(this.allowDragToolStripMenuItem_Click);
             // 
             // allowDropToolStripMenuItem
             // 
             this.allowDropToolStripMenuItem.Name = "allowDropToolStripMenuItem";
-            this.allowDropToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.allowDropToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.allowDropToolStripMenuItem.Text = "Allow Drop";
             this.allowDropToolStripMenuItem.Click += new System.EventHandler(this.allowDropToolStripMenuItem_Click);
             // 
             // allowDuplicateFilenamesToolStripMenuItem
             // 
             this.allowDuplicateFilenamesToolStripMenuItem.Name = "allowDuplicateFilenamesToolStripMenuItem";
-            this.allowDuplicateFilenamesToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.allowDuplicateFilenamesToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.allowDuplicateFilenamesToolStripMenuItem.Text = "Allow Duplicate Filenames";
             this.allowDuplicateFilenamesToolStripMenuItem.Click += new System.EventHandler(this.allowDuplicateFilenamesToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(220, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(193, 6);
             // 
             // showCheckboxesToolStripMenuItem
             // 
             this.showCheckboxesToolStripMenuItem.Name = "showCheckboxesToolStripMenuItem";
-            this.showCheckboxesToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.showCheckboxesToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.showCheckboxesToolStripMenuItem.Text = "Show Checkboxes";
             this.showCheckboxesToolStripMenuItem.Click += new System.EventHandler(this.showCheckboxesToolStripMenuItem_Click);
             // 
             // showFileIconsToolStripMenuItem
             // 
             this.showFileIconsToolStripMenuItem.Name = "showFileIconsToolStripMenuItem";
-            this.showFileIconsToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.showFileIconsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.showFileIconsToolStripMenuItem.Text = "Show File Icons";
             this.showFileIconsToolStripMenuItem.Click += new System.EventHandler(this.showFileIconsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(220, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(193, 6);
             // 
             // checkboxAlignmentToolStripMenuItem
             // 
             this.checkboxAlignmentToolStripMenuItem.Name = "checkboxAlignmentToolStripMenuItem";
-            this.checkboxAlignmentToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.checkboxAlignmentToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.checkboxAlignmentToolStripMenuItem.Text = "Checkbox Alignment";
             // 
             // iconAlignmentToolStripMenuItem
             // 
             this.iconAlignmentToolStripMenuItem.Name = "iconAlignmentToolStripMenuItem";
-            this.iconAlignmentToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.iconAlignmentToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.iconAlignmentToolStripMenuItem.Text = "Icon Alignment";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(220, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(193, 6);
             // 
             // continuousCacheModeToolStripMenuItem
             // 
             this.continuousCacheModeToolStripMenuItem.Name = "continuousCacheModeToolStripMenuItem";
-            this.continuousCacheModeToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.continuousCacheModeToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.continuousCacheModeToolStripMenuItem.Text = "Continuous Cache Mode";
             this.continuousCacheModeToolStripMenuItem.Click += new System.EventHandler(this.continuousCacheModeToolStripMenuItem_Click);
             // 
@@ -525,25 +523,6 @@ namespace Manina.Windows.Forms
             this.groupByToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.groupByToolStripMenuItem.Text = "Group By";
             // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(140, 6);
-            // 
-            // groupAscendingToolStripMenuItem
-            // 
-            this.groupAscendingToolStripMenuItem.Name = "groupAscendingToolStripMenuItem";
-            this.groupAscendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.groupAscendingToolStripMenuItem.Text = "Ascending";
-            this.groupAscendingToolStripMenuItem.Click += new System.EventHandler(this.groupAscendingToolStripMenuItem_Click);
-            // 
-            // groupDescendingToolStripMenuItem
-            // 
-            this.groupDescendingToolStripMenuItem.Name = "groupDescendingToolStripMenuItem";
-            this.groupDescendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.groupDescendingToolStripMenuItem.Text = "Descending";
-            this.groupDescendingToolStripMenuItem.Click += new System.EventHandler(this.groupDescendingToolStripMenuItem_Click);
-            // 
             // sortByToolStripMenuItem
             // 
             this.sortByToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -554,30 +533,49 @@ namespace Manina.Windows.Forms
             this.sortByToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.sortByToolStripMenuItem.Text = "Sort By";
             // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(149, 6);
+            // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(140, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(149, 6);
+            // 
+            // groupAscendingToolStripMenuItem
+            // 
+            this.groupAscendingToolStripMenuItem.Name = "groupAscendingToolStripMenuItem";
+            this.groupAscendingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.groupAscendingToolStripMenuItem.Text = "Ascending";
+            this.groupAscendingToolStripMenuItem.Click += new System.EventHandler(this.groupAscendingToolStripMenuItem_Click);
+            // 
+            // groupDescendingToolStripMenuItem
+            // 
+            this.groupDescendingToolStripMenuItem.Name = "groupDescendingToolStripMenuItem";
+            this.groupDescendingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.groupDescendingToolStripMenuItem.Text = "Descending";
+            this.groupDescendingToolStripMenuItem.Click += new System.EventHandler(this.groupDescendingToolStripMenuItem_Click);
             // 
             // sortAscendingToolStripMenuItem
             // 
             this.sortAscendingToolStripMenuItem.Name = "sortAscendingToolStripMenuItem";
-            this.sortAscendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.sortAscendingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sortAscendingToolStripMenuItem.Text = "Ascending";
             this.sortAscendingToolStripMenuItem.Click += new System.EventHandler(this.sortAscendingToolStripMenuItem_Click);
             // 
             // sortDescendingToolStripMenuItem
             // 
             this.sortDescendingToolStripMenuItem.Name = "sortDescendingToolStripMenuItem";
-            this.sortDescendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.sortDescendingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sortDescendingToolStripMenuItem.Text = "Descending";
             this.sortDescendingToolStripMenuItem.Click += new System.EventHandler(this.sortDescendingToolStripMenuItem_Click);
             // 
             // DemoForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(843, 402);
+            this.ClientSize = new System.Drawing.Size(843, 436);
             this.Controls.Add(this.toolStripContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DemoForm";

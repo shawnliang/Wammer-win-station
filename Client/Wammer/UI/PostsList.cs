@@ -579,7 +579,6 @@ namespace Waveface
 
         private void GetThumbnailsThread()
         {
-            Image _img;
             Dictionary<string, string> _undownloadFiles = new Dictionary<string, string>();
 
             while (true)
@@ -605,15 +604,27 @@ namespace Waveface
                         try
                         {
                             WebRequest _wReq = WebRequest.Create(_pair.Key);
-                            WebResponse _wRep = _wReq.GetResponse();
-                            _img = Image.FromStream(_wRep.GetResponseStream());
-                            _img.Save(_pair.Value);
-                            _img = null;
-                        }
-                        catch
-                        { }
+                            _wReq.Timeout = 3000;
 
-                        if ((k++ % 3) == 0)
+                            WebResponse _wRep = _wReq.GetResponse();
+
+                            Image _img = Image.FromStream(_wRep.GetResponseStream());
+                            
+                            if(!System.IO.File.Exists(_pair.Value))
+                                _img.Save(_pair.Value);
+
+                            _img = null;
+
+                            s_logger.Trace("GetThumbnail:" + _pair.Value);
+
+                            Thread.Sleep(100);
+                        }
+                        catch(Exception _e)
+                        {
+                            NLogUtility.Exception(s_logger, _e, "GetThumbnailsThread");
+                        }
+
+                        if((k++ % 2) == 0)
                             RefreshUI();
                     }
 
@@ -656,6 +667,8 @@ namespace Waveface
             }
             else
             {
+                Application.DoEvents();
+
                 dataGridView.SuspendLayout();
                 dataGridView.Refresh();
                 dataGridView.ResumeLayout();

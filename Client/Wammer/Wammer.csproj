@@ -485,7 +485,9 @@
     <Compile Include="Libs\Utility\ImageUtility.cs" />
     <Compile Include="Libs\Utility\Shadow.cs" />
     <Compile Include="Libs\Utility\StringUtility.cs" />
-    <Compile Include="Libs\Utility\WebHelper.cs" />
+    <Compile Include="Libs\Utility\WebHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\SettingUI\PreferenceForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -36,10 +36,10 @@ namespace Waveface
 
             imageListView.View = View.Gallery;
 
-            //MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer();
-            //_imageListViewRenderer.Clip = false;
+            MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer();
+            _imageListViewRenderer.Clip = false;
 
-            imageListView.SetRenderer(new ImageListViewRenderers.NoirRenderer());
+            imageListView.SetRenderer(_imageListViewRenderer);
 
             foreach (ImageListViewItem _item in imageListView.Items)
             {

@@ -84,7 +84,7 @@ namespace Waveface
 
                     // Add just the first part of this param, since we will write the file data directly to the Stream
                     string _header = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"\r\nContent-Type: {3}\r\n\r\n", boundary, param.Key, fileName.Equals("") ? param.Key : fileName, mimeType.Equals("") ? "application/octet-stream" : mimeType);
-                    
+
                     //formDataStream.Write(encoding.GetBytes(_header), 0, _header.Length);
 
                     byte[] _bytes = encoding.GetBytes(_header);
@@ -132,7 +132,7 @@ namespace Waveface
             try
             {
                 // Open a connection
-                HttpWebRequest _httpWebRequest = (HttpWebRequest) WebRequest.Create(url);
+                HttpWebRequest _httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 
                 _httpWebRequest.AllowWriteStreamBuffering = true;
 
@@ -177,7 +177,7 @@ namespace Waveface
             try
             {
                 // Open a connection
-                HttpWebRequest _httpWebRequest = (HttpWebRequest) WebRequest.Create(url);
+                HttpWebRequest _httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 
                 // You can also specify additional header values like the user agent or the referer: (Optional)
                 _httpWebRequest.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)";
@@ -265,6 +265,33 @@ namespace Waveface
         //    _WebClient.DownloadFileAsync(new Uri("http://www.youdomain.com/sample-file.zip"), @"C:\sample-file.zip");
         //}
 
+    }
+
+    #endregion
+
+    #region
+
+    public class MyWebClient : WebClient
+    {
+        //time in milliseconds
+        public int Timeout { get; set; }
+
+        public MyWebClient()
+        {
+            Timeout = 60000;
+        }
+
+        public MyWebClient(int timeout)
+        {
+            Timeout = timeout;
+        }
+
+        protected override WebRequest GetWebRequest(Uri address)
+        {
+            var _result = base.GetWebRequest(address);
+            _result.Timeout = this.Timeout;
+            return _result;
+        }
     }
 
     #endregion

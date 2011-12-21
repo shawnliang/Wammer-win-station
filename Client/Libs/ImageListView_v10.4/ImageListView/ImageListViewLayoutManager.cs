@@ -444,10 +444,10 @@ namespace Manina.Windows.Forms
                 mClientArea.Height -= mImageListView.hScrollBar.Height;
                 mItemAreaBounds.Height -= mImageListView.hScrollBar.Height;
             }
-            if (mImageListView.VScrollBar.Visible)
+            if (mImageListView.vScrollBar.Visible)
             {
-                mClientArea.Width -= mImageListView.VScrollBar.Width;
-                mItemAreaBounds.Width -= mImageListView.VScrollBar.Width;
+                mClientArea.Width -= mImageListView.vScrollBar.Width;
+                mItemAreaBounds.Width -= mImageListView.vScrollBar.Width;
             }
 
             // Allocate space for column headers
@@ -512,7 +512,7 @@ namespace Manina.Windows.Forms
             if (vScrollRequired != vScrollVisible)
             {
                 vScrollVisible = vScrollRequired;
-                mImageListView.VScrollBar.Visible = vScrollRequired;
+                mImageListView.vScrollBar.Visible = vScrollRequired;
                 vScrollChanged = true;
             }
 
@@ -554,25 +554,25 @@ namespace Manina.Windows.Forms
                 // Vertical scroll range
                 if (mImageListView.ScrollOrientation == System.Windows.Forms.ScrollOrientation.HorizontalScroll)
                 {
-                    mImageListView.VScrollBar.Minimum = 0;
-                    mImageListView.VScrollBar.Maximum = mDisplayedRows * mItemSizeWithMargin.Height;
-                    mImageListView.VScrollBar.LargeChange = mItemAreaBounds.Height;
-                    mImageListView.VScrollBar.SmallChange = 1;
+                    mImageListView.vScrollBar.Minimum = 0;
+                    mImageListView.vScrollBar.Maximum = mDisplayedRows * mItemSizeWithMargin.Height;
+                    mImageListView.vScrollBar.LargeChange = mItemAreaBounds.Height;
+                    mImageListView.vScrollBar.SmallChange = 1;
                 }
                 else
                 {
-                    mImageListView.VScrollBar.Minimum = 0;
-                    mImageListView.VScrollBar.Maximum = Math.Max(0, totalHeight - 1);
+                    mImageListView.vScrollBar.Minimum = 0;
+                    mImageListView.vScrollBar.Maximum = Math.Max(0, totalHeight - 1);
                     if (!mImageListView.IntegralScroll)
-                        mImageListView.VScrollBar.LargeChange = mItemAreaBounds.Height;
+                        mImageListView.vScrollBar.LargeChange = mItemAreaBounds.Height;
                     else
-                        mImageListView.VScrollBar.LargeChange = mItemSizeWithMargin.Height * mDisplayedRows;
-                    mImageListView.VScrollBar.SmallChange = mItemSizeWithMargin.Height;
+                        mImageListView.vScrollBar.LargeChange = mItemSizeWithMargin.Height * mDisplayedRows;
+                    mImageListView.vScrollBar.SmallChange = mItemSizeWithMargin.Height;
                 }
-                if (mImageListView.ViewOffset.Y > mImageListView.VScrollBar.Maximum - mImageListView.VScrollBar.LargeChange + 1)
+                if (mImageListView.ViewOffset.Y > mImageListView.vScrollBar.Maximum - mImageListView.vScrollBar.LargeChange + 1)
                 {
-                    mImageListView.VScrollBar.Value = mImageListView.VScrollBar.Maximum - mImageListView.VScrollBar.LargeChange + 1;
-                    mImageListView.ViewOffset = new Point(mImageListView.ViewOffset.X, mImageListView.VScrollBar.Value);
+                    mImageListView.vScrollBar.Value = mImageListView.vScrollBar.Maximum - mImageListView.vScrollBar.LargeChange + 1;
+                    mImageListView.ViewOffset = new Point(mImageListView.ViewOffset.X, mImageListView.vScrollBar.Value);
                 }
             }
             else // if (mImageListView.Items.Count == 0)
@@ -581,20 +581,20 @@ namespace Manina.Windows.Forms
                 mImageListView.hScrollBar.Minimum = 0;
                 mImageListView.hScrollBar.Maximum = 0;
                 mImageListView.hScrollBar.Value = 0;
-                mImageListView.VScrollBar.Minimum = 0;
-                mImageListView.VScrollBar.Maximum = 0;
-                mImageListView.VScrollBar.Value = 0;
+                mImageListView.vScrollBar.Minimum = 0;
+                mImageListView.vScrollBar.Maximum = 0;
+                mImageListView.vScrollBar.Value = 0;
                 mImageListView.ViewOffset = new Point(0, 0);
             }
 
             // Horizontal scrollbar position
             mImageListView.hScrollBar.Left = 0;
             mImageListView.hScrollBar.Top = mImageListView.ClientRectangle.Bottom - mImageListView.hScrollBar.Height;
-            mImageListView.hScrollBar.Width = mImageListView.ClientRectangle.Width - (mImageListView.VScrollBar.Visible ? mImageListView.VScrollBar.Width : 0);
+            mImageListView.hScrollBar.Width = mImageListView.ClientRectangle.Width - (mImageListView.vScrollBar.Visible ? mImageListView.vScrollBar.Width : 0);
             // Vertical scrollbar position
-            mImageListView.VScrollBar.Left = mImageListView.ClientRectangle.Right - mImageListView.VScrollBar.Width;
-            mImageListView.VScrollBar.Top = 0;
-            mImageListView.VScrollBar.Height = mImageListView.ClientRectangle.Height - (mImageListView.hScrollBar.Visible ? mImageListView.hScrollBar.Height : 0);
+            mImageListView.vScrollBar.Left = mImageListView.ClientRectangle.Right - mImageListView.vScrollBar.Width;
+            mImageListView.vScrollBar.Top = 0;
+            mImageListView.vScrollBar.Height = mImageListView.ClientRectangle.Height - (mImageListView.hScrollBar.Visible ? mImageListView.hScrollBar.Height : 0);
         }
         /// <summary>
         /// Updates the dictionary of visible items.

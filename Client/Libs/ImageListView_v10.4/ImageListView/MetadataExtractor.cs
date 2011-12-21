@@ -22,6 +22,9 @@ using System.Text;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+#if USEWIC
+using System.Windows.Media.Imaging;
+#endif
 
 namespace Manina.Windows.Forms
 {
@@ -48,6 +51,25 @@ namespace Manina.Windows.Forms
         private const int TagFocalLength = 0x920A;
         private const int TagSoftware = 0x0131;
         #endregion
+
+#if USEWIC
+        #region WIC Metadata Paths
+        private static readonly string[] WICPathImageDescription = new string[] { "/app1/ifd/{ushort=40095}", "/app1/ifd/{ushort=270}" };
+        private static readonly string[] WICPathCopyright = new string[] { "/app1/ifd/{ushort=33432}", "/app13/irb/8bimiptc/iptc/copyright notice", "/xmp/<xmpalt>dc:rights", "/xmp/dc:rights" };
+        private static readonly string[] WICPathComment = new string[] { "/app1/ifd/{ushort=40092}", "/app1/ifd/{ushort=37510}", "/xmp/<xmpalt>exif:UserComment" };
+        private static readonly string[] WICPathSoftware = new string[] { "/app1/ifd/{ushort=305}", "/xmp/xmp:CreatorTool", "/xmp/xmp:creatortool", "/xmp/tiff:Software", "/xmp/tiff:software", "/app13/irb/8bimiptc/iptc/Originating Program" };
+        private static readonly string[] WICPathSimpleRating = new string[] { "/app1/ifd/{ushort=18246}", "/xmp/xmp:Rating" };
+        private static readonly string[] WICPathRating = new string[] { "/app1/ifd/exif/{ushort=34855}", "/xmp/<xmpseq>exif:ISOSpeedRatings", "/xmp/exif:ISOSpeed" };
+        private static readonly string[] WICPathArtist = new string[] { "/app1/ifd/{ushort=315}", "/app13/irb/8bimiptc/iptc/by-line", "/app1/ifd/{ushort=40093}", "/xmp/tiff:artist" };
+        private static readonly string[] WICPathEquipmentManufacturer = new string[] { "/app1/ifd/{ushort=271}", "/xmp/tiff:Make", "/xmp/tiff:make" };
+        private static readonly string[] WICPathEquipmentModel = new string[] { "/app1/ifd/{ushort=272}", "/xmp/tiff:Model", "/xmp/tiff:model" };
+        private static readonly string[] WICPathDateTaken = new string[] { "/app1/ifd/exif/{ushort=36867}", "/app13/irb/8bimiptc/iptc/date created", "/xmp/xmp:CreateDate", "/app1/ifd/exif/{ushort=36868}", "/app13/irb/8bimiptc/iptc/date created", "/xmp/exif:DateTimeOriginal" };
+        private static readonly string[] WICPathExposureTime = new string[] { "/app1/ifd/exif/{ushort=33434}", "/xmp/exif:ExposureTime" };
+        private static readonly string[] WICPathFNumber = new string[] { "/app1/ifd/exif/{ushort=33437}", "/xmp/exif:FNumber" };
+        private static readonly string[] WICPathISOSpeed = new string[] { "/app1/ifd/exif/{ushort=34855}", "/xmp/<xmpseq>exif:ISOSpeedRatings", "/xmp/exif:ISOSpeed" };
+        private static readonly string[] WICPathFocalLength = new string[] { "/app1/ifd/exif/{ushort=37386}", "/xmp/exif:FocalLength" };
+        #endregion
+#endif
 
         #region Exif Format Conversion
         /// <summary>
@@ -238,9 +260,26 @@ namespace Manina.Windows.Forms
         private void InitViaWpf(string path)
         {
             bool wicError = false;
-
+#if USEWIC
+            try
+            {
+                using (FileStream streamWpf = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    BitmapFrame frameWpf = BitmapFrame.Create
+                            (streamWpf,
+                             BitmapCreateOptions.IgnoreColorProfile,
+                             BitmapCacheOption.None);
+                    InitViaWpf(frameWpf);
+                }
+            }
+            catch (Exception eWpf)
+            {
+                Error = eWpf;
+                wicError = true;
+            }
+#else
             wicError = true;
-
+#endif
             if (wicError)
             {
                 try
@@ -254,7 +293,23 @@ namespace Manina.Windows.Forms
                 }
             }
         }
+#if USEWIC
+        /// <summary>
+        /// Inits metadata via WIC/WPF (.NET 3.0).
+        /// </summary>
+        /// <param name="frameWpf">Opened WPF image</param>
+        private void InitViaWpf(BitmapFrame frameWpf)
+        {
+            Width = frameWpf.PixelWidth;
+            Height = frameWpf.PixelHeight;
+            DPIX = frameWpf.DpiX;
+            DPIY = frameWpf.DpiY;
 
+            BitmapMetadata data = frameWpf.Metadata as BitmapMetadata;
+            if (data != null)
+                InitViaWpf(data);
+        }
+#endif
         /// <summary>
         /// Open image and read metadata (.NET 2.0).
         /// </summary>
@@ -420,6 +475,120 @@ namespace Manina.Windows.Forms
             }
         }
 
+#if USEWIC
+        /// <summary>
+        /// Read metadata via WIC/WPF.
+        /// </summary>
+        /// <param name="data">metadata</param>
+        private void InitViaWpf(BitmapMetadata data)
+        {
+            Object val;
+
+            // Subject
+            val = GetMetadataObject(data, WICPathImageDescription);
+            if (val != null)
+                ImageDescription = val as string;
+            // Copyright
+            val = GetMetadataObject(data, WICPathCopyright);
+            if (val != null)
+                Copyright = val as string;
+            // Comment
+            val = GetMetadataObject(data, WICPathComment);
+            if (val != null)
+                Comment = val as string;
+            // Software
+            val = GetMetadataObject(data, WICPathSoftware);
+            if (val != null)
+                Software = val as string;
+            // Simple rating
+            val = GetMetadataObject(data, WICPathSimpleRating);
+            if (val != null)
+            {
+                ushort simpleRating = (ushort)val;
+
+                if (simpleRating == 1)
+                    Rating = 1;
+                else if (simpleRating == 2)
+                    Rating = 25;
+                else if (simpleRating == 3)
+                    Rating = 50;
+                else if (simpleRating == 4)
+                    Rating = 75;
+                else if (simpleRating == 5)
+                    Rating = 99;
+            }
+            // Rating
+            val = GetMetadataObject(data, WICPathRating);
+            if (val != null)
+                Rating = (int)((ushort)val);
+            // Authors
+            val = GetMetadataObject(data, WICPathArtist);
+            if (val != null)
+            {
+                if (val is string)
+                    Artist = (string)val;
+                else if (val is System.Collections.Generic.IEnumerable<string>)
+                {
+                    int i = 0;
+                    StringBuilder authors = new StringBuilder();
+                    foreach (string author in (System.Collections.Generic.IEnumerable<string>)val)
+                    {
+                        if (i != 0)
+                            authors.Append(";");
+                        authors.Append(authors);
+                        i++;
+                    }
+                    Artist = authors.ToString();
+                }
+            }
+
+            // Camera manufacturer
+            val = GetMetadataObject(data, WICPathEquipmentManufacturer);
+            if (val != null)
+                EquipmentManufacturer = val as string;
+            // Camera model
+            val = GetMetadataObject(data, WICPathEquipmentModel);
+            if (val != null)
+                EquipmentModel = val as string;
+
+            // Date taken
+            val = GetMetadataObject(data, WICPathDateTaken);
+            if (val != null)
+                DateTaken = ExifDateTime((string)val);
+            // Exposure time
+            val = GetMetadataObject(data, WICPathExposureTime);
+            if (val != null)
+                ExposureTime = ExifDouble(BitConverter.GetBytes((ulong)val));
+            // FNumber
+            val = GetMetadataObject(data, WICPathFNumber);
+            if (val != null)
+                FNumber = ExifDouble(BitConverter.GetBytes((ulong)val));
+            // ISOSpeed
+            val = GetMetadataObject(data, WICPathISOSpeed);
+            if (val != null)
+                ISOSpeed = (ushort)val;
+            // FocalLength
+            val = GetMetadataObject(data, WICPathFocalLength);
+            if (val != null)
+                FocalLength = ExifDouble(BitConverter.GetBytes((ulong)val));
+        }
+        /// <summary>
+        /// Returns the metadata for the given query.
+        /// </summary>
+        /// <param name="metadata">The image metadata.</param>
+        /// <param name="query">A list of query strings.</param>
+        /// <returns>Metadata object or null if the metadata is not found.</returns>
+        private object GetMetadataObject(BitmapMetadata metadata, params string[] query)
+        {
+            foreach (string q in query)
+            {
+                object val = metadata.GetQuery(q);
+                if (val != null)
+                    return val;
+            }
+            return null;
+        }
+#endif
         /// <summary>
         /// Convert FileTime to DateTime.
         /// </summary>
@@ -463,12 +632,30 @@ namespace Manina.Windows.Forms
         public static MetadataExtractor FromFile(string path, bool useWic)
         {
             MetadataExtractor metadata = new MetadataExtractor();
-
+#if USEWIC
+            if (useWic)
+                metadata.InitViaWpf(path);
+            else
+                metadata.InitViaBmp(path);
+#else
             metadata.InitViaBmp(path);
-
+#endif
             return metadata;
         }
-
+#if USEWIC
+        /// <summary>
+        /// Creates an instance of the MetadataExtractor class.
+        /// Reads metadata via WIC/WPF (.NET 3.0).
+        /// If WIC lacks a metadata reader for this image type then fall back to .NET 2.0 method. 
+        /// </summary>
+        /// <param name="frameWpf">Opened WPF image</param>
+        public static MetadataExtractor FromBitmap(BitmapFrame frameWpf)
+        {
+            MetadataExtractor metadata = new MetadataExtractor();
+            metadata.InitViaWpf(frameWpf);
+            return metadata;
+        }
+#endif
         #endregion
     }
 }

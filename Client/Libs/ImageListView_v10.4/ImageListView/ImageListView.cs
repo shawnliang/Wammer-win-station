@@ -121,9 +121,17 @@ namespace Manina.Windows.Forms
 		private System.Timers.Timer lazyRefreshTimer;
 		private RefreshDelegateInternal lazyRefreshCallback;
 
+	    public VScrollBar VScrollBar
+	    {
+	        get
+	        {
+	            return vScrollBar;
+	        }
+	    }
+
 		// Layout variables
 		internal HScrollBar hScrollBar;
-	    private VScrollBar vScrollBar;
+		internal VScrollBar vScrollBar;
 		internal ImageListViewLayoutManager layoutManager;
 		private bool disposed;
 
@@ -733,13 +741,7 @@ namespace Manina.Windows.Forms
 				return p;
 			}
 		}
-
-	    public VScrollBar VScrollBar
-	    {
-	        get { return vScrollBar; }
-	    }
-
-	    #endregion
+		#endregion
 
 		#region Custom Property Serializers
 		/// <summary>
@@ -1798,9 +1800,15 @@ namespace Manina.Windows.Forms
 			mSelectedItems.Clear (false);
 			
 			// Add items
-			foreach (string filename in e.FileNames) {
+            bool first = true;
+			foreach (string filename in e.FileNames) 
+            {
 				ImageListViewItem item = new ImageListViewItem (filename);
-				item.mSelected = true;
+                if (first || MultiSelect)
+                {
+                    item.mSelected = true;
+                    first = false;
+                }
 				mItems.InsertInternal (index, item, defaultAdaptor);
 				if (firstItemIndex == 0)
 					firstItemIndex = item.Index;
