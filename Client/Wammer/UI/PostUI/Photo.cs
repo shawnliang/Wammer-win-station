@@ -42,7 +42,7 @@ namespace Waveface.PostUI
         {
             Application.Idle += Application_Idle;
 
-            imageListView.SetRenderer(new MyImageListViewRenderer());
+            imageListView.SetRenderer(new ImageListViewRenderers.NoirRenderer());
         }
 
         private void Application_Idle(object sender, EventArgs e)
@@ -59,32 +59,22 @@ namespace Waveface.PostUI
 
         private void addToolStripButton_Click(object sender, EventArgs e)
         {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                imageListView.Items.AddRange(openFileDialog.FileNames);
-            }
+            AddPhoto();
         }
 
         private void removeToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView.SuspendLayout();
-
-            foreach (var _item in imageListView.SelectedItems)
-                imageListView.Items.Remove(_item);
-
-            imageListView.ResumeLayout(true);
+            RemoveSelectedPhoto();
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            removeToolStripButton_Click(sender, e);
+            RemoveAllAndReturnToParent();
         }
 
         private void removeAllToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView.Items.Clear();
-
-            MyParent.toPureText_Mode();
+            RemoveAllAndReturnToParent();
         }
 
         private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
@@ -355,5 +345,47 @@ namespace Waveface.PostUI
         }
 
         #endregion
+
+        public void AddPhoto()
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                imageListView.Items.AddRange(openFileDialog.FileNames);
+            }
+        }
+
+        private void RemoveAllAndReturnToParent()
+        {
+            imageListView.Items.Clear();
+
+            MyParent.toPureText_Mode();
+        }
+
+        private void RemoveSelectedPhoto()
+        {
+            imageListView.SuspendLayout();
+
+            foreach (var _item in imageListView.SelectedItems)
+                imageListView.Items.Remove(_item);
+
+            imageListView.ResumeLayout(true);
+        }
+
+        private void btnAddPhoto_Click(object sender, EventArgs e)
+        {
+            AddPhoto();
+        }
+
+        private void btnDeletePhoto_Click(object sender, EventArgs e)
+        {
+            if(imageListView.SelectedItems.Count == 0)
+            {
+                RemoveAllAndReturnToParent();
+            }
+            else
+            {
+                RemoveSelectedPhoto();
+            }
+        }
     }
 }

@@ -35,6 +35,7 @@ namespace Waveface
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostForm));
             this.contextMenuStripEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,8 +57,9 @@ namespace Waveface
             this.Page__DOC = new Waveface.Component.MultiPage.MultiPanelPage();
             this.document_UI = new Waveface.PostUI.Document();
             this.panelMiddleBar = new System.Windows.Forms.Panel();
-            this.btnAddDoc = new Waveface.Component.XPButton();
+            this.panelToolbar = new System.Windows.Forms.Panel();
             this.btnAddPhoto = new Waveface.Component.XPButton();
+            this.btnAddDoc = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
             this.panelText = new System.Windows.Forms.Panel();
             this.buttonRichText = new Waveface.Component.XPButton();
@@ -75,6 +77,7 @@ namespace Waveface
             this.Page__Photo.SuspendLayout();
             this.Page__DOC.SuspendLayout();
             this.panelMiddleBar.SuspendLayout();
+            this.panelToolbar.SuspendLayout();
             this.panelText.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,7 +121,7 @@ namespace Waveface
             this.multiPanel.Location = new System.Drawing.Point(0, 0);
             this.multiPanel.Name = "multiPanel";
             this.multiPanel.SelectedPage = this.Page_P_D_W;
-            this.multiPanel.Size = new System.Drawing.Size(624, 208);
+            this.multiPanel.Size = new System.Drawing.Size(624, 232);
             this.multiPanel.TabIndex = 7;
             // 
             // Page_RichText
@@ -194,7 +197,7 @@ namespace Waveface
             this.Page_P_D_W.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Page_P_D_W.Location = new System.Drawing.Point(0, 0);
             this.Page_P_D_W.Name = "Page_P_D_W";
-            this.Page_P_D_W.Size = new System.Drawing.Size(624, 208);
+            this.Page_P_D_W.Size = new System.Drawing.Size(624, 232);
             this.Page_P_D_W.TabIndex = 1;
             this.Page_P_D_W.Text = "Page_P_D_W";
             // 
@@ -202,7 +205,7 @@ namespace Waveface
             // 
             this.panelPWD_Main.Controls.Add(this.multiPanel_P_D_W);
             this.panelPWD_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPWD_Main.Location = new System.Drawing.Point(0, 208);
+            this.panelPWD_Main.Location = new System.Drawing.Point(0, 232);
             this.panelPWD_Main.Name = "panelPWD_Main";
             this.panelPWD_Main.Size = new System.Drawing.Size(624, 0);
             this.panelPWD_Main.TabIndex = 14;
@@ -255,6 +258,7 @@ namespace Waveface
             this.photo_UI.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.photo_UI.BackColor = System.Drawing.Color.White;
             this.photo_UI.Font = new System.Drawing.Font("Tahoma", 9F);
             this.photo_UI.Location = new System.Drawing.Point(0, 0);
             this.photo_UI.MinimumSize = new System.Drawing.Size(500, 130);
@@ -287,14 +291,40 @@ namespace Waveface
             // 
             // panelMiddleBar
             // 
-            this.panelMiddleBar.Controls.Add(this.btnAddDoc);
-            this.panelMiddleBar.Controls.Add(this.btnAddPhoto);
+            this.panelMiddleBar.BackColor = System.Drawing.Color.White;
+            this.panelMiddleBar.Controls.Add(this.panelToolbar);
             this.panelMiddleBar.Controls.Add(this.btnSend);
             this.panelMiddleBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelMiddleBar.Location = new System.Drawing.Point(0, 166);
+            this.panelMiddleBar.Location = new System.Drawing.Point(0, 163);
             this.panelMiddleBar.Name = "panelMiddleBar";
-            this.panelMiddleBar.Size = new System.Drawing.Size(624, 42);
+            this.panelMiddleBar.Size = new System.Drawing.Size(624, 69);
             this.panelMiddleBar.TabIndex = 13;
+            // 
+            // panelToolbar
+            // 
+            this.panelToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.panelToolbar.Controls.Add(this.btnAddPhoto);
+            this.panelToolbar.Controls.Add(this.btnAddDoc);
+            this.panelToolbar.Location = new System.Drawing.Point(8, 0);
+            this.panelToolbar.Name = "panelToolbar";
+            this.panelToolbar.Size = new System.Drawing.Size(608, 31);
+            this.panelToolbar.TabIndex = 14;
+            // 
+            // btnAddPhoto
+            // 
+            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
+            this.btnAddPhoto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddPhoto.Location = new System.Drawing.Point(4, 2);
+            this.btnAddPhoto.Name = "btnAddPhoto";
+            this.btnAddPhoto.Size = new System.Drawing.Size(40, 26);
+            this.btnAddPhoto.TabIndex = 12;
+            this.btnAddPhoto.UseVisualStyleBackColor = true;
+            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // btnAddDoc
             // 
@@ -303,7 +333,7 @@ namespace Waveface
             this.btnAddDoc.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnAddDoc.Image = global::Waveface.Properties.Resources.page;
             this.btnAddDoc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddDoc.Location = new System.Drawing.Point(113, 6);
+            this.btnAddDoc.Location = new System.Drawing.Point(50, 3);
             this.btnAddDoc.Name = "btnAddDoc";
             this.btnAddDoc.Size = new System.Drawing.Size(115, 26);
             this.btnAddDoc.TabIndex = 13;
@@ -312,32 +342,16 @@ namespace Waveface
             this.btnAddDoc.Visible = false;
             this.btnAddDoc.Click += new System.EventHandler(this.btnAddDoc_Click);
             // 
-            // btnAddPhoto
-            // 
-            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.AllTime;
-            this.btnAddPhoto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddPhoto.Location = new System.Drawing.Point(8, 6);
-            this.btnAddPhoto.Name = "btnAddPhoto";
-            this.btnAddPhoto.Size = new System.Drawing.Size(99, 26);
-            this.btnAddPhoto.TabIndex = 12;
-            this.btnAddPhoto.Text = "Add Photo";
-            this.btnAddPhoto.UseVisualStyleBackColor = true;
-            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
-            // 
             // btnSend
             // 
             this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSend.Image = global::Waveface.Properties.Resources.Post;
             this.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSend.Location = new System.Drawing.Point(543, 6);
+            this.btnSend.Location = new System.Drawing.Point(543, 36);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(74, 26);
+            this.btnSend.Size = new System.Drawing.Size(74, 28);
             this.btnSend.TabIndex = 11;
             this.btnSend.Text = "Create";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -345,12 +359,13 @@ namespace Waveface
             // 
             // panelText
             // 
+            this.panelText.BackColor = System.Drawing.Color.White;
             this.panelText.Controls.Add(this.buttonRichText);
             this.panelText.Controls.Add(this.richTextBox);
             this.panelText.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelText.Location = new System.Drawing.Point(0, 0);
             this.panelText.Name = "panelText";
-            this.panelText.Size = new System.Drawing.Size(624, 166);
+            this.panelText.Size = new System.Drawing.Size(624, 163);
             this.panelText.TabIndex = 12;
             // 
             // buttonRichText
@@ -374,12 +389,13 @@ namespace Waveface
             // 
             this.richTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox.ContextMenuStrip = this.contextMenuStripEdit;
             this.richTextBox.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.richTextBox.Location = new System.Drawing.Point(8, 12);
             this.richTextBox.Name = "richTextBox";
-            this.richTextBox.Size = new System.Drawing.Size(609, 148);
+            this.richTextBox.Size = new System.Drawing.Size(609, 145);
             this.richTextBox.TabIndex = 6;
             this.richTextBox.Text = "";
             this.richTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
@@ -390,18 +406,19 @@ namespace Waveface
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 208);
+            this.ClientSize = new System.Drawing.Size(624, 232);
             this.Controls.Add(this.multiPanel);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(540, 236);
+            this.MinimumSize = new System.Drawing.Size(540, 260);
             this.Name = "PostForm";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "New Post";
+            this.Text = "Create a New Post";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PostForm_FormClosing);
             this.Resize += new System.EventHandler(this.PostForm_Resize);
             this.contextMenuStripEdit.ResumeLayout(false);
@@ -417,6 +434,7 @@ namespace Waveface
             this.Page__Photo.ResumeLayout(false);
             this.Page__DOC.ResumeLayout(false);
             this.panelMiddleBar.ResumeLayout(false);
+            this.panelToolbar.ResumeLayout(false);
             this.panelText.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -451,6 +469,7 @@ namespace Waveface
         private ToolStripMenuItem cutToolStripMenuItem;
         private ToolStripMenuItem copyToolStripMenuItem;
         private ToolStripMenuItem pasteToolStripMenuItem;
+        private Panel panelToolbar;
     }
 }
 

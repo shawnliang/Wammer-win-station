@@ -49,9 +49,13 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnBatchPost = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
+            this.panelToolbar = new System.Windows.Forms.Panel();
+            this.btnDeletePhoto = new Waveface.Component.XPButton();
+            this.btnAddPhoto = new Waveface.Component.XPButton();
             this.panel.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
+            this.panelToolbar.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel
@@ -60,28 +64,30 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel.Controls.Add(this.imageListView);
-            this.panel.Controls.Add(this.toolStrip);
-            this.panel.Location = new System.Drawing.Point(6, 6);
+            this.panel.Location = new System.Drawing.Point(6, 0);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(606, 227);
+            this.panel.Size = new System.Drawing.Size(606, 233);
             this.panel.TabIndex = 8;
             // 
             // imageListView
             // 
+            this.imageListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
-            this.imageListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.imageListView.Location = new System.Drawing.Point(0, 25);
+            this.imageListView.Location = new System.Drawing.Point(2, 40);
             this.imageListView.Name = "imageListView";
-            this.imageListView.Size = new System.Drawing.Size(606, 202);
+            this.imageListView.Size = new System.Drawing.Size(603, 194);
             this.imageListView.TabIndex = 2;
             this.imageListView.ThumbnailSize = new System.Drawing.Size(120, 120);
             this.imageListView.ItemCollectionChanged += new Manina.Windows.Forms.ItemCollectionChangedEventHandler(this.imageListView_ItemCollectionChanged);
             // 
             // toolStrip
             // 
+            this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeAllToolStripButton,
             this.addToolStripButton,
@@ -94,10 +100,11 @@
             this.toolStripSeparator6,
             this.toolStripLabel1,
             this.toolStripComboBoxResize});
-            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Location = new System.Drawing.Point(6, 242);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(606, 25);
+            this.toolStrip.Size = new System.Drawing.Size(357, 25);
             this.toolStrip.TabIndex = 1;
+            this.toolStrip.Visible = false;
             // 
             // removeAllToolStripButton
             // 
@@ -252,7 +259,6 @@
             this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSend.Image = global::Waveface.Properties.Resources.Post;
             this.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSend.Location = new System.Drawing.Point(538, 242);
             this.btnSend.Name = "btnSend";
@@ -262,10 +268,53 @@
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
+            // panelToolbar
+            // 
+            this.panelToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.panelToolbar.Controls.Add(this.btnDeletePhoto);
+            this.panelToolbar.Controls.Add(this.btnAddPhoto);
+            this.panelToolbar.Location = new System.Drawing.Point(9, 0);
+            this.panelToolbar.Name = "panelToolbar";
+            this.panelToolbar.Size = new System.Drawing.Size(601, 31);
+            this.panelToolbar.TabIndex = 15;
+            // 
+            // btnDeletePhoto
+            // 
+            this.btnDeletePhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnDeletePhoto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDeletePhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnDeletePhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnDeletePhoto.Image = global::Waveface.Properties.Resources.trash;
+            this.btnDeletePhoto.Location = new System.Drawing.Point(572, 2);
+            this.btnDeletePhoto.Name = "btnDeletePhoto";
+            this.btnDeletePhoto.Size = new System.Drawing.Size(26, 26);
+            this.btnDeletePhoto.TabIndex = 13;
+            this.btnDeletePhoto.UseVisualStyleBackColor = true;
+            this.btnDeletePhoto.Click += new System.EventHandler(this.btnDeletePhoto_Click);
+            // 
+            // btnAddPhoto
+            // 
+            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
+            this.btnAddPhoto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddPhoto.Location = new System.Drawing.Point(4, 2);
+            this.btnAddPhoto.Name = "btnAddPhoto";
+            this.btnAddPhoto.Size = new System.Drawing.Size(40, 26);
+            this.btnAddPhoto.TabIndex = 12;
+            this.btnAddPhoto.UseVisualStyleBackColor = true;
+            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
+            // 
             // Photo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.panelToolbar);
+            this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.btnBatchPost);
@@ -273,11 +322,12 @@
             this.Name = "Photo";
             this.Size = new System.Drawing.Size(618, 277);
             this.panel.ResumeLayout(false);
-            this.panel.PerformLayout();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.contextMenuStrip.ResumeLayout(false);
+            this.panelToolbar.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -302,5 +352,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.Panel panelToolbar;
+        private Component.XPButton btnAddPhoto;
+        private Component.XPButton btnDeletePhoto;
     }
 }

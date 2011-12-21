@@ -143,7 +143,7 @@
             this.multiPanel.Controls.Add(this.Page_DefaultPosts);
             resources.ApplyResources(this.multiPanel, "multiPanel");
             this.multiPanel.Name = "multiPanel";
-            this.multiPanel.SelectedPage = this.Page_Welcome;
+            this.multiPanel.SelectedPage = this.Page_SetupCompleted;
             // 
             // Page_Welcome
             // 
