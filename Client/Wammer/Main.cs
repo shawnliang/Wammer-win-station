@@ -1268,41 +1268,6 @@ namespace Waveface
             settings.Save();
         }
 
-        private void changeOwnerMenuItem_Click(object sender, EventArgs e)
-        {
-            DialogResult confirm = MessageBox.Show(I18n.L.T("Main.ChangeOwnerWarning", settings.Email), "Waveface",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (confirm == DialogResult.No)
-                return;
-
-            Cursor.Current = Cursors.WaitCursor;
-
-            try
-            {
-                SetLastReadPos();
-
-                WService.RemoveOwner(settings.Email, settings.Password, StationToken);
-
-                MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", settings.Email), "waveface");
-
-                settings.Email = settings.Password = StationToken = "";
-                settings.IsLoggedIn = false;
-
-                m_exitToLogin = true;
-                QuitOption = QuitOption.QuitProgram;
-                m_process401Exception = true;
-                Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(I18n.L.T("ChangeOwnerError") + " : " + ex, "waveface");
-            }
-            finally
-            {
-                Cursor.Current = Cursors.Default;
-            }
-        }
         #endregion
     }
 }
