@@ -118,32 +118,80 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 14</value>
+  <data name="lblUserNameTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 14</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>使用者名稱</value>
+  <data name="lblUserNameTitle.Text" xml:space="preserve">
+    <value>帳戶Email</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 14</value>
+  <data name="lblDeviceNameTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 14</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Station 名稱</value>
+  <data name="lblDeviceNameTitle.Text" xml:space="preserve">
+    <value>裝置名稱</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 14</value>
+  <data name="lblDropboxStorageAccountTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 14</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>雲端儲存使用量</value>
+  <data name="lblDropboxStorageAccountTitle.Text" xml:space="preserve">
+    <value>Dropbox 帳號</value>
   </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>114, 186</value>
+  <data name="btnUnlinkDropbox.Text" xml:space="preserve">
+    <value>解除連結</value>
   </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 14</value>
+  <data name="lblCloudUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 14</value>
   </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>(免費版: 250 張照片/月)</value>
+  <data name="lblCloudUsageTitle.Text" xml:space="preserve">
+    <value>本月傳輸使用量</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>主程式狀態</value>
+  </data>
+  <data name="btnTestConnection.Text" xml:space="preserve">
+    <value>測試Waveface 伺服器連線狀態</value>
+  </data>
+  <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 18</value>
+  </data>
+  <data name="checkBox_autoStartWaveface.Text" xml:space="preserve">
+    <value>開機時自動開啟Waveface</value>
+  </data>
+  <data name="lblLocalStorageUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 14</value>
+  </data>
+  <data name="lblLocalStorageUsageTitle.Text" xml:space="preserve">
+    <value>硬碟空間使用:</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>帳戶資訊</value>
+  </data>
+  <data name="label_notConnected.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 14</value>
+  </data>
+  <data name="label_notConnected.Text" xml:space="preserve">
+    <value>尚未連結</value>
+  </data>
+  <data name="btnConnectDropbox.Text" xml:space="preserve">
+    <value>立刻進行連結</value>
+  </data>
+  <data name="label_switchAccount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 14</value>
+  </data>
+  <data name="label_switchAccount.Text" xml:space="preserve">
+    <value>請點擊此處切換此電腦上的使用者帳號。</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>註: 切換使用者後，您上一個帳號內所有的原始檔案將無法被遠端存取。</value>
+  </data>
+  <data name="btnEditAccount.Text" xml:space="preserve">
+    <value>編輯帳戶資訊</value>
+  </data>
+  <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 14</value>
+  </data>
+  <data name="lblVersionTitle.Text" xml:space="preserve">
+    <value>版本</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Waveface 設定</value>

@@ -37,7 +37,6 @@
             this.lblDropboxStorageAccountTitle = new System.Windows.Forms.Label();
             this.btnUnlinkDropbox = new System.Windows.Forms.Button();
             this.lblCloudUsageTitle = new System.Windows.Forms.Label();
-            this.lblLimit = new System.Windows.Forms.Label();
             this.barCloudUsage = new System.Windows.Forms.ProgressBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.labelConnectionStatus = new System.Windows.Forms.Label();
@@ -46,6 +45,7 @@
             this.lblLocalStorageUsage = new System.Windows.Forms.Label();
             this.lblLocalStorageUsageTitle = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label_MonthlyLimit = new System.Windows.Forms.Label();
             this.panel_DropboxNotInUse = new System.Windows.Forms.Panel();
             this.label_notConnected = new System.Windows.Forms.Label();
             this.btnConnectDropbox = new System.Windows.Forms.Button();
@@ -55,14 +55,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblStartTime = new System.Windows.Forms.Label();
             this.lblCloudStorageLimit = new System.Windows.Forms.Label();
-            this.lblLimit2 = new System.Windows.Forms.Label();
-            this.lblLimit1 = new System.Windows.Forms.Label();
             this.btnEditAccount = new System.Windows.Forms.Button();
             this.lblVersionTitle = new System.Windows.Forms.Label();
             this.lblVersion = new System.Windows.Forms.Label();
             this.lblCopyRight = new System.Windows.Forms.Label();
             this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
             this.bgworkerGetAllData = new System.ComponentModel.BackgroundWorker();
+            this.label_UsageStarting = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel_DropboxNotInUse.SuspendLayout();
@@ -113,11 +112,6 @@
             resources.ApplyResources(this.lblCloudUsageTitle, "lblCloudUsageTitle");
             this.lblCloudUsageTitle.Name = "lblCloudUsageTitle";
             // 
-            // lblLimit
-            // 
-            resources.ApplyResources(this.lblLimit, "lblLimit");
-            this.lblLimit.Name = "lblLimit";
-            // 
             // barCloudUsage
             // 
             resources.ApplyResources(this.barCloudUsage, "barCloudUsage");
@@ -165,18 +159,17 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label_UsageStarting);
+            this.groupBox2.Controls.Add(this.label_MonthlyLimit);
             this.groupBox2.Controls.Add(this.panel_DropboxNotInUse);
             this.groupBox2.Controls.Add(this.label_switchAccount);
             this.groupBox2.Controls.Add(this.panel_DropboxInUse);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.lblStartTime);
             this.groupBox2.Controls.Add(this.lblCloudStorageLimit);
-            this.groupBox2.Controls.Add(this.lblLimit2);
-            this.groupBox2.Controls.Add(this.lblLimit1);
             this.groupBox2.Controls.Add(this.btnEditAccount);
             this.groupBox2.Controls.Add(this.lblCloudUsageTitle);
             this.groupBox2.Controls.Add(this.barCloudUsage);
-            this.groupBox2.Controls.Add(this.lblLimit);
             this.groupBox2.Controls.Add(this.lblUserNameTitle);
             this.groupBox2.Controls.Add(this.lblUserName);
             this.groupBox2.Controls.Add(this.lblDeviceNameTitle);
@@ -185,6 +178,11 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // label_MonthlyLimit
+            // 
+            resources.ApplyResources(this.label_MonthlyLimit, "label_MonthlyLimit");
+            this.label_MonthlyLimit.Name = "label_MonthlyLimit";
             // 
             // panel_DropboxNotInUse
             // 
@@ -239,16 +237,6 @@
             resources.ApplyResources(this.lblCloudStorageLimit, "lblCloudStorageLimit");
             this.lblCloudStorageLimit.Name = "lblCloudStorageLimit";
             // 
-            // lblLimit2
-            // 
-            resources.ApplyResources(this.lblLimit2, "lblLimit2");
-            this.lblLimit2.Name = "lblLimit2";
-            // 
-            // lblLimit1
-            // 
-            resources.ApplyResources(this.lblLimit1, "lblLimit1");
-            this.lblLimit1.Name = "lblLimit1";
-            // 
             // btnEditAccount
             // 
             resources.ApplyResources(this.btnEditAccount, "btnEditAccount");
@@ -282,6 +270,11 @@
             // 
             this.bgworkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerGetAllData_DoWork);
             this.bgworkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerGetAllData_RunWorkerCompleted);
+            // 
+            // label_UsageStarting
+            // 
+            resources.ApplyResources(this.label_UsageStarting, "label_UsageStarting");
+            this.label_UsageStarting.Name = "label_UsageStarting";
             // 
             // PreferenceForm
             // 
@@ -324,8 +317,7 @@
 		private System.Windows.Forms.Label lblDeviceName;
 		private System.Windows.Forms.Label lblDropboxStorageAccountTitle;
 		private System.Windows.Forms.Button btnUnlinkDropbox;
-		private System.Windows.Forms.Label lblCloudUsageTitle;
-		private System.Windows.Forms.Label lblLimit;
+        private System.Windows.Forms.Label lblCloudUsageTitle;
 		private System.Windows.Forms.ProgressBar barCloudUsage;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label lblLocalStorageUsageTitle;
@@ -336,9 +328,7 @@
 		private System.Windows.Forms.Button btnEditAccount;
 		private System.Windows.Forms.Label lblVersionTitle;
 		private System.Windows.Forms.Label lblVersion;
-		private System.Windows.Forms.Label lblCopyRight;
-		private System.Windows.Forms.Label lblLimit2;
-		private System.Windows.Forms.Label lblLimit1;
+        private System.Windows.Forms.Label lblCopyRight;
 		private System.Windows.Forms.Label lblStartTime;
         private System.Windows.Forms.Label lblCloudStorageLimit;
 		private System.Windows.Forms.Label label2;
@@ -351,5 +341,7 @@
         private System.Windows.Forms.Label label_notConnected;
         private System.Windows.Forms.LinkLabel label_switchAccount;
         private System.Windows.Forms.Label labelConnectionStatus;
+        private System.Windows.Forms.Label label_MonthlyLimit;
+        private System.Windows.Forms.Label label_UsageStarting;
     }
 }

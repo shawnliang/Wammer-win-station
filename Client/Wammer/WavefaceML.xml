@@ -14,12 +14,8 @@
 
   <WItem>
     <ID>Main.ChangeOwnerWarning</ID>
-    <en-US>Changeing Waveface Station user will cause {0} unable to access archived original image files.
-Proceed anyway?
-    </en-US>
-    <zh-TW>變更Station使用者後, {0} 將無法下載已保存的原始圖檔
-繼續執行嗎?
-    </zh-TW>
+    <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Waveface Station.</en-US>
+    <zh-TW>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</zh-TW>
   </WItem>
 
   <WItem>
@@ -56,16 +52,26 @@ Please restart the program to initialize Waveface Station.</en-US>
   <WItem>
     <ID>Connected</ID>
     <en-US>Connected</en-US>
-    <zh-TW>連線成功</zh-TW>
+    <zh-TW>連線正常</zh-TW>
   </WItem>
   <WItem>
     <ID>NotConnected</ID>
     <en-US>Not connected</en-US>
-    <zh-TW>連線失敗</zh-TW>
+    <zh-TW>未連線</zh-TW>
   </WItem>
   <WItem>
     <ID>Testing</ID>
     <en-US>Testing ...</en-US>
     <zh-TW>測試中 ...</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>MonthlyUsage_Limit</ID>
+    <en-US>Limit: {0} high resolution photos per month.</en-US>
+    <zh-TW>上限: 每月{0}張高解析照片</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>MonthlyUsage_Starting</ID>
+    <en-US>Starting at {0}</en-US>
+    <zh-TW>開始統計日期:{0}</zh-TW>
   </WItem>
 </WItems>

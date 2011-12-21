@@ -114,8 +114,8 @@ namespace Waveface.SettingUI
             }
             else
             {
-                this.lblCloudStorageLimit.Text = storage.quota.ToString();
-                this.lblStartTime.Text = storage.startTime.ToLocalTime().ToString();
+                this.label_MonthlyLimit.Text = I18n.L.T("MonthlyUsage_Limit", storage.quota);
+                this.label_UsageStarting.Text = I18n.L.T("MonthlyUsage_Starting", storage.startTime.ToLocalTime());
                 this.barCloudUsage.Value = (int)(storage.usage * 100 / storage.quota);
             }
         }
@@ -286,10 +286,11 @@ namespace Waveface.SettingUI
             connectionTester.Start();
         }
 
-		private void linkLegalNotice_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			Process.Start(WService.WebURL + "/page/privacy", null);
-		}
+        private void linkLegalNotice_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(WService.WebURL + "/page/privacy", null);
+        }
+
         private void PreferenceForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             connectionTester.Stop();
