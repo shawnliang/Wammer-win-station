@@ -2,13 +2,14 @@
 using System.Windows.Forms;
 using System.ComponentModel;
 using NLog;
+using System.IO;
 
 using Waveface.API.V2;
 using NLog;
 using System.Diagnostics;
 using System.Threading;
 using System.Web;
-
+using System.Reflection;
 
 namespace Waveface.SettingUI
 {
@@ -41,6 +42,9 @@ namespace Waveface.SettingUI
 			}
 			this.lblLocalStorageUsage.Text = string.Format("{0:0.0} MB", usedSize / (1024 * 1024));
 			this.lblDeviceName.Text = stationStatus.station_status.computer_name;
+			string execPath = Assembly.GetExecutingAssembly().Location;
+			FileVersionInfo version = FileVersionInfo.GetVersionInfo(execPath);
+			this.lblVersion.Text = version.FileVersion.ToString();
             LoadDropboxUI();
 			bgworkerGetAllData.RunWorkerAsync(Main.Current.RT.Login.session_token);
         }
