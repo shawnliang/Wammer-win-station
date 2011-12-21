@@ -90,7 +90,7 @@ namespace Waveface.SettingUI
 			else
 			{
 				this.lblCloudStorageLimit.Text = storage.quota.ToString();
-				this.lblStartTime.Text = storage.startTime.ToString();
+				this.lblStartTime.Text = storage.startTime.ToLocalTime().ToString();
 				this.barCloudUsage.Value = (int)(storage.usage * 100 / storage.quota);
 			}
 		}
