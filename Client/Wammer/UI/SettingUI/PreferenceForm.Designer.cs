@@ -245,6 +245,7 @@
 			resources.ApplyResources(this.btnEditAccount, "btnEditAccount");
 			this.btnEditAccount.Name = "btnEditAccount";
 			this.btnEditAccount.UseVisualStyleBackColor = true;
+			this.btnEditAccount.Click += new System.EventHandler(this.btnEditAccount_Click);
 			// 
 			// lblVersionTitle
 			// 
