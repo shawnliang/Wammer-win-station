@@ -265,6 +265,11 @@ namespace Waveface.SettingUI
 			string userProfileUrl = WService.WebURL + "/user/profile";
 			Process.Start(WService.WebURL + "/login?cont=" + HttpUtility.UrlEncode(userProfileUrl), null);
 		}
+
+		private void linkLegalNotice_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Process.Start(WService.WebURL + "/page/privacy", null);
+		}
     }
 
 	public class StorageUsage

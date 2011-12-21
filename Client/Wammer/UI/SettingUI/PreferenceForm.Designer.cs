@@ -1,4 +1,4 @@
-namespace Waveface.SettingUI
+﻿namespace Waveface.SettingUI
 {
     partial class PreferenceForm
     {
@@ -41,7 +41,7 @@ namespace Waveface.SettingUI
 			this.barCloudUsage = new System.Windows.Forms.ProgressBar();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.button2 = new System.Windows.Forms.Button();
-            this.checkBox_autoStartWaveface = new System.Windows.Forms.CheckBox();
+			this.checkBox_autoStartWaveface = new System.Windows.Forms.CheckBox();
 			this.lblLocalStorageUsage = new System.Windows.Forms.Label();
 			this.lblLocalStorageUsageTitle = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -125,7 +125,7 @@ namespace Waveface.SettingUI
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.checkBox_autoStartWaveface);
+			this.groupBox1.Controls.Add(this.checkBox_autoStartWaveface);
 			this.groupBox1.Controls.Add(this.lblLocalStorageUsage);
 			this.groupBox1.Controls.Add(this.lblLocalStorageUsageTitle);
 			resources.ApplyResources(this.groupBox1, "groupBox1");
@@ -138,12 +138,12 @@ namespace Waveface.SettingUI
 			this.button2.Name = "button2";
 			this.button2.UseVisualStyleBackColor = true;
 			// 
-            // checkBox_autoStartWaveface
+			// checkBox_autoStartWaveface
 			// 
-            resources.ApplyResources(this.checkBox_autoStartWaveface, "checkBox_autoStartWaveface");
-            this.checkBox_autoStartWaveface.Name = "checkBox_autoStartWaveface";
-            this.checkBox_autoStartWaveface.UseVisualStyleBackColor = true;
-            this.checkBox_autoStartWaveface.Click += new System.EventHandler(this.checkBox_autoStartWaveface_Click);
+			resources.ApplyResources(this.checkBox_autoStartWaveface, "checkBox_autoStartWaveface");
+			this.checkBox_autoStartWaveface.Name = "checkBox_autoStartWaveface";
+			this.checkBox_autoStartWaveface.UseVisualStyleBackColor = true;
+			this.checkBox_autoStartWaveface.Click += new System.EventHandler(this.checkBox_autoStartWaveface_Click);
 			// 
 			// lblLocalStorageUsage
 			// 
@@ -268,6 +268,7 @@ namespace Waveface.SettingUI
 			resources.ApplyResources(this.linkLegalNotice, "linkLegalNotice");
 			this.linkLegalNotice.Name = "linkLegalNotice";
 			this.linkLegalNotice.TabStop = true;
+			this.linkLegalNotice.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLegalNotice_LinkClicked);
 			// 
 			// bgworkerGetAllData
 			// 
