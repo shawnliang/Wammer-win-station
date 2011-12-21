@@ -107,60 +107,60 @@ namespace Waveface.API.V2
         public string name { get; set; }
         public string description { get; set; }
     }
-	
-	public class WFStorageUsage
-	{
-		public long dropbox_objects { get; set; }
-		public long origin_sizes { get; set; }
-		public long total_objects { get; set; }
-		public long month_total_objects { get; set; }
-		public long origin_files { get; set; }
-		public long month_doc_objects { get; set; }
-		public long doc_objects { get; set; }
-		public long meta_files { get; set; }
-		public long meta_sizes { get; set; }
-		public long total_files { get; set; }
-		public long month_image_objects { get; set; }
-		public long image_objects { get; set; }
-		public long total_sizes { get; set; }
-	}
+    
+    public class WFStorageUsage
+    {
+        public long dropbox_objects { get; set; }
+        public long origin_sizes { get; set; }
+        public long total_objects { get; set; }
+        public long month_total_objects { get; set; }
+        public long origin_files { get; set; }
+        public long month_doc_objects { get; set; }
+        public long doc_objects { get; set; }
+        public long meta_files { get; set; }
+        public long meta_sizes { get; set; }
+        public long total_files { get; set; }
+        public long month_image_objects { get; set; }
+        public long image_objects { get; set; }
+        public long total_sizes { get; set; }
+    }
 
-	public class WFStorageAvailable
-	{
+    public class WFStorageAvailable
+    {
         public long avail_month_image_objects { get; set; }
         public long avail_month_total_objects { get; set; }
         public long avail_month_doc_objects { get; set; }
-	}
+    }
 
-	public class WFStorageQuota
-	{
-		public long dropbox_objects { get; set; }
-		public long origin_sizes { get; set; }
-		public long total_objects { get; set; }
-		public long month_total_objects { get; set; }
-		public long origin_files { get; set; }
-		public long month_doc_objects { get; set; }
-		public long meta_files { get; set; }
-		public long meta_sizes { get; set; }
-		public long total_files { get; set; }
-		public long month_image_objects { get; set; }
-		public long image_objects { get; set; }
-		public long total_sizes { get; set; }
-	}
+    public class WFStorageQuota
+    {
+        public long dropbox_objects { get; set; }
+        public long origin_sizes { get; set; }
+        public long total_objects { get; set; }
+        public long month_total_objects { get; set; }
+        public long origin_files { get; set; }
+        public long month_doc_objects { get; set; }
+        public long meta_files { get; set; }
+        public long meta_sizes { get; set; }
+        public long total_files { get; set; }
+        public long month_image_objects { get; set; }
+        public long image_objects { get; set; }
+        public long total_sizes { get; set; }
+    }
 
-	public class WFStorage
-	{
-		public WFStorageUsage usage;
-		public WFStorageAvailable available;
-		public WFStorageQuota quota;
-		public long quota_starting_time;
-		public bool over_quota;
-	}
+    public class WFStorage
+    {
+        public WFStorageUsage usage;
+        public WFStorageAvailable available;
+        public WFStorageQuota quota;
+        public long quota_starting_time;
+        public bool over_quota;
+    }
 
-	public class Storages
-	{
-		public WFStorage waveface;
-	}
+    public class Storages
+    {
+        public WFStorage waveface;
+    }
 
     public class DiskUsage
     {
@@ -178,32 +178,34 @@ namespace Waveface.API.V2
         public string location { get; set; }
         public List<DiskUsage> diskusage { get; set; }
         public string status { get; set; }
+        public string accessible { get; set; }
+        public int last_ping { get; set; }
     }
 
-	public class CloudStorage
-	{
-		public string type { get; set; }
-		public bool connected { get; set; }
-		public long quota { get; set; }
-		public long used { get; set; }
+    public class CloudStorage
+    {
+        public string type { get; set; }
+        public bool connected { get; set; }
+        public long quota { get; set; }
+        public long used { get; set; }
         public string account { get; set; }
-	}
+    }
 
-	public class StationDetail
-	{
-		public string location { get; set; }
-		public List<DiskUsage> diskusage { get; set; }
-		public UPnPInfo upnp { get; set; }
-		public string computer_name { get; set; }
-		public string version { get; set; }
-	}
+    public class StationDetail
+    {
+        public string location { get; set; }
+        public List<DiskUsage> diskusage { get; set; }
+        public UPnPInfo upnp { get; set; }
+        public string computer_name { get; set; }
+        public string version { get; set; }
+    }
 
-	public class UPnPInfo
-	{
-		public bool status { get; set; }
-		public string public_addr { get; set; }
-		public int public_port { get; set; }
-	}
+    public class UPnPInfo
+    {
+        public bool status { get; set; }
+        public string public_addr { get; set; }
+        public int public_port { get; set; }
+    }
 
     public class Preview_OpenGraph
     {
@@ -358,6 +360,7 @@ namespace Waveface.API.V2
     {
         public User user { get; set; }
         public List<Group> groups { get; set; }
+        public List<Station> stations { get; set; }
     }
 
     public class MR_users_update : General_R
@@ -556,47 +559,47 @@ namespace Waveface.API.V2
 
     #endregion
 
-	#region MR_storages
+    #region MR_storages
 
-	public class MR_storages_usage : General_R
-	{
-		public Storages storages { get; set; }
-	}
+    public class MR_storages_usage : General_R
+    {
+        public Storages storages { get; set; }
+    }
 
-	#endregion
+    #endregion
 
-	#region MR_cloudstorage
+    #region MR_cloudstorage
 
-	public class MR_cloudstorage_list : General_R
-	{
-		public List<CloudStorage> cloudstorages { get; set; }
-	}
+    public class MR_cloudstorage_list : General_R
+    {
+        public List<CloudStorage> cloudstorages { get; set; }
+    }
 
-	public class MR_cloudstorage_dropbox_oauth : General_R
-	{
-		public string oauth_url { get; set; }
-	}
+    public class MR_cloudstorage_dropbox_oauth : General_R
+    {
+        public string oauth_url { get; set; }
+    }
 
-	public class MR_cloudstorage_dropbox_connect : General_R
-	{
-	}
+    public class MR_cloudstorage_dropbox_connect : General_R
+    {
+    }
 
-	public class MR_cloudstorage_dropbox_update : General_R
-	{
-	}
+    public class MR_cloudstorage_dropbox_update : General_R
+    {
+    }
 
-	public class MR_cloudstorage_dropbox_disconnect : General_R
-	{
-	}
+    public class MR_cloudstorage_dropbox_disconnect : General_R
+    {
+    }
 
-	#endregion
+    #endregion
 
-	#region MR_station
+    #region MR_station
 
-	public class MR_station_status : General_R
-	{
-		public StationDetail station_status { get; set; }
-	}
+    public class MR_station_status : General_R
+    {
+        public StationDetail station_status { get; set; }
+    }
 
-	#endregion
+    #endregion
 }
