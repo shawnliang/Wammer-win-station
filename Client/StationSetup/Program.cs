@@ -9,17 +9,17 @@ using Waveface.Localization;
 
 namespace StationSetup
 {
-	static class Program
-	{
-		[STAThread]
-		static void Main(string[] args)
-		{
-			CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
-			//CultureManager.ApplicationUICulture = new CultureInfo("en-US");
-			//CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+    static class Program
+    {
+        [STAThread]
+        static void Main(string[] args)
+        {
+            CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
+            //CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+            //CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
 
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
             Form form = null;
 
@@ -39,37 +39,39 @@ namespace StationSetup
             }
 
             Application.Run(form);
-		}
-	}
+        }
+    }
 
-	public class WavefaceWindowsClientHelper
-	{
-		public static bool IsAlreadyResistered()
-		{
-			return Wammer.Station.Management.StationController.GetOwner() != null;
-		}
+    public class WavefaceWindowsClientHelper
+    {
+        public static bool IsAlreadyResistered()
+        {
+            return Wammer.Station.Management.StationController.GetOwner() != null;
+        }
 
-		public static void StartWavefaceWindowsClient(string email, string password, string token)
-		{
-			string ProgramDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			string WavefaceWindowsClientPath = Path.Combine(ProgramDir, "WavefaceWindowsClient.exe");
+        public static void StartWavefaceWindowsClient(string email, string password, string token)
+        {
+            string ProgramDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string WavefaceWindowsClientPath = Path.Combine(ProgramDir, "WavefaceWindowsClient.exe");
 
-			try
-			{
-				if ((email == string.Empty) || (password == string.Empty))
-				{
-					Process.Start(WavefaceWindowsClientPath, null);
-				}
-				else
-				{
-					Process.Start(WavefaceWindowsClientPath, email + " " + password + " " + token);
-				}
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show("Unable to start Waveface Windows Client: " + e.Message, "Waveface",
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-		}
-	}
+            try
+            {
+                if ((email == string.Empty) || (password == string.Empty))
+                {
+                    Process p = Process.Start(WavefaceWindowsClientPath, null);
+                    p.Close();
+                }
+                else
+                {
+                    Process p = Process.Start(WavefaceWindowsClientPath, email + " " + password + " " + token);
+                    p.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Unable to start Waveface Windows Client: " + e.Message, "Waveface",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
 }
