@@ -121,7 +121,7 @@ namespace Waveface
             this.multiPanel.Location = new System.Drawing.Point(0, 0);
             this.multiPanel.Name = "multiPanel";
             this.multiPanel.SelectedPage = this.Page_P_D_W;
-            this.multiPanel.Size = new System.Drawing.Size(624, 232);
+            this.multiPanel.Size = new System.Drawing.Size(574, 232);
             this.multiPanel.TabIndex = 7;
             // 
             // Page_RichText
@@ -197,7 +197,7 @@ namespace Waveface
             this.Page_P_D_W.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Page_P_D_W.Location = new System.Drawing.Point(0, 0);
             this.Page_P_D_W.Name = "Page_P_D_W";
-            this.Page_P_D_W.Size = new System.Drawing.Size(624, 232);
+            this.Page_P_D_W.Size = new System.Drawing.Size(574, 232);
             this.Page_P_D_W.TabIndex = 1;
             this.Page_P_D_W.Text = "Page_P_D_W";
             // 
@@ -207,7 +207,7 @@ namespace Waveface
             this.panelPWD_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPWD_Main.Location = new System.Drawing.Point(0, 232);
             this.panelPWD_Main.Name = "panelPWD_Main";
-            this.panelPWD_Main.Size = new System.Drawing.Size(624, 0);
+            this.panelPWD_Main.Size = new System.Drawing.Size(574, 0);
             this.panelPWD_Main.TabIndex = 14;
             // 
             // multiPanel_P_D_W
@@ -219,7 +219,7 @@ namespace Waveface
             this.multiPanel_P_D_W.Location = new System.Drawing.Point(0, 0);
             this.multiPanel_P_D_W.Name = "multiPanel_P_D_W";
             this.multiPanel_P_D_W.SelectedPage = this.Page__Link;
-            this.multiPanel_P_D_W.Size = new System.Drawing.Size(624, 0);
+            this.multiPanel_P_D_W.Size = new System.Drawing.Size(574, 0);
             this.multiPanel_P_D_W.TabIndex = 7;
             // 
             // Page__Link
@@ -228,7 +228,7 @@ namespace Waveface
             this.Page__Link.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Page__Link.Location = new System.Drawing.Point(0, 0);
             this.Page__Link.Name = "Page__Link";
-            this.Page__Link.Size = new System.Drawing.Size(624, 0);
+            this.Page__Link.Size = new System.Drawing.Size(574, 0);
             this.Page__Link.TabIndex = 0;
             this.Page__Link.Text = "Page_Link";
             // 
@@ -240,7 +240,7 @@ namespace Waveface
             this.general_weblink_UI.MinimumSize = new System.Drawing.Size(500, 130);
             this.general_weblink_UI.MyParent = null;
             this.general_weblink_UI.Name = "general_weblink_UI";
-            this.general_weblink_UI.Size = new System.Drawing.Size(624, 130);
+            this.general_weblink_UI.Size = new System.Drawing.Size(574, 130);
             this.general_weblink_UI.TabIndex = 0;
             // 
             // Page__Photo
@@ -297,7 +297,7 @@ namespace Waveface
             this.panelMiddleBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelMiddleBar.Location = new System.Drawing.Point(0, 163);
             this.panelMiddleBar.Name = "panelMiddleBar";
-            this.panelMiddleBar.Size = new System.Drawing.Size(624, 69);
+            this.panelMiddleBar.Size = new System.Drawing.Size(574, 69);
             this.panelMiddleBar.TabIndex = 13;
             // 
             // panelToolbar
@@ -309,7 +309,7 @@ namespace Waveface
             this.panelToolbar.Controls.Add(this.btnAddDoc);
             this.panelToolbar.Location = new System.Drawing.Point(8, 0);
             this.panelToolbar.Name = "panelToolbar";
-            this.panelToolbar.Size = new System.Drawing.Size(608, 31);
+            this.panelToolbar.Size = new System.Drawing.Size(558, 31);
             this.panelToolbar.TabIndex = 14;
             // 
             // btnAddPhoto
@@ -349,7 +349,7 @@ namespace Waveface
             this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSend.Location = new System.Drawing.Point(543, 36);
+            this.btnSend.Location = new System.Drawing.Point(493, 36);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(74, 28);
             this.btnSend.TabIndex = 11;
@@ -365,7 +365,7 @@ namespace Waveface
             this.panelText.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelText.Location = new System.Drawing.Point(0, 0);
             this.panelText.Name = "panelText";
-            this.panelText.Size = new System.Drawing.Size(624, 163);
+            this.panelText.Size = new System.Drawing.Size(574, 163);
             this.panelText.TabIndex = 12;
             // 
             // buttonRichText
@@ -377,7 +377,7 @@ namespace Waveface
             this.buttonRichText.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.buttonRichText.Image = global::Waveface.Properties.Resources.content;
             this.buttonRichText.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonRichText.Location = new System.Drawing.Point(590, 6);
+            this.buttonRichText.Location = new System.Drawing.Point(540, 6);
             this.buttonRichText.Name = "buttonRichText";
             this.buttonRichText.Size = new System.Drawing.Size(26, 26);
             this.buttonRichText.TabIndex = 8;
@@ -392,10 +392,11 @@ namespace Waveface
             this.richTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox.ContextMenuStrip = this.contextMenuStripEdit;
+            this.richTextBox.DetectUrls = false;
             this.richTextBox.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.richTextBox.Location = new System.Drawing.Point(8, 12);
             this.richTextBox.Name = "richTextBox";
-            this.richTextBox.Size = new System.Drawing.Size(609, 145);
+            this.richTextBox.Size = new System.Drawing.Size(559, 145);
             this.richTextBox.TabIndex = 6;
             this.richTextBox.Text = "";
             this.richTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
@@ -406,14 +407,14 @@ namespace Waveface
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 232);
+            this.ClientSize = new System.Drawing.Size(574, 232);
             this.Controls.Add(this.multiPanel);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(540, 260);
+            this.MinimumSize = new System.Drawing.Size(580, 260);
             this.Name = "PostForm";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
