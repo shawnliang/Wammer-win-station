@@ -197,16 +197,20 @@
   <data name="btn_Linkage_1_Connect.Text" xml:space="preserve">
     <value>連結</value>
   </data>
+  <data name="lb_InstallDropbox_1_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>363, 161</value>
+  </data>
   <data name="lb_InstallDropbox_1_2.Text" xml:space="preserve">
-    <value>您稍後可以從設定中啟動連結Waveface與Dropbox的動作，或直接點擊下方"重新設定"，再次嘗試一遍。
+    <value>請先安裝Dropbox才能繼續下一步驟。
 
-Waveface已成功安裝。
-
-立刻享受Waveface的所有便利功能，開始連結您生活中的每一個片段。
+按一下"安裝 Dropbox"按鈕開啟瀏覽器，您可以從網頁上安裝Dropbox。
 </value>
   </data>
+  <data name="lb_InstallDropbox_1_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>364, 39</value>
+  </data>
   <data name="lb_InstallDropbox_1_1.Text" xml:space="preserve">
-    <value>感謝您! Waveface順利完成安裝。</value>
+    <value>安裝Dropbox</value>
   </data>
   <data name="btn_InstallDropbox_1_Install.Location" type="System.Drawing.Point, System.Drawing">
     <value>381, 263</value>
