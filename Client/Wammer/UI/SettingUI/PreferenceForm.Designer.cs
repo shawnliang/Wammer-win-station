@@ -1,4 +1,4 @@
-﻿namespace Waveface.SettingUI
+namespace Waveface.SettingUI
 {
     partial class PreferenceForm
     {
@@ -121,7 +121,6 @@
             // 
             resources.ApplyResources(this.barCloudUsage, "barCloudUsage");
             this.barCloudUsage.Name = "barCloudUsage";
-            this.barCloudUsage.Value = 69;
             // 
             // groupBox1
             // 

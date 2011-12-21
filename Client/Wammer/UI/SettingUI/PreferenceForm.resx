@@ -706,13 +706,10 @@
     <value>237, 237</value>
   </data>
   <data name="lblStartTime.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 14</value>
+    <value>0, 14</value>
   </data>
   <data name="lblStartTime.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
-  </data>
-  <data name="lblStartTime.Text" xml:space="preserve">
-    <value>2011/11/20 09:30 AM</value>
   </data>
   <data name="&gt;&gt;lblStartTime.Name" xml:space="preserve">
     <value>lblStartTime</value>
@@ -733,13 +730,10 @@
     <value>42, 237</value>
   </data>
   <data name="lblCloudStorageLimit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>28, 14</value>
+    <value>0, 14</value>
   </data>
   <data name="lblCloudStorageLimit.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
-  </data>
-  <data name="lblCloudStorageLimit.Text" xml:space="preserve">
-    <value>250</value>
   </data>
   <data name="&gt;&gt;lblCloudStorageLimit.Name" xml:space="preserve">
     <value>lblCloudStorageLimit</value>
