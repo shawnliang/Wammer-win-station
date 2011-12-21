@@ -7,6 +7,7 @@ using Waveface.API.V2;
 using NLog;
 using System.Diagnostics;
 using System.Threading;
+using System.Web;
 
 
 namespace Waveface.SettingUI
@@ -18,10 +19,13 @@ namespace Waveface.SettingUI
         private string stationToken;
         private WService wavefaceService;
 
+        public bool IsUserSwitched { get; private set; }
+
         public PreferenceForm(string stationToken, WService wavefaceService)
         {
             this.stationToken = stationToken;
             this.wavefaceService = wavefaceService;
+            this.IsUserSwitched = false;
 
             InitializeComponent();
         }
@@ -55,7 +59,7 @@ namespace Waveface.SettingUI
                 else
                 {
                     ShowDropboxPanel(false);
-        }
+                }
             }
             catch (Exception e)
             {
@@ -87,7 +91,7 @@ namespace Waveface.SettingUI
 			else
 			{
 				this.lblCloudStorageLimit.Text = storage.quota.ToString();
-				this.lblStartTime.Text = storage.startTime.ToString();
+				this.lblStartTime.Text = storage.startTime.ToLocalTime().ToString();
 				this.barCloudUsage.Value = (int)(storage.usage * 100 / storage.quota);
 			}
 		}
@@ -131,8 +135,16 @@ namespace Waveface.SettingUI
 
         private void ShowDropboxPanel(bool dropboxInUse)
         {
-            panel_DropboxInUse.Visible = dropboxInUse;
-            panel_DropboxNotInUse.Visible = !dropboxInUse;
+            if (dropboxInUse)
+            {
+                panel_DropboxInUse.Show();
+                panel_DropboxNotInUse.Hide();
+            }
+            else
+            {
+                panel_DropboxInUse.Hide();
+                panel_DropboxNotInUse.Show();
+            }
         }
 
         private void btnConnectDropbox_Click(object sender, EventArgs e)
@@ -169,6 +181,47 @@ namespace Waveface.SettingUI
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
         }
+
+        private void label_switchAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            DialogResult confirm = MessageBox.Show(I18n.L.T("Main.ChangeOwnerWarning", lblUserName.Text), "Waveface",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirm == DialogResult.No)
+                return;
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            try
+            {
+                ProgramSetting settings = new ProgramSetting();
+
+                WService.RemoveOwner(settings.Email, settings.Password, stationToken);
+
+                MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", settings.Email), "waveface");
+
+                settings.Email = settings.Password = "";
+                settings.IsLoggedIn = false;
+                settings.Save();
+
+                IsUserSwitched = true;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(I18n.L.T("ChangeOwnerError") + " : " + ex, "waveface");
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+		private void btnEditAccount_Click(object sender, EventArgs e)
+		{
+			string userProfileUrl = WService.WebURL + "/user/profile";
+			Process.Start(WService.WebURL + "/login?cont=" + HttpUtility.UrlEncode(userProfileUrl), null);
+		}
     }
 
 	public class StorageUsage

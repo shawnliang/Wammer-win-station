@@ -46,17 +46,17 @@
 			this.lblLocalStorageUsageTitle = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.panel_DropboxNotInUse = new System.Windows.Forms.Panel();
+			this.label_notConnected = new System.Windows.Forms.Label();
 			this.btnConnectDropbox = new System.Windows.Forms.Button();
+			this.label_switchAccount = new System.Windows.Forms.LinkLabel();
 			this.panel_DropboxInUse = new System.Windows.Forms.Panel();
 			this.label_dropboxAccount = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.lblStartTime = new System.Windows.Forms.Label();
 			this.lblCloudStorageLimit = new System.Windows.Forms.Label();
 			this.lblLimit2 = new System.Windows.Forms.Label();
 			this.lblLimit1 = new System.Windows.Forms.Label();
 			this.btnEditAccount = new System.Windows.Forms.Button();
-			this.lblSwitchAccount = new System.Windows.Forms.Label();
 			this.lblVersionTitle = new System.Windows.Forms.Label();
 			this.lblVersion = new System.Windows.Forms.Label();
 			this.lblCopyRight = new System.Windows.Forms.Label();
@@ -121,7 +121,6 @@
 			// 
 			resources.ApplyResources(this.barCloudUsage, "barCloudUsage");
 			this.barCloudUsage.Name = "barCloudUsage";
-			this.barCloudUsage.Value = 69;
 			// 
 			// groupBox1
 			// 
@@ -158,8 +157,8 @@
 			// groupBox2
 			// 
 			this.groupBox2.Controls.Add(this.panel_DropboxNotInUse);
+			this.groupBox2.Controls.Add(this.label_switchAccount);
 			this.groupBox2.Controls.Add(this.panel_DropboxInUse);
-			this.groupBox2.Controls.Add(this.label1);
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Controls.Add(this.lblStartTime);
 			this.groupBox2.Controls.Add(this.lblCloudStorageLimit);
@@ -168,7 +167,6 @@
 			this.groupBox2.Controls.Add(this.btnEditAccount);
 			this.groupBox2.Controls.Add(this.lblCloudUsageTitle);
 			this.groupBox2.Controls.Add(this.barCloudUsage);
-			this.groupBox2.Controls.Add(this.lblSwitchAccount);
 			this.groupBox2.Controls.Add(this.lblLimit);
 			this.groupBox2.Controls.Add(this.lblUserNameTitle);
 			this.groupBox2.Controls.Add(this.lblUserName);
@@ -181,9 +179,15 @@
 			// 
 			// panel_DropboxNotInUse
 			// 
+			this.panel_DropboxNotInUse.Controls.Add(this.label_notConnected);
 			this.panel_DropboxNotInUse.Controls.Add(this.btnConnectDropbox);
 			resources.ApplyResources(this.panel_DropboxNotInUse, "panel_DropboxNotInUse");
 			this.panel_DropboxNotInUse.Name = "panel_DropboxNotInUse";
+			// 
+			// label_notConnected
+			// 
+			resources.ApplyResources(this.label_notConnected, "label_notConnected");
+			this.label_notConnected.Name = "label_notConnected";
 			// 
 			// btnConnectDropbox
 			// 
@@ -191,6 +195,13 @@
 			this.btnConnectDropbox.Name = "btnConnectDropbox";
 			this.btnConnectDropbox.UseVisualStyleBackColor = true;
 			this.btnConnectDropbox.Click += new System.EventHandler(this.btnConnectDropbox_Click);
+			// 
+			// label_switchAccount
+			// 
+			resources.ApplyResources(this.label_switchAccount, "label_switchAccount");
+			this.label_switchAccount.Name = "label_switchAccount";
+			this.label_switchAccount.TabStop = true;
+			this.label_switchAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.label_switchAccount_LinkClicked);
 			// 
 			// panel_DropboxInUse
 			// 
@@ -203,11 +214,6 @@
 			// 
 			resources.ApplyResources(this.label_dropboxAccount, "label_dropboxAccount");
 			this.label_dropboxAccount.Name = "label_dropboxAccount";
-			// 
-			// label1
-			// 
-			resources.ApplyResources(this.label1, "label1");
-			this.label1.Name = "label1";
 			// 
 			// label2
 			// 
@@ -239,11 +245,7 @@
 			resources.ApplyResources(this.btnEditAccount, "btnEditAccount");
 			this.btnEditAccount.Name = "btnEditAccount";
 			this.btnEditAccount.UseVisualStyleBackColor = true;
-			// 
-			// lblSwitchAccount
-			// 
-			resources.ApplyResources(this.lblSwitchAccount, "lblSwitchAccount");
-			this.lblSwitchAccount.Name = "lblSwitchAccount";
+			this.btnEditAccount.Click += new System.EventHandler(this.btnEditAccount_Click);
 			// 
 			// lblVersionTitle
 			// 
@@ -269,6 +271,7 @@
 			// bgworkerGetAllData
 			// 
 			this.bgworkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerGetAllData_DoWork);
+			this.bgworkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerGetAllData_RunWorkerCompleted);
 			// 
 			// PreferenceForm
 			// 
@@ -293,6 +296,7 @@
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.panel_DropboxNotInUse.ResumeLayout(false);
+			this.panel_DropboxNotInUse.PerformLayout();
 			this.panel_DropboxInUse.ResumeLayout(false);
 			this.panel_DropboxInUse.PerformLayout();
 			this.ResumeLayout(false);
@@ -317,8 +321,7 @@
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.CheckBox checkBox1;
 		private System.Windows.Forms.Label lblLocalStorageUsage;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Label lblSwitchAccount;
+        private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.Button btnEditAccount;
 		private System.Windows.Forms.Label lblVersionTitle;
 		private System.Windows.Forms.Label lblVersion;
@@ -326,8 +329,7 @@
 		private System.Windows.Forms.Label lblLimit2;
 		private System.Windows.Forms.Label lblLimit1;
 		private System.Windows.Forms.Label lblStartTime;
-		private System.Windows.Forms.Label lblCloudStorageLimit;
-		private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblCloudStorageLimit;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.LinkLabel linkLegalNotice;
 		private System.ComponentModel.BackgroundWorker bgworkerGetAllData;
@@ -335,5 +337,7 @@
         private System.Windows.Forms.Label label_dropboxAccount;
         private System.Windows.Forms.Panel panel_DropboxNotInUse;
         private System.Windows.Forms.Button btnConnectDropbox;
+        private System.Windows.Forms.Label label_notConnected;
+        private System.Windows.Forms.LinkLabel label_switchAccount;
     }
 }

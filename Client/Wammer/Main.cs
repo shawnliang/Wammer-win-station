@@ -290,6 +290,19 @@ namespace Waveface
         {
             PreferenceForm _form = new PreferenceForm(StationToken, RT.REST.Service);
             _form.ShowDialog();
+
+
+            if (_form.IsUserSwitched)
+            {
+                m_exitToLogin = true;
+                QuitOption = QuitOption.QuitProgram;
+                m_process401Exception = true;
+
+                System.Diagnostics.Process p = System.Diagnostics.Process.Start("StationSetup.exe");
+                p.Close();
+
+                Close();
+            }
         }
 
         private void OnMenuExitClick(object sender, EventArgs e)
