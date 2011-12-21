@@ -11,7 +11,7 @@ using NLog;
 using Newtonsoft.Json;
 using Spring.Http.Converters;
 using Spring.Rest.Client;
-
+using Microsoft.Win32;
 #endregion
 
 namespace Waveface.API.V2
@@ -25,6 +25,16 @@ namespace Waveface.API.V2
         public static string WebURL = "http://develop.waveface.com:4343";
 
         private RestTemplate m_rest;
+
+        static WService()
+        {
+            string cloudURL = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "cloudBaseURL", null);
+            if (cloudURL == null)
+                return;
+
+            Uri url = new Uri(cloudURL);
+            CloudIP = url.Scheme + "://" + url.Host;
+        }
 
         public static string HostIP
         {
