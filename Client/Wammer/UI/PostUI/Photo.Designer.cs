@@ -32,6 +32,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo));
             this.panel = new System.Windows.Forms.Panel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
+            this.columnContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.sortByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.sortAscendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortDescendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.removeAllToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.addToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -46,19 +51,14 @@
             this.toolStripComboBoxResize = new System.Windows.Forms.ToolStripComboBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.panelToolbar = new System.Windows.Forms.Panel();
-            this.columnContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.sortByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-            this.sortAscendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortDescendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnDeletePhoto = new Waveface.Component.XPButton();
             this.btnAddPhoto = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
             this.btnBatchPost = new Waveface.Component.XPButton();
             this.panel.SuspendLayout();
+            this.columnContextMenu.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.panelToolbar.SuspendLayout();
-            this.columnContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel
@@ -97,6 +97,44 @@
             this.imageListView.TabIndex = 2;
             this.imageListView.ThumbnailSize = new System.Drawing.Size(120, 120);
             this.imageListView.ItemCollectionChanged += new Manina.Windows.Forms.ItemCollectionChangedEventHandler(this.imageListView_ItemCollectionChanged);
+            // 
+            // columnContextMenu
+            // 
+            this.columnContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sortByToolStripMenuItem});
+            this.columnContextMenu.Name = "columnContextMenu";
+            this.columnContextMenu.Size = new System.Drawing.Size(116, 26);
+            this.columnContextMenu.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.columnContextMenu_Closing);
+            this.columnContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.columnContextMenu_Opening);
+            // 
+            // sortByToolStripMenuItem
+            // 
+            this.sortByToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem6,
+            this.sortAscendingToolStripMenuItem,
+            this.sortDescendingToolStripMenuItem});
+            this.sortByToolStripMenuItem.Name = "sortByToolStripMenuItem";
+            this.sortByToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.sortByToolStripMenuItem.Text = "Sort By";
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(140, 6);
+            // 
+            // sortAscendingToolStripMenuItem
+            // 
+            this.sortAscendingToolStripMenuItem.Name = "sortAscendingToolStripMenuItem";
+            this.sortAscendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.sortAscendingToolStripMenuItem.Text = "Ascending";
+            this.sortAscendingToolStripMenuItem.Click += new System.EventHandler(this.sortAscendingToolStripMenuItem_Click);
+            // 
+            // sortDescendingToolStripMenuItem
+            // 
+            this.sortDescendingToolStripMenuItem.Name = "sortDescendingToolStripMenuItem";
+            this.sortDescendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.sortDescendingToolStripMenuItem.Text = "Descending";
+            this.sortDescendingToolStripMenuItem.Click += new System.EventHandler(this.sortDescendingToolStripMenuItem_Click);
             // 
             // toolStrip
             // 
@@ -239,51 +277,13 @@
             // 
             this.panelToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
             this.panelToolbar.Controls.Add(this.btnDeletePhoto);
             this.panelToolbar.Controls.Add(this.btnAddPhoto);
             this.panelToolbar.Location = new System.Drawing.Point(9, 0);
             this.panelToolbar.Name = "panelToolbar";
             this.panelToolbar.Size = new System.Drawing.Size(601, 31);
             this.panelToolbar.TabIndex = 15;
-            // 
-            // columnContextMenu
-            // 
-            this.columnContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sortByToolStripMenuItem});
-            this.columnContextMenu.Name = "columnContextMenu";
-            this.columnContextMenu.Size = new System.Drawing.Size(153, 48);
-            this.columnContextMenu.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.columnContextMenu_Closing);
-            this.columnContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.columnContextMenu_Opening);
-            // 
-            // sortByToolStripMenuItem
-            // 
-            this.sortByToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem6,
-            this.sortAscendingToolStripMenuItem,
-            this.sortDescendingToolStripMenuItem});
-            this.sortByToolStripMenuItem.Name = "sortByToolStripMenuItem";
-            this.sortByToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.sortByToolStripMenuItem.Text = "Sort By";
-            // 
-            // toolStripMenuItem6
-            // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(140, 6);
-            // 
-            // sortAscendingToolStripMenuItem
-            // 
-            this.sortAscendingToolStripMenuItem.Name = "sortAscendingToolStripMenuItem";
-            this.sortAscendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.sortAscendingToolStripMenuItem.Text = "Ascending";
-            this.sortAscendingToolStripMenuItem.Click += new System.EventHandler(this.sortAscendingToolStripMenuItem_Click);
-            // 
-            // sortDescendingToolStripMenuItem
-            // 
-            this.sortDescendingToolStripMenuItem.Name = "sortDescendingToolStripMenuItem";
-            this.sortDescendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.sortDescendingToolStripMenuItem.Text = "Descending";
-            this.sortDescendingToolStripMenuItem.Click += new System.EventHandler(this.sortDescendingToolStripMenuItem_Click);
             // 
             // btnDeletePhoto
             // 
@@ -359,10 +359,10 @@
             this.Name = "Photo";
             this.Size = new System.Drawing.Size(618, 277);
             this.panel.ResumeLayout(false);
+            this.columnContextMenu.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.panelToolbar.ResumeLayout(false);
-            this.columnContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -28,6 +28,7 @@ namespace Waveface
         private FormSettings m_formSettings;
         private bool autoLogin;
         private string savePassword = "";
+
         #region Properties
 
         public string User
@@ -70,8 +71,9 @@ namespace Waveface
         public LoginForm(string email, string password, bool autoLogin)
         {
             InitializeComponent();
+
             this.autoLogin = autoLogin;
-            this.savePassword = password;
+            savePassword = password;
 
             txtUserName.Text = email;
             txtPassword.Text = password;
@@ -229,7 +231,7 @@ namespace Waveface
                 else
                     Show();
             }
-            catch (API.V2.ServiceUnavailableException ex)
+            catch (ServiceUnavailableException ex)
             {
                 s_logger.Error(ex.Message);
 
@@ -279,6 +281,7 @@ namespace Waveface
         private void btnOK_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.None;
+
             if ((txtUserName.Text.Trim() != "") && (txtPassword.Text.Trim() != ""))
             {
                 m_formSettings.Save();
@@ -309,21 +312,6 @@ namespace Waveface
             base.Dispose(disposing);
         }
 
-        private void LoginForm_DoubleClick(object sender, EventArgs e)
-        {
-            if (CultureManager.ApplicationUICulture.Name == "en-US")
-            {
-                CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
-                return;
-            }
-
-            if (CultureManager.ApplicationUICulture.Name == "zh-TW")
-            {
-                CultureManager.ApplicationUICulture = new CultureInfo("en-US");
-                return;
-            }
-        }
-
         private void cultureManager_UICultureChanged(CultureInfo newCulture)
         {
             I18n.L.CurrentCulture = newCulture;
@@ -340,6 +328,7 @@ namespace Waveface
             {
                 btnOK_Click(null, null);
             }
+
             return base.ProcessDialogKey(keyData);
         }
 
@@ -347,5 +336,24 @@ namespace Waveface
         {
             WService.SwitchCloudIP();
         }
+
+        #region Debug
+
+        private void LoginForm_DoubleClick(object sender, EventArgs e)
+        {
+            if (CultureManager.ApplicationUICulture.Name == "en-US")
+            {
+                CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+                return;
+            }
+
+            if (CultureManager.ApplicationUICulture.Name == "zh-TW")
+            {
+                CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+                return;
+            }
+        }
+
+        #endregion
     }
 }

@@ -213,7 +213,7 @@ namespace Waveface
 
             if (richTextBox.Text.Equals(string.Empty))
             {
-                MessageBox.Show("Text cannot be empty!");
+                MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -223,10 +223,10 @@ namespace Waveface
 
                     if (_np == null)
                     {
-                        MessageBox.Show("Post Error!");
+                        MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    MessageBox.Show("Post success!");
+                    MessageBox.Show(I18n.L.T("PostForm.PostSuccess"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     SetDialogResult_Yes_AndClose();
                 }

@@ -13,7 +13,7 @@ namespace Waveface.DetailUI
 {
     public class Text_Link_DV : UserControl, IDetailViewer
     {
-        private IContainer components = null;
+        private IContainer components;
         private Panel panelMain;
         private Panel panelRight;
         private WebBrowser webBrowserTop;
@@ -27,6 +27,7 @@ namespace Waveface.DetailUI
         private TabPage tabPageSoul;
         private TabPage tabPageWebPage;
         private WebBrowser webBrowserSoul;
+        private Localization.CultureManager cultureManager;
         private TextBox textBoxComment;
 
         public Post Post
@@ -76,6 +77,8 @@ namespace Waveface.DetailUI
         // {
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Text_Link_DV));
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
             this.PanelAddComment = new System.Windows.Forms.Panel();
@@ -89,6 +92,7 @@ namespace Waveface.DetailUI
             this.tabPageSoul = new System.Windows.Forms.TabPage();
             this.webBrowserSoul = new System.Windows.Forms.WebBrowser();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
@@ -100,167 +104,113 @@ namespace Waveface.DetailUI
             // 
             // panelMain
             // 
-            this.panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.SystemColors.Window;
             this.panelMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelMain.Controls.Add(this.panelRight);
-            this.panelMain.Location = new System.Drawing.Point(3, 3);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(529, 583);
-            this.panelMain.TabIndex = 0;
             // 
             // panelRight
             // 
-            this.panelRight.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelRight.AutoScroll = true;
+            resources.ApplyResources(this.panelRight, "panelRight");
             this.panelRight.Controls.Add(this.PanelAddComment);
             this.panelRight.Controls.Add(this.webBrowserComment);
             this.panelRight.Controls.Add(this.panelWebBrowser);
             this.panelRight.Controls.Add(this.webBrowserTop);
-            this.panelRight.Location = new System.Drawing.Point(4, 4);
             this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(518, 572);
-            this.panelRight.TabIndex = 2;
             // 
             // PanelAddComment
             // 
-            this.PanelAddComment.AutoScroll = true;
-            this.PanelAddComment.AutoScrollMinSize = new System.Drawing.Size(345, 0);
+            resources.ApplyResources(this.PanelAddComment, "PanelAddComment");
             this.PanelAddComment.BackColor = System.Drawing.SystemColors.Window;
             this.PanelAddComment.Controls.Add(this.buttonAddComment);
             this.PanelAddComment.Controls.Add(this.textBoxComment);
-            this.PanelAddComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelAddComment.Location = new System.Drawing.Point(0, 462);
             this.PanelAddComment.Name = "PanelAddComment";
-            this.PanelAddComment.Size = new System.Drawing.Size(518, 84);
-            this.PanelAddComment.TabIndex = 3;
-            this.PanelAddComment.Visible = false;
             // 
             // buttonAddComment
             // 
             this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
             this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(442, 3);
             this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
-            this.buttonAddComment.TabIndex = 1;
-            this.buttonAddComment.Text = "Send";
             this.buttonAddComment.UseVisualStyleBackColor = true;
             this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // textBoxComment
             // 
-            this.textBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxComment.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxComment.Location = new System.Drawing.Point(9, 3);
-            this.textBoxComment.Multiline = true;
+            resources.ApplyResources(this.textBoxComment, "textBoxComment");
             this.textBoxComment.Name = "textBoxComment";
-            this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxComment.Size = new System.Drawing.Size(427, 44);
-            this.textBoxComment.TabIndex = 0;
             // 
             // webBrowserComment
             // 
             this.webBrowserComment.AllowWebBrowserDrop = false;
-            this.webBrowserComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.webBrowserComment.Location = new System.Drawing.Point(0, 365);
+            resources.ApplyResources(this.webBrowserComment, "webBrowserComment");
             this.webBrowserComment.Name = "webBrowserComment";
             this.webBrowserComment.ScrollBarsEnabled = false;
-            this.webBrowserComment.Size = new System.Drawing.Size(518, 97);
-            this.webBrowserComment.TabIndex = 2;
             this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
             // 
             // panelWebBrowser
             // 
             this.panelWebBrowser.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.panelWebBrowser.Controls.Add(this.tabControl);
-            this.panelWebBrowser.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelWebBrowser.Location = new System.Drawing.Point(0, 200);
+            resources.ApplyResources(this.panelWebBrowser, "panelWebBrowser");
             this.panelWebBrowser.Name = "panelWebBrowser";
-            this.panelWebBrowser.Size = new System.Drawing.Size(518, 165);
-            this.panelWebBrowser.TabIndex = 5;
-            this.panelWebBrowser.Visible = false;
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.tabControl, "tabControl");
             this.tabControl.Controls.Add(this.tabPageWebPage);
             this.tabControl.Controls.Add(this.tabPageSoul);
-            this.tabControl.Location = new System.Drawing.Point(3, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(512, 158);
-            this.tabControl.TabIndex = 5;
             // 
             // tabPageWebPage
             // 
             this.tabPageWebPage.Controls.Add(this.webBrowser);
-            this.tabPageWebPage.Location = new System.Drawing.Point(4, 23);
+            resources.ApplyResources(this.tabPageWebPage, "tabPageWebPage");
             this.tabPageWebPage.Name = "tabPageWebPage";
-            this.tabPageWebPage.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWebPage.Size = new System.Drawing.Size(504, 131);
-            this.tabPageWebPage.TabIndex = 1;
-            this.tabPageWebPage.Text = "Web Page";
             this.tabPageWebPage.UseVisualStyleBackColor = true;
             // 
             // webBrowser
             // 
-            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(498, 125);
-            this.webBrowser.TabIndex = 4;
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
             // 
             // tabPageSoul
             // 
             this.tabPageSoul.Controls.Add(this.webBrowserSoul);
-            this.tabPageSoul.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.tabPageSoul, "tabPageSoul");
             this.tabPageSoul.Name = "tabPageSoul";
-            this.tabPageSoul.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSoul.Size = new System.Drawing.Size(504, 132);
-            this.tabPageSoul.TabIndex = 0;
-            this.tabPageSoul.Text = "Soul";
             this.tabPageSoul.UseVisualStyleBackColor = true;
             // 
             // webBrowserSoul
             // 
-            this.webBrowserSoul.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowserSoul.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.webBrowserSoul, "webBrowserSoul");
             this.webBrowserSoul.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserSoul.Name = "webBrowserSoul";
             this.webBrowserSoul.ScriptErrorsSuppressed = true;
-            this.webBrowserSoul.Size = new System.Drawing.Size(502, 125);
-            this.webBrowserSoul.TabIndex = 0;
             // 
             // webBrowserTop
             // 
             this.webBrowserTop.AllowWebBrowserDrop = false;
-            this.webBrowserTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.webBrowserTop.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
             this.webBrowserTop.Name = "webBrowserTop";
             this.webBrowserTop.ScrollBarsEnabled = false;
-            this.webBrowserTop.Size = new System.Drawing.Size(518, 200);
-            this.webBrowserTop.TabIndex = 0;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
             // 
             // Text_Link_DV
             // 
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panelMain);
-            this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            resources.ApplyResources(this, "$this");
             this.Name = "Text_Link_DV";
-            this.Size = new System.Drawing.Size(535, 589);
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.PanelAddComment.ResumeLayout(false);

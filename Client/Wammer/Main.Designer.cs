@@ -70,6 +70,7 @@
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
             this.radioButtonCloud = new System.Windows.Forms.RadioButton();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -351,6 +352,10 @@
             this.radioButtonCloud.UseVisualStyleBackColor = true;
             this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
             // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -426,6 +431,7 @@
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
         private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
         private System.Windows.Forms.Timer timerReloadAllData;
+        private Localization.CultureManager cultureManager;
 	}
 }
 

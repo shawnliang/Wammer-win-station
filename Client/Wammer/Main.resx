@@ -406,16 +406,16 @@
     <value>1</value>
   </data>
   <data name="itemCountLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 20</value>
+    <value>64, 20</value>
   </data>
   <data name="itemCountLabel.Text" xml:space="preserve">
     <value>{0} Items</value>
   </data>
   <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>758, 20</value>
+    <value>739, 20</value>
   </data>
   <data name="connectedStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 20</value>
+    <value>154, 20</value>
   </data>
   <data name="connectedStatusLabel.Text" xml:space="preserve">
     <value>All folders are up to date.</value>
@@ -447,7 +447,7 @@
     <value>Magenta</value>
   </data>
   <data name="connectedImageLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 25</value>
+    <value>102, 25</value>
   </data>
   <data name="connectedImageLabel.Text" xml:space="preserve">
     <value>Connected</value>
@@ -486,34 +486,34 @@
     <value>482, 17</value>
   </metadata>
   <data name="restoreMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="restoreMenuItem.Text" xml:space="preserve">
     <value>Open Waveface</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 6</value>
+    <value>164, 6</value>
   </data>
   <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="regionMenuItem.Text" xml:space="preserve">
     <value>Region</value>
   </data>
   <data name="windowsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="windowsMenuItem.Text" xml:space="preserve">
     <value>Windows</value>
   </data>
   <data name="screenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="screenMenuItem.Text" xml:space="preserve">
     <value>Desktop</value>
   </data>
   <data name="screenShotMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="screenShotMenu.Text" xml:space="preserve">
     <value>Screen Shot</value>
@@ -522,31 +522,31 @@
     <value>False</value>
   </data>
   <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 6</value>
+    <value>164, 6</value>
   </data>
   <data name="toolStripMenuItem3.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="preferencesMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="preferencesMenuItem.Text" xml:space="preserve">
     <value>Preferences...</value>
   </data>
   <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 6</value>
+    <value>164, 6</value>
   </data>
   <data name="toolStripMenuItem2.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="logoutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 22</value>
+    <value>167, 22</value>
   </data>
   <data name="logoutMenuItem.Text" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="mnuTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 110</value>
+    <value>168, 110</value>
   </data>
   <data name="&gt;&gt;mnuTray.Name" xml:space="preserve">
     <value>mnuTray</value>
@@ -707,6 +707,9 @@
   <data name="&gt;&gt;panelTop.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1051, 19</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -920,6 +923,12 @@
   </data>
   <data name="&gt;&gt;timerReloadAllData.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
+    <value>cultureManager</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
+    <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>

@@ -39,9 +39,9 @@ namespace Waveface
             MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer();
             _imageListViewRenderer.Clip = false;
 
-            //imageListView.SetRenderer(_imageListViewRenderer);
+            imageListView.SetRenderer(_imageListViewRenderer);
 
-            imageListView.SetRenderer(new ImageListViewRenderers.NoirRenderer());
+            //imageListView.SetRenderer(new ImageListViewRenderers.NoirRenderer());
 
             foreach (ImageListViewItem _item in imageListView.Items)
             {
@@ -114,11 +114,11 @@ namespace Waveface
 
                     File.Copy(_picFilePath, _destFile);
 
-                    MessageBox.Show("File Save Successful!");
+                    MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
                 }
                 catch
                 {
-                    MessageBox.Show("File Save Error!");
+                    MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
                 }
             }
         }
@@ -129,7 +129,7 @@ namespace Waveface
 
             using (FolderBrowserDialog _dialog = new FolderBrowserDialog())
             {
-                _dialog.Description = "Select location to save files";
+                _dialog.Description = I18n.L.T("PhotoView.SelectLoc");
                 _dialog.ShowNewFolderButton = true;
                 _dialog.RootFolder = Environment.SpecialFolder.Desktop;
 
@@ -156,7 +156,7 @@ namespace Waveface
                         }
                     }
 
-                    MessageBox.Show("All images are saved.", "Waveface", MessageBoxButtons.OK,
+                    MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Waveface", MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
                 }
             }
