@@ -103,8 +103,8 @@ namespace Manina.Windows.Forms
                 iconAlignmentToolStripMenuItem.DropDownItems.Add(item2);
             }
 
-            imageListView1.AllowDuplicateFileNames = true;
-            imageListView1.SetRenderer(new ImageListViewRenderers.DefaultRenderer());
+            imageListView.AllowDuplicateFileNames = true;
+            imageListView.SetRenderer(new ImageListViewRenderers.DefaultRenderer());
 
             TreeNode node = new TreeNode("Loading...", 3, 3);
             node.Tag = null;
@@ -119,44 +119,44 @@ namespace Manina.Windows.Forms
         #region Update UI while idle
         void Application_Idle(object sender, EventArgs e)
         {
-            detailsToolStripButton.Checked = (imageListView1.View == View.Details);
-            thumbnailsToolStripButton.Checked = (imageListView1.View == View.Thumbnails);
-            galleryToolStripButton.Checked = (imageListView1.View == View.Gallery);
-            paneToolStripButton.Checked = (imageListView1.View == View.Pane);
+            detailsToolStripButton.Checked = (imageListView.View == View.Details);
+            thumbnailsToolStripButton.Checked = (imageListView.View == View.Thumbnails);
+            galleryToolStripButton.Checked = (imageListView.View == View.Gallery);
+            paneToolStripButton.Checked = (imageListView.View == View.Pane);
 
-            integralScrollToolStripMenuItem.Checked = imageListView1.IntegralScroll;
+            integralScrollToolStripMenuItem.Checked = imageListView.IntegralScroll;
 
-            showCheckboxesToolStripMenuItem.Checked = imageListView1.ShowCheckBoxes;
-            showFileIconsToolStripMenuItem.Checked = imageListView1.ShowFileIcons;
+            showCheckboxesToolStripMenuItem.Checked = imageListView.ShowCheckBoxes;
+            showFileIconsToolStripMenuItem.Checked = imageListView.ShowFileIcons;
 
-            x96ToolStripMenuItem.Checked = imageListView1.ThumbnailSize == new Size(96, 96);
-            x120ToolStripMenuItem.Checked = imageListView1.ThumbnailSize == new Size(120, 120);
-            x200ToolStripMenuItem.Checked = imageListView1.ThumbnailSize == new Size(200, 200);
+            x96ToolStripMenuItem.Checked = imageListView.ThumbnailSize == new Size(96, 96);
+            x120ToolStripMenuItem.Checked = imageListView.ThumbnailSize == new Size(120, 120);
+            x200ToolStripMenuItem.Checked = imageListView.ThumbnailSize == new Size(200, 200);
 
-            allowCheckBoxClickToolStripMenuItem.Checked = imageListView1.AllowCheckBoxClick;
-            allowColumnClickToolStripMenuItem.Checked = imageListView1.AllowColumnClick;
-            allowColumnResizeToolStripMenuItem.Checked = imageListView1.AllowColumnResize;
-            allowPaneResizeToolStripMenuItem.Checked = imageListView1.AllowPaneResize;
-            multiSelectToolStripMenuItem.Checked = imageListView1.MultiSelect;
-            allowDragToolStripMenuItem.Checked = imageListView1.AllowDrag;
-            allowDropToolStripMenuItem.Checked = imageListView1.AllowDrop;
-            allowDuplicateFilenamesToolStripMenuItem.Checked = imageListView1.AllowDuplicateFileNames;
-            continuousCacheModeToolStripMenuItem.Checked = (imageListView1.CacheMode == CacheMode.Continuous);
+            allowCheckBoxClickToolStripMenuItem.Checked = imageListView.AllowCheckBoxClick;
+            allowColumnClickToolStripMenuItem.Checked = imageListView.AllowColumnClick;
+            allowColumnResizeToolStripMenuItem.Checked = imageListView.AllowColumnResize;
+            allowPaneResizeToolStripMenuItem.Checked = imageListView.AllowPaneResize;
+            multiSelectToolStripMenuItem.Checked = imageListView.MultiSelect;
+            allowDragToolStripMenuItem.Checked = imageListView.AllowDrag;
+            allowDropToolStripMenuItem.Checked = imageListView.AllowDrop;
+            allowDuplicateFilenamesToolStripMenuItem.Checked = imageListView.AllowDuplicateFileNames;
+            continuousCacheModeToolStripMenuItem.Checked = (imageListView.CacheMode == CacheMode.Continuous);
 
-            ContentAlignment ca = imageListView1.CheckBoxAlignment;
+            ContentAlignment ca = imageListView.CheckBoxAlignment;
             foreach (ToolStripMenuItem item in checkboxAlignmentToolStripMenuItem.DropDownItems)
                 item.Checked = (ContentAlignment)item.Tag == ca;
-            ContentAlignment ia = imageListView1.IconAlignment;
+            ContentAlignment ia = imageListView.IconAlignment;
             foreach (ToolStripMenuItem item in iconAlignmentToolStripMenuItem.DropDownItems)
                 item.Checked = (ContentAlignment)item.Tag == ia;
 
             toolStripStatusLabel1.Text = string.Format("{0} Items: {1} Selected, {2} Checked",
-                imageListView1.Items.Count, imageListView1.SelectedItems.Count, imageListView1.CheckedItems.Count);
+                imageListView.Items.Count, imageListView.SelectedItems.Count, imageListView.CheckedItems.Count);
 
-            groupAscendingToolStripMenuItem.Checked = imageListView1.GroupOrder == SortOrder.Ascending;
-            groupDescendingToolStripMenuItem.Checked = imageListView1.GroupOrder == SortOrder.Descending;
-            sortAscendingToolStripMenuItem.Checked = imageListView1.SortOrder == SortOrder.Ascending;
-            sortDescendingToolStripMenuItem.Checked = imageListView1.SortOrder == SortOrder.Descending;
+            groupAscendingToolStripMenuItem.Checked = imageListView.GroupOrder == SortOrder.Ascending;
+            groupDescendingToolStripMenuItem.Checked = imageListView.GroupOrder == SortOrder.Descending;
+            sortAscendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Ascending;
+            sortDescendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Descending;
         }
         #endregion
 
@@ -165,14 +165,14 @@ namespace Manina.Windows.Forms
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             ContentAlignment aligment = (ContentAlignment)item.Tag;
-            imageListView1.CheckBoxAlignment = aligment;
+            imageListView.CheckBoxAlignment = aligment;
         }
 
         private void iconAlignmentToolStripButton_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             ContentAlignment aligment = (ContentAlignment)item.Tag;
-            imageListView1.IconAlignment = aligment;
+            imageListView.IconAlignment = aligment;
         }
 
         private void renderertoolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -186,118 +186,118 @@ namespace Manina.Windows.Forms
                 renderer = (ImageListView.ImageListViewRenderer)assembly.CreateInstance(item.FullName);
             }
             colorToolStripComboBox.Enabled = renderer.CanApplyColors;
-            imageListView1.SetRenderer(renderer);
-            imageListView1.Focus();
+            imageListView.SetRenderer(renderer);
+            imageListView.Focus();
         }
 
         private void colorToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             PropertyInfo field = ((ColorComboBoxItem)colorToolStripComboBox.SelectedItem).Field;
             ImageListViewColor color = (ImageListViewColor)field.GetValue(null, null);
-            imageListView1.Colors = color;
+            imageListView.Colors = color;
         }
 
         private void detailsToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView1.View = View.Details;
+            imageListView.View = View.Details;
         }
 
         private void thumbnailsToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView1.View = View.Thumbnails;
+            imageListView.View = View.Thumbnails;
         }
 
         private void galleryToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView1.View = View.Gallery;
+            imageListView.View = View.Gallery;
         }
 
         private void paneToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView1.View = View.Pane;
+            imageListView.View = View.Pane;
         }
 
         private void clearThumbsToolStripButton_Click(object sender, EventArgs e)
         {
-            imageListView1.ClearThumbnailCache();
+            imageListView.ClearThumbnailCache();
         }
 
         private void x96ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.ThumbnailSize = new Size(96, 96);
+            imageListView.ThumbnailSize = new Size(96, 96);
         }
 
         private void x120ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.ThumbnailSize = new Size(120, 120);
+            imageListView.ThumbnailSize = new Size(120, 120);
         }
 
         private void x200ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.ThumbnailSize = new Size(200, 200);
+            imageListView.ThumbnailSize = new Size(200, 200);
         }
 
         private void showCheckboxesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.ShowCheckBoxes = !imageListView1.ShowCheckBoxes;
+            imageListView.ShowCheckBoxes = !imageListView.ShowCheckBoxes;
         }
 
         private void showFileIconsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.ShowFileIcons = !imageListView1.ShowFileIcons;
+            imageListView.ShowFileIcons = !imageListView.ShowFileIcons;
         }
 
         private void allowCheckBoxClickToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.AllowCheckBoxClick = !imageListView1.AllowCheckBoxClick;
+            imageListView.AllowCheckBoxClick = !imageListView.AllowCheckBoxClick;
         }
 
         private void allowColumnClickToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.AllowColumnClick = !imageListView1.AllowColumnClick;
+            imageListView.AllowColumnClick = !imageListView.AllowColumnClick;
         }
 
         private void allowColumnResizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.AllowColumnResize = !imageListView1.AllowColumnResize;
+            imageListView.AllowColumnResize = !imageListView.AllowColumnResize;
         }
 
         private void allowPaneResizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.AllowPaneResize = !imageListView1.AllowPaneResize;
+            imageListView.AllowPaneResize = !imageListView.AllowPaneResize;
         }
 
         private void multiSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.MultiSelect = !imageListView1.MultiSelect;
+            imageListView.MultiSelect = !imageListView.MultiSelect;
         }
 
         private void allowDragToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.AllowDrag = !imageListView1.AllowDrag;
+            imageListView.AllowDrag = !imageListView.AllowDrag;
         }
 
         private void allowDropToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.AllowDrop = !imageListView1.AllowDrop;
+            imageListView.AllowDrop = !imageListView.AllowDrop;
         }
 
         private void allowDuplicateFilenamesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.AllowDuplicateFileNames = !imageListView1.AllowDuplicateFileNames;
+            imageListView.AllowDuplicateFileNames = !imageListView.AllowDuplicateFileNames;
         }
 
         private void continuousCacheModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (imageListView1.CacheMode == CacheMode.Continuous)
-                imageListView1.CacheMode = CacheMode.OnDemand;
+            if (imageListView.CacheMode == CacheMode.Continuous)
+                imageListView.CacheMode = CacheMode.OnDemand;
             else
-                imageListView1.CacheMode = CacheMode.Continuous;
+                imageListView.CacheMode = CacheMode.Continuous;
         }
 
         private void integralScrollToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.IntegralScroll = !imageListView1.IntegralScroll;
+            imageListView.IntegralScroll = !imageListView.IntegralScroll;
         }
 
         private void imageListView1_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -311,10 +311,11 @@ namespace Manina.Windows.Forms
                         groupByToolStripMenuItem.DropDownItems.RemoveAt(j);
                 }
                 int i = 0;
-                foreach (ImageListView.ImageListViewColumnHeader col in imageListView1.Columns)
+
+                foreach (ImageListView.ImageListViewColumnHeader col in imageListView.Columns)
                 {
                     ToolStripMenuItem item = new ToolStripMenuItem(col.Text);
-                    item.Checked = (imageListView1.GroupColumn == i);
+                    item.Checked = (imageListView.GroupColumn == i);
                     item.Tag = i;
                     item.Click += new EventHandler(groupColumnMenuItem_Click);
                     groupByToolStripMenuItem.DropDownItems.Insert(i, item);
@@ -333,16 +334,19 @@ namespace Manina.Windows.Forms
                     if (sortByToolStripMenuItem.DropDownItems[j].Tag != null)
                         sortByToolStripMenuItem.DropDownItems.RemoveAt(j);
                 }
+
                 i = 0;
-                foreach (ImageListView.ImageListViewColumnHeader col in imageListView1.Columns)
+
+                foreach (ImageListView.ImageListViewColumnHeader col in imageListView.Columns)
                 {
                     ToolStripMenuItem item = new ToolStripMenuItem(col.Text);
-                    item.Checked = (imageListView1.SortColumn == i);
+                    item.Checked = (imageListView.SortColumn == i);
                     item.Tag = i;
                     item.Click += new EventHandler(sortColumnMenuItem_Click);
                     sortByToolStripMenuItem.DropDownItems.Insert(i, item);
                     i++;
                 }
+
                 if (i == 0)
                 {
                     ToolStripMenuItem item = new ToolStripMenuItem("None");
@@ -351,40 +355,40 @@ namespace Manina.Windows.Forms
                 }
 
                 // Show menu
-                columnContextMenu.Show(imageListView1, e.Location);
+                columnContextMenu.Show(imageListView, e.Location);
             }
         }
 
         private void groupColumnMenuItem_Click(object sender, EventArgs e)
         {
             int i = (int)((ToolStripMenuItem)sender).Tag;
-            imageListView1.GroupColumn = i;
+            imageListView.GroupColumn = i;
         }
 
         private void sortColumnMenuItem_Click(object sender, EventArgs e)
         {
             int i = (int)((ToolStripMenuItem)sender).Tag;
-            imageListView1.SortColumn = i;
+            imageListView.SortColumn = i;
         }
 
         private void groupAscendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.GroupOrder = SortOrder.Ascending;
+            imageListView.GroupOrder = SortOrder.Ascending;
         }
 
         private void sortAscendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.SortOrder = SortOrder.Ascending;
+            imageListView.SortOrder = SortOrder.Ascending;
         }
 
         private void groupDescendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.GroupOrder = SortOrder.Descending;
+            imageListView.GroupOrder = SortOrder.Descending;
         }
 
         private void sortDescendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imageListView1.SortOrder = SortOrder.Descending;
+            imageListView.SortOrder = SortOrder.Descending;
         }
         #endregion
 
@@ -392,8 +396,8 @@ namespace Manina.Windows.Forms
         private void imageListView1_SelectionChanged(object sender, EventArgs e)
         {
             ImageListViewItem sel = null;
-            if (imageListView1.SelectedItems.Count > 0)
-                sel = imageListView1.SelectedItems[0];
+            if (imageListView.SelectedItems.Count > 0)
+                sel = imageListView.SelectedItems[0];
             propertyGrid1.SelectedObject = sel;
         }
         #endregion
@@ -404,20 +408,20 @@ namespace Manina.Windows.Forms
             if (e.Control)
             {
                 if (e.KeyCode == Keys.A)
-                    imageListView1.SelectAll();
+                    imageListView.SelectAll();
                 else if (e.KeyCode == Keys.U)
-                    imageListView1.ClearSelection();
+                    imageListView.ClearSelection();
                 else if (e.KeyCode == Keys.I)
-                    imageListView1.InvertSelection();
+                    imageListView.InvertSelection();
             }
             else if (e.Alt)
             {
                 if (e.KeyCode == Keys.A)
-                    imageListView1.CheckAll();
+                    imageListView.CheckAll();
                 else if (e.KeyCode == Keys.U)
-                    imageListView1.UncheckAll();
+                    imageListView.UncheckAll();
                 else if (e.KeyCode == Keys.I)
-                    imageListView1.InvertCheckState();
+                    imageListView.InvertCheckState();
             }
         }
         #endregion
@@ -425,8 +429,8 @@ namespace Manina.Windows.Forms
         #region Update folder list asynchronously
         private void PopulateListView(DirectoryInfo path)
         {
-            imageListView1.Items.Clear();
-            imageListView1.SuspendLayout();
+            imageListView.Items.Clear();
+            imageListView.SuspendLayout();
             foreach (FileInfo p in path.GetFiles("*.*"))
             {
                 if (p.Name.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
@@ -439,9 +443,9 @@ namespace Manina.Windows.Forms
                     p.Name.EndsWith(".tif", StringComparison.OrdinalIgnoreCase) ||
                     p.Name.EndsWith(".tiff", StringComparison.OrdinalIgnoreCase) ||
                     p.Name.EndsWith(".gif", StringComparison.OrdinalIgnoreCase))
-                    imageListView1.Items.Add(p.FullName);
+                    imageListView.Items.Add(p.FullName);
             }
-            imageListView1.ResumeLayout();
+            imageListView.ResumeLayout();
         }
 
         private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)

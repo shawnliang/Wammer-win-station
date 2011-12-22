@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using Manina.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
-using Waveface.Component;
 using Waveface.WebCam;
 
 namespace Waveface.PostUI
@@ -47,14 +46,13 @@ namespace Waveface.PostUI
 
         private void Application_Idle(object sender, EventArgs e)
         {
-            // Refresh UI cues
             removeToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
-            //removeAllToolStripButton.Enabled = (imageListView.Items.Count > 0);
-
-            deleteToolStripMenuItem.Enabled = (imageListView.SelectedItems.Count > 0);
 
             rotateCCWToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
             rotateCWToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
+
+            sortAscendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Ascending;
+            sortDescendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Descending;
         }
 
         private void addToolStripButton_Click(object sender, EventArgs e)
@@ -65,11 +63,6 @@ namespace Waveface.PostUI
         private void removeToolStripButton_Click(object sender, EventArgs e)
         {
             RemoveSelectedPhoto();
-        }
-
-        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            RemoveAllAndReturnToParent();
         }
 
         private void removeAllToolStripButton_Click(object sender, EventArgs e)
@@ -378,7 +371,7 @@ namespace Waveface.PostUI
 
         private void btnDeletePhoto_Click(object sender, EventArgs e)
         {
-            if(imageListView.SelectedItems.Count == 0)
+            if (imageListView.SelectedItems.Count == 0)
             {
                 RemoveAllAndReturnToParent();
             }
@@ -387,5 +380,67 @@ namespace Waveface.PostUI
                 RemoveSelectedPhoto();
             }
         }
+
+        #region Sort
+
+        private void columnContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            CreateSortMenuItems();
+
+            imageListView.SetRenderer(new ImageListViewRenderers.TilesRenderer());
+        }
+
+        private void CreateSortMenuItems()
+        {
+            for (int j = sortByToolStripMenuItem.DropDownItems.Count - 1; j >= 0; j--)
+            {
+                if (sortByToolStripMenuItem.DropDownItems[j].Tag != null)
+                    sortByToolStripMenuItem.DropDownItems.RemoveAt(j);
+            }
+
+            int i = 0;
+
+            foreach (ImageListView.ImageListViewColumnHeader col in imageListView.Columns)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem(col.Text);
+                item.Checked = (imageListView.SortColumn == i);
+                item.Tag = i;
+                item.Click += sortColumnMenuItem_Click;
+                sortByToolStripMenuItem.DropDownItems.Insert(i, item);
+                i++;
+            }
+
+            if (i == 0)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem("None");
+                item.Enabled = false;
+                sortByToolStripMenuItem.DropDownItems.Insert(0, item);
+            }
+        }
+
+        private void sortColumnMenuItem_Click(object sender, EventArgs e)
+        {
+            int i = (int)((ToolStripMenuItem)sender).Tag;
+            imageListView.SortColumn = i;
+        }
+
+        private void sortAscendingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imageListView.SortOrder = SortOrder.Ascending;
+        }
+
+        private void sortDescendingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imageListView.SortOrder = SortOrder.Descending;
+        }
+
+        private void columnContextMenu_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        {
+            imageListView.SetRenderer(new ImageListViewRenderers.NoirRenderer());
+        }
+
+        #endregion
+
+
     }
 }
