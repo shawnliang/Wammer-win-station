@@ -295,6 +295,11 @@ namespace Waveface.SettingUI
         {
             connectionTester.Stop();
         }
+
+		private void label_MonthlyLimit_Click(object sender, EventArgs e)
+		{
+
+		}
     }
 
     public class StorageUsage

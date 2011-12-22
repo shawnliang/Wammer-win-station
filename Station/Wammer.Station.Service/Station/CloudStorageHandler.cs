@@ -196,7 +196,18 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			CloudStorageCollection.Instance.Remove(Query.EQ("Type", "dropbox"));
+			// currently only support one driver
+			Driver driver = DriverCollection.Instance.FindOne();
+			StorageApi api = new StorageApi(driver.user_id);
+
+			CloudStorage storageDoc = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
+			if (storageDoc != null)
+			{
+				logger.Debug("Unlink Dropbox account");
+				api.StorageUnlink(new WebClient(), CloudStorageType.DROPBOX);
+				CloudStorageCollection.Instance.Remove(Query.EQ("Type", "dropbox"));
+			}
+
 			RespondSuccess();
 		}
 
