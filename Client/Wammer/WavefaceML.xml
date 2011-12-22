@@ -66,12 +66,22 @@ Please restart the program to initialize Waveface Station.</en-US>
   </WItem>
   <WItem>
     <ID>MonthlyUsage_Limit</ID>
-    <en-US>Limit: {0} high resolution photos per month.</en-US>
-    <zh-TW>上限: 每月{0}張高解析照片</zh-TW>
+    <en-US>Limit per month: {0}</en-US>
+    <zh-TW>每月上限: {0}</zh-TW>
   </WItem>
   <WItem>
-    <ID>MonthlyUsage_Starting</ID>
-    <en-US>Starting at {0}</en-US>
+    <ID>MonthlyUsage_DaysLeft</ID>
+    <en-US>Days left in cycle: {0}</en-US>
     <zh-TW>開始統計日期:{0}</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>MonthlyUsage_UsedCount</ID>
+    <en-US>Used: {0}</en-US>
+    <zh-TW>已使用: {0}</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>MonthlyUsage_Unlimited</ID>
+    <en-US>Limit per month: Unlimited</en-US>
+    <zh-TW>每月上限: 無上限</zh-TW>
   </WItem>
 </WItems>

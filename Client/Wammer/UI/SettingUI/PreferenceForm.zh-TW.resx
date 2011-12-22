@@ -136,17 +136,11 @@
   <data name="lblDropboxStorageAccountTitle.Text" xml:space="preserve">
     <value>Dropbox 帳號</value>
   </data>
-  <data name="btnUnlinkDropbox.Text" xml:space="preserve">
-    <value>解除連結</value>
-  </data>
   <data name="lblCloudUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 14</value>
   </data>
   <data name="lblCloudUsageTitle.Text" xml:space="preserve">
     <value>本月傳輸使用量</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>主程式狀態</value>
   </data>
   <data name="btnTestConnection.Text" xml:space="preserve">
     <value>測試Waveface 伺服器連線狀態</value>
@@ -163,23 +157,11 @@
   <data name="lblLocalStorageUsageTitle.Text" xml:space="preserve">
     <value>硬碟空間使用:</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>帳戶資訊</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>主程式狀態</value>
   </data>
   <data name="lblCloudStorageUsed.Location" type="System.Drawing.Point, System.Drawing">
     <value>60, 233</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 14</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>已使用:</value>
-  </data>
-  <data name="label_UsageStarting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 14</value>
-  </data>
-  <data name="label_UsageStarting.Text" xml:space="preserve">
-    <value>周期所剩天數:</value>
   </data>
   <data name="label_MonthlyLimit.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 14</value>
@@ -207,6 +189,9 @@
   </data>
   <data name="btnEditAccount.Text" xml:space="preserve">
     <value>編輯帳戶資訊</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>帳戶資訊</value>
   </data>
   <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 14</value>
