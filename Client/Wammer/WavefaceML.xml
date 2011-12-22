@@ -69,7 +69,7 @@ Please restart the program to initialize Waveface Station.</en-US>
   <WItem>
     <ID>MonthlyUsage_DaysLeft</ID>
     <en-US>Days left in cycle: {0}</en-US>
-    <zh-TW>開始統計日期:{0}</zh-TW>
+    <zh-TW>此週期剩下: {0}</zh-TW>
   </WItem>
   <WItem>
     <ID>MonthlyUsage_UsedCount</ID>
@@ -96,7 +96,7 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Not connected yet</en-US>
     <zh-TW>尚未連結</zh-TW>
   </WItem>
-  
+  <WItem>
     <ID>PhotoView.SaveOK</ID>
     <en-US>File Save Successful!</en-US>
     <zh-TW>儲存檔案成功!</zh-TW>
