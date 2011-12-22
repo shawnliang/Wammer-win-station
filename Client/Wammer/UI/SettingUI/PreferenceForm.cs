@@ -187,7 +187,8 @@ namespace Waveface.SettingUI
             {
                 Cursor.Current = Cursors.WaitCursor;
 
-                Process proc = Process.Start("StationSetup.exe", "--dropbox");
+                string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "StationSetup.exe");
+                Process proc = Process.Start(execPath, "--dropbox");
                 this.Enabled = false;
 
 
