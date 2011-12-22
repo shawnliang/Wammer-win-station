@@ -152,7 +152,7 @@
     <value>測試Waveface 伺服器連線狀態</value>
   </data>
   <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 18</value>
+    <value>160, 17</value>
   </data>
   <data name="checkBox_autoStartWaveface.Text" xml:space="preserve">
     <value>開機時自動開啟Waveface</value>
@@ -166,14 +166,29 @@
   <data name="groupBox2.Text" xml:space="preserve">
     <value>帳戶資訊</value>
   </data>
-  <data name="label_notConnected.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 14</value>
+  <data name="lblCloudStorageUsed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 233</value>
   </data>
-  <data name="label_notConnected.Text" xml:space="preserve">
-    <value>尚未連結</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 14</value>
   </data>
-  <data name="btnConnectDropbox.Text" xml:space="preserve">
-    <value>立刻進行連結</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>已使用:</value>
+  </data>
+  <data name="label_UsageStarting.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 14</value>
+  </data>
+  <data name="label_UsageStarting.Text" xml:space="preserve">
+    <value>周期所剩天數:</value>
+  </data>
+  <data name="label_MonthlyLimit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 14</value>
+  </data>
+  <data name="label_MonthlyLimit.Text" xml:space="preserve">
+    <value>每月傳輸量:</value>
+  </data>
+  <data name="label_switchAccount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 298</value>
   </data>
   <data name="label_switchAccount.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 14</value>
@@ -183,6 +198,12 @@
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>註: 切換使用者後，您上一個帳號內所有的原始檔案將無法被遠端存取。</value>
+  </data>
+  <data name="lblDayLeft.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 254</value>
+  </data>
+  <data name="lblCloudStorageLimit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>84, 214</value>
   </data>
   <data name="btnEditAccount.Text" xml:space="preserve">
     <value>編輯帳戶資訊</value>
