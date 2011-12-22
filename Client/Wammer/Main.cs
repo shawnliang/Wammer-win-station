@@ -526,6 +526,7 @@ namespace Waveface
             RT.FilterMode = false;
 
             leftArea.SetUI(true);
+            leftArea.SetNewPostManager();
 
             postsArea.showRefreshUI(true);
 

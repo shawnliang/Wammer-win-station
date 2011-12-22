@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using NLog;
 using Waveface.API.V2;
 
 #endregion
@@ -13,6 +14,8 @@ namespace Waveface
 {
     public partial class PostForm : Form
     {
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
         private bool WAMMER_201112 = true;
 
         private PostType m_postType;
@@ -232,7 +235,8 @@ namespace Waveface
                 }
                 catch (Exception _e)
                 {
-                    MessageBox.Show(_e.Message);
+
+                    MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

@@ -15,11 +15,11 @@
   <String Id="KILL.PROCESS.DESC">關閉執行中的程式</String>
 
   <!-- Copied from Wix 3.6 src\ext\FirewallExtension\wixlib\en-us.wxl -->
-  <String Id="msierrFirewallCannotConnect" Overridable="yes">Cannot connect to Windows Firewall.  ([2]   [3]   [4]   [5])</String>
-  <String Id="WixSchedFirewallExceptionsInstall" Overridable="yes">Configuring Windows Firewall</String>
-  <String Id="WixSchedFirewallExceptionsUninstall" Overridable="yes">Configuring Windows Firewall</String>
-  <String Id="WixRollbackFirewallExceptionsInstall" Overridable="yes">Rolling back Windows Firewall configuration</String>
-  <String Id="WixExecFirewallExceptionsInstall" Overridable="yes">Installing Windows Firewall configuration</String>
-  <String Id="WixRollbackFirewallExceptionsUninstall" Overridable="yes">Rolling back Windows Firewall configuration</String>
-  <String Id="WixExecFirewallExceptionsUninstall" Overridable="yes">Uninstalling Windows Firewall configuration</String>
+  <String Id="msierrFirewallCannotConnect" Overridable="yes">無法連結至Windows防火牆.  ([2]   [3]   [4]   [5])</String>
+  <String Id="WixSchedFirewallExceptionsInstall" Overridable="yes">Windows防火牆設定中</String>
+  <String Id="WixSchedFirewallExceptionsUninstall" Overridable="yes">Windows防火牆設定中</String>
+  <String Id="WixRollbackFirewallExceptionsInstall" Overridable="yes">恢復Windows防火牆設定檔</String>
+  <String Id="WixExecFirewallExceptionsInstall" Overridable="yes">安裝Windows防火牆設定檔</String>
+  <String Id="WixRollbackFirewallExceptionsUninstall" Overridable="yes">恢復Windows防火牆設定檔</String>
+  <String Id="WixExecFirewallExceptionsUninstall" Overridable="yes">解除安裝Windows防火牆設定檔</String>
 </WixLocalization>

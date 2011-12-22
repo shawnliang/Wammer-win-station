@@ -64,29 +64,29 @@ namespace Waveface
             // 
             // panelBottom
             // 
-            resources.ApplyResources(this.panelBottom, "panelBottom");
             this.panelBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panelBottom.Controls.Add(this.panelButtom2);
             this.panelBottom.Controls.Add(this.pbDropArea);
+            resources.ApplyResources(this.panelBottom, "panelBottom");
             this.panelBottom.Name = "panelBottom";
             // 
             // panelButtom2
             // 
-            resources.ApplyResources(this.panelButtom2, "panelButtom2");
             this.panelButtom2.Controls.Add(this.labelDropInfor);
+            resources.ApplyResources(this.panelButtom2, "panelButtom2");
             this.panelButtom2.Name = "panelButtom2";
             // 
             // labelDropInfor
             // 
-            resources.ApplyResources(this.labelDropInfor, "labelDropInfor");
             this.labelDropInfor.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.labelDropInfor, "labelDropInfor");
             this.labelDropInfor.Name = "labelDropInfor";
             // 
             // pbDropArea
             // 
-            resources.ApplyResources(this.pbDropArea, "pbDropArea");
             this.pbDropArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.pbDropArea.BackgroundImage = global::Waveface.Properties.Resources.dragNdrop_area1;
+            resources.ApplyResources(this.pbDropArea, "pbDropArea");
             this.pbDropArea.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbDropArea.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pbDropArea.Name = "pbDropArea";
@@ -98,31 +98,31 @@ namespace Waveface
             // 
             // panelMain
             // 
-            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panelMain.Controls.Add(this.panelFilter);
             this.panelMain.Controls.Add(this.panelCalendar);
             this.panelMain.Controls.Add(this.vsNetListBarGroups);
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
             // 
             // panelFilter
             // 
-            resources.ApplyResources(this.panelFilter, "panelFilter");
             this.panelFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panelFilter.Controls.Add(this.panelCustomFilter);
             this.panelFilter.Controls.Add(this.panelTimeline);
+            resources.ApplyResources(this.panelFilter, "panelFilter");
             this.panelFilter.Name = "panelFilter";
             // 
             // panelCustomFilter
             // 
-            resources.ApplyResources(this.panelCustomFilter, "panelCustomFilter");
             this.panelCustomFilter.Controls.Add(this.taskPaneFilter);
+            resources.ApplyResources(this.panelCustomFilter, "panelCustomFilter");
             this.panelCustomFilter.Name = "panelCustomFilter";
             // 
             // taskPaneFilter
             // 
-            resources.ApplyResources(this.taskPaneFilter, "taskPaneFilter");
             this.taskPaneFilter.AllowExpandoDragging = true;
+            resources.ApplyResources(this.taskPaneFilter, "taskPaneFilter");
             this.taskPaneFilter.CustomSettings.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.taskPaneFilter.CustomSettings.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.taskPaneFilter.Expandos.AddRange(new XPExplorerBar.Expando[] {
@@ -140,20 +140,19 @@ namespace Waveface
             // 
             // panelTimeline
             // 
-            resources.ApplyResources(this.panelTimeline, "panelTimeline");
             this.panelTimeline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            resources.ApplyResources(this.panelTimeline, "panelTimeline");
             this.panelTimeline.Name = "panelTimeline";
             // 
             // panelCalendar
             // 
-            resources.ApplyResources(this.panelCalendar, "panelCalendar");
             this.panelCalendar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panelCalendar.Controls.Add(this.monthCalendar);
+            resources.ApplyResources(this.panelCalendar, "panelCalendar");
             this.panelCalendar.Name = "panelCalendar";
             // 
             // monthCalendar
             // 
-            resources.ApplyResources(this.monthCalendar, "monthCalendar");
             this.monthCalendar.ColorTable.BackgroundGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(231)))), ((int)(((byte)(209)))));
             this.monthCalendar.ColorTable.BackgroundGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(231)))), ((int)(((byte)(209)))));
             this.monthCalendar.ColorTable.Border = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(231)))), ((int)(((byte)(209)))));
@@ -164,6 +163,7 @@ namespace Waveface
             this.monthCalendar.ColorTable.HeaderArrow = System.Drawing.Color.Silver;
             this.monthCalendar.ColorTable.HeaderGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.monthCalendar.ColorTable.MonthSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            resources.ApplyResources(this.monthCalendar, "monthCalendar");
             this.monthCalendar.HeaderFont = new System.Drawing.Font("Segoe UI", 10F);
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.SelectionMode = CustomControls.MonthCalendarSelectionMode.Day;
@@ -173,10 +173,10 @@ namespace Waveface
             // 
             // vsNetListBarGroups
             // 
-            resources.ApplyResources(this.vsNetListBarGroups, "vsNetListBarGroups");
             this.vsNetListBarGroups.AllowDragGroups = true;
             this.vsNetListBarGroups.AllowDragItems = true;
             this.vsNetListBarGroups.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            resources.ApplyResources(this.vsNetListBarGroups, "vsNetListBarGroups");
             this.vsNetListBarGroups.DrawStyle = Waveface.Component.ListBarControl.ListBarDrawStyle.ListBarDrawStyleNormal;
             this.vsNetListBarGroups.LargeImageList = this.imageListLarge;
             this.vsNetListBarGroups.Name = "vsNetListBarGroups";
@@ -216,8 +216,8 @@ namespace Waveface
             // 
             // LeftArea
             // 
-            resources.ApplyResources(this, "$this");
             this.AllowDrop = true;
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.Controls.Add(this.panelMain);
