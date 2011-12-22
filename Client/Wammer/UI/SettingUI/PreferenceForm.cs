@@ -134,10 +134,7 @@ namespace Waveface.SettingUI
                 else
                     this.label_MonthlyLimit.Text = I18n.L.T("MonthlyUsage_Limit", storage.quota);
                 
-                TimeSpan thirtyDays = TimeSpan.FromDays(30.0);
-                TimeSpan remains = thirtyDays - (DateTime.Now - storage.startTime.ToLocalTime());
-
-                this.label_DaysLeft.Text = I18n.L.T("MonthlyUsage_DaysLeft", (int)System.Math.Ceiling(remains.TotalDays));
+                this.label_DaysLeft.Text = I18n.L.T("MonthlyUsage_DaysLeft", storage.daysLeft);
                 this.label_UsedCount.Text = I18n.L.T("MonthlyUsage_UsedCount", storage.usage);
 
                 this.barCloudUsage.Value = (int)(storage.usage * 100 / storage.quota);
@@ -156,9 +153,12 @@ namespace Waveface.SettingUI
             MR_storages_usage storageUsage = service.storages_usage(session_token);
             long quota = storageUsage.storages.waveface.quota.month_total_objects;
             long usage = storageUsage.storages.waveface.usage.month_total_objects;
-            DateTime startTime = new DateTime(1970,1,1,0,0,0,0);
-            startTime = startTime.AddSeconds(storageUsage.storages.waveface.quota_starting_time);
-            e.Result = new StorageUsage{quota = quota, usage = usage, startTime = startTime};
+            DateTime interval_end = new DateTime(1970,1,1,0,0,0,0);
+            interval_end = interval_end.AddSeconds(storageUsage.storages.waveface.interval.quota_interval_begin);
+
+            TimeSpan timeLeft = interval_end.ToLocalTime() - DateTime.Now;
+            int daysLeft = (int)Math.Ceiling(timeLeft.TotalDays);
+            e.Result = new StorageUsage{quota = quota, usage = usage, daysLeft = daysLeft };
         }
 
         private void btnUnlinkDropbox_Click(object sender, EventArgs e)
@@ -311,7 +311,7 @@ namespace Waveface.SettingUI
     {
         public long quota { get; set; }
         public long usage { get; set; }
-        public DateTime startTime { get; set; }
+        public int daysLeft { get; set; }
     }
 
     class WaitDropbopComplete
