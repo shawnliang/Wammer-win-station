@@ -131,6 +131,9 @@
   <ItemGroup>
     <Compile Include="Compoment\SingleInstance.cs" />
     <Compile Include="Data\NewPostManager.cs" />
+    <Compile Include="Data\PhotoDownloader.cs" />
+    <Compile Include="Data\ImageItem.cs" />
+    <Compile Include="Data\PostItemType.cs" />
     <Compile Include="UI\BgPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -838,6 +841,7 @@
     <None Include="Resources\DropArea\dragNdrop-loading3.png" />
     <None Include="Resources\DropArea\dragNdrop-loading4.png" />
     <None Include="Resources\add_photo.png" />
+    <None Include="Resources\LoadingImage.jpg" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

@@ -123,7 +123,25 @@ namespace Waveface
             m_uploadOriginPhotosToStation = new UploadOriginPhotosToStation();
             m_uploadOriginPhotosToStation.Start();
 
+            CreateLoadingImage();
+
             s_logger.Trace("Form_Load: OK");
+        }
+
+        private void CreateLoadingImage()
+        {
+            try
+            {
+                Bitmap _img = new Bitmap(128, 128);
+                Graphics _g = Graphics.FromImage(_img);
+                _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, 128, 128));
+                //_g.DrawRectangle(new Pen(Color.Black), new Rectangle(0, 0, 128 - 1, 128 - 1));
+                _img.Save(GCONST.CachePath + "LoadingImage" + ".jpg");
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "CreateLoadingImage");
+            }
         }
 
         private void InitmDropableNotifyIcon()
@@ -361,7 +379,7 @@ namespace Waveface
         {
             if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
             {
-                if(WindowState == FormWindowState.Minimized)
+                if (WindowState == FormWindowState.Minimized)
                     RestoreWindow();
             }
 

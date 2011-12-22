@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Net;
-using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using NLog;
@@ -37,7 +35,7 @@ namespace Waveface
         private int m_lastRead;
         private Localization.CultureManager cultureManager;
 
-        private Dictionary<string, string> m_undownloadThumbnails = new Dictionary<string, string>();
+        //private Dictionary<string, string> m_undownloadThumbnails = new Dictionary<string, string>();
 
         #region Properties
 
@@ -72,7 +70,13 @@ namespace Waveface
 
             MouseWheelRedirector.Attach(dataGridView);
 
-            ThreadPool.QueueUserWorkItem(state => { GetThumbnailsThread(); });
+            //ThreadPool.QueueUserWorkItem(state => { GetThumbnailsThread(); });
+            PhotoDownloader.Current.ThumbnailEvent += Thumbnail_EventHandler;
+        }
+
+        public void Thumbnail_EventHandler(ImageItem item)
+        {
+            RefreshUI();
         }
 
         private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -451,14 +455,24 @@ namespace Waveface
             }
             else
             {
+                /*
                 lock (m_undownloadThumbnails)
                 {
                     m_undownloadThumbnails.Add(url, localPicPath);
                 }
+                */
+
+                ImageItem _item = new ImageItem();
+                _item.PostItemType = PostItemType.Thumbnail;
+                _item.ThumbnailPath = url;
+                _item.LocalFilePath = localPicPath;
+
+                PhotoDownloader.Current.Add(_item);
+
 
                 _img = new Bitmap(PicWidth, PicHeight);
                 Graphics _g = Graphics.FromImage(_img);
-                _g.FillRectangle(new SolidBrush(SystemColors.Info), new Rectangle(0, 0, PicWidth, PicHeight));
+                _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, PicWidth, PicHeight));
                 _g.DrawRectangle(new Pen(Color.Black), new Rectangle(0, 0, PicWidth - 1, PicHeight - 1));
 
                 Application.DoEvents();
@@ -578,6 +592,7 @@ namespace Waveface
 
         #region Misc
 
+        /*
         private void GetThumbnailsThread()
         {
             Dictionary<string, string> _undownloadFiles = new Dictionary<string, string>();
@@ -637,7 +652,8 @@ namespace Waveface
                 Thread.Sleep(1000);
             }
         }
-
+        */
+         
         private void SetFont()
         {
             m_font = SystemFonts.IconTitleFont;

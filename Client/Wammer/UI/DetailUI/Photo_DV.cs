@@ -39,11 +39,14 @@ namespace Waveface.DetailUI
         private Panel panelPictureInfo;
         private Label labelPictureInfo;
         private Dictionary<string, string> m_filesMapping;
-        private Timer timer;
         private IContainer components;
+        private Timer timer;
+        private List<string> m_filePathOrigins;
+        private List<string> m_filePathMediums;
+        private List<string> m_urlOrigins;
+        private List<string> m_urlMediums;
 
         #endregion
-        private Timer timerDownloadRemoteFileNext;
 
         private List<Attachment> m_imageAttachments;
 
@@ -82,6 +85,11 @@ namespace Waveface.DetailUI
             imageListView.CacheMode = CacheMode.Continuous;
 
             m_filesMapping = new Dictionary<string, string>();
+
+            m_filePathOrigins = new List<string>();
+            m_filePathMediums = new List<string>();
+            m_urlOrigins = new List<string>();
+            m_urlMediums = new List<string>();
         }
 
         #region Component Designer generated code
@@ -99,7 +107,6 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
             this.PanelAddComment = new System.Windows.Forms.Panel();
-            this.buttonAddComment = new Waveface.Component.XPButton();
             this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelPictures = new System.Windows.Forms.Panel();
@@ -109,7 +116,7 @@ namespace Waveface.DetailUI
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.timerDownloadRemoteFileNext = new System.Windows.Forms.Timer(this.components);
+            this.buttonAddComment = new Waveface.Component.XPButton();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
@@ -145,16 +152,6 @@ namespace Waveface.DetailUI
             this.PanelAddComment.Controls.Add(this.textBoxComment);
             this.PanelAddComment.Name = "PanelAddComment";
             // 
-            // buttonAddComment
-            // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
-            // 
             // textBoxComment
             // 
             resources.ApplyResources(this.textBoxComment, "textBoxComment");
@@ -178,15 +175,16 @@ namespace Waveface.DetailUI
             // 
             // imageListView
             // 
+            this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
+            this.imageListView.DefaultImage = global::Waveface.Properties.Resources.LoadingImage;
             resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
-            this.imageListView.ThumbnailSize = new System.Drawing.Size(120, 120);
+            this.imageListView.ThumbnailSize = new System.Drawing.Size(128, 128);
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
             // 
             // pictureBoxRemote
@@ -219,13 +217,18 @@ namespace Waveface.DetailUI
             // 
             // timer
             // 
-            this.timer.Interval = 500;
+            this.timer.Interval = 3000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // timerDownloadRemoteFileNext
+            // buttonAddComment
             // 
-            this.timerDownloadRemoteFileNext.Interval = 500;
-            this.timerDownloadRemoteFileNext.Tick += new System.EventHandler(this.timerDownloadRemoteFileNext_Tick);
+            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
+            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.buttonAddComment.Name = "buttonAddComment";
+            this.buttonAddComment.UseVisualStyleBackColor = true;
+            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // Photo_DV
             // 
@@ -340,12 +343,104 @@ namespace Waveface.DetailUI
             imageFileIndex = 0;
             m_filesMapping.Clear();
 
+            foreach (Attachment _attachment in m_imageAttachments)
+            {
+                string _urlO = string.Empty;
+                string _fileNameO = string.Empty;
+                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO);
+
+                string _localFileO = Main.GCONST.CachePath + _fileNameO;
+
+                m_filePathOrigins.Add(_localFileO);
+                m_urlOrigins.Add(_urlO);
+
+                if (!m_filesMapping.ContainsKey(_fileNameO))
+                {
+                    if (_attachment.file_name != string.Empty)
+                        m_filesMapping.Add(_fileNameO, _attachment.file_name);
+                }
+
+                string _urlM = string.Empty;
+                string _fileNameM = string.Empty;
+                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM);
+
+                string _localFileM = Main.GCONST.CachePath + _fileNameM;
+
+                m_filePathMediums.Add(_localFileM);
+                m_urlMediums.Add(_urlM);
+            }
+
+            for (int i = m_imageAttachments.Count - 1; i >= 0; i--)
+            {
+                if (!System.IO.File.Exists(m_filePathOrigins[i]) && !System.IO.File.Exists(m_filePathMediums[i]))
+                {
+                    ImageItem _item = new ImageItem();
+                    _item.PostItemType = PostItemType.Origin;
+                    _item.OriginPath = m_urlOrigins[i];
+                    _item.MediumPath = m_urlMediums[i];
+                    _item.LocalFilePath = m_filePathOrigins[i];
+                    _item.LocalFilePath2 = m_filePathMediums[i];
+
+                    PhotoDownloader.Current.Add(_item);
+                }
+            }
+
+            if (!FillImageListView())
+                timer.Enabled = true;
+
+            /*
             if (Post.attachment_count > 0)
             {
                 panelPictureInfo.Visible = true;
 
                 DownloadRemoteFile("origin");
             }
+            */
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            FillImageListView();
+        }
+
+        private bool FillImageListView()
+        {
+            imageListView.SuspendLayout();
+
+            imageListView.Items.Clear();
+
+            int k = 0;
+
+            for (int i = 0; i < m_imageAttachments.Count; i++)
+            {
+                if (System.IO.File.Exists(m_filePathOrigins[i]))
+                {
+                    imageListView.Items.Add(m_filePathOrigins[i]);
+                    k++;
+                    continue;
+                }
+
+                if (System.IO.File.Exists(m_filePathMediums[i]))
+                {
+                    imageListView.Items.Add(m_filePathMediums[i]);
+                    k++;
+                    continue;
+                }
+
+                imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
+            }
+
+            imageListView.ResumeLayout();
+
+            ReLayout();
+
+            if (k == m_imageAttachments.Count)
+            {
+                timer.Enabled = false;
+                return true;
+            }
+
+            return false;
         }
 
         #region File Download [Picture]
@@ -407,7 +502,7 @@ namespace Waveface.DetailUI
             {
                 if (e.Error != null)
                 {
-                    timer.Enabled = true;
+                    DownloadRemoteFile("medium");
                 }
                 else
                 {
@@ -424,7 +519,7 @@ namespace Waveface.DetailUI
 
                         PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
 
-                        timerDownloadRemoteFileNext.Enabled = true;
+                        DownloadRemoteFileNext();
                     }
                     catch (Exception _e)
                     {
@@ -432,20 +527,6 @@ namespace Waveface.DetailUI
                     }
                 }
             }
-        }
-
-        private void timerDownloadRemoteFileNext_Tick(object sender, EventArgs e)
-        {
-            timerDownloadRemoteFileNext.Enabled = false;
-
-            DownloadRemoteFileNext();
-        }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            timer.Enabled = false;
-
-            DownloadRemoteFile("medium");
         }
 
         private void DownloadRemoteFileNext()
