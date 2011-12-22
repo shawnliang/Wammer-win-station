@@ -76,7 +76,7 @@ namespace Waveface
         private void BatchPostThreadMethod()
         {
             if (ShowMessage != null)
-                ShowMessage("Drag & Drop here");
+                ShowMessage(I18n.L.T("NewPostManager.DragDropHere"));
 
             Thread.Sleep(3000);
 
@@ -85,7 +85,7 @@ namespace Waveface
             while (true)
             {
                 if (ShowMessage != null)
-                    ShowMessage("Drag & Drop here");
+                    ShowMessage(I18n.L.T("NewPostManager.DragDropHere"));
 
                 NewPostItem _newPost;
 
@@ -183,7 +183,7 @@ namespace Waveface
                     int _counts = newPost.Files.Count;
 
                     if (UpdateUI != null)
-                        UpdateUI(_count * 100 / _counts, string.Format("Uploading {0} of {1} photos", _count, _counts));
+                        UpdateUI(_count * 100 / _counts, string.Format(I18n.L.T("NewPostManager.Uploading"), _count, _counts));
 
                     if (_count == _counts)
                         break;

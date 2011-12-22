@@ -207,7 +207,7 @@ namespace Waveface.Localization.Editor
             
             if (_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                File.Copy(m_localizer.WItemsFullPath, _saveFileDialog.FileName);
+                File.Copy(m_localizer.WItemsFullPath, _saveFileDialog.FileName, true);
                 m_localizer.WItemsFullPath = _saveFileDialog.FileName;
                 m_localizer.CreateWItemsFile();
                 m_localizer.Refresh();

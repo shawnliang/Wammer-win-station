@@ -35,6 +35,7 @@ namespace Waveface
         private List<Post> m_posts;
         private Timer timerDisplayedScrolling;
         private int m_lastRead;
+        private Localization.CultureManager cultureManager;
 
         private Dictionary<string, string> m_undownloadThumbnails = new Dictionary<string, string>();
 
@@ -709,6 +710,7 @@ namespace Waveface
             this.m_postBS = new System.Windows.Forms.BindingSource(this.components);
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.timerDisplayedScrolling = new System.Windows.Forms.Timer(this.components);
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_postBS)).BeginInit();
             this.SuspendLayout();
@@ -779,6 +781,10 @@ namespace Waveface
             // 
             this.timerDisplayedScrolling.Interval = 500;
             this.timerDisplayedScrolling.Tick += new System.EventHandler(this.timerDisplayedScrolling_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
             // 
             // PostsList
             // 

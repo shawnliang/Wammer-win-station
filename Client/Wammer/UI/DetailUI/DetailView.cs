@@ -30,6 +30,7 @@ namespace Waveface
         private Component.XPButton btnComment;
         private Panel panelMain;
         private Timer timerShowCommentButton;
+        private Localization.CultureManager cultureManager;
 
         private IDetailViewer m_detailViewer;
 
@@ -76,12 +77,14 @@ namespace Waveface
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelTop = new System.Windows.Forms.Panel();
             this.labelWho = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
             this.timerShowCommentButton = new System.Windows.Forms.Timer(this.components);
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.btnComment = new Waveface.Component.XPButton();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -92,39 +95,25 @@ namespace Waveface
             this.panelTop.Controls.Add(this.btnComment);
             this.panelTop.Controls.Add(this.labelWho);
             this.panelTop.Controls.Add(this.labelTime);
-            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(535, 32);
-            this.panelTop.TabIndex = 0;
             // 
             // labelWho
             // 
-            this.labelWho.AutoSize = true;
-            this.labelWho.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            resources.ApplyResources(this.labelWho, "labelWho");
             this.labelWho.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.labelWho.Location = new System.Drawing.Point(78, 8);
             this.labelWho.Name = "labelWho";
-            this.labelWho.Size = new System.Drawing.Size(0, 16);
-            this.labelWho.TabIndex = 1;
             // 
             // labelTime
             // 
-            this.labelTime.AutoSize = true;
-            this.labelTime.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            resources.ApplyResources(this.labelTime, "labelTime");
             this.labelTime.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.labelTime.Location = new System.Drawing.Point(4, 8);
             this.labelTime.Name = "labelTime";
-            this.labelTime.Size = new System.Drawing.Size(0, 16);
-            this.labelTime.TabIndex = 0;
             // 
             // panelMain
             // 
-            this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMain.Location = new System.Drawing.Point(0, 32);
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(535, 461);
-            this.panelMain.TabIndex = 1;
             // 
             // timerGC
             // 
@@ -137,22 +126,20 @@ namespace Waveface
             this.timerShowCommentButton.Interval = 2000;
             this.timerShowCommentButton.Tick += new System.EventHandler(this.timerShowCommentButton_Tick);
             // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
             // btnComment
             // 
             this.btnComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.btnComment, "btnComment");
             this.btnComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnComment.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
             this.btnComment.Image = global::Waveface.Properties.Resources.write_comment;
-            this.btnComment.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnComment.Location = new System.Drawing.Point(439, 3);
             this.btnComment.Name = "btnComment";
-            this.btnComment.Size = new System.Drawing.Size(93, 26);
-            this.btnComment.TabIndex = 7;
-            this.btnComment.Text = "Comment";
             this.btnComment.UseVisualStyleBackColor = true;
-            this.btnComment.Visible = false;
             this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
             // DetailView
@@ -160,9 +147,8 @@ namespace Waveface
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelTop);
-            this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            resources.ApplyResources(this, "$this");
             this.Name = "DetailView";
-            this.Size = new System.Drawing.Size(535, 493);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             this.ResumeLayout(false);
@@ -218,7 +204,7 @@ namespace Waveface
         private void setupTitle()
         {
             labelTime.Text = DateTimeHelp.ISO8601ToDotNet(Post.timestamp);
-            labelWho.Text = "via " + Post.code_name;
+            labelWho.Text = I18n.L.T("DetailView.Via") + " " + Post.code_name;
 
             labelWho.Left = labelTime.Right + 16;
         }
@@ -345,7 +331,7 @@ namespace Waveface
 
             if (textBox.Text.Equals(""))
             {
-                MessageBox.Show("Comment Text cannot be empty!");
+                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -378,7 +364,10 @@ namespace Waveface
                 _s.Append("      	     <td>");
                 _s.Append(" 		<table border=\"0\">");
                 _s.Append("    			<tr>");
-                _s.Append("      				<td>[CommentTime] via [code_name]</td>");
+
+                string _t = "      				<td>[CommentTime] " + I18n.L.T("DetailView.Via") + " [code_name]</td>";
+
+                _s.Append(_t);
                 _s.Append("    			</tr>");
                 _s.Append("    			<tr>");
                 _s.Append("      				<td><strong>[Comment]<strong></td>");

@@ -2,6 +2,7 @@
 
 using System;
 using System.Globalization;
+using Waveface.Localization;
 
 #endregion
 
@@ -73,33 +74,71 @@ namespace Waveface
             DateTime _now = DateTime.Now;
             TimeSpan _diff = _now - _submittedDate;
 
-            if (_diff.Seconds <= 0)
+            if (CultureManager.ApplicationUICulture.Name == "zh-TW")
             {
-                _ret = TimeSubmitted;
-            }
-            else if (_diff.Days > 30)
-            {
-                _ret = _diff.Days / 30 + " month" + (_diff.Days / 30 >= 2 ? "s " : " ") + "ago";
-            }
-            else if (_diff.Days > 7)
-            {
-                _ret = _diff.Days / 7 + " week" + (_diff.Days / 7 >= 2 ? "s " : " ") + "ago";
-            }
-            else if (_diff.Days >= 1)
-            {
-                _ret = _diff.Days + " day" + (_diff.Days >= 2 ? "s " : " ") + "ago";
-            }
-            else if (_diff.Hours >= 1)
-            {
-                _ret = _diff.Hours + " hour" + (_diff.Hours >= 2 ? "s " : " ") + "ago";
-            }
-            else if (_diff.Minutes >= 1)
-            {
-                _ret = _diff.Minutes + " minute" + (_diff.Minutes >= 2 ? "s " : " ") + "ago";
+                if (_diff.Seconds <= 0)
+                {
+                    _ret = TimeSubmitted;
+                }
+                /*
+                else if (_diff.Days > 30)
+                {
+                    _ret = _diff.Days/30 + " 個月前";
+                }
+                else if (_diff.Days > 7)
+                {
+                    _ret = _diff.Days/7 + " 星期前";
+                }
+                */
+                else if (_diff.Days >= 1)
+                {
+                    _ret = _diff.Days + " 天前";
+                }
+                else if (_diff.Hours >= 1)
+                {
+                    _ret = _diff.Hours + " 小時前";
+                }
+                else if (_diff.Minutes >= 1)
+                {
+                    _ret = _diff.Minutes + " 分鐘前";
+                }
+                else
+                {
+                    _ret = _diff.Seconds + " 秒前";
+                }
             }
             else
             {
-                _ret = _diff.Seconds + " second" + (_diff.Seconds >= 2 ? "s " : " ") + "ago";
+                if (_diff.Seconds <= 0)
+                {
+                    _ret = TimeSubmitted;
+                }
+                /*
+                else if (_diff.Days > 30)
+                {
+                    _ret = _diff.Days/30 + " month" + (_diff.Days/30 >= 2 ? "s " : " ") + "ago";
+                }
+                else if (_diff.Days > 7)
+                {
+                    _ret = _diff.Days/7 + " week" + (_diff.Days/7 >= 2 ? "s " : " ") + "ago";
+                }
+                */
+                else if (_diff.Days >= 1)
+                {
+                    _ret = _diff.Days + " day" + (_diff.Days >= 2 ? "s " : " ") + "ago";
+                }
+                else if (_diff.Hours >= 1)
+                {
+                    _ret = _diff.Hours + " hour" + (_diff.Hours >= 2 ? "s " : " ") + "ago";
+                }
+                else if (_diff.Minutes >= 1)
+                {
+                    _ret = _diff.Minutes + " minute" + (_diff.Minutes >= 2 ? "s " : " ") + "ago";
+                }
+                else
+                {
+                    _ret = _diff.Seconds + " second" + (_diff.Seconds >= 2 ? "s " : " ") + "ago";
+                }                
             }
 
             return _ret;

@@ -5,19 +5,16 @@
     <en-US>Please fill all the fields!</en-US>
     <zh-TW>請填寫所有欄位.</zh-TW>
   </WItem>
-
   <WItem>
     <ID>LoginForm.LogInError</ID>
     <en-US>Log In error. Please try again.</en-US>
     <zh-TW>登錄時發生錯誤, 請重新輸入.</zh-TW>
   </WItem>
-
   <WItem>
     <ID>Main.ChangeOwnerWarning</ID>
     <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Waveface Station.</en-US>
     <zh-TW>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</zh-TW>
   </WItem>
-
   <WItem>
     <ID>Main.ChangeOwnerSuccess</ID>
     <en-US>User '{0}' is unassociated with Waveface Station successfully.
@@ -100,4 +97,58 @@ Please restart the program to initialize Waveface Station.</en-US>
     <zh-TW>尚未連結</zh-TW>
   </WItem>
   
+    <ID>PhotoView.SaveOK</ID>
+    <en-US>File Save Successful!</en-US>
+    <zh-TW>儲存檔案成功!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PhotoView.SaveError</ID>
+    <en-US>File Save Error!</en-US>
+    <zh-TW>儲存檔案失敗!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PhotoView.SaveAllOK</ID>
+    <en-US>All images are saved.</en-US>
+    <zh-TW>儲存所有檔案成功!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PhotoView.SelectLoc</ID>
+    <en-US>Select location to save files</en-US>
+    <zh-TW>選擇存檔路徑</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>NewPostManager.DragDropHere</ID>
+    <en-US>Drag &amp; Drop here</en-US>
+    <zh-TW>拖拉檔案至此處</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>NewPostManager.Uploading</ID>
+    <en-US>Uploading {0} of {1} photos</en-US>
+    <zh-TW>檔案上傳中 [{0}/{1}]</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>DetailView.Via</ID>
+    <en-US>via</en-US>
+    <zh-TW>貼自</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>DetailView.CommentEmpty</ID>
+    <en-US>Comment Text cannot be empty!</en-US>
+    <zh-TW>留言欄位不能為空白!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>TextEmpty</ID>
+    <en-US>Text cannot be empty!</en-US>
+    <zh-TW>內容不能為空白!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PostForm.PostError</ID>
+    <en-US>Post Error!</en-US>
+    <zh-TW>貼文失敗!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PostForm.PostSuccess</ID>
+    <en-US>Post success!</en-US>
+    <zh-TW>貼文成功!</zh-TW>
+  </WItem>
 </WItems>

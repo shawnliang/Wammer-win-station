@@ -601,6 +601,12 @@
     <EmbeddedResource Include="Test\TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\DetailView.zh-TW.resx">
+      <DependentUpon>DetailView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\Photo_DV.zh-TW.resx">
+      <DependentUpon>Photo_DV.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\RichText_DV.resx">
       <DependentUpon>RichText_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -617,10 +623,22 @@
       <DependentUpon>Document_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\Text_Link_DV.zh-TW.resx">
+      <DependentUpon>Text_Link_DV.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FilterUI\FilterManager.resx">
       <DependentUpon>FilterManager.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\LeftArea.zh-TW.resx">
+      <DependentUpon>LeftArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PhotoView.zh-TW.resx">
+      <DependentUpon>PhotoView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\PostArea.resx">
+      <DependentUpon>PostArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostArea.zh-TW.resx">
       <DependentUpon>PostArea.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostUI\Document.resx">
@@ -633,6 +651,9 @@
       <DependentUpon>Photo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostUI\PostForm.resx">
+      <DependentUpon>PostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\PostForm.zh-TW.resx">
       <DependentUpon>PostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostUI\RichText.resx">

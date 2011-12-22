@@ -26,7 +26,7 @@ namespace Waveface
         private Button m_buttonAddNewFilter;
         private string m_dropAreaMessage;
         private Image m_dropAreaImage;
-        private Font m_font = new Font("Tahoma", 10, FontStyle.Bold);
+        private Font m_font = new Font("Arial", 10, FontStyle.Bold);
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         #region Properties

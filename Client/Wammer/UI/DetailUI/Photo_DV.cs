@@ -8,6 +8,7 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
+using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 
@@ -17,6 +18,8 @@ namespace Waveface.DetailUI
 {
     public class Photo_DV : UserControl, IDetailViewer
     {
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
         #region Fields
 
         private Panel panelMain;
@@ -78,11 +81,6 @@ namespace Waveface.DetailUI
             m_filesMapping = new Dictionary<string, string>();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
-
         #region Component Designer generated code
 
         /// <summary> 
@@ -101,183 +99,125 @@ namespace Waveface.DetailUI
             this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelPictures = new System.Windows.Forms.Panel();
-            this.imageListView = new Manina.Windows.Forms.ImageListView();
-            this.pictureBoxRemote = new System.Windows.Forms.PictureBox();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
+            this.imageListView = new Manina.Windows.Forms.ImageListView();
+            this.pictureBoxRemote = new System.Windows.Forms.PictureBox();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
             this.PanelPictures.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemote)).BeginInit();
             this.panelPictureInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemote)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMain
             // 
-            this.panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelMain.Controls.Add(this.panelRight);
-            this.panelMain.Location = new System.Drawing.Point(3, 3);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(529, 487);
-            this.panelMain.TabIndex = 0;
             // 
             // panelRight
             // 
-            this.panelRight.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelRight.AutoScroll = true;
+            resources.ApplyResources(this.panelRight, "panelRight");
             this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelRight.Controls.Add(this.PanelAddComment);
             this.panelRight.Controls.Add(this.webBrowserComment);
             this.panelRight.Controls.Add(this.PanelPictures);
             this.panelRight.Controls.Add(this.panelPictureInfo);
             this.panelRight.Controls.Add(this.webBrowserTop);
-            this.panelRight.Location = new System.Drawing.Point(8, 0);
             this.panelRight.Name = "panelRight";
-            this.panelRight.Padding = new System.Windows.Forms.Padding(0, 8, 8, 0);
-            this.panelRight.Size = new System.Drawing.Size(518, 482);
-            this.panelRight.TabIndex = 2;
             // 
             // PanelAddComment
             // 
-            this.PanelAddComment.AutoScroll = true;
-            this.PanelAddComment.AutoScrollMinSize = new System.Drawing.Size(345, 0);
-            this.PanelAddComment.AutoSize = true;
+            resources.ApplyResources(this.PanelAddComment, "PanelAddComment");
             this.PanelAddComment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.PanelAddComment.Controls.Add(this.buttonAddComment);
             this.PanelAddComment.Controls.Add(this.textBoxComment);
-            this.PanelAddComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelAddComment.Location = new System.Drawing.Point(0, 387);
             this.PanelAddComment.Name = "PanelAddComment";
-            this.PanelAddComment.Size = new System.Drawing.Size(510, 50);
-            this.PanelAddComment.TabIndex = 3;
             // 
             // buttonAddComment
             // 
+            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
             this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(432, 3);
             this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
-            this.buttonAddComment.TabIndex = 1;
-            this.buttonAddComment.Text = "Send";
             this.buttonAddComment.UseVisualStyleBackColor = true;
             this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // textBoxComment
             // 
-            this.textBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxComment.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxComment.Location = new System.Drawing.Point(2, 3);
-            this.textBoxComment.Multiline = true;
+            resources.ApplyResources(this.textBoxComment, "textBoxComment");
             this.textBoxComment.Name = "textBoxComment";
-            this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxComment.Size = new System.Drawing.Size(424, 44);
-            this.textBoxComment.TabIndex = 0;
             // 
             // webBrowserComment
             // 
+            resources.ApplyResources(this.webBrowserComment, "webBrowserComment");
             this.webBrowserComment.AllowWebBrowserDrop = false;
-            this.webBrowserComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.webBrowserComment.Location = new System.Drawing.Point(0, 290);
             this.webBrowserComment.Name = "webBrowserComment";
             this.webBrowserComment.ScrollBarsEnabled = false;
-            this.webBrowserComment.Size = new System.Drawing.Size(510, 97);
-            this.webBrowserComment.TabIndex = 2;
             this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
             // 
             // PanelPictures
             // 
-            this.PanelPictures.AutoScroll = true;
-            this.PanelPictures.AutoScrollMinSize = new System.Drawing.Size(345, 0);
+            resources.ApplyResources(this.PanelPictures, "PanelPictures");
             this.PanelPictures.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.PanelPictures.Controls.Add(this.imageListView);
             this.PanelPictures.Controls.Add(this.pictureBoxRemote);
-            this.PanelPictures.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelPictures.Location = new System.Drawing.Point(0, 129);
             this.PanelPictures.Name = "PanelPictures";
-            this.PanelPictures.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            this.PanelPictures.Size = new System.Drawing.Size(510, 161);
-            this.PanelPictures.TabIndex = 1;
+            // 
+            // panelPictureInfo
+            // 
+            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
+            this.panelPictureInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(208)))), ((int)(((byte)(170)))));
+            this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
+            this.panelPictureInfo.Name = "panelPictureInfo";
+            // 
+            // labelPictureInfo
+            // 
+            resources.ApplyResources(this.labelPictureInfo, "labelPictureInfo");
+            this.labelPictureInfo.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.labelPictureInfo.Name = "labelPictureInfo";
+            // 
+            // webBrowserTop
+            // 
+            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
+            this.webBrowserTop.AllowWebBrowserDrop = false;
+            this.webBrowserTop.Name = "webBrowserTop";
+            this.webBrowserTop.ScrollBarsEnabled = false;
+            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
             // imageListView
             // 
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
-            this.imageListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.imageListView.Location = new System.Drawing.Point(0, 8);
             this.imageListView.Name = "imageListView";
-            this.imageListView.Size = new System.Drawing.Size(510, 153);
-            this.imageListView.TabIndex = 1;
             this.imageListView.ThumbnailSize = new System.Drawing.Size(120, 120);
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
             // 
             // pictureBoxRemote
             // 
-            this.pictureBoxRemote.Location = new System.Drawing.Point(32, 27);
+            resources.ApplyResources(this.pictureBoxRemote, "pictureBoxRemote");
             this.pictureBoxRemote.Name = "pictureBoxRemote";
-            this.pictureBoxRemote.Size = new System.Drawing.Size(54, 53);
-            this.pictureBoxRemote.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxRemote.TabIndex = 3;
             this.pictureBoxRemote.TabStop = false;
-            this.pictureBoxRemote.Visible = false;
             this.pictureBoxRemote.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pictureBoxRemote_LoadCompleted);
-            this.pictureBoxRemote.LoadProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.pictureBoxRemote_LoadProgressChanged);
-            // 
-            // panelPictureInfo
-            // 
-            this.panelPictureInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(208)))), ((int)(((byte)(170)))));
-            this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
-            this.panelPictureInfo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelPictureInfo.Location = new System.Drawing.Point(0, 105);
-            this.panelPictureInfo.Margin = new System.Windows.Forms.Padding(0);
-            this.panelPictureInfo.Name = "panelPictureInfo";
-            this.panelPictureInfo.Size = new System.Drawing.Size(510, 24);
-            this.panelPictureInfo.TabIndex = 2;
-            // 
-            // labelPictureInfo
-            // 
-            this.labelPictureInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelPictureInfo.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.labelPictureInfo.Location = new System.Drawing.Point(383, 1);
-            this.labelPictureInfo.Name = "labelPictureInfo";
-            this.labelPictureInfo.Size = new System.Drawing.Size(125, 20);
-            this.labelPictureInfo.TabIndex = 0;
-            this.labelPictureInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // webBrowserTop
-            // 
-            this.webBrowserTop.AllowWebBrowserDrop = false;
-            this.webBrowserTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.webBrowserTop.Location = new System.Drawing.Point(0, 8);
-            this.webBrowserTop.Name = "webBrowserTop";
-            this.webBrowserTop.ScrollBarsEnabled = false;
-            this.webBrowserTop.Size = new System.Drawing.Size(510, 97);
-            this.webBrowserTop.TabIndex = 0;
-            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
             // Photo_DV
             // 
+            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panelMain);
-            this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Photo_DV";
-            this.Size = new System.Drawing.Size(535, 493);
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
@@ -285,8 +225,8 @@ namespace Waveface.DetailUI
             this.PanelAddComment.ResumeLayout(false);
             this.PanelAddComment.PerformLayout();
             this.PanelPictures.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemote)).EndInit();
             this.panelPictureInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemote)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -415,7 +355,7 @@ namespace Waveface.DetailUI
             {
                 imageListView.Items.Add(_localFile);
 
-                Application.DoEvents();
+                //Application.DoEvents();
 
                 DownloadRemoteFileNext();
             }
@@ -426,16 +366,18 @@ namespace Waveface.DetailUI
             }
         }
 
+        /*
         private void pictureBoxRemote_LoadProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             labelPictureInfo.Text = e.ProgressPercentage + "%" + " [" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
         }
+        */
 
         private void pictureBoxRemote_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
-                Application.DoEvents();
+                //Application.DoEvents();
 
                 DownloadRemoteFile("medium");
             }
@@ -449,7 +391,7 @@ namespace Waveface.DetailUI
 
                     imageListView.Items.Add(_localFile);
 
-                    Application.DoEvents();
+                    //Application.DoEvents();
 
                     DownloadRemoteFileNext();
 
@@ -457,7 +399,7 @@ namespace Waveface.DetailUI
                 }
                 catch (Exception _e)
                 {
-                    Console.WriteLine(_e.Message);
+                    NLogUtility.Exception(s_logger, _e, "pictureBoxRemote_LoadCompleted");
                 }
             }
         }

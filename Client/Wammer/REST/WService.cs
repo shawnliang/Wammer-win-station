@@ -26,15 +26,7 @@ namespace Waveface.API.V2
 
         private RestTemplate m_rest;
 
-        static WService()
-        {
-            string cloudURL = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "cloudBaseURL", null);
-            if (cloudURL == null)
-                return;
-
-            Uri url = new Uri(cloudURL);
-            CloudIP = url.Scheme + "://" + url.Host;
-        }
+        #region Properties
 
         public static string HostIP
         {
@@ -63,6 +55,18 @@ namespace Waveface.API.V2
 
         public static string StationIP { get; set; }
 
+        #endregion
+
+        static WService()
+        {
+            string cloudURL = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "cloudBaseURL", null);
+            if (cloudURL == null)
+                return;
+
+            Uri url = new Uri(cloudURL);
+            CloudIP = url.Scheme + "://" + url.Host;
+        }
+
         public WService()
         {
             m_rest = new RestTemplate();
@@ -70,6 +74,8 @@ namespace Waveface.API.V2
             m_rest.MessageConverters.Add(new FormHttpMessageConverter());
             m_rest.MessageConverters.Add(new StringHttpMessageConverter());
         }
+
+        #region Misc
 
         public static void SwitchCloudIP()
         {
@@ -94,6 +100,8 @@ namespace Waveface.API.V2
             _r = StringUtility.UTF8ToISO_8859_1(_r);
             return JsonConvert.DeserializeObject<T>(_r);
         }
+
+        #endregion
 
         #region auth
 
@@ -361,7 +369,7 @@ namespace Waveface.API.V2
                 throw;
             }
         }
- 
+
         public void pingMyStation(string session_token)
         {
             string _url = BaseURLForGroupUserAuth + "/users/pingMyStation";
@@ -1056,7 +1064,7 @@ namespace Waveface.API.V2
                 _dic.Add("file", _data);
 
                 string _userAgent = "Windows";
-                
+
                 string _fileName = new FileInfo(fileName).Name;
 
                 //Hack
@@ -1064,7 +1072,7 @@ namespace Waveface.API.V2
                     _fileName = HttpUtility.UrlEncode(_fileName);
 
                 HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic, _fileName, _mimeType);
-                    
+
 
                 // Process response
                 StreamReader _responseReader = new StreamReader(_webResponse.GetResponseStream());
@@ -1777,6 +1785,8 @@ namespace Waveface.API.V2
         #endregion
     }
 
+    #region ServiceUnavailableException
+
     public class ServiceUnavailableException : Exception
     {
         public ServiceUnavailableException(string msg)
@@ -1784,4 +1794,6 @@ namespace Waveface.API.V2
         {
         }
     }
+
+    #endregion
 }

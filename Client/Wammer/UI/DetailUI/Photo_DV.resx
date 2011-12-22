@@ -117,10 +117,144 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="imageListView.Colors" xml:space="preserve">
-    <value>BackColor = fff3f2ee; BorderColor = 406d6d6d; UnFocusedColor1 = fff3f2ee; UnFocusedColor2 = fff3f2ee; UnFocusedBorderColor = 806d6d6d; HoverColor1 = 83399ff; HoverColor2 = 403399ff; HoverBorderColor = 403399ff; SelectedColor1 = 103399ff; SelectedColor2 = 803399ff; SelectedBorderColor = 803399ff; ColumnHeaderBackColor1 = fff3f2ee; ColumnHeaderBackColor2 = fff3f2ee; ColumnHeaderHoverColor1 = 103399ff; ColumnHeaderHoverColor2 = 403399ff; ColumnSelectColor = 106d6d6d; ColumnSeparatorColor = 206d6d6d; PaneBackColor = fff3f2ee; PaneSeparatorColor = 806d6d6d; SelectionRectangleColor1 = 803399ff; SelectionRectangleColor2 = 803399ff</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="textBoxComment.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11.25pt</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="PanelAddComment.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;PanelAddComment.Parent" xml:space="preserve">
+    <value>panelRight</value>
+  </data>
+  <data name="&gt;&gt;imageListView.Type" xml:space="preserve">
+    <value>Manina.Windows.Forms.ImageListView, ImageListView, Version=10.4.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="PanelAddComment.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="webBrowserTop.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelRight.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pictureBoxRemote.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 53</value>
+  </data>
+  <data name="labelPictureInfo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="PanelPictures.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 129</value>
+  </data>
+  <data name="panelPictureInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="panelPictureInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 24</value>
+  </data>
+  <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>529, 487</value>
+  </data>
+  <data name="&gt;&gt;panelMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="panelRight.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Photo_DV</value>
+  </data>
+  <data name="&gt;&gt;PanelAddComment.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PanelPictures.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="PanelAddComment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 387</value>
+  </data>
+  <data name="labelPictureInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="panelMain.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="buttonAddComment.Text" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="&gt;&gt;webBrowserComment.Parent" xml:space="preserve">
+    <value>panelRight</value>
+  </data>
+  <data name="panelRight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 0</value>
+  </data>
+  <data name="imageListView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="PanelPictures.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="textBoxComment.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelPictureInfo.Name" xml:space="preserve">
+    <value>panelPictureInfo</value>
+  </data>
+  <data name="imageListView.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;PanelAddComment.Name" xml:space="preserve">
+    <value>PanelAddComment</value>
+  </data>
+  <data name="webBrowserComment.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;webBrowserTop.Name" xml:space="preserve">
+    <value>webBrowserTop</value>
+  </data>
+  <data name="&gt;&gt;labelPictureInfo.Parent" xml:space="preserve">
+    <value>panelPictureInfo</value>
+  </data>
+  <data name="&gt;&gt;panelRight.Parent" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;textBoxComment.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;buttonAddComment.Name" xml:space="preserve">
+    <value>buttonAddComment</value>
+  </data>
+  <data name="PanelPictures.AutoScrollMinSize" type="System.Drawing.Size, System.Drawing">
+    <value>345, 0</value>
+  </data>
+  <data name="webBrowserComment.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="&gt;&gt;textBoxComment.Parent" xml:space="preserve">
+    <value>PanelAddComment</value>
+  </data>
+  <data name="panelPictureInfo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="&gt;&gt;textBoxComment.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="labelPictureInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 20</value>
+  </data>
+  <data name="&gt;&gt;PanelPictures.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="textBoxComment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>424, 44</value>
+  </data>
+  <data name="&gt;&gt;PanelPictures.Name" xml:space="preserve">
+    <value>PanelPictures</value>
+  </data>
   <data name="imageListView.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
@@ -134,6 +268,168 @@
         GLwmmsygpv3OKVQ6AhkcxLNE7gmyJGAVCtS5hZNEUoFGi9QotqoDxZielSJsJJwos9sov+wWJxs62Q8e
         Dm7tKegeaNQzk49yOdf5BnIsBTMJCZ3GAAAAAElFTkSuQmCC
 </value>
+  </data>
+  <data name="PanelPictures.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 161</value>
+  </data>
+  <data name="&gt;&gt;imageListView.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="textBoxComment.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Both</value>
+  </data>
+  <data name="PanelPictures.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="&gt;&gt;panelRight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelPictureInfo.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="textBoxComment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 3</value>
+  </data>
+  <data name="labelPictureInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>383, 1</value>
+  </data>
+  <data name="PanelPictures.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 8, 0, 0</value>
+  </data>
+  <data name="pictureBoxRemote.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>StretchImage</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
+  </data>
+  <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;webBrowserComment.Name" xml:space="preserve">
+    <value>webBrowserComment</value>
+  </data>
+  <data name="&gt;&gt;webBrowserTop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PanelPictures.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="textBoxComment.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxRemote.Name" xml:space="preserve">
+    <value>pictureBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;textBoxComment.Name" xml:space="preserve">
+    <value>textBoxComment</value>
+  </data>
+  <data name="pictureBoxRemote.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;PanelPictures.Parent" xml:space="preserve">
+    <value>panelRight</value>
+  </data>
+  <data name="&gt;&gt;buttonAddComment.Parent" xml:space="preserve">
+    <value>PanelAddComment</value>
+  </data>
+  <data name="&gt;&gt;webBrowserComment.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="labelPictureInfo.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="imageListView.Colors" xml:space="preserve">
+    <value>BackColor = fff3f2ee; BorderColor = 406d6d6d; UnFocusedColor1 = fff3f2ee; UnFocusedColor2 = fff3f2ee; UnFocusedBorderColor = 806d6d6d; HoverColor1 = 83399ff; HoverColor2 = 403399ff; HoverBorderColor = 403399ff; SelectedColor1 = 103399ff; SelectedColor2 = 803399ff; SelectedBorderColor = 803399ff; ColumnHeaderBackColor1 = fff3f2ee; ColumnHeaderBackColor2 = fff3f2ee; ColumnHeaderHoverColor1 = 103399ff; ColumnHeaderHoverColor2 = 403399ff; ColumnSelectColor = 106d6d6d; ColumnSeparatorColor = 206d6d6d; PaneBackColor = fff3f2ee; PaneSeparatorColor = 806d6d6d; SelectionRectangleColor1 = 803399ff; SelectionRectangleColor2 = 803399ff</value>
+  </data>
+  <data name="buttonAddComment.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="&gt;&gt;panelMain.Name" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;webBrowserComment.Type" xml:space="preserve">
+    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxRemote.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PanelAddComment.AutoScrollMinSize" type="System.Drawing.Size, System.Drawing">
+    <value>345, 0</value>
+  </data>
+  <data name="webBrowserTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="webBrowserComment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 290</value>
+  </data>
+  <data name="textBoxComment.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="pictureBoxRemote.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="panelRight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 482</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxRemote.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="imageListView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 153</value>
+  </data>
+  <data name="&gt;&gt;buttonAddComment.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="webBrowserTop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 8</value>
+  </data>
+  <data name="&gt;&gt;webBrowserTop.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>535, 493</value>
+  </data>
+  <data name="&gt;&gt;panelRight.Name" xml:space="preserve">
+    <value>panelRight</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxRemote.Parent" xml:space="preserve">
+    <value>PanelPictures</value>
+  </data>
+  <data name="&gt;&gt;webBrowserTop.Parent" xml:space="preserve">
+    <value>panelRight</value>
+  </data>
+  <data name="panelRight.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="panelPictureInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="imageListView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 8</value>
+  </data>
+  <data name="PanelAddComment.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;PanelAddComment.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="PanelAddComment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 50</value>
+  </data>
+  <data name="pictureBoxRemote.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 27</value>
+  </data>
+  <data name="PanelAddComment.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;panelPictureInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="buttonAddComment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 28</value>
+  </data>
+  <data name="webBrowserTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 97</value>
   </data>
   <data name="imageListView.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -152,4 +448,58 @@
         GkChymYAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="buttonAddComment.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;labelPictureInfo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panelPictureInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 105</value>
+  </data>
+  <data name="&gt;&gt;panelMain.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;imageListView.Parent" xml:space="preserve">
+    <value>PanelPictures</value>
+  </data>
+  <data name="&gt;&gt;labelPictureInfo.Name" xml:space="preserve">
+    <value>labelPictureInfo</value>
+  </data>
+  <data name="buttonAddComment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>432, 3</value>
+  </data>
+  <data name="&gt;&gt;buttonAddComment.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;labelPictureInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="panelRight.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 8, 8, 0</value>
+  </data>
+  <data name="webBrowserComment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 97</value>
+  </data>
+  <data name="panelRight.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;imageListView.Name" xml:space="preserve">
+    <value>imageListView</value>
+  </data>
+  <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelPictureInfo.Parent" xml:space="preserve">
+    <value>panelRight</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>
