@@ -117,218 +117,77 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>377, 528</value>
-  </data>
-  <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 28</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="label_dropboxAccount.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
   </data>
-  <data name="btnOK.Text" xml:space="preserve">
-    <value>OK</value>
+  <data name="lblLocalStorageUsageTitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label_MonthlyLimit.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="lblUserNameTitle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 14</value>
   </data>
-  <data name="lblUserNameTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt, style=Bold</value>
-  </data>
-  <data name="lblUserNameTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 30</value>
-  </data>
-  <data name="lblUserNameTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 14</value>
-  </data>
-  <data name="lblUserNameTitle.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="lblUserNameTitle.Text" xml:space="preserve">
-    <value>Account Email</value>
-  </data>
-  <data name="&gt;&gt;lblUserNameTitle.Name" xml:space="preserve">
-    <value>lblUserNameTitle</value>
-  </data>
-  <data name="&gt;&gt;lblUserNameTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblUserNameTitle.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;lblUserNameTitle.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="lblUserName.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblUserName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 51</value>
-  </data>
-  <data name="lblUserName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 14</value>
-  </data>
-  <data name="lblUserName.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
   </data>
   <data name="lblUserName.Text" xml:space="preserve">
     <value>will@waveface.com</value>
   </data>
-  <data name="&gt;&gt;lblUserName.Name" xml:space="preserve">
-    <value>lblUserName</value>
-  </data>
-  <data name="&gt;&gt;lblUserName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;lblUserName.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="&gt;&gt;lblUserName.ZOrder" xml:space="preserve">
-    <value>14</value>
+  <data name="lblVersion.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
   </data>
-  <data name="lblDeviceNameTitle.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblLocalStorageUsage.Text" xml:space="preserve">
+    <value>0MB</value>
+  </data>
+  <data name="lblUserName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lblDeviceNameTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt, style=Bold</value>
+  <data name="&gt;&gt;label_MonthlyLimit.Name" xml:space="preserve">
+    <value>label_MonthlyLimit</value>
   </data>
-  <data name="lblDeviceNameTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 81</value>
+  <data name="lblLocalStorageUsage.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="lblDeviceNameTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 14</value>
+  <data name="&gt;&gt;checkBox_autoStartWaveface.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="lblDeviceNameTitle.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Account Status</value>
   </data>
-  <data name="lblDeviceNameTitle.Text" xml:space="preserve">
-    <value>Device Name</value>
+  <data name="lblLocalStorageUsageTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 27</value>
   </data>
-  <data name="&gt;&gt;lblDeviceNameTitle.Name" xml:space="preserve">
-    <value>lblDeviceNameTitle</value>
+  <data name="barCloudUsage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 273</value>
+  </data>
+  <data name="label_DaysLeft.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;btnEditAccount.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;lblDayLeft.Name" xml:space="preserve">
+    <value>lblDayLeft</value>
   </data>
   <data name="&gt;&gt;lblDeviceNameTitle.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblDeviceNameTitle.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;lblDeviceNameTitle.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="lblDeviceName.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblDeviceName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 103</value>
-  </data>
-  <data name="lblDeviceName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 14</value>
-  </data>
-  <data name="lblDeviceName.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="lblDeviceName.Text" xml:space="preserve">
-    <value>WAVEFACE-PC</value>
-  </data>
-  <data name="&gt;&gt;lblDeviceName.Name" xml:space="preserve">
-    <value>lblDeviceName</value>
-  </data>
-  <data name="&gt;&gt;lblDeviceName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblDeviceName.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;lblDeviceName.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="lblDropboxStorageAccountTitle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblDropboxStorageAccountTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt, style=Bold</value>
-  </data>
-  <data name="lblDropboxStorageAccountTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 136</value>
-  </data>
-  <data name="lblDropboxStorageAccountTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 14</value>
-  </data>
-  <data name="lblDropboxStorageAccountTitle.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="lblDropboxStorageAccountTitle.Text" xml:space="preserve">
-    <value>Dropbox Account</value>
-  </data>
-  <data name="&gt;&gt;lblDropboxStorageAccountTitle.Name" xml:space="preserve">
-    <value>lblDropboxStorageAccountTitle</value>
-  </data>
-  <data name="&gt;&gt;lblDropboxStorageAccountTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblDropboxStorageAccountTitle.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;lblDropboxStorageAccountTitle.ZOrder" xml:space="preserve">
-    <value>17</value>
-  </data>
-  <data name="btnDropboxAction.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnDropboxAction.Location" type="System.Drawing.Point, System.Drawing">
-    <value>131, 132</value>
+  <data name="lblLocalStorageUsage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>30, 14</value>
   </data>
   <data name="btnDropboxAction.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 23</value>
   </data>
-  <data name="btnDropboxAction.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="btnDropboxAction.Text" xml:space="preserve">
-    <value>Disconnect</value>
-  </data>
-  <data name="&gt;&gt;btnDropboxAction.Name" xml:space="preserve">
-    <value>btnDropboxAction</value>
-  </data>
-  <data name="&gt;&gt;btnDropboxAction.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnDropboxAction.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;btnDropboxAction.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="lblCloudUsageTitle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblCloudUsageTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt, style=Bold</value>
-  </data>
-  <data name="lblCloudUsageTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 194</value>
-  </data>
-  <data name="lblCloudUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 14</value>
+  <data name="&gt;&gt;lblVersion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblCloudUsageTitle.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -336,616 +195,760 @@
   <data name="lblCloudUsageTitle.Text" xml:space="preserve">
     <value>Current Monthly Usage</value>
   </data>
-  <data name="&gt;&gt;lblCloudUsageTitle.Name" xml:space="preserve">
-    <value>lblCloudUsageTitle</value>
-  </data>
-  <data name="&gt;&gt;lblCloudUsageTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblCloudUsageTitle.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;lblCloudUsageTitle.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="barCloudUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 273</value>
+  <data name="&gt;&gt;btnTestConnection.Parent" xml:space="preserve">
+    <value>groupBox1</value>
   </data>
   <data name="barCloudUsage.Size" type="System.Drawing.Size, System.Drawing">
     <value>411, 18</value>
   </data>
-  <data name="barCloudUsage.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;barCloudUsage.Name" xml:space="preserve">
-    <value>barCloudUsage</value>
-  </data>
-  <data name="&gt;&gt;barCloudUsage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;barCloudUsage.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;barCloudUsage.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="labelConnectionStatus.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="labelConnectionStatus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>243, 78</value>
-  </data>
-  <data name="labelConnectionStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 14</value>
-  </data>
-  <data name="labelConnectionStatus.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;btnDropboxAction.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;labelConnectionStatus.Name" xml:space="preserve">
-    <value>labelConnectionStatus</value>
+  <data name="lblDeviceNameTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 81</value>
   </data>
-  <data name="&gt;&gt;labelConnectionStatus.Type" xml:space="preserve">
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;labelConnectionStatus.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;labelConnectionStatus.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnTestConnection.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 74</value>
-  </data>
-  <data name="btnTestConnection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 23</value>
-  </data>
-  <data name="btnTestConnection.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="btnTestConnection.Text" xml:space="preserve">
-    <value>Test connection to Waveface Service</value>
-  </data>
-  <data name="&gt;&gt;btnTestConnection.Name" xml:space="preserve">
-    <value>btnTestConnection</value>
-  </data>
-  <data name="&gt;&gt;btnTestConnection.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnTestConnection.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;btnTestConnection.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="checkBox_autoStartWaveface.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkBox_autoStartWaveface.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 50</value>
-  </data>
-  <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 17</value>
-  </data>
-  <data name="checkBox_autoStartWaveface.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
   </data>
   <data name="checkBox_autoStartWaveface.Text" xml:space="preserve">
     <value>Start Waveface on system startup</value>
   </data>
-  <data name="&gt;&gt;checkBox_autoStartWaveface.Name" xml:space="preserve">
-    <value>checkBox_autoStartWaveface</value>
-  </data>
-  <data name="&gt;&gt;checkBox_autoStartWaveface.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkBox_autoStartWaveface.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;checkBox_autoStartWaveface.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lblLocalStorageUsage.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblLocalStorageUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>141, 27</value>
-  </data>
-  <data name="lblLocalStorageUsage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 14</value>
-  </data>
-  <data name="lblLocalStorageUsage.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lblLocalStorageUsage.Text" xml:space="preserve">
-    <value>0MB</value>
-  </data>
-  <data name="&gt;&gt;lblLocalStorageUsage.Name" xml:space="preserve">
-    <value>lblLocalStorageUsage</value>
-  </data>
-  <data name="&gt;&gt;lblLocalStorageUsage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblLocalStorageUsage.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;lblLocalStorageUsage.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblVersionTitle.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="lblLocalStorageUsageTitle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblLocalStorageUsageTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt, style=Bold</value>
-  </data>
-  <data name="lblLocalStorageUsageTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 27</value>
-  </data>
-  <data name="lblLocalStorageUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 14</value>
-  </data>
-  <data name="lblLocalStorageUsageTitle.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblLocalStorageUsageTitle.Text" xml:space="preserve">
-    <value>Local Storage Usage:</value>
-  </data>
-  <data name="&gt;&gt;lblLocalStorageUsageTitle.Name" xml:space="preserve">
-    <value>lblLocalStorageUsageTitle</value>
-  </data>
-  <data name="&gt;&gt;lblLocalStorageUsageTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblLocalStorageUsageTitle.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;lblLocalStorageUsageTitle.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>446, 108</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Station Status</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="lblCloudStorageUsed.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblCloudStorageUsed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>51, 233</value>
-  </data>
-  <data name="lblCloudStorageUsed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 14</value>
   </data>
   <data name="lblCloudStorageUsed.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
   </data>
-  <data name="&gt;&gt;lblCloudStorageUsed.Name" xml:space="preserve">
-    <value>lblCloudStorageUsed</value>
+  <data name="lblCloudUsageTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt, style=Bold</value>
   </data>
-  <data name="&gt;&gt;lblCloudStorageUsed.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="lblLocalStorageUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 14</value>
   </data>
-  <data name="&gt;&gt;lblCloudStorageUsed.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
-  <data name="&gt;&gt;lblCloudStorageUsed.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="btnEditAccount.Text" xml:space="preserve">
+    <value>Edit Account Profile</value>
   </data>
-  <data name="label_UsedCount.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblCloudUsageTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label_UsedCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 232</value>
+  <data name="btnTestConnection.Text" xml:space="preserve">
+    <value>Test connection to Waveface Service</value>
   </data>
-  <data name="label_UsedCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 14</value>
+  <data name="&gt;&gt;bgworkerGetAllData.Name" xml:space="preserve">
+    <value>bgworkerGetAllData</value>
   </data>
-  <data name="label_UsedCount.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
+  <data name="&gt;&gt;label_UsedCount.Parent" xml:space="preserve">
+    <value>groupBox2</value>
   </data>
-  <data name="label_UsedCount.Text" xml:space="preserve">
-    <value>Used:</value>
+  <data name="&gt;&gt;barCloudUsage.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;btnDropboxAction.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="lblDropboxStorageAccountTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_MonthlyLimit.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="labelConnectionStatus.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;barCloudUsage.Name" xml:space="preserve">
+    <value>barCloudUsage</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Waveface Preference</value>
+  </data>
+  <data name="&gt;&gt;linkLegalNotice.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_switchAccount.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="lblDeviceName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;label_UsedCount.Name" xml:space="preserve">
     <value>label_UsedCount</value>
   </data>
-  <data name="&gt;&gt;label_UsedCount.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblCloudUsageTitle.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;lblVersion.Name" xml:space="preserve">
+    <value>lblVersion</value>
+  </data>
+  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>377, 528</value>
+  </data>
+  <data name="lblDayLeft.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="label_UsedCount.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblDropboxStorageAccountTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt, style=Bold</value>
+  </data>
+  <data name="lblCloudStorageLimit.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblUserNameTitle.Text" xml:space="preserve">
+    <value>Account Email</value>
+  </data>
+  <data name="&gt;&gt;btnTestConnection.Name" xml:space="preserve">
+    <value>btnTestConnection</value>
+  </data>
+  <data name="label_MonthlyLimit.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;lblDeviceNameTitle.Name" xml:space="preserve">
+    <value>lblDeviceNameTitle</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;lblCloudUsageTitle.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="label_dropboxAccount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 158</value>
+  </data>
+  <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 17</value>
+  </data>
+  <data name="lblUserNameTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblLocalStorageUsage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>141, 27</value>
+  </data>
+  <data name="&gt;&gt;label_dropboxAccount.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblVersionTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 506</value>
+  </data>
+  <data name="lblLocalStorageUsageTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblVersion.Text" xml:space="preserve">
+    <value>1.0.0.78</value>
+  </data>
+  <data name="lblDropboxStorageAccountTitle.Text" xml:space="preserve">
+    <value>Dropbox Account</value>
+  </data>
+  <data name="&gt;&gt;label_dropboxAccount.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label_UsedCount.Parent" xml:space="preserve">
+  <data name="label_UsedCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 14</value>
+  </data>
+  <data name="&gt;&gt;lblVersionTitle.Name" xml:space="preserve">
+    <value>lblVersionTitle</value>
+  </data>
+  <data name="&gt;&gt;lblLocalStorageUsage.Name" xml:space="preserve">
+    <value>lblLocalStorageUsage</value>
+  </data>
+  <data name="&gt;&gt;btnDropboxAction.Name" xml:space="preserve">
+    <value>btnDropboxAction</value>
+  </data>
+  <data name="&gt;&gt;lblUserNameTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label_UsedCount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 232</value>
+  </data>
+  <data name="&gt;&gt;lblUserNameTitle.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label_UsedCount.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="label_dropboxAccount.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;checkBox_autoStartWaveface.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;lblUserName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_autoStartWaveface.Name" xml:space="preserve">
+    <value>checkBox_autoStartWaveface</value>
+  </data>
+  <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="checkBox_autoStartWaveface.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label_dropboxAccount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 158</value>
+  <data name="&gt;&gt;lblVersionTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnDropboxAction.Location" type="System.Drawing.Point, System.Drawing">
+    <value>131, 132</value>
+  </data>
+  <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>56, 506</value>
+  </data>
+  <data name="&gt;&gt;bgworkerGetAllData.Type" xml:space="preserve">
+    <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDropboxStorageAccountTitle.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="lblDropboxStorageAccountTitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_switchAccount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>306, 14</value>
+  </data>
+  <data name="btnTestConnection.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblCloudStorageLimit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 14</value>
   </data>
   <data name="label_dropboxAccount.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 14</value>
   </data>
-  <data name="label_dropboxAccount.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
+  <data name="&gt;&gt;label_switchAccount.Name" xml:space="preserve">
+    <value>label_switchAccount</value>
+  </data>
+  <data name="lblDropboxStorageAccountTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 136</value>
+  </data>
+  <data name="lblDayLeft.Location" type="System.Drawing.Point, System.Drawing">
+    <value>115, 254</value>
   </data>
   <data name="label_dropboxAccount.Text" xml:space="preserve">
     <value>shawn.liang@waveface.com</value>
   </data>
-  <data name="&gt;&gt;label_dropboxAccount.Name" xml:space="preserve">
-    <value>label_dropboxAccount</value>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
-  <data name="&gt;&gt;label_dropboxAccount.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblLocalStorageUsageTitle.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="linkLegalNotice.Text" xml:space="preserve">
+    <value>Legal notice</value>
+  </data>
+  <data name="btnEditAccount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>131, 26</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 14</value>
+  </data>
+  <data name="lblCopyRight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 14</value>
+  </data>
+  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="checkBox_autoStartWaveface.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblLocalStorageUsageTitle.Text" xml:space="preserve">
+    <value>Local Storage Usage:</value>
+  </data>
+  <data name="lblDeviceNameTitle.Text" xml:space="preserve">
+    <value>Device Name</value>
+  </data>
+  <data name="&gt;&gt;btnDropboxAction.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDeviceNameTitle.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="label_DaysLeft.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 14</value>
+  </data>
+  <data name="&gt;&gt;lblDropboxStorageAccountTitle.Name" xml:space="preserve">
+    <value>lblDropboxStorageAccountTitle</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDropboxStorageAccountTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblUserNameTitle.Name" xml:space="preserve">
+    <value>lblUserNameTitle</value>
+  </data>
+  <data name="label_DaysLeft.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 252</value>
+  </data>
+  <data name="&gt;&gt;lblCloudStorageUsed.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
+    <value>btnOK</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;barCloudUsage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_DaysLeft.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>430, 33</value>
+  </data>
+  <data name="btnDropboxAction.Text" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="lblDeviceName.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;lblVersionTitle.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="label_DaysLeft.Text" xml:space="preserve">
+    <value>Days left in cycle:</value>
+  </data>
+  <data name="lblDeviceName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 103</value>
+  </data>
+  <data name="&gt;&gt;lblCopyRight.Name" xml:space="preserve">
+    <value>lblCopyRight</value>
+  </data>
+  <data name="lblCopyRight.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="lblVersionTitle.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblCloudUsageTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblDayLeft.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 14</value>
+  </data>
+  <data name="&gt;&gt;btnEditAccount.Name" xml:space="preserve">
+    <value>btnEditAccount</value>
+  </data>
+  <data name="&gt;&gt;labelConnectionStatus.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="label_DaysLeft.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="barCloudUsage.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="btnTestConnection.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 74</value>
+  </data>
+  <data name="&gt;&gt;lblCloudStorageUsed.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;lblDayLeft.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;lblLocalStorageUsageTitle.Name" xml:space="preserve">
+    <value>lblLocalStorageUsageTitle</value>
+  </data>
+  <data name="&gt;&gt;lblDeviceName.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
+  </data>
+  <data name="label_UsedCount.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="&gt;&gt;lblCloudStorageUsed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblCloudStorageUsed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>51, 233</value>
+  </data>
+  <data name="lblCloudStorageLimit.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="linkLegalNotice.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 543</value>
+  </data>
+  <data name="btnOK.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="lblVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 14</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Note: Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.</value>
+  </data>
+  <data name="lblCopyRight.Text" xml:space="preserve">
+    <value>Copyright © 2011 Waveface Inc. All Rights Reserved.</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="lblLocalStorageUsageTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt, style=Bold</value>
+  </data>
+  <data name="btnEditAccount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 23</value>
+  </data>
+  <data name="&gt;&gt;lblCopyRight.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblCloudStorageUsed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 14</value>
+  </data>
+  <data name="&gt;&gt;lblCloudStorageUsed.Name" xml:space="preserve">
+    <value>lblCloudStorageUsed</value>
+  </data>
+  <data name="labelConnectionStatus.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblUserNameTitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblDeviceNameTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt, style=Bold</value>
+  </data>
+  <data name="lblDeviceName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 14</value>
+  </data>
+  <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 28</value>
+  </data>
+  <data name="lblUserName.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="btnDropboxAction.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkLegalNotice.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblUserName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 14</value>
+  </data>
+  <data name="lblDeviceNameTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lblUserNameTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt, style=Bold</value>
+  </data>
+  <data name="&gt;&gt;label_MonthlyLimit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnTestConnection.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDropboxStorageAccountTitle.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;lblLocalStorageUsage.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label_switchAccount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 300</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="btnEditAccount.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;linkLegalNotice.Name" xml:space="preserve">
+    <value>linkLegalNotice</value>
+  </data>
+  <data name="&gt;&gt;lblDayLeft.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblVersion.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblCopyRight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 524</value>
+  </data>
+  <data name="lblCloudUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 14</value>
+  </data>
+  <data name="&gt;&gt;lblCloudStorageLimit.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_dropboxAccount.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
-  <data name="&gt;&gt;label_dropboxAccount.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="linkLegalNotice.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 14</value>
   </data>
-  <data name="label_DaysLeft.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label_DaysLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 252</value>
-  </data>
-  <data name="label_DaysLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 14</value>
-  </data>
-  <data name="label_DaysLeft.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
-  <data name="label_DaysLeft.Text" xml:space="preserve">
-    <value>Days left in cycle:</value>
-  </data>
-  <data name="&gt;&gt;label_DaysLeft.Name" xml:space="preserve">
-    <value>label_DaysLeft</value>
-  </data>
-  <data name="&gt;&gt;label_DaysLeft.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_DaysLeft.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;label_DaysLeft.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="label_MonthlyLimit.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label_MonthlyLimit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 213</value>
-  </data>
-  <data name="label_MonthlyLimit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 14</value>
-  </data>
-  <data name="label_MonthlyLimit.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
-  </data>
-  <data name="label_MonthlyLimit.Text" xml:space="preserve">
-    <value>Limit per month:</value>
-  </data>
-  <data name="&gt;&gt;label_MonthlyLimit.Name" xml:space="preserve">
-    <value>label_MonthlyLimit</value>
-  </data>
-  <data name="&gt;&gt;label_MonthlyLimit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_MonthlyLimit.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;label_MonthlyLimit.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="label_switchAccount.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label_switchAccount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 300</value>
-  </data>
-  <data name="label_switchAccount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>306, 14</value>
-  </data>
-  <data name="label_switchAccount.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="label_switchAccount.Text" xml:space="preserve">
-    <value>Please click here to switch accounts on this computer.</value>
-  </data>
-  <data name="&gt;&gt;label_switchAccount.Name" xml:space="preserve">
-    <value>label_switchAccount</value>
-  </data>
-  <data name="&gt;&gt;label_switchAccount.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_switchAccount.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;label_switchAccount.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 319</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>430, 33</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Note: Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="lblDayLeft.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblDayLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 254</value>
-  </data>
-  <data name="lblDayLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 14</value>
-  </data>
-  <data name="lblDayLeft.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;lblDayLeft.Name" xml:space="preserve">
-    <value>lblDayLeft</value>
-  </data>
-  <data name="&gt;&gt;lblDayLeft.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblDayLeft.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;lblDayLeft.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="lblCloudStorageLimit.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblCloudStorageLimit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>111, 214</value>
-  </data>
-  <data name="lblCloudStorageLimit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 14</value>
-  </data>
-  <data name="lblCloudStorageLimit.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;lblCloudStorageLimit.Name" xml:space="preserve">
-    <value>lblCloudStorageLimit</value>
-  </data>
-  <data name="&gt;&gt;lblCloudStorageLimit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblCloudStorageLimit.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;lblCloudStorageLimit.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="btnEditAccount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>131, 26</value>
-  </data>
-  <data name="btnEditAccount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 23</value>
-  </data>
-  <data name="btnEditAccount.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="btnEditAccount.Text" xml:space="preserve">
-    <value>Edit Account Profile</value>
-  </data>
-  <data name="&gt;&gt;btnEditAccount.Name" xml:space="preserve">
-    <value>btnEditAccount</value>
-  </data>
-  <data name="&gt;&gt;btnEditAccount.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnEditAccount.Parent" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;btnEditAccount.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 138</value>
-  </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>446, 355</value>
-  </data>
-  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Account Status</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="lblVersionTitle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblVersionTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 506</value>
-  </data>
-  <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 14</value>
-  </data>
-  <data name="lblVersionTitle.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="lblVersionTitle.Text" xml:space="preserve">
-    <value>Version</value>
-  </data>
-  <data name="&gt;&gt;lblVersionTitle.Name" xml:space="preserve">
-    <value>lblVersionTitle</value>
-  </data>
-  <data name="&gt;&gt;lblVersionTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblVersionTitle.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblVersionTitle.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="lblVersion.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>56, 506</value>
-  </data>
-  <data name="lblVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 14</value>
-  </data>
-  <data name="lblVersion.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="lblVersion.Text" xml:space="preserve">
-    <value>1.0.0.78</value>
-  </data>
-  <data name="&gt;&gt;lblVersion.Name" xml:space="preserve">
-    <value>lblVersion</value>
-  </data>
-  <data name="&gt;&gt;lblVersion.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblDeviceName.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblVersion.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;lblVersion.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;labelConnectionStatus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="lblCopyRight.AutoSize" type="System.Boolean, mscorlib">
+  <data name="btnTestConnection.Size" type="System.Drawing.Size, System.Drawing">
+    <value>227, 23</value>
+  </data>
+  <data name="lblVersionTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lblCopyRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 524</value>
-  </data>
-  <data name="lblCopyRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 14</value>
-  </data>
-  <data name="lblCopyRight.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="lblCopyRight.Text" xml:space="preserve">
-    <value>Copyright © 2011 Waveface Inc. All Rights Reserved.</value>
-  </data>
-  <data name="&gt;&gt;lblCopyRight.Name" xml:space="preserve">
-    <value>lblCopyRight</value>
-  </data>
-  <data name="&gt;&gt;lblCopyRight.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;lblCloudUsageTitle.Name" xml:space="preserve">
+    <value>lblCloudUsageTitle</value>
   </data>
   <data name="&gt;&gt;lblCopyRight.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;lblCopyRight.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="linkLegalNotice.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="linkLegalNotice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 543</value>
-  </data>
-  <data name="linkLegalNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 14</value>
-  </data>
-  <data name="linkLegalNotice.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="linkLegalNotice.Text" xml:space="preserve">
-    <value>Legal notice</value>
-  </data>
-  <data name="&gt;&gt;linkLegalNotice.Name" xml:space="preserve">
-    <value>linkLegalNotice</value>
-  </data>
-  <data name="&gt;&gt;linkLegalNotice.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linkLegalNotice.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;linkLegalNotice.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <metadata name="bgworkerGetAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 14</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>471, 568</value>
-  </data>
-  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterScreen</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Waveface Preference</value>
-  </data>
-  <data name="&gt;&gt;bgworkerGetAllData.Name" xml:space="preserve">
-    <value>bgworkerGetAllData</value>
-  </data>
-  <data name="&gt;&gt;bgworkerGetAllData.Type" xml:space="preserve">
-    <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="lblDropboxStorageAccountTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 14</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PreferenceForm</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;linkLegalNotice.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
+  <data name="label_switchAccount.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;label_switchAccount.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="lblUserNameTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 30</value>
+  </data>
+  <data name="&gt;&gt;label_UsedCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblCopyRight.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;lblCloudStorageLimit.Name" xml:space="preserve">
+    <value>lblCloudStorageLimit</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 138</value>
+  </data>
+  <data name="lblDayLeft.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;barCloudUsage.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="checkBox_autoStartWaveface.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 50</value>
+  </data>
+  <data name="&gt;&gt;label_DaysLeft.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lblDeviceNameTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 14</value>
+  </data>
+  <data name="lblDeviceNameTitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;lblDeviceName.Name" xml:space="preserve">
+    <value>lblDeviceName</value>
+  </data>
+  <data name="&gt;&gt;labelConnectionStatus.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="labelConnectionStatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 14</value>
+  </data>
+  <data name="linkLegalNotice.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="lblUserName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 51</value>
+  </data>
+  <data name="&gt;&gt;linkLegalNotice.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label_switchAccount.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="&gt;&gt;lblUserName.Name" xml:space="preserve">
+    <value>lblUserName</value>
+  </data>
+  <data name="btnDropboxAction.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>471, 568</value>
+  </data>
+  <data name="&gt;&gt;btnEditAccount.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="label_switchAccount.Text" xml:space="preserve">
+    <value>Please click here to switch accounts on this computer.</value>
+  </data>
+  <data name="&gt;&gt;label_DaysLeft.Name" xml:space="preserve">
+    <value>label_DaysLeft</value>
+  </data>
+  <data name="lblCloudStorageUsed.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;lblCloudStorageLimit.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;lblUserNameTitle.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;lblDeviceNameTitle.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;label_dropboxAccount.Name" xml:space="preserve">
+    <value>label_dropboxAccount</value>
+  </data>
+  <data name="&gt;&gt;lblLocalStorageUsage.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;lblUserName.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="label_dropboxAccount.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 319</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Station Status</value>
+  </data>
+  <data name="&gt;&gt;lblCloudStorageLimit.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="lblVersion.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_MonthlyLimit.Text" xml:space="preserve">
+    <value>Limit per month:</value>
+  </data>
+  <data name="&gt;&gt;label_switchAccount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>446, 108</value>
+  </data>
+  <data name="label_MonthlyLimit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 213</value>
+  </data>
+  <data name="&gt;&gt;lblLocalStorageUsage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblUserNameTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 14</value>
+  </data>
+  <data name="lblCloudStorageLimit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>111, 214</value>
+  </data>
+  <data name="&gt;&gt;btnTestConnection.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lblDayLeft.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;labelConnectionStatus.Name" xml:space="preserve">
+    <value>labelConnectionStatus</value>
+  </data>
+  <data name="&gt;&gt;lblCopyRight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_DaysLeft.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelConnectionStatus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>243, 78</value>
+  </data>
+  <data name="&gt;&gt;checkBox_autoStartWaveface.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="label_MonthlyLimit.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="lblDeviceName.Text" xml:space="preserve">
+    <value>WAVEFACE-PC</value>
+  </data>
+  <data name="&gt;&gt;lblLocalStorageUsageTitle.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lblLocalStorageUsageTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblVersionTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="label_MonthlyLimit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 14</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>446, 355</value>
+  </data>
+  <data name="lblCloudUsageTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 194</value>
+  </data>
+  <data name="&gt;&gt;lblDeviceName.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="lblLocalStorageUsage.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_UsedCount.Text" xml:space="preserve">
+    <value>Used:</value>
+  </data>
+  <data name="btnOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="&gt;&gt;btnEditAccount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-TW</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="bgworkerGetAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

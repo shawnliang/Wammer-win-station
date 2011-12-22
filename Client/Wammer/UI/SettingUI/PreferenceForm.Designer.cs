@@ -114,12 +114,12 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.labelConnectionStatus);
             this.groupBox1.Controls.Add(this.btnTestConnection);
             this.groupBox1.Controls.Add(this.checkBox_autoStartWaveface);
             this.groupBox1.Controls.Add(this.lblLocalStorageUsage);
             this.groupBox1.Controls.Add(this.lblLocalStorageUsageTitle);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -154,6 +154,7 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.lblCloudStorageUsed);
             this.groupBox2.Controls.Add(this.label_UsedCount);
             this.groupBox2.Controls.Add(this.label_dropboxAccount);
@@ -172,7 +173,6 @@
             this.groupBox2.Controls.Add(this.lblDeviceNameTitle);
             this.groupBox2.Controls.Add(this.lblDeviceName);
             this.groupBox2.Controls.Add(this.lblDropboxStorageAccountTitle);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -287,36 +287,36 @@
 
         #endregion
 
-		private System.Windows.Forms.Button btnOK;
-		private System.Windows.Forms.Label lblUserNameTitle;
-		private System.Windows.Forms.Label lblUserName;
-		private System.Windows.Forms.Label lblDeviceNameTitle;
-		private System.Windows.Forms.Label lblDeviceName;
-		private System.Windows.Forms.Label lblDropboxStorageAccountTitle;
-		private System.Windows.Forms.Button btnDropboxAction;
+        private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Label lblUserNameTitle;
+        private System.Windows.Forms.Label lblUserName;
+        private System.Windows.Forms.Label lblDeviceNameTitle;
+        private System.Windows.Forms.Label lblDeviceName;
+        private System.Windows.Forms.Label lblDropboxStorageAccountTitle;
+        private System.Windows.Forms.Button btnDropboxAction;
         private System.Windows.Forms.Label lblCloudUsageTitle;
-		private System.Windows.Forms.ProgressBar barCloudUsage;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.Label lblLocalStorageUsageTitle;
-		private System.Windows.Forms.Button btnTestConnection;
-		private System.Windows.Forms.CheckBox checkBox_autoStartWaveface;
-		private System.Windows.Forms.Label lblLocalStorageUsage;
+        private System.Windows.Forms.ProgressBar barCloudUsage;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblLocalStorageUsageTitle;
+        private System.Windows.Forms.Button btnTestConnection;
+        private System.Windows.Forms.CheckBox checkBox_autoStartWaveface;
+        private System.Windows.Forms.Label lblLocalStorageUsage;
         private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Button btnEditAccount;
-		private System.Windows.Forms.Label lblVersionTitle;
-		private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.Button btnEditAccount;
+        private System.Windows.Forms.Label lblVersionTitle;
+        private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Label lblCopyRight;
-		private System.Windows.Forms.Label lblDayLeft;
+        private System.Windows.Forms.Label lblDayLeft;
         private System.Windows.Forms.Label lblCloudStorageLimit;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.LinkLabel linkLegalNotice;
-		private System.ComponentModel.BackgroundWorker bgworkerGetAllData;
-		private System.Windows.Forms.Label label_dropboxAccount;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.LinkLabel linkLegalNotice;
+        private System.ComponentModel.BackgroundWorker bgworkerGetAllData;
+        private System.Windows.Forms.Label label_dropboxAccount;
         private System.Windows.Forms.LinkLabel label_switchAccount;
         private System.Windows.Forms.Label labelConnectionStatus;
         private System.Windows.Forms.Label label_MonthlyLimit;
         private System.Windows.Forms.Label label_DaysLeft;
-		private System.Windows.Forms.Label label_UsedCount;
-		private System.Windows.Forms.Label lblCloudStorageUsed;
+        private System.Windows.Forms.Label label_UsedCount;
+        private System.Windows.Forms.Label lblCloudStorageUsed;
     }
 }

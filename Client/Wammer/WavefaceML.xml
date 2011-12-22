@@ -84,4 +84,20 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Limit per month: Unlimited</en-US>
     <zh-TW>每月上限: 無上限</zh-TW>
   </WItem>
+  <WItem>
+    <ID>DropboxUI_ConnectNow</ID>
+    <en-US>Connect Now</en-US>
+    <zh-TW>立刻進行連結</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>DropboxUI_Disconnect</ID>
+    <en-US>Disconnect</en-US>
+    <zh-TW>解除連結</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>MonthlyUsage_NotConnectedYet</ID>
+    <en-US>Not connected yet</en-US>
+    <zh-TW>尚未連結</zh-TW>
+  </WItem>
+  
 </WItems>
