@@ -153,11 +153,7 @@ namespace Waveface.SettingUI
             MR_storages_usage storageUsage = service.storages_usage(session_token);
             long quota = storageUsage.storages.waveface.quota.month_total_objects;
             long usage = storageUsage.storages.waveface.usage.month_total_objects;
-            DateTime interval_end = new DateTime(1970,1,1,0,0,0,0);
-            interval_end = interval_end.AddSeconds(storageUsage.storages.waveface.interval.quota_interval_begin);
-
-            TimeSpan timeLeft = interval_end.ToLocalTime() - DateTime.Now;
-            int daysLeft = (int)Math.Ceiling(timeLeft.TotalDays);
+            int daysLeft = storageUsage.storages.waveface.interval.quota_interval_left_days;
             e.Result = new StorageUsage{quota = quota, usage = usage, daysLeft = daysLeft };
         }
 

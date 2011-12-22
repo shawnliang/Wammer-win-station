@@ -152,6 +152,7 @@ namespace Waveface.API.V2
     {
         public long quota_interval_end { get; set; }
         public long quota_interval_begin { get; set; }
+        public int quota_interval_left_days { get; set; }
     }
 
     public class WFStorage
