@@ -183,27 +183,34 @@ namespace Wammer.Model
 											ImageMeta meta, AttachmentType type, string apiKey, 
 											string token)
 		{
-			Dictionary<string, object> pars = new Dictionary<string, object>();
-			pars["type"] = type.ToString();
-			if (meta != ImageMeta.None)
-				pars["image_meta"] = meta.ToString().ToLower();
-			pars["session_token"] = token;
-			pars["apikey"] = apiKey;
-			if (objectId != null)
-				pars["object_id"] = objectId;
-			pars["group_id"] = groupId;
-			pars["file"] = imageData;
-			HttpWebResponse _webResponse =
-				Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
-				url,
-				"Mozilla 4.0+",
-				pars,
-				fileName,
-				contentType);
-
-			using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
+			try
 			{
-				return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
+				Dictionary<string, object> pars = new Dictionary<string, object>();
+				pars["type"] = type.ToString();
+				if (meta != ImageMeta.None)
+					pars["image_meta"] = meta.ToString().ToLower();
+				pars["session_token"] = token;
+				pars["apikey"] = apiKey;
+				if (objectId != null)
+					pars["object_id"] = objectId;
+				pars["group_id"] = groupId;
+				pars["file"] = imageData;
+				HttpWebResponse _webResponse =
+					Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+					url,
+					"Mozilla 4.0+",
+					pars,
+					fileName,
+					contentType);
+
+				using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
+				{
+					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
+				}
+			}
+			catch (WebException e)
+			{
+				throw new WammerCloudException("Wammer cloud error", e);
 			}
 		}
 

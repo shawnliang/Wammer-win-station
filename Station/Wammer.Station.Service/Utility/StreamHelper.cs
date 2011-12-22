@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Wammer.Utility
 {
-	static class StreamHelper
+	public static class StreamHelper
 	{
 		public static void Copy(Stream from, Stream to)
 		{

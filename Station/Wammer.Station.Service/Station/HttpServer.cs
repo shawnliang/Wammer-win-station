@@ -248,15 +248,12 @@ namespace Wammer.Station
 				if (webex != null)
 				{
 					HttpWebResponse webres = (HttpWebResponse)webex.Response;
-					if (webres != null)
+					if (webres != null && webres.StatusCode == HttpStatusCode.BadRequest)
 					{
-						if (webres.StatusCode == HttpStatusCode.BadRequest)
-						{
 							Cloud.CloudResponse cloudres = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(e.response);
 							HttpHelper.RespondFailure(ctx.Response, cloudres);
 							logger.Warn("Connection to cloud error", e);
 							return;
-						}
 					}
 				}
 
@@ -279,10 +276,10 @@ namespace Wammer.Station
 				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.BadRequest);
 				logger.Warn("Request format is incorrect", e);
 			}
-			catch (WebException e)
+			catch (WebException webex)
 			{
-				Wammer.Cloud.WammerCloudException ex = new Cloud.WammerCloudException("Request to cloud failed", e);
-				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
+				Wammer.Cloud.WammerCloudException ex = new Cloud.WammerCloudException("Request to cloud failed", webex);              
+				HttpHelper.RespondFailure(ctx.Response, webex, (int)HttpStatusCode.InternalServerError);
 				logger.Warn("Connecting to cloud error", ex);
 			}
 			catch (Exception e)
