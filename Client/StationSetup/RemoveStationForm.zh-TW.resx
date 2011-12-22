@@ -118,8 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 16</value>
+  </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>349, 44</value>
+    <value>349, 27</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>您已經使用過該帳戶，在下列電腦上安裝一個Waveface主程式：</value>
@@ -137,16 +140,16 @@
     <value>如果您按下 "確定"鈕， 上述電腦上的Waveface主程式將會被取代並且永久失效. </value>
   </data>
   <data name="buttonYes.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9.75pt</value>
+    <value>Arial, 9pt</value>
   </data>
   <data name="buttonYes.Text" xml:space="preserve">
-    <value>是</value>
+    <value>確定</value>
   </data>
   <data name="buttonNo.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9.75pt</value>
+    <value>Arial, 9pt</value>
   </data>
   <data name="buttonNo.Text" xml:space="preserve">
-    <value>否</value>
+    <value>取消</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>移除已安裝工作站</value>

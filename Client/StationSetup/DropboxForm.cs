@@ -350,5 +350,20 @@ namespace Wammer.Station
                 return;
             }
         }
+
+        private void lb_ConnectionFailed_2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lb_Welcome_2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lb_Welcome_1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
