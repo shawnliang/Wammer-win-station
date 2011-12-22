@@ -146,7 +146,7 @@
     <value>測試Waveface 伺服器連線狀態</value>
   </data>
   <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 18</value>
+    <value>160, 17</value>
   </data>
   <data name="checkBox_autoStartWaveface.Text" xml:space="preserve">
     <value>開機時自動開啟Waveface</value>
