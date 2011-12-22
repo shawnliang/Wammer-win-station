@@ -11,6 +11,8 @@ using NLog;
 using System.Diagnostics;
 using System.Threading;
 using System.Web;
+using System.Globalization;
+using Waveface.Localization;
 
 namespace Waveface.SettingUI
 {
@@ -68,13 +70,16 @@ namespace Waveface.SettingUI
                 MR_cloudstorage_list cloudStorage = wavefaceService.cloudstorage_list(stationToken);
                 if (cloudStorage.cloudstorages.Count > 0 && cloudStorage.cloudstorages[0].connected)
                 {
-                    ShowDropboxPanel(true);
+                    btnDropboxAction.Click -= this.btnConnectDropbox_Click;
+                    btnDropboxAction.Click -= this.btnUnlinkDropbox_Click;
+                    btnDropboxAction.Click += this.btnUnlinkDropbox_Click;
+                    btnDropboxAction.Text = I18n.L.T("DropboxUI_Disconnect");
 
                     label_dropboxAccount.Text = cloudStorage.cloudstorages[0].account;
                 }
                 else
                 {
-                    ShowDropboxPanel(false);
+                    ShowNoDropbox();
                 }
             }
             catch (Exception e)
@@ -82,8 +87,18 @@ namespace Waveface.SettingUI
                 s_logger.WarnException("Unable to list cloud storage", e);
                 MessageBox.Show("Unable to list cloud storage:" + e.Message, "Waveface");
 
-                ShowDropboxPanel(false);
+                ShowNoDropbox();
             }
+        }
+
+        private void ShowNoDropbox()
+        {
+            btnDropboxAction.Click -= this.btnUnlinkDropbox_Click;
+            btnDropboxAction.Click -= this.btnConnectDropbox_Click;
+            btnDropboxAction.Click += this.btnConnectDropbox_Click;
+            btnDropboxAction.Text = I18n.L.T("DropboxUI_ConnectNow");
+
+            label_dropboxAccount.Text = I18n.L.T("MonthlyUsage_NotConnectedYet");
         }
 
         private void LoadAutoStartCheckbox()
@@ -114,8 +129,17 @@ namespace Waveface.SettingUI
             }
             else
             {
-                this.label_MonthlyLimit.Text = I18n.L.T("MonthlyUsage_Limit", storage.quota);
-                this.label_UsageStarting.Text = I18n.L.T("MonthlyUsage_Starting", storage.startTime.ToLocalTime());
+                if (storage.quota < 0)
+                    this.label_MonthlyLimit.Text = I18n.L.T("MonthlyUsage_Unlimited");
+                else
+                    this.label_MonthlyLimit.Text = I18n.L.T("MonthlyUsage_Limit", storage.quota);
+                
+                TimeSpan thirtyDays = TimeSpan.FromDays(30.0);
+                TimeSpan remains = thirtyDays - (DateTime.Now - storage.startTime.ToLocalTime());
+
+                this.label_DaysLeft.Text = I18n.L.T("MonthlyUsage_DaysLeft", (int)System.Math.Ceiling(remains.TotalDays));
+                this.label_UsedCount.Text = I18n.L.T("MonthlyUsage_UsedCount", storage.usage);
+
                 this.barCloudUsage.Value = (int)(storage.usage * 100 / storage.quota);
             }
         }
@@ -143,27 +167,17 @@ namespace Waveface.SettingUI
             {
                 Cursor.Current = Cursors.WaitCursor;
                 wavefaceService.cloudstorage_dropbox_disconnect(stationToken);
-                ShowDropboxPanel(false);
+                ShowNoDropbox();
             }
             catch (Exception ex)
             {
                 s_logger.ErrorException("Unable to unlink dropbox", ex);
-                ShowDropboxPanel(false);
+                ShowNoDropbox();
                 MessageBox.Show("Unable to unlink cloud storage:" + ex.Message, "Waveface");
             }
             finally
             {
                 Cursor.Current = Cursors.Default;
-            }
-        }
-
-        private void ShowDropboxPanel(bool dropboxInUse)
-        {
-            if (dropboxInUse)
-            {
-            }
-            else
-            {
             }
         }
 
@@ -183,7 +197,7 @@ namespace Waveface.SettingUI
             catch (Exception ex)
             {
                 s_logger.ErrorException("Unable to connect to dropbox", ex);
-                ShowDropboxPanel(false);
+                ShowNoDropbox();
                 MessageBox.Show("Unable to connect to cloud storage:" + ex.Message, "Waveface");
             }
         }
@@ -197,7 +211,7 @@ namespace Waveface.SettingUI
 
         public void ConnectDropboxFailed()
         {
-            ShowDropboxPanel(false);
+            ShowNoDropbox();
             this.Enabled = true;
             Cursor.Current = Cursors.Default;
         }
@@ -291,11 +305,6 @@ namespace Waveface.SettingUI
         {
             connectionTester.Stop();
         }
-
-		private void label_MonthlyLimit_Click(object sender, EventArgs e)
-		{
-
-		}
     }
 
     public class StorageUsage
