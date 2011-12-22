@@ -238,7 +238,7 @@ namespace Waveface.PostUI
         {
             if (MyParent.richTextBox.Text.Equals(string.Empty))
             {
-                MessageBox.Show("Text cannot be empty!");
+                MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -259,16 +259,18 @@ namespace Waveface.PostUI
 
                 if (_np == null)
                 {
-                    MessageBox.Show("Post Error!");
+                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
-                MessageBox.Show("Post success!");
+                MessageBox.Show(I18n.L.T("PostForm.PostSuccess"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return true;
             }
             catch (Exception _e)
             {
                 MessageBox.Show(_e.Message);
+
+
                 return false;
             }
         }
@@ -288,14 +290,14 @@ namespace Waveface.PostUI
 
             if (_storagesUsage == long.MinValue)
             {
-                MessageBox.Show("抱歉, 系統發生未預期錯誤, 請稍後再試.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(I18n.L.T("SystemError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 return;
             }
 
             if (_storagesUsage < 0)
             {
-                MessageBox.Show(string.Format("抱歉! 您可以上傳的照片數已經超過系統允許值({0}).", m_month_total_objects), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 return;
             }
@@ -326,6 +328,13 @@ namespace Waveface.PostUI
                     int _queuedUnsendFiles = NewPostManager.Current.GetQueuedUnsendFilesCount();
                     m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
                     m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
+
+                    //Hack
+                    if (m_month_total_objects == -1)
+                    {
+                        return long.MaxValue;
+                    }
+
                     return m_avail_month_total_objects - _queuedUnsendFiles - imageListView.Items.Count;
                 }
             }

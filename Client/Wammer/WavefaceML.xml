@@ -126,4 +126,14 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Post success!</en-US>
     <zh-TW>貼文成功!</zh-TW>
   </WItem>
+  <WItem>
+    <ID>SystemError</ID>
+    <en-US>There appears to be an error with the system. Please try again later.</en-US>
+    <zh-TW>抱歉, 系統發生未預期錯誤, 請稍後再試.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PhotoStorageQuotaExceeded</ID>
+    <en-US>Photos storage quota exceeded ({0}).</en-US>
+    <zh-TW>抱歉! 您可以上傳的照片數已經超過系統允許值({0}).</zh-TW>
+  </WItem>
 </WItems>
