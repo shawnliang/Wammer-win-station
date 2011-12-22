@@ -161,13 +161,9 @@ namespace Waveface.SettingUI
         {
             if (dropboxInUse)
             {
-                panel_DropboxInUse.Show();
-                panel_DropboxNotInUse.Hide();
             }
             else
             {
-                panel_DropboxInUse.Hide();
-                panel_DropboxNotInUse.Show();
             }
         }
 
