@@ -163,5 +163,10 @@ namespace Wammer.Station
             }
             return base.ProcessDialogKey(keyData);
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

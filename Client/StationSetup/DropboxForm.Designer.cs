@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DropboxForm));
             this.backgroundWorkerDefaultPosts = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorkerVerifying = new System.ComponentModel.BackgroundWorker();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_Welcome = new Waveface.Component.MultiPage.MultiPanelPage();
             this.pb_Welcome = new System.Windows.Forms.PictureBox();
@@ -92,7 +93,6 @@
             this.pBar_DefaultPosts = new System.Windows.Forms.ProgressBar();
             this.pb_DefaultPosts = new System.Windows.Forms.PictureBox();
             this.lb_DefaultPosts = new System.Windows.Forms.Label();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.multiPanel.SuspendLayout();
             this.Page_Welcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Welcome)).BeginInit();
@@ -128,6 +128,10 @@
             this.backgroundWorkerVerifying.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerVerifying_DoWork);
             this.backgroundWorkerVerifying.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerVerifying_RunWorkerCompleted);
             // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
             // multiPanel
             // 
             resources.ApplyResources(this.multiPanel, "multiPanel");
@@ -143,7 +147,7 @@
             this.multiPanel.Controls.Add(this.Page_InstallDropbox_2);
             this.multiPanel.Controls.Add(this.Page_DefaultPosts);
             this.multiPanel.Name = "multiPanel";
-            this.multiPanel.SelectedPage = this.Page_InstallDropbox_1;
+            this.multiPanel.SelectedPage = this.Page_Welcome;
             // 
             // Page_Welcome
             // 
@@ -167,11 +171,13 @@
             // 
             resources.ApplyResources(this.lb_Welcome_2, "lb_Welcome_2");
             this.lb_Welcome_2.Name = "lb_Welcome_2";
+            this.lb_Welcome_2.Click += new System.EventHandler(this.lb_Welcome_2_Click);
             // 
             // lb_Welcome_1
             // 
             resources.ApplyResources(this.lb_Welcome_1, "lb_Welcome_1");
             this.lb_Welcome_1.Name = "lb_Welcome_1";
+            this.lb_Welcome_1.Click += new System.EventHandler(this.lb_Welcome_1_Click);
             // 
             // btn_Welcome_UseDropbox
             // 
@@ -465,6 +471,7 @@
             // 
             resources.ApplyResources(this.lb_ConnectionFailed_2, "lb_ConnectionFailed_2");
             this.lb_ConnectionFailed_2.Name = "lb_ConnectionFailed_2";
+            this.lb_ConnectionFailed_2.Click += new System.EventHandler(this.lb_ConnectionFailed_2_Click);
             // 
             // lb_ConnectionFailed_1
             // 
@@ -555,15 +562,11 @@
             resources.ApplyResources(this.lb_DefaultPosts, "lb_DefaultPosts");
             this.lb_DefaultPosts.Name = "lb_DefaultPosts";
             // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
             // DropboxForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Window;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.Controls.Add(this.multiPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;

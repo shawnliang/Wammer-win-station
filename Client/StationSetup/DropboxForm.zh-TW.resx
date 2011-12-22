@@ -122,6 +122,9 @@
     <value>StretchImage</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="lb_Welcome_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>94, 48</value>
+  </data>
   <data name="lb_Welcome_2.Size" type="System.Drawing.Size, System.Drawing">
     <value>381, 187</value>
   </data>
@@ -136,10 +139,10 @@
 </value>
   </data>
   <data name="lb_Welcome_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>377, 48</value>
+    <value>385, 48</value>
   </data>
   <data name="lb_Welcome_1.Text" xml:space="preserve">
-    <value>Waveface可以連結Dropbox來提供您更多的功能喔!</value>
+    <value>Waveface可以連結Dropbox來提供更多的功能喔!</value>
   </data>
   <data name="btn_Welcome_UseDropbox.Text" xml:space="preserve">
     <value>下一步</value>
@@ -148,7 +151,7 @@
     <value>跳過</value>
   </data>
   <data name="btn_SetupCompleted_InstallAgain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>255, 263</value>
+    <value>255, 282</value>
   </data>
   <data name="btn_SetupCompleted_InstallAgain.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 27</value>
@@ -167,6 +170,9 @@
 立刻享受Waveface的所有便利功能，開始連結您生活中的每一個片段。
 </value>
   </data>
+  <data name="lb_SetupCompleted_1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt, style=Bold</value>
+  </data>
   <data name="lb_SetupCompleted_1.Text" xml:space="preserve">
     <value>感謝您! Waveface順利完成安裝。</value>
   </data>
@@ -177,7 +183,7 @@
     <value>StretchImage</value>
   </data>
   <data name="lb_Linkage_1_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>164, 70</value>
+    <value>164, 48</value>
   </data>
   <data name="lb_Linkage_1_2.Size" type="System.Drawing.Size, System.Drawing">
     <value>313, 159</value>
@@ -245,8 +251,14 @@
     <value>抱歉您尚未安裝Dropbox! 
 </value>
   </data>
+  <data name="btn_InstallationFailedSkip_Retry.Location" type="System.Drawing.Point, System.Drawing">
+    <value>366, 283</value>
+  </data>
   <data name="btn_InstallationFailedSkip_Retry.Text" xml:space="preserve">
     <value>安裝 Dropbox</value>
+  </data>
+  <data name="btn_InstallationFailedSkip_Skip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>296, 283</value>
   </data>
   <data name="btn_InstallationFailedSkip_Skip.Text" xml:space="preserve">
     <value>跳過</value>
@@ -269,7 +281,7 @@
     <value>StretchImage</value>
   </data>
   <data name="lb_Verifying_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 12</value>
+    <value>87, 13</value>
   </data>
   <data name="lb_Verifying_1.Size" type="System.Drawing.Size, System.Drawing">
     <value>404, 47</value>
@@ -304,9 +316,6 @@
   </data>
   <data name="btn_InstallDropbox_2_InstallAgain.Text" xml:space="preserve">
     <value>再次安裝</value>
-  </data>
-  <data name="lb_InstallDropbox_2_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 70</value>
   </data>
   <data name="lb_InstallDropbox_2_2.Text" xml:space="preserve">
     <value>安裝完成後，請點擊"下一步"。</value>
