@@ -224,7 +224,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show("Your authentication is expired. Re-enter your password to log in again.", "Waveface");
+                MessageBox.Show(I18n.L.T("Station401Exception"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 m_exitToLogin = true;
                 m_process401Exception = true;
@@ -338,7 +338,7 @@ namespace Waveface
                 SetLastReadPos();
 
                 m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
-                m_dropableNotifyIcon.NotifyIcon.BalloonTipText = "Minimize to Tray App";
+                m_dropableNotifyIcon.NotifyIcon.BalloonTipText = I18n.L.T("MinimizetoTrayApp");
                 m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
 
                 s_logger.Trace("Main_SizeChanged: FormWindowState.Minimized");
@@ -429,7 +429,7 @@ namespace Waveface
             {
                 RT.REST.IsNetworkAvailable = false;
 
-                MessageBox.Show("Network Disconnected.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 s_logger.Info("UpdateNetworkStatus: Disconnected");
             }
@@ -443,7 +443,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show("Network Disconnected.", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
         }
@@ -526,6 +526,7 @@ namespace Waveface
             RT.FilterMode = false;
 
             leftArea.SetUI(true);
+            leftArea.SetNewPostManager();
 
             postsArea.showRefreshUI(true);
 
@@ -735,7 +736,6 @@ namespace Waveface
                     {
                         if (_postsGet.posts.Count > 0)
                         {
-                            //ªι™¤ζ―”θΊζ„ι‚£‹Post, ε¦‚ζ‰ε³ηθ©
                             Post _toDel = null;
 
                             foreach (Post _p in _postsGet.posts)

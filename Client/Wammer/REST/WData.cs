@@ -148,12 +148,18 @@ namespace Waveface.API.V2
         public long total_sizes { get; set; }
     }
 
+    public class QuotaInterval
+    {
+        public long quota_interval_end { get; set; }
+        public long quota_interval_begin { get; set; }
+    }
+
     public class WFStorage
     {
         public WFStorageUsage usage;
         public WFStorageAvailable available;
         public WFStorageQuota quota;
-        public long quota_starting_time;
+        public QuotaInterval interval;
         public bool over_quota;
     }
 

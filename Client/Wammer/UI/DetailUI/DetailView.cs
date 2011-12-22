@@ -79,13 +79,13 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnComment = new Waveface.Component.XPButton();
             this.labelWho = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
             this.timerShowCommentButton = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.btnComment = new Waveface.Component.XPButton();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,6 +97,18 @@ namespace Waveface
             this.panelTop.Controls.Add(this.labelTime);
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
+            // 
+            // btnComment
+            // 
+            this.btnComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnComment, "btnComment");
+            this.btnComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnComment.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnComment.Image = global::Waveface.Properties.Resources.write_comment;
+            this.btnComment.Name = "btnComment";
+            this.btnComment.UseVisualStyleBackColor = true;
+            this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
             // labelWho
             // 
@@ -129,18 +141,6 @@ namespace Waveface
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
-            // 
-            // btnComment
-            // 
-            this.btnComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnComment, "btnComment");
-            this.btnComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnComment.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnComment.Image = global::Waveface.Properties.Resources.write_comment;
-            this.btnComment.Name = "btnComment";
-            this.btnComment.UseVisualStyleBackColor = true;
-            this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
             // DetailView
             // 
@@ -206,7 +206,7 @@ namespace Waveface
             labelTime.Text = DateTimeHelp.ISO8601ToDotNet(Post.timestamp);
             labelWho.Text = I18n.L.T("DetailView.Via") + " " + Post.code_name;
 
-            labelWho.Left = labelTime.Right + 16;
+            labelWho.Left = labelTime.Right + 8;
         }
 
         private PostType getPostType()

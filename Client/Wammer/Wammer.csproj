@@ -650,6 +650,9 @@
     <EmbeddedResource Include="UI\PostUI\Photo.resx">
       <DependentUpon>Photo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\Photo.zh-TW.resx">
+      <DependentUpon>Photo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\PostUI\PostForm.resx">
       <DependentUpon>PostForm.cs</DependentUpon>
     </EmbeddedResource>

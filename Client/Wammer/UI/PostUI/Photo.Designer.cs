@@ -55,6 +55,7 @@
             this.btnAddPhoto = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
             this.btnBatchPost = new Waveface.Component.XPButton();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.panel.SuspendLayout();
             this.columnContextMenu.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -63,22 +64,15 @@
             // 
             // panel
             // 
-            this.panel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.panel, "panel");
             this.panel.Controls.Add(this.imageListView);
-            this.panel.Location = new System.Drawing.Point(6, 0);
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(606, 233);
-            this.panel.TabIndex = 8;
             // 
             // imageListView
             // 
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.AllowDrag = true;
             this.imageListView.AllowDrop = true;
-            this.imageListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.Columns.AddRange(new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader[] {
             new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader(Manina.Windows.Forms.ColumnType.Name, "", 100, 0, true),
@@ -91,54 +85,48 @@
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.imageListView.Location = new System.Drawing.Point(2, 40);
             this.imageListView.Name = "imageListView";
-            this.imageListView.Size = new System.Drawing.Size(603, 194);
-            this.imageListView.TabIndex = 2;
             this.imageListView.ThumbnailSize = new System.Drawing.Size(120, 120);
             this.imageListView.ItemCollectionChanged += new Manina.Windows.Forms.ItemCollectionChangedEventHandler(this.imageListView_ItemCollectionChanged);
             // 
             // columnContextMenu
             // 
+            resources.ApplyResources(this.columnContextMenu, "columnContextMenu");
             this.columnContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sortByToolStripMenuItem});
             this.columnContextMenu.Name = "columnContextMenu";
-            this.columnContextMenu.Size = new System.Drawing.Size(116, 26);
             this.columnContextMenu.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.columnContextMenu_Closing);
             this.columnContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.columnContextMenu_Opening);
             // 
             // sortByToolStripMenuItem
             // 
+            resources.ApplyResources(this.sortByToolStripMenuItem, "sortByToolStripMenuItem");
             this.sortByToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem6,
             this.sortAscendingToolStripMenuItem,
             this.sortDescendingToolStripMenuItem});
             this.sortByToolStripMenuItem.Name = "sortByToolStripMenuItem";
-            this.sortByToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
-            this.sortByToolStripMenuItem.Text = "Sort By";
             // 
             // toolStripMenuItem6
             // 
+            resources.ApplyResources(this.toolStripMenuItem6, "toolStripMenuItem6");
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(140, 6);
             // 
             // sortAscendingToolStripMenuItem
             // 
+            resources.ApplyResources(this.sortAscendingToolStripMenuItem, "sortAscendingToolStripMenuItem");
             this.sortAscendingToolStripMenuItem.Name = "sortAscendingToolStripMenuItem";
-            this.sortAscendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.sortAscendingToolStripMenuItem.Text = "Ascending";
             this.sortAscendingToolStripMenuItem.Click += new System.EventHandler(this.sortAscendingToolStripMenuItem_Click);
             // 
             // sortDescendingToolStripMenuItem
             // 
+            resources.ApplyResources(this.sortDescendingToolStripMenuItem, "sortDescendingToolStripMenuItem");
             this.sortDescendingToolStripMenuItem.Name = "sortDescendingToolStripMenuItem";
-            this.sortDescendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.sortDescendingToolStripMenuItem.Text = "Descending";
             this.sortDescendingToolStripMenuItem.Click += new System.EventHandler(this.sortDescendingToolStripMenuItem_Click);
             // 
             // toolStrip
             // 
-            this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            resources.ApplyResources(this.toolStrip, "toolStrip");
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeAllToolStripButton,
             this.addToolStripButton,
@@ -151,203 +139,164 @@
             this.toolStripSeparator6,
             this.toolStripLabel1,
             this.toolStripComboBoxResize});
-            this.toolStrip.Location = new System.Drawing.Point(6, 242);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(357, 25);
-            this.toolStrip.TabIndex = 1;
-            this.toolStrip.Visible = false;
             // 
             // removeAllToolStripButton
             // 
+            resources.ApplyResources(this.removeAllToolStripButton, "removeAllToolStripButton");
             this.removeAllToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.removeAllToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("removeAllToolStripButton.Image")));
-            this.removeAllToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.removeAllToolStripButton.Name = "removeAllToolStripButton";
-            this.removeAllToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.removeAllToolStripButton.Text = "Remove All Files";
             this.removeAllToolStripButton.Click += new System.EventHandler(this.removeAllToolStripButton_Click);
             // 
             // addToolStripButton
             // 
+            resources.ApplyResources(this.addToolStripButton, "addToolStripButton");
             this.addToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.addToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("addToolStripButton.Image")));
-            this.addToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addToolStripButton.Name = "addToolStripButton";
-            this.addToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.addToolStripButton.Text = "Add Files...";
             this.addToolStripButton.Click += new System.EventHandler(this.addToolStripButton_Click);
             // 
             // removeToolStripButton
             // 
+            resources.ApplyResources(this.removeToolStripButton, "removeToolStripButton");
             this.removeToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.removeToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("removeToolStripButton.Image")));
-            this.removeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.removeToolStripButton.Name = "removeToolStripButton";
-            this.removeToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.removeToolStripButton.Text = "Remove Selected Files";
             this.removeToolStripButton.Click += new System.EventHandler(this.removeToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // rotateCCWToolStripButton
             // 
+            resources.ApplyResources(this.rotateCCWToolStripButton, "rotateCCWToolStripButton");
             this.rotateCCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.rotateCCWToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("rotateCCWToolStripButton.Image")));
-            this.rotateCCWToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.rotateCCWToolStripButton.Name = "rotateCCWToolStripButton";
-            this.rotateCCWToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.rotateCCWToolStripButton.Text = "Rotate Counter-clockwise";
             this.rotateCCWToolStripButton.Click += new System.EventHandler(this.rotateCCWToolStripButton_Click);
             // 
             // rotateCWToolStripButton
             // 
+            resources.ApplyResources(this.rotateCWToolStripButton, "rotateCWToolStripButton");
             this.rotateCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.rotateCWToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("rotateCWToolStripButton.Image")));
-            this.rotateCWToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.rotateCWToolStripButton.Name = "rotateCWToolStripButton";
-            this.rotateCWToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.rotateCWToolStripButton.Text = "Rotate Clockwise";
             this.rotateCWToolStripButton.Click += new System.EventHandler(this.rotateCWToolStripButton_Click);
             // 
             // toolStripSeparator5
             // 
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButtonCamera
             // 
+            resources.ApplyResources(this.toolStripButtonCamera, "toolStripButtonCamera");
             this.toolStripButtonCamera.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonCamera.Image = global::Waveface.Properties.Resources.webcam;
-            this.toolStripButtonCamera.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCamera.Name = "toolStripButtonCamera";
-            this.toolStripButtonCamera.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonCamera.Text = "Camera";
             this.toolStripButtonCamera.Click += new System.EventHandler(this.toolStripButtonCamera_Click);
             // 
             // toolStripSeparator6
             // 
+            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripLabel1
             // 
+            resources.ApplyResources(this.toolStripLabel1, "toolStripLabel1");
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(47, 22);
-            this.toolStripLabel1.Text = "Resize:";
             // 
             // toolStripComboBoxResize
             // 
+            resources.ApplyResources(this.toolStripComboBoxResize, "toolStripComboBoxResize");
             this.toolStripComboBoxResize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxResize.Items.AddRange(new object[] {
-            "100%",
-            "1024",
-            "1000",
-            "960",
-            "800",
-            "640",
-            "600",
-            "512",
-            "500",
-            "480",
-            "400",
-            "360",
-            "320",
-            "300",
-            "256",
-            "200",
-            "160",
-            "128",
-            "100",
-            "96",
-            "64",
-            "32"});
+            resources.GetString("toolStripComboBoxResize.Items"),
+            resources.GetString("toolStripComboBoxResize.Items1"),
+            resources.GetString("toolStripComboBoxResize.Items2"),
+            resources.GetString("toolStripComboBoxResize.Items3"),
+            resources.GetString("toolStripComboBoxResize.Items4"),
+            resources.GetString("toolStripComboBoxResize.Items5"),
+            resources.GetString("toolStripComboBoxResize.Items6"),
+            resources.GetString("toolStripComboBoxResize.Items7"),
+            resources.GetString("toolStripComboBoxResize.Items8"),
+            resources.GetString("toolStripComboBoxResize.Items9"),
+            resources.GetString("toolStripComboBoxResize.Items10"),
+            resources.GetString("toolStripComboBoxResize.Items11"),
+            resources.GetString("toolStripComboBoxResize.Items12"),
+            resources.GetString("toolStripComboBoxResize.Items13"),
+            resources.GetString("toolStripComboBoxResize.Items14"),
+            resources.GetString("toolStripComboBoxResize.Items15"),
+            resources.GetString("toolStripComboBoxResize.Items16"),
+            resources.GetString("toolStripComboBoxResize.Items17"),
+            resources.GetString("toolStripComboBoxResize.Items18"),
+            resources.GetString("toolStripComboBoxResize.Items19"),
+            resources.GetString("toolStripComboBoxResize.Items20"),
+            resources.GetString("toolStripComboBoxResize.Items21")});
             this.toolStripComboBoxResize.Name = "toolStripComboBoxResize";
-            this.toolStripComboBoxResize.Size = new System.Drawing.Size(140, 25);
             // 
             // openFileDialog
             // 
-            this.openFileDialog.Filter = resources.GetString("openFileDialog.Filter");
+            resources.ApplyResources(this.openFileDialog, "openFileDialog");
             this.openFileDialog.Multiselect = true;
             this.openFileDialog.ShowReadOnly = true;
             // 
             // panelToolbar
             // 
-            this.panelToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.panelToolbar, "panelToolbar");
             this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
             this.panelToolbar.Controls.Add(this.btnDeletePhoto);
             this.panelToolbar.Controls.Add(this.btnAddPhoto);
-            this.panelToolbar.Location = new System.Drawing.Point(9, 0);
             this.panelToolbar.Name = "panelToolbar";
-            this.panelToolbar.Size = new System.Drawing.Size(601, 31);
-            this.panelToolbar.TabIndex = 15;
             // 
             // btnDeletePhoto
             // 
+            resources.ApplyResources(this.btnDeletePhoto, "btnDeletePhoto");
             this.btnDeletePhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnDeletePhoto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDeletePhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnDeletePhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnDeletePhoto.Image = global::Waveface.Properties.Resources.trash;
-            this.btnDeletePhoto.Location = new System.Drawing.Point(572, 2);
             this.btnDeletePhoto.Name = "btnDeletePhoto";
-            this.btnDeletePhoto.Size = new System.Drawing.Size(26, 26);
-            this.btnDeletePhoto.TabIndex = 13;
             this.btnDeletePhoto.UseVisualStyleBackColor = true;
             this.btnDeletePhoto.Click += new System.EventHandler(this.btnDeletePhoto_Click);
             // 
             // btnAddPhoto
             // 
+            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
             this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
-            this.btnAddPhoto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddPhoto.Location = new System.Drawing.Point(4, 2);
             this.btnAddPhoto.Name = "btnAddPhoto";
-            this.btnAddPhoto.Size = new System.Drawing.Size(40, 26);
-            this.btnAddPhoto.TabIndex = 12;
             this.btnAddPhoto.UseVisualStyleBackColor = true;
             this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // btnSend
             // 
+            resources.ApplyResources(this.btnSend, "btnSend");
             this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSend.Location = new System.Drawing.Point(538, 242);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(74, 28);
-            this.btnSend.TabIndex = 6;
-            this.btnSend.Text = "Create";
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // btnBatchPost
             // 
+            resources.ApplyResources(this.btnBatchPost, "btnBatchPost");
             this.btnBatchPost.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnBatchPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBatchPost.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnBatchPost.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnBatchPost.Image = global::Waveface.Properties.Resources.arrow_divide;
-            this.btnBatchPost.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBatchPost.Location = new System.Drawing.Point(458, 242);
             this.btnBatchPost.Name = "btnBatchPost";
-            this.btnBatchPost.Size = new System.Drawing.Size(74, 28);
-            this.btnBatchPost.TabIndex = 7;
-            this.btnBatchPost.Text = "Post";
             this.btnBatchPost.UseVisualStyleBackColor = true;
-            this.btnBatchPost.Visible = false;
             this.btnBatchPost.Click += new System.EventHandler(this.btnBatchPost_Click);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
             // 
             // Photo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panelToolbar);
@@ -355,9 +304,7 @@
             this.Controls.Add(this.panel);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.btnBatchPost);
-            this.Font = new System.Drawing.Font("Tahoma", 9F);
             this.Name = "Photo";
-            this.Size = new System.Drawing.Size(618, 277);
             this.panel.ResumeLayout(false);
             this.columnContextMenu.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
@@ -395,5 +342,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem sortAscendingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortDescendingToolStripMenuItem;
+        private Localization.CultureManager cultureManager;
     }
 }

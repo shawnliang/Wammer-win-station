@@ -64,7 +64,10 @@ namespace Waveface
             taskPaneFilter.UseClassicTheme();
 
             m_dropAreaImage = new Bitmap(150, 138);
+        }
 
+        public void SetNewPostManager()
+        {
             NewPostManager.Current.ShowMessage += ShowDragDropMessage;
             NewPostManager.Current.UpdateUI += UpdateDragAndDropUI;
         }

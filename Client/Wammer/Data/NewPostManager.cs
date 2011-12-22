@@ -76,7 +76,9 @@ namespace Waveface
         private void BatchPostThreadMethod()
         {
             if (ShowMessage != null)
+            {
                 ShowMessage(I18n.L.T("NewPostManager.DragDropHere"));
+            }
 
             Thread.Sleep(3000);
 
