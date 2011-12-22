@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-     xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+     xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'
+     xmlns:fire='http://schemas.microsoft.com/wix/FirewallExtension'>
   <?define AppCode = "WavefaceStation" ?>
   <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
   <?define AppVersionMajor = "1" ?>
@@ -162,6 +163,7 @@
     
     <DirectoryRef Id="INSTALLLOCATION">
       <Component Id="station.service.exe" Guid="{C428C8C2-9C38-4E40-8372-E39C56970A82}">
+        <fire:FirewallException Id="WFFWX1" Name="Waveface Station Service" Port="9981" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
         <File Id="station.service.exe" Source="$(var.Wammer.Station.Service.TargetPath)" KeyPath="yes" Checksum="yes"/>
         <ServiceInstall Description="!(loc.STATION_SVC_DESC)" DisplayName="Waveface Station"
                         Name="WavefaceStation" Start="auto" Type="ownProcess" ErrorControl="ignore">
