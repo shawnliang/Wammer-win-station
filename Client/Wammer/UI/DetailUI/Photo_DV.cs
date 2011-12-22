@@ -43,6 +43,7 @@ namespace Waveface.DetailUI
         private IContainer components;
 
         #endregion
+        private Timer timerDownloadRemoteFileNext;
 
         private List<Attachment> m_imageAttachments;
 
@@ -108,6 +109,7 @@ namespace Waveface.DetailUI
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.timerDownloadRemoteFileNext = new System.Windows.Forms.Timer(this.components);
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
@@ -220,6 +222,11 @@ namespace Waveface.DetailUI
             this.timer.Interval = 500;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // timerDownloadRemoteFileNext
+            // 
+            this.timerDownloadRemoteFileNext.Interval = 500;
+            this.timerDownloadRemoteFileNext.Tick += new System.EventHandler(this.timerDownloadRemoteFileNext_Tick);
+            // 
             // Photo_DV
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
@@ -283,7 +290,7 @@ namespace Waveface.DetailUI
 
         private void Set_MainContent_Part()
         {
-            if(Post.content == string.Empty)
+            if (Post.content == string.Empty)
             {
                 webBrowserTop.Visible = false;
                 return;
@@ -363,14 +370,15 @@ namespace Waveface.DetailUI
             if (System.IO.File.Exists(_localFile))
             {
                 imageListView.Items.Add(_localFile);
-
-                //Application.DoEvents();
-
                 DownloadRemoteFileNext();
             }
             else
             {
-                pictureBoxRemote.LoadAsync(_url);
+                lock (pictureBoxRemote)
+                {
+                    pictureBoxRemote.LoadAsync(_url);
+                }
+
                 m_downloadFileName = _fileName;
             }
         }
@@ -384,33 +392,53 @@ namespace Waveface.DetailUI
 
         private void pictureBoxRemote_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            if (e.Error != null)
-            {
-                //Application.DoEvents();
+            DownloadLoadCompleted(e);
+        }
 
-                timer.Enabled = true;
+        public void DownloadLoadCompleted(AsyncCompletedEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { DownloadLoadCompleted(e); }
+                           ));
             }
             else
             {
-                try
+                if (e.Error != null)
                 {
-                    string _localFile = Main.GCONST.CachePath + m_downloadFileName;
-
-                    pictureBoxRemote.Image.Save(_localFile);
-
-                    imageListView.Items.Add(_localFile);
-
-                    //Application.DoEvents();
-
-                    DownloadRemoteFileNext();
-
-                    PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
+                    timer.Enabled = true;
                 }
-                catch (Exception _e)
+                else
                 {
-                    NLogUtility.Exception(s_logger, _e, "pictureBoxRemote_LoadCompleted");
+                    try
+                    {
+                        string _localFile = Main.GCONST.CachePath + m_downloadFileName;
+
+                        lock (pictureBoxRemote)
+                        {
+                            pictureBoxRemote.Image.Save(_localFile);
+                        }
+
+                        imageListView.Items.Add(_localFile);
+
+                        PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
+
+                        timerDownloadRemoteFileNext.Enabled = true;
+                    }
+                    catch (Exception _e)
+                    {
+                        NLogUtility.Exception(s_logger, _e, "pictureBoxRemote_LoadCompleted");
+                    }
                 }
             }
+        }
+
+        private void timerDownloadRemoteFileNext_Tick(object sender, EventArgs e)
+        {
+            timerDownloadRemoteFileNext.Enabled = false;
+
+            DownloadRemoteFileNext();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -425,8 +453,6 @@ namespace Waveface.DetailUI
             imageFileIndex++;
 
             labelPictureInfo.Text = "[" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
-
-            Application.DoEvents();
 
             if (imageFileIndex < m_imageAttachments.Count)
             {
