@@ -288,7 +288,7 @@ namespace Waveface
             switch (post.type)
             {
                 case "image":
-                    _info = post.attachment_count + ((post.attachment_count > 1) ? " photos" : " photo");
+                    _info = post.attachment_count + " " + ((post.attachment_count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
                     break;
 
                 case "doc":
@@ -721,7 +721,7 @@ namespace Waveface
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoGenerateColumns = false;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;

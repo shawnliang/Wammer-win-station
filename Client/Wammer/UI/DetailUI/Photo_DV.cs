@@ -39,6 +39,8 @@ namespace Waveface.DetailUI
         private Panel panelPictureInfo;
         private Label labelPictureInfo;
         private Dictionary<string, string> m_filesMapping;
+        private Timer timer;
+        private IContainer components;
 
         #endregion
 
@@ -91,6 +93,7 @@ namespace Waveface.DetailUI
         // {
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo_DV));
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
@@ -99,17 +102,18 @@ namespace Waveface.DetailUI
             this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelPictures = new System.Windows.Forms.Panel();
+            this.imageListView = new Manina.Windows.Forms.ImageListView();
+            this.pictureBoxRemote = new System.Windows.Forms.PictureBox();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
-            this.imageListView = new Manina.Windows.Forms.ImageListView();
-            this.pictureBoxRemote = new System.Windows.Forms.PictureBox();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
             this.PanelPictures.SuspendLayout();
-            this.panelPictureInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemote)).BeginInit();
+            this.panelPictureInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -141,8 +145,8 @@ namespace Waveface.DetailUI
             // 
             // buttonAddComment
             // 
-            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
             this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
             this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.buttonAddComment.Name = "buttonAddComment";
@@ -156,8 +160,8 @@ namespace Waveface.DetailUI
             // 
             // webBrowserComment
             // 
-            resources.ApplyResources(this.webBrowserComment, "webBrowserComment");
             this.webBrowserComment.AllowWebBrowserDrop = false;
+            resources.ApplyResources(this.webBrowserComment, "webBrowserComment");
             this.webBrowserComment.Name = "webBrowserComment";
             this.webBrowserComment.ScrollBarsEnabled = false;
             this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
@@ -170,34 +174,13 @@ namespace Waveface.DetailUI
             this.PanelPictures.Controls.Add(this.pictureBoxRemote);
             this.PanelPictures.Name = "PanelPictures";
             // 
-            // panelPictureInfo
-            // 
-            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
-            this.panelPictureInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(208)))), ((int)(((byte)(170)))));
-            this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
-            this.panelPictureInfo.Name = "panelPictureInfo";
-            // 
-            // labelPictureInfo
-            // 
-            resources.ApplyResources(this.labelPictureInfo, "labelPictureInfo");
-            this.labelPictureInfo.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.labelPictureInfo.Name = "labelPictureInfo";
-            // 
-            // webBrowserTop
-            // 
-            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
-            this.webBrowserTop.AllowWebBrowserDrop = false;
-            this.webBrowserTop.Name = "webBrowserTop";
-            this.webBrowserTop.ScrollBarsEnabled = false;
-            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
-            // 
             // imageListView
             // 
-            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
@@ -211,12 +194,38 @@ namespace Waveface.DetailUI
             this.pictureBoxRemote.TabStop = false;
             this.pictureBoxRemote.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pictureBoxRemote_LoadCompleted);
             // 
+            // panelPictureInfo
+            // 
+            this.panelPictureInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(208)))), ((int)(((byte)(170)))));
+            this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
+            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
+            this.panelPictureInfo.Name = "panelPictureInfo";
+            // 
+            // labelPictureInfo
+            // 
+            resources.ApplyResources(this.labelPictureInfo, "labelPictureInfo");
+            this.labelPictureInfo.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.labelPictureInfo.Name = "labelPictureInfo";
+            // 
+            // webBrowserTop
+            // 
+            this.webBrowserTop.AllowWebBrowserDrop = false;
+            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
+            this.webBrowserTop.Name = "webBrowserTop";
+            this.webBrowserTop.ScrollBarsEnabled = false;
+            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
+            // 
+            // timer
+            // 
+            this.timer.Interval = 500;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
             // Photo_DV
             // 
-            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panelMain);
+            resources.ApplyResources(this, "$this");
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
@@ -225,8 +234,8 @@ namespace Waveface.DetailUI
             this.PanelAddComment.ResumeLayout(false);
             this.PanelAddComment.PerformLayout();
             this.PanelPictures.ResumeLayout(false);
-            this.panelPictureInfo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemote)).EndInit();
+            this.panelPictureInfo.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -379,7 +388,7 @@ namespace Waveface.DetailUI
             {
                 //Application.DoEvents();
 
-                DownloadRemoteFile("medium");
+                timer.Enabled = true;
             }
             else
             {
@@ -402,6 +411,13 @@ namespace Waveface.DetailUI
                     NLogUtility.Exception(s_logger, _e, "pictureBoxRemote_LoadCompleted");
                 }
             }
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+
+            DownloadRemoteFile("medium");
         }
 
         private void DownloadRemoteFileNext()

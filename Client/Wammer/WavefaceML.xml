@@ -118,7 +118,7 @@ Please restart the program to initialize Waveface Station.</en-US>
   </WItem>
   <WItem>
     <ID>NewPostManager.DragDropHere</ID>
-    <en-US><![CDATA[Drag & Drop here]]></en-US>
+    <en-US>Drag &amp; Drop here</en-US>
     <zh-TW>拖拉檔案至此處</zh-TW>
   </WItem>
   <WItem>
@@ -160,5 +160,30 @@ Please restart the program to initialize Waveface Station.</en-US>
     <ID>PhotoStorageQuotaExceeded</ID>
     <en-US>Photos storage quota exceeded ({0}).</en-US>
     <zh-TW>抱歉! 您可以上傳的照片數已經超過系統允許值({0}).</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>photo</ID>
+    <en-US>photo</en-US>
+    <zh-TW>張圖</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>photos</ID>
+    <en-US>photos</en-US>
+    <zh-TW>張圖</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>Station401Exception</ID>
+    <en-US>Your authentication is expired. Re-enter your password to log in again.</en-US>
+    <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>MinimizetoTrayApp</ID>
+    <en-US>Minimize to Tray App</en-US>
+    <zh-TW>縮小至系統工具列</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>NetworkDisconnected</ID>
+    <en-US>Network Disconnected.</en-US>
+    <zh-TW>網路連線中斷.</zh-TW>
   </WItem>
 </WItems>
