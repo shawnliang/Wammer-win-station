@@ -401,6 +401,12 @@ namespace Waveface
             RestoreWindow();
         }
 
+        private void splitterRight_SplitterMoving(object sender, SplitterEventArgs e)
+        {
+            if (e.SplitX < (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8))
+                e.SplitX = (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8);
+        }
+
         #endregion
 
         #region Drag & Drop
