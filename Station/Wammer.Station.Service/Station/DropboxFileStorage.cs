@@ -34,33 +34,51 @@ namespace Wammer.Station
 
 		public void SaveAttachment(Attachment attachment)
 		{
-			if (attachment.file_size > cloudstorage.Quota)
-			{
-				logger.WarnFormat("File is too large, cannot not backup to Dropbox. file = {0}, size = {1}, quota = {2}", 
-					attachment.saved_file_name, attachment.file_size, cloudstorage.Quota);
-			}
+			// Currently no quota limit 
+			//if (attachment.file_size > cloudstorage.Quota)
+			//{
+			//    logger.WarnFormat("File is too large, cannot not backup to Dropbox. file = {0}, size = {1}, quota = {2}", 
+			//        attachment.saved_file_name, attachment.file_size, cloudstorage.Quota);
+			//}
 
 			if (AllocateSpace(attachment))
 			{
-				SaveFile(attachment.file_name, attachment.RawData);
+				string SavedFileName = SaveFile(attachment.file_name, attachment.RawData);
 
 				AttachmentApi api = new AttachmentApi(driver.user_id);
 				api.AttachmentSetLoc(
 					new WebClient(),
 					(int)AttachmentApi.Location.Dropbox,
 					attachment.object_id,
-					Path.Combine(driver.folder, attachment.saved_file_name)
+					Path.Combine(driver.folder, SavedFileName)
 				);
 			}
 		}
 
-		public void SaveFile(string filename, byte[] data)
+		public string SaveFile(string filename, byte[] data)
 		{
 			string filePath = Path.Combine(basePath, filename);
+			string ext = Path.GetExtension(filePath);
+			string fileNameNoExt = Path.GetFileNameWithoutExtension(filePath);
+			int index = 0;
+			while (File.Exists(filePath))
+			{
+				index++;
+				filePath = Path.Combine(basePath, fileNameNoExt + " (" + index.ToString() + ")" + ext);
+			}
 
 			using (BinaryWriter w = new BinaryWriter(File.Open(filePath, FileMode.Create)))
 			{
 				w.Write(data);
+			}
+
+			if (index == 0)
+			{
+				return filename;
+			}
+			else
+			{
+				return fileNameNoExt + " (" + index.ToString() + ")" + ext;
 			}
 		}
 
@@ -76,51 +94,54 @@ namespace Wammer.Station
 
 		private bool AllocateSpace(Attachment attachment)
 		{
-			if (cloudstorage.Quota - GetUsedSize() >= attachment.file_size)
-				return true;
+			// TODO: Implement this function in the future;
+			return true;
 
-			// run at most 100 times to avoid infinite loop
-			int retry = 100;
-			while (cloudstorage.Quota - GetUsedSize() < attachment.file_size)
-			{
-				// delete the least accessed file until storage has enough space
-				DirectoryInfo di = new DirectoryInfo(basePath);
-				FileInfo fi = di.GetFiles().OrderBy(f => f.LastAccessTime).First();
-				try
-				{
-					logger.InfoFormat("Cloud storage has no quota, delete file {0}", fi.FullName);
-					fi.Delete();
+			//if (cloudstorage.Quota - GetUsedSize() >= attachment.file_size)
+			//    return true;
 
-					Attachment purgedAttachment = AttachmentCollection.Instance.FindOne(Query.EQ("file_name", fi.FullName));
-					if (purgedAttachment != null)
-					{
-						AttachmentApi api = new AttachmentApi(driver.user_id);
-						api.AttachmentUnsetLoc(
-							new WebClient(), 
-							(int)AttachmentApi.Location.Dropbox,
-							purgedAttachment.object_id
-						);
-					}
-				}
-				catch
-				{
-					logger.WarnFormat("Unable to delete file {0}", fi.FullName);
-				}
+			//// run at most 100 times to avoid infinite loop
+			//int retry = 100;
+			//while (cloudstorage.Quota - GetUsedSize() < attachment.file_size)
+			//{
+			//    // delete the least accessed file until storage has enough space
+			//    DirectoryInfo di = new DirectoryInfo(basePath);
+			//    FileInfo fi = di.GetFiles().OrderBy(f => f.LastAccessTime).First();
+			//    try
+			//    {
+			//        logger.InfoFormat("Cloud storage has no quota, delete file {0}", fi.FullName);
+			//        fi.Delete();
 
-				if (--retry == 0)
-					break;
-			}
+			//        Attachment purgedAttachment = AttachmentCollection.Instance.FindOne(Query.EQ("file_name", fi.FullName));
+			//        if (purgedAttachment != null)
+			//        {
+			//            AttachmentApi api = new AttachmentApi(driver.user_id);
+			//            api.AttachmentUnsetLoc(
+			//                new WebClient(), 
+			//                (int)AttachmentApi.Location.Dropbox,
+			//                purgedAttachment.object_id
+			//            );
+			//        }
+			//    }
+			//    catch
+			//    {
+			//        logger.WarnFormat("Unable to delete file {0}", fi.FullName);
+			//    }
 
-			if (cloudstorage.Quota - GetUsedSize() < attachment.file_size)
-			{
-				logger.WarnFormat("Unable to allocate enough space for file {0}, size = {1}", 
-					attachment.saved_file_name, attachment.file_size);
-				return false;
-			}
-			else
-			{
-				return true;
-			}
+			//    if (--retry == 0)
+			//        break;
+			//}
+
+			//if (cloudstorage.Quota - GetUsedSize() < attachment.file_size)
+			//{
+			//    logger.WarnFormat("Unable to allocate enough space for file {0}, size = {1}", 
+			//        attachment.saved_file_name, attachment.file_size);
+			//    return false;
+			//}
+			//else
+			//{
+			//    return true;
+			//}
 		}
 	}
 }
