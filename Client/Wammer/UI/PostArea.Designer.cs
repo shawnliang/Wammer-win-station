@@ -34,6 +34,7 @@ namespace Waveface
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostArea));
             this.panelTop = new System.Windows.Forms.Panel();
             this.btnCreatePost = new Waveface.Component.XPButton();
+            this.btnRefresh = new Waveface.Component.XPButton();
             this.labelDisplay = new System.Windows.Forms.Label();
             this.comboBoxType = new System.Windows.Forms.ComboBox();
             this.panelList = new System.Windows.Forms.Panel();
@@ -43,7 +44,6 @@ namespace Waveface
             this.labelPostInfo = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.btnRefresh = new Waveface.Component.XPButton();
             this.panelTop.SuspendLayout();
             this.panelList.SuspendLayout();
             this.panelButtom.SuspendLayout();
@@ -70,6 +70,18 @@ namespace Waveface
             this.btnCreatePost.Name = "btnCreatePost";
             this.btnCreatePost.UseVisualStyleBackColor = true;
             this.btnCreatePost.Click += new System.EventHandler(this.btnCreatePost_Click);
+            // 
+            // btnRefresh
+            // 
+            resources.ApplyResources(this.btnRefresh, "btnRefresh");
+            this.btnRefresh.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnRefresh.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnRefresh.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnRefresh.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnRefresh.Image = global::Waveface.Properties.Resources.refresh;
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // labelDisplay
             // 
@@ -139,24 +151,13 @@ namespace Waveface
             // 
             this.cultureManager.ManagedControl = this;
             // 
-            // btnRefresh
-            // 
-            resources.ApplyResources(this.btnRefresh, "btnRefresh");
-            this.btnRefresh.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnRefresh.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnRefresh.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnRefresh.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnRefresh.Image = global::Waveface.Properties.Resources.refresh;
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
             // PostArea
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelTop);
+            this.MinimumSize = new System.Drawing.Size(337, 0);
             this.Name = "PostArea";
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();

@@ -44,6 +44,7 @@
       <HintPath>..\..\Station\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -54,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="app.config.production.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Station\Wammer.Station.Service\Wammer.Station.Service.csproj">

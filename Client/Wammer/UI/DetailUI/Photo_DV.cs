@@ -31,8 +31,6 @@ namespace Waveface.DetailUI
         private ImageListView imageListView;
         private PictureBox pictureBoxRemote;
         private Post m_post;
-        private int imageFileIndex;
-        private string m_downloadFileName;
         private XPButton buttonAddComment;
         private TextBox textBoxComment;
         private PhotoView m_photoView;
@@ -41,10 +39,12 @@ namespace Waveface.DetailUI
         private Dictionary<string, string> m_filesMapping;
         private IContainer components;
         private Timer timer;
+
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
         private List<string> m_urlOrigins;
         private List<string> m_urlMediums;
+        private int m_displayCount;
 
         #endregion
 
@@ -177,6 +177,8 @@ namespace Waveface.DetailUI
             // 
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.imageListView.CacheLimit = "0";
+            this.imageListView.CacheMode = Manina.Windows.Forms.CacheMode.Continuous;
             this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.DefaultImage = global::Waveface.Properties.Resources.LoadingImage;
@@ -185,6 +187,7 @@ namespace Waveface.DetailUI
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
             this.imageListView.ThumbnailSize = new System.Drawing.Size(128, 128);
+            this.imageListView.UseEmbeddedThumbnails = Manina.Windows.Forms.UseEmbeddedThumbnails.Never;
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
             // 
             // pictureBoxRemote
@@ -192,7 +195,6 @@ namespace Waveface.DetailUI
             resources.ApplyResources(this.pictureBoxRemote, "pictureBoxRemote");
             this.pictureBoxRemote.Name = "pictureBoxRemote";
             this.pictureBoxRemote.TabStop = false;
-            this.pictureBoxRemote.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pictureBoxRemote_LoadCompleted);
             // 
             // panelPictureInfo
             // 
@@ -217,7 +219,7 @@ namespace Waveface.DetailUI
             // 
             // timer
             // 
-            this.timer.Interval = 3000;
+            this.timer.Interval = 2000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // buttonAddComment
@@ -340,7 +342,6 @@ namespace Waveface.DetailUI
             if (m_imageAttachments.Count == 0)
                 return;
 
-            imageFileIndex = 0;
             m_filesMapping.Clear();
 
             foreach (Attachment _attachment in m_imageAttachments)
@@ -368,11 +369,17 @@ namespace Waveface.DetailUI
 
                 m_filePathMediums.Add(_localFileM);
                 m_urlMediums.Add(_urlM);
+
+                if (!m_filesMapping.ContainsKey(_fileNameM))
+                {
+                    if (_attachment.file_name != string.Empty)
+                        m_filesMapping.Add(_fileNameM, _attachment.file_name);
+                }
             }
 
             for (int i = m_imageAttachments.Count - 1; i >= 0; i--)
             {
-                if (!System.IO.File.Exists(m_filePathOrigins[i]) && !System.IO.File.Exists(m_filePathMediums[i]))
+                if (!System.IO.File.Exists(m_filePathOrigins[i]) || !System.IO.File.Exists(m_filePathMediums[i]))
                 {
                     ImageItem _item = new ImageItem();
                     _item.PostItemType = PostItemType.Origin;
@@ -385,31 +392,47 @@ namespace Waveface.DetailUI
                 }
             }
 
-            if (!FillImageListView())
+            if (!FillImageListView(true))
                 timer.Enabled = true;
-
-            /*
-            if (Post.attachment_count > 0)
-            {
-                panelPictureInfo.Visible = true;
-
-                DownloadRemoteFile("origin");
-            }
-            */
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            FillImageListView();
+            FillImageListView(false);
         }
 
-        private bool FillImageListView()
+        private bool FillImageListView(bool firstTime)
         {
+            int k = 0;
+
+            for (int i = 0; i < m_imageAttachments.Count; i++)
+            {
+                if (System.IO.File.Exists(m_filePathOrigins[i]))
+                {
+                    k++;
+                    continue;
+                }
+
+                if (System.IO.File.Exists(m_filePathMediums[i]))
+                {
+                    k++;
+                    continue;
+                }
+            }
+
+            if (!firstTime)
+            {
+                if (k == m_displayCount)
+                    return false;
+            }
+
+            panelPictureInfo.Visible = true;
+
             imageListView.SuspendLayout();
 
             imageListView.Items.Clear();
 
-            int k = 0;
+            k = 0;
 
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
@@ -430,124 +453,23 @@ namespace Waveface.DetailUI
                 imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
             }
 
+            m_displayCount = k;
+
             imageListView.ResumeLayout();
+
+            labelPictureInfo.Text = "[" + m_displayCount + "/" + m_imageAttachments.Count + "]";
 
             ReLayout();
 
             if (k == m_imageAttachments.Count)
             {
                 timer.Enabled = false;
+                panelPictureInfo.Visible = false;
                 return true;
             }
 
             return false;
         }
-
-        #region File Download [Picture]
-
-        private void DownloadRemoteFile(string imageType)
-        {
-            labelPictureInfo.Text = "[" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
-
-            Attachment _attachment = m_imageAttachments[imageFileIndex];
-            string _url = string.Empty;
-            string _fileName = string.Empty;
-            Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, imageType, out _url, out _fileName); //origin medium
-
-            string _localFile = Main.GCONST.CachePath + _fileName;
-
-            if (!m_filesMapping.ContainsKey(_fileName))
-            {
-                if (_attachment.file_name != string.Empty)
-                    m_filesMapping.Add(_fileName, _attachment.file_name);
-            }
-
-            if (System.IO.File.Exists(_localFile))
-            {
-                imageListView.Items.Add(_localFile);
-                DownloadRemoteFileNext();
-            }
-            else
-            {
-                lock (pictureBoxRemote)
-                {
-                    pictureBoxRemote.LoadAsync(_url);
-                }
-
-                m_downloadFileName = _fileName;
-            }
-        }
-
-        /*
-        private void pictureBoxRemote_LoadProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            labelPictureInfo.Text = e.ProgressPercentage + "%" + " [" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
-        }
-        */
-
-        private void pictureBoxRemote_LoadCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            DownloadLoadCompleted(e);
-        }
-
-        public void DownloadLoadCompleted(AsyncCompletedEventArgs e)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(
-                           delegate { DownloadLoadCompleted(e); }
-                           ));
-            }
-            else
-            {
-                if (e.Error != null)
-                {
-                    DownloadRemoteFile("medium");
-                }
-                else
-                {
-                    try
-                    {
-                        string _localFile = Main.GCONST.CachePath + m_downloadFileName;
-
-                        lock (pictureBoxRemote)
-                        {
-                            pictureBoxRemote.Image.Save(_localFile);
-                        }
-
-                        imageListView.Items.Add(_localFile);
-
-                        PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
-
-                        DownloadRemoteFileNext();
-                    }
-                    catch (Exception _e)
-                    {
-                        NLogUtility.Exception(s_logger, _e, "pictureBoxRemote_LoadCompleted");
-                    }
-                }
-            }
-        }
-
-        private void DownloadRemoteFileNext()
-        {
-            imageFileIndex++;
-
-            labelPictureInfo.Text = "[" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
-
-            if (imageFileIndex < m_imageAttachments.Count)
-            {
-                DownloadRemoteFile("origin");
-            }
-            else
-            {
-                panelPictureInfo.Visible = false;
-
-                ReLayout();
-            }
-        }
-
-        #endregion
 
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
         {

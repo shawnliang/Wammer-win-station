@@ -192,7 +192,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="postsArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 495</value>
+    <value>337, 460</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="postsArea.TabIndex" type="System.Int32, mscorlib">
@@ -220,7 +220,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 495</value>
+    <value>328, 460</value>
   </data>
   <data name="panelPost.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -250,7 +250,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="splitterLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 495</value>
+    <value>2, 460</value>
   </data>
   <data name="splitterLeft.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -277,7 +277,7 @@
     <value>0, 0</value>
   </data>
   <data name="leftArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 495</value>
+    <value>180, 460</value>
   </data>
   <data name="leftArea.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -304,7 +304,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelLeftInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 495</value>
+    <value>180, 460</value>
   </data>
   <data name="panelLeftInfo.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -331,7 +331,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>510, 495</value>
+    <value>510, 460</value>
   </data>
   <data name="panelLeft.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -361,7 +361,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="detailView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>566, 495</value>
+    <value>472, 460</value>
   </data>
   <data name="detailView.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -388,7 +388,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>566, 495</value>
+    <value>472, 460</value>
   </data>
   <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -567,7 +567,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="splitterRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 495</value>
+    <value>2, 460</value>
   </data>
   <data name="splitterRight.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -596,6 +596,21 @@
   <metadata name="timerReloadAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>886, 19</value>
   </metadata>
+  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1051, 19</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>56</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 14</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>984, 530</value>
+  </data>
   <data name="radioButtonStation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -690,7 +705,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1078, 70</value>
+    <value>984, 70</value>
   </data>
   <data name="panelTop.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -706,21 +721,6 @@
   </data>
   <data name="&gt;&gt;panelTop.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1051, 19</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>56</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 14</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1078, 565</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt</value>
@@ -800,6 +800,9 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAE=
 </value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>1000, 568</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Waveface</value>

@@ -7,7 +7,6 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using NLog;
-using Newtonsoft.Json;
 
 #endregion
 
@@ -36,7 +35,7 @@ namespace Waveface
             {
                 if (s_photoDownloader == null)
                 {
-                    s_photoDownloader = Load() ?? new PhotoDownloader();
+                    s_photoDownloader = new PhotoDownloader(); // Load() ?? new PhotoDownloader();
                 }
 
                 return s_photoDownloader;
@@ -100,7 +99,7 @@ namespace Waveface
                 }
             }
 
-            Save();
+            // Save();
         }
 
         private void DownloadThreadMethod()
@@ -110,6 +109,7 @@ namespace Waveface
             ImageItem _item;
             string _url;
             string _localPath;
+            bool _relpaceOriginToMedium;
 
             while (true)
             {
@@ -117,7 +117,7 @@ namespace Waveface
 
                 if ((ThumbnailItems.Count == 0) && (PhotoItems.Count == 0))
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                     continue;
                 }
 
@@ -138,7 +138,7 @@ namespace Waveface
 
                 if (_item == null)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(1);
                     continue;
                 }
 
@@ -163,10 +163,22 @@ namespace Waveface
                         break;
                 }
 
+                _relpaceOriginToMedium = false;
+
+                if (_item.PostItemType == PostItemType.Origin)
+                {
+                    if (!File.Exists(_item.LocalFilePath2))
+                    {
+                        _url = _item.MediumPath;
+                        _localPath = _item.LocalFilePath2;
+                        _relpaceOriginToMedium = true;
+                    }
+                }
+
                 try
                 {
                     WebRequest _wReq = WebRequest.Create(_url);
-                    _wReq.Timeout = 2500;
+                    _wReq.Timeout = 3000;
 
                     WebResponse _wRep = _wReq.GetResponse();
 
@@ -177,7 +189,7 @@ namespace Waveface
 
                     _img = null;
 
-                    s_logger.Trace("GetThumbnail:" + _localPath);
+                    s_logger.Trace("GetFile:" + _localPath);
 
                     if (_item.PostItemType == PostItemType.Thumbnail)
                     {
@@ -194,8 +206,21 @@ namespace Waveface
                     {
                         lock (PhotoItems)
                         {
-                            if (PhotoItems.Contains(_item))
+                            if (_relpaceOriginToMedium)
+                            {
                                 PhotoItems.Remove(_item);
+
+                                if (PhotoItems.Count == 0)
+                                    PhotoItems.Insert(0, _item);
+                                else
+                                    PhotoItems.Insert(PhotoItems.Count - 1, _item);
+                            }
+                            else
+                            {
+                                if (PhotoItems.Contains(_item))
+                                    PhotoItems.Remove(_item);
+                            }
+
                         }
 
                         if (PhotoEvent != null)
@@ -205,15 +230,6 @@ namespace Waveface
                 catch (Exception _e)
                 {
                     _item.ErrorTry++;
-
-                    if (_item.PostItemType == PostItemType.Origin)
-                    {
-                        _item.PostItemType = PostItemType.Medium;
-                    }
-                    else if (_item.PostItemType == PostItemType.Medium)
-                    {
-                        _item.PostItemType = PostItemType.Origin;
-                    }
 
                     if (_item.PostItemType == PostItemType.Thumbnail)
                     {
@@ -255,12 +271,13 @@ namespace Waveface
                     NLogUtility.Exception(s_logger, _e, "DownloadThreadMethod");
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(1);
             }
         }
 
         #region IO
 
+        /*
         public bool Save()
         {
             try
@@ -311,6 +328,7 @@ namespace Waveface
             return null;
         }
 
+        */
         #endregion
     }
 }
