@@ -61,6 +61,8 @@ namespace Waveface
 
         private string m_stationIP;
 
+        private bool m_firstTimeShowBalloonTipTitle;
+
         #endregion
 
         #region Properties
@@ -355,9 +357,14 @@ namespace Waveface
             {
                 SetLastReadPos();
 
-                m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
-                m_dropableNotifyIcon.NotifyIcon.BalloonTipText = I18n.L.T("MinimizetoTrayApp");
-                m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
+                if (m_firstTimeShowBalloonTipTitle)
+                {
+                    m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
+                    m_dropableNotifyIcon.NotifyIcon.BalloonTipText = I18n.L.T("MinimizetoTrayApp");
+                    m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
+
+                    m_firstTimeShowBalloonTipTitle = false;
+                }
 
                 s_logger.Trace("Main_SizeChanged: FormWindowState.Minimized");
             }
@@ -501,6 +508,8 @@ namespace Waveface
 
             postsArea.ShowTypeUI(false);
             postsArea.showRefreshUI(false);
+
+            m_firstTimeShowBalloonTipTitle = true;
 
             s_logger.Trace("Reset.Online" + online.ToString());
         }

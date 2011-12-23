@@ -358,19 +358,29 @@ namespace Waveface.PostUI
 
         private void RemoveAllAndReturnToParent()
         {
-            imageListView.Items.Clear();
+            DialogResult _dr = MessageBox.Show(I18n.L.T("RemoveAllFiles"), "Waveface", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            MyParent.toPureText_Mode();
+            if (_dr == DialogResult.Yes)
+            {
+                imageListView.Items.Clear();
+
+                MyParent.toPureText_Mode();
+            }
         }
 
         private void RemoveSelectedPhoto()
         {
-            imageListView.SuspendLayout();
+            DialogResult _dr = MessageBox.Show(I18n.L.T("RemoveSelectedFiles"), "Waveface", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            foreach (var _item in imageListView.SelectedItems)
-                imageListView.Items.Remove(_item);
+            if (_dr == DialogResult.Yes)
+            {
+                imageListView.SuspendLayout();
 
-            imageListView.ResumeLayout(true);
+                foreach (var _item in imageListView.SelectedItems)
+                    imageListView.Items.Remove(_item);
+
+                imageListView.ResumeLayout(true);
+            }
         }
 
         private void btnAddPhoto_Click(object sender, EventArgs e)
