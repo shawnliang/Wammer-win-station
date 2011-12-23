@@ -36,7 +36,7 @@ namespace Waveface
             {
                 if (s_photoDownloader == null)
                 {
-                    s_photoDownloader = Load() ?? new PhotoDownloader();
+                    s_photoDownloader = new PhotoDownloader(); // Load() ?? new PhotoDownloader();
                 }
 
                 return s_photoDownloader;
@@ -100,7 +100,7 @@ namespace Waveface
                 }
             }
 
-            Save();
+            // Save();
         }
 
         private void DownloadThreadMethod()
@@ -117,7 +117,7 @@ namespace Waveface
 
                 if ((ThumbnailItems.Count == 0) && (PhotoItems.Count == 0))
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                     continue;
                 }
 
@@ -138,7 +138,7 @@ namespace Waveface
 
                 if (_item == null)
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(1);
                     continue;
                 }
 
@@ -166,7 +166,7 @@ namespace Waveface
                 try
                 {
                     WebRequest _wReq = WebRequest.Create(_url);
-                    _wReq.Timeout = 2500;
+                    _wReq.Timeout = 3000;
 
                     WebResponse _wRep = _wReq.GetResponse();
 
@@ -255,12 +255,13 @@ namespace Waveface
                     NLogUtility.Exception(s_logger, _e, "DownloadThreadMethod");
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(1);
             }
         }
 
         #region IO
 
+        /*
         public bool Save()
         {
             try
@@ -311,6 +312,7 @@ namespace Waveface
             return null;
         }
 
+        */
         #endregion
     }
 }
