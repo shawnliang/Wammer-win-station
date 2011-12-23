@@ -157,10 +157,18 @@
     <None Include="Resources\P5.PNG" />
     <None Include="Resources\P6.PNG" />
     <None Include="Resources\P7.png" />
-    <Content Include="DefaultResources\001.jpg" />
-    <Content Include="DefaultResources\002.jpg" />
-    <Content Include="DefaultResources\003.jpg" />
-    <Content Include="DefaultResources\004.jpg" />
+    <Content Include="DefaultResources\001.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DefaultResources\002.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DefaultResources\003.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DefaultResources\004.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DefaultResources\DefaultPosts.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
