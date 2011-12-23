@@ -38,6 +38,8 @@
     <CustomAction Id='CleanStationInfoAction' BinaryKey='InstallHelperDll' DllEntry='CleanStationInfo'/>
     <!-- Kill running process -->
     <CustomAction Id='KillClientProcess' BinaryKey='InstallHelperDll' DllEntry='KillClientProcess' />
+    <!-- Set Registry -->
+    <CustomAction Id='SetRegistry' BinaryKey='InstallHelperDll' DllEntry='SetRegistry' />
     
     <InstallExecuteSequence>
       <Custom Action="NoDowngradeAction" After="FindRelatedProducts">NEWERFOUND</Custom>
@@ -49,6 +51,9 @@
       </Custom>
       <Custom Action="CleanStationInfoAction" After="SignoffStationAction">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <Custom Action="SetRegistry" Before="InstallFiles">
+        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
     </InstallExecuteSequence>
 

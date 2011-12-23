@@ -5,12 +5,13 @@ using System.IO;
 using System.Net;
 using System.Diagnostics;
 using Microsoft.Deployment.WindowsInstaller;
-
+using System.Configuration;
 using Wammer.Cloud;
 using Wammer.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using log4net;
+using System.Reflection;
 
 namespace Wammer.Station
 {
@@ -86,6 +87,23 @@ namespace Wammer.Station
 			{
 				Logger.Warn("Cannot kill process " + name, e);
 			}
+		}
+
+		[CustomAction]
+		public static ActionResult SetRegistry(Session session)
+		{
+			try
+			{
+				string myPath = Assembly.GetExecutingAssembly().Location;
+				Configuration config = ConfigurationManager.OpenExeConfiguration(myPath);
+
+				StationRegistry.SetValue("cloudBaseURL", config.AppSettings.Settings["cloudBaseURL"].Value);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to set cloudBaseURL to registry", e);
+			}
+			return ActionResult.Success;
 		}
 
 		[CustomAction]

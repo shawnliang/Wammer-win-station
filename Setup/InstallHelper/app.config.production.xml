@@ -5,7 +5,7 @@
   </startup>
 
   <appSettings>
-    <add key="cloudBaseURL" value="https://develop.waveface.com/v2/"/>
+    <add key="cloudBaseURL" value="https://api.waveface.com/v2/"/>
   </appSettings>
   
 </configuration>
