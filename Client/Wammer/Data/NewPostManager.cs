@@ -80,7 +80,7 @@ namespace Waveface
                 ShowMessage(I18n.L.T("NewPostManager.DragDropHere"));
             }
 
-            Thread.Sleep(3000);
+            Thread.Sleep(2000);
 
             m_startUpload = true;
 
@@ -125,7 +125,7 @@ namespace Waveface
                     }
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
             }
         }
 

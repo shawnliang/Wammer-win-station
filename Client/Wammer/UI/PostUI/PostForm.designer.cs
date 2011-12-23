@@ -65,6 +65,7 @@ namespace Waveface
             this.buttonRichText = new Waveface.Component.XPButton();
             this.richTextBox = new System.Windows.Forms.RichTextBox();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStripEdit.SuspendLayout();
             this.multiPanel.SuspendLayout();
             this.Page_RichText.SuspendLayout();
@@ -248,6 +249,7 @@ namespace Waveface
             this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
             resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
             this.btnAddPhoto.Name = "btnAddPhoto";
+            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
             this.btnAddPhoto.UseVisualStyleBackColor = true;
             this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
@@ -370,6 +372,7 @@ namespace Waveface
         private ToolStripMenuItem pasteToolStripMenuItem;
         private Panel panelToolbar;
         private Localization.CultureManager cultureManager;
+        private ToolTip toolTip;
     }
 }
 

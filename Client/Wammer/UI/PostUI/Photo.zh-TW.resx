@@ -225,6 +225,12 @@
         l59E3UQlqg0CCF7cOi0bKuF/5VwPQnM1f9N8d6waK+e/NUfyF3E2EkfV6XZMAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="btnDeletePhoto.ToolTip" xml:space="preserve">
+    <value>刪除照片</value>
+  </data>
+  <data name="btnAddPhoto.ToolTip" xml:space="preserve">
+    <value>新增照片</value>
+  </data>
   <data name="btnSend.Text" xml:space="preserve">
     <value>貼文</value>
   </data>

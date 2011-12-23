@@ -56,6 +56,7 @@
             this.btnSend = new Waveface.Component.XPButton();
             this.btnBatchPost = new Waveface.Component.XPButton();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panel.SuspendLayout();
             this.columnContextMenu.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -70,9 +71,9 @@
             // 
             // imageListView
             // 
-            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.AllowDrag = true;
             this.imageListView.AllowDrop = true;
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.Columns.AddRange(new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader[] {
             new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader(Manina.Windows.Forms.ColumnType.Name, "", 100, 0, true),
@@ -91,37 +92,37 @@
             // 
             // columnContextMenu
             // 
-            resources.ApplyResources(this.columnContextMenu, "columnContextMenu");
             this.columnContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sortByToolStripMenuItem});
             this.columnContextMenu.Name = "columnContextMenu";
+            resources.ApplyResources(this.columnContextMenu, "columnContextMenu");
             this.columnContextMenu.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.columnContextMenu_Closing);
             this.columnContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.columnContextMenu_Opening);
             // 
             // sortByToolStripMenuItem
             // 
-            resources.ApplyResources(this.sortByToolStripMenuItem, "sortByToolStripMenuItem");
             this.sortByToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem6,
             this.sortAscendingToolStripMenuItem,
             this.sortDescendingToolStripMenuItem});
             this.sortByToolStripMenuItem.Name = "sortByToolStripMenuItem";
+            resources.ApplyResources(this.sortByToolStripMenuItem, "sortByToolStripMenuItem");
             // 
             // toolStripMenuItem6
             // 
-            resources.ApplyResources(this.toolStripMenuItem6, "toolStripMenuItem6");
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            resources.ApplyResources(this.toolStripMenuItem6, "toolStripMenuItem6");
             // 
             // sortAscendingToolStripMenuItem
             // 
-            resources.ApplyResources(this.sortAscendingToolStripMenuItem, "sortAscendingToolStripMenuItem");
             this.sortAscendingToolStripMenuItem.Name = "sortAscendingToolStripMenuItem";
+            resources.ApplyResources(this.sortAscendingToolStripMenuItem, "sortAscendingToolStripMenuItem");
             this.sortAscendingToolStripMenuItem.Click += new System.EventHandler(this.sortAscendingToolStripMenuItem_Click);
             // 
             // sortDescendingToolStripMenuItem
             // 
-            resources.ApplyResources(this.sortDescendingToolStripMenuItem, "sortDescendingToolStripMenuItem");
             this.sortDescendingToolStripMenuItem.Name = "sortDescendingToolStripMenuItem";
+            resources.ApplyResources(this.sortDescendingToolStripMenuItem, "sortDescendingToolStripMenuItem");
             this.sortDescendingToolStripMenuItem.Click += new System.EventHandler(this.sortDescendingToolStripMenuItem_Click);
             // 
             // toolStrip
@@ -143,70 +144,69 @@
             // 
             // removeAllToolStripButton
             // 
-            resources.ApplyResources(this.removeAllToolStripButton, "removeAllToolStripButton");
             this.removeAllToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.removeAllToolStripButton, "removeAllToolStripButton");
             this.removeAllToolStripButton.Name = "removeAllToolStripButton";
             this.removeAllToolStripButton.Click += new System.EventHandler(this.removeAllToolStripButton_Click);
             // 
             // addToolStripButton
             // 
-            resources.ApplyResources(this.addToolStripButton, "addToolStripButton");
             this.addToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.addToolStripButton, "addToolStripButton");
             this.addToolStripButton.Name = "addToolStripButton";
             this.addToolStripButton.Click += new System.EventHandler(this.addToolStripButton_Click);
             // 
             // removeToolStripButton
             // 
-            resources.ApplyResources(this.removeToolStripButton, "removeToolStripButton");
             this.removeToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.removeToolStripButton, "removeToolStripButton");
             this.removeToolStripButton.Name = "removeToolStripButton";
             this.removeToolStripButton.Click += new System.EventHandler(this.removeToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             // 
             // rotateCCWToolStripButton
             // 
-            resources.ApplyResources(this.rotateCCWToolStripButton, "rotateCCWToolStripButton");
             this.rotateCCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.rotateCCWToolStripButton, "rotateCCWToolStripButton");
             this.rotateCCWToolStripButton.Name = "rotateCCWToolStripButton";
             this.rotateCCWToolStripButton.Click += new System.EventHandler(this.rotateCCWToolStripButton_Click);
             // 
             // rotateCWToolStripButton
             // 
-            resources.ApplyResources(this.rotateCWToolStripButton, "rotateCWToolStripButton");
             this.rotateCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.rotateCWToolStripButton, "rotateCWToolStripButton");
             this.rotateCWToolStripButton.Name = "rotateCWToolStripButton";
             this.rotateCWToolStripButton.Click += new System.EventHandler(this.rotateCWToolStripButton_Click);
             // 
             // toolStripSeparator5
             // 
-            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
             this.toolStripSeparator5.Name = "toolStripSeparator5";
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
             // 
             // toolStripButtonCamera
             // 
-            resources.ApplyResources(this.toolStripButtonCamera, "toolStripButtonCamera");
             this.toolStripButtonCamera.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonCamera.Image = global::Waveface.Properties.Resources.webcam;
+            resources.ApplyResources(this.toolStripButtonCamera, "toolStripButtonCamera");
             this.toolStripButtonCamera.Name = "toolStripButtonCamera";
             this.toolStripButtonCamera.Click += new System.EventHandler(this.toolStripButtonCamera_Click);
             // 
             // toolStripSeparator6
             // 
-            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
             this.toolStripSeparator6.Name = "toolStripSeparator6";
+            resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
             // 
             // toolStripLabel1
             // 
-            resources.ApplyResources(this.toolStripLabel1, "toolStripLabel1");
             this.toolStripLabel1.Name = "toolStripLabel1";
+            resources.ApplyResources(this.toolStripLabel1, "toolStripLabel1");
             // 
             // toolStripComboBoxResize
             // 
-            resources.ApplyResources(this.toolStripComboBoxResize, "toolStripComboBoxResize");
             this.toolStripComboBoxResize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxResize.Items.AddRange(new object[] {
             resources.GetString("toolStripComboBoxResize.Items"),
@@ -232,6 +232,7 @@
             resources.GetString("toolStripComboBoxResize.Items20"),
             resources.GetString("toolStripComboBoxResize.Items21")});
             this.toolStripComboBoxResize.Name = "toolStripComboBoxResize";
+            resources.ApplyResources(this.toolStripComboBoxResize, "toolStripComboBoxResize");
             // 
             // openFileDialog
             // 
@@ -249,30 +250,32 @@
             // 
             // btnDeletePhoto
             // 
-            resources.ApplyResources(this.btnDeletePhoto, "btnDeletePhoto");
             this.btnDeletePhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnDeletePhoto, "btnDeletePhoto");
             this.btnDeletePhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnDeletePhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnDeletePhoto.Image = global::Waveface.Properties.Resources.trash;
             this.btnDeletePhoto.Name = "btnDeletePhoto";
+            this.toolTip.SetToolTip(this.btnDeletePhoto, resources.GetString("btnDeletePhoto.ToolTip"));
             this.btnDeletePhoto.UseVisualStyleBackColor = true;
             this.btnDeletePhoto.Click += new System.EventHandler(this.btnDeletePhoto_Click);
             // 
             // btnAddPhoto
             // 
-            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
             this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
+            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
             this.btnAddPhoto.Name = "btnAddPhoto";
+            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
             this.btnAddPhoto.UseVisualStyleBackColor = true;
             this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // btnSend
             // 
-            resources.ApplyResources(this.btnSend, "btnSend");
             this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnSend, "btnSend");
             this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnSend.Name = "btnSend";
@@ -281,8 +284,8 @@
             // 
             // btnBatchPost
             // 
-            resources.ApplyResources(this.btnBatchPost, "btnBatchPost");
             this.btnBatchPost.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnBatchPost, "btnBatchPost");
             this.btnBatchPost.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnBatchPost.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnBatchPost.Image = global::Waveface.Properties.Resources.arrow_divide;
@@ -343,5 +346,6 @@
         private System.Windows.Forms.ToolStripMenuItem sortAscendingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortDescendingToolStripMenuItem;
         private Localization.CultureManager cultureManager;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

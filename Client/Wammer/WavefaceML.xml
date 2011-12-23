@@ -186,4 +186,14 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Network Disconnected.</en-US>
     <zh-TW>網路連線中斷.</zh-TW>
   </WItem>
+  <WItem>
+    <ID>RemoveAllFiles</ID>
+    <en-US>Do you really want to remove all files?</en-US>
+    <zh-TW>你是否確定要移除所有檔案?</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>RemoveSelectedFiles</ID>
+    <en-US>Do you really want to remove selected file(s)?</en-US>
+    <zh-TW>你是否確定要移除所選取的檔案?</zh-TW>
+  </WItem>
 </WItems>

@@ -12,7 +12,7 @@ namespace Wammer.Station
 	public interface IFileStorage
 	{
 		void SaveAttachment(Attachment attachment);
-		void SaveFile(string filename, byte[] data);
+		string SaveFile(string filename, byte[] data);
 		long GetAvailSize();
 		long GetUsedSize();
 	}
@@ -38,14 +38,16 @@ namespace Wammer.Station
 			SaveFile(attachment.saved_file_name, attachment.RawData);
 		}
 
-		public void SaveFile(string filename, byte[] data)
+		public string SaveFile(string filename, byte[] data)
 		{
 			string filePath = Path.Combine(basePath, filename);
 
 			using (BinaryWriter w = new BinaryWriter(File.Open(filePath, FileMode.Create)))
 			{
 				w.Write(data);
-			}		
+			}
+
+			return filename;
 		}
 
 		public FileStream Load(string filename)

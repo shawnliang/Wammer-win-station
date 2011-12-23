@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using NLog;
@@ -60,6 +61,15 @@ namespace Waveface
             SetStyle(ControlStyles.UserPaint, true);
 
             InitializeComponent();
+
+            DoubleBufferedX(dataGridView, true);
+        }
+
+        public void DoubleBufferedX(DataGridView dgv, bool setting)
+        {
+            Type dgvType = dgv.GetType();
+            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            pi.SetValue(dgv, setting, null);
         }
 
         private void PostsList_Load(object sender, EventArgs e)
@@ -156,7 +166,7 @@ namespace Waveface
 
         private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(224, 208, 170));
         private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225));
-        private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(192, 192, 192));
+        private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(217, 217, 217));
         private Color m_inforColor1 = Color.White;
         private Color m_inforColor2 = Color.FromArgb(63, 63, 63);
         private Font m_fontPostTime = new Font("Arial", 9);
@@ -193,14 +203,14 @@ namespace Waveface
                 }
                 else
                 {
-                    //if (Main.Current.RT.CurrentGroupHaveReadPosts.Contains(_post.post_id))
-                    //{
+                    if (Main.Current.RT.CurrentGroupHaveReadPosts.Contains(_post.post_id))
+                    {
                         _g.FillRectangle(m_bgReadBrush, e.CellBounds);
-                    //}
-                    //else
-                    //{
-                    //    _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
-                    //}
+                    }
+                    else
+                    {
+                        _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
+                    }
                 }
 
                 _g.DrawRectangle(Pens.White, e.CellBounds.X + 1, e.CellBounds.Y + 1, e.CellBounds.Width - 2, e.CellBounds.Height - 2);
@@ -278,7 +288,7 @@ namespace Waveface
 
         private void Draw_Text_Post(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontText)
         {
-            Rectangle _rectAll = new Rectangle(rect.X + 8, rect.Y + 8, rect.Width - 8, rect.Height - timeRectHeight - 16);
+            Rectangle _rectAll = new Rectangle(rect.X + 8, rect.Y + 8, rect.Width - 8, rect.Height - timeRectHeight - 18);
 
             TextRenderer.DrawText(g, post.content, fontText, _rectAll, Color.Black,
                       TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
@@ -652,7 +662,7 @@ namespace Waveface
             }
         }
         */
-         
+
         private void SetFont()
         {
             m_font = SystemFonts.IconTitleFont;
@@ -834,7 +844,7 @@ namespace Waveface
             {
                 dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
             }
-            catch(Exception _e)
+            catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "timerDisplayedScrolling_Tick");
             }
