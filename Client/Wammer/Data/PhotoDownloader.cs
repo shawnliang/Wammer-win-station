@@ -7,7 +7,6 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using NLog;
-using Newtonsoft.Json;
 
 #endregion
 
@@ -110,6 +109,7 @@ namespace Waveface
             ImageItem _item;
             string _url;
             string _localPath;
+            bool _relpaceOriginToMedium;
 
             while (true)
             {
@@ -163,6 +163,18 @@ namespace Waveface
                         break;
                 }
 
+                _relpaceOriginToMedium = false;
+
+                if (_item.PostItemType == PostItemType.Origin)
+                {
+                    if (!File.Exists(_item.LocalFilePath2))
+                    {
+                        _url = _item.MediumPath;
+                        _localPath = _item.LocalFilePath2;
+                        _relpaceOriginToMedium = true;
+                    }
+                }
+
                 try
                 {
                     WebRequest _wReq = WebRequest.Create(_url);
@@ -177,7 +189,7 @@ namespace Waveface
 
                     _img = null;
 
-                    s_logger.Trace("GetThumbnail:" + _localPath);
+                    s_logger.Trace("GetFile:" + _localPath);
 
                     if (_item.PostItemType == PostItemType.Thumbnail)
                     {
@@ -194,8 +206,21 @@ namespace Waveface
                     {
                         lock (PhotoItems)
                         {
-                            if (PhotoItems.Contains(_item))
+                            if (_relpaceOriginToMedium)
+                            {
                                 PhotoItems.Remove(_item);
+
+                                if (PhotoItems.Count == 0)
+                                    PhotoItems.Insert(0, _item);
+                                else
+                                    PhotoItems.Insert(PhotoItems.Count - 1, _item);
+                            }
+                            else
+                            {
+                                if (PhotoItems.Contains(_item))
+                                    PhotoItems.Remove(_item);
+                            }
+
                         }
 
                         if (PhotoEvent != null)
@@ -205,15 +230,6 @@ namespace Waveface
                 catch (Exception _e)
                 {
                     _item.ErrorTry++;
-
-                    if (_item.PostItemType == PostItemType.Origin)
-                    {
-                        _item.PostItemType = PostItemType.Medium;
-                    }
-                    else if (_item.PostItemType == PostItemType.Medium)
-                    {
-                        _item.PostItemType = PostItemType.Origin;
-                    }
 
                     if (_item.PostItemType == PostItemType.Thumbnail)
                     {

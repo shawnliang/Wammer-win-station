@@ -193,15 +193,14 @@ namespace Waveface
                 }
                 else
                 {
-                    if (Main.Current.RT.CurrentGroupHaveReadPosts.Contains(_post.post_id))
-                    {
+                    //if (Main.Current.RT.CurrentGroupHaveReadPosts.Contains(_post.post_id))
+                    //{
                         _g.FillRectangle(m_bgReadBrush, e.CellBounds);
-                    }
-                    else
-                    {
-                        _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
-                        // _g.FillRectangle(Brushes.OrangeRed, new Rectangle(2, e.CellBounds.Y, 1, e.CellBounds.Height));
-                    }
+                    //}
+                    //else
+                    //{
+                    //    _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
+                    //}
                 }
 
                 _g.DrawRectangle(Pens.White, e.CellBounds.X + 1, e.CellBounds.Y + 1, e.CellBounds.Width - 2, e.CellBounds.Height - 2);

@@ -66,11 +66,11 @@
             this.timerFilterReadmore = new System.Windows.Forms.Timer(this.components);
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
             this.timerReloadAllData = new System.Windows.Forms.Timer(this.components);
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.panelTop = new Waveface.BgPanel();
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
             this.radioButtonCloud = new System.Windows.Forms.RadioButton();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -131,6 +131,7 @@
             // 
             this.postsArea.BackColor = System.Drawing.SystemColors.Window;
             resources.ApplyResources(this.postsArea, "postsArea");
+            this.postsArea.MinimumSize = new System.Drawing.Size(337, 0);
             this.postsArea.Name = "postsArea";
             // 
             // splitterLeft
@@ -297,6 +298,7 @@
             resources.ApplyResources(this.splitterRight, "splitterRight");
             this.splitterRight.Name = "splitterRight";
             this.splitterRight.TabStop = false;
+            this.splitterRight.SplitterMoving += new System.Windows.Forms.SplitterEventHandler(this.splitterRight_SplitterMoving);
             // 
             // timerGetNewestPost
             // 
@@ -318,6 +320,10 @@
             // 
             this.timerReloadAllData.Interval = 500;
             this.timerReloadAllData.Tick += new System.EventHandler(this.timerReloadAllData_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
             // 
             // panelTop
             // 
@@ -351,10 +357,6 @@
             this.radioButtonCloud.Name = "radioButtonCloud";
             this.radioButtonCloud.UseVisualStyleBackColor = true;
             this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // Main
             // 

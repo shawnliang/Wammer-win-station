@@ -52,6 +52,9 @@ namespace Waveface
             }
 
             // Add these, as we're doing a POST
+            // request.KeepAlive = false;
+            // request.Timeout = 10000;
+
             request.Method = "POST";
             request.ContentType = contentType;
             request.UserAgent = userAgent;

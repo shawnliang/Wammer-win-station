@@ -31,8 +31,6 @@ namespace Waveface.DetailUI
         private ImageListView imageListView;
         private PictureBox pictureBoxRemote;
         private Post m_post;
-        //private int imageFileIndex;
-        //private string m_downloadFileName;
         private XPButton buttonAddComment;
         private TextBox textBoxComment;
         private PhotoView m_photoView;
@@ -41,7 +39,7 @@ namespace Waveface.DetailUI
         private Dictionary<string, string> m_filesMapping;
         private IContainer components;
         private Timer timer;
-        
+
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
         private List<string> m_urlOrigins;
@@ -344,7 +342,6 @@ namespace Waveface.DetailUI
             if (m_imageAttachments.Count == 0)
                 return;
 
-            //imageFileIndex = 0;
             m_filesMapping.Clear();
 
             foreach (Attachment _attachment in m_imageAttachments)
@@ -372,11 +369,17 @@ namespace Waveface.DetailUI
 
                 m_filePathMediums.Add(_localFileM);
                 m_urlMediums.Add(_urlM);
+
+                if (!m_filesMapping.ContainsKey(_fileNameM))
+                {
+                    if (_attachment.file_name != string.Empty)
+                        m_filesMapping.Add(_fileNameM, _attachment.file_name);
+                }
             }
 
             for (int i = m_imageAttachments.Count - 1; i >= 0; i--)
             {
-                if (!System.IO.File.Exists(m_filePathOrigins[i]) && !System.IO.File.Exists(m_filePathMediums[i]))
+                if (!System.IO.File.Exists(m_filePathOrigins[i]) || !System.IO.File.Exists(m_filePathMediums[i]))
                 {
                     ImageItem _item = new ImageItem();
                     _item.PostItemType = PostItemType.Origin;
@@ -391,15 +394,6 @@ namespace Waveface.DetailUI
 
             if (!FillImageListView(true))
                 timer.Enabled = true;
-
-            /*
-            if (Post.attachment_count > 0)
-            {
-                panelPictureInfo.Visible = true;
-
-                DownloadRemoteFile("origin");
-            }
-            */
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -426,8 +420,11 @@ namespace Waveface.DetailUI
                 }
             }
 
-            if (!firstTime && (k == m_displayCount))
-                return false;
+            if (!firstTime)
+            {
+                if (k == m_displayCount)
+                    return false;
+            }
 
             panelPictureInfo.Visible = true;
 
@@ -473,115 +470,6 @@ namespace Waveface.DetailUI
 
             return false;
         }
-
-        #region File Download [Picture]
-
-        /*
-
-        private void DownloadRemoteFile(string imageType)
-        {
-            labelPictureInfo.Text = "[" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
-
-            Attachment _attachment = m_imageAttachments[imageFileIndex];
-            string _url = string.Empty;
-            string _fileName = string.Empty;
-            Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, imageType, out _url, out _fileName); //origin medium
-
-            string _localFile = Main.GCONST.CachePath + _fileName;
-
-            if (!m_filesMapping.ContainsKey(_fileName))
-            {
-                if (_attachment.file_name != string.Empty)
-                    m_filesMapping.Add(_fileName, _attachment.file_name);
-            }
-
-            if (System.IO.File.Exists(_localFile))
-            {
-                imageListView.Items.Add(_localFile);
-                DownloadRemoteFileNext();
-            }
-            else
-            {
-                lock (pictureBoxRemote)
-                {
-                    pictureBoxRemote.LoadAsync(_url);
-                }
-
-                m_downloadFileName = _fileName;
-            }
-        }
-
-        //private void pictureBoxRemote_LoadProgressChanged(object sender, ProgressChangedEventArgs e)
-        //{
-        //    labelPictureInfo.Text = e.ProgressPercentage + "%" + " [" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
-        //}
-        //
-
-        private void pictureBoxRemote_LoadCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            DownloadLoadCompleted(e);
-        }
-
-        public void DownloadLoadCompleted(AsyncCompletedEventArgs e)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(
-                           delegate { DownloadLoadCompleted(e); }
-                           ));
-            }
-            else
-            {
-                if (e.Error != null)
-                {
-                    DownloadRemoteFile("medium");
-                }
-                else
-                {
-                    try
-                    {
-                        string _localFile = Main.GCONST.CachePath + m_downloadFileName;
-
-                        lock (pictureBoxRemote)
-                        {
-                            pictureBoxRemote.Image.Save(_localFile);
-                        }
-
-                        imageListView.Items.Add(_localFile);
-
-                        PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
-
-                        DownloadRemoteFileNext();
-                    }
-                    catch (Exception _e)
-                    {
-                        NLogUtility.Exception(s_logger, _e, "pictureBoxRemote_LoadCompleted");
-                    }
-                }
-            }
-        }
-
-        private void DownloadRemoteFileNext()
-        {
-            imageFileIndex++;
-
-            labelPictureInfo.Text = "[" + imageFileIndex + "/" + m_imageAttachments.Count + "]";
-
-            if (imageFileIndex < m_imageAttachments.Count)
-            {
-                DownloadRemoteFile("origin");
-            }
-            else
-            {
-                panelPictureInfo.Visible = false;
-
-                ReLayout();
-            }
-        }
-
-        */
-
-        #endregion
 
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
         {
