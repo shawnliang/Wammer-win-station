@@ -230,7 +230,7 @@ namespace Wammer.Station
 			if (handler == null)
 				throw new ArgumentNullException();
 
-			this.handler = (IHttpHandler)handler.Clone();
+			this.handler = handler; // (IHttpHandler)handler.Clone();
 		}
 
 		public void Do(object state)
@@ -239,7 +239,8 @@ namespace Wammer.Station
 
 			try
 			{
-				this.handler.HandleRequest(ctx.Request, ctx.Response);
+				IHttpHandler clonedHandler = (IHttpHandler)this.handler.Clone();
+				clonedHandler.HandleRequest(ctx.Request, ctx.Response);
 			}
 			catch (Cloud.WammerCloudException e)
 			{
