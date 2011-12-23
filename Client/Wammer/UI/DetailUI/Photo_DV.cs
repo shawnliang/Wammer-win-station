@@ -39,7 +39,7 @@ namespace Waveface.DetailUI
         private Dictionary<string, string> m_filesMapping;
         private IContainer components;
         private Timer timer;
-        
+
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
         private List<string> m_urlOrigins;
@@ -369,11 +369,17 @@ namespace Waveface.DetailUI
 
                 m_filePathMediums.Add(_localFileM);
                 m_urlMediums.Add(_urlM);
+
+                if (!m_filesMapping.ContainsKey(_fileNameM))
+                {
+                    if (_attachment.file_name != string.Empty)
+                        m_filesMapping.Add(_fileNameM, _attachment.file_name);
+                }
             }
 
             for (int i = m_imageAttachments.Count - 1; i >= 0; i--)
             {
-                if (!System.IO.File.Exists(m_filePathOrigins[i]) && !System.IO.File.Exists(m_filePathMediums[i]))
+                if (!System.IO.File.Exists(m_filePathOrigins[i]) || !System.IO.File.Exists(m_filePathMediums[i]))
                 {
                     ImageItem _item = new ImageItem();
                     _item.PostItemType = PostItemType.Origin;
@@ -414,8 +420,11 @@ namespace Waveface.DetailUI
                 }
             }
 
-            if (!firstTime && (k == m_displayCount))
-                return false;
+            if (!firstTime)
+            {
+                if (k == m_displayCount)
+                    return false;
+            }
 
             panelPictureInfo.Visible = true;
 
