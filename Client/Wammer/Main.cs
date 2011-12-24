@@ -52,7 +52,7 @@ namespace Waveface
         private bool m_logoutStation;
         private bool m_showInTaskbar_Hack;
         private bool m_eventFromRestoreWindow_Hack;
-        private bool m_setAllPostHaveRead;
+        private bool m_manualRefresh;
         private ShowTimelineIndexType m_showTimelineIndexType;
 
         private List<string> m_delayPostPicList = new List<string>();
@@ -876,12 +876,12 @@ namespace Waveface
             return false;
         }
 
-        public void GetAllDataAsync(ShowTimelineIndexType showTimelineIndexType, bool setAllPostHaveRead)
+        public void GetAllDataAsync(ShowTimelineIndexType showTimelineIndexType, bool manualRefresh)
         {
-            s_logger.Info("GetAllDataAsync.showTimelineIndexType:" + showTimelineIndexType + ", setAllPostHaveRead:" + setAllPostHaveRead);
+            s_logger.Info("GetAllDataAsync.showTimelineIndexType:" + showTimelineIndexType + ", manualRefresh:" + manualRefresh);
 
             m_showTimelineIndexType = showTimelineIndexType;
-            m_setAllPostHaveRead = setAllPostHaveRead;
+            m_manualRefresh = manualRefresh;
 
             Cursor.Current = Cursors.WaitCursor;
 
@@ -902,9 +902,9 @@ namespace Waveface
 
             s_logger.Info("ShowAllTimeline: showTimelineIndexType=" + showTimelineIndexType + ", TimelineIndex=" + _index);
 
-            lock (this)
+            lock (postsArea.PostsList)
             {
-                postsArea.PostsList.SetPosts(_posts, _index);
+                postsArea.PostsList.SetPosts(_posts, _index, m_manualRefresh);
             }
         }
 
@@ -1252,15 +1252,14 @@ namespace Waveface
                 _tmpPosts.Add(_p);
             }
 
-            if (m_setAllPostHaveRead)
+            if (m_manualRefresh)
             {
                 RT.SetAllCurrentGroupPostHaveRead();
             }
 
             RT.CurrentGroupPosts = _tmpPosts;
 
-            //Hack: Whene push "Refresh" Button
-            if (m_setAllPostHaveRead)
+            if (m_manualRefresh)
             {
                 SetLastReadPos();
             }
