@@ -460,7 +460,7 @@ namespace Waveface
             {
                 RT.REST.IsNetworkAvailable = false;
 
-                MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 s_logger.Info("UpdateNetworkStatus: Disconnected");
             }
