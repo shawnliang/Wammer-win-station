@@ -146,7 +146,7 @@
     <value>測試Waveface 伺服器連線狀態</value>
   </data>
   <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 17</value>
+    <value>164, 18</value>
   </data>
   <data name="checkBox_autoStartWaveface.Text" xml:space="preserve">
     <value>開機時自動開啟Waveface</value>
@@ -154,8 +154,12 @@
   <data name="lblLocalStorageUsage.Location" type="System.Drawing.Point, System.Drawing">
     <value>93, 27</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lblLocalStorageUsageTitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="lblLocalStorageUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 14</value>
+    <value>101, 14</value>
   </data>
   <data name="lblLocalStorageUsageTitle.Text" xml:space="preserve">
     <value>硬碟空間使用:</value>
