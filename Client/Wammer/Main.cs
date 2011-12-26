@@ -63,6 +63,8 @@ namespace Waveface
 
         private bool m_firstTimeShowBalloonTipTitle;
 
+		public PreferenceForm m_preference = null;
+
         #endregion
 
         #region Properties
@@ -310,11 +312,17 @@ namespace Waveface
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
         {
-            PreferenceForm _form = new PreferenceForm(StationToken, RT.REST.Service);
-            _form.ShowDialog();
+			if (m_preference != null)
+			{
+				m_preference.BringToFront();
+				return;
+			}
+
+            m_preference = new PreferenceForm(StationToken, RT.REST.Service);
+            m_preference.ShowDialog();
 
 
-            if (_form.IsUserSwitched)
+            if (m_preference.IsUserSwitched)
             {
                 m_exitToLogin = true;
                 QuitOption = QuitOption.QuitProgram;
