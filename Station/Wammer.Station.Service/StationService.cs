@@ -216,6 +216,22 @@ namespace Wammer.Station.Service
 				logger.DebugFormat("Min worker threads {0}, min completion port threads {1}",
 					minWorker, minIO);
 			}
+
+
+
+			int maxWorker;
+			int maxIO;
+
+			System.Threading.ThreadPool.GetMaxThreads(out maxWorker, out maxIO);
+			maxWorker = (int)StationRegistry.GetValue("MaxWorkerThreads", maxWorker);
+			maxIO = (int)StationRegistry.GetValue("MaxIOThreads", maxIO);
+
+			if (maxWorker > 0 && maxIO > 0)
+			{
+				System.Threading.ThreadPool.SetMaxThreads(maxWorker, maxIO);
+				logger.DebugFormat("Max worker threads {0}, min completion port threads {1}",
+					maxWorker, maxIO);
+			}
 		}
 	}
 
