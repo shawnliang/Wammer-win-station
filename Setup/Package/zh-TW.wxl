@@ -13,7 +13,9 @@
   <String Id="SIGNOFF.STATION.DESC">退出Waveface主程式</String>
   <String Id="CLEAN.STATION.INFO.DESC">清除Waveface主程式註冊碼與資料庫</String>
   <String Id="KILL.PROCESS.DESC">關閉執行中的程式</String>
-
+  <String Id="WaitMongoDbReady">準備MongoDB中. 可能會需要數分鐘, 請稍後</String>
+  <String Id="StartWavefaceService">正在啟動Waveface Station服務</String>
+  
   <!-- Copied from Wix 3.6 src\ext\FirewallExtension\wixlib\en-us.wxl -->
   <String Id="msierrFirewallCannotConnect" Overridable="yes">無法連結至Windows防火牆.  ([2]   [3]   [4]   [5])</String>
   <String Id="WixSchedFirewallExceptionsInstall" Overridable="yes">Windows防火牆設定中</String>

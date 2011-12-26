@@ -40,7 +40,11 @@
     <CustomAction Id='KillClientProcess' BinaryKey='InstallHelperDll' DllEntry='KillClientProcess' />
     <!-- Set Registry -->
     <CustomAction Id='SetRegistry' BinaryKey='InstallHelperDll' DllEntry='SetRegistry' />
-    
+    <!-- Start and Wait mongo db ready -->
+    <CustomAction Id='StartAndWaitMongoDbReady' BinaryKey='InstallHelperDll' DllEntry='StartAndWaitMongoDbReady' />
+    <!-- Start waveface service -->
+    <CustomAction Id='StartWavefaceService' BinaryKey='InstallHelperDll' DllEntry='StartWavefaceService' />
+
     <InstallExecuteSequence>
       <Custom Action="NoDowngradeAction" After="FindRelatedProducts">NEWERFOUND</Custom>
       <Custom Action="SignoffStationAction" Before="RemoveFiles">
@@ -55,12 +59,20 @@
       <Custom Action="SetRegistry" Before="InstallFiles">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
+      <Custom Action="StartAndWaitMongoDbReady" After="InstallFinalize">
+        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
+      </Custom>
+      <Custom Action="StartWavefaceService" After="StartAndWaitMongoDbReady">
+        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
+      </Custom>
     </InstallExecuteSequence>
 
     <UI>
       <ProgressText Action="KillClientProcess">!(loc.KILL.PROCESS.DESC)</ProgressText>
       <ProgressText Action="SignoffStationAction">!(loc.SIGNOFF.STATION.DESC)</ProgressText>
       <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
+      <ProgressText Action="StartAndWaitMongoDbReady">!(loc.WaitMongoDbReady)</ProgressText>
+      <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
     </UI>
     <!-- Program Menu-->
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
@@ -175,7 +187,7 @@
                         Name="WavefaceStation" Start="auto" Type="ownProcess" ErrorControl="ignore">
           <ServiceDependency Id="MongoDbForWaveface"/>
         </ServiceInstall>
-        <ServiceControl Name='WavefaceStation' Id='WavefaceStationSvcControl' Start='install' Remove='uninstall' Stop='both' Wait='yes'/>
+        <ServiceControl Name='WavefaceStation' Id='WavefaceStationSvcControl' Remove='uninstall' Stop='both' Wait='yes'/>
       </Component>
       <Component Id="station.service.exe.config" Guid="{17767F57-1550-4788-87E6-1B3C3A72D46D}">
         <File Id="station.service.exe.config" 

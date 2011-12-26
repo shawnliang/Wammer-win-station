@@ -12,6 +12,8 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using log4net;
 using System.Reflection;
+using System.ServiceProcess;
+using Wammer.Station.Service;
 
 namespace Wammer.Station
 {
@@ -184,6 +186,80 @@ namespace Wammer.Station
 			}
 
 			return ActionResult.Success;
+		}
+
+		[CustomAction]
+		public static ActionResult StartAndWaitMongoDbReady(Session session)
+		{
+			try
+			{
+				string svcName = StationService.MONGO_SERVICE_NAME;
+
+				StartService(svcName);
+
+				int retry = 90;
+				while (!IsMongoDBReady() && 0 < retry--)
+				{
+					System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2.0));
+				}
+
+				if (!IsMongoDBReady())
+					throw new System.TimeoutException("MongoDB is not ready in 180 seconds");
+
+				return ActionResult.Success;
+
+			}
+			catch (Exception e)
+			{
+				Logger.Warn(e);
+				return ActionResult.Failure;
+			}
+		}
+		[CustomAction]
+		public static ActionResult StartWavefaceService(Session session)
+		{
+			try
+			{
+				StartService("WavefaceStation");
+				return ActionResult.Success;
+			}
+			catch (Exception e)
+			{
+				Logger.Error("Unable to start Waveface service", e);
+				return ActionResult.Failure;
+			}
+		}
+
+		private static bool IsMongoDBReady()
+		{
+			try
+			{
+				// use mongo db to test if it is ready
+				Model.StationCollection.Instance.FindOne();
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		private static void StartService(string svcName)
+		{
+			try
+			{
+				ServiceController mongoSvc = new ServiceController(svcName);
+				if (mongoSvc.Status != ServiceControllerStatus.Running &&
+					mongoSvc.Status != ServiceControllerStatus.StartPending)
+				{
+					mongoSvc.Start();
+					mongoSvc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(60));
+				}
+			}
+			catch (Exception e)
+			{
+				throw new InstallerException("Unable to start MongoDB", e);
+			}
 		}
 	}
 }
