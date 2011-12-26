@@ -226,7 +226,7 @@ namespace Waveface
                 }
                 else
                 {
-                    _resizedImageFilePath = ImageUtility.ResizeImage(filePath, text, "512", 50);
+                    _resizedImageFilePath = ImageUtility.ResizeImage(filePath, text, "512", 85);
 
                     _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, _resizedImageFilePath, text, "", "image", "medium", object_id);
                 }

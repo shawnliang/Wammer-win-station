@@ -35,9 +35,8 @@ namespace Waveface
         private Timer timerDisplayedScrolling;
         private int m_lastRead;
         private Localization.CultureManager cultureManager;
-
-        //private Dictionary<string, string> m_undownloadThumbnails = new Dictionary<string, string>();
-
+        private bool m_manualRefresh;
+        
         #region Properties
 
         public int SelectedRow
@@ -130,10 +129,12 @@ namespace Waveface
             dataGridView.Enabled = true;
         }
 
-        public void SetPosts(List<Post> posts, int lastRead)
+        public void SetPosts(List<Post> posts, int lastRead, bool manualRefresh)
         {
             try
             {
+                m_manualRefresh = manualRefresh;
+
                 dataGridView.Enabled = false;
 
                 m_posts = posts;
@@ -254,8 +255,6 @@ namespace Waveface
 
             // Let them know we handled it
             e.Handled = true;
-
-            Application.DoEvents();
         }
 
         private void Draw_Link(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, int thumbnailRectWidth, bool selected)
@@ -843,6 +842,11 @@ namespace Waveface
             try
             {
                 dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
+
+                if(m_manualRefresh)
+                {
+                    dataGridView.FirstDisplayedScrollingRowIndex = 0;
+                }
             }
             catch (Exception _e)
             {

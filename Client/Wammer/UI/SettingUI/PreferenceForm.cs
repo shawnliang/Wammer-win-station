@@ -301,6 +301,7 @@ namespace Waveface.SettingUI
         private void PreferenceForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             connectionTester.Stop();
+			Main.Current.m_preference = null;
         }
     }
 
