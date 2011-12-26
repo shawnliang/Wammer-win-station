@@ -26,6 +26,9 @@ namespace Waveface.API.V2
 
         private RestTemplate m_rest;
 
+        private static string STATION_REG_KEY_PATH = @"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation";
+        private static string STATION_REG_KEY_PATH_WOW6432NODE = @"HKEY_LOCAL_MACHINE\Software\Wow6432Node\Wammer\WinStation";
+
         #region Properties
 
         public static string HostIP
@@ -59,7 +62,23 @@ namespace Waveface.API.V2
 
         static WService()
         {
-            string cloudURL = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "cloudBaseURL", null);
+            string cloudURL;
+
+            if (IntPtr.Size == 8)
+                // Run as 64 bit process.
+                //
+                // Windows Client runs in 64 bit mode but station is always in 32 bit mode.
+                // So read the WoW6432Node to get station registry value
+                cloudURL = (string)Registry.GetValue(STATION_REG_KEY_PATH_WOW6432NODE, "cloudBaseURL", null);
+            else if (IntPtr.Size == 4)
+                // Run as 32 bit process.
+                //
+                // Same as station
+                cloudURL = (string)Registry.GetValue(STATION_REG_KEY_PATH, "cloudBaseURL", null);
+            else
+                // future world....
+                throw new NotImplementedException("Not implement for " + IntPtr.Size * 8 + " bit enviroment");
+
             if (cloudURL == null)
                 return;
 
@@ -1797,3 +1816,4 @@ namespace Waveface.API.V2
 
     #endregion
 }
+
