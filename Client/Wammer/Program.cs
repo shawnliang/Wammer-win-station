@@ -80,6 +80,7 @@ namespace Waveface
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+			NLogUtility.Exception(s_logger, (Exception)e.ExceptionObject, "CurrentDomain_UnhandledException");
             CrashReporter _errorDlg = new CrashReporter((Exception)e.ExceptionObject);
             _errorDlg.ShowDialog();
         }
