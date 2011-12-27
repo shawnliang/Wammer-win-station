@@ -153,6 +153,12 @@
     <Compile Include="ProgramSetting.cs" />
     <Compile Include="Exception\Station401Exception.cs" />
     <Compile Include="UI\DetailUI\IDetailViewer.cs" />
+    <Compile Include="UI\NewPostManagerUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\NewPostManagerUI.Designer.cs">
+      <DependentUpon>NewPostManagerUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="UploadOriginPhotosToStation.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
     <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
@@ -634,6 +640,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LeftArea.zh-TW.resx">
       <DependentUpon>LeftArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\NewPostManagerUI.resx">
+      <DependentUpon>NewPostManagerUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PhotoView.zh-TW.resx">
       <DependentUpon>PhotoView.cs</DependentUpon>
