@@ -2,11 +2,14 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using NLog;
 
 namespace Waveface
 {
     class WebPostHelper
     {
+        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
         //回傳的網頁內容
         private String m_buff;
 
@@ -74,8 +77,9 @@ namespace Waveface
 
                 _dosuccess = true;
             }
-            catch
+            catch(Exception _e)
             {
+                NLogUtility.Exception(s_logger, _e, "doPost");
             }
             finally
             {
