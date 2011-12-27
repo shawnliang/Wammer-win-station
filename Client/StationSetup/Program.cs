@@ -58,26 +58,26 @@ namespace StationSetup
                 }
 
                 form = new SignInForm();
-            }
 
-			// force window to have focus
-			// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
-			uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
-			uint appThread = GetCurrentThreadId();
-			const uint SW_SHOW = 5;
-			if (foreThread != appThread)
-			{
-				AttachThreadInput(foreThread, appThread, true);
-				BringWindowToTop(form.Handle);
-				ShowWindow(form.Handle, SW_SHOW);
-				AttachThreadInput(foreThread, appThread, false);
-			}
-			else
-			{
-				BringWindowToTop(form.Handle);
-				ShowWindow(form.Handle, SW_SHOW);
-			}
-			form.Activate();
+				// force window to have focus
+				// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
+				uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
+				uint appThread = GetCurrentThreadId();
+				const uint SW_SHOW = 5;
+				if (foreThread != appThread)
+				{
+					AttachThreadInput(foreThread, appThread, true);
+					BringWindowToTop(form.Handle);
+					ShowWindow(form.Handle, SW_SHOW);
+					AttachThreadInput(foreThread, appThread, false);
+				}
+				else
+				{
+					BringWindowToTop(form.Handle);
+					ShowWindow(form.Handle, SW_SHOW);
+				}
+				form.Activate();
+            }
 
             Application.Run(form);
         }

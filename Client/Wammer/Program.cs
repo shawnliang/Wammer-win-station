@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 using NLog;
 using Waveface.Compoment;
 using Waveface.Diagnostics;
@@ -12,6 +13,24 @@ namespace Waveface
     internal static class Program
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
+		[DllImport("user32.dll")]
+		private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+		[DllImport("user32.dll")]
+		private static extern bool BringWindowToTop(IntPtr hWnd);
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr GetForegroundWindow();
+
+		[DllImport("user32.dll")]
+		private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
+
+		[DllImport("kernel32.dll")]
+		private static extern uint GetCurrentThreadId();
+
+		[DllImport("user32.dll")]
+		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
 
         [STAThread]
         private static void Main(string[] args)
@@ -64,6 +83,27 @@ namespace Waveface
                 {
                     loginForm = new LoginForm(settings.Email, settings.Password, false);
                 }
+
+				// force window to have focus
+				// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
+				uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
+				uint appThread = GetCurrentThreadId();
+				const uint SW_SHOW = 5;
+				if (foreThread != appThread)
+				{
+					AttachThreadInput(foreThread, appThread, true);
+					BringWindowToTop(loginForm.Handle);
+					if (args.Length != 3)
+						ShowWindow(loginForm.Handle, SW_SHOW);
+					AttachThreadInput(foreThread, appThread, false);
+				}
+				else
+				{
+					BringWindowToTop(loginForm.Handle);
+					if (args.Length != 3)
+						ShowWindow(loginForm.Handle, SW_SHOW);
+				}
+				loginForm.Activate();
 
                 Application.Run(loginForm);
             }
