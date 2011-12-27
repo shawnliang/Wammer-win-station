@@ -11,6 +11,32 @@ namespace Wammer.Utility
 	{
 		private const int OrientationId = 0x0112;
 
+		public static ImageCodecInfo JpegCodec;
+		public static ImageCodecInfo PngCodec;
+		public static ImageCodecInfo GifCodec;
+
+		static ImageHelper()
+		{
+			ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+			foreach (ImageCodecInfo codec in codecs)
+			{
+				switch(codec.MimeType.ToLower())
+				{
+					case "image/gif":
+						GifCodec = codec;
+						break;
+					case "image/jpeg":
+						JpegCodec = codec;
+						break;
+					case "image/png":
+						PngCodec = codec;
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
 		public static Bitmap ScaleBasedOnLongSide(Bitmap original, int sideLength)
 		{
 			float ratio1 = (float)sideLength / (float) original.Width;
@@ -38,7 +64,7 @@ namespace Wammer.Utility
 
 			using (Graphics g = Graphics.FromImage(scaledImage))
 			{
-				g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+				g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
 				g.DrawImage(original, new Rectangle(0, 0, scaledWidth, scaledHeight),
 						new Rectangle(0, 0, original.Width, original.Height), GraphicsUnit.Pixel);
 			}

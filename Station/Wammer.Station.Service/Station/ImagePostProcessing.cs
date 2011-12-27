@@ -274,7 +274,9 @@ namespace Wammer.Station
 		{
 			using (MemoryStream m = new MemoryStream())
 			{
-				img.Save(m, ImageFormat.Jpeg);	
+				EncoderParameters encodeParams = new EncoderParameters(1);
+				encodeParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)85);
+				img.Save(m, ImageHelper.JpegCodec, encodeParams);	
 
 				SavedResult savedResult = new SavedResult 
 				{ 
