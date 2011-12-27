@@ -36,6 +36,8 @@ namespace Waveface
         #region Fields
 
         //Main
+        public PreferenceForm m_preference;
+
         private ProgramSetting settings = new ProgramSetting();
 
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
@@ -63,7 +65,7 @@ namespace Waveface
 
         private bool m_firstTimeShowBalloonTipTitle;
 
-        public PreferenceForm m_preference = null;
+        private FormWindowState m_oldFormWindowState;
 
         #endregion
 
@@ -81,11 +83,8 @@ namespace Waveface
             set { settings.StationToken = value; }
         }
 
-        public QuitOption QuitOption
-        {
-            get;
-            private set;
-        }
+        public QuitOption QuitOption { get; private set; }
+
         #endregion
 
         public Main()
@@ -246,7 +245,8 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("Station401Exception"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(I18n.L.T("Station401Exception"), "Waveface", MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
 
                 m_exitToLogin = true;
                 m_process401Exception = true;
@@ -376,13 +376,20 @@ namespace Waveface
 
                 s_logger.Trace("Main_SizeChanged: FormWindowState.Minimized");
             }
+            else
+            {
+                m_oldFormWindowState = WindowState;
+            }
         }
 
         private void RestoreWindow()
         {
             s_logger.Trace("RestoreWindow");
 
-            WindowState = FormWindowState.Maximized;
+            if (m_oldFormWindowState != FormWindowState.Minimized)
+            {
+                WindowState = m_oldFormWindowState;
+            }
 
             m_showTimelineIndexType = ShowTimelineIndexType.LocalLastRead;
             GetLastReadAndShow();
@@ -462,7 +469,7 @@ namespace Waveface
             {
                 RT.REST.IsNetworkAvailable = true;
 
-                //StatusLabelNetwork.Text = "Network Connected";
+                StatusLabelNetwork.Text = I18n.L.T("NetworkConnected");
                 StatusLabelNetwork.Image = Resources.network_receive;
 
                 s_logger.Info("UpdateNetworkStatus: Connected");
@@ -471,7 +478,7 @@ namespace Waveface
             {
                 RT.REST.IsNetworkAvailable = false;
 
-                //StatusLabelNetwork.Text = "Network Disconnected";
+                StatusLabelNetwork.Text = I18n.L.T("NetworkDisconnected");
                 StatusLabelNetwork.Image = Resources.network_error;
 
                 s_logger.Info("UpdateNetworkStatus: Disconnected");
@@ -480,13 +487,14 @@ namespace Waveface
 
         public bool CheckNetworkStatus()
         {
-            if (NetworkInterface.GetIsNetworkAvailable())
+            if (RT.REST.IsNetworkAvailable)
             {
                 return true;
             }
             else
             {
-                MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
                 return false;
             }
         }
@@ -890,7 +898,8 @@ namespace Waveface
 
         public void GetAllDataAsync(ShowTimelineIndexType showTimelineIndexType, bool manualRefresh)
         {
-            s_logger.Info("GetAllDataAsync.showTimelineIndexType:" + showTimelineIndexType + ", manualRefresh:" + manualRefresh);
+            s_logger.Info("GetAllDataAsync.showTimelineIndexType:" + showTimelineIndexType + ", manualRefresh:" +
+                          manualRefresh);
 
             m_showTimelineIndexType = showTimelineIndexType;
             m_manualRefresh = manualRefresh;
@@ -912,7 +921,8 @@ namespace Waveface
 
             int _index = RT.GetMyTimelinePosition(showTimelineIndexType);
 
-            s_logger.Info("ShowAllTimeline: showTimelineIndexType=" + showTimelineIndexType + ", TimelineIndex=" + _index);
+            s_logger.Info("ShowAllTimeline: showTimelineIndexType=" + showTimelineIndexType + ", TimelineIndex=" +
+                          _index);
 
             lock (postsArea.PostsList)
             {
@@ -1206,6 +1216,28 @@ namespace Waveface
                 WService.StationIP = m_stationIP;
                 RT.StationMode = true;
             }
+        }
+
+        public void ShowStatuMessage(string message, bool timeout)
+        {
+            if (timeout)
+            {
+                timerShowStatuMessage.Enabled = true;
+
+                StatusLabelPost.Text = message;
+
+            }
+            else
+            {
+                StatusLabelUpload.Text = message;
+            }
+        }
+
+        private void timerShowStatuMessage_Tick(object sender, EventArgs e)
+        {
+            timerShowStatuMessage.Enabled = false;
+
+            StatusLabelPost.Text = "";
         }
 
         #endregion

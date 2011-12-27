@@ -40,6 +40,8 @@ namespace Waveface
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_RichText = new Waveface.Component.MultiPage.MultiPanelPage();
             this.panelRichTextPanel = new System.Windows.Forms.Panel();
@@ -64,8 +66,6 @@ namespace Waveface
             this.panelText = new System.Windows.Forms.Panel();
             this.buttonRichText = new Waveface.Component.XPButton();
             this.richTextBox = new System.Windows.Forms.RichTextBox();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStripEdit.SuspendLayout();
             this.multiPanel.SuspendLayout();
             this.Page_RichText.SuspendLayout();
@@ -111,13 +111,17 @@ namespace Waveface
             resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
             // multiPanel
             // 
             this.multiPanel.Controls.Add(this.Page_RichText);
             this.multiPanel.Controls.Add(this.Page_P_D_W);
             resources.ApplyResources(this.multiPanel, "multiPanel");
             this.multiPanel.Name = "multiPanel";
-            this.multiPanel.SelectedPage = this.Page_P_D_W;
+            this.multiPanel.SelectedPage = this.Page_RichText;
             // 
             // Page_RichText
             // 
@@ -127,6 +131,7 @@ namespace Waveface
             // 
             // panelRichTextPanel
             // 
+            this.panelRichTextPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
             this.panelRichTextPanel.Controls.Add(this.panelRichText_Main);
             this.panelRichTextPanel.Controls.Add(this.panelRichText_Top);
             resources.ApplyResources(this.panelRichTextPanel, "panelRichTextPanel");
@@ -134,6 +139,7 @@ namespace Waveface
             // 
             // panelRichText_Main
             // 
+            this.panelRichText_Main.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
             this.panelRichText_Main.Controls.Add(this.richText_UI);
             resources.ApplyResources(this.panelRichText_Main, "panelRichText_Main");
             this.panelRichText_Main.Name = "panelRichText_Main";
@@ -147,6 +153,7 @@ namespace Waveface
             // 
             // panelRichText_Top
             // 
+            this.panelRichText_Top.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
             this.panelRichText_Top.Controls.Add(this.btnPureText);
             resources.ApplyResources(this.panelRichText_Top, "panelRichText_Top");
             this.panelRichText_Top.Name = "panelRichText_Top";
@@ -172,6 +179,7 @@ namespace Waveface
             // 
             // panelPWD_Main
             // 
+            this.panelPWD_Main.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
             this.panelPWD_Main.Controls.Add(this.multiPanel_P_D_W);
             resources.ApplyResources(this.panelPWD_Main, "panelPWD_Main");
             this.panelPWD_Main.Name = "panelPWD_Main";
@@ -227,7 +235,7 @@ namespace Waveface
             // 
             // panelMiddleBar
             // 
-            this.panelMiddleBar.BackColor = System.Drawing.Color.White;
+            this.panelMiddleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
             this.panelMiddleBar.Controls.Add(this.panelToolbar);
             this.panelMiddleBar.Controls.Add(this.btnSend);
             resources.ApplyResources(this.panelMiddleBar, "panelMiddleBar");
@@ -276,7 +284,7 @@ namespace Waveface
             // 
             // panelText
             // 
-            this.panelText.BackColor = System.Drawing.Color.White;
+            this.panelText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
             this.panelText.Controls.Add(this.buttonRichText);
             this.panelText.Controls.Add(this.richTextBox);
             resources.ApplyResources(this.panelText, "panelText");
@@ -296,17 +304,13 @@ namespace Waveface
             // richTextBox
             // 
             resources.ApplyResources(this.richTextBox, "richTextBox");
-            this.richTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.richTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox.ContextMenuStrip = this.contextMenuStripEdit;
             this.richTextBox.DetectUrls = false;
             this.richTextBox.Name = "richTextBox";
             this.richTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
             this.richTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // PostForm
             // 

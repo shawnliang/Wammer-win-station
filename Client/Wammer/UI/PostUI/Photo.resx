@@ -193,7 +193,7 @@
     <value>2, 40</value>
   </data>
   <data name="imageListView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>603, 194</value>
+    <value>603, 338</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="imageListView.TabIndex" type="System.Int32, mscorlib">
@@ -215,7 +215,7 @@
     <value>6, 0</value>
   </data>
   <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>606, 233</value>
+    <value>606, 377</value>
   </data>
   <data name="panel.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -582,7 +582,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>538, 242</value>
+    <value>538, 386</value>
   </data>
   <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -615,7 +615,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnBatchPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>458, 242</value>
+    <value>458, 386</value>
   </data>
   <data name="btnBatchPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -657,7 +657,7 @@
     <value>Tahoma, 9pt</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>618, 277</value>
+    <value>618, 421</value>
   </data>
   <data name="&gt;&gt;sortByToolStripMenuItem.Name" xml:space="preserve">
     <value>sortByToolStripMenuItem</value>

@@ -55,8 +55,10 @@
             this.timerReloadAllData = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.StatusLabelPost = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelUpload = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelNetwork = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timerShowStatuMessage = new System.Windows.Forms.Timer(this.components);
             this.panelTop = new Waveface.BgPanel();
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
@@ -229,9 +231,16 @@
             // 
             resources.ApplyResources(this.statusStrip, "statusStrip");
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StatusLabelPost,
             this.StatusLabelUpload,
             this.StatusLabelNetwork});
             this.statusStrip.Name = "statusStrip";
+            // 
+            // StatusLabelPost
+            // 
+            this.StatusLabelPost.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.StatusLabelPost.Name = "StatusLabelPost";
+            resources.ApplyResources(this.StatusLabelPost, "StatusLabelPost");
             // 
             // StatusLabelUpload
             // 
@@ -253,6 +262,11 @@
             this.StatusLabelNetwork.Name = "StatusLabelNetwork";
             this.StatusLabelNetwork.Padding = new System.Windows.Forms.Padding(8, 0, 4, 0);
             resources.ApplyResources(this.StatusLabelNetwork, "StatusLabelNetwork");
+            // 
+            // timerShowStatuMessage
+            // 
+            this.timerShowStatuMessage.Interval = 5000;
+            this.timerShowStatuMessage.Tick += new System.EventHandler(this.timerShowStatuMessage_Tick);
             // 
             // panelTop
             // 
@@ -354,6 +368,8 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelUpload;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelNetwork;
+        private System.Windows.Forms.Timer timerShowStatuMessage;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabelPost;
 	}
 }
 

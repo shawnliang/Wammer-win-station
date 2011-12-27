@@ -227,9 +227,10 @@ namespace Waveface
                     if (_np == null)
                     {
                         MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
 
-                    MessageBox.Show(I18n.L.T("PostForm.PostSuccess"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Main.Current.ShowStatuMessage(I18n.L.T("PostForm.PostSuccess"), true);
 
                     SetDialogResult_Yes_AndClose();
                 }

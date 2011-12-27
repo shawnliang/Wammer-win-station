@@ -301,13 +301,14 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
             this.Controls.Add(this.panelToolbar);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.btnBatchPost);
             this.Name = "Photo";
+            this.Resize += new System.EventHandler(this.Photo_Resize);
             this.panel.ResumeLayout(false);
             this.columnContextMenu.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);

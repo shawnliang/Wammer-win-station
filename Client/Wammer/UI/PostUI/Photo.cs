@@ -460,6 +460,9 @@ namespace Waveface.PostUI
 
         #endregion
 
-
+        private void Photo_Resize(object sender, EventArgs e)
+        {
+            BackColor = Color.FromArgb(223, 220, 213); //Hack
+        }
     }
 }

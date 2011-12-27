@@ -70,6 +70,7 @@ namespace Waveface
         {
             NewPostManager.Current.ShowMessage += ShowDragDropMessage;
             NewPostManager.Current.UpdateUI += UpdateDragAndDropUI;
+            NewPostManager.Current.UploadDone += UploadDone;
         }
 
         #region CustomizedFilters
@@ -303,7 +304,7 @@ namespace Waveface
             }
             else
             {
-                labelDropInfor.Text = "";
+                Main.Current.ShowStatuMessage("", false);
 
                 if ((percent == 0) || (percent == 100))
                 {
@@ -315,7 +316,7 @@ namespace Waveface
                 if ((percent > 0) && (percent <= 20))
                 {
                     DrawDropArea(Resources.dragNdrop_loading0);
-                    labelDropInfor.Text = text;
+                    Main.Current.ShowStatuMessage(text, false);
 
                     return;
                 }
@@ -323,7 +324,7 @@ namespace Waveface
                 if ((percent > 20) && (percent <= 40))
                 {
                     DrawDropArea(Resources.dragNdrop_loading1);
-                    labelDropInfor.Text = text;
+                    Main.Current.ShowStatuMessage(text, false);
 
                     return;
                 }
@@ -331,7 +332,7 @@ namespace Waveface
                 if ((percent > 40) && (percent <= 60))
                 {
                     DrawDropArea(Resources.dragNdrop_loading2);
-                    labelDropInfor.Text = text;
+                    Main.Current.ShowStatuMessage(text, false);
 
                     return;
                 }
@@ -339,7 +340,7 @@ namespace Waveface
                 if ((percent > 60) && (percent <= 80))
                 {
                     DrawDropArea(Resources.dragNdrop_loading3);
-                    labelDropInfor.Text = text;
+                    Main.Current.ShowStatuMessage(text, false);
 
                     return;
                 }
@@ -347,10 +348,24 @@ namespace Waveface
                 if ((percent > 80) && (percent < 100))
                 {
                     DrawDropArea(Resources.dragNdrop_loading4);
-                    labelDropInfor.Text = text;
+                    Main.Current.ShowStatuMessage(text, false);
 
                     return;
                 }
+            }
+        }
+
+        private void UploadDone(string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { UploadDone(text); }
+                           ));
+            }
+            else
+            {
+                Main.Current.ShowStatuMessage(text, true);
             }
         }
 

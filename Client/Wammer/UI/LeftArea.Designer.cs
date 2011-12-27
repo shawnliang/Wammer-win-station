@@ -33,8 +33,6 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeftArea));
             this.panelBottom = new System.Windows.Forms.Panel();
-            this.panelButtom2 = new System.Windows.Forms.Panel();
-            this.labelDropInfor = new System.Windows.Forms.Label();
             this.pbDropArea = new System.Windows.Forms.PictureBox();
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelFilter = new System.Windows.Forms.Panel();
@@ -51,7 +49,6 @@ namespace Waveface
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.panelBottom.SuspendLayout();
-            this.panelButtom2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
             this.panelFilter.SuspendLayout();
@@ -65,22 +62,9 @@ namespace Waveface
             // panelBottom
             // 
             this.panelBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.panelBottom.Controls.Add(this.panelButtom2);
             this.panelBottom.Controls.Add(this.pbDropArea);
             resources.ApplyResources(this.panelBottom, "panelBottom");
             this.panelBottom.Name = "panelBottom";
-            // 
-            // panelButtom2
-            // 
-            this.panelButtom2.Controls.Add(this.labelDropInfor);
-            resources.ApplyResources(this.panelButtom2, "panelButtom2");
-            this.panelButtom2.Name = "panelButtom2";
-            // 
-            // labelDropInfor
-            // 
-            this.labelDropInfor.Cursor = System.Windows.Forms.Cursors.Hand;
-            resources.ApplyResources(this.labelDropInfor, "labelDropInfor");
-            this.labelDropInfor.Name = "labelDropInfor";
             // 
             // pbDropArea
             // 
@@ -224,7 +208,6 @@ namespace Waveface
             this.Controls.Add(this.panelBottom);
             this.Name = "LeftArea";
             this.panelBottom.ResumeLayout(false);
-            this.panelButtom2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).EndInit();
             this.panelMain.ResumeLayout(false);
             this.panelFilter.ResumeLayout(false);
@@ -254,8 +237,6 @@ namespace Waveface
         private System.Windows.Forms.Panel panelCustomFilter;
         private System.Windows.Forms.Panel panelTimeline;
         private CustomControls.MonthCalendar monthCalendar;
-        private System.Windows.Forms.Panel panelButtom2;
-        private System.Windows.Forms.Label labelDropInfor;
         private Localization.CultureManager cultureManager;
 
     }

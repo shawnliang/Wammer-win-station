@@ -21,6 +21,7 @@ namespace Waveface
 
         public event UpdateUI_Delegate UpdateUI;
         public event ShowMessage_Delegate ShowMessage;
+        public event ShowMessage_Delegate UploadDone;
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
@@ -86,17 +87,31 @@ namespace Waveface
 
             while (true)
             {
-                if (ShowMessage != null)
-                    ShowMessage(I18n.L.T("NewPostManager.DragDropHere"));
-
                 NewPostItem _newPost;
+
+                if(!Main.Current.RT.REST.IsNetworkAvailable)
+                {
+                    if (ShowMessage != null)
+                        ShowMessage("");
+
+                    UpdateUI(0, "");
+
+                    continue;
+                }
 
                 lock (Current)
                 {
                     if (Current.Items.Count > 0)
+                    {
                         _newPost = Current.Items[Current.Items.Count - 1];
+                    }
                     else
+                    {
                         _newPost = null;
+
+                        if (ShowMessage != null)
+                            ShowMessage(I18n.L.T("NewPostManager.DragDropHere"));
+                    }
                 }
 
                 if (_newPost != null)
@@ -113,6 +128,9 @@ namespace Waveface
                             lock (Current)
                             {
                                 Current.Remove(_newPost);
+
+                                if (UploadDone != null)
+                                    UploadDone(I18n.L.T("PostForm.PostSuccess"));
                             }
                         }
                         else
@@ -125,7 +143,7 @@ namespace Waveface
                     }
                 }
 
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
             }
         }
 
@@ -171,6 +189,9 @@ namespace Waveface
                             newPost.UploadedFiles.Add(_file, _uf.object_id);
 
                             s_logger.Trace("[" + _tmpStamp + "]" + "Batch Upload Photo [" + _count + "]" + _file);
+
+                            string _localFile = Main.GCONST.CachePath + _uf.object_id + "_origin_" + _text;
+                            File.Copy(_file, _localFile);
                         }
                         catch (Exception _e)
                         {
@@ -185,7 +206,20 @@ namespace Waveface
                     int _counts = newPost.Files.Count;
 
                     if (UpdateUI != null)
-                        UpdateUI(_count * 100 / _counts, string.Format(I18n.L.T("NewPostManager.Uploading"), _count, _counts));
+                    {
+                        string _msg;
+
+                        if (Current.Items.Count == 1)
+                        {
+                            _msg = string.Format(I18n.L.T("OnePostUpload"), _count, _counts - _count);
+                        }
+                        else
+                        {
+                            _msg = string.Format(I18n.L.T("MultiplePostUpload"), _count, _counts - _count, Current.Items.Count - 1);
+                        }
+
+                        UpdateUI(_count * 100 / _counts, _msg);
+                    }
 
                     if (_count == _counts)
                         break;
