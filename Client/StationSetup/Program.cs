@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using Wammer.Station;
 using Waveface.Localization;
+using Microsoft.Win32;
 
 namespace StationSetup
 {
@@ -14,9 +15,11 @@ namespace StationSetup
         [STAThread]
         static void Main(string[] args)
         {
-            CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
-            //CultureManager.ApplicationUICulture = new CultureInfo("en-US");
-            //CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+            string culture = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "Culture", null);
+            if (culture == null)
+                CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
+            else
+                CultureManager.ApplicationUICulture = new CultureInfo(culture);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

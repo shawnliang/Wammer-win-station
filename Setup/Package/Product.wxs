@@ -87,13 +87,19 @@
       <Directory Id="DesktopFolder" Name="Desktop" />
     </Directory>
 
-    <!-- Compatibility Mode -->
     <DirectoryRef Id="TARGETDIR">
+      <!-- Compatibility Mode -->
       <Component Id="AppCompatibilitySettings" Guid="{BE1ABB42-3AE4-4789-933C-1C22FE779F07}">
         <RegistryKey Root="HKLM"
                      Key="Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers">
           <RegistryValue Type="string" Name="[INSTALLLOCATION]StationSetup.exe" Value="VISTARTM" KeyPath="yes"/>
         </RegistryKey>
+      </Component>
+      <!-- Culture -->
+      <Component Id="CultureSetting" Guid="{EDAC6735-B152-47FB-9DBA-ACAD3CCF9887}">
+        <RegistryKey Root="HKLM" Key="Software\Wammer\WinStation">
+          <RegistryValue Type="string" Name="Culture" Value="!(loc.CULTURE)" KeyPath="yes"/>
+         </RegistryKey>
       </Component>
     </DirectoryRef>
     
@@ -177,6 +183,7 @@
       <ComponentRef Id="Default004.jpg"/>
       <ComponentRef Id="Wavefacepdf"/>
       <ComponentRef Id="Welcome.txt"/>
+      <ComponentRef Id="CultureSetting"/>
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">

@@ -24,9 +24,12 @@ namespace Waveface
                 return;
             }
 
-            CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
-            //CultureManager.ApplicationUICulture = new CultureInfo("en-US");
-            //CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+            string culture = (string)StationRegHelper.GetValue("Culture", null);
+            if (culture==null)
+                CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
+            else
+                CultureManager.ApplicationUICulture = new CultureInfo(culture);
+
 
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
