@@ -171,7 +171,7 @@ namespace Waveface
         private Color m_inforColor1 = Color.White;
         private Color m_inforColor2 = Color.FromArgb(63, 63, 63);
         private Font m_fontPostTime = new Font("Arial", 9);
-        private Font m_fontPhotoInfo = new Font("Arial", 9, FontStyle.Bold);
+        private Font m_fontPhotoInfo = new Font("Arial", 8, FontStyle.Bold);
         private Font m_fontText = new Font("Arial", 10);
 
         private void dataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)

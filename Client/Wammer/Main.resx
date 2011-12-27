@@ -118,58 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="BottomToolStripPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="BottomToolStripPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;BottomToolStripPanel.Name" xml:space="preserve">
-    <value>BottomToolStripPanel</value>
-  </data>
-  <data name="&gt;&gt;BottomToolStripPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="TopToolStripPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TopToolStripPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>1, 0, 1, 0</value>
-  </data>
-  <data name="TopToolStripPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;TopToolStripPanel.Name" xml:space="preserve">
-    <value>TopToolStripPanel</value>
-  </data>
-  <data name="&gt;&gt;TopToolStripPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="RightToolStripPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="RightToolStripPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;RightToolStripPanel.Name" xml:space="preserve">
-    <value>RightToolStripPanel</value>
-  </data>
-  <data name="&gt;&gt;RightToolStripPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="LeftToolStripPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="LeftToolStripPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;LeftToolStripPanel.Name" xml:space="preserve">
-    <value>LeftToolStripPanel</value>
-  </data>
-  <data name="&gt;&gt;LeftToolStripPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="ContentPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>1078, 549</value>
   </data>
@@ -179,6 +127,7 @@
   <data name="&gt;&gt;ContentPanel.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripContentPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="postsArea.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -192,7 +141,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="postsArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>337, 460</value>
+    <value>337, 469</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="postsArea.TabIndex" type="System.Int32, mscorlib">
@@ -220,7 +169,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 460</value>
+    <value>328, 469</value>
   </data>
   <data name="panelPost.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -250,7 +199,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="splitterLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 460</value>
+    <value>2, 469</value>
   </data>
   <data name="splitterLeft.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -277,7 +226,7 @@
     <value>0, 0</value>
   </data>
   <data name="leftArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 460</value>
+    <value>180, 469</value>
   </data>
   <data name="leftArea.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -304,7 +253,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelLeftInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 460</value>
+    <value>180, 469</value>
   </data>
   <data name="panelLeftInfo.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -325,13 +274,13 @@
     <value>Left</value>
   </data>
   <data name="panelLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 70</value>
+    <value>0, 69</value>
   </data>
   <data name="panelLeft.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>510, 460</value>
+    <value>510, 469</value>
   </data>
   <data name="panelLeft.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -361,7 +310,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="detailView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>472, 460</value>
+    <value>472, 469</value>
   </data>
   <data name="detailView.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -382,13 +331,13 @@
     <value>Fill</value>
   </data>
   <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>512, 70</value>
+    <value>512, 69</value>
   </data>
   <data name="panelMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>472, 460</value>
+    <value>472, 469</value>
   </data>
   <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -405,94 +354,14 @@
   <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="itemCountLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 20</value>
-  </data>
-  <data name="itemCountLabel.Text" xml:space="preserve">
-    <value>{0} Items</value>
-  </data>
-  <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>739, 20</value>
-  </data>
-  <data name="connectedStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 20</value>
-  </data>
-  <data name="connectedStatusLabel.Text" xml:space="preserve">
-    <value>All folders are up to date.</value>
-  </data>
-  <data name="connectedImageLabel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAMrSURBVDhPNZJbSJMBGIaHurADRBEUQUERHaCIyqtu6iK6
-        KIhuIrroqMvCadqBSrOMDgYZSZaVUWRZZkfLytOsqc3Nw9RqpeVmOLOWmtO1g8ttT9/+0Q8f/D/87/Md
-        3lc1VLSUwTtLGLi9GMfNRfQVzKf36jy68+bQdXE2nTkzsZybwYfT0zBnTaU5czKm9Ek0HJnAu0OxqAbv
-        LoGfL6GvFHofgf0+dN8B2w34chk6LoDlLLzPgrYjYD4ETanQmEzdgXGo+qWzIlaeIIQCUn559UHAI+WC
-        MSf8HQS/A0b7wNejAPT71ajCYyud/4uDfpwdz7G+SKX50ireZcfRlL+e7qrThHy9IraDt1sBvE2TCfoK
-        FkCPjB0akxrF0XiN9qIt9FtKcbRewf+7je/G6xhyVmK+uZmQ1yqArwJIomafTGCXg/GtUAaIdH5/b4u8
-        2ggFPViKd8rPneCx4Lc/oSZrAR1PUuS7A0x7qU4RwDe5NtYC2dWHrSwNZ+dzEbvlFC7abm0CdyuM1IKz
-        AntFMpUZsrLbAsZEKrUCsObOilxbRC15q/H2t8s2Q1L9GHPX4PlUyNjHXAXgazlG8fbx8KcdDBpeJ8Wg
-        6jw/U6zKkQlGqD8Xh/tXs5jQQ9D7gbenlqM/E0dLwQaxNh+3QSuAWHC1EqqNp2yvACzZ0+Fjtlg1ROPl
-        dfTU5hD0mIVXTuB3CYGB21K3ZM08ul5qqUxfKCs1MVaXwIvd0ajCCaNdQvJ3AOvr49JxGT5boYiLFeF/
-        sce4n+rMeXwuSRCAiVF9Ak81Amg9OUUSli4Ah+JzU/5GqjPm8qMiBZcpk+GG49hKtili06W1hIaNMGzA
-        80bD43gBhLON+aCkLJKwsM9drzLQZa3gmXa2UroTy/jyLFnEDYoYZx2uKg0PdwrAdHRiJNujkjCfJMzT
-        FfE5bFX42i6zjNwsQlNEPFwnAD0j1bt5sEMADYfFFollpLRKwjDtUXzGkEioPp6AHMwv5dVpcNdocOkS
-        FcD9bVGo6g/GUntAjT5NzZtUNTpJV5UEpDxJzSuxqWxPDKWaGJ4mxPBoVzQlO6LEymjuibhoaxT/AHkp
-        HQ041fVOAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="connectedImageLabel.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="connectedImageLabel.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="connectedImageLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 25</value>
-  </data>
-  <data name="connectedImageLabel.Text" xml:space="preserve">
-    <value>Connected</value>
-  </data>
-  <data name="toolStripStatusLabel4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>4, 20</value>
-  </data>
-  <data name="toolStripStatusLabel4.Text" xml:space="preserve">
-    <value>toolStripStatusLabel4</value>
-  </data>
-  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>362, 17</value>
-  </metadata>
-  <data name="statusStrip1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1078, 25</value>
-  </data>
-  <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="statusStrip1.Text" xml:space="preserve">
-    <value>19 Items</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Name" xml:space="preserve">
-    <value>statusStrip1</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <metadata name="mnuTray.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>482, 17</value>
+    <value>481, 17</value>
   </metadata>
   <data name="restoreMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 22</value>
   </data>
   <data name="restoreMenuItem.Text" xml:space="preserve">
     <value>Open Waveface</value>
-  </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 6</value>
   </data>
   <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 22</value>
@@ -521,23 +390,11 @@
   <data name="screenShotMenu.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 6</value>
-  </data>
-  <data name="toolStripMenuItem3.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="preferencesMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 22</value>
   </data>
   <data name="preferencesMenuItem.Text" xml:space="preserve">
     <value>Preferences...</value>
-  </data>
-  <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 6</value>
-  </data>
-  <data name="toolStripMenuItem2.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="logoutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 22</value>
@@ -546,7 +403,7 @@
     <value>Quit</value>
   </data>
   <data name="mnuTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 110</value>
+    <value>168, 92</value>
   </data>
   <data name="&gt;&gt;mnuTray.Name" xml:space="preserve">
     <value>mnuTray</value>
@@ -555,19 +412,19 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="timerDelayPost.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>585, 17</value>
+    <value>584, 17</value>
   </metadata>
   <data name="splitterRight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="splitterRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>510, 70</value>
+    <value>510, 69</value>
   </data>
   <data name="splitterRight.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="splitterRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 460</value>
+    <value>2, 469</value>
   </data>
   <data name="splitterRight.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -585,7 +442,7 @@
     <value>2</value>
   </data>
   <metadata name="timerGetNewestPost.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>725, 17</value>
+    <value>724, 17</value>
   </metadata>
   <metadata name="timerFilterReadmore.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>190, 17</value>
@@ -594,10 +451,10 @@
     <value>17, 17</value>
   </metadata>
   <metadata name="timerReloadAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>886, 19</value>
+    <value>896, 17</value>
   </metadata>
   <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1051, 19</value>
+    <value>1061, 17</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -606,10 +463,10 @@
     <value>56</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 14</value>
+    <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>984, 530</value>
+    <value>984, 568</value>
   </data>
   <data name="radioButtonStation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -618,10 +475,10 @@
     <value>NoControl</value>
   </data>
   <data name="radioButtonStation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 22</value>
+    <value>18, 24</value>
   </data>
   <data name="radioButtonStation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 18</value>
+    <value>63, 19</value>
   </data>
   <data name="radioButtonStation.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -651,7 +508,7 @@
     <value>18, 3</value>
   </data>
   <data name="radioButtonCloud.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 18</value>
+    <value>58, 19</value>
   </data>
   <data name="radioButtonCloud.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -672,10 +529,10 @@
     <value>1</value>
   </data>
   <data name="panelStation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>275, 12</value>
+    <value>275, 13</value>
   </data>
   <data name="panelStation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 47</value>
+    <value>94, 50</value>
   </data>
   <data name="panelStation.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -705,7 +562,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>984, 70</value>
+    <value>984, 69</value>
   </data>
   <data name="panelTop.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -722,8 +579,53 @@
   <data name="&gt;&gt;panelTop.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>361, 17</value>
+  </metadata>
+  <data name="statusStrip.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="statusStrip.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="StatusLabelUpload.Size" type="System.Drawing.Size, System.Drawing">
+    <value>953, 25</value>
+  </data>
+  <data name="StatusLabelUpload.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="StatusLabelNetwork.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 25</value>
+  </data>
+  <data name="StatusLabelNetwork.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 538</value>
+  </data>
+  <data name="statusStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>984, 30</value>
+  </data>
+  <data name="statusStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="statusStrip.Text" xml:space="preserve">
+    <value>statusStrip</value>
+  </data>
+  <data name="&gt;&gt;statusStrip.Name" xml:space="preserve">
+    <value>statusStrip</value>
+  </data>
+  <data name="&gt;&gt;statusStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;statusStrip.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;statusStrip.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
+    <value>Arial, 9pt</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -802,52 +704,16 @@
 </value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>1000, 568</value>
+    <value>1000, 606</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Waveface</value>
-  </data>
-  <data name="&gt;&gt;itemCountLabel.Name" xml:space="preserve">
-    <value>itemCountLabel</value>
-  </data>
-  <data name="&gt;&gt;itemCountLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel2.Name" xml:space="preserve">
-    <value>toolStripStatusLabel2</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;connectedStatusLabel.Name" xml:space="preserve">
-    <value>connectedStatusLabel</value>
-  </data>
-  <data name="&gt;&gt;connectedStatusLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;connectedImageLabel.Name" xml:space="preserve">
-    <value>connectedImageLabel</value>
-  </data>
-  <data name="&gt;&gt;connectedImageLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSplitButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel4.Name" xml:space="preserve">
-    <value>toolStripStatusLabel4</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;restoreMenuItem.Name" xml:space="preserve">
     <value>restoreMenuItem</value>
   </data>
   <data name="&gt;&gt;restoreMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
-    <value>toolStripMenuItem1</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;screenShotMenu.Name" xml:space="preserve">
     <value>screenShotMenu</value>
@@ -873,23 +739,11 @@
   <data name="&gt;&gt;screenMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItem3.Name" xml:space="preserve">
-    <value>toolStripMenuItem3</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;preferencesMenuItem.Name" xml:space="preserve">
     <value>preferencesMenuItem</value>
   </data>
   <data name="&gt;&gt;preferencesMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem2.Name" xml:space="preserve">
-    <value>toolStripMenuItem2</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;logoutMenuItem.Name" xml:space="preserve">
     <value>logoutMenuItem</value>
@@ -932,6 +786,18 @@
   </data>
   <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
     <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;StatusLabelUpload.Name" xml:space="preserve">
+    <value>StatusLabelUpload</value>
+  </data>
+  <data name="&gt;&gt;StatusLabelUpload.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusLabelNetwork.Name" xml:space="preserve">
+    <value>StatusLabelNetwork</value>
+  </data>
+  <data name="&gt;&gt;StatusLabelNetwork.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>

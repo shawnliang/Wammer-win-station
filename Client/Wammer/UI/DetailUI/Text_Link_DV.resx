@@ -142,7 +142,7 @@
     <value>Arial, 9pt</value>
   </data>
   <data name="buttonAddComment.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 3</value>
+    <value>446, 3</value>
   </data>
   <data name="buttonAddComment.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 28</value>
@@ -181,7 +181,7 @@
     <value>Both</value>
   </data>
   <data name="textBoxComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>427, 44</value>
+    <value>431, 44</value>
   </data>
   <data name="textBoxComment.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -205,7 +205,7 @@
     <value>0, 462</value>
   </data>
   <data name="PanelAddComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 84</value>
+    <value>522, 84</value>
   </data>
   <data name="PanelAddComment.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -232,7 +232,7 @@
     <value>0, 365</value>
   </data>
   <data name="webBrowserComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 97</value>
+    <value>522, 97</value>
   </data>
   <data name="webBrowserComment.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -259,7 +259,7 @@
     <value>3, 3</value>
   </data>
   <data name="webBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>498, 125</value>
+    <value>502, 125</value>
   </data>
   <data name="webBrowser.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -283,7 +283,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPageWebPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>504, 131</value>
+    <value>508, 131</value>
   </data>
   <data name="tabPageWebPage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -358,7 +358,7 @@
     <value>3, 3</value>
   </data>
   <data name="tabControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>512, 158</value>
+    <value>516, 158</value>
   </data>
   <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -382,7 +382,7 @@
     <value>0, 200</value>
   </data>
   <data name="panelWebBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 165</value>
+    <value>522, 165</value>
   </data>
   <data name="panelWebBrowser.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -409,7 +409,7 @@
     <value>0, 0</value>
   </data>
   <data name="webBrowserTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 200</value>
+    <value>522, 200</value>
   </data>
   <data name="webBrowserTop.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -430,7 +430,7 @@
     <value>4, 4</value>
   </data>
   <data name="panelRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 572</value>
+    <value>522, 576</value>
   </data>
   <data name="panelRight.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -451,7 +451,7 @@
     <value>3, 3</value>
   </data>
   <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>529, 583</value>
+    <value>531, 585</value>
   </data>
   <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

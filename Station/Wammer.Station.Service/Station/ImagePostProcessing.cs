@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Drawing;
 using System.Threading;
+using System.Drawing.Imaging;
 
 using Wammer.Utility;
 using Wammer.Cloud;
@@ -152,31 +153,41 @@ namespace Wammer.Station
 			else
 				thumbnail = ImageHelper.ScaleBasedOnLongSide(origin, (int)meta);
 
-			using (MemoryStream m = new MemoryStream())
+			ImageHelper.CorrectOrientation(ImageHelper.ImageOrientation(origin), thumbnail);
+
+			ImageSaveStrategy imageStrategy = GetImageSaveStrategy(Path.GetExtension(origFileName));
+			SavedResult savedThumbnail = imageStrategy.Save(thumbnail, attachmentId, meta, driver);
+
+			return new ThumbnailInfo
 			{
-				ImageHelper.CorrectOrientation(ImageHelper.ImageOrientation(origin), thumbnail);
-				thumbnail.Save(m, System.Drawing.Imaging.ImageFormat.Jpeg);
+				saved_file_name = savedThumbnail.FileName,
+				file_name = origFileName,
+				width = thumbnail.Width,
+				height = thumbnail.Height,
+				file_size = savedThumbnail.SavedRawData.Length,
+				mime_type = savedThumbnail.MimeType,
+				modify_time = DateTime.UtcNow,
+				url = "/v2/attachments/view/?object_id=" + attachmentId +
+													"&image_meta=" + meta.ToString().ToLower(),
+				RawData = savedThumbnail.SavedRawData
+			};
 
-				byte[] rawData = m.ToArray();
+		}
 
-				string thumbFileName = string.Format("{0}_{1}.jpeg",
-														attachmentId, meta.ToString().ToLower());
-				
-				new FileStorage(driver).SaveFile(thumbFileName, rawData);
+		private static ImageSaveStrategy GetImageSaveStrategy(string fileExtension)
+		{
+			if (fileExtension == null)
+				return new JpegImageSaveStrategy();
 
-				return new ThumbnailInfo
-				{
-					saved_file_name = thumbFileName,
-					file_name = origFileName,
-					width = thumbnail.Width,
-					height = thumbnail.Height,
-					file_size = m.Length,
-					mime_type = "image/jpeg",
-					modify_time = DateTime.UtcNow,
-					url = "/v2/attachments/view/?object_id=" + attachmentId +
-														"&image_meta=" + meta.ToString().ToLower(),
-					RawData = rawData
-				};
+			switch (fileExtension.ToLower())
+			{
+				case ".png":
+					return new PngImageSaveStrategy();
+				case ".gif":
+				case ".giff":
+					return new GifImageSaveStrategy();
+				default:
+					return new JpegImageSaveStrategy();
 			}
 		}
 
@@ -242,6 +253,84 @@ namespace Wammer.Station
 		public UpstreamArgs()
 		{
 
+		}
+	}
+
+	class SavedResult
+	{
+		public string FileName { get; set; }
+		public string MimeType { get; set; }
+		public byte[] SavedRawData { get; set; }
+	}
+
+	interface ImageSaveStrategy
+	{
+		SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver);
+	}
+
+	class JpegImageSaveStrategy : ImageSaveStrategy
+	{
+		public SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver)
+		{
+			using (MemoryStream m = new MemoryStream())
+			{
+				img.Save(m, ImageFormat.Jpeg);	
+
+				SavedResult savedResult = new SavedResult 
+				{ 
+					SavedRawData = m.ToArray(),
+					FileName = string.Format("{0}_{1}.jpeg", attchId, meta.ToString().ToLower()),
+					MimeType = "image/jpeg"
+				};
+
+				new FileStorage(driver).SaveFile(savedResult.FileName, savedResult.SavedRawData);
+
+				return savedResult;
+			}
+		}
+	}
+
+	class GifImageSaveStrategy : ImageSaveStrategy
+	{
+		public SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver)
+		{
+			using (MemoryStream m = new MemoryStream())
+			{
+				img.Save(m, ImageFormat.Gif);
+
+				SavedResult savedResult = new SavedResult
+				{
+					SavedRawData = m.ToArray(),
+					FileName = string.Format("{0}_{1}.gif", attchId, meta.ToString().ToLower()),
+					MimeType = "image/gif"
+				};
+
+				new FileStorage(driver).SaveFile(savedResult.FileName, savedResult.SavedRawData);
+
+				return savedResult;
+			}
+		}
+	}
+
+	class PngImageSaveStrategy : ImageSaveStrategy
+	{
+		public SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver)
+		{
+			using (MemoryStream m = new MemoryStream())
+			{
+				img.Save(m, ImageFormat.Png);
+
+				SavedResult savedResult = new SavedResult
+				{
+					SavedRawData = m.ToArray(),
+					FileName = string.Format("{0}_{1}.png", attchId, meta.ToString().ToLower()),
+					MimeType = "image/png"
+				};
+
+				new FileStorage(driver).SaveFile(savedResult.FileName, savedResult.SavedRawData);
+
+				return savedResult;
+			}
 		}
 	}
 }

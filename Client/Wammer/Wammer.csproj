@@ -851,6 +851,8 @@
     <None Include="Resources\DropArea\dragNdrop-loading4.png" />
     <None Include="Resources\add_photo.png" />
     <None Include="Resources\LoadingImage.jpg" />
+    <None Include="Resources\network-error.png" />
+    <None Include="Resources\network-receive.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

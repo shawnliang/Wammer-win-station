@@ -106,7 +106,6 @@ namespace Waveface.DetailUI
             // 
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.SystemColors.Window;
-            this.panelMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelMain.Controls.Add(this.panelRight);
             this.panelMain.Name = "panelMain";
             // 
@@ -207,7 +206,6 @@ namespace Waveface.DetailUI
             // 
             // Text_Link_DV
             // 
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panelMain);
             resources.ApplyResources(this, "$this");
             this.Name = "Text_Link_DV";
