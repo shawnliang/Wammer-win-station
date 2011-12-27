@@ -30,10 +30,6 @@
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
-            this.TopToolStripPanel = new System.Windows.Forms.ToolStripPanel();
-            this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
-            this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.panelPost = new System.Windows.Forms.Panel();
@@ -43,22 +39,13 @@
             this.leftArea = new Waveface.LeftArea();
             this.panelMain = new System.Windows.Forms.Panel();
             this.detailView = new Waveface.DetailView();
-            this.itemCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.connectedStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.connectedImageLabel = new System.Windows.Forms.ToolStripSplitButton();
-            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.mnuTray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.restoreMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.screenShotMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.regionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.preferencesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
             this.splitterRight = new System.Windows.Forms.Splitter();
@@ -67,6 +54,9 @@
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
             this.timerReloadAllData = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.StatusLabelUpload = new System.Windows.Forms.ToolStripStatusLabel();
+            this.StatusLabelNetwork = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelTop = new Waveface.BgPanel();
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
@@ -75,39 +65,11 @@
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
             this.panelMain.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.mnuTray.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.panelStation.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // BottomToolStripPanel
-            // 
-            resources.ApplyResources(this.BottomToolStripPanel, "BottomToolStripPanel");
-            this.BottomToolStripPanel.Name = "BottomToolStripPanel";
-            this.BottomToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.BottomToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            // 
-            // TopToolStripPanel
-            // 
-            resources.ApplyResources(this.TopToolStripPanel, "TopToolStripPanel");
-            this.TopToolStripPanel.Name = "TopToolStripPanel";
-            this.TopToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.TopToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            // 
-            // RightToolStripPanel
-            // 
-            resources.ApplyResources(this.RightToolStripPanel, "RightToolStripPanel");
-            this.RightToolStripPanel.Name = "RightToolStripPanel";
-            this.RightToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.RightToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            // 
-            // LeftToolStripPanel
-            // 
-            resources.ApplyResources(this.LeftToolStripPanel, "LeftToolStripPanel");
-            this.LeftToolStripPanel.Name = "LeftToolStripPanel";
-            this.LeftToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.LeftToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             // 
             // ContentPanel
             // 
@@ -131,7 +93,7 @@
             // 
             this.postsArea.BackColor = System.Drawing.SystemColors.Window;
             resources.ApplyResources(this.postsArea, "postsArea");
-            this.postsArea.MinimumSize = new System.Drawing.Size(337, 0);
+            this.postsArea.MinimumSize = new System.Drawing.Size(337, 2);
             this.postsArea.Name = "postsArea";
             // 
             // splitterLeft
@@ -170,59 +132,12 @@
             this.detailView.Post = null;
             this.detailView.User = null;
             // 
-            // itemCountLabel
-            // 
-            this.itemCountLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.itemCountLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.itemCountLabel.Name = "itemCountLabel";
-            this.itemCountLabel.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
-            resources.ApplyResources(this.itemCountLabel, "itemCountLabel");
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            resources.ApplyResources(this.toolStripStatusLabel2, "toolStripStatusLabel2");
-            this.toolStripStatusLabel2.Spring = true;
-            // 
-            // connectedStatusLabel
-            // 
-            this.connectedStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.connectedStatusLabel.Name = "connectedStatusLabel";
-            resources.ApplyResources(this.connectedStatusLabel, "connectedStatusLabel");
-            // 
-            // connectedImageLabel
-            // 
-            resources.ApplyResources(this.connectedImageLabel, "connectedImageLabel");
-            this.connectedImageLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.connectedImageLabel.Name = "connectedImageLabel";
-            // 
-            // toolStripStatusLabel4
-            // 
-            this.toolStripStatusLabel4.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.toolStripStatusLabel4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            resources.ApplyResources(this.toolStripStatusLabel4, "toolStripStatusLabel4");
-            // 
-            // statusStrip1
-            // 
-            resources.ApplyResources(this.statusStrip1, "statusStrip1");
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.itemCountLabel,
-            this.toolStripStatusLabel2,
-            this.connectedStatusLabel,
-            this.connectedImageLabel,
-            this.toolStripStatusLabel4});
-            this.statusStrip1.Name = "statusStrip1";
-            // 
             // mnuTray
             // 
             this.mnuTray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.restoreMenuItem,
-            this.toolStripMenuItem1,
             this.screenShotMenu,
-            this.toolStripMenuItem3,
             this.preferencesMenuItem,
-            this.toolStripMenuItem2,
             this.logoutMenuItem});
             this.mnuTray.Name = "mnuTree";
             resources.ApplyResources(this.mnuTray, "mnuTray");
@@ -232,11 +147,6 @@
             this.restoreMenuItem.Name = "restoreMenuItem";
             resources.ApplyResources(this.restoreMenuItem, "restoreMenuItem");
             this.restoreMenuItem.Click += new System.EventHandler(this.restoreMenuItem_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
             // 
             // screenShotMenu
             // 
@@ -265,21 +175,11 @@
             resources.ApplyResources(this.screenMenuItem, "screenMenuItem");
             this.screenMenuItem.Click += new System.EventHandler(this.screenMenuItem_Click);
             // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            resources.ApplyResources(this.toolStripMenuItem3, "toolStripMenuItem3");
-            // 
             // preferencesMenuItem
             // 
             this.preferencesMenuItem.Name = "preferencesMenuItem";
             resources.ApplyResources(this.preferencesMenuItem, "preferencesMenuItem");
             this.preferencesMenuItem.Click += new System.EventHandler(this.preferencesMenuItem_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
             // 
             // logoutMenuItem
             // 
@@ -325,6 +225,35 @@
             // 
             this.cultureManager.ManagedControl = this;
             // 
+            // statusStrip
+            // 
+            resources.ApplyResources(this.statusStrip, "statusStrip");
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StatusLabelUpload,
+            this.StatusLabelNetwork});
+            this.statusStrip.Name = "statusStrip";
+            // 
+            // StatusLabelUpload
+            // 
+            this.StatusLabelUpload.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusLabelUpload.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
+            this.StatusLabelUpload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.StatusLabelUpload.Name = "StatusLabelUpload";
+            resources.ApplyResources(this.StatusLabelUpload, "StatusLabelUpload");
+            this.StatusLabelUpload.Spring = true;
+            // 
+            // StatusLabelNetwork
+            // 
+            this.StatusLabelNetwork.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusLabelNetwork.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.StatusLabelNetwork.Name = "StatusLabelNetwork";
+            this.StatusLabelNetwork.Padding = new System.Windows.Forms.Padding(8, 0, 4, 0);
+            resources.ApplyResources(this.StatusLabelNetwork, "StatusLabelNetwork");
+            // 
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.Chocolate;
@@ -367,6 +296,7 @@
             this.Controls.Add(this.splitterRight);
             this.Controls.Add(this.panelLeft);
             this.Controls.Add(this.panelTop);
+            this.Controls.Add(this.statusStrip);
             this.Name = "Main";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -381,9 +311,9 @@
             this.panelPost.ResumeLayout(false);
             this.panelLeftInfo.ResumeLayout(false);
             this.panelMain.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.mnuTray.ResumeLayout(false);
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.panelTop.ResumeLayout(false);
             this.panelStation.ResumeLayout(false);
             this.panelStation.PerformLayout();
@@ -393,10 +323,6 @@
 
 		#endregion
         
-        private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
-        private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
-        private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
-        private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
         private System.Windows.Forms.ToolStripContentPanel ContentPanel;
         private DetailView detailView;
         private System.Windows.Forms.Panel panelLeft;
@@ -406,27 +332,18 @@
         private System.Windows.Forms.Panel panelPost;
         private System.Windows.Forms.Panel panelLeftInfo;
         private PostArea postsArea;
-        private System.Windows.Forms.ToolStripStatusLabel itemCountLabel;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.ToolStripStatusLabel connectedStatusLabel;
-        private System.Windows.Forms.ToolStripSplitButton connectedImageLabel;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ContextMenuStrip mnuTray;
         private System.Windows.Forms.ToolStripMenuItem screenShotMenu;
         private System.Windows.Forms.ToolStripMenuItem regionMenuItem;
         private System.Windows.Forms.ToolStripMenuItem windowsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem screenMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem restoreMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.Timer timerDelayPost;
         private System.Windows.Forms.Timer timerGetNewestPost;
         private System.Windows.Forms.Timer timerFilterReadmore;
         private BgPanel panelTop;
         private LeftArea leftArea;
         private System.Windows.Forms.ToolStripMenuItem preferencesMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.Panel panelStation;
         private System.Windows.Forms.RadioButton radioButtonStation;
         private System.Windows.Forms.RadioButton radioButtonCloud;
@@ -434,6 +351,9 @@
         private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
         private System.Windows.Forms.Timer timerReloadAllData;
         private Localization.CultureManager cultureManager;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabelUpload;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabelNetwork;
 	}
 }
 

@@ -63,7 +63,7 @@ namespace Waveface
 
         private bool m_firstTimeShowBalloonTipTitle;
 
-		public PreferenceForm m_preference = null;
+        public PreferenceForm m_preference = null;
 
         #endregion
 
@@ -312,11 +312,11 @@ namespace Waveface
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
         {
-			if (m_preference != null)
-			{
-				m_preference.BringToFront();
-				return;
-			}
+            if (m_preference != null)
+            {
+                m_preference.BringToFront();
+                return;
+            }
 
             m_preference = new PreferenceForm(StationToken, RT.REST.Service);
             m_preference.ShowDialog();
@@ -448,8 +448,8 @@ namespace Waveface
 
         private void DropableNotifyIcon_DragEnter(object sender, DragEventArgs e)
         {
-            if (!m_trayIconPopup.Visible)
-                m_trayIconPopup.Show(m_dropableNotifyIcon.GetLocation());
+            //if (!m_trayIconPopup.Visible)
+            //    m_trayIconPopup.Show(m_dropableNotifyIcon.GetLocation());
         }
 
         #endregion
@@ -462,13 +462,17 @@ namespace Waveface
             {
                 RT.REST.IsNetworkAvailable = true;
 
-                s_logger.Info("UpdateNetworkStatus: Connrcted");
+                //StatusLabelNetwork.Text = "Network Connected";
+                StatusLabelNetwork.Image = Resources.network_receive;
+
+                s_logger.Info("UpdateNetworkStatus: Connected");
             }
             else
             {
                 RT.REST.IsNetworkAvailable = false;
 
-                //MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //StatusLabelNetwork.Text = "Network Disconnected";
+                StatusLabelNetwork.Image = Resources.network_error;
 
                 s_logger.Info("UpdateNetworkStatus: Disconnected");
             }
