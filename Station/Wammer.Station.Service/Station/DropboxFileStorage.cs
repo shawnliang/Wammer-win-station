@@ -45,6 +45,7 @@ namespace Wammer.Station
 			{
 				string SavedFileName = SaveFile(attachment.file_name, attachment.RawData);
 
+				logger.DebugFormat("call setloc for file {0}", SavedFileName);
 				AttachmentApi api = new AttachmentApi(driver.user_id);
 				api.AttachmentSetLoc(
 					new WebClient(),
