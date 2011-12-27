@@ -272,7 +272,7 @@ namespace Waveface
 
     #endregion
 
-    #region
+    #region MyWebClient
 
     public class MyWebClient : WebClient
     {

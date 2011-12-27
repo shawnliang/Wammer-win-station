@@ -1087,8 +1087,8 @@ namespace Waveface.API.V2
                 string _fileName = new FileInfo(fileName).Name;
 
                 //Hack
-                if (StringUtility.IsChineseString(_fileName))
-                    _fileName = HttpUtility.UrlEncode(_fileName);
+                //if (StringUtility.IsChineseString(_fileName))
+                //    _fileName = HttpUtility.UrlEncode(_fileName);
 
                 HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic, _fileName, _mimeType);
 

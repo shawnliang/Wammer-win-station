@@ -100,8 +100,8 @@ namespace Waveface
                 _trueName = m_filesMapping[_trueName];
 
             //Hack
-            if (_trueName.Contains("%"))
-                _trueName = HttpUtility.UrlDecode(_trueName);
+            //if (_trueName.Contains("%"))
+            //    _trueName = HttpUtility.UrlDecode(_trueName);
 
             saveFileDialog.FileName = _trueName;
             DialogResult _dr = saveFileDialog.ShowDialog();
@@ -142,8 +142,8 @@ namespace Waveface
                         _fileName = m_filesMapping[new FileInfo(_item.FileName).Name]; // 取出真實名稱
 
                         //Hack
-                        if (_fileName.Contains("%"))
-                            _fileName = HttpUtility.UrlDecode(_fileName);
+                        //if (_fileName.Contains("%"))
+                        //    _fileName = HttpUtility.UrlDecode(_fileName);
 
                         _fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
 
