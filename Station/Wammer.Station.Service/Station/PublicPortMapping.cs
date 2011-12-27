@@ -26,6 +26,9 @@ namespace Wammer.Station
 		private Timer checkTimer;
 		private UPnPState state;
 
+
+		private static IPAddress NOT_SUPPORT = IPAddress.Parse("0.0.0.0");
+
 		static PublicPortMapping()
 		{
 			instance = new PublicPortMapping();
@@ -75,7 +78,7 @@ namespace Wammer.Station
 					return;
 				}
 				else
-					logger.Debug("Current state is " + newState.ToString() + "Try again later..");
+					logger.Debug("Current state is " + newState.ToString() + ". Try again later..");
 			}
 		}
 
@@ -220,7 +223,8 @@ namespace Wammer.Station
 		{
 			public UPnPState CheckAndTransit()
 			{
-				if (PublicPortMapping.Instance.externalIP != null)
+				if (PublicPortMapping.Instance.externalIP != null &&
+					!PublicPortMapping.Instance.externalIP.Equals(NOT_SUPPORT))
 					return new NoExternalPortState();
 
 
