@@ -20,5 +20,14 @@ namespace UT_WammerStation
 			Assert.IsFalse(NetworkHelper.IsLinkLocal(IPAddress.Parse("10.1.1.1")));
 			Assert.IsFalse(NetworkHelper.IsLinkLocal(IPAddress.Parse("192.168.1.1")));
 		}
+
+		[TestMethod]
+		public void TestIPAddressCompare()
+		{
+			IPAddress ip1 = IPAddress.Parse("10.0.0.0");
+			IPAddress ip2 = IPAddress.Parse("10.0.0.0");
+
+			Assert.IsTrue(ip1.Equals(ip2));
+		}
 	}
 }
