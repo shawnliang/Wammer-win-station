@@ -81,17 +81,17 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
             this.PanelAddComment = new System.Windows.Forms.Panel();
+            this.buttonAddComment = new Waveface.Component.XPButton();
             this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelDocumentView = new System.Windows.Forms.Panel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.listViewFiles = new System.Windows.Forms.ListView();
+            this.previewHandlerHost = new Waveface.Component.PreviewHandlerHost();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.buttonAddComment = new Waveface.Component.XPButton();
-            this.previewHandlerHost = new Waveface.Component.PreviewHandlerHost();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
@@ -108,7 +108,7 @@ namespace Waveface.DetailUI
             this.panelMain.Controls.Add(this.panelRight);
             this.panelMain.Location = new System.Drawing.Point(3, 3);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(529, 487);
+            this.panelMain.Size = new System.Drawing.Size(531, 489);
             this.panelMain.TabIndex = 0;
             // 
             // panelRight
@@ -123,7 +123,7 @@ namespace Waveface.DetailUI
             this.panelRight.Controls.Add(this.webBrowserTop);
             this.panelRight.Location = new System.Drawing.Point(16, 3);
             this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(500, 479);
+            this.panelRight.Size = new System.Drawing.Size(502, 481);
             this.panelRight.TabIndex = 2;
             // 
             // PanelAddComment
@@ -137,8 +137,22 @@ namespace Waveface.DetailUI
             this.PanelAddComment.Dock = System.Windows.Forms.DockStyle.Top;
             this.PanelAddComment.Location = new System.Drawing.Point(0, 355);
             this.PanelAddComment.Name = "PanelAddComment";
-            this.PanelAddComment.Size = new System.Drawing.Size(500, 50);
+            this.PanelAddComment.Size = new System.Drawing.Size(502, 50);
             this.PanelAddComment.TabIndex = 3;
+            // 
+            // buttonAddComment
+            // 
+            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.buttonAddComment.Location = new System.Drawing.Point(405, 3);
+            this.buttonAddComment.Name = "buttonAddComment";
+            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
+            this.buttonAddComment.TabIndex = 1;
+            this.buttonAddComment.Text = "Send";
+            this.buttonAddComment.UseVisualStyleBackColor = true;
+            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // textBoxComment
             // 
@@ -149,7 +163,7 @@ namespace Waveface.DetailUI
             this.textBoxComment.Multiline = true;
             this.textBoxComment.Name = "textBoxComment";
             this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxComment.Size = new System.Drawing.Size(365, 44);
+            this.textBoxComment.Size = new System.Drawing.Size(367, 44);
             this.textBoxComment.TabIndex = 0;
             // 
             // webBrowserComment
@@ -159,7 +173,7 @@ namespace Waveface.DetailUI
             this.webBrowserComment.Location = new System.Drawing.Point(0, 258);
             this.webBrowserComment.Name = "webBrowserComment";
             this.webBrowserComment.ScrollBarsEnabled = false;
-            this.webBrowserComment.Size = new System.Drawing.Size(500, 97);
+            this.webBrowserComment.Size = new System.Drawing.Size(502, 97);
             this.webBrowserComment.TabIndex = 2;
             this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
             // 
@@ -176,13 +190,13 @@ namespace Waveface.DetailUI
             this.PanelDocumentView.Dock = System.Windows.Forms.DockStyle.Top;
             this.PanelDocumentView.Location = new System.Drawing.Point(0, 97);
             this.PanelDocumentView.Name = "PanelDocumentView";
-            this.PanelDocumentView.Size = new System.Drawing.Size(500, 161);
+            this.PanelDocumentView.Size = new System.Drawing.Size(502, 161);
             this.PanelDocumentView.TabIndex = 1;
             // 
             // progressBar
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(394, 3);
+            this.progressBar.Location = new System.Drawing.Point(396, 3);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(103, 30);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -197,17 +211,29 @@ namespace Waveface.DetailUI
             this.listViewFiles.GridLines = true;
             this.listViewFiles.Location = new System.Drawing.Point(3, 4);
             this.listViewFiles.Name = "listViewFiles";
-            this.listViewFiles.Size = new System.Drawing.Size(385, 30);
+            this.listViewFiles.Size = new System.Drawing.Size(387, 30);
             this.listViewFiles.TabIndex = 3;
             this.listViewFiles.UseCompatibleStateImageBehavior = false;
             this.listViewFiles.View = System.Windows.Forms.View.SmallIcon;
             this.listViewFiles.Click += new System.EventHandler(this.listViewFiles_Click);
             // 
+            // previewHandlerHost
+            // 
+            this.previewHandlerHost.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.previewHandlerHost.BackColor = System.Drawing.Color.White;
+            this.previewHandlerHost.Location = new System.Drawing.Point(3, 36);
+            this.previewHandlerHost.Name = "previewHandlerHost";
+            this.previewHandlerHost.Size = new System.Drawing.Size(496, 122);
+            this.previewHandlerHost.TabIndex = 5;
+            this.previewHandlerHost.Text = "previewHandlerHost";
+            // 
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSave.Enabled = false;
-            this.buttonSave.Location = new System.Drawing.Point(394, 3);
+            this.buttonSave.Location = new System.Drawing.Point(396, 3);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(51, 31);
             this.buttonSave.TabIndex = 7;
@@ -219,7 +245,7 @@ namespace Waveface.DetailUI
             // 
             this.buttonOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOpen.Enabled = false;
-            this.buttonOpen.Location = new System.Drawing.Point(446, 3);
+            this.buttonOpen.Location = new System.Drawing.Point(448, 3);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(51, 31);
             this.buttonOpen.TabIndex = 8;
@@ -234,43 +260,16 @@ namespace Waveface.DetailUI
             this.webBrowserTop.Location = new System.Drawing.Point(0, 0);
             this.webBrowserTop.Name = "webBrowserTop";
             this.webBrowserTop.ScrollBarsEnabled = false;
-            this.webBrowserTop.Size = new System.Drawing.Size(500, 97);
+            this.webBrowserTop.Size = new System.Drawing.Size(502, 97);
             this.webBrowserTop.TabIndex = 0;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
-            // buttonAddComment
-            // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(403, 3);
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
-            this.buttonAddComment.TabIndex = 1;
-            this.buttonAddComment.Text = "Send";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
-            // 
-            // previewHandlerHost
-            // 
-            this.previewHandlerHost.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.previewHandlerHost.BackColor = System.Drawing.Color.White;
-            this.previewHandlerHost.Location = new System.Drawing.Point(3, 36);
-            this.previewHandlerHost.Name = "previewHandlerHost";
-            this.previewHandlerHost.Size = new System.Drawing.Size(494, 122);
-            this.previewHandlerHost.TabIndex = 5;
-            this.previewHandlerHost.Text = "previewHandlerHost";
-            // 
             // Document_DV
             // 
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panelMain);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Document_DV";
-            this.Size = new System.Drawing.Size(535, 493);
+            this.Size = new System.Drawing.Size(537, 495);
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);

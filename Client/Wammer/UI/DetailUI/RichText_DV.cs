@@ -94,7 +94,7 @@ namespace Waveface.DetailUI
             this.panelMain.Controls.Add(this.panelRight);
             this.panelMain.Location = new System.Drawing.Point(3, 3);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(529, 487);
+            this.panelMain.Size = new System.Drawing.Size(531, 489);
             this.panelMain.TabIndex = 0;
             // 
             // panelRight
@@ -108,7 +108,7 @@ namespace Waveface.DetailUI
             this.panelRight.Controls.Add(this.webBrowser);
             this.panelRight.Location = new System.Drawing.Point(4, 4);
             this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(518, 476);
+            this.panelRight.Size = new System.Drawing.Size(520, 478);
             this.panelRight.TabIndex = 2;
             // 
             // PanelAddComment
@@ -121,7 +121,7 @@ namespace Waveface.DetailUI
             this.PanelAddComment.Dock = System.Windows.Forms.DockStyle.Top;
             this.PanelAddComment.Location = new System.Drawing.Point(0, 194);
             this.PanelAddComment.Name = "PanelAddComment";
-            this.PanelAddComment.Size = new System.Drawing.Size(518, 84);
+            this.PanelAddComment.Size = new System.Drawing.Size(520, 84);
             this.PanelAddComment.TabIndex = 3;
             this.PanelAddComment.Visible = false;
             // 
@@ -131,7 +131,7 @@ namespace Waveface.DetailUI
             this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(424, 3);
+            this.buttonAddComment.Location = new System.Drawing.Point(426, 3);
             this.buttonAddComment.Name = "buttonAddComment";
             this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
             this.buttonAddComment.TabIndex = 1;
@@ -148,7 +148,7 @@ namespace Waveface.DetailUI
             this.textBoxComment.Multiline = true;
             this.textBoxComment.Name = "textBoxComment";
             this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxComment.Size = new System.Drawing.Size(386, 44);
+            this.textBoxComment.Size = new System.Drawing.Size(388, 44);
             this.textBoxComment.TabIndex = 0;
             // 
             // webBrowserComment
@@ -158,7 +158,7 @@ namespace Waveface.DetailUI
             this.webBrowserComment.Location = new System.Drawing.Point(0, 97);
             this.webBrowserComment.Name = "webBrowserComment";
             this.webBrowserComment.ScrollBarsEnabled = false;
-            this.webBrowserComment.Size = new System.Drawing.Size(518, 97);
+            this.webBrowserComment.Size = new System.Drawing.Size(520, 97);
             this.webBrowserComment.TabIndex = 2;
             this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
             // 
@@ -170,17 +170,16 @@ namespace Waveface.DetailUI
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.ScriptErrorsSuppressed = true;
             this.webBrowser.ScrollBarsEnabled = false;
-            this.webBrowser.Size = new System.Drawing.Size(518, 97);
+            this.webBrowser.Size = new System.Drawing.Size(520, 97);
             this.webBrowser.TabIndex = 0;
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
             // RichText_DV
             // 
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panelMain);
             this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "RichText_DV";
-            this.Size = new System.Drawing.Size(535, 493);
+            this.Size = new System.Drawing.Size(537, 495);
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.PanelAddComment.ResumeLayout(false);

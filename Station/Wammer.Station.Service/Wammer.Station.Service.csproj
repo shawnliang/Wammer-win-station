@@ -184,7 +184,9 @@
     <Compile Include="Station\StationRegistry.cs" />
     <Compile Include="Station\AttachmentViewHandler.cs" />
     <Compile Include="Utility\TimeHelper.cs" />
-    <Compile Include="Utility\WebHelper.cs" />
+    <Compile Include="Utility\WebHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
