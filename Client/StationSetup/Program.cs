@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Wammer.Station;
 using Waveface.Localization;
 using Microsoft.Win32;
@@ -12,7 +13,25 @@ namespace StationSetup
 {
     static class Program
     {
-        [STAThread]
+		[DllImport("user32.dll")]
+		private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+		[DllImport("user32.dll")]
+		private static extern bool BringWindowToTop(IntPtr hWnd);
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr GetForegroundWindow();
+
+		[DllImport("user32.dll")]
+		private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
+
+		[DllImport("kernel32.dll")]
+		private static extern uint GetCurrentThreadId();
+
+		[DllImport("user32.dll")]
+		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
+
+		[STAThread]
         static void Main(string[] args)
         {
             string culture = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "Culture", null);
@@ -39,6 +58,25 @@ namespace StationSetup
                 }
 
                 form = new SignInForm();
+
+				// force window to have focus
+				// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
+				uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
+				uint appThread = GetCurrentThreadId();
+				const uint SW_SHOW = 5;
+				if (foreThread != appThread)
+				{
+					AttachThreadInput(foreThread, appThread, true);
+					BringWindowToTop(form.Handle);
+					ShowWindow(form.Handle, SW_SHOW);
+					AttachThreadInput(foreThread, appThread, false);
+				}
+				else
+				{
+					BringWindowToTop(form.Handle);
+					ShowWindow(form.Handle, SW_SHOW);
+				}
+				form.Activate();
             }
 
             Application.Run(form);
