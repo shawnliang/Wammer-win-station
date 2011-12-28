@@ -142,11 +142,8 @@
   <data name="lblCloudUsageTitle.Text" xml:space="preserve">
     <value>本月傳輸使用量</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Waveface Station 狀態</value>
-  </data>
   <data name="btnTestConnection.Text" xml:space="preserve">
-    <value>測試Waveface 伺服器連線狀態</value>
+    <value>測試 Waveface 服務連線狀態</value>
   </data>
   <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 17</value>
@@ -167,8 +164,8 @@
   <data name="lblLocalStorageUsageTitle.Text" xml:space="preserve">
     <value>硬碟空間使用:</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>帳戶資訊</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Waveface Station 狀態</value>
   </data>
   <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
     <value>106, 252</value>
@@ -220,6 +217,9 @@
   </data>
   <data name="btnEditAccount.Text" xml:space="preserve">
     <value>編輯帳戶資訊</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>帳戶資訊</value>
   </data>
   <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 14</value>
