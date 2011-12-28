@@ -143,7 +143,7 @@
     <value>本月傳輸使用量</value>
   </data>
   <data name="btnTestConnection.Text" xml:space="preserve">
-    <value>測試 Waveface 服務連線狀態</value>
+    <value>測試外部連線狀態</value>
   </data>
   <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 17</value>
