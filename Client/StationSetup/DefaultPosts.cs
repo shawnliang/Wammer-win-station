@@ -57,6 +57,8 @@ namespace StationSetup
                             doDocPost(_node);
                             break;
                     }
+
+                    System.Threading.Thread.Sleep(200);
                 }
             }
             catch (Exception e)
