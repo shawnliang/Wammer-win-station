@@ -365,5 +365,22 @@ namespace Wammer.Station
         {
 
         }
+
+        private void lb_InstallationFailed_1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lb_InstallationFailed_2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            m_canExit = false;
+
+            gotoPage(Page_Welcome); //1-1
+        }
     }
 }
