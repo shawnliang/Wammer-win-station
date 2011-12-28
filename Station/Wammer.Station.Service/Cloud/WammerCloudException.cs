@@ -125,12 +125,6 @@ namespace Wammer.Cloud
 		{
 			StringBuilder buf = new StringBuilder(base.ToString());
 			buf.AppendLine();
-			if (this.request != null)
-			{
-				buf.AppendLine("=== request ===");
-				buf.AppendLine(this.request);
-			}
-
 			if (this.response != null)
 			{
 				buf.AppendLine("--- response ---");
