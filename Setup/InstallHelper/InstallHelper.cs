@@ -185,6 +185,20 @@ namespace Wammer.Station
 				Logger.Warn("Unable to delete " + userDataFolder, e);
 			}
 
+			string userDataFolder2 = "";
+			try
+			{
+				string appPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				userDataFolder2 = Path.Combine(appPath, "waveface");
+
+				Logger.Info("Deleting " + userDataFolder2);
+				Directory.Delete(userDataFolder2, true);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete " + userDataFolder2, e);
+			}
+
 			return ActionResult.Success;
 		}
 
