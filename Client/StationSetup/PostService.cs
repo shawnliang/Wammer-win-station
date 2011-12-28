@@ -145,6 +145,8 @@ namespace StationSetup
                 MR_attachments_upload _uf = File_UploadFile(new FileInfo(_file).Name, _file, "", true);
 
                 _ids += "\"" + _uf.object_id + "\"" + ",";
+
+                System.Threading.Thread.Sleep(200);
             }
 
             _ids = _ids.Substring(0, _ids.Length - 1);
