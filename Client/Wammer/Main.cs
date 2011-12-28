@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Globalization;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
@@ -17,7 +17,6 @@ using Waveface.Component;
 using Waveface.Component.DropableNotifyIcon;
 using Waveface.FilterUI;
 using Waveface.ImageCapture;
-using Waveface.Localization;
 using Waveface.Properties;
 using Waveface.SettingUI;
 using MonthCalendar = CustomControls.MonthCalendar;
@@ -161,7 +160,7 @@ namespace Waveface
         private void initVirtualFolderForm()
         {
             m_virtualFolderForm = new VirtualFolderForm();
-            m_virtualFolderForm.Top = Screen.PrimaryScreen.Bounds.Height - m_virtualFolderForm.Height * 3;
+            m_virtualFolderForm.Top = Screen.PrimaryScreen.Bounds.Height - m_virtualFolderForm.Height*3;
             m_virtualFolderForm.Left = Screen.PrimaryScreen.Bounds.Width - m_virtualFolderForm.Width;
             m_virtualFolderForm.Show();
         }
@@ -237,10 +236,7 @@ namespace Waveface
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                           delegate
-                           {
-                               Station401ExceptionHandler(message);
-                           }
+                           delegate { Station401ExceptionHandler(message); }
                            ));
             }
             else
@@ -312,6 +308,9 @@ namespace Waveface
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
         {
+            if (!Current.CheckNetworkStatus())
+                return;
+            
             if (m_preference != null)
             {
                 m_preference.BringToFront();
@@ -328,7 +327,7 @@ namespace Waveface
                 QuitOption = QuitOption.QuitProgram;
                 m_process401Exception = true;
 
-                System.Diagnostics.Process p = System.Diagnostics.Process.Start("StationSetup.exe");
+                Process p = Process.Start("StationSetup.exe");
                 p.Close();
 
                 Close();
@@ -764,6 +763,7 @@ namespace Waveface
 
         #region Newest Post (NOT USED NOW)
 
+        /*
         private void timerGetNewestPost_Tick(object sender, EventArgs e)
         {
             timerGetNewestPost.Enabled = false;
@@ -775,7 +775,8 @@ namespace Waveface
 
             timerGetNewestPost.Enabled = true;
         }
-
+        */
+        
         public bool RefreshNewestPosts()
         {
             if (RT.LoginOK)
@@ -842,10 +843,7 @@ namespace Waveface
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                           delegate
-                           {
-                               GetLastReadAndShow();
-                           }
+                           delegate { GetLastReadAndShow(); }
                            ));
             }
             else
@@ -917,6 +915,9 @@ namespace Waveface
 
         private void ShowAllTimeline(ShowTimelineIndexType showTimelineIndexType)
         {
+            if (!m_manualRefresh)
+                backgroundWorkerPreloadImage.RunWorkerAsync();
+            
             List<Post> _posts = RT.CurrentGroupPosts;
 
             setCalendarBoldedDates(_posts);
@@ -1149,7 +1150,7 @@ namespace Waveface
 
                 _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-                Post(new List<string> { GCONST.CachePath + _filename }, PostType.Photo);
+                Post(new List<string> {GCONST.CachePath + _filename}, PostType.Photo);
             }
             catch (Exception _e)
             {
@@ -1227,7 +1228,6 @@ namespace Waveface
                 timerShowStatuMessage.Enabled = true;
 
                 StatusLabelPost.Text = message;
-
             }
             else
             {
@@ -1320,6 +1320,167 @@ namespace Waveface
             postsArea.updateRefreshUI(true);
 
             GetLastReadAndShow();
+        }
+
+        #endregion
+
+        #region PrefetchImages
+
+        public void PrefetchImages(List<Post> posts)
+        {
+            foreach (Post post in posts)
+            {
+                switch (post.type)
+                {
+                    case "image":
+                        {
+                            Attachment _a = post.attachments[0];
+
+                            string _url = string.Empty;
+                            string _fileName = string.Empty;
+                            Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url, out _fileName);
+
+                            string _localPic = GCONST.CachePath + _fileName;
+
+                            PreloadThumbnail(_url, _localPic);
+
+                            PreloadPictures(post);
+
+                            break;
+                        }
+                    case "link":
+                        {
+                            string _url = post.preview.thumbnail_url;
+
+                            string _localPic = GCONST.CachePath + post.post_id + "_previewthumbnail_" + ".jpg";
+
+                            PreloadThumbnail(_url, _localPic);
+
+                            break;
+                        }
+
+                    case "rtf":
+                        {
+                            Attachment _a = null;
+
+                            foreach (Attachment _attachment in post.attachments)
+                            {
+                                if (_attachment.type == "image")
+                                {
+                                    _a = _attachment;
+                                    break;
+                                }
+                            }
+
+                            if (_a != null)
+                            {
+                                string _url = string.Empty;
+                                string _fileName = string.Empty;
+                                Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url,
+                                                                                 out _fileName);
+
+                                string _localPic = GCONST.CachePath + _fileName;
+
+                                PreloadThumbnail(_url, _localPic);
+                            }
+
+                            break;
+                        }
+
+                    case "doc":
+                        {
+                            Attachment _a = post.attachments[0];
+
+                            if (_a.image != string.Empty)
+                            {
+                                string _localPic = GCONST.CachePath + _a.object_id + "_thumbnail" + ".jpg";
+
+                                string _url = _a.image;
+
+                                _url = Current.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
+
+                                PreloadThumbnail(_url, _localPic);
+                            }
+
+                            break;
+                        }
+                }
+            }
+        }
+
+        private void PreloadThumbnail(string url, string localPicPath)
+        {
+            if (!File.Exists(localPicPath))
+            {
+                ImageItem _item = new ImageItem();
+                _item.PostItemType = PostItemType.Thumbnail;
+                _item.ThumbnailPath = url;
+                _item.LocalFilePath = localPicPath;
+
+                PhotoDownloader.Current.Add(_item);
+            }
+        }
+
+        private void PreloadPictures(Post post)
+        {
+            List<Attachment> _imageAttachments = new List<Attachment>();
+            List<string> _filePathOrigins = new List<string>();
+            List<string> _filePathMediums = new List<string>();
+            List<string> _urlOrigins = new List<string>();
+            List<string> _urlMediums = new List<string>();
+
+            foreach (Attachment _a in post.attachments)
+            {
+                if (_a.type == "image")
+                    _imageAttachments.Add(_a);
+            }
+
+            if (_imageAttachments.Count == 0)
+                return;
+
+            foreach (Attachment _attachment in _imageAttachments)
+            {
+                string _urlO = string.Empty;
+                string _fileNameO = string.Empty;
+                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO);
+
+                string _localFileO = GCONST.CachePath + _fileNameO;
+
+                _filePathOrigins.Add(_localFileO);
+                _urlOrigins.Add(_urlO);
+
+                string _urlM = string.Empty;
+                string _fileNameM = string.Empty;
+                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM);
+
+                string _localFileM = GCONST.CachePath + _fileNameM;
+
+                _filePathMediums.Add(_localFileM);
+                _urlMediums.Add(_urlM);
+            }
+
+            for (int i = _imageAttachments.Count - 1; i >= 0; i--)
+            {
+                if (!File.Exists(_filePathOrigins[i]) || !File.Exists(_filePathMediums[i]))
+                {
+                    ImageItem _item = new ImageItem();
+                    _item.PostItemType = PostItemType.Origin;
+                    _item.OriginPath = _urlOrigins[i];
+                    _item.MediumPath = _urlMediums[i];
+                    _item.LocalFilePath = _filePathOrigins[i];
+                    _item.LocalFilePath2 = _filePathMediums[i];
+
+                    PhotoDownloader.Current.Add(_item);
+                }
+            }
+        }
+
+        private void backgroundWorkerPreloadImage_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if(RT.CurrentGroupPosts != null)
+            {
+                PrefetchImages(RT.CurrentGroupPosts);
+            }
         }
 
         #endregion

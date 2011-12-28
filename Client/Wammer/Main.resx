@@ -403,7 +403,7 @@
     <value>Quit</value>
   </data>
   <data name="mnuTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 92</value>
+    <value>168, 114</value>
   </data>
   <data name="&gt;&gt;mnuTray.Name" xml:space="preserve">
     <value>mnuTray</value>
@@ -441,9 +441,6 @@
   <data name="&gt;&gt;splitterRight.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="timerGetNewestPost.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>724, 17</value>
-  </metadata>
   <metadata name="timerFilterReadmore.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>190, 17</value>
   </metadata>
@@ -460,7 +457,7 @@
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>56</value>
+    <value>95</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 15</value>
@@ -763,12 +760,6 @@
   <data name="&gt;&gt;timerDelayPost.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;timerGetNewestPost.Name" xml:space="preserve">
-    <value>timerGetNewestPost</value>
-  </data>
-  <data name="&gt;&gt;timerGetNewestPost.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;timerFilterReadmore.Name" xml:space="preserve">
     <value>timerFilterReadmore</value>
   </data>
@@ -817,6 +808,12 @@
   <data name="&gt;&gt;timerShowStatuMessage.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;backgroundWorkerPreloadImage.Name" xml:space="preserve">
+    <value>backgroundWorkerPreloadImage</value>
+  </data>
+  <data name="&gt;&gt;backgroundWorkerPreloadImage.Type" xml:space="preserve">
+    <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>
   </data>
@@ -825,5 +822,8 @@
   </data>
   <metadata name="timerShowStatuMessage.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1205, 17</value>
+  </metadata>
+  <metadata name="backgroundWorkerPreloadImage.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 56</value>
   </metadata>
 </root>

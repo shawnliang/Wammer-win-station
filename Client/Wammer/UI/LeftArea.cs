@@ -373,9 +373,15 @@ namespace Waveface
         {
             if (InvokeRequired)
             {
-                Invoke(new MethodInvoker(
-                           delegate { ShowDragDropMessage(text); }
-                           ));
+                try
+                {
+                    Invoke(new MethodInvoker(
+                               delegate { ShowDragDropMessage(text); }
+                               ));
+                }
+                catch
+                {
+                }
             }
             else
             {

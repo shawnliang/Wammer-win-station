@@ -385,11 +385,17 @@ namespace Waveface.PostUI
 
         private void btnAddPhoto_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             AddPhoto();
         }
 
         private void btnDeletePhoto_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+            
             if (imageListView.SelectedItems.Count == 0)
             {
                 RemoveAllAndReturnToParent();

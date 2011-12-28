@@ -91,11 +91,17 @@ namespace Waveface
 
         private void buttonRichText_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             toRichText_Mode();
         }
 
         private void richTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             doWebLink(e.LinkText);
         }
 
@@ -114,16 +120,25 @@ namespace Waveface
 
         private void btnAddPhoto_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             toPhoto_Mode(null);
         }
 
         private void btnAddDoc_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             toDoc_Mode();
         }
 
         private void btnPureText_Click(object sender, EventArgs e)
         {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
             toPureText_Mode();
         }
 

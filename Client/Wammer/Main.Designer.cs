@@ -49,7 +49,6 @@
             this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
             this.splitterRight = new System.Windows.Forms.Splitter();
-            this.timerGetNewestPost = new System.Windows.Forms.Timer(this.components);
             this.timerFilterReadmore = new System.Windows.Forms.Timer(this.components);
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
             this.timerReloadAllData = new System.Windows.Forms.Timer(this.components);
@@ -59,6 +58,7 @@
             this.StatusLabelUpload = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelNetwork = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerShowStatuMessage = new System.Windows.Forms.Timer(this.components);
+            this.backgroundWorkerPreloadImage = new System.ComponentModel.BackgroundWorker();
             this.panelTop = new Waveface.BgPanel();
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
@@ -202,12 +202,6 @@
             this.splitterRight.TabStop = false;
             this.splitterRight.SplitterMoving += new System.Windows.Forms.SplitterEventHandler(this.splitterRight_SplitterMoving);
             // 
-            // timerGetNewestPost
-            // 
-            this.timerGetNewestPost.Enabled = true;
-            this.timerGetNewestPost.Interval = 10000;
-            this.timerGetNewestPost.Tick += new System.EventHandler(this.timerGetNewestPost_Tick);
-            // 
             // timerFilterReadmore
             // 
             this.timerFilterReadmore.Interval = 500;
@@ -267,6 +261,10 @@
             // 
             this.timerShowStatuMessage.Interval = 5000;
             this.timerShowStatuMessage.Tick += new System.EventHandler(this.timerShowStatuMessage_Tick);
+            // 
+            // backgroundWorkerPreloadImage
+            // 
+            this.backgroundWorkerPreloadImage.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerPreloadImage_DoWork);
             // 
             // panelTop
             // 
@@ -353,7 +351,6 @@
         private System.Windows.Forms.ToolStripMenuItem screenMenuItem;
         private System.Windows.Forms.ToolStripMenuItem restoreMenuItem;
         private System.Windows.Forms.Timer timerDelayPost;
-        private System.Windows.Forms.Timer timerGetNewestPost;
         private System.Windows.Forms.Timer timerFilterReadmore;
         private BgPanel panelTop;
         private LeftArea leftArea;
@@ -370,6 +367,7 @@
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelNetwork;
         private System.Windows.Forms.Timer timerShowStatuMessage;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelPost;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerPreloadImage;
 	}
 }
 
