@@ -42,6 +42,7 @@ namespace Waveface
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnAddPhoto = new Waveface.Component.XPButton();
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_RichText = new Waveface.Component.MultiPage.MultiPanelPage();
             this.panelRichTextPanel = new System.Windows.Forms.Panel();
@@ -60,7 +61,6 @@ namespace Waveface
             this.document_UI = new Waveface.PostUI.Document();
             this.panelMiddleBar = new System.Windows.Forms.Panel();
             this.panelToolbar = new System.Windows.Forms.Panel();
-            this.btnAddPhoto = new Waveface.Component.XPButton();
             this.btnAddDoc = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
             this.panelText = new System.Windows.Forms.Panel();
@@ -115,13 +115,25 @@ namespace Waveface
             // 
             this.cultureManager.ManagedControl = this;
             // 
+            // btnAddPhoto
+            // 
+            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
+            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
+            this.btnAddPhoto.Name = "btnAddPhoto";
+            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
+            this.btnAddPhoto.UseVisualStyleBackColor = true;
+            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
+            // 
             // multiPanel
             // 
             this.multiPanel.Controls.Add(this.Page_RichText);
             this.multiPanel.Controls.Add(this.Page_P_D_W);
             resources.ApplyResources(this.multiPanel, "multiPanel");
             this.multiPanel.Name = "multiPanel";
-            this.multiPanel.SelectedPage = this.Page_RichText;
+            this.multiPanel.SelectedPage = this.Page_P_D_W;
             // 
             // Page_RichText
             // 
@@ -248,18 +260,6 @@ namespace Waveface
             this.panelToolbar.Controls.Add(this.btnAddPhoto);
             this.panelToolbar.Controls.Add(this.btnAddDoc);
             this.panelToolbar.Name = "panelToolbar";
-            // 
-            // btnAddPhoto
-            // 
-            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
-            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
-            this.btnAddPhoto.Name = "btnAddPhoto";
-            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
-            this.btnAddPhoto.UseVisualStyleBackColor = true;
-            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // btnAddDoc
             // 

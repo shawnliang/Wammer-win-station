@@ -36,7 +36,7 @@ namespace Waveface
         private int m_lastRead;
         private Localization.CultureManager cultureManager;
         private bool m_manualRefresh;
-        
+
         #region Properties
 
         public int SelectedRow
@@ -79,7 +79,6 @@ namespace Waveface
 
             MouseWheelRedirector.Attach(dataGridView);
 
-            //ThreadPool.QueueUserWorkItem(state => { GetThumbnailsThread(); });
             PhotoDownloader.Current.ThumbnailEvent += Thumbnail_EventHandler;
         }
 
@@ -463,13 +462,6 @@ namespace Waveface
             }
             else
             {
-                /*
-                lock (m_undownloadThumbnails)
-                {
-                    m_undownloadThumbnails.Add(url, localPicPath);
-                }
-                */
-
                 ImageItem _item = new ImageItem();
                 _item.PostItemType = PostItemType.Thumbnail;
                 _item.ThumbnailPath = url;
@@ -504,8 +496,6 @@ namespace Waveface
 
         private static void DrawResizedThumbnail(Rectangle thumbnailRect, Graphics g, Bitmap image)
         {
-            //g.DrawImage(image, thumbnailRect, new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
-
             int h = thumbnailRect.Height;
             int w = thumbnailRect.Width;
             int x = thumbnailRect.X;
@@ -843,7 +833,7 @@ namespace Waveface
             {
                 dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
 
-                if(m_manualRefresh)
+                if (m_manualRefresh)
                 {
                     dataGridView.FirstDisplayedScrollingRowIndex = 0;
                 }
