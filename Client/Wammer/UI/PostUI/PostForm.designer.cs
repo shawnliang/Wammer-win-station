@@ -40,9 +40,9 @@ namespace Waveface
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnAddPhoto = new Waveface.Component.XPButton();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_RichText = new Waveface.Component.MultiPage.MultiPanelPage();
             this.panelRichTextPanel = new System.Windows.Forms.Panel();
@@ -111,21 +111,21 @@ namespace Waveface
             resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
             // btnAddPhoto
             // 
             this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
             this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
-            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
             this.btnAddPhoto.Name = "btnAddPhoto";
             this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
             this.btnAddPhoto.UseVisualStyleBackColor = true;
             this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
             // 
             // multiPanel
             // 
@@ -227,7 +227,7 @@ namespace Waveface
             // photo_UI
             // 
             resources.ApplyResources(this.photo_UI, "photo_UI");
-            this.photo_UI.BackColor = System.Drawing.Color.White;
+            this.photo_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
             this.photo_UI.MinimumSize = new System.Drawing.Size(500, 130);
             this.photo_UI.MyParent = null;
             this.photo_UI.Name = "photo_UI";
@@ -247,7 +247,7 @@ namespace Waveface
             // 
             // panelMiddleBar
             // 
-            this.panelMiddleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
+            this.panelMiddleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelMiddleBar.Controls.Add(this.panelToolbar);
             this.panelMiddleBar.Controls.Add(this.btnSend);
             resources.ApplyResources(this.panelMiddleBar, "panelMiddleBar");
@@ -256,7 +256,7 @@ namespace Waveface
             // panelToolbar
             // 
             resources.ApplyResources(this.panelToolbar, "panelToolbar");
-            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(197)))), ((int)(((byte)(186)))));
             this.panelToolbar.Controls.Add(this.btnAddPhoto);
             this.panelToolbar.Controls.Add(this.btnAddDoc);
             this.panelToolbar.Name = "panelToolbar";
@@ -284,7 +284,7 @@ namespace Waveface
             // 
             // panelText
             // 
-            this.panelText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
+            this.panelText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelText.Controls.Add(this.buttonRichText);
             this.panelText.Controls.Add(this.richTextBox);
             resources.ApplyResources(this.panelText, "panelText");
@@ -315,8 +315,8 @@ namespace Waveface
             // PostForm
             // 
             this.AllowDrop = true;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.multiPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;

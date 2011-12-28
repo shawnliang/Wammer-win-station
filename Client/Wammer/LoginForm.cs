@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
@@ -290,6 +291,14 @@ namespace Waveface
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            if (!NetworkInterface.GetIsNetworkAvailable())
+            {
+                MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+
+                return;
+            }
+
             DialogResult = DialogResult.None;
 
             if ((txtUserName.Text.Trim() != "") && (txtPassword.Text.Trim() != ""))
