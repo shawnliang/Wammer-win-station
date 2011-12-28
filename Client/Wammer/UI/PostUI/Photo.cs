@@ -358,6 +358,12 @@ namespace Waveface.PostUI
 
         private void RemoveAllAndReturnToParent()
         {
+            if(imageListView.Items.Count == 0)
+            {
+                MyParent.toPureText_Mode();
+                return;
+            }
+
             DialogResult _dr = MessageBox.Show(I18n.L.T("RemoveAllFiles"), "Waveface", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (_dr == DialogResult.Yes)
@@ -468,7 +474,7 @@ namespace Waveface.PostUI
 
         private void Photo_Resize(object sender, EventArgs e)
         {
-            BackColor = Color.FromArgb(223, 220, 213); //Hack
+            BackColor = Color.FromArgb(243, 242, 238); //Hack
         }
     }
 }

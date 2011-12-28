@@ -854,6 +854,9 @@
     <None Include="Resources\LoadingImage.jpg" />
     <None Include="Resources\network-error.png" />
     <None Include="Resources\network-receive.png" />
+    <Content Include="Icon.ico" />
+    <None Include="Resources\waveface_icon32.png" />
+    <None Include="Resources\waveface_icon128.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

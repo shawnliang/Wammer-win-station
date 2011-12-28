@@ -354,6 +354,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap waveface_icon128 {
+            get {
+                object obj = ResourceManager.GetObject("waveface_icon128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap waveface_icon32 {
+            get {
+                object obj = ResourceManager.GetObject("waveface_icon32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap waveface_icon64 {
             get {
                 object obj = ResourceManager.GetObject("waveface_icon64", resourceCulture);
