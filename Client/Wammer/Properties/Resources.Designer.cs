@@ -193,6 +193,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Icon Icon_ {
+            get {
+                object obj = ResourceManager.GetObject("Icon_", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap lightbulb {
             get {
                 object obj = ResourceManager.GetObject("lightbulb", resourceCulture);
@@ -358,6 +365,13 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("waveface_icon128", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon waveface_icon1281 {
+            get {
+                object obj = ResourceManager.GetObject("waveface_icon1281", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

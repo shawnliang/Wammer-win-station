@@ -857,6 +857,8 @@
     <Content Include="Icon.ico" />
     <None Include="Resources\waveface_icon32.png" />
     <None Include="Resources\waveface_icon128.png" />
+    <None Include="Resources\Icon_.ico" />
+    <None Include="Resources\waveface_icon128.ico" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
