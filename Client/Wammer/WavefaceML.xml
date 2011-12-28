@@ -48,13 +48,13 @@ Please restart the program to initialize Waveface Station.</en-US>
   </WItem>
   <WItem>
     <ID>Connected</ID>
-    <en-US>Connected</en-US>
-    <zh-TW>連線正常</zh-TW>
+    <en-US>Accessible from internet</en-US>
+    <zh-TW>外部網路存取正常</zh-TW>
   </WItem>
   <WItem>
     <ID>NotConnected</ID>
-    <en-US>Not connected</en-US>
-    <zh-TW>未連線</zh-TW>
+    <en-US>Inaccessible from internet</en-US>
+    <zh-TW>無法從外部網路存取</zh-TW>
   </WItem>
   <WItem>
     <ID>Testing</ID>
