@@ -130,12 +130,12 @@ namespace Waveface.SettingUI
             else
             {
                 if (storage.quota < 0)
-                    this.label_MonthlyLimit.Text = I18n.L.T("MonthlyUsage_Unlimited");
+                    this.label_MonthlyLimitValue.Text = I18n.L.T("MonthlyUsage_Unlimited");
                 else
-                    this.label_MonthlyLimit.Text = I18n.L.T("MonthlyUsage_Limit", storage.quota);
-                
-                this.label_DaysLeft.Text = I18n.L.T("MonthlyUsage_DaysLeft", storage.daysLeft);
-                this.label_UsedCount.Text = I18n.L.T("MonthlyUsage_UsedCount", storage.usage);
+                    this.label_MonthlyLimitValue.Text = storage.quota.ToString();
+
+                this.label_DaysLeftValue.Text = storage.daysLeft.ToString();
+                this.label_UsedCountValue.Text = storage.usage.ToString();
 
                 this.barCloudUsage.Value = (int)(storage.usage * 100 / storage.quota);
             }
@@ -301,7 +301,12 @@ namespace Waveface.SettingUI
         private void PreferenceForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             connectionTester.Stop();
-			Main.Current.m_preference = null;
+            Main.Current.m_preference = null;
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 
