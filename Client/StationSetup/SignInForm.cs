@@ -169,9 +169,9 @@ namespace Wammer.Station
 
         }
 
-		private void SignInForm_Load(object sender, EventArgs e)
-		{
-			this.textBoxMail.Focus();
-		}
+        private void SignInForm_Load(object sender, EventArgs e)
+        {
+            this.textBoxMail.Focus();
+        }
     }
 }

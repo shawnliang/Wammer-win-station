@@ -18,12 +18,12 @@
   <WItem>
     <ID>SignOffStationError</ID>
     <en-US>An error occurred when sign off Waveface Station.</en-US>
-    <zh-TW>移除Waveface主程式發生錯誤!</zh-TW>
+    <zh-TW>移除Waveface Station發生錯誤!</zh-TW>
   </WItem>
   <WItem>
     <ID>MustRemoveOld</ID>
-    <en-US>You need to first uninstall Waveface Station to proceed. Uninstall now?</en-US>
-    <zh-TW>您必須移除舊的Waveface主程式後, 才能安裝新的。</zh-TW>
+    <en-US>You need to first uninstall Waveface Station to proceed.</en-US>
+    <zh-TW>您必須移除舊的Waveface Station後, 才能安裝新的。</zh-TW>
   </WItem>
   <WItem>
     <ID>QuitDropboxSetupProcess</ID>

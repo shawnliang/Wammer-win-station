@@ -133,9 +133,9 @@
 
 1. 自動備份您放在Waveface中的近期檔案至Dropbox。
 
-2. 當您的Waveface主程式未開啟時，你仍可以隨時隨地從Dropbox取得近期檔案。
+2. 當您的Waveface Station開啟時，你仍可以隨時隨地從Dropbox取得近期檔案。
 
-請點擊"下一步"立刻進行Dropbox的連結步驟，享受更加順暢的Waveface體驗。或點擊"跳過"，往後可選擇由設定選項中進行。
+請點擊"下一步"立刻進行Dropbox的連結步驟，享受更加順暢的Waveface體驗。或點擊"跳過"，往後可選擇由設定選項中再行連結Dropbox。
 </value>
   </data>
   <data name="lb_Welcome_1.Size" type="System.Drawing.Size, System.Drawing">
