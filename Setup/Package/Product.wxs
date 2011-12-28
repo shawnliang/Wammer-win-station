@@ -114,7 +114,7 @@
               <CreateFolder/>
             </Component>
           </Directory>
-          <Directory Id="DefaultResourceDir" Name="DefaultResources"/>
+          <!--<Directory Id="DefaultResourceDir" Name="DefaultResources"/>-->
           <Directory Id="zh_TW" Name="zh-TW"/>
           <Directory Id="MongoDB" Name="MongoDB">
             <Directory Id="Data" Name="Data">
@@ -175,15 +175,8 @@
       <ComponentRef Id="Microsoft.mshtml.dll"/>
       <ComponentRef Id="nlog.config"/>
       <ComponentRef Id="nlog.dll"/>
-      
-      <ComponentRef Id="DefaultPosts.xml"/>
-      <ComponentRef Id="Default001.jpg"/>
-      <ComponentRef Id="Default002.jpg"/>
-      <ComponentRef Id="Default003.jpg"/>
-      <ComponentRef Id="Default004.jpg"/>
-      <ComponentRef Id="Wavefacepdf"/>
-      <ComponentRef Id="Welcome.txt"/>
-      <ComponentRef Id="CultureSetting"/>
+
+      <ComponentGroupRef Id="DefaultPostResources"/>
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
@@ -341,35 +334,6 @@
       </Component>
     </DirectoryRef>
 
-
-    <!-- default posts templates -->
-    <DirectoryRef Id="DefaultResourceDir">
-<!--      <Component Id="CEO_letter" Guid="{23E8DD37-BC81-4EAB-A83B-63CF57516BB9}">
-        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\CEO its harder than you think.jpg" KeyPath="yes"/>
-      </Component>-->
-      <Component Id="DefaultPosts.xml" Guid="{7B277A5A-C88E-49F0-96A3-2B67C1F88E0C}">
-        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\DefaultPosts.xml" KeyPath="yes"/>
-      </Component>
-      <Component Id="Default001.jpg" Guid="{48089C99-8DFE-4AAB-B640-5F66D7C2D426}">
-        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\001.jpg" KeyPath="yes"/>
-      </Component>
-      <Component Id="Default002.jpg" Guid="{7ED0D575-48C3-47D9-9F04-34D41838EDF7}">
-        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\002.jpg" KeyPath="yes"/>
-      </Component>
-      <Component Id="Default003.jpg" Guid="{D1E38FBE-AC17-4955-9C89-3F727D1BE15E}">
-        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\003.jpg" KeyPath="yes"/>
-      </Component>
-      <Component Id="Default004.jpg" Guid="{9D2BC96F-FC79-43F4-84BC-743793FDA9B8}">
-        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\004.jpg" KeyPath="yes"/>
-      </Component>
-      <Component Id="Wavefacepdf" Guid="{4354F699-95E1-42C3-BF4A-C72141B0649B}">
-        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\Waveface 101 for dummies.pdf" KeyPath="yes"/>
-      </Component>
-      <Component Id="Welcome.txt" Guid="{D9714583-4EC6-46EB-AE23-21217EB97F9E}">
-        <File Source="$(var.StationSetup.ProjectDir)\DefaultResources\Welcome.txt" KeyPath="yes"/>
-      </Component>
-    </DirectoryRef>
-    
     <!-- Features -->
     <Feature Id='MainFeature' Level='1' Display='collapse'>
       <ComponentRef Id="MongoDB.Data"/>
@@ -382,23 +346,12 @@
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>
       <ComponentRef Id='AppCompatibilitySettings'/>
+      <ComponentRef Id="CultureSetting"/>
     </Feature>
     <Feature Id='ClientFeature' Level='1' Title='Windows client' Description='Windows client'>
       <ComponentGroupRef Id='Wammer.Client'/>
     </Feature>
 
     <Binary Id='InstallHelperDll' SourceFile="$(var.InstallHelper.TargetDir)\InstallHelperPkg.dll"/>
-    <!--
-    <Binary Id="SharpSetupCAFile" SourceFile="$(var.SharpSetupToolsDir)\SharpSetup.CustomActions.CA.dll"/>
-    <CustomAction Id="SampleCAData" Property="SampleCA" Value="CommandLine=C:\Windows\system32\ping.exe -n 10 127.0.0.1;ApproximateTime=10" Return="check" />
-    <CustomAction Id="SampleCA" DllEntry="ExeCustomAction" BinaryKey="SharpSetupCAFile" Return="check" Execute="deferred" />
-    <InstallExecuteSequence>
-      <Custom Action="SampleCAData" Before="SampleCA"/>
-      <Custom Action="SampleCA" Before="InstallFinalize"/>
-    </InstallExecuteSequence>
-    <UI>
-      <ProgressText Action="SampleCA">Sample Custom Action</ProgressText>
-    </UI>
-    -->
   </Product>
 </Wix>

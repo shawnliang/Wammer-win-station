@@ -1,11 +1,10 @@
 ﻿#region
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
-
+using Microsoft.Win32;
 #endregion
 
 namespace StationSetup
@@ -26,7 +25,13 @@ namespace StationSetup
                     throw new Exception("Login failure");
 
                 XmlDocument _doc = new XmlDocument();
-                _doc.Load(@"DefaultResources\DefaultPosts.xml");
+
+                string culture = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "Culture", null);
+                if (culture == null)
+                    culture = "en-US";
+
+                _doc.Load(string.Format(@"DefaultResources\DefaultPosts.{0}.xml", culture));
+
                 XmlElement _root = _doc.DocumentElement;
                 XmlNodeList _nodes = _root.SelectNodes("//posts/post");
 
@@ -91,7 +96,7 @@ namespace StationSetup
 
         private void doImagePost(XmlNode node)
         {
-            XmlNodeList _nodes = node.SelectNodes("//files/file");
+            XmlNodeList _nodes = node.SelectNodes("files/file");
 
             List<string> _photos = new List<string>();
 

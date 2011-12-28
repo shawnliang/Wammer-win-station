@@ -33,6 +33,7 @@
     <EmbeddedResource Include="zh-TW.wxl" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultPostResources.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,43 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<posts>
+  <post type ="image">
+    <content>您好! 歡迎使用Waveface。
+
+Waveface 能協助您串連起所有的裝置，讓您逗趣的照片或私人的筆記，可以流暢快速地在所有的電子產品中互相分享著。
+
+為了讓您快速的上手，我們準備了五個簡單的步驟，附加在此則貼文的圖片中。
+
+想要了解更多嗎? 請歡迎隨時前往我們的網站來知道更多應用Waveface的資訊喔!
+http://waveface.com/
+    </content>
+    <files>
+      <file>DefaultResources\en-US\1.1.png</file>
+      <file>DefaultResources\en-US\1.2.png</file>
+      <file>DefaultResources\en-US\1.3.png</file>
+      <file>DefaultResources\en-US\1.4.png</file>
+      <file>DefaultResources\en-US\1.5.png</file>
+    </files>
+  </post>
+  
+  <post type ="image">
+      <content>範例:
+跟我的小安妮愉快的野餐。
+她長大的好快阿。
+      </content>
+    <files>
+      <file>DefaultResources\2.1.jpg</file>
+      <file>DefaultResources\2.2.jpg</file>
+      <file>DefaultResources\2.3.jpg</file>
+      <file>DefaultResources\2.4.jpg</file>
+    </files>  	
+  </post>
+
+  <post type ="image">
+    <content>範例:
+兒子總愛爬高爬低的!
+    </content>
+    <files>
+      <file>DefaultResources\3.1.jpg</file>
+    </files>
+  </post>
+</posts>
