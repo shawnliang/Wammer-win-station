@@ -375,5 +375,12 @@ namespace Wammer.Station
         {
 
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            m_canExit = false;
+
+            gotoPage(Page_Welcome); //1-1
+        }
     }
 }

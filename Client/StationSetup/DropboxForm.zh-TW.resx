@@ -117,14 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pb_Welcome.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 20</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pb_Welcome.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="lb_Welcome_2.Location" type="System.Drawing.Point, System.Drawing">
     <value>110, 65</value>
   </data>
@@ -141,9 +138,6 @@
 請點擊"下一步"立刻進行Dropbox的連結步驟，享受更加順暢的Waveface體驗。或點擊"跳過"，往後可選擇由設定選項中再行連結Dropbox。
 </value>
   </data>
-  <data name="lb_Welcome_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>110, 20</value>
-  </data>
   <data name="lb_Welcome_1.Size" type="System.Drawing.Size, System.Drawing">
     <value>367, 48</value>
   </data>
@@ -156,43 +150,21 @@
   <data name="btn_Welcome_Skip.Text" xml:space="preserve">
     <value>跳過</value>
   </data>
-  <data name="btn_SetupCompleted_InstallAgain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>255, 282</value>
+  <data name="linkLabel1.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
+    <value>49, 2</value>
   </data>
-  <data name="btn_SetupCompleted_InstallAgain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 27</value>
-  </data>
-  <data name="btn_SetupCompleted_InstallAgain.Text" xml:space="preserve">
-    <value>重新設定</value>
-  </data>
-  <data name="pb_SetupCompleted.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 20</value>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Waveface已成功安裝。
+
+您稍後可以從設定中連結Waveface與Dropbox，或點擊這裡，再嘗試一遍。
+
+立刻享受Waveface的所有便利功能，開始連結您生活中的每一個片段。</value>
   </data>
   <data name="pb_SetupCompleted.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
   </data>
-  <data name="lb_SetupCompleted_2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>110, 65</value>
-  </data>
-  <data name="lb_SetupCompleted_2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>367, 204</value>
-  </data>
-  <data name="lb_SetupCompleted_2.Text" xml:space="preserve">
-    <value>Waveface已成功安裝。
-
-您稍後可以從設定中啟動連結Waveface與Dropbox的動作，或點擊"重新設定"，再次嘗試一遍。
-
-立刻享受Waveface的所有便利功能，開始連結您生活中的每一個片段。
-</value>
-  </data>
-  <data name="lb_SetupCompleted_1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>110, 20</value>
-  </data>
-  <data name="lb_SetupCompleted_1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>367, 42</value>
-  </data>
   <data name="lb_SetupCompleted_1.Text" xml:space="preserve">
-    <value>感謝您! Waveface順利完成安裝。</value>
+    <value>感謝您 !  Waveface順利完成安裝</value>
   </data>
   <data name="btn_SetupCompleted_OpenWaveface.Text" xml:space="preserve">
     <value>啟動 Waveface</value>
@@ -245,9 +217,6 @@
   <data name="pb_Linkage_2.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
   </data>
-  <data name="btn_Linkage_2_ConnectAgain.Text" xml:space="preserve">
-    <value>重新連結</value>
-  </data>
   <data name="lb_Linkage_2_2.Location" type="System.Drawing.Point, System.Drawing">
     <value>175, 50</value>
   </data>
@@ -268,14 +237,14 @@
   <data name="lb_InstallationFailed_2.Text" xml:space="preserve">
     <value>我們無法在此電腦上偵測到Dropbox。
 
-請點擊"安裝 Dropbox"來開啟瀏覽器進行安裝，或點擊"跳過"稍後在進行連結Dropbox的步驟。
+請點擊"安裝 Dropbox"來開啟瀏覽器進行安裝，或點擊"跳過"稍後再連結Dropbox。
 </value>
   </data>
   <data name="lb_InstallationFailed_1.Size" type="System.Drawing.Size, System.Drawing">
     <value>359, 50</value>
   </data>
   <data name="lb_InstallationFailed_1.Text" xml:space="preserve">
-    <value>抱歉您尚未安裝Dropbox! 
+    <value>抱歉您尚未安裝Dropbox ! 
 </value>
   </data>
   <data name="btn_InstallationFailedSkip_Retry.Location" type="System.Drawing.Point, System.Drawing">
@@ -299,7 +268,7 @@
 立刻享受Waveface的所有便利功能，開始連結您生活中的每一個片段。</value>
   </data>
   <data name="lb_ConnectionSuccessfully_1.Text" xml:space="preserve">
-    <value>感謝! 您已完成Waveface安裝。</value>
+    <value>感謝 ! 您已完成Waveface安裝</value>
   </data>
   <data name="btn_ConnectionSuccessfully_OpenWaveface.Text" xml:space="preserve">
     <value>啟動 Waveface</value>
@@ -336,7 +305,7 @@
 </value>
   </data>
   <data name="lb_ConnectionFailed_1.Text" xml:space="preserve">
-    <value>檢測錯誤!</value>
+    <value>檢測錯誤 !</value>
   </data>
   <data name="btn_ConnectionFailed_Retry.Text" xml:space="preserve">
     <value>重新連結</value>
@@ -346,9 +315,6 @@
   </data>
   <data name="btn_InstallDropbox_2_continue.Text" xml:space="preserve">
     <value>下一步</value>
-  </data>
-  <data name="btn_InstallDropbox_2_InstallAgain.Text" xml:space="preserve">
-    <value>再次安裝</value>
   </data>
   <data name="lb_InstallDropbox_2_2.Text" xml:space="preserve">
     <value>安裝完成後，請點擊"下一步"。</value>
