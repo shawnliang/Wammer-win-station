@@ -160,7 +160,7 @@ namespace Waveface
         private void initVirtualFolderForm()
         {
             m_virtualFolderForm = new VirtualFolderForm();
-            m_virtualFolderForm.Top = Screen.PrimaryScreen.Bounds.Height - m_virtualFolderForm.Height*3;
+            m_virtualFolderForm.Top = Screen.PrimaryScreen.Bounds.Height - m_virtualFolderForm.Height * 3;
             m_virtualFolderForm.Left = Screen.PrimaryScreen.Bounds.Width - m_virtualFolderForm.Width;
             m_virtualFolderForm.Show();
         }
@@ -310,7 +310,7 @@ namespace Waveface
         {
             if (!Current.CheckNetworkStatus())
                 return;
-            
+
             if (m_preference != null)
             {
                 m_preference.BringToFront();
@@ -333,7 +333,7 @@ namespace Waveface
                 Close();
             }
 
-			m_preference = null;
+            m_preference = null;
         }
 
         private void OnMenuExitClick(object sender, EventArgs e)
@@ -353,38 +353,48 @@ namespace Waveface
 
         private void Main_SizeChanged(object sender, EventArgs e)
         {
-            if (m_showInTaskbar_Hack)
-                return;
-
-            panelLeftInfo.Width = leftArea.MyWidth + 8;
-
-            m_showInTaskbar_Hack = true;
-            ShowInTaskbar = (FormWindowState.Minimized != WindowState);
-            m_showInTaskbar_Hack = false;
-
-            if (FormWindowState.Minimized == WindowState)
+            //try
             {
-                SetLastReadPos();
+                if (m_showInTaskbar_Hack)
+                    return;
 
-                if (m_firstTimeShowBalloonTipTitle)
+                panelLeftInfo.Width = leftArea.MyWidth + 8;
+
+                m_showInTaskbar_Hack = true;
+                ShowInTaskbar = (FormWindowState.Minimized != WindowState);
+                m_showInTaskbar_Hack = false;
+
+                if (FormWindowState.Minimized == WindowState)
                 {
-                    m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
-                    m_dropableNotifyIcon.NotifyIcon.BalloonTipText = I18n.L.T("MinimizetoTrayApp");
-                    m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
+                    SetLastReadPos();
 
-                    m_firstTimeShowBalloonTipTitle = false;
+                    if (m_firstTimeShowBalloonTipTitle)
+                    {
+                        m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
+                        m_dropableNotifyIcon.NotifyIcon.BalloonTipText = I18n.L.T("MinimizetoTrayApp");
+                        m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
+
+                        m_firstTimeShowBalloonTipTitle = false;
+                    }
+
+                    s_logger.Trace("Main_SizeChanged: FormWindowState.Minimized");
                 }
-
-                s_logger.Trace("Main_SizeChanged: FormWindowState.Minimized");
+                else
+                {
+                    m_oldFormWindowState = WindowState;
+                }
             }
-            else
-            {
-                m_oldFormWindowState = WindowState;
-            }
+            //catch (Exception _e)
+            //{
+            //    NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
+            //}
         }
 
         private void RestoreWindow()
         {
+            //if (!Current.CheckNetworkStatus())
+            //    return;
+
             s_logger.Trace("RestoreWindow");
 
             if (m_oldFormWindowState != FormWindowState.Minimized)
@@ -494,8 +504,12 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK,
+                Invoke(new MethodInvoker(() =>
+                {
+                    MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
+                }));
+
                 return false;
             }
         }
@@ -776,7 +790,7 @@ namespace Waveface
             timerGetNewestPost.Enabled = true;
         }
         */
-        
+
         public bool RefreshNewestPosts()
         {
             if (RT.LoginOK)
@@ -898,38 +912,54 @@ namespace Waveface
 
         public void GetAllDataAsync(ShowTimelineIndexType showTimelineIndexType, bool manualRefresh)
         {
-            s_logger.Info("GetAllDataAsync.showTimelineIndexType:" + showTimelineIndexType + ", manualRefresh:" +
-                          manualRefresh);
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { GetAllDataAsync(showTimelineIndexType, manualRefresh); }
+                           ));
+            }
+            else
+            {
+                s_logger.Info("GetAllDataAsync.showTimelineIndexType:" + showTimelineIndexType + ", manualRefresh:" +
+                              manualRefresh);
 
-            m_showTimelineIndexType = showTimelineIndexType;
-            m_manualRefresh = manualRefresh;
+                m_showTimelineIndexType = showTimelineIndexType;
+                m_manualRefresh = manualRefresh;
 
-            Cursor.Current = Cursors.WaitCursor;
+                Cursor.Current = Cursors.WaitCursor;
 
-            Application.DoEvents();
+                postsArea.updateRefreshUI(false);
 
-            postsArea.updateRefreshUI(false);
-
-            bgWorkerGetAllData.RunWorkerAsync();
+                bgWorkerGetAllData.RunWorkerAsync();
+            }
         }
 
         private void ShowAllTimeline(ShowTimelineIndexType showTimelineIndexType)
         {
-            if (!m_manualRefresh)
-                backgroundWorkerPreloadImage.RunWorkerAsync();
-            
-            List<Post> _posts = RT.CurrentGroupPosts;
-
-            setCalendarBoldedDates(_posts);
-
-            int _index = RT.GetMyTimelinePosition(showTimelineIndexType);
-
-            s_logger.Info("ShowAllTimeline: showTimelineIndexType=" + showTimelineIndexType + ", TimelineIndex=" +
-                          _index);
-
-            lock (postsArea.PostsList)
+            if (InvokeRequired)
             {
-                postsArea.PostsList.SetPosts(_posts, _index, m_manualRefresh);
+                Invoke(new MethodInvoker(
+                           delegate { ShowAllTimeline(showTimelineIndexType); }
+                           ));
+            }
+            else
+            {
+                if (!m_manualRefresh)
+                    backgroundWorkerPreloadImage.RunWorkerAsync();
+
+                List<Post> _posts = RT.CurrentGroupPosts;
+
+                setCalendarBoldedDates(_posts);
+
+                int _index = RT.GetMyTimelinePosition(showTimelineIndexType);
+
+                s_logger.Info("ShowAllTimeline: showTimelineIndexType=" + showTimelineIndexType + ", TimelineIndex=" +
+                              _index);
+
+                lock (postsArea.PostsList)
+                {
+                    postsArea.PostsList.SetPosts(_posts, _index, m_manualRefresh);
+                }
             }
         }
 
@@ -1150,7 +1180,7 @@ namespace Waveface
 
                 _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-                Post(new List<string> {GCONST.CachePath + _filename}, PostType.Photo);
+                Post(new List<string> { GCONST.CachePath + _filename }, PostType.Photo);
             }
             catch (Exception _e)
             {
@@ -1477,7 +1507,7 @@ namespace Waveface
 
         private void backgroundWorkerPreloadImage_DoWork(object sender, DoWorkEventArgs e)
         {
-            if(RT.CurrentGroupPosts != null)
+            if (RT.CurrentGroupPosts != null)
             {
                 PrefetchImages(RT.CurrentGroupPosts);
             }

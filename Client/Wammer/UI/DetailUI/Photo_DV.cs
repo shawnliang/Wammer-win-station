@@ -311,16 +311,12 @@ namespace Waveface.DetailUI
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            Application.DoEvents();
-
             int _h = webBrowserTop.Document.Body.ScrollRectangle.Height;
             webBrowserTop.Height = _h;
         }
 
         private void webBrowserComment_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            Application.DoEvents();
-
             int _h = webBrowserComment.Document.Body.ScrollRectangle.Height;
             webBrowserComment.Height = _h;
         }
