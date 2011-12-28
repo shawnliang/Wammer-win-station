@@ -333,6 +333,8 @@ namespace Waveface
 
                 Close();
             }
+
+			m_preference = null;
         }
 
         private void OnMenuExitClick(object sender, EventArgs e)
