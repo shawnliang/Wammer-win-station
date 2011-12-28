@@ -308,6 +308,9 @@ namespace Waveface
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
         {
+            if (!Current.CheckNetworkStatus())
+                return;
+            
             if (m_preference != null)
             {
                 m_preference.BringToFront();
