@@ -197,7 +197,7 @@ namespace Wammer.Station
 
 				StartService(svcName);
 
-				int retry = 90;
+				int retry = 120;
 				while (!IsMongoDBReady() && 0 < retry--)
 				{
 					System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2.0));
