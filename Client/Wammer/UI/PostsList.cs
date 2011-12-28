@@ -354,8 +354,6 @@ namespace Waveface
                     return DrawDocThumbnail(thumbnailRect, g, post);
             }
 
-            Application.DoEvents();
-
             return false;
         }
 
@@ -474,8 +472,6 @@ namespace Waveface
                 Graphics _g = Graphics.FromImage(_img);
                 _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, PicWidth, PicHeight));
                 _g.DrawRectangle(new Pen(Color.Black), new Rectangle(0, 0, PicWidth - 1, PicHeight - 1));
-
-                Application.DoEvents();
             }
 
             return _img;
@@ -540,6 +536,9 @@ namespace Waveface
 
         private void postBS_PositionChanged(object sender, EventArgs e)
         {
+            //if (!Main.Current.CheckNetworkStatus())
+            //    return;
+
             m_clickIndex = m_postBS.Position;
 
             if (m_clickIndex < 0)
@@ -579,78 +578,12 @@ namespace Waveface
                 }
             }
 
-            Application.DoEvents();
-
             m_detailView.Post = _post;
-
-            Application.DoEvents();
         }
 
         #endregion
 
         #region Misc
-
-        /*
-        private void GetThumbnailsThread()
-        {
-            Dictionary<string, string> _undownloadFiles = new Dictionary<string, string>();
-
-            while (true)
-            {
-                if (m_undownloadThumbnails.Count != 0)
-                {
-                    _undownloadFiles.Clear();
-
-                    lock (m_undownloadThumbnails)
-                    {
-                        foreach (KeyValuePair<string, string> _pair in m_undownloadThumbnails)
-                        {
-                            _undownloadFiles.Add(_pair.Key, _pair.Value);
-                        }
-
-                        m_undownloadThumbnails.Clear();
-                    }
-
-                    int k = 0;
-
-                    foreach (KeyValuePair<string, string> _pair in _undownloadFiles)
-                    {
-                        try
-                        {
-                            WebRequest _wReq = WebRequest.Create(_pair.Key);
-                            _wReq.Timeout = 3000;
-
-                            WebResponse _wRep = _wReq.GetResponse();
-
-                            Image _img = Image.FromStream(_wRep.GetResponseStream());
-                            
-                            if(!System.IO.File.Exists(_pair.Value))
-                                _img.Save(_pair.Value);
-
-                            _img = null;
-
-                            s_logger.Trace("GetThumbnail:" + _pair.Value);
-
-                            Thread.Sleep(100);
-                        }
-                        catch(Exception _e)
-                        {
-                            NLogUtility.Exception(s_logger, _e, "GetThumbnailsThread");
-                        }
-
-                        if((k++ % 2) == 0)
-                            RefreshUI();
-                    }
-
-                    _undownloadFiles.Clear();
-
-                    RefreshUI();
-                }
-
-                Thread.Sleep(1000);
-            }
-        }
-        */
 
         private void SetFont()
         {
@@ -666,6 +599,9 @@ namespace Waveface
 
         private void timer_Tick(object sender, EventArgs e)
         {
+            if (!Main.Current.RT.REST.IsNetworkAvailable)
+                return;
+
             RefreshUI();
         }
 
@@ -682,8 +618,6 @@ namespace Waveface
             }
             else
             {
-                Application.DoEvents();
-
                 dataGridView.SuspendLayout();
                 dataGridView.Refresh();
                 dataGridView.ResumeLayout();

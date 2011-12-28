@@ -167,7 +167,21 @@ namespace Waveface
 
                 if (_item.PostItemType == PostItemType.Origin)
                 {
-                    if (!File.Exists(_item.LocalFilePath2))
+                    if (File.Exists(_item.LocalFilePath2))
+                    {
+                        if(!Main.Current.RT.StationMode)
+                        {
+                            lock (PhotoItems)
+                            {
+                                if (PhotoItems.Contains(_item))
+                                {
+                                    PhotoItems.Remove(_item);
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    else
                     {
                         _url = _item.MediumPath;
                         _localPath = _item.LocalFilePath2;
