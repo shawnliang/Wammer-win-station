@@ -258,8 +258,16 @@ namespace Wammer.Station
 					}
 				}
 
-				HttpHelper.RespondFailure(ctx.Response,
-					new WammerStationException(e.ToString(), e.WammerError), (int)HttpStatusCode.BadRequest);
+				if (e.InnerException != null)
+				{
+					HttpHelper.RespondFailure(ctx.Response,
+						new WammerStationException(e.InnerException.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
+				}
+				else
+				{
+					HttpHelper.RespondFailure(ctx.Response,
+						new WammerStationException(e.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
+				}
 				logger.Warn("Connecting to cloud error", e);
 			}
 			catch (ServiceUnavailableException e)
