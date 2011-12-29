@@ -63,6 +63,7 @@ namespace Waveface
         private string m_stationIP;
 
         private bool m_firstTimeShowBalloonTipTitle;
+        private bool m_windowRestoring;
 
         private FormWindowState m_oldFormWindowState;
 
@@ -353,7 +354,7 @@ namespace Waveface
 
         private void Main_SizeChanged(object sender, EventArgs e)
         {
-            //try
+            try
             {
                 if (m_showInTaskbar_Hack)
                     return;
@@ -384,16 +385,15 @@ namespace Waveface
                     m_oldFormWindowState = WindowState;
                 }
             }
-            //catch (Exception _e)
-            //{
-            //    NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
-            //}
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
+            }
         }
 
         private void RestoreWindow()
         {
-            //if (!Current.CheckNetworkStatus())
-            //    return;
+            m_windowRestoring = true;
 
             s_logger.Trace("RestoreWindow");
 
@@ -413,7 +413,10 @@ namespace Waveface
             if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
             {
                 if (WindowState == FormWindowState.Minimized)
-                    RestoreWindow();
+                {
+                    if (!m_windowRestoring)
+                        RestoreWindow();
+                }
             }
 
             base.WndProc(ref message);
@@ -421,17 +424,20 @@ namespace Waveface
 
         private void restoreMenuItem_Click(object sender, EventArgs e)
         {
-            RestoreWindow();
+            if (!m_windowRestoring)
+                RestoreWindow();
         }
 
         private void taskbarNotifier_ContentClick(object sender, EventArgs e)
         {
-            RestoreWindow();
+            if (!m_windowRestoring)
+                RestoreWindow();
         }
 
         private void NotifyIcon_DoubleClick(object sender, EventArgs e)
         {
-            RestoreWindow();
+            if (!m_windowRestoring)
+                RestoreWindow();
         }
 
         private void splitterRight_SplitterMoving(object sender, SplitterEventArgs e)
@@ -960,6 +966,8 @@ namespace Waveface
                 {
                     postsArea.PostsList.SetPosts(_posts, _index, m_manualRefresh);
                 }
+
+                m_windowRestoring = false;
             }
         }
 
