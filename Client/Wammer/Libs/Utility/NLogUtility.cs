@@ -23,7 +23,10 @@ namespace Waveface
             string _s = "[" + message + "]" + "\n" +
                         GetExceptionMessage(e) + "\n";
 
-            _s += "[Status]:" + e.Status.ToString() + "\n";
+            HttpWebResponse _res = (HttpWebResponse)e.Response;
+
+            _s += "[StatusCode]:" + _res.StatusCode.ToString() + "\n";
+            _s += "[StatusDescription]:" + _res.StatusDescription + "\n";
 
             if (e.InnerException != null)
                 _s = _s + "[InnerException]\n" + GetExceptionMessage(e.InnerException) + "\n";
