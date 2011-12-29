@@ -260,19 +260,29 @@ namespace Wammer.Station
 
 		private static void StartService(string svcName)
 		{
-			try
+			int retry = 3;
+
+			while (0 < retry--)
 			{
-				ServiceController mongoSvc = new ServiceController(svcName);
-				if (mongoSvc.Status != ServiceControllerStatus.Running &&
-					mongoSvc.Status != ServiceControllerStatus.StartPending)
+				try
 				{
-					mongoSvc.Start();
-					mongoSvc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(60));
+					ServiceController mongoSvc = new ServiceController(svcName);
+					if (mongoSvc.Status != ServiceControllerStatus.Running &&
+						mongoSvc.Status != ServiceControllerStatus.StartPending)
+					{
+						mongoSvc.Start();
+						mongoSvc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(60));
+					}
+
+					return;
 				}
-			}
-			catch (Exception e)
-			{
-				throw new InstallerException("Unable to start MongoDB", e);
+				catch (Exception e)
+				{
+					if (retry > 0)
+						System.Threading.Thread.Sleep(3000);
+					else
+						throw new InstallerException("Unable to start " + svcName, e);
+				}
 			}
 		}
 	}
