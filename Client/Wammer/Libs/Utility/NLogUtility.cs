@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Net;
 using NLog;
 
 namespace Waveface
@@ -11,7 +12,20 @@ namespace Waveface
             string _s = "[" + message + "]" + "\n" +
                         GetExceptionMessage(e) + "\n";
 
-            if(e.InnerException != null)
+            if (e.InnerException != null)
+                _s = _s + "[InnerException]\n" + GetExceptionMessage(e.InnerException) + "\n";
+
+            logger.Error(_s);
+        }
+
+        public static void WebException(Logger logger, WebException e, string message)
+        {
+            string _s = "[" + message + "]" + "\n" +
+                        GetExceptionMessage(e) + "\n";
+
+            _s += "[Status]:" + e.Status.ToString() + "\n";
+
+            if (e.InnerException != null)
                 _s = _s + "[InnerException]\n" + GetExceptionMessage(e.InnerException) + "\n";
 
             logger.Error(_s);
@@ -19,7 +33,7 @@ namespace Waveface
 
         private static string GetExceptionMessage(Exception e)
         {
-            return 
+            return
                 "[Message]:" + e.Message + "\n" +
                 "[Source]:" + e.Source + "\n" +
                 "[StackTrace]:" + e.StackTrace;

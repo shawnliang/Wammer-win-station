@@ -6,12 +6,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
-using System.Windows.Forms;
 using NLog;
 using Newtonsoft.Json;
-using Spring.Http.Converters;
-using Spring.Rest.Client;
-using Microsoft.Win32;
+
 #endregion
 
 namespace Waveface.API.V2
@@ -23,8 +20,6 @@ namespace Waveface.API.V2
         public static string CloudIP = "https://develop.waveface.com"; //https://api.waveface.com  ;
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
         public static string WebURL = "http://develop.waveface.com:4343";
-
-        private RestTemplate m_rest;
 
         #region Properties
 
@@ -66,40 +61,28 @@ namespace Waveface.API.V2
 
             Uri url = new Uri(cloudURL);
             CloudIP = url.Scheme + "://" + url.Host;
-        }
 
-        public WService()
-        {
-            m_rest = new RestTemplate();
-
-            m_rest.MessageConverters.Add(new FormHttpMessageConverter());
-            m_rest.MessageConverters.Add(new StringHttpMessageConverter());
+            if (CloudIP == "https://api.waveface.com")
+            {
+                WebURL = "https://waveface.com";
+            }
         }
 
         #region Misc
 
-        public static void SwitchCloudIP()
-        {
-            if (CloudIP == "https://api.waveface.com")
-            {
-                CloudIP = "https://develop.waveface.com";
-                MessageBox.Show("CloundIP=" + CloudIP);
-                return;
-            }
-
-            if (CloudIP == "https://develop.waveface.com")
-            {
-                CloudIP = "https://api.waveface.com";
-                MessageBox.Show("CloundIP=" + CloudIP);
-                return;
-            }
-        }
-
         private T HttpGetObject<T>(string _url)
         {
-            string _r = m_rest.GetForObject<string>(_url);
-            _r = StringUtility.UTF8ToISO_8859_1(_r);
-            return JsonConvert.DeserializeObject<T>(_r);
+            HttpWebRequest _req = (HttpWebRequest)WebRequest.Create(_url);
+            _req.Timeout = 10000;
+            _req.Headers.Set("Content-Encoding", "UTF-8");
+            WebResponse _resp = _req.GetResponse();
+            StreamReader _sr = new StreamReader(_resp.GetResponseStream());
+            string _r = _sr.ReadToEnd().Trim();
+
+            JsonSerializerSettings _settings = new JsonSerializerSettings();
+            _settings.MissingMemberHandling = MissingMemberHandling.Ignore;
+
+            return JsonConvert.DeserializeObject<T>(_r, _settings);
         }
 
         #endregion
@@ -136,11 +119,11 @@ namespace Waveface.API.V2
 
                 _ret = JsonConvert.DeserializeObject<MR_auth_signup>(_r);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "auth_signup");
+                NLogUtility.WebException(s_logger, _e, "auth_signup");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -181,11 +164,11 @@ namespace Waveface.API.V2
 
                 _ret = JsonConvert.DeserializeObject<MR_auth_login>(_r);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "auth_login");
+                NLogUtility.WebException(s_logger, _e, "auth_login");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -214,11 +197,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_auth_logout>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "auth_logout");
+                NLogUtility.WebException(s_logger, _e, "auth_logout");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -251,11 +234,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_users_get>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "users_get");
+                NLogUtility.WebException(s_logger, _e, "users_get");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -288,11 +271,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_users_update>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "users_update");
+                NLogUtility.WebException(s_logger, _e, "users_update");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -323,11 +306,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_users_passwd>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "users_passwd");
+                NLogUtility.WebException(s_logger, _e, "users_passwd");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -354,11 +337,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_users_findMyStation>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "users_findMyStation");
+                NLogUtility.WebException(s_logger, _e, "users_findMyStation");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -380,6 +363,7 @@ namespace Waveface.API.V2
                     "session_token" + "=" + HttpUtility.UrlEncode(session_token);
 
             General_R response = HttpGetObject<General_R>(_url);
+
             if (response == null || !response.status.Equals("200") || !response.api_ret_code.Equals("0"))
                 throw new Exception("pingMyStation request to cloud is not success");
         }
@@ -406,11 +390,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_groups_create>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "groups_create");
+                NLogUtility.WebException(s_logger, _e, "groups_create");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -439,11 +423,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_groups_get>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "groups_get");
+                NLogUtility.WebException(s_logger, _e, "groups_get");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -476,11 +460,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_groups_update>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "groups_update");
+                NLogUtility.WebException(s_logger, _e, "groups_update");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -509,11 +493,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_groups_delete>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "groups_delete");
+                NLogUtility.WebException(s_logger, _e, "groups_delete");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -544,11 +528,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_groups_inviteUser>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "groups_inviteUser");
+                NLogUtility.WebException(s_logger, _e, "groups_inviteUser");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -579,11 +563,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_groups_kickUser>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "groups_kickUser");
+                NLogUtility.WebException(s_logger, _e, "groups_kickUser");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -618,11 +602,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_getSingle>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "posts_getSingle");
+                NLogUtility.WebException(s_logger, _e, "posts_getSingle");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -657,11 +641,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_get>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "posts_get");
+                NLogUtility.WebException(s_logger, _e, "posts_get");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -692,11 +676,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_getLatest>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "posts_getLatest");
+                NLogUtility.WebException(s_logger, _e, "posts_getLatest");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -749,11 +733,11 @@ namespace Waveface.API.V2
 
                 return _ret;
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "posts_new");
+                NLogUtility.WebException(s_logger, _e, "posts_new");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -791,11 +775,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_newComment>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "posts_newComment");
+                NLogUtility.WebException(s_logger, _e, "posts_newComment");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -826,11 +810,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_getComments>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "posts_getComments");
+                NLogUtility.WebException(s_logger, _e, "posts_getComments");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -861,11 +845,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_get>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "posts_fetchByFilter");
+                NLogUtility.WebException(s_logger, _e, "posts_fetchByFilter");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -896,11 +880,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_hide_ret>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "posts_hide");
+                NLogUtility.WebException(s_logger, _e, "posts_hide");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -931,11 +915,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_posts_hide_ret>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "posts_unhide");
+                NLogUtility.WebException(s_logger, _e, "posts_unhide");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -969,11 +953,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_previews_get>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "previews_get");
+                NLogUtility.WebException(s_logger, _e, "previews_get");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -988,8 +972,6 @@ namespace Waveface.API.V2
 
         public MR_previews_get_adv previews_get_adv(string session_token, string url)
         {
-            MR_previews_get_adv _ret;
-
             session_token = HttpUtility.UrlEncode(session_token);
             url = HttpUtility.UrlEncode(url);
 
@@ -1003,19 +985,13 @@ namespace Waveface.API.V2
                         "url" + "=" + url + "&" +
                         "adv" + "=" + "true";
 
-                string _r = m_rest.GetForObject<string>(_url);
-                _r = StringUtility.UTF8ToISO_8859_1(_r);
-
-                JsonSerializerSettings _settings = new JsonSerializerSettings();
-                _settings.MissingMemberHandling = MissingMemberHandling.Ignore;
-
-                _ret = JsonConvert.DeserializeObject<MR_previews_get_adv>(_r, _settings);
+                return HttpGetObject<MR_previews_get_adv>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "previews_get_adv");
+                NLogUtility.WebException(s_logger, _e, "previews_get_adv");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1026,8 +1002,6 @@ namespace Waveface.API.V2
 
                 throw;
             }
-
-            return _ret;
         }
 
         #endregion
@@ -1068,10 +1042,6 @@ namespace Waveface.API.V2
 
                 string _fileName = new FileInfo(fileName).Name;
 
-                //Hack
-                //if (StringUtility.IsChineseString(_fileName))
-                //    _fileName = HttpUtility.UrlEncode(_fileName);
-
                 HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic, _fileName, _mimeType);
 
 
@@ -1082,11 +1052,11 @@ namespace Waveface.API.V2
 
                 _ret = JsonConvert.DeserializeObject<MR_attachments_upload>(_r);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "attachments_upload");
+                NLogUtility.WebException(s_logger, _e, "attachments_upload");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1117,11 +1087,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_attachments_get>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "attachments_get");
+                NLogUtility.WebException(s_logger, _e, "attachments_get");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1150,11 +1120,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_attachments_delete>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "attachments_delete");
+                NLogUtility.WebException(s_logger, _e, "attachments_delete");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1195,11 +1165,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_footprints_LastScan>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "footprints_getLastScan");
+                NLogUtility.WebException(s_logger, _e, "footprints_getLastScan");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1230,11 +1200,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_footprints_LastScan>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "footprints_setLastScan");
+                NLogUtility.WebException(s_logger, _e, "footprints_setLastScan");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1265,11 +1235,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_footprints_LastRead>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "footprints_getLastRead");
+                NLogUtility.WebException(s_logger, _e, "footprints_getLastRead");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1301,11 +1271,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_footprints_LastRead>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "footprints_setLastRead");
+                NLogUtility.WebException(s_logger, _e, "footprints_setLastRead");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1343,11 +1313,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_fetchfilters_item>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "fetchfilters_new");
+                NLogUtility.WebException(s_logger, _e, "fetchfilters_new");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1383,11 +1353,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_fetchfilters_item>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "fetchfilters_update");
+                NLogUtility.WebException(s_logger, _e, "fetchfilters_update");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1414,11 +1384,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_fetchfilters_list>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "fetchfilters_list");
+                NLogUtility.WebException(s_logger, _e, "fetchfilters_list");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1446,11 +1416,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_storages_usage>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "storages_usage");
+                NLogUtility.WebException(s_logger, _e, "storages_usage");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1478,11 +1448,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_station_status>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "station_status");
+                NLogUtility.WebException(s_logger, _e, "station_status");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1519,6 +1489,8 @@ namespace Waveface.API.V2
             }
             catch (WebException e)
             {
+                NLogUtility.WebException(s_logger, e, "LoginStation");
+
                 string msg = ExtractApiRetMsg(e);
 
                 if (!string.IsNullOrEmpty(msg))
@@ -1544,6 +1516,8 @@ namespace Waveface.API.V2
             }
             catch (WebException e)
             {
+                NLogUtility.WebException(s_logger, e, "LogoutStation");
+
                 string msg = ExtractApiRetMsg(e);
 
                 if (!string.IsNullOrEmpty(msg))
@@ -1556,6 +1530,7 @@ namespace Waveface.API.V2
         public static string ExtractApiRetMsg(WebException e)
         {
             HttpWebResponse res = (HttpWebResponse)e.Response;
+
             if (res != null)
             {
                 using (StreamReader reader = new StreamReader(res.GetResponseStream()))
@@ -1605,6 +1580,7 @@ namespace Waveface.API.V2
                 MR_cloudstorage_list res = HttpGetObject<MR_cloudstorage_list>(_url);
 
                 bool dropboxConnected = false;
+
                 foreach (CloudStorage cloudstorage in res.cloudstorages)
                 {
                     if (cloudstorage.type == "dropbox")
@@ -1612,17 +1588,19 @@ namespace Waveface.API.V2
                         dropboxConnected = true;
                     }
                 }
+
                 if (!dropboxConnected && dropboxInstalled())
                 {
                     res.cloudstorages.Add(new CloudStorage { type = "dropbox", connected = false, quota = 0, used = 0 });
                 }
+
                 return res;
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "cloudstorage_list");
+                NLogUtility.WebException(s_logger, _e, "cloudstorage_list");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1646,11 +1624,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_cloudstorage_dropbox_oauth>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_oauth");
+                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_oauth");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1676,11 +1654,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_cloudstorage_dropbox_connect>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_connect");
+                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_connect");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1705,11 +1683,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_cloudstorage_dropbox_update>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_update");
+                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_update");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;
@@ -1733,11 +1711,11 @@ namespace Waveface.API.V2
 
                 return HttpGetObject<MR_cloudstorage_dropbox_disconnect>(_url);
             }
-            catch (HttpResponseException _e)
+            catch (WebException _e)
             {
-                NLogUtility.Exception(s_logger, _e, "cloudstorage_dropbox_disconnect");
+                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_disconnect");
 
-                if (_e.Response.StatusCode == HttpStatusCode.Unauthorized)
+                if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
 
                 throw;

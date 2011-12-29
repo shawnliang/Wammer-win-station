@@ -93,109 +93,108 @@ namespace Waveface
         /// </summary>
         private void InitializeComponent()
         {
-			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
-			this.cbRemember = new System.Windows.Forms.CheckBox();
-			this.labelTitle = new System.Windows.Forms.Label();
-			this.lblUserName = new System.Windows.Forms.Label();
-			this.txtPassword = new System.Windows.Forms.TextBox();
-			this.txtUserName = new System.Windows.Forms.TextBox();
-			this.lblPassword = new System.Windows.Forms.Label();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-			this.btnCancel = new Waveface.Component.XPButton();
-			this.btnOK = new Waveface.Component.XPButton();
-			this.groupBox1.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// cbRemember
-			// 
-			resources.ApplyResources(this.cbRemember, "cbRemember");
-			this.cbRemember.Name = "cbRemember";
-			// 
-			// labelTitle
-			// 
-			resources.ApplyResources(this.labelTitle, "labelTitle");
-			this.labelTitle.Name = "labelTitle";
-			this.labelTitle.DoubleClick += new System.EventHandler(this.labelTitle_DoubleClick);
-			// 
-			// lblUserName
-			// 
-			resources.ApplyResources(this.lblUserName, "lblUserName");
-			this.lblUserName.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.lblUserName.Name = "lblUserName";
-			this.lblUserName.DoubleClick += new System.EventHandler(this.lblUserName_DoubleClick);
-			// 
-			// txtPassword
-			// 
-			resources.ApplyResources(this.txtPassword, "txtPassword");
-			this.txtPassword.Name = "txtPassword";
-			// 
-			// txtUserName
-			// 
-			resources.ApplyResources(this.txtUserName, "txtUserName");
-			this.txtUserName.Name = "txtUserName";
-			this.txtUserName.ReadOnly = true;
-			// 
-			// lblPassword
-			// 
-			resources.ApplyResources(this.lblPassword, "lblPassword");
-			this.lblPassword.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.lblPassword.Name = "lblPassword";
-			// 
-			// groupBox1
-			// 
-			resources.ApplyResources(this.groupBox1, "groupBox1");
-			this.groupBox1.Controls.Add(this.txtUserName);
-			this.groupBox1.Controls.Add(this.txtPassword);
-			this.groupBox1.Controls.Add(this.lblUserName);
-			this.groupBox1.Controls.Add(this.lblPassword);
-			this.groupBox1.Controls.Add(this.cbRemember);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.TabStop = false;
-			// 
-			// cultureManager
-			// 
-			this.cultureManager.ManagedControl = this;
-			this.cultureManager.UICultureChanged += new Waveface.Localization.CultureManager.CultureChangedHandler(this.cultureManager_UICultureChanged);
-			// 
-			// btnCancel
-			// 
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			this.btnCancel.AdjustImageLocation = new System.Drawing.Point(0, 0);
-			this.btnCancel.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-			this.btnCancel.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-			// 
-			// btnOK
-			// 
-			resources.ApplyResources(this.btnOK, "btnOK");
-			this.btnOK.AdjustImageLocation = new System.Drawing.Point(0, 0);
-			this.btnOK.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-			this.btnOK.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnOK.Name = "btnOK";
-			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-			// 
-			// LoginForm
-			// 
-			resources.ApplyResources(this, "$this");
-			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.labelTitle);
-			this.Controls.Add(this.btnCancel);
-			this.Controls.Add(this.btnOK);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "LoginForm";
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-			this.Load += new System.EventHandler(this.LoginForm_Load);
-			this.DoubleClick += new System.EventHandler(this.LoginForm_DoubleClick);
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
-			this.ResumeLayout(false);
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
+            this.cbRemember = new System.Windows.Forms.CheckBox();
+            this.labelTitle = new System.Windows.Forms.Label();
+            this.lblUserName = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtUserName = new System.Windows.Forms.TextBox();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.btnCancel = new Waveface.Component.XPButton();
+            this.btnOK = new Waveface.Component.XPButton();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // cbRemember
+            // 
+            resources.ApplyResources(this.cbRemember, "cbRemember");
+            this.cbRemember.Name = "cbRemember";
+            // 
+            // labelTitle
+            // 
+            resources.ApplyResources(this.labelTitle, "labelTitle");
+            this.labelTitle.Name = "labelTitle";
+            // 
+            // lblUserName
+            // 
+            resources.ApplyResources(this.lblUserName, "lblUserName");
+            this.lblUserName.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.DoubleClick += new System.EventHandler(this.lblUserName_DoubleClick);
+            // 
+            // txtPassword
+            // 
+            resources.ApplyResources(this.txtPassword, "txtPassword");
+            this.txtPassword.Name = "txtPassword";
+            // 
+            // txtUserName
+            // 
+            resources.ApplyResources(this.txtUserName, "txtUserName");
+            this.txtUserName.Name = "txtUserName";
+            this.txtUserName.ReadOnly = true;
+            // 
+            // lblPassword
+            // 
+            resources.ApplyResources(this.lblPassword, "lblPassword");
+            this.lblPassword.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.lblPassword.Name = "lblPassword";
+            // 
+            // groupBox1
+            // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.txtUserName);
+            this.groupBox1.Controls.Add(this.txtPassword);
+            this.groupBox1.Controls.Add(this.lblUserName);
+            this.groupBox1.Controls.Add(this.lblPassword);
+            this.groupBox1.Controls.Add(this.cbRemember);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            this.cultureManager.UICultureChanged += new Waveface.Localization.CultureManager.CultureChangedHandler(this.cultureManager_UICultureChanged);
+            // 
+            // btnCancel
+            // 
+            resources.ApplyResources(this.btnCancel, "btnCancel");
+            this.btnCancel.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnCancel.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnCancel.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnOK
+            // 
+            resources.ApplyResources(this.btnOK, "btnOK");
+            this.btnOK.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnOK.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnOK.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            // 
+            // LoginForm
+            // 
+            resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.labelTitle);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnOK);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "LoginForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.Load += new System.EventHandler(this.LoginForm_Load);
+            this.DoubleClick += new System.EventHandler(this.LoginForm_DoubleClick);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.ResumeLayout(false);
 
         }
 
@@ -349,11 +348,6 @@ namespace Waveface
             }
 
             return base.ProcessDialogKey(keyData);
-        }
-
-        private void labelTitle_DoubleClick(object sender, EventArgs e)
-        {
-            WService.SwitchCloudIP();
         }
 
         #region Debug

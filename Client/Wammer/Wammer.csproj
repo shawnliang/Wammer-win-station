@@ -58,7 +58,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Waveface.Program</StartupObject>
@@ -86,19 +86,11 @@
     </Reference>
     <Reference Include="Newtonsoft.Json.Net20, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Spring.Rest-1.0.1\bin\net\2.0\Release\Newtonsoft.Json.Net20.dll</HintPath>
+      <HintPath>..\Libs\Newtonsoft.Json.Net20.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="Spring.Http.Converters.NJson, Version=1.0.1.17720, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Spring.Rest-1.0.1\bin\net\2.0\Release\Spring.Http.Converters.NJson.dll</HintPath>
-    </Reference>
-    <Reference Include="Spring.Rest, Version=1.0.1.17720, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\Spring.Rest-1.0.1\bin\net\2.0\Release\Spring.Rest.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -854,11 +846,11 @@
     <None Include="Resources\LoadingImage.jpg" />
     <None Include="Resources\network-error.png" />
     <None Include="Resources\network-receive.png" />
-    <Content Include="Icon.ico" />
     <None Include="Resources\waveface_icon32.png" />
     <None Include="Resources\waveface_icon128.png" />
     <None Include="Resources\Icon_.ico" />
     <None Include="Resources\waveface_icon128.ico" />
+    <Content Include="Icon.ico" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
