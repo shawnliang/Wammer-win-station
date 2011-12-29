@@ -32,8 +32,13 @@ namespace Gui
             this.lblInstruction = new System.Windows.Forms.Label();
             this.lblDetails = new System.Windows.Forms.Label();
             this.lblFinished = new System.Windows.Forms.Label();
+            this.label_Hint = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbLeft)).BeginInit();
             this.SuspendLayout();
+            // 
+            // pbLeft
+            // 
+            resources.ApplyResources(this.pbLeft, "pbLeft");
             // 
             // lblInstruction
             // 
@@ -50,9 +55,15 @@ namespace Gui
             resources.ApplyResources(this.lblFinished, "lblFinished");
             this.lblFinished.Name = "lblFinished";
             // 
+            // label_Hint
+            // 
+            resources.ApplyResources(this.label_Hint, "label_Hint");
+            this.label_Hint.Name = "label_Hint";
+            // 
             // FinishStep
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.label_Hint);
             this.Controls.Add(this.lblInstruction);
             this.Controls.Add(this.lblDetails);
             this.Controls.Add(this.lblFinished);
@@ -64,6 +75,7 @@ namespace Gui
             this.Controls.SetChildIndex(this.lblFinished, 0);
             this.Controls.SetChildIndex(this.lblDetails, 0);
             this.Controls.SetChildIndex(this.lblInstruction, 0);
+            this.Controls.SetChildIndex(this.label_Hint, 0);
             this.Controls.SetChildIndex(this.pbLeft, 0);
             ((System.ComponentModel.ISupportInitialize)(this.pbLeft)).EndInit();
             this.ResumeLayout(false);
@@ -75,6 +87,7 @@ namespace Gui
 		private System.Windows.Forms.Label lblInstruction;
 		private System.Windows.Forms.Label lblDetails;
         private System.Windows.Forms.Label lblFinished;
+        private System.Windows.Forms.Label label_Hint;
 
 
 	}

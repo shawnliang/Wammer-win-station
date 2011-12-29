@@ -27,6 +27,8 @@ namespace Gui
 
 		private void FinishStep_Entering(object sender, ChangeStepEventArgs e)
 		{
+			if (mode == InstallationMode.Uninstall)
+				label_Hint.Hide();
 		}
 	}
 }
