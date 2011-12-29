@@ -17,6 +17,7 @@ namespace Waveface
     {
         private Dictionary<string, string> m_filesMapping;
         private ImageListViewItem m_selectedImage;
+        private bool m_onlyOnePhoto;
 
         public PhotoView()
         {
@@ -33,6 +34,11 @@ namespace Waveface
             {
                 imageListView.Items.Add(_file);
             }
+
+            m_onlyOnePhoto = (imageListView.Items.Count == 1);
+
+            if (m_onlyOnePhoto)
+                btnSaveAll.Visible = false;
 
             imageListView.View = View.Gallery;
 
@@ -62,6 +68,12 @@ namespace Waveface
             {
                 m_selectedImage = imageListView.SelectedItems[0];
             }
+        }
+
+        private void contextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (m_onlyOnePhoto)
+                miSaveAll.Visible = false;
         }
 
         #region Save
@@ -99,10 +111,6 @@ namespace Waveface
             if (m_filesMapping.ContainsKey(_trueName)) //取得原始檔名
                 _trueName = m_filesMapping[_trueName];
 
-            //Hack
-            //if (_trueName.Contains("%"))
-            //    _trueName = HttpUtility.UrlDecode(_trueName);
-
             saveFileDialog.FileName = _trueName;
             DialogResult _dr = saveFileDialog.ShowDialog();
 
@@ -112,7 +120,7 @@ namespace Waveface
                 {
                     string _destFile = saveFileDialog.FileName;
 
-                    File.Copy(_picFilePath, _destFile);
+                    File.Copy(_picFilePath, _destFile, true);
 
                     MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
                 }

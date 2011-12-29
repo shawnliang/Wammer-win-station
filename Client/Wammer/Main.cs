@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
@@ -15,6 +16,7 @@ using Waveface.Compoment;
 using Waveface.Compoment.PopupControl;
 using Waveface.Component;
 using Waveface.Component.DropableNotifyIcon;
+using Waveface.Configuration;
 using Waveface.FilterUI;
 using Waveface.ImageCapture;
 using Waveface.Properties;
@@ -51,7 +53,6 @@ namespace Waveface
         private bool m_process401Exception;
         private bool m_canAutoFetchNewestPosts = true;
         private bool m_logoutStation;
-        private bool m_showInTaskbar_Hack;
         private bool m_eventFromRestoreWindow_Hack;
         private bool m_manualRefresh;
         private ShowTimelineIndexType m_showTimelineIndexType;
@@ -66,6 +67,9 @@ namespace Waveface
         private bool m_windowRestoring;
 
         private FormWindowState m_oldFormWindowState;
+        private PostType m_delayPostType;
+
+        private FormSettings m_formSettings;
 
         #endregion
 
@@ -104,6 +108,13 @@ namespace Waveface
             //initVirtualFolderForm();
 
             InitTaskbarNotifier();
+
+            m_formSettings = new FormSettings(this);
+            m_formSettings.UseSize = true;
+            m_formSettings.UseLocation = true;
+            m_formSettings.UseWindowState = true;
+            m_formSettings.AllowMinimized = false;
+            m_formSettings.SaveOnClose = true;
 
             s_logger.Trace("Constructor: OK");
         }
@@ -275,6 +286,16 @@ namespace Waveface
                 if (!m_exitToLogin)
                 {
                     WindowState = FormWindowState.Minimized;
+                    ShowInTaskbar = false;
+
+                    if (m_firstTimeShowBalloonTipTitle)
+                    {
+                        m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
+                        m_dropableNotifyIcon.NotifyIcon.BalloonTipText = I18n.L.T("MinimizetoTrayApp");
+                        m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
+
+                        m_firstTimeShowBalloonTipTitle = false;
+                    }
 
                     s_logger.Trace("MainForm_FormClosing.!m_exitToLogin - Return");
 
@@ -337,17 +358,6 @@ namespace Waveface
             m_preference = null;
         }
 
-        private void OnMenuExitClick(object sender, EventArgs e)
-        {
-            m_exitToLogin = true;
-            m_eventFromRestoreWindow_Hack = false;
-            QuitOption = QuitOption.QuitProgram;
-
-            s_logger.Trace("OnMenuExitClick");
-
-            Close();
-        }
-
         #endregion
 
         #region Windows Size
@@ -356,32 +366,17 @@ namespace Waveface
         {
             try
             {
-                if (m_showInTaskbar_Hack)
-                    return;
-
                 panelLeftInfo.Width = leftArea.MyWidth + 8;
-
-                m_showInTaskbar_Hack = true;
-                ShowInTaskbar = (FormWindowState.Minimized != WindowState);
-                m_showInTaskbar_Hack = false;
 
                 if (FormWindowState.Minimized == WindowState)
                 {
                     SetLastReadPos();
 
-                    if (m_firstTimeShowBalloonTipTitle)
-                    {
-                        m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
-                        m_dropableNotifyIcon.NotifyIcon.BalloonTipText = I18n.L.T("MinimizetoTrayApp");
-                        m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
-
-                        m_firstTimeShowBalloonTipTitle = false;
-                    }
-
                     s_logger.Trace("Main_SizeChanged: FormWindowState.Minimized");
                 }
                 else
                 {
+                    ShowInTaskbar = true;
                     m_oldFormWindowState = WindowState;
                 }
             }
@@ -391,8 +386,17 @@ namespace Waveface
             }
         }
 
+        [DllImport("user32.dll")]
+        private static extern bool BringWindowToTop(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
+
         private void RestoreWindow()
         {
+            if (m_windowRestoring)
+                return;
+
             m_windowRestoring = true;
 
             s_logger.Trace("RestoreWindow");
@@ -405,7 +409,16 @@ namespace Waveface
             m_showTimelineIndexType = ShowTimelineIndexType.LocalLastRead;
             GetLastReadAndShow();
 
+            BringWindowToTop(Handle);
+            ShowWindow(Handle, 5); //SW_SHOW
+            Activate();
+
             m_eventFromRestoreWindow_Hack = true;
+        }
+
+        protected override bool ShowWithoutActivation // stops the window from stealing focus
+        {
+            get { return true; }
         }
 
         protected override void WndProc(ref Message message)
@@ -416,6 +429,22 @@ namespace Waveface
                 {
                     if (!m_windowRestoring)
                         RestoreWindow();
+                }
+            }
+            else if (message.Msg == 0x01C) // WM_ACTIVATEAPP : Alt-Tabbing
+            {
+                // a value of 0 means the application is being deactivated, 
+                // otherwise it is being activated.
+                // 0 - Form deactivated
+                // 1 - Form activated
+                // 2 - Form activated by a mouse click
+                if ((int)message.WParam == 1)
+                {
+                    if (WindowState == FormWindowState.Minimized)
+                    {
+                        if (!m_windowRestoring)
+                            m_eventFromRestoreWindow_Hack = true;
+                    }
                 }
             }
 
@@ -436,7 +465,7 @@ namespace Waveface
 
         private void NotifyIcon_DoubleClick(object sender, EventArgs e)
         {
-            if (!m_windowRestoring)
+            if (!m_windowRestoring && (WindowState == FormWindowState.Minimized))
                 RestoreWindow();
         }
 
@@ -621,6 +650,8 @@ namespace Waveface
                 s_logger.Trace("Login.Auth_Login.OK: GetAllDataAsync(false)");
 
                 GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
+
+                backgroundWorkerPreloadImage.RunWorkerAsync();
             }
 
             return true;
@@ -950,9 +981,6 @@ namespace Waveface
             }
             else
             {
-                if (!m_manualRefresh)
-                    backgroundWorkerPreloadImage.RunWorkerAsync();
-
                 List<Post> _posts = RT.CurrentGroupPosts;
 
                 setCalendarBoldedDates(_posts);
@@ -991,7 +1019,7 @@ namespace Waveface
 
             timerDelayPost.Enabled = false;
 
-            Post(m_delayPostPicList, PostType.Photo);
+            DoRealPost(m_delayPostPicList, m_delayPostType);
 
             m_delayPostPicList.Clear();
 
@@ -1000,10 +1028,16 @@ namespace Waveface
 
         public void Post()
         {
-            Post(new List<string>(), PostType.All);
+            DoRealPost(new List<string>(), PostType.All);
         }
 
         public void Post(List<string> pics, PostType postType)
+        {
+            m_delayPostType = postType;
+            m_delayPostPicList = pics;
+        }
+
+        private void DoRealPost(List<string> pics, PostType postType)
         {
             if (!RT.LoginOK)
             {
@@ -1150,6 +1184,7 @@ namespace Waveface
                             _fileContents = _textFile.ReadToEnd();
                         }
 
+                        m_delayPostType = PostType.Photo;
                         m_delayPostPicList = new List<string>
                                                  {
                                                      _fileContents

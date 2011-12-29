@@ -270,7 +270,7 @@ namespace Waveface
         {
             Rectangle _infoRect = DrawPostInfo(g, fontPhotoInfo, rect, post, thumbnailRectWidth, selected);
 
-            Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 12, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 16);
+            Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 14, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 20);
 
             TextRenderer.DrawText(g, post.content, fontText, _rectAll, Color.Black,
                       TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
@@ -312,7 +312,7 @@ namespace Waveface
             }
 
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, font);
-            Rectangle _rect = new Rectangle(cellRect.X + thumbnailOffset_X + 8, cellRect.Y + 6, cellRect.Width - thumbnailOffset_X - 4, _sizeInfo.Height);
+            Rectangle _rect = new Rectangle(cellRect.X + thumbnailOffset_X + 8, cellRect.Y + 7, cellRect.Width - thumbnailOffset_X - 4, _sizeInfo.Height);
 
             TextRenderer.DrawText(g, _info, font, _rect, (selected ? m_inforColor1 : m_inforColor2),
                                   TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
