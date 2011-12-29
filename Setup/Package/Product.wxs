@@ -154,7 +154,6 @@
 
     <ComponentGroup Id="Wammer.Client">
       <ComponentRef Id="AxInterop.SHDocVw.dll"/>
-      <ComponentRef Id="Common.Logging.dll"/>
       <ComponentRef Id="DropableNotifyIcon.dll"/>
       <ComponentRef Id="HTML2XHTML.dll"/>
       <ComponentRef Id="HTMLEditor.dll"/>
@@ -163,8 +162,6 @@
       <ComponentRef Id="LinqBridge.dll"/>
       <ComponentRef Id="MonthCalendarControl.dll"/>
       <ComponentRef Id="Newtonsoft.Json.Net20.dll"/>
-      <ComponentRef Id="Spring.Http.Converters.NJson.dll"/>
-      <ComponentRef Id="Spring.Rest.dll"/>
       <ComponentRef Id="UtilityLibrary.dll"/>
       <ComponentRef Id="WavefaceWindowsClientHelper.exe"/>
       <ComponentRef Id="WavefaceWindowsClient.exe"/>
@@ -237,9 +234,6 @@
       <Component Id="AxInterop.SHDocVw.dll" Guid="{345D9FC1-4BF7-43E0-883F-F94AAD20D530}">
         <File Id="AxInterop.SHDocVw.dll" Source="$(var.Wammer.TargetDir)\AxInterop.SHDocVw.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="Common.Logging.dll" Guid="{6F289D00-2E06-42A3-9EF5-0C5E94BF4735}">
-        <File Id="Common.Logging.dll" Source="$(var.Wammer.TargetDir)\Common.Logging.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
       <Component Id="DropableNotifyIcon.dll" Guid="{752C2F95-AEBB-4628-B7DA-15BDD61475B9}">
         <File Id="DropableNotifyIcon.dll" Source="$(var.Wammer.TargetDir)\DropableNotifyIcon.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -263,12 +257,6 @@
       </Component>
       <Component Id="Newtonsoft.Json.Net20.dll" Guid="{F9C05527-45EB-42FD-800B-3A6602049BBC}">
         <File Id="Newtonsoft.Json.Net20.dll" Source="$(var.Wammer.TargetDir)\Newtonsoft.Json.Net20.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Spring.Http.Converters.NJson.dll" Guid="{C27ABBBA-BBB5-4954-A9D8-5FC91E15CEB2}">
-        <File Id="Spring.Http.Converters.NJson.dll" Source="$(var.Wammer.TargetDir)\Spring.Http.Converters.NJson.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="Spring.Rest.dll" Guid="{37E1BC3A-4CEA-42B3-8FB9-1CE8F30D97B9}">
-        <File Id="Spring.Rest.dll" Source="$(var.Wammer.TargetDir)\Spring.Rest.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="UtilityLibrary.dll" Guid="{A8DC5CB9-C1AD-4EA1-AA88-A0AFFE0A15B5}">
         <File Id="UtilityLibrary.dll" Source="$(var.Wammer.TargetDir)\UtilityLibrary.dll" KeyPath="yes" Checksum="yes"/>
