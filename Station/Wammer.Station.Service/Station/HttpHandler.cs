@@ -39,12 +39,16 @@ namespace Wammer.Station
 
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
+		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
+		
 		protected HttpHandler()
 		{
 		}
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
+			long begin = System.Diagnostics.Stopwatch.GetTimestamp();
+
 			this.Files = new List<UploadedFile>();
 			this.Request = request;
 			this.Response = response;
@@ -77,6 +81,24 @@ namespace Wammer.Station
 
 
 			HandleRequest();
+
+			long end = System.Diagnostics.Stopwatch.GetTimestamp();
+
+			long duration = end - begin;
+			if (duration < 0)
+				duration += long.MaxValue;
+
+			OnProcessSucceeded(new HttpHandlerEventArgs(duration));
+		}
+
+		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)
+		{
+			EventHandler<HttpHandlerEventArgs> handler = this.ProcessSucceeded;
+			
+			if (handler != null)
+			{
+				handler(this, evt);
+			}
 		}
 
 		private void ParseMultiPartData(HttpListenerRequest request)
@@ -265,6 +287,16 @@ namespace Wammer.Station
 			{
 				w.Write(data);
 			}
+		}
+	}
+
+
+	public class HttpHandlerEventArgs : EventArgs
+	{
+		public long DurationInTicks { get; private set; }
+		public HttpHandlerEventArgs(long durationInTicks)
+		{
+			this.DurationInTicks = durationInTicks;
 		}
 	}
 }

@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using Wammer.Station;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.PerfMonitor;
 using TCMPortMapper;
 
 namespace Wammer.Station.Service
@@ -87,6 +88,7 @@ namespace Wammer.Station.Service
 
 				CloudStorageSync cloudSync = new CloudStorageSync();
 				attachmentHandler.AttachmentSaved += cloudSync.HandleAttachmentSaved;
+				attachmentHandler.ProcessSucceeded += new AttachmentUploadMonitor().OnProcessSucceeded;
 
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
 								attachmentHandler);

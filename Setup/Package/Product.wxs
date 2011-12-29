@@ -44,19 +44,31 @@
     <CustomAction Id='StartAndWaitMongoDbReady' BinaryKey='InstallHelperDll' DllEntry='StartAndWaitMongoDbReady' />
     <!-- Start waveface service -->
     <CustomAction Id='StartWavefaceService' BinaryKey='InstallHelperDll' DllEntry='StartWavefaceService' />
+    <!-- Add performance counters -->
+    <CustomAction Id='AddPerfCounters' BinaryKey='InstallHelperDll' DllEntry='AddPerfCounters' />
+    <!-- Remove performance counters -->
+    <CustomAction Id='RemovePerfCounters' BinaryKey='InstallHelperDll' DllEntry='RemovePerfCounters' />
 
     <InstallExecuteSequence>
       <Custom Action="NoDowngradeAction" After="FindRelatedProducts">NEWERFOUND</Custom>
-      <Custom Action="SignoffStationAction" Before="RemoveFiles">
+      <!-- while uninstall -->
+      <Custom Action="KillClientProcess" Before="SignoffStationAction">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
-      <Custom Action="KillClientProcess" Before="RemoveFiles">
+      <Custom Action="SignoffStationAction" Before="CleanStationInfoAction">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
-      <Custom Action="CleanStationInfoAction" After="SignoffStationAction">
+      <Custom Action="CleanStationInfoAction" Before="RemovePerfCounters">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
+      <Custom Action="RemovePerfCounters" Before="RemoveFiles">
+        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <!-- while install -->
       <Custom Action="SetRegistry" Before="InstallFiles">
+        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
+      </Custom>
+      <Custom Action="AddPerfCounters" Before="StartServices">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
       <Custom Action="StartAndWaitMongoDbReady" After="InstallFinalize">
