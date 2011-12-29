@@ -650,8 +650,6 @@ namespace Waveface
                 s_logger.Trace("Login.Auth_Login.OK: GetAllDataAsync(false)");
 
                 GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
-
-                backgroundWorkerPreloadImage.RunWorkerAsync();
             }
 
             return true;
@@ -981,6 +979,8 @@ namespace Waveface
             }
             else
             {
+                backgroundWorkerPreloadImage.RunWorkerAsync();
+
                 List<Post> _posts = RT.CurrentGroupPosts;
 
                 setCalendarBoldedDates(_posts);
