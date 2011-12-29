@@ -153,7 +153,15 @@ namespace Wammer.Station
 			else
 				thumbnail = ImageHelper.ScaleBasedOnLongSide(origin, (int)meta);
 
-			ImageHelper.CorrectOrientation(ImageHelper.ImageOrientation(origin), thumbnail);
+			try
+			{
+				ImageHelper.CorrectOrientation(ImageHelper.ImageOrientation(origin), thumbnail);
+			}
+			catch (System.Runtime.InteropServices.ExternalException ex)
+			{
+				logger.ErrorFormat("Unable to correct orientation of image {0}", origFileName);
+				logger.Error("External exception", ex);
+			}
 
 			ImageSaveStrategy imageStrategy = GetImageSaveStrategy(Path.GetExtension(origFileName));
 			SavedResult savedThumbnail = imageStrategy.Save(thumbnail, attachmentId, meta, driver);
