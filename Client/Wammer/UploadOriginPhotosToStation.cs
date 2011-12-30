@@ -12,13 +12,7 @@ namespace Waveface
     {
         private bool m_exit;
 
-        public int SleepTime { get; set; }
         public bool Pause { get; set; }
-
-        public UploadOriginPhotosToStation()
-        {
-            SleepTime = 3000;
-        }
 
         public void Start()
         {
@@ -52,7 +46,7 @@ namespace Waveface
                     }
                 }
 
-                Thread.Sleep(SleepTime);
+                Thread.Sleep(5000);
             }
         }
 

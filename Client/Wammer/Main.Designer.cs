@@ -49,7 +49,6 @@
             this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
             this.splitterRight = new System.Windows.Forms.Splitter();
-            this.timerFilterReadmore = new System.Windows.Forms.Timer(this.components);
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
             this.timerReloadAllData = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
@@ -202,11 +201,6 @@
             this.splitterRight.TabStop = false;
             this.splitterRight.SplitterMoving += new System.Windows.Forms.SplitterEventHandler(this.splitterRight_SplitterMoving);
             // 
-            // timerFilterReadmore
-            // 
-            this.timerFilterReadmore.Interval = 500;
-            this.timerFilterReadmore.Tick += new System.EventHandler(this.timerFilterReadmore_Tick);
-            // 
             // bgWorkerGetAllData
             // 
             this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
@@ -352,7 +346,6 @@
         private System.Windows.Forms.ToolStripMenuItem screenMenuItem;
         private System.Windows.Forms.ToolStripMenuItem restoreMenuItem;
         private System.Windows.Forms.Timer timerDelayPost;
-        private System.Windows.Forms.Timer timerFilterReadmore;
         private BgPanel panelTop;
         private LeftArea leftArea;
         private System.Windows.Forms.ToolStripMenuItem preferencesMenuItem;

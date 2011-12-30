@@ -441,9 +441,6 @@
   <data name="&gt;&gt;splitterRight.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="timerFilterReadmore.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>190, 17</value>
-  </metadata>
   <metadata name="bgWorkerGetAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -1996,12 +1993,6 @@
     <value>timerDelayPost</value>
   </data>
   <data name="&gt;&gt;timerDelayPost.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;timerFilterReadmore.Name" xml:space="preserve">
-    <value>timerFilterReadmore</value>
-  </data>
-  <data name="&gt;&gt;timerFilterReadmore.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;bgWorkerGetAllData.Name" xml:space="preserve">

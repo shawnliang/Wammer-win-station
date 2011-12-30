@@ -129,6 +129,14 @@ namespace Manina.Windows.Forms
 	        }
 	    }
 
+        public HScrollBar HScrollBar
+	    {
+	        get
+	        {
+                return hScrollBar;
+	        }
+	    }
+
 		// Layout variables
 		internal HScrollBar hScrollBar;
 		internal VScrollBar vScrollBar;

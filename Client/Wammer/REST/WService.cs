@@ -21,6 +21,8 @@ namespace Waveface.API.V2
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
         public static string WebURL = "http://develop.waveface.com:4343";
 
+        private static string s_stationIP = string.Empty;
+
         #region Properties
 
         public static string HostIP
@@ -48,7 +50,16 @@ namespace Waveface.API.V2
             get { return CloudIP + "/v2"; }
         }
 
-        public static string StationIP { get; set; }
+        public static string StationIP
+        {
+            get
+            {
+                // return s_stationIP;
+
+                return "http://127.0.0.1:9981";
+            }
+            set { s_stationIP = value; }
+        }
 
         #endregion
 
@@ -1178,8 +1189,8 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse res = (HttpWebResponse) _e.Response;
-                    
+                    HttpWebResponse res = (HttpWebResponse)_e.Response;
+
                     if (res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
                 }
@@ -1666,11 +1677,11 @@ namespace Waveface.API.V2
             {
                 NLogUtility.WebException(s_logger, e, "LoginStation");
 
-				if (e.Status == WebExceptionStatus.ConnectFailure)
-				{
-					throw new StationServiceDownException("Station service down?");
-				}
-				
+                if (e.Status == WebExceptionStatus.ConnectFailure)
+                {
+                    throw new StationServiceDownException("Station service down?");
+                }
+
                 string msg = ExtractApiRetMsg(e);
 
                 if (!string.IsNullOrEmpty(msg))
@@ -1981,16 +1992,16 @@ namespace Waveface.API.V2
 
     #endregion
 
-	#region
-	
-	public class StationServiceDownException : Exception
-	{
-		public StationServiceDownException(string msg)
-			: base(msg)
-		{
-		}
-	}
+    #region
 
-	#endregion
+    public class StationServiceDownException : Exception
+    {
+        public StationServiceDownException(string msg)
+            : base(msg)
+        {
+        }
+    }
+
+    #endregion
 }
 

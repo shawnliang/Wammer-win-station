@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Web;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.Component;
@@ -47,19 +46,28 @@ namespace Waveface
 
             imageListView.SetRenderer(_imageListViewRenderer);
 
-            //imageListView.SetRenderer(new ImageListViewRenderers.NoirRenderer());
+            int i = 0;
 
             foreach (ImageListViewItem _item in imageListView.Items)
             {
                 if (fileName == _item.FileName)
                 {
                     _item.Selected = true;
+                    _item.Focused = true;
+
+                    imageListView.EnsureVisible(i);
+
                     return;
                 }
+
+                i++;
             }
 
             if (imageListView.Items.Count > 0)
+            {
                 imageListView.Items[0].Selected = true;
+                imageListView.Items[0].Focused = true;
+            }
         }
 
         private void imageListView_SelectionChanged(object sender, EventArgs e)
@@ -148,10 +156,6 @@ namespace Waveface
                     foreach (ImageListViewItem _item in imageListView.Items)
                     {
                         _fileName = m_filesMapping[new FileInfo(_item.FileName).Name]; // 取出真實名稱
-
-                        //Hack
-                        //if (_fileName.Contains("%"))
-                        //    _fileName = HttpUtility.UrlDecode(_fileName);
 
                         _fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
 

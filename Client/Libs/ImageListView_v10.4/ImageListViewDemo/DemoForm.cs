@@ -600,5 +600,14 @@ namespace Manina.Windows.Forms
             return dirs.Length;
         }
         #endregion
+
+        private void imageListView_ItemHover(object sender, ItemHoverEventArgs e)
+        {
+            if (e.PreviousItem != null)
+                toolTip.SetToolTip(imageListView, e.PreviousItem.FileName);
+
+            if (e.Item != null)
+                toolTip.SetToolTip(imageListView, e.Item.FileName);
+        }
     }
 }

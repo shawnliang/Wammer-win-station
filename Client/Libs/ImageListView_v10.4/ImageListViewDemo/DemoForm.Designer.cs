@@ -48,7 +48,7 @@
             this.sortAscendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortDescendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.rendererToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.renderertoolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.colorToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -83,6 +83,7 @@
             this.iconAlignmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.continuousCacheModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -95,7 +96,7 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.columnContextMenu.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -119,7 +120,7 @@
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip);
             // 
             // statusStrip1
             // 
@@ -212,6 +213,7 @@
             this.imageListView.Size = new System.Drawing.Size(397, 355);
             this.imageListView.TabIndex = 0;
             this.imageListView.ColumnClick += new Manina.Windows.Forms.ColumnClickEventHandler(this.imageListView1_ColumnClick);
+            this.imageListView.ItemHover += new Manina.Windows.Forms.ItemHoverEventHandler(this.imageListView_ItemHover);
             this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView1_SelectionChanged);
             this.imageListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageListView1_KeyDown);
             // 
@@ -221,7 +223,7 @@
             this.groupByToolStripMenuItem,
             this.sortByToolStripMenuItem});
             this.columnContextMenu.Name = "columnContextMenu";
-            this.columnContextMenu.Size = new System.Drawing.Size(153, 70);
+            this.columnContextMenu.Size = new System.Drawing.Size(129, 48);
             // 
             // groupByToolStripMenuItem
             // 
@@ -230,7 +232,7 @@
             this.groupAscendingToolStripMenuItem,
             this.groupDescendingToolStripMenuItem});
             this.groupByToolStripMenuItem.Name = "groupByToolStripMenuItem";
-            this.groupByToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.groupByToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.groupByToolStripMenuItem.Text = "Group By";
             // 
             // toolStripMenuItem5
@@ -259,25 +261,25 @@
             this.sortAscendingToolStripMenuItem,
             this.sortDescendingToolStripMenuItem});
             this.sortByToolStripMenuItem.Name = "sortByToolStripMenuItem";
-            this.sortByToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sortByToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.sortByToolStripMenuItem.Text = "Sort By";
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(140, 6);
             // 
             // sortAscendingToolStripMenuItem
             // 
             this.sortAscendingToolStripMenuItem.Name = "sortAscendingToolStripMenuItem";
-            this.sortAscendingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sortAscendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.sortAscendingToolStripMenuItem.Text = "Ascending";
             this.sortAscendingToolStripMenuItem.Click += new System.EventHandler(this.sortAscendingToolStripMenuItem_Click);
             // 
             // sortDescendingToolStripMenuItem
             // 
             this.sortDescendingToolStripMenuItem.Name = "sortDescendingToolStripMenuItem";
-            this.sortDescendingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sortDescendingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.sortDescendingToolStripMenuItem.Text = "Descending";
             this.sortDescendingToolStripMenuItem.Click += new System.EventHandler(this.sortDescendingToolStripMenuItem_Click);
             // 
@@ -290,10 +292,10 @@
             this.propertyGrid1.TabIndex = 1;
             this.propertyGrid1.ToolbarVisible = false;
             // 
-            // toolStrip1
+            // toolStrip
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rendererToolStripLabel,
             this.renderertoolStripComboBox,
             this.colorToolStripComboBox,
@@ -307,10 +309,10 @@
             this.toolStripDropDownButton1,
             this.toolStripSeparator4,
             this.toolStripDropDownButton2});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(627, 25);
-            this.toolStrip1.TabIndex = 0;
+            this.toolStrip.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(627, 25);
+            this.toolStrip.TabIndex = 0;
             // 
             // rendererToolStripLabel
             // 
@@ -600,8 +602,8 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             this.splitContainer3.ResumeLayout(false);
             this.columnContextMenu.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -610,7 +612,7 @@
 
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private ImageListView imageListView;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripLabel rendererToolStripLabel;
         private System.Windows.Forms.ToolStripComboBox renderertoolStripComboBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -661,6 +663,7 @@
         private System.Windows.Forms.ToolStripMenuItem groupDescendingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortAscendingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortDescendingToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip;
 
     }
 }

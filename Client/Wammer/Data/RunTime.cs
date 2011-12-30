@@ -131,6 +131,7 @@ namespace Waveface
         public RunTime()
         {
             m_rest = new RT_REST(this);
+
             Reset();
         }
 

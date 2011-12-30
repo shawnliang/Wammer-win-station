@@ -128,15 +128,12 @@ namespace Waveface
 
             UpdateNetworkStatus();
 
-            InitmDropableNotifyIcon();
+            InitDropableNotifyIcon();
 
             m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
 
             //-- Send To
             CreateFileWatcher();
-
-            m_uploadOriginPhotosToStation = new UploadOriginPhotosToStation();
-            m_uploadOriginPhotosToStation.Start();
 
             CreateLoadingImage();
 
@@ -150,7 +147,6 @@ namespace Waveface
                 Bitmap _img = new Bitmap(128, 128);
                 Graphics _g = Graphics.FromImage(_img);
                 _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, 128, 128));
-                //_g.DrawRectangle(new Pen(Color.Black), new Rectangle(0, 0, 128 - 1, 128 - 1));
                 _img.Save(GCONST.CachePath + "LoadingImage" + ".jpg");
             }
             catch (Exception _e)
@@ -159,7 +155,7 @@ namespace Waveface
             }
         }
 
-        private void InitmDropableNotifyIcon()
+        private void InitDropableNotifyIcon()
         {
             m_dropableNotifyIcon.Text = "Waveface: Drop something here to start post!";
             m_dropableNotifyIcon.NotifyIcon.Icon = Resources.Icon;
@@ -217,8 +213,6 @@ namespace Waveface
         {
             try
             {
-                //string _id = RT.CurrentGroupLocalLastReadID;
-
                 if (RT.CurrentGroupPosts.Count == 0)
                 {
                     s_logger.Trace("SetLastReadPos RT.CurrentGroupPosts.Count = 0");
@@ -287,7 +281,7 @@ namespace Waveface
                 if (!m_exitToLogin)
                 {
                     WindowState = FormWindowState.Minimized;
-                    
+
                     ShowInTaskbar = false;
 
                     if (m_firstTimeShowBalloonTipTitle)
@@ -395,7 +389,7 @@ namespace Waveface
             catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
-            }            
+            }
         }
 
         [DllImport("user32.dll")]
@@ -662,6 +656,9 @@ namespace Waveface
                 s_logger.Trace("Login.Auth_Login.OK: GetAllDataAsync(false)");
 
                 GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
+
+                m_uploadOriginPhotosToStation = new UploadOriginPhotosToStation();
+                m_uploadOriginPhotosToStation.Start();
             }
 
             return true;
@@ -762,20 +759,11 @@ namespace Waveface
 
         public void FilterReadMorePost()
         {
-            if (RT.FilterMode)
-                timerFilterReadmore.Enabled = true;
-        }
-
-        private void timerFilterReadmore_Tick(object sender, EventArgs e)
-        {
-            timerFilterReadmore.Enabled = false;
-
-            FilterFetchPostsAndShow(false);
         }
 
         private void FilterFetchPostsAndShow(bool firstTime)
         {
-            if (RT.FilterPostsAllCount == RT.FilterPosts.Count) //å·²ç½æå®Œä
+            if (RT.FilterPostsAllCount == RT.FilterPosts.Count)
                 return;
 
             int _offset = RT.FilterPosts.Count;
@@ -991,7 +979,8 @@ namespace Waveface
             }
             else
             {
-                backgroundWorkerPreloadImage.RunWorkerAsync();
+                if (!m_manualRefresh)
+                    backgroundWorkerPreloadImage.RunWorkerAsync();
 
                 List<Post> _posts = RT.CurrentGroupPosts;
 
