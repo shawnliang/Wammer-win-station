@@ -104,7 +104,14 @@ namespace StationSetup
                 }
                 else
                 {
-                    Process p = Process.Start(WavefaceWindowsClientPath, email + " " + password + " " + token);
+					Process p = new Process();
+					p.StartInfo = new ProcessStartInfo(WavefaceWindowsClientPath, email + " " + password + " " + token)
+						{
+							UseShellExecute = true,
+							ErrorDialog = true,
+							WindowStyle = ProcessWindowStyle.Normal
+						};
+					p.Start();
                     p.Close();
                 }
             }
