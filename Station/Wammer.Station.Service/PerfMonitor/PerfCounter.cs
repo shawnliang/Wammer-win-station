@@ -20,6 +20,7 @@ namespace Wammer.PerfMonitor
 		public const string CATEGORY_NAME = "Waveface Station";
 		public const string AVG_TIME_PER_ATTACHMENT_UPLOAD = "Average time per attachment upload";
 		public const string AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE = "Average time per attachment upload base";
+		public const string THUMBNAIL_UPSTREAM_RATE = "Thumbnail upstream rate (bytes/sec)";
 
 		private static bool CategoryExists;
 		private static ILog Logger = LogManager.GetLogger("PerfCounter");

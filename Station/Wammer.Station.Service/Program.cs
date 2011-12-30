@@ -18,6 +18,11 @@ namespace Wammer.Station.Service
 				StationService svc = new StationService();
 				svc.Run();
 			}
+			else if (argv.Length == 1 && argv[0].Equals("-i"))
+			{
+				Console.WriteLine("Install Waveface station performance counters");
+				Wammer.PerfMonitor.PerfCounterInstaller.Install();
+			}
 			else
 			{
 				ServiceBase[] ServicesToRun;

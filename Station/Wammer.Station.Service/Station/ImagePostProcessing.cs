@@ -22,6 +22,8 @@ namespace Wammer.Station
 	{
 		private static ILog logger = LogManager.GetLogger(typeof(ImagePostProcessing));
 
+		public event EventHandler<ThumbnailUpstreamedEventArgs> ThumbnailUpstreamed;
+
 		public void HandleImageAttachmentSaved(object sender, ImageAttachmentEventArgs evt)
 		{
 			System.Diagnostics.Debug.Assert(evt.Attachment.type == AttachmentType.image);
@@ -234,6 +236,7 @@ namespace Wammer.Station
 				Attachment.UploadImage(thumbnail.RawData, groupId, fullImgId, 
 												thumbnail.file_name, "image/jpeg", meta, apiKey, token);
 
+				OnThumbnailUpstreamed(new ThumbnailUpstreamedEventArgs(thumbnail.RawData.Length));
 				logger.DebugFormat("Thumbnail {0} is uploaded to Cloud", thumbnail.file_name);
 			}
 		}
@@ -246,6 +249,16 @@ namespace Wammer.Station
 												ImageHelper.ShortSizeLength(tmpImage),
 												ImageHelper.ShortSizeLength(tmpImage));
 			return tmpImage;
+		}
+
+		protected void OnThumbnailUpstreamed(ThumbnailUpstreamedEventArgs evt)
+		{
+			EventHandler<ThumbnailUpstreamedEventArgs> handler = this.ThumbnailUpstreamed;
+
+			if (handler != null)
+			{
+				handler(this, evt);
+			}
 		}
 	}
 
@@ -341,6 +354,16 @@ namespace Wammer.Station
 
 				return savedResult;
 			}
+		}
+	}
+
+	public class ThumbnailUpstreamedEventArgs : EventArgs
+	{
+		public long BytesUpstreamed { get; private set; }
+
+		public ThumbnailUpstreamedEventArgs(long bytes)
+		{
+			this.BytesUpstreamed = bytes;
 		}
 	}
 }

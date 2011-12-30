@@ -28,6 +28,13 @@ namespace Wammer.PerfMonitor
 				PerformanceCounterType.AverageBase));
 
 
+			// 3. Thumbnail upstream bytes/sec
+			counters.Add(new CounterCreationData(
+				PerfCounter.THUMBNAIL_UPSTREAM_RATE,
+				PerfCounter.THUMBNAIL_UPSTREAM_RATE,
+				PerformanceCounterType.RateOfCountsPerSecond64));
+
+
 			// Add new category
 			PerformanceCounterCategory.Create(
 				PerfCounter.CATEGORY_NAME,
