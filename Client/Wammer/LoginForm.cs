@@ -232,31 +232,38 @@ namespace Waveface
 
             Application.DoEvents();
 
-            try
-            {
-                _main.stationLogin(email, password);
+			try
+			{
+				_main.stationLogin(email, password);
 
-                if (_doLogin(_main, email, password) == QuitOption.QuitProgram)
-                    Close();
-                else
-                    Show();
-            }
-            catch (ServiceUnavailableException ex)
-            {
-                s_logger.Error(ex.Message);
+				if (_doLogin(_main, email, password) == QuitOption.QuitProgram)
+					Close();
+				else
+					Show();
+			}
+			catch (StationServiceDownException ex)
+			{
+				s_logger.Warn(ex.Message);
 
-                // user should re-register station if receive service unavailable exception
-                // so we close the login page here
-                MessageBox.Show(I18n.L.T("RegisteredRequired", txtUserName.Text), "Waveface");
-                Close();
-            }
-            catch (Exception ex)
-            {
-                s_logger.Error(ex.Message);
+				MessageBox.Show(I18n.L.T("StationServiceDown"), "Waveface");
+				Show();
+			}
+			catch (ServiceUnavailableException ex)
+			{
+				s_logger.Error(ex.Message);
 
-                MessageBox.Show(I18n.L.T("LoginForm.LogInError") + " : " + ex.Message, "Waveface");
-                Show();
-            }
+				// user should re-register station if receive service unavailable exception
+				// so we close the login page here
+				MessageBox.Show(I18n.L.T("RegisteredRequired", txtUserName.Text), "Waveface");
+				Close();
+			}
+			catch (Exception ex)
+			{
+				s_logger.Error(ex.Message);
+
+				MessageBox.Show(I18n.L.T("LoginForm.LogInError") + " : " + ex.Message, "Waveface");
+				Show();
+			}
         }
 
         private QuitOption _doLogin(Main _main, string email, string password)

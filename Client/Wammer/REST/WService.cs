@@ -1666,6 +1666,11 @@ namespace Waveface.API.V2
             {
                 NLogUtility.WebException(s_logger, e, "LoginStation");
 
+				if (e.Status == WebExceptionStatus.ConnectFailure)
+				{
+					throw new StationServiceDownException("Station service down?");
+				}
+				
                 string msg = ExtractApiRetMsg(e);
 
                 if (!string.IsNullOrEmpty(msg))
@@ -1975,5 +1980,17 @@ namespace Waveface.API.V2
     }
 
     #endregion
+
+	#region
+	
+	public class StationServiceDownException : Exception
+	{
+		public StationServiceDownException(string msg)
+			: base(msg)
+		{
+		}
+	}
+
+	#endregion
 }
 

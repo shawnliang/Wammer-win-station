@@ -25,6 +25,15 @@ Please restart Waveface to continue assign a new Waveface Station user
     </zh-TW>
   </WItem>
   <WItem>
+    <ID>StationServiceDown</ID>
+    <en-US>
+      Waveface Station service is not completely started. Please wait for a while and try again, or ensure the running status of Waveface Station windows service.
+    </en-US>
+    <zh-TW>
+      Waveface Station服務未完全啟動, 請稍候一會再登入, 或確認Waveface Station服務啟動狀態.
+    </zh-TW>
+  </WItem>
+  <WItem>
     <ID>RegisteredRequired</ID>
     <en-US>Waveface Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
 Please restart the program to initialize Waveface Station.</en-US>

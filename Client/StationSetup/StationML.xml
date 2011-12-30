@@ -37,8 +37,12 @@
   </WItem>
   <WItem>
     <ID>StationDown</ID>
-    <en-US>Waveface Station service is down? Please make sure Waveface Station windows service is runnung and try again.</en-US>
-    <zh-TW>Waveface Station服務已停止? 請確定Waveface Station服務已啟動並再試一次</zh-TW>
+    <en-US>
+      Waveface Station service is not completely started. Please wait for a while and try again, or ensure the running status of Waveface Station windows service.
+    </en-US>
+    <zh-TW>
+      Waveface Station服務未完全啟動, 請稍候一會再登入, 或確認Waveface Station服務啟動狀態.
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>UnknownSigninError</ID>
