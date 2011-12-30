@@ -210,18 +210,18 @@ namespace Waveface
             if (!cbRemember.Checked)
                 txtPassword.Text = "";
 
-			if (txtUserName.Text == string.Empty)
-			{
-				this.txtUserName.Focus();
-			}
-			else if (txtPassword.Text == string.Empty)
-			{
-				this.txtPassword.Focus();
-			}
-			else
-			{
-				this.btnOK.Focus();
-			}
+            if (txtUserName.Text == string.Empty)
+            {
+                this.txtUserName.Focus();
+            }
+            else if (txtPassword.Text == string.Empty)
+            {
+                this.txtPassword.Focus();
+            }
+            else
+            {
+                this.btnOK.Focus();
+            }
         }
 
         private void doLogin(string email, string password)
