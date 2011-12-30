@@ -229,9 +229,39 @@ namespace Wammer.Station
 				return ActionResult.Failure;
 			}
 		}
+
 		[CustomAction]
 		public static ActionResult StartWavefaceService(Session session)
 		{
+			try
+			{
+				int exitCode;
+				using (var process = new Process())
+				{
+					var startInfo = process.StartInfo;
+					startInfo.FileName = "sc";
+					startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+					// tell Windows that the service should restart if it fails
+					startInfo.Arguments = string.Format("failure WavefaceStation reset= 0 actions= restart/10000");
+
+					process.Start();
+					if (!process.WaitForExit(60 * 1000))
+						throw new System.TimeoutException("Wait SC timeout");
+
+					exitCode = process.ExitCode;
+
+					process.Close();
+				}
+
+				if (exitCode != 0)
+					throw new InvalidOperationException("sc retuens error: " + exitCode);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to set WavefaceStation service failure action", e);
+			}
+
 			try
 			{
 				StartService("WavefaceStation");
