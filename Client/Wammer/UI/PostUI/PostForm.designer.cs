@@ -41,7 +41,6 @@ namespace Waveface
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnAddPhoto = new Waveface.Component.XPButton();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_RichText = new Waveface.Component.MultiPage.MultiPanelPage();
@@ -61,11 +60,12 @@ namespace Waveface
             this.document_UI = new Waveface.PostUI.Document();
             this.panelMiddleBar = new System.Windows.Forms.Panel();
             this.panelToolbar = new System.Windows.Forms.Panel();
+            this.btnAddPhoto = new Waveface.Component.XPButton();
             this.btnAddDoc = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
             this.panelText = new System.Windows.Forms.Panel();
             this.buttonRichText = new Waveface.Component.XPButton();
-            this.richTextBox = new System.Windows.Forms.RichTextBox();
+            this.pureTextBox = new System.Windows.Forms.RichTextBox();
             this.contextMenuStripEdit.SuspendLayout();
             this.multiPanel.SuspendLayout();
             this.Page_RichText.SuspendLayout();
@@ -110,18 +110,6 @@ namespace Waveface
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
-            // 
-            // btnAddPhoto
-            // 
-            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
-            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
-            this.btnAddPhoto.Name = "btnAddPhoto";
-            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
-            this.btnAddPhoto.UseVisualStyleBackColor = true;
-            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // cultureManager
             // 
@@ -227,7 +215,7 @@ namespace Waveface
             // photo_UI
             // 
             resources.ApplyResources(this.photo_UI, "photo_UI");
-            this.photo_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(220)))), ((int)(((byte)(213)))));
+            this.photo_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.photo_UI.MinimumSize = new System.Drawing.Size(500, 130);
             this.photo_UI.MyParent = null;
             this.photo_UI.Name = "photo_UI";
@@ -261,6 +249,18 @@ namespace Waveface
             this.panelToolbar.Controls.Add(this.btnAddDoc);
             this.panelToolbar.Name = "panelToolbar";
             // 
+            // btnAddPhoto
+            // 
+            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
+            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
+            this.btnAddPhoto.Name = "btnAddPhoto";
+            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
+            this.btnAddPhoto.UseVisualStyleBackColor = true;
+            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
+            // 
             // btnAddDoc
             // 
             this.btnAddDoc.AdjustImageLocation = new System.Drawing.Point(0, 0);
@@ -286,7 +286,7 @@ namespace Waveface
             // 
             this.panelText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelText.Controls.Add(this.buttonRichText);
-            this.panelText.Controls.Add(this.richTextBox);
+            this.panelText.Controls.Add(this.pureTextBox);
             resources.ApplyResources(this.panelText, "panelText");
             this.panelText.Name = "panelText";
             // 
@@ -301,16 +301,16 @@ namespace Waveface
             this.buttonRichText.UseVisualStyleBackColor = true;
             this.buttonRichText.Click += new System.EventHandler(this.buttonRichText_Click);
             // 
-            // richTextBox
+            // pureTextBox
             // 
-            resources.ApplyResources(this.richTextBox, "richTextBox");
-            this.richTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBox.ContextMenuStrip = this.contextMenuStripEdit;
-            this.richTextBox.DetectUrls = false;
-            this.richTextBox.Name = "richTextBox";
-            this.richTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
-            this.richTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
+            resources.ApplyResources(this.pureTextBox, "pureTextBox");
+            this.pureTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.pureTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pureTextBox.ContextMenuStrip = this.contextMenuStripEdit;
+            this.pureTextBox.DetectUrls = false;
+            this.pureTextBox.Name = "pureTextBox";
+            this.pureTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
+            this.pureTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
             // 
             // PostForm
             // 
@@ -318,13 +318,13 @@ namespace Waveface
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.multiPanel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PostForm";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PostForm_FormClosing);
+            this.SizeChanged += new System.EventHandler(this.PostForm_SizeChanged);
             this.Resize += new System.EventHandler(this.PostForm_Resize);
             this.contextMenuStripEdit.ResumeLayout(false);
             this.multiPanel.ResumeLayout(false);
@@ -351,7 +351,7 @@ namespace Waveface
         private Photo photo_UI;
         private Document document_UI;
         private RichText richText_UI;
-        public RichTextBox richTextBox;
+        public RichTextBox pureTextBox;
         private Component.MultiPage.MultiPanel multiPanel;
         private Component.MultiPage.MultiPanelPage Page_RichText;
         private Component.MultiPage.MultiPanelPage Page_P_D_W;

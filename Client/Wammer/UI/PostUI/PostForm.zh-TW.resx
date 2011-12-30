@@ -183,7 +183,7 @@
   <data name="buttonRichText.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="richTextBox.ToolTip" xml:space="preserve">
+  <data name="pureTextBox.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="panelText.ToolTip" xml:space="preserve">

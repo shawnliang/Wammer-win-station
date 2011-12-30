@@ -20,6 +20,8 @@ namespace Waveface
 
         private PostType m_postType;
         private bool m_webLinkCheckdOneTime;
+        private bool m_isFixHeight;
+        private int m_fixHeight;
 
         public NewPostItem NewPostItem { get; set; }
 
@@ -84,6 +86,14 @@ namespace Waveface
             //document_UI.UnloadPreviewHandler();
         }
 
+        private void PostForm_SizeChanged(object sender, EventArgs e)
+        {
+            if (m_isFixHeight)
+            {
+                Height = m_fixHeight;
+            }
+        }
+
         private void PostForm_Resize(object sender, EventArgs e)
         {
             document_UI.ResizeUI();
@@ -142,35 +152,42 @@ namespace Waveface
             toPureText_Mode();
         }
 
+        #region Mode
+
         private void toRichText_Mode()
         {
+            m_isFixHeight = false;
+
             m_postType = PostType.RichText;
 
             multiPanel.SelectedPage = Page_RichText;
 
-            FormBorderStyle = FormBorderStyle.Sizable;
             MaximizeBox = true;
         }
 
         public void toPureText_Mode()
         {
+            m_isFixHeight = true;
+
             m_postType = PostType.Text;
 
             multiPanel.SelectedPage = Page_P_D_W;
 
             panelMiddleBar.Visible = true;
 
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
-            Size = new Size(580, 260);
+            Size = new Size(580, 268);
+            m_fixHeight = 268;
 
-            richTextBox.Focus();
+            pureTextBox.Focus();
         }
 
         private void toWebLink_Mode()
         {
+            m_isFixHeight = true;
+
             m_postType = PostType.Link;
 
             multiPanel.SelectedPage = Page_P_D_W;
@@ -178,15 +195,17 @@ namespace Waveface
 
             panelMiddleBar.Visible = false;
 
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
             Size = new Size(580, 440);
+            m_fixHeight = 440;
         }
 
         private void toPhoto_Mode(List<string> files)
         {
+            m_isFixHeight = false;
+
             m_postType = PostType.Photo;
 
             multiPanel.SelectedPage = Page_P_D_W;
@@ -194,12 +213,11 @@ namespace Waveface
 
             panelMiddleBar.Visible = false;
 
-            FormBorderStyle = FormBorderStyle.Sizable;
             MaximizeBox = true;
 
             Size = new Size(580, 440);
 
-            if(files == null)
+            if (files == null)
             {
                 photo_UI.AddPhoto();
             }
@@ -211,6 +229,8 @@ namespace Waveface
 
         private void toDoc_Mode()
         {
+            m_isFixHeight = false;
+
             m_postType = PostType.Photo;
 
             multiPanel.SelectedPage = Page_P_D_W;
@@ -218,18 +238,19 @@ namespace Waveface
 
             panelMiddleBar.Visible = false;
 
-            FormBorderStyle = FormBorderStyle.Sizable;
             MaximizeBox = true;
 
             Size = new Size(580, 440);
         }
+
+        #endregion
 
         private void btnSend_Click(object sender, EventArgs e)
         {
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            if (richTextBox.Text.Equals(string.Empty))
+            if (pureTextBox.Text.Equals(string.Empty))
             {
                 MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -237,7 +258,7 @@ namespace Waveface
             {
                 try
                 {
-                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(richTextBox.Text, "", "", "text");
+                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(pureTextBox.Text, "", "", "text");
 
                     if (_np == null)
                     {
@@ -272,7 +293,7 @@ namespace Waveface
 
         private void checkWebLink()
         {
-            string _text = richTextBox.Text;
+            string _text = pureTextBox.Text;
 
             string[] _strs = _text.Split(new[]
                                              {
@@ -336,13 +357,13 @@ namespace Waveface
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Clipboard.SetDataObject(richTextBox.SelectedText);
-            richTextBox.SelectedText = "";
+            Clipboard.SetDataObject(pureTextBox.SelectedText);
+            pureTextBox.SelectedText = "";
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Clipboard.SetDataObject(richTextBox.SelectedText);
+            Clipboard.SetDataObject(pureTextBox.SelectedText);
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -351,7 +372,7 @@ namespace Waveface
 
             if (_data.GetDataPresent(DataFormats.Text))
             {
-                richTextBox.SelectedText = _data.GetData(DataFormats.Text).ToString();
+                pureTextBox.SelectedText = _data.GetData(DataFormats.Text).ToString();
             }
         }
 

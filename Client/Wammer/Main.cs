@@ -70,6 +70,7 @@ namespace Waveface
         private PostType m_delayPostType;
 
         private FormSettings m_formSettings;
+        private PostForm m_postForm;
 
         #endregion
 
@@ -286,6 +287,7 @@ namespace Waveface
                 if (!m_exitToLogin)
                 {
                     WindowState = FormWindowState.Minimized;
+                    
                     ShowInTaskbar = false;
 
                     if (m_firstTimeShowBalloonTipTitle)
@@ -333,15 +335,8 @@ namespace Waveface
             if (!Current.CheckNetworkStatus())
                 return;
 
-            if (m_preference != null)
-            {
-                m_preference.BringToFront();
-                return;
-            }
-
             m_preference = new PreferenceForm(StationToken, RT.REST.Service);
             m_preference.ShowDialog();
-
 
             if (m_preference.IsUserSwitched)
             {
@@ -358,6 +353,23 @@ namespace Waveface
             m_preference = null;
         }
 
+        private void Main_Activated(object sender, EventArgs e)
+        {
+            if (m_postForm != null)
+            {
+                BringWindowToTop(m_postForm.Handle);
+                ShowWindow(m_postForm.Handle, 5); //SW_SHOW
+                m_postForm.Activate();
+            }
+
+            if (m_preference != null)
+            {
+                BringWindowToTop(m_preference.Handle);
+                ShowWindow(m_preference.Handle, 5); //SW_SHOW
+                m_preference.Activate();
+            }
+        }
+
         #endregion
 
         #region Windows Size
@@ -368,7 +380,7 @@ namespace Waveface
             {
                 panelLeftInfo.Width = leftArea.MyWidth + 8;
 
-                if (FormWindowState.Minimized == WindowState)
+                if (WindowState == FormWindowState.Minimized)
                 {
                     SetLastReadPos();
 
@@ -383,7 +395,7 @@ namespace Waveface
             catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
-            }
+            }            
         }
 
         [DllImport("user32.dll")]
@@ -1049,8 +1061,8 @@ namespace Waveface
 
             try
             {
-                PostForm _form = new PostForm(pics, postType);
-                DialogResult _dr = _form.ShowDialog();
+                m_postForm = new PostForm(pics, postType);
+                DialogResult _dr = m_postForm.ShowDialog();
 
                 switch (_dr)
                 {
@@ -1058,7 +1070,7 @@ namespace Waveface
                         break;
 
                     case DialogResult.OK:
-                        NewPostManager.Current.Add(_form.NewPostItem);
+                        NewPostManager.Current.Add(m_postForm.NewPostItem);
                         break;
                 }
             }
@@ -1068,6 +1080,8 @@ namespace Waveface
 
                 NLogUtility.Exception(s_logger, _e, "Post");
             }
+
+            m_postForm = null;
 
             m_canAutoFetchNewestPosts = true;
         }

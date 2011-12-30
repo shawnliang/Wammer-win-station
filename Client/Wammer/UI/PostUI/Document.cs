@@ -328,7 +328,7 @@ namespace Waveface.PostUI
             }
 
             //單純文字
-            if (MyParent.richTextBox.Text.Equals(string.Empty))
+            if (MyParent.pureTextBox.Text.Equals(string.Empty))
             {
                 MessageBox.Show("Text cannot be empty!");
             }
@@ -347,7 +347,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.richTextBox.Text, files, "", _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.pureTextBox.Text, files, "", _type);
 
                 if (_np == null)
                 {

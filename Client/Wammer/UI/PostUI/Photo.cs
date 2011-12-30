@@ -236,7 +236,7 @@ namespace Waveface.PostUI
 
         private void SendPureText()
         {
-            if (MyParent.richTextBox.Text.Equals(string.Empty))
+            if (MyParent.pureTextBox.Text.Equals(string.Empty))
             {
                 MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -255,7 +255,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.richTextBox.Text, files, "", _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.pureTextBox.Text, files, "", _type);
 
                 if (_np == null)
                 {
@@ -304,7 +304,7 @@ namespace Waveface.PostUI
 
             NewPostItem _newPostItem = new NewPostItem();
             _newPostItem.PostType = PostType.Photo;
-            _newPostItem.Text = MyParent.richTextBox.Text;
+            _newPostItem.Text = MyParent.pureTextBox.Text;
             _newPostItem.ResizeRatio = toolStripComboBoxResize.Text;
             _newPostItem.OrgPostTime = DateTime.Now;
 
