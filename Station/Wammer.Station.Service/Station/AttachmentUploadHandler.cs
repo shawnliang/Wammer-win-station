@@ -30,6 +30,8 @@ namespace Wammer.Station
 		/// </summary>
 		public event EventHandler<AttachmentEventArgs> AttachmentSaved;
 
+		public event EventHandler<ThumbnailUpstreamedEventArgs> ThumbnailUpstreamed;
+
 		public AttachmentUploadHandler()
 			: base()
 		{
@@ -74,6 +76,8 @@ namespace Wammer.Station
 				thumb.file_size = medium.file_size;
 				thumb.mime_type = medium.mime_type;
 				thumb.Upload(ImageMeta.Medium, Parameters["apikey"], Parameters["session_token"]);
+
+				OnThumbnailUpstreamed(new ThumbnailUpstreamedEventArgs(thumb.file_size));
 
 				file.image_meta = new ImageProperty
 				{
@@ -217,6 +221,15 @@ namespace Wammer.Station
 		protected void OnImageAttachmentCompleted(ImageAttachmentEventArgs evt)
 		{
 			EventHandler<ImageAttachmentEventArgs> handler = ImageAttachmentCompleted;
+			if (handler != null)
+			{
+				handler(this, evt);
+			}
+		}
+
+		protected void OnThumbnailUpstreamed(ThumbnailUpstreamedEventArgs evt)
+		{
+			EventHandler<ThumbnailUpstreamedEventArgs> handler = ThumbnailUpstreamed;
 			if (handler != null)
 			{
 				handler(this, evt);

@@ -109,6 +109,40 @@ namespace Wammer.Station
 		}
 
 		[CustomAction]
+		public static ActionResult AddPerfCounters(Session session)
+		{
+			try
+			{
+				Wammer.PerfMonitor.PerfCounterInstaller.Install();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to add performance counters", e);
+
+				// rollback
+				RemovePerfCounters(session);
+			}
+
+			return ActionResult.Success;
+		}
+
+		[CustomAction]
+		public static ActionResult RemovePerfCounters(Session session)
+		{
+			try
+			{
+				if (PerformanceCounterCategory.Exists(Wammer.PerfMonitor.PerfCounter.CATEGORY_NAME))
+					PerformanceCounterCategory.Delete(Wammer.PerfMonitor.PerfCounter.CATEGORY_NAME);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to remove performance counters", e);
+			}
+
+			return ActionResult.Success;
+		}
+
+		[CustomAction]
 		public static ActionResult CleanStationInfo(Session session)
 		{
 			string wavefaceDir = session["INSTALLLOCATION"];

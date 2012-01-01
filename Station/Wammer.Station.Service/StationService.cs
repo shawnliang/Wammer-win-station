@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using Wammer.Station;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.PerfMonitor;
 using TCMPortMapper;
 
 namespace Wammer.Station.Service
@@ -81,12 +82,18 @@ namespace Wammer.Station.Service
 								new AttachmentViewHandler(stationId));
 
 				AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
+				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();
 				ImagePostProcessing imgProc = new ImagePostProcessing();
+				imgProc.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
+				
 				attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
 				attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
+				attachmentHandler.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
+				
 
 				CloudStorageSync cloudSync = new CloudStorageSync();
 				attachmentHandler.AttachmentSaved += cloudSync.HandleAttachmentSaved;
+				attachmentHandler.ProcessSucceeded += attachmentMonitor.OnProcessSucceeded;
 
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
 								attachmentHandler);
