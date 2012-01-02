@@ -260,6 +260,9 @@ namespace Wammer.Station
 		{
 			Attachment file = new Attachment();
 
+			if (Files.Count == 0)
+				throw new FormatException("No file is uploaded");
+
 			file.object_id = Parameters["object_id"];
 			file.RawData = Files[0].Data;
 			file.file_name = Files[0].Name;
