@@ -34,6 +34,17 @@ namespace Wammer.PerfMonitor
 				PerfCounter.THUMBNAIL_UPSTREAM_RATE,
 				PerformanceCounterType.RateOfCountsPerSecond64));
 
+			// 4. Items in queue
+			counters.Add(new CounterCreationData(
+				PerfCounter.ITEMS_IN_QUEUE,
+				PerfCounter.ITEMS_IN_QUEUE,
+				PerformanceCounterType.NumberOfItems32));
+
+			// 5. Items in progress
+			counters.Add(new CounterCreationData(
+				PerfCounter.ITEMS_IN_PROGRESS,
+				PerfCounter.ITEMS_IN_PROGRESS,
+				PerformanceCounterType.NumberOfItems32));
 
 			// Add new category
 			PerformanceCounterCategory.Create(
