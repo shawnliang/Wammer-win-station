@@ -58,6 +58,24 @@ namespace Wammer.MultiPart
 			this.headers = new NameValueCollection();
 		}
 
+		public Part(string data, NameValueCollection headers)
+		{
+			if (data == null || headers == null)
+				throw new ArgumentNullException();
+
+			byte[] dataUtf8 = Encoding.UTF8.GetBytes(data);
+
+			this.data = dataUtf8;
+			this.start = 0;
+			this.len = dataUtf8.Length;
+			this.headers = headers;
+
+			if (headers["content-disposition"] != null)
+			{
+				disposition = Disposition.Parse(headers["content-disposition"]);
+			}
+		}
+
 		public string Text
 		{
 			get
