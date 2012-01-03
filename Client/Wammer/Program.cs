@@ -14,7 +14,9 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-		[DllImport("user32.dll")]
+        #region DllImport
+
+        [DllImport("user32.dll")]
 		private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
 
 		[DllImport("user32.dll")]
@@ -32,6 +34,8 @@ namespace Waveface
 		[DllImport("user32.dll")]
 		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
 
+        #endregion
+
         [STAThread]
         private static void Main(string[] args)
         {
@@ -44,6 +48,7 @@ namespace Waveface
             }
 
             string culture = (string)StationRegHelper.GetValue("Culture", null);
+
             if (culture==null)
                 CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
             else
@@ -89,20 +94,25 @@ namespace Waveface
 				uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
 				uint appThread = GetCurrentThreadId();
 				const uint SW_SHOW = 5;
-				if (foreThread != appThread)
+				
+                if (foreThread != appThread)
 				{
 					AttachThreadInput(foreThread, appThread, true);
 					BringWindowToTop(loginForm.Handle);
-					if (args.Length != 3)
+					
+                    if (args.Length != 3)
 						ShowWindow(loginForm.Handle, SW_SHOW);
+
 					AttachThreadInput(foreThread, appThread, false);
 				}
 				else
 				{
 					BringWindowToTop(loginForm.Handle);
+
 					if (args.Length != 3)
 						ShowWindow(loginForm.Handle, SW_SHOW);
 				}
+
 				loginForm.Activate();
 
                 Application.Run(loginForm);

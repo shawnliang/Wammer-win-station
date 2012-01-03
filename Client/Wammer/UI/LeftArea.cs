@@ -429,5 +429,14 @@ namespace Waveface
         }
 
         #endregion
+
+        private void pbDropArea_Click(object sender, EventArgs e)
+        {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
+            NewPostManagerUI _newPostManager = new NewPostManagerUI();
+            _newPostManager.ShowDialog();
+        }
     }
 }

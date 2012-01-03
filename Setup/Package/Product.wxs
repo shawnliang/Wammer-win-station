@@ -174,7 +174,6 @@
       <ComponentRef Id="LinqBridge.dll"/>
       <ComponentRef Id="MonthCalendarControl.dll"/>
       <ComponentRef Id="Newtonsoft.Json.Net20.dll"/>
-      <ComponentRef Id="UtilityLibrary.dll"/>
       <ComponentRef Id="WavefaceWindowsClientHelper.exe"/>
       <ComponentRef Id="WavefaceWindowsClient.exe"/>
       <ComponentRef Id="Waveface.Configuration.dll"/>
@@ -269,9 +268,6 @@
       </Component>
       <Component Id="Newtonsoft.Json.Net20.dll" Guid="{F9C05527-45EB-42FD-800B-3A6602049BBC}">
         <File Id="Newtonsoft.Json.Net20.dll" Source="$(var.Wammer.TargetDir)\Newtonsoft.Json.Net20.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="UtilityLibrary.dll" Guid="{A8DC5CB9-C1AD-4EA1-AA88-A0AFFE0A15B5}">
-        <File Id="UtilityLibrary.dll" Source="$(var.Wammer.TargetDir)\UtilityLibrary.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="WavefaceWindowsClientHelper.exe" Guid="{C33E6305-13B0-43EE-8000-BCE3B0507117}">
         <File Id="WavefaceWindowsClientHelper.exe" Source="$(var.Wammer Helper.TargetPath)" KeyPath="yes" Checksum="yes"/>

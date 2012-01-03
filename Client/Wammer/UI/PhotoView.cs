@@ -40,6 +40,7 @@ namespace Waveface
                 btnSaveAll.Visible = false;
 
             imageListView.View = View.Gallery;
+            imageListView.CacheMode = CacheMode.OnDemand;
 
             MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer();
             _imageListViewRenderer.Clip = false;

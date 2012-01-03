@@ -4,7 +4,6 @@ using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using UtilityLibrary.WinControls;
 
 #endregion
 
@@ -56,7 +55,7 @@ namespace Waveface
         private object[] m_paramlist;
         private object m_result;
         private Localization.CultureManager cultureManager;
-        private ProgressBarEx m_progressBarEx;
+        private ProgressBar m_progressBarEx;
 
         # region Properties
 
@@ -157,20 +156,13 @@ namespace Waveface
 
             InitializeComponent();
 
-            m_progressBarEx = new ProgressBarEx(Color.Green, Color.Yellow, Color.Red);
+            m_progressBarEx = new ProgressBar();
 			m_progressBarEx.Location = new Point(12, 12);
 			m_progressBarEx.Name = "progressBarEx";
 			m_progressBarEx.Size = new Size(320, 24);
 			m_progressBarEx.Minimum = 0;
 			m_progressBarEx.Maximum = 100;
 			m_progressBarEx.Value = 0;
-			m_progressBarEx.BorderColor = Color.Black;
-            m_progressBarEx.BackgroundColor = Color.FromArgb(255, 255, 192);
-            m_progressBarEx.ForegroundColor = Color.Olive;
-            m_progressBarEx.Smooth = true;
-            m_progressBarEx.Enable3DBorder = true;
-            m_progressBarEx.Border3D = Border3DStyle.Sunken;
-            m_progressBarEx.ShowProgressText = true;
             Controls.Add(m_progressBarEx);
 
             Text = text;
