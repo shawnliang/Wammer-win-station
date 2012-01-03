@@ -57,7 +57,7 @@ namespace Wammer.Station
 					exist.DeepMerge(update.ToBsonDocument());
 					AttachmentCollection.Instance.Save(exist);
 
-					TaskQueue.EnqueueMedium(this.UpstreamThumbnail,
+					ThreadPool.Enqueue(this.UpstreamThumbnail,
 						new UpstreamArgs
 						{
 							 FullImageId = evt.Attachment.object_id,
@@ -81,7 +81,7 @@ namespace Wammer.Station
 				return;
 
 
-			TaskQueue.EnqueueMedium(this.HandleImageAttachmentCompletedSync, evt);
+			ThreadPool.Enqueue(this.HandleImageAttachmentCompletedSync, evt);
 		}
 
 		public void HandleImageAttachmentCompletedSync(object args)
