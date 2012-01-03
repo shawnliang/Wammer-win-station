@@ -71,7 +71,7 @@ namespace Waveface.API.V2
                 return;
 
             Uri url = new Uri(cloudURL);
-            CloudIP = url.Scheme + "://" + url.Host;
+            CloudIP = url.Scheme + "://" + url.Host + ":" + url.Port;
 
             if (CloudIP == "https://api.waveface.com")
             {
