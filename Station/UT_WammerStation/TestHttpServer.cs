@@ -36,6 +36,10 @@ namespace UT_WammerStation
 		{
 			return new MyHandler(response);
 		}
+
+		public void SetBeginTimestamp(long beginTime)
+		{
+		}
 	}
 
 	class MyHandler2 : HttpHandler

@@ -12,6 +12,7 @@ namespace Wammer.Station
 	public interface IHttpHandler : ICloneable
 	{
 		void HandleRequest(HttpListenerRequest request, HttpListenerResponse response);
+		void SetBeginTimestamp(long beginTime);
 	}
 
 	public class HttpServer : IDisposable
@@ -119,6 +120,7 @@ namespace Wammer.Station
 			try
 			{
 				context = listener.EndGetContext(result);
+				long beginTime = System.Diagnostics.Stopwatch.GetTimestamp();
 
 				listener.BeginGetContext(this.ConnectionAccepted, null);
 
@@ -134,7 +136,7 @@ namespace Wammer.Station
 													context.Request.Url.AbsolutePath);
 
 						if (handler != null)
-							ThreadPool.Enqueue(handler.Do, context);
+							ThreadPool.Enqueue(handler.Do, new HttpData(context, beginTime));
 						else
 							respond404NotFound(context);
 					}
@@ -220,6 +222,18 @@ namespace Wammer.Station
 		}
 	}
 
+	class HttpData
+	{
+		public HttpListenerContext Context { get; private set; }
+		public long BeginTime { get; private set; }
+
+		public HttpData(HttpListenerContext context, long beginTime)
+		{
+			this.Context = context;
+			this.BeginTime = beginTime;
+		}
+	}
+
 	class HttpHandlerProxy
 	{
 		private readonly IHttpHandler handler;
@@ -235,12 +249,13 @@ namespace Wammer.Station
 
 		public void Do(object state)
 		{
-			HttpListenerContext ctx = (HttpListenerContext)state;
+			HttpData ctx = (HttpData)state;
 
 			try
 			{
 				IHttpHandler clonedHandler = (IHttpHandler)this.handler.Clone();
-				clonedHandler.HandleRequest(ctx.Request, ctx.Response);
+				clonedHandler.SetBeginTimestamp(ctx.BeginTime);
+				clonedHandler.HandleRequest(ctx.Context.Request, ctx.Context.Response);
 			}
 			catch (Cloud.WammerCloudException e)
 			{
@@ -252,7 +267,7 @@ namespace Wammer.Station
 					if (webres != null && webres.StatusCode == HttpStatusCode.BadRequest)
 					{
 							Cloud.CloudResponse cloudres = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(e.response);
-							HttpHelper.RespondFailure(ctx.Response, cloudres);
+							HttpHelper.RespondFailure(ctx.Context.Response, cloudres);
 							logger.Warn("Connection to cloud error", e);
 							return;
 					}
@@ -260,40 +275,40 @@ namespace Wammer.Station
 
 				if (e.InnerException != null)
 				{
-					HttpHelper.RespondFailure(ctx.Response,
+					HttpHelper.RespondFailure(ctx.Context.Response,
 						new WammerStationException(e.InnerException.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
 				}
 				else
 				{
-					HttpHelper.RespondFailure(ctx.Response,
+					HttpHelper.RespondFailure(ctx.Context.Response,
 						new WammerStationException(e.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
 				}
 				logger.Warn("Connecting to cloud error", e);
 			}
 			catch (ServiceUnavailableException e)
 			{
-				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.ServiceUnavailable);
+				HttpHelper.RespondFailure(ctx.Context.Response, e, (int)HttpStatusCode.ServiceUnavailable);
 				logger.Warn("Service unavailable", e);
 			}
 			catch (WammerStationException e)
 			{
-				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.BadRequest);
+				HttpHelper.RespondFailure(ctx.Context.Response, e, (int)HttpStatusCode.BadRequest);
 				logger.Warn("Http handler error", e);
 			}
 			catch (FormatException e)
 			{
-				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.BadRequest);
+				HttpHelper.RespondFailure(ctx.Context.Response, e, (int)HttpStatusCode.BadRequest);
 				logger.Warn("Request format is incorrect", e);
 			}
 			catch (WebException webex)
 			{
-				Wammer.Cloud.WammerCloudException ex = new Cloud.WammerCloudException("Request to cloud failed", webex);              
-				HttpHelper.RespondFailure(ctx.Response, webex, (int)HttpStatusCode.InternalServerError);
+				Wammer.Cloud.WammerCloudException ex = new Cloud.WammerCloudException("Request to cloud failed", webex);
+				HttpHelper.RespondFailure(ctx.Context.Response, webex, (int)HttpStatusCode.InternalServerError);
 				logger.Warn("Connecting to cloud error", ex);
 			}
 			catch (Exception e)
 			{
-				HttpHelper.RespondFailure(ctx.Response, e, (int)HttpStatusCode.InternalServerError);
+				HttpHelper.RespondFailure(ctx.Context.Response, e, (int)HttpStatusCode.InternalServerError);
 				logger.Warn("Internal server error", e);
 			}
 		}

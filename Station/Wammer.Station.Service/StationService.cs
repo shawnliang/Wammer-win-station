@@ -257,5 +257,9 @@ namespace Wammer.Station.Service
 		{
 			return this.MemberwiseClone();
 		}
+
+		public void SetBeginTimestamp(long beginTime)
+		{
+		}
 	}
 }

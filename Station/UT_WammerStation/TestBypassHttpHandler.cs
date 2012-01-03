@@ -37,6 +37,10 @@ namespace UT_WammerStation
 		{
 			return new ErrorHttpHandler(status, msg);
 		}
+
+		public void SetBeginTimestamp(long beginTime)
+		{
+		}
 	}
 
 
@@ -73,6 +77,9 @@ namespace UT_WammerStation
 			}
 		}
 
+		public void SetBeginTimestamp(long beginTime)
+		{
+		}
 		public object Clone()
 		{
 			return new MyForwardedHandler();

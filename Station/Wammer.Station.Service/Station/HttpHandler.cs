@@ -32,6 +32,7 @@ namespace Wammer.Station
 		public NameValueCollection Parameters { get; private set; }
 		public List<UploadedFile> Files { get; private set; }
 		public byte[] RawPostData { get; private set; }
+		private long beginTime;
 
 		private const string BOUNDARY = "boundary=";
 		private const string URL_ENCODED_FORM = "application/x-www-form-urlencoded";
@@ -45,9 +46,14 @@ namespace Wammer.Station
 		{
 		}
 
+		public void SetBeginTimestamp(long beginTime)
+		{
+			this.beginTime = beginTime;
+		}
+
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			long begin = System.Diagnostics.Stopwatch.GetTimestamp();
+			//long begin = System.Diagnostics.Stopwatch.GetTimestamp();
 
 			this.Files = new List<UploadedFile>();
 			this.Request = request;
@@ -84,7 +90,7 @@ namespace Wammer.Station
 
 			long end = System.Diagnostics.Stopwatch.GetTimestamp();
 
-			long duration = end - begin;
+			long duration = end - beginTime;
 			if (duration < 0)
 				duration += long.MaxValue;
 

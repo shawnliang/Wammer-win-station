@@ -29,6 +29,10 @@ namespace Wammer.Station
 			return this.MemberwiseClone();
 		}
 
+		public void SetBeginTimestamp(long beginTime)
+		{
+		}
+
 		public void HandleRequest(HttpListenerRequest origReq, HttpListenerResponse response)
 		{
 			logger.Debug("Forward to cloud: " + origReq.Url.AbsolutePath);
