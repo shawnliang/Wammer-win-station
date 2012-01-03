@@ -125,6 +125,9 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/",
 								new DropboxDisconnectHandler());
 
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/",
+								new PingHandler());
+
 				logger.Debug("Check if need to start function server");
 				Model.Service svc = ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
 				if (svc != null)
