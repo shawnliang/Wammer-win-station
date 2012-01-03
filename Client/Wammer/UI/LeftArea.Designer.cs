@@ -75,6 +75,7 @@ namespace Waveface
             this.pbDropArea.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pbDropArea.Name = "pbDropArea";
             this.pbDropArea.TabStop = false;
+            this.pbDropArea.Click += new System.EventHandler(this.pbDropArea_Click);
             this.pbDropArea.DragDrop += new System.Windows.Forms.DragEventHandler(this.DropArea_DragDrop);
             this.pbDropArea.DragEnter += new System.Windows.Forms.DragEventHandler(this.DropArea_DragEnter);
             this.pbDropArea.DragOver += new System.Windows.Forms.DragEventHandler(this.DropArea_DragOver);

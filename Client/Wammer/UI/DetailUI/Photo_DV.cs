@@ -82,7 +82,7 @@ namespace Waveface.DetailUI
             imageListView.Colors.BackColor = Color.FromArgb(243, 242, 238);
             imageListView.Colors.DisabledBackColor = Color.FromArgb(243, 242, 238);
             imageListView.ThumbnailSize = new Size(128, 128);
-            imageListView.CacheMode = CacheMode.Continuous;
+            imageListView.CacheMode = CacheMode.OnDemand;
 
             m_filesMapping = new Dictionary<string, string>();
 
@@ -476,6 +476,9 @@ namespace Waveface.DetailUI
 
             m_photoView = new PhotoView(_files, m_filesMapping, e.Item.FileName);
             m_photoView.ShowDialog();
+            
+            m_photoView.Dispose();
+            m_photoView = null;
         }
 
         private void DetailView_Resize(object sender, EventArgs e)

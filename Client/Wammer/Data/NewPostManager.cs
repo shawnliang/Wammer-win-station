@@ -27,6 +27,9 @@ namespace Waveface
 
         private static NewPostManager s_newPostManager;
         private bool m_startUpload;
+        private bool m_downloading;
+
+        #region Properties
 
         public List<NewPostItem> Items { get; set; }
 
@@ -43,6 +46,20 @@ namespace Waveface
             }
         }
 
+        public bool StartUpload
+        {
+            get { return m_startUpload; }
+            set { m_startUpload = value; }
+        }
+
+        public bool Downloading
+        {
+            get { return m_downloading; }
+            set { m_downloading = value; }
+        }
+
+        #endregion
+
         public NewPostManager()
         {
             Items = new List<NewPostItem>();
@@ -53,12 +70,14 @@ namespace Waveface
         public void Add(NewPostItem item)
         {
             Items.Add(item);
+
             Save();
         }
 
         public void Remove(NewPostItem item)
         {
             Items.Remove(item);
+
             Save();
         }
 
@@ -83,13 +102,13 @@ namespace Waveface
 
             Thread.Sleep(2000);
 
-            m_startUpload = true;
+            StartUpload = true;
 
             while (true)
             {
                 NewPostItem _newPost;
 
-                if(!Main.Current.RT.REST.IsNetworkAvailable)
+                if (!Main.Current.RT.REST.IsNetworkAvailable)
                 {
                     if (ShowMessage != null)
                         ShowMessage("");
@@ -103,7 +122,7 @@ namespace Waveface
                 {
                     if (Current.Items.Count > 0)
                     {
-                        _newPost = Current.Items[Current.Items.Count - 1];
+                        _newPost = Current.Items[0];
                     }
                     else
                     {
@@ -119,7 +138,7 @@ namespace Waveface
                     if (ShowMessage != null)
                         ShowMessage("");
 
-                    if (m_startUpload)
+                    if (StartUpload)
                     {
                         NewPostItem _retItem = BatchPhotoPost(_newPost);
 
@@ -158,7 +177,7 @@ namespace Waveface
 
             while (true)
             {
-                if (m_startUpload)
+                if (StartUpload)
                 {
                     string _file = newPost.Files[_count];
 
@@ -172,6 +191,15 @@ namespace Waveface
                     {
                         try
                         {
+                            Downloading = true;
+
+                            if(!File.Exists(_file))
+                            {
+                                // 原始檔案不存在. 作錯誤處裡 
+ 
+                                s_logger.Error("Image File does not exist: [" + _file + "]");
+                            }
+
                             string _text = new FileName(_file).Name;
                             string _resizedImage = ImageUtility.ResizeImage(_file, _text, newPost.ResizeRatio, 100);
 
@@ -192,9 +220,13 @@ namespace Waveface
 
                             string _localFile = Main.GCONST.CachePath + _uf.object_id + "_origin_" + _text;
                             File.Copy(_file, _localFile);
+
+                            Downloading = false;
                         }
                         catch (Exception _e)
                         {
+                            Downloading = false;
+
                             NLogUtility.Exception(s_logger, _e, "BatchPhotoPost:File_UploadFile");
                             newPost.PostOK = false;
                             return newPost;

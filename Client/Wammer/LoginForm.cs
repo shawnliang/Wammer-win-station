@@ -212,15 +212,15 @@ namespace Waveface
 
             if (txtUserName.Text == string.Empty)
             {
-                this.txtUserName.Focus();
+                txtUserName.Focus();
             }
             else if (txtPassword.Text == string.Empty)
             {
-                this.txtPassword.Focus();
+                txtPassword.Focus();
             }
             else
             {
-                this.btnOK.Focus();
+                btnOK.Focus();
             }
         }
 

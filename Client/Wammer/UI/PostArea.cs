@@ -9,7 +9,7 @@ namespace Waveface
     public partial class PostArea : UserControl
     {
         string[] m_types = { "all", "text", "image", "link", "rtf", "doc" };
-        private bool m_init;
+        //private bool m_init;
 
         public PostsList PostsList
         {
@@ -22,7 +22,7 @@ namespace Waveface
 
             comboBoxType.SelectedIndex = 0;
 
-            m_init = true;
+            //m_init = true;
         }
 
         public void ShowTypeUI(bool flag)
@@ -43,8 +43,8 @@ namespace Waveface
 
         private void comboBoxType_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            if (m_init)
-                Main.Current.DoTimelineFilter(null, true);
+            //if (m_init)
+            //    Main.Current.DoTimelineFilter(null, true);
         }
 
         public void ShowPostInfo(int all, int getPostCounts)

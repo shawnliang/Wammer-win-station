@@ -66,9 +66,15 @@ namespace Waveface
 
         public void DoubleBufferedX(DataGridView dgv, bool setting)
         {
-            Type dgvType = dgv.GetType();
-            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-            pi.SetValue(dgv, setting, null);
+            try
+            {
+                Type dgvType = dgv.GetType();
+                PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+                pi.SetValue(dgv, setting, null);
+            }
+            catch
+            {
+            }
         }
 
         private void PostsList_Load(object sender, EventArgs e)
@@ -599,10 +605,13 @@ namespace Waveface
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            if (!Main.Current.RT.REST.IsNetworkAvailable)
-                return;
+            if (Main.Current != null) //VS.NET_Bug
+            {
+                if (!Main.Current.RT.REST.IsNetworkAvailable)
+                    return;
 
-            RefreshUI();
+                RefreshUI();
+            }
         }
 
         public void RefreshUI()
@@ -618,9 +627,12 @@ namespace Waveface
             }
             else
             {
-                dataGridView.SuspendLayout();
-                dataGridView.Refresh();
-                dataGridView.ResumeLayout();
+                if (dataGridView != null)
+                {
+                    dataGridView.SuspendLayout();
+                    dataGridView.Refresh();
+                    dataGridView.ResumeLayout();
+                }
             }
         }
 
@@ -645,6 +657,33 @@ namespace Waveface
         }
 
         #endregion
+
+        public void DoDisplayedScrolling(int lastRead)
+        {
+            m_lastRead = lastRead;
+            m_postBS.Position = m_lastRead;
+
+            timerDisplayedScrolling.Enabled = true;
+        }
+
+        private void timerDisplayedScrolling_Tick(object sender, EventArgs e)
+        {
+            timerDisplayedScrolling.Enabled = false;
+
+            try
+            {
+                dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
+
+                if (m_manualRefresh)
+                {
+                    dataGridView.FirstDisplayedScrollingRowIndex = 0;
+                }
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "timerDisplayedScrolling_Tick");
+            }
+        }
 
         #region Component Designer generated code
 
@@ -750,32 +789,5 @@ namespace Waveface
         }
 
         #endregion
-
-        public void DoDisplayedScrolling(int lastRead)
-        {
-            m_lastRead = lastRead;
-            m_postBS.Position = m_lastRead;
-
-            timerDisplayedScrolling.Enabled = true;
-        }
-
-        private void timerDisplayedScrolling_Tick(object sender, EventArgs e)
-        {
-            timerDisplayedScrolling.Enabled = false;
-
-            try
-            {
-                dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
-
-                if (m_manualRefresh)
-                {
-                    dataGridView.FirstDisplayedScrollingRowIndex = 0;
-                }
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "timerDisplayedScrolling_Tick");
-            }
-        }
     }
 }

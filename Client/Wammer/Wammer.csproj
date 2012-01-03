@@ -103,9 +103,6 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UtilityLibrary">
-      <HintPath>..\Libs\UtilityLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="Waveface.Configuration">
       <HintPath>..\Libs\Waveface.Configuration.dll</HintPath>
     </Reference>
@@ -126,6 +123,7 @@
     <Compile Include="Data\PhotoDownloader.cs" />
     <Compile Include="Data\ImageItem.cs" />
     <Compile Include="Data\PostItemType.cs" />
+    <Compile Include="Libs\Utility\ApplicationInformation.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />
     <Compile Include="UI\BgPanel.cs">
       <SubType>Component</SubType>
@@ -628,14 +626,14 @@
     <EmbeddedResource Include="UI\DetailUI\Text_Link_DV.zh-TW.resx">
       <DependentUpon>Text_Link_DV.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\NewPostManagerUI.resx">
+      <DependentUpon>NewPostManagerUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FilterUI\FilterManager.resx">
       <DependentUpon>FilterManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LeftArea.zh-TW.resx">
       <DependentUpon>LeftArea.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewPostManagerUI.resx">
-      <DependentUpon>NewPostManagerUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PhotoView.zh-TW.resx">
       <DependentUpon>PhotoView.cs</DependentUpon>
