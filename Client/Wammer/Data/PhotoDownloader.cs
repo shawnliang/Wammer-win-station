@@ -117,7 +117,7 @@ namespace Waveface
 
                 if ((ThumbnailItems.Count == 0) && (PhotoItems.Count == 0))
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(1000);
                     continue;
                 }
 

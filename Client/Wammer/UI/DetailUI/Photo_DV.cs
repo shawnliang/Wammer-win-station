@@ -33,7 +33,6 @@ namespace Waveface.DetailUI
         private Post m_post;
         private XPButton buttonAddComment;
         private TextBox textBoxComment;
-        private PhotoView m_photoView;
         private Panel panelPictureInfo;
         private Label labelPictureInfo;
         private Dictionary<string, string> m_filesMapping;
@@ -46,9 +45,11 @@ namespace Waveface.DetailUI
         private List<string> m_urlMediums;
         private int m_displayCount;
 
+        private List<Attachment> m_imageAttachments;
+
         #endregion
 
-        private List<Attachment> m_imageAttachments;
+        #region Properties
 
         public Post Post
         {
@@ -68,6 +69,14 @@ namespace Waveface.DetailUI
         public User User { get; set; }
 
         public DetailView MyParent { get; set; }
+
+        public ImageListView ImageListView
+        {
+            get { return imageListView; }
+            set { imageListView = value; }
+        }
+
+        #endregion
 
         public Photo_DV()
         {
@@ -107,7 +116,6 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
             this.PanelAddComment = new System.Windows.Forms.Panel();
-            this.buttonAddComment = new Waveface.Component.XPButton();
             this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelPictures = new System.Windows.Forms.Panel();
@@ -117,6 +125,7 @@ namespace Waveface.DetailUI
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.buttonAddComment = new Waveface.Component.XPButton();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
@@ -151,16 +160,6 @@ namespace Waveface.DetailUI
             this.PanelAddComment.Controls.Add(this.textBoxComment);
             this.PanelAddComment.Name = "PanelAddComment";
             // 
-            // buttonAddComment
-            // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
-            // 
             // textBoxComment
             // 
             resources.ApplyResources(this.textBoxComment, "textBoxComment");
@@ -187,7 +186,6 @@ namespace Waveface.DetailUI
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.CacheLimit = "0";
-            this.imageListView.CacheMode = Manina.Windows.Forms.CacheMode.Continuous;
             this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.DefaultImage = global::Waveface.Properties.Resources.LoadingImage;
@@ -196,7 +194,6 @@ namespace Waveface.DetailUI
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
             this.imageListView.ThumbnailSize = new System.Drawing.Size(128, 128);
-            this.imageListView.UseEmbeddedThumbnails = Manina.Windows.Forms.UseEmbeddedThumbnails.Never;
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
             // 
             // pictureBoxRemote
@@ -230,6 +227,16 @@ namespace Waveface.DetailUI
             // 
             this.timer.Interval = 2000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // buttonAddComment
+            // 
+            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
+            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.buttonAddComment.Name = "buttonAddComment";
+            this.buttonAddComment.UseVisualStyleBackColor = true;
+            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // Photo_DV
             // 
@@ -424,27 +431,36 @@ namespace Waveface.DetailUI
 
             imageListView.SuspendLayout();
 
-            imageListView.Items.Clear();
-
             k = 0;
 
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
                 if (System.IO.File.Exists(m_filePathOrigins[i]))
                 {
-                    imageListView.Items.Add(m_filePathOrigins[i]);
+                    if (firstTime)
+                        imageListView.Items.Add(m_filePathOrigins[i]);
+                    else
+                        imageListView.Items[i].FileName = m_filePathOrigins[i];
+                    
                     k++;
                     continue;
                 }
 
                 if (System.IO.File.Exists(m_filePathMediums[i]))
                 {
-                    imageListView.Items.Add(m_filePathMediums[i]);
+                    if (firstTime)
+                        imageListView.Items.Add(m_filePathMediums[i]);
+                    else
+                        imageListView.Items[i].FileName = m_filePathMediums[i];
+                    
                     k++;
                     continue;
                 }
 
-                imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
+                if (firstTime)
+                    imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
+                else
+                    imageListView.Items[i].FileName = Main.GCONST.CachePath + "LoadingImage" + ".jpg";
             }
 
             m_displayCount = k;
@@ -474,11 +490,10 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            m_photoView = new PhotoView(_files, m_filesMapping, e.Item.FileName);
-            m_photoView.ShowDialog();
-            
-            m_photoView.Dispose();
-            m_photoView = null;
+            using (PhotoView _photoView =  new PhotoView(_files, m_filesMapping, e.Item.FileName))
+            {
+                _photoView.ShowDialog();
+            }
         }
 
         private void DetailView_Resize(object sender, EventArgs e)

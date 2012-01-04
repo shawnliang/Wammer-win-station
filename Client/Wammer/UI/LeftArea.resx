@@ -189,39 +189,6 @@
   <data name="taskPaneFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="expandoQuicklist.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="expandoQuicklist.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="expandoQuicklist.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="expandoQuicklist.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 46</value>
-  </data>
-  <data name="expandoQuicklist.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="expandoQuicklist.Text" xml:space="preserve">
-    <value>Quick list</value>
-  </data>
-  <data name="expandoQuicklist.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;expandoQuicklist.Name" xml:space="preserve">
-    <value>expandoQuicklist</value>
-  </data>
-  <data name="&gt;&gt;expandoQuicklist.Type" xml:space="preserve">
-    <value>XPExplorerBar.Expando, XPExplorerBar, Version=3.3.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;expandoQuicklist.Parent" xml:space="preserve">
-    <value>taskPaneFilter</value>
-  </data>
-  <data name="&gt;&gt;expandoQuicklist.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="taskPaneFilter.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -383,7 +350,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADy
-        FwAAAk1TRnQBSQFMAwEBAAFUAQUBVAEFASABAAEgAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABgAMA
+        FwAAAk1TRnQBSQFMAwEBAAFcAQUBXAEFASABAAEgAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABgAMA
         ASADAAEBAQABIAYAAUD/AP8A/wD/ABoAAxkBIwMtAUUDNAFUAzoBYgM/AW0DQwF4A0MBeANDAXgDQwF4
         A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4
         A0MBeANDAXgDOgFgAy4BSAMaAST/AI0AAy0BRQNKAYoCUgFRAacCWwFZAcMCYQFeAdoCXQFOAfACXQFO
@@ -502,7 +469,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACM
-        BgAAAk1TRnQBSQFMAwEBAAFcAQUBXAEFARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
+        BgAAAk1TRnQBSQFMAwEBAAFkAQUBZAEFARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
         ARADAAEBAQABIAYAARD/ABcAA0oBigJbAVkBwwJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJd
         AU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8ANMAZDIAAJhAVsB4QHuAewB6gH/AfcB8gHw
         Af8B+AHzAfAB/wH4AfMB7wH/AfcB8wHvAf8B9wHyAe8B/wH3AfIB7gH/AfcB8gHuAf8B9wHyAe4B/wH3
@@ -586,7 +553,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAA0
-        CAAAAk1TRnQBSQFMAgEBAgEAAXQBAgF0AQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAXwBAgF8AQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -632,7 +599,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADo
-        CAAAAk1TRnQBSQFMAgEBAgEAAZQBAgGUAQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAZwBAgGcAQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
