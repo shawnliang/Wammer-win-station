@@ -152,7 +152,7 @@
     <Compile Include="Station\StationTimer.cs" />
     <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Station\StatusGetHandler.cs" />
-    <Compile Include="Station\ThreadPool.cs" />
+    <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\DropboxHelper.cs" />
