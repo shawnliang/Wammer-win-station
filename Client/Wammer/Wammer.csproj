@@ -112,10 +112,6 @@
     <Reference Include="WebCam_Capture">
       <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
     </Reference>
-    <Reference Include="XPExplorerBar, Version=3.3.0.0, Culture=neutral, PublicKeyToken=26272737b5f33015">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\XPExplorerBar.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compoment\SingleInstance.cs" />
@@ -715,6 +711,7 @@
   <ItemGroup>
     <EmbeddedResource Include="UI\LeftArea.resx">
       <DependentUpon>LeftArea.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostsList.resx">
       <DependentUpon>PostsList.cs</DependentUpon>

@@ -37,8 +37,6 @@ namespace Waveface
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.panelCustomFilter = new System.Windows.Forms.Panel();
-            this.taskPaneFilter = new XPExplorerBar.TaskPane();
-            this.expandoQuicklist = new XPExplorerBar.Expando();
             this.panelTimeline = new System.Windows.Forms.Panel();
             this.panelCalendar = new System.Windows.Forms.Panel();
             this.monthCalendar = new CustomControls.MonthCalendar();
@@ -53,9 +51,6 @@ namespace Waveface
             this.panelMain.SuspendLayout();
             this.panelFilter.SuspendLayout();
             this.panelCustomFilter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.taskPaneFilter)).BeginInit();
-            this.taskPaneFilter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.expandoQuicklist)).BeginInit();
             this.panelCalendar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,28 +95,8 @@ namespace Waveface
             // 
             // panelCustomFilter
             // 
-            this.panelCustomFilter.Controls.Add(this.taskPaneFilter);
             resources.ApplyResources(this.panelCustomFilter, "panelCustomFilter");
             this.panelCustomFilter.Name = "panelCustomFilter";
-            // 
-            // taskPaneFilter
-            // 
-            this.taskPaneFilter.AllowExpandoDragging = true;
-            resources.ApplyResources(this.taskPaneFilter, "taskPaneFilter");
-            this.taskPaneFilter.CustomSettings.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.taskPaneFilter.CustomSettings.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.taskPaneFilter.Expandos.AddRange(new XPExplorerBar.Expando[] {
-            this.expandoQuicklist});
-            this.taskPaneFilter.Name = "taskPaneFilter";
-            this.taskPaneFilter.Resize += new System.EventHandler(this.taskPaneFilter_Resize);
-            // 
-            // expandoQuicklist
-            // 
-            resources.ApplyResources(this.expandoQuicklist, "expandoQuicklist");
-            this.expandoQuicklist.Animate = true;
-            this.expandoQuicklist.AutoLayout = true;
-            this.expandoQuicklist.ExpandedHeight = 46;
-            this.expandoQuicklist.Name = "expandoQuicklist";
             // 
             // panelTimeline
             // 
@@ -213,9 +188,6 @@ namespace Waveface
             this.panelMain.ResumeLayout(false);
             this.panelFilter.ResumeLayout(false);
             this.panelCustomFilter.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.taskPaneFilter)).EndInit();
-            this.taskPaneFilter.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.expandoQuicklist)).EndInit();
             this.panelCalendar.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -230,8 +202,6 @@ namespace Waveface
         private System.Windows.Forms.ImageList imageListLarge;
         private System.Windows.Forms.ImageList imageListSmall;
         private System.Windows.Forms.Panel panelFilter;
-        private XPExplorerBar.TaskPane taskPaneFilter;
-        private XPExplorerBar.Expando expandoQuicklist;
         private System.Windows.Forms.Panel panelCalendar;
         private System.Windows.Forms.ImageList imageListCustomFilter;
         private System.Windows.Forms.ImageList imageListTimeline;

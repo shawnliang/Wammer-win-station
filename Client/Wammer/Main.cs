@@ -118,6 +118,8 @@ namespace Waveface
             m_formSettings.SaveOnClose = true;
 
             s_logger.Trace("Constructor: OK");
+
+            System.Net.ServicePointManager.DefaultConnectionLimit = 64;
         }
 
         #region Init

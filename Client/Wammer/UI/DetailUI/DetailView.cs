@@ -263,7 +263,10 @@ namespace Waveface
             panelMain.Controls.Clear();
 
             if (m_photoDv != null)
+            {
+                m_photoDv.ImageListView.ClearThumbnailCache();
                 m_photoDv.Dispose();
+            }
 
             m_photoDv = null;
 
