@@ -35,13 +35,16 @@ namespace Wammer.Station
 
 			try
 			{
+				ThumbnailInfo medium;
+				Attachment update;
+
 				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
 				{
-					ThumbnailInfo medium = MakeThumbnail(origImage, ImageMeta.Medium,
+					medium = MakeThumbnail(origImage, ImageMeta.Medium,
 														evt.Attachment.object_id, evt.Driver,
 														evt.Attachment.file_name);
 
-					Attachment update = new Attachment
+					update = new Attachment
 					{
 						object_id = evt.Attachment.object_id,
 						image_meta = new ImageProperty
@@ -51,23 +54,24 @@ namespace Wammer.Station
 							medium = medium
 						}
 					};
-
-					BsonDocument exist = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
-														Query.EQ("_id", evt.Attachment.object_id));
-					exist.DeepMerge(update.ToBsonDocument());
-					AttachmentCollection.Instance.Save(exist);
-
-					TaskQueue.EnqueueMedium(this.UpstreamThumbnail,
-						new UpstreamArgs
-						{
-							 FullImageId = evt.Attachment.object_id,
-							 GroupId = evt.Attachment.group_id,
-							 ImageMeta = ImageMeta.Medium,
-							 Thumbnail = medium,
-							 UserApiKey = evt.UserApiKey,
-							 UserSessionToken = evt.UserSessionToken
-						});
 				}
+
+				BsonDocument exist = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
+													Query.EQ("_id", evt.Attachment.object_id));
+				exist.DeepMerge(update.ToBsonDocument());
+				AttachmentCollection.Instance.Save(exist);
+
+				TaskQueue.EnqueueMedium(this.UpstreamThumbnail,
+					new UpstreamArgs
+					{
+						FullImageId = evt.Attachment.object_id,
+						GroupId = evt.Attachment.group_id,
+						ImageMeta = ImageMeta.Medium,
+						Thumbnail = medium,
+						UserApiKey = evt.UserApiKey,
+						UserSessionToken = evt.UserSessionToken
+					});
+				
 			}
 			catch (Exception e)
 			{
@@ -93,43 +97,47 @@ namespace Wammer.Station
 
 			try
 			{
-				Bitmap origImage = evt.Attachment.Bitmap;
-				if (origImage==null)
-					origImage = BuildBitmap(evt.Attachment.RawData);
-				
-				using (origImage)
+				ThumbnailInfo small;
+				ThumbnailInfo large;
+				ThumbnailInfo square;
+				string origImgObjectId = evt.Attachment.object_id;
+
+				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
 				{
-					string origImgObjectId = evt.Attachment.object_id;
-					ThumbnailInfo small = MakeThumbnail(origImage, ImageMeta.Small,
+					
+					small = MakeThumbnail(origImage, ImageMeta.Small,
 										origImgObjectId, evt.Driver, evt.Attachment.file_name);
-					ThumbnailInfo large = MakeThumbnail(origImage, ImageMeta.Large,
+					large = MakeThumbnail(origImage, ImageMeta.Large,
 										origImgObjectId, evt.Driver, evt.Attachment.file_name);
-					ThumbnailInfo square = MakeThumbnail(origImage, ImageMeta.Square,
+					square = MakeThumbnail(origImage, ImageMeta.Square,
 										origImgObjectId, evt.Driver, evt.Attachment.file_name);
-
-					Attachment update = new Attachment
-					{
-						object_id = evt.Attachment.object_id,
-						image_meta = new ImageProperty
-						{
-							small = small,
-							large = large,
-							square = square
-						}
-					};
-
-					BsonDocument doc = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
-																	Query.EQ("_id", origImgObjectId));
-					doc.DeepMerge(update.ToBsonDocument());
-					AttachmentCollection.Instance.Save(doc);
-
-					UpstreamThumbnail(small, evt.Attachment.group_id, evt.Attachment.object_id,
-						ImageMeta.Small, evt.UserApiKey, evt.UserSessionToken);
-					UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
-						ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
-					UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
-						ImageMeta.Square, evt.UserApiKey, evt.UserSessionToken);
 				}
+
+				Attachment update = new Attachment
+				{
+					object_id = evt.Attachment.object_id,
+					image_meta = new ImageProperty
+					{
+						small = small,
+						large = large,
+						square = square
+					}
+				};
+
+				BsonDocument doc = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
+																Query.EQ("_id", origImgObjectId));
+				doc.DeepMerge(update.ToBsonDocument());
+				AttachmentCollection.Instance.Save(doc);
+				doc.Clear();
+				doc = null;
+
+				UpstreamThumbnail(small, evt.Attachment.group_id, evt.Attachment.object_id,
+					ImageMeta.Small, evt.UserApiKey, evt.UserSessionToken);
+				UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
+					ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
+				UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
+					ImageMeta.Square, evt.UserApiKey, evt.UserSessionToken);
+				
 			}
 			catch (Exception e)
 			{

@@ -271,10 +271,6 @@ namespace Wammer.Model
 
 		[BsonIgnore]
 		[System.Xml.Serialization.XmlIgnore]
-		public System.Drawing.Bitmap Bitmap { get; set; }
-
-		[BsonIgnore]
-		[System.Xml.Serialization.XmlIgnore]
 		public byte[] RawData
 		{
 			get { return rawData; }

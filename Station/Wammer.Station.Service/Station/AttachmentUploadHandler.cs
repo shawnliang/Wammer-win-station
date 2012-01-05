@@ -62,92 +62,21 @@ namespace Wammer.Station
 
 			string savedName = GetSavedFilename(file, meta);
 			FileStorage storage = new FileStorage(driver);
-			// Upload to cloud and then save to local to ensure cloud post API
-			// can process post with attachments correctly.
-			// In the future when station is able to handle post and sync data with cloud
-			// this step is not necessary
+
+			IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
+			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this);
+		}
+
+		private static IAttachmentUploadStrategy GetHandleStrategy(Attachment file, bool isNewOrigImage, ImageMeta meta)
+		{
 			if (isNewOrigImage)
-			{
-				file.Bitmap = new Bitmap(new MemoryStream(file.RawData));
-				ThumbnailInfo medium = ImagePostProcessing.MakeThumbnail(
-					file.Bitmap, ImageMeta.Medium, file.object_id, driver, file.file_name);
-				Attachment thumb = new Attachment(file);
-				thumb.RawData = medium.RawData;
-				thumb.file_size = medium.file_size;
-				thumb.mime_type = medium.mime_type;
-				thumb.Upload(ImageMeta.Medium, Parameters["apikey"], Parameters["session_token"]);
-
-				OnThumbnailUpstreamed(new ThumbnailUpstreamedEventArgs(thumb.file_size));
-
-				file.image_meta = new ImageProperty
-				{
-					medium = medium,
-					width = file.Bitmap.Width,
-					height = file.Bitmap.Height
-				};
-				file.saved_file_name = savedName;
-				storage.SaveAttachment(file);
-			}
+				return new NewOriginalImageUploadStrategy();
 			else if (file.type == AttachmentType.doc)
-			{
-				file.saved_file_name = savedName;
-				file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
-				storage.SaveAttachment(file);
-			}
+				return new DocumentUploadStrategy();
 			else if (file.type == AttachmentType.image && meta != ImageMeta.Origin)
-			{
-				file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
-				storage.SaveFile(savedName, file.RawData);
-			}
+				return new ImageThumbnailUploadStrategy();
 			else
-			{
-				file.saved_file_name = savedName;
-				storage.SaveAttachment(file);
-			}
-
-
-			//FileStorage storage = new FileStorage(driver);
-			//storage.SaveAttachment(file);
-			file.file_size = file.RawData.Length;
-			file.modify_time = DateTime.UtcNow;
-			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
-
-			AttachmentEventArgs aEvtArgs = new AttachmentEventArgs
-			{
-				Attachment = file,
-				Driver = driver
-			};
-
-			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
-			{
-				Attachment = file,
-				Meta = meta,
-				UserApiKey = Parameters["apikey"],
-				UserSessionToken = Parameters["session_token"],
-				Driver = driver
-			};
-
-			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
-			BsonDocument existDoc = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
-													new QueryDocument("_id", file.object_id));
-			if (existDoc != null)
-			{
-				existDoc.DeepMerge(dbDoc);
-				AttachmentCollection.Instance.Save(existDoc);
-			}
-			else
-				AttachmentCollection.Instance.Save(dbDoc);
-
-			OnAttachmentSaved(aEvtArgs);
-
-			if (file.type == AttachmentType.image)
-				OnImageAttachmentSaved(evtArgs);
-
-			ObjectUploadResponse json = ObjectUploadResponse.CreateSuccess(file.object_id);
-			HttpHelper.RespondSuccess(Response, json);
-
-			if (file.type == AttachmentType.image)
-				OnImageAttachmentCompleted(evtArgs);
+				return new OldOriginImageUploadStrategy();
 		}
 
 		private static BsonDocument CreateDbDocument(Attachment file, ImageMeta meta,
@@ -200,7 +129,7 @@ namespace Wammer.Station
 			return meta;
 		}
 
-		protected void OnAttachmentSaved(AttachmentEventArgs evt)
+		public void OnAttachmentSaved(AttachmentEventArgs evt)
 		{
 			EventHandler<AttachmentEventArgs> handler = AttachmentSaved;
 			if (handler != null)
@@ -209,7 +138,7 @@ namespace Wammer.Station
 			}
 		}
 
-		protected void OnImageAttachmentSaved(ImageAttachmentEventArgs evt)
+		public void OnImageAttachmentSaved(ImageAttachmentEventArgs evt)
 		{
 			EventHandler<ImageAttachmentEventArgs> handler = ImageAttachmentSaved;
 			if (handler != null)
@@ -218,7 +147,7 @@ namespace Wammer.Station
 			}
 		}
 
-		protected void OnImageAttachmentCompleted(ImageAttachmentEventArgs evt)
+		public void OnImageAttachmentCompleted(ImageAttachmentEventArgs evt)
 		{
 			EventHandler<ImageAttachmentEventArgs> handler = ImageAttachmentCompleted;
 			if (handler != null)
@@ -227,7 +156,7 @@ namespace Wammer.Station
 			}
 		}
 
-		protected void OnThumbnailUpstreamed(ThumbnailUpstreamedEventArgs evt)
+		public void OnThumbnailUpstreamed(ThumbnailUpstreamedEventArgs evt)
 		{
 			EventHandler<ThumbnailUpstreamedEventArgs> handler = ThumbnailUpstreamed;
 			if (handler != null)
