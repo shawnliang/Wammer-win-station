@@ -186,6 +186,20 @@ namespace Waveface.Component
                                                      bounds.Height - 1, 4);
                     }
                 }
+
+                if (GCONST.DEBUG)
+                {
+                    if (item.Tag != null)
+                    {
+                        string _type = item.Tag.ToString();
+
+                        if (_type == "medium")
+                        {
+                            g.FillRectangle(Brushes.OrangeRed, bounds.Left + bounds.Width - 3,
+                                            bounds.Top + bounds.Height - 3, 2, 2);
+                        }
+                    }
+                }
             }
         }
 
@@ -288,6 +302,6 @@ namespace Waveface.Component
             return GetSizedImageBounds(image, fit, 50.0f, 50.0f);
         }
 
-        #endregion
+        #endregion     
     }
 }

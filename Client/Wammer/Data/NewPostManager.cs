@@ -25,7 +25,7 @@ namespace Waveface
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private static NewPostManager s_newPostManager;
+        private static NewPostManager s_current;
         private bool m_startUpload;
         private bool m_downloading;
 
@@ -37,12 +37,19 @@ namespace Waveface
         {
             get
             {
-                if (s_newPostManager == null)
+                if (s_current == null)
                 {
-                    s_newPostManager = Load() ?? new NewPostManager();
+                    s_current = Load() ?? new NewPostManager();
                 }
 
-                return s_newPostManager;
+                return s_current;
+            }
+            set
+            {
+                if (s_current != null)
+                    s_current.Save();
+
+                s_current = value;
             }
         }
 
@@ -298,6 +305,9 @@ namespace Waveface
             {
                 string _json = JsonConvert.SerializeObject(this);
 
+                if (!GCONST.DEBUG)
+                    _json = StringUtility.Compress(_json);
+
                 string _filePath = Main.GCONST.CachePath + Main.Current.RT.Login.user.user_id + "_NP.dat";
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
@@ -327,6 +337,9 @@ namespace Waveface
                 StreamReader _sr = File.OpenText(_filePath);
                 _json = _sr.ReadToEnd();
                 _sr.Close();
+
+                if (!GCONST.DEBUG)
+                    _json = StringUtility.Decompress(_json);
 
                 NewPostManager _npm = JsonConvert.DeserializeObject<NewPostManager>(_json);
 

@@ -24,7 +24,7 @@ namespace Waveface
 
         private int ERROR_TRY = 2;
 
-        private static PhotoDownloader s_photoDownloader;
+        private static PhotoDownloader s_current;
 
         public List<ImageItem> ThumbnailItems { get; set; }
         public List<ImageItem> PhotoItems { get; set; }
@@ -33,13 +33,14 @@ namespace Waveface
         {
             get
             {
-                if (s_photoDownloader == null)
+                if (s_current == null)
                 {
-                    s_photoDownloader = new PhotoDownloader(); // Load() ?? new PhotoDownloader();
+                    s_current = new PhotoDownloader(); // Load() ?? new PhotoDownloader();
                 }
 
-                return s_photoDownloader;
+                return s_current;
             }
+            set { s_current = value; }
         }
 
         public PhotoDownloader()
@@ -288,61 +289,5 @@ namespace Waveface
                 Thread.Sleep(1);
             }
         }
-
-        #region IO
-
-        /*
-        public bool Save()
-        {
-            try
-            {
-                string _json = JsonConvert.SerializeObject(this);
-
-                string _filePath = Main.GCONST.CachePath + Main.Current.RT.Login.user.user_id + "_NP.dat";
-
-                using (StreamWriter _outfile = new StreamWriter(_filePath))
-                {
-                    _outfile.Write(_json);
-                }
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "Save");
-
-                return false;
-            }
-
-            s_logger.Trace("Save: OK");
-
-            return true;
-        }
-
-        public static PhotoDownloader Load()
-        {
-            try
-            {
-                string _json = string.Empty;
-                string _filePath = Main.GCONST.CachePath + Main.Current.RT.Login.user.user_id + "_PD.dat";
-
-                StreamReader _sr = File.OpenText(_filePath);
-                _json = _sr.ReadToEnd();
-                _sr.Close();
-
-                PhotoDownloader _npm = JsonConvert.DeserializeObject<PhotoDownloader>(_json);
-
-                s_logger.Trace("Load:OK");
-
-                return _npm;
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "Load");
-            }
-
-            return null;
-        }
-
-        */
-        #endregion
     }
 }
