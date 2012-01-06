@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 
 using Wammer.Cloud;
 using Wammer.MultiPart;
+using Wammer.Station;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
@@ -270,23 +271,42 @@ namespace Wammer.Model
 		public string saved_file_name { get; set; }
 
 		[BsonIgnore]
+		private object rawDataMutex = new object();
+
+		[BsonIgnore]
 		[System.Xml.Serialization.XmlIgnore]
 		public ArraySegment<byte> RawData
 		{
-			get { return rawData; }
+			get {
+				lock (rawDataMutex)
+				{
+					if (rawData.Array == null)
+					{
+						Driver driver = DriverCollection.Instance.FindOne();
+						FileStorage storage = new FileStorage(driver);
+						byte[] buffer = new byte[this.file_size];
+						storage.Load(this.saved_file_name).Read(buffer, 0, buffer.Length);
+						rawData = new ArraySegment<byte>(buffer);
+					}
+					return rawData;
+				}
+			}
 			set
 			{
-				rawData = value;
-				if (rawData != null)
+				lock (rawDataMutex)
 				{
-					using (MD5 md5 = MD5.Create())
+					rawData = value;
+					if (rawData.Array != null)
 					{
-						byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
-						StringBuilder buff = new StringBuilder();
-						for (int i = 0; i < hash.Length; i++)
-							buff.Append(hash[i].ToString("x2"));
+						using (MD5 md5 = MD5.Create())
+						{
+							byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
+							StringBuilder buff = new StringBuilder();
+							for (int i = 0; i < hash.Length; i++)
+								buff.Append(hash[i].ToString("x2"));
 
-						this.md5 = buff.ToString();
+							this.md5 = buff.ToString();
+						}
 					}
 				}
 			}
@@ -294,6 +314,7 @@ namespace Wammer.Model
 
 		public Attachment()
 		{
+			rawData = new ArraySegment<byte>();
 		}
 
 		public Attachment(Attachment lhs)
