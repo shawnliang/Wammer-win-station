@@ -29,7 +29,7 @@ namespace Wammer.Station
 			this.driver = driver;
 
 
-			file.file_size = file.RawData.Length;
+			file.file_size = file.RawData.Count;
 			file.modify_time = DateTime.UtcNow;
 			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
 			file.saved_file_name = savedName;
@@ -92,7 +92,7 @@ namespace Wammer.Station
 
 		protected override BsonDocument  CreateDbDocument(Attachment file, ImageMeta meta, string savedName)
 		{
-			using (Bitmap img = new Bitmap(new MemoryStream(file.RawData)))
+			using (Bitmap img = new Bitmap(new MemoryStream(file.RawData.Array, file.RawData.Offset, file.RawData.Count)))
 			{
 				Attachment thumbnailAttachment = new Attachment(file);
 				thumbnailAttachment.image_meta = new ImageProperty();
@@ -137,7 +137,7 @@ namespace Wammer.Station
 			int imgWidth, imgHeight;
 			ThumbnailInfo medium;
 
-			using (Bitmap imageBitmap = new Bitmap(new MemoryStream(file.RawData)))
+			using (Bitmap imageBitmap = new Bitmap(new MemoryStream(file.RawData.Array, file.RawData.Offset, file.RawData.Count)))
 			{
 				imgWidth = imageBitmap.Width;
 				imgHeight = imageBitmap.Height;
@@ -147,7 +147,7 @@ namespace Wammer.Station
 			}
 
 			Attachment thumb = new Attachment(file);
-			thumb.RawData = medium.RawData;
+			thumb.RawData = new ArraySegment<byte>(medium.RawData);
 			thumb.file_size = medium.file_size;
 			thumb.mime_type = medium.mime_type;
 			thumb.Upload(ImageMeta.Medium, Parameters["apikey"], Parameters["session_token"]);
@@ -172,7 +172,7 @@ namespace Wammer.Station
 	{
 		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler)
 		{
-			file.file_size = file.RawData.Length;
+			file.file_size = file.RawData.Count;
 			file.modify_time = DateTime.UtcNow;
 			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
 			file.saved_file_name = savedName;

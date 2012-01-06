@@ -145,9 +145,9 @@ namespace Wammer.Station
 			}
 		}
 
-		private static Bitmap BuildBitmap(byte[] imageData)
+		private static Bitmap BuildBitmap(ArraySegment<byte> imageData)
 		{
-			using (MemoryStream s = new MemoryStream(imageData))
+			using (MemoryStream s = new MemoryStream(imageData.Array, imageData.Offset, imageData.Count))
 			{
 				return new Bitmap(s);
 			}
@@ -241,7 +241,7 @@ namespace Wammer.Station
 		{
 			using (MemoryStream output = new MemoryStream())
 			{
-				Attachment.UploadImage(thumbnail.RawData, groupId, fullImgId, 
+				Attachment.UploadImage(new ArraySegment<byte>(thumbnail.RawData), groupId, fullImgId, 
 												thumbnail.file_name, "image/jpeg", meta, apiKey, token);
 
 				OnThumbnailUpstreamed(new ThumbnailUpstreamedEventArgs(thumbnail.RawData.Length));
@@ -314,7 +314,7 @@ namespace Wammer.Station
 					MimeType = "image/jpeg"
 				};
 
-				new FileStorage(driver).SaveFile(savedResult.FileName, savedResult.SavedRawData);
+				new FileStorage(driver).SaveFile(savedResult.FileName, new ArraySegment<byte>(savedResult.SavedRawData));
 
 				return savedResult;
 			}
@@ -336,7 +336,7 @@ namespace Wammer.Station
 					MimeType = "image/gif"
 				};
 
-				new FileStorage(driver).SaveFile(savedResult.FileName, savedResult.SavedRawData);
+				new FileStorage(driver).SaveFile(savedResult.FileName, new ArraySegment<byte>(savedResult.SavedRawData));
 
 				return savedResult;
 			}
@@ -358,7 +358,7 @@ namespace Wammer.Station
 					MimeType = "image/png"
 				};
 
-				new FileStorage(driver).SaveFile(savedResult.FileName, savedResult.SavedRawData);
+				new FileStorage(driver).SaveFile(savedResult.FileName, new ArraySegment<byte>(savedResult.SavedRawData));
 
 				return savedResult;
 			}

@@ -236,7 +236,7 @@ namespace Waveface.PostUI
 
         private void SendPureText()
         {
-            if (MyParent.pureTextBox.Text.Equals(string.Empty))
+            if (MyParent.pureTextBox.Text.Trim().Equals(string.Empty))
             {
                 MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

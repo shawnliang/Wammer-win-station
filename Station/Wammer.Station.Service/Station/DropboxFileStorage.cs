@@ -56,7 +56,7 @@ namespace Wammer.Station
 			}
 		}
 
-		public string SaveFile(string filename, byte[] data)
+		public string SaveFile(string filename, ArraySegment<byte> data)
 		{
 			string filePath = Path.Combine(basePath, filename);
 			string ext = Path.GetExtension(filePath);
@@ -70,7 +70,7 @@ namespace Wammer.Station
 
 			using (BinaryWriter w = new BinaryWriter(File.Open(filePath, FileMode.Create)))
 			{
-				w.Write(data);
+				w.Write(data.Array, data.Offset, data.Count);
 			}
 
 			if (index == 0)

@@ -118,7 +118,7 @@ namespace TestUploadImage
 		{
 			MemoryStream memBuffer = new MemoryStream();
 			Serializer serializer = new Serializer(memBuffer, "--abcdefgABCDEFG");
-			serializer.Put(new Part(image_data, 0, image_data.Length,
+			serializer.Put(new Part(new ArraySegment<byte>(image_data),
 				new NameValueCollection { 
 						{"Content-Disposition", "form-data; name=file; filename=file1.jpg"},
 						{"Content-Type", "image/jpeg"}

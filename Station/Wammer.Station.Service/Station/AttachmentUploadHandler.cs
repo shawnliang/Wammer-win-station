@@ -92,7 +92,7 @@ namespace Wammer.Station
 			}
 			else
 			{
-				using (Bitmap img = new Bitmap(new MemoryStream(file.RawData)))
+				using (Bitmap img = new Bitmap(new MemoryStream(file.RawData.Array, file.RawData.Offset, file.RawData.Count)))
 				{
 					Attachment thumbnailAttachment = new Attachment(file);
 					thumbnailAttachment.image_meta = new ImageProperty();

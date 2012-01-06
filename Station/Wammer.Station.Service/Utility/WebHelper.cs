@@ -47,23 +47,23 @@ namespace Waveface
 		// Post the data as a multipart form
 		// postParameters with a value of type byte[] will be passed in the form as a file, and value of type string will be
 		// passed as a name/value pair.
-		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType)
+		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType, ArraySegment<byte> fileData)
 		{
 			string formDataBoundary = "--ABCDEFG";
 			string contentType = "multipart/form-data; boundary=" + formDataBoundary;
 
-			byte[] formData = GetMultipartFormData(postParameters, formDataBoundary, fileName, mimeType);
+			byte[] formData = GetMultipartFormData(postParameters, formDataBoundary, fileName, mimeType, fileData);
 
 			return PostForm(postUrl, userAgent, contentType, formData);
 		}
 
 
-		public static HttpWebResponse PostWammerImage(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType)
+		public static HttpWebResponse PostWammerImage(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType, ArraySegment<byte> fileData)
 		{
 			string formDataBoundary = "--ABCDEFG";
 			string contentType = "multipart/form-data; boundary=" + formDataBoundary;
 
-			byte[] formData = GetMultipartFormData(postParameters, formDataBoundary, fileName, mimeType);
+			byte[] formData = GetMultipartFormData(postParameters, formDataBoundary, fileName, mimeType, fileData);
 
 			return PostForm(postUrl, userAgent, contentType, formData);
 		}
@@ -102,32 +102,27 @@ namespace Waveface
 
 		// Turn the key and value pairs into a multipart form.
 		// See http://www.ietf.org/rfc/rfc2388.txt for issues about file uploads
-		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName, string mimeType)
+		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName, string mimeType, ArraySegment<byte> fileData)
 		{
 			Stream formDataStream = new MemoryStream();
 
+			// Add just the first part of this param, since we will write the file data directly to the Stream
+			string _header = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"\r\nContent-Type: {3}\r\n\r\n", boundary, "file", fileName.Equals("") ? "file" : fileName, mimeType.Equals("") ? "application/octet-stream" : mimeType);
+
+			//formDataStream.Write(encoding.GetBytes(_header), 0, _header.Length);
+
+			byte[] _bytes = encoding.GetBytes(_header);
+			formDataStream.Write(_bytes, 0, _bytes.Length);
+
+			// Write the file data directly to the Stream, rather than serializing it to a string.
+			formDataStream.Write(fileData.Array, fileData.Offset, fileData.Count);
+
+			formDataStream.Write(encoding.GetBytes("\r\n"), 0, 2);
+
 			foreach (var param in postParameters)
 			{
-				if (param.Value is byte[])
-				{
-					byte[] fileData = param.Value as byte[];
-
-					// Add just the first part of this param, since we will write the file data directly to the Stream
-					string _header = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"\r\nContent-Type: {3}\r\n\r\n", boundary, param.Key, fileName.Equals("") ? param.Key : fileName, mimeType.Equals("") ? "application/octet-stream" : mimeType);
-
-					//formDataStream.Write(encoding.GetBytes(_header), 0, _header.Length);
-
-					byte[] _bytes = encoding.GetBytes(_header);
-					formDataStream.Write(_bytes, 0, _bytes.Length);
-
-					// Write the file data directly to the Stream, rather than serializing it to a string.
-					formDataStream.Write(fileData, 0, fileData.Length);
-				}
-				else
-				{
-					string postData = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n", boundary, param.Key, param.Value);
-					formDataStream.Write(encoding.GetBytes(postData), 0, postData.Length);
-				}
+				string postData = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n", boundary, param.Key, param.Value);
+				formDataStream.Write(encoding.GetBytes(postData), 0, postData.Length);
 			}
 
 			// Add the end of the request

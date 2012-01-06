@@ -29,10 +29,10 @@ namespace UT_WammerStation
 		{
 			MemoryStream m = new MemoryStream();
 			Serializer serializer = new Serializer(m);
-			
-			serializer.Put(new Part(part1, 0, part1.Length));
-			serializer.Put(new Part(part2, 0, part2.Length));
-			serializer.Put(new Part(part3, 0, part3.Length));
+
+			serializer.Put(new Part(new ArraySegment<byte>(part1)));
+			serializer.Put(new Part(new ArraySegment<byte>(part2)));
+			serializer.Put(new Part(new ArraySegment<byte>(part3)));
 			serializer.PutNoMoreData();
 
 			m.Position = 0;
@@ -52,7 +52,7 @@ namespace UT_WammerStation
 			MemoryStream m = new MemoryStream();
 			Serializer serializer = new Serializer(m);
 
-			Part part = new Part(part1, 0, part1.Length);
+			Part part = new Part(new ArraySegment<byte>(part1));
 			part.ContentDisposition = new Disposition("form-data");
 			part.ContentDisposition.Parameters.Add("name1", "value1");
 			part.ContentDisposition.Parameters.Add("name2", "value2");
@@ -77,7 +77,7 @@ namespace UT_WammerStation
 			MemoryStream m = new MemoryStream();
 			Serializer serializer = new Serializer(m);
 
-			Part part = new Part(part1, 0, part1.Length);
+			Part part = new Part(new ArraySegment<byte>(part1));
 			part.ContentDisposition = new Disposition("form-data");
 			part.ContentDisposition.Parameters.Add("name1", "value1");
 			part.ContentDisposition.Parameters.Add("name2", "value2");
@@ -104,7 +104,7 @@ namespace UT_WammerStation
 			MemoryStream m = new MemoryStream();
 			Serializer serializer = new Serializer(m);
 
-			Part part = new Part(part1, 0, part1.Length);
+			Part part = new Part(new ArraySegment<byte>(part1));
 			part.Headers["Content-Type"] = "image/jpeg";
 			serializer.Put(part);
 			serializer.PutNoMoreData();
@@ -125,7 +125,7 @@ namespace UT_WammerStation
 			MemoryStream m = new MemoryStream();
 			Serializer serializer = new Serializer(m);
 
-			Part part = new Part(part1, 0, part1.Length);
+			Part part = new Part(new ArraySegment<byte>(part1));
 			part.ContentDisposition = new Disposition("form-data");
 			part.ContentDisposition.Parameters.Add("name1", "value1");
 			part.ContentDisposition.Parameters.Add("name2", "value2");

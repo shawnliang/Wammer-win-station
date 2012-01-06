@@ -178,7 +178,7 @@ namespace Wammer.Model
 	public class Attachment
 	{
 		#region Upload utility functions
-		public static ObjectUploadResponse Upload(string url, byte[] imageData, string groupId,
+		public static ObjectUploadResponse Upload(string url, ArraySegment<byte> imageData, string groupId,
 											string objectId, string fileName, string contentType,
 											ImageMeta meta, AttachmentType type, string apiKey, 
 											string token)
@@ -194,14 +194,14 @@ namespace Wammer.Model
 				if (objectId != null)
 					pars["object_id"] = objectId;
 				pars["group_id"] = groupId;
-				pars["file"] = imageData;
 				HttpWebResponse _webResponse =
 					Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
 					url,
 					"Mozilla 4.0+",
 					pars,
 					fileName,
-					contentType);
+					contentType,
+					imageData);
 
 				using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
 				{
@@ -214,7 +214,7 @@ namespace Wammer.Model
 			}
 		}
 
-		public static ObjectUploadResponse UploadImage(string url, byte[] imageData, string groupId,
+		public static ObjectUploadResponse UploadImage(string url, ArraySegment<byte> imageData, string groupId,
 											string objectId, string fileName, string contentType,
 											ImageMeta meta, string apiKey, string token)
 		{
@@ -222,7 +222,7 @@ namespace Wammer.Model
 				AttachmentType.image, apiKey, token);
 		}
 
-		public static ObjectUploadResponse UploadImage(byte[] imageData, string group_id,
+		public static ObjectUploadResponse UploadImage(ArraySegment<byte> imageData, string group_id,
 			string objectId, string fileName, string contentType, ImageMeta meta,
 			string apikey, string token)
 		{
@@ -271,7 +271,7 @@ namespace Wammer.Model
 
 		[BsonIgnore]
 		[System.Xml.Serialization.XmlIgnore]
-		public byte[] RawData
+		public ArraySegment<byte> RawData
 		{
 			get { return rawData; }
 			set
@@ -281,7 +281,7 @@ namespace Wammer.Model
 				{
 					using (MD5 md5 = MD5.Create())
 					{
-						byte[] hash = md5.ComputeHash(rawData);
+						byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
 						StringBuilder buff = new StringBuilder();
 						for (int i = 0; i < hash.Length; i++)
 							buff.Append(hash[i].ToString("x2"));
@@ -319,7 +319,7 @@ namespace Wammer.Model
 			return file_size > 0;
 		}
 
-		private byte[] rawData;
+		private ArraySegment<byte> rawData;
 	}
 
 	public class AttachmentCollection : Collection<Attachment>
