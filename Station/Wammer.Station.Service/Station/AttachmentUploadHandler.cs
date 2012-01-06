@@ -68,11 +68,11 @@ namespace Wammer.Station
 			// this step is not necessary
 			if (isNewOrigImage)
 			{
-				file.Bitmap = new Bitmap(new MemoryStream(file.RawData));
+				file.Bitmap = new Bitmap(new MemoryStream(file.RawData.Array, file.RawData.Offset, file.RawData.Count));
 				ThumbnailInfo medium = ImagePostProcessing.MakeThumbnail(
 					file.Bitmap, ImageMeta.Medium, file.object_id, driver, file.file_name);
 				Attachment thumb = new Attachment(file);
-				thumb.RawData = medium.RawData;
+				thumb.RawData = new ArraySegment<byte>(medium.RawData);
 				thumb.file_size = medium.file_size;
 				thumb.mime_type = medium.mime_type;
 				thumb.Upload(ImageMeta.Medium, Parameters["apikey"], Parameters["session_token"]);
@@ -108,7 +108,7 @@ namespace Wammer.Station
 
 			//FileStorage storage = new FileStorage(driver);
 			//storage.SaveAttachment(file);
-			file.file_size = file.RawData.Length;
+			file.file_size = file.RawData.Count;
 			file.modify_time = DateTime.UtcNow;
 			file.url = "/v2/attachments/view/?object_id=" + file.object_id;
 
@@ -163,7 +163,7 @@ namespace Wammer.Station
 			}
 			else
 			{
-				using (Bitmap img = new Bitmap(new MemoryStream(file.RawData)))
+				using (Bitmap img = new Bitmap(new MemoryStream(file.RawData.Array, file.RawData.Offset, file.RawData.Count)))
 				{
 					Attachment thumbnailAttachment = new Attachment(file);
 					thumbnailAttachment.image_meta = new ImageProperty();

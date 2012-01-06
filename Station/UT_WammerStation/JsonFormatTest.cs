@@ -56,7 +56,7 @@ namespace UT_WammerStation
 		{
 			Attachment a = new Attachment
 			{
-				RawData = null,
+				RawData = new ArraySegment<byte>(new byte[100]),
 				title = "123"
 			};
 

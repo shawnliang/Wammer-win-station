@@ -77,7 +77,7 @@ namespace Wammer.MultiPart
 				throw new FormatException("Bad part body format");
 			}
 
-			return new Part(data, startIdx + sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length), headers);
+			return new Part(new ArraySegment<byte>(data, startIdx + sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length)), headers);
 		}
 
 		private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)

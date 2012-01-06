@@ -250,7 +250,7 @@ namespace Waveface
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            if (pureTextBox.Text.Equals(string.Empty))
+            if (pureTextBox.Text.Trim().Equals(string.Empty))
             {
                 MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

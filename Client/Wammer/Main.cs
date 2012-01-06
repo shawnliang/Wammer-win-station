@@ -1300,6 +1300,8 @@ namespace Waveface
             {
                 WService.StationIP = m_stationIP;
                 RT.StationMode = true;
+
+                backgroundWorkerPreloadImage_DoWork(null, null);
             }
         }
 

@@ -41,6 +41,7 @@ namespace Waveface
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnAddPhoto = new Waveface.Component.XPButton();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_RichText = new Waveface.Component.MultiPage.MultiPanelPage();
@@ -60,7 +61,6 @@ namespace Waveface
             this.document_UI = new Waveface.PostUI.Document();
             this.panelMiddleBar = new System.Windows.Forms.Panel();
             this.panelToolbar = new System.Windows.Forms.Panel();
-            this.btnAddPhoto = new Waveface.Component.XPButton();
             this.btnAddDoc = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
             this.panelText = new System.Windows.Forms.Panel();
@@ -110,6 +110,18 @@ namespace Waveface
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            // 
+            // btnAddPhoto
+            // 
+            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
+            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
+            this.btnAddPhoto.Name = "btnAddPhoto";
+            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
+            this.btnAddPhoto.UseVisualStyleBackColor = true;
+            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // cultureManager
             // 
@@ -248,18 +260,6 @@ namespace Waveface
             this.panelToolbar.Controls.Add(this.btnAddPhoto);
             this.panelToolbar.Controls.Add(this.btnAddDoc);
             this.panelToolbar.Name = "panelToolbar";
-            // 
-            // btnAddPhoto
-            // 
-            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
-            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
-            this.btnAddPhoto.Name = "btnAddPhoto";
-            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
-            this.btnAddPhoto.UseVisualStyleBackColor = true;
-            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // btnAddDoc
             // 
