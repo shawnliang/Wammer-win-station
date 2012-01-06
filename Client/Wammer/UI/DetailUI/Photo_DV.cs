@@ -43,7 +43,6 @@ namespace Waveface.DetailUI
         private List<string> m_filePathMediums;
         private List<string> m_urlOrigins;
         private List<string> m_urlMediums;
-        private int m_displayCount;
 
         private List<Attachment> m_imageAttachments;
 
@@ -404,34 +403,12 @@ namespace Waveface.DetailUI
 
         private bool FillImageListView(bool firstTime)
         {
-            int k = 0;
-
-            for (int i = 0; i < m_imageAttachments.Count; i++)
-            {
-                if (System.IO.File.Exists(m_filePathOrigins[i]))
-                {
-                    k++;
-                    continue;
-                }
-
-                if (System.IO.File.Exists(m_filePathMediums[i]))
-                {
-                    k++;
-                    continue;
-                }
-            }
-
-            if (!firstTime)
-            {
-                if (k == m_displayCount)
-                    return false;
-            }
+            int _count = 0;
+            int _orig = 0;
 
             panelPictureInfo.Visible = true;
 
             imageListView.SuspendLayout();
-
-            k = 0;
 
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
@@ -441,8 +418,12 @@ namespace Waveface.DetailUI
                         imageListView.Items.Add(m_filePathOrigins[i]);
                     else
                         imageListView.Items[i].FileName = m_filePathOrigins[i];
-                    
-                    k++;
+
+                    imageListView.Items[i].Tag = "origin";
+
+                    _count++;
+                    _orig++;
+
                     continue;
                 }
 
@@ -452,8 +433,11 @@ namespace Waveface.DetailUI
                         imageListView.Items.Add(m_filePathMediums[i]);
                     else
                         imageListView.Items[i].FileName = m_filePathMediums[i];
-                    
-                    k++;
+
+                    imageListView.Items[i].Tag = "medium";
+
+                    _count++;
+
                     continue;
                 }
 
@@ -461,20 +445,36 @@ namespace Waveface.DetailUI
                     imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
                 else
                     imageListView.Items[i].FileName = Main.GCONST.CachePath + "LoadingImage" + ".jpg";
-            }
 
-            m_displayCount = k;
+                imageListView.Items[i].Tag = "";
+            }
 
             imageListView.ResumeLayout();
 
-            labelPictureInfo.Text = "[" + m_displayCount + "/" + m_imageAttachments.Count + "]";
+            labelPictureInfo.Text = "[" + _count + "/" + m_imageAttachments.Count + "]";
 
             ReLayout();
 
-            if (k == m_imageAttachments.Count)
+            bool _stop;
+
+            if(GCONST.DEBUG)
+            {
+                _stop = (_orig == m_imageAttachments.Count);
+            }
+            else
+            {
+                _stop = (_count == m_imageAttachments.Count);
+            }
+
+            if((_orig == m_imageAttachments.Count) || (_count == m_imageAttachments.Count))
+            {
+                panelPictureInfo.Visible = false;
+            }
+
+            if (_stop)
             {
                 timer.Enabled = false;
-                panelPictureInfo.Visible = false;
+                
                 return true;
             }
 
@@ -490,7 +490,7 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            using (PhotoView _photoView =  new PhotoView(_files, m_filesMapping, e.Item.FileName))
+            using (PhotoView _photoView = new PhotoView(_files, m_filesMapping, e.Item.FileName))
             {
                 _photoView.ShowDialog();
             }

@@ -14,6 +14,7 @@ namespace Wammer.MultiPart
 		private byte[] data;
 		private int start;
 		private int len;
+		private static char[] CRLFtail = { '\r', '\n' };
 
 		private string text;
 		private byte[] bytes;
@@ -86,7 +87,8 @@ namespace Wammer.MultiPart
 				if (text == null)
 					text = Encoding.UTF8.GetString(data, start, len);
 
-				return text;
+				// text might have \r\n at its end
+				return text.TrimEnd(CRLFtail);
 			}
 		}
 

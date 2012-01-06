@@ -54,7 +54,8 @@ namespace Waveface
 
         public string CurrentGroupID { get; set; }
 
-        public Dictionary<string, MR_groups_get> GroupGetReturnSets { get; set; }
+        //public Dictionary<string, MR_groups_get> GroupGetReturnSets { get; set; }
+        
         private Dictionary<string, List<Post>> m_groupPosts { get; set; }
         private Dictionary<string, List<string>> m_groupHaveReadPosts { get; set; }
 
@@ -143,7 +144,9 @@ namespace Waveface
             FilterMode = false;
 
             CurrentGroupID = string.Empty;
-            GroupGetReturnSets = new Dictionary<string, MR_groups_get>();
+            
+            //GroupGetReturnSets = new Dictionary<string, MR_groups_get>();
+            
             m_groupPosts = new Dictionary<string, List<Post>>();
             m_groupHaveReadPosts = new Dictionary<string, List<string>>();
 
@@ -285,6 +288,9 @@ namespace Waveface
             {
                 string _json = JsonConvert.SerializeObject(this);
 
+                if (!GCONST.DEBUG)
+                    _json = StringUtility.Compress(_json);
+
                 string _filePath = Main.GCONST.CachePath + Login.user.user_id + "_RT.dat";
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
@@ -316,6 +322,9 @@ namespace Waveface
                 StreamReader _sr = File.OpenText(_filePath);
                 _json = _sr.ReadToEnd();
                 _sr.Close();
+
+                if (!GCONST.DEBUG)
+                    _json = StringUtility.Decompress(_json);
 
                 RunTime _rt = JsonConvert.DeserializeObject<RunTime>(_json);
 
@@ -351,6 +360,9 @@ namespace Waveface
             {
                 string _json = JsonConvert.SerializeObject(_lr);
 
+                if (!GCONST.DEBUG)
+                    _json = StringUtility.Compress(_json);
+
                 string _filePath = Main.GCONST.CachePath + Login.user.user_id + "_LR.dat";
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
@@ -380,6 +392,9 @@ namespace Waveface
                 StreamReader _sr = File.OpenText(_filePath);
                 _json = _sr.ReadToEnd();
                 _sr.Close();
+
+                if (!GCONST.DEBUG)
+                    _json = StringUtility.Decompress(_json);
 
                 LocalReadRT _lr = JsonConvert.DeserializeObject<LocalReadRT>(_json);
 

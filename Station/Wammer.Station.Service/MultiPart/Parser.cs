@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace Wammer.MultiPart
 {
 	public class Parser
 	{
 		private static byte[] CRLF = Encoding.UTF8.GetBytes("\r\n");
+		private static byte[] DCRLF = Encoding.UTF8.GetBytes("\r\n\r\n");
+		private static int[] DCRLF_next = Next(DCRLF);
 
 		private byte[] head_boundry;
+		private int[] head_boundry_next;
+
 		private byte[] close_boundry;
 
 		public Parser(string boundry)
 		{
 			head_boundry = Encoding.UTF8.GetBytes("--" + boundry);
+			head_boundry_next = Next(head_boundry);
+
 			close_boundry = Encoding.UTF8.GetBytes("--" + boundry + "--");
 		}
 
@@ -25,65 +32,52 @@ namespace Wammer.MultiPart
 
 			byte[] content = ToByteArray(stream);
 
-			int startFrom = 0;
-			while (startFrom < content.Length)
+			int startFrom = IndexOf(content, 0, head_boundry, head_boundry_next);
+			if (startFrom != -1)
 			{
-				int index = IndexOf(content, startFrom, CRLF);
-				if (index < 0)
-					throw new FormatException("Not a wellformed multipart content");
-
-				if (HasSubString(content, index + CRLF.Length, close_boundry))
+				startFrom += head_boundry.Length + CRLF.Length;
+				bool end = false;
+				while (!end)
 				{
-					return parts.ToArray();
-				}
-				else if (IsInFront(content, index, head_boundry))
-				{
-					int bodyLen;
-					int bodyStartIdx = index + CRLF.Length;
-
-					Part part = ParsePartBody(content, bodyStartIdx, out bodyLen);
+					Part part = ParsePartBody(content, startFrom, out startFrom, out end);
 					parts.Add(part);
-
-					startFrom = bodyStartIdx + bodyLen;
-					continue;
 				}
-
-
-				startFrom = index + 2;
+				return parts.ToArray();
 			}
-
 			throw new FormatException("Not a wellformed multipart content");
 		}
 
-		private Part ParsePartBody(byte[] data, int startIdx, out int partLen)
+		private Part ParsePartBody(byte[] data, int startIdx, out int next_startIdx, out bool end)
 		{
-			int index = 0;
-			int startFrom = startIdx;
-
-			bool headerFound = false;
 			NameValueCollection headers = new NameValueCollection();
-			int dataStartIndex = 0;
-			while ((index = IndexOf(data, startFrom, CRLF)) >= 0)
+
+			int sep_index = IndexOf(data, startIdx, DCRLF, DCRLF_next);
+			ParseHeaders(headers, data, startIdx, sep_index);
+
+			int next_head_index = IndexOf(data, startIdx, head_boundry, head_boundry_next);
+			next_startIdx = startIdx + next_head_index + head_boundry.Length;
+			if (next_head_index < 0 || next_startIdx + 2 > data.Length)
+				throw new FormatException("Bad part body format");			
+
+			end = false;
+
+			// cheat on looking close_boundary & following \r\n
+			if (data[next_startIdx] == '-' &&
+				data[next_startIdx + 1] == '-')
 			{
-				if (!headerFound && IsInFront(data, index, CRLF))
-				{
-					headerFound = true;
-					dataStartIndex = index + 2;
-
-					if (index - startIdx > 0)
-						ParseHeaders(headers, data, startIdx, index - startIdx);
-				}
-
-				if (headerFound && HasSubString(data, index + 2, head_boundry))
-				{
-					partLen = index - startIdx;
-					return new Part(data, dataStartIndex, index - dataStartIndex, headers);
-				}
-
-				startFrom = index + 2;
+				end = true;
+			}
+			else if (data[next_startIdx] == '\r' &&
+				data[next_startIdx + 1] == '\n')
+			{
+				next_startIdx += CRLF.Length;
+			}
+			else
+			{
+				throw new FormatException("Bad part body format");
 			}
 
-			throw new FormatException("Bad part body format");
+			return new Part(data, startIdx + sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length), headers);
 		}
 
 		private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)
@@ -104,16 +98,6 @@ namespace Wammer.MultiPart
 			}
 		}
 
-		// is byte array "what" in front of EndInx?
-		private static bool IsInFront(byte[] content, int endIdx, byte[] what)
-		{
-			int fromIdx = endIdx - what.Length;
-			if (fromIdx < 0)
-				return false;
-
-			return CommonPrefixCount(content, fromIdx, what) == what.Length;
-		}
-
 		private static byte[] ToByteArray(Stream stream)
 		{
 			using (MemoryStream m = new MemoryStream())
@@ -123,45 +107,59 @@ namespace Wammer.MultiPart
 			}
 		}
 
-
-		private static bool HasSubString(byte[] data, int startIdx, byte[] substr)
+		// KMP algorithm reference: http://www.cnblogs.com/zhy2002/archive/2008/03/31/1131794.html
+		public static int[] Next(byte[] pattern)
 		{
-			return CommonPrefixCount(data, startIdx, substr) == substr.Length;
-		}
-
-		// count the common prefix bytes of a byte array
-		private static int CommonPrefixCount(byte[] data, int startIdx, byte[] what)
-		{
-			int commPrefixCount = 0;
-
-			for (int i = 0; i < what.Length && startIdx + i < data.Length; i++)
+			int[] next = new int[pattern.Length];
+			next[0] = -1;
+			if (pattern.Length < 2)
 			{
-				if (data[startIdx + i] == what[i])
-					commPrefixCount++;
-				else
-					break;
+				return next;
 			}
-
-			return commPrefixCount;
+			next[1] = 0;
+			int i = 2;
+			int j = 0;
+			while (i < pattern.Length)
+			{
+				if (pattern[i - 1] == pattern[j])
+				{
+					next[i++] = ++j;
+				}
+				else
+				{
+					j = next[j];
+					if (j == -1)
+					{
+						next[i++] = ++j;
+					}
+				}
+			}
+			return next;
 		}
 
 		// find "what" in a byte array
-		private static int IndexOf(byte[] data, int startIdx, byte[] whatBytes)
+		private static int IndexOf(byte[] source, int stardIdx, byte[] pattern, int[] next)
 		{
-			int startFrom = startIdx;
-			while (startFrom < data.Length)
+			int i = 0;
+			int j = 0;
+			while (j < pattern.Length && i < source.Length - stardIdx)
 			{
-				int commonPrefix = CommonPrefixCount(data, startFrom, whatBytes);
-				if (commonPrefix == whatBytes.Length)
-					return startFrom;
-
-				if (commonPrefix > 0)
-					startFrom += commonPrefix;
+				if (source[stardIdx + i] == pattern[j])
+				{
+					i++;
+					j++;
+				}
 				else
-					startFrom += 1;
+				{
+					j = next[j];
+					if (j == -1)
+					{
+						i++;
+						j++;
+					}
+				}
 			}
-
-			return -1;
+			return j < pattern.Length ? -1 : i - j;
 		}
 	}
 }

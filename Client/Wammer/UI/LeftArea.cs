@@ -1,13 +1,10 @@
 #region
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using CustomControls;
 using NLog;
-using Waveface.API.V2;
-using Waveface.Component.ListBarControl;
 using Waveface.Properties;
 using MonthCalendar = CustomControls.MonthCalendar;
 
@@ -223,6 +220,7 @@ namespace Waveface
 
         #region Group
 
+        /*
         public void fillGroupAndUser()
         {
             vsNetListBarGroups.Groups.Clear();
@@ -274,6 +272,8 @@ namespace Waveface
             while (imageListLarge.Images.Count > 2)
                 imageListLarge.Images.RemoveAt(imageListLarge.Images.Count - 1);
         }
+
+        */
 
         #endregion
 

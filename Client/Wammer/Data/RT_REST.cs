@@ -253,9 +253,12 @@ namespace Waveface
                         if (_idx != -1)
                             _ext = text.Substring(_idx);
 
-                        string _originCacheFile = Main.GCONST.ImageUploadCachePath + _ret.object_id + _ext;
+                        string _originCacheFile_OID = Main.GCONST.ImageUploadCachePath + _ret.object_id + _ext;
+                        string _originCacheFile_REAL = Main.GCONST.ImageUploadCachePath + text;
 
-                        File.Copy(filePath, _originCacheFile);
+                        File.Copy(filePath, _originCacheFile_OID, true);
+
+                        UploadOriginPhotosToStationManager.Current.Add(_originCacheFile_OID, _originCacheFile_REAL, _ret.object_id);
                     }
 
                     return _ret;
@@ -515,55 +518,55 @@ namespace Waveface
             return null;
         }
 
-		public MR_storages_usage Storages_Usage()
-		{
-			if (!IsNetworkAvailable)
-				return null;
+        public MR_storages_usage Storages_Usage()
+        {
+            if (!IsNetworkAvailable)
+                return null;
 
-			MR_storages_usage _ret = null;
+            MR_storages_usage _ret = null;
 
-			try
-			{
-				_ret = m_service.storages_usage(SessionToken);
-			}
-			catch (Station401Exception _e)
-			{
-				Main.Current.Station401ExceptionHandler(_e.Message);
-			}
+            try
+            {
+                _ret = m_service.storages_usage(SessionToken);
+            }
+            catch (Station401Exception _e)
+            {
+                Main.Current.Station401ExceptionHandler(_e.Message);
+            }
 
-			if (_ret != null)
-			{
-				if (_ret.status == "200")
-					return _ret;
-			}
+            if (_ret != null)
+            {
+                if (_ret.status == "200")
+                    return _ret;
+            }
 
-			return null;
-		}
+            return null;
+        }
 
-		public MR_station_status GetStationStatus()
-		{
-			if (!IsNetworkAvailable)
-				return null;
+        public MR_station_status GetStationStatus()
+        {
+            if (!IsNetworkAvailable)
+                return null;
 
-			MR_station_status _ret = null;
+            MR_station_status _ret = null;
 
-			try
-			{
-				_ret = m_service.GetStationStatus(SessionToken);
-			}
-			catch (Station401Exception _e)
-			{
-				Main.Current.Station401ExceptionHandler(_e.Message);
-			}
+            try
+            {
+                _ret = m_service.GetStationStatus(SessionToken);
+            }
+            catch (Station401Exception _e)
+            {
+                Main.Current.Station401ExceptionHandler(_e.Message);
+            }
 
-			if (_ret != null)
-			{
-				if (_ret.status == "200")
-					return _ret;
-			}
+            if (_ret != null)
+            {
+                if (_ret.status == "200")
+                    return _ret;
+            }
 
-			return null;
-		}
+            return null;
+        }
 
 
     }

@@ -8,6 +8,8 @@ namespace Waveface
     {
         public static int GetPostOffset = 10;
 
+        public static bool DEBUG = true;
+
         public string AppDataPath;
         public string TempPath;
         public string CachePath;
@@ -31,7 +33,7 @@ namespace Waveface
 
         private void InitTempDir()
         {
-            TempPath = AppDataPath +  "TempDir\\";
+            TempPath = AppDataPath + "TempDir\\";
             Directory.CreateDirectory(TempPath);
 
             string[] _filePaths = Directory.GetFiles(TempPath);
@@ -44,7 +46,7 @@ namespace Waveface
         {
             CachePath = AppDataPath + "Cache\\";
             Directory.CreateDirectory(CachePath);
-      
+
             string[] _filePaths = Directory.GetFiles(CachePath);
 
             //foreach (string _filePath in _filePaths)
@@ -55,7 +57,7 @@ namespace Waveface
         {
             ImageUploadCachePath = AppDataPath + "ImageUploadCache\\";
             Directory.CreateDirectory(ImageUploadCachePath);
-    
+
             string[] _filePaths = Directory.GetFiles(ImageUploadCachePath);
 
             //foreach (string _filePath in _filePaths)

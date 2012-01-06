@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compoment\SingleInstance.cs" />
+    <Compile Include="Data\UploadOriginPhotosToStationItem.cs" />
     <Compile Include="Data\NewPostManager.cs" />
     <Compile Include="Data\PhotoDownloader.cs" />
     <Compile Include="Data\ImageItem.cs" />
@@ -146,7 +147,7 @@
     <Compile Include="UI\NewPostManagerUI.Designer.cs">
       <DependentUpon>NewPostManagerUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="UploadOriginPhotosToStation.cs" />
+    <Compile Include="Data\UploadOriginPhotosToStationManager.cs" />
     <Compile Include="Compoment\FileIconLib.cs" />
     <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
       <SubType>UserControl</SubType>

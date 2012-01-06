@@ -47,7 +47,6 @@ namespace Waveface
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
         private Popup m_trayIconPopup;
         private TrayIconPanel m_trayIconPanel;
-        private UploadOriginPhotosToStation m_uploadOriginPhotosToStation;
 
         private bool m_exitToLogin;
         private bool m_process401Exception;
@@ -117,9 +116,13 @@ namespace Waveface
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
 
-            s_logger.Trace("Constructor: OK");
-
             System.Net.ServicePointManager.DefaultConnectionLimit = 64;
+
+            PhotoDownloader.Current = null;
+            NewPostManager.Current = null;
+            UploadOriginPhotosToStationManager.Current = null;
+
+            s_logger.Trace("Constructor: OK");
         }
 
         #region Init
@@ -659,8 +662,7 @@ namespace Waveface
 
                 GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
 
-                m_uploadOriginPhotosToStation = new UploadOriginPhotosToStation();
-                m_uploadOriginPhotosToStation.Start();
+                UploadOriginPhotosToStationManager.Current.Start();
             }
 
             return true;
@@ -717,6 +719,7 @@ namespace Waveface
 
         private void getGroupAndUser()
         {
+            /*
             foreach (Group _g in RT.Login.groups)
             {
                 MR_groups_get _mrGroupsGet = RT.REST.Groups_Get(_g.group_id);
@@ -733,6 +736,7 @@ namespace Waveface
                     }
                 }
             }
+            */
         }
 
         #endregion
