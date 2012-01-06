@@ -3,15 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using CustomControls;
 using NLog;
 using Waveface.API.V2;
 using Waveface.Component.ListBarControl;
-using Waveface.FilterUI;
 using Waveface.Properties;
-using XPExplorerBar;
 using MonthCalendar = CustomControls.MonthCalendar;
 
 #endregion
@@ -22,8 +19,8 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private FilterManager m_filterManager;
-        private Button m_buttonAddNewFilter;
+        // private FilterManager m_filterManager;
+        // private Button m_buttonAddNewFilter;
         private string m_dropAreaMessage;
         private Image m_dropAreaImage;
         private Font m_font = new Font("Arial", 10, FontStyle.Bold);
@@ -60,8 +57,8 @@ namespace Waveface
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
             pbDropArea.AllowDrop = true;
 
-            //taskPaneFilter.UseCustomTheme("panther.dll");
-            taskPaneFilter.UseClassicTheme();
+            // taskPaneFilter.UseCustomTheme("panther.dll");
+            // taskPaneFilter.UseClassicTheme();
 
             m_dropAreaImage = new Bitmap(150, 138);
         }
@@ -73,6 +70,7 @@ namespace Waveface
             NewPostManager.Current.UploadDone += UploadDone;
         }
 
+        /*
         #region CustomizedFilters
 
         private void AddNewItem_Click(object sender, EventArgs e)
@@ -221,6 +219,7 @@ namespace Waveface
         }
 
         #endregion
+        */
 
         #region Group
 
@@ -282,7 +281,7 @@ namespace Waveface
 
         public void SetUI(bool flag)
         {
-            taskPaneFilter.Visible = flag;
+            //taskPaneFilter.Visible = flag;
         }
 
         private void monthCalendar_DateClicked(object sender, DateEventArgs e)
@@ -435,8 +434,8 @@ namespace Waveface
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            NewPostManagerUI _newPostManager = new NewPostManagerUI();
-            _newPostManager.ShowDialog();
+            //NewPostManagerUI _newPostManager = new NewPostManagerUI();
+            //_newPostManager.ShowDialog();
         }
     }
 }
