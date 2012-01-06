@@ -20,7 +20,8 @@ namespace Wammer.Station
 {
     public partial class DropboxForm : Form
     {
-        private const string HOST = "http://develop.waveface.com:4343/";
+        private const string HOST = "https://waveface.com/";
+        private const string DEV_HOST = "http://develop.waveface.com:4343/";
 
         private bool m_canExit;
         private bool m_doAutoPost;
@@ -258,7 +259,11 @@ namespace Wammer.Station
 
         private void OpenDropboxInstallWeb()
         {
-            Process.Start(HOST + "to?url=" + HttpUtility.UrlEncode("http://www.dropbox.com/"), null);
+            string cloudURL = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "cloudBaseURL", "");
+            if (cloudURL.Contains("develop"))
+                Process.Start(DEV_HOST + "to?url=" + HttpUtility.UrlEncode("http://www.dropbox.com/"), null);
+            else
+                Process.Start(HOST + "to?url=" + HttpUtility.UrlEncode("http://www.dropbox.com/"), null);
         }
 
         private void OpenLinkageWebPage()

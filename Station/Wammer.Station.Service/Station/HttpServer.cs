@@ -136,7 +136,7 @@ namespace Wammer.Station
 													context.Request.Url.AbsolutePath);
 
 						if (handler != null)
-							ThreadPool.Enqueue(handler.Do, new HttpData(context, beginTime));
+							TaskQueue.EnqueueHigh(handler.Do, new HttpData(context, beginTime));
 						else
 							respond404NotFound(context);
 					}

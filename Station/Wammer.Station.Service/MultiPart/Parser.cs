@@ -77,7 +77,7 @@ namespace Wammer.MultiPart
 				throw new FormatException("Bad part body format");
 			}
 
-			return new Part(data, startIdx + sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length), headers);
+			return new Part(new ArraySegment<byte>(data, startIdx + sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length)), headers);
 		}
 
 		private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)
@@ -100,7 +100,7 @@ namespace Wammer.MultiPart
 
 		private static byte[] ToByteArray(Stream stream)
 		{
-			using (MemoryStream m = new MemoryStream())
+			using (MemoryStream m = new MemoryStream((int)stream.Length))
 			{
 				Wammer.Utility.StreamHelper.Copy(stream, m);
 				return m.ToArray();

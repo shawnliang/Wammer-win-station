@@ -137,6 +137,7 @@
     <Compile Include="Station\AddDriverHandler.cs" />
     <Compile Include="Station\AttachmentGetHandler.cs" />
     <Compile Include="Model\Database.cs" />
+    <Compile Include="Station\AttachmentUploadStrategy.cs" />
     <Compile Include="Station\CloudStorageHandler.cs" />
     <Compile Include="Station\CloudStorageSync.cs" />
     <Compile Include="Station\DropboxFileStorage.cs" />
@@ -152,7 +153,7 @@
     <Compile Include="Station\StationTimer.cs" />
     <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Station\StatusGetHandler.cs" />
-    <Compile Include="Station\ThreadPool.cs" />
+    <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\DropboxHelper.cs" />

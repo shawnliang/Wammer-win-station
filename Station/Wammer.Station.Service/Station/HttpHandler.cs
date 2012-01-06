@@ -12,7 +12,7 @@ namespace Wammer.Station
 {
 	public class UploadedFile
 	{
-		public UploadedFile(string name, byte[] data, string contentType)
+		public UploadedFile(string name, ArraySegment<byte> data, string contentType)
 		{
 			this.Name = name;
 			this.Data = data;
@@ -20,7 +20,7 @@ namespace Wammer.Station
 		}
 
 		public string Name { get; private set; }
-		public byte[] Data { get; private set; }
+		public ArraySegment<byte> Data { get; private set; }
 		public string ContentType { get; private set; }
 	}
 
@@ -82,7 +82,7 @@ namespace Wammer.Station
 					}
 				}
 				foreach (UploadedFile file in Files)
-					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Length);
+					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count);
 			}
 
 
