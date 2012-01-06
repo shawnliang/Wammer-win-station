@@ -100,7 +100,7 @@ namespace Wammer.MultiPart
 
 		private static byte[] ToByteArray(Stream stream)
 		{
-			using (MemoryStream m = new MemoryStream())
+			using (MemoryStream m = new MemoryStream((int)stream.Length))
 			{
 				Wammer.Utility.StreamHelper.Copy(stream, m);
 				return m.ToArray();
