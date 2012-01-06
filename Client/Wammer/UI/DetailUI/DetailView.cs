@@ -331,7 +331,7 @@ namespace Waveface
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            if (textBox.Text.Equals(""))
+            if (textBox.Text.Trim().Equals(string.Empty))
             {
                 MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;

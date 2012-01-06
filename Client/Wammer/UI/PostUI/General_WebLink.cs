@@ -48,7 +48,7 @@ namespace Waveface.PostUI
             }
 
             //[2] 單純文字
-            if (MyParent.pureTextBox.Text.Equals(string.Empty))
+            if (MyParent.pureTextBox.Text.Trim().Equals(string.Empty))
             {
                 MessageBox.Show("Text cannot be empty!");
             }
