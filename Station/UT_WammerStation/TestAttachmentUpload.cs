@@ -48,7 +48,7 @@ namespace UT_WammerStation
 
 		private Part CreatePart(byte[] data)
 		{
-			return new Part(data, 0, data.Length, new NameValueCollection());
+			return new Part(new ArraySegment<byte>(data), new NameValueCollection());
 		}
 
 		[TestInitialize]
@@ -112,7 +112,7 @@ namespace UT_WammerStation
 			List<UserGroup> groups = new List<UserGroup>();
 			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none"});
 			FileStorage storage = new FileStorage(new Driver { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1"});
-			storage.SaveFile("id1.jpeg", file);
+			storage.SaveFile("id1.jpeg", new ArraySegment<byte>(file));
 
 			using (FileStream f = File.OpenRead(@"resource\group1\id1.jpeg"))
 			{
@@ -160,7 +160,7 @@ namespace UT_WammerStation
 				using (MemoryStream output = new MemoryStream())
 				{
 					input.CopyTo(output);
-					res = Attachment.UploadImage("http://localhost:8080/test/", output.ToArray(),
+					res = Attachment.UploadImage("http://localhost:8080/test/", new ArraySegment<byte>(output.ToArray()),
 						"group1", null, "filename1.jpg", "image/jpeg",
 						ImageMeta.Origin, "key1", "token");
 
@@ -225,7 +225,7 @@ namespace UT_WammerStation
 				using (MemoryStream output = new MemoryStream())
 				{
 					input.CopyTo(output);
-					res = Attachment.UploadImage("http://localhost:8080/test/", output.ToArray(),
+					res = Attachment.UploadImage("http://localhost:8080/test/", new ArraySegment<byte>(output.ToArray()),
 						"group1", null, "filename1.jpg", "image/jpeg",
 						ImageMeta.Large, "key1", "token");
 

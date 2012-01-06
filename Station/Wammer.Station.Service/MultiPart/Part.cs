@@ -11,24 +11,21 @@ namespace Wammer.MultiPart
 		public static byte[] DASH_DASH = Encoding.UTF8.GetBytes("--");
 		public static byte[] CRLF = Encoding.UTF8.GetBytes("\r\n");
 
-		private byte[] data;
-		private int start;
-		private int len;
+		ArraySegment<byte> data;
 		private static char[] CRLFtail = { '\r', '\n' };
 
 		private string text;
-		private byte[] bytes;
+		private ArraySegment<byte> bytes;
 		private NameValueCollection headers;
 		private Disposition disposition;
 
-		public Part(byte[] data, int start, int len, NameValueCollection headers)
+		public Part(ArraySegment<byte> data, NameValueCollection headers)
 		{
 			if (data == null || headers == null)
 				throw new ArgumentNullException();
 
 			this.data = data;
-			this.start = start;
-			this.len = len;
+			this.bytes = data;
 			this.headers = headers;
 
 			if (headers["content-disposition"] != null)
@@ -37,27 +34,25 @@ namespace Wammer.MultiPart
 			}
 		}
 
-		public Part(byte[] data, int start, int len)
+		public Part(ArraySegment<byte> data)
 		{
 			if (data == null)
 				throw new ArgumentNullException();
 
 			this.data = data;
-			this.start = start;
-			this.len = len;
 			this.headers = new NameValueCollection();
 		}
 
-		public Part(string data)
-		{
-			if (data == null)
-				throw new ArgumentNullException();
+		//public Part(string data)
+		//{
+		//    if (data == null)
+		//        throw new ArgumentNullException();
 
-			this.data = Encoding.UTF8.GetBytes(data);
-			this.start = 0;
-			this.len = this.data.Length;
-			this.headers = new NameValueCollection();
-		}
+		//    this.data = Encoding.UTF8.GetBytes(data);
+		//    this.start = 0;
+		//    this.len = this.data.Length;
+		//    this.headers = new NameValueCollection();
+		//}
 
 		public Part(string data, NameValueCollection headers)
 		{
@@ -66,9 +61,7 @@ namespace Wammer.MultiPart
 
 			byte[] dataUtf8 = Encoding.UTF8.GetBytes(data);
 
-			this.data = dataUtf8;
-			this.start = 0;
-			this.len = dataUtf8.Length;
+			this.data = new ArraySegment<byte>(dataUtf8);
 			this.headers = headers;
 
 			if (headers["content-disposition"] != null)
@@ -85,24 +78,17 @@ namespace Wammer.MultiPart
 					headers["content-transfer-encoding"].Equals("binary"))
 					return null;
 				if (text == null)
-					text = Encoding.UTF8.GetString(data, start, len);
+					text = Encoding.UTF8.GetString(data.Array, data.Offset, data.Count);
 
 				// text might have \r\n at its end
 				return text.TrimEnd(CRLFtail);
 			}
 		}
 
-		public byte[] Bytes
+		public ArraySegment<byte> Bytes
 		{
 			get
 			{
-				if (bytes == null)
-				{
-					bytes = new byte[this.len];
-					for (int i = 0; i < this.len; i++)
-						bytes[i] = this.data[this.start + i];
-				}
-
 				return bytes;
 			}
 		}
@@ -133,7 +119,7 @@ namespace Wammer.MultiPart
 
 			output.Write(CRLF, 0, CRLF.Length);
 
-			output.Write(data, start, len);
+			output.Write(data.Array, data.Offset, data.Count);
 		}
 
 		public NameValueCollection Headers

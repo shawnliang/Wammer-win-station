@@ -189,7 +189,7 @@ namespace UT_WammerStation
 			for (int i = 0; i < data.Length; i++)
 				data[i] = (byte)i;
 
-			a.RawData = data;
+			a.RawData = new ArraySegment<byte>(data);
 
 			ThumbnailInfo thumb = new ThumbnailInfo();
 			thumb.RawData = data;

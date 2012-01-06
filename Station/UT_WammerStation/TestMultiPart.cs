@@ -90,7 +90,10 @@ namespace UT_WammerStation
 			Assert.AreEqual("binary",
 								parts[0].Headers["content-transfer-encoding"]);
 			for (int i = 0; i < 20; i++)
-				Assert.AreEqual((byte)i, parts[0].Bytes[i]);
+			{
+				ArraySegment<byte> bytes = parts[0].Bytes;
+				Assert.AreEqual((byte)i, bytes.Array[bytes.Offset + i]);
+			}
 
 			Assert.AreEqual(null, parts[0].Text);
 			Assert.IsNull(parts[0].ContentDisposition);

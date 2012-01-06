@@ -161,7 +161,7 @@ namespace UT_WammerStation
 				cloud.Start();
 
 				ObjectUploadResponse res = Wammer.Model.Attachment.UploadImage(
-					"http://localhost:80/test/", imageRawData, "group1", null,
+					"http://localhost:80/test/", new ArraySegment<byte>(imageRawData), "group1", null,
 					"orig_name.jpeg", "image/jpeg", ImageMeta.Origin, "apiKey1", "token1");
 
 				Assert.IsTrue(evtHandler.EventReceived());
@@ -178,7 +178,7 @@ namespace UT_WammerStation
 				server.Start();
 
 				ObjectUploadResponse res = Wammer.Model.Attachment.UploadImage(
-					"http://localhost:80/test/", imageRawData, "group1", null,
+					"http://localhost:80/test/", new ArraySegment<byte>(imageRawData), "group1", null,
 					"orig_name.jpeg", "image/jpeg", ImageMeta.Origin, "apikey1", "token1");
 
 				Assert.AreEqual("token1", 
@@ -203,7 +203,7 @@ namespace UT_WammerStation
 				cloud.Start();
 
 				ObjectUploadResponse res = Wammer.Model.Attachment.UploadImage(
-					"http://localhost:80/test/", imageRawData, "group1", object_id1, 
+					"http://localhost:80/test/", new ArraySegment<byte>(imageRawData), "group1", object_id1, 
 					"orig_name2.png", "image/png", ImageMeta.Origin, "apikey1", "token1");
 
 				// verify saved file
@@ -255,7 +255,7 @@ namespace UT_WammerStation
 
 				string oid = Guid.NewGuid().ToString();
 				ObjectUploadResponse res = Wammer.Model.Attachment.UploadImage(
-					"http://localhost:80/test/", imageRawData, "group1", oid, 
+					"http://localhost:80/test/", new ArraySegment<byte>(imageRawData), "group1", oid, 
 					"orig_name2.jpeg", "image/jpeg", ImageMeta.Large, "apikey1", "token1");
 
 				// verify
@@ -306,7 +306,7 @@ namespace UT_WammerStation
 					title = "title1",
 					mime_type = "image/jpeg",
 					type = AttachmentType.image,
-					RawData = imageRawData,
+					RawData = new ArraySegment<byte>(imageRawData),
 					object_id = object_id1,
 					file_name = "orig_file.jpeg"
 				},
@@ -352,7 +352,7 @@ namespace UT_WammerStation
 					title = "title1",
 					mime_type = "image/jpeg",
 					type = AttachmentType.image,
-					RawData = imageRawData,
+					RawData = new ArraySegment<byte>(imageRawData),
 					object_id = object_id1
 				},
 				Meta = ImageMeta.Origin,
