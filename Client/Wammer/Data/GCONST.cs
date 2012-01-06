@@ -8,7 +8,9 @@ namespace Waveface
     {
         public static int GetPostOffset = 10;
 
+        public static bool ADVANCED_FEATURE = true;
         public static bool DEBUG = true;
+        public static bool STATION_COMBINE_MODE = true;
 
         public string AppDataPath;
         public string TempPath;

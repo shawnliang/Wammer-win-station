@@ -1,12 +1,16 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using NLog;
 using Waveface.Compoment;
 using Waveface.Diagnostics;
 using Waveface.Localization;
+
+#endregion
 
 namespace Waveface
 {
@@ -17,22 +21,22 @@ namespace Waveface
         #region DllImport
 
         [DllImport("user32.dll")]
-		private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+        private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
 
-		[DllImport("user32.dll")]
-		private static extern bool BringWindowToTop(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        private static extern bool BringWindowToTop(IntPtr hWnd);
 
-		[DllImport("user32.dll")]
-		private static extern IntPtr GetForegroundWindow();
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
 
-		[DllImport("user32.dll")]
-		private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
-		[DllImport("kernel32.dll")]
-		private static extern uint GetCurrentThreadId();
+        [DllImport("kernel32.dll")]
+        private static extern uint GetCurrentThreadId();
 
-		[DllImport("user32.dll")]
-		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
+        [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
 
         #endregion
 
@@ -47,12 +51,12 @@ namespace Waveface
                 return;
             }
 
-            string culture = (string)StationRegHelper.GetValue("Culture", null);
+            string _culture = (string) StationRegHelper.GetValue("Culture", null);
 
-            if (culture==null)
+            if (_culture == null)
                 CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
             else
-                CultureManager.ApplicationUICulture = new CultureInfo(culture);
+                CultureManager.ApplicationUICulture = new CultureInfo(_culture);
 
 
             Application.ThreadException += Application_ThreadException;
@@ -63,9 +67,9 @@ namespace Waveface
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                ProgramSetting settings = new ProgramSetting();
+                ProgramSetting _settings = new ProgramSetting();
 
-                LoginForm loginForm;
+                LoginForm _loginForm;
 
                 if (args.Length == 3)
                 {
@@ -73,49 +77,52 @@ namespace Waveface
                     string _password = args[1];
                     string _token = args[2];
 
-                    settings.Email = _email;
-                    settings.Password = _password;
-                    settings.StationToken = _token;
-                    settings.Save();
+                    _settings.Email = _email;
+                    _settings.Password = _password;
+                    _settings.StationToken = _token;
+                    _settings.Save();
 
-                    loginForm = new LoginForm(_email, _password, true);
+                    _loginForm = new LoginForm(_email, _password, true);
                 }
-                else if (settings.IsLoggedIn)
+                else if (_settings.IsLoggedIn)
                 {
-                    loginForm = new LoginForm(settings.Email, settings.Password, true);
+                    _loginForm = new LoginForm(_settings.Email, _settings.Password, true);
                 }
                 else
                 {
-                    loginForm = new LoginForm(settings.Email, settings.Password, false);
+                    _loginForm = new LoginForm(_settings.Email, _settings.Password, false);
                 }
 
-				// force window to have focus
-				// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
-				uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
-				uint appThread = GetCurrentThreadId();
-				const uint SW_SHOW = 5;
-				
-                if (foreThread != appThread)
-				{
-					AttachThreadInput(foreThread, appThread, true);
-					BringWindowToTop(loginForm.Handle);
-					
+                #region force window to have focus
+
+                // please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
+                uint _foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
+                uint _appThread = GetCurrentThreadId();
+                const uint SW_SHOW = 5;
+
+                if (_foreThread != _appThread)
+                {
+                    AttachThreadInput(_foreThread, _appThread, true);
+                    BringWindowToTop(_loginForm.Handle);
+
                     if (args.Length != 3)
-						ShowWindow(loginForm.Handle, SW_SHOW);
+                        ShowWindow(_loginForm.Handle, SW_SHOW);
 
-					AttachThreadInput(foreThread, appThread, false);
-				}
-				else
-				{
-					BringWindowToTop(loginForm.Handle);
+                    AttachThreadInput(_foreThread, _appThread, false);
+                }
+                else
+                {
+                    BringWindowToTop(_loginForm.Handle);
 
-					if (args.Length != 3)
-						ShowWindow(loginForm.Handle, SW_SHOW);
-				}
+                    if (args.Length != 3)
+                        ShowWindow(_loginForm.Handle, SW_SHOW);
+                }
 
-				loginForm.Activate();
+                _loginForm.Activate();
 
-                Application.Run(loginForm);
+                #endregion
+
+                Application.Run(_loginForm);
             }
             catch (Exception _e)
             {
@@ -130,8 +137,8 @@ namespace Waveface
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-			NLogUtility.Exception(s_logger, (Exception)e.ExceptionObject, "CurrentDomain_UnhandledException");
-            CrashReporter _errorDlg = new CrashReporter((Exception)e.ExceptionObject);
+            NLogUtility.Exception(s_logger, (Exception) e.ExceptionObject, "CurrentDomain_UnhandledException");
+            CrashReporter _errorDlg = new CrashReporter((Exception) e.ExceptionObject);
             _errorDlg.ShowDialog();
         }
 

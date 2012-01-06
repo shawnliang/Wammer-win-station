@@ -193,7 +193,7 @@ namespace Waveface
                 try
                 {
                     WebRequest _wReq = WebRequest.Create(_url);
-                    _wReq.Timeout = 3000;
+                    _wReq.Timeout = 10000;
 
                     WebResponse _wRep = _wReq.GetResponse();
 
@@ -286,7 +286,7 @@ namespace Waveface
                     NLogUtility.Exception(s_logger, _e, "DownloadThreadMethod");
                 }
 
-                Thread.Sleep(1);
+                Thread.Sleep(10);
             }
         }
     }

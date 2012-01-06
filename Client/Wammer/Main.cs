@@ -39,7 +39,7 @@ namespace Waveface
         //Main
         public PreferenceForm m_preference;
 
-        private ProgramSetting settings = new ProgramSetting();
+        private ProgramSetting m_settings = new ProgramSetting();
 
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private VirtualFolderForm m_virtualFolderForm;
@@ -83,8 +83,8 @@ namespace Waveface
 
         private string StationToken
         {
-            get { return settings.StationToken; }
-            set { settings.StationToken = value; }
+            get { return m_settings.StationToken; }
+            set { m_settings.StationToken = value; }
         }
 
         public QuitOption QuitOption { get; private set; }
@@ -259,7 +259,7 @@ namespace Waveface
                 m_exitToLogin = true;
                 m_process401Exception = true;
                 QuitOption = QuitOption.Logout;
-                settings.IsLoggedIn = false;
+                m_settings.IsLoggedIn = false;
 
                 Close();
             }
@@ -320,7 +320,8 @@ namespace Waveface
             {
                 try
                 {
-                    WService.LogoutStation(StationToken);
+                    if(GCONST.STATION_COMBINE_MODE)
+                        WService.LogoutStation(StationToken);
                 }
                 catch (Exception _e)
                 {
@@ -654,9 +655,9 @@ namespace Waveface
             }
             else
             {
-                settings.Email = email;
-                settings.Password = password;
-                settings.IsLoggedIn = true;
+                m_settings.Email = email;
+                m_settings.Password = password;
+                m_settings.IsLoggedIn = true;
 
                 s_logger.Trace("Login.Auth_Login.OK: GetAllDataAsync(false)");
 
@@ -1418,6 +1419,9 @@ namespace Waveface
                 {
                     case "image":
                         {
+                            if (post.attachments.Count == 0)
+                                break;
+                            
                             Attachment _a = post.attachments[0];
 
                             string _url = string.Empty;
@@ -1578,18 +1582,20 @@ namespace Waveface
             m_eventFromRestoreWindow_Hack = false;
 
             QuitOption = QuitOption.QuitProgram;
-            settings.IsLoggedIn = false;
+            m_settings.IsLoggedIn = false;
+
             Close();
         }
 
         public void stationLogin(string email, string password)
         {
-            StationToken = WService.LoginStation(email, password);
+            if (GCONST.STATION_COMBINE_MODE)
+                StationToken = WService.LoginStation(email, password);
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
-            settings.Save();
+            m_settings.Save();
         }
 
         #endregion

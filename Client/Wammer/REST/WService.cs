@@ -17,13 +17,31 @@ namespace Waveface.API.V2
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        public static string CloudIP = "https://develop.waveface.com"; //https://api.waveface.com  ;
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
         public static string WebURL = "http://develop.waveface.com:4343";
 
         private static string s_stationIP = string.Empty;
+        private static string s_cloudIP = string.Empty;
 
         #region Properties
+
+        public static string CloudIP
+        {
+            get
+            {
+                //if (GCONST.DEBUG)
+                //{
+                    //return "https://develop.waveface.com";
+                //    return "https://api.waveface.com";
+                //}
+                //else
+                {
+                    return s_cloudIP;
+                }
+            }
+            set { s_cloudIP = value; }
+        }
+
 
         public static string HostIP
         {
@@ -54,9 +72,10 @@ namespace Waveface.API.V2
         {
             get
             {
-                // return s_stationIP;
-
-                return "http://127.0.0.1:9981";
+                if (GCONST.STATION_COMBINE_MODE)
+                    return "http://127.0.0.1:9981";
+                else
+                    return s_stationIP;
             }
             set { s_stationIP = value; }
         }
@@ -65,13 +84,16 @@ namespace Waveface.API.V2
 
         static WService()
         {
-            string cloudURL = (string)StationRegHelper.GetValue("cloudBaseURL", null);
+            {
+                string _cloudUrl = (string)StationRegHelper.GetValue("cloudBaseURL", null);
 
-            if (cloudURL == null)
-                return;
+                if (_cloudUrl == null)
+                    return;
 
-            Uri url = new Uri(cloudURL);
-            CloudIP = url.Scheme + "://" + url.Host + ":" + url.Port;
+                Uri _url = new Uri(_cloudUrl);
+
+                CloudIP = _url.Scheme + "://" + _url.Host + ":" + _url.Port;
+            }
 
             if (CloudIP == "https://api.waveface.com")
             {
@@ -84,7 +106,7 @@ namespace Waveface.API.V2
         private T HttpGetObject<T>(string _url)
         {
             HttpWebRequest _req = (HttpWebRequest)WebRequest.Create(_url);
-            _req.Timeout = 10000;
+            _req.Timeout = 30000;
             _req.Headers.Set("Content-Encoding", "UTF-8");
             WebResponse _resp = _req.GetResponse();
             StreamReader _sr = new StreamReader(_resp.GetResponseStream());
