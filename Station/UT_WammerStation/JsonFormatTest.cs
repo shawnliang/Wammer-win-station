@@ -61,7 +61,9 @@ namespace UT_WammerStation
 			};
 
 			string json = a.ToFastJSON();
-			Assert.AreEqual("{\"title\":\"123\",\"type\":\"image\",\"file_size\":0,\"modify_time\":\"0001-01-01T00:00:00\",}", json);
+
+			Attachment result = fastJSON.JSON.Instance.ToObject<Attachment>(json);
+			Assert.IsNull(result.RawData.Array);
 		}
 
 		[TestMethod]

@@ -126,7 +126,7 @@ namespace Waveface
 			}
 
 			// Add the end of the request
-			string footer = "\r\n--" + boundary + "--\r\n";
+			string footer = "--" + boundary + "--\r\n";
 			formDataStream.Write(encoding.GetBytes(footer), 0, footer.Length);
 
 			// Dump the Stream into a byte[]

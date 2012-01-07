@@ -81,7 +81,8 @@ namespace Wammer.MultiPart
 					text = Encoding.UTF8.GetString(data.Array, data.Offset, data.Count);
 
 				// text might have \r\n at its end
-				return text.TrimEnd(CRLFtail);
+				//return text.TrimEnd(CRLFtail);
+				return text;
 			}
 		}
 

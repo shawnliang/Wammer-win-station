@@ -53,8 +53,6 @@ namespace Wammer.Station
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			//long begin = System.Diagnostics.Stopwatch.GetTimestamp();
-
 			this.Files = new List<UploadedFile>();
 			this.Request = request;
 			this.Response = response;

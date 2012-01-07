@@ -51,8 +51,17 @@ namespace Wammer.MultiPart
 		{
 			NameValueCollection headers = new NameValueCollection();
 
-			int sep_index = IndexOf(data, startIdx, DCRLF, DCRLF_next);
-			ParseHeaders(headers, data, startIdx, sep_index);
+			int sep_index;
+
+			if (data[startIdx] == '\r' && data[startIdx + 1] == '\n')
+			{
+				sep_index = - CRLF.Length;
+			}
+			else
+			{
+				sep_index = IndexOf(data, startIdx, DCRLF, DCRLF_next);
+				ParseHeaders(headers, data, startIdx, sep_index);
+			}
 
 			int next_head_index = IndexOf(data, startIdx, head_boundry, head_boundry_next);
 			next_startIdx = startIdx + next_head_index + head_boundry.Length;
@@ -77,7 +86,7 @@ namespace Wammer.MultiPart
 				throw new FormatException("Bad part body format");
 			}
 
-			return new Part(new ArraySegment<byte>(data, startIdx + sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length)), headers);
+			return new Part(new ArraySegment<byte>(data, startIdx + sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length) - CRLF.Length), headers);
 		}
 
 		private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)
