@@ -187,7 +187,7 @@ namespace Waveface.Component
                     }
                 }
 
-                if (GCONST.DEBUG)
+                if (GCONST.ADVANCED_FEATURE)
                 {
                     if (item.Tag != null)
                     {

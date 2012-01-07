@@ -40,6 +40,8 @@ namespace Wammer.Station
 
 				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
 				{
+					// release raw data immediately
+					evt.Attachment.RawData = new ArraySegment<byte>();
 					medium = MakeThumbnail(origImage, ImageMeta.Medium,
 														evt.Attachment.object_id, evt.Driver,
 														evt.Attachment.file_name);
@@ -104,7 +106,9 @@ namespace Wammer.Station
 
 				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
 				{
-					
+					// release raw data immediately
+					evt.Attachment.RawData = new ArraySegment<byte>();
+
 					small = MakeThumbnail(origImage, ImageMeta.Small,
 										origImgObjectId, evt.Driver, evt.Attachment.file_name);
 					large = MakeThumbnail(origImage, ImageMeta.Large,

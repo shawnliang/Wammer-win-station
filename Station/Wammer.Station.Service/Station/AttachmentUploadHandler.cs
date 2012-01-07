@@ -216,7 +216,7 @@ namespace Wammer.Station
 			if (file.file_name == null)
 				throw new FormatException("filename is missing in file upload multipart data");
 
-			if (file.RawData == null)
+			if (file.RawData.Array == null)
 				throw new FormatException("file is missing in file upload multipart data");
 
 			if (file.group_id == null)
