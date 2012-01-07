@@ -55,18 +55,23 @@ namespace Wammer.MultiPart
 
 			if (data[startIdx] == '\r' && data[startIdx + 1] == '\n')
 			{
-				sep_index = - CRLF.Length;
+				// no header in this part, sep_index is right after boundary
+				//
+				// ---boundary\r\n
+				// \r\n
+				// data from here....
+				sep_index = startIdx - CRLF.Length;
 			}
 			else
 			{
 				sep_index = IndexOf(data, startIdx, DCRLF, DCRLF_next);
-				ParseHeaders(headers, data, startIdx, sep_index);
+				ParseHeaders(headers, data, startIdx, sep_index - startIdx);
 			}
 
 			int next_head_index = IndexOf(data, startIdx, head_boundry, head_boundry_next);
-			next_startIdx = startIdx + next_head_index + head_boundry.Length;
-			if (next_head_index < 0 || next_startIdx + 2 > data.Length)
-				throw new FormatException("Bad part body format");			
+			next_startIdx = next_head_index + head_boundry.Length;
+			if (next_head_index < 0 || next_startIdx + CRLF.Length > data.Length)
+				throw new FormatException("Bad part body format");
 
 			end = false;
 
@@ -86,7 +91,7 @@ namespace Wammer.MultiPart
 				throw new FormatException("Bad part body format");
 			}
 
-			return new Part(new ArraySegment<byte>(data, startIdx + sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length) - CRLF.Length), headers);
+			return new Part(new ArraySegment<byte>(data, sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length) - CRLF.Length), headers);
 		}
 
 		private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)
@@ -168,7 +173,7 @@ namespace Wammer.MultiPart
 					}
 				}
 			}
-			return j < pattern.Length ? -1 : i - j;
+			return j < pattern.Length ? -1 : stardIdx + i - j;
 		}
 	}
 }
