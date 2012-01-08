@@ -114,11 +114,10 @@ namespace Wammer.MultiPart
 
 		private static byte[] ToByteArray(Stream stream)
 		{
-			using (MemoryStream m = new MemoryStream((int)stream.Length))
-			{
-				Wammer.Utility.StreamHelper.Copy(stream, m);
-				return m.ToArray();
-			}
+			long buff_len = stream.Length;
+			byte[] buff = new byte[buff_len];
+			stream.Read(buff, 0, (int)buff_len);
+			return buff;
 		}
 
 		// KMP algorithm reference: http://www.cnblogs.com/zhy2002/archive/2008/03/31/1131794.html
