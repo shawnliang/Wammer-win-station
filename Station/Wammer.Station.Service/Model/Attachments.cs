@@ -280,7 +280,7 @@ namespace Wammer.Model
 			get {
 				lock (rawDataMutex)
 				{
-					if (rawData.Array == null)
+					if (rawData.Array == null && this.saved_file_name != null)
 					{
 						Driver driver = DriverCollection.Instance.FindOne();
 						FileStorage storage = new FileStorage(driver);
