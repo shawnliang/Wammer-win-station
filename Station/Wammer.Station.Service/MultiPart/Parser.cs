@@ -26,11 +26,9 @@ namespace Wammer.MultiPart
 			close_boundry = Encoding.UTF8.GetBytes("--" + boundry + "--");
 		}
 
-		public Part[] Parse(Stream stream)
+		public Part[] Parse(byte[] content)
 		{
 			List<Part> parts = new List<Part>();
-
-			byte[] content = ToByteArray(stream);
 
 			int startFrom = IndexOf(content, 0, head_boundry, head_boundry_next);
 			if (startFrom != -1)

@@ -17,7 +17,9 @@ namespace UT_WammerStation
 																FileMode.Open);
 			Wammer.MultiPart.Parser parser =
 								new Wammer.MultiPart.Parser("simple boundary");
-			Wammer.MultiPart.Part[] parts = parser.Parse(f);
+			MemoryStream stream = new MemoryStream();
+			f.CopyTo(stream);
+			Wammer.MultiPart.Part[] parts = parser.Parse(stream.ToArray());
 			Assert.AreEqual(2, parts.Length);
 			Assert.AreEqual(
 				"This is implicitly typed plain ASCII text.\r\n" +
@@ -37,7 +39,9 @@ namespace UT_WammerStation
 			{
 				Wammer.MultiPart.Parser parser =
 								   new Wammer.MultiPart.Parser("simple boundary");
-				Wammer.MultiPart.Part[] parts = parser.Parse(f);
+				MemoryStream stream = new MemoryStream();
+				f.CopyTo(stream);
+				Wammer.MultiPart.Part[] parts = parser.Parse(stream.ToArray());
 				Assert.AreEqual(1, parts.Length);
 				Assert.AreEqual(
 					"This is implicitly typed plain ASCII text.\r\n" +
@@ -53,7 +57,9 @@ namespace UT_WammerStation
 																FileMode.Open);
 			Wammer.MultiPart.Parser parser =
 								new Wammer.MultiPart.Parser("simple boundary");
-			Wammer.MultiPart.Part[] parts = parser.Parse(f);
+			MemoryStream stream = new MemoryStream();
+			f.CopyTo(stream);
+			Wammer.MultiPart.Part[] parts = parser.Parse(stream.ToArray());
 			Assert.AreEqual(2, parts.Length);
 			Assert.AreEqual(
 				"This is implicitly typed plain ASCII text.\r\n" +
@@ -84,7 +90,9 @@ namespace UT_WammerStation
 			FileStream f = new FileStream("BinaryMultiPart.dat", FileMode.Open);
 			Wammer.MultiPart.Parser parser =
 								new Wammer.MultiPart.Parser("simple boundry");
-			Wammer.MultiPart.Part[] parts = parser.Parse(f);
+			MemoryStream stream = new MemoryStream();
+			f.CopyTo(stream);
+			Wammer.MultiPart.Part[] parts = parser.Parse(stream.ToArray());
 			Assert.AreEqual(1, parts.Length);
 
 			Assert.AreEqual("binary",
@@ -105,7 +113,9 @@ namespace UT_WammerStation
 			FileStream f = new FileStream("ContentDisposition.txt", FileMode.Open);
 			Wammer.MultiPart.Parser parser =
 								new Wammer.MultiPart.Parser("simple boundary");
-			Wammer.MultiPart.Part[] parts = parser.Parse(f);
+			MemoryStream stream = new MemoryStream();
+			f.CopyTo(stream);
+			Wammer.MultiPart.Part[] parts = parser.Parse(stream.ToArray());
 			Assert.AreEqual(3, parts.Length);
 
 

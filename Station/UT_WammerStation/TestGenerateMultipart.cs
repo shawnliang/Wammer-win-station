@@ -38,7 +38,7 @@ namespace UT_WammerStation
 			m.Position = 0;
 
 			Parser parser = new Parser(serializer.Boundary);
-			Part[] parts = parser.Parse(m);
+			Part[] parts = parser.Parse(m.ToArray());
 			
 			Assert.AreEqual(3, parts.Length);
 			Assert.AreEqual(Encoding.UTF8.GetString(part1), parts[0].Text);
@@ -62,7 +62,7 @@ namespace UT_WammerStation
 			m.Position = 0;
 
 			Parser parser = new Parser(serializer.Boundary);
-			Part[] parts = parser.Parse(m);
+			Part[] parts = parser.Parse(m.ToArray());
 
 			Assert.AreEqual(1, parts.Length);
 			Assert.AreEqual(Encoding.UTF8.GetString(part1), parts[0].Text);
@@ -88,7 +88,7 @@ namespace UT_WammerStation
 			m.Position = 0;
 
 			Parser parser = new Parser(serializer.Boundary);
-			Part[] parts = parser.Parse(m);
+			Part[] parts = parser.Parse(m.ToArray());
 
 			Assert.AreEqual(1, parts.Length);
 			Assert.AreEqual(Encoding.UTF8.GetString(part1), parts[0].Text);
@@ -112,7 +112,7 @@ namespace UT_WammerStation
 			m.Position = 0;
 
 			Parser parser = new Parser(serializer.Boundary);
-			Part[] parts = parser.Parse(m);
+			Part[] parts = parser.Parse(m.ToArray());
 
 			Assert.AreEqual(1, parts.Length);
 			Assert.AreEqual(Encoding.UTF8.GetString(part1), parts[0].Text);
@@ -136,7 +136,7 @@ namespace UT_WammerStation
 			m.Position = 0;
 
 			Parser parser = new Parser(serializer.Boundary);
-			Part[] parts = parser.Parse(m);
+			Part[] parts = parser.Parse(m.ToArray());
 
 			Assert.AreEqual(1, parts.Length);
 			Assert.AreEqual(Encoding.UTF8.GetString(part1), parts[0].Text);

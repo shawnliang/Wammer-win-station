@@ -112,7 +112,7 @@ namespace Wammer.Station
 				string boundary = GetMultipartBoundary(request.ContentType);
 				MultiPart.Parser parser = new Parser(boundary);
 
-				Part[] parts = parser.Parse(new MemoryStream(RawPostData));
+				Part[] parts = parser.Parse(RawPostData);
 				foreach (Part part in parts)
 				{
 					if (part.ContentDisposition == null)
