@@ -32,6 +32,9 @@ namespace Wammer.Station
 
 		public event EventHandler<ThumbnailUpstreamedEventArgs> ThumbnailUpstreamed;
 
+
+		private static long g_counter = 0;
+
 		public AttachmentUploadHandler()
 			: base()
 		{
@@ -65,6 +68,11 @@ namespace Wammer.Station
 
 			IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
 			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this);
+
+			long newValue = System.Threading.Interlocked.Add(ref g_counter, 1);
+
+			if (newValue % 5 == 0)
+				GC.Collect();
 		}
 
 		private static IAttachmentUploadStrategy GetHandleStrategy(Attachment file, bool isNewOrigImage, ImageMeta meta)

@@ -137,7 +137,7 @@ namespace Wammer.Station
 		{
 			if (string.Compare(Request.HttpMethod, "POST", true) == 0)
 			{
-				using (MemoryStream buff = new MemoryStream())
+				using (MemoryStream buff = new MemoryStream((int)Request.ContentLength64))
 				{
 					Wammer.Utility.StreamHelper.Copy(Request.InputStream, buff);
 					return buff.ToArray();

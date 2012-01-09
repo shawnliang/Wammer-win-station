@@ -24,6 +24,8 @@ namespace Wammer.Station
 
 		public event EventHandler<ThumbnailUpstreamedEventArgs> ThumbnailUpstreamed;
 
+		static long g_counter = 0;
+
 		public void HandleImageAttachmentSaved(object sender, ImageAttachmentEventArgs evt)
 		{
 			System.Diagnostics.Debug.Assert(evt.Attachment.type == AttachmentType.image);
@@ -141,6 +143,11 @@ namespace Wammer.Station
 					ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
 				UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
 					ImageMeta.Square, evt.UserApiKey, evt.UserSessionToken);
+
+
+				long newValue = Interlocked.Add(ref g_counter, 1L);
+				if (newValue % 5 == 0)
+					GC.Collect();
 				
 			}
 			catch (Exception e)
