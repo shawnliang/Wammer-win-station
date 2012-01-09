@@ -6,7 +6,7 @@
   <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
   <?define AppVersionMajor = "1" ?>
   <?define AppVersionMinor = "0" ?>
-  <?define AppVersionPatch = "0" ?>
+  <?define AppVersionPatch = "4" ?>
   <?define AppVersionBuild = "0" ?>
   <?define AppVersion = "$(var.AppVersionMajor).$(var.AppVersionMinor).$(var.AppVersionPatch).$(var.AppVersionBuild)" ?>
   <?define AppManufacturer = "Waveface" ?>
@@ -23,13 +23,17 @@
     <Icon Id="Wammer.ico" SourceFile="$(var.Wammer.ProjectDir)\Resources\Icon.ico"/>
 
     <!-- Upgrade -->
+    <!--
     <Upgrade Id="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
       <UpgradeVersion OnlyDetect="yes" Property="SELF_OR_OLDER_FOUND"
                       Maximum="1.0.0" IncludeMaximum="yes"/>
       <UpgradeVersion OnlyDetect="yes" Property="NEWERFOUND"
                       Minimum="1.0.0" IncludeMinimum="no"/>
     </Upgrade>
+    -->
 
+    <MajorUpgrade DowngradeErrorMessage="A newer version of this product is found. Cannot proceed."
+                  Schedule="afterInstallInitialize"/>
     <!-- Custom Actions -->
     <CustomAction Id="NoDowngradeAction" Error="!(loc.DOWNGRADE.ERROR)" />
     <!-- Signoff station when uninstallation -->
@@ -332,21 +336,24 @@
     </DirectoryRef>
 
     <!-- Features -->
-    <Feature Id='MainFeature' Level='1' Display='collapse'>
-      <ComponentRef Id="MongoDB.Data"/>
-      <ComponentRef Id="MongoDB.Data.DB"/>
-      <ComponentRef Id="log.folder"/>
-      <ComponentRef Id="mongod.exe"/>
-      <ComponentRef Id="mongos.exe"/>
-      <ComponentRef Id="mongo.exe"/>
-      <ComponentRef Id="Station.Management.exe"/>
-      <ComponentGroupRef Id='Wammer.Station.Service'/>
-      <ComponentRef Id='pmd'/>
-      <ComponentRef Id='AppCompatibilitySettings'/>
-      <ComponentRef Id="CultureSetting"/>
-    </Feature>
-    <Feature Id='ClientFeature' Level='1' Title='Windows client' Description='Windows client'>
+    
+    <Feature Id='ClientFeature' Level='100' Title='Waveface client only' 
+             Description='[TBD] waveface client description' Absent='allow'>
       <ComponentGroupRef Id='Wammer.Client'/>
+      <Feature Id='MainFeature' Level='100' Display='collapse' Title='Waveface Station and client'
+             Description='[TBD] Waveface Station Description' Absent='allow' >
+        <ComponentRef Id="MongoDB.Data"/>
+        <ComponentRef Id="MongoDB.Data.DB"/>
+        <ComponentRef Id="log.folder"/>
+        <ComponentRef Id="mongod.exe"/>
+        <ComponentRef Id="mongos.exe"/>
+        <ComponentRef Id="mongo.exe"/>
+        <ComponentRef Id="Station.Management.exe"/>
+        <ComponentGroupRef Id='Wammer.Station.Service'/>
+        <ComponentRef Id='pmd'/>
+        <ComponentRef Id='AppCompatibilitySettings'/>
+        <ComponentRef Id="CultureSetting"/>
+      </Feature>
     </Feature>
 
     <Binary Id='InstallHelperDll' SourceFile="$(var.InstallHelper.TargetDir)\InstallHelperPkg.dll"/>

@@ -57,6 +57,12 @@
     <Compile Include="FatalErrorStep.Designer.cs">
       <DependentUpon>FatalErrorStep.cs</DependentUpon>
     </Compile>
+    <Compile Include="FeatureSelectionStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FeatureSelectionStep.Designer.cs">
+      <DependentUpon>FeatureSelectionStep.cs</DependentUpon>
+    </Compile>
     <Compile Include="FinishStep.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FatalErrorStep.zh-TW.resx">
       <DependentUpon>FatalErrorStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeatureSelectionStep.resx">
+      <DependentUpon>FeatureSelectionStep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FinishStep.resx">
       <DependentUpon>FinishStep.cs</DependentUpon>

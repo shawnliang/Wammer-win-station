@@ -8,7 +8,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{973E45FC-0ABC-4438-8181-DF93FB683429}</ProjectGuid>
-    <AssemblyName>WavefaceSetup-1.0.0</AssemblyName>
+    <AssemblyName>WavefaceSetup-1.0.1</AssemblyName>
     <OutputPath>..\$(Configuration)\</OutputPath>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
