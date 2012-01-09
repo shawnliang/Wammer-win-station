@@ -84,10 +84,10 @@ namespace Waveface
 
                     _loginForm = new LoginForm(_email, _password, true);
                 }
-                else if (_settings.IsLoggedIn)
-                {
-                    _loginForm = new LoginForm(_settings.Email, _settings.Password, true);
-                }
+                //else if (_settings.IsLoggedIn)
+                //{
+                //    _loginForm = new LoginForm(_settings.Email, _settings.Password, true);
+                //}
                 else
                 {
                     _loginForm = new LoginForm(_settings.Email, _settings.Password, false);
@@ -98,7 +98,6 @@ namespace Waveface
                 // please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
                 uint _foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
                 uint _appThread = GetCurrentThreadId();
-                const uint SW_SHOW = 5;
 
                 if (_foreThread != _appThread)
                 {
@@ -106,7 +105,7 @@ namespace Waveface
                     BringWindowToTop(_loginForm.Handle);
 
                     if (args.Length != 3)
-                        ShowWindow(_loginForm.Handle, SW_SHOW);
+                        ShowWindow(_loginForm.Handle, 5); //SW_SHOW
 
                     AttachThreadInput(_foreThread, _appThread, false);
                 }
@@ -115,7 +114,7 @@ namespace Waveface
                     BringWindowToTop(_loginForm.Handle);
 
                     if (args.Length != 3)
-                        ShowWindow(_loginForm.Handle, SW_SHOW);
+                        ShowWindow(_loginForm.Handle, 5); //SW_SHOW
                 }
 
                 _loginForm.Activate();

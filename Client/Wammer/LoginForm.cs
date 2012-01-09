@@ -243,7 +243,7 @@ namespace Waveface
 
             try
             {
-                _main.stationLogin(email, password);
+                // _main.stationLogin(email, password);
 
                 if (_doLogin(_main, email, password) == QuitOption.QuitProgram)
                     Close();

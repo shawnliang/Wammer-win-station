@@ -123,7 +123,7 @@
     <Compile Include="Libs\Utility\ApplicationInformation.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />
     <Compile Include="UI\BgPanel.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Compoment\MultiPanel\MultiPanel.cs">
       <SubType>Component</SubType>
@@ -487,6 +487,12 @@
     <Compile Include="Libs\Utility\WebHelper.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\SettingUI\SettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SettingUI\SettingForm.Designer.cs">
+      <DependentUpon>SettingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SettingUI\PreferenceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -598,6 +604,9 @@
     <EmbeddedResource Include="Test\TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\BgPanel.resx">
+      <DependentUpon>BgPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\DetailView.zh-TW.resx">
       <DependentUpon>DetailView.cs</DependentUpon>
     </EmbeddedResource>
@@ -693,6 +702,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\SettingUI\SettingForm.resx">
+      <DependentUpon>SettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\SettingForm.zh-TW.resx">
+      <DependentUpon>SettingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\PreferenceForm.resx">
       <DependentUpon>PreferenceForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.IO;
 using System.Net;
 using System.Web;
 using Waveface.API.V2;
@@ -74,14 +75,14 @@ namespace Waveface
                     _imageType = ORIGIN;
 
                     url = _url;
-                    fileName = a.object_id + "_" + a.image_meta.medium.file_name;
+                    fileName = a.object_id; //  +"_" + a.image_meta.medium.file_name;
 
                     return _imageType;
                 }
             }
 
             url = _url + "&" + "image_meta=" + _imageType;
-            fileName = a.object_id + "_" + _imageType + "_" + a.image_meta.medium.file_name;
+            fileName = a.object_id + "_" + _imageType; //  +"_" + a.image_meta.medium.file_name;
             return _imageType;
         }
 

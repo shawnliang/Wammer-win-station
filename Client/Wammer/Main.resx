@@ -357,12 +357,6 @@
   <metadata name="mnuTray.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>283, 21</value>
   </metadata>
-  <data name="restoreMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
-  </data>
-  <data name="restoreMenuItem.Text" xml:space="preserve">
-    <value>Open Waveface</value>
-  </data>
   <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 22</value>
   </data>
@@ -382,7 +376,7 @@
     <value>Desktop</value>
   </data>
   <data name="screenShotMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="screenShotMenu.Text" xml:space="preserve">
     <value>Screen Shot</value>
@@ -390,20 +384,14 @@
   <data name="screenShotMenu.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="preferencesMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
-  </data>
-  <data name="preferencesMenuItem.Text" xml:space="preserve">
-    <value>Preferences...</value>
-  </data>
   <data name="logoutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="logoutMenuItem.Text" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="mnuTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 92</value>
+    <value>153, 70</value>
   </data>
   <data name="&gt;&gt;mnuTray.Name" xml:space="preserve">
     <value>mnuTray</value>
@@ -599,6 +587,12 @@
   </data>
   <data name="StatusLabelNetwork.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
+  </data>
+  <data name="toolStripProgressBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 22</value>
+  </data>
+  <data name="toolStripProgressBar.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 540</value>
@@ -1941,20 +1935,11 @@
         loIpaRxZSgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>1000, 606</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Waveface</value>
-  </data>
-  <data name="&gt;&gt;restoreMenuItem.Name" xml:space="preserve">
-    <value>restoreMenuItem</value>
-  </data>
-  <data name="&gt;&gt;restoreMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;screenShotMenu.Name" xml:space="preserve">
     <value>screenShotMenu</value>
@@ -1978,12 +1963,6 @@
     <value>screenMenuItem</value>
   </data>
   <data name="&gt;&gt;screenMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;preferencesMenuItem.Name" xml:space="preserve">
-    <value>preferencesMenuItem</value>
-  </data>
-  <data name="&gt;&gt;preferencesMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;logoutMenuItem.Name" xml:space="preserve">
@@ -2033,6 +2012,12 @@
   </data>
   <data name="&gt;&gt;StatusLabelNetwork.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripProgressBar.Name" xml:space="preserve">
+    <value>toolStripProgressBar</value>
+  </data>
+  <data name="&gt;&gt;toolStripProgressBar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;timerShowStatuMessage.Name" xml:space="preserve">
     <value>timerShowStatuMessage</value>

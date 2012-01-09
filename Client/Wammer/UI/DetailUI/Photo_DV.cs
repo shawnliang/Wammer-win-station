@@ -359,7 +359,7 @@ namespace Waveface.DetailUI
 
                 if (!m_filesMapping.ContainsKey(_fileNameO))
                 {
-                    if (_attachment.file_name != string.Empty)
+                    if ((_attachment.file_name != string.Empty) && (!_attachment.file_name.Contains("?")))
                         m_filesMapping.Add(_fileNameO, _attachment.file_name);
                 }
 
@@ -374,7 +374,7 @@ namespace Waveface.DetailUI
 
                 if (!m_filesMapping.ContainsKey(_fileNameM))
                 {
-                    if (_attachment.file_name != string.Empty)
+                    if ((_attachment.file_name != string.Empty) && (!_attachment.file_name.Contains("?")))
                         m_filesMapping.Add(_fileNameM, _attachment.file_name);
                 }
             }
