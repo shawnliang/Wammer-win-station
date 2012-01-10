@@ -434,8 +434,8 @@ namespace Waveface
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            //NewPostManagerUI _newPostManager = new NewPostManagerUI();
-            //_newPostManager.ShowDialog();
+            DropAreaInforForm _inforForm = new DropAreaInforForm();
+            _inforForm.ShowDialog();
         }
     }
 }

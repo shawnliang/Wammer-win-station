@@ -42,7 +42,6 @@ namespace Waveface
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnAddPhoto = new Waveface.Component.XPButton();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.multiPanel = new Waveface.Component.MultiPage.MultiPanel();
             this.Page_RichText = new Waveface.Component.MultiPage.MultiPanelPage();
             this.panelRichTextPanel = new System.Windows.Forms.Panel();
@@ -66,6 +65,7 @@ namespace Waveface
             this.panelText = new System.Windows.Forms.Panel();
             this.buttonRichText = new Waveface.Component.XPButton();
             this.pureTextBox = new System.Windows.Forms.RichTextBox();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripEdit.SuspendLayout();
             this.multiPanel.SuspendLayout();
             this.Page_RichText.SuspendLayout();
@@ -122,10 +122,6 @@ namespace Waveface
             this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
             this.btnAddPhoto.UseVisualStyleBackColor = true;
             this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // multiPanel
             // 
@@ -311,6 +307,10 @@ namespace Waveface
             this.pureTextBox.Name = "pureTextBox";
             this.pureTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
             this.pureTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
             // 
             // PostForm
             // 

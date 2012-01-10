@@ -151,6 +151,11 @@ Please restart the program to initialize Waveface Station.</en-US>
     <zh-TW>貼文成功!</zh-TW>
   </WItem>
   <WItem>
+    <ID>PostForm.TextBoxDescription</ID>
+    <en-US>Write down the description here...</en-US>
+    <zh-TW>在此寫下描述...</zh-TW>
+  </WItem>  
+  <WItem>
     <ID>SystemError</ID>
     <en-US>There appears to be an error with the system. Please try again later.</en-US>
     <zh-TW>抱歉, 系統發生未預期錯誤, 請稍後再試.</zh-TW>

@@ -20,7 +20,7 @@ namespace Waveface
             return ToISO8601(dt.ToUniversalTime());
         }
 
-        public static string ISO8601ToDotNet(string dt)
+        public static string ISO8601ToDotNet(string dt, bool @short)
         {
             DateTime _dt;
 
@@ -31,7 +31,14 @@ namespace Waveface
                 DateTimeStyles.AssumeUniversal,
                 out _dt);
 
-            return _dt.ToString();
+            if (@short)
+            {
+                return _dt.ToString("MM/dd HH:mm:ss");
+            }
+            else
+            {
+                return _dt.ToString();
+            }
         }
 
         public static DateTime ISO8601ToDateTime(string dt)
@@ -55,7 +62,7 @@ namespace Waveface
 
             return _dt1.CompareTo(_dt2);
         }
-        
+
         public static bool CompareISO8601_New(string dtNew, string dtOld) //New, Old
         {
             DateTime _dt1 = ISO8601ToDateTime(dtNew);
@@ -92,7 +99,10 @@ namespace Waveface
                 */
                 else if (_diff.Days >= 1)
                 {
-                    _ret = _diff.Days + " 天前";
+                    if (_diff.Days < 7)
+                        _ret = _diff.Days + " 天前";
+                    else
+                        _ret = TimeSubmitted;
                 }
                 else if (_diff.Hours >= 1)
                 {
@@ -125,7 +135,10 @@ namespace Waveface
                 */
                 else if (_diff.Days >= 1)
                 {
-                    _ret = _diff.Days + " day" + (_diff.Days >= 2 ? "s " : " ") + "ago";
+                    if (_diff.Days < 7)
+                        _ret = _diff.Days + " day" + (_diff.Days >= 2 ? "s " : " ") + "ago";
+                    else
+                        _ret = TimeSubmitted;
                 }
                 else if (_diff.Hours >= 1)
                 {
@@ -138,7 +151,7 @@ namespace Waveface
                 else
                 {
                     _ret = _diff.Seconds + " second" + (_diff.Seconds >= 2 ? "s " : " ") + "ago";
-                }                
+                }
             }
 
             return _ret;

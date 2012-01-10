@@ -329,7 +329,7 @@ namespace Waveface
         private Rectangle DrawPostTime(Graphics g, Font font, Rectangle cellRect, Post post)
         {
             string _postTime = post.timestamp;
-            _postTime = DateTimeHelp.ISO8601ToDotNet(_postTime);
+            _postTime = DateTimeHelp.ISO8601ToDotNet(_postTime, false);
             _postTime = DateTimeHelp.PrettyDate(_postTime);
 
             Size _sizeTime = TextRenderer.MeasureText(g, _postTime, font) + new Size(2, 2);

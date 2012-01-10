@@ -1,5 +1,6 @@
 ﻿#region
 
+using System.Drawing;
 using System.Windows.Forms;
 
 #endregion
@@ -70,19 +71,33 @@ namespace Waveface
         {
             if (!Main.Current.CheckNetworkStatus())
                 return;
-            
+
             Main.Current.GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
         }
 
         public void updateRefreshUI(bool flag)
         {
+            progressBar.Size = new Size(btnRefresh.Width - 4, btnRefresh.Height - 4);
+            progressBar.Location = new Point(btnRefresh.Left + 2, btnRefresh.Top + 2);
+
             btnRefresh.Enabled = flag;
+            btnRefresh.Visible = flag;
+
+            progressBar.Enabled = !flag;
+            progressBar.Visible = !flag;
+
+            progressBar.BringToFront();
+        }
+
+        public void ShowStatusText(string msg)
+        {
+            labelStatus.Text = msg;
         }
 
         public void showRefreshUI(bool flag)
         {
             btnCreatePost.Visible = true;
-            
+
             btnRefresh.Visible = flag;
         }
 

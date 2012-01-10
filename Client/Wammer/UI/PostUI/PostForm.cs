@@ -34,6 +34,8 @@ namespace Waveface
             richText_UI.MyParent = this;
             document_UI.MyParent = this;
 
+            btnAddPhoto.Focus();
+
             ToSubControl(files, postType);
         }
 
@@ -181,7 +183,7 @@ namespace Waveface
             Size = new Size(580, 268);
             m_fixHeight = 268;
 
-            pureTextBox.Focus();
+            //pureTextBox.Focus();
         }
 
         private void toWebLink_Mode()
