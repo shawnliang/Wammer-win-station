@@ -14,7 +14,6 @@ namespace Gui
 
 		private void ftMain_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			lblDescription.Text = (e.Node.Tag as Feature).Description;
 		}
 
 		private void FeatureSelectionStep_Entering(object sender, ChangeStepEventArgs e)
@@ -22,7 +21,30 @@ namespace Gui
 			//if (!Wizard.GetVariable<bool>("CustomInstallation"))
 			//	Wizard.ContinueMove();
 
-			SharpSetup.Base.MsiConnection.Instance.Features.Add(new Feature(""))
+		}
+
+		private void radioClientAndStation_CheckedChanged(object sender, System.EventArgs e)
+		{
+			if (radioClientAndStation.Checked)
+			{
+				foreach (Feature feature in MsiConnection.Instance.Features)
+				{
+					if (feature.Id == "MainFeature")
+						feature.State = FeatureState.Installed;
+				}
+			}
+		}
+
+		private void radioClientOnly_CheckedChanged(object sender, System.EventArgs e)
+		{
+			if (radioClientOnly.Checked)
+			{
+				foreach (Feature feature in MsiConnection.Instance.Features)
+				{
+					if (feature.Id == "MainFeature")
+						feature.State = FeatureState.NotInstalled;
+				}
+			}
 		}
 	}
 }

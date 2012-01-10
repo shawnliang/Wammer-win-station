@@ -116,9 +116,9 @@ namespace Wammer.Station
 				System.Threading.ThreadPool.GetMaxThreads(out maxWorker, out maxIO);
 				System.Threading.ThreadPool.GetMinThreads(out minWorker, out minIO);
 
-				maxWorker = minWorker * 2;
-				if (maxWorker < 4)
-					maxWorker = 4;
+				maxWorker = minWorker * 3 / 2;
+				if (maxWorker < 3)
+					maxWorker = 3;
 
 				StationRegistry.SetValue("MaxWorkerThreads", maxWorker);
 				StationRegistry.SetValue("MaxIOThreads", maxIO);
@@ -169,6 +169,7 @@ namespace Wammer.Station
 		public static ActionResult CleanStationInfo(Session session)
 		{
 			string wavefaceDir = session["INSTALLLOCATION"];
+
 			if (wavefaceDir == null)
 				return ActionResult.Failure;
 
@@ -181,16 +182,16 @@ namespace Wammer.Station
 				Logger.Warn("Unable to delete station id in registry", e);
 			}
 
-			try
-			{
-				MongoCursor<Driver> drivers = DriverCollection.Instance.FindAll();
-				foreach (Driver driver in drivers)
-					OldDriverCollection.Instance.Save(driver);
-			}
-			catch (Exception e)
-			{
-				Logger.Warn("Unable to move drivers to oldDrivers", e);
-			}
+			//try
+			//{
+			//    MongoCursor<Driver> drivers = DriverCollection.Instance.FindAll();
+			//    foreach (Driver driver in drivers)
+			//        OldDriverCollection.Instance.Save(driver);
+			//}
+			//catch (Exception e)
+			//{
+			//    Logger.Warn("Unable to move drivers to oldDrivers", e);
+			//}
 
 			try
 			{
@@ -276,6 +277,9 @@ namespace Wammer.Station
 
 				if (!IsMongoDBReady())
 					throw new System.TimeoutException("MongoDB is not ready in 180 seconds");
+
+				Model.Database.RestoreCollection("station", "oldStation");
+				Model.Database.RestoreCollection("drivers", "oldDrivers");
 
 				return ActionResult.Success;
 

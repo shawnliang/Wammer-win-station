@@ -103,6 +103,10 @@
       <Link>SharpSetup.translations.cab</Link>
     </IncludeInCabExtracted>
   </ItemGroup>
+  <ItemGroup>
+    <IncludeInCab Include="MongoDB.Bson.dll" />
+    <IncludeInCab Include="MongoDB.Driver.dll" />
+  </ItemGroup>
   <Import Project="$(SharpSetupTargetsPath)\SharpSetup.Assembler.targets" />
   <PropertyGroup>
     <PostBuildEvent>

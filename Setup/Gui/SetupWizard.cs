@@ -69,6 +69,9 @@ namespace Gui
 						break;
 					case InstallationMode.Upgrade:
 						AddStep(new LicenseStep());
+
+						Migration.DoBackup();
+
 						AddStep(new InstallationStep(InstallationMode.Uninstall));
 						/*
 						AddStep(new InstallationTypeStep());
@@ -77,6 +80,9 @@ namespace Gui
 						AddStep(new FeatureSelectionStep());
 						
 						AddStep(new InstallationStep(InstallationMode.Install));
+
+						Migration.DoRestore();
+
 						AddStep(new FinishStep(InstallationMode.Install));
 						break;
 					case InstallationMode.Reinstall:

@@ -117,140 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ftMain.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ftMain.ImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="ftMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 102</value>
-  </data>
-  <data name="ftMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 5, 10, 10</value>
-  </data>
-  <data name="ftMain.SelectedImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="ftMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 202</value>
-  </data>
-  <data name="ftMain.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;ftMain.Name" xml:space="preserve">
-    <value>ftMain</value>
-  </data>
-  <data name="&gt;&gt;ftMain.Type" xml:space="preserve">
-    <value>SharpSetup.UI.Controls.FeatureTree, SharpSetup, Version=1.4.1.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;ftMain.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ftMain.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="gbDescription.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="lblDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 16</value>
-  </data>
-  <data name="lblDescription.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 3, 3</value>
-  </data>
-  <data name="lblDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 108</value>
-  </data>
-  <data name="lblDescription.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lblDescription.Name" xml:space="preserve">
-    <value>lblDescription</value>
-  </data>
-  <data name="&gt;&gt;lblDescription.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblDescription.Parent" xml:space="preserve">
-    <value>gbDescription</value>
-  </data>
-  <data name="&gt;&gt;lblDescription.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="gbDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 102</value>
-  </data>
-  <data name="gbDescription.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 5, 10, 10</value>
-  </data>
-  <data name="gbDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 126</value>
-  </data>
-  <data name="gbDescription.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="gbDescription.Text" xml:space="preserve">
-    <value>Feature description</value>
-  </data>
-  <data name="&gt;&gt;gbDescription.Name" xml:space="preserve">
-    <value>gbDescription</value>
-  </data>
-  <data name="&gt;&gt;gbDescription.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;gbDescription.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;gbDescription.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="sdcbDiskSpace.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
-  </data>
-  <data name="sdcbDiskSpace.Location" type="System.Drawing.Point, System.Drawing">
-    <value>288, 241</value>
-  </data>
-  <data name="sdcbDiskSpace.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 10, 10, 10</value>
-  </data>
-  <data name="sdcbDiskSpace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 63</value>
-  </data>
-  <data name="sdcbDiskSpace.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;sdcbDiskSpace.Name" xml:space="preserve">
-    <value>sdcbDiskSpace</value>
-  </data>
-  <data name="&gt;&gt;sdcbDiskSpace.Type" xml:space="preserve">
-    <value>SharpSetup.UI.Controls.SimpleDiskCostBox, SharpSetup, Version=1.4.1.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;sdcbDiskSpace.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;sdcbDiskSpace.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="lblInstruction.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="lblInstruction.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 79</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="lblInstruction.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 15, 10, 5</value>
   </data>
   <data name="lblInstruction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>367, 13</value>
+    <value>209, 13</value>
   </data>
   <data name="lblInstruction.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
   <data name="lblInstruction.Text" xml:space="preserve">
-    <value>Please click on an icon on the list below to change properties of component:</value>
+    <value>[TBD] Please choose the installation types:</value>
   </data>
   <data name="&gt;&gt;lblInstruction.Name" xml:space="preserve">
     <value>lblInstruction</value>
@@ -262,6 +148,117 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblInstruction.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="radioClientAndStation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioClientAndStation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radioClientAndStation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 116</value>
+  </data>
+  <data name="radioClientAndStation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 17</value>
+  </data>
+  <data name="radioClientAndStation.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="radioClientAndStation.Text" xml:space="preserve">
+    <value>[TBD] Full Installation</value>
+  </data>
+  <data name="&gt;&gt;radioClientAndStation.Name" xml:space="preserve">
+    <value>radioClientAndStation</value>
+  </data>
+  <data name="&gt;&gt;radioClientAndStation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioClientAndStation.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;radioClientAndStation.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="radioClientOnly.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioClientOnly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 177</value>
+  </data>
+  <data name="radioClientOnly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 17</value>
+  </data>
+  <data name="radioClientOnly.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="radioClientOnly.Text" xml:space="preserve">
+    <value>[TBD] Waveface Windows Client Only</value>
+  </data>
+  <data name="&gt;&gt;radioClientOnly.Name" xml:space="preserve">
+    <value>radioClientOnly</value>
+  </data>
+  <data name="&gt;&gt;radioClientOnly.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioClientOnly.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;radioClientOnly.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="labelClientAndStationDesc.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelClientAndStationDesc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 136</value>
+  </data>
+  <data name="labelClientAndStationDesc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>255, 13</value>
+  </data>
+  <data name="labelClientAndStationDesc.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="labelClientAndStationDesc.Text" xml:space="preserve">
+    <value>[TBD] Waveface station + client ... need explenation</value>
+  </data>
+  <data name="&gt;&gt;labelClientAndStationDesc.Name" xml:space="preserve">
+    <value>labelClientAndStationDesc</value>
+  </data>
+  <data name="&gt;&gt;labelClientAndStationDesc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelClientAndStationDesc.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelClientAndStationDesc.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="labelClientOnlyDesc.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelClientOnlyDesc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>37, 201</value>
+  </data>
+  <data name="labelClientOnlyDesc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 13</value>
+  </data>
+  <data name="labelClientOnlyDesc.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="labelClientOnlyDesc.Text" xml:space="preserve">
+    <value>[TBD] Client only..... need explenation</value>
+  </data>
+  <data name="&gt;&gt;labelClientOnlyDesc.Name" xml:space="preserve">
+    <value>labelClientOnlyDesc</value>
+  </data>
+  <data name="&gt;&gt;labelClientOnlyDesc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelClientOnlyDesc.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelClientOnlyDesc.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -280,6 +277,6 @@
     <value>FeatureSelectionStep</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SharpSetup.UI.Forms.Modern.ModernActionStep, SharpSetup, Version=1.4.1.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SharpSetup.UI.Forms.Modern.ModernActionStep, SharpSetup, Version=1.4.1.158, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

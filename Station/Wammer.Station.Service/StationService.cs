@@ -52,6 +52,7 @@ namespace Wammer.Station.Service
 		{
 			try
 			{
+				RestoreDataAfterUpgrade();
 				ConfigThreadPool();
 
 				AppDomain.CurrentDomain.UnhandledException +=
@@ -175,8 +176,6 @@ namespace Wammer.Station.Service
 			}
 		}
 
-		
-
 		protected override void OnStop()
 		{
 			stationTimer.Stop();
@@ -244,6 +243,28 @@ namespace Wammer.Station.Service
 				logger.InfoFormat("Max worker threads {0}, min completion port threads {1}",
 					maxWorker, maxIO);
 			}
+		}
+
+		private void RestoreDataAfterUpgrade()
+		{
+			string stationId = (string)StationRegistry.GetValue("oldStationId", null);
+			if (stationId == null)
+				return;
+
+			StationRegistry.SetValue("stationId", stationId);
+			StationRegistry.DeleteValue("oldStationId");
+
+			if (Model.Database.wammer.CollectionExists("oldStation"))
+				Model.Database.wammer.RenameCollection("oldStation", "station", true);
+
+			if (Model.Database.wammer.CollectionExists("oldDrivers"))
+				Model.Database.wammer.RenameCollection("oldDrivers", "drivers", true);
+
+			if (Model.Database.wammer.CollectionExists("oldService"))
+				Model.Database.wammer.RenameCollection("oldService", "service");
+
+			if (Model.Database.wammer.CollectionExists("oldCloudstorage"))
+				Model.Database.wammer.RenameCollection("oldCloudstorage", "cloudstorage", true);
 		}
 	}
 

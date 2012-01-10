@@ -28,60 +28,60 @@ namespace Gui
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FeatureSelectionStep));
-			this.ftMain = new SharpSetup.UI.Controls.FeatureTree();
-			this.gbDescription = new System.Windows.Forms.GroupBox();
-			this.lblDescription = new System.Windows.Forms.Label();
-			this.sdcbDiskSpace = new SharpSetup.UI.Controls.SimpleDiskCostBox();
 			this.lblInstruction = new System.Windows.Forms.Label();
-			this.gbDescription.SuspendLayout();
+			this.radioClientAndStation = new System.Windows.Forms.RadioButton();
+			this.radioClientOnly = new System.Windows.Forms.RadioButton();
+			this.labelClientAndStationDesc = new System.Windows.Forms.Label();
+			this.labelClientOnlyDesc = new System.Windows.Forms.Label();
 			this.SuspendLayout();
-			// 
-			// ftMain
-			// 
-			resources.ApplyResources(this.ftMain, "ftMain");
-			this.ftMain.Name = "ftMain";
-			this.ftMain.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ftMain_AfterSelect);
-			// 
-			// gbDescription
-			// 
-			resources.ApplyResources(this.gbDescription, "gbDescription");
-			this.gbDescription.Controls.Add(this.lblDescription);
-			this.gbDescription.Name = "gbDescription";
-			this.gbDescription.TabStop = false;
-			// 
-			// lblDescription
-			// 
-			resources.ApplyResources(this.lblDescription, "lblDescription");
-			this.lblDescription.Name = "lblDescription";
-			// 
-			// sdcbDiskSpace
-			// 
-			resources.ApplyResources(this.sdcbDiskSpace, "sdcbDiskSpace");
-			this.sdcbDiskSpace.InfoTypes.Add(SharpSetup.UI.Controls.DiskSpaceInfoType.Required);
-			this.sdcbDiskSpace.InfoTypes.Add(SharpSetup.UI.Controls.DiskSpaceInfoType.Remains);
-			this.sdcbDiskSpace.Name = "sdcbDiskSpace";
 			// 
 			// lblInstruction
 			// 
 			resources.ApplyResources(this.lblInstruction, "lblInstruction");
 			this.lblInstruction.Name = "lblInstruction";
 			// 
+			// radioClientAndStation
+			// 
+			resources.ApplyResources(this.radioClientAndStation, "radioClientAndStation");
+			this.radioClientAndStation.Checked = true;
+			this.radioClientAndStation.Name = "radioClientAndStation";
+			this.radioClientAndStation.TabStop = true;
+			this.radioClientAndStation.UseVisualStyleBackColor = true;
+			this.radioClientAndStation.CheckedChanged += new System.EventHandler(this.radioClientAndStation_CheckedChanged);
+			// 
+			// radioClientOnly
+			// 
+			resources.ApplyResources(this.radioClientOnly, "radioClientOnly");
+			this.radioClientOnly.Name = "radioClientOnly";
+			this.radioClientOnly.UseVisualStyleBackColor = true;
+			this.radioClientOnly.CheckedChanged += new System.EventHandler(this.radioClientOnly_CheckedChanged);
+			// 
+			// labelClientAndStationDesc
+			// 
+			resources.ApplyResources(this.labelClientAndStationDesc, "labelClientAndStationDesc");
+			this.labelClientAndStationDesc.Name = "labelClientAndStationDesc";
+			// 
+			// labelClientOnlyDesc
+			// 
+			resources.ApplyResources(this.labelClientOnlyDesc, "labelClientOnlyDesc");
+			this.labelClientOnlyDesc.Name = "labelClientOnlyDesc";
+			// 
 			// FeatureSelectionStep
 			// 
 			resources.ApplyResources(this, "$this");
+			this.Controls.Add(this.labelClientOnlyDesc);
+			this.Controls.Add(this.labelClientAndStationDesc);
+			this.Controls.Add(this.radioClientOnly);
+			this.Controls.Add(this.radioClientAndStation);
 			this.Controls.Add(this.lblInstruction);
-			this.Controls.Add(this.sdcbDiskSpace);
-			this.Controls.Add(this.gbDescription);
-			this.Controls.Add(this.ftMain);
 			this.Name = "FeatureSelectionStep";
 			this.Entering += new System.EventHandler<SharpSetup.Base.ChangeStepEventArgs>(this.FeatureSelectionStep_Entering);
-			this.Controls.SetChildIndex(this.ftMain, 0);
-			this.Controls.SetChildIndex(this.gbDescription, 0);
-			this.Controls.SetChildIndex(this.sdcbDiskSpace, 0);
 			this.Controls.SetChildIndex(this.lblInstruction, 0);
-			this.gbDescription.ResumeLayout(false);
+			this.Controls.SetChildIndex(this.radioClientAndStation, 0);
+			this.Controls.SetChildIndex(this.radioClientOnly, 0);
+			this.Controls.SetChildIndex(this.labelClientAndStationDesc, 0);
+			this.Controls.SetChildIndex(this.labelClientOnlyDesc, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -89,10 +89,10 @@ namespace Gui
 
 		#endregion
 
-		private SharpSetup.UI.Controls.FeatureTree ftMain;
-		private System.Windows.Forms.GroupBox gbDescription;
-		private System.Windows.Forms.Label lblDescription;
-		private SharpSetup.UI.Controls.SimpleDiskCostBox sdcbDiskSpace;
 		private System.Windows.Forms.Label lblInstruction;
+		private System.Windows.Forms.RadioButton radioClientAndStation;
+		private System.Windows.Forms.RadioButton radioClientOnly;
+		private System.Windows.Forms.Label labelClientAndStationDesc;
+		private System.Windows.Forms.Label labelClientOnlyDesc;
 	}
 }
