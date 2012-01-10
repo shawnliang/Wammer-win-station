@@ -57,7 +57,7 @@ namespace Gui
 						//AddStep(new UserRegistrationStep());
 						//AddStep(new InstallationTypeStep());
 						//AddStep(new InstallationLocationStep());
-						//AddStep(new FeatureSelectionStep());
+						AddStep(new FeatureSelectionStep());
 						//AddStep(new Step1());
 						//AddStep(new ReadyStep());
 						AddStep(new InstallationStep(InstallationMode.Install));
@@ -68,13 +68,21 @@ namespace Gui
 						AddStep(new FinishStep(InstallationMode.Uninstall));
 						break;
 					case InstallationMode.Upgrade:
+						AddStep(new LicenseStep());
+
+						Migration.DoBackup();
+
 						AddStep(new InstallationStep(InstallationMode.Uninstall));
 						/*
 						AddStep(new InstallationTypeStep());
 						AddStep(new InstallationLocationStep());
-						AddStep(new FeatureSelectionStep());
 						*/
+						AddStep(new FeatureSelectionStep());
+						
 						AddStep(new InstallationStep(InstallationMode.Install));
+
+						Migration.DoRestore();
+
 						AddStep(new FinishStep(InstallationMode.Install));
 						break;
 					case InstallationMode.Reinstall:

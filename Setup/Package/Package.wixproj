@@ -33,7 +33,6 @@
     <EmbeddedResource Include="zh-TW.wxl" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultPostResources.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
@@ -43,14 +42,6 @@
     <ProjectReference Include="..\..\Client\Libs\Waveface.Localization.Editor\Localizer\Localizer.csproj">
       <Name>Localizer</Name>
       <Project>{cd587988-f28e-45ce-8619-86804a6c79d7}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Client\StationSetup\StationSetup.csproj">
-      <Name>StationSetup</Name>
-      <Project>{f28e6912-415e-4808-b973-f0e19b31eeb6}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
@@ -67,6 +58,14 @@
     <ProjectReference Include="..\..\Client\Wammer\Wammer.csproj">
       <Name>Wammer</Name>
       <Project>{2cffca13-b00a-4605-b6a4-d49a616cfcb4}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Station\StationUI\StationUI.csproj">
+      <Name>StationUI</Name>
+      <Project>{f28e6912-415e-4808-b973-f0e19b31eeb6}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

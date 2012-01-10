@@ -72,11 +72,11 @@ namespace Wammer.Station
 						session_token = user.Token
 					};
 
-					if (!has_old_station)
-					{
-						Driver oldDriver = OldDriverCollection.Instance.FindOne(Query.EQ("_id", user.Id));
-						has_old_station = (oldDriver != null);
-					}
+					//if (!has_old_station)
+					//{
+					//    Driver oldDriver = OldDriverCollection.Instance.FindOne(Query.EQ("_id", user.Id));
+					//    has_old_station = (oldDriver != null);
+					//}
 
 					DriverCollection.Instance.Save(driver);
 

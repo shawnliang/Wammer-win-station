@@ -285,8 +285,8 @@ namespace Wammer.Station
             if (!m_userInfo.has_old_station)
             {
                 Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                DefaultPosts _posts = new DefaultPosts();
-                _posts.AutoPost(m_email, m_password);
+                //DefaultPosts _posts = new DefaultPosts();
+                //_posts.AutoPost(m_email, m_password);
             }
         }
 
