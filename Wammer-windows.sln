@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAttachmentView", "Stati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StationUI", "Station\StationUI\StationUI.csproj", "{F28E6912-415E-4808-B973-F0E19B31EEB6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{A5005ACA-8E5D-42F5-8582-F248ADCDABF1}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Wammer-win-station.vsmdi
