@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wammer.Station</RootNamespace>
-    <AssemblyName>StationSetup</AssemblyName>
+    <AssemblyName>StationUI</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -137,11 +137,11 @@
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
       <Name>Wammer.Station.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Libs\Waveface.Localization.Editor\Localizer\Localizer.csproj">
+    <ProjectReference Include="..\..\Client\Libs\Waveface.Localization.Editor\Localizer\Localizer.csproj">
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
       <Name>Localizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Wammer\Wammer.csproj">
+    <ProjectReference Include="..\..\Client\Wammer\Wammer.csproj">
       <Project>{2CFFCA13-B00A-4605-B6A4-D49A616CFCB4}</Project>
       <Name>Wammer</Name>
     </ProjectReference>
