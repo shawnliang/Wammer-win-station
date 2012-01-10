@@ -35,7 +35,6 @@ namespace Gui
 			{
 				if (HasFeaure("MainFeature"))
 				{
-					System.Windows.Forms.MessageBox.Show("MainFeature is installed");
 					MoveCollection("drivers", "oldDrivers");
 					MoveCollection("station", "oldStation");
 					MoveCollection("service", "oldService");
@@ -43,9 +42,6 @@ namespace Gui
 
 					BackupRegistry();
 				}
-				else
-					System.Windows.Forms.MessageBox.Show("MainFeature is not installed");
-
 
 				BackupClientAppData();
 			}
@@ -76,11 +72,10 @@ namespace Gui
 				string wavefaceData = Path.Combine(appData, "Waveface");
 				string BackupData = Path.Combine(appData, "oldWaveface");
 
-				if (Directory.Exists(BackupData))
-					Directory.Delete(BackupData, true);
-
-				if (Directory.Exists(wavefaceData))
-					Directory.Move(wavefaceData, BackupData);
+				if (!Directory.Exists(wavefaceData) && Directory.Exists(BackupData))
+				{
+					Directory.Move(BackupData, wavefaceData);
+				}
 			}
 			catch (Exception e)
 			{

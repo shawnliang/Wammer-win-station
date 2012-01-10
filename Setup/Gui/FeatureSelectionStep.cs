@@ -4,23 +4,32 @@ using SharpSetup.UI.Forms.Modern;
 
 namespace Gui
 {
+	public enum FeatureSet
+	{
+		None,
+		StationAndClient,
+		ClientOnly
+	}
+
+
 	[System.ComponentModel.ToolboxItem(false)]
 	public partial class FeatureSelectionStep : ModernActionStep
 	{
+		public static FeatureSet SelectedFeature { get; set; }
+
+		static FeatureSelectionStep()
+		{
+			SelectedFeature = FeatureSet.None;
+		}
+
 		public FeatureSelectionStep()
 		{
 			InitializeComponent();
 		}
 
-		private void ftMain_AfterSelect(object sender, TreeViewEventArgs e)
-		{
-		}
-
 		private void FeatureSelectionStep_Entering(object sender, ChangeStepEventArgs e)
 		{
-			//if (!Wizard.GetVariable<bool>("CustomInstallation"))
-			//	Wizard.ContinueMove();
-
+			SelectedFeature = FeatureSet.StationAndClient;
 		}
 
 		private void radioClientAndStation_CheckedChanged(object sender, System.EventArgs e)
@@ -32,6 +41,8 @@ namespace Gui
 					if (feature.Id == "MainFeature")
 						feature.State = FeatureState.Installed;
 				}
+
+				SelectedFeature = FeatureSet.StationAndClient;
 			}
 		}
 
@@ -44,6 +55,8 @@ namespace Gui
 					if (feature.Id == "MainFeature")
 						feature.State = FeatureState.NotInstalled;
 				}
+
+				SelectedFeature = FeatureSet.ClientOnly;
 			}
 		}
 	}

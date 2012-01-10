@@ -12,7 +12,7 @@
   <?define AppManufacturer = "Waveface" ?>
   <?define DefaultCulture = "en-US" ?>
   <Product Id="$(var.AppProductCode)" Name="$(var.AppCode)" Language="!(loc.LANGUAGE)" 
-           Version="$(var.AppVersion)" Manufacturer="$(var.AppManufacturer)" 
+           Version="$(var.AppVersion)" Manufacturer="$(var.AppManufacturer)"
            UpgradeCode="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
     <Package Id="*" InstallerVersion="200" Compressed="yes"/>
     <Media Id="1" Cabinet="media1.cab" EmbedCab="no" />
@@ -92,6 +92,18 @@
       <Directory Id="DesktopFolder" Name="Desktop" />
     </Directory>
 
+    <DirectoryRef Id="ProgramMenuDir">
+      <Component Id="ProgMenu.Shortcut.StationUI" Guid="{5387BD0C-6D1D-47D8-A0CF-223B2E042E21}">
+        <Shortcut Id="ProgMenu.Shortcut.StationUI" Name="!(loc.SHORTCUT.STARTWAVEFACE.STATION)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationUI.exe"/>
+      </Component>
+
+      <Component Id="ProgMenu.Shortcut.Client" Guid="{4ECDC48E-D514-4076-BF09-B36E15182152}">
+        <Shortcut Id="ProgMenu.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
+      </Component>
+    </DirectoryRef>
+    
     <DirectoryRef Id="TARGETDIR">
       <!--
       <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
@@ -154,7 +166,8 @@
       <ComponentRef Id="log4net.dll"/>
       <ComponentRef Id="MongoDB.Bson.dll"/>
       <ComponentRef Id="MongoDB.Driver.dll"/>
-      <!--<ComponentRef Id="StationSetup.exe"/>-->
+      <ComponentRef Id="StationUI.exe"/>
+      <ComponentRef Id="StationUI.resources.dll"/>
       <ComponentRef Id="System.Data.SQLite.dll"/>
       <ComponentRef Id="TCMPortMapper.dll"/>
       <ComponentRef Id="miniupnp.dll"/>
@@ -178,13 +191,12 @@
       <ComponentRef Id="WebCam_Capture.dll"/>
       <ComponentRef Id="StationML.xml"/>
       <ComponentRef Id="waveface.localization.dll"/>
-      <!--<ComponentRef Id="StationSetup.resources.dll"/>-->
       <ComponentRef Id="WavefaceWindowsClient.resources.dll"/>
       <ComponentRef Id="WavefaceML.xml"/>
       <ComponentRef Id="Microsoft.mshtml.dll"/>
       <ComponentRef Id="nlog.config"/>
       <ComponentRef Id="nlog.dll"/>
-      <ComponentGroupRef Id="DefaultPostResources"/>
+      <ComponentRef Id="ProgMenu.Shortcut.Client"/>
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
@@ -219,6 +231,9 @@
       </Component>
       <Component Id="Station.Management.exe" Guid="{F6BE5F51-E2BB-4BC3-BA4E-9488DCBA4D5B}">
         <File Id="Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Guid="*">
+        <File Id="StationUI.exe" Source="$(var.StationUI.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
       <!--<Component Id="StationSetup.exe" Guid="{7C8AE609-024C-462B-8291-9AA522CB1193}">
         <File Id="StationSetup.exe" Source="$(var.StationSetup.TargetPath)" KeyPath="yes" Checksum="yes">
@@ -280,7 +295,7 @@
         <File Id="WebCam_Capture.dll" Source="$(var.Wammer.TargetDir)\WebCam_Capture.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="StationML.xml" Guid="{C164BC1B-FF51-48AF-8F0B-E5228DE32A5B}">
-        <File Id="StationML.xML" Source="$(var.StationSetup.ProjectDir)\StationML.xml"/>
+        <File Id="StationML.xML" Source="$(var.StationUI.ProjectDir)\StationML.xml"/>
       </Component>
       <Component Id="WavefaceML.xml" Guid="{509DC419-360D-4A3E-832E-62515E094FD9}">
         <File Id="WavefaceML.xML" Source="$(var.Wammer.ProjectDir)\WavefaceML.xml"/>
@@ -301,11 +316,9 @@
 
     <!-- localization resources -->
     <DirectoryRef Id="zh_TW">
-      <!--
-      <Component Id="StationSetup.resources.dll" Guid="{F5EC7157-F950-4449-AFB3-8E59DDCEB331}">
-        <File Id="StationSetup.resources.dll" Source="$(var.StationSetup.TargetDir)\zh-TW\StationSetup.resources.dll" KeyPath="yes" Checksum="yes"/>
+      <Component Guid="*">
+        <File Id="StationUI.resources.dll" Source="$(var.StationUI.TargetDir)\zh-TW\StationUI.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      -->
       <Component Id="WavefaceWindowsClient.resources.dll" Guid="{F9E63329-F16F-433C-AF22-845350BA079C}">
         <File Id="WavefaceWindowsClient.resources.dll" Source="$(var.Wammer.TargetDir)\zh-TW\WavefaceWindowsClient.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -340,6 +353,7 @@
       <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>
+      <ComponentRef Id='ProgMenu.Shortcut.StationUI'/>
       <ComponentRef Id="CultureSetting"/>
     </Feature>
     
