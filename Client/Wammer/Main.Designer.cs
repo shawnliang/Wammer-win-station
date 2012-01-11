@@ -54,7 +54,6 @@
             this.StatusLabelPost = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelUpload = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelNetwork = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.timerShowStatuMessage = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorkerPreloadImage = new System.ComponentModel.BackgroundWorker();
             this.panelTop = new Waveface.BgPanel();
@@ -205,8 +204,7 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusLabelPost,
             this.StatusLabelUpload,
-            this.StatusLabelNetwork,
-            this.toolStripProgressBar});
+            this.StatusLabelNetwork});
             this.statusStrip.Name = "statusStrip";
             // 
             // StatusLabelPost
@@ -235,12 +233,6 @@
             this.StatusLabelNetwork.Name = "StatusLabelNetwork";
             this.StatusLabelNetwork.Padding = new System.Windows.Forms.Padding(8, 0, 4, 0);
             resources.ApplyResources(this.StatusLabelNetwork, "StatusLabelNetwork");
-            // 
-            // toolStripProgressBar
-            // 
-            this.toolStripProgressBar.Name = "toolStripProgressBar";
-            resources.ApplyResources(this.toolStripProgressBar, "toolStripProgressBar");
-            this.toolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             // 
             // timerShowStatuMessage
             // 
@@ -350,7 +342,6 @@
         private System.Windows.Forms.Timer timerShowStatuMessage;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelPost;
         private System.ComponentModel.BackgroundWorker backgroundWorkerPreloadImage;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
 	}
 }
 

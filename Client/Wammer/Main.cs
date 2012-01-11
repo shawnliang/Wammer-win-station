@@ -287,20 +287,6 @@ namespace Waveface
             m_setting = new SettingForm();
             m_setting.ShowDialog();
 
-            /*
-            if (m_preference.IsUserSwitched)
-            {
-                // m_exitToLogin = true;
-                QuitOption = QuitOption.QuitProgram;
-                m_process401Exception = true;
-
-                Process p = Process.Start("StationSetup.exe");
-                p.Close();
-
-                Close();
-            }
-            */
-
             m_setting = null;
         }
 
@@ -456,7 +442,6 @@ namespace Waveface
             if (online)
                 RT.Reset();
 
-            // m_logoutStation = false;
             m_process401Exception = false;
 
             WService.StationIP = "";
@@ -480,31 +465,16 @@ namespace Waveface
             if (_login == null)
             {
                 s_logger.Trace("Login.Auth_Login: null");
-
-                Reset(false);
-
-                if (!LoadRunTime())
-                {
-                    s_logger.Trace("Login.Auth_Login.null: !LoadRunTime()");
-
-                    Cursor.Current = Cursors.Default;
-                    return false;
-                }
-
-                RT.OnlineMode = false;
+                return false;
             }
-            else
-            {
-                s_logger.Trace("Login.Auth_Login: OK");
 
-                Reset(true);
+            s_logger.Trace("Login.Auth_Login: OK");
 
-                RT.Login = _login;
+            Reset(true);
 
-                RT.OnlineMode = true;
+            RT.Login = _login;
 
-                CheckStation(RT.Login.stations);
-            }
+            //CheckStation(RT.Login.stations);
 
             getGroupAndUser();
             fillUserInformation();
@@ -518,26 +488,15 @@ namespace Waveface
 
             postsArea.showRefreshUI(true);
 
+            m_settings.Email = email;
+            m_settings.Password = password;
+            m_settings.IsLoggedIn = true;
+
             Cursor.Current = Cursors.Default;
 
-            if (_login == null)
-            {
-                s_logger.Trace("Login.Auth_Login.null: ShowAllTimeline(false)");
+            GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
 
-                ShowAllTimeline(ShowTimelineIndexType.GlobalLastRead);
-            }
-            else
-            {
-                m_settings.Email = email;
-                m_settings.Password = password;
-                m_settings.IsLoggedIn = true;
-
-                s_logger.Trace("Login.Auth_Login.OK: GetAllDataAsync(false)");
-
-                GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
-
-                UploadOriginPhotosToStationManager.Current.Start();
-            }
+            UploadOriginPhotosToStationManager.Current.Start();
 
             return true;
         }
@@ -777,8 +736,6 @@ namespace Waveface
             }
             else
             {
-                toolStripProgressBar.Visible = false;
-
                 LastScan _lastRead = RT.REST.Footprints_getLastScan();
 
                 if ((_lastRead == null) || string.IsNullOrEmpty(_lastRead.post_id))
@@ -847,7 +804,6 @@ namespace Waveface
 
                 postsArea.updateRefreshUI(false);
 
-                toolStripProgressBar.Visible = true;
                 bgWorkerGetAllData.RunWorkerAsync();
             }
         }
@@ -1184,15 +1140,25 @@ namespace Waveface
 
         public void ShowStatuMessage(string message, bool timeout)
         {
-            if (timeout)
+            if (InvokeRequired)
             {
-                timerShowStatuMessage.Enabled = true;
-
-                StatusLabelPost.Text = message;
+                Invoke(new MethodInvoker(
+                           delegate { ShowStatuMessage(message, timeout); }
+                           ));
             }
             else
             {
-                StatusLabelUpload.Text = message;
+                if (timeout)
+                {
+                    timerShowStatuMessage.Enabled = true;
+
+                    StatusLabelPost.Text = message;
+                    postsArea.ShowStatusText(message);
+                }
+                else
+                {
+                    StatusLabelUpload.Text = message;
+                }
             }
         }
 
@@ -1201,6 +1167,7 @@ namespace Waveface
             timerShowStatuMessage.Enabled = false;
 
             StatusLabelPost.Text = "";
+            postsArea.ShowStatusText("");
         }
 
         #endregion
@@ -1297,7 +1264,7 @@ namespace Waveface
                         {
                             if (post.attachments.Count == 0)
                                 break;
-                            
+
                             Attachment _a = post.attachments[0];
 
                             string _url = string.Empty;

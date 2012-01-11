@@ -114,6 +114,12 @@ namespace Waveface
 
             while (true)
             {
+                if (Main.Current.RT.StopBgThread)
+                {
+                    Thread.Sleep(1000);
+                    continue;
+                }
+
                 _item = null;
 
                 if ((ThumbnailItems.Count == 0) && (PhotoItems.Count == 0))
@@ -170,7 +176,7 @@ namespace Waveface
                 {
                     if (File.Exists(_item.LocalFilePath2))
                     {
-                        if(!Main.Current.RT.StationMode)
+                        if (!Main.Current.RT.StationMode)
                         {
                             lock (PhotoItems)
                             {

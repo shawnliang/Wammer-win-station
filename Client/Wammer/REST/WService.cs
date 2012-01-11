@@ -31,12 +31,12 @@ namespace Waveface.API.V2
             {
                 //if (GCONST.DEBUG)
                 //{
-                //return "https://develop.waveface.com";
+                return "https://develop.waveface.com";
                 //return "https://api.waveface.com";
                 //}
                 //else
                 //{
-                    return s_cloudIP;
+                //    return s_cloudIP;
                 //}
             }
             set { s_cloudIP = value; }

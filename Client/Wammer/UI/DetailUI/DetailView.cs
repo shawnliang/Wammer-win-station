@@ -202,7 +202,7 @@ namespace Waveface
 
         private void setupTitle()
         {
-            labelTime.Text = DateTimeHelp.ISO8601ToDotNet(Post.timestamp);
+            labelTime.Text = DateTimeHelp.ISO8601ToDotNet(Post.timestamp, true);
             labelWho.Text = I18n.L.T("DetailView.Via") + " " + Post.code_name;
 
             labelWho.Left = labelTime.Right + 8;
@@ -372,7 +372,7 @@ namespace Waveface
                 _s.Append(_t);
                 _s.Append("    			</tr>");
                 _s.Append("    			<tr>");
-                _s.Append("      				<td><strong>[Comment]<strong></td>");
+                _s.Append("      				<td>[Comment]</td>"); //<td><strong>[Comment]<strong></td>
                 _s.Append("    			</tr>");
                 _s.Append("		</table>");
                 _s.Append("      	     </td>");
@@ -386,7 +386,7 @@ namespace Waveface
 
                 _html += _s.ToString();
                 _html = _html.Replace("[Comment]", _c.content);
-                _html = _html.Replace("[CommentTime]", DateTimeHelp.ISO8601ToDotNet(_c.timestamp));
+                _html = _html.Replace("[CommentTime]", DateTimeHelp.ISO8601ToDotNet(_c.timestamp, true));
                 _html = _html.Replace("[code_name]", _c.code_name);
 
                 foreach (User _user in Main.Current.RT.AllUsers)

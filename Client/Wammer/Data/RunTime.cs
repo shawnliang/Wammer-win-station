@@ -24,8 +24,9 @@ namespace Waveface
         private RT_REST m_rest;
         public MR_auth_login Login { get; set; }
 
+        public bool StopBgThread { get; set; }
+
         public bool StationMode { get; set; }
-        public bool OnlineMode { get; set; }
         public bool FilterMode { get; set; }
 
         public RT_REST REST
@@ -139,8 +140,10 @@ namespace Waveface
         public void Reset()
         {
             Login = null;
+
+            StopBgThread = false;
+
             StationMode = false;
-            OnlineMode = false;
             FilterMode = false;
 
             CurrentGroupID = string.Empty;

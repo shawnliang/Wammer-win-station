@@ -33,17 +33,19 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostArea));
             this.panelTop = new System.Windows.Forms.Panel();
-            this.btnCreatePost = new Waveface.Component.XPButton();
-            this.btnRefresh = new Waveface.Component.XPButton();
+            this.labelStatus = new System.Windows.Forms.Label();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.labelDisplay = new System.Windows.Forms.Label();
             this.comboBoxType = new System.Windows.Forms.ComboBox();
             this.panelList = new System.Windows.Forms.Panel();
-            this.postList = new Waveface.PostsList();
             this.panelButtom = new System.Windows.Forms.Panel();
             this.linkLabelReadMore = new System.Windows.Forms.LinkLabel();
             this.labelPostInfo = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.postList = new Waveface.PostsList();
+            this.btnCreatePost = new Waveface.Component.XPButton();
+            this.btnRefresh = new Waveface.Component.XPButton();
             this.panelTop.SuspendLayout();
             this.panelList.SuspendLayout();
             this.panelButtom.SuspendLayout();
@@ -54,34 +56,26 @@ namespace Waveface
             // 
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.panelTop.Controls.Add(this.labelStatus);
+            this.panelTop.Controls.Add(this.progressBar);
             this.panelTop.Controls.Add(this.btnCreatePost);
             this.panelTop.Controls.Add(this.btnRefresh);
             this.panelTop.Controls.Add(this.labelDisplay);
             this.panelTop.Controls.Add(this.comboBoxType);
             this.panelTop.Name = "panelTop";
             // 
-            // btnCreatePost
+            // labelStatus
             // 
-            resources.ApplyResources(this.btnCreatePost, "btnCreatePost");
-            this.btnCreatePost.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnCreatePost.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnCreatePost.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnCreatePost.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnCreatePost.Name = "btnCreatePost";
-            this.btnCreatePost.UseVisualStyleBackColor = true;
-            this.btnCreatePost.Click += new System.EventHandler(this.btnCreatePost_Click);
+            resources.ApplyResources(this.labelStatus, "labelStatus");
+            this.labelStatus.ForeColor = System.Drawing.Color.White;
+            this.labelStatus.Name = "labelStatus";
             // 
-            // btnRefresh
+            // progressBar
             // 
-            resources.ApplyResources(this.btnRefresh, "btnRefresh");
-            this.btnRefresh.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnRefresh.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnRefresh.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnRefresh.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnRefresh.Image = global::Waveface.Properties.Resources.refresh;
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            resources.ApplyResources(this.progressBar, "progressBar");
+            this.progressBar.MarqueeAnimationSpeed = 64;
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             // 
             // labelDisplay
             // 
@@ -110,13 +104,6 @@ namespace Waveface
             this.panelList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelList.Controls.Add(this.postList);
             this.panelList.Name = "panelList";
-            // 
-            // postList
-            // 
-            resources.ApplyResources(this.postList, "postList");
-            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.postList.DetailView = null;
-            this.postList.Name = "postList";
             // 
             // panelButtom
             // 
@@ -151,6 +138,36 @@ namespace Waveface
             // 
             this.cultureManager.ManagedControl = this;
             // 
+            // postList
+            // 
+            resources.ApplyResources(this.postList, "postList");
+            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.postList.DetailView = null;
+            this.postList.Name = "postList";
+            // 
+            // btnCreatePost
+            // 
+            resources.ApplyResources(this.btnCreatePost, "btnCreatePost");
+            this.btnCreatePost.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnCreatePost.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnCreatePost.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnCreatePost.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnCreatePost.Name = "btnCreatePost";
+            this.btnCreatePost.UseVisualStyleBackColor = true;
+            this.btnCreatePost.Click += new System.EventHandler(this.btnCreatePost_Click);
+            // 
+            // btnRefresh
+            // 
+            resources.ApplyResources(this.btnRefresh, "btnRefresh");
+            this.btnRefresh.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnRefresh.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnRefresh.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnRefresh.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnRefresh.Image = global::Waveface.Properties.Resources.refresh;
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // PostArea
             // 
             resources.ApplyResources(this, "$this");
@@ -183,5 +200,7 @@ namespace Waveface
         private XPButton btnRefresh;
         private XPButton btnCreatePost;
         private Localization.CultureManager cultureManager;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Label labelStatus;
     }
 }
