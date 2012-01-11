@@ -68,7 +68,7 @@ namespace Wammer.Station
 				return ActionResult.Failure;
 
 			KillProcess("WavefaceWindowsClient");
-			KillProcess("StationSetup");
+			KillProcess("StationUI");
 
 			return ActionResult.Success;
 		}
@@ -94,22 +94,20 @@ namespace Wammer.Station
 		[CustomAction]
 		public static ActionResult RestoreBackupData(Session session)
 		{
+			string dumpFolder = Path.Combine(session["INSTALLLOCATION"], @"MongoDB\Backup");
+
 			try
 			{
-				string dumpFolder = Path.Combine(session["INSTALLLOCATION"], @"MongoDB\Backup");
-
-				if (Directory.Exists(dumpFolder))
+				if (HasFeature(session, "MainFeature"))
 				{
-					Logger.Info(dumpFolder + " exists. Restoring DB....");
-					RunProgram(Path.Combine(session["INSTALLLOCATION"], @"MongoDB\mongorestore.exe"), 
-						"--port 10319 \"" + dumpFolder + "\"");
-					Directory.Delete(dumpFolder, true);
+					RestoreStationDB(session, dumpFolder);
+					RestoreStationId();
 				}
-				else
-					Logger.Info(dumpFolder + " does not exist. Skip restoring");
 
-
-				RestoreClientAppData();
+				if (HasFeature(session, "ClientFeature"))
+				{
+					RestoreClientAppData();
+				}
 
 				return ActionResult.Success;
 			}
@@ -118,6 +116,59 @@ namespace Wammer.Station
 				Logger.Error("Failed to restore saved data", e);
 				return ActionResult.Failure;
 			}
+			finally
+			{
+				RemoveBackupData(dumpFolder);
+			}
+		}
+
+		private static void RemoveBackupData(string dumpFolder)
+		{
+			try
+			{
+				if (Directory.Exists(dumpFolder))
+					Directory.Delete(dumpFolder, true);
+				if (StationRegistry.GetValue("oldStationId", null) != null)
+					StationRegistry.DeleteValue("oldStattionId");
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to clean up backup data", e);
+			}
+		}
+
+		private static void RestoreStationDB(Session session, string dumpFolder)
+		{
+			if (Directory.Exists(dumpFolder))
+			{
+				Logger.Info(dumpFolder + " exists. Restoring DB....");
+				RunProgram(Path.Combine(session["INSTALLLOCATION"], @"MongoDB\mongorestore.exe"),
+					"--port 10319 \"" + dumpFolder + "\"");
+				Directory.Delete(dumpFolder, true);
+			}
+			else
+				Logger.Info(dumpFolder + " does not exist. Skip restoring");
+		}
+
+		private static void RestoreStationId()
+		{
+			string oldStationId = (string)StationRegistry.GetValue("oldStationId", null);
+			if (oldStationId != null)
+				StationRegistry.SetValue("stationId", oldStationId);
+			StationRegistry.DeleteValue("oldStationId");
+		}
+
+		private static bool HasFeature(Session session, string featureId)
+		{
+			foreach (FeatureInfo feature in session.Features)
+			{
+				Logger.DebugFormat("{0} => current {1}, request {2}, ", feature.Name, feature.CurrentState, feature.RequestState);
+
+				if (feature.Name == featureId)
+					return feature.RequestState == InstallState.Local;
+			}
+
+			return false;
 		}
 
 		private static void RestoreClientAppData()
@@ -287,8 +338,11 @@ namespace Wammer.Station
 				string appPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 				userDataFolder = Path.Combine(appPath, "waveface");
 
-				Logger.Info("Deleting " + userDataFolder);
-				Directory.Delete(userDataFolder, true);
+				if (Directory.Exists(userDataFolder))
+				{
+					Logger.Info("Deleting " + userDataFolder);
+					Directory.Delete(userDataFolder, true);
+				}
 			}
 			catch (Exception e)
 			{
@@ -301,8 +355,11 @@ namespace Wammer.Station
 				string appPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 				userDataFolder2 = Path.Combine(appPath, "waveface");
 
-				Logger.Info("Deleting " + userDataFolder2);
-				Directory.Delete(userDataFolder2, true);
+				if (Directory.Exists(userDataFolder2))
+				{
+					Logger.Info("Deleting " + userDataFolder2);
+					Directory.Delete(userDataFolder2, true);
+				}
 			}
 			catch (Exception e)
 			{

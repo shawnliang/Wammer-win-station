@@ -88,6 +88,8 @@
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
       <Directory Id="ProgramMenuFolder" Name="Programs">
         <Directory Id="ProgramMenuDir" Name="!(loc.APPNAME)">
+
+          <!-- for station + client -->
           <Component Id="pmd" Guid="{60fa9a1b-662a-43df-a97b-d7667e79cb19}">
             <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
             <RemoveFolder Id="ProgramMenuDirRF" On="uninstall" />
@@ -96,6 +98,15 @@
             <Shortcut Id="ProgMenu.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
                   WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
           </Component>
+
+          <!-- for client only client -->
+          <Component Id="pmd_client" Guid="{C2757ED7-6129-4A3C-A21A-B577DDAED7CF}">
+            <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
+            <RemoveFolder Id="ProgramMenuDirRF_client" On="uninstall" />
+            <Shortcut Id="ProgMenu.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
+          </Component>
+          
         </Directory>
       </Directory>
       <Directory Id="DesktopFolder" Name="Desktop" />
@@ -193,6 +204,7 @@
       <ComponentRef Id="Microsoft.mshtml.dll"/>
       <ComponentRef Id="nlog.config"/>
       <ComponentRef Id="nlog.dll"/>
+      <ComponentRef Id="pmd_client"/>
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
