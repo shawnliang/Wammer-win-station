@@ -78,11 +78,7 @@ namespace Gui
 						AddStep(new InstallationLocationStep());
 						*/
 						AddStep(new FeatureSelectionStep());
-						
 						AddStep(new InstallationStep(InstallationMode.Install));
-
-						Migration.DoRestore();
-
 						AddStep(new FinishStep(InstallationMode.Install));
 						break;
 					case InstallationMode.Reinstall:

@@ -107,6 +107,10 @@
     <IncludeInCab Include="MongoDB.Bson.dll" />
     <IncludeInCab Include="MongoDB.Driver.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <IncludeInCab Include="mongodump.exe" />
+    <IncludeInCab Include="mongorestore.exe" />
+  </ItemGroup>
   <Import Project="$(SharpSetupTargetsPath)\SharpSetup.Assembler.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.ServiceProcess;
+using System.Diagnostics;
+
 using SharpSetup.Base;
 using MongoDB.Driver;
 using MongoDB.Bson;
@@ -35,11 +37,7 @@ namespace Gui
 			{
 				if (HasFeaure("MainFeature"))
 				{
-					MoveCollection("drivers", "oldDrivers");
-					MoveCollection("station", "oldStation");
-					MoveCollection("service", "oldService");
-					MoveCollection("cloudstorage", "oldCloudstorage");
-
+					MongoDump();
 					BackupRegistry();
 				}
 
@@ -52,16 +50,18 @@ namespace Gui
 			}
 		}
 
-		public static void DoRestore()
+		private static void MongoDump()
 		{
-			try
-			{
-				RestoreClientAppData();
-			}
-			catch (Exception e)
-			{
-				System.Windows.Forms.MessageBox.Show(e.Message, "Waveface", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-			}
+			Process p = new Process();
+			ProcessStartInfo info = new ProcessStartInfo("mongodump.exe", "--port 10319 --forceTableScan --out WavefaceDBDump --db wammer");
+			info.CreateNoWindow = true;
+			info.WindowStyle = ProcessWindowStyle.Hidden;
+			p.StartInfo = info;
+			p.Start();
+			p.WaitForExit();
+
+			if (p.ExitCode != 0)
+				throw new Exception("Backing up mongo db failed: " + p.ExitCode);
 		}
 
 		private static void BackupClientAppData()
@@ -72,31 +72,15 @@ namespace Gui
 				string wavefaceData = Path.Combine(appData, "Waveface");
 				string BackupData = Path.Combine(appData, "oldWaveface");
 
-				if (!Directory.Exists(wavefaceData) && Directory.Exists(BackupData))
-				{
-					Directory.Move(BackupData, wavefaceData);
-				}
+				if (Directory.Exists(BackupData))
+					Directory.Delete(BackupData, true);
+
+				if (Directory.Exists(wavefaceData))
+					Directory.Move(wavefaceData, BackupData);
 			}
 			catch (Exception e)
 			{
 				throw new Exception("Unable to backup Waveface Client application data: " + e.Message);
-			}
-		}
-
-		private static void RestoreClientAppData()
-		{
-			try
-			{
-				string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-				string wavefaceData = Path.Combine(appData, "Waveface");
-				string BackupData = Path.Combine(appData, "oldWaveface");
-
-				if (Directory.Exists(BackupData))
-					Directory.Move(BackupData, appData);
-			}
-			catch (Exception e)
-			{
-				throw new Exception("Unable to restore Waveface Client application data: " + e.Message);
 			}
 		}
 
@@ -130,17 +114,5 @@ namespace Gui
 			return false;
 		}
 
-		private static void MoveCollection(string collectionName, string backupCollectionName)
-		{
-			try
-			{
-				if (db.CollectionExists(collectionName))
-					db.RenameCollection(collectionName, backupCollectionName, true);
-			}
-			catch (Exception e)
-			{
-				throw new Exception("Unable to rename " + collectionName + " collection: " + e.Message);
-			}
-		}
 	}
 }

@@ -92,6 +92,65 @@ namespace Wammer.Station
 		}
 
 		[CustomAction]
+		public static ActionResult RestoreBackupData(Session session)
+		{
+			try
+			{
+				if (Directory.Exists("WavefaceDBDump"))
+				{
+					Logger.Info("WavefaceDBDump exists. Restoring DB....");
+					RunProgram("mongorestore.exe", "--port 10319 dump");
+				}
+				else
+					Logger.Info("WavefaceDBDump does not exist. Skip restoring");
+
+
+				RestoreClientAppData();
+
+				return ActionResult.Success;
+			}
+			catch (Exception e)
+			{
+				Logger.Error("Failed to restore saved data", e);
+				return ActionResult.Failure;
+			}
+		}
+
+		private static void RestoreClientAppData()
+		{
+			try
+			{
+				string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				string backupData = Path.Combine(appData, "oldWaveface");
+				string restoreData = Path.Combine(appData, "waveface");
+
+				if (Directory.Exists(backupData) && !Directory.Exists(restoreData))
+					Directory.Move(backupData, restoreData);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to restore client app data", e);
+			}
+		}
+
+		private static void RunProgram(string file, string args)
+		{
+			using (Process p = new Process())
+			{
+				p.StartInfo = new ProcessStartInfo(file, args);
+				p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+				p.StartInfo.CreateNoWindow = true;
+				p.Start();
+
+				p.WaitForExit();
+
+				if (p.ExitCode != 0)
+					throw new InstallerException(file + " returned " + p.ExitCode);
+			}
+		}
+
+
+		[CustomAction]
 		public static ActionResult SetRegistry(Session session)
 		{
 			try
@@ -182,17 +241,6 @@ namespace Wammer.Station
 				Logger.Warn("Unable to delete station id in registry", e);
 			}
 
-			//try
-			//{
-			//    MongoCursor<Driver> drivers = DriverCollection.Instance.FindAll();
-			//    foreach (Driver driver in drivers)
-			//        OldDriverCollection.Instance.Save(driver);
-			//}
-			//catch (Exception e)
-			//{
-			//    Logger.Warn("Unable to move drivers to oldDrivers", e);
-			//}
-
 			try
 			{
 				DriverCollection.Instance.RemoveAll();
@@ -269,14 +317,14 @@ namespace Wammer.Station
 
 				StartService(svcName);
 
-				int retry = 120;
+				int retry = 180;
 				while (!IsMongoDBReady() && 0 < retry--)
 				{
 					System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2.0));
 				}
 
 				if (!IsMongoDBReady())
-					throw new System.TimeoutException("MongoDB is not ready in 180 seconds");
+					throw new System.TimeoutException("MongoDB is not ready in 360 seconds");
 
 				Model.Database.RestoreCollection("station", "oldStation");
 				Model.Database.RestoreCollection("drivers", "oldDrivers");

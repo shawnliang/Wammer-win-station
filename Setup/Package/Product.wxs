@@ -20,7 +20,6 @@
     <Property Id="ALLUSERS" Value="1" />
     <Property Id="TEST" Value="NO" />
     <Icon Id="icon.ico" SourceFile="..\ProductBuild\sampleIcon.ico" />
-    <!--<Icon Id="Wammer.ico" SourceFile="$(var.Wammer.ProjectDir)\Resources\Icon.ico" />-->
 
     <!-- Upgrade -->
     <MajorUpgrade DowngradeErrorMessage="A newer version of this product is found. Cannot proceed."
@@ -33,7 +32,7 @@
     <!-- Kill running process -->
     <CustomAction Id='KillClientProcess' BinaryKey='InstallHelperDll' DllEntry='KillClientProcess' />
     <!-- Set Registry -->
-    <CustomAction Id='SetRegistry' BinaryKey='InstallHelperDll' DllEntry='SetRegistry' />
+    <CustomAction Id='SetRegistry' BinaryKey='InstallHelperDll' DllEntry='SetRegistry'/>
     <!-- Start and Wait mongo db ready -->
     <CustomAction Id='StartAndWaitMongoDbReady' BinaryKey='InstallHelperDll' DllEntry='StartAndWaitMongoDbReady' />
     <!-- Start waveface service -->
@@ -42,11 +41,13 @@
     <CustomAction Id='AddPerfCounters' BinaryKey='InstallHelperDll' DllEntry='AddPerfCounters' />
     <!-- Remove performance counters -->
     <CustomAction Id='RemovePerfCounters' BinaryKey='InstallHelperDll' DllEntry='RemovePerfCounters' />
-
+    <!-- Restore backup data -->
+    <CustomAction Id='RestoreBackupData' BinaryKey='InstallHelperDll' DllEntry='RestoreBackupData' />
+    
     <InstallExecuteSequence>
       <!-- while uninstall -->
       <Custom Action="KillClientProcess" Before="SignoffStationAction">
-        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+        (&amp;ClientFeature = 2) AND (!ClientFeature = 3)
       </Custom>
       <Custom Action="SignoffStationAction" Before="CleanStationInfoAction">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
@@ -67,7 +68,10 @@
       <Custom Action="StartAndWaitMongoDbReady" After="InstallFinalize">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
-      <Custom Action="StartWavefaceService" After="StartAndWaitMongoDbReady">
+      <Custom Action="RestoreBackupData" After="StartAndWaitMongoDbReady">
+        ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
+      </Custom>
+      <Custom Action="StartWavefaceService" After="RestoreBackupData">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
     </InstallExecuteSequence>
@@ -78,6 +82,7 @@
       <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
       <ProgressText Action="StartAndWaitMongoDbReady">!(loc.WaitMongoDbReady)</ProgressText>
       <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
+      <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
     </UI>
     <!-- Program Menu-->
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
@@ -86,24 +91,16 @@
           <Component Id="pmd" Guid="{60fa9a1b-662a-43df-a97b-d7667e79cb19}">
             <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
             <RemoveFolder Id="ProgramMenuDirRF" On="uninstall" />
+            <Shortcut Id="ProgMenu.Shortcut.StationUI" Name="!(loc.SHORTCUT.STARTWAVEFACE.STATION)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationUI.exe"/>
+            <Shortcut Id="ProgMenu.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
           </Component>
         </Directory>
       </Directory>
       <Directory Id="DesktopFolder" Name="Desktop" />
     </Directory>
 
-    <DirectoryRef Id="ProgramMenuDir">
-      <Component Id="ProgMenu.Shortcut.StationUI" Guid="{5387BD0C-6D1D-47D8-A0CF-223B2E042E21}">
-        <Shortcut Id="ProgMenu.Shortcut.StationUI" Name="!(loc.SHORTCUT.STARTWAVEFACE.STATION)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationUI.exe"/>
-      </Component>
-
-      <Component Id="ProgMenu.Shortcut.Client" Guid="{4ECDC48E-D514-4076-BF09-B36E15182152}">
-        <Shortcut Id="ProgMenu.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
-      </Component>
-    </DirectoryRef>
-    
     <DirectoryRef Id="TARGETDIR">
       <!--
       <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
@@ -196,7 +193,6 @@
       <ComponentRef Id="Microsoft.mshtml.dll"/>
       <ComponentRef Id="nlog.config"/>
       <ComponentRef Id="nlog.dll"/>
-      <ComponentRef Id="ProgMenu.Shortcut.Client"/>
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
@@ -353,7 +349,6 @@
       <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>
-      <ComponentRef Id='ProgMenu.Shortcut.StationUI'/>
       <ComponentRef Id="CultureSetting"/>
     </Feature>
     
