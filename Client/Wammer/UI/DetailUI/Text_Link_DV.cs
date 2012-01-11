@@ -282,8 +282,8 @@ namespace Waveface.DetailUI
                 ShowWebBrowser(Post.preview.url);
             }
 
-            webBrowserTop.DocumentText = _html; // = "<body bgcolor=\"rgb(238,231,209)\">" +  _html + "</body>";
-            webBrowserSoul.DocumentText = m_post.soul;
+            webBrowserTop.DocumentText = HtmlUtility.TrimScript(_html); // = "<body bgcolor=\"rgb(238,231,209)\">" +  _html + "</body>";
+            webBrowserSoul.DocumentText = HtmlUtility.TrimScript(m_post.soul);
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)

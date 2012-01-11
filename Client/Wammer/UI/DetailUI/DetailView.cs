@@ -404,9 +404,9 @@ namespace Waveface
             _html = "<font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'>" + _html + "</font>";
 
             if (changeBgColor)
-                wb.DocumentText = "<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>";
+                wb.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
             else
-                wb.DocumentText = _html;
+                wb.DocumentText = HtmlUtility.TrimScript(_html);
         }
 
         private void btnComment_Click(object sender, EventArgs e)

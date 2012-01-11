@@ -319,7 +319,7 @@ namespace Waveface.DetailUI
             string _html = _sb.ToString();
             _html = _html.Replace("[Text]", Post.content.Replace(Environment.NewLine, "<BR>"));
 
-            webBrowserTop.DocumentText = _html;
+            webBrowserTop.DocumentText = HtmlUtility.TrimScript(_html);
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
