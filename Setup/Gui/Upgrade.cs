@@ -13,8 +13,6 @@ namespace Gui
 {
 	class Migration
 	{
-		static MongoDatabase db;
-		
 		static Migration()
 		{
 			// make sure MongoDB is started
@@ -24,10 +22,6 @@ namespace Gui
 				svc.Start();
 
 			svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(2));
-
-
-			// init static vairables
-			db = MongoServer.Create("mongodb://localhost:10319/?safe=true").GetDatabase("wammer");
 		}
 
 
