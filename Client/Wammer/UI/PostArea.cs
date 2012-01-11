@@ -1,6 +1,5 @@
-﻿#region
+﻿﻿#region
 
-using System.Drawing;
 using System.Windows.Forms;
 
 #endregion
@@ -21,7 +20,7 @@ namespace Waveface
         {
             InitializeComponent();
 
-            comboBoxType.SelectedIndex = 0;
+            //comboBoxType.SelectedIndex = 0;
 
             //m_init = true;
         }
@@ -77,16 +76,7 @@ namespace Waveface
 
         public void updateRefreshUI(bool flag)
         {
-            progressBar.Size = new Size(btnRefresh.Width - 4, btnRefresh.Height - 4);
-            progressBar.Location = new Point(btnRefresh.Left + 2, btnRefresh.Top + 2);
-
             btnRefresh.Enabled = flag;
-            btnRefresh.Visible = flag;
-
-            progressBar.Enabled = !flag;
-            progressBar.Visible = !flag;
-
-            progressBar.BringToFront();
         }
 
         public void ShowStatusText(string msg)

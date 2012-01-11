@@ -37,7 +37,6 @@ namespace Waveface
 
         #endregion
 
-
         public void Start()
         {
             ThreadPool.QueueUserWorkItem(state => { ThreadMethod(); });
@@ -45,30 +44,104 @@ namespace Waveface
 
         private void ThreadMethod()
         {
-            MR_users_findMyStation _findMyStation = null;
+            MR_users_findMyStation _findMyStation;
 
             while (!m_exit)
             {
-                if (Main.Current.RT.Login == null)
+                try
                 {
-                    Thread.Sleep(2000);
+                    if (Main.Current.RT.Login == null)
+                    {
+                        Thread.Sleep(3000);
+                        continue;
+                    }
+
+                    if (!Main.Current.RT.StationMode) //Staion不在
+                    {
+                        _findMyStation = Main.Current.RT.REST.Users_findMyStation();
+
+                        if (_findMyStation != null)
+                        {
+                            //Test UPnP
+                            string _ip = GetStationIP(_findMyStation.stations, true);
+
+                            if (!string.IsNullOrEmpty(_ip))
+                            {
+                                if (Main.Current.RT.REST.CheckStationAlive(_ip))
+                                {
+                                    WService.StationIP = _ip;
+                                    Main.Current.RT.StationMode = true;
+
+                                    s_logger.Info("Station IP(UPnP):" + _ip);
+
+                                    Thread.Sleep(30000);
+                                    continue;
+                                }
+                            }
+
+                            //Test Local IP
+                            _ip = GetStationIP(_findMyStation.stations, false);
+
+                            if (!string.IsNullOrEmpty(_ip))
+                            {
+                                if (Main.Current.RT.REST.CheckStationAlive(_ip))
+                                {
+                                    WService.StationIP = _ip;
+                                    Main.Current.RT.StationMode = true;
+
+                                    s_logger.Info("Station IP:" + _ip);
+
+                                    Thread.Sleep(30000);
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!Main.Current.RT.REST.CheckStationAlive(WService.StationIP))
+                        {
+                            WService.StationIP = string.Empty;
+                            Main.Current.RT.StationMode = false;
+
+                            continue;
+                        }
+                    }
+
+                    Thread.Sleep(30000);
                     continue;
                 }
-
-                _findMyStation = Main.Current.RT.REST.Users_findMyStation(); 
-
-                if(_findMyStation == null)
+                catch (Exception _e)
                 {
-                    Thread.Sleep(2000);
-                    continue;
+                    NLogUtility.Exception(s_logger, _e, "ThreadMethod");
                 }
-
-
-
-
-
-                Thread.Sleep(2000);
             }
+        }
+
+        private string GetStationIP(List<Station> stations, bool UPnP)
+        {
+            string _ip = string.Empty;
+
+            if (stations != null)
+            {
+                foreach (Station _station in stations)
+                {
+                    if (_station.status == "connected")
+                    {
+                        if (UPnP)
+                            _ip = _station.public_location;
+                        else
+                            _ip = _station.location;
+
+                        if (_ip.EndsWith("/"))
+                            _ip = _ip.Substring(0, _ip.Length - 1);
+
+                        return _ip;
+                    }
+                }
+            }
+
+            return string.Empty;
         }
 
         public void Exit()

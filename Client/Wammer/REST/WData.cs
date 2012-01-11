@@ -107,7 +107,7 @@ namespace Waveface.API.V2
         public string name { get; set; }
         public string description { get; set; }
     }
-    
+
     public class WFStorageUsage
     {
         public long dropbox_objects { get; set; }
@@ -187,6 +187,10 @@ namespace Waveface.API.V2
         public string status { get; set; }
         public string accessible { get; set; }
         public int last_ping { get; set; }
+        public string public_location { get; set; }
+        public string version { get; set; }
+        public string computer_name { get; set; }
+        public bool upnp { get; set; }
     }
 
     public class CloudStorage

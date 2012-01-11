@@ -276,6 +276,21 @@ namespace Waveface
             QuitOption = QuitOption.Logout;
             m_settings.IsLoggedIn = false;
 
+            try
+            {
+                UploadOriginPhotosToStationManager.Current = null;
+
+                StationState.Current = null;
+
+                NewPostManager.Current = null;
+
+                PhotoDownloader.Current = null;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "Logout");
+            }
+
             Close();
         }
 
@@ -474,8 +489,6 @@ namespace Waveface
 
             RT.Login = _login;
 
-            //CheckStation(RT.Login.stations);
-
             getGroupAndUser();
             fillUserInformation();
 
@@ -497,41 +510,9 @@ namespace Waveface
             GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
 
             UploadOriginPhotosToStationManager.Current.Start();
+            StationState.Current.Start();
 
             return true;
-        }
-
-        private void CheckStation(List<Station> stations)
-        {
-            if (stations != null)
-            {
-                foreach (Station _station in stations)
-                {
-                    if (_station.status == "connected")
-                    {
-                        string _ip = _station.location;
-
-                        if (_ip.EndsWith("/"))
-                            _ip = _ip.Substring(0, _ip.Length - 1);
-
-                        WService.StationIP = _ip;
-
-                        //test
-                        //m_stationIP = _ip;
-                        //panelStation.Visible = true;
-
-                        RT.StationMode = true;
-
-                        s_logger.Info("CheckStation:" + _ip);
-
-                        return;
-                    }
-                }
-            }
-
-            s_logger.Trace("CheckStation: Not Found");
-
-            RT.StationMode = false;
         }
 
         private void fillUserInformation()
@@ -1269,7 +1250,7 @@ namespace Waveface
 
                             string _url = string.Empty;
                             string _fileName = string.Empty;
-                            Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url, out _fileName);
+                            Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url, out _fileName, false);
 
                             string _localPic = GCONST.CachePath + _fileName;
 
@@ -1308,7 +1289,7 @@ namespace Waveface
                                 string _url = string.Empty;
                                 string _fileName = string.Empty;
                                 Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url,
-                                                                                 out _fileName);
+                                                                                 out _fileName, false);
 
                                 string _localPic = GCONST.CachePath + _fileName;
 
@@ -1346,7 +1327,7 @@ namespace Waveface
                 ImageItem _item = new ImageItem();
                 _item.PostItemType = PostItemType.Thumbnail;
                 _item.ThumbnailPath = url;
-                _item.LocalFilePath = localPicPath;
+                _item.LocalFilePath_Origin = localPicPath;
 
                 PhotoDownloader.Current.Add(_item);
             }
@@ -1357,6 +1338,7 @@ namespace Waveface
             List<Attachment> _imageAttachments = new List<Attachment>();
             List<string> _filePathOrigins = new List<string>();
             List<string> _filePathMediums = new List<string>();
+            List<string> _urlCloudOrigins = new List<string>();
             List<string> _urlOrigins = new List<string>();
             List<string> _urlMediums = new List<string>();
 
@@ -1373,16 +1355,19 @@ namespace Waveface
             {
                 string _urlO = string.Empty;
                 string _fileNameO = string.Empty;
-                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO);
+                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, false);
 
                 string _localFileO = GCONST.CachePath + _fileNameO;
 
                 _filePathOrigins.Add(_localFileO);
                 _urlOrigins.Add(_urlO);
 
+                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, true);
+                _urlCloudOrigins.Add(_urlO);
+
                 string _urlM = string.Empty;
                 string _fileNameM = string.Empty;
-                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM);
+                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM, false);
 
                 string _localFileM = GCONST.CachePath + _fileNameM;
 
@@ -1396,10 +1381,11 @@ namespace Waveface
                 {
                     ImageItem _item = new ImageItem();
                     _item.PostItemType = PostItemType.Origin;
+                    _item.CloudOriginPath = _urlCloudOrigins[i];
                     _item.OriginPath = _urlOrigins[i];
                     _item.MediumPath = _urlMediums[i];
-                    _item.LocalFilePath = _filePathOrigins[i];
-                    _item.LocalFilePath2 = _filePathMediums[i];
+                    _item.LocalFilePath_Origin = _filePathOrigins[i];
+                    _item.LocalFilePath_Medium = _filePathMediums[i];
 
                     PhotoDownloader.Current.Add(_item);
                 }

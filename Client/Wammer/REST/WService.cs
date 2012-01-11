@@ -31,12 +31,12 @@ namespace Waveface.API.V2
             {
                 //if (GCONST.DEBUG)
                 //{
-                return "https://develop.waveface.com";
+                //return "https://develop.waveface.com";
                 //return "https://api.waveface.com";
                 //}
                 //else
                 //{
-                //    return s_cloudIP;
+                    return s_cloudIP;
                 //}
             }
             set { s_cloudIP = value; }
@@ -79,7 +79,7 @@ namespace Waveface.API.V2
         static WService()
         {
             {
-                string _cloudUrl = (string) StationRegHelper.GetValue("cloudBaseURL", null);
+                string _cloudUrl = (string)StationRegHelper.GetValue("cloudBaseURL", null);
 
                 if (_cloudUrl == null)
                     return;
@@ -99,7 +99,7 @@ namespace Waveface.API.V2
 
         private T HttpGetObject<T>(string _url)
         {
-            HttpWebRequest _req = (HttpWebRequest) WebRequest.Create(_url);
+            HttpWebRequest _req = (HttpWebRequest)WebRequest.Create(_url);
             _req.Timeout = 30000;
             _req.Headers.Set("Content-Encoding", "UTF-8");
             WebResponse _resp = _req.GetResponse();
@@ -110,6 +110,37 @@ namespace Waveface.API.V2
             _settings.MissingMemberHandling = MissingMemberHandling.Ignore;
 
             return JsonConvert.DeserializeObject<T>(_r, _settings);
+        }
+
+        public string HttpGet(string _url)
+        {
+            try
+            {
+                HttpWebRequest _req = (HttpWebRequest)WebRequest.Create(_url);
+                _req.Timeout = 5000;
+                _req.Headers.Set("Content-Encoding", "UTF-8");
+                WebResponse _resp = _req.GetResponse();
+                StreamReader _sr = new StreamReader(_resp.GetResponseStream());
+                return _sr.ReadToEnd().Trim();
+            }
+            catch (WebException _e)
+            {
+                if (_e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    return "OK";
+                }
+
+                NLogUtility.WebException(s_logger, _e, "HttpGet");
+
+
+                return null;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "HttpGet");
+
+                return null;
+            }
         }
 
         #endregion
@@ -152,7 +183,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -202,7 +233,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -240,7 +271,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -282,7 +313,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -324,7 +355,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -364,7 +395,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -400,7 +431,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -458,7 +489,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -496,7 +527,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -538,7 +569,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -576,7 +607,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -616,7 +647,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -656,7 +687,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -700,7 +731,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -744,7 +775,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -784,7 +815,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -846,7 +877,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -893,7 +924,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -933,7 +964,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -973,7 +1004,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1013,7 +1044,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1053,7 +1084,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1096,7 +1127,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1135,7 +1166,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1206,7 +1237,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse res = (HttpWebResponse)_e.Response;
 
                     if (res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1246,7 +1277,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1284,7 +1315,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1334,7 +1365,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1374,7 +1405,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1450,7 +1481,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1497,7 +1528,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1542,7 +1573,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1578,7 +1609,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1615,7 +1646,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1652,7 +1683,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1737,7 +1768,7 @@ namespace Waveface.API.V2
 
         public static string ExtractApiRetMsg(WebException e)
         {
-            HttpWebResponse res = (HttpWebResponse) e.Response;
+            HttpWebResponse res = (HttpWebResponse)e.Response;
 
             if (res != null)
             {
@@ -1799,7 +1830,7 @@ namespace Waveface.API.V2
 
                 if (!dropboxConnected && dropboxInstalled())
                 {
-                    res.cloudstorages.Add(new CloudStorage {type = "dropbox", connected = false, quota = 0, used = 0});
+                    res.cloudstorages.Add(new CloudStorage { type = "dropbox", connected = false, quota = 0, used = 0 });
                 }
 
                 return res;
@@ -1810,7 +1841,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1843,7 +1874,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1878,7 +1909,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1912,7 +1943,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();
@@ -1945,7 +1976,7 @@ namespace Waveface.API.V2
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse _res = (HttpWebResponse) _e.Response;
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
                     if (_res.StatusCode == HttpStatusCode.Unauthorized)
                         throw new Station401Exception();

@@ -360,19 +360,19 @@ namespace Waveface
             {
                 StringBuilder _s = new StringBuilder();
 
-                _s.Append("	<table bgcolor=#eeeeee border=\"0\">");
+                _s.Append("	<table border=\"0\">");
                 _s.Append("    	   <tr>");
                 //_s.Append("      	     <td><img src=\"[Avatar]\" width=\"40\" height=\"40\" /></td>");
                 _s.Append("      	     <td>");
                 _s.Append(" 		<table border=\"0\">");
                 _s.Append("    			<tr>");
 
-                string _t = "      				<td>[CommentTime] " + I18n.L.T("DetailView.Via") + " [code_name]</td>";
+                string _t = "      				<td><font size='2pt' color='gray'>[CommentTime] " + I18n.L.T("DetailView.Via") + " [code_name]</font></td>";
 
                 _s.Append(_t);
                 _s.Append("    			</tr>");
                 _s.Append("    			<tr>");
-                _s.Append("      				<td>[Comment]</td>"); //<td><strong>[Comment]<strong></td>
+                _s.Append("      				<td><font size='2.75pt'>[Comment]</font></td>"); //<td><strong>[Comment]<strong></td>
                 _s.Append("    			</tr>");
                 _s.Append("		</table>");
                 _s.Append("      	     </td>");

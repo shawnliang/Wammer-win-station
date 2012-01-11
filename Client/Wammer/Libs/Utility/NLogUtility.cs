@@ -18,6 +18,17 @@ namespace Waveface
             logger.Error(_s);
         }
 
+        public static void Exception_Warn(Logger logger, Exception e, string message, string message2)
+        {
+            string _s = "[" + message + "]" + "\n" + message2 + "\n" +
+                        GetExceptionMessage(e) + "\n";
+
+            if (e.InnerException != null)
+                _s = _s + "[InnerException]\n" + GetExceptionMessage(e.InnerException) + "\n";
+
+            logger.Warn(_s);
+        }
+
         public static void WebException(Logger logger, WebException e, string message)
         {
             string _s = "[" + message + "]" + "\n" +

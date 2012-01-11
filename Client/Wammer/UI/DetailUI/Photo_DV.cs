@@ -42,6 +42,7 @@ namespace Waveface.DetailUI
 
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
+        private List<string> m_urlCloudOrigins;
         private List<string> m_urlOrigins;
         private List<string> m_urlMediums;
 
@@ -96,6 +97,7 @@ namespace Waveface.DetailUI
 
             m_filePathOrigins = new List<string>();
             m_filePathMediums = new List<string>();
+            m_urlCloudOrigins = new List<string>();
             m_urlOrigins = new List<string>();
             m_urlMediums = new List<string>();
         }
@@ -350,12 +352,15 @@ namespace Waveface.DetailUI
             {
                 string _urlO = string.Empty;
                 string _fileNameO = string.Empty;
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO);
+                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, false);
 
                 string _localFileO = Main.GCONST.CachePath + _fileNameO;
 
                 m_filePathOrigins.Add(_localFileO);
                 m_urlOrigins.Add(_urlO);
+
+                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, true);
+                m_urlCloudOrigins.Add(_urlO);
 
                 if (!m_filesMapping.ContainsKey(_fileNameO))
                 {
@@ -365,7 +370,7 @@ namespace Waveface.DetailUI
 
                 string _urlM = string.Empty;
                 string _fileNameM = string.Empty;
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM);
+                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM, false);
 
                 string _localFileM = Main.GCONST.CachePath + _fileNameM;
 
@@ -385,10 +390,11 @@ namespace Waveface.DetailUI
                 {
                     ImageItem _item = new ImageItem();
                     _item.PostItemType = PostItemType.Origin;
+                    _item.CloudOriginPath = m_urlCloudOrigins[i];
                     _item.OriginPath = m_urlOrigins[i];
                     _item.MediumPath = m_urlMediums[i];
-                    _item.LocalFilePath = m_filePathOrigins[i];
-                    _item.LocalFilePath2 = m_filePathMediums[i];
+                    _item.LocalFilePath_Origin = m_filePathOrigins[i];
+                    _item.LocalFilePath_Medium = m_filePathMediums[i];
 
                     PhotoDownloader.Current.Add(_item);
                 }

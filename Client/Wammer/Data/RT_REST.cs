@@ -48,9 +48,9 @@ namespace Waveface
             return AttachmentUrlUtility.GetRedirectURL(orgURL, SessionToken, object_id, isImage);
         }
 
-        public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url, out string fileName)
+        public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url, out string fileName, bool forceCloud)
         {
-            return AttachmentUrlUtility.GetRedirectURL_Image(SessionToken, a, imageType, out url, out fileName);
+            return AttachmentUrlUtility.GetRedirectURL_Image(SessionToken, a, imageType, out url, out fileName, forceCloud);
         }
 
         public string attachments_getRedirectURL_PdfCoverPage(string orgURL)
@@ -59,6 +59,23 @@ namespace Waveface
         }
 
         #endregion
+
+        #region Station
+
+        public bool CheckStationAlive(string ip)
+        {
+            if (!IsNetworkAvailable)
+                return false;
+
+            string _url = ip + "/v2/availability/ping/";
+
+            string _ret = m_service.HttpGet(_url);
+
+            return (_ret != null);
+        }
+
+        #endregion
+
 
         public MR_auth_login Auth_Login(string email, string password)
         {
