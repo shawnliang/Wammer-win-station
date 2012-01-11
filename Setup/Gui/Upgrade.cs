@@ -52,8 +52,14 @@ namespace Gui
 
 		private static void MongoDump()
 		{
+			string appRoot = MsiConnection.Instance.GetPath("INSTALLLOCATION");
+			string dumpFolder = Path.Combine(appRoot, @"MongoDB\Backup");
+
 			Process p = new Process();
-			ProcessStartInfo info = new ProcessStartInfo("mongodump.exe", "--port 10319 --forceTableScan --out WavefaceDBDump --db wammer");
+			ProcessStartInfo info = new ProcessStartInfo(
+				"mongodump.exe", 
+				string.Format("--port 10319 --forceTableScan --out \"{0}\" --db wammer", dumpFolder));
+
 			info.CreateNoWindow = true;
 			info.WindowStyle = ProcessWindowStyle.Hidden;
 			p.StartInfo = info;

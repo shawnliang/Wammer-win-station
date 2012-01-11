@@ -336,6 +336,9 @@
       <Component Id="mongo.exe" Guid="{03376030-6756-4698-B1FF-AD92F18BABE5}">
         <File Id="mongo.exe" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongo.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Guid="*">
+        <File Id="mongorestore.exe" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongorestore.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
     </DirectoryRef>
 
     <!-- Features -->
@@ -346,6 +349,7 @@
       <ComponentRef Id="mongod.exe"/>
       <ComponentRef Id="mongos.exe"/>
       <ComponentRef Id="mongo.exe"/>
+      <ComponentRef Id="mongorestore.exe"/>
       <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>

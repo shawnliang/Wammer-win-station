@@ -96,13 +96,17 @@ namespace Wammer.Station
 		{
 			try
 			{
-				if (Directory.Exists("WavefaceDBDump"))
+				string dumpFolder = Path.Combine(session["INSTALLLOCATION"], @"MongoDB\Backup");
+
+				if (Directory.Exists(dumpFolder))
 				{
-					Logger.Info("WavefaceDBDump exists. Restoring DB....");
-					RunProgram("mongorestore.exe", "--port 10319 dump");
+					Logger.Info(dumpFolder + " exists. Restoring DB....");
+					RunProgram(Path.Combine(session["INSTALLLOCATION"], @"MongoDB\mongorestore.exe"), 
+						"--port 10319 \"" + dumpFolder + "\"");
+					Directory.Delete(dumpFolder, true);
 				}
 				else
-					Logger.Info("WavefaceDBDump does not exist. Skip restoring");
+					Logger.Info(dumpFolder + " does not exist. Skip restoring");
 
 
 				RestoreClientAppData();
