@@ -15,10 +15,24 @@ namespace StationSystemTray
 {
 	public partial class MainForm : Form
 	{
+		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
+
 		private ServiceActionUIController uictrlServiceAction;
 		private InitMainUIController uictrlInitMain;
 		private bool serviceRunning;
 		public static readonly string MSGBOX_TITLE = "Waveface";
+
+		public bool MenuServiceActionEnabled
+		{
+			get { return menuServiceAction.Enabled; }
+			set { menuServiceAction.Enabled = value; }
+		}
+
+		public bool MenuPreferenceEnabled
+		{
+			get { return menuPreference.Enabled; }
+			set { menuPreference.Enabled = value; }
+		}
 
 		public string MenuServiceActionText
 		{
@@ -69,7 +83,7 @@ namespace StationSystemTray
 		protected override void OnLoad(EventArgs e)
 		{
 			this.Visible = false;
-			this.ShowInTaskbar = false;
+
 			this.menuPreference.Text = I18n.L.T("WFPreference");
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
@@ -81,7 +95,18 @@ namespace StationSystemTray
 
 		private void menuQuit_Click(object sender, EventArgs e)
 		{
-			Application.Exit();
+			try
+			{
+				StationController.StationOffline();
+			}
+			catch (Exception ex)
+			{
+				logger.Error("StationOffline fail", ex);
+			}
+			finally
+			{
+				Application.Exit();
+			}
 		}
 
 		private void menuServiceAction_Click(object sender, EventArgs e)
@@ -131,10 +156,20 @@ namespace StationSystemTray
 
 		private void menuPreference_Click(object sender, EventArgs e)
 		{
-			this.TrayMenu.Enabled = false;
-			PreferenceForm preform = new PreferenceForm();
-			preform.ShowDialog();
-			this.TrayMenu.Enabled = true;
+			try
+			{
+				this.TrayMenu.Enabled = false;
+				PreferenceForm preform = new PreferenceForm();
+				preform.ShowDialog();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, MSGBOX_TITLE);
+			}
+			finally
+			{
+				this.TrayMenu.Enabled = true;
+			}
 		}
 	}
 
@@ -167,12 +202,14 @@ namespace StationSystemTray
 
 		protected override void SetFormControls(object obj)
 		{
-			mainform.TrayMenuEnabled = false;
+			mainform.MenuServiceActionEnabled = false;
+			mainform.MenuPreferenceEnabled = false;
 		}
 
 		protected override void SetFormControlsInCallback(object obj)
 		{
-			mainform.TrayMenuEnabled = true;
+			mainform.MenuServiceActionEnabled = true;
+			mainform.MenuPreferenceEnabled = true;
 		}
 
 		protected override void SetFormControlsInError(Exception ex)

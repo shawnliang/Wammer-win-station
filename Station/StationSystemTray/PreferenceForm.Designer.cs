@@ -181,7 +181,6 @@
 			this.groupBox2.Controls.Add(this.lblDropboxStorageAccountTitle);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.TabStop = false;
-			this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
 			// 
 			// label_DaysLeftValue
 			// 
@@ -269,11 +268,6 @@
 			this.linkLegalNotice.TabStop = true;
 			this.linkLegalNotice.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLegalNotice_LinkClicked);
 			// 
-			// bgworkerGetAllData
-			// 
-			this.bgworkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerGetAllData_DoWork);
-			this.bgworkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerGetAllData_RunWorkerCompleted);
-			// 
 			// groupBox3
 			// 
 			resources.ApplyResources(this.groupBox3, "groupBox3");
@@ -298,7 +292,7 @@
 			this.Name = "PreferenceForm";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PreferenceForm_FormClosing);
+			this.Activated += new System.EventHandler(this.PreferenceForm_Activated);
 			this.Load += new System.EventHandler(this.PreferenceForm_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();

@@ -64,9 +64,65 @@ namespace Waveface
         private FormSettings m_formSettings;
         private PostForm m_postForm;
 
+        private PhotoDownloader m_photoDownloader;
+        private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
+        private NewPostManager m_newPostManager;
+        private StationState m_stationState;
+
         #endregion
 
         #region Properties
+
+        public StationState StationState
+        {
+            get
+            {
+                if (m_stationState == null)
+                {
+                    m_stationState = new StationState();
+                }
+
+                return m_stationState;
+            }
+            set { m_stationState = value; }
+        }
+
+        public NewPostManager NewPostManager
+        {
+            get
+            {
+                if (m_newPostManager == null)
+                {
+                    m_newPostManager = NewPostManager.Load() ?? new NewPostManager();
+                }
+
+                return m_newPostManager;
+            }
+            set { m_newPostManager = value; }
+        }
+
+        public UploadOriginPhotosToStationManager UploadOriginPhotosToStationManager
+        {
+            get
+            {
+                if (m_uploadOriginPhotosToStationManager == null)
+                {
+                    m_uploadOriginPhotosToStationManager = UploadOriginPhotosToStationManager.Load() ?? new UploadOriginPhotosToStationManager();
+                }
+
+                return m_uploadOriginPhotosToStationManager;
+            }
+            set { m_uploadOriginPhotosToStationManager = value; }
+        }
+
+        public PhotoDownloader PhotoDownloader
+        {
+            get
+            {
+                return m_photoDownloader ?? (m_photoDownloader = new PhotoDownloader());
+            }
+            set { m_photoDownloader = value; }
+        }
 
         public RunTime RT
         {
@@ -104,10 +160,6 @@ namespace Waveface
             m_formSettings.SaveOnClose = true;
 
             System.Net.ServicePointManager.DefaultConnectionLimit = 64;
-
-            PhotoDownloader.Current = null;
-            NewPostManager.Current = null;
-            UploadOriginPhotosToStationManager.Current = null;
 
             s_logger.Trace("Constructor: OK");
         }
@@ -266,8 +318,7 @@ namespace Waveface
                 SetLastReadPos();
 
             SaveRunTime();
-            NewPostManager.Current.Save();
-
+            NewPostManager.Save();
             m_settings.Save();
         }
 
@@ -278,17 +329,32 @@ namespace Waveface
 
             try
             {
-                UploadOriginPhotosToStationManager.Current = null;
+                if (NewPostManager != null)
+                {
+                    NewPostManager.AbortThread();
+                    NewPostManager = null;
+                }
 
-                StationState.Current = null;
+                if (PhotoDownloader != null)
+                {
+                    PhotoDownloader.AbortThread();
+                    PhotoDownloader = null;
+                }
 
-                NewPostManager.Current = null;
+                if (UploadOriginPhotosToStationManager != null)
+                {
+                    UploadOriginPhotosToStationManager.AbortThread();
+                    UploadOriginPhotosToStationManager = null;
+                }
 
-                PhotoDownloader.Current = null;
+                if (StationState != null)
+                {
+                    StationState.AbortThread();
+                    statusStrip = null;
+                }
             }
-            catch (Exception _e)
+            catch
             {
-                NLogUtility.Exception(s_logger, _e, "Logout");
             }
 
             Close();
@@ -489,28 +555,29 @@ namespace Waveface
 
             RT.Login = _login;
 
+            m_settings.Email = email;
+            m_settings.Password = password;
+            m_settings.IsLoggedIn = true;
+
             getGroupAndUser();
             fillUserInformation();
 
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
             RT.LoadGroupLocalRead();
-            RT.FilterMode = false;
+
+            UploadOriginPhotosToStationManager.Start();
+            PhotoDownloader.Start();
+            NewPostManager.Start();
+            StationState.Start();
 
             leftArea.SetUI(true);
             leftArea.SetNewPostManager();
 
             postsArea.showRefreshUI(true);
 
-            m_settings.Email = email;
-            m_settings.Password = password;
-            m_settings.IsLoggedIn = true;
-
             Cursor.Current = Cursors.Default;
 
             GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
-
-            UploadOriginPhotosToStationManager.Current.Start();
-            StationState.Current.Start();
 
             return true;
         }
@@ -815,8 +882,6 @@ namespace Waveface
                 {
                     postsArea.PostsList.SetPosts(_posts, _index, m_manualRefresh);
                 }
-
-                // m_windowRestoring = false;
             }
         }
 
@@ -879,7 +944,7 @@ namespace Waveface
                         break;
 
                     case DialogResult.OK:
-                        NewPostManager.Current.Add(m_postForm.NewPostItem);
+                        NewPostManager.Add(m_postForm.NewPostItem);
                         break;
                 }
             }
@@ -1235,7 +1300,7 @@ namespace Waveface
 
         #region PrefetchImages
 
-        public void PrefetchImages(List<Post> posts)
+        public void PrefetchImages(List<Post> posts, bool allSize)
         {
             foreach (Post post in posts)
             {
@@ -1256,7 +1321,7 @@ namespace Waveface
 
                             PreloadThumbnail(_url, _localPic);
 
-                            PreloadPictures(post);
+                            PreloadPictures(post, allSize);
 
                             break;
                         }
@@ -1329,16 +1394,16 @@ namespace Waveface
                 _item.ThumbnailPath = url;
                 _item.LocalFilePath_Origin = localPicPath;
 
-                PhotoDownloader.Current.Add(_item);
+                PhotoDownloader.Add(_item, false);
             }
         }
 
-        private void PreloadPictures(Post post)
+        private void PreloadPictures(Post post, bool allSize)
         {
             List<Attachment> _imageAttachments = new List<Attachment>();
             List<string> _filePathOrigins = new List<string>();
             List<string> _filePathMediums = new List<string>();
-            List<string> _urlCloudOrigins = new List<string>();
+            //List<string> _urlCloudOrigins = new List<string>();
             List<string> _urlOrigins = new List<string>();
             List<string> _urlMediums = new List<string>();
 
@@ -1362,8 +1427,8 @@ namespace Waveface
                 _filePathOrigins.Add(_localFileO);
                 _urlOrigins.Add(_urlO);
 
-                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, true);
-                _urlCloudOrigins.Add(_urlO);
+                //Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, true);
+                //_urlCloudOrigins.Add(_urlO);
 
                 string _urlM = string.Empty;
                 string _fileNameM = string.Empty;
@@ -1380,14 +1445,19 @@ namespace Waveface
                 if (!File.Exists(_filePathOrigins[i]) || !File.Exists(_filePathMediums[i]))
                 {
                     ImageItem _item = new ImageItem();
-                    _item.PostItemType = PostItemType.Origin;
-                    _item.CloudOriginPath = _urlCloudOrigins[i];
+
+                    if (allSize)
+                        _item.PostItemType = PostItemType.Origin;
+                    else
+                        _item.PostItemType = PostItemType.Medium;
+
+                    _item.CloudOriginPath = string.Empty; // _urlCloudOrigins[i];
                     _item.OriginPath = _urlOrigins[i];
                     _item.MediumPath = _urlMediums[i];
                     _item.LocalFilePath_Origin = _filePathOrigins[i];
                     _item.LocalFilePath_Medium = _filePathMediums[i];
 
-                    PhotoDownloader.Current.Add(_item);
+                    PhotoDownloader.Add(_item, false);
                 }
             }
         }
@@ -1396,7 +1466,7 @@ namespace Waveface
         {
             if (RT.CurrentGroupPosts != null)
             {
-                PrefetchImages(RT.CurrentGroupPosts);
+                PrefetchImages(RT.CurrentGroupPosts, false);
             }
         }
 
