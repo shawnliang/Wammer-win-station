@@ -98,9 +98,6 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
 								attachmentHandler);
 
-				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/",
-								new StatusGetHandler());
-
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/get/",
 								new ResouceDirGetHandler(resourceBasePath));
 
@@ -128,16 +125,8 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/",
 								new PingHandler());
 
-				logger.Debug("Check if need to start function server");
-				Model.Service svc = ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
-				if (svc != null)
-				{
-					if (svc.State == ServiceState.Online)
-					{
-						logger.Debug("Start function server");
-						functionServer.Start();
-					}
-				}
+				logger.Debug("Start function server");
+				functionServer.Start();
 
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989);
@@ -146,6 +135,7 @@ namespace Wammer.Station.Service
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/remove/", new RemoveOwnerHandler(stationId, functionServer));
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/", new StatusGetHandler());
 				addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
 
 				logger.Debug("Start management server");

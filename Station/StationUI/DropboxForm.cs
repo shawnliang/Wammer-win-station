@@ -234,7 +234,7 @@ namespace Wammer.Station
 
         private bool CheckDropboxInstalled()
         {
-            List<StorageStatus> _storageStatuses = StationController.ListCloudStorage();
+            List<StorageStatus> _storageStatuses = StationController.DetectCloudStorage();
 
             if (_storageStatuses.Count == 0)
                 return false;

@@ -12,6 +12,7 @@ namespace Wammer.Cloud
 		public string location { get; set; }
 		public long last_seen { get; set; }
 		public string computer_name { get; set; }
+		public string accessible { get; set; }
 
 		[System.Xml.Serialization.XmlIgnore]
 		public DateTime LastSeen 
@@ -59,6 +60,26 @@ namespace Wammer.Cloud
 			: base(status, timestamp)
 		{
 			this.session_token = token;
+		}
+	}
+
+	public class GetUserResponse : CloudResponse
+	{
+		public List<UserGroup> groups { get; set; }
+		public List<UserStation> stations { get; set; }
+		public UserInfo user { get; set; }
+
+		public GetUserResponse()
+			: base()
+		{
+		}
+
+		public GetUserResponse(int status, DateTime timestamp, List<UserGroup> groups, List<UserStation> stations, UserInfo user)
+			: base(status, timestamp)
+		{
+			this.groups = groups;
+			this.stations = stations;
+			this.user = user;
 		}
 	}
 }

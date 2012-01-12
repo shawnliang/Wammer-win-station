@@ -21,45 +21,24 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			string session_token = Parameters["session_token"];
+			LogOutStationFromCloud();
 
-			if (session_token == null)
-			{
-				logger.Error("session_token is missing");
-				throw new FormatException("session_token is missing");
-			}
-
-			LogOutStationFromCloud(session_token);
-
+			logger.Debug("Station logout successfully, stop function server");
 			functionServer.BlockAuth(true);
 			functionServer.Stop();
 
-			WriteOfflineStateToDB();
-
+			logger.Debug("Stop function server successfully");
 			RespondSuccess();
 		}
 
-		private static void WriteOfflineStateToDB()
+		private static void LogOutStationFromCloud()
 		{
-			Model.Service svc = ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
-			if (svc == null)
-			{
-				svc = new Model.Service { Id = "StationService", State = ServiceState.Offline };
-			}
-			else
-				svc.State = ServiceState.Offline;
-
-			ServiceCollection.Instance.Save(svc);
-		}
-
-		private static void LogOutStationFromCloud(string session_token)
-		{
-			logger.DebugFormat("Station logout with session_token = {0}", session_token);
-			Model.StationInfo station = Model.StationCollection.Instance.FindOne();
-			if (station == null)
+			Model.StationInfo stationInfo = Model.StationCollection.Instance.FindOne();
+			if (stationInfo == null)
 				throw new InvalidOperationException("station is null in station collection");
 
-			Cloud.StationApi stationApi = new Cloud.StationApi(station.Id, session_token);
+			logger.DebugFormat("Station logout with stationId = {0}", stationInfo.Id);
+			Cloud.StationApi stationApi = new Cloud.StationApi(stationInfo.Id, stationInfo.SessionToken);
 			stationApi.Offline(new System.Net.WebClient());
 		}
 
