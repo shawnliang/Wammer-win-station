@@ -25,33 +25,14 @@ namespace Waveface
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private static NewPostManager s_current;
         private bool m_startUpload;
         private bool m_downloading;
+
+        private WorkItem m_workItem;
 
         #region Properties
 
         public List<NewPostItem> Items { get; set; }
-
-        public static NewPostManager Current
-        {
-            get
-            {
-                if (s_current == null)
-                {
-                    s_current = Load() ?? new NewPostManager();
-                }
-
-                return s_current;
-            }
-            set
-            {
-                if (s_current != null)
-                    s_current.Save();
-
-                s_current = value;
-            }
-        }
 
         public bool StartUpload
         {
@@ -70,8 +51,18 @@ namespace Waveface
         public NewPostManager()
         {
             Items = new List<NewPostItem>();
+        }
 
-            ThreadPool.QueueUserWorkItem(state => { BatchPostThreadMethod(); });
+        public void Start()
+        {
+            m_workItem = AbortableThreadPool.QueueUserWorkItem(BatchPostThreadMethod, 0);
+        }
+
+        public WorkItemStatus AbortThread()
+        {
+            Save();
+
+            return AbortableThreadPool.Cancel(m_workItem, true);
         }
 
         public void Add(NewPostItem item)
@@ -100,7 +91,7 @@ namespace Waveface
             return _ret;
         }
 
-        private void BatchPostThreadMethod()
+        private void BatchPostThreadMethod(object state)
         {
             if (ShowMessage != null)
             {
@@ -125,11 +116,11 @@ namespace Waveface
                     continue;
                 }
 
-                lock (Current)
+                lock (this)
                 {
-                    if (Current.Items.Count > 0)
+                    if (Items.Count > 0)
                     {
-                        _newPost = Current.Items[0];
+                        _newPost = Items[0];
                     }
                     else
                     {
@@ -151,9 +142,9 @@ namespace Waveface
 
                         if (_retItem.PostOK)
                         {
-                            lock (Current)
+                            lock (this)
                             {
-                                Current.Remove(_newPost);
+                                Remove(_newPost);
 
                                 if (UploadDone != null)
                                     UploadDone(I18n.L.T("PostForm.PostSuccess"));
@@ -161,9 +152,9 @@ namespace Waveface
                         }
                         else
                         {
-                            lock (Current)
+                            lock (this)
                             {
-                                Current.Save();
+                                Save();
                             }
                         }
                     }
@@ -248,13 +239,13 @@ namespace Waveface
                     {
                         string _msg;
 
-                        if (Current.Items.Count == 1)
+                        if (Items.Count == 1)
                         {
                             _msg = string.Format(I18n.L.T("OnePostUpload"), _count, _counts - _count);
                         }
                         else
                         {
-                            _msg = string.Format(I18n.L.T("MultiplePostUpload"), _count, _counts - _count, Current.Items.Count - 1);
+                            _msg = string.Format(I18n.L.T("MultiplePostUpload"), _count, _counts - _count, Items.Count - 1);
                         }
 
                         UpdateUI(_count * 100 / _counts, _msg);

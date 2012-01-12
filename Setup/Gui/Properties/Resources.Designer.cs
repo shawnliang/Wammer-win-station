@@ -69,15 +69,6 @@ namespace Gui.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to {0}\StationSetup.exe.
-        /// </summary>
-        internal static string FinishStepCommand {
-            get {
-                return ResourceManager.GetString("FinishStepCommand", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Bitmap InstallationStepImg {
             get {
                 object obj = ResourceManager.GetObject("InstallationStepImg", resourceCulture);

@@ -236,7 +236,7 @@
             // 
             // timerShowStatuMessage
             // 
-            this.timerShowStatuMessage.Interval = 5000;
+            this.timerShowStatuMessage.Interval = 10000;
             this.timerShowStatuMessage.Tick += new System.EventHandler(this.timerShowStatuMessage_Tick);
             // 
             // backgroundWorkerPreloadImage

@@ -60,6 +60,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackupAndUninstallStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BackupAndUninstallStep.Designer.cs">
+      <DependentUpon>BackupAndUninstallStep.cs</DependentUpon>
+    </Compile>
     <Compile Include="FatalErrorStep.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     <Compile Include="WelcomeStep.Designer.cs">
       <DependentUpon>WelcomeStep.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BackupAndUninstallStep.resx">
+      <DependentUpon>BackupAndUninstallStep.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FatalErrorStep.resx">
       <DependentUpon>FatalErrorStep.cs</DependentUpon>
     </EmbeddedResource>

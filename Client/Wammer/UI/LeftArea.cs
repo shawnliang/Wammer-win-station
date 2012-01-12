@@ -62,9 +62,9 @@ namespace Waveface
 
         public void SetNewPostManager()
         {
-            NewPostManager.Current.ShowMessage += ShowDragDropMessage;
-            NewPostManager.Current.UpdateUI += UpdateDragAndDropUI;
-            NewPostManager.Current.UploadDone += UploadDone;
+            Main.Current.NewPostManager.ShowMessage += ShowDragDropMessage;
+            Main.Current.NewPostManager.UpdateUI += UpdateDragAndDropUI;
+            Main.Current.NewPostManager.UploadDone += UploadDone;
         }
 
         /*

@@ -15,16 +15,12 @@ namespace Gui
 	[System.ComponentModel.ToolboxItem(false)]
 	public partial class FeatureSelectionStep : ModernActionStep
 	{
-		public static FeatureSet SelectedFeature { get; set; }
-
-		static FeatureSelectionStep()
-		{
-			SelectedFeature = FeatureSet.None;
-		}
+		public FeatureSet SelectedFeature { get; private set; }
 
 		public FeatureSelectionStep()
 		{
 			InitializeComponent();
+			SelectedFeature = FeatureSet.None;
 		}
 
 		private void FeatureSelectionStep_Entering(object sender, ChangeStepEventArgs e)
@@ -36,12 +32,6 @@ namespace Gui
 		{
 			if (radioClientAndStation.Checked)
 			{
-				foreach (Feature feature in MsiConnection.Instance.Features)
-				{
-					if (feature.Id == "MainFeature")
-						feature.State = FeatureState.Installed;
-				}
-
 				SelectedFeature = FeatureSet.StationAndClient;
 			}
 		}
@@ -50,12 +40,6 @@ namespace Gui
 		{
 			if (radioClientOnly.Checked)
 			{
-				foreach (Feature feature in MsiConnection.Instance.Features)
-				{
-					if (feature.Id == "MainFeature")
-						feature.State = FeatureState.NotInstalled;
-				}
-
 				SelectedFeature = FeatureSet.ClientOnly;
 			}
 		}

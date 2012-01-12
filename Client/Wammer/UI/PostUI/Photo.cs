@@ -325,7 +325,7 @@ namespace Waveface.PostUI
 
                 if (_storagesUsage != null)
                 {
-                    int _queuedUnsendFiles = NewPostManager.Current.GetQueuedUnsendFilesCount();
+                    int _queuedUnsendFiles = Main.Current.NewPostManager.GetQueuedUnsendFilesCount();
                     m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
                     m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
 

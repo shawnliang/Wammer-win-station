@@ -87,7 +87,7 @@ namespace Waveface
 
             if (!DesignMode) //Hack
             {
-                PhotoDownloader.Current.ThumbnailEvent += Thumbnail_EventHandler;
+                Main.Current.PhotoDownloader.ThumbnailEvent += Thumbnail_EventHandler;
             }
         }
 
@@ -475,7 +475,7 @@ namespace Waveface
                 _item.ThumbnailPath = url;
                 _item.LocalFilePath_Origin = localPicPath;
 
-                PhotoDownloader.Current.Add(_item);
+                Main.Current.PhotoDownloader.Add(_item, false);
 
 
                 _img = new Bitmap(PicWidth, PicHeight);

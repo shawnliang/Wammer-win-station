@@ -48,20 +48,23 @@ namespace Gui
 			}
 			else if (type == LifecycleActionType.ModeSelected)
 			{
+				FeatureSelectionStep featureStep = new FeatureSelectionStep();
+
 				switch ((InstallationMode)argument)
 				{
 					case InstallationMode.Install:
-						
 						AddStep(new LicenseStep());
 						//AddStep(new PrerequisiteCheckStep());
 						//AddStep(new UserRegistrationStep());
 						//AddStep(new InstallationTypeStep());
 						//AddStep(new InstallationLocationStep());
-						AddStep(new FeatureSelectionStep());
+						
+						AddStep(featureStep);
+
 						//AddStep(new Step1());
 						//AddStep(new ReadyStep());
-						AddStep(new InstallationStep(InstallationMode.Install));
-						AddStep(new FinishStep(InstallationMode.Install));
+						AddStep(new InstallationStep(InstallationMode.Install, featureStep));
+						AddStep(new FinishStep(InstallationMode.Install, featureStep));
 						break;
 					case InstallationMode.Uninstall:
 						AddStep(new InstallationStep(InstallationMode.Uninstall));
@@ -70,16 +73,16 @@ namespace Gui
 					case InstallationMode.Upgrade:
 						AddStep(new LicenseStep());
 
-						Migration.DoBackup();
-
-						AddStep(new InstallationStep(InstallationMode.Uninstall));
+						AddStep(featureStep);
+						AddStep(new BackupAndUninstallStep());
+						
 						/*
 						AddStep(new InstallationTypeStep());
 						AddStep(new InstallationLocationStep());
 						*/
-						AddStep(new FeatureSelectionStep());
-						AddStep(new InstallationStep(InstallationMode.Install));
-						AddStep(new FinishStep(InstallationMode.Install));
+
+						AddStep(new InstallationStep(InstallationMode.Install, featureStep));
+						AddStep(new FinishStep(InstallationMode.Install, featureStep));
 						break;
 					case InstallationMode.Reinstall:
 						AddStep(new InstallationStep(InstallationMode.Install));

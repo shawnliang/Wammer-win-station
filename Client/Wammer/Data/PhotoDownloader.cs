@@ -22,37 +22,31 @@ namespace Waveface
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private static PhotoDownloader s_current;
-
         public List<ImageItem> ThumbnailItems { get; set; }
         public List<ImageItem> PhotoItems { get; set; }
 
-        private int ERROR_TRY = 2;
+        private int ERROR_TRY = 1;
         private string m_currentURL;
 
-        public static PhotoDownloader Current
-        {
-            get
-            {
-                if (s_current == null)
-                {
-                    s_current = new PhotoDownloader();
-                }
-
-                return s_current;
-            }
-            set { s_current = value; }
-        }
+        private WorkItem m_workItem;
 
         public PhotoDownloader()
         {
             ThumbnailItems = new List<ImageItem>();
-            PhotoItems = new List<ImageItem>();
-
-            ThreadPool.QueueUserWorkItem(state => { DownloadThreadMethod(); });
+            PhotoItems = new List<ImageItem>();   
         }
 
-        public void Add(ImageItem item)
+        public void Start()
+        {
+            m_workItem = AbortableThreadPool.QueueUserWorkItem(DownloadThreadMethod, 0);
+        }
+
+        public WorkItemStatus AbortThread()
+        {
+            return AbortableThreadPool.Cancel(m_workItem, true);
+        }
+
+        public void Add(ImageItem item, bool forceRetry)
         {
             if (item.PostItemType == PostItemType.Thumbnail)
             {
@@ -100,22 +94,15 @@ namespace Waveface
                     PhotoItems.Insert(0, item);
                 }
             }
-
-            // Save();
         }
 
-        private void DownloadThreadMethod()
+        private void DownloadThreadMethod(object state)
         {
             long _count = 0;
 
-            ImageItem _item;
-            string _url;
-            string _localPath;
-            bool _relpaceOriginToMedium;
-
             while (true)
             {
-                _item = null;
+                ImageItem _item = null;
 
                 if ((ThumbnailItems.Count == 0) && (PhotoItems.Count == 0))
                 {
@@ -140,12 +127,12 @@ namespace Waveface
 
                 if (_item == null)
                 {
-                    Thread.Sleep(1);
+                    Thread.Sleep(1000);
                     continue;
                 }
 
-                _url = string.Empty;
-                _localPath = string.Empty;
+                string _url = string.Empty;
+                string _localPath = string.Empty;
 
                 switch (_item.PostItemType)
                 {
@@ -165,7 +152,7 @@ namespace Waveface
                         break;
                 }
 
-                _relpaceOriginToMedium = false;
+                bool _relpaceOriginToMedium = false;
 
                 if (_item.PostItemType == PostItemType.Origin)
                 {
@@ -184,6 +171,7 @@ namespace Waveface
                     {
                         _url = _item.MediumPath;
                         _localPath = _item.LocalFilePath_Medium;
+
                         _relpaceOriginToMedium = true;
                     }
                 }
