@@ -42,8 +42,8 @@ namespace Gui
 			// 
 			// pbInstallation
 			// 
-			resources.ApplyResources(this.pbInstallation, "pbInstallation");
 			this.pbInstallation.Image = global::Gui.Properties.Resources.InstallationStepImg;
+			resources.ApplyResources(this.pbInstallation, "pbInstallation");
 			this.pbInstallation.Name = "pbInstallation";
 			this.pbInstallation.TabStop = false;
 			// 

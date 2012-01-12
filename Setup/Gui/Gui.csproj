@@ -137,6 +137,9 @@
     <EmbeddedResource Include="BackupAndUninstallStep.resx">
       <DependentUpon>BackupAndUninstallStep.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="BackupAndUninstallStep.zh-TW.resx">
+      <DependentUpon>BackupAndUninstallStep.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FatalErrorStep.resx">
       <DependentUpon>FatalErrorStep.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,6 +147,9 @@
       <DependentUpon>FatalErrorStep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FeatureSelectionStep.resx">
+      <DependentUpon>FeatureSelectionStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeatureSelectionStep.zh-TW.resx">
       <DependentUpon>FeatureSelectionStep.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FinishStep.resx">

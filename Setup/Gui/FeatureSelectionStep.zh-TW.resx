@@ -117,16 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lblWelcome.Text" xml:space="preserve">
-    <value>歡迎使用Waveface安裝精靈</value>
-  </data>
-  <data name="lblMode.Text" xml:space="preserve">
-    <value>安裝精靈將自動在您的電腦上開始設定Waveface。</value>
-  </data>
-  <data name="lblCopyright.Text" xml:space="preserve">
-    <value>警告：這個程式受著作權法與國際條約保護。</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="lblInstruction.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 13</value>
   </data>
   <data name="lblInstruction.Text" xml:space="preserve">
-    <value>請按 "下一步" 繼續安裝。</value>
+    <value>[中文] Please choose the installation types:</value>
+  </data>
+  <data name="radioClientAndStation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 17</value>
+  </data>
+  <data name="radioClientAndStation.Text" xml:space="preserve">
+    <value>[中文] Full Installation</value>
+  </data>
+  <data name="radioClientOnly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 17</value>
+  </data>
+  <data name="radioClientOnly.Text" xml:space="preserve">
+    <value>[中文] Waveface Windows Client Only</value>
+  </data>
+  <data name="labelClientAndStationDesc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>257, 13</value>
+  </data>
+  <data name="labelClientAndStationDesc.Text" xml:space="preserve">
+    <value>[中文] Waveface station + client ... need explenation</value>
+  </data>
+  <data name="labelClientOnlyDesc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 13</value>
+  </data>
+  <data name="labelClientOnlyDesc.Text" xml:space="preserve">
+    <value>[中文] Client only..... need explenation</value>
+  </data>
+  <data name="$this.Subtitle" xml:space="preserve">
+    <value>請選擇您要安裝的種類</value>
+  </data>
+  <data name="$this.Title" xml:space="preserve">
+    <value>選擇安裝類型</value>
   </data>
 </root>

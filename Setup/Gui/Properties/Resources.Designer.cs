@@ -61,7 +61,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard has detected that newer version of Waveface Station is already installed on your computer. Setup cannot continue..
+        ///   Looks up a localized string similar to The wizard has detected that newer version of Waveface is already installed on your computer. Setup cannot continue..
         /// </summary>
         internal static string DowngradeNotSupported {
             get {

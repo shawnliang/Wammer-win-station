@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblTitle.Text" xml:space="preserve">
-    <value>Waveface Station安裝錯誤</value>
+    <value>Waveface安裝錯誤</value>
   </data>
   <data name="lblDetails.Text" xml:space="preserve">
-    <value>安裝失敗! 出現不明錯誤。</value>
+    <value>安裝失敗! 無法繼續安裝。</value>
   </data>
   <data name="lblInstruction.Text" xml:space="preserve">
     <value>請按 完成" 結束安裝精靈。</value>
