@@ -107,6 +107,12 @@
     <IncludeInCab Include="..\..\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongodump.exe">
       <Link>mongodump.exe</Link>
     </IncludeInCab>
+	<IncludeInCab Include="..\..\Station\3rd_party\mongo-driver\MongoDB.Bson.dll">
+      <Link>MongoDB.Bson.dll</Link>
+    </IncludeInCab>
+	<IncludeInCab Include="..\..\Station\3rd_party\mongo-driver\MongoDB.Driver.dll">
+      <Link>MongoDB.Driver.dll</Link>
+    </IncludeInCab>
   </ItemGroup>
   <Import Project="$(SharpSetupTargetsPath)\SharpSetup.Assembler.targets" />
   <PropertyGroup>

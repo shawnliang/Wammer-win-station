@@ -62,6 +62,8 @@ namespace Gui
 
 			if (p.ExitCode != 0)
 				throw new Exception("Backing up mongo db failed: " + p.ExitCode);
+
+			MongoServer.Create("mongodb://localhost:10319/?safe=true").GetDatabase("wammer").GetCollection("station").RemoveAll();
 		}
 
 		private static void BackupClientAppData()
