@@ -23,15 +23,6 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			string email = Parameters["email"];
-			string password = Parameters["password"];
-
-			if (email == null || password == null)
-			{
-				logger.Error("email or password is missing");
-				throw new FormatException("email or password is missing");
-			}
-
 			Driver driver = DriverCollection.Instance.FindOne();
 			if (driver == null)
 			{
@@ -40,15 +31,8 @@ namespace Wammer.Station
 				// function server should be stopped if driver's info is removed
 				logger.Debug("Try to stop function server");
 				functionServer.Stop();
-				WriteServiceStateToDB(ServiceState.Offline);
 
 				throw new ServiceUnavailableException("Station cannot work without driver", (int)StationApiError.InvalidDriver);
-			}
-
-			if (driver.email != email)
-			{
-				logger.Error("Invalid driver");
-				throw new WammerStationException("Invalid driver", (int)StationApiError.InvalidDriver);
 			}
 
 			StationInfo stationInfo = StationCollection.Instance.FindOne();
@@ -60,9 +44,10 @@ namespace Wammer.Station
 
 			try
 			{
-				logger.DebugFormat("Station logon with stationId = {0}, email = {1}", stationInfo.Id, email);
-				StationLogOnResponse logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password, StatusChecker.GetDetail());
-				
+				logger.DebugFormat("Station logon with stationId = {0}", stationInfo.Id);
+				StationApi api = new StationApi(stationInfo.Id, stationInfo.SessionToken);
+				StationLogOnResponse logonRes = api.LogOn(new WebClient(), StatusChecker.GetDetail());
+
 				// update session in DB
 				stationInfo.SessionToken = logonRes.session_token;
 				StationCollection.Instance.Save(stationInfo);
@@ -70,10 +55,9 @@ namespace Wammer.Station
 				logger.Debug("Station logon successfully, start function server");
 				functionServer.BlockAuth(false);
 				functionServer.Start();
-				WriteServiceStateToDB(ServiceState.Online);
 
 				logger.Debug("Start function server successfully");
-				RespondSuccess(new StationOnlineResponse { session_token = logonRes.session_token, status = 200, timestamp = DateTime.UtcNow, api_ret_code = 0, api_ret_message = "success" });
+				RespondSuccess();
 			}
 			catch (WammerCloudException e)
 			{
@@ -87,7 +71,6 @@ namespace Wammer.Station
 					// function server should be stopped if driver's info is removed
 					logger.Debug("Try to stop function server");
 					functionServer.Stop();
-					WriteServiceStateToDB(ServiceState.Offline);
 
 					throw new ServiceUnavailableException("Driver already registered another station", (int)StationApiError.AlreadyHasStaion);
 				}
@@ -101,7 +84,6 @@ namespace Wammer.Station
 					// function server should be stopped if driver's info is removed
 					logger.Debug("Try to stop function server");
 					functionServer.Stop();
-					WriteServiceStateToDB(ServiceState.Offline);
 
 					throw new ServiceUnavailableException("Driver account does not exist", (int)StationApiError.InvalidDriver);
 				}
@@ -115,19 +97,6 @@ namespace Wammer.Station
 			DriverCollection.Instance.RemoveAll();
 			CloudStorageCollection.Instance.RemoveAll();
 			StationCollection.Instance.RemoveAll();
-		}
-
-		private static void WriteServiceStateToDB(ServiceState state)
-		{
-			Model.Service svc = ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
-			if (svc == null)
-			{
-				svc = new Model.Service { Id = "StationService", State = state };
-			}
-			else
-				svc.State = state;
-
-			ServiceCollection.Instance.Save(svc);
 		}
 
 		public override object Clone()

@@ -1,0 +1,263 @@
+<?xml version="1.0" standalone="yes"?>
+<WItems>
+  <WItem>
+    <ID>LoginForm.FillAllFields</ID>
+    <en-US>Please fill all the fields!</en-US>
+    <zh-TW>請填寫所有欄位.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>LoginForm.LogInError</ID>
+    <en-US>Log In error. Please try again.</en-US>
+    <zh-TW>登錄時發生錯誤, 請重新輸入.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>Main.ChangeOwnerWarning</ID>
+    <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Waveface Station.</en-US>
+    <zh-TW>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>Main.ChangeOwnerSuccess</ID>
+    <en-US>User '{0}' is unassociated with Waveface Station successfully.
+Please restart Waveface to continue assign a new Waveface Station user
+    </en-US>
+    <zh-TW>Waveface Station已經成功的和 {0} 分離
+請重新啟動程式後繼續指定Waveface Station使用者
+    </zh-TW>
+  </WItem>
+  <WItem>
+    <ID>StationServiceDown</ID>
+    <en-US>
+      Waveface Station service is not completely started. Please wait for a while and try again, or ensure the running status of Waveface Station windows service.
+    </en-US>
+    <zh-TW>
+      Waveface Station服務未完全啟動, 請稍候一會再登入, 或確認Waveface Station服務啟動狀態.
+    </zh-TW>
+  </WItem>
+  <WItem>
+    <ID>RegisteredRequired</ID>
+    <en-US>Waveface Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
+Please restart the program to initialize Waveface Station.</en-US>
+    <zh-TW>無法使用Waveface Station, 因為{0}設定了另一個Waveface Station或是該帳號不存在
+請重新啟動程式再次初始化Waveface Station</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PostError</ID>
+    <en-US>Unable to post. Please try again.</en-US>
+    <zh-TW>無法張貼文章 請再試一次</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>ChangeOwnerError</ID>
+    <en-US>Unable to deassociate user with Waveface Station. Please try again.</en-US>
+    <zh-TW>無法分離使用者與Waveface station  請再試一次</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>AnotherInstanceRunning</ID>
+    <en-US>Program is already running</en-US>
+    <zh-TW>程式已經啟動了</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>Connected</ID>
+    <en-US>Accessible from internet</en-US>
+    <zh-TW>外部網路存取正常</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>NotConnected</ID>
+    <en-US>Inaccessible from internet</en-US>
+    <zh-TW>無法從外部網路存取</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>Testing</ID>
+    <en-US>Testing ...</en-US>
+    <zh-TW>測試中 ...</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>MonthlyUsage_Unlimited</ID>
+    <en-US>Unlimited</en-US>
+    <zh-TW>無上限</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>DropboxUI_ConnectNow</ID>
+    <en-US>Connect Now</en-US>
+    <zh-TW>立刻進行連結</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>DropboxUI_Disconnect</ID>
+    <en-US>Disconnect</en-US>
+    <zh-TW>解除連結</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>MonthlyUsage_NotConnectedYet</ID>
+    <en-US>Not connected yet</en-US>
+    <zh-TW>尚未連結</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PhotoView.SaveOK</ID>
+    <en-US>File Save Successful!</en-US>
+    <zh-TW>儲存檔案成功!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PhotoView.SaveError</ID>
+    <en-US>File Save Error!</en-US>
+    <zh-TW>儲存檔案失敗!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PhotoView.SaveAllOK</ID>
+    <en-US>All images are saved.</en-US>
+    <zh-TW>儲存所有檔案成功!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PhotoView.SelectLoc</ID>
+    <en-US>Select location to save files</en-US>
+    <zh-TW>選擇存檔路徑</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>NewPostManager.DragDropHere</ID>
+    <en-US>Drag &amp; Drop here</en-US>
+    <zh-TW>拖拉檔案至此處</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>DetailView.Via</ID>
+    <en-US>via</en-US>
+    <zh-TW>貼自</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>DetailView.CommentEmpty</ID>
+    <en-US>Comment Text cannot be empty!</en-US>
+    <zh-TW>留言欄位不能為空白!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>TextEmpty</ID>
+    <en-US>Text cannot be empty!</en-US>
+    <zh-TW>內容不能為空白!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PostForm.PostError</ID>
+    <en-US>Post Error!</en-US>
+    <zh-TW>貼文失敗!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PostForm.PostSuccess</ID>
+    <en-US>Post success!</en-US>
+    <zh-TW>貼文成功!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>SystemError</ID>
+    <en-US>There appears to be an error with the system. Please try again later.</en-US>
+    <zh-TW>抱歉, 系統發生未預期錯誤, 請稍後再試.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PhotoStorageQuotaExceeded</ID>
+    <en-US>Photos storage quota exceeded ({0}).</en-US>
+    <zh-TW>抱歉! 您可以上傳的照片數已經超過系統允許值({0}).</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>photo</ID>
+    <en-US>photo</en-US>
+    <zh-TW>張圖</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>photos</ID>
+    <en-US>photos</en-US>
+    <zh-TW>張圖</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>Station401Exception</ID>
+    <en-US>Your authentication is expired. Re-enter your password to log in again.</en-US>
+    <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>MinimizetoTrayApp</ID>
+    <en-US>Minimize to Tray App</en-US>
+    <zh-TW>縮小至系統工具列</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>NetworkDisconnected</ID>
+    <en-US>Network Disconnected.</en-US>
+    <zh-TW>網路連線中斷.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>RemoveAllFiles</ID>
+    <en-US>Do you really want to remove all files?</en-US>
+    <zh-TW>你是否確定要移除所有檔案?</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>RemoveSelectedFiles</ID>
+    <en-US>Do you really want to remove selected file(s)?</en-US>
+    <zh-TW>你是否確定要移除所選取的檔案?</zh-TW>
+  </WItem>
+
+  <WItem>
+    <ID>NetworkConnected</ID>
+    <en-US>Network connected</en-US>
+    <zh-TW>網路連線</zh-TW>
+  </WItem>
+  
+   <WItem>
+    <ID>NetworkDisconnected</ID>
+    <en-US>Network disconnected</en-US>
+    <zh-TW>網路斷線</zh-TW>
+  </WItem> 
+  
+   <WItem>
+    <ID>OnePostUpload</ID>
+    <en-US>Uploading in progress: {0} files uploaded, {1} files remaining…</en-US>
+    <zh-TW>檔案上傳中：{0}個檔案已上傳，剩下{1}個檔案</zh-TW>
+  </WItem>   
+  
+    <WItem>
+    <ID>MultiplePostUpload</ID>
+    <en-US>Uploading in progress: {0} files uploaded, {1} files remaining and {2} post waited…</en-US>
+    <zh-TW>檔案上傳中：{0}個檔案已上傳，剩下{1}個檔案，和{2}篇貼文</zh-TW>
+  </WItem>
+
+  <WItem>
+    <ID>WFPreference</ID>
+    <en-US>Preference...</en-US>
+    <zh-TW>偏好設定</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PauseWFService</ID>
+    <en-US>Pause Service</en-US>
+    <zh-TW>暫停服務</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>ResumeWFService</ID>
+    <en-US>Resume Service</en-US>
+    <zh-TW>重啟服務</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>QuitWFService</ID>
+    <en-US>Quit</en-US>
+    <zh-TW>離開</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>StartingWFService</ID>
+    <en-US>Starting Waveface Station...</en-US>
+    <zh-TW>正在啟動 Waveface Station...</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PausingWFService</ID>
+    <en-US>Pausing Service...</en-US>
+    <zh-TW>正在暫停服務...</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>ResumingWFService</ID>
+    <en-US>Resuming Service...</en-US>
+    <zh-TW>正在重啟服務...</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>WFServiceRunning</ID>
+    <en-US>Waveface Station is running</en-US>
+    <zh-TW>Waveface Station 正在執行</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>WFServiceStopped</ID>
+    <en-US>Waveface Station is stopped</en-US>
+    <zh-TW>Waveface Station 已停止</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>WFServiceStartFail</ID>
+    <en-US>Unable to start Waveface Station</en-US>
+    <zh-TW>無法啟動 Waveface Station</zh-TW>
+  </WItem>
+</WItems>

@@ -20,11 +20,9 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			string email = Parameters["email"];
-			string password = Parameters["password"];
 			string stationToken = Parameters["session_token"];
 
-			if (email == null || password == null || stationToken == null)
+			if (stationToken == null)
 				throw new FormatException("One of parameters is missing: email/password/session_token");
 
 			StationApi.SignOff(new WebClient(), stationId, stationToken);

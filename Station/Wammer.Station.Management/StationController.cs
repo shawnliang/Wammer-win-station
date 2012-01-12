@@ -153,7 +153,7 @@ namespace Wammer.Station.Management
 			{
 				AddUserResponse res = CloudServer.request<AddUserResponse>(
 					new WebClient(),
-					"http://localhost:9989/v2/station/drivers/add",
+					StationMgmtURL + "station/drivers/add",
 					new Dictionary<object, object>{
 					{ "email", email},
 					{ "password", password}
@@ -214,7 +214,7 @@ namespace Wammer.Station.Management
 		/// <summary>
 		/// List all detected cloud storages
 		/// </summary>
-		public static List<StorageStatus> ListCloudStorage()
+		public static List<StorageStatus> DetectCloudStorage()
 		{
 			List<StorageStatus> cloudstorages = new List<StorageStatus>();
 
@@ -260,7 +260,7 @@ namespace Wammer.Station.Management
 			{
 				GetDropboxOAuthResponse res = CloudServer.request<GetDropboxOAuthResponse>(
 					new WebClient(),
-					"http://localhost:9981/v2/cloudstorage/dropbox/oauth",
+					StationFuncURL + "cloudstorage/dropbox/oauth",
 					new Dictionary<object, object>(),
 					true
 				);
@@ -300,7 +300,7 @@ namespace Wammer.Station.Management
 				string folder = DropboxHelper.GetSyncFolder();
 				CloudResponse res = CloudServer.request<CloudResponse>(
 					new WebClient(),
-					"http://localhost:9981/v2/cloudstorage/dropbox/connect",
+					StationFuncURL + "cloudstorage/dropbox/connect",
 					new Dictionary<object, object> { { "quota", quota }, { "folder", folder } },
 					true
 				);
@@ -335,7 +335,7 @@ namespace Wammer.Station.Management
 					
 				CloudResponse res = CloudServer.request<CloudResponse>(
 					new WebClient(),
-					"http://localhost:9981/v2/cloudstorage/dropbox/update",
+					StationFuncURL + "cloudstorage/dropbox/update",
 					new Dictionary<object, object> { { "quota", quota } },
 					true
 				);
@@ -360,12 +360,215 @@ namespace Wammer.Station.Management
 			{
 				CloudResponse res = CloudServer.request<CloudResponse>(
 					new WebClient(),
-					"http://localhost:9981/v2/cloudstorage/dropbox/disconnect",
+					StationFuncURL + "cloudstorage/dropbox/disconnect",
 					new Dictionary<object, object>(),
 					true
 				);
 			}
 			catch (Cloud.WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
+		}
+
+		private static string StationMgmtURL = "http://localhost:9989/v2/";
+		private static string StationFuncURL = "http://localhost:9981/v2/";
+
+		public static void StationOnline()
+		{
+			try
+			{
+				CloudServer.request<CloudResponse>(
+					new WebClient(),
+					StationMgmtURL + "station/online",
+					new Dictionary<object, object>()
+				);
+
+			}
+			catch (WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
+		}
+
+		public static void StationOffline()
+		{
+			try
+			{
+				CloudServer.request<CloudResponse>(
+					new WebClient(),
+					StationMgmtURL + "station/offline",
+					new Dictionary<object, object>
+					{
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+					}
+				);
+			}
+			catch (WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
+		}
+
+		public static void RemoveOwner(string stationSessionToken)
+		{
+			try
+			{
+				CloudServer.request<CloudResponse>(
+					new WebClient(),
+					StationMgmtURL + "station/drivers/remove",
+					new Dictionary<object, object>
+					{
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+						{CloudServer.PARAM_SESSION_TOKEN, stationSessionToken}
+					}
+				);
+			}
+			catch (WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
+		}
+
+		public static void PingMyStation(string sessionToken)
+		{
+			try
+			{
+				CloudServer.requestPath<CloudResponse>(
+					new WebClient(),
+					"users/pingMyStation",
+					new Dictionary<object, object> { 
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+						{CloudServer.PARAM_SESSION_TOKEN, sessionToken}
+					}
+				);
+			}
+			catch (WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
+		}
+
+		public static GetUserResponse GetUser(string sessionToken, string userId)
+		{
+			try
+			{
+				GetUserResponse res = CloudServer.requestPath<GetUserResponse>(
+					new WebClient(),
+					"users/get",
+					new Dictionary<object, object> { 
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+						{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
+						{"user_id", userId}
+					}
+				);
+
+				return res;
+			}
+			catch (WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
+		}
+
+		public static StorageUsageResponse StorageUsage(string sessionToken)
+		{
+			try
+			{
+				StorageUsageResponse res = CloudServer.requestPath<StorageUsageResponse>(
+					new WebClient(),
+					"storages/usage",
+					new Dictionary<object, object> { 
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+						{CloudServer.PARAM_SESSION_TOKEN, sessionToken}
+					}
+				);
+
+				return res;
+			}
+			catch (WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}			
+		}
+
+		public static ListCloudStorageResponse ListCloudStorage()
+		{
+			try
+			{
+				ListCloudStorageResponse res = CloudServer.request<ListCloudStorageResponse>(
+					new WebClient(),
+					StationFuncURL + "cloudstorage/list",
+					new Dictionary<object, object>
+					{
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+					}
+				);
+
+				return res;
+			}
+			catch (WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
+		}
+
+		public static GetStatusResponse GetStationStatus()
+		{
+			try
+			{
+				GetStatusResponse res = CloudServer.request<GetStatusResponse>(
+					new WebClient(),
+					StationMgmtURL + "station/status/get",
+					new Dictionary<object, object>
+					{
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+					}
+				);
+
+				return res;
+			}
+			catch (WammerCloudException e)
 			{
 				string msg = ExtractApiRetMsg(e);
 
@@ -386,13 +589,21 @@ namespace Wammer.Station.Management
 				{
 					if (webres.StatusCode == HttpStatusCode.BadRequest)
 					{
-						using (StreamReader reader = new StreamReader(webres.GetResponseStream()))
+						Stream webstream = webres.GetResponseStream();
+						if (webstream.CanRead)
 						{
-							string resText = reader.ReadToEnd();
-							Cloud.CloudResponse r = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(resText);
-							return r.api_ret_message;
+							using (StreamReader reader = new StreamReader(webres.GetResponseStream()))
+							{
+								string resText = reader.ReadToEnd();
+								Cloud.CloudResponse r = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(resText);
+								return r.api_ret_message;
+							}
 						}
 					}
+				}
+				else
+				{
+					return webex.Message;
 				}
 			}
 
@@ -492,7 +703,6 @@ namespace Wammer.Station.Management
 			}
 		}
 	}
-
 
 	public class AuthenticationException: Exception
 	{
