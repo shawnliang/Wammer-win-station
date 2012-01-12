@@ -131,10 +131,20 @@ namespace StationSystemTray
 
 		private void menuPreference_Click(object sender, EventArgs e)
 		{
-			this.TrayMenu.Enabled = false;
-			PreferenceForm preform = new PreferenceForm();
-			preform.ShowDialog();
-			this.TrayMenu.Enabled = true;
+			try
+			{
+				this.TrayMenu.Enabled = false;
+				PreferenceForm preform = new PreferenceForm();
+				preform.ShowDialog();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, MSGBOX_TITLE);
+			}
+			finally
+			{
+				this.TrayMenu.Enabled = true;
+			}
 		}
 	}
 

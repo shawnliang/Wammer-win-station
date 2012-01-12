@@ -260,4 +260,34 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Unable to start Waveface Station</en-US>
     <zh-TW>無法啟動 Waveface Station</zh-TW>
   </WItem>
+  <WItem>
+    <ID>GetStationStatusFail</ID>
+    <en-US>Unable to retrieve status of Waveface Station</en-US>
+    <zh-TW>無法讀取 Waveface Station 的狀態</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>ListCloudStorageFail</ID>
+    <en-US>Unable to retrieve Dropbox information</en-US>
+    <zh-TW>無法讀取 Dropbox 的資訊</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>GetStorageUsageFail</ID>
+    <en-US>Unable to retrieve monthly usage information</en-US>
+    <zh-TW>無法讀取傳輸使用量的資訊</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>ConnectCloudStorageFail</ID>
+    <en-US>Unable to connect to Dropbox</en-US>
+    <zh-TW>無法連結 Dropbox</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>UnlinkCloudStorageFail</ID>
+    <en-US>Unable to disconnect from Dropbox</en-US>
+    <zh-TW>無法解除 Dropbox 的連結</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>NoData</ID>
+    <en-US>---</en-US>
+    <zh-TW>---</zh-TW>
+  </WItem>
 </WItems>
