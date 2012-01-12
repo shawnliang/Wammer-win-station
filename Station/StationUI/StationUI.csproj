@@ -127,10 +127,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Client\Wammer\Wammer.csproj">
-      <Project>{2CFFCA13-B00A-4605-B6A4-D49A616CFCB4}</Project>
-      <Name>Wammer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Station\Wammer.Station.Management\Wammer.Station.Management.csproj">
       <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
       <Name>Wammer.Station.Management</Name>
@@ -139,9 +135,9 @@
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
       <Name>Wammer.Station.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Localizer\Localizer.csproj">
+    <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
-      <Name>Localizer</Name>
+      <Name>CommonLibs</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

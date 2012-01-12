@@ -126,15 +126,6 @@
     <Compile Include="UI\BgPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Compoment\MultiPanel\MultiPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Compoment\MultiPanel\MultiPanelDesigner.cs" />
-    <Compile Include="Compoment\MultiPanel\MultiPanelPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Compoment\MultiPanel\MultiPanelPageDesigner.cs" />
-    <Compile Include="Compoment\MultiPanel\MultiPanelPagesCollection.cs" />
     <Compile Include="Data\ShowTimelineIndexType.cs" />
     <Compile Include="Libs\Utility\AttachmentUrlUtility.cs" />
     <Compile Include="Data\RT_REST.cs" />
@@ -800,9 +791,9 @@
       <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
       <Name>HTMLEditorControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Localizer\Localizer.csproj">
+    <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
-      <Name>Localizer</Name>
+      <Name>CommonLibs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Wammer Helper\Wammer Helper.csproj">
       <Project>{DAE8EDAE-A615-4C45-BA67-6D32454938CD}</Project>

@@ -25,7 +25,7 @@ namespace Waveface.Localization
     // work for components/forms developed in other languages depending on how the language 
     // handles resource naming and serialization.
     [ToolboxItem(true)]
-    public class CultureManager : Component
+    public class CultureManager : System.ComponentModel.Component
     {
         // Represents the method that will handle the UICultureChanged event   
         public delegate void CultureChangedHandler(CultureInfo newCulture);

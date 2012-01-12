@@ -39,14 +39,6 @@
     <Content Include="Product.Uninstaller.wxi" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Client\Libs\Waveface.Localization.Editor\Localizer\Localizer.csproj">
-      <Name>Localizer</Name>
-      <Project>{cd587988-f28e-45ce-8619-86804a6c79d7}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
     <ProjectReference Include="..\..\Client\Wammer Helper\Wammer Helper.csproj">
       <Name>Wammer Helper</Name>
       <Project>{dae8edae-a615-4c45-ba67-6d32454938cd}</Project>
@@ -58,6 +50,14 @@
     <ProjectReference Include="..\..\Client\Wammer\Wammer.csproj">
       <Name>Wammer</Name>
       <Project>{2cffca13-b00a-4605-b6a4-d49a616cfcb4}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
+      <Name>CommonLibs</Name>
+      <Project>{cd587988-f28e-45ce-8619-86804a6c79d7}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

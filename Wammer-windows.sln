@@ -51,7 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallHelper", "Setup\Inst
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wammer.Station.Management", "Station\Wammer.Station.Management\Wammer.Station.Management.csproj", "{87C11605-FDC7-444E-9C9D-4E1743182B6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localizer", "Common\Localizer\Localizer.csproj", "{CD587988-F28E-45CE-8619-86804A6C79D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibs", "Common\Localizer\CommonLibs.csproj", "{CD587988-F28E-45CE-8619-86804A6C79D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUploadImage", "Station\TestUploadImage\TestUploadImage.csproj", "{16EBC016-5750-4D60-951C-FFB38E30C566}"
 EndProject
