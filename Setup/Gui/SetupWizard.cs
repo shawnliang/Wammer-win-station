@@ -60,12 +60,11 @@ namespace Gui
 						//AddStep(new InstallationLocationStep());
 						
 						AddStep(featureStep);
-						ApplyFeatureSet(featureStep.SelectedFeature);
 
 						//AddStep(new Step1());
 						//AddStep(new ReadyStep());
-						AddStep(new InstallationStep(InstallationMode.Install));
-						AddStep(new FinishStep(InstallationMode.Install));
+						AddStep(new InstallationStep(InstallationMode.Install, featureStep));
+						AddStep(new FinishStep(InstallationMode.Install, featureStep));
 						break;
 					case InstallationMode.Uninstall:
 						AddStep(new InstallationStep(InstallationMode.Uninstall));
@@ -82,9 +81,8 @@ namespace Gui
 						AddStep(new InstallationLocationStep());
 						*/
 
-						ApplyFeatureSet(featureStep.SelectedFeature);
-						AddStep(new InstallationStep(InstallationMode.Install));
-						AddStep(new FinishStep(InstallationMode.Install));
+						AddStep(new InstallationStep(InstallationMode.Install, featureStep));
+						AddStep(new FinishStep(InstallationMode.Install, featureStep));
 						break;
 					case InstallationMode.Reinstall:
 						AddStep(new InstallationStep(InstallationMode.Install));
@@ -97,18 +95,6 @@ namespace Gui
 			}
 			else
 				MessageBox.Show("Unsupported lifecycle action");
-		}
-
-		private void ApplyFeatureSet(FeatureSet featureSet)
-		{
-			foreach (Feature feature in MsiConnection.Instance.Features)
-			{
-				if (feature.Id == "MainFeature")
-				{
-					feature.State = (featureSet == FeatureSet.StationAndClient) ? 
-												FeatureState.Installed : FeatureState.NotInstalled;
-				}
-			}
 		}
 	}
 }

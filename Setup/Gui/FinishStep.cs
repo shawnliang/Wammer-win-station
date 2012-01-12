@@ -10,20 +10,20 @@ namespace Gui
 	public partial class FinishStep : ModernInfoStep
 	{
 		private InstallationMode mode;
-		private FeatureSet selectedFeatureSet;
+		private FeatureSelectionStep featureStep;
 
 		public FinishStep(InstallationMode mode)
 		{
 			InitializeComponent();
 			this.mode = mode;
-			this.selectedFeatureSet = FeatureSet.None;
+			this.featureStep = null;
 		}
 
-		public FinishStep(InstallationMode mode, FeatureSet selectedFeatureSet)
+		public FinishStep(InstallationMode mode, FeatureSelectionStep featureStep)
 		{
 			InitializeComponent();
 			this.mode = mode;
-			this.selectedFeatureSet = selectedFeatureSet;
+			this.featureStep = featureStep;
 		}
 
 		private void FinishStep_Entered(object sender, EventArgs e)
@@ -33,7 +33,8 @@ namespace Gui
 
 		private void FinishStep_Finish(object sender, ChangeStepEventArgs e)
 		{
-			if (selectedFeatureSet == FeatureSet.StationAndClient)
+			if (featureStep != null && 
+				featureStep.SelectedFeature == FeatureSet.StationAndClient)
 			{
 				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
 				string stationUI = Path.Combine(installDir, "StationUI.exe");

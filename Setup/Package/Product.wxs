@@ -209,7 +209,6 @@
       <ComponentRef Id="Microsoft.mshtml.dll"/>
       <ComponentRef Id="nlog.config"/>
       <ComponentRef Id="nlog.dll"/>
-      <ComponentRef Id="pmd_client"/>
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
@@ -248,12 +247,12 @@
       <Component Guid="*">
         <File Id="StationUI.exe" Source="$(var.StationUI.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <!--<Component Id="StationSetup.exe" Guid="{7C8AE609-024C-462B-8291-9AA522CB1193}">
-        <File Id="StationSetup.exe" Source="$(var.StationSetup.TargetPath)" KeyPath="yes" Checksum="yes">
-          <Shortcut Id="StartWavefaceShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" WorkingDirectory="INSTALLDIR" Icon="Wammer.ico" IconIndex="0" Advertise="yes" />
-          <Shortcut Id="DesktopShortcut" Advertise="yes" Directory="DesktopFolder" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" Icon="Wammer.ico" IconIndex="0" WorkingDirectory="INSTALLDIR"/>
-        </File>
-      </Component>-->
+      <Component Guid="*">
+        <File Id="StationSystemTray.exe" Source="$(var.StationSystemTray.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Guid="*">
+        <File Id="SystemTrayML.xml" Source="$(var.StationSystemTray.ProjectDir)\SystemTrayML.xml" KeyPath="yes"/>
+      </Component>
       <Component Guid="*">
         <File Id="TCMPortMapper.dll" Source="$(var.Wammer.Station.Service.TargetDir)\TCMPortMapper.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -369,12 +368,16 @@
       <ComponentRef Id="mongorestore.exe"/>
       <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
+      <ComponentRef Id="StationSystemTray.exe"/>
+      <ComponentRef Id="SystemTrayML.xml"/>
       <ComponentRef Id='pmd'/>
       <ComponentRef Id="CultureSetting"/>
     </Feature>
     
     <Feature Id='ClientFeature' Level='100' Title='Waveface client only'>
       <ComponentGroupRef Id='Wammer.Client'/>
+      <ComponentRef Id="pmd_client"/>
+      <ComponentRef Id="CultureSetting"/>
     </Feature>
 
     <Binary Id='InstallHelperDll' SourceFile="$(var.InstallHelper.TargetDir)\InstallHelperPkg.dll"/>

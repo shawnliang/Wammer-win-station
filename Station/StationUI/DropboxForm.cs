@@ -294,7 +294,7 @@ namespace Wammer.Station
         {
             m_doAutoPost = false;
 
-            WavefaceWindowsClientHelper.StartWavefaceWindowsClient(m_email, m_password, m_userInfo.session_token);
+            SystemTrayHelper.StartSystemTrayProgram();
 
             m_autoPostOK = true;
 
