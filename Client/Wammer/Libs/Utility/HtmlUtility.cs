@@ -1,10 +1,24 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+#endregion
 
 namespace Waveface
 {
     public class HtmlUtility
     {
+        public static string TrimScript(string htmlDocText)
+        {
+            string _bodyText;
+            string trimJavascript = "<script type=\"text/javascript\">(.*?)</script>";
+            Regex _regexTrimJs = new Regex(trimJavascript);
+            _bodyText = _regexTrimJs.Replace(htmlDocText, "");
+            return _bodyText;
+        }
+
         public static string RemoveClassTag(string html)
         {
             string _html = html;
@@ -75,17 +89,17 @@ namespace Waveface
         {
             string _ret = source;
 
-            _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                    @"<( )*style([^>])*>", "<style>",
-                    System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            _ret = Regex.Replace(_ret,
+                                 @"<( )*style([^>])*>", "<style>",
+                                 RegexOptions.IgnoreCase);
 
-            _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                     @"(<( )*(/)( )*style( )*>)", "</style>",
-                     System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            _ret = Regex.Replace(_ret,
+                                 @"(<( )*(/)( )*style( )*>)", "</style>",
+                                 RegexOptions.IgnoreCase);
 
-            _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                     "(<style>).*(</style>)", string.Empty,
-                     System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            _ret = Regex.Replace(_ret,
+                                 "(<style>).*(</style>)", string.Empty,
+                                 RegexOptions.IgnoreCase);
 
             return _ret;
         }
@@ -109,111 +123,111 @@ namespace Waveface
                 _ret = _ret.Replace("\t", string.Empty);
 
                 // Remove repeating spaces because browsers ignore them
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret, @"( )+", " ");
+                _ret = Regex.Replace(_ret, @"( )+", " ");
 
                 // Remove the header (prepare first by clearing attributes)
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"<( )*head([^>])*>", "<head>",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"(<( )*(/)( )*head( )*>)", "</head>",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         "(<head>).*(</head>)", string.Empty,
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"<( )*head([^>])*>", "<head>",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"(<( )*(/)( )*head( )*>)", "</head>",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     "(<head>).*(</head>)", string.Empty,
+                                     RegexOptions.IgnoreCase);
 
                 // remove all scripts (prepare first by clearing attributes)
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"<( )*script([^>])*>", "<script>",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"(<( )*(/)( )*script( )*>)", "</script>",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"<( )*script([^>])*>", "<script>",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"(<( )*(/)( )*script( )*>)", "</script>",
+                                     RegexOptions.IgnoreCase);
 
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"(<script>).*(</script>)", string.Empty,
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"(<script>).*(</script>)", string.Empty,
+                                     RegexOptions.IgnoreCase);
 
                 // remove all styles (prepare first by clearing attributes)
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"<( )*style([^>])*>", "<style>",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"(<( )*(/)( )*style( )*>)", "</style>",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         "(<style>).*(</style>)", string.Empty,
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"<( )*style([^>])*>", "<style>",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"(<( )*(/)( )*style( )*>)", "</style>",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     "(<style>).*(</style>)", string.Empty,
+                                     RegexOptions.IgnoreCase);
 
                 // insert tabs in spaces of <td> tags
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"<( )*td([^>])*>", "\t",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"<( )*td([^>])*>", "\t",
+                                     RegexOptions.IgnoreCase);
 
                 // insert line breaks in places of <BR> and <LI> tags
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"<( )*br( )*>", "\r",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"<( )*li( )*>", "\r",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"<( )*br( )*>", "\r",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"<( )*li( )*>", "\r",
+                                     RegexOptions.IgnoreCase);
 
                 // insert line paragraphs (double line breaks) in place
                 // if <P>, <DIV> and <TR> tags
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"<( )*div([^>])*>", "\r\r",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"<( )*tr([^>])*>", "\r\r",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"<( )*p([^>])*>", "\r\r",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"<( )*div([^>])*>", "\r\r",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"<( )*tr([^>])*>", "\r\r",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"<( )*p([^>])*>", "\r\r",
+                                     RegexOptions.IgnoreCase);
 
                 // Remove remaining tags like <a>, links, images,
                 // comments etc - anything that's enclosed inside < >
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"<[^>]*>", string.Empty,
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"<[^>]*>", string.Empty,
+                                     RegexOptions.IgnoreCase);
 
                 // replace special characters:
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @" ", " ",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @" ", " ",
+                                     RegexOptions.IgnoreCase);
 
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"&bull;", " * ",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"&lsaquo;", "<",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"&rsaquo;", ">",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"&trade;", "(tm)",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"&frasl;", "/",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"&lt;", "<",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"&gt;", ">",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"&copy;", "(c)",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"&reg;", "(r)",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"&bull;", " * ",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"&lsaquo;", "<",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"&rsaquo;", ">",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"&trade;", "(tm)",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"&frasl;", "/",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"&lt;", "<",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"&gt;", ">",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"&copy;", "(c)",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"&reg;", "(r)",
+                                     RegexOptions.IgnoreCase);
 
                 // Remove all others. More can be added, see
                 // http://hotwired.lycos.com/webmonkey/reference/special_characters/
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         @"&(.{2,6});", string.Empty,
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     @"&(.{2,6});", string.Empty,
+                                     RegexOptions.IgnoreCase);
 
                 // make line breaking consistent
                 _ret = _ret.Replace("\n", "\r");
@@ -222,28 +236,28 @@ namespace Waveface
                 // replace over 2 breaks with 2 and over 4 tabs with 4.
                 // Prepare first to remove any whitespaces in between
                 // the escaped characters and remove redundant tabs in between line breaks
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         "(\r)( )+(\r)", "\r\r",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         "(\t)( )+(\t)", "\t\t",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         "(\t)( )+(\r)", "\t\r",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         "(\r)( )+(\t)", "\r\t",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     "(\r)( )+(\r)", "\r\r",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     "(\t)( )+(\t)", "\t\t",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     "(\t)( )+(\r)", "\t\r",
+                                     RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     "(\r)( )+(\t)", "\r\t",
+                                     RegexOptions.IgnoreCase);
 
                 // Remove redundant tabs
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         "(\r)(\t)+(\r)", "\r\r",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     "(\r)(\t)+(\r)", "\r\r",
+                                     RegexOptions.IgnoreCase);
 
                 // Remove multiple tabs following a line break with just one tab
-                _ret = System.Text.RegularExpressions.Regex.Replace(_ret,
-                         "(\r)(\t)+", "\r\t",
-                         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                _ret = Regex.Replace(_ret,
+                                     "(\r)(\t)+", "\r\t",
+                                     RegexOptions.IgnoreCase);
 
                 // Initial replacement target string for line breaks
                 string _breaks = "\r\r\r";

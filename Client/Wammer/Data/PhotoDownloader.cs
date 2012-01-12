@@ -22,12 +22,13 @@ namespace Waveface
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private int ERROR_TRY = 2;
-
         private static PhotoDownloader s_current;
 
         public List<ImageItem> ThumbnailItems { get; set; }
         public List<ImageItem> PhotoItems { get; set; }
+
+        private int ERROR_TRY = 2;
+        private string m_currentURL;
 
         public static PhotoDownloader Current
         {
@@ -35,7 +36,7 @@ namespace Waveface
             {
                 if (s_current == null)
                 {
-                    s_current = new PhotoDownloader(); // Load() ?? new PhotoDownloader();
+                    s_current = new PhotoDownloader();
                 }
 
                 return s_current;
@@ -150,17 +151,17 @@ namespace Waveface
                 {
                     case PostItemType.Thumbnail:
                         _url = _item.ThumbnailPath;
-                        _localPath = _item.LocalFilePath;
+                        _localPath = _item.LocalFilePath_Origin;
                         break;
 
                     case PostItemType.Origin:
                         _url = _item.OriginPath;
-                        _localPath = _item.LocalFilePath;
+                        _localPath = _item.LocalFilePath_Origin;
                         break;
 
                     case PostItemType.Medium:
                         _url = _item.MediumPath;
-                        _localPath = _item.LocalFilePath2;
+                        _localPath = _item.LocalFilePath_Medium;
                         break;
                 }
 
@@ -168,30 +169,29 @@ namespace Waveface
 
                 if (_item.PostItemType == PostItemType.Origin)
                 {
-                    if (File.Exists(_item.LocalFilePath2))
+                    if (File.Exists(_item.LocalFilePath_Medium))
                     {
-                        if(!Main.Current.RT.StationMode)
+                        if (Main.Current.RT.StationMode)
                         {
-                            lock (PhotoItems)
-                            {
-                                if (PhotoItems.Contains(_item))
-                                {
-                                    PhotoItems.Remove(_item);
-                                    continue;
-                                }
-                            }
+                            _url = _item.OriginPath;
+                        }
+                        else
+                        {
+                            _url = _item.CloudOriginPath;
                         }
                     }
                     else
                     {
                         _url = _item.MediumPath;
-                        _localPath = _item.LocalFilePath2;
+                        _localPath = _item.LocalFilePath_Medium;
                         _relpaceOriginToMedium = true;
                     }
                 }
 
                 try
                 {
+                    m_currentURL = _url;
+
                     WebRequest _wReq = WebRequest.Create(_url);
                     _wReq.Timeout = 10000;
 
@@ -244,6 +244,8 @@ namespace Waveface
                 }
                 catch (Exception _e)
                 {
+                    NLogUtility.Exception_Warn(s_logger, _e, "Download Image URL", m_currentURL);
+
                     _item.ErrorTry++;
 
                     if (_item.PostItemType == PostItemType.Thumbnail)
@@ -281,9 +283,7 @@ namespace Waveface
                                 }
                             }
                         }
-                    }
-
-                    NLogUtility.Exception(s_logger, _e, "DownloadThreadMethod");
+                    }               
                 }
 
                 Thread.Sleep(10);

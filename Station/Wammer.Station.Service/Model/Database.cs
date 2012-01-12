@@ -21,6 +21,18 @@ namespace Wammer.Model
 									StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
 			wammer = mongodb.GetDatabase("wammer");
 		}
+
+
+		public static void RestoreCollection(string collectionName, string backupCollectionName)
+		{
+			MongoCollection<BsonDocument> collection = wammer.GetCollection(collectionName);
+			MongoCollection<BsonDocument> backup =  wammer.GetCollection(backupCollectionName);
+
+			foreach (BsonDocument doc in backup.FindAll())
+				collection.Save(doc);
+
+			backup.RemoveAll();
+		}
 	}
 
 

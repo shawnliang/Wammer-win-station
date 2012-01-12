@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Diagnostics;
 using SharpSetup.Base;
 using SharpSetup.UI.Forms.Modern;
@@ -23,6 +24,12 @@ namespace Gui
 
 		private void FinishStep_Finish(object sender, ChangeStepEventArgs e)
 		{
+			if (FeatureSelectionStep.SelectedFeature == FeatureSet.StationAndClient)
+			{
+				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
+				string stationUI = Path.Combine(installDir, "StationUI.exe");
+				Process.Start(stationUI).Close();
+			}
 		}
 
 		private void FinishStep_Entering(object sender, ChangeStepEventArgs e)

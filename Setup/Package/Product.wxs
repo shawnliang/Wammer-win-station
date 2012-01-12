@@ -6,13 +6,13 @@
   <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
   <?define AppVersionMajor = "1" ?>
   <?define AppVersionMinor = "0" ?>
-  <?define AppVersionPatch = "0" ?>
+  <?define AppVersionPatch = "1" ?>
   <?define AppVersionBuild = "0" ?>
   <?define AppVersion = "$(var.AppVersionMajor).$(var.AppVersionMinor).$(var.AppVersionPatch).$(var.AppVersionBuild)" ?>
   <?define AppManufacturer = "Waveface" ?>
   <?define DefaultCulture = "en-US" ?>
   <Product Id="$(var.AppProductCode)" Name="$(var.AppCode)" Language="!(loc.LANGUAGE)" 
-           Version="$(var.AppVersion)" Manufacturer="$(var.AppManufacturer)" 
+           Version="$(var.AppVersion)" Manufacturer="$(var.AppManufacturer)"
            UpgradeCode="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
     <Package Id="*" InstallerVersion="200" Compressed="yes"/>
     <Media Id="1" Cabinet="media1.cab" EmbedCab="no" />
@@ -20,18 +20,11 @@
     <Property Id="ALLUSERS" Value="1" />
     <Property Id="TEST" Value="NO" />
     <Icon Id="icon.ico" SourceFile="..\ProductBuild\sampleIcon.ico" />
-    <Icon Id="Wammer.ico" SourceFile="$(var.Wammer.ProjectDir)\Resources\Icon.ico"/>
 
     <!-- Upgrade -->
-    <Upgrade Id="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
-      <UpgradeVersion OnlyDetect="yes" Property="SELF_OR_OLDER_FOUND"
-                      Maximum="1.0.0" IncludeMaximum="yes"/>
-      <UpgradeVersion OnlyDetect="yes" Property="NEWERFOUND"
-                      Minimum="1.0.0" IncludeMinimum="no"/>
-    </Upgrade>
-
+    <MajorUpgrade DowngradeErrorMessage="A newer version of this product is found. Cannot proceed."
+                  Schedule="afterInstallInitialize"/>
     <!-- Custom Actions -->
-    <CustomAction Id="NoDowngradeAction" Error="!(loc.DOWNGRADE.ERROR)" />
     <!-- Signoff station when uninstallation -->
     <CustomAction Id='SignoffStationAction' BinaryKey='InstallHelperDll' DllEntry='SignoffStation'/>
     <!-- Clean station registry and DB -->
@@ -39,7 +32,7 @@
     <!-- Kill running process -->
     <CustomAction Id='KillClientProcess' BinaryKey='InstallHelperDll' DllEntry='KillClientProcess' />
     <!-- Set Registry -->
-    <CustomAction Id='SetRegistry' BinaryKey='InstallHelperDll' DllEntry='SetRegistry' />
+    <CustomAction Id='SetRegistry' BinaryKey='InstallHelperDll' DllEntry='SetRegistry'/>
     <!-- Start and Wait mongo db ready -->
     <CustomAction Id='StartAndWaitMongoDbReady' BinaryKey='InstallHelperDll' DllEntry='StartAndWaitMongoDbReady' />
     <!-- Start waveface service -->
@@ -48,12 +41,13 @@
     <CustomAction Id='AddPerfCounters' BinaryKey='InstallHelperDll' DllEntry='AddPerfCounters' />
     <!-- Remove performance counters -->
     <CustomAction Id='RemovePerfCounters' BinaryKey='InstallHelperDll' DllEntry='RemovePerfCounters' />
-
+    <!-- Restore backup data -->
+    <CustomAction Id='RestoreBackupData' BinaryKey='InstallHelperDll' DllEntry='RestoreBackupData' />
+    
     <InstallExecuteSequence>
-      <Custom Action="NoDowngradeAction" After="FindRelatedProducts">NEWERFOUND</Custom>
       <!-- while uninstall -->
       <Custom Action="KillClientProcess" Before="SignoffStationAction">
-        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+        (&amp;ClientFeature = 2) AND (!ClientFeature = 3)
       </Custom>
       <Custom Action="SignoffStationAction" Before="CleanStationInfoAction">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
@@ -74,7 +68,10 @@
       <Custom Action="StartAndWaitMongoDbReady" After="InstallFinalize">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
-      <Custom Action="StartWavefaceService" After="StartAndWaitMongoDbReady">
+      <Custom Action="RestoreBackupData" After="StartAndWaitMongoDbReady">
+        ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
+      </Custom>
+      <Custom Action="StartWavefaceService" After="RestoreBackupData">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
     </InstallExecuteSequence>
@@ -85,33 +82,57 @@
       <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
       <ProgressText Action="StartAndWaitMongoDbReady">!(loc.WaitMongoDbReady)</ProgressText>
       <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
+      <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
     </UI>
     <!-- Program Menu-->
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
       <Directory Id="ProgramMenuFolder" Name="Programs">
         <Directory Id="ProgramMenuDir" Name="!(loc.APPNAME)">
+
+          <!-- for station + client -->
           <Component Id="pmd" Guid="{60fa9a1b-662a-43df-a97b-d7667e79cb19}">
             <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
             <RemoveFolder Id="ProgramMenuDirRF" On="uninstall" />
+            <Shortcut Id="ProgMenu.Shortcut.StationUI" Name="!(loc.SHORTCUT.STARTWAVEFACE.STATION)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationUI.exe"/>
+            <Shortcut Id="ProgMenu.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
+            <Shortcut Id="Desktop.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
           </Component>
+
+          <!-- for client only client -->
+          <Component Id="pmd_client" Guid="{C2757ED7-6129-4A3C-A21A-B577DDAED7CF}">
+            <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
+            <RemoveFolder Id="ProgramMenuDirRF_client" On="uninstall" />
+            <Shortcut Id="ProgMenu.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
+            <Shortcut Id="Desktop.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
+          </Component>
+          
         </Directory>
       </Directory>
       <Directory Id="DesktopFolder" Name="Desktop" />
     </Directory>
 
     <DirectoryRef Id="TARGETDIR">
+      <!--
       <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
         <RegistryKey Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Run">
           <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationSetup.exe"' KeyPath='yes'/>
         </RegistryKey>
-      </Component>
+      </Component> 
+      -->
       <!-- Compatibility Mode -->
+      <!--
       <Component Id="AppCompatibilitySettings" Guid="{BE1ABB42-3AE4-4789-933C-1C22FE779F07}">
         <RegistryKey Root="HKLM"
                      Key="Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers">
           <RegistryValue Type="string" Name="[INSTALLLOCATION]StationSetup.exe" Value="VISTARTM" KeyPath="yes"/>
         </RegistryKey>
       </Component>
+      -->
       <!-- Culture -->
       <Component Id="CultureSetting" Guid="{EDAC6735-B152-47FB-9DBA-ACAD3CCF9887}">
         <RegistryKey Root="HKLM" Key="Software\Wammer\WinStation">
@@ -157,11 +178,13 @@
       <ComponentRef Id="log4net.dll"/>
       <ComponentRef Id="MongoDB.Bson.dll"/>
       <ComponentRef Id="MongoDB.Driver.dll"/>
-      <ComponentRef Id="StationSetup.exe"/>
+      <ComponentRef Id="StationUI.exe"/>
+      <ComponentRef Id="StationUI.resources.dll"/>
       <ComponentRef Id="System.Data.SQLite.dll"/>
       <ComponentRef Id="TCMPortMapper.dll"/>
       <ComponentRef Id="miniupnp.dll"/>
       <ComponentRef Id="natpmp.dll"/>
+      <ComponentRef Id="CommonLibs.dll"/>
     </ComponentGroup>
 
     <ComponentGroup Id="Wammer.Client">
@@ -180,15 +203,13 @@
       <ComponentRef Id="Waveface.Configuration.WindowsForms.dll"/>
       <ComponentRef Id="WebCam_Capture.dll"/>
       <ComponentRef Id="StationML.xml"/>
-      <ComponentRef Id="waveface.localization.dll"/>
-      <ComponentRef Id="StationSetup.resources.dll"/>
+      <ComponentRef Id="CommonLibs.dll"/>
       <ComponentRef Id="WavefaceWindowsClient.resources.dll"/>
       <ComponentRef Id="WavefaceML.xml"/>
       <ComponentRef Id="Microsoft.mshtml.dll"/>
       <ComponentRef Id="nlog.config"/>
       <ComponentRef Id="nlog.dll"/>
-      <ComponentRef Id="LaunchAtStartUp"/>
-      <ComponentGroupRef Id="DefaultPostResources"/>
+      <ComponentRef Id="pmd_client"/>
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
@@ -224,12 +245,15 @@
       <Component Id="Station.Management.exe" Guid="{F6BE5F51-E2BB-4BC3-BA4E-9488DCBA4D5B}">
         <File Id="Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="StationSetup.exe" Guid="{7C8AE609-024C-462B-8291-9AA522CB1193}">
+      <Component Guid="*">
+        <File Id="StationUI.exe" Source="$(var.StationUI.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <!--<Component Id="StationSetup.exe" Guid="{7C8AE609-024C-462B-8291-9AA522CB1193}">
         <File Id="StationSetup.exe" Source="$(var.StationSetup.TargetPath)" KeyPath="yes" Checksum="yes">
           <Shortcut Id="StartWavefaceShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" WorkingDirectory="INSTALLDIR" Icon="Wammer.ico" IconIndex="0" Advertise="yes" />
           <Shortcut Id="DesktopShortcut" Advertise="yes" Directory="DesktopFolder" Name="!(loc.SHORTCUT.STARTWAVEFACE.NAME)" Icon="Wammer.ico" IconIndex="0" WorkingDirectory="INSTALLDIR"/>
         </File>
-      </Component>
+      </Component>-->
       <Component Guid="*">
         <File Id="TCMPortMapper.dll" Source="$(var.Wammer.Station.Service.TargetDir)\TCMPortMapper.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -284,13 +308,13 @@
         <File Id="WebCam_Capture.dll" Source="$(var.Wammer.TargetDir)\WebCam_Capture.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="StationML.xml" Guid="{C164BC1B-FF51-48AF-8F0B-E5228DE32A5B}">
-        <File Id="StationML.xML" Source="$(var.StationSetup.ProjectDir)\StationML.xml"/>
+        <File Id="StationML.xML" Source="$(var.StationUI.ProjectDir)\StationML.xml"/>
       </Component>
       <Component Id="WavefaceML.xml" Guid="{509DC419-360D-4A3E-832E-62515E094FD9}">
         <File Id="WavefaceML.xML" Source="$(var.Wammer.ProjectDir)\WavefaceML.xml"/>
       </Component>
-      <Component Id="waveface.localization.dll" Guid="{57E17EB6-BEA0-437F-987C-D5D0E569F855}">
-        <File Id="waveface.localization.dll" Source="$(var.Localizer.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      <Component Guid="{57E17EB6-BEA0-437F-987C-D5D0E569F855}">
+        <File Id="CommonLibs.dll" Source="$(var.CommonLibs.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="Microsoft.mshtml.dll" Guid="{E3444381-2FBC-45A9-B3B2-6134E428CC49}">
         <File Id="Microsoft.mshtml.dll" Source="$(var.Wammer.ProjectDir)\..\Libs\Microsoft.mshtml.dll"/>
@@ -305,8 +329,8 @@
 
     <!-- localization resources -->
     <DirectoryRef Id="zh_TW">
-      <Component Id="StationSetup.resources.dll" Guid="{F5EC7157-F950-4449-AFB3-8E59DDCEB331}">
-        <File Id="StationSetup.resources.dll" Source="$(var.StationSetup.TargetDir)\zh-TW\StationSetup.resources.dll" KeyPath="yes" Checksum="yes"/>
+      <Component Guid="*">
+        <File Id="StationUI.resources.dll" Source="$(var.StationUI.TargetDir)\zh-TW\StationUI.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="WavefaceWindowsClient.resources.dll" Guid="{F9E63329-F16F-433C-AF22-845350BA079C}">
         <File Id="WavefaceWindowsClient.resources.dll" Source="$(var.Wammer.TargetDir)\zh-TW\WavefaceWindowsClient.resources.dll" KeyPath="yes" Checksum="yes"/>
@@ -329,23 +353,27 @@
       <Component Id="mongo.exe" Guid="{03376030-6756-4698-B1FF-AD92F18BABE5}">
         <File Id="mongo.exe" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongo.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Guid="*">
+        <File Id="mongorestore.exe" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongorestore.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
     </DirectoryRef>
 
     <!-- Features -->
-    <Feature Id='MainFeature' Level='1' Display='collapse'>
+    <Feature Id='MainFeature' Level='100' Display='collapse' Title='Waveface Station and client' Absent='allow' >
       <ComponentRef Id="MongoDB.Data"/>
       <ComponentRef Id="MongoDB.Data.DB"/>
       <ComponentRef Id="log.folder"/>
       <ComponentRef Id="mongod.exe"/>
       <ComponentRef Id="mongos.exe"/>
       <ComponentRef Id="mongo.exe"/>
+      <ComponentRef Id="mongorestore.exe"/>
       <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>
-      <ComponentRef Id='AppCompatibilitySettings'/>
       <ComponentRef Id="CultureSetting"/>
     </Feature>
-    <Feature Id='ClientFeature' Level='1' Title='Windows client' Description='Windows client'>
+    
+    <Feature Id='ClientFeature' Level='100' Title='Waveface client only'>
       <ComponentGroupRef Id='Wammer.Client'/>
     </Feature>
 

@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -12,7 +11,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
-using Waveface.Compoment;
 using Waveface.Compoment.PopupControl;
 using Waveface.Component;
 using Waveface.Component.DropableNotifyIcon;
@@ -37,7 +35,7 @@ namespace Waveface
         #region Fields
 
         //Main
-        public PreferenceForm m_preference;
+        public SettingForm m_setting;
 
         private ProgramSetting m_settings = new ProgramSetting();
 
@@ -48,11 +46,8 @@ namespace Waveface
         private Popup m_trayIconPopup;
         private TrayIconPanel m_trayIconPanel;
 
-        private bool m_exitToLogin;
         private bool m_process401Exception;
         private bool m_canAutoFetchNewestPosts = true;
-        private bool m_logoutStation;
-        private bool m_eventFromRestoreWindow_Hack;
         private bool m_manualRefresh;
         private ShowTimelineIndexType m_showTimelineIndexType;
 
@@ -63,9 +58,7 @@ namespace Waveface
         private string m_stationIP;
 
         private bool m_firstTimeShowBalloonTipTitle;
-        private bool m_windowRestoring;
 
-        private FormWindowState m_oldFormWindowState;
         private PostType m_delayPostType;
 
         private FormSettings m_formSettings;
@@ -79,12 +72,6 @@ namespace Waveface
         {
             get { return m_runTime; }
             set { m_runTime = value; }
-        }
-
-        private string StationToken
-        {
-            get { return m_settings.StationToken; }
-            set { m_settings.StationToken = value; }
         }
 
         public QuitOption QuitOption { get; private set; }
@@ -133,7 +120,7 @@ namespace Waveface
 
             UpdateNetworkStatus();
 
-            InitDropableNotifyIcon();
+            // InitDropableNotifyIcon();
 
             m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
 
@@ -166,7 +153,7 @@ namespace Waveface
             m_dropableNotifyIcon.NotifyIcon.Icon = Resources.Icon;
             m_dropableNotifyIcon.NotifyIcon.ContextMenuStrip = mnuTray;
             m_dropableNotifyIcon.NotifyIcon.Visible = true;
-            m_dropableNotifyIcon.NotifyIcon.DoubleClick += NotifyIcon_DoubleClick;
+            //m_dropableNotifyIcon.NotifyIcon.DoubleClick += NotifyIcon_DoubleClick;
             m_dropableNotifyIcon.InitDrop();
             m_dropableNotifyIcon.DragEnter += DropableNotifyIcon_DragEnter;
         }
@@ -188,7 +175,7 @@ namespace Waveface
             m_taskbarNotifier.ContentRectangle = new Rectangle(8, 41, 133, 68);
             m_taskbarNotifier.CloseClickable = true;
             m_taskbarNotifier.ContentClickable = true;
-            m_taskbarNotifier.ContentClick += taskbarNotifier_ContentClick;
+            //m_taskbarNotifier.ContentClick += taskbarNotifier_ContentClick;
             m_taskbarNotifier.EnableSelectionRectangle = true;
             m_taskbarNotifier.KeepVisibleOnMousOver = true;
             m_taskbarNotifier.ReShowOnMouseOver = true;
@@ -256,7 +243,6 @@ namespace Waveface
                 MessageBox.Show(I18n.L.T("Station401Exception"), "Waveface", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
-                m_exitToLogin = true;
                 m_process401Exception = true;
                 QuitOption = QuitOption.Logout;
                 m_settings.IsLoggedIn = false;
@@ -271,40 +257,6 @@ namespace Waveface
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason != CloseReason.WindowsShutDown)
-            {
-                if (m_eventFromRestoreWindow_Hack)
-                {
-                    m_eventFromRestoreWindow_Hack = false;
-
-                    s_logger.Trace("MainForm_FormClosing.m_eventFromRestoreWindow_Hack - Return");
-
-                    e.Cancel = true;
-                    return;
-                }
-
-                if (!m_exitToLogin)
-                {
-                    WindowState = FormWindowState.Minimized;
-
-                    ShowInTaskbar = false;
-
-                    if (m_firstTimeShowBalloonTipTitle)
-                    {
-                        m_dropableNotifyIcon.NotifyIcon.BalloonTipTitle = "Waveface";
-                        m_dropableNotifyIcon.NotifyIcon.BalloonTipText = I18n.L.T("MinimizetoTrayApp");
-                        m_dropableNotifyIcon.NotifyIcon.ShowBalloonTip(500);
-
-                        m_firstTimeShowBalloonTipTitle = false;
-                    }
-
-                    s_logger.Trace("MainForm_FormClosing.!m_exitToLogin - Return");
-
-                    e.Cancel = true;
-                    return;
-                }
-            }
-
             m_dropableNotifyIcon.Dispose();
 
             if (m_virtualFolderForm != null)
@@ -316,43 +268,48 @@ namespace Waveface
             SaveRunTime();
             NewPostManager.Current.Save();
 
-            if (m_logoutStation)
-            {
-                try
-                {
-                    if(GCONST.STATION_COMBINE_MODE)
-                        WService.LogoutStation(StationToken);
-                }
-                catch (Exception _e)
-                {
-                    NLogUtility.Exception(s_logger, _e, "MainForm_FormClosing");
-                }
-            }
+            m_settings.Save();
         }
 
-        private void preferencesMenuItem_Click(object sender, EventArgs e)
+        public void Logout()
+        {
+            QuitOption = QuitOption.Logout;
+            m_settings.IsLoggedIn = false;
+
+            try
+            {
+                UploadOriginPhotosToStationManager.Current = null;
+
+                StationState.Current = null;
+
+                NewPostManager.Current = null;
+
+                PhotoDownloader.Current = null;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "Logout");
+            }
+
+            Close();
+        }
+
+        public void Setting()
         {
             if (!Current.CheckNetworkStatus())
                 return;
 
-            m_preference = new PreferenceForm(StationToken, RT.REST.Service);
-            m_preference.ShowDialog();
+            m_setting = new SettingForm();
+            m_setting.ShowDialog();
 
-            if (m_preference.IsUserSwitched)
-            {
-                m_exitToLogin = true;
-                QuitOption = QuitOption.QuitProgram;
-                m_process401Exception = true;
-
-                Process p = Process.Start("StationSetup.exe");
-                p.Close();
-
-                Close();
-            }
-
-            m_preference = null;
+            m_setting = null;
         }
 
+        [DllImport("user32.dll")]
+        private static extern bool BringWindowToTop(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
         private void Main_Activated(object sender, EventArgs e)
         {
             if (m_postForm != null)
@@ -362,11 +319,11 @@ namespace Waveface
                 m_postForm.Activate();
             }
 
-            if (m_preference != null)
+            if (m_setting != null)
             {
-                BringWindowToTop(m_preference.Handle);
-                ShowWindow(m_preference.Handle, 5); //SW_SHOW
-                m_preference.Activate();
+                BringWindowToTop(m_setting.Handle);
+                ShowWindow(m_setting.Handle, 5); //SW_SHOW
+                m_setting.Activate();
             }
         }
 
@@ -386,11 +343,6 @@ namespace Waveface
 
                     s_logger.Trace("Main_SizeChanged: FormWindowState.Minimized");
                 }
-                else
-                {
-                    ShowInTaskbar = true;
-                    m_oldFormWindowState = WindowState;
-                }
             }
             catch (Exception _e)
             {
@@ -398,87 +350,9 @@ namespace Waveface
             }
         }
 
-        [DllImport("user32.dll")]
-        private static extern bool BringWindowToTop(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
-
-        private void RestoreWindow()
-        {
-            if (m_windowRestoring)
-                return;
-
-            m_windowRestoring = true;
-
-            s_logger.Trace("RestoreWindow");
-
-            if (m_oldFormWindowState != FormWindowState.Minimized)
-            {
-                WindowState = m_oldFormWindowState;
-            }
-
-            m_showTimelineIndexType = ShowTimelineIndexType.LocalLastRead;
-            GetLastReadAndShow();
-
-            BringWindowToTop(Handle);
-            ShowWindow(Handle, 5); //SW_SHOW
-            Activate();
-
-            m_eventFromRestoreWindow_Hack = true;
-        }
-
         protected override bool ShowWithoutActivation // stops the window from stealing focus
         {
             get { return true; }
-        }
-
-        protected override void WndProc(ref Message message)
-        {
-            if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
-            {
-                if (WindowState == FormWindowState.Minimized)
-                {
-                    if (!m_windowRestoring)
-                        RestoreWindow();
-                }
-            }
-            else if (message.Msg == 0x01C) // WM_ACTIVATEAPP : Alt-Tabbing
-            {
-                // a value of 0 means the application is being deactivated, 
-                // otherwise it is being activated.
-                // 0 - Form deactivated
-                // 1 - Form activated
-                // 2 - Form activated by a mouse click
-                if ((int)message.WParam == 1)
-                {
-                    if (WindowState == FormWindowState.Minimized)
-                    {
-                        if (!m_windowRestoring)
-                            m_eventFromRestoreWindow_Hack = true;
-                    }
-                }
-            }
-
-            base.WndProc(ref message);
-        }
-
-        private void restoreMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!m_windowRestoring)
-                RestoreWindow();
-        }
-
-        private void taskbarNotifier_ContentClick(object sender, EventArgs e)
-        {
-            if (!m_windowRestoring)
-                RestoreWindow();
-        }
-
-        private void NotifyIcon_DoubleClick(object sender, EventArgs e)
-        {
-            if (!m_windowRestoring && (WindowState == FormWindowState.Minimized))
-                RestoreWindow();
         }
 
         private void splitterRight_SplitterMoving(object sender, SplitterEventArgs e)
@@ -583,7 +457,6 @@ namespace Waveface
             if (online)
                 RT.Reset();
 
-            m_logoutStation = false;
             m_process401Exception = false;
 
             WService.StationIP = "";
@@ -607,31 +480,14 @@ namespace Waveface
             if (_login == null)
             {
                 s_logger.Trace("Login.Auth_Login: null");
-
-                Reset(false);
-
-                if (!LoadRunTime())
-                {
-                    s_logger.Trace("Login.Auth_Login.null: !LoadRunTime()");
-
-                    Cursor.Current = Cursors.Default;
-                    return false;
-                }
-
-                RT.OnlineMode = false;
+                return false;
             }
-            else
-            {
-                s_logger.Trace("Login.Auth_Login: OK");
 
-                Reset(true);
+            s_logger.Trace("Login.Auth_Login: OK");
 
-                RT.Login = _login;
+            Reset(true);
 
-                RT.OnlineMode = true;
-
-                CheckStation(RT.Login.stations);
-            }
+            RT.Login = _login;
 
             getGroupAndUser();
             fillUserInformation();
@@ -645,61 +501,18 @@ namespace Waveface
 
             postsArea.showRefreshUI(true);
 
+            m_settings.Email = email;
+            m_settings.Password = password;
+            m_settings.IsLoggedIn = true;
+
             Cursor.Current = Cursors.Default;
 
-            if (_login == null)
-            {
-                s_logger.Trace("Login.Auth_Login.null: ShowAllTimeline(false)");
+            GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
 
-                ShowAllTimeline(ShowTimelineIndexType.GlobalLastRead);
-            }
-            else
-            {
-                m_settings.Email = email;
-                m_settings.Password = password;
-                m_settings.IsLoggedIn = true;
-
-                s_logger.Trace("Login.Auth_Login.OK: GetAllDataAsync(false)");
-
-                GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
-
-                UploadOriginPhotosToStationManager.Current.Start();
-            }
+            UploadOriginPhotosToStationManager.Current.Start();
+            StationState.Current.Start();
 
             return true;
-        }
-
-        private void CheckStation(List<Station> stations)
-        {
-            if (stations != null)
-            {
-                foreach (Station _station in stations)
-                {
-                    if (_station.status == "connected")
-                    {
-                        string _ip = _station.location;
-
-                        if (_ip.EndsWith("/"))
-                            _ip = _ip.Substring(0, _ip.Length - 1);
-
-                        WService.StationIP = _ip;
-
-                        //test
-                        //m_stationIP = _ip;
-                        //panelStation.Visible = true;
-
-                        RT.StationMode = true;
-
-                        s_logger.Info("CheckStation:" + _ip);
-
-                        return;
-                    }
-                }
-            }
-
-            s_logger.Trace("CheckStation: Not Found");
-
-            RT.StationMode = false;
         }
 
         private void fillUserInformation()
@@ -1003,7 +816,7 @@ namespace Waveface
                     postsArea.PostsList.SetPosts(_posts, _index, m_manualRefresh);
                 }
 
-                m_windowRestoring = false;
+                // m_windowRestoring = false;
             }
         }
 
@@ -1308,15 +1121,25 @@ namespace Waveface
 
         public void ShowStatuMessage(string message, bool timeout)
         {
-            if (timeout)
+            if (InvokeRequired)
             {
-                timerShowStatuMessage.Enabled = true;
-
-                StatusLabelPost.Text = message;
+                Invoke(new MethodInvoker(
+                           delegate { ShowStatuMessage(message, timeout); }
+                           ));
             }
             else
             {
-                StatusLabelUpload.Text = message;
+                if (timeout)
+                {
+                    timerShowStatuMessage.Enabled = true;
+
+                    StatusLabelPost.Text = message;
+                    postsArea.ShowStatusText(message);
+                }
+                else
+                {
+                    StatusLabelUpload.Text = message;
+                }
             }
         }
 
@@ -1325,6 +1148,7 @@ namespace Waveface
             timerShowStatuMessage.Enabled = false;
 
             StatusLabelPost.Text = "";
+            postsArea.ShowStatusText("");
         }
 
         #endregion
@@ -1333,8 +1157,8 @@ namespace Waveface
 
         private void bgWorkerGetAllData_DoWork(object sender, DoWorkEventArgs e)
         {
-            string _firstGetCount = "200";
-            string _continueGetCount = "-200";
+            string _firstGetCount = "100"; //200
+            string _continueGetCount = "-100"; //200
             Dictionary<string, Post> _allPosts = new Dictionary<string, Post>();
             string _datum = string.Empty;
 
@@ -1421,12 +1245,12 @@ namespace Waveface
                         {
                             if (post.attachments.Count == 0)
                                 break;
-                            
+
                             Attachment _a = post.attachments[0];
 
                             string _url = string.Empty;
                             string _fileName = string.Empty;
-                            Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url, out _fileName);
+                            Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url, out _fileName, false);
 
                             string _localPic = GCONST.CachePath + _fileName;
 
@@ -1465,7 +1289,7 @@ namespace Waveface
                                 string _url = string.Empty;
                                 string _fileName = string.Empty;
                                 Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url,
-                                                                                 out _fileName);
+                                                                                 out _fileName, false);
 
                                 string _localPic = GCONST.CachePath + _fileName;
 
@@ -1503,7 +1327,7 @@ namespace Waveface
                 ImageItem _item = new ImageItem();
                 _item.PostItemType = PostItemType.Thumbnail;
                 _item.ThumbnailPath = url;
-                _item.LocalFilePath = localPicPath;
+                _item.LocalFilePath_Origin = localPicPath;
 
                 PhotoDownloader.Current.Add(_item);
             }
@@ -1514,6 +1338,7 @@ namespace Waveface
             List<Attachment> _imageAttachments = new List<Attachment>();
             List<string> _filePathOrigins = new List<string>();
             List<string> _filePathMediums = new List<string>();
+            List<string> _urlCloudOrigins = new List<string>();
             List<string> _urlOrigins = new List<string>();
             List<string> _urlMediums = new List<string>();
 
@@ -1530,16 +1355,19 @@ namespace Waveface
             {
                 string _urlO = string.Empty;
                 string _fileNameO = string.Empty;
-                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO);
+                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, false);
 
                 string _localFileO = GCONST.CachePath + _fileNameO;
 
                 _filePathOrigins.Add(_localFileO);
                 _urlOrigins.Add(_urlO);
 
+                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, true);
+                _urlCloudOrigins.Add(_urlO);
+
                 string _urlM = string.Empty;
                 string _fileNameM = string.Empty;
-                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM);
+                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM, false);
 
                 string _localFileM = GCONST.CachePath + _fileNameM;
 
@@ -1553,10 +1381,11 @@ namespace Waveface
                 {
                     ImageItem _item = new ImageItem();
                     _item.PostItemType = PostItemType.Origin;
+                    _item.CloudOriginPath = _urlCloudOrigins[i];
                     _item.OriginPath = _urlOrigins[i];
                     _item.MediumPath = _urlMediums[i];
-                    _item.LocalFilePath = _filePathOrigins[i];
-                    _item.LocalFilePath2 = _filePathMediums[i];
+                    _item.LocalFilePath_Origin = _filePathOrigins[i];
+                    _item.LocalFilePath_Medium = _filePathMediums[i];
 
                     PhotoDownloader.Current.Add(_item);
                 }
@@ -1569,33 +1398,6 @@ namespace Waveface
             {
                 PrefetchImages(RT.CurrentGroupPosts);
             }
-        }
-
-        #endregion
-
-        #region Station
-
-        private void logoutMenuItem_Click(object sender, EventArgs e)
-        {
-            m_logoutStation = true;
-            m_exitToLogin = true;
-            m_eventFromRestoreWindow_Hack = false;
-
-            QuitOption = QuitOption.QuitProgram;
-            m_settings.IsLoggedIn = false;
-
-            Close();
-        }
-
-        public void stationLogin(string email, string password)
-        {
-            if (GCONST.STATION_COMBINE_MODE)
-                StationToken = WService.LoginStation(email, password);
-        }
-
-        private void Main_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            m_settings.Save();
         }
 
         #endregion

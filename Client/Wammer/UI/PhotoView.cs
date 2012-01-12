@@ -156,7 +156,10 @@ namespace Waveface
 
                     foreach (ImageListViewItem _item in imageListView.Items)
                     {
-                        _fileName = m_filesMapping[new FileInfo(_item.FileName).Name]; // 取出真實名稱
+                        _fileName = new FileInfo(_item.FileName).Name;
+
+                        if (m_filesMapping.ContainsKey(_fileName))
+                            _fileName = m_filesMapping[_fileName]; // 取出真實名稱
 
                         _fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
 

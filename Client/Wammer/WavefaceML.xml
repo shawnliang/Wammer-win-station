@@ -11,6 +11,16 @@
     <zh-TW>登錄時發生錯誤, 請重新輸入.</zh-TW>
   </WItem>
   <WItem>
+    <ID>Main.Logout</ID>
+    <en-US>Logout</en-US>
+    <zh-TW>登出</zh-TW>
+  </WItem>   
+  <WItem>
+    <ID>Main.Preference</ID>
+    <en-US>Preference</en-US>
+    <zh-TW>設定</zh-TW>
+  </WItem>   
+  <WItem>
     <ID>Main.ChangeOwnerWarning</ID>
     <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Waveface Station.</en-US>
     <zh-TW>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</zh-TW>
@@ -140,6 +150,11 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Post success!</en-US>
     <zh-TW>貼文成功!</zh-TW>
   </WItem>
+  <WItem>
+    <ID>PostForm.TextBoxDescription</ID>
+    <en-US>Write down the description here...</en-US>
+    <zh-TW>在此寫下描述...</zh-TW>
+  </WItem>  
   <WItem>
     <ID>SystemError</ID>
     <en-US>There appears to be an error with the system. Please try again later.</en-US>

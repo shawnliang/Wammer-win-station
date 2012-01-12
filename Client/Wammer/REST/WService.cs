@@ -31,13 +31,13 @@ namespace Waveface.API.V2
             {
                 //if (GCONST.DEBUG)
                 //{
-                    //return "https://develop.waveface.com";
-                //    return "https://api.waveface.com";
+                //return "https://develop.waveface.com";
+                //return "https://api.waveface.com";
                 //}
                 //else
-                {
+                //{
                     return s_cloudIP;
-                }
+                //}
             }
             set { s_cloudIP = value; }
         }
@@ -70,13 +70,7 @@ namespace Waveface.API.V2
 
         public static string StationIP
         {
-            get
-            {
-                if (GCONST.STATION_COMBINE_MODE)
-                    return "http://127.0.0.1:9981";
-                else
-                    return s_stationIP;
-            }
+            get { return s_stationIP; }
             set { s_stationIP = value; }
         }
 
@@ -116,6 +110,37 @@ namespace Waveface.API.V2
             _settings.MissingMemberHandling = MissingMemberHandling.Ignore;
 
             return JsonConvert.DeserializeObject<T>(_r, _settings);
+        }
+
+        public string HttpGet(string _url)
+        {
+            try
+            {
+                HttpWebRequest _req = (HttpWebRequest)WebRequest.Create(_url);
+                _req.Timeout = 5000;
+                _req.Headers.Set("Content-Encoding", "UTF-8");
+                WebResponse _resp = _req.GetResponse();
+                StreamReader _sr = new StreamReader(_resp.GetResponseStream());
+                return _sr.ReadToEnd().Trim();
+            }
+            catch (WebException _e)
+            {
+                if (_e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    return "OK";
+                }
+
+                NLogUtility.WebException(s_logger, _e, "HttpGet");
+
+
+                return null;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "HttpGet");
+
+                return null;
+            }
         }
 
         #endregion
@@ -820,10 +845,10 @@ namespace Waveface.API.V2
                 string _url = BaseURL + "/posts/new";
 
                 string _parms =
-                        "apikey" + "=" + APIKEY + "&" +
-                        "session_token" + "=" + session_token + "&" +
-                        "content" + "=" + content + "&" +
-                        "type" + "=" + type + "&";
+                    "apikey" + "=" + APIKEY + "&" +
+                    "session_token" + "=" + session_token + "&" +
+                    "content" + "=" + content + "&" +
+                    "type" + "=" + type + "&";
 
                 if (attachment_id_array != string.Empty)
                     _parms += "attachment_id_array" + "=" + attachment_id_array + "&";
@@ -1195,7 +1220,8 @@ namespace Waveface.API.V2
 
                 string _fileName = new FileInfo(fileName).Name;
 
-                HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic, _fileName, _mimeType);
+                HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic,
+                                                                                                 _fileName, _mimeType);
 
 
                 // Process response
@@ -2026,4 +2052,3 @@ namespace Waveface.API.V2
 
     #endregion
 }
-

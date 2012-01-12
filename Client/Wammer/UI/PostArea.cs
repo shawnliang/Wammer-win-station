@@ -1,4 +1,4 @@
-﻿#region
+﻿﻿#region
 
 using System.Windows.Forms;
 
@@ -20,7 +20,7 @@ namespace Waveface
         {
             InitializeComponent();
 
-            comboBoxType.SelectedIndex = 0;
+            //comboBoxType.SelectedIndex = 0;
 
             //m_init = true;
         }
@@ -70,7 +70,7 @@ namespace Waveface
         {
             if (!Main.Current.CheckNetworkStatus())
                 return;
-            
+
             Main.Current.GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
         }
 
@@ -79,10 +79,15 @@ namespace Waveface
             btnRefresh.Enabled = flag;
         }
 
+        public void ShowStatusText(string msg)
+        {
+            labelStatus.Text = msg;
+        }
+
         public void showRefreshUI(bool flag)
         {
             btnCreatePost.Visible = true;
-            
+
             btnRefresh.Visible = flag;
         }
 

@@ -85,11 +85,15 @@ namespace Waveface
 
             MouseWheelRedirector.Attach(dataGridView);
 
-            PhotoDownloader.Current.ThumbnailEvent += Thumbnail_EventHandler;
+            if (!DesignMode) //Hack
+            {
+                PhotoDownloader.Current.ThumbnailEvent += Thumbnail_EventHandler;
+            }
         }
 
         public void Thumbnail_EventHandler(ImageItem item)
         {
+
             RefreshUI();
         }
 
@@ -329,7 +333,7 @@ namespace Waveface
         private Rectangle DrawPostTime(Graphics g, Font font, Rectangle cellRect, Post post)
         {
             string _postTime = post.timestamp;
-            _postTime = DateTimeHelp.ISO8601ToDotNet(_postTime);
+            _postTime = DateTimeHelp.ISO8601ToDotNet(_postTime, false);
             _postTime = DateTimeHelp.PrettyDate(_postTime);
 
             Size _sizeTime = TextRenderer.MeasureText(g, _postTime, font) + new Size(2, 2);
@@ -469,7 +473,7 @@ namespace Waveface
                 ImageItem _item = new ImageItem();
                 _item.PostItemType = PostItemType.Thumbnail;
                 _item.ThumbnailPath = url;
-                _item.LocalFilePath = localPicPath;
+                _item.LocalFilePath_Origin = localPicPath;
 
                 PhotoDownloader.Current.Add(_item);
 
@@ -487,7 +491,7 @@ namespace Waveface
         {
             string _url = string.Empty;
             string _fileName = string.Empty;
-            Main.Current.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName);
+            Main.Current.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName, false);
 
             string _localPic = Main.GCONST.CachePath + _fileName;
 

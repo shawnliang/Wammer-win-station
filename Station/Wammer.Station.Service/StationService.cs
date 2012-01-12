@@ -165,8 +165,6 @@ namespace Wammer.Station.Service
 			}
 		}
 
-		
-
 		protected override void OnStop()
 		{
 			stationTimer.Stop();
@@ -235,6 +233,7 @@ namespace Wammer.Station.Service
 					maxWorker, maxIO);
 			}
 		}
+
 	}
 
 

@@ -117,83 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="contextMenuStripEdit.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="richText_UI.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelRichText_Main.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnPureText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelRichText_Top.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelRichTextPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Page_RichText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="general_weblink_UI.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Page__Link.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="photo_UI.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Page__Photo.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="document_UI.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Page__DOC.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="multiPanel_P_D_W.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelPWD_Main.ToolTip" xml:space="preserve">
-    <value />
+  <data name="btnAddPhoto.Text" xml:space="preserve">
+    <value>新增照片</value>
   </data>
   <data name="btnAddPhoto.ToolTip" xml:space="preserve">
     <value>新增照片</value>
   </data>
-  <data name="btnAddDoc.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelToolbar.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="btnSend.Text" xml:space="preserve">
     <value>貼文</value>
-  </data>
-  <data name="btnSend.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelMiddleBar.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="buttonRichText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="pureTextBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Page_P_D_W.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="multiPanel.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -483,10 +414,11 @@
         AAAAAAAAgAAAAAAAAAGAAAAAAAAAA+AAAAAAAAAH8AAAAAAAAA8=
 </value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>新貼文</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
   </data>
 </root>

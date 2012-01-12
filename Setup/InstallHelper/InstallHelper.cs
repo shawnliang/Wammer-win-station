@@ -68,7 +68,7 @@ namespace Wammer.Station
 				return ActionResult.Failure;
 
 			KillProcess("WavefaceWindowsClient");
-			KillProcess("StationSetup");
+			KillProcess("StationUI");
 
 			return ActionResult.Success;
 		}
@@ -90,6 +90,120 @@ namespace Wammer.Station
 				Logger.Warn("Cannot kill process " + name, e);
 			}
 		}
+
+		[CustomAction]
+		public static ActionResult RestoreBackupData(Session session)
+		{
+			string dumpFolder = Path.Combine(session["INSTALLLOCATION"], @"MongoDB\Backup");
+
+			try
+			{
+				if (HasFeature(session, "MainFeature"))
+				{
+					RestoreStationDB(session, dumpFolder);
+					RestoreStationId();
+				}
+
+				if (HasFeature(session, "ClientFeature"))
+				{
+					RestoreClientAppData();
+				}
+
+				return ActionResult.Success;
+			}
+			catch (Exception e)
+			{
+				Logger.Error("Failed to restore saved data", e);
+				return ActionResult.Failure;
+			}
+			finally
+			{
+				RemoveBackupData(dumpFolder);
+			}
+		}
+
+		private static void RemoveBackupData(string dumpFolder)
+		{
+			try
+			{
+				if (Directory.Exists(dumpFolder))
+					Directory.Delete(dumpFolder, true);
+				if (StationRegistry.GetValue("oldStationId", null) != null)
+					StationRegistry.DeleteValue("oldStattionId");
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to clean up backup data", e);
+			}
+		}
+
+		private static void RestoreStationDB(Session session, string dumpFolder)
+		{
+			if (Directory.Exists(dumpFolder))
+			{
+				Logger.Info(dumpFolder + " exists. Restoring DB....");
+				RunProgram(Path.Combine(session["INSTALLLOCATION"], @"MongoDB\mongorestore.exe"),
+					"--port 10319 \"" + dumpFolder + "\"");
+				Directory.Delete(dumpFolder, true);
+			}
+			else
+				Logger.Info(dumpFolder + " does not exist. Skip restoring");
+		}
+
+		private static void RestoreStationId()
+		{
+			string oldStationId = (string)StationRegistry.GetValue("oldStationId", null);
+			if (oldStationId != null)
+				StationRegistry.SetValue("stationId", oldStationId);
+			StationRegistry.DeleteValue("oldStationId");
+		}
+
+		private static bool HasFeature(Session session, string featureId)
+		{
+			foreach (FeatureInfo feature in session.Features)
+			{
+				Logger.DebugFormat("{0} => current {1}, request {2}, ", feature.Name, feature.CurrentState, feature.RequestState);
+
+				if (feature.Name == featureId)
+					return feature.RequestState == InstallState.Local;
+			}
+
+			return false;
+		}
+
+		private static void RestoreClientAppData()
+		{
+			try
+			{
+				string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				string backupData = Path.Combine(appData, "oldWaveface");
+				string restoreData = Path.Combine(appData, "waveface");
+
+				if (Directory.Exists(backupData) && !Directory.Exists(restoreData))
+					Directory.Move(backupData, restoreData);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to restore client app data", e);
+			}
+		}
+
+		private static void RunProgram(string file, string args)
+		{
+			using (Process p = new Process())
+			{
+				p.StartInfo = new ProcessStartInfo(file, args);
+				p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+				p.StartInfo.CreateNoWindow = true;
+				p.Start();
+
+				p.WaitForExit();
+
+				if (p.ExitCode != 0)
+					throw new InstallerException(file + " returned " + p.ExitCode);
+			}
+		}
+
 
 		[CustomAction]
 		public static ActionResult SetRegistry(Session session)
@@ -116,9 +230,9 @@ namespace Wammer.Station
 				System.Threading.ThreadPool.GetMaxThreads(out maxWorker, out maxIO);
 				System.Threading.ThreadPool.GetMinThreads(out minWorker, out minIO);
 
-				maxWorker = minWorker * 2;
-				if (maxWorker < 4)
-					maxWorker = 4;
+				maxWorker = minWorker * 3 / 2;
+				if (maxWorker < 3)
+					maxWorker = 3;
 
 				StationRegistry.SetValue("MaxWorkerThreads", maxWorker);
 				StationRegistry.SetValue("MaxIOThreads", maxIO);
@@ -169,6 +283,7 @@ namespace Wammer.Station
 		public static ActionResult CleanStationInfo(Session session)
 		{
 			string wavefaceDir = session["INSTALLLOCATION"];
+
 			if (wavefaceDir == null)
 				return ActionResult.Failure;
 
@@ -179,17 +294,6 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				Logger.Warn("Unable to delete station id in registry", e);
-			}
-
-			try
-			{
-				MongoCursor<Driver> drivers = DriverCollection.Instance.FindAll();
-				foreach (Driver driver in drivers)
-					OldDriverCollection.Instance.Save(driver);
-			}
-			catch (Exception e)
-			{
-				Logger.Warn("Unable to move drivers to oldDrivers", e);
 			}
 
 			try
@@ -234,8 +338,11 @@ namespace Wammer.Station
 				string appPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 				userDataFolder = Path.Combine(appPath, "waveface");
 
-				Logger.Info("Deleting " + userDataFolder);
-				Directory.Delete(userDataFolder, true);
+				if (Directory.Exists(userDataFolder))
+				{
+					Logger.Info("Deleting " + userDataFolder);
+					Directory.Delete(userDataFolder, true);
+				}
 			}
 			catch (Exception e)
 			{
@@ -248,8 +355,11 @@ namespace Wammer.Station
 				string appPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 				userDataFolder2 = Path.Combine(appPath, "waveface");
 
-				Logger.Info("Deleting " + userDataFolder2);
-				Directory.Delete(userDataFolder2, true);
+				if (Directory.Exists(userDataFolder2))
+				{
+					Logger.Info("Deleting " + userDataFolder2);
+					Directory.Delete(userDataFolder2, true);
+				}
 			}
 			catch (Exception e)
 			{
@@ -268,14 +378,17 @@ namespace Wammer.Station
 
 				StartService(svcName);
 
-				int retry = 120;
+				int retry = 180;
 				while (!IsMongoDBReady() && 0 < retry--)
 				{
 					System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2.0));
 				}
 
 				if (!IsMongoDBReady())
-					throw new System.TimeoutException("MongoDB is not ready in 180 seconds");
+					throw new System.TimeoutException("MongoDB is not ready in 360 seconds");
+
+				Model.Database.RestoreCollection("station", "oldStation");
+				Model.Database.RestoreCollection("drivers", "oldDrivers");
 
 				return ActionResult.Success;
 

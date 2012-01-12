@@ -165,7 +165,7 @@ namespace Waveface.PostUI
             WebBrowser _wb = new WebBrowser();
             _wb.ScrollBarsEnabled = false;
             _wb.ScriptErrorsSuppressed = true;
-            _wb.DocumentText = html;
+            _wb.DocumentText = HtmlUtility.TrimScript(html);
             _wb.ScriptErrorsSuppressed = true;
 
             while (_wb.ReadyState != WebBrowserReadyState.Complete)

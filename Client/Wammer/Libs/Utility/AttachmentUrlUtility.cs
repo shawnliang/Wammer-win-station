@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.IO;
 using System.Net;
 using System.Web;
 using Waveface.API.V2;
@@ -39,7 +40,7 @@ namespace Waveface
             return _url;
         }
 
-        public static string GetRedirectURL_Image(string session_token, Attachment a, string imageType, out string url, out string fileName)
+        public static string GetRedirectURL_Image(string session_token, Attachment a, string imageType, out string url, out string fileName, bool forceCloud)
         {
             const string SMALL = "small";
             const string MEDIUM = "medium";
@@ -51,7 +52,9 @@ namespace Waveface
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
 
-            string _url = WService.HostIP + "/v2/attachments/view?object_id=" + object_id + "&" +
+            string _ip = forceCloud ? WService.CloudIP : WService.HostIP;
+
+            string _url = _ip + "/v2/attachments/view?object_id=" + object_id + "&" +
                             "apikey" + "=" + WService.APIKEY + "&" +
                             "session_token" + "=" + session_token;
 
@@ -74,14 +77,14 @@ namespace Waveface
                     _imageType = ORIGIN;
 
                     url = _url;
-                    fileName = a.object_id + "_" + a.image_meta.medium.file_name;
+                    fileName = a.object_id; //  +"_" + a.image_meta.medium.file_name;
 
                     return _imageType;
                 }
             }
 
             url = _url + "&" + "image_meta=" + _imageType;
-            fileName = a.object_id + "_" + _imageType + "_" + a.image_meta.medium.file_name;
+            fileName = a.object_id + "_" + _imageType; //  +"_" + a.image_meta.medium.file_name;
             return _imageType;
         }
 
