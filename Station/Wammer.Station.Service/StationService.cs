@@ -52,6 +52,7 @@ namespace Wammer.Station.Service
 		{
 			try
 			{
+				logger.Info("============== Starting Waveface Station =================");
 				ConfigThreadPool();
 
 				AppDomain.CurrentDomain.UnhandledException +=
@@ -125,8 +126,11 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/",
 								new PingHandler());
 
-				logger.Debug("Start function server");
-				functionServer.Start();
+				if (Wammer.Utility.AutoRun.Exists("WavefaceStation"))
+				{
+					logger.Debug("Start function server");
+					functionServer.Start();
+				}
 
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989);

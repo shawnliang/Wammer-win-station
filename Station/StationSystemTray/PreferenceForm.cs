@@ -23,12 +23,9 @@ namespace StationSystemTray
 	public partial class PreferenceForm : Form
 	{
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("PreferenceForm");
+		private const string AUTO_RUN_VALUE_NAME = @"WavefaceStation";
 
-		private static string AUTO_RUN_SUB_KEY = @"Software\Microsoft\Windows\CurrentVersion\Run";
-		private static string AUTO_RUN_REG_KEY = @"HKEY_CURRENT_USER\" + AUTO_RUN_SUB_KEY;
-		private static string AUTO_RUN_VALUE_NAME = @"WavefaceStation";
-
-		public static readonly string MSGBOX_TITLE = "Waveface";
+		public const string MSGBOX_TITLE = "Waveface";
 
 		public string LblLocalStorageUsageText
 		{
@@ -160,12 +157,7 @@ namespace StationSystemTray
 
 		private void LoadAutoStartCheckbox()
 		{
-			RegistryKey _key = Registry.CurrentUser.OpenSubKey(AUTO_RUN_SUB_KEY);
-
-			if (_key == null)
-				return;
-
-			checkBox_autoStartWaveface.Checked = (_key.GetValue(AUTO_RUN_VALUE_NAME) != null);
+			checkBox_autoStartWaveface.Checked = Wammer.Utility.AutoRun.Exists(AUTO_RUN_VALUE_NAME);
 		}
 
 		private void btnOK_Click(object sender, EventArgs e)
@@ -222,16 +214,11 @@ namespace StationSystemTray
 					string _installDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 					string _stationSetupPath = Path.Combine(_installDir, "StationUI.exe");
 
-					Registry.SetValue(AUTO_RUN_REG_KEY, AUTO_RUN_VALUE_NAME, "\"" + _stationSetupPath + "\"");
+					Wammer.Utility.AutoRun.Add(AUTO_RUN_VALUE_NAME, _stationSetupPath);
 				}
 				else
 				{
-					RegistryKey _curUserRegKey = Registry.CurrentUser.OpenSubKey(AUTO_RUN_SUB_KEY, true);
-
-					if (_curUserRegKey == null)
-						return;
-
-					_curUserRegKey.DeleteValue(AUTO_RUN_VALUE_NAME, false);
+					Wammer.Utility.AutoRun.Remove(AUTO_RUN_VALUE_NAME);
 				}
 			}
 			catch (Exception _e)

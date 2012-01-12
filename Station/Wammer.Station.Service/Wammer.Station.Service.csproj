@@ -155,6 +155,7 @@
     <Compile Include="Station\StatusGetHandler.cs" />
     <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\WammerStationException.cs" />
+    <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\DropboxHelper.cs" />
     <Compile Include="Utility\FastJSONHelper.cs" />

@@ -117,13 +117,11 @@
     </Directory>
 
     <DirectoryRef Id="TARGETDIR">
-      <!--
       <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
         <RegistryKey Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Run">
-          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationSetup.exe"' KeyPath='yes'/>
+          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationUI.exe"' KeyPath='yes'/>
         </RegistryKey>
       </Component> 
-      -->
       <!-- Compatibility Mode -->
       <!--
       <Component Id="AppCompatibilitySettings" Guid="{BE1ABB42-3AE4-4789-933C-1C22FE779F07}">
@@ -372,6 +370,7 @@
       <ComponentRef Id="SystemTrayML.xml"/>
       <ComponentRef Id='pmd'/>
       <ComponentRef Id="CultureSetting"/>
+      <ComponentRef Id="LaunchAtStartUp"/>
     </Feature>
     
     <Feature Id='ClientFeature' Level='100' Title='Waveface client only'>
