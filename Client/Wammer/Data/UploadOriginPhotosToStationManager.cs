@@ -14,29 +14,12 @@ namespace Waveface
 {
     public class UploadOriginPhotosToStationManager
     {
-        private static UploadOriginPhotosToStationManager s_current;
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         private bool m_exit;
         private List<UploadOriginPhotosToStationItem> m_items;
 
-        #region Properties
-
-        public static UploadOriginPhotosToStationManager Current
-        {
-            get
-            {
-                if (s_current == null)
-                {
-                    s_current = Load() ?? new UploadOriginPhotosToStationManager();
-                }
-
-                return s_current;
-            }
-            set { s_current = value; }
-        }
-
-        #endregion
+        private WorkItem m_workItem;
 
         public UploadOriginPhotosToStationManager()
         {
@@ -45,10 +28,17 @@ namespace Waveface
 
         public void Start()
         {
-            ThreadPool.QueueUserWorkItem(state => { ThreadMethod(); });
+            m_workItem = AbortableThreadPool.QueueUserWorkItem(ThreadMethod, 0);
         }
 
-        private void ThreadMethod()
+        public WorkItemStatus AbortThread()
+        {
+            Save();
+
+            return AbortableThreadPool.Cancel(m_workItem, true);
+        }
+
+        private void ThreadMethod(object state)
         {
             UploadOriginPhotosToStationItem _item = null;
 
@@ -58,7 +48,7 @@ namespace Waveface
 
                 while (true)
                 {
-                    lock (Current)
+                    lock (this)
                     {
                         if (m_items.Count == 0)
                         {
@@ -88,7 +78,7 @@ namespace Waveface
                         }
 
 
-                        lock (Current)
+                        lock (this)
                         {
                             m_items.Remove(_item);
                         }
@@ -116,7 +106,7 @@ namespace Waveface
             _item.FilePath_REAL = filePath_REAL;
             _item.ObjectID = object_id;
 
-            lock (Current)
+            lock (this)
             {
                 m_items.Add(_item);
             }
@@ -154,7 +144,7 @@ namespace Waveface
 
             return null;
         }
-
+        
         public bool Save()
         {
             try

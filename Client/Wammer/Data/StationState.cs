@@ -2,10 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using NLog;
-using Newtonsoft.Json;
 using Waveface.API.V2;
 
 #endregion
@@ -14,49 +12,52 @@ namespace Waveface
 {
     public class StationState
     {
-        private static StationState s_current;
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private bool m_exit;
-
-        #region Properties
-
-        public static StationState Current
-        {
-            get
-            {
-                if (s_current == null)
-                {
-                    s_current = new StationState();
-                }
-
-                return s_current;
-            }
-            set { s_current = value; }
-        }
-
-        #endregion
+        private WorkItem m_workItem;
 
         public void Start()
         {
-            ThreadPool.QueueUserWorkItem(state => { ThreadMethod(); });
+            m_workItem = AbortableThreadPool.QueueUserWorkItem(ThreadMethod, 0);
         }
 
-        private void ThreadMethod()
+        public WorkItemStatus AbortThread()
+        {
+            return AbortableThreadPool.Cancel(m_workItem, true);
+        }
+
+        private void ThreadMethod(object state)
         {
             MR_users_findMyStation _findMyStation;
 
-            while (!m_exit)
+            while (true)
             {
                 try
                 {
                     if (Main.Current.RT.Login == null)
                     {
-                        Thread.Sleep(3000);
+                        Thread.Sleep(5000);
                         continue;
                     }
 
-                    if (!Main.Current.RT.StationMode) //Staion不在
+                    if (Main.Current.RT.StationMode)
+                    {
+                        if (Main.Current.RT.REST.CheckStationAlive(WService.StationIP))
+                        {
+                            Thread.Sleep(15000);
+                            continue;
+                        }
+                        else
+                        {
+                            WService.StationIP = string.Empty;
+                            Main.Current.RT.StationMode = false;
+
+                            s_logger.Info("Station Disappear");
+
+                            continue;
+                        }
+                    }
+                    else
                     {
                         _findMyStation = Main.Current.RT.REST.Users_findMyStation();
 
@@ -74,7 +75,7 @@ namespace Waveface
 
                                     s_logger.Info("Station IP(UPnP):" + _ip);
 
-                                    Thread.Sleep(30000);
+                                    Thread.Sleep(15000);
                                     continue;
                                 }
                             }
@@ -91,29 +92,23 @@ namespace Waveface
 
                                     s_logger.Info("Station IP:" + _ip);
 
-                                    Thread.Sleep(30000);
+                                    Thread.Sleep(15000);
                                     continue;
                                 }
                             }
                         }
-                    }
-                    else
-                    {
-                        if (!Main.Current.RT.REST.CheckStationAlive(WService.StationIP))
+                        else
                         {
-                            WService.StationIP = string.Empty;
-                            Main.Current.RT.StationMode = false;
-
-                            continue;
+                            
                         }
                     }
 
-                    Thread.Sleep(30000);
+                    Thread.Sleep(60000);
                     continue;
                 }
                 catch (Exception _e)
                 {
-                    NLogUtility.Exception(s_logger, _e, "ThreadMethod");
+                    NLogUtility.Exception_Warn(s_logger, _e, "ThreadMethod", "");
                 }
             }
         }
@@ -142,11 +137,6 @@ namespace Waveface
             }
 
             return string.Empty;
-        }
-
-        public void Exit()
-        {
-            m_exit = true;
         }
     }
 }

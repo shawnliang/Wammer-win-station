@@ -275,7 +275,7 @@ namespace Waveface
 
                         File.Copy(filePath, _originCacheFile_OID, true);
 
-                        UploadOriginPhotosToStationManager.Current.Add(_originCacheFile_OID, _originCacheFile_REAL, _ret.object_id);
+                        Main.Current.UploadOriginPhotosToStationManager.Add(_originCacheFile_OID, _originCacheFile_REAL, _ret.object_id);
                     }
 
                     return _ret;

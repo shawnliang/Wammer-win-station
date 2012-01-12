@@ -94,12 +94,6 @@ namespace Waveface.DetailUI
             imageListView.CacheMode = CacheMode.OnDemand;
 
             m_filesMapping = new Dictionary<string, string>();
-
-            m_filePathOrigins = new List<string>();
-            m_filePathMediums = new List<string>();
-            m_urlCloudOrigins = new List<string>();
-            m_urlOrigins = new List<string>();
-            m_urlMediums = new List<string>();
         }
 
         #region Component Designer generated code
@@ -335,6 +329,12 @@ namespace Waveface.DetailUI
         {
             imageListView.Items.Clear();
 
+            m_filePathOrigins = new List<string>();
+            m_filePathMediums = new List<string>();
+            m_urlCloudOrigins = new List<string>();
+            m_urlOrigins = new List<string>();
+            m_urlMediums = new List<string>();
+
             m_imageAttachments = new List<Attachment>();
 
             foreach (Attachment _a in Post.attachments)
@@ -396,7 +396,7 @@ namespace Waveface.DetailUI
                     _item.LocalFilePath_Origin = m_filePathOrigins[i];
                     _item.LocalFilePath_Medium = m_filePathMediums[i];
 
-                    PhotoDownloader.Current.Add(_item);
+                    Main.Current.PhotoDownloader.Add(_item, false);
                 }
             }
 
