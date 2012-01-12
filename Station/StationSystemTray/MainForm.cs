@@ -20,7 +20,7 @@ namespace StationSystemTray
 		private ServiceActionUIController uictrlServiceAction;
 		private InitMainUIController uictrlInitMain;
 		private bool serviceRunning;
-		public static readonly string MSGBOX_TITLE = "Waveface";
+		public const string MSGBOX_TITLE = "Waveface";
 
 		public bool MenuServiceActionEnabled
 		{
@@ -43,7 +43,12 @@ namespace StationSystemTray
 		public string TrayIconText
 		{
 			get { return TrayIcon.Text; }
-			set { TrayIcon.Text = value; }
+			set 
+			{ 
+				TrayIcon.Text = value;
+				TrayIcon.BalloonTipText = value;
+				TrayIcon.ShowBalloonTip(3000);
+			}
 		}
 
 		public bool TrayIconVisible
