@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PreferenceForm));
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lblUserNameTitle = new System.Windows.Forms.Label();
@@ -55,7 +54,6 @@
 			this.label_DaysLeft = new System.Windows.Forms.Label();
 			this.label_MonthlyLimit = new System.Windows.Forms.Label();
 			this.label_switchAccount = new System.Windows.Forms.LinkLabel();
-			this.label2 = new System.Windows.Forms.Label();
 			this.lblDayLeft = new System.Windows.Forms.Label();
 			this.lblCloudStorageLimit = new System.Windows.Forms.Label();
 			this.btnEditAccount = new System.Windows.Forms.Button();
@@ -64,8 +62,10 @@
 			this.lblCopyRight = new System.Windows.Forms.Label();
 			this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
 			this.bgworkerGetAllData = new System.ComponentModel.BackgroundWorker();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -169,7 +169,6 @@
 			this.groupBox2.Controls.Add(this.btnDropboxAction);
 			this.groupBox2.Controls.Add(this.label_MonthlyLimit);
 			this.groupBox2.Controls.Add(this.label_switchAccount);
-			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Controls.Add(this.lblDayLeft);
 			this.groupBox2.Controls.Add(this.lblCloudStorageLimit);
 			this.groupBox2.Controls.Add(this.btnEditAccount);
@@ -231,11 +230,6 @@
 			this.label_switchAccount.TabStop = true;
 			this.label_switchAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.label_switchAccount_LinkClicked);
 			// 
-			// label2
-			// 
-			resources.ApplyResources(this.label2, "label2");
-			this.label2.Name = "label2";
-			// 
 			// lblDayLeft
 			// 
 			resources.ApplyResources(this.lblDayLeft, "lblDayLeft");
@@ -280,17 +274,24 @@
 			this.bgworkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerGetAllData_DoWork);
 			this.bgworkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerGetAllData_RunWorkerCompleted);
 			// 
+			// groupBox3
+			// 
+			resources.ApplyResources(this.groupBox3, "groupBox3");
+			this.groupBox3.Controls.Add(this.lblVersionTitle);
+			this.groupBox3.Controls.Add(this.lblVersion);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.TabStop = false;
+			// 
 			// PreferenceForm
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.linkLegalNotice);
 			this.Controls.Add(this.lblCopyRight);
-			this.Controls.Add(this.lblVersion);
-			this.Controls.Add(this.lblVersionTitle);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this.groupBox3);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -303,6 +304,8 @@
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -331,7 +334,6 @@
 		private System.Windows.Forms.Label lblCopyRight;
 		private System.Windows.Forms.Label lblDayLeft;
 		private System.Windows.Forms.Label lblCloudStorageLimit;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.LinkLabel linkLegalNotice;
 		private System.ComponentModel.BackgroundWorker bgworkerGetAllData;
 		private System.Windows.Forms.Label label_dropboxAccount;
@@ -344,5 +346,6 @@
 		private System.Windows.Forms.Label label_DaysLeftValue;
 		private System.Windows.Forms.Label label_UsedCountValue;
 		private System.Windows.Forms.Label label_MonthlyLimitValue;
+		private System.Windows.Forms.GroupBox groupBox3;
 	}
 }

@@ -142,9 +142,6 @@
   <data name="lblCloudUsageTitle.Text" xml:space="preserve">
     <value>本月傳輸使用量</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Waveface Station 狀態</value>
-  </data>
   <data name="btnTestConnection.Text" xml:space="preserve">
     <value>測試外部網路存取狀態</value>
   </data>
@@ -167,8 +164,8 @@
   <data name="lblLocalStorageUsageTitle.Text" xml:space="preserve">
     <value>硬碟空間使用:</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>帳戶資訊</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Waveface Station 狀態</value>
   </data>
   <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
     <value>106, 252</value>
@@ -209,9 +206,6 @@
   <data name="label_switchAccount.Text" xml:space="preserve">
     <value>請點擊此處切換此電腦上的使用者帳號。</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>註: 切換使用者後，您上一個帳號內所有的原始檔案將無法被遠端存取。</value>
-  </data>
   <data name="lblDayLeft.Location" type="System.Drawing.Point, System.Drawing">
     <value>96, 254</value>
   </data>
@@ -221,11 +215,20 @@
   <data name="btnEditAccount.Text" xml:space="preserve">
     <value>編輯帳戶資訊</value>
   </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>帳戶資訊</value>
+  </data>
   <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 14</value>
   </data>
   <data name="lblVersionTitle.Text" xml:space="preserve">
     <value>版本</value>
+  </data>
+  <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>41, 24</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Waveface Station 版本</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Waveface 設定</value>
