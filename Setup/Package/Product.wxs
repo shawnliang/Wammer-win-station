@@ -97,6 +97,8 @@
                   WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationUI.exe"/>
             <Shortcut Id="ProgMenu.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
                   WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
+            <Shortcut Id="Desktop.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
           </Component>
 
           <!-- for client only client -->
@@ -105,6 +107,8 @@
             <RemoveFolder Id="ProgramMenuDirRF_client" On="uninstall" />
             <Shortcut Id="ProgMenu.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
                   WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
+            <Shortcut Id="Desktop.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
+                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
           </Component>
           
         </Directory>
