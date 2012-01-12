@@ -98,7 +98,7 @@
     <None Include="Resources\Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Client\Libs\Waveface.Localization.Editor\Localizer\Localizer.csproj">
+    <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
       <Name>Localizer</Name>
     </ProjectReference>
