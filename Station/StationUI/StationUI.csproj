@@ -139,7 +139,7 @@
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
       <Name>Wammer.Station.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Client\Libs\Waveface.Localization.Editor\Localizer\Localizer.csproj">
+    <ProjectReference Include="..\..\Common\Localizer\Localizer.csproj">
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
       <Name>Localizer</Name>
     </ProjectReference>

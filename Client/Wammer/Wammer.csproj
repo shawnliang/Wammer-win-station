@@ -800,7 +800,7 @@
       <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
       <Name>HTMLEditorControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Libs\Waveface.Localization.Editor\Localizer\Localizer.csproj">
+    <ProjectReference Include="..\..\Common\Localizer\Localizer.csproj">
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
       <Name>Localizer</Name>
     </ProjectReference>
