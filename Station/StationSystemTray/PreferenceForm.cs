@@ -217,7 +217,7 @@ namespace StationSystemTray
 				Cursor.Current = Cursors.WaitCursor;
 
 				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-											   "StationSetup.exe");
+											   "StationUI.exe");
 				Process _proc = Process.Start(_execPath, "--dropbox");
 				Enabled = false;
 

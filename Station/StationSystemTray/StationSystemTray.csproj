@@ -102,6 +102,10 @@
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
       <Name>Localizer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StationUI\StationUI.csproj">
+      <Project>{F28E6912-415E-4808-B973-F0E19B31EEB6}</Project>
+      <Name>StationUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wammer.Station.Management\Wammer.Station.Management.csproj">
       <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
       <Name>Wammer.Station.Management</Name>
