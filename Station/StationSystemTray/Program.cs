@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Windows.Forms;
-
+using System.Diagnostics;
 using Wammer.Station.Management;
 
 namespace StationSystemTray
@@ -15,11 +15,47 @@ namespace StationSystemTray
 		[STAThread]
 		static void Main()
 		{
-			//StationController.StationOnline();
+			FileStream fileLock = null;
 
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());
+			try
+			{
+				fileLock = AcquireLock();
+
+				Application.EnableVisualStyles();
+				Application.SetCompatibleTextRenderingDefault(false);
+				Application.Run(new MainForm());
+			}
+			catch (FileLoadException)
+			{
+				// is already running
+			}
+			finally
+			{
+				if (fileLock != null)
+					fileLock.Close();
+			}
 		}
+
+		private const string PID_FILE = "WavefaceSysTray.lock";
+
+		static FileStream AcquireLock()
+		{
+			try
+			{
+				string appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				string lockFile = Path.Combine(appDataDir, PID_FILE);
+
+				return File.Open(lockFile, FileMode.Create, FileAccess.Write, FileShare.None);
+			}
+			catch (Exception)
+			{
+				throw new FileLoadException();
+			}
+		}
+	}
+
+
+	class FileLockException: System.Exception
+	{
 	}
 }
