@@ -15,6 +15,7 @@ namespace StationSystemTray
 		public Messenger(Form form)
 		{
 			this.form = form;
+			this.cs = new object();
 		}
 
 		public DialogResult ShowMessage(string msg)
