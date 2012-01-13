@@ -133,9 +133,9 @@
 
 1. 自動備份您放在Waveface中的近期檔案至Dropbox。
 
-2. 當您的Waveface Station開啟時，你仍可以隨時隨地從Dropbox取得近期檔案。
+2. 當您的Waveface Station未開啟時，你仍可以隨時隨地從Dropbox取得近期檔案。
 
-請點擊"下一步"立刻進行Dropbox的連結步驟，享受更加順暢的Waveface體驗。或點擊"跳過"，往後可選擇由設定選項中再行連結Dropbox。
+請點擊"下一步"立刻進行連結Dropbox，享受更加順暢的Waveface體驗。或點擊"跳過"，往後可選擇由設定選項中再行連結Dropbox。
 </value>
   </data>
   <data name="lb_Welcome_1.Size" type="System.Drawing.Size, System.Drawing">
@@ -158,7 +158,8 @@
 
 您稍後可以從設定中連結Waveface與Dropbox，或點擊這裡，再嘗試一遍。
 
-立刻享受Waveface的所有便利功能，開始連結您生活中的每一個片段。</value>
+請點擊 Waveface 桌面捷徑，立刻享受Waveface的所有便利功能，開始連結您生活中的每一個片段。
+</value>
   </data>
   <data name="pb_SetupCompleted.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -167,7 +168,7 @@
     <value>感謝您 !  Waveface順利完成安裝</value>
   </data>
   <data name="btn_SetupCompleted_OpenWaveface.Text" xml:space="preserve">
-    <value>啟動 Waveface</value>
+    <value>完成</value>
   </data>
   <data name="pb_Linkage_1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -265,13 +266,16 @@
   <data name="lb_ConnectionSuccessfully_2.Text" xml:space="preserve">
     <value>Waveface 與 Dropbox已設定成功。
 
-立刻享受Waveface的所有便利功能，開始連結您生活中的每一個片段。</value>
+立刻享受Waveface的所有便利功能，開始連結您生活中的每一個片段。
+
+請點擊 Waveface 桌面捷徑來開始使用。
+</value>
   </data>
   <data name="lb_ConnectionSuccessfully_1.Text" xml:space="preserve">
     <value>感謝 ! 您已完成Waveface安裝</value>
   </data>
   <data name="btn_ConnectionSuccessfully_OpenWaveface.Text" xml:space="preserve">
-    <value>啟動 Waveface</value>
+    <value>完成</value>
   </data>
   <data name="pBar_Verifying.Location" type="System.Drawing.Point, System.Drawing">
     <value>110, 65</value>
@@ -289,7 +293,7 @@
     <value>372, 47</value>
   </data>
   <data name="lb_Verifying_1.Text" xml:space="preserve">
-    <value>檢測Waveface 與Dropbox是否有完成連結程序</value>
+    <value>檢測Waveface 與Dropbox是否完成連結程序</value>
   </data>
   <data name="pb_ConnectionFailed.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>

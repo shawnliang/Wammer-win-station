@@ -125,7 +125,7 @@
     <value>349, 27</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>您已經使用過該帳戶，在下列電腦上安裝一個Waveface Station：</value>
+    <value>您已經使用過該帳戶在下列電腦上安裝一個Waveface Station：</value>
   </data>
   <data name="labelName.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 53</value>
@@ -152,6 +152,6 @@
     <value>取消</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>移除已安裝工作站</value>
+    <value>移除已安裝的Waveface Station</value>
   </data>
 </root>
