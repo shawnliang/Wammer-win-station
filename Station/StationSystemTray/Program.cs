@@ -19,20 +19,16 @@ namespace StationSystemTray
 
 			try
 			{
-				fileLock = AcquireLock();
-
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new MainForm());
+				using (fileLock = AcquireLock())
+				{
+					Application.EnableVisualStyles();
+					Application.SetCompatibleTextRenderingDefault(false);
+					Application.Run(new MainForm());
+				}
 			}
 			catch (FileLoadException)
 			{
 				// is already running
-			}
-			finally
-			{
-				if (fileLock != null)
-					fileLock.Close();
 			}
 		}
 
