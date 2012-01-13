@@ -518,6 +518,13 @@ namespace StationSystemTray
 		protected override void ActionError(Exception ex)
 		{
 			PreferenceForm.logger.Error("Unable to unlink Dropbox", ex);
+			if (ex is AuthenticationException)
+			{
+				if (messenger.ShowLoginDialog(this, this._parameter))
+				{
+					Thread.CurrentThread.Abort();
+				}
+			}
 		}
 
 		protected override void SetFormControls(object obj)

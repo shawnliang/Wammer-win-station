@@ -21,7 +21,9 @@ namespace StationSystemTray
 		private ServiceActionUIController uictrlServiceAction;
 		private InitMainUIController uictrlInitMain;
 		private bool serviceRunning;
-		public const string MSGBOX_TITLE = "Waveface";
+
+		public Icon iconRunning;
+		public Icon iconPaused;
 
 		public bool MenuServiceActionEnabled
 		{
@@ -48,7 +50,7 @@ namespace StationSystemTray
 			{ 
 				TrayIcon.Text = value;
 				TrayIcon.BalloonTipText = value;
-				TrayIcon.ShowBalloonTip(3000);
+				TrayIcon.ShowBalloonTip(3);
 			}
 		}
 
@@ -56,6 +58,12 @@ namespace StationSystemTray
 		{
 			get { return TrayIcon.Visible; }
 			set { TrayIcon.Visible = value; }
+		}
+
+		public Icon TrayIconIcon
+		{
+			get { return TrayIcon.Icon; }
+			set { TrayIcon.Icon = value; }
 		}
 
 		public bool TrayMenuEnabled
@@ -80,7 +88,13 @@ namespace StationSystemTray
 		public MainForm()
 		{
 			InitializeComponent();
-
+			
+			Type type = this.GetType();
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(type.Namespace + ".Properties.Resources", this.GetType().Assembly);
+			this.iconRunning = ((Icon)(resources.GetObject("Icon")));
+			this.iconPaused = ((Icon)(resources.GetObject("Icon_gray")));
+			this.Icon = this.iconPaused;
+			
 			this.serviceRunning = false;
 			this.messenger = new Messenger(this);
 			this.uictrlServiceAction = new ServiceActionUIController(this, messenger);
@@ -232,19 +246,18 @@ namespace StationSystemTray
 		protected override void UpdateUI(object obj)
 		{
 			mainform.TrayIconText = I18n.L.T("StartingWFService");
-			// TODO: update Waveface Station icon
+			mainform.TrayIconIcon = mainform.iconPaused;
 		}
 
 		protected override void UpdateUIInCallback(object obj)
 		{
 			mainform.TrayIconText = I18n.L.T("WFServiceRunning");
-			// TODO: update Waveface Station icon
+			mainform.TrayIconIcon = mainform.iconRunning;
 		}
 
 		protected override void UpdateUIInError(Exception ex)
 		{
 			mainform.TrayIconText = I18n.L.T("WFServiceStopped");
-			// TODO: update Waveface Station icon
 		}
 	}
 	#endregion
@@ -314,11 +327,13 @@ namespace StationSystemTray
 			{
 				mainform.MenuServiceActionText = I18n.L.T("PauseWFService");
 				mainform.TrayIconText = I18n.L.T("WFServiceRunning");
+				mainform.TrayIconIcon = mainform.iconRunning;
 			}
 			else
 			{
 				mainform.MenuServiceActionText = I18n.L.T("ResumeWFService");
 				mainform.TrayIconText = I18n.L.T("WFServiceStopped");
+				mainform.TrayIconIcon = mainform.iconPaused;
 			}
 		}
 

@@ -16,11 +16,12 @@ namespace StationSystemTray
 		private delegate void SetFormControlsInCallbackDelegate(object obj);
 		private delegate void SetFormControlsInErrorDelegate(Exception ex);
 
-		protected Form form;
+		protected Form _form;
+		protected object _parameter;
 
 		protected SimpleUIController(Form form)
 		{
-			this.form = form;
+			this._form = form;
 		}
 
 		public void PerformAction()
@@ -30,6 +31,8 @@ namespace StationSystemTray
 
 		public void PerformAction(object obj)
 		{
+			this._parameter = obj;
+
 			SetFormControls(obj);
 			BeginUpdateUI(obj);
 			PerformActionDelegate performActionDelegate = new PerformActionDelegate(Action);
@@ -43,36 +46,36 @@ namespace StationSystemTray
 				object ret = ((PerformActionDelegate)result.AsyncState).EndInvoke(result);
 				ActionCallback(ret);
 				BeginUpdateUIInCallback(ret);
-				form.BeginInvoke(new SetFormControlsInCallbackDelegate(SetFormControlsInCallback), ret);
+				_form.BeginInvoke(new SetFormControlsInCallbackDelegate(SetFormControlsInCallback), ret);
 			}
 			catch (Exception ex)
 			{
 				ActionError(ex);
 				BeginUpdateUIInError(ex);
-				form.BeginInvoke(new SetFormControlsInErrorDelegate(SetFormControlsInError), ex);
+				_form.BeginInvoke(new SetFormControlsInErrorDelegate(SetFormControlsInError), ex);
 			}
 		}
 
 		private void BeginUpdateUI(object obj)
 		{
-			if (form.InvokeRequired)
-				form.Invoke(new UpdateUIDelegate(UpdateUI), obj);
+			if (_form.InvokeRequired)
+				_form.Invoke(new UpdateUIDelegate(UpdateUI), obj);
 			else
 				UpdateUI(obj);
 		}
 
 		private void BeginUpdateUIInCallback(object obj)
 		{
-			if (form.InvokeRequired)
-				form.Invoke(new UpdateUIInCallbackDelegate(UpdateUIInCallback), obj);
+			if (_form.InvokeRequired)
+				_form.Invoke(new UpdateUIInCallbackDelegate(UpdateUIInCallback), obj);
 			else
 				UpdateUIInCallback(obj);
 		}
 
 		private void BeginUpdateUIInError(Exception ex)
 		{
-			if (form.InvokeRequired)
-				form.Invoke(new UpdateUIInErrorDelegate(UpdateUIInError), ex);
+			if (_form.InvokeRequired)
+				_form.Invoke(new UpdateUIInErrorDelegate(UpdateUIInError), ex);
 			else
 				UpdateUIInError(ex);
 		}

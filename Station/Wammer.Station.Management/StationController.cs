@@ -386,7 +386,37 @@ namespace Wammer.Station.Management
 				CloudServer.request<CloudResponse>(
 					new WebClient(),
 					StationMgmtURL + "station/online",
-					new Dictionary<object, object>()
+					new Dictionary<object, object>
+					{
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+					}
+				);
+
+			}
+			catch (WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
+		}
+
+		public static void StationOnline(string email, string password)
+		{
+			try
+			{
+				CloudServer.request<CloudResponse>(
+					new WebClient(),
+					StationMgmtURL + "station/online",
+					new Dictionary<object, object>
+					{
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+						{"email", email},
+						{"password", password}
+					}
 				);
 
 			}
@@ -599,6 +629,10 @@ namespace Wammer.Station.Management
 								return r.api_ret_message;
 							}
 						}
+					}
+					else if (webres.StatusCode == HttpStatusCode.Unauthorized)
+					{
+						throw new AuthenticationException("Authentication failure");
 					}
 				}
 				else

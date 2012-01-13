@@ -25,11 +25,21 @@ namespace StationSystemTray
 			}
 		}
 
-		public void ShowLoginDialog()
+		public bool ShowLoginDialog(SimpleUIController uictrl, object parameter)
 		{
 			lock (cs)
 			{
-				// do login
+				SignInForm siform = new SignInForm();
+				DialogResult res = siform.ShowDialog();
+				if (res == DialogResult.Yes)
+				{
+					uictrl.PerformAction(parameter);
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 		}
 	}
