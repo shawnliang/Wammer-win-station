@@ -122,7 +122,7 @@
     <value>338, 36</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>歡迎使用Waveface Station，請登入後，開始享受流暢舒適的數位生活。</value>
+    <value>歡迎使用Waveface Station，您即將開始享受流暢舒適的數位生活。</value>
   </data>
   <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9.75pt, style=Bold</value>
@@ -131,7 +131,7 @@
     <value>109, 16</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>登入 Waveface</value>
+    <value>設定 Waveface</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 196</value>
@@ -1511,6 +1511,6 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>登入Waveface Station</value>
+    <value>設定Waveface Station</value>
   </data>
 </root>

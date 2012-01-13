@@ -121,11 +121,17 @@
     <value>確 定</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="lblUserNameTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 20</value>
+  </data>
   <data name="lblUserNameTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>64, 14</value>
   </data>
   <data name="lblUserNameTitle.Text" xml:space="preserve">
     <value>帳戶Email</value>
+  </data>
+  <data name="lblUserName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 41</value>
   </data>
   <data name="lblCloudUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 14</value>
@@ -133,17 +139,14 @@
   <data name="lblCloudUsageTitle.Text" xml:space="preserve">
     <value>本月傳輸使用量</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>帳戶資訊</value>
-  </data>
   <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 141</value>
+    <value>115, 131</value>
   </data>
   <data name="label_UsedCountValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>60, 121</value>
+    <value>77, 111</value>
   </data>
   <data name="label_MonthlyLimitValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>89, 102</value>
+    <value>105, 92</value>
   </data>
   <data name="lblCloudStorageUsed.Location" type="System.Drawing.Point, System.Drawing">
     <value>60, 233</value>
@@ -182,6 +185,6 @@
     <value>版本</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Waveface 設定</value>
+    <value>帳戶資訊</value>
   </data>
 </root>

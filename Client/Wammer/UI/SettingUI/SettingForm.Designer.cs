@@ -35,7 +35,6 @@
             this.lblUserName = new System.Windows.Forms.Label();
             this.lblCloudUsageTitle = new System.Windows.Forms.Label();
             this.barCloudUsage = new System.Windows.Forms.ProgressBar();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label_DaysLeftValue = new System.Windows.Forms.Label();
             this.label_UsedCountValue = new System.Windows.Forms.Label();
             this.label_MonthlyLimitValue = new System.Windows.Forms.Label();
@@ -52,7 +51,7 @@
             this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
             this.bgworkerGetAllData = new System.ComponentModel.BackgroundWorker();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.groupBox2.SuspendLayout();
+            this.panel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // btnOK
@@ -81,26 +80,6 @@
             // 
             resources.ApplyResources(this.barCloudUsage, "barCloudUsage");
             this.barCloudUsage.Name = "barCloudUsage";
-            // 
-            // groupBox2
-            // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Controls.Add(this.label_DaysLeftValue);
-            this.groupBox2.Controls.Add(this.label_UsedCountValue);
-            this.groupBox2.Controls.Add(this.label_MonthlyLimitValue);
-            this.groupBox2.Controls.Add(this.lblCloudStorageUsed);
-            this.groupBox2.Controls.Add(this.label_UsedCount);
-            this.groupBox2.Controls.Add(this.label_DaysLeft);
-            this.groupBox2.Controls.Add(this.label_MonthlyLimit);
-            this.groupBox2.Controls.Add(this.lblDayLeft);
-            this.groupBox2.Controls.Add(this.lblCloudStorageLimit);
-            this.groupBox2.Controls.Add(this.btnEditAccount);
-            this.groupBox2.Controls.Add(this.lblCloudUsageTitle);
-            this.groupBox2.Controls.Add(this.barCloudUsage);
-            this.groupBox2.Controls.Add(this.lblUserNameTitle);
-            this.groupBox2.Controls.Add(this.lblUserName);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
             // 
             // label_DaysLeftValue
             // 
@@ -185,16 +164,36 @@
             // 
             this.cultureManager.ManagedControl = this;
             // 
+            // panel
+            // 
+            resources.ApplyResources(this.panel, "panel");
+            this.panel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panel.Name = "panel";
+            // 
             // SettingForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panel);
+            this.Controls.Add(this.label_DaysLeftValue);
             this.Controls.Add(this.linkLegalNotice);
+            this.Controls.Add(this.label_UsedCountValue);
             this.Controls.Add(this.lblCopyRight);
+            this.Controls.Add(this.label_MonthlyLimitValue);
             this.Controls.Add(this.lblVersion);
+            this.Controls.Add(this.lblCloudStorageUsed);
             this.Controls.Add(this.lblVersionTitle);
+            this.Controls.Add(this.label_UsedCount);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.label_DaysLeft);
+            this.Controls.Add(this.label_MonthlyLimit);
+            this.Controls.Add(this.lblUserNameTitle);
+            this.Controls.Add(this.lblDayLeft);
+            this.Controls.Add(this.lblUserName);
+            this.Controls.Add(this.lblCloudStorageLimit);
+            this.Controls.Add(this.barCloudUsage);
+            this.Controls.Add(this.btnEditAccount);
+            this.Controls.Add(this.lblCloudUsageTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -202,8 +201,6 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Load += new System.EventHandler(this.PreferenceForm_Load);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -216,7 +213,6 @@
         private System.Windows.Forms.Label lblUserName;
         private System.Windows.Forms.Label lblCloudUsageTitle;
         private System.Windows.Forms.ProgressBar barCloudUsage;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnEditAccount;
         private System.Windows.Forms.Label lblVersionTitle;
         private System.Windows.Forms.Label lblVersion;
@@ -233,5 +229,6 @@
         private System.Windows.Forms.Label label_DaysLeftValue;
         private System.Windows.Forms.Label label_UsedCountValue;
         private System.Windows.Forms.Label label_MonthlyLimitValue;
+        private System.Windows.Forms.Panel panel;
     }
 }

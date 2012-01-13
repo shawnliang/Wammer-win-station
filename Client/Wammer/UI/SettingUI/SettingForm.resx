@@ -121,48 +121,51 @@
     <value>label_MonthlyLimitValue</value>
   </data>
   <data name="&gt;&gt;label_MonthlyLimit.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>12</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label_MonthlyLimitValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>19, 14</value>
+  <data name="lblCopyRight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 14</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label_UsedCountValue.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="lblUserName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 51</value>
+    <value>25, 41</value>
   </data>
   <data name="&gt;&gt;label_MonthlyLimitValue.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;lblUserName.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="lblUserName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;label_MonthlyLimit.Name" xml:space="preserve">
-    <value>label_MonthlyLimit</value>
+  <data name="&gt;&gt;panel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblVersion.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
   <data name="&gt;&gt;label_DaysLeft.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="label_UsedCountValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>55, 121</value>
+    <value>70, 111</value>
+  </data>
+  <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 2</value>
   </data>
   <data name="barCloudUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 162</value>
+    <value>29, 152</value>
   </data>
   <data name="label_DaysLeft.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="&gt;&gt;btnEditAccount.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>18</value>
   </data>
   <data name="&gt;&gt;lblDayLeft.Name" xml:space="preserve">
     <value>lblDayLeft</value>
@@ -176,8 +179,11 @@
   <data name="barCloudUsage.Size" type="System.Drawing.Size, System.Drawing">
     <value>411, 18</value>
   </data>
-  <data name="&gt;&gt;lblCloudUsageTitle.Name" xml:space="preserve">
-    <value>lblCloudUsageTitle</value>
+  <data name="&gt;&gt;panel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lblVersionTitle.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <data name="&gt;&gt;label_DaysLeft.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -185,14 +191,11 @@
   <data name="lblCloudUsageTitle.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt, style=Bold</value>
   </data>
-  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="label_DaysLeftValue.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;label_MonthlyLimit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;panel.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="lblCloudUsageTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -201,19 +204,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;barCloudUsage.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="label_MonthlyLimit.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
   </data>
   <data name="label_MonthlyLimitValue.Text" xml:space="preserve">
     <value>...</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
-    <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLegalNotice.Name" xml:space="preserve">
     <value>linkLegalNotice</value>
@@ -228,7 +225,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Waveface Preference</value>
+    <value>Account Status</value>
   </data>
   <data name="&gt;&gt;linkLegalNotice.Type" xml:space="preserve">
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -237,10 +234,10 @@
     <value>label_UsedCount</value>
   </data>
   <data name="&gt;&gt;lblCloudUsageTitle.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>19</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>383, 235</value>
+    <value>365, 222</value>
   </data>
   <data name="lblDayLeft.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -261,13 +258,13 @@
     <value>7, 14</value>
   </data>
   <data name="&gt;&gt;lblCloudUsageTitle.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="lblUserNameTitle.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;lblDayLeft.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="lblVersionTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>26, 202</value>
   </data>
   <data name="lblVersion.Text" xml:space="preserve">
     <value>1.0.0.78</value>
@@ -282,25 +279,22 @@
     <value>lblVersionTitle</value>
   </data>
   <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lblUserNameTitle.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label_UsedCount.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
-  </data>
   <data name="label_UsedCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 121</value>
+    <value>27, 111</value>
   </data>
   <data name="label_MonthlyLimitValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>116, 102</value>
+    <value>131, 92</value>
   </data>
   <data name="&gt;&gt;lblUserNameTitle.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="lblCopyRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 232</value>
+    <value>25, 220</value>
   </data>
   <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
     <value>$this</value>
@@ -312,7 +306,7 @@
     <value>1</value>
   </data>
   <data name="&gt;&gt;label_UsedCountValue.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;barCloudUsage.Name" xml:space="preserve">
     <value>barCloudUsage</value>
@@ -321,28 +315,34 @@
     <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 214</value>
+    <value>70, 202</value>
+  </data>
+  <data name="panel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 189</value>
+  </data>
+  <data name="&gt;&gt;panel.Name" xml:space="preserve">
+    <value>panel</value>
   </data>
   <data name="&gt;&gt;label_DaysLeftValue.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
-  <data name="lblDayLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>116, 143</value>
-  </data>
-  <data name="lblVersionTitle.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
+  <data name="lblCopyRight.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="linkLegalNotice.Text" xml:space="preserve">
     <value>Legal notice</value>
   </data>
   <data name="btnEditAccount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>131, 26</value>
+    <value>146, 16</value>
   </data>
   <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>10</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SettingForm</value>
+  </data>
+  <data name="&gt;&gt;lblCopyRight.Name" xml:space="preserve">
+    <value>lblCopyRight</value>
   </data>
   <data name="lblCloudStorageUsed.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
@@ -350,8 +350,8 @@
   <data name="label_DaysLeft.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 14</value>
   </data>
-  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
-    <value>groupBox2</value>
+  <data name="label_UsedCount.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
   </data>
   <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -363,7 +363,7 @@
     <value>lblUserNameTitle</value>
   </data>
   <data name="&gt;&gt;lblCloudStorageUsed.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="label_UsedCountValue.Text" xml:space="preserve">
     <value>...</value>
@@ -379,16 +379,16 @@
     <value>Days left in cycle:</value>
   </data>
   <data name="&gt;&gt;lblUserNameTitle.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="&gt;&gt;label_UsedCount.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>9</value>
   </data>
   <data name="&gt;&gt;label_UsedCountValue.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;label_UsedCount.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="label_MonthlyLimitValue.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
@@ -418,10 +418,10 @@
     <value>11</value>
   </data>
   <data name="&gt;&gt;lblCloudStorageUsed.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;lblDayLeft.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
     <value>cultureManager</value>
@@ -432,6 +432,9 @@
   <data name="&gt;&gt;label_MonthlyLimitValue.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;label_MonthlyLimit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="label_DaysLeftValue.TabIndex" type="System.Int32, mscorlib">
     <value>29</value>
   </data>
@@ -439,7 +442,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblCloudStorageUsed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>52, 122</value>
+    <value>67, 112</value>
   </data>
   <data name="lblCloudStorageLimit.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -456,14 +459,14 @@
   <data name="label_UsedCountValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>19, 14</value>
   </data>
-  <data name="&gt;&gt;lblCopyRight.Name" xml:space="preserve">
-    <value>lblCopyRight</value>
+  <data name="&gt;&gt;label_DaysLeftValue.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;label_MonthlyLimit.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;label_MonthlyLimitValue.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="lblCopyRight.Text" xml:space="preserve">
     <value>Copyright © 2012 Waveface Inc. All Rights Reserved.</value>
@@ -481,7 +484,7 @@
     <value>lblCloudStorageUsed</value>
   </data>
   <data name="&gt;&gt;lblCopyRight.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="lblUserNameTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -495,8 +498,8 @@
   <data name="&gt;&gt;barCloudUsage.Type" xml:space="preserve">
     <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="lblDayLeft.Location" type="System.Drawing.Point, System.Drawing">
+    <value>131, 133</value>
   </data>
   <data name="lblUserNameTitle.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt, style=Bold</value>
@@ -507,14 +510,11 @@
   <data name="&gt;&gt;btnEditAccount.Name" xml:space="preserve">
     <value>btnEditAccount</value>
   </data>
-  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
   <data name="btnEditAccount.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="&gt;&gt;lblVersion.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="lblCloudUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 14</value>
@@ -526,13 +526,13 @@
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="linkLegalNotice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 251</value>
+    <value>25, 239</value>
   </data>
   <data name="lblVersionTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lblVersionTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 214</value>
+  <data name="&gt;&gt;lblCloudUsageTitle.Name" xml:space="preserve">
+    <value>lblCloudUsageTitle</value>
   </data>
   <data name="&gt;&gt;lblCopyRight.Parent" xml:space="preserve">
     <value>$this</value>
@@ -541,7 +541,7 @@
     <value>73, 14</value>
   </data>
   <data name="lblUserNameTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 30</value>
+    <value>25, 20</value>
   </data>
   <data name="&gt;&gt;label_UsedCount.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -549,23 +549,23 @@
   <data name="lblCopyRight.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
-  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
   <data name="lblDayLeft.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="&gt;&gt;barCloudUsage.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>17</value>
   </data>
   <data name="&gt;&gt;label_DaysLeft.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>11</value>
   </data>
-  <data name="&gt;&gt;lblVersionTitle.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="panel.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
   </data>
-  <data name="&gt;&gt;label_DaysLeftValue.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+  <data name="&gt;&gt;lblDayLeft.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
+    <value>btnOK</value>
   </data>
   <data name="btnEditAccount.Text" xml:space="preserve">
     <value>Edit Account Profile</value>
@@ -577,7 +577,7 @@
     <value>label_UsedCountValue</value>
   </data>
   <data name="&gt;&gt;linkLegalNotice.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;lblUserName.Name" xml:space="preserve">
     <value>lblUserName</value>
@@ -586,7 +586,7 @@
     <value>0, 14</value>
   </data>
   <data name="&gt;&gt;btnEditAccount.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;label_DaysLeft.Name" xml:space="preserve">
     <value>label_DaysLeft</value>
@@ -595,28 +595,31 @@
     <value>True</value>
   </data>
   <data name="&gt;&gt;lblCloudStorageLimit.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>16</value>
   </data>
   <data name="&gt;&gt;label_UsedCountValue.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="lblCopyRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 14</value>
+  <data name="lblVersionTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
   </data>
   <data name="label_MonthlyLimit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 102</value>
+    <value>27, 92</value>
   </data>
   <data name="&gt;&gt;lblUserName.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>471, 273</value>
+    <value>468, 262</value>
   </data>
   <data name="&gt;&gt;lblCloudStorageLimit.Parent" xml:space="preserve">
-    <value>groupBox2</value>
+    <value>$this</value>
   </data>
   <data name="label_MonthlyLimit.Text" xml:space="preserve">
     <value>Limit per month:</value>
+  </data>
+  <data name="label_MonthlyLimitValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>19, 14</value>
   </data>
   <data name="&gt;&gt;linkLegalNotice.Parent" xml:space="preserve">
     <value>$this</value>
@@ -625,28 +628,22 @@
     <value>lblVersion</value>
   </data>
   <data name="lblCloudStorageLimit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>112, 103</value>
+    <value>127, 93</value>
   </data>
   <data name="lblUserNameTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>93, 14</value>
   </data>
   <data name="&gt;&gt;lblDayLeft.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>14</value>
   </data>
   <data name="label_DaysLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 141</value>
+    <value>27, 131</value>
   </data>
   <data name="label_DaysLeftValue.Text" xml:space="preserve">
     <value>...</value>
   </data>
   <data name="&gt;&gt;lblCopyRight.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lblCopyRight.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Account Status</value>
   </data>
   <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 28</value>
@@ -657,20 +654,20 @@
   <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 14</value>
   </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>446, 192</value>
-  </data>
   <data name="lblCloudUsageTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 83</value>
+    <value>26, 73</value>
   </data>
   <data name="lblCloudUsageTitle.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
   <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>120, 141</value>
+    <value>135, 131</value>
   </data>
   <data name="label_UsedCount.Text" xml:space="preserve">
     <value>Used:</value>
+  </data>
+  <data name="&gt;&gt;label_MonthlyLimit.Name" xml:space="preserve">
+    <value>label_MonthlyLimit</value>
   </data>
   <data name="btnOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -686,5 +683,8 @@
   </metadata>
   <metadata name="bgworkerGetAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-TW</value>
   </metadata>
 </root>

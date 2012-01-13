@@ -108,20 +108,7 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/get/",
 								new AttachmentGetHandler());
 
-				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/list",
-								new ListCloudStorageHandler());
 
-				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/",
-								new DropBoxOAuthHandler());
-
-				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/connect/",
-								new DropBoxConnectHandler());
-
-				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/update/",
-								new DropBoxUpdateHandler());
-
-				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/",
-								new DropboxDisconnectHandler());
 
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/",
 								new PingHandler());
@@ -140,8 +127,13 @@ namespace Wammer.Station.Service
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/remove/", new RemoveOwnerHandler(stationId, functionServer));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/", new StatusGetHandler());
-				addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/list", new ListCloudStorageHandler());
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/", new DropBoxOAuthHandler());
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/connect/", new DropBoxConnectHandler());
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/update/", new DropBoxUpdateHandler());
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/", new DropboxDisconnectHandler());
 
+				addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
 				logger.Debug("Start management server");
 				managementServer.Start();
 

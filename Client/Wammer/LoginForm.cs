@@ -214,8 +214,12 @@ namespace Waveface
         {
             if ((txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty))
             {
-                if(m_autoLogin)
+                if (m_autoLogin)
+                {
+                    Application.DoEvents();
+
                     doLogin(txtUserName.Text, txtPassword.Text);
+                }
             }
 
             if (!cbRemember.Checked)
@@ -243,8 +247,6 @@ namespace Waveface
 
             try
             {
-                // _main.stationLogin(email, password);
-
                 if (_doLogin(_main, email, password) == QuitOption.QuitProgram)
                     Close();
                 else

@@ -33,19 +33,23 @@ namespace Gui
 
 		private void FinishStep_Finish(object sender, ChangeStepEventArgs e)
 		{
-			if (featureStep != null && 
-				featureStep.SelectedFeature == FeatureSet.StationAndClient)
-			{
-				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-				string stationUI = Path.Combine(installDir, "StationUI.exe");
-				Process.Start(stationUI).Close();
-			}
 		}
 
 		private void FinishStep_Entering(object sender, ChangeStepEventArgs e)
 		{
 			if (mode == InstallationMode.Uninstall)
+			{
 				label_Hint.Hide();
+			}
+			else if (mode == InstallationMode.Install &&
+				featureStep.SelectedFeature == FeatureSet.StationAndClient)
+			{
+				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
+				string stationUI = Path.Combine(installDir, "StationUI.exe");
+				Process.Start(stationUI).Close();
+
+				Wizard.Finish();
+			}
 		}
 	}
 }

@@ -60,6 +60,13 @@ namespace Gui.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap configure {
+            get {
+                object obj = ResourceManager.GetObject("configure", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to The wizard has detected that newer version of Waveface is already installed on your computer. Setup cannot continue..
         /// </summary>

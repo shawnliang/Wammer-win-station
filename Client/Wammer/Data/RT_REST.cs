@@ -62,14 +62,14 @@ namespace Waveface
 
         #region Station
 
-        public bool CheckStationAlive(string ip)
+        public bool CheckStationAlive(string ip, int timeout)
         {
             if (!IsNetworkAvailable)
                 return false;
 
             string _url = ip + "/v2/availability/ping/";
 
-            string _ret = m_service.HttpGet(_url);
+            string _ret = m_service.HttpGet(_url, timeout);
 
             return (_ret != null);
         }

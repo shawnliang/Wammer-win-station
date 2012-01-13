@@ -55,13 +55,13 @@ namespace Waveface
                 TextRenderer.DrawText(_g, I18n.L.T("Main.Logout"), m_fontLink, m_logoutRect, Color.WhiteSmoke);
 
 
-                Size _preferenceSize = TextRenderer.MeasureText(_g, I18n.L.T("Main.Preference"), m_fontLink) +
+                Size _preferenceSize = TextRenderer.MeasureText(_g, I18n.L.T("MainBgPanel.AccountStatus"), m_fontLink) +
                                        new Size(2, 2);
                 m_preferenceRect = new Rectangle(Width - _preferenceSize.Width - _logoutSize.Width - 8,
                                                  Height - _preferenceSize.Height - 6, _preferenceSize.Width,
                                                  _preferenceSize.Height);
 
-                TextRenderer.DrawText(_g, I18n.L.T("Main.Preference"), m_fontLink, m_preferenceRect, Color.WhiteSmoke);
+                TextRenderer.DrawText(_g, I18n.L.T("MainBgPanel.AccountStatus"), m_fontLink, m_preferenceRect, Color.WhiteSmoke);
             }
 
             _g.Dispose();

@@ -42,7 +42,7 @@ namespace Gui
 			// 
 			// pbInstallation
 			// 
-			this.pbInstallation.Image = global::Gui.Properties.Resources.InstallationStepImg;
+			this.pbInstallation.Image = global::Gui.Properties.Resources.configure;
 			resources.ApplyResources(this.pbInstallation, "pbInstallation");
 			this.pbInstallation.Name = "pbInstallation";
 			this.pbInstallation.TabStop = false;

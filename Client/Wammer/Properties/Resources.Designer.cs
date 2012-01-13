@@ -88,6 +88,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Cloud {
+            get {
+                object obj = ResourceManager.GetObject("Cloud", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap content {
             get {
                 object obj = ResourceManager.GetObject("content", resourceCulture);
@@ -336,6 +343,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap skin {
             get {
                 object obj = ResourceManager.GetObject("skin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Station {
+            get {
+                object obj = ResourceManager.GetObject("Station", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

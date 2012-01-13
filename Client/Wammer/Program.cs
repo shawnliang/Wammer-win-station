@@ -84,10 +84,10 @@ namespace Waveface
 
                     _loginForm = new LoginForm(_email, _password, true);
                 }
-                //else if (_settings.IsLoggedIn)
-                //{
-                //    _loginForm = new LoginForm(_settings.Email, _settings.Password, true);
-                //}
+                else if (_settings.IsLoggedIn)
+                {
+                    _loginForm = new LoginForm(_settings.Email, _settings.Password, true);
+                }
                 else
                 {
                     _loginForm = new LoginForm(_settings.Email, _settings.Password, false);

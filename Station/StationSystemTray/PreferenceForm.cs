@@ -8,7 +8,6 @@ using System.Web;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Collections.Generic;
-using System.Web;
 using System.Runtime.InteropServices;
 
 using Wammer.Station.Management;
@@ -90,8 +89,6 @@ namespace StationSystemTray
 			set { labelConnectionStatus.Text = value; }
 		}
 
-		public bool IsUserSwitched { get; private set; }
-
 		public string WebURL
 		{
 			get {
@@ -116,7 +113,6 @@ namespace StationSystemTray
 
 		public PreferenceForm()
 		{
-			IsUserSwitched = false;
 			m_stationToken = StationCollection.Instance.FindOne().SessionToken;
 			m_driver = DriverCollection.Instance.FindOne();
 
@@ -194,8 +190,10 @@ namespace StationSystemTray
 
 				MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", m_driver.email), "waveface");
 
-				IsUserSwitched = true;
-				Close();
+				string statioinUI = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "StationUI.exe");
+				Process.Start(statioinUI);
+
+				Application.Exit();
 			}
 			catch (Exception _e)
 			{

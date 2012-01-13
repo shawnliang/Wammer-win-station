@@ -15,11 +15,7 @@ namespace Waveface
 {
     public class NewPostManager
     {
-        public delegate void UpdateUI_Delegate(int percent, string text);
-
-        public delegate void ShowMessage_Delegate(string text);
-
-        public event UpdateUI_Delegate UpdateUI;
+        public event ProgressUpdateUI_Delegate UpdateUI;
         public event ShowMessage_Delegate ShowMessage;
         public event ShowMessage_Delegate UploadDone;
 
