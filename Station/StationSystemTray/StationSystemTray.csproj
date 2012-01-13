@@ -55,6 +55,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Messenger.cs" />
     <Compile Include="PreferenceForm.cs">
       <SubType>Form</SubType>
     </Compile>

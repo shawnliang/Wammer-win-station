@@ -17,6 +17,7 @@ namespace StationSystemTray
 	{
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
+		private Messenger messenger;
 		private ServiceActionUIController uictrlServiceAction;
 		private InitMainUIController uictrlInitMain;
 		private bool serviceRunning;
@@ -81,8 +82,9 @@ namespace StationSystemTray
 			InitializeComponent();
 
 			this.serviceRunning = false;
-			this.uictrlServiceAction = new ServiceActionUIController(this);
-			this.uictrlInitMain = new InitMainUIController(this);
+			this.messenger = new Messenger(this);
+			this.uictrlServiceAction = new ServiceActionUIController(this, messenger);
+			this.uictrlInitMain = new InitMainUIController(this, messenger);
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -169,7 +171,7 @@ namespace StationSystemTray
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, MSGBOX_TITLE);
+				messenger.ShowMessage(ex.Message);
 			}
 			finally
 			{
@@ -182,11 +184,13 @@ namespace StationSystemTray
 	public class InitMainUIController : SimpleUIController
 	{
 		private MainForm mainform;
+		private Messenger messenger;
 
-		public InitMainUIController(MainForm form)
+		public InitMainUIController(MainForm form, Messenger messenger)
 			: base(form)
 		{
 			this.mainform = form;
+			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
@@ -221,7 +225,7 @@ namespace StationSystemTray
 		{
 			mainform.TrayIconVisible = false;
 			mainform.TrayMenuVisible = false;
-			ShowMessage(I18n.L.T("WFServiceStartFail"), MainForm.MSGBOX_TITLE);
+			messenger.ShowMessage(I18n.L.T("WFServiceStartFail"));
 			Application.Exit();
 		}
 
@@ -249,11 +253,13 @@ namespace StationSystemTray
 	public class ServiceActionUIController : SimpleUIController
 	{
 		private MainForm mainform;
+		private Messenger messenger;
 
-		public ServiceActionUIController(MainForm form)
+		public ServiceActionUIController(MainForm form, Messenger messenger)
 			: base(form)
 		{
 			this.mainform = form;
+			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
