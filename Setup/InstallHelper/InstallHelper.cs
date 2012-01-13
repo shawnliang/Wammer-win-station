@@ -69,6 +69,7 @@ namespace Wammer.Station
 
 			KillProcess("WavefaceWindowsClient");
 			KillProcess("StationUI");
+			KillProcess("StationSystemTray");
 
 			return ActionResult.Success;
 		}
