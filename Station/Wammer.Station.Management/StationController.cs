@@ -260,7 +260,7 @@ namespace Wammer.Station.Management
 			{
 				GetDropboxOAuthResponse res = CloudServer.request<GetDropboxOAuthResponse>(
 					new WebClient(),
-					StationFuncURL + "cloudstorage/dropbox/oauth",
+					StationMgmtURL + "cloudstorage/dropbox/oauth",
 					new Dictionary<object, object>(),
 					true
 				);
@@ -300,7 +300,7 @@ namespace Wammer.Station.Management
 				string folder = DropboxHelper.GetSyncFolder();
 				CloudResponse res = CloudServer.request<CloudResponse>(
 					new WebClient(),
-					StationFuncURL + "cloudstorage/dropbox/connect",
+					StationMgmtURL + "cloudstorage/dropbox/connect",
 					new Dictionary<object, object> { { "quota", quota }, { "folder", folder } },
 					true
 				);
@@ -335,7 +335,7 @@ namespace Wammer.Station.Management
 					
 				CloudResponse res = CloudServer.request<CloudResponse>(
 					new WebClient(),
-					StationFuncURL + "cloudstorage/dropbox/update",
+					StationMgmtURL + "cloudstorage/dropbox/update",
 					new Dictionary<object, object> { { "quota", quota } },
 					true
 				);
@@ -360,7 +360,7 @@ namespace Wammer.Station.Management
 			{
 				CloudResponse res = CloudServer.request<CloudResponse>(
 					new WebClient(),
-					StationFuncURL + "cloudstorage/dropbox/disconnect",
+					StationMgmtURL + "cloudstorage/dropbox/disconnect",
 					new Dictionary<object, object>(),
 					true
 				);
@@ -533,7 +533,7 @@ namespace Wammer.Station.Management
 			{
 				ListCloudStorageResponse res = CloudServer.request<ListCloudStorageResponse>(
 					new WebClient(),
-					StationFuncURL + "cloudstorage/list",
+					StationMgmtURL + "cloudstorage/list",
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},

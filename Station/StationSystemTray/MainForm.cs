@@ -20,6 +20,8 @@ namespace StationSystemTray
 		private ServiceActionUIController uictrlServiceAction;
 		private InitMainUIController uictrlInitMain;
 		private bool serviceRunning;
+		private PreferenceForm preferenceForm;
+
 		public const string MSGBOX_TITLE = "Waveface";
 
 		public bool MenuServiceActionEnabled
@@ -161,20 +163,27 @@ namespace StationSystemTray
 
 		private void menuPreference_Click(object sender, EventArgs e)
 		{
-			try
+			if (preferenceForm == null)
 			{
-				this.TrayMenu.Enabled = false;
-				PreferenceForm preform = new PreferenceForm();
-				preform.ShowDialog();
+				preferenceForm = new PreferenceForm();
+				preferenceForm.FormClosed += new FormClosedEventHandler(preferenceForm_FormClosed);
+				preferenceForm.Show();
+				
 			}
-			catch (Exception ex)
+			else
 			{
-				MessageBox.Show(ex.Message, MSGBOX_TITLE);
+				preferenceForm.Activate();
 			}
-			finally
-			{
-				this.TrayMenu.Enabled = true;
-			}
+		}
+
+		void preferenceForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			preferenceForm = null;
+		}
+
+		private void TrayIcon_DoubleClick(object sender, EventArgs e)
+		{
+			menuPreference_Click(sender, e);
 		}
 	}
 
