@@ -4,6 +4,9 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Wammer.Station.Management;
+using Wammer.Station;
+using Waveface.Localization;
+using System.Globalization;
 
 namespace StationSystemTray
 {
@@ -21,6 +24,8 @@ namespace StationSystemTray
 			{
 				using (fileLock = AcquireLock())
 				{
+					ApplyInstalledCulture();
+
 					Application.EnableVisualStyles();
 					Application.SetCompatibleTextRenderingDefault(false);
 					Application.Run(new MainForm());
@@ -30,6 +35,16 @@ namespace StationSystemTray
 			{
 				// is already running
 			}
+		}
+
+		private static void ApplyInstalledCulture()
+		{
+			string _culture = (string)StationRegistry.GetValue("Culture", null);
+
+			if (_culture == null)
+				CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
+			else
+				CultureManager.ApplicationUICulture = new CultureInfo(_culture);
 		}
 
 		private const string PID_FILE = "WavefaceSysTray.lock";
