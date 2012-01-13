@@ -77,14 +77,6 @@ namespace StationSystemTray
 				UpdateUIInError(ex);
 		}
 
-		protected void ShowMessage(string msg, string title)
-		{
-			if (form.InvokeRequired)
-				form.BeginInvoke(new MethodInvoker(() => MessageBox.Show(form, msg, title)));
-			else
-				MessageBox.Show(form, msg, title);
-		}
-
 		protected abstract void SetFormControls(object obj);
 
 		protected abstract void SetFormControlsInCallback(object obj);

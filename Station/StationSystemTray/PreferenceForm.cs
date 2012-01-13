@@ -24,8 +24,6 @@ namespace StationSystemTray
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("PreferenceForm");
 		private const string AUTO_RUN_VALUE_NAME = @"WavefaceStation";
 
-		public const string MSGBOX_TITLE = "Waveface";
-
 		public string LblLocalStorageUsageText
 		{
 			get { return lblLocalStorageUsage.Text; }
@@ -106,6 +104,8 @@ namespace StationSystemTray
 		private string m_stationToken;
 		private Driver m_driver;
 
+		private Messenger messenger;
+
 		private GetStationStatusUIController uictrlGetStationStatus;
 		private LoadDropboxUIController uictrlLoadDropbox;
 		private LoadStorageUsageUIController uictrlLoadStorageUsage;
@@ -119,12 +119,14 @@ namespace StationSystemTray
 			m_stationToken = StationCollection.Instance.FindOne().SessionToken;
 			m_driver = DriverCollection.Instance.FindOne();
 
-			uictrlGetStationStatus = new GetStationStatusUIController(this);
-			uictrlLoadDropbox = new LoadDropboxUIController(this);
-			uictrlLoadStorageUsage = new LoadStorageUsageUIController(this);
-			uictrlConnectDropbox = new ConnectDropboxUIController(this);
-			uictrlUnlinkDropbox = new UnlinkDropboxUIController(this);
-			uictrlTestConnection = new TestConnectionUIController(this);
+			messenger = new Messenger(this);
+
+			uictrlGetStationStatus = new GetStationStatusUIController(this, messenger);
+			uictrlLoadDropbox = new LoadDropboxUIController(this, messenger);
+			uictrlLoadStorageUsage = new LoadStorageUsageUIController(this, messenger);
+			uictrlConnectDropbox = new ConnectDropboxUIController(this, messenger);
+			uictrlUnlinkDropbox = new UnlinkDropboxUIController(this, messenger);
+			uictrlTestConnection = new TestConnectionUIController(this, messenger);
 
 			InitializeComponent();
 		}
@@ -260,11 +262,13 @@ namespace StationSystemTray
 	public class GetStationStatusUIController : SimpleUIController
 	{
 		private PreferenceForm pform;
+		private Messenger messenger;
 
-		public GetStationStatusUIController(PreferenceForm pform)
+		public GetStationStatusUIController(PreferenceForm pform, Messenger messenger)
 			: base(pform)
 		{
 			this.pform = pform;
+			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
@@ -291,7 +295,6 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
-			ShowMessage(I18n.L.T("GetStationStatusFail") + ": " + ex.Message, PreferenceForm.MSGBOX_TITLE);
 		}
 
 		protected override void UpdateUI(object obj)
@@ -327,11 +330,13 @@ namespace StationSystemTray
 	public class LoadDropboxUIController : SimpleUIController
 	{
 		private PreferenceForm pform;
+		private Messenger messenger;
 
-		public LoadDropboxUIController(PreferenceForm pform)
+		public LoadDropboxUIController(PreferenceForm pform, Messenger messenger)
 			: base(pform)
 		{
 			this.pform = pform;
+			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
@@ -375,8 +380,6 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
-			ShowMessage(I18n.L.T("ListCloudStorageFail") + ": " + ex.Message, PreferenceForm.MSGBOX_TITLE);
-
 			pform.RemoveButtonClickEventHandler(pform.BtnDropboxAction, pform.btnUnlinkDropbox_Click);
 			pform.RemoveButtonClickEventHandler(pform.BtnDropboxAction, pform.btnConnectDropbox_Click);
 			pform.AddButtonClickEventHandler(pform.BtnDropboxAction, pform.btnConnectDropbox_Click);
@@ -419,14 +422,16 @@ namespace StationSystemTray
 	{
 		private PreferenceForm pform;
 		private LoadDropboxUIController uictrlLoadDropbox;
+		private Messenger messenger;
 
 		public Process procDropboxSetup;
 
-		public ConnectDropboxUIController(PreferenceForm pform)
+		public ConnectDropboxUIController(PreferenceForm pform, Messenger messenger)
 			: base(pform)
 		{
 			this.pform = pform;
-			this.uictrlLoadDropbox = new LoadDropboxUIController(pform);
+			this.messenger = messenger;
+			this.uictrlLoadDropbox = new LoadDropboxUIController(pform, messenger);
 			this.procDropboxSetup = null;
 		}
 
@@ -463,7 +468,7 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
-			ShowMessage(I18n.L.T("ConnectCloudStorageFail"), PreferenceForm.MSGBOX_TITLE);
+			messenger.ShowMessage(I18n.L.T("ConnectCloudStorageFail"));
 
 			pform.BtnDropboxAction.Enabled = true;
 		}
@@ -487,12 +492,14 @@ namespace StationSystemTray
 	{
 		private PreferenceForm pform;
 		private LoadDropboxUIController uictrlLoadDropbox;
+		private Messenger messenger;
 
-		public UnlinkDropboxUIController(PreferenceForm pform)
+		public UnlinkDropboxUIController(PreferenceForm pform, Messenger messenger)
 			: base(pform)
 		{
 			this.pform = pform;
-			this.uictrlLoadDropbox = new LoadDropboxUIController(pform);
+			this.messenger = messenger;
+			this.uictrlLoadDropbox = new LoadDropboxUIController(pform, messenger);
 		}
 
 		protected override object Action(object obj)
@@ -523,7 +530,7 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
-			ShowMessage(I18n.L.T("UnlinkCloudStorageFail"), PreferenceForm.MSGBOX_TITLE);
+			messenger.ShowMessage(I18n.L.T("UnlinkCloudStorageFail"));
 
 			pform.BtnDropboxAction.Enabled = true;
 		}
@@ -546,11 +553,13 @@ namespace StationSystemTray
 	public class LoadStorageUsageUIController : SimpleUIController
 	{
 		private PreferenceForm pform;
+		private Messenger messenger;
 
-		public LoadStorageUsageUIController(PreferenceForm pform)
+		public LoadStorageUsageUIController(PreferenceForm pform, Messenger messenger)
 			: base(pform)
 		{
 			this.pform = pform;
+			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
@@ -578,7 +587,6 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
-			ShowMessage(I18n.L.T("GetStorageUsageFail"), PreferenceForm.MSGBOX_TITLE);
 		}
 
 		protected override void UpdateUI(object obj)
@@ -622,11 +630,13 @@ namespace StationSystemTray
 	public class TestConnectionUIController : SimpleUIController
 	{
 		private PreferenceForm pform;
+		private Messenger messenger;
 
-		public TestConnectionUIController(PreferenceForm pform)
+		public TestConnectionUIController(PreferenceForm pform, Messenger messenger)
 			: base(pform)
 		{
 			this.pform = pform;
+			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
