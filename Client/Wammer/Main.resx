@@ -577,9 +577,15 @@
     <value>MiddleLeft</value>
   </data>
   <data name="StatusLabelUpload.Size" type="System.Drawing.Size, System.Drawing">
-    <value>953, 23</value>
+    <value>906, 23</value>
   </data>
   <data name="StatusLabelUpload.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="StatusLabelServiceStatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 23</value>
+  </data>
+  <data name="StatusLabelServiceStatus.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
   <data name="StatusLabelNetwork.Size" type="System.Drawing.Size, System.Drawing">
@@ -2018,6 +2024,12 @@
   </data>
   <data name="&gt;&gt;backgroundWorkerPreloadImage.Type" xml:space="preserve">
     <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusLabelServiceStatus.Name" xml:space="preserve">
+    <value>StatusLabelServiceStatus</value>
+  </data>
+  <data name="&gt;&gt;StatusLabelServiceStatus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>

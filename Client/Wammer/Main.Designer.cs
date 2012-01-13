@@ -60,6 +60,7 @@
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
             this.radioButtonCloud = new System.Windows.Forms.RadioButton();
+            this.StatusLabelServiceStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -204,6 +205,7 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusLabelPost,
             this.StatusLabelUpload,
+            this.StatusLabelServiceStatus,
             this.StatusLabelNetwork});
             this.statusStrip.Name = "statusStrip";
             // 
@@ -276,6 +278,16 @@
             this.radioButtonCloud.UseVisualStyleBackColor = true;
             this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
             // 
+            // StatusLabelServiceStatus
+            // 
+            this.StatusLabelServiceStatus.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusLabelServiceStatus.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.StatusLabelServiceStatus.Name = "StatusLabelServiceStatus";
+            this.StatusLabelServiceStatus.Padding = new System.Windows.Forms.Padding(8, 0, 4, 0);
+            resources.ApplyResources(this.StatusLabelServiceStatus, "StatusLabelServiceStatus");
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -342,6 +354,7 @@
         private System.Windows.Forms.Timer timerShowStatuMessage;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelPost;
         private System.ComponentModel.BackgroundWorker backgroundWorkerPreloadImage;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabelServiceStatus;
 	}
 }
 

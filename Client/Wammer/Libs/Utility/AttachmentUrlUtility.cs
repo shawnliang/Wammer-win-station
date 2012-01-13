@@ -54,9 +54,11 @@ namespace Waveface
 
             string _ip = forceCloud ? WService.CloudIP : WService.HostIP;
 
-            string _url = _ip + "/v2/attachments/view?object_id=" + object_id + "&" +
+            string _urlX = "/v2/attachments/view?object_id=" + object_id + "&" +
                             "apikey" + "=" + WService.APIKEY + "&" +
                             "session_token" + "=" + session_token;
+
+            string _url = _ip + _urlX;
 
             if (imageType == SMALL)
             {
@@ -83,7 +85,11 @@ namespace Waveface
                 }
             }
 
-            url = _url + "&" + "image_meta=" + _imageType;
+            if ((imageType == SMALL) || (imageType == MEDIUM))
+                url = "[IP]" + _urlX + "&" + "image_meta=" + _imageType;
+            else
+                url = _url + "&" + "image_meta=" + _imageType;
+
             fileName = a.object_id + "_" + _imageType; //  +"_" + a.image_meta.medium.file_name;
             return _imageType;
         }

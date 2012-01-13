@@ -112,12 +112,12 @@ namespace Waveface.API.V2
             return JsonConvert.DeserializeObject<T>(_r, _settings);
         }
 
-        public string HttpGet(string _url)
+        public string HttpGet(string _url, int timeout)
         {
             try
             {
                 HttpWebRequest _req = (HttpWebRequest)WebRequest.Create(_url);
-                _req.Timeout = 5000;
+                _req.Timeout = timeout;
                 _req.Headers.Set("Content-Encoding", "UTF-8");
                 WebResponse _resp = _req.GetResponse();
                 StreamReader _sr = new StreamReader(_resp.GetResponseStream());

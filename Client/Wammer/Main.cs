@@ -470,6 +470,8 @@ namespace Waveface
                 StatusLabelNetwork.Text = I18n.L.T("NetworkConnected");
                 StatusLabelNetwork.Image = Resources.network_receive;
 
+                StatusLabelServiceStatus.Visible = true;
+
                 s_logger.Info("UpdateNetworkStatus: Connected");
             }
             else
@@ -478,6 +480,8 @@ namespace Waveface
 
                 StatusLabelNetwork.Text = I18n.L.T("NetworkDisconnected");
                 StatusLabelNetwork.Image = Resources.network_error;
+
+                StatusLabelServiceStatus.Visible = false;
 
                 s_logger.Info("UpdateNetworkStatus: Disconnected");
             }
@@ -565,10 +569,7 @@ namespace Waveface
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
             RT.LoadGroupLocalRead();
 
-            UploadOriginPhotosToStationManager.Start();
-            PhotoDownloader.Start();
-            NewPostManager.Start();
-            StationState.Start();
+            StartBgThreads();
 
             leftArea.SetUI(true);
             leftArea.SetNewPostManager();
@@ -580,6 +581,43 @@ namespace Waveface
             GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
 
             return true;
+        }
+
+        private void StartBgThreads()
+        {
+            UploadOriginPhotosToStationManager.Start();
+            PhotoDownloader.Start();
+            NewPostManager.Start();
+
+            StationState.ShowStationState += StationState_ShowStationState;
+            StationState.Start();
+        }
+
+        void StationState_ShowStationState(ConnectServiceStateType type)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { StationState_ShowStationState(type); }
+                           ));
+            }
+            else
+            {
+                switch (type)
+                {
+                    case ConnectServiceStateType.NetworkDisconnected:
+                    case ConnectServiceStateType.Cloud:
+                        StatusLabelServiceStatus.Image = Resources.Cloud;
+                        break;
+
+                    case ConnectServiceStateType.Station_LocalIP:
+                    case ConnectServiceStateType.Station_UPnP:
+                        StatusLabelServiceStatus.Image = Resources.Station;
+                        break;
+                }
+
+                s_logger.Trace("ConnectServiceStateType:" + type);
+            }
         }
 
         private void fillUserInformation()
@@ -867,7 +905,7 @@ namespace Waveface
             else
             {
                 if (!m_manualRefresh)
-                    backgroundWorkerPreloadImage.RunWorkerAsync();
+                    PrefetchImages();
 
                 List<Post> _posts = RT.CurrentGroupPosts;
 
@@ -883,6 +921,11 @@ namespace Waveface
                     postsArea.PostsList.SetPosts(_posts, _index, m_manualRefresh);
                 }
             }
+        }
+
+        public void PrefetchImages()
+        {
+            backgroundWorkerPreloadImage.RunWorkerAsync();
         }
 
         public void PostListClick(int clickIndex, Post post)

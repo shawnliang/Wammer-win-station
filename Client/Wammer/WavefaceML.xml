@@ -16,9 +16,9 @@
     <zh-TW>登出</zh-TW>
   </WItem>   
   <WItem>
-    <ID>Main.Preference</ID>
-    <en-US>Preference</en-US>
-    <zh-TW>設定</zh-TW>
+    <ID>MainBgPanel.AccountStatus</ID>
+    <en-US>Account Status</en-US>
+    <zh-TW>帳戶資訊</zh-TW>
   </WItem>   
   <WItem>
     <ID>Main.ChangeOwnerWarning</ID>

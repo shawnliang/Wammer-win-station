@@ -12,9 +12,13 @@ namespace Waveface
 {
     public class StationState
     {
+        public event ShowStationState_Delegate ShowStationState;
+
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         private WorkItem m_workItem;
+        private bool m_forceRetry;
+        private int m_lastTimeout = 3000;
 
         public void Start()
         {
@@ -28,23 +32,23 @@ namespace Waveface
 
         private void ThreadMethod(object state)
         {
-            MR_users_findMyStation _findMyStation;
-
             while (true)
             {
                 try
                 {
                     if (Main.Current.RT.Login == null)
                     {
-                        Thread.Sleep(5000);
+                        NotifyState(ConnectServiceStateType.NetworkDisconnected);
+
+                        Delay(2);
                         continue;
                     }
 
                     if (Main.Current.RT.StationMode)
                     {
-                        if (Main.Current.RT.REST.CheckStationAlive(WService.StationIP))
+                        if (Main.Current.RT.REST.CheckStationAlive(WService.StationIP, m_lastTimeout))
                         {
-                            Thread.Sleep(15000);
+                            Delay(10);
                             continue;
                         }
                         else
@@ -52,64 +56,113 @@ namespace Waveface
                             WService.StationIP = string.Empty;
                             Main.Current.RT.StationMode = false;
 
-                            s_logger.Info("Station Disappear");
+                            NotifyState(ConnectServiceStateType.Cloud);
 
-                            continue;
+                            //RefreshDownloadPhotosCache();
+
+                            s_logger.Info("Station Disappear");
                         }
                     }
                     else
                     {
-                        _findMyStation = Main.Current.RT.REST.Users_findMyStation();
+                        NotifyState(ConnectServiceStateType.Cloud);
+
+                        MR_users_findMyStation _findMyStation = Main.Current.RT.REST.Users_findMyStation();
+
+                        s_logger.Trace("Call FindMyStation");
 
                         if (_findMyStation != null)
                         {
-                            //Test UPnP
-                            string _ip = GetStationIP(_findMyStation.stations, true);
-
-                            if (!string.IsNullOrEmpty(_ip))
+                            if (_findMyStation.stations != null)
                             {
-                                if (Main.Current.RT.REST.CheckStationAlive(_ip))
+                                //Test Local IP
+                                string _ip = GetStationIP(_findMyStation.stations, false);
+
+                                if (!string.IsNullOrEmpty(_ip))
                                 {
-                                    WService.StationIP = _ip;
-                                    Main.Current.RT.StationMode = true;
+                                    m_lastTimeout = 3000;
 
-                                    s_logger.Info("Station IP(UPnP):" + _ip);
+                                    if (Main.Current.RT.REST.CheckStationAlive(_ip, m_lastTimeout))
+                                    {
+                                        WService.StationIP = _ip;
+                                        Main.Current.RT.StationMode = true;
 
-                                    Thread.Sleep(15000);
-                                    continue;
+                                        NotifyState(ConnectServiceStateType.Station_LocalIP);
+
+                                        //RefreshDownloadPhotosCache();
+
+                                        s_logger.Info("Station IP:" + _ip);
+
+                                        Delay(5);
+                                        continue;
+                                    }
+                                }
+
+                                //Test UPnP
+                                _ip = GetStationIP(_findMyStation.stations, true);
+
+                                m_lastTimeout = 6000;
+
+                                if (!string.IsNullOrEmpty(_ip))
+                                {
+                                    if (Main.Current.RT.REST.CheckStationAlive(_ip, m_lastTimeout))
+                                    {
+                                        WService.StationIP = _ip;
+                                        Main.Current.RT.StationMode = true;
+
+                                        NotifyState(ConnectServiceStateType.Station_UPnP);
+
+                                        //RefreshDownloadPhotosCache();
+
+                                        s_logger.Info("Station IP(UPnP):" + _ip);
+
+                                        Delay(10);
+                                        continue;
+                                    }
                                 }
                             }
-
-                            //Test Local IP
-                            _ip = GetStationIP(_findMyStation.stations, false);
-
-                            if (!string.IsNullOrEmpty(_ip))
-                            {
-                                if (Main.Current.RT.REST.CheckStationAlive(_ip))
-                                {
-                                    WService.StationIP = _ip;
-                                    Main.Current.RT.StationMode = true;
-
-                                    s_logger.Info("Station IP:" + _ip);
-
-                                    Thread.Sleep(15000);
-                                    continue;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            
                         }
                     }
 
-                    Thread.Sleep(60000);
-                    continue;
+                    Delay(60);
                 }
                 catch (Exception _e)
                 {
                     NLogUtility.Exception_Warn(s_logger, _e, "ThreadMethod", "");
                 }
+            }
+        }
+
+        private static void RefreshDownloadPhotosCache()
+        {
+            Main.Current.PhotoDownloader.RemoveAll();
+            Main.Current.PrefetchImages();
+        }
+
+        private void NotifyState(ConnectServiceStateType type)
+        {
+            if (ShowStationState != null)
+                ShowStationState(type);
+        }
+
+        public void ForceRetry()
+        {
+            m_forceRetry = true;
+
+            s_logger.Trace("ForceRetry()");
+        }
+
+        private void Delay(int sleepTime)
+        {
+            for (int i = 0; i < sleepTime; i++)
+            {
+                if (m_forceRetry)
+                {
+                    m_forceRetry = false;
+                    break;
+                }
+
+                Thread.Sleep(1000);
             }
         }
 

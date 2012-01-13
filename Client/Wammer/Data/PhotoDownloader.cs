@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using NLog;
+using Waveface.API.V2;
 
 #endregion
 
@@ -15,6 +16,7 @@ namespace Waveface
     public class PhotoDownloader
     {
         public delegate void Thumbnail_Delegate(ImageItem item);
+
         public delegate void Photo_Delegate(ImageItem item);
 
         public event Thumbnail_Delegate ThumbnailEvent;
@@ -33,7 +35,7 @@ namespace Waveface
         public PhotoDownloader()
         {
             ThumbnailItems = new List<ImageItem>();
-            PhotoItems = new List<ImageItem>();   
+            PhotoItems = new List<ImageItem>();
         }
 
         public void Start()
@@ -96,6 +98,21 @@ namespace Waveface
             }
         }
 
+        public void RemoveAll()
+        {
+            lock (ThumbnailItems)
+            {
+                ThumbnailItems.Clear();
+            }
+
+            lock (PhotoItems)
+            {
+                PhotoItems.Clear();
+            }
+
+            s_logger.Trace("Remove All Cache Item.");
+        }
+
         private void DownloadThreadMethod(object state)
         {
             long _count = 0;
@@ -137,7 +154,7 @@ namespace Waveface
                 switch (_item.PostItemType)
                 {
                     case PostItemType.Thumbnail:
-                        _url = _item.ThumbnailPath;
+                        _url = _item.ThumbnailPath.Replace("[IP]", WService.HostIP);
                         _localPath = _item.LocalFilePath_Origin;
                         break;
 
@@ -147,7 +164,7 @@ namespace Waveface
                         break;
 
                     case PostItemType.Medium:
-                        _url = _item.MediumPath;
+                        _url = _item.MediumPath.Replace("[IP]", WService.HostIP);
                         _localPath = _item.LocalFilePath_Medium;
                         break;
                 }
@@ -169,7 +186,7 @@ namespace Waveface
                     }
                     else
                     {
-                        _url = _item.MediumPath;
+                        _url = _item.MediumPath.Replace("[IP]", WService.HostIP);
                         _localPath = _item.LocalFilePath_Medium;
 
                         _relpaceOriginToMedium = true;
@@ -234,45 +251,51 @@ namespace Waveface
                 {
                     NLogUtility.Exception_Warn(s_logger, _e, "Download Image URL", m_currentURL);
 
-                    _item.ErrorTry++;
-
-                    if (_item.PostItemType == PostItemType.Thumbnail)
+                    try
                     {
-                        lock (ThumbnailItems)
-                        {
-                            if (ThumbnailItems.Contains(_item))
-                            {
-                                ThumbnailItems.Remove(_item);
+                        _item.ErrorTry++;
 
-                                if (_item.ErrorTry != ERROR_TRY)
+                        if (_item.PostItemType == PostItemType.Thumbnail)
+                        {
+                            lock (ThumbnailItems)
+                            {
+                                if (ThumbnailItems.Contains(_item))
                                 {
-                                    if (ThumbnailItems.Count == 0)
-                                        ThumbnailItems.Insert(0, _item);
-                                    else
-                                        ThumbnailItems.Insert(ThumbnailItems.Count - 1, _item);
+                                    ThumbnailItems.Remove(_item);
+
+                                    if (_item.ErrorTry != ERROR_TRY)
+                                    {
+                                        if (ThumbnailItems.Count == 0)
+                                            ThumbnailItems.Insert(0, _item);
+                                        else
+                                            ThumbnailItems.Insert(ThumbnailItems.Count - 1, _item);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            lock (PhotoItems)
+                            {
+                                if (PhotoItems.Contains(_item))
+                                {
+                                    PhotoItems.Remove(_item);
+
+                                    if (_item.ErrorTry != ERROR_TRY)
+                                    {
+                                        if (PhotoItems.Count == 0)
+                                            PhotoItems.Insert(0, _item);
+                                        else
+                                            PhotoItems.Insert(PhotoItems.Count - 1, _item);
+                                    }
                                 }
                             }
                         }
                     }
-                    else
-                    {
-                        lock (PhotoItems)
-                        {
-                            if (PhotoItems.Contains(_item))
-                            {
-                                PhotoItems.Remove(_item);
-
-                                if (_item.ErrorTry != ERROR_TRY)
-                                {
-                                    if (PhotoItems.Count == 0)
-                                        PhotoItems.Insert(0, _item);
-                                    else
-                                        PhotoItems.Insert(PhotoItems.Count - 1, _item);
-                                }
-                            }
-                        }
-                    }               
+                    catch
+                    {}
                 }
+
 
                 Thread.Sleep(10);
             }

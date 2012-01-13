@@ -115,6 +115,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compoment\SingleInstance.cs" />
+    <Compile Include="Data\ConnectServiceStateType.cs" />
+    <Compile Include="Data\Delegates.cs" />
     <Compile Include="Data\StationState.cs" />
     <Compile Include="Data\UploadOriginPhotosToStationItem.cs" />
     <Compile Include="Data\NewPostManager.cs" />
@@ -861,9 +863,10 @@
     <None Include="Resources\network-receive.png" />
     <None Include="Resources\waveface_icon32.png" />
     <None Include="Resources\waveface_icon128.png" />
-    <None Include="Resources\Icon_.ico" />
     <None Include="Resources\waveface_icon128.ico" />
     <Content Include="Icon.ico" />
+    <None Include="Resources\Cloud.png" />
+    <None Include="Resources\Station.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

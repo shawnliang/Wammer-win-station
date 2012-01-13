@@ -41,8 +41,7 @@ namespace Waveface
             {
                 m_post = value;
 
-                if (m_post != null)
-                    doShow();
+                ShowContent(false);
             }
         }
 
@@ -171,8 +170,16 @@ namespace Waveface
 
         #endregion
 
-        private void doShow()
+        public void ReShow()
         {
+            ShowContent(true);
+        }
+
+        private void ShowContent(bool force)
+        {
+            if (m_post == null)
+                return;
+
             btnComment.Visible = false;
             //linkLabelRemove.Visible = true;
 
@@ -184,7 +191,9 @@ namespace Waveface
             {
                 case PostType.Text:
                 case PostType.Link:
-                    ShowText_LinkView();
+                    if (!force)
+                        ShowText_LinkView();
+
                     break;
 
                 case PostType.Photo:
@@ -192,10 +201,14 @@ namespace Waveface
                     break;
 
                 case PostType.RichText:
-                    ShowRichText();
+                    if (!force)
+                        ShowRichText();
+
                     break;
                 case PostType.Document:
-                    ShowDocument();
+                    if (!force)
+                        ShowDocument();
+
                     break;
             }
         }
