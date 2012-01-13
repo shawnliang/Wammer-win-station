@@ -23,6 +23,9 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
+			string email = Parameters["email"];
+			string password = Parameters["password"];
+
 			Driver driver = DriverCollection.Instance.FindOne();
 			if (driver == null)
 			{
@@ -35,6 +38,12 @@ namespace Wammer.Station
 				throw new ServiceUnavailableException("Station cannot work without driver", (int)StationApiError.InvalidDriver);
 			}
 
+			if (email != null && password != null && driver.email != email)
+			{
+				logger.Error("Invalid driver");
+				throw new WammerStationException("Invalid driver", (int)StationApiError.InvalidDriver);
+			}
+
 			StationInfo stationInfo = StationCollection.Instance.FindOne();
 			if (stationInfo == null)
 			{
@@ -45,8 +54,18 @@ namespace Wammer.Station
 			try
 			{
 				logger.DebugFormat("Station logon with stationId = {0}", stationInfo.Id);
-				StationApi api = new StationApi(stationInfo.Id, stationInfo.SessionToken);
-				StationLogOnResponse logonRes = api.LogOn(new WebClient(), StatusChecker.GetDetail());
+
+				StationLogOnResponse logonRes;
+
+				if (email != null && password != null)
+				{
+					logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password, StatusChecker.GetDetail());
+				}
+				else
+				{
+					StationApi api = new StationApi(stationInfo.Id, stationInfo.SessionToken);
+					logonRes = api.LogOn(new WebClient(), StatusChecker.GetDetail());
+				}
 
 				// update session in DB
 				stationInfo.SessionToken = logonRes.session_token;
