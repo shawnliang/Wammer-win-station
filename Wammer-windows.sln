@@ -59,6 +59,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAttachmentView", "Station\TestAttachmentView\TestAttachmentView.csproj", "{91022CC7-3D0A-43C1-A3E4-C660071FC588}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StationSystemTray", "Station\StationSystemTray\StationSystemTray.csproj", "{38C6E1F7-C0F0-4513-AAF5-B075E5F420B9}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StationUI", "Station\StationUI\StationUI.csproj", "{F28E6912-415E-4808-B973-F0E19B31EEB6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{82E503A6-489F-479A-A1E6-F9F6B1467164}"
