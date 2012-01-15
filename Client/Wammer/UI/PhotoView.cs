@@ -76,6 +76,15 @@ namespace Waveface
             if (imageListView.SelectedItems.Count != 0)
             {
                 m_selectedImage = imageListView.SelectedItems[0];
+
+                string _trueName = new FileInfo(m_selectedImage.FileName).Name;
+
+                if (m_filesMapping.ContainsKey(_trueName)) //取得原始檔名
+                    _trueName = m_filesMapping[_trueName];
+
+                StatusLabelFileName.Text = _trueName;
+                //StatusLabelOriginSize.Text = ;
+                //StatusLabelCurrentSize.Text = ;
             }
         }
 

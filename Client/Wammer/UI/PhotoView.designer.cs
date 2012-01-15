@@ -38,56 +38,110 @@ namespace Waveface
             this.miSave = new System.Windows.Forms.ToolStripMenuItem();
             this.miSaveAll = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.btnSave = new Waveface.Component.XPButton();
-            this.btnSaveAll = new Waveface.Component.XPButton();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.StatusLabelOriginSize = new System.Windows.Forms.ToolStripStatusLabel();
+            this.panelMain = new System.Windows.Forms.Panel();
+            this.StatusLabelFileName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.StatusLabelCurrentSize = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnSave = new Waveface.Component.XPButton();
+            this.btnSaveAll = new Waveface.Component.XPButton();
             this.contextMenuStrip.SuspendLayout();
+            this.statusStrip.SuspendLayout();
+            this.panelMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageListView
             // 
-            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStrip;
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
-            this.toolTip.SetToolTip(this.imageListView, resources.GetString("imageListView.ToolTip"));
             this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
             // 
             // contextMenuStrip
             // 
-            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miSave,
             this.miSaveAll});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.toolTip.SetToolTip(this.contextMenuStrip, resources.GetString("contextMenuStrip.ToolTip"));
+            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // miSave
             // 
-            resources.ApplyResources(this.miSave, "miSave");
             this.miSave.Name = "miSave";
+            resources.ApplyResources(this.miSave, "miSave");
             this.miSave.Click += new System.EventHandler(this.miSave_Click);
             // 
             // miSaveAll
             // 
-            resources.ApplyResources(this.miSaveAll, "miSaveAll");
             this.miSaveAll.Name = "miSaveAll";
+            resources.ApplyResources(this.miSaveAll, "miSaveAll");
             this.miSaveAll.Click += new System.EventHandler(this.miSaveAll_Click);
             // 
-            // saveFileDialog
+            // cultureManager
             // 
-            resources.ApplyResources(this.saveFileDialog, "saveFileDialog");
+            this.cultureManager.ManagedControl = this;
+            // 
+            // statusStrip
+            // 
+            resources.ApplyResources(this.statusStrip, "statusStrip");
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StatusLabelFileName,
+            this.StatusLabelOriginSize,
+            this.StatusLabelCurrentSize});
+            this.statusStrip.Name = "statusStrip";
+            // 
+            // StatusLabelOriginSize
+            // 
+            this.StatusLabelOriginSize.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusLabelOriginSize.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.StatusLabelOriginSize.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.StatusLabelOriginSize.Name = "StatusLabelOriginSize";
+            resources.ApplyResources(this.StatusLabelOriginSize, "StatusLabelOriginSize");
+            this.StatusLabelOriginSize.Spring = true;
+            // 
+            // panelMain
+            // 
+            resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.Controls.Add(this.btnSave);
+            this.panelMain.Controls.Add(this.btnSaveAll);
+            this.panelMain.Controls.Add(this.imageListView);
+            this.panelMain.Name = "panelMain";
+            // 
+            // StatusLabelFileName
+            // 
+            this.StatusLabelFileName.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusLabelFileName.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
+            this.StatusLabelFileName.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.StatusLabelFileName.Name = "StatusLabelFileName";
+            resources.ApplyResources(this.StatusLabelFileName, "StatusLabelFileName");
+            this.StatusLabelFileName.Spring = true;
+            // 
+            // StatusLabelCurrentSize
+            // 
+            this.StatusLabelCurrentSize.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusLabelCurrentSize.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.StatusLabelCurrentSize.Name = "StatusLabelCurrentSize";
+            resources.ApplyResources(this.StatusLabelCurrentSize, "StatusLabelCurrentSize");
+            this.StatusLabelCurrentSize.Spring = true;
             // 
             // btnSave
             // 
-            resources.ApplyResources(this.btnSave, "btnSave");
             this.btnSave.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnSave.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSave.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnSave.Image = global::Waveface.Properties.Resources.Save;
+            resources.ApplyResources(this.btnSave, "btnSave");
             this.btnSave.Name = "btnSave";
             this.toolTip.SetToolTip(this.btnSave, resources.GetString("btnSave.ToolTip"));
             this.btnSave.UseVisualStyleBackColor = true;
@@ -95,32 +149,29 @@ namespace Waveface
             // 
             // btnSaveAll
             // 
-            resources.ApplyResources(this.btnSaveAll, "btnSaveAll");
             this.btnSaveAll.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnSaveAll.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSaveAll.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnSaveAll.Image = global::Waveface.Properties.Resources.SaveAll;
+            resources.ApplyResources(this.btnSaveAll, "btnSaveAll");
             this.btnSaveAll.Name = "btnSaveAll";
             this.toolTip.SetToolTip(this.btnSaveAll, resources.GetString("btnSaveAll.ToolTip"));
             this.btnSaveAll.UseVisualStyleBackColor = true;
             this.btnSaveAll.Click += new System.EventHandler(this.btnSaveAll_Click);
             // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
             // PhotoView
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnSaveAll);
-            this.Controls.Add(this.imageListView);
+            this.Controls.Add(this.statusStrip);
+            this.Controls.Add(this.panelMain);
             this.MinimizeBox = false;
             this.Name = "PhotoView";
-            this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.contextMenuStrip.ResumeLayout(false);
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
+            this.panelMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -136,6 +187,11 @@ namespace Waveface
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private Localization.CultureManager cultureManager;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabelOriginSize;
+        private System.Windows.Forms.Panel panelMain;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabelFileName;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabelCurrentSize;
     }
 }
 

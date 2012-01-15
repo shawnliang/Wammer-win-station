@@ -53,6 +53,7 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabelPost = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelUpload = new System.Windows.Forms.ToolStripStatusLabel();
+            this.StatusLabelServiceStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelNetwork = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerShowStatuMessage = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorkerPreloadImage = new System.ComponentModel.BackgroundWorker();
@@ -60,7 +61,6 @@
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
             this.radioButtonCloud = new System.Windows.Forms.RadioButton();
-            this.StatusLabelServiceStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -226,6 +226,16 @@
             resources.ApplyResources(this.StatusLabelUpload, "StatusLabelUpload");
             this.StatusLabelUpload.Spring = true;
             // 
+            // StatusLabelServiceStatus
+            // 
+            this.StatusLabelServiceStatus.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusLabelServiceStatus.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.StatusLabelServiceStatus.Name = "StatusLabelServiceStatus";
+            this.StatusLabelServiceStatus.Padding = new System.Windows.Forms.Padding(8, 0, 4, 0);
+            resources.ApplyResources(this.StatusLabelServiceStatus, "StatusLabelServiceStatus");
+            // 
             // StatusLabelNetwork
             // 
             this.StatusLabelNetwork.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
@@ -277,16 +287,6 @@
             this.radioButtonCloud.Name = "radioButtonCloud";
             this.radioButtonCloud.UseVisualStyleBackColor = true;
             this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
-            // 
-            // StatusLabelServiceStatus
-            // 
-            this.StatusLabelServiceStatus.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.StatusLabelServiceStatus.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.StatusLabelServiceStatus.Name = "StatusLabelServiceStatus";
-            this.StatusLabelServiceStatus.Padding = new System.Windows.Forms.Padding(8, 0, 4, 0);
-            resources.ApplyResources(this.StatusLabelServiceStatus, "StatusLabelServiceStatus");
             // 
             // Main
             // 
