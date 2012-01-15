@@ -79,7 +79,7 @@ namespace Waveface
                     _imageType = ORIGIN;
 
                     url = _url;
-                    fileName = a.object_id; //  +"_" + a.image_meta.medium.file_name;
+                    fileName = a.object_id +"_" + a.image_meta.medium.file_name;
 
                     return _imageType;
                 }
@@ -90,7 +90,7 @@ namespace Waveface
             else
                 url = _url + "&" + "image_meta=" + _imageType;
 
-            fileName = a.object_id + "_" + _imageType; //  +"_" + a.image_meta.medium.file_name;
+            fileName = a.object_id + "_" + _imageType +"_" + a.image_meta.medium.file_name;
             return _imageType;
         }
 

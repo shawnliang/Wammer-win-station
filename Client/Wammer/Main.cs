@@ -68,6 +68,7 @@ namespace Waveface
         private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
         private NewPostManager m_newPostManager;
         private StationState m_stationState;
+        private Post m_loadingAllPhotosPost;
 
         #endregion
 
@@ -925,7 +926,7 @@ namespace Waveface
 
         public void PrefetchImages()
         {
-            backgroundWorkerPreloadImage.RunWorkerAsync();
+            backgroundWorkerPreloadAllImages.RunWorkerAsync();
         }
 
         public void PostListClick(int clickIndex, Post post)
@@ -1223,7 +1224,7 @@ namespace Waveface
                 WService.StationIP = m_stationIP;
                 RT.StationMode = true;
 
-                backgroundWorkerPreloadImage_DoWork(null, null);
+                backgroundWorkerPreloadAllImages_DoWork(null, null);
             }
         }
 
@@ -1364,7 +1365,7 @@ namespace Waveface
 
                             PreloadThumbnail(_url, _localPic);
 
-                            PreloadPictures(post, allSize);
+                            PhotoDownloader.PreloadPictures(post, allSize /*, false*/);
 
                             break;
                         }
@@ -1441,71 +1442,7 @@ namespace Waveface
             }
         }
 
-        private void PreloadPictures(Post post, bool allSize)
-        {
-            List<Attachment> _imageAttachments = new List<Attachment>();
-            List<string> _filePathOrigins = new List<string>();
-            List<string> _filePathMediums = new List<string>();
-            //List<string> _urlCloudOrigins = new List<string>();
-            List<string> _urlOrigins = new List<string>();
-            List<string> _urlMediums = new List<string>();
-
-            foreach (Attachment _a in post.attachments)
-            {
-                if (_a.type == "image")
-                    _imageAttachments.Add(_a);
-            }
-
-            if (_imageAttachments.Count == 0)
-                return;
-
-            foreach (Attachment _attachment in _imageAttachments)
-            {
-                string _urlO = string.Empty;
-                string _fileNameO = string.Empty;
-                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, false);
-
-                string _localFileO = GCONST.CachePath + _fileNameO;
-
-                _filePathOrigins.Add(_localFileO);
-                _urlOrigins.Add(_urlO);
-
-                //Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, true);
-                //_urlCloudOrigins.Add(_urlO);
-
-                string _urlM = string.Empty;
-                string _fileNameM = string.Empty;
-                Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM, false);
-
-                string _localFileM = GCONST.CachePath + _fileNameM;
-
-                _filePathMediums.Add(_localFileM);
-                _urlMediums.Add(_urlM);
-            }
-
-            for (int i = _imageAttachments.Count - 1; i >= 0; i--)
-            {
-                if (!File.Exists(_filePathOrigins[i]) || !File.Exists(_filePathMediums[i]))
-                {
-                    ImageItem _item = new ImageItem();
-
-                    if (allSize)
-                        _item.PostItemType = PostItemType.Origin;
-                    else
-                        _item.PostItemType = PostItemType.Medium;
-
-                    _item.CloudOriginPath = string.Empty; // _urlCloudOrigins[i];
-                    _item.OriginPath = _urlOrigins[i];
-                    _item.MediumPath = _urlMediums[i];
-                    _item.LocalFilePath_Origin = _filePathOrigins[i];
-                    _item.LocalFilePath_Medium = _filePathMediums[i];
-
-                    PhotoDownloader.Add(_item, false);
-                }
-            }
-        }
-
-        private void backgroundWorkerPreloadImage_DoWork(object sender, DoWorkEventArgs e)
+        private void backgroundWorkerPreloadAllImages_DoWork(object sender, DoWorkEventArgs e)
         {
             if (RT.CurrentGroupPosts != null)
             {

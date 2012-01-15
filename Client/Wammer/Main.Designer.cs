@@ -56,7 +56,7 @@
             this.StatusLabelServiceStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelNetwork = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerShowStatuMessage = new System.Windows.Forms.Timer(this.components);
-            this.backgroundWorkerPreloadImage = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorkerPreloadAllImages = new System.ComponentModel.BackgroundWorker();
             this.panelTop = new Waveface.BgPanel();
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
@@ -251,9 +251,9 @@
             this.timerShowStatuMessage.Interval = 10000;
             this.timerShowStatuMessage.Tick += new System.EventHandler(this.timerShowStatuMessage_Tick);
             // 
-            // backgroundWorkerPreloadImage
+            // backgroundWorkerPreloadAllImages
             // 
-            this.backgroundWorkerPreloadImage.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerPreloadImage_DoWork);
+            this.backgroundWorkerPreloadAllImages.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerPreloadAllImages_DoWork);
             // 
             // panelTop
             // 
@@ -353,7 +353,7 @@
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelNetwork;
         private System.Windows.Forms.Timer timerShowStatuMessage;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelPost;
-        private System.ComponentModel.BackgroundWorker backgroundWorkerPreloadImage;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerPreloadAllImages;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelServiceStatus;
 	}
 }

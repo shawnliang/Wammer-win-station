@@ -159,7 +159,7 @@ namespace Waveface
                         break;
 
                     case PostItemType.Origin:
-                        _url = _item.OriginPath;
+                        _url = Main.Current.RT.StationMode ? _item.OriginPath : _item.CloudOriginPath;
                         _localPath = _item.LocalFilePath_Origin;
                         break;
 
@@ -169,135 +169,172 @@ namespace Waveface
                         break;
                 }
 
-                bool _relpaceOriginToMedium = false;
-
-                if (_item.PostItemType == PostItemType.Origin)
+                if (File.Exists(_localPath))
                 {
-                    if (File.Exists(_item.LocalFilePath_Medium))
+                    lock (PhotoItems)
                     {
-                        if (Main.Current.RT.StationMode)
-                        {
-                            _url = _item.OriginPath;
-                        }
-                        else
-                        {
-                            _url = _item.CloudOriginPath;
-                        }
-                    }
-                    else
-                    {
-                        _url = _item.MediumPath.Replace("[IP]", WService.HostIP);
-                        _localPath = _item.LocalFilePath_Medium;
-
-                        _relpaceOriginToMedium = true;
+                        if (PhotoItems.Contains(_item))
+                            PhotoItems.Remove(_item);
                     }
                 }
-
-                try
+                else
                 {
-                    m_currentURL = _url;
-
-                    WebRequest _wReq = WebRequest.Create(_url);
-                    _wReq.Timeout = 10000;
-
-                    WebResponse _wRep = _wReq.GetResponse();
-
-                    Image _img = Image.FromStream(_wRep.GetResponseStream());
-
-                    if (!File.Exists(_localPath))
-                        _img.Save(_localPath);
-
-                    _img = null;
-
-                    s_logger.Trace("GetFile:" + _localPath);
-
-                    if (_item.PostItemType == PostItemType.Thumbnail)
-                    {
-                        lock (ThumbnailItems)
-                        {
-                            if (ThumbnailItems.Contains(_item))
-                                ThumbnailItems.Remove(_item);
-                        }
-
-                        if (ThumbnailEvent != null)
-                            ThumbnailEvent(_item);
-                    }
-                    else
-                    {
-                        lock (PhotoItems)
-                        {
-                            if (_relpaceOriginToMedium)
-                            {
-                                PhotoItems.Remove(_item);
-
-                                if (PhotoItems.Count == 0)
-                                    PhotoItems.Insert(0, _item);
-                                else
-                                    PhotoItems.Insert(PhotoItems.Count - 1, _item);
-                            }
-                            else
-                            {
-                                if (PhotoItems.Contains(_item))
-                                    PhotoItems.Remove(_item);
-                            }
-
-                        }
-
-                        if (PhotoEvent != null)
-                            PhotoEvent(_item);
-                    }
-                }
-                catch (Exception _e)
-                {
-                    NLogUtility.Exception_Warn(s_logger, _e, "Download Image URL", m_currentURL);
-
                     try
                     {
-                        _item.ErrorTry++;
+                        m_currentURL = _url;
+
+                        WebRequest _wReq = WebRequest.Create(_url);
+                        _wReq.Timeout = 10000;
+
+                        WebResponse _wRep = _wReq.GetResponse();
+
+                        Image _img = Image.FromStream(_wRep.GetResponseStream());
+
+                        if (!File.Exists(_localPath))
+                            _img.Save(_localPath);
+
+                        _img = null;
+
+                        s_logger.Trace("GetFile:" + _localPath);
 
                         if (_item.PostItemType == PostItemType.Thumbnail)
                         {
                             lock (ThumbnailItems)
                             {
                                 if (ThumbnailItems.Contains(_item))
-                                {
                                     ThumbnailItems.Remove(_item);
-
-                                    if (_item.ErrorTry != ERROR_TRY)
-                                    {
-                                        if (ThumbnailItems.Count == 0)
-                                            ThumbnailItems.Insert(0, _item);
-                                        else
-                                            ThumbnailItems.Insert(ThumbnailItems.Count - 1, _item);
-                                    }
-                                }
                             }
+
+                            if (ThumbnailEvent != null)
+                                ThumbnailEvent(_item);
                         }
                         else
                         {
                             lock (PhotoItems)
                             {
                                 if (PhotoItems.Contains(_item))
-                                {
                                     PhotoItems.Remove(_item);
+                            }
 
-                                    if (_item.ErrorTry != ERROR_TRY)
+                            if (PhotoEvent != null)
+                                PhotoEvent(_item);
+                        }
+                    }
+                    catch (Exception _e)
+                    {
+                        NLogUtility.Exception_Warn(s_logger, _e, "Download Image URL", m_currentURL);
+
+                        try
+                        {
+                            _item.ErrorTry++;
+
+                            if (_item.PostItemType == PostItemType.Thumbnail)
+                            {
+                                lock (ThumbnailItems)
+                                {
+                                    if (ThumbnailItems.Contains(_item))
                                     {
-                                        if (PhotoItems.Count == 0)
-                                            PhotoItems.Insert(0, _item);
-                                        else
-                                            PhotoItems.Insert(PhotoItems.Count - 1, _item);
+                                        ThumbnailItems.Remove(_item);
+
+                                        if (_item.ErrorTry != ERROR_TRY)
+                                        {
+                                            if (ThumbnailItems.Count == 0)
+                                                ThumbnailItems.Insert(0, _item);
+                                            else
+                                                ThumbnailItems.Insert(ThumbnailItems.Count - 1, _item);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                lock (PhotoItems)
+                                {
+                                    if (PhotoItems.Contains(_item))
+                                    {
+                                        PhotoItems.Remove(_item);
+
+                                        if (_item.ErrorTry != ERROR_TRY)
+                                        {
+                                            if (PhotoItems.Count == 0)
+                                                PhotoItems.Insert(0, _item);
+                                            else
+                                                PhotoItems.Insert(PhotoItems.Count - 1, _item);
+                                        }
                                     }
                                 }
                             }
                         }
+                        catch
+                        {
+                        }
                     }
-                    catch
-                    {}
                 }
+            }
+        }
 
+        public static void PreloadPictures(Post post, bool allSize)
+        {
+            List<Attachment> _imageAttachments = new List<Attachment>();
+            List<string> _filePathOrigins = new List<string>();
+            List<string> _filePathMediums = new List<string>();
+            List<string> _urlCloudOrigins = new List<string>();
+            List<string> _urlOrigins = new List<string>();
+            List<string> _urlMediums = new List<string>();
 
-                Thread.Sleep(10);
+            foreach (Attachment _a in post.attachments)
+            {
+                if (_a.type == "image")
+                    _imageAttachments.Add(_a);
+            }
+
+            if (_imageAttachments.Count == 0)
+                return;
+
+            foreach (Attachment _attachment in _imageAttachments)
+            {
+                string _urlO = string.Empty;
+                string _fileNameO = string.Empty;
+                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, false);
+
+                string _localFileO = Main.GCONST.CachePath + _fileNameO;
+
+                _filePathOrigins.Add(_localFileO);
+                _urlOrigins.Add(_urlO);
+
+                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, true);
+                _urlCloudOrigins.Add(_urlO);
+
+                string _urlM = string.Empty;
+                string _fileNameM = string.Empty;
+                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM, false);
+
+                string _localFileM = Main.GCONST.CachePath + _fileNameM;
+
+                _filePathMediums.Add(_localFileM);
+                _urlMediums.Add(_urlM);
+            }
+
+            for (int i = _imageAttachments.Count - 1; i >= 0; i--)
+            {
+                if (!File.Exists(_filePathOrigins[i]) || !File.Exists(_filePathMediums[i]))
+                {
+                    ImageItem _item = new ImageItem();
+
+                    if (allSize)
+                        _item.PostItemType = PostItemType.Origin;
+                    else
+                        _item.PostItemType = PostItemType.Medium;
+
+                    _item.CloudOriginPath = _urlCloudOrigins[i];
+
+                    _item.OriginPath = _urlOrigins[i];
+                    _item.MediumPath = _urlMediums[i];
+                    _item.LocalFilePath_Origin = _filePathOrigins[i];
+                    _item.LocalFilePath_Medium = _filePathMediums[i];
+
+                    Main.Current.PhotoDownloader.Add(_item, false);
+                }
             }
         }
     }

@@ -436,7 +436,7 @@
     <value>802, 21</value>
   </metadata>
   <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>965, 24</value>
+    <value>272, 60</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -577,7 +577,7 @@
     <value>MiddleLeft</value>
   </data>
   <data name="StatusLabelUpload.Size" type="System.Drawing.Size, System.Drawing">
-    <value>906, 23</value>
+    <value>937, 23</value>
   </data>
   <data name="StatusLabelUpload.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -2025,10 +2025,10 @@
   <data name="&gt;&gt;timerShowStatuMessage.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;backgroundWorkerPreloadImage.Name" xml:space="preserve">
-    <value>backgroundWorkerPreloadImage</value>
+  <data name="&gt;&gt;backgroundWorkerPreloadAllImages.Name" xml:space="preserve">
+    <value>backgroundWorkerPreloadAllImages</value>
   </data>
-  <data name="&gt;&gt;backgroundWorkerPreloadImage.Type" xml:space="preserve">
+  <data name="&gt;&gt;backgroundWorkerPreloadAllImages.Type" xml:space="preserve">
     <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
@@ -2038,9 +2038,9 @@
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="timerShowStatuMessage.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1102, 28</value>
+    <value>416, 60</value>
   </metadata>
-  <metadata name="backgroundWorkerPreloadImage.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="backgroundWorkerPreloadAllImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>537, 17</value>
   </metadata>
 </root>
