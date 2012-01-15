@@ -178,6 +178,9 @@
       <ComponentRef Id="MongoDB.Driver.dll"/>
       <ComponentRef Id="StationUI.exe"/>
       <ComponentRef Id="StationUI.resources.dll"/>
+      <ComponentRef Id="StationSystemTray.exe"/>
+      <ComponentRef Id="StationSystemTray.resources.dll"/>
+      <ComponentRef Id="SystemTrayML.xml"/>
       <ComponentRef Id="System.Data.SQLite.dll"/>
       <ComponentRef Id="TCMPortMapper.dll"/>
       <ComponentRef Id="miniupnp.dll"/>
@@ -329,6 +332,9 @@
       <Component Guid="*">
         <File Id="StationUI.resources.dll" Source="$(var.StationUI.TargetDir)\zh-TW\StationUI.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Guid="*">
+        <File Id="StationSystemTray.resources.dll" Source="$(var.StationSystemTray.TargetDir)\zh-TW\StationSystemTray.resources.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="WavefaceWindowsClient.resources.dll" Guid="{F9E63329-F16F-433C-AF22-845350BA079C}">
         <File Id="WavefaceWindowsClient.resources.dll" Source="$(var.Wammer.TargetDir)\zh-TW\WavefaceWindowsClient.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -366,8 +372,6 @@
       <ComponentRef Id="mongorestore.exe"/>
       <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
-      <ComponentRef Id="StationSystemTray.exe"/>
-      <ComponentRef Id="SystemTrayML.xml"/>
       <ComponentRef Id='pmd'/>
       <ComponentRef Id="CultureSetting"/>
       <ComponentRef Id="LaunchAtStartUp"/>
