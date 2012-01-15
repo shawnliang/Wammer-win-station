@@ -6,6 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
+using System.Diagnostics;
+using System.Reflection;
 
 using Wammer.Station.Management;
 
@@ -34,27 +37,38 @@ namespace StationSystemTray
 
 			try
 			{
-				StationController.StationOnline();
+				StationController.StationOnline(this.txtEmail.Text, this.txtPassword.Text);
 				this.DialogResult = DialogResult.Yes;
 				this.Close();
 			}
-			catch (AuthenticationException _)
+			catch (AuthenticationException ex)
 			{
 				messenger.ShowMessage(I18n.L.T("LoginForm.LogInError"));
 				this.txtEmail.Text = "";
 				this.txtPassword.Text = "";
 				this.txtEmail.Focus();
 			}
+			catch (StationAlreadyHasDriverException ex)
+			{
+				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+										   "StationUI.exe");
+				Process.Start(_execPath);
+				Application.Exit();
+			}
 			catch (Exception ex)
 			{
 				logger.Error("StationOnline failed", ex);
-				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
-				Application.Exit();
+				messenger.ShowMessage(I18n.L.T("LoginForm.LogInError"));
+				this.txtEmail.Text = "";
+				this.txtPassword.Text = "";
+				this.txtEmail.Focus();
 			}
 		}
 
 		private void SignInForm_Load(object sender, EventArgs e)
 		{
+			this.lblSignInMsg.Text = I18n.L.T("Station401Exception");
 			this.txtEmail.Focus();
 		}
 
@@ -65,6 +79,14 @@ namespace StationSystemTray
 				btnSignIn_Click(null, null);
 			}
 			return base.ProcessDialogKey(keyData);
+		}
+
+		private void SignInForm_Activated(object sender, EventArgs e)
+		{
+			if (this.OwnedForms.Length > 0)
+			{
+				this.OwnedForms[0].Activate();
+			}
 		}
 	}
 }

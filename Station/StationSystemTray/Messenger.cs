@@ -11,6 +11,7 @@ namespace StationSystemTray
 		private object cs;
 		private const string TITLE = "Waveface";
 		private Form form;
+		private SignInForm siform;
 
 		public Messenger(Form form)
 		{
@@ -30,8 +31,9 @@ namespace StationSystemTray
 		{
 			lock (cs)
 			{
-				SignInForm siform = new SignInForm();
+				siform = new SignInForm();
 				DialogResult res = siform.ShowDialog();
+				siform = null;
 				if (res == DialogResult.Yes)
 				{
 					uictrl.PerformAction(parameter);
@@ -41,6 +43,32 @@ namespace StationSystemTray
 				{
 					return false;
 				}
+			}
+		}
+
+		public bool ShowLoginDialog()
+		{
+			lock (cs)
+			{
+				siform = new SignInForm();
+				DialogResult res = siform.ShowDialog();
+				siform = null;
+				if (res == DialogResult.Yes)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+
+		public void ActivateLoginDialog()
+		{
+			if (siform != null)
+			{
+				siform.Activate();
 			}
 		}
 	}

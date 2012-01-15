@@ -248,6 +248,8 @@ namespace StationSystemTray
 
 		private void PreferenceForm_Activated(object sender, EventArgs e)
 		{
+			messenger.ActivateLoginDialog();
+
 			if (uictrlConnectDropbox.procDropboxSetup != null)
 			{
 				SetForegroundWindow(uictrlConnectDropbox.procDropboxSetup.MainWindowHandle);
@@ -379,6 +381,13 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
+			if (ex is AuthenticationException)
+			{
+				messenger.ShowLoginDialog();
+				pform.Close();
+				return;
+			}
+
 			pform.RemoveButtonClickEventHandler(pform.BtnDropboxAction, pform.btnUnlinkDropbox_Click);
 			pform.RemoveButtonClickEventHandler(pform.BtnDropboxAction, pform.btnConnectDropbox_Click);
 			pform.AddButtonClickEventHandler(pform.BtnDropboxAction, pform.btnConnectDropbox_Click);
@@ -516,13 +525,6 @@ namespace StationSystemTray
 		protected override void ActionError(Exception ex)
 		{
 			PreferenceForm.logger.Error("Unable to unlink Dropbox", ex);
-			if (ex is AuthenticationException)
-			{
-				if (messenger.ShowLoginDialog(this, this._parameter))
-				{
-					Thread.CurrentThread.Abort();
-				}
-			}
 		}
 
 		protected override void SetFormControls(object obj)
@@ -536,6 +538,13 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
+			if (ex is AuthenticationException)
+			{
+				messenger.ShowLoginDialog();
+				pform.Close();
+				return;
+			}
+
 			messenger.ShowMessage(I18n.L.T("UnlinkCloudStorageFail"));
 
 			pform.BtnDropboxAction.Enabled = true;
@@ -593,6 +602,12 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
+			if (ex is AuthenticationException)
+			{
+				messenger.ShowLoginDialog();
+				pform.Close();
+				return;
+			}
 		}
 
 		protected override void UpdateUI(object obj)
@@ -692,6 +707,13 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
+			if (ex is AuthenticationException)
+			{
+				messenger.ShowLoginDialog();
+				pform.Close();
+				return;
+			}
+
 			pform.BtnTestConnectionEnabled = true;
 		}
 

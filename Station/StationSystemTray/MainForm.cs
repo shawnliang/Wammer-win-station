@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 using Wammer.Station.Management;
 using Wammer.Cloud;
@@ -65,12 +66,6 @@ namespace StationSystemTray
 		{
 			get { return TrayIcon.Icon; }
 			set { TrayIcon.Icon = value; }
-		}
-
-		public bool TrayMenuEnabled
-		{
-			get { return this.TrayMenu.Enabled; }
-			set { this.TrayMenu.Enabled = value; }
 		}
 
 		public bool TrayMenuVisible
@@ -183,10 +178,9 @@ namespace StationSystemTray
 				preferenceForm = new PreferenceForm();
 				preferenceForm.FormClosed += new FormClosedEventHandler(preferenceForm_FormClosed);
 				preferenceForm.Show();
-				
 			}
 			else
-			{
+			{	
 				preferenceForm.Activate();
 			}
 		}
@@ -228,7 +222,15 @@ namespace StationSystemTray
 
 		protected override void ActionError(Exception ex)
 		{
+			if (ex is AuthenticationException)
+			{
+				if (messenger.ShowLoginDialog(this, _parameter))
+				{
+					Thread.CurrentThread.Abort();
+				}
+			}
 			mainform.ServiceRunning = false;
+			MainForm.logger.Error("Unable to start mainform", ex);
 		}
 
 		protected override void SetFormControls(object obj)
@@ -245,8 +247,6 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
-			mainform.TrayIconVisible = false;
-			mainform.TrayMenuVisible = false;
 			messenger.ShowMessage(I18n.L.T("WFServiceStartFail"));
 			Application.Exit();
 		}
@@ -300,21 +300,36 @@ namespace StationSystemTray
 
 		protected override void ActionError(Exception ex)
 		{
+			if (ex is AuthenticationException)
+			{
+				if (messenger.ShowLoginDialog(this, _parameter))
+				{
+					Thread.CurrentThread.Abort();
+				}
+			}
+
+			if (mainform.ServiceRunning)
+				MainForm.logger.Error("Unable to stop service", ex);
+			else
+				MainForm.logger.Error("Unable to start service", ex);
 		}
 
 		protected override void SetFormControls(object obj)
 		{
-			mainform.TrayMenuEnabled = false;
+			mainform.MenuServiceActionEnabled = false;
+			mainform.MenuPreferenceEnabled = false;
 		}
 
 		protected override void SetFormControlsInCallback(object obj)
 		{
-			mainform.TrayMenuEnabled = true;
+			mainform.MenuServiceActionEnabled = true;
+			mainform.MenuPreferenceEnabled = true;
 		}
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
-			mainform.TrayMenuEnabled = true;
+			mainform.MenuServiceActionEnabled = true;
+			mainform.MenuPreferenceEnabled = true;
 		}
 
 		protected override void UpdateUI(object obj)

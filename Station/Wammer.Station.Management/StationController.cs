@@ -624,9 +624,18 @@ namespace Wammer.Station.Management
 						{
 							using (StreamReader reader = new StreamReader(webres.GetResponseStream()))
 							{
+								int ERR_USER_HAS_ANOTHER_STATION = 16387;
+								int ERR_BAD_NAME_PASSWORD = 4097;
+
 								string resText = reader.ReadToEnd();
 								Cloud.CloudResponse r = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(resText);
-								return r.api_ret_message;
+
+								if (e.WammerError == ERR_BAD_NAME_PASSWORD)
+									throw new AuthenticationException(r.api_ret_message);
+								else if (e.WammerError == ERR_USER_HAS_ANOTHER_STATION)
+									throw new UserAlreadyHasStationException(r.api_ret_message);
+								else
+									return r.api_ret_message;
 							}
 						}
 					}
@@ -794,6 +803,11 @@ namespace Wammer.Station.Management
 
 		public UserAlreadyHasStationException()
 			:base()
+		{
+		}
+
+		public UserAlreadyHasStationException(string msg)
+			: base(msg)
 		{
 		}
 	}
