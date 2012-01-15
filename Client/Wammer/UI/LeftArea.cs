@@ -305,6 +305,14 @@ namespace Waveface
             {
                 Main.Current.ShowStatuMessage("", false);
 
+                if (percent == int.MinValue)
+                {
+                    DrawDropArea(Resources.dragNdrop_area1);
+                    Main.Current.ShowStatuMessage(text, false);
+
+                    return;
+                }
+
                 if ((percent == 0) || (percent == 100))
                 {
                     DrawDropArea(Resources.dragNdrop_area1);
@@ -397,7 +405,7 @@ namespace Waveface
                 _g.DrawImage(bmp, 0, 0);
 
                 Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                _g.DrawString(m_dropAreaMessage, m_font, Brushes.DeepSkyBlue, (bmp.Width - _size.Width) / 2, (bmp.Height - _size.Height) / 2);
+                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(0, 100, 170)), (bmp.Width - _size.Width) / 2, (bmp.Height - _size.Height) / 2);
             }
 
             pbDropArea.Image = m_dropAreaImage;

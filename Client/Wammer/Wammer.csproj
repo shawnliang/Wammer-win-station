@@ -115,6 +115,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compoment\SingleInstance.cs" />
+    <Compile Include="Compoment\WaterMarkRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Data\ConnectServiceStateType.cs" />
     <Compile Include="Data\Delegates.cs" />
     <Compile Include="Data\StationState.cs" />
@@ -635,6 +638,9 @@
     <EmbeddedResource Include="UI\DropAreaInforForm.resx">
       <DependentUpon>DropAreaInforForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\DropAreaInforForm.zh-TW.resx">
+      <DependentUpon>DropAreaInforForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\NewPostManagerUI.resx">
       <DependentUpon>NewPostManagerUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -867,6 +873,7 @@
     <Content Include="Icon.ico" />
     <None Include="Resources\Cloud.png" />
     <None Include="Resources\Station.png" />
+    <None Include="Resources\DropArea\dragdrop-tutorial.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

@@ -28,46 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DropAreaInforForm));
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.label = new System.Windows.Forms.Label();
             this.btnSend = new Waveface.Component.XPButton();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.Image = global::Waveface.Properties.Resources.dragdrop_tutorial;
+            resources.ApplyResources(this.pictureBox, "pictureBox");
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.TabStop = false;
+            // 
+            // label
+            // 
+            resources.ApplyResources(this.label, "label");
+            this.label.Name = "label";
             // 
             // btnSend
             // 
             this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.btnSend, "btnSend");
             this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSend.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSend.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnSend.Location = new System.Drawing.Point(395, 135);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(74, 28);
-            this.btnSend.TabIndex = 12;
-            this.btnSend.Text = "OK";
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // DropAreaInforForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 175);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.Controls.Add(this.pictureBox);
+            this.Controls.Add(this.label);
             this.Controls.Add(this.btnSend);
-            this.Font = new System.Drawing.Font("Arial", 9F);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DropAreaInforForm";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Information";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private Component.XPButton btnSend;
+        private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.Label label;
     }
 }

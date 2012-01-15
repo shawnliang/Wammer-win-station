@@ -155,43 +155,6 @@
     <value>339, 17</value>
   </metadata>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnAddPhoto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="btnAddPhoto.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="btnAddPhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 2</value>
-  </data>
-  <data name="btnAddPhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 26</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnAddPhoto.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="btnAddPhoto.Text" xml:space="preserve">
-    <value>Add Photo</value>
-  </data>
-  <data name="btnAddPhoto.ToolTip" xml:space="preserve">
-    <value>Add Photo</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.Name" xml:space="preserve">
-    <value>btnAddPhoto</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="richText_UI.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -204,6 +167,7 @@
   <data name="richText_UI.Size" type="System.Drawing.Size, System.Drawing">
     <value>574, 202</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="richText_UI.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
@@ -343,7 +307,7 @@
     <value>Page_RichText</value>
   </data>
   <data name="&gt;&gt;Page_RichText.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.MultiPage.MultiPanelPage, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Page_RichText.Parent" xml:space="preserve">
     <value>multiPanel</value>
@@ -397,7 +361,7 @@
     <value>Page__Link</value>
   </data>
   <data name="&gt;&gt;Page__Link.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.MultiPage.MultiPanelPage, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Page__Link.Parent" xml:space="preserve">
     <value>multiPanel_P_D_W</value>
@@ -451,7 +415,7 @@
     <value>Page__Photo</value>
   </data>
   <data name="&gt;&gt;Page__Photo.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.MultiPage.MultiPanelPage, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Page__Photo.Parent" xml:space="preserve">
     <value>multiPanel_P_D_W</value>
@@ -508,7 +472,7 @@
     <value>Page__DOC</value>
   </data>
   <data name="&gt;&gt;Page__DOC.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.MultiPage.MultiPanelPage, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Page__DOC.Parent" xml:space="preserve">
     <value>multiPanel_P_D_W</value>
@@ -532,7 +496,7 @@
     <value>multiPanel_P_D_W</value>
   </data>
   <data name="&gt;&gt;multiPanel_P_D_W.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanel, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.MultiPage.MultiPanel, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;multiPanel_P_D_W.Parent" xml:space="preserve">
     <value>panelPWD_Main</value>
@@ -566,6 +530,42 @@
   </data>
   <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
+  </data>
+  <data name="btnAddPhoto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="btnAddPhoto.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="btnAddPhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 2</value>
+  </data>
+  <data name="btnAddPhoto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 26</value>
+  </data>
+  <data name="btnAddPhoto.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="btnAddPhoto.Text" xml:space="preserve">
+    <value>Add Photo</value>
+  </data>
+  <data name="btnAddPhoto.ToolTip" xml:space="preserve">
+    <value>Add Photo</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Name" xml:space="preserve">
+    <value>btnAddPhoto</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Parent" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="btnAddDoc.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -742,7 +742,7 @@
     <value>pureTextBox</value>
   </data>
   <data name="&gt;&gt;pureTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Waveface.Component.WaterMarkRichTextBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pureTextBox.Parent" xml:space="preserve">
     <value>panelText</value>
@@ -793,7 +793,7 @@
     <value>Page_P_D_W</value>
   </data>
   <data name="&gt;&gt;Page_P_D_W.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.MultiPage.MultiPanelPage, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Page_P_D_W.Parent" xml:space="preserve">
     <value>multiPanel</value>
@@ -817,7 +817,7 @@
     <value>multiPanel</value>
   </data>
   <data name="&gt;&gt;multiPanel.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanel, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.MultiPage.MultiPanel, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;multiPanel.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1127,6 +1127,9 @@
         AAAAAAAAgAAAAAAAAAGAAAAAAAAAA+AAAAAAAAAH8AAAAAAAAA8=
 </value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>580, 268</value>
   </data>
@@ -1164,7 +1167,7 @@
     <value>cultureManager</value>
   </data>
   <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PostForm</value>

@@ -13,6 +13,7 @@ namespace Waveface
         public Dictionary<string, string> UploadedFiles { get; set; }
         public DateTime OrgPostTime { get; set; }
         public bool PostOK { get; set; }
+        public bool ErrorAndDeletePost { get; set; }
 
         public NewPostItem()
         {

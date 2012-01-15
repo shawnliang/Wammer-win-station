@@ -40,13 +40,13 @@ namespace Waveface
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.StatusLabelOriginSize = new System.Windows.Forms.ToolStripStatusLabel();
-            this.panelMain = new System.Windows.Forms.Panel();
-            this.StatusLabelFileName = new System.Windows.Forms.ToolStripStatusLabel();
-            this.StatusLabelCurrentSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnSave = new Waveface.Component.XPButton();
             this.btnSaveAll = new Waveface.Component.XPButton();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.StatusLabelFileName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.StatusLabelOriginSize = new System.Windows.Forms.ToolStripStatusLabel();
+            this.StatusLabelCurrentSize = new System.Windows.Forms.ToolStripStatusLabel();
+            this.panelMain = new System.Windows.Forms.Panel();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -86,55 +86,6 @@ namespace Waveface
             // 
             this.cultureManager.ManagedControl = this;
             // 
-            // statusStrip
-            // 
-            resources.ApplyResources(this.statusStrip, "statusStrip");
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StatusLabelFileName,
-            this.StatusLabelOriginSize,
-            this.StatusLabelCurrentSize});
-            this.statusStrip.Name = "statusStrip";
-            // 
-            // StatusLabelOriginSize
-            // 
-            this.StatusLabelOriginSize.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.StatusLabelOriginSize.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.StatusLabelOriginSize.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.StatusLabelOriginSize.Name = "StatusLabelOriginSize";
-            resources.ApplyResources(this.StatusLabelOriginSize, "StatusLabelOriginSize");
-            this.StatusLabelOriginSize.Spring = true;
-            // 
-            // panelMain
-            // 
-            resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.Controls.Add(this.btnSave);
-            this.panelMain.Controls.Add(this.btnSaveAll);
-            this.panelMain.Controls.Add(this.imageListView);
-            this.panelMain.Name = "panelMain";
-            // 
-            // StatusLabelFileName
-            // 
-            this.StatusLabelFileName.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.StatusLabelFileName.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
-            this.StatusLabelFileName.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.StatusLabelFileName.Name = "StatusLabelFileName";
-            resources.ApplyResources(this.StatusLabelFileName, "StatusLabelFileName");
-            this.StatusLabelFileName.Spring = true;
-            // 
-            // StatusLabelCurrentSize
-            // 
-            this.StatusLabelCurrentSize.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.StatusLabelCurrentSize.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.StatusLabelCurrentSize.Name = "StatusLabelCurrentSize";
-            resources.ApplyResources(this.StatusLabelCurrentSize, "StatusLabelCurrentSize");
-            this.StatusLabelCurrentSize.Spring = true;
-            // 
             // btnSave
             // 
             this.btnSave.AdjustImageLocation = new System.Drawing.Point(0, 0);
@@ -158,6 +109,54 @@ namespace Waveface
             this.toolTip.SetToolTip(this.btnSaveAll, resources.GetString("btnSaveAll.ToolTip"));
             this.btnSaveAll.UseVisualStyleBackColor = true;
             this.btnSaveAll.Click += new System.EventHandler(this.btnSaveAll_Click);
+            // 
+            // statusStrip
+            // 
+            resources.ApplyResources(this.statusStrip, "statusStrip");
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StatusLabelFileName,
+            this.StatusLabelOriginSize,
+            this.StatusLabelCurrentSize});
+            this.statusStrip.Name = "statusStrip";
+            // 
+            // StatusLabelFileName
+            // 
+            this.StatusLabelFileName.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusLabelFileName.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
+            this.StatusLabelFileName.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.StatusLabelFileName.Name = "StatusLabelFileName";
+            resources.ApplyResources(this.StatusLabelFileName, "StatusLabelFileName");
+            // 
+            // StatusLabelOriginSize
+            // 
+            this.StatusLabelOriginSize.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusLabelOriginSize.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.StatusLabelOriginSize.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.StatusLabelOriginSize.Name = "StatusLabelOriginSize";
+            resources.ApplyResources(this.StatusLabelOriginSize, "StatusLabelOriginSize");
+            this.StatusLabelOriginSize.Spring = true;
+            // 
+            // StatusLabelCurrentSize
+            // 
+            this.StatusLabelCurrentSize.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusLabelCurrentSize.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.StatusLabelCurrentSize.Name = "StatusLabelCurrentSize";
+            resources.ApplyResources(this.StatusLabelCurrentSize, "StatusLabelCurrentSize");
+            this.StatusLabelCurrentSize.Spring = true;
+            // 
+            // panelMain
+            // 
+            resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.Controls.Add(this.btnSave);
+            this.panelMain.Controls.Add(this.btnSaveAll);
+            this.panelMain.Controls.Add(this.imageListView);
+            this.panelMain.Name = "panelMain";
             // 
             // PhotoView
             // 
