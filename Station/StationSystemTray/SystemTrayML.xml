@@ -253,7 +253,7 @@ Please restart the program to initialize Waveface Station.</en-US>
   <WItem>
     <ID>WFServiceRunning</ID>
     <en-US>Waveface Station is running</en-US>
-    <zh-TW>Waveface Station 正在執行</zh-TW>
+    <zh-TW>Waveface Station 執行中</zh-TW>
   </WItem>
   <WItem>
     <ID>WFServiceStopped</ID>

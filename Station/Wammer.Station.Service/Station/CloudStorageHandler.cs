@@ -140,9 +140,9 @@ namespace Wammer.Station
 
 		private void VerifyAccountLink(string folder, string token)
 		{
-			// cloud will put a token file on Waveface folder for account verification, verify it in at most 10 secs
+			// cloud will put a token file on Waveface folder for account verification, verify it in at most 60 secs
 			string tokenFilePath = Path.Combine(folder, "waveface_" + token);
-			int retry = 20;
+			int retry = 120;
 			logger.DebugFormat("Check token file existence, path = {0}", tokenFilePath);
 			while (!File.Exists(tokenFilePath))
 			{
