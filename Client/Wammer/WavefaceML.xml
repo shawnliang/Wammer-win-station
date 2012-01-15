@@ -146,6 +146,11 @@ Please restart the program to initialize Waveface Station.</en-US>
     <zh-TW>貼文失敗!</zh-TW>
   </WItem>
   <WItem>
+    <ID>PostForm.PuretextWaterMark</ID>
+    <en-US>Write down the description here...</en-US>
+    <zh-TW>在此寫下您的隻字片語...</zh-TW>
+  </WItem>   
+  <WItem>
     <ID>PostForm.PostSuccess</ID>
     <en-US>Post success!</en-US>
     <zh-TW>貼文成功!</zh-TW>

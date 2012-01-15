@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Windows.Forms;
 using NLog;
 using Newtonsoft.Json;
 using Waveface.API.V2;
@@ -148,6 +149,20 @@ namespace Waveface
                         }
                         else
                         {
+                            if (_retItem.ErrorAndDeletePost)
+                            {
+                                Remove(_newPost);
+
+                                UpdateUI(int.MinValue, "");
+
+                                if (UploadDone != null)
+                                    UploadDone(I18n.L.T("PostForm.PostError"));
+
+                                s_logger.Error("Remove New Post");
+
+                                continue;
+                            }
+
                             lock (this)
                             {
                                 Save();
@@ -156,7 +171,7 @@ namespace Waveface
                     }
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
             }
         }
 
@@ -187,11 +202,57 @@ namespace Waveface
                         {
                             Downloading = true;
 
-                            if(!File.Exists(_file))
+                            if (!File.Exists(_file))
                             {
-                                // 原始檔案不存在. 作錯誤處裡 
- 
+                                // 原始檔案不存在. 作錯誤處裡
                                 s_logger.Error("Image File does not exist: [" + _file + "]");
+
+                                DialogResult _dr = MessageBox.Show("", "Waveface", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+
+                                switch (_dr)
+                                {
+                                    case DialogResult.Cancel:  // Delete Post
+                                        newPost.ErrorAndDeletePost = true;
+                                        newPost.PostOK = false;
+                                        return newPost;
+
+                                    case DialogResult.Yes: // Remove Picture
+                                        s_logger.Error("Remove: [" + _file + "]");
+
+                                        newPost.Files.Remove(_file);
+                                        newPost.PostOK = false;
+
+                                        UpdateUI(int.MinValue, "");
+
+                                        return newPost;
+
+                                    case DialogResult.No:  // DoNothing
+                                        s_logger.Error("Ignore & Retry Miss File: [" + _file + "]");
+
+                                        newPost.PostOK = false;
+                                        return newPost;
+                                }
+                            }
+
+                            if (CheckStoragesUsage() <= 0)
+                            {
+                                // 雲端個人儲存空間不足. 作錯誤處裡 
+                                s_logger.Error("(CheckStoragesUsage() <= 0)");
+
+                                DialogResult _dr = MessageBox.Show("", "Waveface", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+
+                                switch (_dr)
+                                {
+                                    case DialogResult.Cancel:  // Delete Post
+                                        newPost.ErrorAndDeletePost = true;
+                                        newPost.PostOK = false;
+                                        return newPost;
+
+                                    case DialogResult.No:  // DoNothing
+
+                                        newPost.PostOK = false;
+                                        return newPost;
+                                }
                             }
 
                             string _text = new FileName(_file).Name;
@@ -199,7 +260,6 @@ namespace Waveface
 
                             MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, "",
                                                                                              true);
-
                             if (_uf == null)
                             {
                                 newPost.PostOK = false;
@@ -282,6 +342,34 @@ namespace Waveface
 
             newPost.PostOK = true;
             return newPost;
+        }
+
+        private long CheckStoragesUsage()
+        {
+            try
+            {
+                MR_storages_usage _storagesUsage = Main.Current.RT.REST.Storages_Usage();
+
+                if (_storagesUsage != null)
+                {
+                    long m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
+                    long m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
+
+                    //Hack
+                    if (m_month_total_objects == -1)
+                    {
+                        return long.MaxValue;
+                    }
+
+                    return m_avail_month_total_objects;
+                }
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "CheckStoragesUsage");
+            }
+
+            return long.MinValue;
         }
 
         #region IO

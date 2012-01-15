@@ -79,7 +79,7 @@ namespace Waveface
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseSize = false;
-            m_formSettings.SaveOnClose = false;
+            m_formSettings.SaveOnClose = true;
             m_formSettings.Settings.Add(new PropertySetting(this, "RememberPassword"));
         }
 

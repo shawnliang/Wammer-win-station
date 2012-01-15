@@ -130,6 +130,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap dragdrop_tutorial {
+            get {
+                object obj = ResourceManager.GetObject("dragdrop_tutorial", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap dragNdrop_area1 {
             get {
                 object obj = ResourceManager.GetObject("dragNdrop_area1", resourceCulture);
@@ -252,48 +259,6 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap Post {
             get {
                 object obj = ResourceManager.GetObject("Post", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap postItem_arrow_out {
-            get {
-                object obj = ResourceManager.GetObject("postItem_arrow_out", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap postItem_delete {
-            get {
-                object obj = ResourceManager.GetObject("postItem_delete", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap postItem_green {
-            get {
-                object obj = ResourceManager.GetObject("postItem_green", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap postItem_play {
-            get {
-                object obj = ResourceManager.GetObject("postItem_play", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap postItem_red {
-            get {
-                object obj = ResourceManager.GetObject("postItem_red", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap postItem_stop {
-            get {
-                object obj = ResourceManager.GetObject("postItem_stop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

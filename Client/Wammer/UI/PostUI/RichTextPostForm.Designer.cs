@@ -174,7 +174,6 @@
             this.btnCancal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancal.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnCancal.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnCancal.Image = global::Waveface.Properties.Resources.postItem_delete;
             this.btnCancal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCancal.Location = new System.Drawing.Point(277, 368);
             this.btnCancal.Name = "btnCancal";

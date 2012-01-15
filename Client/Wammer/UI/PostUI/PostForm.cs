@@ -36,6 +36,8 @@ namespace Waveface
 
             btnAddPhoto.Focus();
 
+            pureTextBox.WaterMarkText = I18n.L.T("PostForm.PuretextWaterMark");
+
             ToSubControl(files, postType);
         }
 
