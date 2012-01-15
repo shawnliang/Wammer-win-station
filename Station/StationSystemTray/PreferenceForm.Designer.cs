@@ -289,8 +289,6 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "PreferenceForm";
-			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
 			this.Activated += new System.EventHandler(this.PreferenceForm_Activated);
 			this.Load += new System.EventHandler(this.PreferenceForm_Load);
 			this.groupBox1.ResumeLayout(false);

@@ -46,30 +46,23 @@ namespace StationSystemTray
 			}
 		}
 
-		public bool ShowLoginDialog()
+		public void ShowLoginDialog()
 		{
 			lock (cs)
 			{
 				siform = new SignInForm();
-				DialogResult res = siform.ShowDialog();
-				siform = null;
-				if (res == DialogResult.Yes)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
+				siform.FormClosed += new FormClosedEventHandler(siform_FormClosed);
+				siform.Show(form);
 			}
 		}
 
-		public void ActivateLoginDialog()
+		void siform_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (siform != null)
-			{
-				siform.Activate();
-			}
+			// user has to re-open the parent form after re-login,
+			// but closing parent form will fire close event to this form,
+			// so we add a check here to avoid infinite loop.
+			if (e.CloseReason != CloseReason.FormOwnerClosing)
+				form.Close();
 		}
 	}
 }

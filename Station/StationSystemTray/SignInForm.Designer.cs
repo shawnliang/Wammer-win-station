@@ -90,8 +90,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "SignInForm";
-			this.ShowIcon = false;
-			this.Activated += new System.EventHandler(this.SignInForm_Activated);
+			this.ShowInTaskbar = false;
 			this.Load += new System.EventHandler(this.SignInForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

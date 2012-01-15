@@ -8,7 +8,6 @@ using System.Web;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 using Wammer.Station.Management;
 using Wammer.Model;
@@ -243,16 +242,15 @@ namespace StationSystemTray
 			Process.Start(WebURL + "/page/privacy", null);
 		}
 
-		[DllImport("user32.dll")]
-		public static extern bool SetForegroundWindow(IntPtr hWnd);
-
 		private void PreferenceForm_Activated(object sender, EventArgs e)
 		{
-			messenger.ActivateLoginDialog();
-
-			if (uictrlConnectDropbox.procDropboxSetup != null)
+			if (this.OwnedForms.Length > 0)
 			{
-				SetForegroundWindow(uictrlConnectDropbox.procDropboxSetup.MainWindowHandle);
+				this.OwnedForms[0].Activate();
+			}
+			else if (uictrlConnectDropbox.procDropboxSetup != null)
+			{
+				Win32Helper.SetForegroundWindow(uictrlConnectDropbox.procDropboxSetup.MainWindowHandle);
 			}
 		}
 	}
@@ -384,7 +382,6 @@ namespace StationSystemTray
 			if (ex is AuthenticationException)
 			{
 				messenger.ShowLoginDialog();
-				pform.Close();
 				return;
 			}
 
@@ -541,7 +538,6 @@ namespace StationSystemTray
 			if (ex is AuthenticationException)
 			{
 				messenger.ShowLoginDialog();
-				pform.Close();
 				return;
 			}
 
@@ -605,7 +601,6 @@ namespace StationSystemTray
 			if (ex is AuthenticationException)
 			{
 				messenger.ShowLoginDialog();
-				pform.Close();
 				return;
 			}
 		}
@@ -710,7 +705,6 @@ namespace StationSystemTray
 			if (ex is AuthenticationException)
 			{
 				messenger.ShowLoginDialog();
-				pform.Close();
 				return;
 			}
 

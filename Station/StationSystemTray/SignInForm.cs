@@ -80,13 +80,5 @@ namespace StationSystemTray
 			}
 			return base.ProcessDialogKey(keyData);
 		}
-
-		private void SignInForm_Activated(object sender, EventArgs e)
-		{
-			if (this.OwnedForms.Length > 0)
-			{
-				this.OwnedForms[0].Activate();
-			}
-		}
 	}
 }
