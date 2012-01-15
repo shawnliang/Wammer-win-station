@@ -44,9 +44,8 @@ namespace StationSystemTray
 			catch (AuthenticationException ex)
 			{
 				messenger.ShowMessage(I18n.L.T("LoginForm.LogInError"));
-				this.txtEmail.Text = "";
 				this.txtPassword.Text = "";
-				this.txtEmail.Focus();
+				this.txtPassword.Focus();
 			}
 			catch (StationAlreadyHasDriverException ex)
 			{
@@ -60,9 +59,8 @@ namespace StationSystemTray
 			{
 				logger.Error("StationOnline failed", ex);
 				messenger.ShowMessage(I18n.L.T("LoginForm.LogInError"));
-				this.txtEmail.Text = "";
 				this.txtPassword.Text = "";
-				this.txtEmail.Focus();
+				this.txtPassword.Focus();
 			}
 		}
 

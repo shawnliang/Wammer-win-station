@@ -59,7 +59,16 @@ namespace Wammer.Station
 
 				if (email != null && password != null)
 				{
-					logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password, StatusChecker.GetDetail());
+					using (WebClient agent = new WebClient())
+					{
+						User user = User.LogIn(agent, email, password);
+
+						// update user's session token
+						driver.session_token = user.Token;
+						DriverCollection.Instance.Save(driver);
+
+						logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password, StatusChecker.GetDetail());
+					}
 				}
 				else
 				{
