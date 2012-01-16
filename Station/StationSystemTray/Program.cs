@@ -18,6 +18,7 @@ namespace StationSystemTray
 		[STAThread]
 		static void Main()
 		{
+			log4net.Config.XmlConfigurator.Configure();
 			FileStream fileLock = null;
 
 			try
