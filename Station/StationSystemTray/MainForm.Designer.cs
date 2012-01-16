@@ -37,6 +37,7 @@
 			this.menuPreference = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
+			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
 			this.TrayMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -91,6 +92,11 @@
 			this.menuQuit.Text = "Quit";
 			this.menuQuit.Click += new System.EventHandler(this.menuQuit_Click);
 			// 
+			// checkStationTimer
+			// 
+			this.checkStationTimer.Interval = 60000;
+			this.checkStationTimer.Tick += new System.EventHandler(this.checkStationTimer_Tick);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -115,6 +121,7 @@
 		private System.Windows.Forms.ToolStripMenuItem menuQuit;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.Timer checkStationTimer;
 	}
 }
 

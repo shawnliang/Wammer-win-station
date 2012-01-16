@@ -8,6 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.IO;
+using System.Diagnostics;
+using System.Reflection;
 
 using Wammer.Station.Management;
 using Wammer.Cloud;
@@ -95,6 +98,9 @@ namespace StationSystemTray
 			this.messenger = new Messenger(this);
 			this.uictrlServiceAction = new ServiceActionUIController(this, messenger);
 			this.uictrlInitMain = new InitMainUIController(this, messenger);
+
+			this.checkStationTimer.Enabled = true;
+			this.checkStationTimer.Start();
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -175,6 +181,29 @@ namespace StationSystemTray
 		private void TrayIcon_DoubleClick(object sender, EventArgs e)
 		{
 			menuPreference_Click(sender, e);
+		}
+
+		private void checkStationTimer_Tick(object sender, EventArgs e)
+		{
+			try
+			{
+				bool available = StationController.PingForAvailability();
+
+				if (!available && serviceRunning)
+					StationController.StationOnline();
+			}
+			catch (UserAlreadyHasStationException)
+			{
+				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+										   "StationUI.exe");
+				Process.Start(_execPath);
+				Application.Exit();
+			}
+			catch (Exception ex)
+			{
+				logger.Warn("Unexpected exception in station status cheking", ex);
+			}
 		}
 	}
 
