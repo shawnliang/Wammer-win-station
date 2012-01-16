@@ -47,7 +47,15 @@ namespace StationSystemTray
 				this.txtPassword.Text = "";
 				this.txtPassword.Focus();
 			}
-			catch (StationAlreadyHasDriverException ex)
+			catch (UserDoesNotExistException ex)
+			{
+				messenger.ShowMessage(I18n.L.T("LoginForm.UserNotExisted"));
+				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+										   "StationUI.exe");
+				Process.Start(_execPath);
+				Application.Exit();
+			}
+			catch (UserAlreadyHasStationException ex)
 			{
 				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
 				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),

@@ -240,6 +240,15 @@ namespace StationSystemTray
 					Thread.CurrentThread.Abort();
 				}
 			}
+			else if (ex is UserAlreadyHasStationException)
+			{
+				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+						   "StationUI.exe");
+				Process.Start(_execPath);
+				Application.Exit();
+			}
+
 			mainform.ServiceRunning = false;
 			MainForm.logger.Error("Unable to start mainform", ex);
 		}

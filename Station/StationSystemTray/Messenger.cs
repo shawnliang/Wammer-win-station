@@ -10,20 +10,28 @@ namespace StationSystemTray
 	{
 		private object cs;
 		private const string TITLE = "Waveface";
-		private Form form;
+		private Form _form;
 		private SignInForm siform;
+
+		private delegate DialogResult ShowMessageDelegate(Form form, string msg, string title);
 
 		public Messenger(Form form)
 		{
-			this.form = form;
+			this._form = form;
 			this.cs = new object();
 		}
 
-		public DialogResult ShowMessage(string msg)
+		public void ShowMessage(string msg)
 		{
 			lock (cs)
 			{
-				return MessageBox.Show(form, msg, TITLE);
+				if (_form.InvokeRequired)
+				{
+					if (!_form.IsDisposed)
+						_form.Invoke(new ShowMessageDelegate(MessageBox.Show), new object[] {_form, msg, TITLE});
+				}
+				else
+					MessageBox.Show(_form, msg, TITLE);
 			}
 		}
 
@@ -52,7 +60,7 @@ namespace StationSystemTray
 			{
 				siform = new SignInForm();
 				siform.FormClosed += new FormClosedEventHandler(siform_FormClosed);
-				siform.Show(form);
+				siform.Show(_form);
 			}
 		}
 
@@ -62,7 +70,7 @@ namespace StationSystemTray
 			// but closing parent form will fire close event to this form,
 			// so we add a check here to avoid infinite loop.
 			if (e.CloseReason != CloseReason.FormOwnerClosing)
-				form.Close();
+				_form.Close();
 		}
 	}
 }

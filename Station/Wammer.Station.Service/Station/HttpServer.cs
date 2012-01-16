@@ -264,25 +264,25 @@ namespace Wammer.Station
 				if (webex != null)
 				{
 					HttpWebResponse webres = (HttpWebResponse)webex.Response;
-					if (webres != null && webres.StatusCode == HttpStatusCode.BadRequest)
+					if (webres != null)
 					{
+						if (webres.StatusCode == HttpStatusCode.BadRequest)
+						{
 							Cloud.CloudResponse cloudres = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(e.response);
 							HttpHelper.RespondFailure(ctx.Context.Response, cloudres);
 							logger.Warn("Connection to cloud error", e);
 							return;
+						}
+
+						HttpHelper.RespondFailure(ctx.Context.Response,
+							new WammerStationException(e.InnerException.Message, e.WammerError), (int)webres.StatusCode);
+						logger.Warn("Connecting to cloud error", e);
+						return;
 					}
 				}
 
-				if (e.InnerException != null)
-				{
-					HttpHelper.RespondFailure(ctx.Context.Response,
-						new WammerStationException(e.InnerException.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
-				}
-				else
-				{
-					HttpHelper.RespondFailure(ctx.Context.Response,
-						new WammerStationException(e.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
-				}
+				HttpHelper.RespondFailure(ctx.Context.Response,
+					new WammerStationException(e.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
 				logger.Warn("Connecting to cloud error", e);
 			}
 			catch (ServiceUnavailableException e)

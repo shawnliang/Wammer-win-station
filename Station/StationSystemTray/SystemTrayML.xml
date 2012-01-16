@@ -16,6 +16,11 @@
     <zh-TW>這台 Waveface Station 的註冊資訊已失效, 請重新啟動程式以註冊新的 Waveface Station.</zh-TW>
   </WItem>
   <WItem>
+    <ID>LoginForm.UserNotExisted</ID>
+    <en-US>Driver account is deleted. Please restart the program to re-register the station with a valid driver account.</en-US>
+    <zh-TW>管理者帳號已被刪除. 請重新啟動程式並用有效的管理者帳號註冊新的 Waveface Station.</zh-TW>
+  </WItem>
+  <WItem>
     <ID>Main.ChangeOwnerWarning</ID>
     <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Waveface Station.</en-US>
     <zh-TW>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</zh-TW>
