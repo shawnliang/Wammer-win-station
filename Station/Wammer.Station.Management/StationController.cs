@@ -513,20 +513,14 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), "http://127.0.0.1:9981/v2/availibility/ping/", new Dictionary<object, object>(), true);
-				return true;
+				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), "http://127.0.0.1:9981/v2/availability/ping/", new Dictionary<object, object>(), true);
+				return true;																										   
 			}
 			catch (WammerCloudException e)
 			{
-				if (e.HttpError != WebExceptionStatus.ProtocolError)
-					return false;
+				string msg = ExtractApiRetMsg(e);
 
-
-				if (e.WammerError == (int)StationApiError.AlreadyHasStaion ||
-					e.WammerError == (int)StationApiError.InvalidDriver)
-					throw new UserAlreadyHasStationException();
-				else
-					return true;
+				return e.HttpError == WebExceptionStatus.ProtocolError;
 			}
 		}
 

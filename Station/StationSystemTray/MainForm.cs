@@ -200,6 +200,14 @@ namespace StationSystemTray
 				Process.Start(_execPath);
 				Application.Exit();
 			}
+			catch (AuthenticationException)
+			{
+				messenger.ShowMessage(I18n.L.T("Station401Exception"));
+				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+										   "StationUI.exe");
+				Process.Start(_execPath);
+				Application.Exit();
+			}
 			catch (Exception ex)
 			{
 				logger.Warn("Unexpected exception in station status cheking", ex);

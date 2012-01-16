@@ -24,7 +24,7 @@ namespace Wammer.Station
 			LogOutStationFromCloud();
 
 			logger.Debug("Station logout successfully, stop function server");
-			functionServer.BlockAuth(true);
+			//functionServer.BlockAuth(true);
 			functionServer.Stop();
 
 			logger.Debug("Stop function server successfully");
