@@ -61,8 +61,10 @@ namespace StationSystemTray
 		private void BeginUpdateUI(object obj)
 		{
 			if (_form.InvokeRequired)
+			{
 				if (!_form.IsDisposed)
 					_form.Invoke(new UpdateUIDelegate(UpdateUI), obj);
+			}
 			else
 				UpdateUI(obj);
 		}
@@ -70,8 +72,10 @@ namespace StationSystemTray
 		private void BeginUpdateUIInCallback(object obj)
 		{
 			if (_form.InvokeRequired)
+			{
 				if (!_form.IsDisposed)
 					_form.Invoke(new UpdateUIInCallbackDelegate(UpdateUIInCallback), obj);
+			}
 			else
 				UpdateUIInCallback(obj);
 		}
@@ -79,8 +83,10 @@ namespace StationSystemTray
 		private void BeginUpdateUIInError(Exception ex)
 		{
 			if (_form.InvokeRequired)
+			{
 				if (!_form.IsDisposed)
 					_form.Invoke(new UpdateUIInErrorDelegate(UpdateUIInError), ex);
+			}
 			else
 				UpdateUIInError(ex);
 		}

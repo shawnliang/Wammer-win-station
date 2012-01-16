@@ -82,7 +82,6 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
             this.PanelAddComment = new System.Windows.Forms.Panel();
-            this.buttonAddComment = new Waveface.Component.XPButton();
             this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.panelWebBrowser = new System.Windows.Forms.Panel();
@@ -93,6 +92,7 @@ namespace Waveface.DetailUI
             this.webBrowserSoul = new System.Windows.Forms.WebBrowser();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.buttonAddComment = new Waveface.Component.XPButton();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.PanelAddComment.SuspendLayout();
@@ -105,13 +105,14 @@ namespace Waveface.DetailUI
             // panelMain
             // 
             resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.BackColor = System.Drawing.SystemColors.Window;
+            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelMain.Controls.Add(this.panelRight);
             this.panelMain.Name = "panelMain";
             // 
             // panelRight
             // 
             resources.ApplyResources(this.panelRight, "panelRight");
+            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelRight.Controls.Add(this.PanelAddComment);
             this.panelRight.Controls.Add(this.webBrowserComment);
             this.panelRight.Controls.Add(this.panelWebBrowser);
@@ -121,20 +122,10 @@ namespace Waveface.DetailUI
             // PanelAddComment
             // 
             resources.ApplyResources(this.PanelAddComment, "PanelAddComment");
-            this.PanelAddComment.BackColor = System.Drawing.SystemColors.Window;
+            this.PanelAddComment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.PanelAddComment.Controls.Add(this.buttonAddComment);
             this.PanelAddComment.Controls.Add(this.textBoxComment);
             this.PanelAddComment.Name = "PanelAddComment";
-            // 
-            // buttonAddComment
-            // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // textBoxComment
             // 
@@ -204,6 +195,16 @@ namespace Waveface.DetailUI
             // 
             this.cultureManager.ManagedControl = this;
             // 
+            // buttonAddComment
+            // 
+            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
+            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.buttonAddComment.Name = "buttonAddComment";
+            this.buttonAddComment.UseVisualStyleBackColor = true;
+            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
+            // 
             // Text_Link_DV
             // 
             this.Controls.Add(this.panelMain);
@@ -234,7 +235,7 @@ namespace Waveface.DetailUI
 
         private void Set_Comments_Part()
         {
-           MyParent.SetComments(webBrowserComment, Post, false);
+           MyParent.SetComments(webBrowserComment, Post, true);
         }
 
         private void Set_MainContent_Preview_Part()
@@ -282,7 +283,7 @@ namespace Waveface.DetailUI
                 ShowWebBrowser(Post.preview.url);
             }
 
-            webBrowserTop.DocumentText = HtmlUtility.TrimScript(_html); // = "<body bgcolor=\"rgb(238,231,209)\">" +  _html + "</body>";
+            webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
             webBrowserSoul.DocumentText = HtmlUtility.TrimScript(m_post.soul);
         }
 

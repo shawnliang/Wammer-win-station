@@ -114,6 +114,38 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compoment\MsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\MsgBox.designer.cs">
+      <DependentUpon>MsgBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\PSTaskDialog\CommandButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\PSTaskDialog\CommandButton.designer.cs">
+      <DependentUpon>CommandButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\PSTaskDialog\cTaskDialog.cs" />
+    <Compile Include="Compoment\PSTaskDialog\FormTaskDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\PSTaskDialog\FormTaskDialog.designer.cs">
+      <DependentUpon>FormTaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\PSTaskDialog\frmTaskDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compoment\PSTaskDialog\frmTaskDialog.designer.cs">
+      <DependentUpon>frmTaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compoment\PSTaskDialog\VistaActiveTaskDialog.cs" />
+    <Compile Include="Compoment\PSTaskDialog\VistaTaskDialog.cs" />
+    <Compile Include="Compoment\PSTaskDialog\VistaTaskDialogCommonDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Compoment\PSTaskDialog\VistaTaskDialogNotificationArgs.cs" />
+    <Compile Include="Compoment\PSTaskDialog\VistaUnsafeNativeMethods.cs" />
     <Compile Include="Compoment\SingleInstance.cs" />
     <Compile Include="Compoment\WaterMarkRichTextBox.cs">
       <SubType>Component</SubType>
@@ -559,6 +591,15 @@
     <EmbeddedResource Include="Compoment\MozBar\ScrollableControlWithScrollEvents.resx">
       <DependentUpon>ScrollableControlWithScrollEvents.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\MsgBox.resx">
+      <DependentUpon>MsgBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\PSTaskDialog\FormTaskDialog.resx">
+      <DependentUpon>FormTaskDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\PSTaskDialog\frmTaskDialog.resx">
+      <DependentUpon>frmTaskDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Compoment\TaskbarNotifier\MyTaskbarNotifier.resx">
       <DependentUpon>MyTaskbarNotifier.cs</DependentUpon>
     </EmbeddedResource>
@@ -870,6 +911,8 @@
     <None Include="Resources\waveface_icon32.png" />
     <None Include="Resources\waveface_icon128.png" />
     <None Include="Resources\waveface_icon128.ico" />
+    <EmbeddedResource Include="Compoment\PSTaskDialog\green_arrow1.png" />
+    <EmbeddedResource Include="Compoment\PSTaskDialog\green_arrow2.png" />
     <Content Include="Icon.ico" />
     <None Include="Resources\Cloud.png" />
     <None Include="Resources\Station.png" />

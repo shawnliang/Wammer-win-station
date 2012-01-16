@@ -141,6 +141,9 @@
   <data name="buttonAddComment.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
   </data>
+  <data name="buttonAddComment.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="buttonAddComment.Location" type="System.Drawing.Point, System.Drawing">
     <value>446, 3</value>
   </data>
@@ -334,7 +337,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPageSoul.Size" type="System.Drawing.Size, System.Drawing">
-    <value>504, 131</value>
+    <value>508, 131</value>
   </data>
   <data name="tabPageSoul.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -484,7 +487,7 @@
     <value>cultureManager</value>
   </data>
   <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Text_Link_DV</value>
