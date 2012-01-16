@@ -15,6 +15,8 @@ namespace Waveface
 {
     public class PhotoDownloader
     {
+        public static int OriginFileReDownloadDelayTime = 1; //Hack
+
         public delegate void Thumbnail_Delegate(ImageItem item);
 
         public delegate void Photo_Delegate(ImageItem item);
@@ -27,6 +29,8 @@ namespace Waveface
         public List<ImageItem> ThumbnailItems { get; set; }
         public List<ImageItem> PhotoItems { get; set; }
 
+        private Dictionary<string, DateTime> m_downlaodErrorOriginFiles;
+
         private int ERROR_TRY = 1;
         private string m_currentURL;
 
@@ -36,6 +40,8 @@ namespace Waveface
         {
             ThumbnailItems = new List<ImageItem>();
             PhotoItems = new List<ImageItem>();
+
+            m_downlaodErrorOriginFiles = new Dictionary<string, DateTime>();
         }
 
         public void Start()
@@ -77,23 +83,67 @@ namespace Waveface
             {
                 lock (PhotoItems)
                 {
-                    ImageItem _tmp = null;
-
-                    foreach (ImageItem _item in PhotoItems)
+                    if (item.PostItemType == PostItemType.Origin)
                     {
-                        if (_item.OriginPath == item.OriginPath)
+                        bool _canDownloadOrigin = true;
+
+                        if (m_downlaodErrorOriginFiles.ContainsKey(item.OriginPath))
                         {
-                            _tmp = _item;
-                            break;
+                            DateTime _dt = m_downlaodErrorOriginFiles[item.OriginPath];
+
+                            if (DateTime.Now > _dt.AddMinutes(OriginFileReDownloadDelayTime))
+                            {
+                                m_downlaodErrorOriginFiles.Remove(item.OriginPath);
+                            }
+                            else
+                            {
+                                _canDownloadOrigin = false;
+                            }
+                        }
+
+                        if (m_downlaodErrorOriginFiles.ContainsKey(item.CloudOriginPath))
+                        {
+                            DateTime _dt = m_downlaodErrorOriginFiles[item.CloudOriginPath];
+
+                            if (DateTime.Now > _dt.AddMinutes(OriginFileReDownloadDelayTime))
+                            {
+                                m_downlaodErrorOriginFiles.Remove(item.CloudOriginPath);
+                            }
+                            else
+                            {
+                                _canDownloadOrigin = false;
+                            }
+                        }
+
+                        if (_canDownloadOrigin)
+                        {
+                            ImageItem _tmp = null;
+
+                            foreach (ImageItem _item in PhotoItems)
+                            {
+                                if (_item.PostItemType == PostItemType.Origin)
+                                {
+                                    if ((_item.OriginPath == item.OriginPath) ||
+                                        (_item.CloudOriginPath == item.CloudOriginPath))
+                                    {
+                                        _tmp = _item;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (_tmp != null)
+                            {
+                                PhotoItems.Remove(_tmp);
+                            }
+
+                            PhotoItems.Insert(0, item);
                         }
                     }
-
-                    if (_tmp != null)
+                    else
                     {
-                        PhotoItems.Remove(_tmp);
+                        PhotoItems.Insert(0, item);
                     }
-
-                    PhotoItems.Insert(0, item);
                 }
             }
         }
@@ -116,6 +166,8 @@ namespace Waveface
         private void DownloadThreadMethod(object state)
         {
             long _count = 0;
+            string _localPath = string.Empty;
+            string _url = string.Empty;
 
             while (true)
             {
@@ -147,9 +199,6 @@ namespace Waveface
                     Thread.Sleep(1000);
                     continue;
                 }
-
-                string _url = string.Empty;
-                string _localPath = string.Empty;
 
                 switch (_item.PostItemType)
                 {
@@ -250,6 +299,11 @@ namespace Waveface
                             {
                                 lock (PhotoItems)
                                 {
+                                    if (_item.PostItemType == PostItemType.Origin)
+                                    {
+                                        m_downlaodErrorOriginFiles.Add(_url, DateTime.Now);
+                                    }
+
                                     if (PhotoItems.Contains(_item))
                                     {
                                         PhotoItems.Remove(_item);

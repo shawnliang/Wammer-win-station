@@ -18,26 +18,29 @@ namespace Waveface.API.V2
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
-        public static string WebURL = "http://develop.waveface.com:4343";
 
         private static string s_stationIP = string.Empty;
         private static string s_cloudIP = string.Empty;
 
         #region Properties
 
+        public static string WebURL
+        {
+            get
+            {
+                return CloudIP == "https://api.waveface.com"
+                           ? "https://waveface.com"
+                           : "http://develop.waveface.com:4343";
+            }
+        }
+
         public static string CloudIP
         {
             get
             {
-                //if (GCONST.DEBUG)
-                //{
                 //return "https://develop.waveface.com";
                 //return "https://api.waveface.com";
-                //}
-                //else
-                //{
-                    return s_cloudIP;
-                //}
+                return s_cloudIP;
             }
             set { s_cloudIP = value; }
         }
@@ -87,11 +90,6 @@ namespace Waveface.API.V2
                 Uri _url = new Uri(_cloudUrl);
 
                 CloudIP = _url.Scheme + "://" + _url.Host + ":" + _url.Port;
-            }
-
-            if (CloudIP == "https://api.waveface.com")
-            {
-                WebURL = "https://waveface.com";
             }
         }
 
@@ -1205,6 +1203,10 @@ namespace Waveface.API.V2
                 _dic.Add("session_token", session_token);
                 _dic.Add("group_id", group_id);
                 _dic.Add("title", title);
+
+                //if (description == string.Empty)
+                //   description = title;
+
                 _dic.Add("description", description);
                 _dic.Add("type", type);
 

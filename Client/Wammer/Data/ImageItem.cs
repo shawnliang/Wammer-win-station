@@ -11,11 +11,13 @@ namespace Waveface
         public string MediumPath { get; set; }
         public string LocalFilePath_Origin { get; set; }
         public string LocalFilePath_Medium { get; set; }
+        public bool ForceDownloadOrigin { get; set; }
 
         public int ErrorTry { get; set; }
 
         public ImageItem()
         {
+            ForceDownloadOrigin = false;
             ThumbnailPath = string.Empty;
             CloudOriginPath = string.Empty;
             OriginPath = string.Empty;
