@@ -624,24 +624,34 @@ namespace Wammer.Station.Management
 						{
 							using (StreamReader reader = new StreamReader(webres.GetResponseStream()))
 							{
-								int ERR_USER_HAS_ANOTHER_STATION = 16387;
-								int ERR_BAD_NAME_PASSWORD = 4097;
+								const int ERR_USER_HAS_ANOTHER_STATION = 0x4000 + 3;
+								const int ERR_USER_DOES_NOT_EXIST = 0x4000 + 4;
+								const int ERR_BAD_NAME_PASSWORD = 4097;
 
 								string resText = reader.ReadToEnd();
 								Cloud.CloudResponse r = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(resText);
 
-								if (e.WammerError == ERR_BAD_NAME_PASSWORD)
-									throw new AuthenticationException(r.api_ret_message);
-								else if (e.WammerError == ERR_USER_HAS_ANOTHER_STATION)
-									throw new UserAlreadyHasStationException(r.api_ret_message);
-								else
-									return r.api_ret_message;
+								switch (e.WammerError)
+								{
+									case ERR_BAD_NAME_PASSWORD:
+										throw new AuthenticationException(r.api_ret_message);
+									case ERR_USER_HAS_ANOTHER_STATION:
+										throw new UserAlreadyHasStationException(r.api_ret_message);
+									case ERR_USER_DOES_NOT_EXIST:
+										throw new UserDoesNotExistException(r.api_ret_message);
+									default:
+										return r.api_ret_message;
+								}
 							}
 						}
 					}
 					else if (webres.StatusCode == HttpStatusCode.Unauthorized)
 					{
 						throw new AuthenticationException("Authentication failure");
+					}
+					else if (webres.StatusCode == HttpStatusCode.ServiceUnavailable)
+					{
+						throw new UserAlreadyHasStationException("Driver already registered another station");
 					}
 				}
 				else
@@ -807,6 +817,14 @@ namespace Wammer.Station.Management
 		}
 
 		public UserAlreadyHasStationException(string msg)
+			: base(msg)
+		{
+		}
+	}
+
+	public class UserDoesNotExistException : Exception
+	{
+		public UserDoesNotExistException(string msg)
 			: base(msg)
 		{
 		}

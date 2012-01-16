@@ -46,20 +46,23 @@ namespace StationSystemTray
 				object ret = ((PerformActionDelegate)result.AsyncState).EndInvoke(result);
 				ActionCallback(ret);
 				BeginUpdateUIInCallback(ret);
-				_form.BeginInvoke(new SetFormControlsInCallbackDelegate(SetFormControlsInCallback), ret);
+				if (!_form.IsDisposed)
+					_form.BeginInvoke(new SetFormControlsInCallbackDelegate(SetFormControlsInCallback), ret);
 			}
 			catch (Exception ex)
 			{
 				ActionError(ex);
 				BeginUpdateUIInError(ex);
-				_form.BeginInvoke(new SetFormControlsInErrorDelegate(SetFormControlsInError), ex);
+				if (!_form.IsDisposed)
+					_form.BeginInvoke(new SetFormControlsInErrorDelegate(SetFormControlsInError), ex);
 			}
 		}
 
 		private void BeginUpdateUI(object obj)
 		{
 			if (_form.InvokeRequired)
-				_form.Invoke(new UpdateUIDelegate(UpdateUI), obj);
+				if (!_form.IsDisposed)
+					_form.Invoke(new UpdateUIDelegate(UpdateUI), obj);
 			else
 				UpdateUI(obj);
 		}
@@ -67,7 +70,8 @@ namespace StationSystemTray
 		private void BeginUpdateUIInCallback(object obj)
 		{
 			if (_form.InvokeRequired)
-				_form.Invoke(new UpdateUIInCallbackDelegate(UpdateUIInCallback), obj);
+				if (!_form.IsDisposed)
+					_form.Invoke(new UpdateUIInCallbackDelegate(UpdateUIInCallback), obj);
 			else
 				UpdateUIInCallback(obj);
 		}
@@ -75,7 +79,8 @@ namespace StationSystemTray
 		private void BeginUpdateUIInError(Exception ex)
 		{
 			if (_form.InvokeRequired)
-				_form.Invoke(new UpdateUIInErrorDelegate(UpdateUIInError), ex);
+				if (!_form.IsDisposed)
+					_form.Invoke(new UpdateUIInErrorDelegate(UpdateUIInError), ex);
 			else
 				UpdateUIInError(ex);
 		}

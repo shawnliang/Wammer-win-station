@@ -13,17 +13,24 @@ namespace StationSystemTray
 		private Form form;
 		private SignInForm siform;
 
+		private delegate DialogResult ShowMessageDelegate(Form form, string msg, string title);
+
 		public Messenger(Form form)
 		{
 			this.form = form;
 			this.cs = new object();
 		}
 
-		public DialogResult ShowMessage(string msg)
+		public void ShowMessage(string msg)
 		{
 			lock (cs)
 			{
-				return MessageBox.Show(form, msg, TITLE);
+				if (form.InvokeRequired)
+				{
+					form.Invoke(new ShowMessageDelegate(MessageBox.Show), new object[] {form, msg, TITLE});
+				}
+				else
+					MessageBox.Show(form, msg, TITLE);
 			}
 		}
 

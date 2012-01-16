@@ -8,6 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.IO;
+using System.Diagnostics;
+using System.Reflection;
 
 using Wammer.Station.Management;
 using Wammer.Cloud;
@@ -211,6 +214,15 @@ namespace StationSystemTray
 					Thread.CurrentThread.Abort();
 				}
 			}
+			else if (ex is UserAlreadyHasStationException)
+			{
+				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+						   "StationUI.exe");
+				Process.Start(_execPath);
+				Application.Exit();
+			}
+
 			mainform.ServiceRunning = false;
 			MainForm.logger.Error("Unable to start mainform", ex);
 		}
