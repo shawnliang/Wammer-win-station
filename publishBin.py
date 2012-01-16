@@ -63,5 +63,5 @@ if __name__ == "__main__":
         shutil.copy2(pdb, version)
     shutil.copy2('{0}\\development-WavefaceSetup-{1}.exe'.format(os.path.dirname(solution_dir), version), version)
     shutil.copy2('{0}\\production-WavefaceSetup-{1}.exe'.format(os.path.dirname(solution_dir), version), version)
-    mountNetworkDriveForWin('Z:', r"\\WF-NAS\Users", 'jenkins', strPassword='123456', readOnly=0, persistent=1)
+    mountNetworkDriveForWin('Z:', r"\\WF-NAS\Users", 'admin', strPassword='waveface', readOnly=0, persistent=1)
     shutil.move(version, r"Z:\WavefaceStation\Builds")
