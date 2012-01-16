@@ -15,24 +15,19 @@ namespace Waveface
 {
     public class PhotoDownloader
     {
-        public static int OriginFileReDownloadDelayTime = 1; //Hack
-
-        public delegate void Thumbnail_Delegate(ImageItem item);
+        #region Delegates
 
         public delegate void Photo_Delegate(ImageItem item);
 
-        public event Thumbnail_Delegate ThumbnailEvent;
-        public event Photo_Delegate PhotoEvent;
+        public delegate void Thumbnail_Delegate(ImageItem item);
+
+        #endregion
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        public List<ImageItem> ThumbnailItems { get; set; }
-        public List<ImageItem> PhotoItems { get; set; }
-
-        private Dictionary<string, DateTime> m_downlaodErrorOriginFiles;
-
         private int ERROR_TRY = 1;
         private string m_currentURL;
+        private Dictionary<string, DateTime> m_downlaodErrorOriginFiles;
 
         private WorkItem m_workItem;
 
@@ -43,6 +38,11 @@ namespace Waveface
 
             m_downlaodErrorOriginFiles = new Dictionary<string, DateTime>();
         }
+
+        public List<ImageItem> ThumbnailItems { get; set; }
+        public List<ImageItem> PhotoItems { get; set; }
+        public event Thumbnail_Delegate ThumbnailEvent;
+        public event Photo_Delegate PhotoEvent;
 
         public void Start()
         {
@@ -91,7 +91,7 @@ namespace Waveface
                         {
                             DateTime _dt = m_downlaodErrorOriginFiles[item.OriginPath];
 
-                            if (DateTime.Now > _dt.AddMinutes(OriginFileReDownloadDelayTime))
+                            if (DateTime.Now > _dt.AddMinutes(GCONST.OriginFileReDownloadDelayTime))
                             {
                                 m_downlaodErrorOriginFiles.Remove(item.OriginPath);
                             }
@@ -105,7 +105,7 @@ namespace Waveface
                         {
                             DateTime _dt = m_downlaodErrorOriginFiles[item.CloudOriginPath];
 
-                            if (DateTime.Now > _dt.AddMinutes(OriginFileReDownloadDelayTime))
+                            if (DateTime.Now > _dt.AddMinutes(GCONST.OriginFileReDownloadDelayTime))
                             {
                                 m_downlaodErrorOriginFiles.Remove(item.CloudOriginPath);
                             }
@@ -179,7 +179,7 @@ namespace Waveface
                     continue;
                 }
 
-                if ((_count++ % 3) != 2)
+                if ((_count++%3) != 2)
                 {
                     if (ThumbnailItems.Count > 0)
                     {
@@ -216,6 +216,30 @@ namespace Waveface
                         _url = _item.MediumPath.Replace("[IP]", WService.HostIP);
                         _localPath = _item.LocalFilePath_Medium;
                         break;
+                }
+
+                bool _relpaceOriginToMedium = false;
+
+                if (_item.PostItemType == PostItemType.Origin)
+                {
+                    if (File.Exists(_item.LocalFilePath_Medium))
+                    {
+                        if (Main.Current.RT.StationMode)
+                        {
+                            _url = _item.OriginPath;
+                        }
+                        else
+                        {
+                            _url = _item.CloudOriginPath;
+                        }
+                    }
+                    else
+                    {
+                        _url = _item.MediumPath.Replace("[IP]", WService.HostIP);
+                        _localPath = _item.LocalFilePath_Medium;
+
+                        _relpaceOriginToMedium = true;
+                    }
                 }
 
                 if (File.Exists(_localPath))
@@ -261,8 +285,20 @@ namespace Waveface
                         {
                             lock (PhotoItems)
                             {
-                                if (PhotoItems.Contains(_item))
+                                if (_relpaceOriginToMedium)
+                                {
                                     PhotoItems.Remove(_item);
+
+                                    if (PhotoItems.Count == 0)
+                                        PhotoItems.Insert(0, _item);
+                                    else
+                                        PhotoItems.Insert(PhotoItems.Count - 1, _item);
+                                }
+                                else
+                                {
+                                    if (PhotoItems.Contains(_item))
+                                        PhotoItems.Remove(_item);
+                                }
                             }
 
                             if (PhotoEvent != null)

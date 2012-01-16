@@ -7,6 +7,8 @@ namespace Waveface
     public class GCONST
     {
         public static int GetPostOffset = 10;
+        
+        public static int OriginFileReDownloadDelayTime = 3;
 
         public static bool ADVANCED_FEATURE = true;
         public static bool DEBUG = true;

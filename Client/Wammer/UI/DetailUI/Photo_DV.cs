@@ -389,7 +389,7 @@ namespace Waveface.DetailUI
                 if (!File.Exists(m_filePathOrigins[i]) || !File.Exists(m_filePathMediums[i]))
                 {
                     ImageItem _item = new ImageItem();
-                    _item.PostItemType = PostItemType.Medium; //@ PostItemType.Origin
+                    _item.PostItemType = PostItemType.Origin; //@ PostItemType.Origin
                     _item.CloudOriginPath = m_urlCloudOrigins[i];
                     _item.OriginPath = m_urlOrigins[i];
                     _item.MediumPath = m_urlMediums[i];
@@ -524,7 +524,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            PhotoDownloader.PreloadPictures(m_post, true /*, true*/);
+            //@ PhotoDownloader.PreloadPictures(m_post, true /*, true*/);
 
             List<string> _files = new List<string>();
 

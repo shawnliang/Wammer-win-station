@@ -195,8 +195,8 @@ namespace Waveface.Component
 
                         if (_type == "medium")
                         {
-                            g.FillRectangle(Brushes.OrangeRed, bounds.Left + bounds.Width - 3,
-                                            bounds.Top + bounds.Height - 3, 2, 2);
+                            g.FillRectangle(Brushes.OrangeRed, bounds.Left + bounds.Width - 2,
+                                            bounds.Top + bounds.Height - 2, 1, 1);
                         }
                     }
                 }
