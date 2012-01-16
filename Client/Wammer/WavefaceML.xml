@@ -1,6 +1,21 @@
 <?xml version="1.0" standalone="yes"?>
 <WItems>
   <WItem>
+    <ID>Continue</ID>
+    <en-US>Continue</en-US>
+    <zh-TW>繼續</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>Retry</ID>
+    <en-US>Retry</en-US>
+    <zh-TW>重試</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>Cancel</ID>
+    <en-US>Cancel</en-US>
+    <zh-TW>取消</zh-TW>
+  </WItem>
+  <WItem>
     <ID>LoginForm.FillAllFields</ID>
     <en-US>Please fill all the fields!</en-US>
     <zh-TW>請填寫所有欄位.</zh-TW>
@@ -14,12 +29,12 @@
     <ID>Main.Logout</ID>
     <en-US>Logout</en-US>
     <zh-TW>登出</zh-TW>
-  </WItem>   
+  </WItem>
   <WItem>
     <ID>MainBgPanel.AccountStatus</ID>
     <en-US>Account Status</en-US>
     <zh-TW>帳戶資訊</zh-TW>
-  </WItem>   
+  </WItem>
   <WItem>
     <ID>Main.ChangeOwnerWarning</ID>
     <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Waveface Station.</en-US>
@@ -27,11 +42,13 @@
   </WItem>
   <WItem>
     <ID>Main.ChangeOwnerSuccess</ID>
-    <en-US>User '{0}' is unassociated with Waveface Station successfully.
-Please restart Waveface to continue assign a new Waveface Station user
+    <en-US>
+      User '{0}' is unassociated with Waveface Station successfully.
+      Please restart Waveface to continue assign a new Waveface Station user
     </en-US>
-    <zh-TW>Waveface Station已經成功的和 {0} 分離
-請重新啟動程式後繼續指定Waveface Station使用者
+    <zh-TW>
+      Waveface Station已經成功的和 {0} 分離
+      請重新啟動程式後繼續指定Waveface Station使用者
     </zh-TW>
   </WItem>
   <WItem>
@@ -45,10 +62,14 @@ Please restart Waveface to continue assign a new Waveface Station user
   </WItem>
   <WItem>
     <ID>RegisteredRequired</ID>
-    <en-US>Waveface Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
-Please restart the program to initialize Waveface Station.</en-US>
-    <zh-TW>無法使用Waveface Station, 因為{0}設定了另一個Waveface Station或是該帳號不存在
-請重新啟動程式再次初始化Waveface Station</zh-TW>
+    <en-US>
+      Waveface Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
+      Please restart the program to initialize Waveface Station.
+    </en-US>
+    <zh-TW>
+      無法使用Waveface Station, 因為{0}設定了另一個Waveface Station或是該帳號不存在
+      請重新啟動程式再次初始化Waveface Station
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>PostError</ID>
@@ -125,6 +146,41 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Drag &amp; Drop here</en-US>
     <zh-TW>拖拉檔案至此處</zh-TW>
   </WItem>
+
+  <WItem>
+    <ID>NewPostManager.FileMiss</ID>
+    <en-US>
+      <![CDATA[
+      Photo does not exist: [{0}]. You could choose to:
+        1.[Continue], to remove this photo file and continue uploading the others.
+        2.[Retry], to try uploading this photo again.
+        3.[Cancel], to discard this post completely.]]>
+    </en-US>
+    <zh-TW>
+      <![CDATA[
+      上傳圖片不存在: [{0}]. 您可以：
+        1.選擇[繼續], 移除此圖片檔案後繼續上傳其他照片.
+        2.選擇[重試], 再次嘗試上傳此圖片.
+        3.選擇[取消], 放棄整個貼文.]]>
+    </zh-TW>
+  </WItem>
+  
+  <WItem>
+    <ID>NewPostManager.OverQuota</ID>
+    <en-US>
+      <![CDATA[
+      You have already reached your monthly upload limit. You could choose to: 
+        1.[Retry], to try uploading this photo again. 
+        2.[Cancel], to discard this post completely.]]>
+    </en-US>
+    <zh-TW>
+      <![CDATA[
+      您本月的傳輸使用量已經達到上限值, 因此無法繼續上傳圖片. 您可以： 
+        1.選擇[重試], 再次嘗試上傳此圖片. 
+        2.選擇[取消], 放棄整個貼文.]]>
+    </zh-TW>
+  </WItem>  
+  
   <WItem>
     <ID>DetailView.Via</ID>
     <en-US>via</en-US>
@@ -149,7 +205,7 @@ Please restart the program to initialize Waveface Station.</en-US>
     <ID>PostForm.PuretextWaterMark</ID>
     <en-US>Write down the description here...</en-US>
     <zh-TW>在此寫下您的隻字片語...</zh-TW>
-  </WItem>   
+  </WItem>
   <WItem>
     <ID>PostForm.PostSuccess</ID>
     <en-US>Post success!</en-US>
@@ -159,7 +215,7 @@ Please restart the program to initialize Waveface Station.</en-US>
     <ID>PostForm.TextBoxDescription</ID>
     <en-US>Write down the description here...</en-US>
     <zh-TW>在此寫下描述...</zh-TW>
-  </WItem>  
+  </WItem>
   <WItem>
     <ID>SystemError</ID>
     <en-US>There appears to be an error with the system. Please try again later.</en-US>
@@ -211,23 +267,23 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Network connected</en-US>
     <zh-TW>網路連線</zh-TW>
   </WItem>
-  
-   <WItem>
+
+  <WItem>
     <ID>NetworkDisconnected</ID>
     <en-US>Network disconnected</en-US>
     <zh-TW>網路斷線</zh-TW>
-  </WItem> 
-  
-   <WItem>
+  </WItem>
+
+  <WItem>
     <ID>OnePostUpload</ID>
     <en-US>Uploading in progress: {0} files uploaded, {1} files remaining…</en-US>
     <zh-TW>檔案上傳中：{0}個檔案已上傳，剩下{1}個檔案</zh-TW>
-  </WItem>   
-  
-    <WItem>
+  </WItem>
+
+  <WItem>
     <ID>MultiplePostUpload</ID>
     <en-US>Uploading in progress: {0} files uploaded, {1} files remaining and {2} post waited…</en-US>
     <zh-TW>檔案上傳中：{0}個檔案已上傳，剩下{1}個檔案，和{2}篇貼文</zh-TW>
-  </WItem>    
-  
+  </WItem>
+
 </WItems>

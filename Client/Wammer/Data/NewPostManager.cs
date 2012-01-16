@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using NLog;
 using Newtonsoft.Json;
 using Waveface.API.V2;
+using Waveface.Component;
 
 #endregion
 
@@ -19,6 +20,8 @@ namespace Waveface
         public event ProgressUpdateUI_Delegate UpdateUI;
         public event ShowMessage_Delegate ShowMessage;
         public event ShowMessage_Delegate UploadDone;
+        public event ShowDialog_Delegate ShowFileMissDialog;
+        public event ShowDialog_Delegate OverQuotaMissDialog;
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
@@ -207,9 +210,13 @@ namespace Waveface
                                 // 原始檔案不存在. 作錯誤處裡
                                 s_logger.Error("Image File does not exist: [" + _file + "]");
 
-                                DialogResult _dr = MessageBox.Show("", "Waveface", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                                if (ShowFileMissDialog != null)
+                                    ShowFileMissDialog(_file);
 
-                                switch (_dr)
+                                while (Main.Current.ThreadDialogResult == DialogResult.None)
+                                    Thread.Sleep(500);
+
+                                switch (Main.Current.ThreadDialogResult)
                                 {
                                     case DialogResult.Cancel:  // Delete Post
                                         newPost.ErrorAndDeletePost = true;
@@ -226,7 +233,7 @@ namespace Waveface
 
                                         return newPost;
 
-                                    case DialogResult.No:  // DoNothing
+                                    case DialogResult.Retry:  // DoNothing
                                         s_logger.Error("Ignore & Retry Miss File: [" + _file + "]");
 
                                         newPost.PostOK = false;
@@ -236,22 +243,30 @@ namespace Waveface
 
                             if (CheckStoragesUsage() <= 0)
                             {
-                                // 雲端個人儲存空間不足. 作錯誤處裡 
-                                s_logger.Error("(CheckStoragesUsage() <= 0)");
-
-                                DialogResult _dr = MessageBox.Show("", "Waveface", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
-
-                                switch (_dr)
+                                if (CheckStoragesUsage() <= 0) //Hack 
                                 {
-                                    case DialogResult.Cancel:  // Delete Post
-                                        newPost.ErrorAndDeletePost = true;
-                                        newPost.PostOK = false;
-                                        return newPost;
 
-                                    case DialogResult.No:  // DoNothing
+                                    // 雲端個人儲存空間不足. 作錯誤處裡 
+                                    s_logger.Error("(CheckStoragesUsage() <= 0)");
 
-                                        newPost.PostOK = false;
-                                        return newPost;
+                                    if (OverQuotaMissDialog != null)
+                                        OverQuotaMissDialog("");
+
+                                    while (Main.Current.ThreadDialogResult == DialogResult.None)
+                                        Thread.Sleep(500);
+
+                                    switch (Main.Current.ThreadDialogResult)
+                                    {
+                                        case DialogResult.Cancel: // Delete Post
+                                            newPost.ErrorAndDeletePost = true;
+                                            newPost.PostOK = false;
+                                            return newPost;
+
+                                        case DialogResult.Retry: // DoNothing
+
+                                            newPost.PostOK = false;
+                                            return newPost;
+                                    }
                                 }
                             }
 
@@ -272,7 +287,7 @@ namespace Waveface
 
                             s_logger.Trace("[" + _tmpStamp + "]" + "Batch Upload Photo [" + _count + "]" + _file);
 
-                            string _localFile = Main.GCONST.CachePath + _uf.object_id + "_origin"; // "_origin_" + _text;
+                            string _localFile = Main.GCONST.CachePath + _uf.object_id + "_origin" + _text;
                             File.Copy(_file, _localFile);
 
                             Downloading = false;

@@ -65,6 +65,8 @@ namespace Waveface
             Main.Current.NewPostManager.ShowMessage += ShowDragDropMessage;
             Main.Current.NewPostManager.UpdateUI += UpdateDragAndDropUI;
             Main.Current.NewPostManager.UploadDone += UploadDone;
+            Main.Current.NewPostManager.ShowFileMissDialog += ShowFileMissDialog;
+            Main.Current.NewPostManager.OverQuotaMissDialog += OverQuotaMissDialog;
         }
 
         /*
@@ -361,6 +363,36 @@ namespace Waveface
                 }
             }
         }
+
+        void ShowFileMissDialog(string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { ShowFileMissDialog(text); }
+                           ));
+            }
+            else
+            {
+                Main.Current.ShowFileMissDialog(text);
+            }            
+        }
+
+        void OverQuotaMissDialog(string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { OverQuotaMissDialog(text); }
+                           ));
+            }
+            else
+            {
+                Main.Current.OverQuotaMissDialog(text);
+            }            
+        }
+
+
 
         private void UploadDone(string text)
         {
