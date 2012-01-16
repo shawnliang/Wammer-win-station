@@ -192,26 +192,23 @@ namespace StationSystemTray
 				if (!available && serviceRunning)
 					StationController.StationOnline();
 			}
-			catch (UserAlreadyHasStationException)
-			{
-				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
-				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-										   "StationUI.exe");
-				Process.Start(_execPath);
-				Application.Exit();
-			}
 			catch (AuthenticationException)
 			{
-				messenger.ShowMessage(I18n.L.T("Station401Exception"));
-				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-										   "StationUI.exe");
-				Process.Start(_execPath);
-				Application.Exit();
+
+				TrayIcon.Icon = iconPaused;
+				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
+				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
+				TrayIconText = I18n.L.T("Station401Exception");
 			}
 			catch (Exception ex)
 			{
 				logger.Warn("Unexpected exception in station status cheking", ex);
 			}
+		}
+
+		void ClickBallonFor401Exception(object sender, EventArgs e)
+		{
+			messenger.ShowLoginDialog(false);
 		}
 	}
 

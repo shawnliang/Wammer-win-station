@@ -56,10 +56,16 @@ namespace StationSystemTray
 
 		public void ShowLoginDialog()
 		{
+			ShowLoginDialog(true);
+		}
+
+		public void ShowLoginDialog(bool closeParentOnExit)
+		{
 			lock (cs)
 			{
 				siform = new SignInForm();
-				siform.FormClosed += new FormClosedEventHandler(siform_FormClosed);
+				if (closeParentOnExit)
+					siform.FormClosed += new FormClosedEventHandler(siform_FormClosed);
 				siform.Show(_form);
 			}
 		}
