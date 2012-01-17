@@ -29,7 +29,7 @@ namespace Waveface
             logger.Warn(_s);
         }
 
-        public static void WebException(Logger logger, WebException e, string message)
+        public static void WebException(Logger logger, WebException e, string message, bool useWarnLog)
         {
             string _s = "[" + message + "]" + "\n" +
                         GetExceptionMessage(e) + "\n";
@@ -45,7 +45,10 @@ namespace Waveface
             if (e.InnerException != null)
                 _s = _s + "[InnerException]\n" + GetExceptionMessage(e.InnerException) + "\n";
 
-            logger.Error(_s);
+            if (useWarnLog)
+                logger.Warn(_s);
+            else
+                logger.Error(_s);
         }
 
         private static string GetExceptionMessage(Exception e)

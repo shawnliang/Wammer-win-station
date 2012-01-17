@@ -127,8 +127,8 @@ namespace Wammer.Station
 		{
 			try
 			{
-				if (Directory.Exists(dumpFolder))
-					Directory.Delete(dumpFolder, true);
+				RemoveDirectory(dumpFolder);
+
 				if (StationRegistry.GetValue("oldStationId", null) != null)
 					StationRegistry.DeleteValue("oldStattionId");
 			}
@@ -145,7 +145,12 @@ namespace Wammer.Station
 				Logger.Info(dumpFolder + " exists. Restoring DB....");
 				RunProgram(Path.Combine(session["INSTALLLOCATION"], @"MongoDB\mongorestore.exe"),
 					"--port 10319 \"" + dumpFolder + "\"");
-				Directory.Delete(dumpFolder, true);
+
+				string dumpBackup = Path.Combine(Path.GetDirectoryName(dumpFolder), "Backup.old");
+				if (Directory.Exists(dumpBackup))
+					Directory.Delete(dumpBackup, true);
+
+				Directory.Move(dumpFolder, dumpBackup);
 			}
 			else
 				Logger.Info(dumpFolder + " does not exist. Skip restoring");
@@ -205,6 +210,18 @@ namespace Wammer.Station
 			}
 		}
 
+		private static void RemoveDirectory(string dir)
+		{
+			try
+			{
+				if (Directory.Exists(dir))
+					Directory.Delete(dir, true);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete " + dir, e);
+			}
+		}
 
 		[CustomAction]
 		public static ActionResult SetRegistry(Session session)
@@ -333,39 +350,13 @@ namespace Wammer.Station
 				Logger.Warn("Unable to delete service collection from MongoDB", e);
 			}
 
-			string userDataFolder = "";
-			try
-			{
-				string appPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-				userDataFolder = Path.Combine(appPath, "waveface");
+			RemoveDirectory(Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"waveface"));
 
-				if (Directory.Exists(userDataFolder))
-				{
-					Logger.Info("Deleting " + userDataFolder);
-					Directory.Delete(userDataFolder, true);
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Warn("Unable to delete " + userDataFolder, e);
-			}
-
-			string userDataFolder2 = "";
-			try
-			{
-				string appPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-				userDataFolder2 = Path.Combine(appPath, "waveface");
-
-				if (Directory.Exists(userDataFolder2))
-				{
-					Logger.Info("Deleting " + userDataFolder2);
-					Directory.Delete(userDataFolder2, true);
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Warn("Unable to delete " + userDataFolder2, e);
-			}
+			RemoveDirectory(Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				"waveface"));
 
 			return ActionResult.Success;
 		}

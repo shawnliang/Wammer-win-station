@@ -69,7 +69,7 @@ namespace Waveface
 
             string _url = ip + "/v2/availability/ping/";
 
-            string _ret = m_service.HttpGet(_url, timeout);
+            string _ret = m_service.HttpGet(_url, timeout, true);
 
             return (_ret != null);
         }

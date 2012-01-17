@@ -22,6 +22,9 @@ namespace Gui
 
 		private void BackupAndUninstallStep_Entered(object sender, EventArgs e)
 		{
+			Wizard.BackButton.Enabled = false;
+			Wizard.NextButton.Enabled = false;
+
 			ipProgress.StartListening();
 			try
 			{
@@ -46,6 +49,11 @@ namespace Gui
 			{
 				if (mex.ErrorCode != (uint)InstallError.UserExit)
 					MessageBox.Show("Installation failed: " + mex.Message);
+				Wizard.Finish();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Installation failed: " + ex.Message);
 				Wizard.Finish();
 			}
 

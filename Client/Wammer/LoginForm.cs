@@ -280,8 +280,9 @@ namespace Waveface
         private QuitOption _doLogin(Main _main, string email, string password)
         {
             QuitOption _quit;
+            string _errorMessage;
 
-            if (_main.Login(email, password))
+            if (_main.Login(email, password, out _errorMessage))
             {
                 Cursor.Current = Cursors.Default;
 
@@ -296,7 +297,7 @@ namespace Waveface
             {
                 Cursor.Current = Cursors.Default;
 
-                MessageBox.Show(I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show((_errorMessage != string.Empty) ? _errorMessage : I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _quit = QuitOption.Logout;
             }
 

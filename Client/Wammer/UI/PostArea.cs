@@ -1,5 +1,6 @@
 ﻿﻿#region
 
+using System.Drawing;
 using System.Windows.Forms;
 
 #endregion
@@ -23,6 +24,8 @@ namespace Waveface
             //comboBoxType.SelectedIndex = 0;
 
             //m_init = true;
+
+            show_labelStatus(false);
         }
 
         public void ShowTypeUI(bool flag)
@@ -81,7 +84,30 @@ namespace Waveface
 
         public void ShowStatusText(string msg)
         {
+            set_labelStatus_SizeLocation();
+
             labelStatus.Text = msg;
+
+            show_labelStatus(msg != "");
+        }
+
+        private void show_labelStatus(bool flag)
+        {
+            labelStatus.Font = new Font("Arial", 11, FontStyle.Bold);
+            
+            labelStatus.Visible = flag;
+
+            btnCreatePost.Visible = !flag;
+            btnRefresh.Visible = !flag;
+
+            if (flag)
+            {
+                labelStatus.BringToFront();
+            }
+            else
+            {
+                labelStatus.SendToBack();
+            }
         }
 
         public void showRefreshUI(bool flag)
@@ -97,6 +123,17 @@ namespace Waveface
                 return;
 
             Main.Current.Post();
+        }
+
+        private void PostArea_Resize(object sender, System.EventArgs e)
+        {
+            set_labelStatus_SizeLocation();
+        }
+
+        private void set_labelStatus_SizeLocation()
+        {
+            labelStatus.Size = new Size(panelTop.Size.Width - 16, panelTop.Size.Height - 14);
+            labelStatus.Location = new Point(8, 6);
         }
     }
 }
