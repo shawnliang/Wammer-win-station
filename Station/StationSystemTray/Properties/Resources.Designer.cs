@@ -73,5 +73,26 @@ namespace StationSystemTray.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        public static System.Drawing.Icon station_run {
+            get {
+                object obj = ResourceManager.GetObject("station_run", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        public static System.Drawing.Icon station_stop {
+            get {
+                object obj = ResourceManager.GetObject("station_stop", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        public static System.Drawing.Icon station_warn {
+            get {
+                object obj = ResourceManager.GetObject("station_warn", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

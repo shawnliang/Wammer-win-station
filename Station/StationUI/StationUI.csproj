@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+    <ApplicationIcon>station_run.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>StationSetup.Program</StartupObject>
@@ -142,6 +142,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="station_run.ico" />
     <None Include="Resources\P1.PNG" />
     <None Include="Resources\P2.png" />
     <None Include="Resources\P3.PNG" />
