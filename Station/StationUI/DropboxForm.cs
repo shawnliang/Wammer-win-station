@@ -171,8 +171,15 @@ namespace Wammer.Station
 
         private void btn_ConnectionFailed_Retry_Click(object sender, EventArgs e)
         {
-            OpenLinkageWebPage();
-            gotoPage(Page_Linkage_2); // 3-1
+			try
+			{
+				OpenLinkageWebPage();
+				gotoPage(Page_Linkage_2); // 3-1
+			}
+			catch (ConnectToCloudException)
+			{
+				MessageBox.Show(I18n.L.T("ConnectCloudError"), "Waveface");
+			}
         }
 
         private void btn_InstallationFailed_Skip_Click(object sender, EventArgs e)
@@ -187,14 +194,28 @@ namespace Wammer.Station
 
         private void btn_Linkage_1_Connect_Click(object sender, EventArgs e)
         {
-            OpenLinkageWebPage();
+			try
+			{
+				OpenLinkageWebPage();
 
-            gotoPage(Page_Linkage_2); //3-2
+				gotoPage(Page_Linkage_2); //3-2
+			}
+			catch (ConnectToCloudException)
+			{
+				MessageBox.Show(I18n.L.T("ConnectCloudError"), "Waveface");
+			}
         }
 
         private void btn_Linkage_2_ConnectAgain_Click(object sender, EventArgs e)
         {
-            OpenLinkageWebPage();
+			try
+			{
+				OpenLinkageWebPage();
+			}
+			catch (ConnectToCloudException)
+			{
+				MessageBox.Show(I18n.L.T("ConnectCloudError"), "Waveface");
+			}
         }
 
         private void btn_Linkage_2_Verift_Click(object sender, EventArgs e)
@@ -305,22 +326,27 @@ namespace Wammer.Station
         {
             m_verifyOK = true;
 
-            try
-            {
-                StationController.ConnectDropbox(1024 * 1024 * 500); //500MB
-            }
-            catch (DropboxNoSyncFolderException)
-            {
-                m_verifyOK = false;
-            }
-            catch (DropboxWrongAccountException)
-            {
-                m_verifyOK = false;
-            }
-            catch
-            {
-                m_verifyOK = false;
-            }
+			try
+			{
+				StationController.ConnectDropbox(1024 * 1024 * 500); //500MB
+			}
+			catch (DropboxNoSyncFolderException)
+			{
+				m_verifyOK = false;
+			}
+			catch (DropboxWrongAccountException)
+			{
+				m_verifyOK = false;
+			}
+			catch (ConnectToCloudException)
+			{
+				MessageBox.Show(I18n.L.T("ConnectCloudError"), "Waveface");
+				m_verifyOK = false;
+			}
+			catch
+			{
+				m_verifyOK = false;
+			}
         }
 
         private void backgroundWorkerVerifying_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

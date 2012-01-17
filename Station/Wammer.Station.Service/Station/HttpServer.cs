@@ -259,6 +259,14 @@ namespace Wammer.Station
 			}
 			catch (Cloud.WammerCloudException e)
 			{
+				// cannot connect to Waveface cloud
+				if (e.HttpError != WebExceptionStatus.ProtocolError)
+				{
+					HttpHelper.RespondFailure(ctx.Context.Response, new WammerStationException(e.InnerException.Message, (int)StationApiError.ConnectToCloudError), (int)HttpStatusCode.BadRequest);
+					logger.Warn("Connection to cloud error", e);
+					return;
+				}
+
 				// if cloud returns bad request error, bypass it to client
 				WebException webex = (WebException)e.InnerException;
 				if (webex != null)

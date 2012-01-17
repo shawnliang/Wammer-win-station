@@ -272,7 +272,15 @@ namespace StationSystemTray
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
-			messenger.ShowMessage(I18n.L.T("WFServiceStartFail"));
+			if (ex is ConnectToCloudException)
+			{
+				messenger.ShowMessage(I18n.L.T("ConnectCloudError"));
+			}
+			else
+			{
+				messenger.ShowMessage(I18n.L.T("WFServiceStartFail"));
+			}
+
 			Application.Exit();
 		}
 

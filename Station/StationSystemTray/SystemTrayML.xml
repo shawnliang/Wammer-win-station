@@ -51,19 +51,9 @@ Please restart the program to initialize Waveface Station.</en-US>
 請重新啟動程式再次初始化Waveface Station</zh-TW>
   </WItem>
   <WItem>
-    <ID>PostError</ID>
-    <en-US>Unable to post. Please try again.</en-US>
-    <zh-TW>無法張貼文章 請再試一次</zh-TW>
-  </WItem>
-  <WItem>
     <ID>ChangeOwnerError</ID>
     <en-US>Unable to deassociate user with Waveface Station. Please try again.</en-US>
     <zh-TW>無法分離使用者與Waveface station  請再試一次</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>AnotherInstanceRunning</ID>
-    <en-US>Program is already running</en-US>
-    <zh-TW>程式已經啟動了</zh-TW>
   </WItem>
   <WItem>
     <ID>Connected</ID>
@@ -101,74 +91,9 @@ Please restart the program to initialize Waveface Station.</en-US>
     <zh-TW>尚未連結</zh-TW>
   </WItem>
   <WItem>
-    <ID>PhotoView.SaveOK</ID>
-    <en-US>File Save Successful!</en-US>
-    <zh-TW>儲存檔案成功!</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>PhotoView.SaveError</ID>
-    <en-US>File Save Error!</en-US>
-    <zh-TW>儲存檔案失敗!</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>PhotoView.SaveAllOK</ID>
-    <en-US>All images are saved.</en-US>
-    <zh-TW>儲存所有檔案成功!</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>PhotoView.SelectLoc</ID>
-    <en-US>Select location to save files</en-US>
-    <zh-TW>選擇存檔路徑</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>NewPostManager.DragDropHere</ID>
-    <en-US>Drag &amp; Drop here</en-US>
-    <zh-TW>拖拉檔案至此處</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>DetailView.Via</ID>
-    <en-US>via</en-US>
-    <zh-TW>貼自</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>DetailView.CommentEmpty</ID>
-    <en-US>Comment Text cannot be empty!</en-US>
-    <zh-TW>留言欄位不能為空白!</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>TextEmpty</ID>
-    <en-US>Text cannot be empty!</en-US>
-    <zh-TW>內容不能為空白!</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>PostForm.PostError</ID>
-    <en-US>Post Error!</en-US>
-    <zh-TW>貼文失敗!</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>PostForm.PostSuccess</ID>
-    <en-US>Post success!</en-US>
-    <zh-TW>貼文成功!</zh-TW>
-  </WItem>
-  <WItem>
     <ID>SystemError</ID>
     <en-US>There appears to be an error with the system. Please try again later.</en-US>
     <zh-TW>抱歉, 系統發生未預期錯誤, 請稍後再試.</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>PhotoStorageQuotaExceeded</ID>
-    <en-US>Photos storage quota exceeded ({0}).</en-US>
-    <zh-TW>抱歉! 您可以上傳的照片數已經超過系統允許值({0}).</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>photo</ID>
-    <en-US>photo</en-US>
-    <zh-TW>張圖</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>photos</ID>
-    <en-US>photos</en-US>
-    <zh-TW>張圖</zh-TW>
   </WItem>
   <WItem>
     <ID>Station401Exception</ID>
@@ -176,50 +101,20 @@ Please restart the program to initialize Waveface Station.</en-US>
     <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
   </WItem>
   <WItem>
-    <ID>MinimizetoTrayApp</ID>
-    <en-US>Minimize to Tray App</en-US>
-    <zh-TW>縮小至系統工具列</zh-TW>
-  </WItem>
-  <WItem>
     <ID>NetworkDisconnected</ID>
     <en-US>Network Disconnected.</en-US>
     <zh-TW>網路連線中斷.</zh-TW>
   </WItem>
   <WItem>
-    <ID>RemoveAllFiles</ID>
-    <en-US>Do you really want to remove all files?</en-US>
-    <zh-TW>你是否確定要移除所有檔案?</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>RemoveSelectedFiles</ID>
-    <en-US>Do you really want to remove selected file(s)?</en-US>
-    <zh-TW>你是否確定要移除所選取的檔案?</zh-TW>
-  </WItem>
-
-  <WItem>
     <ID>NetworkConnected</ID>
     <en-US>Network connected</en-US>
     <zh-TW>網路連線</zh-TW>
-  </WItem>
-  
+  </WItem>  
    <WItem>
     <ID>NetworkDisconnected</ID>
     <en-US>Network disconnected</en-US>
     <zh-TW>網路斷線</zh-TW>
   </WItem> 
-  
-   <WItem>
-    <ID>OnePostUpload</ID>
-    <en-US>Uploading in progress: {0} files uploaded, {1} files remaining…</en-US>
-    <zh-TW>檔案上傳中：{0}個檔案已上傳，剩下{1}個檔案</zh-TW>
-  </WItem>   
-  
-    <WItem>
-    <ID>MultiplePostUpload</ID>
-    <en-US>Uploading in progress: {0} files uploaded, {1} files remaining and {2} post waited…</en-US>
-    <zh-TW>檔案上傳中：{0}個檔案已上傳，剩下{1}個檔案，和{2}篇貼文</zh-TW>
-  </WItem>
-
   <WItem>
     <ID>WFPreference</ID>
     <en-US>Preference...</en-US>
@@ -271,21 +166,6 @@ Please restart the program to initialize Waveface Station.</en-US>
     <zh-TW>無法啟動 Waveface Station</zh-TW>
   </WItem>
   <WItem>
-    <ID>GetStationStatusFail</ID>
-    <en-US>Unable to retrieve status of Waveface Station</en-US>
-    <zh-TW>無法讀取 Waveface Station 的狀態</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>ListCloudStorageFail</ID>
-    <en-US>Unable to retrieve Dropbox information</en-US>
-    <zh-TW>無法讀取 Dropbox 的資訊</zh-TW>
-  </WItem>
-  <WItem>
-    <ID>GetStorageUsageFail</ID>
-    <en-US>Unable to retrieve monthly usage information</en-US>
-    <zh-TW>無法讀取傳輸使用量的資訊</zh-TW>
-  </WItem>
-  <WItem>
     <ID>ConnectCloudStorageFail</ID>
     <en-US>Unable to connect to Dropbox</en-US>
     <zh-TW>無法連結 Dropbox</zh-TW>
@@ -299,5 +179,10 @@ Please restart the program to initialize Waveface Station.</en-US>
     <ID>NoData</ID>
     <en-US>---</en-US>
     <zh-TW>---</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>ConnectCloudError</ID>
+    <en-US>Unable to connect to Waveface Cloud</en-US>
+    <zh-TW>無法連接 Waveface 伺服器</zh-TW>
   </WItem>
 </WItems>

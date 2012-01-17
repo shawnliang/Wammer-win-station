@@ -56,8 +56,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app.config.staging.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="app.config" />
-    <Content Include="app.config.production.xml" />
+    <Content Include="app.config.production.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Station\Wammer.Station.Service\Wammer.Station.Service.csproj">

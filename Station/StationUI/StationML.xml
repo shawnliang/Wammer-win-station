@@ -59,4 +59,9 @@
     <en-US>OK</en-US>
     <zh-TW>確定</zh-TW>
   </WItem>
+  <WItem>
+    <ID>ConnectCloudError</ID>
+    <en-US>Unable to connect to Waveface Cloud</en-US>
+    <zh-TW>無法連接 Waveface 伺服器</zh-TW>
+  </WItem>
 </WItems>
