@@ -29,6 +29,7 @@ namespace StationSystemTray
 
 		public Icon iconRunning;
 		public Icon iconPaused;
+		public Icon iconWarning;
 
 		public bool MenuServiceActionEnabled
 		{
@@ -90,8 +91,9 @@ namespace StationSystemTray
 			
 			Type type = this.GetType();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(type.Namespace + ".Properties.Resources", this.GetType().Assembly);
-			this.iconRunning = ((Icon)(resources.GetObject("Icon")));
-			this.iconPaused = ((Icon)(resources.GetObject("Icon_gray")));
+			this.iconRunning = StationSystemTray.Properties.Resources.station_run;
+			this.iconPaused = StationSystemTray.Properties.Resources.station_stop;
+			this.iconWarning = StationSystemTray.Properties.Resources.station_warn;
 			this.Icon = this.iconPaused;
 			
 			this.serviceRunning = false;
@@ -194,8 +196,7 @@ namespace StationSystemTray
 			}
 			catch (AuthenticationException)
 			{
-
-				TrayIcon.Icon = iconPaused;
+				TrayIcon.Icon = this.iconWarning;
 				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
 				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
 				TrayIconText = I18n.L.T("Station401Exception");
