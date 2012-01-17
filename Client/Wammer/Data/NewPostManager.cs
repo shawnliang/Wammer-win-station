@@ -287,7 +287,7 @@ namespace Waveface
 
                             s_logger.Trace("[" + _tmpStamp + "]" + "Batch Upload Photo [" + _count + "]" + _file);
 
-                            string _localFile = Main.GCONST.CachePath + _uf.object_id + "_origin" + _text;
+                            string _localFile = Main.GCONST.CachePath + _uf.object_id + "_origin_" + _text;
                             File.Copy(_file, _localFile);
 
                             Downloading = false;
