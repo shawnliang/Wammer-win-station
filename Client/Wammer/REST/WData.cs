@@ -96,6 +96,7 @@ namespace Waveface.API.V2
         public string email { get; set; }
         public string nickname { get; set; }
         public string avatar_url { get; set; }
+        public string state { get; set; }
         public List<Device> devices { get; set; }
     }
 

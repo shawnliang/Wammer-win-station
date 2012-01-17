@@ -167,6 +167,7 @@ namespace Waveface
             this.Controls.Add(this.panelTop);
             this.MinimumSize = new System.Drawing.Size(337, 0);
             this.Name = "PostArea";
+            this.Resize += new System.EventHandler(this.PostArea_Resize);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             this.panelList.ResumeLayout(false);

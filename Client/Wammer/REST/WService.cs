@@ -81,16 +81,14 @@ namespace Waveface.API.V2
 
         static WService()
         {
-            {
-                string _cloudUrl = (string)StationRegHelper.GetValue("cloudBaseURL", null);
+            string _cloudUrl = (string)StationRegHelper.GetValue("cloudBaseURL", null);
 
-                if (_cloudUrl == null)
-                    return;
+            if (_cloudUrl == null)
+                return;
 
-                Uri _url = new Uri(_cloudUrl);
+            Uri _url = new Uri(_cloudUrl);
 
-                CloudIP = _url.Scheme + "://" + _url.Host + ":" + _url.Port;
-            }
+            CloudIP = _url.Scheme + "://" + _url.Host + ":" + _url.Port;
         }
 
         #region Misc
@@ -110,7 +108,7 @@ namespace Waveface.API.V2
             return JsonConvert.DeserializeObject<T>(_r, _settings);
         }
 
-        public string HttpGet(string _url, int timeout)
+        public string HttpGet(string _url, int timeout, bool useWarnLog)
         {
             try
             {
@@ -128,8 +126,7 @@ namespace Waveface.API.V2
                     return "OK";
                 }
 
-                NLogUtility.WebException(s_logger, _e, "HttpGet");
-
+                NLogUtility.WebException(s_logger, _e, "HttpGet", useWarnLog);
 
                 return null;
             }
@@ -177,7 +174,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "auth_signup");
+                NLogUtility.WebException(s_logger, _e, "auth_signup", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -227,7 +224,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "auth_login");
+                NLogUtility.WebException(s_logger, _e, "auth_login", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -265,7 +262,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "auth_logout");
+                NLogUtility.WebException(s_logger, _e, "auth_logout", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -307,7 +304,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "users_get");
+                NLogUtility.WebException(s_logger, _e, "users_get", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -349,7 +346,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "users_update");
+                NLogUtility.WebException(s_logger, _e, "users_update", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -389,7 +386,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "users_passwd");
+                NLogUtility.WebException(s_logger, _e, "users_passwd", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -425,7 +422,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "users_findMyStation");
+                NLogUtility.WebException(s_logger, _e, "users_findMyStation", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -483,7 +480,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "groups_create");
+                NLogUtility.WebException(s_logger, _e, "groups_create", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -521,7 +518,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "groups_get");
+                NLogUtility.WebException(s_logger, _e, "groups_get", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -563,7 +560,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "groups_update");
+                NLogUtility.WebException(s_logger, _e, "groups_update", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -601,7 +598,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "groups_delete");
+                NLogUtility.WebException(s_logger, _e, "groups_delete", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -641,7 +638,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "groups_inviteUser");
+                NLogUtility.WebException(s_logger, _e, "groups_inviteUser", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -681,7 +678,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "groups_kickUser");
+                NLogUtility.WebException(s_logger, _e, "groups_kickUser", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -725,7 +722,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "posts_getSingle");
+                NLogUtility.WebException(s_logger, _e, "posts_getSingle", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -769,7 +766,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "posts_get");
+                NLogUtility.WebException(s_logger, _e, "posts_get", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -809,7 +806,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "posts_getLatest");
+                NLogUtility.WebException(s_logger, _e, "posts_getLatest", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -871,7 +868,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "posts_new");
+                NLogUtility.WebException(s_logger, _e, "posts_new", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -918,7 +915,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "posts_newComment");
+                NLogUtility.WebException(s_logger, _e, "posts_newComment", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -958,7 +955,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "posts_getComments");
+                NLogUtility.WebException(s_logger, _e, "posts_getComments", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -998,7 +995,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "posts_fetchByFilter");
+                NLogUtility.WebException(s_logger, _e, "posts_fetchByFilter", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1038,7 +1035,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "posts_hide");
+                NLogUtility.WebException(s_logger, _e, "posts_hide", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1078,7 +1075,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "posts_unhide");
+                NLogUtility.WebException(s_logger, _e, "posts_unhide", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1121,7 +1118,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "previews_get");
+                NLogUtility.WebException(s_logger, _e, "previews_get", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1160,7 +1157,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "previews_get_adv");
+                NLogUtility.WebException(s_logger, _e, "previews_get_adv", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1235,7 +1232,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "attachments_upload");
+                NLogUtility.WebException(s_logger, _e, "attachments_upload", true);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1275,7 +1272,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "attachments_get");
+                NLogUtility.WebException(s_logger, _e, "attachments_get", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1313,7 +1310,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "attachments_delete");
+                NLogUtility.WebException(s_logger, _e, "attachments_delete", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1363,7 +1360,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "footprints_getLastScan");
+                NLogUtility.WebException(s_logger, _e, "footprints_getLastScan", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1403,7 +1400,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "footprints_setLastScan");
+                NLogUtility.WebException(s_logger, _e, "footprints_setLastScan", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1443,7 +1440,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "footprints_getLastRead");
+                NLogUtility.WebException(s_logger, _e, "footprints_getLastRead", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                     throw new Station401Exception();
@@ -1479,7 +1476,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "footprints_setLastRead");
+                NLogUtility.WebException(s_logger, _e, "footprints_setLastRead", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1526,7 +1523,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "fetchfilters_new");
+                NLogUtility.WebException(s_logger, _e, "fetchfilters_new", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1571,7 +1568,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "fetchfilters_update");
+                NLogUtility.WebException(s_logger, _e, "fetchfilters_update", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1607,7 +1604,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "fetchfilters_list");
+                NLogUtility.WebException(s_logger, _e, "fetchfilters_list", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1644,7 +1641,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "storages_usage");
+                NLogUtility.WebException(s_logger, _e, "storages_usage", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1681,7 +1678,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "station_status");
+                NLogUtility.WebException(s_logger, _e, "station_status", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1725,7 +1722,7 @@ namespace Waveface.API.V2
             }
             catch (WebException e)
             {
-                NLogUtility.WebException(s_logger, e, "LoginStation");
+                NLogUtility.WebException(s_logger, e, "LoginStation", false);
 
                 if (e.Status == WebExceptionStatus.ConnectFailure)
                 {
@@ -1757,7 +1754,7 @@ namespace Waveface.API.V2
             }
             catch (WebException e)
             {
-                NLogUtility.WebException(s_logger, e, "LogoutStation");
+                NLogUtility.WebException(s_logger, e, "LogoutStation", false);
 
                 string msg = ExtractApiRetMsg(e);
 
@@ -1839,7 +1836,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "cloudstorage_list");
+                NLogUtility.WebException(s_logger, _e, "cloudstorage_list", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1872,7 +1869,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_oauth");
+                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_oauth", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1907,7 +1904,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_connect");
+                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_connect", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1941,7 +1938,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_update");
+                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_update", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1974,7 +1971,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_disconnect");
+                NLogUtility.WebException(s_logger, _e, "cloudstorage_dropbox_disconnect", false);
 
                 if (_e.Status == WebExceptionStatus.ProtocolError)
                 {
