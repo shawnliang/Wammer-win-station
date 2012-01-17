@@ -137,7 +137,11 @@ namespace Wammer.Station
 		{
 			if (string.Compare(Request.HttpMethod, "POST", true) == 0)
 			{
-				using (MemoryStream buff = new MemoryStream((int)Request.ContentLength64))
+				int initialSize = (int)Request.ContentLength64;
+				if (initialSize <= 0)
+					initialSize = 65535;
+
+				using (MemoryStream buff = new MemoryStream(initialSize))
 				{
 					Wammer.Utility.StreamHelper.Copy(Request.InputStream, buff);
 					return buff.ToArray();
@@ -245,9 +249,17 @@ namespace Wammer.Station
 				throw new ArgumentNullException();
 
 			try {
-				int idx = contentType.ToLower().IndexOf(BOUNDARY);
-				string boundary = contentType.Substring(idx + BOUNDARY.Length);
-				return boundary;
+				string[] parts = contentType.Split(';');
+				foreach(string part in parts)
+				{
+					int idx = part.IndexOf(BOUNDARY);
+					if (idx < 0)
+						continue;
+
+					return part.Substring(idx + BOUNDARY.Length);
+				}
+
+				throw new FormatException("Multipart boundary is nout found in content-type header");
 			}
 			catch (Exception e)
 			{
