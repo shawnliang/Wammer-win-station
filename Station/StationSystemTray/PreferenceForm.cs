@@ -91,10 +91,12 @@ namespace StationSystemTray
 		public string WebURL
 		{
 			get {
-				if (CloudServer.BaseUrl == "https://api.waveface.com")
+				if (CloudServer.BaseUrl.Contains("api.waveface.com"))
 					return "https://waveface.com";
-				else
+				else if (CloudServer.BaseUrl.Contains("develop.waveface.com"))
 					return "http://develop.waveface.com:4343";
+				else
+					return "https://waveface.com";
 			}
 		}
 

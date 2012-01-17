@@ -210,7 +210,7 @@
     <value>安裝Dropbox</value>
   </data>
   <data name="btn_InstallDropbox_1_Install.Location" type="System.Drawing.Point, System.Drawing">
-    <value>381, 282</value>
+    <value>348, 283</value>
   </data>
   <data name="btn_InstallDropbox_1_Install.Text" xml:space="preserve">
     <value>安裝 Dropbox</value>
@@ -316,6 +316,9 @@
   </data>
   <data name="btn_ConnectionFailed_Skip.Text" xml:space="preserve">
     <value>跳過</value>
+  </data>
+  <data name="btn_InstallDropbox_2_continue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>388, 283</value>
   </data>
   <data name="btn_InstallDropbox_2_continue.Text" xml:space="preserve">
     <value>下一步</value>

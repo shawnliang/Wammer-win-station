@@ -144,7 +144,7 @@
 			this.multiPanel.Controls.Add(this.Page_InstallDropbox_2);
 			this.multiPanel.Controls.Add(this.Page_DefaultPosts);
 			this.multiPanel.Name = "multiPanel";
-			this.multiPanel.SelectedPage = this.Page_SetupCompleted;
+			this.multiPanel.SelectedPage = this.Page_InstallDropbox_2;
 			// 
 			// Page_Welcome
 			// 
