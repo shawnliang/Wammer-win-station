@@ -51,6 +51,11 @@ namespace Gui
 					MessageBox.Show("Installation failed: " + mex.Message);
 				Wizard.Finish();
 			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Installation failed: " + ex.Message);
+				Wizard.Finish();
+			}
 
 			ipProgress.StopListening();
 			Wizard.NextStep();

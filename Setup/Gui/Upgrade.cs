@@ -46,30 +46,82 @@ namespace Gui
 
 		private static void MongoDump()
 		{
-			string appRoot = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-			string dumpFolder = Path.Combine(appRoot, @"MongoDB\Backup");
+			StartMongoDB();
 
-			Process p = new Process();
-			ProcessStartInfo info = new ProcessStartInfo(
-				"mongodump.exe", 
-				string.Format("--port 10319 --forceTableScan --out \"{0}\" --db wammer", dumpFolder));
+			try
+			{
+				string appRoot = MsiConnection.Instance.GetPath("INSTALLLOCATION");
+				string dumpFolder = Path.Combine(appRoot, @"MongoDB\Backup");
 
-			info.CreateNoWindow = true;
-			info.WindowStyle = ProcessWindowStyle.Hidden;
-			p.StartInfo = info;
-			p.Start();
-			p.WaitForExit();
+				Process p = new Process();
+				ProcessStartInfo info = new ProcessStartInfo(
+					"mongodump.exe",
+					string.Format("--port 10319 --forceTableScan --out \"{0}\" --db wammer", dumpFolder));
 
-			if (p.ExitCode != 0)
-				throw new Exception("Backing up mongo db failed: " + p.ExitCode);
+				info.CreateNoWindow = true;
+				info.WindowStyle = ProcessWindowStyle.Hidden;
+				p.StartInfo = info;
+				p.Start();
+				p.WaitForExit();
 
-			MongoServer.Create("mongodb://localhost:10319/?safe=true").GetDatabase("wammer").GetCollection("station").RemoveAll();
+				if (p.ExitCode != 0)
+					throw new DataBackupException("mongodump.exe returns failure: " + p.ExitCode);
+
+				// delete station collection to prevent previous version's uninstaller unregistering station. 
+				MongoServer.Create("mongodb://localhost:10319/?safe=true").GetDatabase("wammer").GetCollection("station").RemoveAll();
+			}
+			catch (Exception e)
+			{
+				throw new DataBackupException("Error using mongodump.exe to backup MongoDB", e);
+			}
+		}
+
+		private static void StartMongoDB()
+		{
+			try
+			{
+				ServiceController svc = new ServiceController("MongoDBForWaveface");
+				if (svc.Status != ServiceControllerStatus.Running &&
+					svc.Status != ServiceControllerStatus.StartPending)
+					svc.Start();
+
+				svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(1.0));
+			}
+			catch (Exception e)
+			{
+				throw new DataBackupException("Unable to start MongoDB", e);
+			}
+
+
+			DateTime start = DateTime.Now;
+			bool mongoDBOK = false;
+			do
+			{
+				try
+				{
+					MongoServer sv = MongoServer.Create("mongodb://127.0.0.1:10319/?safe=true");
+					mongoDBOK = true;
+				}
+				catch
+				{
+					mongoDBOK = false;
+				}
+			}
+			while (!mongoDBOK && DateTime.Now - start < TimeSpan.FromMinutes(5.0));
+
+			if (!mongoDBOK)
+				throw new DataBackupException("MongoDB is not accessible");
 		}
 
 		private static void BackupClientAppData()
 		{
 			try
 			{
+				KillProcess("StationSystemTray");
+				KillProcess("WavefaceWindowsClient");
+				KillProcess("StationSetup");
+				KillProcess("StationUI");
+
 				string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 				string wavefaceData = Path.Combine(appData, "Waveface");
 				string BackupData = Path.Combine(appData, "oldWaveface");
@@ -80,9 +132,24 @@ namespace Gui
 				if (Directory.Exists(wavefaceData))
 					Directory.Move(wavefaceData, BackupData);
 			}
-			catch (Exception e)
+			catch
 			{
-				throw new Exception("Unable to backup Waveface Client application data: " + e.Message);
+			}
+		}
+
+		private static void KillProcess(string name)
+		{
+			try
+			{
+				Process[] procs = Process.GetProcessesByName(name);
+
+				foreach (Process p in procs)
+				{
+					p.Kill();
+				}
+			}
+			catch (Exception)
+			{
 			}
 		}
 
@@ -116,5 +183,17 @@ namespace Gui
 			return false;
 		}
 
+	}
+
+
+	class DataBackupException: Exception
+	{
+		public DataBackupException(string msg, Exception inner)
+			:base(msg, inner)
+		{}
+
+		public DataBackupException(string msg)
+			: base(msg)
+		{ }
 	}
 }
