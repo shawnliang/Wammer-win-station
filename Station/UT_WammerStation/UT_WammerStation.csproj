@@ -96,6 +96,7 @@
     <Compile Include="TestAttachmentUpload.cs" />
     <Compile Include="TestNetworkHelper.cs" />
     <Compile Include="TestServiceHelper.cs" />
+    <Compile Include="TestStreamHelper.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
   </ItemGroup>

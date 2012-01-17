@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Threading;
 using System.IO;
 
 namespace Wammer.Utility
@@ -18,5 +18,94 @@ namespace Wammer.Utility
 				to.Write(buffer, 0, nRead);
 			}
 		}
+
+		public static IAsyncResult BeginCopy(Stream from, Stream to, AsyncCallback callback, object state)
+		{
+			byte[] buffer = new byte[32768];
+
+			StreamCopyState asyncState = new StreamCopyState(from, to, buffer, callback, state);
+			from.BeginRead(buffer, 0, buffer.Length, asyncState.DataRead, null);
+
+			return asyncState;
+		}
+
+		public static void EndCopy(IAsyncResult ar)
+		{
+			StreamCopyState result = (StreamCopyState)ar;
+
+			if (result.Error != null)
+				throw result.Error;
+		}
+	}
+
+	class StreamCopyState : IAsyncResult
+	{
+		private Stream from;
+		private Stream to;
+		private byte[] buffer;
+		private AsyncCallback completeCallback;
+		private AutoResetEvent doneEvent;
+		private bool readComplete;
+
+		public object AsyncState { get; private set; }
+		public bool CompletedSynchronously { get; private set; }
+		public bool IsCompleted { get; private set; }
+		public Exception Error { get; private set; }
+
+		public StreamCopyState(Stream from, Stream to, byte[] buffer, AsyncCallback completeCB, object state)
+		{
+			this.from = from;
+			this.to = to;
+			this.buffer = buffer;
+			this.completeCallback = completeCB;
+
+			this.doneEvent = new AutoResetEvent(false);
+			this.AsyncState = state;
+		}
+		
+		public WaitHandle AsyncWaitHandle
+		{
+			get { return doneEvent; }
+		}
+
+		public void DataRead(IAsyncResult ar)
+		{
+			try
+			{
+				int nRead = from.EndRead(ar);
+
+				if (nRead == 0)
+				{
+					this.IsCompleted = true;
+					this.completeCallback(this);
+					this.doneEvent.Set();
+					return;
+				}
+
+				to.BeginWrite(buffer, 0, nRead, this.DataWritten, null);
+			}
+			catch (Exception e)
+			{
+				this.Error = e;
+				this.completeCallback(this);
+				this.doneEvent.Set();
+			}
+		}
+
+		public void DataWritten(IAsyncResult ar)
+		{
+			try
+			{
+				to.EndWrite(ar);
+				from.BeginRead(buffer, 0, buffer.Length, this.DataRead, null);
+			}
+			catch (Exception e)
+			{
+				this.Error = e;
+				this.completeCallback(this);
+				this.doneEvent.Set();
+			}
+		}
+		
 	}
 }

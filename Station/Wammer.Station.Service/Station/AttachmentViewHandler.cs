@@ -67,19 +67,17 @@ namespace Wammer.Station
 
 				Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", doc.group_id)));
 				FileStorage storage = new FileStorage(driver);
-				using (FileStream fs = storage.LoadByNameWithNoSuffix(namePart))
-				{
-					Response.StatusCode = 200;
-					Response.ContentLength64 = fs.Length;
-					Response.ContentType = doc.mime_type;
+				FileStream fs = storage.LoadByNameWithNoSuffix(namePart);
+				Response.StatusCode = 200;
+				Response.ContentLength64 = fs.Length;
+				Response.ContentType = doc.mime_type;
 
-					if (doc.type == AttachmentType.image && imageMeta != ImageMeta.Origin)
-						Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
+				if (doc.type == AttachmentType.image && imageMeta != ImageMeta.Origin)
+					Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
 
-					Wammer.Utility.StreamHelper.Copy(fs, Response.OutputStream);
-					fs.Close();
-					Response.OutputStream.Close();
-				}
+				Wammer.Utility.StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
+					new CopyState(fs, Response, objectId));
+				
 			}
 			catch (ArgumentException e)
 			{
@@ -90,6 +88,46 @@ namespace Wammer.Station
 			{
 				TunnelToCloud(AdditionalParam);
 			}
+		}
+
+		private static void CopyComplete(IAsyncResult ar)
+		{
+			CopyState state = (CopyState)ar.AsyncState;
+
+			try
+			{
+				Wammer.Utility.StreamHelper.EndCopy(ar);	
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Error responding attachment/view : " + state.attachmentId, e);
+				HttpHelper.RespondFailure(state.response, new CloudResponse(400, -1, e.Message));
+			}
+			finally
+			{
+				try{
+					state.source.Close();
+					state.response.Close();
+				}
+				catch(Exception e)
+				{
+					logger.Warn("error closing source and response", e);
+				}
+			}
+		}
+	}
+
+	class CopyState
+	{
+		public Stream source { get; private set; }
+		public HttpListenerResponse response { get; private set; }
+		public string attachmentId { get; private set; }
+
+		public CopyState(Stream src, HttpListenerResponse res, string attachmentId)
+		{
+			source = src;
+			response = res;
+			this.attachmentId = attachmentId;
 		}
 	}
 }
