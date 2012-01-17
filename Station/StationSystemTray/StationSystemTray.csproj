@@ -36,7 +36,7 @@
     <StartupObject>StationSystemTray.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>station_run.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\station_run.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -138,11 +138,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Icon_gray.ico" />
-    <Content Include="Icon.ico" />
     <None Include="Resources\station_run.ico" />
     <None Include="Resources\station_stop.ico" />
     <None Include="Resources\station_warn.ico" />
-    <Content Include="station_run.ico" />
     <Content Include="SystemTrayML.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
