@@ -16,7 +16,7 @@
   <String Id="WaitMongoDbReady">準備MongoDB中. 可能會需要數分鐘, 請稍後</String>
   <String Id="StartWavefaceService">正在啟動Waveface Station服務</String>
   <String Id="SHORTCUT.STARTWAVEFACE.STATION">Waveface Station</String>
-  <String Id="SHORTCUT.STARTWAVEFACE.CLIENT">(TBD)Waveface 用戶端</String>
+  <String Id="SHORTCUT.STARTWAVEFACE.CLIENT">Waveface Desktop</String>
   <String Id="RestoreBackupData">還原備份的資料</String>
   <!-- Copied from Wix 3.6 src\ext\FirewallExtension\wixlib\en-us.wxl -->
   <String Id="msierrFirewallCannotConnect" Overridable="yes">無法連結至Windows防火牆.  ([2]   [3]   [4]   [5])</String>

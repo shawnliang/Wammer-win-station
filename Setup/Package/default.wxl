@@ -16,7 +16,7 @@
   <String Id="WaitMongoDbReady">Preparing MongoDB. This may take minutes. Please wait.</String>
   <String Id="StartWavefaceService">Starting Waveface Station service</String>
   <String Id="SHORTCUT.STARTWAVEFACE.STATION">Waveface Station</String>
-  <String Id="SHORTCUT.STARTWAVEFACE.CLIENT">(TBD)Waveface Client</String>
+  <String Id="SHORTCUT.STARTWAVEFACE.CLIENT">Waveface Desktop</String>
   <String Id="RestoreBackupData">Restoring data</String>
   <!-- Copied from Wix 3.6 src\ext\FirewallExtension\wixlib\en-us.wxl -->
   <String Id="msierrFirewallCannotConnect" Overridable="yes">Cannot connect to Windows Firewall.  ([2]   [3]   [4]   [5])</String>

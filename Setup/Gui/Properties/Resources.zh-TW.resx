@@ -117,14 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="configure" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ResourceFiles\configure.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DowngradeNotSupported" xml:space="preserve">
     <value>安裝精靈偵測到您已有較新版本的Waveface安裝在此部電腦上。無法繼續安裝。</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="LicenseStepRtf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ResourceFiles\LicenseStep.zh-TW.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
   </data>
@@ -132,15 +131,15 @@
     <value>Package.msi</value>
   </data>
   <data name="WelcomeStepGreetingInstall" xml:space="preserve">
-    <value>安裝精靈將自動在您的電腦上開始設定Waveface Station。</value>
+    <value>安裝精靈將自動在您的電腦上開始設定Waveface Station與Waveface Desktop。</value>
   </data>
   <data name="WelcomeStepGreetingModify" xml:space="preserve">
-    <value>安裝精靈將修改Waveface Station。</value>
+    <value>安裝精靈將修改Waveface Station與Waveface Desktop。</value>
   </data>
   <data name="WelcomeStepGreetingReinstall" xml:space="preserve">
-    <value>安裝精靈將重新安裝Waveface Station。</value>
+    <value>安裝精靈將重新安裝Waveface Station與Waveface Desktop。</value>
   </data>
   <data name="WelcomeStepGreetingUninstall" xml:space="preserve">
-    <value>安裝精靈將解除安裝Waveface Station。</value>
+    <value>安裝精靈將解除安裝Waveface Station與Waveface Desktop。</value>
   </data>
 </root>

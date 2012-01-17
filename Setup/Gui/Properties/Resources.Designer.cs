@@ -103,7 +103,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will install the Waveface Station on your computer..
+        ///   Looks up a localized string similar to The wizard will install the Waveface Station and Waveface Desktop on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingInstall {
             get {
@@ -112,7 +112,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will modify the Waveface Station on your computer..
+        ///   Looks up a localized string similar to The wizard will modify the Waveface Station and Waveface Desktop on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingModify {
             get {
@@ -121,7 +121,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will reinstall the Waveface Station on your computer..
+        ///   Looks up a localized string similar to The wizard will reinstall the Waveface Station and Waveface Desktop on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingReinstall {
             get {
@@ -130,7 +130,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will uninstall the Waveface Station from your computer..
+        ///   Looks up a localized string similar to The wizard will uninstall the Waveface Station and Waveface Desktop from your computer..
         /// </summary>
         internal static string WelcomeStepGreetingUninstall {
             get {
