@@ -14,6 +14,7 @@ namespace Waveface.Component
         private Boolean m_waterMarkTextEnabled;
         private Color m_waterMarkColor = Color.Gray;
         private string m_waterMarkText = "Water Mark";
+        private bool m_imeComposition;
 
         #region Properties
 
@@ -55,6 +56,44 @@ namespace Waveface.Component
             WaterMark_Toggel(null, null);
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_IME_STARTCOMPOSITION = 0x010D;
+            const int WM_IME_ENDCOMPOSITION = 0x010E;
+            const int WM_IME_COMPOSITION = 0x010F;
+
+            try
+            {
+                switch (m.Msg)
+                {
+                    case WM_IME_STARTCOMPOSITION:
+                        m_imeComposition = true;
+
+                        WaterMark_Toggel(null, null);
+                        break;
+
+                    case WM_IME_ENDCOMPOSITION:
+                        m_imeComposition = false;
+
+                        WaterMark_Toggel(null, null);
+                        break;
+
+                    case WM_IME_COMPOSITION:
+                        if (m.LParam.ToInt32() > 2048)
+                        {
+                            // 組完中文字
+                        }
+
+                        break;
+                }
+
+                base.WndProc(ref m);
+            }
+            catch
+            {
+            }
+        }
+
         protected override void OnPaint(PaintEventArgs args)
         {
             Font _drawFont = new Font(Font.FontFamily, Font.Size, Font.Style, Font.Unit);
@@ -69,7 +108,7 @@ namespace Waveface.Component
 
         private void WaterMark_Toggel(object sender, EventArgs args)
         {
-            if (Text.Length > 0)
+            if ((Text.Length > 0) || m_imeComposition)
             {
                 m_waterMarkTextEnabled = false;
 

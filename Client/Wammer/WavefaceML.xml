@@ -26,6 +26,11 @@
     <zh-TW>登錄時發生錯誤, 請重新輸入.</zh-TW>
   </WItem>
   <WItem>
+    <ID>LoginForm.StationRequired</ID>
+    <en-US>Please install and log in our Waveface Station on Windows to use this App!</en-US>
+    <zh-TW>您需要安裝我們Windows版本的Waveface Station, 才能開始使用喔！</zh-TW>
+  </WItem>  
+  <WItem>
     <ID>Main.Logout</ID>
     <en-US>Logout</en-US>
     <zh-TW>登出</zh-TW>

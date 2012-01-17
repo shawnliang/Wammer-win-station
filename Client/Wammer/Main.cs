@@ -546,9 +546,11 @@ namespace Waveface
             s_logger.Trace("Reset.Online" + online.ToString());
         }
 
-        public bool Login(string email, string password)
+        public bool Login(string email, string password, out string errorMessage)
         {
             Cursor.Current = Cursors.WaitCursor;
+
+            errorMessage = string.Empty;
 
             UpdateNetworkStatus();
 
@@ -557,6 +559,15 @@ namespace Waveface
             if (_login == null)
             {
                 s_logger.Trace("Login.Auth_Login: null");
+                return false;
+            }
+
+            if (_login.user.state == "station_required")
+            {
+                s_logger.Trace("Login: station_required");
+
+                errorMessage = I18n.L.T("LoginForm.StationRequired");
+
                 return false;
             }
 
@@ -1371,7 +1382,7 @@ namespace Waveface
 
                             PreloadThumbnail(_url, _localPic);
 
-                            PhotoDownloader.PreloadPictures(post, allSize /*, false*/);
+                            PhotoDownloader.PreloadPictures(post, allSize);
 
                             break;
                         }
@@ -1452,7 +1463,7 @@ namespace Waveface
         {
             if (RT.CurrentGroupPosts != null)
             {
-                PrefetchImages(RT.CurrentGroupPosts, false);
+                PrefetchImages(RT.CurrentGroupPosts, true);
             }
         }
 
@@ -1477,7 +1488,7 @@ namespace Waveface
             _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
             DialogResult _dr = _msgBox.ShowDialog();
 
-            ThreadDialogResult = _dr;            
+            ThreadDialogResult = _dr;
         }
     }
 }
