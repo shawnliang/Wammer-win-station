@@ -22,6 +22,9 @@ namespace Gui
 
 		private void BackupAndUninstallStep_Entered(object sender, EventArgs e)
 		{
+			Wizard.BackButton.Enabled = false;
+			Wizard.NextButton.Enabled = false;
+
 			ipProgress.StartListening();
 			try
 			{
