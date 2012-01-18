@@ -12,6 +12,7 @@ namespace StationSystemTray
 		Running,
 		Stopping,
 		Stopped,
+		SessionNotExist,
 	}
 
 	public interface StationState
@@ -23,6 +24,7 @@ namespace StationSystemTray
 		void Offlining();
 		void Offlined();
 		void Error();
+		void SessionExpired();
 
 		void OnEntering(object sender, EventArgs evt);
 
@@ -75,6 +77,10 @@ namespace StationSystemTray
 		{
 		}
 
+		public virtual void SessionExpired()
+		{
+		}
+
 		public StationStateEnum Value { get; private set; }
 	}
 
@@ -85,12 +91,12 @@ namespace StationSystemTray
 		{
 		}
 
-		override public void Onlining()
+		public override void Onlining()
 		{
 			context.GoToState(StationStateEnum.Starting);
 		}
 
-		override public void Offlining()
+		public override void Offlining()
 		{
 			context.GoToState(StationStateEnum.Stopping);
 		}
@@ -121,14 +127,19 @@ namespace StationSystemTray
 		{
 		}
 
-		override public void Offlining()
+		public override void Offlining()
 		{
 			context.GoToState(StationStateEnum.Stopping);
 		}
 
-		override public void Error()
+		public override void Error()
 		{
 			context.GoToState(StationStateEnum.Running);
+		}
+
+		public override void SessionExpired()
+		{
+			context.GoToState(StationStateEnum.SessionNotExist);
 		}
 	}
 
@@ -157,9 +168,30 @@ namespace StationSystemTray
 		{
 		}
 
-		override public void Onlining()
+		public override void Onlining()
 		{
 			context.GoToState(StationStateEnum.Starting);
+		}
+
+		public override void SessionExpired()
+		{
+			context.GoToState(StationStateEnum.SessionNotExist);
+		}
+	}
+
+	class StationStateSessionNotExist : StationStateBase
+	{
+		private StationState oldState;
+
+		public StationStateSessionNotExist(StationStateContext context, StationState oldState)
+			:base(context, StationStateEnum.SessionNotExist)
+		{
+			this.oldState = oldState;
+		}
+
+		public override void Onlined()
+		{
+			context.GoToState(oldState.Value);
 		}
 	}
 }

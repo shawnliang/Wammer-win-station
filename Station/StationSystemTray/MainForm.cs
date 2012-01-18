@@ -164,6 +164,12 @@ namespace StationSystemTray
 						st.Entering += this.BecomeStoppedState;
 						return st;
 					}
+				case StationStateEnum.SessionNotExist:
+					{
+						StationStateSessionNotExist st = new StationStateSessionNotExist(this, this.CurrentState);
+						st.Entering += this.BecomeSessionNotExistState;
+						return st;
+					}
 				default:
 					throw new NotImplementedException();
 			}
@@ -240,10 +246,12 @@ namespace StationSystemTray
 			}
 			catch (AuthenticationException)
 			{
-				TrayIcon.Icon = this.iconWarning;
-				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
-				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
-				TrayIconText = I18n.L.T("Station401Exception");
+				//TrayIcon.Icon = this.iconWarning;
+				//TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
+				//TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
+				//TrayIconText = I18n.L.T("Station401Exception");
+
+				CurrentState.SessionExpired();
 			}
 			catch (Exception ex)
 			{
@@ -274,6 +282,7 @@ namespace StationSystemTray
 
 			this.MenuServiceActionEnabled = false;
 			this.MenuPreferenceEnabled = false;
+			this.menuRelogin.Visible = false;
 		}
 
 		void BecomeRunningState(object sender, EventArgs evt)
@@ -295,6 +304,7 @@ namespace StationSystemTray
 
 			this.MenuServiceActionEnabled = true;
 			this.MenuPreferenceEnabled = true;
+			this.menuRelogin.Visible = false;
 		}
 
 		void BecomeStoppedState(object sender, EventArgs evt)
@@ -316,6 +326,7 @@ namespace StationSystemTray
 
 			this.MenuServiceActionEnabled = true;
 			this.MenuPreferenceEnabled = true;
+			this.menuRelogin.Visible = false;
 		}
 
 		void BecomeStartingState(object sender, EventArgs evt)
@@ -333,6 +344,7 @@ namespace StationSystemTray
 		{
 			this.MenuServiceActionEnabled = false;
 			this.MenuPreferenceEnabled = false;
+			this.menuRelogin.Visible = false;
 			this.TrayIconText = I18n.L.T("StartingWFService");
 		}
 
@@ -351,7 +363,34 @@ namespace StationSystemTray
 		{
 			this.MenuServiceActionEnabled = false;
 			this.MenuPreferenceEnabled = false;
+			this.menuRelogin.Visible = false;
 			this.TrayIconText = I18n.L.T("PausingWFService");
+		}
+
+		void BecomeSessionNotExistState(object sender, EventArgs evt)
+		{
+			if (IsDisposed)
+				return;
+
+			if (InvokeRequired)
+				Invoke(new MethodInvoker(BecomeSessionNotExistStateUI));
+			else
+				BecomeSessionNotExistStateUI();
+		}
+
+		void BecomeSessionNotExistStateUI()
+		{
+			this.menuRelogin.Visible = true;
+
+			TrayIcon.Icon = this.iconWarning;
+			TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
+			TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
+			TrayIconText = I18n.L.T("Station401Exception");
+		}
+
+		private void menuRelogin_Click(object sender, EventArgs e)
+		{
+			messenger.ShowLoginDialog(false);
 		}
 	}
 
