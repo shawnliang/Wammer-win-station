@@ -70,18 +70,18 @@ namespace Gui
 			// FeatureSelectionStep
 			// 
 			resources.ApplyResources(this, "$this");
-			this.Controls.Add(this.lblNote);
-			this.Controls.Add(this.labelClientOnlyDesc);
-			this.Controls.Add(this.labelClientAndStationDesc);
 			this.Controls.Add(this.radioClientOnly);
 			this.Controls.Add(this.radioClientAndStation);
+			this.Controls.Add(this.labelClientAndStationDesc);
+			this.Controls.Add(this.labelClientOnlyDesc);
+			this.Controls.Add(this.lblNote);
 			this.Name = "FeatureSelectionStep";
 			this.Entering += new System.EventHandler<SharpSetup.Base.ChangeStepEventArgs>(this.FeatureSelectionStep_Entering);
+			this.Controls.SetChildIndex(this.lblNote, 0);
+			this.Controls.SetChildIndex(this.labelClientOnlyDesc, 0);
+			this.Controls.SetChildIndex(this.labelClientAndStationDesc, 0);
 			this.Controls.SetChildIndex(this.radioClientAndStation, 0);
 			this.Controls.SetChildIndex(this.radioClientOnly, 0);
-			this.Controls.SetChildIndex(this.labelClientAndStationDesc, 0);
-			this.Controls.SetChildIndex(this.labelClientOnlyDesc, 0);
-			this.Controls.SetChildIndex(this.lblNote, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

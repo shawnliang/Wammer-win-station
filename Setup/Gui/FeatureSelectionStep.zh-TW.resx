@@ -119,7 +119,7 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioClientAndStation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 97</value>
+    <value>15, 85</value>
   </data>
   <data name="radioClientAndStation.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 17</value>
@@ -133,14 +133,11 @@
   <data name="radioClientOnly.Text" xml:space="preserve">
     <value>獨立安裝 Waveface Desktop</value>
   </data>
-  <data name="labelClientAndStationDesc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 117</value>
-  </data>
   <data name="labelClientAndStationDesc.Text" xml:space="preserve">
     <value>此選項將同時安裝 Waveface Station 與 Waveface Desktop 至您的電腦上。如果您尚未裝過 Waveface Station 請選擇此安裝方式。</value>
   </data>
   <data name="labelClientOnlyDesc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 197</value>
+    <value>34, 211</value>
   </data>
   <data name="labelClientOnlyDesc.Size" type="System.Drawing.Size, System.Drawing">
     <value>450, 32</value>
@@ -149,7 +146,7 @@
     <value>如果您已有安裝 Waveface Station 在不同的電腦上，可透過獨立安裝 Waveface Desktop 來使用所有功能以及存取儲存在 Station 中的檔案。</value>
   </data>
   <data name="lblNote.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 229</value>
+    <value>34, 243</value>
   </data>
   <data name="lblNote.Text" xml:space="preserve">
     <value>備註:  Waveface Desktop 與 Android, iPhone , 以及iPad app 皆具有自動備份原始檔案的功能。只要裝置跟 Station 楚於同一個網路環境下，原始檔案皆會自動進行備份。</value>
