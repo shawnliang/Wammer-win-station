@@ -271,6 +271,9 @@ namespace Wammer.Model
 		public string saved_file_name { get; set; }
 
 		[BsonIgnore]
+		public Wammer.Utility.ExifOrientations Orientation { get; set; }
+
+		[BsonIgnore]
 		private object rawDataMutex = new object();
 
 		[BsonIgnore]
@@ -315,6 +318,7 @@ namespace Wammer.Model
 		public Attachment()
 		{
 			rawData = new ArraySegment<byte>();
+			Orientation = Utility.ExifOrientations.Unknown;
 		}
 
 		public Attachment(Attachment lhs)
@@ -333,6 +337,7 @@ namespace Wammer.Model
 			RawData = lhs.RawData;
 			group_id = lhs.group_id;
 			saved_file_name = lhs.saved_file_name;
+			Orientation = lhs.Orientation;
 		}
 
 		public bool ShouldSerializefile_size()
