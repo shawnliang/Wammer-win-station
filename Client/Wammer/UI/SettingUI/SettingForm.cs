@@ -14,6 +14,17 @@ namespace Waveface.SettingUI
 {
     public partial class SettingForm : Form
     {
+        #region StorageUsage
+
+        public class StorageUsage
+        {
+            public long quota { get; set; }
+            public long usage { get; set; }
+            public int daysLeft { get; set; }
+        }
+
+        #endregion
+
         // private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         public bool IsUserSwitched { get; private set; }

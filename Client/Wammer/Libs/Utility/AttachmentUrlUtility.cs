@@ -33,7 +33,7 @@ namespace Waveface
         {
             session_token = HttpUtility.UrlEncode(session_token);
 
-            string _url = WService.HostIP + orgURL; //Hack: CloudIP
+            string _url = WService.HostIP + orgURL;
             string _a_s = "&" + "apikey" + "=" + WService.APIKEY + "&" + "session_token" + "=" + session_token;
             _url += _a_s;
 
