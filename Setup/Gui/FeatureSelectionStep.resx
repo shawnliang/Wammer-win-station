@@ -117,179 +117,98 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="lblNote.Text" xml:space="preserve">
+    <value>Note: The Waveface Desktop will also automatically backup files to your Station under the same internet environment as well as the  smartphone and iPad app.</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="radioClientAndStation.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="radioClientAndStation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="radioClientAndStation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 96</value>
-  </data>
-  <data name="radioClientAndStation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 17</value>
-  </data>
-  <data name="radioClientAndStation.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="radioClientAndStation.Text" xml:space="preserve">
-    <value>Full Package (Station + Desktop)</value>
-  </data>
-  <data name="&gt;&gt;radioClientAndStation.Name" xml:space="preserve">
-    <value>radioClientAndStation</value>
-  </data>
-  <data name="&gt;&gt;radioClientAndStation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioClientAndStation.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;radioClientAndStation.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="radioClientOnly.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="radioClientOnly.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 177</value>
-  </data>
-  <data name="radioClientOnly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 17</value>
-  </data>
-  <data name="radioClientOnly.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="radioClientOnly.Text" xml:space="preserve">
-    <value>Waveface Desktop Only</value>
-  </data>
-  <data name="&gt;&gt;radioClientOnly.Name" xml:space="preserve">
-    <value>radioClientOnly</value>
-  </data>
-  <data name="&gt;&gt;radioClientOnly.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioClientOnly.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;radioClientOnly.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="labelClientAndStationDesc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 116</value>
-  </data>
-  <data name="labelClientAndStationDesc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>450, 38</value>
+  <data name="lblNote.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
   </data>
   <data name="labelClientAndStationDesc.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
   </data>
-  <data name="labelClientAndStationDesc.Text" xml:space="preserve">
-    <value>The full package will install both the Waveface Station and Waveface Desktop on your computer.  If you haven’t installed the Waveface Station before, select this one to get started.</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
   </data>
-  <data name="&gt;&gt;labelClientAndStationDesc.Name" xml:space="preserve">
-    <value>labelClientAndStationDesc</value>
+  <data name="radioClientAndStation.Text" xml:space="preserve">
+    <value>Full Package (Station + Desktop)</value>
   </data>
   <data name="&gt;&gt;labelClientAndStationDesc.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;labelClientAndStationDesc.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;labelClientAndStationDesc.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="labelClientOnlyDesc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 201</value>
-  </data>
-  <data name="labelClientOnlyDesc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>447, 49</value>
-  </data>
-  <data name="labelClientOnlyDesc.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="labelClientOnlyDesc.Text" xml:space="preserve">
-    <value>The Waveface Desktop is for users  that already has a Waveface Station running on a separate computer. You can use the Waveface Desktop to perform all the features and access files from your Waveface Station.</value>
-  </data>
-  <data name="&gt;&gt;labelClientOnlyDesc.Name" xml:space="preserve">
-    <value>labelClientOnlyDesc</value>
-  </data>
-  <data name="&gt;&gt;labelClientOnlyDesc.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;labelClientOnlyDesc.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;labelClientOnlyDesc.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lblInstruction.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblInstruction.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 79</value>
-  </data>
-  <data name="lblInstruction.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 15, 10, 5</value>
-  </data>
-  <data name="lblInstruction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 13</value>
-  </data>
-  <data name="lblInstruction.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="lblInstruction.Text" xml:space="preserve">
-    <value>[TBD] Please choose the installation types:</value>
-  </data>
-  <data name="&gt;&gt;lblInstruction.Name" xml:space="preserve">
-    <value>lblInstruction</value>
-  </data>
-  <data name="&gt;&gt;lblInstruction.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;radioClientAndStation.Name" xml:space="preserve">
+    <value>radioClientAndStation</value>
   </data>
   <data name="&gt;&gt;lblInstruction.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;lblInstruction.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;labelClientAndStationDesc.Name" xml:space="preserve">
+    <value>labelClientAndStationDesc</value>
   </data>
-  <data name="lblNote.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 250</value>
+  <data name="radioClientOnly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>142, 17</value>
   </data>
-  <data name="lblNote.Size" type="System.Drawing.Size, System.Drawing">
-    <value>447, 32</value>
+  <data name="&gt;&gt;labelClientAndStationDesc.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
-  <data name="lblNote.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
+  <data name="labelClientAndStationDesc.Text" xml:space="preserve">
+    <value>The full package will install both the Waveface Station and Waveface Desktop on your computer.  If you haven’t installed the Waveface Station before, select this one to get started.</value>
   </data>
-  <data name="lblNote.Text" xml:space="preserve">
-    <value>Note: The Waveface Desktop will also automatically backup files to your Station under the same internet environment as well as the  smartphone and iPad app.</value>
+  <data name="radioClientOnly.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;radioClientOnly.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblInstruction.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 79</value>
+  </data>
+  <data name="&gt;&gt;radioClientAndStation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="labelClientOnlyDesc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>447, 49</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lblInstruction.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 15, 10, 5</value>
   </data>
   <data name="&gt;&gt;lblNote.Name" xml:space="preserve">
     <value>lblNote</value>
   </data>
-  <data name="&gt;&gt;lblNote.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="radioClientAndStation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 96</value>
   </data>
-  <data name="&gt;&gt;lblNote.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="radioClientAndStation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;radioClientAndStation.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <data name="&gt;&gt;lblNote.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+  <data name="labelClientOnlyDesc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 201</value>
   </data>
-  <data name="$this.Subtitle" xml:space="preserve">
-    <value>Which installation would you like to choose?</value>
+  <data name="labelClientAndStationDesc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>450, 38</value>
   </data>
-  <data name="$this.Title" xml:space="preserve">
-    <value>Select Installation Types</value>
+  <data name="labelClientAndStationDesc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 116</value>
+  </data>
+  <data name="&gt;&gt;lblInstruction.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblInstruction.Name" xml:space="preserve">
+    <value>lblInstruction</value>
+  </data>
+  <data name="&gt;&gt;labelClientOnlyDesc.Name" xml:space="preserve">
+    <value>labelClientOnlyDesc</value>
+  </data>
+  <data name="lblInstruction.Text" xml:space="preserve">
+    <value>[TBD] Please choose the installation types:</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FeatureSelectionStep</value>
@@ -297,4 +216,88 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>SharpSetup.UI.Forms.Modern.ModernActionStep, SharpSetup, Version=1.4.1.158, Culture=neutral, PublicKeyToken=null</value>
   </data>
+  <data name="radioClientOnly.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioClientAndStation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 17</value>
+  </data>
+  <data name="lblInstruction.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 13</value>
+  </data>
+  <data name="radioClientAndStation.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;labelClientOnlyDesc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="radioClientOnly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 177</value>
+  </data>
+  <data name="$this.Subtitle" xml:space="preserve">
+    <value>Which installation would you like to choose?</value>
+  </data>
+  <data name="lblNote.Size" type="System.Drawing.Size, System.Drawing">
+    <value>447, 32</value>
+  </data>
+  <data name="&gt;&gt;lblInstruction.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="radioClientOnly.Text" xml:space="preserve">
+    <value>Waveface Desktop Only</value>
+  </data>
+  <data name="lblInstruction.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;radioClientOnly.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;radioClientAndStation.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;radioClientOnly.Name" xml:space="preserve">
+    <value>radioClientOnly</value>
+  </data>
+  <data name="lblInstruction.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;labelClientOnlyDesc.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="labelClientOnlyDesc.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;labelClientAndStationDesc.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="lblNote.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 250</value>
+  </data>
+  <data name="$this.Title" xml:space="preserve">
+    <value>Select Installation Types</value>
+  </data>
+  <data name="&gt;&gt;lblNote.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="labelClientOnlyDesc.Text" xml:space="preserve">
+    <value>The Waveface Desktop is for users  that already has a Waveface Station running on a separate computer. You can use the Waveface Desktop to perform all the features and access files from your Waveface Station.</value>
+  </data>
+  <data name="&gt;&gt;lblNote.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="radioClientAndStation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;labelClientOnlyDesc.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;radioClientOnly.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-TW</value>
+  </metadata>
 </root>

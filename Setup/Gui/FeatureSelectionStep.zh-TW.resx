@@ -148,20 +148,6 @@
   <data name="labelClientOnlyDesc.Text" xml:space="preserve">
     <value>如果您已有安裝 Waveface Station 在不同的電腦上，可透過獨立安裝 Waveface Desktop 來使用所有功能以及存取儲存在 Station 中的檔案。</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lblInstruction.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblInstruction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 13</value>
-  </data>
-  <data name="lblInstruction.Text" xml:space="preserve">
-    <value>[中文] Please choose the installation types:</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lblInstruction.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="lblNote.Location" type="System.Drawing.Point, System.Drawing">
     <value>34, 229</value>
   </data>
