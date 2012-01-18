@@ -58,7 +58,8 @@ namespace Gui
 					MsiConnection.Instance.OpenSaved("MainInstall");
 					*/
 
-					ApplyFeatureSet(featureStep.SelectedFeature);
+					if (featureStep != null)
+						ApplyFeatureSet(featureStep.SelectedFeature);
 
 					MsiConnection.Instance.Install();
 				}
