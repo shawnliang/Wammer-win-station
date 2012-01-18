@@ -377,7 +377,6 @@ namespace Wammer.Station.Management
 		}
 
 		private static string StationMgmtURL = "http://localhost:9989/v2/";
-		private static string StationFuncURL = "http://localhost:9981/v2/";
 
 		public static void StationOnline()
 		{

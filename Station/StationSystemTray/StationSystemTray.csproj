@@ -77,6 +77,7 @@
       <DependentUpon>SignInForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SimpleUIController.cs" />
+    <Compile Include="StateMachine.cs" />
     <Compile Include="Win32Helper.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

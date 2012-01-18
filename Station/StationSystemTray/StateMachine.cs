@@ -1,0 +1,165 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace StationSystemTray
+{
+	public enum StationStateEnum
+	{
+		Initial,
+		Starting,
+		Running,
+		Stopping,
+		Stopped,
+	}
+
+	public interface StationState
+	{
+		event EventHandler Entering;
+
+		void Onlining();
+		void Onlined();
+		void Offlining();
+		void Offlined();
+		void Error();
+
+		void OnEntering(object sender, EventArgs evt);
+
+		StationStateEnum Value { get; }
+	}
+
+	public interface StationStateContext
+	{
+		void GoToState(StationStateEnum state);
+	}
+
+	abstract class StationStateBase: StationState
+	{
+		protected StationStateContext context;
+
+		public event EventHandler Entering;
+		
+		public StationStateBase(StationStateContext context, StationStateEnum value)
+		{
+			this.context = context;
+			this.Value = value;
+		}
+
+		public void OnEntering(object sender, EventArgs evt)
+		{
+			EventHandler handler = Entering;
+			if (handler != null)
+			{
+				handler(sender, evt);
+			}
+		}
+
+		public virtual void Onlining()
+		{
+		}
+
+		public virtual void Offlining()
+		{
+		}
+
+		public virtual void Onlined()
+		{
+		}
+
+		public virtual void Offlined()
+		{
+		}
+
+		public virtual void Error()
+		{
+		}
+
+		public StationStateEnum Value { get; private set; }
+	}
+
+	class StationStateInitial : StationStateBase
+	{
+		public StationStateInitial(StationStateContext context)
+			:base(context, StationStateEnum.Initial)
+		{
+		}
+
+		override public void Onlining()
+		{
+			context.GoToState(StationStateEnum.Starting);
+		}
+
+		override public void Offlining()
+		{
+			context.GoToState(StationStateEnum.Stopping);
+		}
+	}
+
+	class StationStateStarting: StationStateBase
+	{
+		public StationStateStarting(StationStateContext context)
+			:base(context, StationStateEnum.Starting)
+		{
+		}
+
+		public override void Onlined()
+		{
+			context.GoToState(StationStateEnum.Running);
+		}
+
+		public override void Error()
+		{
+			context.GoToState(StationStateEnum.Stopped);
+		}
+	}
+
+	class StationStateRunning : StationStateBase
+	{
+		public StationStateRunning(StationStateContext context)
+			:base(context, StationStateEnum.Running)
+		{
+		}
+
+		override public void Offlining()
+		{
+			context.GoToState(StationStateEnum.Stopping);
+		}
+
+		override public void Error()
+		{
+			context.GoToState(StationStateEnum.Running);
+		}
+	}
+
+	class StationStateStopping : StationStateBase
+	{
+		public StationStateStopping(StationStateContext context)
+			: base(context, StationStateEnum.Stopping)
+		{
+		}
+
+		public override void Offlined()
+		{
+			context.GoToState(StationStateEnum.Stopped);
+		}
+
+		public override void Error()
+		{
+			context.GoToState(StationStateEnum.Running);
+		}
+	}
+
+	class StationStateStopped : StationStateBase
+	{
+		public StationStateStopped(StationStateContext context)
+			:base(context, StationStateEnum.Stopped)
+		{
+		}
+
+		override public void Onlining()
+		{
+			context.GoToState(StationStateEnum.Starting);
+		}
+	}
+}

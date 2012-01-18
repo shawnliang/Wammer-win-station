@@ -41,13 +41,13 @@ namespace StationSystemTray
 				this.DialogResult = DialogResult.Yes;
 				this.Close();
 			}
-			catch (AuthenticationException ex)
+			catch (AuthenticationException)
 			{
 				messenger.ShowMessage(I18n.L.T("LoginForm.LogInError"));
 				this.txtPassword.Text = "";
 				this.txtPassword.Focus();
 			}
-			catch (UserDoesNotExistException ex)
+			catch (UserDoesNotExistException)
 			{
 				messenger.ShowMessage(I18n.L.T("LoginForm.UserNotExisted"));
 				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
@@ -55,7 +55,7 @@ namespace StationSystemTray
 				Process.Start(_execPath);
 				Application.Exit();
 			}
-			catch (UserAlreadyHasStationException ex)
+			catch (UserAlreadyHasStationException)
 			{
 				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
 				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
