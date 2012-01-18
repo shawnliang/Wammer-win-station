@@ -149,7 +149,7 @@
     <value>登入</value>
   </data>
   <data name="lblSignInMsg.Text" xml:space="preserve">
-    <value>您的連線已經失效，請輸入電子郵件與密碼重新登入</value>
+    <value>您的認證資訊已經過期，請輸入電子郵件與密碼重新登入</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
