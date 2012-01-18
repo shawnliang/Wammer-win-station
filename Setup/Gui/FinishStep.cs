@@ -42,6 +42,7 @@ namespace Gui
 				label_Hint.Hide();
 			}
 			else if (mode == InstallationMode.Install &&
+				featureStep != null &&
 				featureStep.SelectedFeature == FeatureSet.StationAndClient)
 			{
 				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");

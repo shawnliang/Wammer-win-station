@@ -131,10 +131,10 @@ namespace StationSystemTray
 
 		private void PreferenceForm_Load(object sender, EventArgs e)
 		{
-
 			lblUserName.Text = m_driver.email;
 			string _execPath = Assembly.GetExecutingAssembly().Location;
 			FileVersionInfo version = FileVersionInfo.GetVersionInfo(_execPath);
+			lblCopyRight.Text = version.LegalCopyright + " All Rights Reserved.";
 			lblVersion.Text = version.FileVersion;
 
 			uictrlGetStationStatus.PerformAction();

@@ -127,7 +127,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioClientAndStation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 96</value>
+    <value>15, 85</value>
   </data>
   <data name="radioClientAndStation.Size" type="System.Drawing.Size, System.Drawing">
     <value>181, 17</value>
@@ -148,7 +148,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioClientAndStation.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>1</value>
   </data>
   <data name="radioClientOnly.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -175,13 +175,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;radioClientOnly.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>0</value>
   </data>
   <data name="labelClientAndStationDesc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 116</value>
+    <value>34, 115</value>
   </data>
   <data name="labelClientAndStationDesc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>450, 38</value>
+    <value>404, 47</value>
   </data>
   <data name="labelClientAndStationDesc.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -202,7 +202,7 @@
     <value>2</value>
   </data>
   <data name="labelClientOnlyDesc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 201</value>
+    <value>34, 207</value>
   </data>
   <data name="labelClientOnlyDesc.Size" type="System.Drawing.Size, System.Drawing">
     <value>447, 49</value>
@@ -223,40 +223,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;labelClientOnlyDesc.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lblInstruction.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblInstruction.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 79</value>
-  </data>
-  <data name="lblInstruction.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 15, 10, 5</value>
-  </data>
-  <data name="lblInstruction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 13</value>
-  </data>
-  <data name="lblInstruction.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="lblInstruction.Text" xml:space="preserve">
-    <value>[TBD] Please choose the installation types:</value>
-  </data>
-  <data name="&gt;&gt;lblInstruction.Name" xml:space="preserve">
-    <value>lblInstruction</value>
-  </data>
-  <data name="&gt;&gt;lblInstruction.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblInstruction.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblInstruction.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="lblNote.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 250</value>
+    <value>34, 264</value>
   </data>
   <data name="lblNote.Size" type="System.Drawing.Size, System.Drawing">
     <value>447, 32</value>
@@ -277,8 +247,11 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblNote.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-TW</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

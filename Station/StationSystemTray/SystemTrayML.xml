@@ -97,7 +97,7 @@ Please restart the program to initialize Waveface Station.</en-US>
   </WItem>
   <WItem>
     <ID>Station401Exception</ID>
-    <en-US>Your authentication is expired. Re-enter your password to log in again.</en-US>
+    <en-US>Your authentication is expired. Please log in again.</en-US>
     <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
   </WItem>
   <WItem>
