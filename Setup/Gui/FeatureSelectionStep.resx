@@ -187,7 +187,7 @@
     <value>19</value>
   </data>
   <data name="labelClientAndStationDesc.Text" xml:space="preserve">
-    <value>The full package will install both the Waveface Station and Waveface Desktop on your computer.  If you haven™t installed the Waveface Station before, select this one to get started.</value>
+    <value>The full package will install both the Waveface Station and Waveface Desktop on your computer.  If you havenâ€™t installed the Waveface Station before, select this one to get started.</value>
   </data>
   <data name="&gt;&gt;labelClientAndStationDesc.Name" xml:space="preserve">
     <value>labelClientAndStationDesc</value>
