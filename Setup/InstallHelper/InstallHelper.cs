@@ -379,9 +379,6 @@ namespace Wammer.Station
 				if (!IsMongoDBReady())
 					throw new System.TimeoutException("MongoDB is not ready in 360 seconds");
 
-				Model.Database.RestoreCollection("station", "oldStation");
-				Model.Database.RestoreCollection("drivers", "oldDrivers");
-
 				return ActionResult.Success;
 
 			}
