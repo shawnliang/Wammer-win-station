@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+�?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -119,55 +119,42 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioClientAndStation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 97</value>
+    <value>15, 85</value>
   </data>
   <data name="radioClientAndStation.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 17</value>
   </data>
   <data name="radioClientAndStation.Text" xml:space="preserve">
-    <value>完整安裝 (Station + Desktop)</value>
+    <value>完整安� (Station + Desktop)</value>
   </data>
   <data name="radioClientOnly.Size" type="System.Drawing.Size, System.Drawing">
     <value>169, 17</value>
   </data>
   <data name="radioClientOnly.Text" xml:space="preserve">
-    <value>獨立安裝 Waveface Desktop</value>
-  </data>
-  <data name="labelClientAndStationDesc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 117</value>
+    <value>��安� Waveface Desktop</value>
   </data>
   <data name="labelClientAndStationDesc.Text" xml:space="preserve">
-    <value>此選項將同時安裝 Waveface Station 與 Waveface Desktop 至您的電腦上。如果您尚未裝過 Waveface Station 請選擇此安裝方式。</value>
+    <value>此選���安� Waveface Station Waveface Desktop �您�電���您尚未裝� Waveface Station 請選�此安��/value>
   </data>
   <data name="labelClientOnlyDesc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 197</value>
+    <value>34, 211</value>
   </data>
   <data name="labelClientOnlyDesc.Size" type="System.Drawing.Size, System.Drawing">
     <value>450, 32</value>
   </data>
   <data name="labelClientOnlyDesc.Text" xml:space="preserve">
-    <value>如果您已有安裝 Waveface Station 在不同的電腦上，可透過獨立安裝 Waveface Desktop 來使用所有功能以及存取儲存在 Station 中的檔案。</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lblInstruction.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblInstruction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 13</value>
-  </data>
-  <data name="lblInstruction.Text" xml:space="preserve">
-    <value>[中文] Please choose the installation types:</value>
+    <value>如�已���Waveface Station ���腦上�透��安� Waveface Desktop 來使���以��儲存在 Station 中�檔�/value>
   </data>
   <data name="lblNote.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 229</value>
+    <value>34, 243</value>
   </data>
   <data name="lblNote.Text" xml:space="preserve">
-    <value>備註:  Waveface Desktop 與 Android, iPhone , 以及iPad app 皆具有自動備份原始檔案的功能。只要裝置跟 Station 楚於同一個網路環境下，原始檔案皆會自動進行備份。</value>
+    <value>�註:  Waveface Desktop Android, iPhone , 以�iPad app �具�自��份�始�案�能�只要�置� Station 楚於��網路環境�，�始�案�自�進�份/value>
   </data>
   <data name="$this.Subtitle" xml:space="preserve">
-    <value>請選擇您要安裝的種類</value>
+    <value>請選�您要�裝�種�</value>
   </data>
   <data name="$this.Title" xml:space="preserve">
-    <value>選擇安裝類型</value>
+    <value>��安�類�</value>
   </data>
 </root>
