@@ -128,6 +128,9 @@
   <data name="labelStatus.Location" type="System.Drawing.Point, System.Drawing">
     <value>130, 10</value>
   </data>
+  <data name="labelStatus.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 4, 8, 4</value>
+  </data>
   <data name="labelStatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 16</value>
   </data>

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 using System.Configuration;
 
 
 namespace Waveface
 {
-    class ProgramSetting: ApplicationSettingsBase
+    public class ProgramSetting: ApplicationSettingsBase
     {
         [UserScopedSetting]
         [DefaultSettingValue("")]
@@ -19,10 +16,10 @@ namespace Waveface
 
         [UserScopedSetting]
         [DefaultSettingValue("false")]
-        public bool IsLoggedIn
+        public bool RememberPassword
         {
-            get { return (bool)this["IsLoggedIn"]; }
-            set { this["IsLoggedIn"] = value; }
+            get { return (bool)this["RememberPassword"]; }
+            set { this["RememberPassword"] = value; }
         }
 
         [UserScopedSetting]

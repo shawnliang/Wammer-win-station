@@ -182,7 +182,7 @@ namespace Waveface
             WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
-            Size = new Size(580, 268);
+            Size = new Size(720, 268);
             m_fixHeight = 268;
 
             //pureTextBox.Focus();
@@ -202,7 +202,7 @@ namespace Waveface
             WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
-            Size = new Size(580, 440);
+            Size = new Size(720, 530);
             m_fixHeight = 440;
         }
 
@@ -219,7 +219,7 @@ namespace Waveface
 
             MaximizeBox = true;
 
-            Size = new Size(580, 440);
+            Size = new Size(720, 530);
 
             if (files == null)
             {
@@ -244,7 +244,7 @@ namespace Waveface
 
             MaximizeBox = true;
 
-            Size = new Size(580, 440);
+            Size = new Size(720, 530);
         }
 
         #endregion
@@ -271,6 +271,7 @@ namespace Waveface
                     }
 
                     Main.Current.ShowStatuMessage(I18n.L.T("PostForm.PostSuccess"), true);
+                    Main.Current.GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
 
                     SetDialogResult_Yes_AndClose();
                 }

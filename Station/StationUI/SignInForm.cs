@@ -39,7 +39,7 @@ namespace Wammer.Station
 
 		private void AddUser(string email, string password)
 		{
-			Cursor.Current = Cursors.WaitCursor;
+			Cursor = Cursors.WaitCursor;
 
 			try
 			{
@@ -51,7 +51,7 @@ namespace Wammer.Station
 			}
 			catch (AuthenticationException)
 			{
-				Cursor.Current = Cursors.Default;
+				Cursor = Cursors.Default;
 
 				MessageBox.Show(I18n.L.T("AuthError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -61,7 +61,7 @@ namespace Wammer.Station
 			}
 			catch (UserAlreadyHasStationException _e)
 			{
-				Cursor.Current = Cursors.Default;
+				Cursor = Cursors.Default;
 
 				RemoveStationForm _form = new RemoveStationForm(_e.ComputerName);
 				DialogResult _dr = _form.ShowDialog();
@@ -70,7 +70,7 @@ namespace Wammer.Station
 				{
 					try
 					{
-						Cursor.Current = Cursors.WaitCursor;
+						Cursor = Cursors.WaitCursor;
 
 						StationController.SignoffStation(_e.Id, textBoxMail.Text, textBoxPassword.Text);
 						AddUserResult result = StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
@@ -81,7 +81,7 @@ namespace Wammer.Station
 					}
 					catch (Exception e)
 					{
-						Cursor.Current = Cursors.Default;
+						Cursor = Cursors.Default;
 
 						ShowErrorDialogAndExit(I18n.L.T("SignOffStationError") + " : " + e.ToString());
 					}
@@ -93,18 +93,18 @@ namespace Wammer.Station
 			}
 			catch (StationAlreadyHasDriverException)
 			{
-				Cursor.Current = Cursors.Default;
+				Cursor = Cursors.Default;
 
 				ShowErrorDialogAndExit(I18n.L.T("StationHasDriverError"));
 			}
 			catch (StationServiceDownException)
 			{
-				Cursor.Current = Cursors.Default;
+				Cursor = Cursors.Default;
 				MessageBox.Show(I18n.L.T("StationDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (Exception)
 			{
-				Cursor.Current = Cursors.Default;
+				Cursor = Cursors.Default;
 				MessageBox.Show(I18n.L.T("UnknownSigninError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}

@@ -213,10 +213,10 @@ namespace Waveface
                                 if (ShowFileMissDialog != null)
                                     ShowFileMissDialog(_file);
 
-                                while (Main.Current.ThreadDialogResult == DialogResult.None)
+                                while (Main.Current.NewPostThreadErrorDialogResult == DialogResult.None)
                                     Thread.Sleep(500);
 
-                                switch (Main.Current.ThreadDialogResult)
+                                switch (Main.Current.NewPostThreadErrorDialogResult)
                                 {
                                     case DialogResult.Cancel:  // Delete Post
                                         newPost.ErrorAndDeletePost = true;
@@ -252,10 +252,10 @@ namespace Waveface
                                     if (OverQuotaMissDialog != null)
                                         OverQuotaMissDialog("");
 
-                                    while (Main.Current.ThreadDialogResult == DialogResult.None)
+                                    while (Main.Current.NewPostThreadErrorDialogResult == DialogResult.None)
                                         Thread.Sleep(500);
 
-                                    switch (Main.Current.ThreadDialogResult)
+                                    switch (Main.Current.NewPostThreadErrorDialogResult)
                                     {
                                         case DialogResult.Cancel: // Delete Post
                                             newPost.ErrorAndDeletePost = true;

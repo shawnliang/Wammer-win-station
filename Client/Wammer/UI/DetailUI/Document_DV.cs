@@ -401,7 +401,7 @@ namespace Waveface.DetailUI
             {
                 try
                 {
-                    Cursor.Current = Cursors.WaitCursor;
+                    Cursor = Cursors.WaitCursor;
 
                     string _file = Main.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
                     string _destFile = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
@@ -414,7 +414,7 @@ namespace Waveface.DetailUI
                 { }
                 finally
                 {
-                    Cursor.Current = Cursors.Default;
+                    Cursor = Cursors.Default;
                 }
             }
 

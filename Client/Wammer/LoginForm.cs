@@ -32,8 +32,8 @@ namespace Waveface
         private CultureManager cultureManager;
 
         private FormSettings m_formSettings;
-        private bool m_autoLogin;
         private string m_savePassword = "";
+        private ProgramSetting m_programSetting;
 
         #region Properties
 
@@ -67,11 +67,12 @@ namespace Waveface
 
         #endregion
 
-        public LoginForm(string email, string password, bool autoLogin)
+        public LoginForm(ProgramSetting programSetting, string email, string password)
         {
+            m_programSetting = programSetting;
+
             InitializeComponent();
 
-            m_autoLogin = autoLogin;
             m_savePassword = password;
 
             txtUserName.Text = email;
@@ -80,7 +81,6 @@ namespace Waveface
             m_formSettings = new FormSettings(this);
             m_formSettings.UseSize = false;
             m_formSettings.SaveOnClose = true;
-            m_formSettings.Settings.Add(new PropertySetting(this, "RememberPassword"));
         }
 
         protected override void Dispose(bool disposing)
@@ -200,6 +200,7 @@ namespace Waveface
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.DoubleClick += new System.EventHandler(this.LoginForm_DoubleClick);
             this.groupBox1.ResumeLayout(false);
@@ -212,18 +213,14 @@ namespace Waveface
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            if ((txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty))
+            RememberPassword = m_programSetting.RememberPassword;
+
+            if (m_programSetting.RememberPassword && (txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty))
             {
-                if (m_autoLogin)
-                {
-                    Application.DoEvents();
+                Application.DoEvents();
 
-                    doLogin(txtUserName.Text, txtPassword.Text);
-                }
+                doLogin(txtUserName.Text, txtPassword.Text);
             }
-
-            if (!cbRemember.Checked)
-                txtPassword.Text = "";
 
             if (txtUserName.Text == string.Empty)
             {
@@ -241,13 +238,11 @@ namespace Waveface
 
         private void doLogin(string email, string password)
         {
-            Cursor.Current = Cursors.WaitCursor;
-
-            Main _main = new Main();
+            Cursor = Cursors.WaitCursor;
 
             try
             {
-                if (_doLogin(_main, email, password) == QuitOption.QuitProgram)
+                if (_doLogin(email, password) == QuitOption.QuitProgram)
                     Close();
                 else
                     Show();
@@ -277,25 +272,30 @@ namespace Waveface
             }
         }
 
-        private QuitOption _doLogin(Main _main, string email, string password)
+        private QuitOption _doLogin(string email, string password)
         {
             QuitOption _quit;
             string _errorMessage;
 
+            Main _main = new Main();
+
             if (_main.Login(email, password, out _errorMessage))
             {
-                Cursor.Current = Cursors.Default;
+                Cursor = Cursors.Default;
+
+                m_programSetting.RememberPassword = RememberPassword;
+                m_programSetting.Save();
 
                 Hide();
 
-                _main.ShowDialog();
+                _main.ShowDialog(this);
                 _quit = _main.QuitOption;
                 _main.Dispose();
                 _main = null;
             }
             else
             {
-                Cursor.Current = Cursors.Default;
+                Cursor = Cursors.Default;
 
                 MessageBox.Show((_errorMessage != string.Empty) ? _errorMessage : I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _quit = QuitOption.Logout;
@@ -327,6 +327,12 @@ namespace Waveface
                 MessageBox.Show(I18n.L.T("LoginForm.FillAllFields"), "Waveface", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
             }
+        }
+
+        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            m_programSetting.RememberPassword = RememberPassword;
+            m_programSetting.Save();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
