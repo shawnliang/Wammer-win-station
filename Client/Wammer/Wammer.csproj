@@ -528,12 +528,6 @@
     <Compile Include="UI\SettingUI\SettingForm.Designer.cs">
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SettingUI\PreferenceForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SettingUI\PreferenceForm.Designer.cs">
-      <DependentUpon>PreferenceForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\TrayIconPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -757,12 +751,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\SettingForm.zh-TW.resx">
       <DependentUpon>SettingForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SettingUI\PreferenceForm.resx">
-      <DependentUpon>PreferenceForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SettingUI\PreferenceForm.zh-TW.resx">
-      <DependentUpon>PreferenceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\TrayIconPanel.resx">
       <DependentUpon>TrayIconPanel.cs</DependentUpon>

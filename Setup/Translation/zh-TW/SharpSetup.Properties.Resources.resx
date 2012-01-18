@@ -139,7 +139,7 @@
     <value>%APPNAME%</value>
   </data>
   <data name="ExitDialogQuestion" xml:space="preserve">
-    <value>您是否要退出 %APPNAME% 的安裝精靈?</value>
+    <value>您是否要退出 %APPNAME% 安裝精靈?</value>
   </data>
   <data name="PL_Error" xml:space="preserve">
     <value>失敗</value>

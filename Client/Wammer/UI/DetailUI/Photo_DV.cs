@@ -410,6 +410,7 @@ namespace Waveface.DetailUI
                 timer.Enabled = true;
         }
 
+
         private void timer_Tick(object sender, EventArgs e)
         {
             FillImageListView(false);

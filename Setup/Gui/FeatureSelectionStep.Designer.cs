@@ -33,7 +33,6 @@ namespace Gui
 			this.radioClientOnly = new System.Windows.Forms.RadioButton();
 			this.labelClientAndStationDesc = new System.Windows.Forms.Label();
 			this.labelClientOnlyDesc = new System.Windows.Forms.Label();
-			this.lblInstruction = new System.Windows.Forms.Label();
 			this.lblNote = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
@@ -63,11 +62,6 @@ namespace Gui
 			resources.ApplyResources(this.labelClientOnlyDesc, "labelClientOnlyDesc");
 			this.labelClientOnlyDesc.Name = "labelClientOnlyDesc";
 			// 
-			// lblInstruction
-			// 
-			resources.ApplyResources(this.lblInstruction, "lblInstruction");
-			this.lblInstruction.Name = "lblInstruction";
-			// 
 			// lblNote
 			// 
 			resources.ApplyResources(this.lblNote, "lblNote");
@@ -76,20 +70,18 @@ namespace Gui
 			// FeatureSelectionStep
 			// 
 			resources.ApplyResources(this, "$this");
-			this.Controls.Add(this.lblNote);
-			this.Controls.Add(this.labelClientOnlyDesc);
-			this.Controls.Add(this.labelClientAndStationDesc);
 			this.Controls.Add(this.radioClientOnly);
 			this.Controls.Add(this.radioClientAndStation);
-			this.Controls.Add(this.lblInstruction);
+			this.Controls.Add(this.labelClientAndStationDesc);
+			this.Controls.Add(this.labelClientOnlyDesc);
+			this.Controls.Add(this.lblNote);
 			this.Name = "FeatureSelectionStep";
 			this.Entering += new System.EventHandler<SharpSetup.Base.ChangeStepEventArgs>(this.FeatureSelectionStep_Entering);
-			this.Controls.SetChildIndex(this.lblInstruction, 0);
+			this.Controls.SetChildIndex(this.lblNote, 0);
+			this.Controls.SetChildIndex(this.labelClientOnlyDesc, 0);
+			this.Controls.SetChildIndex(this.labelClientAndStationDesc, 0);
 			this.Controls.SetChildIndex(this.radioClientAndStation, 0);
 			this.Controls.SetChildIndex(this.radioClientOnly, 0);
-			this.Controls.SetChildIndex(this.labelClientAndStationDesc, 0);
-			this.Controls.SetChildIndex(this.labelClientOnlyDesc, 0);
-			this.Controls.SetChildIndex(this.lblNote, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -101,7 +93,6 @@ namespace Gui
 		private System.Windows.Forms.RadioButton radioClientOnly;
 		private System.Windows.Forms.Label labelClientAndStationDesc;
 		private System.Windows.Forms.Label labelClientOnlyDesc;
-		private System.Windows.Forms.Label lblInstruction;
 		private System.Windows.Forms.Label lblNote;
 	}
 }

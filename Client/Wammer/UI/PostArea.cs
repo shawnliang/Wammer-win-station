@@ -25,6 +25,8 @@ namespace Waveface
 
             //m_init = true;
 
+            labelStatus.BackColor = Color.FromArgb(192, panelTop.BackColor);
+
             show_labelStatus(false);
         }
 
@@ -94,7 +96,7 @@ namespace Waveface
         private void show_labelStatus(bool flag)
         {
             labelStatus.Font = new Font("Arial", 11, FontStyle.Bold);
-            
+
             labelStatus.Visible = flag;
 
             btnCreatePost.Visible = !flag;
