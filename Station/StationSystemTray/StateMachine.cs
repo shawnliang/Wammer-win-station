@@ -17,7 +17,15 @@ namespace StationSystemTray
 
 	public interface StationState
 	{
+		/// <summary>
+		/// Entering this state
+		/// </summary>
 		event EventHandler Entering;
+
+		/// <summary>
+		/// Leaving this state
+		/// </summary>
+		event EventHandler Leaving;
 
 		void Onlining();
 		void Onlined();
@@ -27,6 +35,7 @@ namespace StationSystemTray
 		void SessionExpired();
 
 		void OnEntering(object sender, EventArgs evt);
+		void OnLeaving(object sender, EventArgs evt);
 
 		StationStateEnum Value { get; }
 	}
@@ -41,6 +50,7 @@ namespace StationSystemTray
 		protected StationStateContext context;
 
 		public event EventHandler Entering;
+		public event EventHandler Leaving;
 		
 		public StationStateBase(StationStateContext context, StationStateEnum value)
 		{
@@ -51,6 +61,15 @@ namespace StationSystemTray
 		public void OnEntering(object sender, EventArgs evt)
 		{
 			EventHandler handler = Entering;
+			if (handler != null)
+			{
+				handler(sender, evt);
+			}
+		}
+
+		public void OnLeaving(object sender, EventArgs evt)
+		{
+			EventHandler handler = Leaving;
 			if (handler != null)
 			{
 				handler(sender, evt);

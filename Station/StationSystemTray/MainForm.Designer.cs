@@ -48,7 +48,7 @@
 			this.TrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("TrayIcon.Icon")));
 			this.TrayIcon.Text = "Waveface Station";
 			this.TrayIcon.Visible = true;
-			this.TrayIcon.DoubleClick += new System.EventHandler(this.TrayIcon_DoubleClick);
+			this.TrayIcon.DoubleClick += new System.EventHandler(this.menuPreference_Click);
 			// 
 			// TrayMenu
 			// 
@@ -60,14 +60,14 @@
             this.toolStripSeparator2,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
-			this.TrayMenu.Size = new System.Drawing.Size(153, 126);
+			this.TrayMenu.Size = new System.Drawing.Size(146, 104);
 			this.TrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.TrayMenu_Opening);
 			// 
 			// menuRelogin
 			// 
 			this.menuRelogin.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.menuRelogin.Name = "menuRelogin";
-			this.menuRelogin.Size = new System.Drawing.Size(152, 22);
+			this.menuRelogin.Size = new System.Drawing.Size(145, 22);
 			this.menuRelogin.Text = "Re-Login";
 			this.menuRelogin.Visible = false;
 			this.menuRelogin.Click += new System.EventHandler(this.menuRelogin_Click);
@@ -75,31 +75,31 @@
 			// menuServiceAction
 			// 
 			this.menuServiceAction.Name = "menuServiceAction";
-			this.menuServiceAction.Size = new System.Drawing.Size(152, 22);
+			this.menuServiceAction.Size = new System.Drawing.Size(145, 22);
 			this.menuServiceAction.Text = "Pause Service";
 			this.menuServiceAction.Click += new System.EventHandler(this.menuServiceAction_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(142, 6);
 			// 
 			// menuPreference
 			// 
 			this.menuPreference.Name = "menuPreference";
-			this.menuPreference.Size = new System.Drawing.Size(152, 22);
+			this.menuPreference.Size = new System.Drawing.Size(145, 22);
 			this.menuPreference.Text = "Preference...";
 			this.menuPreference.Click += new System.EventHandler(this.menuPreference_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(142, 6);
 			// 
 			// menuQuit
 			// 
 			this.menuQuit.Name = "menuQuit";
-			this.menuQuit.Size = new System.Drawing.Size(152, 22);
+			this.menuQuit.Size = new System.Drawing.Size(145, 22);
 			this.menuQuit.Text = "Quit";
 			this.menuQuit.Click += new System.EventHandler(this.menuQuit_Click);
 			// 

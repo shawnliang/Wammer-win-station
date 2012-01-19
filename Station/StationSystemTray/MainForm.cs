@@ -168,6 +168,7 @@ namespace StationSystemTray
 					{
 						StationStateSessionNotExist st = new StationStateSessionNotExist(this, this.CurrentState);
 						st.Entering += this.BecomeSessionNotExistState;
+						st.Leaving += this.LeaveSessionNotExistState;
 						return st;
 					}
 				default:
@@ -385,7 +386,17 @@ namespace StationSystemTray
 			TrayIcon.Icon = this.iconWarning;
 			TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
 			TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
+			TrayIcon.DoubleClick -= TrayIcon_DoubleClick;
+			TrayIcon.DoubleClick += menuRelogin_Click;
 			TrayIconText = I18n.L.T("Station401Exception");
+		}
+
+		void LeaveSessionNotExistState(object sender, EventArgs evt)
+		{
+			if (InvokeRequired)
+				this.Invoke(new EventHandler(LeaveSessionNotExistState), sender, evt);
+
+			TrayIcon.DoubleClick -= menuRelogin_Click;
 		}
 
 		private void menuRelogin_Click(object sender, EventArgs e)
