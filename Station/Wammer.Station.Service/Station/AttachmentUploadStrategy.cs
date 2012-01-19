@@ -142,8 +142,10 @@ namespace Wammer.Station
 				imgWidth = imageBitmap.Width;
 				imgHeight = imageBitmap.Height;
 
+				file.Orientation = ImageHelper.ImageOrientation(imageBitmap);
+
 				medium = ImagePostProcessing.MakeThumbnail(
-				   imageBitmap, ImageMeta.Medium, file.object_id, driver, file.file_name);
+				   imageBitmap, ImageMeta.Medium, file.Orientation, file.object_id, driver, file.file_name);
 			}
 
 			Attachment thumb = new Attachment(file);

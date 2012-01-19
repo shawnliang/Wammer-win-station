@@ -25,8 +25,6 @@ namespace Waveface
 
             //m_init = true;
 
-            labelStatus.BackColor = Color.FromArgb(192, panelTop.BackColor);
-
             show_labelStatus(false);
         }
 
@@ -134,8 +132,8 @@ namespace Waveface
 
         private void set_labelStatus_SizeLocation()
         {
-            labelStatus.Size = new Size(panelTop.Size.Width - 16, panelTop.Size.Height - 14);
-            labelStatus.Location = new Point(8, 6);
+            labelStatus.Size = new Size(panelTop.Size.Width - 4, panelTop.Size.Height - 3);
+            labelStatus.Location = new Point(2, 2);
         }
     }
 }

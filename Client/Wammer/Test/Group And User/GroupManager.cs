@@ -242,7 +242,7 @@ namespace Waveface
 
         private void DoLoginUI()
         {
-            LoginForm _loginForm = new LoginForm("", "", false);
+            LoginForm _loginForm = new LoginForm(new ProgramSetting(), "", "");
             DialogResult _dr = _loginForm.ShowDialog();
 
             if (_dr != DialogResult.OK)

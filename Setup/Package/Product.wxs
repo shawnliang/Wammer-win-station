@@ -60,7 +60,7 @@
       </Custom>
       <!-- while install -->
       <Custom Action="SetRegistry" Before="InstallFiles">
-        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
+        ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
       </Custom>
       <Custom Action="AddPerfCounters" Before="StartServices">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)

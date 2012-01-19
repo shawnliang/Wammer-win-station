@@ -64,8 +64,9 @@ namespace Waveface
             // 
             // labelStatus
             // 
+            this.labelStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             resources.ApplyResources(this.labelStatus, "labelStatus");
-            this.labelStatus.ForeColor = System.Drawing.Color.White;
+            this.labelStatus.ForeColor = System.Drawing.Color.Black;
             this.labelStatus.Name = "labelStatus";
             // 
             // labelDisplay

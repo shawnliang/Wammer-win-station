@@ -184,6 +184,18 @@
   <data name="lblVersionTitle.Text" xml:space="preserve">
     <value>版本</value>
   </data>
+  <data name="lblCopyRight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 14</value>
+  </data>
+  <data name="lblCopyRight.Text" xml:space="preserve">
+    <value>版權所有 © 2011-2012 Waveface Inc. 保留所有權利.</value>
+  </data>
+  <data name="linkLegalNotice.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 14</value>
+  </data>
+  <data name="linkLegalNotice.Text" xml:space="preserve">
+    <value>隱私權政策</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>帳戶資訊</value>
   </data>

@@ -125,7 +125,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="lblCopyRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>300, 14</value>
+    <value>332, 14</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label_UsedCountValue.AutoSize" type="System.Boolean, mscorlib">
@@ -469,7 +469,7 @@
     <value>$this</value>
   </data>
   <data name="lblCopyRight.Text" xml:space="preserve">
-    <value>Copyright © 2012 Waveface Inc. All Rights Reserved.</value>
+    <value>Copyright © 2011-2012 Waveface Inc. All Rights Reserved.</value>
   </data>
   <data name="&gt;&gt;label_DaysLeftValue.Name" xml:space="preserve">
     <value>label_DaysLeftValue</value>

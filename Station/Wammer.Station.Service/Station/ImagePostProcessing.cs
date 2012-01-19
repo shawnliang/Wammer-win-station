@@ -44,9 +44,11 @@ namespace Wammer.Station
 				{
 					// release raw data immediately
 					evt.Attachment.RawData = new ArraySegment<byte>();
-					medium = MakeThumbnail(origImage, ImageMeta.Medium,
-														evt.Attachment.object_id, evt.Driver,
-														evt.Attachment.file_name);
+					medium = MakeThumbnail(origImage, ImageMeta.Medium, 
+						evt.Attachment.Orientation, 
+						evt.Attachment.object_id, 
+						evt.Driver,
+						evt.Attachment.file_name);
 
 					update = new Attachment
 					{
@@ -111,11 +113,11 @@ namespace Wammer.Station
 					// release raw data immediately
 					evt.Attachment.RawData = new ArraySegment<byte>();
 
-					small = MakeThumbnail(origImage, ImageMeta.Small,
+					small = MakeThumbnail(origImage, ImageMeta.Small, evt.Attachment.Orientation,
 										origImgObjectId, evt.Driver, evt.Attachment.file_name);
-					large = MakeThumbnail(origImage, ImageMeta.Large,
+					large = MakeThumbnail(origImage, ImageMeta.Large, evt.Attachment.Orientation,
 										origImgObjectId, evt.Driver, evt.Attachment.file_name);
-					square = MakeThumbnail(origImage, ImageMeta.Square,
+					square = MakeThumbnail(origImage, ImageMeta.Square, evt.Attachment.Orientation,
 										origImgObjectId, evt.Driver, evt.Attachment.file_name);
 				}
 
@@ -164,8 +166,8 @@ namespace Wammer.Station
 			}
 		}
 
-		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, string attachmentId, 
-			Driver driver, string origFileName)
+		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, ExifOrientations orientation,
+			string attachmentId, Driver driver, string origFileName)
 		{
 			Bitmap thumbnail = null;
 
@@ -176,7 +178,10 @@ namespace Wammer.Station
 
 			try
 			{
-				ImageHelper.CorrectOrientation(ImageHelper.ImageOrientation(origin), thumbnail);
+				if (orientation != ExifOrientations.Unknown)
+					ImageHelper.CorrectOrientation(orientation, thumbnail);
+				else
+					ImageHelper.CorrectOrientation(ImageHelper.ImageOrientation(origin), thumbnail);
 			}
 			catch (System.Runtime.InteropServices.ExternalException ex)
 			{

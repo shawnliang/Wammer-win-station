@@ -51,7 +51,7 @@ namespace Waveface
                 return;
             }
 
-            string _culture = (string) StationRegHelper.GetValue("Culture", null);
+            string _culture = (string)StationRegHelper.GetValue("Culture", null);
 
             if (_culture == null)
                 CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
@@ -82,15 +82,11 @@ namespace Waveface
                     _settings.StationToken = _token;
                     _settings.Save();
 
-                    _loginForm = new LoginForm(_email, _password, true);
-                }
-                else if (_settings.IsLoggedIn)
-                {
-                    _loginForm = new LoginForm(_settings.Email, _settings.Password, true);
+                    _loginForm = new LoginForm(_settings, _email, _password);
                 }
                 else
                 {
-                    _loginForm = new LoginForm(_settings.Email, _settings.Password, false);
+                    _loginForm = new LoginForm(_settings, _settings.Email, _settings.Password);
                 }
 
                 #region force window to have focus
@@ -136,8 +132,8 @@ namespace Waveface
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            NLogUtility.Exception(s_logger, (Exception) e.ExceptionObject, "CurrentDomain_UnhandledException");
-            CrashReporter _errorDlg = new CrashReporter((Exception) e.ExceptionObject);
+            NLogUtility.Exception(s_logger, (Exception)e.ExceptionObject, "CurrentDomain_UnhandledException");
+            CrashReporter _errorDlg = new CrashReporter((Exception)e.ExceptionObject);
             _errorDlg.ShowDialog();
         }
 

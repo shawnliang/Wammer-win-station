@@ -588,6 +588,9 @@
     <EmbeddedResource Include="Compoment\MsgBox.resx">
       <DependentUpon>MsgBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Compoment\MsgBox.zh-TW.resx">
+      <DependentUpon>MsgBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Compoment\PSTaskDialog\FormTaskDialog.resx">
       <DependentUpon>FormTaskDialog.cs</DependentUpon>
     </EmbeddedResource>

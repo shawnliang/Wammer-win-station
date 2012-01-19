@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
+using Waveface.Compoment;
 using Waveface.Compoment.PopupControl;
 using Waveface.Component;
 using Waveface.Component.DropableNotifyIcon;
@@ -131,7 +132,7 @@ namespace Waveface
             set { m_runTime = value; }
         }
 
-        public DialogResult ThreadDialogResult
+        public DialogResult NewPostThreadErrorDialogResult
         {
             get;
             set;
@@ -304,7 +305,6 @@ namespace Waveface
 
                 m_process401Exception = true;
                 QuitOption = QuitOption.Logout;
-                m_settings.IsLoggedIn = false;
 
                 Close();
             }
@@ -332,7 +332,6 @@ namespace Waveface
         public void Logout()
         {
             QuitOption = QuitOption.Logout;
-            m_settings.IsLoggedIn = false;
 
             try
             {
@@ -432,6 +431,16 @@ namespace Waveface
         {
             if (e.SplitX < (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8))
                 e.SplitX = (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8);
+        }
+
+        protected override void WndProc(ref Message message)
+        {
+            if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
+            {
+                SingleInstance.WinApi.ShowToFront(Handle);
+            }
+
+            base.WndProc(ref message);
         }
 
         #endregion
@@ -548,7 +557,7 @@ namespace Waveface
 
         public bool Login(string email, string password, out string errorMessage)
         {
-            Cursor.Current = Cursors.WaitCursor;
+            Cursor = Cursors.WaitCursor;
 
             errorMessage = string.Empty;
 
@@ -579,7 +588,6 @@ namespace Waveface
 
             m_settings.Email = email;
             m_settings.Password = password;
-            m_settings.IsLoggedIn = true;
 
             getGroupAndUser();
             fillUserInformation();
@@ -594,7 +602,7 @@ namespace Waveface
 
             postsArea.showRefreshUI(true);
 
-            Cursor.Current = Cursors.Default;
+            Cursor = Cursors.Default;
 
             GetAllDataAsync(ShowTimelineIndexType.GlobalLastRead, false);
 
@@ -715,7 +723,7 @@ namespace Waveface
             _filter = _filter.Replace("[type]", postsArea.GetPostType());
             _filter = _filter.Replace("[offset]", _offset.ToString());
 
-            Cursor.Current = Cursors.WaitCursor;
+            Cursor = Cursors.WaitCursor;
 
             MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter(_filter);
 
@@ -735,7 +743,7 @@ namespace Waveface
                 }
             }
 
-            Cursor.Current = Cursors.Default;
+            Cursor = Cursors.Default;
 
             ShowPostToUI(false);
         }
@@ -904,7 +912,7 @@ namespace Waveface
                 m_showTimelineIndexType = showTimelineIndexType;
                 m_manualRefresh = manualRefresh;
 
-                Cursor.Current = Cursors.WaitCursor;
+                Cursor = Cursors.WaitCursor;
 
                 postsArea.updateRefreshUI(false);
 
@@ -1350,7 +1358,7 @@ namespace Waveface
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Cursor.Current = Cursors.Default;
+            Cursor = Cursors.Default;
 
             postsArea.updateRefreshUI(true);
 
@@ -1471,24 +1479,24 @@ namespace Waveface
 
         public void ShowFileMissDialog(string text)
         {
-            ThreadDialogResult = DialogResult.None;
+            NewPostThreadErrorDialogResult = DialogResult.None;
 
             MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.FileMiss"), text), "Waveface", MessageBoxIcon.Warning);
             _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
             DialogResult _dr = _msgBox.ShowDialog();
 
-            ThreadDialogResult = _dr;
+            NewPostThreadErrorDialogResult = _dr;
         }
 
         public void OverQuotaMissDialog(string text)
         {
-            ThreadDialogResult = DialogResult.None;
+            NewPostThreadErrorDialogResult = DialogResult.None;
 
             MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.OverQuota"), text), "Waveface", MessageBoxIcon.Warning);
             _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
             DialogResult _dr = _msgBox.ShowDialog();
 
-            ThreadDialogResult = _dr;
+            NewPostThreadErrorDialogResult = _dr;
         }
     }
 }

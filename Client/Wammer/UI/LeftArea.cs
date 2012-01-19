@@ -392,8 +392,6 @@ namespace Waveface
             }            
         }
 
-
-
         private void UploadDone(string text)
         {
             if (InvokeRequired)
@@ -405,6 +403,8 @@ namespace Waveface
             else
             {
                 Main.Current.ShowStatuMessage(text, true);
+
+                Main.Current.GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
             }
         }
 

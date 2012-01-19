@@ -183,7 +183,7 @@ namespace StationSystemTray
 			if (_confirm == DialogResult.No)
 				return;
 
-			Cursor.Current = Cursors.WaitCursor;
+			Cursor = Cursors.WaitCursor;
 
 			try
 			{
@@ -202,7 +202,7 @@ namespace StationSystemTray
 			}
 			finally
 			{
-				Cursor.Current = Cursors.Default;
+				Cursor = Cursors.Default;
 			}
 		}
 
