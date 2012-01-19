@@ -181,7 +181,7 @@
     <value>34, 115</value>
   </data>
   <data name="labelClientAndStationDesc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>404, 47</value>
+    <value>447, 47</value>
   </data>
   <data name="labelClientAndStationDesc.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -249,9 +249,6 @@
   <data name="&gt;&gt;lblNote.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>zh-TW</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
