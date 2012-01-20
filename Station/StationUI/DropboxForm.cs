@@ -119,6 +119,19 @@ namespace Wammer.Station
 		{
 			multiPanel.SelectedPage = page;
 
+			if (page == Page_SetupCompleted)
+			{
+				btn_SetupCompleted_OpenWaveface.Focus();
+			}
+			else if (page == Page_Linkage_1)
+			{
+				btn_Linkage_1_Connect.Focus();
+			}
+			else if (page == Page_Linkage_2)
+			{
+				btn_Linkage_2_Verify.Focus();
+			}
+
 			if ((page == Page_SetupCompleted) || (page == Page_ConnectionSuccessfully))
 				m_canExit = true;
 		}
