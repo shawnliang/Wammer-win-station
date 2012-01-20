@@ -68,6 +68,7 @@ namespace Wammer.Station.Service
 				fastJSON.JSON.Instance.UseUTCDateTime = true;
 
 				functionServer = new HttpServer(9981); // TODO: remove hard code
+				stationTimer = new StationTimer(functionServer);
 
 				logger.Debug("Add cloud forwarders to function server");
 				BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
@@ -117,15 +118,16 @@ namespace Wammer.Station.Service
 				{
 					logger.Debug("Start function server");
 					functionServer.Start();
+					stationTimer.Start();
 				}
 
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989);
-				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath, functionServer);
-				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer));
-				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer));
+				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath, functionServer, stationTimer);
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer, stationTimer));
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer, stationTimer));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
-				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/remove/", new RemoveOwnerHandler(stationId, functionServer));
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/remove/", new RemoveOwnerHandler(stationId, functionServer, stationTimer));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/", new StatusGetHandler());
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/list", new ListCloudStorageHandler());
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/", new DropBoxOAuthHandler());
@@ -136,8 +138,6 @@ namespace Wammer.Station.Service
 				addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
 				logger.Debug("Start management server");
 				managementServer.Start();
-
-				stationTimer = new StationTimer(functionServer);
 
 				logger.Info("Waveface station is started");
 			}
@@ -163,10 +163,11 @@ namespace Wammer.Station.Service
 
 		protected override void OnStop()
 		{
-			stationTimer.Stop();
-
 			functionServer.Stop();
 			functionServer.Close();
+
+			stationTimer.Stop();
+			stationTimer.Close();
 
 			managementServer.Stop();
 			managementServer.Close();

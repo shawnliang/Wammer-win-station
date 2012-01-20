@@ -15,10 +15,12 @@ namespace Wammer.Station
 	{
 		private static ILog logger = LogManager.GetLogger("StationOnlineHandler");
 		private readonly HttpServer functionServer;
+		private readonly StationTimer stationTimer;
 
-		public StationOnlineHandler(HttpServer functionServer)
+		public StationOnlineHandler(HttpServer functionServer, StationTimer stationTimer)
 		{
 			this.functionServer = functionServer;
+			this.stationTimer = stationTimer;
 		}
 
 		protected override void HandleRequest()
@@ -34,6 +36,7 @@ namespace Wammer.Station
 				// function server should be stopped if driver's info is removed
 				logger.Debug("Try to stop function server");
 				functionServer.Stop();
+				stationTimer.Stop();
 
 				throw new ServiceUnavailableException("Station cannot work without driver", (int)StationApiError.InvalidDriver);
 			}
@@ -83,6 +86,7 @@ namespace Wammer.Station
 				logger.Debug("Station logon successfully, start function server");
 				functionServer.BlockAuth(false);
 				functionServer.Start();
+				stationTimer.Start();
 
 				logger.Debug("Start function server successfully");
 				RespondSuccess();
@@ -99,6 +103,7 @@ namespace Wammer.Station
 					// function server should be stopped if driver's info is removed
 					logger.Debug("Try to stop function server");
 					functionServer.Stop();
+					stationTimer.Stop();
 
 					throw new ServiceUnavailableException("Driver already registered another station", (int)StationApiError.AlreadyHasStaion);
 				}
@@ -112,6 +117,7 @@ namespace Wammer.Station
 					// function server should be stopped if driver's info is removed
 					logger.Debug("Try to stop function server");
 					functionServer.Stop();
+					stationTimer.Stop();
 
 					throw new ServiceUnavailableException("Driver account does not exist", (int)StationApiError.InvalidDriver);
 				}

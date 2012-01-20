@@ -12,10 +12,13 @@ namespace Wammer.Station
 	{
 		private readonly string stationId;
 		private readonly HttpServer functionServer;
-		public RemoveOwnerHandler(string stationId, HttpServer functionServer)
+		private readonly StationTimer stationTimer;
+
+		public RemoveOwnerHandler(string stationId, HttpServer functionServer, StationTimer stationTimer)
 		{
 			this.stationId = stationId;
 			this.functionServer = functionServer;
+			this.stationTimer = stationTimer;
 		}
 
 		protected override void HandleRequest()
@@ -28,6 +31,7 @@ namespace Wammer.Station
 			StationApi.SignOff(new WebClient(), stationId, stationToken);
 
 			functionServer.Stop();
+			stationTimer.Stop();
 
 			Model.DriverCollection.Instance.RemoveAll();
 			Model.StationCollection.Instance.RemoveAll();

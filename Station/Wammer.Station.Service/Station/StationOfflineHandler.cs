@@ -13,10 +13,12 @@ namespace Wammer.Station
 	{
 		private static ILog logger = LogManager.GetLogger("StationOfflineHandler");
 		private readonly HttpServer functionServer;
+		private readonly StationTimer stationTimer;
 
-		public StationOfflineHandler(HttpServer functionServer)
+		public StationOfflineHandler(HttpServer functionServer, StationTimer stationTimer)
 		{
 			this.functionServer = functionServer;
+			this.stationTimer = stationTimer;
 		}
 
 		protected override void HandleRequest()
@@ -24,8 +26,9 @@ namespace Wammer.Station
 			LogOutStationFromCloud();
 
 			logger.Debug("Station logout successfully, stop function server");
-			//functionServer.BlockAuth(true);
+
 			functionServer.Stop();
+			stationTimer.Stop();
 
 			logger.Debug("Stop function server successfully");
 			RespondSuccess();

@@ -16,6 +16,7 @@ namespace Wammer.Station
 	public class StatusChecker
 	{
 		private Timer timer;
+		private long timerPeriod;
 		private bool logon = false;  // logOn is needed for every time service start
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
 		private readonly HttpServer functionServer;
@@ -23,7 +24,8 @@ namespace Wammer.Station
 		public StatusChecker(long timerPeriod, HttpServer functionServer)
 		{
 			TimerCallback tcb = SendHeartbeat;
-			this.timer = new Timer(tcb, null, 0, timerPeriod);
+			this.timer = new Timer(tcb);
+			this.timerPeriod = timerPeriod;
 			this.functionServer = functionServer;
 		}
 
@@ -124,9 +126,14 @@ namespace Wammer.Station
 			}
 		}
 
+		public void Start()
+		{
+			timer.Change(0, timerPeriod);
+		}
+
 		public void Stop()
 		{
-			timer.Dispose();
+			timer.Change(Timeout.Infinite, Timeout.Infinite);
 			using (WebClient agent = new WebClient())
 			{
 				Model.StationInfo sinfo = Model.StationCollection.Instance.FindOne();
@@ -143,6 +150,11 @@ namespace Wammer.Station
 					}
 				}
 			}
+		}
+
+		public void Close()
+		{
+			timer.Dispose();
 		}
 	}
 }

@@ -20,6 +20,7 @@ namespace Wammer.Station
 		private readonly string stationId;
 		private readonly string resourceBasePath;
 		private readonly HttpServer functionServer;
+		private readonly StationTimer stationTimer;
 
 		private const int ERR_USER_HAS_ANOTHER_STATION = 16387;
 		private const int ERR_BAD_NAME_PASSWORD = 4097;
@@ -32,11 +33,12 @@ namespace Wammer.Station
 			this.resourceBasePath = resourceBasePath;
 		}
 
-		public AddDriverHandler(string stationId, string resourceBasePath, HttpServer functionServer)
+		public AddDriverHandler(string stationId, string resourceBasePath, HttpServer functionServer, StationTimer stationTimer)
 		{
 			this.stationId = stationId;
 			this.resourceBasePath = resourceBasePath;
 			this.functionServer = functionServer;
+			this.stationTimer = stationTimer;
 		}
 
 		protected override void HandleRequest()
@@ -60,6 +62,7 @@ namespace Wammer.Station
 					logger.Debug("Station logon successfully, start function server");
 					functionServer.BlockAuth(false);
 					functionServer.Start();
+					stationTimer.Start();
 					WriteOnlineStateToDB();
 
 					User user = User.LogIn(agent, email, password);
