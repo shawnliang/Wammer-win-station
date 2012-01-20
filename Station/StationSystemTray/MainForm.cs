@@ -25,6 +25,7 @@ namespace StationSystemTray
 		private ServiceActionUIController uictrlServiceAction;
 		private InitMainUIController uictrlInitMain;
 		private PreferenceForm preferenceForm;
+		private SignInForm signInForm;
 
 		private object cs = new object();
 		public StationState CurrentState { get; private set; }
@@ -232,11 +233,6 @@ namespace StationSystemTray
 			preferenceForm = null;
 		}
 
-		//private void TrayIcon_DoubleClick(object sender, EventArgs e)
-		//{
-		//    menuPreference_Click(sender, e);
-		//}
-
 		private void checkStationTimer_Tick(object sender, EventArgs e)
 		{
 			try
@@ -248,11 +244,6 @@ namespace StationSystemTray
 			}
 			catch (AuthenticationException)
 			{
-				//TrayIcon.Icon = this.iconWarning;
-				//TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
-				//TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
-				//TrayIconText = I18n.L.T("Station401Exception");
-
 				CurrentState.SessionExpired();
 			}
 			catch (Exception ex)
@@ -391,7 +382,20 @@ namespace StationSystemTray
 
 		private void menuRelogin_Click(object sender, EventArgs e)
 		{
-			messenger.ShowLoginDialog(false);
+			if (signInForm != null)
+			{
+				signInForm.Activate();
+				return;
+			}
+
+			signInForm = new SignInForm();
+			signInForm.FormClosed += new FormClosedEventHandler(signInForm_FormClosed);
+			signInForm.Show();
+		}
+
+		void signInForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			signInForm = null;
 		}
 	}
 
