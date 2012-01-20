@@ -17,15 +17,18 @@ using Wammer.Cloud;
 
 namespace StationSystemTray
 {
-	public partial class MainForm : Form
+	public partial class MainForm : Form, StationStateContext
 	{
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private Messenger messenger;
 		private ServiceActionUIController uictrlServiceAction;
 		private InitMainUIController uictrlInitMain;
-		private bool serviceRunning;
 		private PreferenceForm preferenceForm;
+		private SignInForm signInForm;
+
+		private object cs = new object();
+		public StationState CurrentState { get; private set; }
 
 		public Icon iconRunning;
 		public Icon iconPaused;
@@ -78,13 +81,6 @@ namespace StationSystemTray
 			set { TrayMenu.Visible = value; }
 		}
 
-		public bool ServiceRunning
-		{
-			// TODO: add lock here
-			get { return serviceRunning; }
-			set { serviceRunning = value; }
-		}
-
 		public MainForm()
 		{
 			InitializeComponent();
@@ -96,13 +92,14 @@ namespace StationSystemTray
 			this.iconWarning = StationSystemTray.Properties.Resources.station_warn;
 			this.Icon = this.iconPaused;
 			
-			this.serviceRunning = false;
 			this.messenger = new Messenger(this);
 			this.uictrlServiceAction = new ServiceActionUIController(this, messenger);
 			this.uictrlInitMain = new InitMainUIController(this, messenger);
 
 			this.checkStationTimer.Enabled = true;
 			this.checkStationTimer.Start();
+
+			this.CurrentState = CreateState(StationStateEnum.Initial);
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -131,6 +128,62 @@ namespace StationSystemTray
 			finally
 			{
 				Application.Exit();
+			}
+		}
+
+		private StationState CreateState(StationStateEnum state)
+		{
+			switch (state)
+			{
+				case StationStateEnum.Initial:
+					{
+						StationStateInitial st = new StationStateInitial(this);
+						st.Entering += this.BecomeInitialState;
+						return st;
+					}
+				case StationStateEnum.Starting:
+					{
+						StationStateStarting st = new StationStateStarting(this);
+						st.Entering += this.BecomeStartingState;
+						return st;
+					}
+				case StationStateEnum.Running:
+					{
+						StationStateRunning st = new StationStateRunning(this);
+						st.Entering += this.BecomeRunningState;
+						return st;
+					}
+				case StationStateEnum.Stopping:
+					{
+						StationStateStopping st = new StationStateStopping(this);
+						st.Entering += this.BecomeStoppingState;
+						return st;
+					}
+				case StationStateEnum.Stopped:
+					{
+						StationStateStopped st = new StationStateStopped(this);
+						st.Entering += this.BecomeStoppedState;
+						return st;
+					}
+				case StationStateEnum.SessionNotExist:
+					{
+						StationStateSessionNotExist st = new StationStateSessionNotExist(this, this.CurrentState);
+						st.Entering += this.BecomeSessionNotExistState;
+						st.Leaving += this.LeaveSessionNotExistState;
+						return st;
+					}
+				default:
+					throw new NotImplementedException();
+			}
+		}
+
+		public void GoToState(StationStateEnum state)
+		{
+			lock (cs)
+			{
+				CurrentState.OnLeaving(this, new EventArgs());
+				CurrentState = CreateState(state);				
+				CurrentState.OnEntering(this, new EventArgs());
 			}
 		}
 
@@ -180,26 +233,18 @@ namespace StationSystemTray
 			preferenceForm = null;
 		}
 
-		private void TrayIcon_DoubleClick(object sender, EventArgs e)
-		{
-			menuPreference_Click(sender, e);
-		}
-
 		private void checkStationTimer_Tick(object sender, EventArgs e)
 		{
 			try
 			{
 				bool available = StationController.PingForAvailability();
 
-				if (!available && serviceRunning)
+				if (!available && CurrentState.Value != StationStateEnum.Running)
 					StationController.StationOnline();
 			}
 			catch (AuthenticationException)
 			{
-				TrayIcon.Icon = this.iconWarning;
-				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
-				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
-				TrayIconText = I18n.L.T("Station401Exception");
+				CurrentState.SessionExpired();
 			}
 			catch (Exception ex)
 			{
@@ -210,6 +255,147 @@ namespace StationSystemTray
 		void ClickBallonFor401Exception(object sender, EventArgs e)
 		{
 			messenger.ShowLoginDialog(false);
+		}
+
+		void BecomeInitialState(object sender, EventArgs evt)
+		{
+			if (IsDisposed)
+				return;
+
+			if (InvokeRequired)
+				this.Invoke(new EventHandler(BecomeInitialState), sender, evt);
+			else
+			{
+				this.Icon = iconPaused;
+				this.TrayIconText = I18n.L.T("StartingWFService");
+
+				this.MenuServiceActionEnabled = false;
+				this.MenuPreferenceEnabled = false;
+			}
+		}
+
+		void BecomeRunningState(object sender, EventArgs evt)
+		{
+			if (IsDisposed)
+				return;
+
+			if (InvokeRequired)
+				this.Invoke(new EventHandler(BecomeRunningState), sender, evt);
+			else
+			{
+				this.Icon = iconRunning;
+				this.TrayIconText = I18n.L.T("WFServiceRunning");
+				this.MenuServiceActionText = I18n.L.T("PauseWFService");
+
+				this.MenuServiceActionEnabled = true;
+				this.MenuPreferenceEnabled = true;
+			}
+		}
+
+		void BecomeStoppedState(object sender, EventArgs evt)
+		{
+			if (IsDisposed)
+				return;
+
+			if (InvokeRequired)
+				this.Invoke(new EventHandler(BecomeStoppedState), sender, evt);
+			else
+			{
+				this.Icon = iconPaused;
+				this.TrayIconText = I18n.L.T("WFServiceStopped");
+				this.MenuServiceActionText = I18n.L.T("ResumeWFService");
+
+				this.MenuServiceActionEnabled = true;
+				this.MenuPreferenceEnabled = true;
+			}
+		}
+
+		void BecomeStartingState(object sender, EventArgs evt)
+		{
+			if (IsDisposed)
+				return;
+
+			if (InvokeRequired)
+				Invoke(new EventHandler(BecomeStartingState), sender, evt);
+			else
+			{
+				this.MenuServiceActionEnabled = false;
+				this.MenuPreferenceEnabled = false;
+				this.TrayIconText = I18n.L.T("StartingWFService");
+			}
+		}
+
+		void BecomeStoppingState(object sender, EventArgs evt)
+		{
+			if (IsDisposed)
+				return;
+
+			if (InvokeRequired)
+				Invoke(new EventHandler(BecomeStoppingState), sender, evt);
+			else
+			{
+				this.MenuServiceActionEnabled = false;
+				this.MenuPreferenceEnabled = false;
+				this.TrayIconText = I18n.L.T("PausingWFService");
+			}
+		}
+
+		void BecomeSessionNotExistState(object sender, EventArgs evt)
+		{
+			if (IsDisposed)
+				return;
+
+			if (InvokeRequired)
+				Invoke(new EventHandler(BecomeSessionNotExistState), sender, evt);
+			else
+			{
+				this.menuRelogin.Visible = true;
+				this.menuRelogin.Text = I18n.L.T("ReLoginMenuItem");
+
+				this.MenuPreferenceEnabled = false;
+				this.MenuServiceActionEnabled = false;
+
+
+				TrayIcon.Icon = this.iconWarning;
+				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
+				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
+				TrayIcon.DoubleClick -= menuPreference_Click;
+				TrayIcon.DoubleClick += menuRelogin_Click;
+				TrayIconText = I18n.L.T("Station401Exception");
+			}
+		}
+
+		void LeaveSessionNotExistState(object sender, EventArgs evt)
+		{
+			if (IsDisposed)
+				return;
+
+			if (InvokeRequired)
+				this.Invoke(new EventHandler(LeaveSessionNotExistState), sender, evt);
+			else
+			{
+				menuRelogin.Visible = false;
+				TrayIcon.DoubleClick -= menuRelogin_Click;
+				TrayIcon.DoubleClick += menuPreference_Click;
+			}
+		}
+
+		private void menuRelogin_Click(object sender, EventArgs e)
+		{
+			if (signInForm != null)
+			{
+				signInForm.Activate();
+				return;
+			}
+
+			signInForm = new SignInForm();
+			signInForm.FormClosed += new FormClosedEventHandler(signInForm_FormClosed);
+			signInForm.Show();
+		}
+
+		void signInForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			signInForm = null;
 		}
 	}
 
@@ -234,7 +420,7 @@ namespace StationSystemTray
 
 		protected override void ActionCallback(object obj)
 		{
-			mainform.ServiceRunning = true;
+			mainform.CurrentState.Onlined();
 		}
 
 		protected override void ActionError(Exception ex)
@@ -255,20 +441,17 @@ namespace StationSystemTray
 				Application.Exit();
 			}
 
-			mainform.ServiceRunning = false;
+			mainform.CurrentState.Error();
 			MainForm.logger.Error("Unable to start mainform", ex);
 		}
 
 		protected override void SetFormControls(object obj)
 		{
-			mainform.MenuServiceActionEnabled = false;
-			mainform.MenuPreferenceEnabled = false;
+			mainform.CurrentState.Onlining();
 		}
 
 		protected override void SetFormControlsInCallback(object obj)
 		{
-			mainform.MenuServiceActionEnabled = true;
-			mainform.MenuPreferenceEnabled = true;
 		}
 
 		protected override void SetFormControlsInError(Exception ex)
@@ -287,53 +470,66 @@ namespace StationSystemTray
 
 		protected override void UpdateUI(object obj)
 		{
-			mainform.TrayIconText = I18n.L.T("StartingWFService");
-			mainform.TrayIconIcon = mainform.iconPaused;
 		}
 
 		protected override void UpdateUIInCallback(object obj)
 		{
-			mainform.TrayIconText = I18n.L.T("WFServiceRunning");
-			mainform.TrayIconIcon = mainform.iconRunning;
 		}
 
 		protected override void UpdateUIInError(Exception ex)
 		{
-			mainform.TrayIconText = I18n.L.T("WFServiceStopped");
 		}
 	}
 	#endregion
 
 	#region ServiceActionUIController
+	enum ServiceAction
+	{
+		None,
+		TakeOnline,
+		TakeOffline
+	}
+
 	public class ServiceActionUIController : SimpleUIController
 	{
 		private MainForm mainform;
 		private Messenger messenger;
+		private ServiceAction action;
 
 		public ServiceActionUIController(MainForm form, Messenger messenger)
 			: base(form)
 		{
 			this.mainform = form;
 			this.messenger = messenger;
+			this.action = ServiceAction.None;
 		}
 
 		protected override object Action(object obj)
 		{
-			if (mainform.ServiceRunning)
+			if (action == ServiceAction.TakeOffline)
+			{
 				StationController.StationOffline();
+			}
 			else
+			{
 				StationController.StationOnline();
+			}
 
 			return null;
 		}
 
 		protected override void ActionCallback(object obj)
 		{
-			mainform.ServiceRunning = !mainform.ServiceRunning;
+			if (action == ServiceAction.TakeOffline)
+				mainform.CurrentState.Offlined();
+			else if (action == ServiceAction.TakeOnline)
+				mainform.CurrentState.Onlined();
 		}
 
 		protected override void ActionError(Exception ex)
 		{
+			mainform.CurrentState.Error();
+
 			if (ex is AuthenticationException)
 			{
 				if (messenger.ShowLoginDialog(this, _parameter))
@@ -342,7 +538,7 @@ namespace StationSystemTray
 				}
 			}
 
-			if (mainform.ServiceRunning)
+			if (action == ServiceAction.TakeOffline)
 				MainForm.logger.Error("Unable to stop service", ex);
 			else
 				MainForm.logger.Error("Unable to start service", ex);
@@ -350,62 +546,36 @@ namespace StationSystemTray
 
 		protected override void SetFormControls(object obj)
 		{
-			mainform.MenuServiceActionEnabled = false;
-			mainform.MenuPreferenceEnabled = false;
+			if (mainform.CurrentState.Value == StationStateEnum.Running)
+			{
+				action = ServiceAction.TakeOffline;
+				mainform.CurrentState.Offlining();
+			}
+			else
+			{
+				action = ServiceAction.TakeOnline;
+				mainform.CurrentState.Onlining();
+			}
 		}
 
 		protected override void SetFormControlsInCallback(object obj)
 		{
-			mainform.MenuServiceActionEnabled = true;
-			mainform.MenuPreferenceEnabled = true;
 		}
 
 		protected override void SetFormControlsInError(Exception ex)
 		{
-			mainform.MenuServiceActionEnabled = true;
-			mainform.MenuPreferenceEnabled = true;
 		}
 
 		protected override void UpdateUI(object obj)
 		{
-			if (mainform.ServiceRunning)
-			{
-				mainform.TrayIconText = I18n.L.T("PausingWFService");
-			}
-			else
-			{
-				mainform.TrayIconText = I18n.L.T("ResumingWFService");
-			}
 		}
 
 		protected override void UpdateUIInCallback(object obj)
 		{
-			if (mainform.ServiceRunning)
-			{
-				mainform.MenuServiceActionText = I18n.L.T("PauseWFService");
-				mainform.TrayIconText = I18n.L.T("WFServiceRunning");
-				mainform.TrayIconIcon = mainform.iconRunning;
-			}
-			else
-			{
-				mainform.MenuServiceActionText = I18n.L.T("ResumeWFService");
-				mainform.TrayIconText = I18n.L.T("WFServiceStopped");
-				mainform.TrayIconIcon = mainform.iconPaused;
-			}
 		}
 
 		protected override void UpdateUIInError(Exception ex)
 		{
-			if (mainform.ServiceRunning)
-			{
-				mainform.MenuServiceActionText = I18n.L.T("PauseWFService");
-				mainform.TrayIconText = I18n.L.T("WFServiceRunning");
-			}
-			else
-			{
-				mainform.MenuServiceActionText = I18n.L.T("ResumeWFService");
-				mainform.TrayIconText = I18n.L.T("WFServiceStopped");
-			}
 		}
 	}
 	#endregion

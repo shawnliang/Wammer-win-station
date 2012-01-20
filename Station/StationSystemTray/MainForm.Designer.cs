@@ -32,6 +32,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.TrayMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuRelogin = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuServiceAction = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuPreference = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,19 +48,29 @@
 			this.TrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("TrayIcon.Icon")));
 			this.TrayIcon.Text = "Waveface Station";
 			this.TrayIcon.Visible = true;
-			this.TrayIcon.DoubleClick += new System.EventHandler(this.TrayIcon_DoubleClick);
+			this.TrayIcon.DoubleClick += new System.EventHandler(this.menuPreference_Click);
 			// 
 			// TrayMenu
 			// 
 			this.TrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuRelogin,
             this.menuServiceAction,
             this.toolStripSeparator1,
             this.menuPreference,
             this.toolStripSeparator2,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
-			this.TrayMenu.Size = new System.Drawing.Size(146, 82);
+			this.TrayMenu.Size = new System.Drawing.Size(146, 104);
 			this.TrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.TrayMenu_Opening);
+			// 
+			// menuRelogin
+			// 
+			this.menuRelogin.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.menuRelogin.Name = "menuRelogin";
+			this.menuRelogin.Size = new System.Drawing.Size(145, 22);
+			this.menuRelogin.Text = "Re-Login";
+			this.menuRelogin.Visible = false;
+			this.menuRelogin.Click += new System.EventHandler(this.menuRelogin_Click);
 			// 
 			// menuServiceAction
 			// 
@@ -122,6 +133,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.Timer checkStationTimer;
+		private System.Windows.Forms.ToolStripMenuItem menuRelogin;
 	}
 }
 
