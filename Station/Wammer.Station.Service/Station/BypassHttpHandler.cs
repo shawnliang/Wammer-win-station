@@ -52,30 +52,121 @@ namespace Wammer.Station
 
 				if (origReq.HasEntityBody)
 				{
-					using (Stream output = newReq.GetRequestStream())
-					{
-						StreamHelper.Copy(origReq.InputStream, output);
-					}
+					newReq.BeginGetRequestStream(RequestStreamGotten,
+						new BypassContext(origReq, response, newReq));
 				}
-
-				CopyResponseData((HttpWebResponse)newReq.GetResponse(), response);
+				else
+				{
+					newReq.BeginGetResponse(ResponseGotten, new BypassContext(origReq, response, newReq));
+				}
 			}
 			catch (WebException e)
 			{
-				HttpWebResponse errResponse = (HttpWebResponse)e.Response;
-				if (errResponse != null)
+				logger.Error("forward to cloud error", e);
+				ReplyCloudError(response, e);
+			}
+			catch (Exception e)
+			{
+				logger.Error("Forward to cloud error", e);
+				HttpHelper.RespondFailure(response, e, 400);
+			}
+		}
+
+		private static void RequestStreamGotten(IAsyncResult ar)
+		{
+			BypassContext ctx = (BypassContext)ar.AsyncState;
+
+			try
+			{
+				ctx.cloudRequestStream = ctx.cloudRequest.EndGetRequestStream(ar);
+
+				StreamHelper.BeginCopy(ctx.request.InputStream, ctx.cloudRequestStream,
+					RequestDone, ctx);
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Error get request stream to cloud", e);
+				HttpHelper.RespondFailure(ctx.response, e, 400);
+			}
+		}
+
+		private static void RequestDone(IAsyncResult ar)
+		{
+			BypassContext ctx = (BypassContext)ar.AsyncState;
+			try
+			{
+				StreamHelper.EndCopy(ar);
+
+				ctx.cloudRequest.BeginGetResponse(ResponseGotten, ctx);
+			}
+			catch (WebException e)
+			{
+				logger.Warn("forward to cloud error", e);
+				ReplyCloudError(ctx.response, e);
+			}
+			catch (Exception e)
+			{
+				logger.Warn("forward to cloud error", e);
+				HttpHelper.RespondFailure(ctx.response, e, 400);
+			}
+		}
+
+		private static void ResponseGotten(IAsyncResult ar)
+		{
+			BypassContext ctx = (BypassContext)ar.AsyncState;
+
+			try
+			{
+				ctx.cloudResponse = (HttpWebResponse)ctx.cloudRequest.EndGetResponse(ar);
+
+				CopyResponseData(ctx.cloudResponse, ctx.response);
+			}
+			catch (WebException e)
+			{
+				logger.Warn("forward to cloud error", e);
+				ReplyCloudError(ctx.response, e);
+			}
+			catch (Exception e)
+			{
+				logger.Warn("forward to cloud error", e);
+				HttpHelper.RespondFailure(ctx.response, e, 400);
+			}
+		}
+
+		private static void RespondDone(IAsyncResult ar)
+		{
+			BypassResponseContext ctx = (BypassResponseContext)ar.AsyncState;
+
+			try
+			{
+				StreamHelper.EndCopy(ar);
+
+				ctx.bypassResponse.Close();
+				ctx.response.Close();
+			}
+			catch (Exception e)
+			{
+				ctx.response.Abort();
+				logger.Warn("Error responding cloud response", e);
+			}
+		}
+
+		private static void ReplyCloudError(HttpListenerResponse response, WebException e)
+		{
+			HttpWebResponse errResponse = (HttpWebResponse)e.Response;
+			if (errResponse != null)
+			{
+				try
 				{
-					try
-					{
-						logger.Debug("Cloud responded error: " + errResponse.StatusCode);
-						CopyResponseData(errResponse, response);
-					}
-					catch (Exception ex)
-					{
-						logger.Error("Error when replying cloud error", ex);
-					}
+					CopyResponseData(errResponse, response);
+				}
+				catch (Exception ex)
+				{
+					logger.Error("Error when replying cloud error", ex);
 				}
 			}
+			else
+				HttpHelper.RespondFailure(response, e, 400);
 		}
 
 		public void AddExceptPrefix(string prefix)
@@ -97,11 +188,8 @@ namespace Wammer.Station
 				to.Cookies.Add(from.Cookies);
 			}
 
-			using (Stream input = from.GetResponseStream())
-			using (Stream output = to.OutputStream)
-			{
-				StreamHelper.Copy(input, output);
-			}
+			StreamHelper.BeginCopy(from.GetResponseStream(), to.OutputStream, RespondDone, 
+				new BypassResponseContext(to, from));
 		}
 
 		private bool HasNotAllowedPrefix(string reqPath)
@@ -142,6 +230,34 @@ namespace Wammer.Station
 			url.Scheme = this.scheme;
 			Uri targetUri = url.Uri;
 			return targetUri;
+		}
+	}
+
+	class BypassContext
+	{
+		public HttpListenerRequest request { get; private set; }
+		public HttpListenerResponse response { get; private set; }
+		public HttpWebRequest cloudRequest { get; private set; }
+		public Stream cloudRequestStream { get; set; }
+		public HttpWebResponse cloudResponse { get; set; }
+
+		public BypassContext(HttpListenerRequest request, HttpListenerResponse response, HttpWebRequest cloudRequest)
+		{
+			this.request = request;
+			this.response = response;
+			this.cloudRequest = cloudRequest;
+		}
+	}
+
+	class BypassResponseContext
+	{
+		public HttpListenerResponse response { get; private set; }
+		public HttpWebResponse bypassResponse { get; private set; }
+
+		public BypassResponseContext(HttpListenerResponse response, HttpWebResponse bypassResponse)
+		{
+			this.response = response;
+			this.bypassResponse = bypassResponse;
 		}
 	}
 }
