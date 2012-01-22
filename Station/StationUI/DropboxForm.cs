@@ -123,6 +123,10 @@ namespace Wammer.Station
 			{
 				btn_SetupCompleted_OpenWaveface.Focus();
 			}
+			else if (page == Page_Welcome)
+			{
+				btn_Welcome_UseDropbox.Focus();
+			}
 			else if (page == Page_Linkage_1)
 			{
 				btn_Linkage_1_Connect.Focus();

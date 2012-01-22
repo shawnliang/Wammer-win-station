@@ -90,7 +90,7 @@ namespace StationSystemTray
 			this.iconRunning = StationSystemTray.Properties.Resources.station_run;
 			this.iconPaused = StationSystemTray.Properties.Resources.station_stop;
 			this.iconWarning = StationSystemTray.Properties.Resources.station_warn;
-			this.Icon = this.iconPaused;
+			this.TrayIcon.Icon = this.iconPaused;
 			
 			this.messenger = new Messenger(this);
 			this.uictrlServiceAction = new ServiceActionUIController(this, messenger);
@@ -266,11 +266,11 @@ namespace StationSystemTray
 				this.Invoke(new EventHandler(BecomeInitialState), sender, evt);
 			else
 			{
-				this.Icon = iconPaused;
-				this.TrayIconText = I18n.L.T("StartingWFService");
+				TrayIcon.Icon = iconPaused;
+				TrayIcon.Text = I18n.L.T("StartingWFService");
 
-				this.MenuServiceActionEnabled = false;
-				this.MenuPreferenceEnabled = false;
+				menuServiceAction.Enabled = false;
+				menuPreference.Enabled = false;
 			}
 		}
 
@@ -283,12 +283,12 @@ namespace StationSystemTray
 				this.Invoke(new EventHandler(BecomeRunningState), sender, evt);
 			else
 			{
-				this.Icon = iconRunning;
-				this.TrayIconText = I18n.L.T("WFServiceRunning");
-				this.MenuServiceActionText = I18n.L.T("PauseWFService");
+				TrayIcon.Icon = iconRunning;
+				TrayIcon.Text = I18n.L.T("WFServiceRunning");
+				menuServiceAction.Text = I18n.L.T("PauseWFService");
 
-				this.MenuServiceActionEnabled = true;
-				this.MenuPreferenceEnabled = true;
+				menuServiceAction.Enabled = true;
+				menuPreference.Enabled = true;
 			}
 		}
 
@@ -301,12 +301,12 @@ namespace StationSystemTray
 				this.Invoke(new EventHandler(BecomeStoppedState), sender, evt);
 			else
 			{
-				this.Icon = iconPaused;
-				this.TrayIconText = I18n.L.T("WFServiceStopped");
-				this.MenuServiceActionText = I18n.L.T("ResumeWFService");
+				TrayIcon.Icon = iconPaused;
+				TrayIcon.Text = I18n.L.T("WFServiceStopped");
+				menuServiceAction.Text = I18n.L.T("ResumeWFService");
 
-				this.MenuServiceActionEnabled = true;
-				this.MenuPreferenceEnabled = true;
+				menuServiceAction.Enabled = true;
+				menuPreference.Enabled = true;
 			}
 		}
 
@@ -319,9 +319,9 @@ namespace StationSystemTray
 				Invoke(new EventHandler(BecomeStartingState), sender, evt);
 			else
 			{
-				this.MenuServiceActionEnabled = false;
-				this.MenuPreferenceEnabled = false;
-				this.TrayIconText = I18n.L.T("StartingWFService");
+				menuServiceAction.Enabled = false;
+				menuPreference.Enabled = false;
+				TrayIcon.Text = I18n.L.T("StartingWFService");
 			}
 		}
 
@@ -334,9 +334,9 @@ namespace StationSystemTray
 				Invoke(new EventHandler(BecomeStoppingState), sender, evt);
 			else
 			{
-				this.MenuServiceActionEnabled = false;
-				this.MenuPreferenceEnabled = false;
-				this.TrayIconText = I18n.L.T("PausingWFService");
+				menuServiceAction.Enabled = false;
+				menuPreference.Enabled = false;
+				TrayIcon.Text = I18n.L.T("PausingWFService");
 			}
 		}
 
@@ -349,12 +349,11 @@ namespace StationSystemTray
 				Invoke(new EventHandler(BecomeSessionNotExistState), sender, evt);
 			else
 			{
-				this.menuRelogin.Visible = true;
-				this.menuRelogin.Text = I18n.L.T("ReLoginMenuItem");
+				menuRelogin.Visible = true;
+				menuRelogin.Text = I18n.L.T("ReLoginMenuItem");
 
-				this.MenuPreferenceEnabled = false;
-				this.MenuServiceActionEnabled = false;
-
+				menuPreference.Enabled = false;
+				menuServiceAction.Enabled = false;
 
 				TrayIcon.Icon = this.iconWarning;
 				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
