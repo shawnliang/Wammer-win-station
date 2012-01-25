@@ -14,6 +14,8 @@ using log4net;
 using System.Reflection;
 using System.ServiceProcess;
 using Wammer.Station.Service;
+using ICSharpCode.SharpZipLib.Tar;
+using ICSharpCode.SharpZipLib.GZip;
 
 namespace Wammer.Station
 {
@@ -364,9 +366,13 @@ namespace Wammer.Station
 		[CustomAction]
 		public static ActionResult StartAndWaitMongoDbReady(Session session)
 		{
+			string installDir = session["INSTALLLOCATION"];
+
 			try
 			{
 				string svcName = StationService.MONGO_SERVICE_NAME;
+
+				PreallocDBFiles(installDir);
 
 				StartService(svcName);
 
@@ -386,6 +392,35 @@ namespace Wammer.Station
 			{
 				Logger.Warn(e);
 				return ActionResult.Failure;
+			}
+		}
+
+		private static void PreallocDBFiles(string installDir)
+		{
+			try
+			{
+				StopService(StationService.MONGO_SERVICE_NAME);
+
+				string journalDir = Path.Combine(installDir, @"MongoDB\Data\DB\journal");
+				if (Directory.Exists(journalDir))
+				{
+					string[] preallocFiles = Directory.GetFiles(journalDir, "prealloc.*");
+
+					if (preallocFiles != null && preallocFiles.Length > 0)
+						return;
+				}
+
+				string preallocZip = Path.Combine(installDir, @"MongoDB\Data\DB\mongoPrealloc.tar.gz");
+
+				GZipInputStream gzipIn = new GZipInputStream(File.OpenRead(preallocZip));
+				TarArchive tar = TarArchive.CreateInputTarArchive(gzipIn);
+				tar.ExtractContents(Path.Combine(installDir, @"MongoDB\Data\DB"));
+
+				Logger.Info("Extract prealloc DB files successfully");
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Error during extracting prealloc DB files", e);
 			}
 		}
 
@@ -472,6 +507,17 @@ namespace Wammer.Station
 					else
 						throw new InstallerException("Unable to start " + svcName, e);
 				}
+			}
+		}
+
+		private static void StopService(string svcName)
+		{
+			ServiceController mongoSvc = new ServiceController(svcName);
+			if (mongoSvc.Status != ServiceControllerStatus.Stopped &&
+				mongoSvc.Status != ServiceControllerStatus.StopPending)
+			{
+				mongoSvc.Stop();
+				mongoSvc.WaitForStatus(ServiceControllerStatus.Stopped);
 			}
 		}
 	}
