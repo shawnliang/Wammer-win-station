@@ -170,8 +170,6 @@ namespace Wammer.Station
 		{
 			foreach (FeatureInfo feature in session.Features)
 			{
-				Logger.DebugFormat("{0} => current {1}, request {2}, ", feature.Name, feature.CurrentState, feature.RequestState);
-
 				if (feature.Name == featureId)
 					return feature.RequestState == InstallState.Local;
 			}
@@ -374,17 +372,22 @@ namespace Wammer.Station
 
 				PreallocDBFiles(installDir);
 
+				Logger.Debug("Starting DB...");
 				StartService(svcName);
+				Logger.Debug("DB is started");
 
 				int retry = 180;
 				while (!IsMongoDBReady() && 0 < retry--)
 				{
 					System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2.0));
+					Logger.Debug("Testing MongoDB again...");
+					StartService(svcName);
 				}
 
 				if (!IsMongoDBReady())
 					throw new System.TimeoutException("MongoDB is not ready in 360 seconds");
 
+				Logger.Debug("MongoDB is ready");
 				return ActionResult.Success;
 
 			}
@@ -399,7 +402,9 @@ namespace Wammer.Station
 		{
 			try
 			{
+				Logger.Debug("Stopping DB...");
 				StopService(StationService.MONGO_SERVICE_NAME);
+				Logger.Debug("DB is stopped");
 
 				string journalDir = Path.Combine(installDir, @"MongoDB\Data\DB\journal");
 				if (Directory.Exists(journalDir))
@@ -410,11 +415,13 @@ namespace Wammer.Station
 						return;
 				}
 
+				Logger.Debug("Extracting prealloc DB files...");
 				string preallocZip = Path.Combine(installDir, @"MongoDB\Data\DB\mongoPrealloc.tar.gz");
-
 				GZipInputStream gzipIn = new GZipInputStream(File.OpenRead(preallocZip));
-				TarArchive tar = TarArchive.CreateInputTarArchive(gzipIn);
-				tar.ExtractContents(Path.Combine(installDir, @"MongoDB\Data\DB"));
+				using (TarArchive tar = TarArchive.CreateInputTarArchive(gzipIn))
+				{
+					tar.ExtractContents(Path.Combine(installDir, @"MongoDB\Data\DB"));
+				}
 
 				Logger.Info("Extract prealloc DB files successfully");
 			}
