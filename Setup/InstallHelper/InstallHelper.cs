@@ -520,11 +520,29 @@ namespace Wammer.Station
 		private static void StopService(string svcName)
 		{
 			ServiceController mongoSvc = new ServiceController(svcName);
-			if (mongoSvc.Status != ServiceControllerStatus.Stopped &&
-				mongoSvc.Status != ServiceControllerStatus.StopPending)
+
+			int retry = 3;
+
+			while (0 < retry--)
 			{
-				mongoSvc.Stop();
-				mongoSvc.WaitForStatus(ServiceControllerStatus.Stopped);
+				try
+				{
+					if (mongoSvc.Status != ServiceControllerStatus.Stopped &&
+						mongoSvc.Status != ServiceControllerStatus.StopPending)
+					{
+						mongoSvc.Stop();
+						mongoSvc.WaitForStatus(ServiceControllerStatus.Stopped);
+					}
+
+					return;
+				}
+				catch (Exception e)
+				{
+					if (retry > 0)
+						System.Threading.Thread.Sleep(3000);
+					else
+						throw new InstallerException("Unable to stop " + svcName, e);
+				}
 			}
 		}
 	}
