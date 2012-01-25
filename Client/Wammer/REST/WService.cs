@@ -1690,7 +1690,7 @@ namespace Waveface.API.V2
                 using (WebClient agent = new WebClient())
                 {
                     string url =
-                        string.Format("http://localhost:9989/v2/station/online?email={0}&password={1}&apikey={2}",
+                        string.Format("http://127.0.0.1:9989/v2/station/online?email={0}&password={1}&apikey={2}",
                                       email, password, APIKEY);
 
                     byte[] resp = agent.DownloadData(url);
@@ -1727,7 +1727,7 @@ namespace Waveface.API.V2
             {
                 using (WebClient agent = new WebClient())
                 {
-                    string url = string.Format("http://localhost:9989/v2/station/offline?session_token={0}&apikey={1}",
+                    string url = string.Format("http://127.0.0.1:9989/v2/station/offline?session_token={0}&apikey={1}",
                                                HttpUtility.UrlEncode(session_token), APIKEY);
 
                     agent.DownloadData(url);
@@ -1773,7 +1773,7 @@ namespace Waveface.API.V2
             {
                 string url =
                     string.Format(
-                        "http://localhost:9989/v2/station/drivers/remove?session_token={0}&apikey={1}&email={2}&password={3}",
+                        "http://127.0.0.1:9989/v2/station/drivers/remove?session_token={0}&apikey={1}&email={2}&password={3}",
                         HttpUtility.UrlEncode(token),
                         APIKEY,
                         HttpUtility.UrlEncode(email),
