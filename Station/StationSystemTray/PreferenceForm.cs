@@ -23,71 +23,6 @@ namespace StationSystemTray
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("PreferenceForm");
 		private const string AUTO_RUN_VALUE_NAME = @"WavefaceStation";
 
-		public string LblLocalStorageUsageText
-		{
-			get { return lblLocalStorageUsage.Text; }
-			set { lblLocalStorageUsage.Text = value; }
-		}
-
-		public string LblDeviceNameText
-		{
-			get { return lblDeviceName.Text; }
-			set { lblDeviceName.Text = value; }
-		}
-
-		public Button BtnDropboxAction
-		{
-			get { return btnDropboxAction; }
-		}
-
-		public string LblDropboxAccountText
-		{
-			get { return label_dropboxAccount.Text; }
-			set { label_dropboxAccount.Text = value; }
-		}
-
-		public bool FormEnabled
-		{
-			get { return this.Enabled; }
-			set { this.Enabled = value; }
-		}
-
-		public string LblMonthlyLimitValueText
-		{
-			get { return label_MonthlyLimitValue.Text; }
-			set { label_MonthlyLimitValue.Text = value; }
-		}
-
-		public string LblDaysLeftValueText
-		{
-			get { return label_DaysLeftValue.Text; }
-			set { label_DaysLeftValue.Text = value; }
-		}
-
-		public string LblUsedCountValueText
-		{
-			get { return label_UsedCountValue.Text; }
-			set { label_UsedCountValue.Text = value; }
-		}
-
-		public int BarCloudUsageValue
-		{
-			get { return barCloudUsage.Value; }
-			set { barCloudUsage.Value = value; }
-		}
-
-		public bool BtnTestConnectionEnabled
-		{
-			get { return btnTestConnection.Enabled; }
-			set { btnTestConnection.Enabled = value; }
-		}
-
-		public string LblConnectionStatusText
-		{
-			get { return labelConnectionStatus.Text; }
-			set { labelConnectionStatus.Text = value; }
-		}
-
 		public string WebURL
 		{
 			get {
@@ -112,19 +47,40 @@ namespace StationSystemTray
 		private UnlinkDropboxUIController uictrlUnlinkDropbox;
 		private TestConnectionUIController uictrlTestConnection;
 
-		public PreferenceForm()
+		MainForm mainform;
+
+		public PreferenceForm(MainForm mainform)
 		{
+			this.mainform = mainform;
+
 			m_stationToken = StationCollection.Instance.FindOne().SessionToken;
 			m_driver = DriverCollection.Instance.FindOne();
 
 			messenger = new Messenger(this);
 
-			uictrlGetStationStatus = new GetStationStatusUIController(this, messenger);
-			uictrlLoadDropbox = new LoadDropboxUIController(this, messenger);
-			uictrlLoadStorageUsage = new LoadStorageUsageUIController(this, messenger);
-			uictrlConnectDropbox = new ConnectDropboxUIController(this, messenger);
-			uictrlUnlinkDropbox = new UnlinkDropboxUIController(this, messenger);
-			uictrlTestConnection = new TestConnectionUIController(this, messenger);
+			uictrlGetStationStatus = new GetStationStatusUIController(this);
+			uictrlGetStationStatus.UICallback += this.GetStationStatusUICallback;
+			uictrlGetStationStatus.UIError += this.GetStationStatusUIError;
+
+			uictrlLoadDropbox = new LoadDropboxUIController(this);
+			uictrlLoadDropbox.UICallback += this.LoadDropboxUICallback;
+			uictrlLoadDropbox.UIError += this.LoadDropboxUIError;
+
+			uictrlLoadStorageUsage = new LoadStorageUsageUIController(this);
+			uictrlLoadStorageUsage.UICallback += this.LoadStorageUsageUICallback;
+			uictrlLoadStorageUsage.UIError += this.LoadStorageUsageUIError;
+
+			uictrlConnectDropbox = new ConnectDropboxUIController(this);
+			uictrlConnectDropbox.UICallback += this.ConnectDropboxUICallback;
+			uictrlConnectDropbox.UIError += this.ConnectDropboxUIError;
+
+			uictrlUnlinkDropbox = new UnlinkDropboxUIController(this);
+			uictrlUnlinkDropbox.UICallback += this.UnlinkDropboxUICallback;
+			uictrlUnlinkDropbox.UIError += this.UnlinkDropboxUIError;
+
+			uictrlTestConnection = new TestConnectionUIController(this);
+			uictrlTestConnection.UICallback += this.TestConnectionUICallback;
+			uictrlTestConnection.UIError += this.TestConnectionUIError;
 
 			InitializeComponent();
 		}
@@ -137,21 +93,171 @@ namespace StationSystemTray
 			lblCopyRight.Text = version.LegalCopyright + " All Rights Reserved.";
 			lblVersion.Text = version.FileVersion;
 
+			lblLocalStorageUsage.Text = "";
+			lblDeviceName.Text = "";
 			uictrlGetStationStatus.PerformAction();
+
+			btnDropboxAction.Enabled = false;
+			btnDropboxAction.Text = "";
+			label_dropboxAccount.Text = "";
 			uictrlLoadDropbox.PerformAction();
+
+			label_MonthlyLimitValue.Text = "";
+			label_DaysLeftValue.Text = "";
+			label_UsedCountValue.Text = "";
+			barCloudUsage.Value = 0;
 			uictrlLoadStorageUsage.PerformAction(m_driver.session_token);
 
 			LoadAutoStartCheckbox();
 		}
 
-		public void AddButtonClickEventHandler(Button btn, EventHandler handler)
+		private void GetStationStatusUICallback(object sender, SimpleEventArgs evt)
 		{
-			btn.Click += handler;
+			GetStatusResponse stationStatus = (GetStatusResponse)evt.param;
+
+			long _usedSize = 0;
+
+			foreach (DiskUsage _du in stationStatus.station_status.diskusage)
+			{
+				_usedSize += _du.used;
+			}
+
+			lblLocalStorageUsage.Text = string.Format("{0:0.0} MB", _usedSize / (1024 * 1024));
+			lblDeviceName.Text = stationStatus.station_status.computer_name;
 		}
 
-		public void RemoveButtonClickEventHandler(Button btn, EventHandler handler)
+		private void GetStationStatusUIError(object sender, SimpleEventArgs evt)
 		{
-			btn.Click -= handler;
+			lblLocalStorageUsage.Text = I18n.L.T("NoData");
+			lblDeviceName.Text = I18n.L.T("NoData");
+		}
+
+		private void LoadDropboxUICallback(object sender, SimpleEventArgs evt)
+		{
+			ListCloudStorageResponse cloudStorage = (ListCloudStorageResponse)evt.param;
+
+			if (cloudStorage.cloudstorages.Count > 0 && cloudStorage.cloudstorages[0].connected)
+			{
+				btnDropboxAction.Text = I18n.L.T("DropboxUI_Disconnect");
+				label_dropboxAccount.Text = cloudStorage.cloudstorages[0].account;
+				btnDropboxAction.Click -= btnConnectDropbox_Click;
+				btnDropboxAction.Click -= btnUnlinkDropbox_Click;
+				btnDropboxAction.Click += btnUnlinkDropbox_Click;
+			}
+			else
+			{
+				btnDropboxAction.Text = I18n.L.T("DropboxUI_ConnectNow");
+				label_dropboxAccount.Text = I18n.L.T("MonthlyUsage_NotConnectedYet");
+				btnDropboxAction.Click -= btnUnlinkDropbox_Click;
+				btnDropboxAction.Click -= btnConnectDropbox_Click;
+				btnDropboxAction.Click += btnConnectDropbox_Click;
+			}
+
+			btnDropboxAction.Enabled = true;
+		}
+
+		private void LoadDropboxUIError(object sender, SimpleEventArgs evt)
+		{
+			Exception ex = (Exception)evt.param;
+
+			btnDropboxAction.Text = I18n.L.T("DropboxUI_ConnectNow");
+			label_dropboxAccount.Text = I18n.L.T("MonthlyUsage_NotConnectedYet");
+
+			if (ex is AuthenticationException)
+			{
+				messenger.ShowLoginDialog();
+				return;
+			}
+
+			btnDropboxAction.Click -= btnUnlinkDropbox_Click;
+			btnDropboxAction.Click -= btnConnectDropbox_Click;
+			btnDropboxAction.Click += btnConnectDropbox_Click;
+
+			btnDropboxAction.Enabled = true;
+		}
+
+		private void LoadStorageUsageUICallback(object sender, SimpleEventArgs evt)
+		{
+			StorageUsageResponse storageUsage = (StorageUsageResponse)evt.param;
+
+			long quota = storageUsage.storages.waveface.quota.month_total_objects;
+			long usage = storageUsage.storages.waveface.usage.month_total_objects;
+			int daysLeft = storageUsage.storages.waveface.interval.quota_interval_left_days;
+
+			if (quota < 0)
+				label_MonthlyLimitValue.Text = I18n.L.T("MonthlyUsage_Unlimited");
+			else
+				label_MonthlyLimitValue.Text = quota.ToString();
+
+			label_DaysLeftValue.Text = daysLeft.ToString();
+			label_UsedCountValue.Text = usage.ToString();
+
+			barCloudUsage.Value = (int)(usage * 100 / quota);
+		}
+
+		private void LoadStorageUsageUIError(object sender, SimpleEventArgs evt)
+		{
+			Exception ex = (Exception)evt.param;
+
+			label_MonthlyLimitValue.Text = I18n.L.T("NoData");
+			label_DaysLeftValue.Text = I18n.L.T("NoData");
+			label_UsedCountValue.Text = I18n.L.T("NoData");
+
+			if (ex is AuthenticationException)
+			{
+				messenger.ShowLoginDialog();
+				return;
+			}
+		}
+
+		private void ConnectDropboxUICallback(object sender, SimpleEventArgs evt)
+		{
+			btnDropboxAction.Enabled = true;
+		}
+
+		private void ConnectDropboxUIError(object sender, SimpleEventArgs evt)
+		{
+			messenger.ShowMessage(I18n.L.T("ConnectCloudStorageFail"));
+			btnDropboxAction.Enabled = true;
+		}
+
+		private void UnlinkDropboxUICallback(object sender, SimpleEventArgs evt)
+		{
+			btnDropboxAction.Enabled = true;
+		}
+
+		private void UnlinkDropboxUIError(object sender, SimpleEventArgs evt)
+		{
+			Exception ex = (Exception)evt.param;
+
+			if (ex is AuthenticationException)
+			{
+				messenger.ShowLoginDialog();
+				return;
+			}
+
+			messenger.ShowMessage(I18n.L.T("UnlinkCloudStorageFail"));
+
+			btnDropboxAction.Enabled = true;
+		}
+
+		private void TestConnectionUICallback(object sender, SimpleEventArgs evt)
+		{
+			labelConnectionStatus.Text = I18n.L.T("Connected");
+			btnTestConnection.Enabled = true;
+		}
+
+		private void TestConnectionUIError(object sender, SimpleEventArgs evt)
+		{
+			Exception ex = (Exception)evt.param;
+
+			labelConnectionStatus.Text = I18n.L.T("NotConnected");
+			if (ex is AuthenticationException)
+			{
+				messenger.ShowLoginDialog();
+				return;
+			}
+			btnTestConnection.Enabled = true;
 		}
 
 		private void LoadAutoStartCheckbox()
@@ -167,11 +273,13 @@ namespace StationSystemTray
 
 		public void btnUnlinkDropbox_Click(object sender, EventArgs e)
 		{
+			btnDropboxAction.Enabled = false;
 			uictrlUnlinkDropbox.PerformAction();
 		}
 
 		public void btnConnectDropbox_Click(object sender, EventArgs e)
 		{
+			btnDropboxAction.Enabled = false;
 			uictrlConnectDropbox.PerformAction();
 		}
 
@@ -236,6 +344,8 @@ namespace StationSystemTray
 
 		private void btnTestConnection_Click(object sender, EventArgs e)
 		{
+			btnTestConnection.Enabled = false;
+			labelConnectionStatus.Text = I18n.L.T("Testing");
 			uictrlTestConnection.PerformAction(m_driver);
 		}
 
@@ -262,14 +372,9 @@ namespace StationSystemTray
 	#region StationStatusUIController
 	public class GetStationStatusUIController : SimpleUIController
 	{
-		private PreferenceForm pform;
-		private Messenger messenger;
-
-		public GetStationStatusUIController(PreferenceForm pform, Messenger messenger)
+		public GetStationStatusUIController(PreferenceForm pform)
 			: base(pform)
 		{
-			this.pform = pform;
-			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
@@ -285,59 +390,15 @@ namespace StationSystemTray
 		{
 			PreferenceForm.logger.Error("Unable to get station status", ex);
 		}
-
-		protected override void SetFormControls(object obj)
-		{
-		}
-
-		protected override void SetFormControlsInCallback(object obj)
-		{
-		}
-
-		protected override void SetFormControlsInError(Exception ex)
-		{
-		}
-
-		protected override void UpdateUI(object obj)
-		{
-			pform.LblLocalStorageUsageText = "";
-			pform.LblDeviceNameText = "";
-		}
-
-		protected override void UpdateUIInCallback(object obj)
-		{
-			GetStatusResponse stationStatus = (GetStatusResponse)obj;
-
-			long _usedSize = 0;
-
-			foreach (DiskUsage _du in stationStatus.station_status.diskusage)
-			{
-				_usedSize += _du.used;
-			}
-
-			pform.LblLocalStorageUsageText = string.Format("{0:0.0} MB", _usedSize / (1024 * 1024));
-			pform.LblDeviceNameText = stationStatus.station_status.computer_name;
-		}
-
-		protected override void UpdateUIInError(Exception ex)
-		{
-			pform.LblLocalStorageUsageText = I18n.L.T("NoData");
-			pform.LblDeviceNameText = I18n.L.T("NoData");
-		}
 	}
 	#endregion
 
 	#region LoadDropboxUIController
 	public class LoadDropboxUIController : SimpleUIController
 	{
-		private PreferenceForm pform;
-		private Messenger messenger;
-
-		public LoadDropboxUIController(PreferenceForm pform, Messenger messenger)
+		public LoadDropboxUIController(PreferenceForm pform)
 			: base(pform)
 		{
-			this.pform = pform;
-			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
@@ -353,92 +414,20 @@ namespace StationSystemTray
 		{
 			PreferenceForm.logger.Error("Unable to list cloud storage", ex);
 		}
-
-		protected override void SetFormControls(object obj)
-		{
-			pform.BtnDropboxAction.Enabled = false;
-		}
-
-		protected override void SetFormControlsInCallback(object obj)
-		{
-			ListCloudStorageResponse cloudStorage = (ListCloudStorageResponse)obj;
-
-			if (cloudStorage.cloudstorages.Count > 0 && cloudStorage.cloudstorages[0].connected)
-			{
-				pform.RemoveButtonClickEventHandler(pform.BtnDropboxAction, pform.btnConnectDropbox_Click);
-				pform.RemoveButtonClickEventHandler(pform.BtnDropboxAction, pform.btnUnlinkDropbox_Click);
-				pform.AddButtonClickEventHandler(pform.BtnDropboxAction, pform.btnUnlinkDropbox_Click);
-			}
-			else
-			{
-				pform.RemoveButtonClickEventHandler(pform.BtnDropboxAction, pform.btnUnlinkDropbox_Click);
-				pform.RemoveButtonClickEventHandler(pform.BtnDropboxAction, pform.btnConnectDropbox_Click);
-				pform.AddButtonClickEventHandler(pform.BtnDropboxAction, pform.btnConnectDropbox_Click);
-			}
-
-			pform.BtnDropboxAction.Enabled = true;
-		}
-
-		protected override void SetFormControlsInError(Exception ex)
-		{
-			if (ex is AuthenticationException)
-			{
-				messenger.ShowLoginDialog();
-				return;
-			}
-
-			pform.RemoveButtonClickEventHandler(pform.BtnDropboxAction, pform.btnUnlinkDropbox_Click);
-			pform.RemoveButtonClickEventHandler(pform.BtnDropboxAction, pform.btnConnectDropbox_Click);
-			pform.AddButtonClickEventHandler(pform.BtnDropboxAction, pform.btnConnectDropbox_Click);
-
-			pform.BtnDropboxAction.Enabled = true;
-		}
-
-		protected override void UpdateUI(object obj)
-		{
-			pform.BtnDropboxAction.Text = "";
-			pform.LblDropboxAccountText = "";
-		}
-
-		protected override void UpdateUIInCallback(object obj)
-		{
-			ListCloudStorageResponse cloudStorage = (ListCloudStorageResponse)obj;
-
-			if (cloudStorage.cloudstorages.Count > 0 && cloudStorage.cloudstorages[0].connected)
-			{
-				pform.BtnDropboxAction.Text = I18n.L.T("DropboxUI_Disconnect");
-				pform.LblDropboxAccountText = cloudStorage.cloudstorages[0].account;
-			}
-			else
-			{
-				pform.BtnDropboxAction.Text = I18n.L.T("DropboxUI_ConnectNow");
-				pform.LblDropboxAccountText = I18n.L.T("MonthlyUsage_NotConnectedYet");
-			}
-		}
-
-		protected override void UpdateUIInError(Exception ex)
-		{
-			pform.BtnDropboxAction.Text = I18n.L.T("DropboxUI_ConnectNow");
-			pform.LblDropboxAccountText = I18n.L.T("MonthlyUsage_NotConnectedYet");
-		}
 	}
 	#endregion
 
 	#region ConnectDropboxUIController
 	public class ConnectDropboxUIController : SimpleUIController
 	{
-		private PreferenceForm pform;
 		private LoadDropboxUIController uictrlLoadDropbox;
-		private Messenger messenger;
 
 		public Process procDropboxSetup;
 
-		public ConnectDropboxUIController(PreferenceForm pform, Messenger messenger)
+		public ConnectDropboxUIController(PreferenceForm pform)
 			: base(pform)
 		{
-			this.pform = pform;
-			this.messenger = messenger;
-			this.uictrlLoadDropbox = new LoadDropboxUIController(pform, messenger);
+			this.uictrlLoadDropbox = new LoadDropboxUIController(pform);
 			this.procDropboxSetup = null;
 		}
 
@@ -463,50 +452,18 @@ namespace StationSystemTray
 			procDropboxSetup = null;
 			PreferenceForm.logger.Error("Unable to connect cloud storage", ex);
 		}
-
-		protected override void SetFormControls(object obj)
-		{
-			pform.BtnDropboxAction.Enabled = false;
-		}
-
-		protected override void SetFormControlsInCallback(object obj)
-		{
-		}
-
-		protected override void SetFormControlsInError(Exception ex)
-		{
-			messenger.ShowMessage(I18n.L.T("ConnectCloudStorageFail"));
-
-			pform.BtnDropboxAction.Enabled = true;
-		}
-
-		protected override void UpdateUI(object obj)
-		{
-		}
-
-		protected override void UpdateUIInCallback(object obj)
-		{
-		}
-
-		protected override void UpdateUIInError(Exception ex)
-		{
-		}
 	}
 	#endregion
 
 	#region UnlinkDropboxUIController
 	public class UnlinkDropboxUIController : SimpleUIController
 	{
-		private PreferenceForm pform;
 		private LoadDropboxUIController uictrlLoadDropbox;
-		private Messenger messenger;
 
-		public UnlinkDropboxUIController(PreferenceForm pform, Messenger messenger)
+		public UnlinkDropboxUIController(PreferenceForm pform)
 			: base(pform)
 		{
-			this.pform = pform;
-			this.messenger = messenger;
-			this.uictrlLoadDropbox = new LoadDropboxUIController(pform, messenger);
+			this.uictrlLoadDropbox = new LoadDropboxUIController(pform);
 		}
 
 		protected override object Action(object obj)
@@ -525,54 +482,15 @@ namespace StationSystemTray
 		{
 			PreferenceForm.logger.Error("Unable to unlink Dropbox", ex);
 		}
-
-		protected override void SetFormControls(object obj)
-		{
-			pform.BtnDropboxAction.Enabled = false;
-		}
-
-		protected override void SetFormControlsInCallback(object obj)
-		{
-		}
-
-		protected override void SetFormControlsInError(Exception ex)
-		{
-			if (ex is AuthenticationException)
-			{
-				messenger.ShowLoginDialog();
-				return;
-			}
-
-			messenger.ShowMessage(I18n.L.T("UnlinkCloudStorageFail"));
-
-			pform.BtnDropboxAction.Enabled = true;
-		}
-
-		protected override void UpdateUI(object obj)
-		{
-		}
-
-		protected override void UpdateUIInCallback(object obj)
-		{
-		}
-
-		protected override void UpdateUIInError(Exception ex)
-		{
-		}
 	}
 	#endregion
 
 	#region LoadStorageUsageUIController
 	public class LoadStorageUsageUIController : SimpleUIController
 	{
-		private PreferenceForm pform;
-		private Messenger messenger;
-
-		public LoadStorageUsageUIController(PreferenceForm pform, Messenger messenger)
+		public LoadStorageUsageUIController(PreferenceForm pform)
 			: base(pform)
 		{
-			this.pform = pform;
-			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
@@ -589,72 +507,15 @@ namespace StationSystemTray
 		{
 			PreferenceForm.logger.Error("Unable to get storage usage information", ex);
 		}
-
-		protected override void SetFormControls(object obj)
-		{
-		}
-
-		protected override void SetFormControlsInCallback(object obj)
-		{
-		}
-
-		protected override void SetFormControlsInError(Exception ex)
-		{
-			if (ex is AuthenticationException)
-			{
-				messenger.ShowLoginDialog();
-				return;
-			}
-		}
-
-		protected override void UpdateUI(object obj)
-		{
-			pform.LblMonthlyLimitValueText = "";
-			pform.LblDaysLeftValueText = "";
-			pform.LblUsedCountValueText = "";
-
-			pform.BarCloudUsageValue = 0;
-		}
-
-		protected override void UpdateUIInCallback(object obj)
-		{
-			StorageUsageResponse storageUsage = (StorageUsageResponse)obj;
-
-			long quota = storageUsage.storages.waveface.quota.month_total_objects;
-			long usage = storageUsage.storages.waveface.usage.month_total_objects;
-			int daysLeft = storageUsage.storages.waveface.interval.quota_interval_left_days;
-
-			if (quota < 0)
-				pform.LblMonthlyLimitValueText = I18n.L.T("MonthlyUsage_Unlimited");
-			else
-				pform.LblMonthlyLimitValueText = quota.ToString();
-
-			pform.LblDaysLeftValueText = daysLeft.ToString();
-			pform.LblUsedCountValueText = usage.ToString();
-
-			pform.BarCloudUsageValue = (int)(usage * 100 / quota);
-		}
-
-		protected override void UpdateUIInError(Exception ex)
-		{
-			pform.LblMonthlyLimitValueText = I18n.L.T("NoData");
-			pform.LblDaysLeftValueText = I18n.L.T("NoData");
-			pform.LblUsedCountValueText = I18n.L.T("NoData");
-		}
 	}
 	#endregion
 
 	#region TestConnectionUIController
 	public class TestConnectionUIController : SimpleUIController
 	{
-		private PreferenceForm pform;
-		private Messenger messenger;
-
-		public TestConnectionUIController(PreferenceForm pform, Messenger messenger)
+		public TestConnectionUIController(PreferenceForm pform)
 			: base(pform)
 		{
-			this.pform = pform;
-			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
@@ -690,42 +551,6 @@ namespace StationSystemTray
 		protected override void ActionError(Exception ex)
 		{
 			PreferenceForm.logger.Error("Unable to test station accessibility", ex);
-		}
-
-		protected override void SetFormControls(object obj)
-		{
-			pform.BtnTestConnectionEnabled = false;
-		}
-
-		protected override void SetFormControlsInCallback(object obj)
-		{
-			pform.BtnTestConnectionEnabled = true;
-		}
-
-		protected override void SetFormControlsInError(Exception ex)
-		{
-			if (ex is AuthenticationException)
-			{
-				messenger.ShowLoginDialog();
-				return;
-			}
-
-			pform.BtnTestConnectionEnabled = true;
-		}
-
-		protected override void UpdateUI(object obj)
-		{
-			pform.LblConnectionStatusText = I18n.L.T("Testing");
-		}
-
-		protected override void UpdateUIInCallback(object obj)
-		{
-			pform.LblConnectionStatusText = I18n.L.T("Connected");
-		}
-
-		protected override void UpdateUIInError(Exception ex)
-		{
-			pform.LblConnectionStatusText = I18n.L.T("NotConnected");
 		}
 	}
 	#endregion

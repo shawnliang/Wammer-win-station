@@ -22,7 +22,8 @@ namespace StationSystemTray
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private Messenger messenger;
-		private ServiceActionUIController uictrlServiceAction;
+		private PauseServiceUIController uictrlPauseService;
+		private ResumeServiceUIController uictrlResumeService;
 		private InitMainUIController uictrlInitMain;
 		private PreferenceForm preferenceForm;
 		private SignInForm signInForm;
@@ -34,24 +35,6 @@ namespace StationSystemTray
 		public Icon iconPaused;
 		public Icon iconWarning;
 
-		public bool MenuServiceActionEnabled
-		{
-			get { return menuServiceAction.Enabled; }
-			set { menuServiceAction.Enabled = value; }
-		}
-
-		public bool MenuPreferenceEnabled
-		{
-			get { return menuPreference.Enabled; }
-			set { menuPreference.Enabled = value; }
-		}
-
-		public string MenuServiceActionText
-		{
-			get { return menuServiceAction.Text; }
-			set { menuServiceAction.Text = value; }
-		}
-
 		public string TrayIconText
 		{
 			get { return TrayIcon.Text; }
@@ -61,24 +44,6 @@ namespace StationSystemTray
 				TrayIcon.BalloonTipText = value;
 				TrayIcon.ShowBalloonTip(3);
 			}
-		}
-
-		public bool TrayIconVisible
-		{
-			get { return TrayIcon.Visible; }
-			set { TrayIcon.Visible = value; }
-		}
-
-		public Icon TrayIconIcon
-		{
-			get { return TrayIcon.Icon; }
-			set { TrayIcon.Icon = value; }
-		}
-
-		public bool TrayMenuVisible
-		{
-			get { return TrayMenu.Visible; }
-			set { TrayMenu.Visible = value; }
 		}
 
 		public MainForm()
@@ -93,8 +58,18 @@ namespace StationSystemTray
 			this.TrayIcon.Icon = this.iconPaused;
 			
 			this.messenger = new Messenger(this);
-			this.uictrlServiceAction = new ServiceActionUIController(this, messenger);
-			this.uictrlInitMain = new InitMainUIController(this, messenger);
+
+			this.uictrlPauseService = new PauseServiceUIController(this);
+			this.uictrlPauseService.UICallback += this.PauseServiceUICallback;
+			this.uictrlPauseService.UIError += this.PauseServiceUIError;
+
+			this.uictrlResumeService = new ResumeServiceUIController(this);
+			this.uictrlResumeService.UICallback += this.ResumeServiceUICallback;
+			this.uictrlResumeService.UIError += this.ResumeServiceUIError;
+
+			this.uictrlInitMain = new InitMainUIController(this);
+			this.uictrlInitMain.UICallback += this.InitMainUICallback;
+			this.uictrlInitMain.UIError += this.InitMainUIError;
 
 			this.checkStationTimer.Enabled = true;
 			this.checkStationTimer.Start();
@@ -110,9 +85,75 @@ namespace StationSystemTray
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
 
+			CurrentState.Onlining();
 			this.uictrlInitMain.PerformAction();
 
 			base.OnLoad(e);
+		}
+
+		private void InitMainUICallback(object sender, SimpleEventArgs evt)
+		{
+			CurrentState.Onlined();
+		}
+
+		private void InitMainUIError(object sender, SimpleEventArgs evt)
+		{
+			Exception ex = (Exception)evt.param;
+
+			if (ex is AuthenticationException)
+			{
+				CurrentState.SessionExpired();
+			}
+			else if (ex is UserAlreadyHasStationException)
+			{
+				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+						   "StationUI.exe");
+				Process.Start(_execPath);
+				Application.Exit();
+			}
+			else
+			{
+				CurrentState.Error();
+			}
+		}
+
+		private void PauseServiceUICallback(object sender, SimpleEventArgs evt)
+		{
+			CurrentState.Offlined();
+		}
+
+		private void PauseServiceUIError(object sender, SimpleEventArgs evt)
+		{
+			Exception ex = (Exception)evt.param;
+
+			if (ex is AuthenticationException)
+			{
+				CurrentState.SessionExpired();
+			}
+			else
+			{
+				CurrentState.Error();
+			}
+		}
+
+		private void ResumeServiceUICallback(object sender, SimpleEventArgs evt)
+		{
+			CurrentState.Onlined();
+		}
+
+		private void ResumeServiceUIError(object sender, SimpleEventArgs evt)
+		{
+			Exception ex = (Exception)evt.param;
+
+			if (ex is AuthenticationException)
+			{
+				CurrentState.SessionExpired();
+			}
+			else
+			{
+				CurrentState.Error();
+			}
 		}
 
 		private void menuQuit_Click(object sender, EventArgs e)
@@ -189,7 +230,16 @@ namespace StationSystemTray
 
 		private void menuServiceAction_Click(object sender, EventArgs e)
 		{
-			uictrlServiceAction.PerformAction();
+			if (CurrentState.Value == StationStateEnum.Running)
+			{
+				CurrentState.Offlining();
+				uictrlPauseService.PerformAction();
+			}
+			else
+			{
+				CurrentState.Onlining();
+				uictrlResumeService.PerformAction();
+			}
 		}
 
 		private void TrayMenu_Opening(object sender, CancelEventArgs e)
@@ -218,7 +268,7 @@ namespace StationSystemTray
 		{
 			if (preferenceForm == null)
 			{
-				preferenceForm = new PreferenceForm();
+				preferenceForm = new PreferenceForm(this);
 				preferenceForm.FormClosed += new FormClosedEventHandler(preferenceForm_FormClosed);
 				preferenceForm.Show();
 			}
@@ -259,96 +309,49 @@ namespace StationSystemTray
 
 		void BecomeInitialState(object sender, EventArgs evt)
 		{
-			if (IsDisposed)
-				return;
-
-			if (InvokeRequired)
-				this.Invoke(new EventHandler(BecomeInitialState), sender, evt);
-			else
-			{
 				TrayIcon.Icon = iconPaused;
-				TrayIcon.Text = I18n.L.T("StartingWFService");
+				TrayIconText = I18n.L.T("StartingWFService");
 
 				menuServiceAction.Enabled = false;
 				menuPreference.Enabled = false;
-			}
 		}
 
 		void BecomeRunningState(object sender, EventArgs evt)
 		{
-			if (IsDisposed)
-				return;
-
-			if (InvokeRequired)
-				this.Invoke(new EventHandler(BecomeRunningState), sender, evt);
-			else
-			{
 				TrayIcon.Icon = iconRunning;
-				TrayIcon.Text = I18n.L.T("WFServiceRunning");
+				TrayIconText = I18n.L.T("WFServiceRunning");
 				menuServiceAction.Text = I18n.L.T("PauseWFService");
 
 				menuServiceAction.Enabled = true;
 				menuPreference.Enabled = true;
-			}
 		}
 
 		void BecomeStoppedState(object sender, EventArgs evt)
 		{
-			if (IsDisposed)
-				return;
-
-			if (InvokeRequired)
-				this.Invoke(new EventHandler(BecomeStoppedState), sender, evt);
-			else
-			{
 				TrayIcon.Icon = iconPaused;
-				TrayIcon.Text = I18n.L.T("WFServiceStopped");
+				TrayIconText = I18n.L.T("WFServiceStopped");
 				menuServiceAction.Text = I18n.L.T("ResumeWFService");
 
 				menuServiceAction.Enabled = true;
 				menuPreference.Enabled = true;
-			}
 		}
 
 		void BecomeStartingState(object sender, EventArgs evt)
 		{
-			if (IsDisposed)
-				return;
-
-			if (InvokeRequired)
-				Invoke(new EventHandler(BecomeStartingState), sender, evt);
-			else
-			{
 				menuServiceAction.Enabled = false;
 				menuPreference.Enabled = false;
-				TrayIcon.Text = I18n.L.T("StartingWFService");
-			}
+				TrayIconText = I18n.L.T("StartingWFService");
 		}
 
 		void BecomeStoppingState(object sender, EventArgs evt)
 		{
-			if (IsDisposed)
-				return;
-
-			if (InvokeRequired)
-				Invoke(new EventHandler(BecomeStoppingState), sender, evt);
-			else
-			{
 				menuServiceAction.Enabled = false;
 				menuPreference.Enabled = false;
-				TrayIcon.Text = I18n.L.T("PausingWFService");
-			}
+				TrayIconText = I18n.L.T("PausingWFService");
 		}
 
 		void BecomeSessionNotExistState(object sender, EventArgs evt)
 		{
-			if (IsDisposed)
-				return;
-
-			if (InvokeRequired)
-				Invoke(new EventHandler(BecomeSessionNotExistState), sender, evt);
-			else
-			{
 				menuRelogin.Visible = true;
 				menuRelogin.Text = I18n.L.T("ReLoginMenuItem");
 
@@ -361,22 +364,13 @@ namespace StationSystemTray
 				TrayIcon.DoubleClick -= menuPreference_Click;
 				TrayIcon.DoubleClick += menuRelogin_Click;
 				TrayIconText = I18n.L.T("Station401Exception");
-			}
 		}
 
 		void LeaveSessionNotExistState(object sender, EventArgs evt)
 		{
-			if (IsDisposed)
-				return;
-
-			if (InvokeRequired)
-				this.Invoke(new EventHandler(LeaveSessionNotExistState), sender, evt);
-			else
-			{
 				menuRelogin.Visible = false;
 				TrayIcon.DoubleClick -= menuRelogin_Click;
 				TrayIcon.DoubleClick += menuPreference_Click;
-			}
 		}
 
 		private void menuRelogin_Click(object sender, EventArgs e)
@@ -401,14 +395,9 @@ namespace StationSystemTray
 	#region InitMainUIController
 	public class InitMainUIController : SimpleUIController
 	{
-		private MainForm mainform;
-		private Messenger messenger;
-
-		public InitMainUIController(MainForm form, Messenger messenger)
+		public InitMainUIController(MainForm form)
 			: base(form)
 		{
-			this.mainform = form;
-			this.messenger = messenger;
 		}
 
 		protected override object Action(object obj)
@@ -419,162 +408,61 @@ namespace StationSystemTray
 
 		protected override void ActionCallback(object obj)
 		{
-			mainform.CurrentState.Onlined();
 		}
 
 		protected override void ActionError(Exception ex)
 		{
-			if (ex is AuthenticationException)
-			{
-				if (messenger.ShowLoginDialog(this, _parameter))
-				{
-					Thread.CurrentThread.Abort();
-				}
-			}
-			else if (ex is UserAlreadyHasStationException)
-			{
-				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
-				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-						   "StationUI.exe");
-				Process.Start(_execPath);
-				Application.Exit();
-			}
-
-			mainform.CurrentState.Error();
 			MainForm.logger.Error("Unable to start mainform", ex);
-		}
-
-		protected override void SetFormControls(object obj)
-		{
-			mainform.CurrentState.Onlining();
-		}
-
-		protected override void SetFormControlsInCallback(object obj)
-		{
-		}
-
-		protected override void SetFormControlsInError(Exception ex)
-		{
-			if (ex is ConnectToCloudException)
-			{
-				messenger.ShowMessage(I18n.L.T("ConnectCloudError"));
-			}
-			else
-			{
-				messenger.ShowMessage(I18n.L.T("WFServiceStartFail"));
-			}
-
-			Application.Exit();
-		}
-
-		protected override void UpdateUI(object obj)
-		{
-		}
-
-		protected override void UpdateUIInCallback(object obj)
-		{
-		}
-
-		protected override void UpdateUIInError(Exception ex)
-		{
 		}
 	}
 	#endregion
 
-	#region ServiceActionUIController
-	enum ServiceAction
+	#region PauseServiceUIController
+	public class PauseServiceUIController : SimpleUIController
 	{
-		None,
-		TakeOnline,
-		TakeOffline
-	}
-
-	public class ServiceActionUIController : SimpleUIController
-	{
-		private MainForm mainform;
-		private Messenger messenger;
-		private ServiceAction action;
-
-		public ServiceActionUIController(MainForm form, Messenger messenger)
+		public PauseServiceUIController(MainForm form)
 			: base(form)
 		{
-			this.mainform = form;
-			this.messenger = messenger;
-			this.action = ServiceAction.None;
 		}
 
 		protected override object Action(object obj)
 		{
-			if (action == ServiceAction.TakeOffline)
-			{
-				StationController.StationOffline();
-			}
-			else
-			{
-				StationController.StationOnline();
-			}
-
+			StationController.StationOffline();
 			return null;
 		}
 
 		protected override void ActionCallback(object obj)
 		{
-			if (action == ServiceAction.TakeOffline)
-				mainform.CurrentState.Offlined();
-			else if (action == ServiceAction.TakeOnline)
-				mainform.CurrentState.Onlined();
 		}
 
 		protected override void ActionError(Exception ex)
 		{
-			mainform.CurrentState.Error();
-
-			if (ex is AuthenticationException)
-			{
-				if (messenger.ShowLoginDialog(this, _parameter))
-				{
-					Thread.CurrentThread.Abort();
-				}
-			}
-
-			if (action == ServiceAction.TakeOffline)
-				MainForm.logger.Error("Unable to stop service", ex);
-			else
-				MainForm.logger.Error("Unable to start service", ex);
+			MainForm.logger.Error("Unable to stop service", ex);
 		}
+	}
+	#endregion
 
-		protected override void SetFormControls(object obj)
-		{
-			if (mainform.CurrentState.Value == StationStateEnum.Running)
-			{
-				action = ServiceAction.TakeOffline;
-				mainform.CurrentState.Offlining();
-			}
-			else
-			{
-				action = ServiceAction.TakeOnline;
-				mainform.CurrentState.Onlining();
-			}
-		}
-
-		protected override void SetFormControlsInCallback(object obj)
+	#region ResumeServiceUIController
+	public class ResumeServiceUIController : SimpleUIController
+	{
+		public ResumeServiceUIController(MainForm form)
+			: base(form)
 		{
 		}
 
-		protected override void SetFormControlsInError(Exception ex)
+		protected override object Action(object obj)
+		{
+			StationController.StationOnline();
+			return null;
+		}
+
+		protected override void ActionCallback(object obj)
 		{
 		}
 
-		protected override void UpdateUI(object obj)
+		protected override void ActionError(Exception ex)
 		{
-		}
-
-		protected override void UpdateUIInCallback(object obj)
-		{
-		}
-
-		protected override void UpdateUIInError(Exception ex)
-		{
+			MainForm.logger.Error("Unable to start service", ex);
 		}
 	}
 	#endregion

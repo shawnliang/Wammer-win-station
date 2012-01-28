@@ -6,15 +6,25 @@ using System.Windows.Forms;
 
 namespace StationSystemTray
 {
+	public class SimpleEventArgs : EventArgs
+	{
+		public object param;
+
+		public SimpleEventArgs(object param)
+			: base()
+		{
+			this.param = param;
+		}
+	}
+
 	public abstract class SimpleUIController
 	{
 		private delegate object PerformActionDelegate(object obj);
-		private delegate void UpdateUIDelegate(object obj);
 		private delegate void UpdateUIInCallbackDelegate(object obj);
 		private delegate void UpdateUIInErrorDelegate(Exception ex);
-		private delegate void SetFormControlsDelegate(object obj);
-		private delegate void SetFormControlsInCallbackDelegate(object obj);
-		private delegate void SetFormControlsInErrorDelegate(Exception ex);
+
+		public event EventHandler<SimpleEventArgs> UICallback;
+		public event EventHandler<SimpleEventArgs> UIError;
 
 		protected Form _form;
 		protected object _parameter;
@@ -33,8 +43,6 @@ namespace StationSystemTray
 		{
 			this._parameter = obj;
 
-			SetFormControls(obj);
-			BeginUpdateUI(obj);
 			PerformActionDelegate performActionDelegate = new PerformActionDelegate(Action);
 			performActionDelegate.BeginInvoke(obj, new AsyncCallback(PerformActionCallback), performActionDelegate);
 		}
@@ -46,27 +54,12 @@ namespace StationSystemTray
 				object ret = ((PerformActionDelegate)result.AsyncState).EndInvoke(result);
 				ActionCallback(ret);
 				BeginUpdateUIInCallback(ret);
-				if (!_form.IsDisposed)
-					_form.BeginInvoke(new SetFormControlsInCallbackDelegate(SetFormControlsInCallback), ret);
 			}
 			catch (Exception ex)
 			{
 				ActionError(ex);
 				BeginUpdateUIInError(ex);
-				if (!_form.IsDisposed)
-					_form.BeginInvoke(new SetFormControlsInErrorDelegate(SetFormControlsInError), ex);
 			}
-		}
-
-		private void BeginUpdateUI(object obj)
-		{
-			if (_form.InvokeRequired)
-			{
-				if (!_form.IsDisposed)
-					_form.Invoke(new UpdateUIDelegate(UpdateUI), obj);
-			}
-			else
-				UpdateUI(obj);
 		}
 
 		private void BeginUpdateUIInCallback(object obj)
@@ -74,10 +67,14 @@ namespace StationSystemTray
 			if (_form.InvokeRequired)
 			{
 				if (!_form.IsDisposed)
-					_form.Invoke(new UpdateUIInCallbackDelegate(UpdateUIInCallback), obj);
+				{
+					_form.Invoke(new EventHandler<SimpleEventArgs>(UICallback), this, new SimpleEventArgs(obj));
+				}
 			}
 			else
-				UpdateUIInCallback(obj);
+			{
+				UICallback(this, new SimpleEventArgs(obj));
+			}
 		}
 
 		private void BeginUpdateUIInError(Exception ex)
@@ -85,23 +82,15 @@ namespace StationSystemTray
 			if (_form.InvokeRequired)
 			{
 				if (!_form.IsDisposed)
-					_form.Invoke(new UpdateUIInErrorDelegate(UpdateUIInError), ex);
+				{
+					_form.Invoke(new EventHandler<SimpleEventArgs>(UIError), this, new SimpleEventArgs(ex));
+				}
 			}
 			else
-				UpdateUIInError(ex);
+			{
+				UIError(this, new SimpleEventArgs(ex));
+			}
 		}
-
-		protected abstract void SetFormControls(object obj);
-
-		protected abstract void SetFormControlsInCallback(object obj);
-
-		protected abstract void SetFormControlsInError(Exception ex);
-
-		protected abstract void UpdateUI(object obj);
-
-		protected abstract void UpdateUIInCallback(object obj);
-
-		protected abstract void UpdateUIInError(Exception ex);
 
 		protected abstract object Action(object obj);
 
