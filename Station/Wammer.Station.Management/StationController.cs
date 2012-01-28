@@ -554,6 +554,7 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
+				// TODO: call the api via station
 				StorageUsageResponse res = CloudServer.requestPath<StorageUsageResponse>(
 					new WebClient(),
 					"storages/usage",
@@ -630,6 +631,18 @@ namespace Wammer.Station.Management
 
 		private static string ExtractApiRetMsg(Cloud.WammerCloudException e)
 		{
+			if (e.HttpError != WebExceptionStatus.ProtocolError)
+			{
+				if (e.InnerException != null)
+				{
+					throw new ConnectToCloudException(e.InnerException.Message);
+				}
+				else
+				{
+					throw new ConnectToCloudException(e.Message);
+				}
+			}
+
 			WebException webex = (WebException)e.InnerException;
 			if (webex != null)
 			{

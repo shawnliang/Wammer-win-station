@@ -128,6 +128,13 @@ namespace StationSystemTray
 
 		private void GetStationStatusUIError(object sender, SimpleEventArgs evt)
 		{
+			Exception ex = (Exception)evt.param;
+
+			if (ex is ConnectToCloudException)
+			{
+				mainform.CurrentState.Offlined();
+			}
+
 			lblLocalStorageUsage.Text = I18n.L.T("NoData");
 			lblDeviceName.Text = I18n.L.T("NoData");
 		}
@@ -168,6 +175,11 @@ namespace StationSystemTray
 				messenger.ShowLoginDialog();
 				return;
 			}
+			else if (ex is ConnectToCloudException)
+			{
+				mainform.CurrentState.Offlined();
+			}
+
 
 			btnDropboxAction.Click -= btnUnlinkDropbox_Click;
 			btnDropboxAction.Click -= btnConnectDropbox_Click;
@@ -208,6 +220,10 @@ namespace StationSystemTray
 				messenger.ShowLoginDialog();
 				return;
 			}
+			else if (ex is ConnectToCloudException)
+			{
+				mainform.CurrentState.Offlined();
+			}
 		}
 
 		private void ConnectDropboxUICallback(object sender, SimpleEventArgs evt)
@@ -217,8 +233,15 @@ namespace StationSystemTray
 
 		private void ConnectDropboxUIError(object sender, SimpleEventArgs evt)
 		{
+			Exception ex = (Exception)evt.param;
+
 			messenger.ShowMessage(I18n.L.T("ConnectCloudStorageFail"));
 			btnDropboxAction.Enabled = true;
+			
+			if (ex is ConnectToCloudException)
+			{
+				mainform.CurrentState.Offlined();
+			}
 		}
 
 		private void UnlinkDropboxUICallback(object sender, SimpleEventArgs evt)
@@ -234,6 +257,10 @@ namespace StationSystemTray
 			{
 				messenger.ShowLoginDialog();
 				return;
+			}
+			else if (ex is ConnectToCloudException)
+			{
+				mainform.CurrentState.Offlined();
 			}
 
 			messenger.ShowMessage(I18n.L.T("UnlinkCloudStorageFail"));
@@ -257,6 +284,11 @@ namespace StationSystemTray
 				messenger.ShowLoginDialog();
 				return;
 			}
+			else if (ex is ConnectToCloudException)
+			{
+				mainform.CurrentState.Offlined();
+			}
+
 			btnTestConnection.Enabled = true;
 		}
 

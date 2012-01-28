@@ -131,6 +131,10 @@ namespace StationSystemTray
 			{
 				CurrentState.SessionExpired();
 			}
+			else if (ex is ConnectToCloudException)
+			{
+				CurrentState.Offlined();
+			}
 			else
 			{
 				CurrentState.Error();

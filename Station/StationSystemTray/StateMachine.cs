@@ -151,6 +151,11 @@ namespace StationSystemTray
 			context.GoToState(StationStateEnum.Stopping);
 		}
 
+		public override void Offlined()
+		{
+			context.GoToState(StationStateEnum.Stopped);
+		}
+
 		public override void Error()
 		{
 			context.GoToState(StationStateEnum.Running);
