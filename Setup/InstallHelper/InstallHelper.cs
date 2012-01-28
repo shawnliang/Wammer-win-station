@@ -480,7 +480,8 @@ namespace Wammer.Station
 			try
 			{
 				// use mongo db to test if it is ready
-				Model.StationCollection.Instance.FindOne();
+				MongoServer mongo = MongoServer.Create("mongodb://127.0.0.1:10319/?connectTimeoutMS=10000");
+				mongo.GetDatabaseNames();
 				return true;
 			}
 			catch
