@@ -88,5 +88,26 @@ namespace StationSystemTray
 			}
 			return base.ProcessDialogKey(keyData);
 		}
+
+		private void SignInForm_Activated(object sender, EventArgs e)
+		{
+			// force window to have focus
+			// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
+			uint foreThread = Win32Helper.GetWindowThreadProcessId(Win32Helper.GetForegroundWindow(), IntPtr.Zero);
+			uint appThread = Win32Helper.GetCurrentThreadId();
+			//const uint SW_SHOW = 5;
+			if (foreThread != appThread)
+			{
+				Win32Helper.AttachThreadInput(foreThread, appThread, true);
+				Win32Helper.BringWindowToTop(this.Handle);
+				//ShowWindow(this.Handle, SW_SHOW);
+				Win32Helper.AttachThreadInput(foreThread, appThread, false);
+			}
+			else
+			{
+				Win32Helper.BringWindowToTop(this.Handle);
+				//ShowWindow(this.Handle, SW_SHOW);
+			}
+		}
 	}
 }
