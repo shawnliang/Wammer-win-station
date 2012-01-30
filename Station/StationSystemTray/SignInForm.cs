@@ -19,12 +19,14 @@ namespace StationSystemTray
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("SignInForm");
 
 		private Messenger messenger;
+		private MainForm mainform;
 
-		public SignInForm()
+		public SignInForm(MainForm mainform)
 		{
 			InitializeComponent();
 
 			this.messenger = new Messenger(this);
+			this.mainform = mainform;
 		}
 
 		private void btnSignIn_Click(object sender, EventArgs e)
@@ -38,8 +40,7 @@ namespace StationSystemTray
 			try
 			{
 				StationController.StationOnline(this.txtEmail.Text, this.txtPassword.Text);
-				this.DialogResult = DialogResult.Yes;
-				this.Close();
+				mainform.CurrentState.Onlined();
 			}
 			catch (AuthenticationException)
 			{

@@ -24,7 +24,6 @@ namespace StationSystemTray
 		private Messenger messenger;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
-		private InitMainUIController uictrlInitMain;
 		private PreferenceForm preferenceForm;
 		private SignInForm signInForm;
 
@@ -67,10 +66,6 @@ namespace StationSystemTray
 			this.uictrlResumeService.UICallback += this.ResumeServiceUICallback;
 			this.uictrlResumeService.UIError += this.ResumeServiceUIError;
 
-			this.uictrlInitMain = new InitMainUIController(this);
-			this.uictrlInitMain.UICallback += this.InitMainUICallback;
-			this.uictrlInitMain.UIError += this.InitMainUIError;
-
 			this.checkStationTimer.Enabled = true;
 			this.checkStationTimer.Start();
 
@@ -86,36 +81,8 @@ namespace StationSystemTray
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
 
 			CurrentState.Onlining();
-			this.uictrlInitMain.PerformAction();
 
 			base.OnLoad(e);
-		}
-
-		private void InitMainUICallback(object sender, SimpleEventArgs evt)
-		{
-			CurrentState.Onlined();
-		}
-
-		private void InitMainUIError(object sender, SimpleEventArgs evt)
-		{
-			Exception ex = (Exception)evt.param;
-
-			if (ex is AuthenticationException)
-			{
-				CurrentState.SessionExpired();
-			}
-			else if (ex is UserAlreadyHasStationException)
-			{
-				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
-				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-						   "StationUI.exe");
-				Process.Start(_execPath);
-				Application.Exit();
-			}
-			else
-			{
-				CurrentState.Error();
-			}
 		}
 
 		private void PauseServiceUICallback(object sender, SimpleEventArgs evt)
@@ -130,6 +97,10 @@ namespace StationSystemTray
 			if (ex is AuthenticationException)
 			{
 				CurrentState.SessionExpired();
+			}
+			else if (ex is UserAlreadyHasStationException)
+			{
+				HandleAlreadyHasStation();
 			}
 			else if (ex is ConnectToCloudException)
 			{
@@ -153,6 +124,10 @@ namespace StationSystemTray
 			if (ex is AuthenticationException)
 			{
 				CurrentState.SessionExpired();
+			}
+			else if (ex is UserAlreadyHasStationException)
+			{
+				HandleAlreadyHasStation();
 			}
 			else
 			{
@@ -237,12 +212,10 @@ namespace StationSystemTray
 			if (CurrentState.Value == StationStateEnum.Running)
 			{
 				CurrentState.Offlining();
-				uictrlPauseService.PerformAction();
 			}
 			else
 			{
 				CurrentState.Onlining();
-				uictrlResumeService.PerformAction();
 			}
 		}
 
@@ -308,7 +281,7 @@ namespace StationSystemTray
 
 		void ClickBallonFor401Exception(object sender, EventArgs e)
 		{
-			messenger.ShowLoginDialog(false);
+			ShowLoginDialog();
 		}
 
 		void BecomeInitialState(object sender, EventArgs evt)
@@ -345,6 +318,8 @@ namespace StationSystemTray
 			menuServiceAction.Enabled = false;
 			menuPreference.Enabled = false;
 			TrayIconText = I18n.L.T("StartingWFService");
+
+			this.uictrlResumeService.PerformAction();
 		}
 
 		void BecomeStoppingState(object sender, EventArgs evt)
@@ -352,6 +327,8 @@ namespace StationSystemTray
 			menuServiceAction.Enabled = false;
 			menuPreference.Enabled = false;
 			TrayIconText = I18n.L.T("PausingWFService");
+
+			this.uictrlPauseService.PerformAction();
 		}
 
 		void BecomeSessionNotExistState(object sender, EventArgs evt)
@@ -375,12 +352,26 @@ namespace StationSystemTray
 
 		void LeaveSessionNotExistState(object sender, EventArgs evt)
 		{
+			if (signInForm != null)
+				signInForm.Close();
+
 			menuRelogin.Visible = false;
+			TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
 			TrayIcon.DoubleClick -= menuRelogin_Click;
 			TrayIcon.DoubleClick += menuPreference_Click;
 		}
 
 		private void menuRelogin_Click(object sender, EventArgs e)
+		{
+			ShowLoginDialog();
+		}
+
+		void signInForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			signInForm = null;
+		}
+
+		private void ShowLoginDialog()
 		{
 			if (signInForm != null)
 			{
@@ -388,41 +379,20 @@ namespace StationSystemTray
 				return;
 			}
 
-			signInForm = new SignInForm();
+			signInForm = new SignInForm(this);
 			signInForm.FormClosed += new FormClosedEventHandler(signInForm_FormClosed);
 			signInForm.Show();
 		}
 
-		void signInForm_FormClosed(object sender, FormClosedEventArgs e)
+		private void HandleAlreadyHasStation()
 		{
-			signInForm = null;
+			messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+			string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+					   "StationUI.exe");
+			Process.Start(_execPath);
+			Application.Exit();
 		}
 	}
-
-	#region InitMainUIController
-	public class InitMainUIController : SimpleUIController
-	{
-		public InitMainUIController(MainForm form)
-			: base(form)
-		{
-		}
-
-		protected override object Action(object obj)
-		{
-			StationController.StationOnline();
-			return null;
-		}
-
-		protected override void ActionCallback(object obj)
-		{
-		}
-
-		protected override void ActionError(Exception ex)
-		{
-			MainForm.logger.Error("Unable to start mainform", ex);
-		}
-	}
-	#endregion
 
 	#region PauseServiceUIController
 	public class PauseServiceUIController : SimpleUIController
