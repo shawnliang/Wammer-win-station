@@ -653,7 +653,7 @@ namespace Wammer.Station.Management
 					{
 						const int ERR_USER_HAS_ANOTHER_STATION = 0x4000 + 3;
 						const int ERR_USER_DOES_NOT_EXIST = 0x4000 + 4;
-						const int ERR_BAD_NAME_PASSWORD = 4097;
+						const int ERR_BAD_NAME_PASSWORD = 0x1000 + 1;
 
 						string resText = e.response;
 						Cloud.CloudResponse r = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(resText);
@@ -666,6 +666,8 @@ namespace Wammer.Station.Management
 								throw new UserAlreadyHasStationException(r.api_ret_message);
 							case ERR_USER_DOES_NOT_EXIST:
 								throw new UserDoesNotExistException(r.api_ret_message);
+							case (int)StationApiError.InvalidDriver:
+								throw new InvalidDriverException(r.api_ret_message);
 							case (int)StationApiError.ConnectToCloudError:
 								throw new ConnectToCloudException(r.api_ret_message);
 							default:
@@ -852,6 +854,14 @@ namespace Wammer.Station.Management
 	public class UserDoesNotExistException : Exception
 	{
 		public UserDoesNotExistException(string msg)
+			: base(msg)
+		{
+		}
+	}
+
+	public class InvalidDriverException : Exception
+	{
+		public InvalidDriverException(string msg)
 			: base(msg)
 		{
 		}

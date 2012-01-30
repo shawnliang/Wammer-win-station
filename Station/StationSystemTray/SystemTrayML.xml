@@ -13,7 +13,12 @@
   <WItem>
     <ID>AuthError</ID>
     <en-US>Invalid user name or password. Please try again.</en-US>
-    <zh-TW>帳號或密碼錯誤 請再試一次</zh-TW>
+    <zh-TW>帳號或密碼錯誤, 請再試一次.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>InvalidDriverError</ID>
+    <en-US>The user name is different to the driver account of this Waveface Station. Please try again.</en-US>
+    <zh-TW>帳號與這台 Waveface Station 的管理者帳號不符, 請再試一次.</zh-TW>
   </WItem>
   <WItem>
     <ID>LoginForm.StationExpired</ID>

@@ -58,6 +58,13 @@ namespace StationSystemTray
 				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
 				mainform.ReregisterStation();
 			}
+			catch (InvalidDriverException)
+			{
+				messenger.ShowMessage(I18n.L.T("InvalidDriverError"));
+				this.txtEmail.Text = "";
+				this.txtPassword.Text = "";
+				this.txtEmail.Focus();
+			}
 			catch (Exception ex)
 			{
 				logger.Error("StationOnline failed", ex);
