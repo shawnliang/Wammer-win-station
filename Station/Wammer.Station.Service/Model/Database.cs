@@ -17,7 +17,7 @@ namespace Wammer.Model
 		static Database()
 		{
 			mongodb = MongoDB.Driver.MongoServer.Create(
-									string.Format("mongodb://localhost:{0}/?safe=true",
+									string.Format("mongodb://127.0.0.1:{0}/?safe=true;connectTimeoutMS=10000",
 									StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
 			wammer = mongodb.GetDatabase("wammer");
 		}

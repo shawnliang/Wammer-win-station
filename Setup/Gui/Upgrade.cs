@@ -68,7 +68,7 @@ namespace Gui
 					throw new DataBackupException("mongodump.exe returns failure: " + p.ExitCode);
 
 				// delete station collection to prevent previous version's uninstaller unregistering station. 
-				MongoServer.Create("mongodb://localhost:10319/?safe=true").GetDatabase("wammer").GetCollection("station").RemoveAll();
+				MongoServer.Create("mongodb://127.0.0.1:10319/?safe=true").GetDatabase("wammer").GetCollection("station").RemoveAll();
 			}
 			catch (Exception e)
 			{

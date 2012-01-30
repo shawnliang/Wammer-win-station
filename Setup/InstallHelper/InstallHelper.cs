@@ -14,6 +14,8 @@ using log4net;
 using System.Reflection;
 using System.ServiceProcess;
 using Wammer.Station.Service;
+using ICSharpCode.SharpZipLib.Tar;
+using ICSharpCode.SharpZipLib.GZip;
 
 namespace Wammer.Station
 {
@@ -168,8 +170,6 @@ namespace Wammer.Station
 		{
 			foreach (FeatureInfo feature in session.Features)
 			{
-				Logger.DebugFormat("{0} => current {1}, request {2}, ", feature.Name, feature.CurrentState, feature.RequestState);
-
 				if (feature.Name == featureId)
 					return feature.RequestState == InstallState.Local;
 			}
@@ -364,21 +364,30 @@ namespace Wammer.Station
 		[CustomAction]
 		public static ActionResult StartAndWaitMongoDbReady(Session session)
 		{
+			string installDir = session["INSTALLLOCATION"];
+
 			try
 			{
 				string svcName = StationService.MONGO_SERVICE_NAME;
 
+				PreallocDBFiles(installDir);
+
+				Logger.Debug("Starting DB...");
 				StartService(svcName);
+				Logger.Debug("DB is started");
 
 				int retry = 180;
 				while (!IsMongoDBReady() && 0 < retry--)
 				{
 					System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2.0));
+					Logger.Debug("Testing MongoDB again...");
+					StartService(svcName);
 				}
 
 				if (!IsMongoDBReady())
 					throw new System.TimeoutException("MongoDB is not ready in 360 seconds");
 
+				Logger.Debug("MongoDB is ready");
 				return ActionResult.Success;
 
 			}
@@ -386,6 +395,39 @@ namespace Wammer.Station
 			{
 				Logger.Warn(e);
 				return ActionResult.Failure;
+			}
+		}
+
+		private static void PreallocDBFiles(string installDir)
+		{
+			try
+			{
+				Logger.Debug("Stopping DB...");
+				StopService(StationService.MONGO_SERVICE_NAME);
+				Logger.Debug("DB is stopped");
+
+				string journalDir = Path.Combine(installDir, @"MongoDB\Data\DB\journal");
+				if (Directory.Exists(journalDir))
+				{
+					string[] preallocFiles = Directory.GetFiles(journalDir, "prealloc.*");
+
+					if (preallocFiles != null && preallocFiles.Length > 0)
+						return;
+				}
+
+				Logger.Debug("Extracting prealloc DB files...");
+				string preallocZip = Path.Combine(installDir, @"MongoDB\Data\DB\mongoPrealloc.tar.gz");
+				GZipInputStream gzipIn = new GZipInputStream(File.OpenRead(preallocZip));
+				using (TarArchive tar = TarArchive.CreateInputTarArchive(gzipIn))
+				{
+					tar.ExtractContents(Path.Combine(installDir, @"MongoDB\Data\DB"));
+				}
+
+				Logger.Info("Extract prealloc DB files successfully");
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Error during extracting prealloc DB files", e);
 			}
 		}
 
@@ -438,7 +480,8 @@ namespace Wammer.Station
 			try
 			{
 				// use mongo db to test if it is ready
-				Model.StationCollection.Instance.FindOne();
+				MongoServer mongo = MongoServer.Create("mongodb://127.0.0.1:10319/?connectTimeoutMS=10000");
+				mongo.GetDatabaseNames();
 				return true;
 			}
 			catch
@@ -471,6 +514,35 @@ namespace Wammer.Station
 						System.Threading.Thread.Sleep(3000);
 					else
 						throw new InstallerException("Unable to start " + svcName, e);
+				}
+			}
+		}
+
+		private static void StopService(string svcName)
+		{
+			ServiceController mongoSvc = new ServiceController(svcName);
+
+			int retry = 3;
+
+			while (0 < retry--)
+			{
+				try
+				{
+					if (mongoSvc.Status != ServiceControllerStatus.Stopped &&
+						mongoSvc.Status != ServiceControllerStatus.StopPending)
+					{
+						mongoSvc.Stop();
+						mongoSvc.WaitForStatus(ServiceControllerStatus.Stopped);
+					}
+
+					return;
+				}
+				catch (Exception e)
+				{
+					if (retry > 0)
+						System.Threading.Thread.Sleep(3000);
+					else
+						throw new InstallerException("Unable to stop " + svcName, e);
 				}
 			}
 		}

@@ -363,8 +363,14 @@
       <Component Guid="*">
         <File Id="mongorestore.exe" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongorestore.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
+      
     </DirectoryRef>
-
+    <DirectoryRef Id="DB">
+      <Component Guid="*">
+        <File Id="mongoPrealloc.tar.gz" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\mongoPrealloc.tar.gz" KeyPath="yes" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+    
     <!-- Features -->
     <Feature Id='MainFeature' Level='100' Display='collapse' Title='Waveface Station and client' Absent='allow' >
       <ComponentRef Id="MongoDB.Data"/>
@@ -374,6 +380,7 @@
       <ComponentRef Id="mongos.exe"/>
       <ComponentRef Id="mongo.exe"/>
       <ComponentRef Id="mongorestore.exe"/>
+      <ComponentRef Id="mongoPrealloc.tar.gz"/>
       <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>
