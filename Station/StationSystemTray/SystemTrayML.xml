@@ -11,6 +11,11 @@
     <zh-TW>登錄時發生錯誤, 請重新輸入.</zh-TW>
   </WItem>
   <WItem>
+    <ID>AuthError</ID>
+    <en-US>Invalid user name or password. Please try again.</en-US>
+    <zh-TW>帳號或密碼錯誤 請再試一次</zh-TW>
+  </WItem>
+  <WItem>
     <ID>LoginForm.StationExpired</ID>
     <en-US>The registration information of this Waveface Station is expired. Please restart the program to re-register the station.</en-US>
     <zh-TW>這台 Waveface Station 的註冊資訊已失效, 請重新啟動程式以註冊新的 Waveface Station.</zh-TW>

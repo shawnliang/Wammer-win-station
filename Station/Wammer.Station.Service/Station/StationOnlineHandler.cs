@@ -64,13 +64,14 @@ namespace Wammer.Station
 				{
 					using (WebClient agent = new WebClient())
 					{
+						// station.logon must be called before user.login to handle non-existing driver case
+						logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password, StatusChecker.GetDetail());
+
 						User user = User.LogIn(agent, email, password);
 
 						// update user's session token
 						driver.session_token = user.Token;
 						DriverCollection.Instance.Save(driver);
-
-						logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password, StatusChecker.GetDetail());
 					}
 				}
 				else
@@ -119,7 +120,7 @@ namespace Wammer.Station
 					functionServer.Stop();
 					stationTimer.Stop();
 
-					throw new ServiceUnavailableException("Driver account does not exist", (int)StationApiError.InvalidDriver);
+					throw;
 				}
 				else
 					throw;

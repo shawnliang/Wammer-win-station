@@ -44,25 +44,19 @@ namespace StationSystemTray
 			}
 			catch (AuthenticationException)
 			{
-				messenger.ShowMessage(I18n.L.T("LoginForm.LogInError"));
+				messenger.ShowMessage(I18n.L.T("AuthError"));
 				this.txtPassword.Text = "";
 				this.txtPassword.Focus();
 			}
 			catch (UserDoesNotExistException)
 			{
 				messenger.ShowMessage(I18n.L.T("LoginForm.UserNotExisted"));
-				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-										   "StationUI.exe");
-				Process.Start(_execPath);
-				Application.Exit();
+				mainform.ReregisterStation();
 			}
 			catch (UserAlreadyHasStationException)
 			{
 				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
-				string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-										   "StationUI.exe");
-				Process.Start(_execPath);
-				Application.Exit();
+				mainform.ReregisterStation();
 			}
 			catch (Exception ex)
 			{

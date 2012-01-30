@@ -100,7 +100,8 @@ namespace StationSystemTray
 			}
 			else if (ex is UserAlreadyHasStationException)
 			{
-				HandleAlreadyHasStation();
+				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+				ReregisterStation();
 			}
 			else if (ex is ConnectToCloudException)
 			{
@@ -127,7 +128,8 @@ namespace StationSystemTray
 			}
 			else if (ex is UserAlreadyHasStationException)
 			{
-				HandleAlreadyHasStation();
+				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+				ReregisterStation();
 			}
 			else
 			{
@@ -402,9 +404,8 @@ namespace StationSystemTray
 			signInForm.Show();
 		}
 
-		private void HandleAlreadyHasStation()
+		public void ReregisterStation()
 		{
-			messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
 			string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 					   "StationUI.exe");
 			Process.Start(_execPath);
