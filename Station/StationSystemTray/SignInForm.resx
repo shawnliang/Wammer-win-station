@@ -124,8 +124,8 @@
   <data name="lblSignInMsg.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 41</value>
   </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
+  <data name="btnSignIn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 27</value>
   </data>
   <data name="&gt;&gt;txtEmail.Name" xml:space="preserve">
     <value>txtEmail</value>
@@ -133,8 +133,9 @@
   <data name="txtEmail.Location" type="System.Drawing.Point, System.Drawing">
     <value>83, 79</value>
   </data>
-  <data name="&gt;&gt;txtEmail.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="txtPassword.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SignInForm</value>
@@ -157,10 +158,9 @@
   <data name="lblSignInMsg.Size" type="System.Drawing.Size, System.Drawing">
     <value>388, 15</value>
   </data>
-  <data name="&gt;&gt;lblSignInMsg.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -626,9 +626,6 @@
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="lblSignInMsg.Text" xml:space="preserve">
-    <value>Your authentication is expired. Re-enter your password to log in again.</value>
-  </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -644,6 +641,9 @@
   <data name="btnSignIn.Location" type="System.Drawing.Point, System.Drawing">
     <value>312, 167</value>
   </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;lblSignInMsg.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -656,8 +656,11 @@
   <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt, style=Bold</value>
   </data>
-  <data name="txtPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>316, 21</value>
+  <data name="&gt;&gt;lblSignInMsg.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
   </data>
   <data name="txtPassword.Location" type="System.Drawing.Point, System.Drawing">
     <value>83, 122</value>
@@ -685,9 +688,6 @@
   </data>
   <data name="&gt;&gt;txtEmail.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 27</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -719,14 +719,14 @@
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
   </data>
-  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
+  <data name="lblSignInMsg.Text" xml:space="preserve">
+    <value>Your authentication is expired. Re-enter your password to log in again.</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
   </data>
-  <data name="txtPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Waveface Sign-in</value>
   </data>
   <data name="&gt;&gt;btnSignIn.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -744,8 +744,8 @@
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 82</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Waveface Sign-in</value>
+  <data name="txtPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>316, 21</value>
   </data>
   <data name="&gt;&gt;txtPassword.Name" xml:space="preserve">
     <value>txtPassword</value>
@@ -762,8 +762,8 @@
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;txtEmail.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="&gt;&gt;txtEmail.Parent" xml:space="preserve">
     <value>$this</value>
