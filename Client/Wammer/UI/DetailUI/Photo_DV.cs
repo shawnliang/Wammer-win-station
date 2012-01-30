@@ -91,7 +91,10 @@ namespace Waveface.DetailUI
             imageListView.Colors.BackColor = Color.FromArgb(243, 242, 238);
             imageListView.Colors.DisabledBackColor = Color.FromArgb(243, 242, 238);
             imageListView.ThumbnailSize = new Size(128, 128);
-            imageListView.CacheMode = CacheMode.OnDemand;
+            imageListView.CacheMode = CacheMode.Continuous;
+
+            imageListView.AutoRotateThumbnails = false;
+            imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
             m_filesMapping = new Dictionary<string, string>();
         }

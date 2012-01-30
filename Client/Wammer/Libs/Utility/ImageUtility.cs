@@ -20,7 +20,7 @@ namespace Waveface
 
             string _localAvatarPath = Main.GCONST.CachePath + creatorId + ".jpg";
 
-            if (System.IO.File.Exists(_localAvatarPath))
+            if (File.Exists(_localAvatarPath))
             {
                 _img = Image.FromFile(_localAvatarPath);
             }
@@ -253,26 +253,40 @@ namespace Waveface
 
         public static string ResizeImage(string orgImageFilePath, string fileName, string resizeRatio, int ratio)
         {
+            bool _rotatedOK = false;
+            string _rotatedImagePath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + fileName;
+
+            using (Bitmap _img = (Bitmap)Image.FromFile(orgImageFilePath))
+            {
+                ExifOrientations _exifOrientations =  ImageOrientation(_img);
+
+                if (_exifOrientations != ExifOrientations.Unknown)
+                {
+                    CorrectOrientation(_exifOrientations, _img);
+                    _img.Save(_rotatedImagePath);
+                    _rotatedOK = true;
+                }
+            }
+
             string _resize = resizeRatio;
 
             if (_resize.Equals(string.Empty) || _resize.Equals("100%"))
-                return orgImageFilePath;
+                return _rotatedOK ? _rotatedImagePath : orgImageFilePath;
 
             int _longestSide = int.Parse(_resize);
 
             try
             {
-                Bitmap _bmp = ResizeImage_Impl(orgImageFilePath, _longestSide);
+                Bitmap _bmp = ResizeImage_Impl(_rotatedImagePath, _longestSide);
 
                 if (_bmp == null)
-                    return orgImageFilePath;
+                    return _rotatedImagePath;
 
                 if ((_bmp.Height < _longestSide) && (_bmp.Width < _longestSide))
-                    return orgImageFilePath;
+                    return _rotatedImagePath;
 
                 string _newPath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" +
                                   fileName;
-
 
                 // Create parameters
                 EncoderParameters _params = new EncoderParameters(1);
@@ -305,7 +319,7 @@ namespace Waveface
                 MessageBox.Show(_e.Message);
             }
 
-            return orgImageFilePath;
+            return _rotatedImagePath;
         }
 
         public static Bitmap ResizeImage(Bitmap image, int longestSide)
@@ -373,6 +387,103 @@ namespace Waveface
             }
 
             return _newImage;
+        }
+
+        #endregion
+
+        #region ImageOrientation
+
+        private static RotateFlipType OrientationToFlipType(string orientation)
+        {
+            switch (int.Parse(orientation))
+            {
+                case 1:
+                    return RotateFlipType.RotateNoneFlipNone;
+                case 2:
+                    return RotateFlipType.RotateNoneFlipX;
+                case 3:
+                    return RotateFlipType.Rotate180FlipNone;
+                case 4:
+                    return RotateFlipType.Rotate180FlipX;
+                case 5:
+                    return RotateFlipType.Rotate90FlipX;
+                case 6:
+                    return RotateFlipType.Rotate90FlipNone;
+                case 7:
+                    return RotateFlipType.Rotate270FlipX;
+                case 8:
+                    return RotateFlipType.Rotate270FlipNone;
+                default:
+                    return RotateFlipType.RotateNoneFlipNone;
+            }
+        }
+
+
+        private const int OrientationId = 0x0112;
+
+        // Return the image's orientation.
+        public static ExifOrientations ImageOrientation(Image img)
+        {
+            // Get the index of the orientation property.
+            int _orientationIndex = Array.IndexOf(img.PropertyIdList, OrientationId);
+
+            // If there is no such property, return Unknown.
+            if (_orientationIndex < 0)
+                return ExifOrientations.Unknown;
+
+            // Return the orientation value.
+            return (ExifOrientations)img.GetPropertyItem(OrientationId).Value[0];
+        }
+
+        public static void CorrectOrientation(ExifOrientations orientation, Image pic)
+        {
+            switch (orientation)
+            {
+                case ExifOrientations.TopRight:
+                    pic.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                    break;
+                case ExifOrientations.BottomRight:
+                    pic.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    break;
+                case ExifOrientations.BottomLeft:
+                    pic.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                    break;
+                case ExifOrientations.LeftTop:
+                    pic.RotateFlip(RotateFlipType.Rotate90FlipX);
+                    break;
+                case ExifOrientations.RightTop:
+                    pic.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    break;
+                case ExifOrientations.RightBottom:
+                    pic.RotateFlip(RotateFlipType.Rotate270FlipX);
+                    break;
+                case ExifOrientations.LeftBottom:
+                    pic.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    break;
+                default:
+                    return;
+            }
+
+            try
+            {
+                pic.RemovePropertyItem(OrientationId);
+            }
+            catch
+            {
+            }
+        }
+
+        public enum ExifOrientations : byte
+        {
+            Unknown = 0,
+            TopLeft = 1,
+            TopRight = 2,
+            BottomRight = 3,
+            BottomLeft = 4,
+            LeftTop = 5,
+            RightTop = 6,
+            RightBottom = 7,
+            LeftBottom = 8,
         }
 
         #endregion
