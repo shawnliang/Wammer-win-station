@@ -313,68 +313,71 @@ namespace StationSystemTray
 
 		void BecomeInitialState(object sender, EventArgs evt)
 		{
-				TrayIcon.Icon = iconPaused;
-				TrayIconText = I18n.L.T("StartingWFService");
+			TrayIcon.Icon = iconPaused;
+			TrayIconText = I18n.L.T("StartingWFService");
 
-				menuServiceAction.Enabled = false;
-				menuPreference.Enabled = false;
+			menuServiceAction.Enabled = false;
+			menuPreference.Enabled = false;
 		}
 
 		void BecomeRunningState(object sender, EventArgs evt)
 		{
-				TrayIcon.Icon = iconRunning;
-				TrayIconText = I18n.L.T("WFServiceRunning");
-				menuServiceAction.Text = I18n.L.T("PauseWFService");
+			TrayIcon.Icon = iconRunning;
+			TrayIconText = I18n.L.T("WFServiceRunning");
+			menuServiceAction.Text = I18n.L.T("PauseWFService");
 
-				menuServiceAction.Enabled = true;
-				menuPreference.Enabled = true;
+			menuServiceAction.Enabled = true;
+			menuPreference.Enabled = true;
 		}
 
 		void BecomeStoppedState(object sender, EventArgs evt)
 		{
-				TrayIcon.Icon = iconPaused;
-				TrayIconText = I18n.L.T("WFServiceStopped");
-				menuServiceAction.Text = I18n.L.T("ResumeWFService");
+			TrayIcon.Icon = iconPaused;
+			TrayIconText = I18n.L.T("WFServiceStopped");
+			menuServiceAction.Text = I18n.L.T("ResumeWFService");
 
-				menuServiceAction.Enabled = true;
-				menuPreference.Enabled = true;
+			menuServiceAction.Enabled = true;
+			menuPreference.Enabled = true;
 		}
 
 		void BecomeStartingState(object sender, EventArgs evt)
 		{
-				menuServiceAction.Enabled = false;
-				menuPreference.Enabled = false;
-				TrayIconText = I18n.L.T("StartingWFService");
+			menuServiceAction.Enabled = false;
+			menuPreference.Enabled = false;
+			TrayIconText = I18n.L.T("StartingWFService");
 		}
 
 		void BecomeStoppingState(object sender, EventArgs evt)
 		{
-				menuServiceAction.Enabled = false;
-				menuPreference.Enabled = false;
-				TrayIconText = I18n.L.T("PausingWFService");
+			menuServiceAction.Enabled = false;
+			menuPreference.Enabled = false;
+			TrayIconText = I18n.L.T("PausingWFService");
 		}
 
 		void BecomeSessionNotExistState(object sender, EventArgs evt)
 		{
-				menuRelogin.Visible = true;
-				menuRelogin.Text = I18n.L.T("ReLoginMenuItem");
+			menuRelogin.Visible = true;
+			menuRelogin.Text = I18n.L.T("ReLoginMenuItem");
 
-				menuPreference.Enabled = false;
-				menuServiceAction.Enabled = false;
+			if (preferenceForm != null)
+				preferenceForm.Close();
 
-				TrayIcon.Icon = this.iconWarning;
-				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
-				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
-				TrayIcon.DoubleClick -= menuPreference_Click;
-				TrayIcon.DoubleClick += menuRelogin_Click;
-				TrayIconText = I18n.L.T("Station401Exception");
+			menuPreference.Enabled = false;
+			menuServiceAction.Enabled = false;
+
+			TrayIcon.Icon = this.iconWarning;
+			TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
+			TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
+			TrayIcon.DoubleClick -= menuPreference_Click;
+			TrayIcon.DoubleClick += menuRelogin_Click;
+			TrayIconText = I18n.L.T("Station401Exception");
 		}
 
 		void LeaveSessionNotExistState(object sender, EventArgs evt)
 		{
-				menuRelogin.Visible = false;
-				TrayIcon.DoubleClick -= menuRelogin_Click;
-				TrayIcon.DoubleClick += menuPreference_Click;
+			menuRelogin.Visible = false;
+			TrayIcon.DoubleClick -= menuRelogin_Click;
+			TrayIcon.DoubleClick += menuPreference_Click;
 		}
 
 		private void menuRelogin_Click(object sender, EventArgs e)

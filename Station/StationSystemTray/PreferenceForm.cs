@@ -70,11 +70,11 @@ namespace StationSystemTray
 			uictrlLoadStorageUsage.UICallback += this.LoadStorageUsageUICallback;
 			uictrlLoadStorageUsage.UIError += this.LoadStorageUsageUIError;
 
-			uictrlConnectDropbox = new ConnectDropboxUIController(this);
+			uictrlConnectDropbox = new ConnectDropboxUIController(this, uictrlLoadDropbox);
 			uictrlConnectDropbox.UICallback += this.ConnectDropboxUICallback;
 			uictrlConnectDropbox.UIError += this.ConnectDropboxUIError;
 
-			uictrlUnlinkDropbox = new UnlinkDropboxUIController(this);
+			uictrlUnlinkDropbox = new UnlinkDropboxUIController(this, uictrlLoadDropbox);
 			uictrlUnlinkDropbox.UICallback += this.UnlinkDropboxUICallback;
 			uictrlUnlinkDropbox.UIError += this.UnlinkDropboxUIError;
 
@@ -128,15 +128,14 @@ namespace StationSystemTray
 
 		private void GetStationStatusUIError(object sender, SimpleEventArgs evt)
 		{
-			Exception ex = (Exception)evt.param;
+			lblLocalStorageUsage.Text = I18n.L.T("NoData");
+			lblDeviceName.Text = I18n.L.T("NoData");
 
+			Exception ex = (Exception)evt.param;
 			if (ex is ConnectToCloudException)
 			{
 				mainform.CurrentState.Offlined();
 			}
-
-			lblLocalStorageUsage.Text = I18n.L.T("NoData");
-			lblDeviceName.Text = I18n.L.T("NoData");
 		}
 
 		private void LoadDropboxUICallback(object sender, SimpleEventArgs evt)
@@ -165,27 +164,24 @@ namespace StationSystemTray
 
 		private void LoadDropboxUIError(object sender, SimpleEventArgs evt)
 		{
-			Exception ex = (Exception)evt.param;
-
 			btnDropboxAction.Text = I18n.L.T("DropboxUI_ConnectNow");
 			label_dropboxAccount.Text = I18n.L.T("MonthlyUsage_NotConnectedYet");
-
-			if (ex is AuthenticationException)
-			{
-				messenger.ShowLoginDialog();
-				return;
-			}
-			else if (ex is ConnectToCloudException)
-			{
-				mainform.CurrentState.Offlined();
-			}
-
 
 			btnDropboxAction.Click -= btnUnlinkDropbox_Click;
 			btnDropboxAction.Click -= btnConnectDropbox_Click;
 			btnDropboxAction.Click += btnConnectDropbox_Click;
 
 			btnDropboxAction.Enabled = true;
+
+			Exception ex = (Exception)evt.param;
+			if (ex is AuthenticationException)
+			{
+				mainform.CurrentState.SessionExpired();
+			}
+			else if (ex is ConnectToCloudException)
+			{
+				mainform.CurrentState.Offlined();
+			}
 		}
 
 		private void LoadStorageUsageUICallback(object sender, SimpleEventArgs evt)
@@ -209,16 +205,14 @@ namespace StationSystemTray
 
 		private void LoadStorageUsageUIError(object sender, SimpleEventArgs evt)
 		{
-			Exception ex = (Exception)evt.param;
-
 			label_MonthlyLimitValue.Text = I18n.L.T("NoData");
 			label_DaysLeftValue.Text = I18n.L.T("NoData");
 			label_UsedCountValue.Text = I18n.L.T("NoData");
 
+			Exception ex = (Exception)evt.param;
 			if (ex is AuthenticationException)
 			{
-				messenger.ShowLoginDialog();
-				return;
+				mainform.CurrentState.SessionExpired();
 			}
 			else if (ex is ConnectToCloudException)
 			{
@@ -233,11 +227,10 @@ namespace StationSystemTray
 
 		private void ConnectDropboxUIError(object sender, SimpleEventArgs evt)
 		{
-			Exception ex = (Exception)evt.param;
-
 			messenger.ShowMessage(I18n.L.T("ConnectCloudStorageFail"));
 			btnDropboxAction.Enabled = true;
-			
+
+			Exception ex = (Exception)evt.param;
 			if (ex is ConnectToCloudException)
 			{
 				mainform.CurrentState.Offlined();
@@ -251,21 +244,18 @@ namespace StationSystemTray
 
 		private void UnlinkDropboxUIError(object sender, SimpleEventArgs evt)
 		{
-			Exception ex = (Exception)evt.param;
+			messenger.ShowMessage(I18n.L.T("UnlinkCloudStorageFail"));
+			btnDropboxAction.Enabled = true;
 
+			Exception ex = (Exception)evt.param;
 			if (ex is AuthenticationException)
 			{
-				messenger.ShowLoginDialog();
-				return;
+				mainform.CurrentState.SessionExpired();
 			}
 			else if (ex is ConnectToCloudException)
 			{
 				mainform.CurrentState.Offlined();
 			}
-
-			messenger.ShowMessage(I18n.L.T("UnlinkCloudStorageFail"));
-
-			btnDropboxAction.Enabled = true;
 		}
 
 		private void TestConnectionUICallback(object sender, SimpleEventArgs evt)
@@ -276,20 +266,18 @@ namespace StationSystemTray
 
 		private void TestConnectionUIError(object sender, SimpleEventArgs evt)
 		{
-			Exception ex = (Exception)evt.param;
-
 			labelConnectionStatus.Text = I18n.L.T("NotConnected");
+			btnTestConnection.Enabled = true;
+
+			Exception ex = (Exception)evt.param;
 			if (ex is AuthenticationException)
 			{
-				messenger.ShowLoginDialog();
-				return;
+				mainform.CurrentState.SessionExpired();
 			}
 			else if (ex is ConnectToCloudException)
 			{
 				mainform.CurrentState.Offlined();
 			}
-
-			btnTestConnection.Enabled = true;
 		}
 
 		private void LoadAutoStartCheckbox()
@@ -456,10 +444,11 @@ namespace StationSystemTray
 
 		public Process procDropboxSetup;
 
-		public ConnectDropboxUIController(PreferenceForm pform)
+		public ConnectDropboxUIController(PreferenceForm pform, 
+										  LoadDropboxUIController uictrlLoadDropbox)
 			: base(pform)
 		{
-			this.uictrlLoadDropbox = new LoadDropboxUIController(pform);
+			this.uictrlLoadDropbox = uictrlLoadDropbox;
 			this.procDropboxSetup = null;
 		}
 
@@ -492,10 +481,11 @@ namespace StationSystemTray
 	{
 		private LoadDropboxUIController uictrlLoadDropbox;
 
-		public UnlinkDropboxUIController(PreferenceForm pform)
+		public UnlinkDropboxUIController(PreferenceForm pform,
+										 LoadDropboxUIController uictrlLoadDropbox)
 			: base(pform)
 		{
-			this.uictrlLoadDropbox = new LoadDropboxUIController(pform);
+			this.uictrlLoadDropbox = uictrlLoadDropbox;
 		}
 
 		protected override object Action(object obj)

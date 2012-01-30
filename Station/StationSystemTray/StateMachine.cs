@@ -137,6 +137,11 @@ namespace StationSystemTray
 		{
 			context.GoToState(StationStateEnum.Stopped);
 		}
+
+		public override void SessionExpired()
+		{
+			context.GoToState(StationStateEnum.SessionNotExist);
+		}
 	}
 
 	class StationStateRunning : StationStateBase
@@ -182,6 +187,11 @@ namespace StationSystemTray
 		public override void Error()
 		{
 			context.GoToState(StationStateEnum.Running);
+		}
+
+		public override void SessionExpired()
+		{
+			context.GoToState(StationStateEnum.SessionNotExist);
 		}
 	}
 
