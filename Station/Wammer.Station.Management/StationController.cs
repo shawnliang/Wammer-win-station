@@ -508,6 +508,20 @@ namespace Wammer.Station.Management
 			}
 		}
 
+		public static bool IsConnectToInternet()
+		{
+			try
+			{
+				WebClient agent = new WebClient();
+				agent.DownloadData("http://www.google.com");
+				return true;
+			}
+			catch (WebException ex)
+			{
+				return ex.Status == WebExceptionStatus.ProtocolError;
+			}
+		}
+
 		public static bool PingForAvailability()
 		{
 			try

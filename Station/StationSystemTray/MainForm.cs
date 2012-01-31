@@ -11,6 +11,7 @@ using System.Threading;
 using System.IO;
 using System.Diagnostics;
 using System.Reflection;
+using System.Net.NetworkInformation;
 
 using Wammer.Station.Management;
 using Wammer.Cloud;
@@ -28,6 +29,7 @@ namespace StationSystemTray
 		private SignInForm signInForm;
 
 		private object cs = new object();
+		private object csStationTimerTick = new object();
 		public StationState CurrentState { get; private set; }
 
 		public Icon iconRunning;
@@ -68,6 +70,9 @@ namespace StationSystemTray
 
 			this.checkStationTimer.Enabled = true;
 			this.checkStationTimer.Start();
+
+			NetworkChange.NetworkAvailabilityChanged += checkStationTimer_Tick;
+			NetworkChange.NetworkAddressChanged += checkStationTimer_Tick;
 
 			this.CurrentState = CreateState(StationStateEnum.Initial);
 		}
@@ -264,20 +269,35 @@ namespace StationSystemTray
 
 		private void checkStationTimer_Tick(object sender, EventArgs e)
 		{
-			try
+			lock (csStationTimerTick)
 			{
-				bool available = StationController.PingForAvailability();
+				try
+				{
+					if (!StationController.IsConnectToInternet())
+					{
+						CurrentState.Offlined();
+						return;
+					}
 
-				if (!available && CurrentState.Value != StationStateEnum.Running)
-					StationController.StationOnline();
-			}
-			catch (AuthenticationException)
-			{
-				CurrentState.SessionExpired();
-			}
-			catch (Exception ex)
-			{
-				logger.Warn("Unexpected exception in station status cheking", ex);
+					bool available = StationController.PingForAvailability();
+
+					if (!available && CurrentState.Value != StationStateEnum.Running)
+						StationController.StationOnline();
+
+					CurrentState.Onlined();
+				}
+				catch (AuthenticationException)
+				{
+					CurrentState.SessionExpired();
+				}
+				catch (ConnectToCloudException)
+				{
+					CurrentState.Offlined();
+				}
+				catch (Exception ex)
+				{
+					logger.Warn("Unexpected exception in station status cheking", ex);
+				}
 			}
 		}
 
