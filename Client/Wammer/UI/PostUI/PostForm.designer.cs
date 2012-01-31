@@ -303,7 +303,6 @@ namespace Waveface
             this.pureTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.pureTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pureTextBox.ContextMenuStrip = this.contextMenuStripEdit;
-            this.pureTextBox.DetectUrls = false;
             this.pureTextBox.Name = "pureTextBox";
             this.pureTextBox.WaterMarkColor = System.Drawing.Color.Silver;
             this.pureTextBox.WaterMarkText = "";

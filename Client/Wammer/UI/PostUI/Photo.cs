@@ -14,7 +14,6 @@ namespace Waveface.PostUI
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private ProgressDialog m_progressDialog;
         private long m_avail_month_total_objects;
         private long m_month_total_objects;
 
@@ -72,7 +71,6 @@ namespace Waveface.PostUI
 
         private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
         {
-            setBatchButtonVisible();
         }
 
         private void toolStripButtonCamera_Click(object sender, EventArgs e)
@@ -85,17 +83,6 @@ namespace Waveface.PostUI
             {
                 imageListView.Items.Add(_camera.CapturedImagePath);
             }
-        }
-
-        private void setBatchButtonVisible()
-        {
-            if (imageListView.Items.Count > 0)
-            {
-                //@ btnBatchPost.Visible = true;
-                return;
-            }
-
-            //@ btnBatchPost.Visible = false;
         }
 
         #region Image Rotate
@@ -151,87 +138,6 @@ namespace Waveface.PostUI
         private void btnSend_Click(object sender, EventArgs e)
         {
             btnBatchPost_Click(sender, e);
-            return;
-
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
-            //有圖片要上傳
-            if (imageListView.Items.Count > 0)
-            {
-                m_progressDialog = new ProgressDialog("Upload Photo ..."
-                         , delegate(object[] Params)
-                         {
-                             string _resizeRatio = (string)Params[0];
-
-                             string _ids = "[";
-
-                             int i = 0;
-
-                             foreach (ImageListViewItem _item in imageListView.Items)
-                             {
-                                 if (m_progressDialog.WasCancelled)
-                                     return "*ERROR*";
-
-                                 try
-                                 {
-                                     string _resizedImage = ImageUtility.ResizeImage(_item.FileName, _item.Text, _resizeRatio, 100);
-
-                                     MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_item.Text, _resizedImage, "", true);
-
-                                     if (_uf == null)
-                                     {
-                                         return "*ERROR*";
-                                     }
-
-                                     _ids += "\"" + _uf.object_id + "\"" + ",";
-                                 }
-                                 catch
-                                 {
-                                     return "*ERROR*";
-                                 }
-
-                                 i++;
-
-                                 m_progressDialog.RaiseUpdateProgress(i * 100 / imageListView.Items.Count);
-                             }
-
-                             _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
-                             _ids += "]";
-
-                             return (_ids);
-                         },
-                         toolStripComboBoxResize.Text); // This value will be passed to the method
-
-                // Then all you need to do is 
-                m_progressDialog.ShowDialog();
-
-                if (!m_progressDialog.WasCancelled && ((string)m_progressDialog.Result) != "*ERROR*")
-                {
-                    try
-                    {
-                        if (DoRealPost((string)m_progressDialog.Result))
-                        {
-                            MyParent.SetDialogResult_Yes_AndClose();
-                        }
-
-                        return;
-                    }
-                    catch (Exception _e)
-                    {
-                        MessageBox.Show(_e.Message);
-                        return;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Action canceled");
-                }
-
-                return;
-            }
-
-            SendPureText();
         }
 
         private void SendPureText()

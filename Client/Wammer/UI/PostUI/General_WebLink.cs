@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Waveface.API.V2;
@@ -50,7 +51,7 @@ namespace Waveface.PostUI
             //[2] 單純文字
             if (MyParent.pureTextBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show("Text cannot be empty!");
+                MessageBox.Show("Text cannot be empty!"); //TODO:
             }
             else
             {
@@ -89,11 +90,13 @@ namespace Waveface.PostUI
 
                 if (_np == null)
                 {
-                    MessageBox.Show("Post Error!");
+                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
-                MessageBox.Show("Post success!");
+                Main.Current.ShowStatuMessage(I18n.L.T("PostForm.PostSuccess"), true);
+                Main.Current.GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+
                 return true;
             }
             catch (Exception _e)
@@ -203,5 +206,10 @@ namespace Waveface.PostUI
         }
 
         #endregion
+
+        private void General_WebLink_Resize(object sender, EventArgs e)
+        {
+            BackColor = Color.FromArgb(243, 242, 238); //Hack
+        }
     }
 }

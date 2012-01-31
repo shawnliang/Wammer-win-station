@@ -76,7 +76,7 @@
             // 
             this.richTextBoxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxDescription.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBoxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.richTextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBoxDescription.Location = new System.Drawing.Point(201, 42);
             this.richTextBoxDescription.Name = "richTextBoxDescription";
@@ -174,7 +174,6 @@
             this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSend.Image = global::Waveface.Properties.Resources.Post;
             this.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSend.Location = new System.Drawing.Point(540, 229);
             this.btnSend.Name = "btnSend";
@@ -188,12 +187,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.Controls.Add(this.panel);
             this.Controls.Add(this.btnSend);
             this.Font = new System.Drawing.Font("Tahoma", 9F);
             this.MinimumSize = new System.Drawing.Size(500, 130);
             this.Name = "General_WebLink";
             this.Size = new System.Drawing.Size(620, 265);
+            this.Resize += new System.EventHandler(this.General_WebLink_Resize);
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
             this.panelPreview.ResumeLayout(false);

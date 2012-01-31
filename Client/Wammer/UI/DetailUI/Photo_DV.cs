@@ -317,7 +317,9 @@ namespace Waveface.DetailUI
 
             _html = _html.Replace("[Text]", _content);
 
-            webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
+            _html = "<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>";
+
+            webBrowserTop.DocumentText = HtmlUtility.TrimScript(_html);
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)

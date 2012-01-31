@@ -16,8 +16,6 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private bool WAMMER_201112 = true;
-
         private PostType m_postType;
         private bool m_webLinkCheckdOneTime;
         private bool m_isFixHeight;
@@ -121,9 +119,6 @@ namespace Waveface
 
         private void doWebLink(string url)
         {
-            if (WAMMER_201112)
-                return;
-
             if ((m_postType != PostType.Text) && (m_postType != PostType.All))
                 return;
 
@@ -182,8 +177,8 @@ namespace Waveface
             WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
-            Size = new Size(720, 268);
             m_fixHeight = 268;
+            Size = new Size(720, 268);
 
             //pureTextBox.Focus();
         }
@@ -199,11 +194,11 @@ namespace Waveface
 
             panelMiddleBar.Visible = false;
 
-            WindowState = FormWindowState.Normal;
+            //WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
-            Size = new Size(720, 530);
             m_fixHeight = 440;
+            Size = new Size(720, 440);
         }
 
         private void toPhoto_Mode(List<string> files)
@@ -287,9 +282,6 @@ namespace Waveface
 
         private void richTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (WAMMER_201112)
-                return;
-
             if (m_webLinkCheckdOneTime)
                 return;
 

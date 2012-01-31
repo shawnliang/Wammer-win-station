@@ -117,21 +117,60 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;panel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="panel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="toolStripComboBoxResize.Items19" xml:space="preserve">
-    <value>96</value>
+  <data name="imageListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="&gt;&gt;btnAddPhoto.Name" xml:space="preserve">
-    <value>btnAddPhoto</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items1" xml:space="preserve">
-    <value>1024</value>
-  </data>
+  <metadata name="columnContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>248, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="toolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 6</value>
+  </data>
   <data name="sortAscendingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 22</value>
+  </data>
+  <data name="sortAscendingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="sortDescendingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 22</value>
+  </data>
+  <data name="sortDescendingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="sortByToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 22</value>
+  </data>
+  <data name="sortByToolStripMenuItem.Text" xml:space="preserve">
+    <value>Sort By</value>
+  </data>
+  <data name="columnContextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 26</value>
+  </data>
+  <data name="&gt;&gt;columnContextMenu.Name" xml:space="preserve">
+    <value>columnContextMenu</value>
+  </data>
+  <data name="&gt;&gt;columnContextMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="imageListView.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHSSURBVDhPpZPNSxtRFMX9tyqulIq4kVJaAroSdSMp
+        olbx2xgXIoiuQhVb+pHEcZ4aFXURbaFUafcuRMmM1ZoYYzKfMTMUk+N90xKNibrI4reYmXvPPXPfeRUA
+        KsrBaW4cEKdcvSxe6xa0yrYStNC7O9S0C9qLbmGa9zoCrj52EZHlnGGaMNMWDEInVAcbimkjZdi4dLAQ
+        V3TUd4hqXoBP1g0TTR4fej4EMfTJj/6PDP2fwxj8EsawP4zR4Da8wg5aR6eR0C08dzMtL1BFtvlkj38L
+        yxEDq/IVQpKBkJxB6NjC2m8b6yd/sfHnGhPsG+JqCQFumX/cjOaweZZ9EF5zrmbIgVjogP+vN7CFVemK
+        HNBkKU1udLAjE0sEOzSwcqRiPLCBmJIuFlBMC29883j/M4Z3e6fw7R5j4usvjIXP4P3P7Pd9DMwFEEuV
+        cJCi7b4eCaJLlP+xKKFLkNC5ECng1ZC/WICffZI26xpbwtvl6KPwmuh9B1zgUitD4FlLUEuSQHWzx3Hx
+        GLwmmsygpv3OKVQ6AhkcxLNE7gmyJGAVCtS5hZNEUoFGi9QotqoDxZielSJsJJwos9sov+wWJxs62Q8e
+        Dm7tKegeaNQzk49yOdf5BnIsBTMJCZ3GAAAAAElFTkSuQmCC
+</value>
   </data>
   <data name="imageListView.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -150,102 +189,59 @@
         GkChymYAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="btnBatchPost.Text" xml:space="preserve">
-    <value>Post</value>
-  </data>
-  <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items13" xml:space="preserve">
-    <value>300</value>
-  </data>
-  <data name="&gt;&gt;btnSend.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items20" xml:space="preserve">
-    <value>64</value>
-  </data>
-  <data name="rotateCWToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="removeToolStripButton.Text" xml:space="preserve">
-    <value>Remove Selected Files</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items6" xml:space="preserve">
-    <value>600</value>
-  </data>
   <data name="imageListView.Location" type="System.Drawing.Point, System.Drawing">
     <value>2, 40</value>
   </data>
-  <data name="toolStripComboBoxResize.Items2" xml:space="preserve">
-    <value>1000</value>
-  </data>
-  <data name="imageListView.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>Photo</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items16" xml:space="preserve">
-    <value>160</value>
-  </data>
-  <data name="btnDeletePhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>572, 2</value>
-  </data>
-  <data name="&gt;&gt;panel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnSend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator6.Name" xml:space="preserve">
-    <value>toolStripSeparator6</value>
-  </data>
-  <data name="toolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 6</value>
-  </data>
-  <data name="&gt;&gt;sortAscendingToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items3" xml:space="preserve">
-    <value>960</value>
-  </data>
-  <data name="&gt;&gt;panel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator5.Name" xml:space="preserve">
-    <value>toolStripSeparator5</value>
+  <data name="imageListView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>603, 338</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="imageListView.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;btnBatchPost.Name" xml:space="preserve">
-    <value>btnBatchPost</value>
+  <data name="&gt;&gt;imageListView.Name" xml:space="preserve">
+    <value>imageListView</value>
   </data>
-  <data name="columnContextMenu.ToolTip" xml:space="preserve">
-    <value />
+  <data name="&gt;&gt;imageListView.Type" xml:space="preserve">
+    <value>Manina.Windows.Forms.ImageListView, ImageListView, Version=10.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;toolStripButtonCamera.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;imageListView.Parent" xml:space="preserve">
+    <value>panel</value>
   </data>
-  <data name="btnBatchPost.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
+  <data name="&gt;&gt;imageListView.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="toolStrip.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="panel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 0</value>
+  </data>
+  <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>606, 377</value>
+  </data>
+  <data name="panel.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;panel.Name" xml:space="preserve">
+    <value>panel</value>
+  </data>
+  <data name="&gt;&gt;panel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="toolStrip.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
   </data>
   <data name="removeAllToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAHwSURBVDhPlZNfb9JQGIcXExPiVzCGRL1hxBAz4820TS/c
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHwSURBVDhPlZNfb9JQGIcXExPiVzCGRL1hxBAz4820TS/c
         JplKpmMd3Yr8kU0cfzYIhA1BvdDET+K34EtwT4wXiy5OB1uBAn08rWFKgCVr0uTN6Xmec37vm87MXPIh
         kbg2FbFyObdVKHinbejqcW9H0zJGMCSN7bFhivtYhRJWNjsm6eq6txOJ091OchJ4/qXpD3jOJUOYynss
         8Q5283STyXOJA4ej9FIZKFew6+PFxxmq1SuORBSumiwPrP238Okzg1KZ3usd7Cs7sB7B3EmD+N4OR6jP
@@ -257,217 +253,19 @@
         QmCC
 </value>
   </data>
-  <data name="btnAddPhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 26</value>
-  </data>
-  <data name="toolStripLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 22</value>
-  </data>
-  <data name="&gt;&gt;btnBatchPost.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 2</value>
-  </data>
-  <data name="toolStripComboBoxResize.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 25</value>
-  </data>
-  <data name="&gt;&gt;btnBatchPost.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;sortByToolStripMenuItem.Name" xml:space="preserve">
-    <value>sortByToolStripMenuItem</value>
-  </data>
-  <data name="panel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="rotateCCWToolStripButton.Text" xml:space="preserve">
-    <value>Rotate Counter-clockwise</value>
-  </data>
-  <data name="&gt;&gt;imageListView.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;removeToolStripButton.Name" xml:space="preserve">
-    <value>removeToolStripButton</value>
-  </data>
-  <data name="removeToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolStripButtonCamera.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="&gt;&gt;imageListView.Type" xml:space="preserve">
-    <value>Manina.Windows.Forms.ImageListView, ImageListView, Version=10.4.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items5" xml:space="preserve">
-    <value>640</value>
-  </data>
-  <data name="&gt;&gt;addToolStripButton.Name" xml:space="preserve">
-    <value>addToolStripButton</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Name" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;removeAllToolStripButton.Name" xml:space="preserve">
-    <value>removeAllToolStripButton</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripButtonCamera.Name" xml:space="preserve">
-    <value>toolStripButtonCamera</value>
-  </data>
-  <data name="toolStripLabel1.Text" xml:space="preserve">
-    <value>Resize:</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
-    <value>toolTip</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items" xml:space="preserve">
-    <value>100%</value>
-  </data>
-  <data name="btnAddPhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;columnContextMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnBatchPost.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="&gt;&gt;removeToolStripButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="addToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="btnDeletePhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items17" xml:space="preserve">
-    <value>128</value>
-  </data>
-  <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
-  </data>
-  <data name="btnSend.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="columnContextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 26</value>
-  </data>
-  <data name="&gt;&gt;openFileDialog.Name" xml:space="preserve">
-    <value>openFileDialog</value>
-  </data>
-  <data name="panel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 0</value>
-  </data>
-  <data name="btnDeletePhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 26</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;imageListView.Name" xml:space="preserve">
-    <value>imageListView</value>
-  </data>
-  <data name="&gt;&gt;sortDescendingToolStripMenuItem.Name" xml:space="preserve">
-    <value>sortDescendingToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;sortAscendingToolStripMenuItem.Name" xml:space="preserve">
-    <value>sortAscendingToolStripMenuItem</value>
-  </data>
-  <data name="toolStrip.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;btnSend.Name" xml:space="preserve">
-    <value>btnSend</value>
-  </data>
-  <data name="&gt;&gt;rotateCCWToolStripButton.Name" xml:space="preserve">
-    <value>rotateCCWToolStripButton</value>
-  </data>
-  <data name="btnBatchPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnDeletePhoto.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items8" xml:space="preserve">
-    <value>500</value>
-  </data>
   <data name="removeAllToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="toolStripComboBoxResize.Items4" xml:space="preserve">
-    <value>800</value>
-  </data>
-  <data name="&gt;&gt;openFileDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="addToolStripButton.Text" xml:space="preserve">
-    <value>Add Files...</value>
-  </data>
-  <data name="&gt;&gt;btnSend.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;sortByToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items18" xml:space="preserve">
-    <value>100</value>
-  </data>
-  <data name="&gt;&gt;btnSend.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items9" xml:space="preserve">
-    <value>480</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items10" xml:space="preserve">
-    <value>400</value>
-  </data>
-  <data name="&gt;&gt;imageListView.Parent" xml:space="preserve">
-    <value>panel</value>
-  </data>
-  <data name="btnBatchPost.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="btnSend.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="removeToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="removeAllToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>23, 22</value>
   </data>
-  <data name="&gt;&gt;addToolStripButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="sortByToolStripMenuItem.Text" xml:space="preserve">
-    <value>Sort By</value>
-  </data>
-  <data name="&gt;&gt;rotateCCWToolStripButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripMenuItem6.Name" xml:space="preserve">
-    <value>toolStripMenuItem6</value>
-  </data>
-  <data name="sortDescendingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Descending</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="removeAllToolStripButton.Text" xml:space="preserve">
+    <value>Remove All Files</value>
   </data>
   <data name="addToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAJySURBVDhPrZPvS1NRGMf9W2YRxAoSjYoEdUQJRuKlUjdb
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJySURBVDhPrZPvS1NRGMf9W2YRxAoSjYoEdUQJRuKlUjdb
         NDXn0k1b5NS7aVPnrjnx13WjzIK2cpuMdNPNHyMVM9l0pYvU61CijSIIamNvv90beK0wX0QPPHDefD7P
         Od9zTkrK/y5qRp3a7lORencV0zQmjatfsD0iZWodUrLq2bXUA+dRUzWEwVsTe7rSh0BsHuEvIax8XoI3
         4oLOVwW59UqsbKiA2FfCwbqRisTUlgs737cw83EcVuYBHm/QcG1bsfDpJag5DaR0fkJiyftdYphSCVo8
@@ -481,232 +279,19 @@
         rwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="btnSend.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="&gt;&gt;toolStripLabel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnBatchPost.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="imageListView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>603, 338</value>
-  </data>
-  <data name="&gt;&gt;sortDescendingToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="toolStrip.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="sortByToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 22</value>
-  </data>
-  <data name="imageListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="btnAddPhoto.Text" xml:space="preserve">
-    <value>Add Photo</value>
-  </data>
-  <data name="rotateCWToolStripButton.Text" xml:space="preserve">
-    <value>Rotate Clockwise</value>
-  </data>
-  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
-    <value>cultureManager</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items11" xml:space="preserve">
-    <value>360</value>
-  </data>
-  <data name="btnAddPhoto.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="rotateCCWToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="toolStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>357, 25</value>
-  </data>
   <data name="addToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="&gt;&gt;btnAddPhoto.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="openFileDialog.Filter" xml:space="preserve">
-    <value>All image files (*.bmp, *.gif, *.jpg, *.jpeg, *.jpe, *.jif, *.png, *.tif, *.tiff, *.tga)|*.bmp;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.png;*.tif;*.tiff;*.tga|BMP (*.bmp)|*.bmp|GIF (*.gif)|*.gif|JPEG (*.jpg, *.jepg, *.jpe, *.jif)|*.jpg;*.jepg;*.jpe;*.jif|PNG (*.png)|*.png|TIFF (*.tif, *.tiff)|*.tif;*.tiff|TGA (*.tga)|*.tga|All files (*.*)|*.*</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items14" xml:space="preserve">
-    <value>256</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items21" xml:space="preserve">
-    <value>32</value>
-  </data>
-  <data name="&gt;&gt;rotateCWToolStripButton.Name" xml:space="preserve">
-    <value>rotateCWToolStripButton</value>
-  </data>
-  <data name="btnBatchPost.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="sortDescendingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 22</value>
-  </data>
-  <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="btnDeletePhoto.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="rotateCWToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="btnBatchPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>618, 421</value>
-  </data>
-  <data name="btnBatchPost.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnSend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="toolStrip.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;removeAllToolStripButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>538, 386</value>
-  </data>
-  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
-  </data>
-  <data name="panelToolbar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 0</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 14</value>
-  </data>
-  <data name="btnBatchPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>458, 386</value>
-  </data>
-  <data name="&gt;&gt;rotateCWToolStripButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="panel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="imageListView.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
-        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHSSURBVDhPpZPNSxtRFMX9tyqulIq4kVJaAroSdSMp
-        olbx2xgXIoiuQhVb+pHEcZ4aFXURbaFUafcuRMmM1ZoYYzKfMTMUk+N90xKNibrI4reYmXvPPXPfeRUA
-        KsrBaW4cEKdcvSxe6xa0yrYStNC7O9S0C9qLbmGa9zoCrj52EZHlnGGaMNMWDEInVAcbimkjZdi4dLAQ
-        V3TUd4hqXoBP1g0TTR4fej4EMfTJj/6PDP2fwxj8EsawP4zR4Da8wg5aR6eR0C08dzMtL1BFtvlkj38L
-        yxEDq/IVQpKBkJxB6NjC2m8b6yd/sfHnGhPsG+JqCQFumX/cjOaweZZ9EF5zrmbIgVjogP+vN7CFVemK
-        HNBkKU1udLAjE0sEOzSwcqRiPLCBmJIuFlBMC29883j/M4Z3e6fw7R5j4usvjIXP4P3P7Pd9DMwFEEuV
-        cJCi7b4eCaJLlP+xKKFLkNC5ECng1ZC/WICffZI26xpbwtvl6KPwmuh9B1zgUitD4FlLUEuSQHWzx3Hx
-        GLwmmsygpv3OKVQ6AhkcxLNE7gmyJGAVCtS5hZNEUoFGi9QotqoDxZielSJsJJwos9sov+wWJxs62Q8e
-        Dm7tKegeaNQzk49yOdf5BnIsBTMJCZ3GAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="sortAscendingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Ascending</value>
-  </data>
-  <data name="rotateCWToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAHqSURBVDhPzVJrT1IBGPZ3+AdatlSat2njsNqQvCATj+Jl
-        IJ1GyZFM09CBOA8gXsiwC0hchHQ0YOpqM805lULRaCXT9PwZ9nSE0Rew89X38/M+t/ctKrqWo4s9oult
-        Jdv3VQnNRjeoTwpWtUrSvGbp+MPipzuqpO3IiOCpExE2gI/nfrh/OTC6/QzkcktS4ZUWX0mk45btPxhE
-        2SA+nLkR+uPFypkHnpPX8KecGNsahMxdnyxIoNtV09aEAeGLrGog5cLkvh6mnRG4fs7D8/sNFjknfVE1
-        6udF+XG0XGZf6i2n6suAiQiRVoRkTHugiSG8RNpxPAP7kRWW/XHcn7rL5rnQfOkB9bkTvWvt6AnL0bnS
-        os+BpC4xM7D+GK+OpzMkQksNeAslA03/QJKFe4w2SmE2Ycb0AYNaU8X/CdqWGiF7L8mAHjhEIcIuTFti
-        Rphieug3B1E1Wp4fIWdJ7m9E/xqFJ5FeSBwiqJe7YDuYhDVuAvPNiDanFHeGbxf+CbmvAdpVistqw1zC
-        iplDBrb4BIx7I9yyAd0+EqXPbxY+46UD6aIYmrAKc4fmrOr3rOrwhg6t75ozywL6xtWPdEkifklAGexA
-        l59E3UQlqg0CCF7cOi0bKuF/5VwPQnM1f9N8d6waK+e/NUfyF3E2EkfV6XZMAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="rotateCCWToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="&gt;&gt;btnDeletePhoto.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;panel.Name" xml:space="preserve">
-    <value>panel</value>
-  </data>
-  <data name="toolStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 242</value>
-  </data>
-  <data name="removeAllToolStripButton.Text" xml:space="preserve">
-    <value>Remove All Files</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="rotateCCWToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAHsSURBVDhPzZLtT1JxHMX9O/gHqklrrjUrzKvXp0mKMLXd
-        +YAzy42uuLAZuSuod+iNgU8XvEqAu5ri1HqRm63ImRbL5DqLsLz/DDv+wPkmRDZf+Xt9zuec79mvoOBK
-        PuvuE5aNmlXLZzO6N1vR9YFRO943s3nLsrHHmt6tDkX4OYiFpIQ1VcbKv3kEDqfwKvoczW8bFCZk0OQE
-        WYnZG+exri5g8SiAyN8Qlo6CCP4WMZ+QMPDJBmOgRjkXYN3uZEf3OKwen6bKiVmM7Njh3OrH7MEEgr98
-        mCNNLOudqJkoyz7nGbk5nPBD/iNl0qg1KsVEjPwjuY6nQlRqfG8MfsUL144DFWMlalaL7o9tpG4Ii8kA
-        nNsvwSwZ+TNR/Uy1XS/SqB6nQLt1KHXdRRaALE2Gm8ukc9E+NJHkM1HtNJ1t+J9gfmdSxX03fIoHYtwD
-        6g2VejhTEUnrqrylKBfuXwxpiZjYvk0LJDJYGjIZf42nK+2o9DyAWWbQEm7CPcftiyHGsF6xbVgwuS/A
-        FXPA/YOHEBuC67sT/DcOjVI9il5oc0MMvkqNfopWupZbwX3px2jGOIjh3QE4v9rRIOpxs/dG/j1oQceW
-        8MVJ3dAdFHNFMPnrYJiuJebr+c3n/bJbtkJorZc0p4Hanms5k08APCUT2pKYgF0AAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items12" xml:space="preserve">
-    <value>320</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnDeletePhoto.Name" xml:space="preserve">
-    <value>btnDeletePhoto</value>
-  </data>
-  <data name="toolStripButtonCamera.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="addToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>23, 22</value>
   </data>
-  <data name="toolStripButtonCamera.Text" xml:space="preserve">
-    <value>Camera</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
-    <value>toolStripSeparator1</value>
-  </data>
-  <data name="toolStripComboBoxResize.Items15" xml:space="preserve">
-    <value>200</value>
+  <data name="addToolStripButton.Text" xml:space="preserve">
+    <value>Add Files...</value>
   </data>
   <data name="removeToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAJXSURBVDhPrZPrS1NxGMf9W2YRLJCgfFGEUJG0i85d2lzb
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJXSURBVDhPrZPrS1NxGMf9W2YRLJCgfFGEUJG0i85d2lzb
         PMmpg5sZizDNsTNMM6hhzEUvwlm6rpoNYpoZRKYmmKOLQ6WzYmo7tVFrurNryrc5yEtNX0QPfF8+n+/v
         932eJy/vf9dsTU2+32Awf6QoxkcQ0Q8ZzRA6ZorUmCcrVPlb+s1XV8sZg4H9bm9Fcvg5UpMTSL0eAefu
         xpyRwrsKOevRSuQ5ISvNvqoqbrG3G8u+GaQHHyHttCHtuIKfD9qxNDaIoMmIUamYG1cXb4TM6vU8H0UF
@@ -719,50 +304,216 @@
         GbewMOoW7oq6SwuYJyK+uf/Itq2P6V8u+xdk/dKJrDXR0gAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="btnAddPhoto.ToolTip" xml:space="preserve">
-    <value>Add Photo</value>
+  <data name="removeToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
   </data>
-  <data name="removeAllToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="removeToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>23, 22</value>
   </data>
-  <data name="&gt;&gt;btnDeletePhoto.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
+  <data name="removeToolStripButton.Text" xml:space="preserve">
+    <value>Remove Selected Files</value>
   </data>
-  <data name="btnDeletePhoto.ToolTip" xml:space="preserve">
-    <value>Delete Photo</value>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>6, 25</value>
+  </data>
+  <data name="rotateCCWToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHsSURBVDhPzZLtT1JxHMX9O/gHqklrrjUrzKvXp0mKMLXd
+        +YAzy42uuLAZuSuod+iNgU8XvEqAu5ri1HqRm63ImRbL5DqLsLz/DDv+wPkmRDZf+Xt9zuec79mvoOBK
+        PuvuE5aNmlXLZzO6N1vR9YFRO943s3nLsrHHmt6tDkX4OYiFpIQ1VcbKv3kEDqfwKvoczW8bFCZk0OQE
+        WYnZG+exri5g8SiAyN8Qlo6CCP4WMZ+QMPDJBmOgRjkXYN3uZEf3OKwen6bKiVmM7Njh3OrH7MEEgr98
+        mCNNLOudqJkoyz7nGbk5nPBD/iNl0qg1KsVEjPwjuY6nQlRqfG8MfsUL144DFWMlalaL7o9tpG4Ii8kA
+        nNsvwSwZ+TNR/Uy1XS/SqB6nQLt1KHXdRRaALE2Gm8ukc9E+NJHkM1HtNJ1t+J9gfmdSxX03fIoHYtwD
+        6g2VejhTEUnrqrylKBfuXwxpiZjYvk0LJDJYGjIZf42nK+2o9DyAWWbQEm7CPcftiyHGsF6xbVgwuS/A
+        FXPA/YOHEBuC67sT/DcOjVI9il5oc0MMvkqNfopWupZbwX3px2jGOIjh3QE4v9rRIOpxs/dG/j1oQceW
+        8MVJ3dAdFHNFMPnrYJiuJebr+c3n/bJbtkJorZc0p4Hanms5k08APCUT2pKYgF0AAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="rotateCCWToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="rotateCCWToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="rotateCCWToolStripButton.Text" xml:space="preserve">
+    <value>Rotate Counter-clockwise</value>
+  </data>
+  <data name="rotateCWToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHqSURBVDhPzVJrT1IBGPZ3+AdatlSat2njsNqQvCATj+Jl
+        IJ1GyZFM09CBOA8gXsiwC0hchHQ0YOpqM805lULRaCXT9PwZ9nSE0Rew89X38/M+t/ctKrqWo4s9oult
+        Jdv3VQnNRjeoTwpWtUrSvGbp+MPipzuqpO3IiOCpExE2gI/nfrh/OTC6/QzkcktS4ZUWX0mk45btPxhE
+        2SA+nLkR+uPFypkHnpPX8KecGNsahMxdnyxIoNtV09aEAeGLrGog5cLkvh6mnRG4fs7D8/sNFjknfVE1
+        6udF+XG0XGZf6i2n6suAiQiRVoRkTHugiSG8RNpxPAP7kRWW/XHcn7rL5rnQfOkB9bkTvWvt6AnL0bnS
+        os+BpC4xM7D+GK+OpzMkQksNeAslA03/QJKFe4w2SmE2Ycb0AYNaU8X/CdqWGiF7L8mAHjhEIcIuTFti
+        Rphieug3B1E1Wp4fIWdJ7m9E/xqFJ5FeSBwiqJe7YDuYhDVuAvPNiDanFHeGbxf+CbmvAdpVistqw1zC
+        iplDBrb4BIx7I9yyAd0+EqXPbxY+46UD6aIYmrAKc4fmrOr3rOrwhg6t75ozywL6xtWPdEkifklAGexA
+        l59E3UQlqg0CCF7cOi0bKuF/5VwPQnM1f9N8d6waK+e/NUfyF3E2EkfV6XZMAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="rotateCWToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="rotateCWToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="rotateCWToolStripButton.Text" xml:space="preserve">
+    <value>Rotate Clockwise</value>
+  </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>6, 25</value>
+  </data>
+  <data name="toolStripButtonCamera.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="toolStripButtonCamera.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="toolStripButtonCamera.Text" xml:space="preserve">
+    <value>Camera</value>
+  </data>
+  <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>6, 25</value>
+  </data>
+  <data name="toolStripLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 22</value>
+  </data>
+  <data name="toolStripLabel1.Text" xml:space="preserve">
+    <value>Resize:</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items" xml:space="preserve">
+    <value>100%</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items1" xml:space="preserve">
+    <value>1024</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items2" xml:space="preserve">
+    <value>1000</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items3" xml:space="preserve">
+    <value>960</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items4" xml:space="preserve">
+    <value>800</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items5" xml:space="preserve">
+    <value>640</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items6" xml:space="preserve">
+    <value>600</value>
   </data>
   <data name="toolStripComboBoxResize.Items7" xml:space="preserve">
     <value>512</value>
   </data>
-  <data name="panelToolbar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>601, 31</value>
+  <data name="toolStripComboBoxResize.Items8" xml:space="preserve">
+    <value>500</value>
   </data>
-  <data name="panelToolbar.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
+  <data name="toolStripComboBoxResize.Items9" xml:space="preserve">
+    <value>480</value>
   </data>
-  <data name="btnSend.Text" xml:space="preserve">
-    <value>Create</value>
+  <data name="toolStripComboBoxResize.Items10" xml:space="preserve">
+    <value>400</value>
   </data>
-  <data name="panel.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+  <data name="toolStripComboBoxResize.Items11" xml:space="preserve">
+    <value>360</value>
   </data>
-  <data name="&gt;&gt;toolStripLabel1.Name" xml:space="preserve">
-    <value>toolStripLabel1</value>
+  <data name="toolStripComboBoxResize.Items12" xml:space="preserve">
+    <value>320</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items13" xml:space="preserve">
+    <value>300</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items14" xml:space="preserve">
+    <value>256</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items15" xml:space="preserve">
+    <value>200</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items16" xml:space="preserve">
+    <value>160</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items17" xml:space="preserve">
+    <value>128</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items18" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items19" xml:space="preserve">
+    <value>96</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items20" xml:space="preserve">
+    <value>64</value>
+  </data>
+  <data name="toolStripComboBoxResize.Items21" xml:space="preserve">
+    <value>32</value>
+  </data>
+  <data name="toolStripComboBoxResize.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 25</value>
+  </data>
+  <data name="toolStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 242</value>
+  </data>
+  <data name="toolStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>357, 25</value>
+  </data>
+  <data name="toolStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="toolStrip.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;toolStrip.Name" xml:space="preserve">
     <value>toolStrip</value>
   </data>
-  <data name="&gt;&gt;toolStripComboBoxResize.Name" xml:space="preserve">
-    <value>toolStripComboBoxResize</value>
+  <data name="&gt;&gt;toolStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;columnContextMenu.Name" xml:space="preserve">
-    <value>columnContextMenu</value>
+  <data name="&gt;&gt;toolStrip.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;toolStripComboBoxResize.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;toolStrip.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>606, 377</value>
+  <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>112, 17</value>
+  </metadata>
+  <data name="openFileDialog.Filter" xml:space="preserve">
+    <value>All image files (*.bmp, *.gif, *.jpg, *.jpeg, *.jpe, *.jif, *.png, *.tif, *.tiff, *.tga)|*.bmp;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.png;*.tif;*.tiff;*.tga|BMP (*.bmp)|*.bmp|GIF (*.gif)|*.gif|JPEG (*.jpg, *.jepg, *.jpe, *.jif)|*.jpg;*.jepg;*.jpe;*.jif|PNG (*.png)|*.png|TIFF (*.tif, *.tiff)|*.tif;*.tiff|TGA (*.tga)|*.tga|All files (*.*)|*.*</value>
+  </data>
+  <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="btnDeletePhoto.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnDeletePhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnDeletePhoto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>572, 2</value>
+  </data>
+  <data name="btnDeletePhoto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 26</value>
+  </data>
+  <data name="btnDeletePhoto.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>567, 17</value>
+  </metadata>
+  <data name="btnDeletePhoto.ToolTip" xml:space="preserve">
+    <value>Delete Photo</value>
+  </data>
+  <data name="&gt;&gt;btnDeletePhoto.Name" xml:space="preserve">
+    <value>btnDeletePhoto</value>
+  </data>
+  <data name="&gt;&gt;btnDeletePhoto.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnDeletePhoto.Parent" xml:space="preserve">
+    <value>panelToolbar</value>
   </data>
   <data name="&gt;&gt;btnDeletePhoto.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -770,37 +521,259 @@
   <data name="btnAddPhoto.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="panelToolbar.ToolTip" xml:space="preserve">
-    <value />
+  <data name="btnAddPhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
+  <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 2</value>
+  </data>
+  <data name="btnAddPhoto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 26</value>
+  </data>
+  <data name="btnAddPhoto.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="btnAddPhoto.Text" xml:space="preserve">
+    <value>Add Photo</value>
+  </data>
+  <data name="btnAddPhoto.ToolTip" xml:space="preserve">
+    <value>Add Photo</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Name" xml:space="preserve">
+    <value>btnAddPhoto</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Parent" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panelToolbar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 0</value>
+  </data>
+  <data name="panelToolbar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>601, 31</value>
+  </data>
+  <data name="panelToolbar.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.Name" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;panelToolbar.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
+  <data name="btnSend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="btnSend.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="btnSend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>538, 386</value>
+  </data>
+  <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 28</value>
+  </data>
+  <data name="btnSend.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="btnSend.Text" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="&gt;&gt;btnSend.Name" xml:space="preserve">
+    <value>btnSend</value>
+  </data>
+  <data name="&gt;&gt;btnSend.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnSend.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnSend.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="btnBatchPost.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnBatchPost.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="btnBatchPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnBatchPost.Location" type="System.Drawing.Point, System.Drawing">
+    <value>458, 386</value>
+  </data>
+  <data name="btnBatchPost.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 28</value>
+  </data>
+  <data name="btnBatchPost.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="btnBatchPost.Text" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="btnBatchPost.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnBatchPost.Name" xml:space="preserve">
+    <value>btnBatchPost</value>
+  </data>
+  <data name="&gt;&gt;btnBatchPost.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnBatchPost.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnBatchPost.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
   <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>423, 17</value>
   </metadata>
-  <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>112, 17</value>
-  </metadata>
-  <metadata name="columnContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>248, 17</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>zh-TW</value>
-  </metadata>
-  <metadata name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>43</value>
   </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>567, 17</value>
-  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 14</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>618, 421</value>
+  </data>
+  <data name="&gt;&gt;sortByToolStripMenuItem.Name" xml:space="preserve">
+    <value>sortByToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;sortByToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem6.Name" xml:space="preserve">
+    <value>toolStripMenuItem6</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;sortAscendingToolStripMenuItem.Name" xml:space="preserve">
+    <value>sortAscendingToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;sortAscendingToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;sortDescendingToolStripMenuItem.Name" xml:space="preserve">
+    <value>sortDescendingToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;sortDescendingToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;removeAllToolStripButton.Name" xml:space="preserve">
+    <value>removeAllToolStripButton</value>
+  </data>
+  <data name="&gt;&gt;removeAllToolStripButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addToolStripButton.Name" xml:space="preserve">
+    <value>addToolStripButton</value>
+  </data>
+  <data name="&gt;&gt;addToolStripButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;removeToolStripButton.Name" xml:space="preserve">
+    <value>removeToolStripButton</value>
+  </data>
+  <data name="&gt;&gt;removeToolStripButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rotateCCWToolStripButton.Name" xml:space="preserve">
+    <value>rotateCCWToolStripButton</value>
+  </data>
+  <data name="&gt;&gt;rotateCCWToolStripButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rotateCWToolStripButton.Name" xml:space="preserve">
+    <value>rotateCWToolStripButton</value>
+  </data>
+  <data name="&gt;&gt;rotateCWToolStripButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator5.Name" xml:space="preserve">
+    <value>toolStripSeparator5</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonCamera.Name" xml:space="preserve">
+    <value>toolStripButtonCamera</value>
+  </data>
+  <data name="&gt;&gt;toolStripButtonCamera.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator6.Name" xml:space="preserve">
+    <value>toolStripSeparator6</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripLabel1.Name" xml:space="preserve">
+    <value>toolStripLabel1</value>
+  </data>
+  <data name="&gt;&gt;toolStripLabel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripComboBoxResize.Name" xml:space="preserve">
+    <value>toolStripComboBoxResize</value>
+  </data>
+  <data name="&gt;&gt;toolStripComboBoxResize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;openFileDialog.Name" xml:space="preserve">
+    <value>openFileDialog</value>
+  </data>
+  <data name="&gt;&gt;openFileDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
+    <value>cultureManager</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
+    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
+    <value>toolTip</value>
+  </data>
+  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

@@ -393,32 +393,6 @@ namespace Waveface
 
         #region ImageOrientation
 
-        private static RotateFlipType OrientationToFlipType(string orientation)
-        {
-            switch (int.Parse(orientation))
-            {
-                case 1:
-                    return RotateFlipType.RotateNoneFlipNone;
-                case 2:
-                    return RotateFlipType.RotateNoneFlipX;
-                case 3:
-                    return RotateFlipType.Rotate180FlipNone;
-                case 4:
-                    return RotateFlipType.Rotate180FlipX;
-                case 5:
-                    return RotateFlipType.Rotate90FlipX;
-                case 6:
-                    return RotateFlipType.Rotate90FlipNone;
-                case 7:
-                    return RotateFlipType.Rotate270FlipX;
-                case 8:
-                    return RotateFlipType.Rotate270FlipNone;
-                default:
-                    return RotateFlipType.RotateNoneFlipNone;
-            }
-        }
-
-
         private const int OrientationId = 0x0112;
 
         // Return the image's orientation.
