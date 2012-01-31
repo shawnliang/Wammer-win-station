@@ -38,6 +38,8 @@ namespace StationSystemTray
 		private string m_stationToken;
 		private Driver m_driver;
 
+		private int loadingActions;
+
 		private Messenger messenger;
 
 		private GetStationStatusUIController uictrlGetStationStatus;
@@ -52,6 +54,7 @@ namespace StationSystemTray
 		public PreferenceForm(MainForm mainform)
 		{
 			this.mainform = mainform;
+			this.loadingActions = 0;
 
 			m_stationToken = StationCollection.Instance.FindOne().SessionToken;
 			m_driver = DriverCollection.Instance.FindOne();
@@ -87,6 +90,8 @@ namespace StationSystemTray
 
 		private void PreferenceForm_Load(object sender, EventArgs e)
 		{
+			StartWaitCursor(3);
+
 			lblUserName.Text = m_driver.email;
 			string _execPath = Assembly.GetExecutingAssembly().Location;
 			FileVersionInfo version = FileVersionInfo.GetVersionInfo(_execPath);
@@ -124,6 +129,8 @@ namespace StationSystemTray
 
 			lblLocalStorageUsage.Text = string.Format("{0:0.0} MB", _usedSize / (1024 * 1024));
 			lblDeviceName.Text = stationStatus.station_status.computer_name;
+
+			RestoreCursor();
 		}
 
 		private void GetStationStatusUIError(object sender, SimpleEventArgs evt)
@@ -136,6 +143,8 @@ namespace StationSystemTray
 			{
 				mainform.CurrentState.Offlined();
 			}
+
+			RestoreCursor();
 		}
 
 		private void LoadDropboxUICallback(object sender, SimpleEventArgs evt)
@@ -160,6 +169,8 @@ namespace StationSystemTray
 			}
 
 			btnDropboxAction.Enabled = true;
+
+			RestoreCursor();
 		}
 
 		private void LoadDropboxUIError(object sender, SimpleEventArgs evt)
@@ -182,6 +193,8 @@ namespace StationSystemTray
 			{
 				mainform.CurrentState.Offlined();
 			}
+
+			RestoreCursor();
 		}
 
 		private void LoadStorageUsageUICallback(object sender, SimpleEventArgs evt)
@@ -201,6 +214,8 @@ namespace StationSystemTray
 			label_UsedCountValue.Text = usage.ToString();
 
 			barCloudUsage.Value = (int)(usage * 100 / quota);
+
+			RestoreCursor();
 		}
 
 		private void LoadStorageUsageUIError(object sender, SimpleEventArgs evt)
@@ -221,6 +236,8 @@ namespace StationSystemTray
 			{
 				mainform.CurrentState.Offlined();
 			}
+
+			RestoreCursor();
 		}
 
 		private void ConnectDropboxUICallback(object sender, SimpleEventArgs evt)
@@ -296,12 +313,16 @@ namespace StationSystemTray
 
 		public void btnUnlinkDropbox_Click(object sender, EventArgs e)
 		{
+			StartWaitCursor(1);
+
 			btnDropboxAction.Enabled = false;
 			uictrlUnlinkDropbox.PerformAction();
 		}
 
 		public void btnConnectDropbox_Click(object sender, EventArgs e)
 		{
+			StartWaitCursor(1);
+
 			btnDropboxAction.Enabled = false;
 			uictrlConnectDropbox.PerformAction();
 		}
@@ -387,6 +408,22 @@ namespace StationSystemTray
 			{
 				Win32Helper.SetForegroundWindow(uictrlConnectDropbox.procDropboxSetup.MainWindowHandle);
 			}
+		}
+
+		private void RestoreCursor()
+		{
+			loadingActions -= 1;
+			if (loadingActions == 0)
+			{
+				Cursor = Cursors.Default;
+			}
+		}
+
+		private void StartWaitCursor(int actions)
+		{
+			loadingActions += actions;
+			if (loadingActions > 0)
+				Cursor = Cursors.WaitCursor;
 		}
 	}
 
