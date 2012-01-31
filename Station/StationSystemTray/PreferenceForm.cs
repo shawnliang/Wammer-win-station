@@ -213,7 +213,10 @@ namespace StationSystemTray
 			label_DaysLeftValue.Text = daysLeft.ToString();
 			label_UsedCountValue.Text = usage.ToString();
 
-			barCloudUsage.Value = (int)(usage * 100 / quota);
+			if (quota < 0)
+				barCloudUsage.Value = (int)(usage * 100 / int.MaxValue);
+			else
+				barCloudUsage.Value = (int)(usage * 100 / quota);
 
 			RestoreCursor();
 		}
