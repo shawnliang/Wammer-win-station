@@ -284,6 +284,10 @@ namespace StationSystemTray
 					if (available && CurrentState.Value != StationStateEnum.Running)
 						CurrentState.Onlining();
 				}
+				catch (AuthenticationException)
+				{
+					CurrentState.SessionExpired();
+				}
 				catch (Exception ex)
 				{
 					logger.Warn("Unexpected exception in station status cheking", ex);
