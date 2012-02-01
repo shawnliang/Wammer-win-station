@@ -377,6 +377,7 @@ namespace Wammer.Station.Management
 		}
 
 		private static string StationMgmtURL = "http://127.0.0.1:9989/v2/";
+		private static string StationFuncURL = "http://127.0.0.1:9981/v2/";
 
 		public static void StationOnline()
 		{
@@ -522,18 +523,27 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		public static bool PingForAvailability()
+		public static void PingForAvailability()
 		{
 			try
 			{
-				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), "http://127.0.0.1:9981/v2/availability/ping/", new Dictionary<object, object>(), true);
-				return true;																										   
+				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), StationFuncURL + "availability/ping/", new Dictionary<object, object>(), true);
 			}
 			catch (WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
+				ExtractApiRetMsg(e);
+			}
+		}
 
-				return e.HttpError == WebExceptionStatus.ProtocolError;
+		public static void PingForServiceAlive()
+		{
+			try
+			{
+				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), StationMgmtURL + "availability/ping/", new Dictionary<object, object>(), true);
+			}
+			catch (WammerCloudException e)
+			{
+				ExtractApiRetMsg(e);
 			}
 		}
 

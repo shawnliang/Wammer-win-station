@@ -269,24 +269,44 @@ namespace StationSystemTray
 
 		private void checkStationTimer_Tick(object sender, EventArgs e)
 		{
+			const int LONG_INTERVAL = 60000;
+			const int SHORT_INTERVAL = 1000;
+
 			lock (csStationTimerTick)
 			{
 				try
 				{
-					if (!StationController.IsConnectToInternet())
-					{
-						CurrentState.Offlined();
-						return;
-					}
+					StationController.PingForServiceAlive();
+				}
+				catch (ConnectToCloudException)
+				{
+					CurrentState.Offlined();
+					checkStationTimer.Interval = SHORT_INTERVAL;
+					return;
+				}
 
-					bool available = StationController.PingForAvailability();
+				checkStationTimer.Interval = LONG_INTERVAL;
 
-					if (available && CurrentState.Value != StationStateEnum.Running)
+				if (!StationController.IsConnectToInternet())
+				{
+					CurrentState.Offlined();
+					return;
+				}
+
+				try
+				{
+					StationController.PingForAvailability();
+
+					if (CurrentState.Value != StationStateEnum.Running)
 						CurrentState.Onlining();
 				}
 				catch (AuthenticationException)
 				{
 					CurrentState.SessionExpired();
+				}
+				catch (ConnectToCloudException)
+				{
+					logger.Debug("Unable to detect function server");
 				}
 				catch (Exception ex)
 				{
