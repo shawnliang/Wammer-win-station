@@ -281,18 +281,8 @@ namespace StationSystemTray
 
 					bool available = StationController.PingForAvailability();
 
-					if (!available && CurrentState.Value != StationStateEnum.Running)
-						StationController.StationOnline();
-
-					CurrentState.Onlined();
-				}
-				catch (AuthenticationException)
-				{
-					CurrentState.SessionExpired();
-				}
-				catch (ConnectToCloudException)
-				{
-					CurrentState.Offlined();
+					if (available && CurrentState.Value != StationStateEnum.Running)
+						CurrentState.Onlining();
 				}
 				catch (Exception ex)
 				{

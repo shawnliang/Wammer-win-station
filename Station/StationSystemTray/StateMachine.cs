@@ -207,11 +207,6 @@ namespace StationSystemTray
 			context.GoToState(StationStateEnum.Starting);
 		}
 
-		public override void Onlined()
-		{
-			context.GoToState(StationStateEnum.Running);
-		}
-
 		public override void SessionExpired()
 		{
 			context.GoToState(StationStateEnum.SessionNotExist);

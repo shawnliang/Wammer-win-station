@@ -56,6 +56,11 @@ namespace Wammer.Station
 
 			try
 			{
+				logger.Debug("Start function server");
+
+				functionServer.Start();
+				stationTimer.Start();
+
 				logger.DebugFormat("Station logon with stationId = {0}", stationInfo.Id);
 
 				StationLogOnResponse logonRes;
@@ -84,10 +89,8 @@ namespace Wammer.Station
 				stationInfo.SessionToken = logonRes.session_token;
 				StationCollection.Instance.Save(stationInfo);
 				
-				logger.Debug("Station logon successfully, start function server");
+				logger.Debug("Station logon successfully, disable block auth of function server");
 				functionServer.BlockAuth(false);
-				functionServer.Start();
-				stationTimer.Start();
 
 				logger.Debug("Start function server successfully");
 				RespondSuccess();

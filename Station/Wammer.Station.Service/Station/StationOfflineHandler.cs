@@ -23,9 +23,11 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
+			// station.offline always stop function server
+			// no matter if successfully logout from cloud
 			LogOutStationFromCloud();
 
-			logger.Debug("Station logout successfully, stop function server");
+			logger.Debug("Stop function server");
 
 			functionServer.Stop();
 			stationTimer.Stop();
@@ -36,13 +38,22 @@ namespace Wammer.Station
 
 		private static void LogOutStationFromCloud()
 		{
-			Model.StationInfo stationInfo = Model.StationCollection.Instance.FindOne();
-			if (stationInfo == null)
-				throw new InvalidOperationException("station is null in station collection");
+			try
+			{
+				Model.StationInfo stationInfo = Model.StationCollection.Instance.FindOne();
+				if (stationInfo == null)
+					throw new InvalidOperationException("station is null in station collection");
 
-			logger.DebugFormat("Station logout with stationId = {0}", stationInfo.Id);
-			Cloud.StationApi stationApi = new Cloud.StationApi(stationInfo.Id, stationInfo.SessionToken);
-			stationApi.Offline(new System.Net.WebClient());
+				logger.DebugFormat("Station logout with stationId = {0}", stationInfo.Id);
+				Cloud.StationApi stationApi = new Cloud.StationApi(stationInfo.Id, stationInfo.SessionToken);
+				stationApi.Offline(new System.Net.WebClient());
+				
+				logger.Debug("Station logout successfully");
+			}
+			catch (Exception ex)
+			{
+				logger.Debug("Unable to logout station", ex);
+			}
 		}
 
 		public override object Clone()
