@@ -277,6 +277,9 @@
   <data name="btn_ConnectionSuccessfully_OpenWaveface.Text" xml:space="preserve">
     <value>完成</value>
   </data>
+  <data name="btnCancelVerifying.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
   <data name="pBar_Verifying.Location" type="System.Drawing.Point, System.Drawing">
     <value>110, 65</value>
   </data>

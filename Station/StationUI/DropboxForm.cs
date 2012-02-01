@@ -288,7 +288,7 @@ namespace Wammer.Station
 
 		private void OpenWindowsClient()
 		{
-			gotoPage(Page_DefaultPosts);
+			//gotoPage(Page_DefaultPosts);
 
 			m_doAutoPost = true;
 
@@ -368,6 +368,9 @@ namespace Wammer.Station
 
 		private void backgroundWorkerVerifying_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
+			if (!m_verifying)
+				return;
+
 			m_verifying = false;
 
 			if (m_verifyOK)
@@ -429,6 +432,14 @@ namespace Wammer.Station
 			m_canExit = false;
 
 			gotoPage(Page_Welcome); //1-1
+		}
+
+		private void btnCancelVerifying_Click(object sender, EventArgs e)
+		{
+			m_verifying = false;
+
+			backgroundWorkerVerifying.CancelAsync();
+			gotoPage(Page_ConnectionFailed);
 		}
 	}
 }
