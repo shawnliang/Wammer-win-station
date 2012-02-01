@@ -89,8 +89,9 @@ namespace Waveface.Component
 
                 base.WndProc(ref m);
             }
-            catch
+            catch(Exception _e)
             {
+                Console.WriteLine(_e.Message);
             }
         }
 

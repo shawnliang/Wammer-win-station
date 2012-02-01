@@ -251,6 +251,7 @@ namespace Waveface.DetailUI
 
             _html = _html.Replace("[Text]", _content);
 
+            _html = HtmlUtility.MakeLink(_html);
 
             if (Post.preview.url != null)
             {

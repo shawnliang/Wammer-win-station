@@ -17,9 +17,10 @@ namespace Waveface
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         private PostType m_postType;
-        private bool m_webLinkCheckdOneTime;
+        // private bool m_webLinkCheckdOneTime;
         private bool m_isFixHeight;
         private int m_fixHeight;
+        private List<string> m_parsedErrorURLs = new List<string>(); 
 
         public NewPostItem NewPostItem { get; set; }
 
@@ -114,17 +115,31 @@ namespace Waveface
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            doWebLink(e.LinkText);
+            doWebLink(e.LinkText, true);
         }
 
-        private void doWebLink(string url)
+        private void doWebLink(string url, bool force)
         {
-            if ((m_postType != PostType.Text) && (m_postType != PostType.All))
+            if (m_parsedErrorURLs.Contains(url))
                 return;
 
-            toWebLink_Mode();
+            if (!force)
+            {
+                if ((m_postType != PostType.Text) && (m_postType != PostType.All))
+                    return;
+            }
 
-            general_weblink_UI.LinkClicked(url);
+            bool _isOK = general_weblink_UI.LinkClicked(url);
+
+            if (_isOK)
+            {
+                toWebLink_Mode();
+            }
+            else
+            {
+                if(!m_parsedErrorURLs.Contains(url))
+                    m_parsedErrorURLs.Add(url);
+            }
         }
 
         private void btnAddPhoto_Click(object sender, EventArgs e)
@@ -174,7 +189,6 @@ namespace Waveface
 
             panelMiddleBar.Visible = true;
 
-            WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
             m_fixHeight = 268;
@@ -194,7 +208,6 @@ namespace Waveface
 
             panelMiddleBar.Visible = false;
 
-            //WindowState = FormWindowState.Normal;
             MaximizeBox = false;
 
             m_fixHeight = 440;
@@ -282,7 +295,7 @@ namespace Waveface
 
         private void richTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (m_webLinkCheckdOneTime)
+            if (m_postType == PostType.Link)
                 return;
 
             checkWebLink();
@@ -307,10 +320,9 @@ namespace Waveface
                 if (k > _strs.Length - 2)
                     break;
 
-
                 if (FindUrls(_str) != string.Empty)
                 {
-                    doWebLink(_str);
+                    doWebLink(_str, false);
                 }
 
                 k++;
@@ -319,30 +331,15 @@ namespace Waveface
 
         private string FindUrls(string input)
         {
-            Regex _regx = new Regex("http(s)?://([\\w+?\\.\\w+])+([a-zA-Z0-9\\~\\!\\@\\#\\$\\%\\^\\&amp;\\*\\(\\)_\\-\\=\\+\\\\\\/\\?\\.\\:\\;\\'\\,]*([a-zA-Z0-9\\?\\#\\=\\/]){1})?", RegexOptions.IgnoreCase);
-            //Regex _regx = new Regex( @"^(http|https|ftp)\://[a-zA-Z0-9\-\.]+" + @"\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?" +
-            //             @"([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*$"
-            //            , RegexOptions.IgnoreCase);
+            Regex _r1 = new Regex(@"((www\.|(http|https)+\:\/\/)[&#95;.a-z0-9-]+\.[a-z0-9\/&#95;:@=.+?,##%&~-]*[^.|\'|\# |!|\(|?|,| |>|<|;|\)])", RegexOptions.IgnoreCase);
 
-            MatchCollection _mactches = _regx.Matches(input);
+            MatchCollection _ms1 = _r1.Matches(input);
 
-            foreach (Match _match in _mactches)
+            foreach (Match _m in _ms1)
             {
-                m_webLinkCheckdOneTime = true;
+                //m_webLinkCheckdOneTime = true;
 
-                return _match.Value;
-            }
-
-
-            Regex _regx2 = new Regex(@"^(www.|[a-zA-Z0-9].)[a-zA-Z0-9\-\.]+\.[a-zA-Z]*$", RegexOptions.IgnoreCase);
-
-            MatchCollection _mactches2 = _regx2.Matches(input);
-
-            foreach (Match _match in _mactches2)
-            {
-                m_webLinkCheckdOneTime = true;
-
-                return _match.Value;
+                return _m.Value;
             }
 
             return "";

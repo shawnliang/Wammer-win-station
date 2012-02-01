@@ -217,6 +217,10 @@ namespace Waveface
             {
                 Main.Current.Station401ExceptionHandler(_e.Message);
             }
+            catch
+            {
+                return null;
+            }
 
             if (_ret != null)
             {

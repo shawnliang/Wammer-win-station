@@ -72,9 +72,14 @@ namespace Waveface.PostUI
             _og.provider_url = _aog.provider_url;
             _og.url = _aog.url;
             _og.title = _aog.title;
-            _og.thumbnail_url = _aog.images[m_currentPreviewImageIndex].url;
-            _og.thumbnail_width = _aog.images[m_currentPreviewImageIndex].width;
-            _og.thumbnail_height = _aog.images[m_currentPreviewImageIndex].height;
+
+            if (!cbNoThumbnail.Checked)
+            {
+                _og.thumbnail_url = _aog.images[m_currentPreviewImageIndex].url;
+                _og.thumbnail_width = _aog.images[m_currentPreviewImageIndex].width;
+                _og.thumbnail_height = _aog.images[m_currentPreviewImageIndex].height;
+            }
+
             _og.type = _aog.type;
 
             return _og;
@@ -106,8 +111,10 @@ namespace Waveface.PostUI
             }
         }
 
-        public void LinkClicked(string url)
+        public bool LinkClicked(string url)
         {
+            ResetUI();
+
             string _url = url;
 
             m_mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
@@ -115,7 +122,9 @@ namespace Waveface.PostUI
             // 如果回傳Null, 則沒Preview, 也表示當下沒用Preview
             if ((m_mrPreviewsGetAdv == null) || (m_mrPreviewsGetAdv.preview.images.Count == 0))
             {
-                return;
+                ReturnToPureText_Mode();
+
+                return false;
             }
 
             pictureBoxPreview.Image = null;
@@ -136,6 +145,8 @@ namespace Waveface.PostUI
             {
                 LoadRemotePic();
             }
+
+            return true;
         }
 
         #region Preview
@@ -187,22 +198,32 @@ namespace Waveface.PostUI
 
         private void buttonRemovePreview_Click(object sender, EventArgs e)
         {
+            ReturnToPureText_Mode();
+        }
+
+        private void ReturnToPureText_Mode()
+        {
             m_mrPreviewsGetAdv = null;
 
-            ResetUI();
+            // ResetUI();
 
             MyParent.toPureText_Mode();
         }
 
         private void ResetUI()
         {
+            cbNoThumbnail.Checked = false;
             pictureBoxPreview.Image = null;
             labelTitle.Text = "";
             labelPictureIndex.Text = "";
             richTextBoxDescription.Text = "";
-            //buttonRemovePreview.Enabled = false;
             buttonPrev.Enabled = false;
             buttonNext.Enabled = false;
+
+            m_currentPreviewImageIndex = 0;
+
+            if (m_ogsImgs != null)
+                m_ogsImgs.Clear();
         }
 
         #endregion
@@ -210,6 +231,11 @@ namespace Waveface.PostUI
         private void General_WebLink_Resize(object sender, EventArgs e)
         {
             BackColor = Color.FromArgb(243, 242, 238); //Hack
+        }
+
+        private void cbNoThumbnail_CheckedChanged(object sender, EventArgs e)
+        {
+            pictureBoxPreview.Visible = !cbNoThumbnail.Checked;
         }
     }
 }

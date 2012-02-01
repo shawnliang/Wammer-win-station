@@ -1396,11 +1396,14 @@ namespace Waveface
                         }
                     case "link":
                         {
-                            string _url = post.preview.thumbnail_url;
+                            if (post.preview.thumbnail_url != null)
+                            {
+                                string _url = post.preview.thumbnail_url;
 
-                            string _localPic = GCONST.CachePath + post.post_id + "_previewthumbnail_" + ".jpg";
+                                string _localPic = GCONST.CachePath + post.post_id + "_previewthumbnail_" + ".jpg";
 
-                            PreloadThumbnail(_url, _localPic);
+                                PreloadThumbnail(_url, _localPic);
+                            }
 
                             break;
                         }

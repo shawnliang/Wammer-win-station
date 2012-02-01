@@ -268,6 +268,9 @@ namespace Waveface
 
         private void Draw_Link(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, int thumbnailRectWidth, bool selected)
         {
+            if (post.preview.thumbnail_url == null)
+                thumbnailRectWidth = 0;
+
             Rectangle _infoRect = DrawPostInfo(g, fontPhotoInfo, rect, post, thumbnailRectWidth, selected);
 
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 12, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 20);
@@ -317,7 +320,7 @@ namespace Waveface
                     break;
 
                 case "link":
-                    _info = post.preview.url;
+                    _info = StringUtility.ExtractDomainNameFromURL(post.preview.url);
                     break;
             }
 
@@ -428,13 +431,20 @@ namespace Waveface
         {
             try
             {
-                string _url = post.preview.thumbnail_url;
+                if (post.preview.thumbnail_url == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    string _url = post.preview.thumbnail_url;
 
-                string _localPic = Main.GCONST.CachePath + post.post_id + "_previewthumbnail_" + ".jpg";
+                    string _localPic = Main.GCONST.CachePath + post.post_id + "_previewthumbnail_" + ".jpg";
 
-                Bitmap _img = LoadThumbnail(_url, _localPic);
+                    Bitmap _img = LoadThumbnail(_url, _localPic);
 
-                DrawResizedThumbnail(thumbnailRect, g, _img);
+                    DrawResizedThumbnail(thumbnailRect, g, _img);
+                }
             }
             catch
             {
