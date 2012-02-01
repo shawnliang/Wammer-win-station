@@ -31,6 +31,8 @@ namespace StationSystemTray
 
 		private void btnSignIn_Click(object sender, EventArgs e)
 		{
+			Cursor = Cursors.WaitCursor;
+
 			if (this.txtEmail.Text == "" || this.txtPassword.Text == "")
 			{
 				messenger.ShowMessage(I18n.L.T("LoginForm.FillAllFields"));
@@ -72,6 +74,8 @@ namespace StationSystemTray
 				this.txtPassword.Text = "";
 				this.txtPassword.Focus();
 			}
+
+			Cursor = Cursors.Default;
 		}
 
 		private void SignInForm_Load(object sender, EventArgs e)
