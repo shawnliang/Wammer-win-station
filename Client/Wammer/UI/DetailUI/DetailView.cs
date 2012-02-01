@@ -416,10 +416,16 @@ namespace Waveface
 
             _html = "<font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'>" + _html + "</font>";
 
+            string _h;
+
             if (changeBgColor)
-                wb.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
+                _h = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
             else
-                wb.DocumentText = HtmlUtility.TrimScript(_html);
+                _h = HtmlUtility.TrimScript(_html);
+
+            _h = HtmlUtility.MakeLink(_h);
+
+            wb.DocumentText = _h;
         }
 
         private void btnComment_Click(object sender, EventArgs e)

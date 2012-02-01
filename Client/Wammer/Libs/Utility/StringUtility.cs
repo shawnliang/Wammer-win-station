@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -12,6 +13,14 @@ namespace Waveface
 {
     public class StringUtility
     {
+        public static string ExtractDomainNameFromURL(string Url)
+        {
+            if (!Url.Contains("://"))
+                Url = "http://" + Url;
+
+            return new Uri(Url).Host;
+        }
+
         public static string Compress(string text)
         {
             byte[] _buffer = Encoding.UTF8.GetBytes(text);
@@ -105,7 +114,7 @@ namespace Waveface
         public static bool IsChineseString(string testStr)
         {
             char[] _words = testStr.ToCharArray();
-            
+
             foreach (char _word in _words)
             {
                 if (IsBig5Code(_word.ToString()) || IsGBCode(_word.ToString()) || IsGBKCode(_word.ToString()))
@@ -120,7 +129,7 @@ namespace Waveface
         private static bool IsGBCode(string word)
         {
             byte[] _bytes = Encoding.GetEncoding("GB2312").GetBytes(word);
-            
+
             if (_bytes.Length <= 1) // if there is only one byte, it is ASCII code or other code
             {
                 return false;
@@ -153,7 +162,7 @@ namespace Waveface
             {
                 byte _byte1 = _bytes[0];
                 byte _byte2 = _bytes[1];
-               
+
                 if (_byte1 >= 129 && _byte1 <= 254 && _byte2 >= 64 && _byte2 <= 254) //判断是否是GBK编码
                 {
                     return true;
@@ -165,7 +174,7 @@ namespace Waveface
             }
         }
 
-        private static  bool IsBig5Code(string word)
+        private static bool IsBig5Code(string word)
         {
             byte[] _bytes = Encoding.GetEncoding("Big5").GetBytes(word);
 
@@ -177,7 +186,7 @@ namespace Waveface
             {
                 byte _byte1 = _bytes[0];
                 byte _byte2 = _bytes[1];
-                
+
                 if ((_byte1 >= 129 && _byte1 <= 254) && ((_byte2 >= 64 && _byte2 <= 126) || (_byte2 >= 161 && _byte2 <= 254))) //判断是否是Big5编码
                 {
                     return true;

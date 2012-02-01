@@ -41,6 +41,7 @@
             this.buttonPrev = new System.Windows.Forms.ToolStripButton();
             this.labelPictureIndex = new System.Windows.Forms.ToolStripLabel();
             this.buttonNext = new System.Windows.Forms.ToolStripButton();
+            this.cbNoThumbnail = new System.Windows.Forms.CheckBox();
             this.btnSend = new Waveface.Component.XPButton();
             this.panel.SuspendLayout();
             this.panelPreview.SuspendLayout();
@@ -63,6 +64,7 @@
             // panelPreview
             // 
             this.panelPreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelPreview.Controls.Add(this.cbNoThumbnail);
             this.panelPreview.Controls.Add(this.richTextBoxDescription);
             this.panelPreview.Controls.Add(this.labelTitle);
             this.panelPreview.Controls.Add(this.pictureBoxPreview);
@@ -168,6 +170,17 @@
             this.buttonNext.ToolTipText = "Next Picture";
             this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
             // 
+            // cbNoThumbnail
+            // 
+            this.cbNoThumbnail.AutoSize = true;
+            this.cbNoThumbnail.Location = new System.Drawing.Point(46, 138);
+            this.cbNoThumbnail.Name = "cbNoThumbnail";
+            this.cbNoThumbnail.Size = new System.Drawing.Size(101, 18);
+            this.cbNoThumbnail.TabIndex = 4;
+            this.cbNoThumbnail.Text = "No Thumbnail";
+            this.cbNoThumbnail.UseVisualStyleBackColor = true;
+            this.cbNoThumbnail.CheckedChanged += new System.EventHandler(this.cbNoThumbnail_CheckedChanged);
+            // 
             // btnSend
             // 
             this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
@@ -198,6 +211,7 @@
             this.panel.ResumeLayout(false);
             this.panel.PerformLayout();
             this.panelPreview.ResumeLayout(false);
+            this.panelPreview.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).EndInit();
             this.toolStripPreview.ResumeLayout(false);
             this.toolStripPreview.PerformLayout();
@@ -220,5 +234,6 @@
         private System.Windows.Forms.RichTextBox richTextBoxDescription;
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.PictureBox pictureBoxPreview;
+        private System.Windows.Forms.CheckBox cbNoThumbnail;
     }
 }

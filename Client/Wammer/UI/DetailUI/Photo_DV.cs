@@ -319,7 +319,7 @@ namespace Waveface.DetailUI
 
             _html = "<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>";
 
-            webBrowserTop.DocumentText = HtmlUtility.TrimScript(_html);
+            webBrowserTop.DocumentText = HtmlUtility.MakeLink(HtmlUtility.TrimScript(_html));
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)

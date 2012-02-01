@@ -19,6 +19,13 @@ namespace Waveface
             return _bodyText;
         }
 
+        public static string MakeLink(string txt)
+        {
+            string _regex = @"((www\.|(http|https|ftp|news|file)+\:\/\/)[&#95;.a-z0-9-]+\.[a-z0-9\/&#95;:@=.+?,##%&~-]*[^.|\'|\# |!|\(|?|,| |>|<|;|\)])";
+            Regex _r = new Regex(_regex, RegexOptions.IgnoreCase);
+            return _r.Replace(txt, "<a href=\"$1\" target=\"&#95;blank\">$1</a>").Replace("href=\"www", "href=\"http://www");
+        }
+
         public static string RemoveClassTag(string html)
         {
             string _html = html;
