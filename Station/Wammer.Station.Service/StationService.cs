@@ -114,12 +114,12 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/",
 								new PingHandler());
 
-				if (Wammer.Utility.AutoRun.Exists("WavefaceStation"))
-				{
+				//if (Wammer.Utility.AutoRun.Exists("WavefaceStation"))
+				//{
 					logger.Debug("Start function server");
 					functionServer.Start();
 					stationTimer.Start();
-				}
+				//}
 
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989);
