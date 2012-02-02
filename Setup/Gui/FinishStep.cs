@@ -59,9 +59,16 @@ namespace Gui
 				string stationUI = Path.Combine(installDir, "StationUI.exe");
 				Process.Start(stationUI).Close();
 
-				if (!Migration.DriverRegistered())
+				try
 				{
-					Wizard.Finish();
+					if (!Migration.DriverRegistered())
+					{
+						Wizard.Finish();
+					}
+				}
+				catch (Exception)
+				{
+					// skip mongodb connection force closed exception
 				}
 			}
 			else if (mode == InstallationMode.Reinstall && Migration.HasFeaure("MainFeature"))
@@ -70,9 +77,16 @@ namespace Gui
 				string stationUI = Path.Combine(installDir, "StationUI.exe");
 				Process.Start(stationUI).Close();
 
-				if (!Migration.DriverRegistered())
+				try
 				{
-					Wizard.Finish();
+					if (!Migration.DriverRegistered())
+					{
+						Wizard.Finish();
+					}
+				}
+				catch (Exception)
+				{
+					// skip mongodb connection force closed exception
 				}
 			}
 		}
