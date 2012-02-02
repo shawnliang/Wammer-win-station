@@ -270,7 +270,7 @@ namespace StationSystemTray
 		private void checkStationTimer_Tick(object sender, EventArgs e)
 		{
 			const int LONG_INTERVAL = 60000;
-			const int SHORT_INTERVAL = 1000;
+			const int SHORT_INTERVAL = 3000;
 
 			lock (csStationTimerTick)
 			{

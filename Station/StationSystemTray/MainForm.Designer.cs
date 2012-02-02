@@ -105,7 +105,7 @@
 			// 
 			// checkStationTimer
 			// 
-			this.checkStationTimer.Interval = 1000;
+			this.checkStationTimer.Interval = 3000;
 			this.checkStationTimer.Tick += new System.EventHandler(this.checkStationTimer_Tick);
 			// 
 			// MainForm
