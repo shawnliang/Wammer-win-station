@@ -53,7 +53,7 @@ namespace Waveface
             this.panelPWD_Main = new System.Windows.Forms.Panel();
             this.multiPanel_P_D_W = new Waveface.Component.MultiPage.MultiPanel();
             this.Page__Link = new Waveface.Component.MultiPage.MultiPanelPage();
-            this.general_weblink_UI = new Waveface.PostUI.General_WebLink();
+            this.weblink_UI = new Waveface.PostUI.WebLink();
             this.Page__Photo = new Waveface.Component.MultiPage.MultiPanelPage();
             this.photo_UI = new Waveface.PostUI.Photo();
             this.Page__DOC = new Waveface.Component.MultiPage.MultiPanelPage();
@@ -203,16 +203,16 @@ namespace Waveface
             // 
             // Page__Link
             // 
-            this.Page__Link.Controls.Add(this.general_weblink_UI);
+            this.Page__Link.Controls.Add(this.weblink_UI);
             resources.ApplyResources(this.Page__Link, "Page__Link");
             this.Page__Link.Name = "Page__Link";
             // 
             // general_weblink_UI
             // 
-            resources.ApplyResources(this.general_weblink_UI, "general_weblink_UI");
-            this.general_weblink_UI.MinimumSize = new System.Drawing.Size(500, 130);
-            this.general_weblink_UI.MyParent = null;
-            this.general_weblink_UI.Name = "general_weblink_UI";
+            resources.ApplyResources(this.weblink_UI, "weblink_UI");
+            this.weblink_UI.MinimumSize = new System.Drawing.Size(500, 130);
+            this.weblink_UI.MyParent = null;
+            this.weblink_UI.Name = "weblink_UI";
             // 
             // Page__Photo
             // 
@@ -348,7 +348,7 @@ namespace Waveface
 
         #endregion
 
-        private General_WebLink general_weblink_UI;
+        private WebLink weblink_UI;
         private Photo photo_UI;
         private Document document_UI;
         private RichText richText_UI;

@@ -8,7 +8,7 @@ using Waveface.API.V2;
 
 namespace Waveface.PostUI
 {
-    public partial class General_WebLink : UserControl
+    public partial class WebLink : UserControl
     {
         private MR_previews_get_adv m_mrPreviewsGetAdv;
         private List<OGS_Image> m_ogsImgs;
@@ -16,7 +16,7 @@ namespace Waveface.PostUI
 
         public PostForm MyParent { get; set; }
 
-        public General_WebLink()
+        public WebLink()
         {
             InitializeComponent();
         }

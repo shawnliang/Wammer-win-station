@@ -18,7 +18,7 @@ namespace Waveface
         private IContainer components;
         private Post m_post;
 
-        private Text_Link_DV m_textLinkDv;
+        private WebLink_DV m_webLinkDv;
         private Photo_DV m_photoDv;
         private Document_DV m_documentDv;
         private RichText_DV m_richTextDv;
@@ -255,20 +255,20 @@ namespace Waveface
         {
             panelMain.Controls.Clear();
 
-            if (m_textLinkDv != null)
-                m_textLinkDv.Dispose();
+            if (m_webLinkDv != null)
+                m_webLinkDv.Dispose();
 
-            m_textLinkDv = null;
+            m_webLinkDv = null;
 
-            m_textLinkDv = new Text_Link_DV();
-            m_textLinkDv.MyParent = this;
-            m_textLinkDv.User = User;
-            m_textLinkDv.Dock = DockStyle.Fill;
-            m_textLinkDv.Post = m_post; // 此行要在最後
+            m_webLinkDv = new WebLink_DV();
+            m_webLinkDv.MyParent = this;
+            m_webLinkDv.User = User;
+            m_webLinkDv.Dock = DockStyle.Fill;
+            m_webLinkDv.Post = m_post; // 此行要在最後
 
-            panelMain.Controls.Add(m_textLinkDv);
+            panelMain.Controls.Add(m_webLinkDv);
 
-            m_detailViewer = m_textLinkDv;
+            m_detailViewer = m_webLinkDv;
         }
 
         private void ShowPhoto()

@@ -275,7 +275,7 @@ namespace Waveface
 
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 12, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 20);
 
-            TextRenderer.DrawText(g, "\"" + post.preview.title + "\"", new Font("Arial", 10, FontStyle.Bold), _rectAll, Color.FromArgb(23, 53, 93),
+            TextRenderer.DrawText(g, post.preview.title, new Font("Arial", 10, FontStyle.Bold), _rectAll, Color.FromArgb(23, 53, 93),
                  TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
         }
 

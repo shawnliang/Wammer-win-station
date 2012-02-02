@@ -17,7 +17,6 @@ namespace Waveface
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         private PostType m_postType;
-        // private bool m_webLinkCheckdOneTime;
         private bool m_isFixHeight;
         private int m_fixHeight;
         private List<string> m_parsedErrorURLs = new List<string>(); 
@@ -28,7 +27,7 @@ namespace Waveface
         {
             InitializeComponent();
 
-            general_weblink_UI.MyParent = this;
+            weblink_UI.MyParent = this;
             photo_UI.MyParent = this;
             richText_UI.MyParent = this;
             document_UI.MyParent = this;
@@ -129,7 +128,7 @@ namespace Waveface
                     return;
             }
 
-            bool _isOK = general_weblink_UI.LinkClicked(url);
+            bool _isOK = weblink_UI.LinkClicked(url);
 
             if (_isOK)
             {
@@ -210,8 +209,8 @@ namespace Waveface
 
             MaximizeBox = false;
 
-            m_fixHeight = 440;
-            Size = new Size(720, 440);
+            m_fixHeight = 460;
+            Size = new Size(720, 460);
         }
 
         private void toPhoto_Mode(List<string> files)
@@ -337,8 +336,6 @@ namespace Waveface
 
             foreach (Match _m in _ms1)
             {
-                //m_webLinkCheckdOneTime = true;
-
                 return _m.Value;
             }
 
