@@ -386,7 +386,7 @@
     <Compile Include="UI\DetailUI\Photo_DV.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DetailUI\Text_Link_DV.cs">
+    <Compile Include="UI\DetailUI\WebLink_DV.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\DetailUI\Document_DV.cs">
@@ -414,11 +414,11 @@
     <Compile Include="UI\PostUI\Document.Designer.cs">
       <DependentUpon>Document.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\PostUI\General_WebLink.cs">
+    <Compile Include="UI\PostUI\WebLink.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\PostUI\General_WebLink.Designer.cs">
-      <DependentUpon>General_WebLink.cs</DependentUpon>
+    <Compile Include="UI\PostUI\WebLink.Designer.cs">
+      <DependentUpon>WebLink.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\PostUI\Photo.cs">
       <SubType>UserControl</SubType>
@@ -662,16 +662,16 @@
       <DependentUpon>Photo_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\Text_Link_DV.resx">
-      <DependentUpon>Text_Link_DV.cs</DependentUpon>
+    <EmbeddedResource Include="UI\DetailUI\WebLink_DV.resx">
+      <DependentUpon>WebLink_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\Document_DV.resx">
       <DependentUpon>Document_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\Text_Link_DV.zh-TW.resx">
-      <DependentUpon>Text_Link_DV.cs</DependentUpon>
+    <EmbeddedResource Include="UI\DetailUI\WebLink_DV.zh-TW.resx">
+      <DependentUpon>WebLink_DV.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DropAreaInforForm.resx">
       <DependentUpon>DropAreaInforForm.cs</DependentUpon>
@@ -700,8 +700,8 @@
     <EmbeddedResource Include="UI\PostUI\Document.resx">
       <DependentUpon>Document.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\General_WebLink.resx">
-      <DependentUpon>General_WebLink.cs</DependentUpon>
+    <EmbeddedResource Include="UI\PostUI\WebLink.resx">
+      <DependentUpon>WebLink.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostUI\Photo.resx">
       <DependentUpon>Photo.cs</DependentUpon>
@@ -711,6 +711,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostUI\PostForm.resx">
       <DependentUpon>PostForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostUI\PostForm.zh-TW.resx">
       <DependentUpon>PostForm.cs</DependentUpon>

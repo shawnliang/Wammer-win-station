@@ -351,31 +351,31 @@
   <data name="&gt;&gt;Page_RichText.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="general_weblink_UI.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="weblink_UI.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="general_weblink_UI.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="weblink_UI.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt</value>
   </data>
-  <data name="general_weblink_UI.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="weblink_UI.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="general_weblink_UI.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="weblink_UI.Size" type="System.Drawing.Size, System.Drawing">
     <value>574, 130</value>
   </data>
-  <data name="general_weblink_UI.TabIndex" type="System.Int32, mscorlib">
+  <data name="weblink_UI.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;general_weblink_UI.Name" xml:space="preserve">
-    <value>general_weblink_UI</value>
+  <data name="&gt;&gt;weblink_UI.Name" xml:space="preserve">
+    <value>weblink_UI</value>
   </data>
-  <data name="&gt;&gt;general_weblink_UI.Type" xml:space="preserve">
+  <data name="&gt;&gt;weblink_UI.Type" xml:space="preserve">
     <value>Waveface.PostUI.General_WebLink, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;general_weblink_UI.Parent" xml:space="preserve">
+  <data name="&gt;&gt;weblink_UI.Parent" xml:space="preserve">
     <value>Page__Link</value>
   </data>
-  <data name="&gt;&gt;general_weblink_UI.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;weblink_UI.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="Page__Link.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">

@@ -252,68 +252,14 @@
   <data name="&gt;&gt;webBrowserComment.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="tabControl.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="webBrowserSoul.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="webBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="webBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="webBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>502, 125</value>
-  </data>
-  <data name="webBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;webBrowser.Name" xml:space="preserve">
-    <value>webBrowser</value>
-  </data>
-  <data name="&gt;&gt;webBrowser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;webBrowser.Parent" xml:space="preserve">
-    <value>tabPageWebPage</value>
-  </data>
-  <data name="&gt;&gt;webBrowser.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tabPageWebPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 23</value>
-  </data>
-  <data name="tabPageWebPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabPageWebPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>508, 131</value>
-  </data>
-  <data name="tabPageWebPage.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tabPageWebPage.Text" xml:space="preserve">
-    <value>Web Page</value>
-  </data>
-  <data name="&gt;&gt;tabPageWebPage.Name" xml:space="preserve">
-    <value>tabPageWebPage</value>
-  </data>
-  <data name="&gt;&gt;tabPageWebPage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabPageWebPage.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabPageWebPage.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="webBrowserSoul.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
   <data name="webBrowserSoul.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>9, 6</value>
   </data>
   <data name="webBrowserSoul.Size" type="System.Drawing.Size, System.Drawing">
-    <value>502, 125</value>
+    <value>503, 153</value>
   </data>
   <data name="webBrowserSoul.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -325,57 +271,9 @@
     <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;webBrowserSoul.Parent" xml:space="preserve">
-    <value>tabPageSoul</value>
-  </data>
-  <data name="&gt;&gt;webBrowserSoul.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tabPageSoul.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 23</value>
-  </data>
-  <data name="tabPageSoul.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabPageSoul.Size" type="System.Drawing.Size, System.Drawing">
-    <value>508, 131</value>
-  </data>
-  <data name="tabPageSoul.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tabPageSoul.Text" xml:space="preserve">
-    <value>Soul</value>
-  </data>
-  <data name="&gt;&gt;tabPageSoul.Name" xml:space="preserve">
-    <value>tabPageSoul</value>
-  </data>
-  <data name="&gt;&gt;tabPageSoul.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabPageSoul.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabPageSoul.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tabControl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="tabControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>516, 158</value>
-  </data>
-  <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;tabControl.Name" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabControl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabControl.Parent" xml:space="preserve">
     <value>panelWebBrowser</value>
   </data>
-  <data name="&gt;&gt;tabControl.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;webBrowserSoul.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="panelWebBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -490,7 +388,7 @@
     <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>Text_Link_DV</value>
+    <value>WebLink_DV</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
