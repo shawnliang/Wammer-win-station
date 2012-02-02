@@ -26,7 +26,14 @@ namespace Waveface
         [DefaultSettingValue("")]
         public string Email
         {
-            get { return (string)this["Email"]; }
+            get { 
+                string ret = (string)this["Email"];
+                if (string.IsNullOrEmpty(ret))
+                {
+                    return (string)StationRegHelper.GetValue("driver", "");
+                }
+                return ret;
+            }
             set { this["Email"] = value; }
         }
 

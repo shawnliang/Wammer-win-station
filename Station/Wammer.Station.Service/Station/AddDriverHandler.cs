@@ -83,6 +83,9 @@ namespace Wammer.Station
 
 					DriverCollection.Instance.Save(driver);
 
+					// client login page refers this value as default account
+					StationRegistry.SetValue("driver", email);
+
 					StationCollection.Instance.Save(
 						new StationInfo
 						{

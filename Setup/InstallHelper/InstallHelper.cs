@@ -133,6 +133,8 @@ namespace Wammer.Station
 
 				if (StationRegistry.GetValue("oldStationId", null) != null)
 					StationRegistry.DeleteValue("oldStattionId");
+				if (StationRegistry.GetValue("olddriver", null) != null)
+					StationRegistry.DeleteValue("olddriver");
 			}
 			catch (Exception e)
 			{
@@ -164,6 +166,14 @@ namespace Wammer.Station
 			if (oldStationId != null)
 				StationRegistry.SetValue("stationId", oldStationId);
 			StationRegistry.DeleteValue("oldStationId");
+		}
+
+		private static void RestoreDriverAccount()
+		{
+			string oldDriver = (string)StationRegistry.GetValue("olddriver", null);
+			if (oldDriver != null)
+				StationRegistry.SetValue("driver", oldDriver);
+			StationRegistry.DeleteValue("olddriver");
 		}
 
 		private static bool HasFeature(Session session, string featureId)
@@ -312,6 +322,15 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				Logger.Warn("Unable to delete station id in registry", e);
+			}
+
+			try
+			{
+				StationRegistry.DeleteValue("driver");
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete driver account in registry", e);
 			}
 
 			try

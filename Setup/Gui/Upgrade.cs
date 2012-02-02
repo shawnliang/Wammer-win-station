@@ -173,10 +173,19 @@ namespace Gui
 					Microsoft.Win32.Registry.SetValue(
 						@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation",
 						"oldStationId", stationId);
+
+				string driver = (string)Microsoft.Win32.Registry.GetValue(
+				@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation",
+				"driver", null);
+
+				if (driver != null)
+					Microsoft.Win32.Registry.SetValue(
+						@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation",
+						"olddriver", driver);
 			}
 			catch (Exception e)
 			{
-				throw new Exception("Unable to backup station id in registry: " + e.Message);
+				throw new Exception("Unable to backup registry: " + e.Message);
 			}
 		}
 
