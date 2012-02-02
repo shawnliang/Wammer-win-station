@@ -82,11 +82,11 @@ namespace Gui
 						*/
 
 						AddStep(new InstallationStep(InstallationMode.Install, featureStep));
-						AddStep(new FinishStep(InstallationMode.Install, featureStep));
+						AddStep(new FinishStep(InstallationMode.Upgrade, featureStep));
 						break;
 					case InstallationMode.Reinstall:
 						AddStep(new InstallationStep(InstallationMode.Install));
-						AddStep(new FinishStep(InstallationMode.Install));
+						AddStep(new FinishStep(InstallationMode.Reinstall));
 						break;
 					default:
 						MessageBox.Show("Mode not supported: " + (InstallationMode)argument);

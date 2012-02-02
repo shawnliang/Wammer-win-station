@@ -44,6 +44,14 @@ namespace Gui
 			}
 		}
 
+		public static bool DriverRegistered()
+		{
+			if (MongoServer.Create("mongodb://127.0.0.1:10319/?safe=true").GetDatabase("wammer").GetCollection("drivers").Count() > 0)
+				return true;
+			else
+				return false;
+		}
+
 		private static void MongoDump()
 		{
 			StartMongoDB();
@@ -172,7 +180,7 @@ namespace Gui
 			}
 		}
 
-		private static bool HasFeaure(string featureId)
+		public static bool HasFeaure(string featureId)
 		{
 			foreach (Feature feature in MsiConnection.Instance.Features)
 				if (feature.Id == featureId)

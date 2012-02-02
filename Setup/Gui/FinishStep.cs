@@ -51,6 +51,30 @@ namespace Gui
 
 				Wizard.Finish();
 			}
+			else if (mode == InstallationMode.Upgrade &&
+				featureStep != null &&
+				featureStep.SelectedFeature == FeatureSet.StationAndClient)
+			{
+				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
+				string stationUI = Path.Combine(installDir, "StationUI.exe");
+				Process.Start(stationUI).Close();
+
+				if (!Migration.DriverRegistered())
+				{
+					Wizard.Finish();
+				}
+			}
+			else if (mode == InstallationMode.Reinstall && Migration.HasFeaure("MainFeature"))
+			{
+				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
+				string stationUI = Path.Combine(installDir, "StationUI.exe");
+				Process.Start(stationUI).Close();
+
+				if (!Migration.DriverRegistered())
+				{
+					Wizard.Finish();
+				}
+			}
 		}
 	}
 }
