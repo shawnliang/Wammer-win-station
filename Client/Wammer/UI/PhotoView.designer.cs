@@ -166,6 +166,7 @@ namespace Waveface
             this.Controls.Add(this.panelMain);
             this.MinimizeBox = false;
             this.Name = "PhotoView";
+            this.ShowInTaskbar = false;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.contextMenuStrip.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);

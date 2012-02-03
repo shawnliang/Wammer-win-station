@@ -73,7 +73,7 @@ namespace Waveface.PostUI
             _og.url = _aog.url;
             _og.title = _aog.title;
 
-            if (!cbNoThumbnail.Checked)
+            if (!cbNoThumbnail.Checked || (m_ogsImgs.Count == 0))
             {
                 _og.thumbnail_url = _aog.images[m_currentPreviewImageIndex].url;
                 _og.thumbnail_width = _aog.images[m_currentPreviewImageIndex].width;
@@ -111,21 +111,11 @@ namespace Waveface.PostUI
             }
         }
 
-        public bool LinkClicked(string url)
+        public void ShowPreview(MR_previews_get_adv mrPreviewsGetAdv)
         {
+            m_mrPreviewsGetAdv = mrPreviewsGetAdv;
+
             ResetUI();
-
-            string _url = url;
-
-            m_mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
-
-            // 如果回傳Null, 則沒Preview, 也表示當下沒用Preview
-            if ((m_mrPreviewsGetAdv == null) || (m_mrPreviewsGetAdv.preview.images.Count == 0))
-            {
-                ReturnToPureText_Mode();
-
-                return false;
-            }
 
             pictureBoxPreview.Image = null;
 
@@ -145,8 +135,6 @@ namespace Waveface.PostUI
             {
                 LoadRemotePic();
             }
-
-            return true;
         }
 
         #region Preview
@@ -198,14 +186,7 @@ namespace Waveface.PostUI
 
         private void buttonRemovePreview_Click(object sender, EventArgs e)
         {
-            ReturnToPureText_Mode();
-        }
-
-        private void ReturnToPureText_Mode()
-        {
             m_mrPreviewsGetAdv = null;
-
-            // ResetUI();
 
             MyParent.toPureText_Mode();
         }

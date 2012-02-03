@@ -19,7 +19,9 @@ namespace Waveface
         private PostType m_postType;
         private bool m_isFixHeight;
         private int m_fixHeight;
-        private List<string> m_parsedErrorURLs = new List<string>(); 
+        private List<string> m_parsedErrorURLs = new List<string>();
+        private Dictionary<string, bool> m_parsedURLs = new Dictionary<string, bool>();
+        private WorkItem m_workItem;
 
         public NewPostItem NewPostItem { get; set; }
 
@@ -107,38 +109,6 @@ namespace Waveface
                 return;
 
             toRichText_Mode();
-        }
-
-        private void richTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
-        {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
-            doWebLink(e.LinkText, true);
-        }
-
-        private void doWebLink(string url, bool force)
-        {
-            if (m_parsedErrorURLs.Contains(url))
-                return;
-
-            if (!force)
-            {
-                if ((m_postType != PostType.Text) && (m_postType != PostType.All))
-                    return;
-            }
-
-            bool _isOK = weblink_UI.LinkClicked(url);
-
-            if (_isOK)
-            {
-                toWebLink_Mode();
-            }
-            else
-            {
-                if(!m_parsedErrorURLs.Contains(url))
-                    m_parsedErrorURLs.Add(url);
-            }
         }
 
         private void btnAddPhoto_Click(object sender, EventArgs e)
@@ -290,60 +260,6 @@ namespace Waveface
             }
         }
 
-        #region Web Link
-
-        private void richTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (m_postType == PostType.Link)
-                return;
-
-            checkWebLink();
-        }
-
-        private void checkWebLink()
-        {
-            string _text = pureTextBox.Text;
-
-            string[] _strs = _text.Split(new[]
-                                             {
-                                                 ' '
-                                             });
-
-            if (_strs.Length < 2)
-                return;
-
-            int k = 0;
-
-            foreach (string _str in _strs)
-            {
-                if (k > _strs.Length - 2)
-                    break;
-
-                if (FindUrls(_str) != string.Empty)
-                {
-                    doWebLink(_str, false);
-                }
-
-                k++;
-            }
-        }
-
-        private string FindUrls(string input)
-        {
-            Regex _r1 = new Regex(@"((www\.|(http|https)+\:\/\/)[&#95;.a-z0-9-]+\.[a-z0-9\/&#95;:@=.+?,##%&~-]*[^.|\'|\# |!|\(|?|,| |>|<|;|\)])", RegexOptions.IgnoreCase);
-
-            MatchCollection _ms1 = _r1.Matches(input);
-
-            foreach (Match _m in _ms1)
-            {
-                return _m.Value;
-            }
-
-            return "";
-        }
-
-        #endregion
-
         #region richTextBox
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -377,6 +293,143 @@ namespace Waveface
             {
                 pasteToolStripMenuItem.Enabled = true;
             }
+        }
+
+        #endregion
+
+        #region Web Link
+
+        private void richTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
+            lock (m_parsedURLs)
+            {
+                m_parsedURLs.Clear();
+
+                m_parsedURLs.Add(e.LinkText, true);
+            }
+
+            checkWebLink();
+        }
+
+        private void richTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (m_postType == PostType.Link)
+                return;
+
+            getParsedURLs(pureTextBox.Text);
+
+            checkWebLink();
+        }
+
+        private void ThreadMethod(object state)
+        {
+            foreach (string _url in m_parsedURLs.Keys)
+            {
+                if (m_parsedErrorURLs.Contains(_url))
+                    continue;
+
+                if (!m_parsedURLs[_url]) //!force
+                {
+                    if ((m_postType != PostType.Text) && (m_postType != PostType.All))
+                        continue;
+                }
+
+                MR_previews_get_adv _mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
+                bool _isOK = (_mrPreviewsGetAdv != null) && (_mrPreviewsGetAdv.preview.images.Count != 0);
+
+                if (_isOK)
+                {
+                    showWebLinkPreview(_mrPreviewsGetAdv);
+                    break;
+                }
+                else
+                {
+                    if (!m_parsedErrorURLs.Contains(_url))
+                        m_parsedErrorURLs.Add(_url);
+                }
+            }
+        }
+
+        private void showWebLinkPreview(MR_previews_get_adv mrPreviewsGetAdv)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { showWebLinkPreview(mrPreviewsGetAdv); }
+                           ));
+            }
+            else
+            {
+                toWebLink_Mode();
+                weblink_UI.ShowPreview(mrPreviewsGetAdv);
+            }
+        }
+
+        private void checkWebLink()
+        {
+            if (m_workItem != null)
+            {
+                try
+                {
+                    AbortableThreadPool.Cancel(m_workItem, true);
+                }
+                catch (Exception _e)
+                {
+                    Console.WriteLine(_e.Message);
+                }
+            }
+
+            m_workItem = AbortableThreadPool.QueueUserWorkItem(ThreadMethod, 0);
+        }
+
+        private void getParsedURLs(string text)
+        {
+            lock (m_parsedURLs)
+            {
+                m_parsedURLs.Clear();
+
+
+                string[] _strs = text.Split(new[]
+                                             {
+                                                 ' '
+                                             });
+
+                //if (_strs.Length < 2)
+                //    return;
+
+                int k = 0;
+
+                foreach (string _str in _strs)
+                {
+                    if (k > _strs.Length - 2)
+                        break;
+
+                    if (FindUrls(_str) != string.Empty)
+                    {
+                        if (!m_parsedURLs.ContainsKey(_str))
+                            m_parsedURLs.Add(_str, false);
+                    }
+
+                    k++;
+                }
+            }
+        }
+
+        private string FindUrls(string input)
+        {
+            Regex _r1 = new Regex(@"((www\.|(http|https)+\:\/\/)[&#95;.a-z0-9-]+\.[a-z0-9\/&#95;:@=.+?,##%&~-]*[^.|\'|\# |!|\(|?|,| |>|<|;|\)])", RegexOptions.IgnoreCase);
+
+            MatchCollection _ms1 = _r1.Matches(input);
+
+            foreach (Match _m in _ms1)
+            {
+                return _m.Value;
+            }
+
+            return "";
         }
 
         #endregion

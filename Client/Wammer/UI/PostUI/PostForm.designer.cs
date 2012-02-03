@@ -66,6 +66,7 @@ namespace Waveface
             this.buttonRichText = new Waveface.Component.XPButton();
             this.pureTextBox = new Waveface.Component.WaterMarkRichTextBox();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.backgroundWorker_GetPreview = new System.ComponentModel.BackgroundWorker();
             this.contextMenuStripEdit.SuspendLayout();
             this.multiPanel.SuspendLayout();
             this.Page_RichText.SuspendLayout();
@@ -207,8 +208,9 @@ namespace Waveface
             resources.ApplyResources(this.Page__Link, "Page__Link");
             this.Page__Link.Name = "Page__Link";
             // 
-            // general_weblink_UI
+            // weblink_UI
             // 
+            this.weblink_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             resources.ApplyResources(this.weblink_UI, "weblink_UI");
             this.weblink_UI.MinimumSize = new System.Drawing.Size(500, 130);
             this.weblink_UI.MyParent = null;
@@ -378,6 +380,7 @@ namespace Waveface
         private Panel panelToolbar;
         private Localization.CultureManager cultureManager;
         private ToolTip toolTip;
+        private System.ComponentModel.BackgroundWorker backgroundWorker_GetPreview;
     }
 }
 

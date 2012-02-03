@@ -370,7 +370,7 @@
     <value>weblink_UI</value>
   </data>
   <data name="&gt;&gt;weblink_UI.Type" xml:space="preserve">
-    <value>Waveface.PostUI.General_WebLink, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.PostUI.WebLink, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;weblink_UI.Parent" xml:space="preserve">
     <value>Page__Link</value>
@@ -1166,10 +1166,19 @@
   <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
     <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
+  <data name="&gt;&gt;backgroundWorker_GetPreview.Name" xml:space="preserve">
+    <value>backgroundWorker_GetPreview</value>
+  </data>
+  <data name="&gt;&gt;backgroundWorker_GetPreview.Type" xml:space="preserve">
+    <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PostForm</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <metadata name="backgroundWorker_GetPreview.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>425, 17</value>
+  </metadata>
 </root>
