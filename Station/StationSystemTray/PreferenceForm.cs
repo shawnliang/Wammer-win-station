@@ -231,9 +231,6 @@ namespace StationSystemTray
 			if (ex is AuthenticationException)
 			{
 				mainform.CurrentState.SessionExpired();
-
-				// call Close() here to avoid crash (don't know why...)
-				this.Close();
 			}
 			else if (ex is ConnectToCloudException)
 			{

@@ -64,31 +64,51 @@ namespace StationSystemTray
 
 		private void BeginUpdateUIInCallback(object obj)
 		{
-			if (_form.InvokeRequired)
+			try
 			{
-				if (!_form.IsDisposed)
+				if (_form.InvokeRequired)
 				{
-					_form.Invoke(new EventHandler<SimpleEventArgs>(UICallback), this, new SimpleEventArgs(obj));
+					if (!_form.IsDisposed)
+					{
+						_form.Invoke(new EventHandler<SimpleEventArgs>(UICallback), this, new SimpleEventArgs(obj));
+					}
+				}
+				else
+				{
+					UICallback(this, new SimpleEventArgs(obj));
 				}
 			}
-			else
+			catch (InvalidOperationException)
 			{
-				UICallback(this, new SimpleEventArgs(obj));
+				// On some condition, the UI forms has been closed before this UI controller is processing 
+				// and InvalidOperationException is then throw on _form.Invoke().
+				//
+				// just ignore the exception and abort the original UI update.
 			}
 		}
 
 		private void BeginUpdateUIInError(Exception ex)
 		{
-			if (_form.InvokeRequired)
+			try
 			{
-				if (!_form.IsDisposed)
+				if (_form.InvokeRequired)
 				{
-					_form.Invoke(new EventHandler<SimpleEventArgs>(UIError), this, new SimpleEventArgs(ex));
+					if (!_form.IsDisposed)
+					{
+						_form.Invoke(new EventHandler<SimpleEventArgs>(UIError), this, new SimpleEventArgs(ex));
+					}
+				}
+				else
+				{
+					UIError(this, new SimpleEventArgs(ex));
 				}
 			}
-			else
+			catch (InvalidOperationException)
 			{
-				UIError(this, new SimpleEventArgs(ex));
+				// On some condition, the UI forms has been closed before this UI controller is processing 
+				// and InvalidOperationException is then throw on _form.Invoke().
+				//
+				// just ignore the exception and abort the original UI update.
 			}
 		}
 
