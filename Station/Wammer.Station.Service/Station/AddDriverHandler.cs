@@ -25,7 +25,7 @@ namespace Wammer.Station
 		private const int ERR_USER_HAS_ANOTHER_STATION = 16387;
 		private const int ERR_BAD_NAME_PASSWORD = 4097;
 
-		public EventHandler<DriverAddedEvtArgs> DriverAdded;
+		public event EventHandler<DriverAddedEvtArgs> DriverAdded;
 
 		public AddDriverHandler(string stationId, string resourceBasePath)
 		{
@@ -75,16 +75,7 @@ namespace Wammer.Station
 						session_token = user.Token
 					};
 
-					//if (!has_old_station)
-					//{
-					//    Driver oldDriver = OldDriverCollection.Instance.FindOne(Query.EQ("_id", user.Id));
-					//    has_old_station = (oldDriver != null);
-					//}
-
 					DriverCollection.Instance.Save(driver);
-
-					// client login page refers this value as default account
-					StationRegistry.SetValue("driver", email);
 
 					StationCollection.Instance.Save(
 						new StationInfo

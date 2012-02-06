@@ -136,7 +136,7 @@ namespace Wammer.Station.Service
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/", new DropboxDisconnectHandler());
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/", new PingHandler());
 
-				addDriverHandler.DriverAdded += PublicPortMapping.Instance.DriverAdded;
+				addDriverHandler.DriverAdded += new EventHandler<DriverAddedEvtArgs>(addDriverHandler_DriverAdded);
 				logger.Debug("Start management server");
 				managementServer.Start();
 
@@ -147,6 +147,17 @@ namespace Wammer.Station.Service
 				logger.Error("Unknown exception", ex);
 				throw;
 			}
+		}
+
+		void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
+		{
+#if !DEBUG
+			// client login page refers this value as default account
+			StationRegistry.SetValue("driver", e.Driver.email);
+#endif
+
+
+			PublicPortMapping.Instance.DriverAdded(sender, e);
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

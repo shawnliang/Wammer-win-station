@@ -109,6 +109,7 @@ namespace UT_WammerStation
 		[TestCleanup]
 		public void tearDown()
 		{
+			System.Threading.Thread.Sleep(200);
 			Directory.Delete("resource", true);
 		}
 
