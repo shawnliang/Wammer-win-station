@@ -415,8 +415,8 @@ namespace StationSystemTray
 
 		private void RestoreCursor()
 		{
-			loadingActions -= 1;
-			if (loadingActions == 0)
+			int newLoadingActions = Interlocked.Decrement(ref loadingActions);
+			if (newLoadingActions == 0)
 			{
 				Cursor = Cursors.Default;
 			}
@@ -424,7 +424,9 @@ namespace StationSystemTray
 
 		private void StartWaitCursor(int actions)
 		{
-			loadingActions += actions;
+			for (int i = 0; i < actions; i++)
+				Interlocked.Increment(ref loadingActions);
+
 			if (loadingActions > 0)
 				Cursor = Cursors.WaitCursor;
 		}
