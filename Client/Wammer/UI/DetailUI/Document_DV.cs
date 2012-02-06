@@ -302,7 +302,7 @@ namespace Waveface.DetailUI
             Set_Comments_Part();
             Set_Document();
 
-            PanelAddComment.Visible = true;
+            //@ PanelAddComment.Visible = true;
         }
 
         private void Set_Comments_Part()
@@ -428,7 +428,7 @@ namespace Waveface.DetailUI
 
         private void buttonAddComment_Click(object sender, EventArgs e)
         {
-            MyParent.PostComment(textBoxComment, Post);
+            //@ MyParent.PostComment(textBoxComment, Post);
         }
 
         private void listViewFiles_Click(object sender, EventArgs e)

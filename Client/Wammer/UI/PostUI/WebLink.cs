@@ -51,7 +51,7 @@ namespace Waveface.PostUI
             //[2] 單純文字
             if (MyParent.pureTextBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show("Text cannot be empty!"); //TODO:
+                MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -141,6 +141,8 @@ namespace Waveface.PostUI
 
         private void LoadRemotePic()
         {
+            showIndicator(true);
+
             pictureBoxPreview.LoadAsync(m_ogsImgs[m_currentPreviewImageIndex].url);
             labelPictureIndex.Text = "[" + (m_currentPreviewImageIndex + 1) + "/" + m_ogsImgs.Count + "]";
         }
@@ -148,6 +150,8 @@ namespace Waveface.PostUI
         private void pictureBoxPreview_LoadCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
             UpdateSelectPreviewPicturesButtons(false);
+
+            showIndicator(false);
         }
 
         private void buttonPrev_Click(object sender, EventArgs e)
@@ -208,6 +212,29 @@ namespace Waveface.PostUI
         }
 
         #endregion
+
+        private void showIndicator(bool flag)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { showIndicator(flag); }
+                           ));
+            }
+            else
+            {
+                if (flag)
+                {
+                    Cursor = Cursors.WaitCursor;
+                }
+                else
+                {
+                    Cursor = Cursors.Default;
+                }
+
+                cbNoThumbnail.Refresh(); //HACK
+            }
+        }
 
         private void General_WebLink_Resize(object sender, EventArgs e)
         {

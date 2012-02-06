@@ -556,7 +556,7 @@ namespace Waveface.DetailUI
 
         private void buttonAddComment_Click(object sender, EventArgs e)
         {
-            MyParent.PostComment(textBoxComment, Post);
+            //@ MyParent.PostComment(textBoxComment, Post);
         }
 
         #region IDetailViewer
