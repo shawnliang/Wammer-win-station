@@ -81,7 +81,12 @@ namespace StationSystemTray
 		private void SignInForm_Load(object sender, EventArgs e)
 		{
 			this.lblSignInMsg.Text = I18n.L.T("Station401Exception");
-			this.txtEmail.Focus();
+
+			string driverEmail = (string)Wammer.Station.StationRegistry.GetValue("driver", null);
+
+			if (driverEmail != null)
+				this.txtEmail.Text = driverEmail;
+			this.txtPassword.Focus();
 		}
 
 		protected override bool ProcessDialogKey(Keys keyData)
