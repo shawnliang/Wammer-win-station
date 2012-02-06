@@ -195,7 +195,7 @@ namespace Waveface.DetailUI
             Set_MainContent_Part();
             Set_Comments_Part();
 
-            PanelAddComment.Visible = true;
+            //@ PanelAddComment.Visible = true;
             textBoxComment.Focus();
         }
 
@@ -260,7 +260,7 @@ namespace Waveface.DetailUI
 
         private void buttonAddComment_Click(object sender, EventArgs e)
         {
-            MyParent.PostComment(textBoxComment, Post);
+            //@ MyParent.PostComment(textBoxComment, Post);
         }
 
         #region IDetailViewer

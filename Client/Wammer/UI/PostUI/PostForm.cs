@@ -17,11 +17,13 @@ namespace Waveface
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         private PostType m_postType;
+        private bool m_GenerateWebPreview = true;
         private bool m_isFixHeight;
         private int m_fixHeight;
         private List<string> m_parsedErrorURLs = new List<string>();
         private Dictionary<string, bool> m_parsedURLs = new Dictionary<string, bool>();
         private WorkItem m_workItem;
+        private bool m_forceCheckedWebLink;
 
         public NewPostItem NewPostItem { get; set; }
 
@@ -179,8 +181,8 @@ namespace Waveface
 
             MaximizeBox = false;
 
-            m_fixHeight = 460;
-            Size = new Size(720, 460);
+            m_fixHeight = 454;
+            Size = new Size(720, 454);
         }
 
         private void toPhoto_Mode(List<string> files)
@@ -225,6 +227,12 @@ namespace Waveface
         }
 
         #endregion
+
+        private void cbGenerateWebPreview_CheckedChanged(object sender, EventArgs e)
+        {
+            m_GenerateWebPreview = cbGenerateWebPreview.Checked;
+            pureTextBox.DetectUrls = cbGenerateWebPreview.Checked;
+        }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
@@ -280,6 +288,8 @@ namespace Waveface
             if (_data.GetDataPresent(DataFormats.Text))
             {
                 pureTextBox.SelectedText = _data.GetData(DataFormats.Text).ToString();
+
+                m_forceCheckedWebLink = true;
             }
         }
 
@@ -304,12 +314,24 @@ namespace Waveface
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
+            CheckWebLink_Direct(e.LinkText);
+        }
+
+        private void CheckWebLink_Direct(string text)
+        {
             lock (m_parsedURLs)
             {
                 m_parsedURLs.Clear();
 
-                m_parsedURLs.Add(e.LinkText, true);
+                m_parsedURLs.Add(text, true);
             }
+
+            checkWebLink();
+        }
+
+        private void CheckWebLink_All()
+        {
+            getParsedURLs(pureTextBox.Text);
 
             checkWebLink();
         }
@@ -319,9 +341,7 @@ namespace Waveface
             if (m_postType == PostType.Link)
                 return;
 
-            getParsedURLs(pureTextBox.Text);
-
-            checkWebLink();
+            CheckWebLink_All();
         }
 
         private void ThreadMethod(object state)
@@ -337,8 +357,15 @@ namespace Waveface
                         continue;
                 }
 
+                showIndicator(true);
+
                 MR_previews_get_adv _mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
-                bool _isOK = (_mrPreviewsGetAdv != null) && (_mrPreviewsGetAdv.preview.images.Count != 0);
+                bool _isOK = (_mrPreviewsGetAdv != null) &&
+                             (_mrPreviewsGetAdv.preview != null) &&
+                             (_mrPreviewsGetAdv.preview.images != null) &&
+                             (_mrPreviewsGetAdv.preview.images.Count != 0);
+
+                showIndicator(false);
 
                 if (_isOK)
                 {
@@ -368,21 +395,45 @@ namespace Waveface
             }
         }
 
-        private void checkWebLink()
+        private void showIndicator(bool flag)
         {
-            if (m_workItem != null)
+            if (InvokeRequired)
             {
-                try
+                Invoke(new MethodInvoker(
+                           delegate { showIndicator(flag); }
+                           ));
+            }
+            else
+            {
+                if (flag)
                 {
-                    AbortableThreadPool.Cancel(m_workItem, true);
+                    Cursor = Cursors.WaitCursor;
                 }
-                catch (Exception _e)
+                else
                 {
-                    Console.WriteLine(_e.Message);
+                    Cursor = Cursors.Default;
                 }
             }
+        }
 
-            m_workItem = AbortableThreadPool.QueueUserWorkItem(ThreadMethod, 0);
+        private void checkWebLink()
+        {
+            if (m_GenerateWebPreview)
+            {
+                if (m_workItem != null)
+                {
+                    try
+                    {
+                        AbortableThreadPool.Cancel(m_workItem, true);
+                    }
+                    catch (Exception _e)
+                    {
+                        Console.WriteLine(_e.Message);
+                    }
+                }
+
+                m_workItem = AbortableThreadPool.QueueUserWorkItem(ThreadMethod, 0);
+            }
         }
 
         private void getParsedURLs(string text)
@@ -394,11 +445,15 @@ namespace Waveface
 
                 string[] _strs = text.Split(new[]
                                              {
-                                                 ' '
+                                                 ' ', '\n'
                                              });
 
-                //if (_strs.Length < 2)
-                //    return;
+                if ((_strs.Length < 2) && !m_forceCheckedWebLink)
+                {
+                    return;
+                }
+
+                m_forceCheckedWebLink = false;
 
                 int k = 0;
 

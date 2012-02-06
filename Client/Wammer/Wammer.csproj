@@ -169,6 +169,12 @@
     <Compile Include="Libs\Utility\NLogUtility.cs" />
     <Compile Include="ProgramSetting.cs" />
     <Compile Include="Exception\Station401Exception.cs" />
+    <Compile Include="UI\DetailUI\CommentPopupPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DetailUI\CommentPopupPanel.designer.cs">
+      <DependentUpon>CommentPopupPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\DetailUI\IDetailViewer.cs" />
     <Compile Include="UI\DropAreaInforForm.cs">
       <SubType>Form</SubType>
@@ -648,6 +654,12 @@
     <EmbeddedResource Include="UI\BgPanel.resx">
       <DependentUpon>BgPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\CommentPopupPanel.resx">
+      <DependentUpon>CommentPopupPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\CommentPopupPanel.zh-TW.resx">
+      <DependentUpon>CommentPopupPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\DetailView.zh-TW.resx">
       <DependentUpon>DetailView.cs</DependentUpon>
     </EmbeddedResource>
@@ -722,6 +734,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostUI\RichTextPostForm.resx">
       <DependentUpon>RichTextPostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\WebLink.zh-TW.resx">
+      <DependentUpon>WebLink.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>

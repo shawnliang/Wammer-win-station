@@ -7,6 +7,8 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using Waveface.API.V2;
+using Waveface.Compoment.PopupControl;
+using Waveface.Component;
 using Waveface.DetailUI;
 
 #endregion
@@ -27,12 +29,15 @@ namespace Waveface
         private Label labelWho;
         private Label labelTime;
         private Timer timerGC;
-        private Component.XPButton btnComment;
+        private XPButton btnComment;
         private Panel panelMain;
         private Timer timerShowCommentButton;
         private Localization.CultureManager cultureManager;
 
         private IDetailViewer m_detailViewer;
+
+        private Popup m_commentPopup;
+        private CommentPopupPanel m_commentPopupPanel;
 
         public Post Post
         {
@@ -50,6 +55,10 @@ namespace Waveface
         public DetailView()
         {
             InitializeComponent();
+
+            m_commentPopup = new Popup(m_commentPopupPanel = new CommentPopupPanel());
+            m_commentPopup.Resizable = true;
+            m_commentPopupPanel.buttonAddComment.Click += buttonAddComment_Click;
         }
 
         protected override void Dispose(bool disposing)
@@ -180,7 +189,7 @@ namespace Waveface
             if (m_post == null)
                 return;
 
-            btnComment.Visible = false;
+            btnComment.Visible = true;
             //linkLabelRemove.Visible = true;
 
             setupTitle();
@@ -339,15 +348,15 @@ namespace Waveface
             GC.Collect(); //Hack
         }
 
-        public void PostComment(TextBox textBox, Post post)
+        public bool PostComment(WaterMarkRichTextBox textBox, Post post)
         {
             if (!Main.Current.CheckNetworkStatus())
-                return;
+                return false;
 
             if (textBox.Text.Trim().Equals(string.Empty))
             {
                 MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
             MR_posts_newComment _postsNewComment = Main.Current.RT.REST.Posts_NewComment(post.post_id, textBox.Text, "", "");
@@ -358,6 +367,8 @@ namespace Waveface
             }
 
             textBox.Text = "";
+
+            return true;
         }
 
         public void SetComments(WebBrowser wb, Post post, bool changeBgColor)
@@ -431,19 +442,37 @@ namespace Waveface
         private void btnComment_Click(object sender, EventArgs e)
         {
             if (m_detailViewer != null)
-                m_detailViewer.ScrollToComment();
-        }
+            {
+                //@ m_detailViewer.ScrollToComment();
 
-        public void ShowCommentButton(bool flag)
-        {
-            btnComment.Visible = flag;
+                m_commentPopup.Width = (Width * 3) / 4;
+                m_commentPopup.Height = 144;
+                m_commentPopupPanel.CommentTextBox.Text = string.Empty;
+                m_commentPopup.Show(btnComment, (-1 * m_commentPopupPanel.Width) + btnComment.Width, btnComment.Height);
+                m_commentPopupPanel.CommentTextBox.Focus();
+            }
         }
 
         private void timerShowCommentButton_Tick(object sender, EventArgs e)
         {
+            //@
+            /*
             if (m_detailViewer != null)
             {
                 btnComment.Visible = m_detailViewer.WantToShowCommentButton();
+            }
+            */
+        }
+
+        void buttonAddComment_Click(object sender, EventArgs e)
+        {
+            if (PostComment(m_commentPopupPanel.CommentTextBox, m_post))
+            {
+                m_commentPopup.Hide();
+            }
+            else
+            {
+                m_commentPopupPanel.CommentTextBox.Focus();
             }
         }
 
