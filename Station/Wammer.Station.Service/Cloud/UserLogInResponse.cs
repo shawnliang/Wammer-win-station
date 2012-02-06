@@ -13,6 +13,8 @@ namespace Wammer.Cloud
 		public long last_seen { get; set; }
 		public string computer_name { get; set; }
 		public string accessible { get; set; }
+		public string public_location { get; set; }
+		public bool upnp { get; set; }
 
 		[System.Xml.Serialization.XmlIgnore]
 		public DateTime LastSeen 

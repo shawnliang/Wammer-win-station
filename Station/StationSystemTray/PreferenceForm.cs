@@ -601,7 +601,7 @@ namespace StationSystemTray
 				}
 
 			}
-			while (DateTime.Now - startTime > TimeSpan.FromSeconds(10));
+			while (DateTime.Now - startTime < TimeSpan.FromSeconds(10.0));
 
 			Thread.CurrentThread.Abort();
 
