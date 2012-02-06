@@ -48,6 +48,8 @@ namespace Waveface.DetailUI
         public WebLink_DV()
         {
             InitializeComponent();
+
+            ControlUtility.DisableAllTabStop(this);
         }
 
         protected override void Dispose(bool disposing)

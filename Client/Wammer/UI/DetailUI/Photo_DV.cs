@@ -97,8 +97,10 @@ namespace Waveface.DetailUI
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
             m_filesMapping = new Dictionary<string, string>();
-        }
 
+            ControlUtility.DisableAllTabStop(this);
+        }
+        
         #region Component Designer generated code
 
         /// <summary> 
