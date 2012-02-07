@@ -17,16 +17,13 @@ using Waveface.Component;
 
 namespace Waveface.DetailUI
 {
-    public class Document_DV : UserControl, IDetailViewer
+    public class Document_DV : UserControl
     {
         private Panel panelMain;
         private Panel panelRight;
         private WebBrowser webBrowserTop;
-        private Panel PanelAddComment;
         private WebBrowser webBrowserComment;
         private Post m_post;
-        private XPButton buttonAddComment;
-        private TextBox textBoxComment;
         private ListView listViewFiles;
         private PreviewHandlerHost previewHandlerHost;
         private ProgressBar progressBar;
@@ -63,11 +60,6 @@ namespace Waveface.DetailUI
             saveFileDialog.InitialDirectory = Environment.SpecialFolder.Desktop.ToString();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
-
         #region Component Designer generated code
 
         /// <summary> 
@@ -80,9 +72,6 @@ namespace Waveface.DetailUI
         {
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
-            this.PanelAddComment = new System.Windows.Forms.Panel();
-            this.buttonAddComment = new Waveface.Component.XPButton();
-            this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.PanelDocumentView = new System.Windows.Forms.Panel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
@@ -94,7 +83,6 @@ namespace Waveface.DetailUI
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
-            this.PanelAddComment.SuspendLayout();
             this.PanelDocumentView.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -117,7 +105,6 @@ namespace Waveface.DetailUI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelRight.AutoScroll = true;
-            this.panelRight.Controls.Add(this.PanelAddComment);
             this.panelRight.Controls.Add(this.webBrowserComment);
             this.panelRight.Controls.Add(this.PanelDocumentView);
             this.panelRight.Controls.Add(this.webBrowserTop);
@@ -125,46 +112,6 @@ namespace Waveface.DetailUI
             this.panelRight.Name = "panelRight";
             this.panelRight.Size = new System.Drawing.Size(502, 481);
             this.panelRight.TabIndex = 2;
-            // 
-            // PanelAddComment
-            // 
-            this.PanelAddComment.AutoScroll = true;
-            this.PanelAddComment.AutoScrollMinSize = new System.Drawing.Size(345, 0);
-            this.PanelAddComment.AutoSize = true;
-            this.PanelAddComment.BackColor = System.Drawing.SystemColors.Window;
-            this.PanelAddComment.Controls.Add(this.buttonAddComment);
-            this.PanelAddComment.Controls.Add(this.textBoxComment);
-            this.PanelAddComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelAddComment.Location = new System.Drawing.Point(0, 355);
-            this.PanelAddComment.Name = "PanelAddComment";
-            this.PanelAddComment.Size = new System.Drawing.Size(502, 50);
-            this.PanelAddComment.TabIndex = 3;
-            // 
-            // buttonAddComment
-            // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(405, 3);
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
-            this.buttonAddComment.TabIndex = 1;
-            this.buttonAddComment.Text = "Send";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
-            // 
-            // textBoxComment
-            // 
-            this.textBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxComment.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxComment.Location = new System.Drawing.Point(32, 3);
-            this.textBoxComment.Multiline = true;
-            this.textBoxComment.Name = "textBoxComment";
-            this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxComment.Size = new System.Drawing.Size(367, 44);
-            this.textBoxComment.TabIndex = 0;
             // 
             // webBrowserComment
             // 
@@ -273,9 +220,6 @@ namespace Waveface.DetailUI
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
-            this.panelRight.PerformLayout();
-            this.PanelAddComment.ResumeLayout(false);
-            this.PanelAddComment.PerformLayout();
             this.PanelDocumentView.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -426,11 +370,6 @@ namespace Waveface.DetailUI
             PanelDocumentView.Height = (int)(previewHandlerHost.Width / 1.618);
         }
 
-        private void buttonAddComment_Click(object sender, EventArgs e)
-        {
-            //@ MyParent.PostComment(textBoxComment, Post);
-        }
-
         private void listViewFiles_Click(object sender, EventArgs e)
         {
             if (listViewFiles.SelectedItems.Count > 0)
@@ -476,28 +415,5 @@ namespace Waveface.DetailUI
             catch
             {}
         }
-
-        #region IDetailViewer
-
-        public void ScrollToComment()
-        {
-            if (panelRight.VerticalScroll.Visible)
-            {
-                panelRight.VerticalScroll.Value = PanelAddComment.Top;
-                textBoxComment.Focus();
-            }
-        }
-
-        public bool WantToShowCommentButton()
-        {
-            if (panelRight.VerticalScroll.Visible)
-            {
-                return PanelAddComment.Bottom > panelRight.Height;
-            }
-
-            return false;
-        }
-
-        #endregion
     }
 }

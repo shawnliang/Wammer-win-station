@@ -44,7 +44,7 @@ namespace Waveface
             _g.DrawImage(Properties.Resources.desktop_logo, 8, 8);
 
             Size _sizeName = TextRenderer.MeasureText(_g, UserName, m_fontName);
-            _g.DrawString(UserName, m_fontName, SystemBrushes.WindowText, Width - _sizeName.Width - 8, 8);
+            _g.DrawString(UserName, m_fontName, SystemBrushes.WindowText, Width - _sizeName.Width - 8, 14);
 
             if (!DesignMode)
             {

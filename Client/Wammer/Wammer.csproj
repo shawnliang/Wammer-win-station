@@ -114,6 +114,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compoment\Panel\AutoScrollPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Compoment\MsgBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,10 +149,14 @@
     </Compile>
     <Compile Include="Compoment\PSTaskDialog\VistaTaskDialogNotificationArgs.cs" />
     <Compile Include="Compoment\PSTaskDialog\VistaUnsafeNativeMethods.cs" />
+    <Compile Include="Compoment\Panel\ScrollablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Compoment\SingleInstance.cs" />
     <Compile Include="Compoment\WaterMarkRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Compoment\WebBrowserContextMenuHandler.cs" />
     <Compile Include="Data\ConnectServiceStateType.cs" />
     <Compile Include="Data\Delegates.cs" />
     <Compile Include="Data\StationState.cs" />
@@ -176,7 +183,6 @@
     <Compile Include="UI\DetailUI\CommentPopupPanel.designer.cs">
       <DependentUpon>CommentPopupPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\DetailUI\IDetailViewer.cs" />
     <Compile Include="UI\DropAreaInforForm.cs">
       <SubType>Form</SubType>
     </Compile>

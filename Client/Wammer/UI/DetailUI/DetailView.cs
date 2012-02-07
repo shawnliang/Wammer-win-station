@@ -31,10 +31,7 @@ namespace Waveface
         private Timer timerGC;
         private XPButton btnComment;
         private Panel panelMain;
-        private Timer timerShowCommentButton;
         private Localization.CultureManager cultureManager;
-
-        private IDetailViewer m_detailViewer;
 
         private Popup m_commentPopup;
         private CommentPopupPanel m_commentPopupPanel;
@@ -87,13 +84,12 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnComment = new Waveface.Component.XPButton();
             this.labelWho = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
-            this.timerShowCommentButton = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.btnComment = new Waveface.Component.XPButton();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,6 +101,18 @@ namespace Waveface
             this.panelTop.Controls.Add(this.labelTime);
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
+            // 
+            // btnComment
+            // 
+            this.btnComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnComment, "btnComment");
+            this.btnComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnComment.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnComment.Image = global::Waveface.Properties.Resources.write_comment;
+            this.btnComment.Name = "btnComment";
+            this.btnComment.UseVisualStyleBackColor = true;
+            this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
             // labelWho
             // 
@@ -128,27 +136,9 @@ namespace Waveface
             this.timerGC.Interval = 30000;
             this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
             // 
-            // timerShowCommentButton
-            // 
-            this.timerShowCommentButton.Enabled = true;
-            this.timerShowCommentButton.Interval = 2000;
-            this.timerShowCommentButton.Tick += new System.EventHandler(this.timerShowCommentButton_Tick);
-            // 
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
-            // 
-            // btnComment
-            // 
-            this.btnComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnComment, "btnComment");
-            this.btnComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnComment.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnComment.Image = global::Waveface.Properties.Resources.write_comment;
-            this.btnComment.Name = "btnComment";
-            this.btnComment.UseVisualStyleBackColor = true;
-            this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
             // DetailView
             // 
@@ -278,8 +268,6 @@ namespace Waveface
             m_webLinkDv.Post = m_post; // ︽璶程
 
             panelMain.Controls.Add(m_webLinkDv);
-
-            m_detailViewer = m_webLinkDv;
         }
 
         private void ShowPhoto()
@@ -301,8 +289,6 @@ namespace Waveface
             m_photoDv.Post = m_post; // ︽璶程
 
             panelMain.Controls.Add(m_photoDv);
-
-            m_detailViewer = m_photoDv;
         }
 
         private void ShowDocument()
@@ -321,8 +307,6 @@ namespace Waveface
             m_documentDv.Post = m_post; // ︽璶程
 
             panelMain.Controls.Add(m_documentDv);
-
-            m_detailViewer = m_documentDv;
         }
 
         private void ShowRichText()
@@ -341,8 +325,6 @@ namespace Waveface
             m_richTextDv.Post = m_post; // ︽璶程
 
             panelMain.Controls.Add(m_richTextDv);
-
-            m_detailViewer = m_richTextDv;
         }
 
         private void timerGC_Tick(object sender, EventArgs e)
@@ -443,27 +425,11 @@ namespace Waveface
 
         private void btnComment_Click(object sender, EventArgs e)
         {
-            if (m_detailViewer != null)
-            {
-                //@ m_detailViewer.ScrollToComment();
-
-                m_commentPopup.Width = (Width * 3) / 4;
-                m_commentPopup.Height = 144;
-                m_commentPopupPanel.CommentTextBox.Text = string.Empty;
-                m_commentPopup.Show(btnComment, (-1 * m_commentPopupPanel.Width) + btnComment.Width, btnComment.Height);
-                m_commentPopupPanel.CommentTextBox.Focus();
-            }
-        }
-
-        private void timerShowCommentButton_Tick(object sender, EventArgs e)
-        {
-            //@
-            /*
-            if (m_detailViewer != null)
-            {
-                btnComment.Visible = m_detailViewer.WantToShowCommentButton();
-            }
-            */
+            m_commentPopup.Width = (Width * 3) / 4;
+            m_commentPopup.Height = 144;
+            m_commentPopupPanel.CommentTextBox.Text = string.Empty;
+            m_commentPopup.Show(btnComment, (-1 * m_commentPopupPanel.Width) + btnComment.Width, btnComment.Height);
+            m_commentPopupPanel.CommentTextBox.Focus();
         }
 
         void buttonAddComment_Click(object sender, EventArgs e)

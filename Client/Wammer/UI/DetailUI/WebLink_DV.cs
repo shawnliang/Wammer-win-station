@@ -5,26 +5,34 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 using Waveface.API.V2;
+using Waveface.Compoment;
 using Waveface.Component;
 
 #endregion
 
 namespace Waveface.DetailUI
 {
-    public class WebLink_DV : UserControl, IDetailViewer
+    public class WebLink_DV : UserControl
     {
         private IContainer components;
         private Panel panelMain;
-        private Panel panelRight;
+        private AutoScrollPanel panelRight;
         private WebBrowser webBrowserTop;
-        private Panel PanelAddComment;
         private WebBrowser webBrowserComment;
         private Post m_post;
-        private XPButton buttonAddComment;
         private Panel panelWebBrowser;
         private WebBrowser webBrowserSoul;
         private Localization.CultureManager cultureManager;
-        private TextBox textBoxComment;
+        private ContextMenuStrip contextMenuStripTop;
+        private ToolStripMenuItem miCopyTop;
+        private ContextMenuStrip contextMenuStripComment;
+        private ToolStripMenuItem miCopyComment;
+        private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
+        private WebBrowserContextMenuHandler m_commentBrowserContextMenuHandler;
+        private WebBrowserContextMenuHandler m_soulBrowserContextMenuHandler;
+        private ContextMenuStrip contextMenuStripSoul;
+        private ToolStripMenuItem miCopySoul;
+
 
         public Post Post
         {
@@ -48,8 +56,6 @@ namespace Waveface.DetailUI
         public WebLink_DV()
         {
             InitializeComponent();
-
-            ControlUtility.DisableAllTabStop(this);
         }
 
         protected override void Dispose(bool disposing)
@@ -78,19 +84,24 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebLink_DV));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.panelRight = new System.Windows.Forms.Panel();
-            this.PanelAddComment = new System.Windows.Forms.Panel();
-            this.textBoxComment = new System.Windows.Forms.TextBox();
+            this.panelRight = new Waveface.Compoment.AutoScrollPanel();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.panelWebBrowser = new System.Windows.Forms.Panel();
             this.webBrowserSoul = new System.Windows.Forms.WebBrowser();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.buttonAddComment = new Waveface.Component.XPButton();
+            this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripComment = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCopyComment = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripSoul = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCopySoul = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
-            this.PanelAddComment.SuspendLayout();
             this.panelWebBrowser.SuspendLayout();
+            this.contextMenuStripTop.SuspendLayout();
+            this.contextMenuStripComment.SuspendLayout();
+            this.contextMenuStripSoul.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -104,24 +115,10 @@ namespace Waveface.DetailUI
             // 
             resources.ApplyResources(this.panelRight, "panelRight");
             this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.panelRight.Controls.Add(this.PanelAddComment);
             this.panelRight.Controls.Add(this.webBrowserComment);
             this.panelRight.Controls.Add(this.panelWebBrowser);
             this.panelRight.Controls.Add(this.webBrowserTop);
             this.panelRight.Name = "panelRight";
-            // 
-            // PanelAddComment
-            // 
-            resources.ApplyResources(this.PanelAddComment, "PanelAddComment");
-            this.PanelAddComment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.PanelAddComment.Controls.Add(this.buttonAddComment);
-            this.PanelAddComment.Controls.Add(this.textBoxComment);
-            this.PanelAddComment.Name = "PanelAddComment";
-            // 
-            // textBoxComment
-            // 
-            resources.ApplyResources(this.textBoxComment, "textBoxComment");
-            this.textBoxComment.Name = "textBoxComment";
             // 
             // webBrowserComment
             // 
@@ -159,15 +156,41 @@ namespace Waveface.DetailUI
             // 
             this.cultureManager.ManagedControl = this;
             // 
-            // buttonAddComment
+            // contextMenuStripTop
             // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
+            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopyTop});
+            this.contextMenuStripTop.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
+            // 
+            // miCopyTop
+            // 
+            this.miCopyTop.Name = "miCopyTop";
+            resources.ApplyResources(this.miCopyTop, "miCopyTop");
+            // 
+            // contextMenuStripComment
+            // 
+            this.contextMenuStripComment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopyComment});
+            this.contextMenuStripComment.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripComment, "contextMenuStripComment");
+            // 
+            // miCopyComment
+            // 
+            this.miCopyComment.Name = "miCopyComment";
+            resources.ApplyResources(this.miCopyComment, "miCopyComment");
+            // 
+            // contextMenuStripSoul
+            // 
+            this.contextMenuStripSoul.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopySoul});
+            this.contextMenuStripSoul.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripSoul, "contextMenuStripSoul");
+            // 
+            // miCopySoul
+            // 
+            this.miCopySoul.Name = "miCopySoul";
+            resources.ApplyResources(this.miCopySoul, "miCopySoul");
             // 
             // WebLink_DV
             // 
@@ -176,9 +199,10 @@ namespace Waveface.DetailUI
             this.Name = "WebLink_DV";
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
-            this.PanelAddComment.ResumeLayout(false);
-            this.PanelAddComment.PerformLayout();
             this.panelWebBrowser.ResumeLayout(false);
+            this.contextMenuStripTop.ResumeLayout(false);
+            this.contextMenuStripComment.ResumeLayout(false);
+            this.contextMenuStripSoul.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -191,7 +215,7 @@ namespace Waveface.DetailUI
             Set_Comments_Part();
 
             //@ PanelAddComment.Visible = true;
-            textBoxComment.Focus();
+            panelRight.Focus();
         }
 
         private void Set_Comments_Part()
@@ -251,17 +275,22 @@ namespace Waveface.DetailUI
         {
             int _h = webBrowserTop.Document.Body.ScrollRectangle.Height;
             webBrowserTop.Height = _h;
+
+            m_topBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserTop, miCopyTop);
+            contextMenuStripTop.Opening += contextMenuStripTop_Opening;
+            miCopyTop.Click += m_topBrowserContextMenuHandler.CopyCtxMenuClickHandler;
+            webBrowserTop.Document.ContextMenuShowing += webBrowserTop_ContextMenuShowing;
         }
 
         private void webBrowserComment_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             int _h = webBrowserComment.Document.Body.ScrollRectangle.Height;
             webBrowserComment.Height = _h;
-        }
 
-        private void buttonAddComment_Click(object sender, EventArgs e)
-        {
-            //@ MyParent.PostComment(textBoxComment, Post);
+            m_commentBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserComment, miCopyComment);
+            contextMenuStripComment.Opening += contextMenuStripComment_Opening;
+            miCopyComment.Click += m_commentBrowserContextMenuHandler.CopyCtxMenuClickHandler;
+            webBrowserComment.Document.ContextMenuShowing += webBrowserComment_ContextMenuShowing;
         }
 
         private void webBrowserSoul_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -273,27 +302,46 @@ namespace Waveface.DetailUI
 
             if (m_post.soul.Trim() != string.Empty)
                 panelWebBrowser.Visible = true;
+
+            m_soulBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserSoul, miCopySoul);
+            contextMenuStripSoul.Opening += contextMenuStripSoul_Opening;
+            miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
+            webBrowserSoul.Document.ContextMenuShowing += webBrowserSoul_ContextMenuShowing;
         }
 
-        #region IDetailViewer
+        #region ContextMenu
 
-        public void ScrollToComment()
+        void contextMenuStripTop_Opening(object sender, CancelEventArgs e)
         {
-            if (panelRight.VerticalScroll.Visible)
-            {
-                panelRight.VerticalScroll.Value = PanelAddComment.Top;
-                textBoxComment.Focus();
-            }
+            m_topBrowserContextMenuHandler.UpdateButtons();
         }
 
-        public bool WantToShowCommentButton()
+        void webBrowserTop_ContextMenuShowing(object sender, HtmlElementEventArgs e)
         {
-            if (panelRight.VerticalScroll.Visible)
-            {
-                return PanelAddComment.Bottom > panelRight.Height;
-            }
+            contextMenuStripTop.Show(webBrowserTop.PointToScreen(e.MousePosition));
+            e.ReturnValue = false;
+        }
 
-            return false;
+        void contextMenuStripComment_Opening(object sender, CancelEventArgs e)
+        {
+            m_commentBrowserContextMenuHandler.UpdateButtons();
+        }
+
+        void webBrowserComment_ContextMenuShowing(object sender, HtmlElementEventArgs e)
+        {
+            contextMenuStripComment.Show(webBrowserComment.PointToScreen(e.MousePosition));
+            e.ReturnValue = false;
+        }
+
+        void contextMenuStripSoul_Opening(object sender, CancelEventArgs e)
+        {
+            m_soulBrowserContextMenuHandler.UpdateButtons();
+        }
+
+        void webBrowserSoul_ContextMenuShowing(object sender, HtmlElementEventArgs e)
+        {
+            contextMenuStripSoul.Show(webBrowserSoul.PointToScreen(e.MousePosition));
+            e.ReturnValue = false;
         }
 
         #endregion

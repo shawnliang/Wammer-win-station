@@ -7,11 +7,11 @@ namespace Waveface
     {
         public static void DisableAllTabStop(Control container)
         {
-            foreach (Control c in container.Controls)
+            foreach (Control _c in container.Controls)
             {
-                DisableAllTabStop(c);
+                DisableAllTabStop(_c);
 
-                c.TabStop = false;
+                _c.TabStop = false;
             }
         }
     }

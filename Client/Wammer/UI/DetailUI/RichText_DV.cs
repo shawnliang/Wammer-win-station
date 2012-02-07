@@ -6,23 +6,19 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using Waveface.API.V2;
-using Waveface.Component;
 
 #endregion
 
 namespace Waveface.DetailUI
 {
-    public class RichText_DV : UserControl, IDetailViewer
+    public class RichText_DV : UserControl
     {
         private IContainer components;
         private Panel panelMain;
         private Panel panelRight;
         private WebBrowser webBrowser;
-        private Panel PanelAddComment;
         private WebBrowser webBrowserComment;
         private Post m_post;
-        private XPButton buttonAddComment;
-        private TextBox textBoxComment;
         private string m_htmlFile;
 
         public Post Post
@@ -74,14 +70,10 @@ namespace Waveface.DetailUI
         {
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new System.Windows.Forms.Panel();
-            this.PanelAddComment = new System.Windows.Forms.Panel();
-            this.buttonAddComment = new Waveface.Component.XPButton();
-            this.textBoxComment = new System.Windows.Forms.TextBox();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
-            this.PanelAddComment.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -103,53 +95,12 @@ namespace Waveface.DetailUI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelRight.AutoScroll = true;
-            this.panelRight.Controls.Add(this.PanelAddComment);
             this.panelRight.Controls.Add(this.webBrowserComment);
             this.panelRight.Controls.Add(this.webBrowser);
             this.panelRight.Location = new System.Drawing.Point(4, 4);
             this.panelRight.Name = "panelRight";
             this.panelRight.Size = new System.Drawing.Size(520, 478);
             this.panelRight.TabIndex = 2;
-            // 
-            // PanelAddComment
-            // 
-            this.PanelAddComment.AutoScroll = true;
-            this.PanelAddComment.AutoScrollMinSize = new System.Drawing.Size(345, 0);
-            this.PanelAddComment.BackColor = System.Drawing.SystemColors.Window;
-            this.PanelAddComment.Controls.Add(this.buttonAddComment);
-            this.PanelAddComment.Controls.Add(this.textBoxComment);
-            this.PanelAddComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelAddComment.Location = new System.Drawing.Point(0, 194);
-            this.PanelAddComment.Name = "PanelAddComment";
-            this.PanelAddComment.Size = new System.Drawing.Size(520, 84);
-            this.PanelAddComment.TabIndex = 3;
-            this.PanelAddComment.Visible = false;
-            // 
-            // buttonAddComment
-            // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonAddComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonAddComment.Location = new System.Drawing.Point(426, 3);
-            this.buttonAddComment.Name = "buttonAddComment";
-            this.buttonAddComment.Size = new System.Drawing.Size(66, 28);
-            this.buttonAddComment.TabIndex = 1;
-            this.buttonAddComment.Text = "Send";
-            this.buttonAddComment.UseVisualStyleBackColor = true;
-            this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
-            // 
-            // textBoxComment
-            // 
-            this.textBoxComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxComment.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxComment.Location = new System.Drawing.Point(32, 3);
-            this.textBoxComment.Multiline = true;
-            this.textBoxComment.Name = "textBoxComment";
-            this.textBoxComment.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxComment.Size = new System.Drawing.Size(388, 44);
-            this.textBoxComment.TabIndex = 0;
             // 
             // webBrowserComment
             // 
@@ -182,8 +133,6 @@ namespace Waveface.DetailUI
             this.Size = new System.Drawing.Size(537, 495);
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
-            this.PanelAddComment.ResumeLayout(false);
-            this.PanelAddComment.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -196,7 +145,6 @@ namespace Waveface.DetailUI
             Set_Comments_Part();
 
             //@ PanelAddComment.Visible = true;
-            textBoxComment.Focus();
         }
 
         private void Set_Comments_Part()
@@ -257,33 +205,5 @@ namespace Waveface.DetailUI
 
             Application.DoEvents();
         }
-
-        private void buttonAddComment_Click(object sender, EventArgs e)
-        {
-            //@ MyParent.PostComment(textBoxComment, Post);
-        }
-
-        #region IDetailViewer
-
-        public void ScrollToComment()
-        {
-            if (panelRight.VerticalScroll.Visible)
-            {
-                panelRight.VerticalScroll.Value = PanelAddComment.Top;
-                textBoxComment.Focus();
-            }
-        }
-
-        public bool WantToShowCommentButton()
-        {
-            if (panelRight.VerticalScroll.Visible)
-            {
-                return PanelAddComment.Bottom > panelRight.Height;
-            }
-
-            return false;
-        }
-
-        #endregion
     }
 }
