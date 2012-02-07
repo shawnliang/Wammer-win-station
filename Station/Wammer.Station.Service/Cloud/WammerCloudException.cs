@@ -49,6 +49,7 @@ namespace Wammer.Cloud
 		{
 			this.response = GetErrResponseText(innerException);
 			this.wammerError = TryParseWammerError(this.response);
+			this.httpError = innerException.Status;
 		}
 
 		public WammerCloudException(string msg, string postData, WebException innerException)
