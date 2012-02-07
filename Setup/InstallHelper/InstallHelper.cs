@@ -248,28 +248,6 @@ namespace Wammer.Station
 				Logger.Warn("Unable to set cloudBaseURL to registry", e);
 			}
 
-			try
-			{
-				int maxWorker;
-				int maxIO;
-				int minWorker;
-				int minIO;
-
-				System.Threading.ThreadPool.GetMaxThreads(out maxWorker, out maxIO);
-				System.Threading.ThreadPool.GetMinThreads(out minWorker, out minIO);
-
-				maxWorker = minWorker * 3 / 2;
-				if (maxWorker < 3)
-					maxWorker = 3;
-
-				StationRegistry.SetValue("MaxWorkerThreads", maxWorker);
-				StationRegistry.SetValue("MaxIOThreads", maxIO);
-			}
-			catch (Exception e)
-			{
-				Logger.Warn("Unable to set thread numbers", e);
-			}
-
 			return ActionResult.Success;
 		}
 

@@ -222,24 +222,8 @@ namespace Wammer.Station.Service
 			if (minWorker > 0 && minIO > 0)
 			{
 				System.Threading.ThreadPool.SetMinThreads(minWorker, minIO);
-				logger.InfoFormat("Min worker threads {0}, min completion port threads {1}",
+				logger.InfoFormat("Min worker threads {0}, min IO completion threads {1}",
 					minWorker, minIO);
-			}
-
-
-
-			int maxWorker;
-			int maxIO;
-
-			System.Threading.ThreadPool.GetMaxThreads(out maxWorker, out maxIO);
-			maxWorker = (int)StationRegistry.GetValue("MaxWorkerThreads", maxWorker);
-			maxIO = (int)StationRegistry.GetValue("MaxIOThreads", maxIO);
-
-			if (maxWorker > 0 && maxIO > 0)
-			{
-				System.Threading.ThreadPool.SetMaxThreads(maxWorker, maxIO);
-				logger.InfoFormat("Max worker threads {0}, min completion port threads {1}",
-					maxWorker, maxIO);
 			}
 		}
 
