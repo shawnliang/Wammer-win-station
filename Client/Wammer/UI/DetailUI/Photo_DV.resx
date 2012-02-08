@@ -130,7 +130,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="webBrowserComment.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 290</value>
+    <value>0, 282</value>
   </data>
   <data name="webBrowserComment.Size" type="System.Drawing.Size, System.Drawing">
     <value>505, 97</value>
@@ -150,17 +150,8 @@
   <data name="&gt;&gt;webBrowserComment.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="PanelPictures.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="PanelPictures.AutoScrollMinSize" type="System.Drawing.Size, System.Drawing">
-    <value>345, 0</value>
-  </data>
-  <data name="imageListView.Colors" xml:space="preserve">
-    <value>BackColor = fff3f2ee; BorderColor = 406d6d6d; UnFocusedColor1 = fff3f2ee; UnFocusedColor2 = fff3f2ee; UnFocusedBorderColor = 806d6d6d; HoverColor1 = 83399ff; HoverColor2 = 403399ff; HoverBorderColor = 403399ff; SelectedColor1 = 103399ff; SelectedColor2 = 803399ff; SelectedBorderColor = 803399ff; ColumnHeaderBackColor1 = fff3f2ee; ColumnHeaderBackColor2 = fff3f2ee; ColumnHeaderHoverColor1 = 103399ff; ColumnHeaderHoverColor2 = 403399ff; ColumnSelectColor = 106d6d6d; ColumnSeparatorColor = 206d6d6d; PaneBackColor = fff3f2ee; PaneSeparatorColor = 806d6d6d; SelectionRectangleColor1 = 803399ff; SelectionRectangleColor2 = 803399ff</value>
-  </data>
   <data name="imageListView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+    <value>Top</value>
   </data>
   <data name="imageListView.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -180,7 +171,7 @@
 </value>
   </data>
   <data name="imageListView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 8</value>
+    <value>0, 129</value>
   </data>
   <data name="imageListView.Size" type="System.Drawing.Size, System.Drawing">
     <value>505, 153</value>
@@ -195,66 +186,9 @@
     <value>Manina.Windows.Forms.ImageListView, ImageListView, Version=10.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;imageListView.Parent" xml:space="preserve">
-    <value>PanelPictures</value>
-  </data>
-  <data name="&gt;&gt;imageListView.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pictureBoxRemote.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pictureBoxRemote.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 27</value>
-  </data>
-  <data name="pictureBoxRemote.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 53</value>
-  </data>
-  <data name="pictureBoxRemote.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>StretchImage</value>
-  </data>
-  <data name="pictureBoxRemote.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="pictureBoxRemote.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxRemote.Name" xml:space="preserve">
-    <value>pictureBoxRemote</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxRemote.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxRemote.Parent" xml:space="preserve">
-    <value>PanelPictures</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxRemote.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="PanelPictures.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="PanelPictures.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 129</value>
-  </data>
-  <data name="PanelPictures.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 8, 0, 0</value>
-  </data>
-  <data name="PanelPictures.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 161</value>
-  </data>
-  <data name="PanelPictures.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;PanelPictures.Name" xml:space="preserve">
-    <value>PanelPictures</value>
-  </data>
-  <data name="&gt;&gt;PanelPictures.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PanelPictures.Parent" xml:space="preserve">
     <value>panelRight</value>
   </data>
-  <data name="&gt;&gt;PanelPictures.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;imageListView.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="labelPictureInfo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">

@@ -197,6 +197,7 @@ namespace Waveface.DetailUI
             this.Controls.Add(this.panelMain);
             resources.ApplyResources(this, "$this");
             this.Name = "WebLink_DV";
+            this.Resize += new System.EventHandler(this.WebLink_DV_Resize);
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.panelWebBrowser.ResumeLayout(false);
@@ -213,9 +214,6 @@ namespace Waveface.DetailUI
         {
             Set_MainContent_Preview_Part();
             Set_Comments_Part();
-
-            //@ PanelAddComment.Visible = true;
-            panelRight.Focus();
         }
 
         private void Set_Comments_Part()
@@ -345,5 +343,17 @@ namespace Waveface.DetailUI
         }
 
         #endregion
+
+        private void WebLink_DV_Resize(object sender, EventArgs e)
+        {
+            if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
+                webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
+
+            if ((webBrowserComment.Document != null) && (webBrowserComment.Document.Body != null))
+                webBrowserComment.Height = webBrowserComment.Document.Body.ScrollRectangle.Height;
+
+            if ((webBrowserSoul.Document != null) && (webBrowserSoul.Document.Body != null))
+                webBrowserSoul.Height = webBrowserSoul.Document.Body.ScrollRectangle.Height;
+        }
     }
 }

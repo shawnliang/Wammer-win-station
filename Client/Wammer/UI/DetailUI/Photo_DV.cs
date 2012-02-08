@@ -28,9 +28,7 @@ namespace Waveface.DetailUI
         private AutoScrollPanel panelRight;
         private WebBrowser webBrowserTop;
         private WebBrowser webBrowserComment;
-        private Panel PanelPictures;
         private ImageListView imageListView;
-        private PictureBox pictureBoxRemote;
         private Post m_post;
         private Panel panelPictureInfo;
         private Label labelPictureInfo;
@@ -104,15 +102,13 @@ namespace Waveface.DetailUI
 
             m_filesMapping = new Dictionary<string, string>();
         }
-        
+
         #region Component Designer generated code
 
         /// <summary> 
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        // private void InitializeComponent()
-        // {
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
@@ -120,9 +116,7 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new Waveface.Compoment.AutoScrollPanel();
             this.webBrowserComment = new System.Windows.Forms.WebBrowser();
-            this.PanelPictures = new System.Windows.Forms.Panel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
-            this.pictureBoxRemote = new System.Windows.Forms.PictureBox();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
@@ -134,8 +128,6 @@ namespace Waveface.DetailUI
             this.miCopyComment = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
-            this.PanelPictures.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemote)).BeginInit();
             this.panelPictureInfo.SuspendLayout();
             this.contextMenuStripTop.SuspendLayout();
             this.contextMenuStripComment.SuspendLayout();
@@ -153,7 +145,7 @@ namespace Waveface.DetailUI
             resources.ApplyResources(this.panelRight, "panelRight");
             this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelRight.Controls.Add(this.webBrowserComment);
-            this.panelRight.Controls.Add(this.PanelPictures);
+            this.panelRight.Controls.Add(this.imageListView);
             this.panelRight.Controls.Add(this.panelPictureInfo);
             this.panelRight.Controls.Add(this.webBrowserTop);
             this.panelRight.Name = "panelRight";
@@ -166,20 +158,11 @@ namespace Waveface.DetailUI
             this.webBrowserComment.ScrollBarsEnabled = false;
             this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
             // 
-            // PanelPictures
-            // 
-            resources.ApplyResources(this.PanelPictures, "PanelPictures");
-            this.PanelPictures.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.PanelPictures.Controls.Add(this.imageListView);
-            this.PanelPictures.Controls.Add(this.pictureBoxRemote);
-            this.PanelPictures.Name = "PanelPictures";
-            // 
             // imageListView
             // 
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.CacheLimit = "0";
-            this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.DefaultImage = global::Waveface.Properties.Resources.LoadingImage;
             resources.ApplyResources(this.imageListView, "imageListView");
@@ -188,12 +171,7 @@ namespace Waveface.DetailUI
             this.imageListView.Name = "imageListView";
             this.imageListView.ThumbnailSize = new System.Drawing.Size(128, 128);
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
-            // 
-            // pictureBoxRemote
-            // 
-            resources.ApplyResources(this.pictureBoxRemote, "pictureBoxRemote");
-            this.pictureBoxRemote.Name = "pictureBoxRemote";
-            this.pictureBoxRemote.TabStop = false;
+            this.imageListView.Resize += new System.EventHandler(this.imageListView_Resize);
             // 
             // panelPictureInfo
             // 
@@ -258,8 +236,6 @@ namespace Waveface.DetailUI
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
-            this.PanelPictures.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemote)).EndInit();
             this.panelPictureInfo.ResumeLayout(false);
             this.contextMenuStripTop.ResumeLayout(false);
             this.contextMenuStripComment.ResumeLayout(false);
@@ -297,14 +273,12 @@ namespace Waveface.DetailUI
         {
             if (Post.attachment_count > 0)
             {
-                PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
+                imageListView.Height = imageListView.VScrollBar.Maximum + 16;
             }
             else
             {
-                PanelPictures.Height = 0;
+                imageListView.Height = 0;
             }
-
-            panelRight.Focus();
         }
 
         private void Set_Comments_Part()
@@ -325,7 +299,7 @@ namespace Waveface.DetailUI
             _sb.Append("<font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'><p>[Text]</p></font>");
 
             string _html = _sb.ToString();
-            
+
             string _content = Post.content.Replace(Environment.NewLine, "<BR>");
             _content = _content.Replace("\n", "<BR>");
 
@@ -575,7 +549,7 @@ namespace Waveface.DetailUI
 
         private void DetailView_Resize(object sender, EventArgs e)
         {
-            PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
+            imageListView.Height = imageListView.VScrollBar.Maximum + 16;
         }
 
         #region ContextMenu
@@ -603,5 +577,17 @@ namespace Waveface.DetailUI
         }
 
         #endregion
+
+        private void imageListView_Resize(object sender, EventArgs e)
+        {
+            if (Post != null)
+                ReLayout();
+
+            if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
+                webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
+
+            if ((webBrowserComment.Document != null) && (webBrowserComment.Document.Body != null))
+                webBrowserComment.Height = webBrowserComment.Document.Body.ScrollRectangle.Height;
+        }
     }
 }

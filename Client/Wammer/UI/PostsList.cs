@@ -320,7 +320,15 @@ namespace Waveface
                     break;
 
                 case "link":
-                    _info = StringUtility.ExtractDomainNameFromURL(post.preview.url);
+                    if (!string.IsNullOrEmpty(post.preview.provider_name))
+                    {
+                        _info = post.preview.provider_name;
+                    }
+                    else
+                    {
+                        _info = StringUtility.ExtractDomainNameFromURL(post.preview.url);
+                    }
+
                     break;
             }
 
@@ -431,7 +439,7 @@ namespace Waveface
         {
             try
             {
-                if (post.preview.thumbnail_url == null)
+                if (string.IsNullOrEmpty(post.preview.thumbnail_url))
                 {
                     return false;
                 }

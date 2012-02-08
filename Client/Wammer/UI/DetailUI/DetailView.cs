@@ -210,8 +210,6 @@ namespace Waveface
 
                     break;
             }
-
-            ControlUtility.DisableAllTabStop(this);
         }
 
         private void setupTitle()
