@@ -125,34 +125,10 @@
   <data name="panelRight.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="webBrowserComment.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="webBrowserComment.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 282</value>
-  </data>
-  <data name="webBrowserComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 97</value>
-  </data>
-  <data name="webBrowserComment.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;webBrowserComment.Name" xml:space="preserve">
-    <value>webBrowserComment</value>
-  </data>
-  <data name="&gt;&gt;webBrowserComment.Type" xml:space="preserve">
-    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;webBrowserComment.Parent" xml:space="preserve">
-    <value>panelRight</value>
-  </data>
-  <data name="&gt;&gt;webBrowserComment.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="imageListView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="imageListView.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29m
@@ -189,7 +165,7 @@
     <value>panelRight</value>
   </data>
   <data name="&gt;&gt;imageListView.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="labelPictureInfo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -249,7 +225,7 @@
     <value>panelRight</value>
   </data>
   <data name="&gt;&gt;panelPictureInfo.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="webBrowserTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -273,7 +249,7 @@
     <value>panelRight</value>
   </data>
   <data name="&gt;&gt;webBrowserTop.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="panelRight.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 0</value>
@@ -324,7 +300,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <metadata name="timer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>35, 20</value>
@@ -365,12 +341,6 @@
   <data name="&gt;&gt;miCopyTop.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;miCopyComment.Name" xml:space="preserve">
-    <value>miCopyComment</value>
-  </data>
-  <data name="&gt;&gt;miCopyComment.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Photo_DV</value>
   </data>
@@ -393,24 +363,6 @@
     <value>contextMenuStripTop</value>
   </data>
   <data name="&gt;&gt;contextMenuStripTop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <metadata name="contextMenuStripComment.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>440, 20</value>
-  </metadata>
-  <data name="miCopyComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 22</value>
-  </data>
-  <data name="miCopyComment.Text" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="contextMenuStripComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 26</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripComment.Name" xml:space="preserve">
-    <value>contextMenuStripComment</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripComment.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

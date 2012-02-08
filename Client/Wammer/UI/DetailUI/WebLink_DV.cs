@@ -2,6 +2,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Waveface.API.V2;
@@ -18,17 +19,13 @@ namespace Waveface.DetailUI
         private Panel panelMain;
         private AutoScrollPanel panelRight;
         private WebBrowser webBrowserTop;
-        private WebBrowser webBrowserComment;
         private Post m_post;
         private Panel panelWebBrowser;
         private WebBrowser webBrowserSoul;
         private Localization.CultureManager cultureManager;
         private ContextMenuStrip contextMenuStripTop;
         private ToolStripMenuItem miCopyTop;
-        private ContextMenuStrip contextMenuStripComment;
-        private ToolStripMenuItem miCopyComment;
         private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
-        private WebBrowserContextMenuHandler m_commentBrowserContextMenuHandler;
         private WebBrowserContextMenuHandler m_soulBrowserContextMenuHandler;
         private ContextMenuStrip contextMenuStripSoul;
         private ToolStripMenuItem miCopySoul;
@@ -85,22 +82,18 @@ namespace Waveface.DetailUI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebLink_DV));
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new Waveface.Compoment.AutoScrollPanel();
-            this.webBrowserComment = new System.Windows.Forms.WebBrowser();
             this.panelWebBrowser = new System.Windows.Forms.Panel();
             this.webBrowserSoul = new System.Windows.Forms.WebBrowser();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripComment = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCopyComment = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripSoul = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopySoul = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.panelWebBrowser.SuspendLayout();
             this.contextMenuStripTop.SuspendLayout();
-            this.contextMenuStripComment.SuspendLayout();
             this.contextMenuStripSoul.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -115,18 +108,9 @@ namespace Waveface.DetailUI
             // 
             resources.ApplyResources(this.panelRight, "panelRight");
             this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.panelRight.Controls.Add(this.webBrowserComment);
             this.panelRight.Controls.Add(this.panelWebBrowser);
             this.panelRight.Controls.Add(this.webBrowserTop);
             this.panelRight.Name = "panelRight";
-            // 
-            // webBrowserComment
-            // 
-            this.webBrowserComment.AllowWebBrowserDrop = false;
-            resources.ApplyResources(this.webBrowserComment, "webBrowserComment");
-            this.webBrowserComment.Name = "webBrowserComment";
-            this.webBrowserComment.ScrollBarsEnabled = false;
-            this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
             // 
             // panelWebBrowser
             // 
@@ -137,6 +121,7 @@ namespace Waveface.DetailUI
             // 
             // webBrowserSoul
             // 
+            this.webBrowserSoul.AllowNavigation = false;
             resources.ApplyResources(this.webBrowserSoul, "webBrowserSoul");
             this.webBrowserSoul.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserSoul.Name = "webBrowserSoul";
@@ -168,18 +153,6 @@ namespace Waveface.DetailUI
             this.miCopyTop.Name = "miCopyTop";
             resources.ApplyResources(this.miCopyTop, "miCopyTop");
             // 
-            // contextMenuStripComment
-            // 
-            this.contextMenuStripComment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopyComment});
-            this.contextMenuStripComment.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripComment, "contextMenuStripComment");
-            // 
-            // miCopyComment
-            // 
-            this.miCopyComment.Name = "miCopyComment";
-            resources.ApplyResources(this.miCopyComment, "miCopyComment");
-            // 
             // contextMenuStripSoul
             // 
             this.contextMenuStripSoul.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -202,7 +175,6 @@ namespace Waveface.DetailUI
             this.panelRight.ResumeLayout(false);
             this.panelWebBrowser.ResumeLayout(false);
             this.contextMenuStripTop.ResumeLayout(false);
-            this.contextMenuStripComment.ResumeLayout(false);
             this.contextMenuStripSoul.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -210,25 +182,43 @@ namespace Waveface.DetailUI
 
         #endregion
 
+        /*
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.PageDown:
+                    panelRight.VerticalScroll.Value = panelRight.VerticalScroll.Value + 64;
+                    return true;
+
+                case Keys.PageUp:
+                    panelRight.VerticalScroll.Value = panelRight.VerticalScroll.Value - 64;
+                    return true;
+
+                case Keys.Down:
+                    panelRight.VerticalScroll.Value = panelRight.VerticalScroll.Value + 16;
+                    return true;
+
+                case Keys.Up:
+                    panelRight.VerticalScroll.Value = panelRight.VerticalScroll.Value - 16;
+                    return true;
+            }
+
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+        */
+
         private void RefreshUI()
         {
             Set_MainContent_Preview_Part();
-            Set_Comments_Part();
-        }
-
-        private void Set_Comments_Part()
-        {
-            MyParent.SetComments(webBrowserComment, Post, true);
         }
 
         private void Set_MainContent_Preview_Part()
         {
             StringBuilder _sb = new StringBuilder();
 
-            if (Post.preview.url != null)
-                _sb.Append("<font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif' color='#eef'><p>[Text]</p><hr><br></font>");
-            else
-                _sb.Append("<font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif' color='#eef'><p>[Text]</p><br></font>");
+            _sb.Append("<font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif' color='#eef'><p>[Text]</p></font>");
 
             string _html = _sb.ToString();
 
@@ -236,6 +226,8 @@ namespace Waveface.DetailUI
             _content = _content.Replace("\n", "<BR>");
 
             _html = _html.Replace("[Text]", _content);
+
+            _html += MyParent.GenCommentHTML(Post);
 
             _html = HtmlUtility.MakeLink(_html);
 
@@ -265,8 +257,8 @@ namespace Waveface.DetailUI
                 _html = _html.Replace("[PriviewText]", _p.description);
             }
 
-            webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</quote></body>");
-            webBrowserSoul.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>"); //"<body bgcolor=\"rgb(243, 242, 238)\">" + m_post.soul + "</body>"
+            webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
+            webBrowserSoul.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -278,17 +270,6 @@ namespace Waveface.DetailUI
             contextMenuStripTop.Opening += contextMenuStripTop_Opening;
             miCopyTop.Click += m_topBrowserContextMenuHandler.CopyCtxMenuClickHandler;
             webBrowserTop.Document.ContextMenuShowing += webBrowserTop_ContextMenuShowing;
-        }
-
-        private void webBrowserComment_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            int _h = webBrowserComment.Document.Body.ScrollRectangle.Height;
-            webBrowserComment.Height = _h;
-
-            m_commentBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserComment, miCopyComment);
-            contextMenuStripComment.Opening += contextMenuStripComment_Opening;
-            miCopyComment.Click += m_commentBrowserContextMenuHandler.CopyCtxMenuClickHandler;
-            webBrowserComment.Document.ContextMenuShowing += webBrowserComment_ContextMenuShowing;
         }
 
         private void webBrowserSoul_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -320,17 +301,6 @@ namespace Waveface.DetailUI
             e.ReturnValue = false;
         }
 
-        void contextMenuStripComment_Opening(object sender, CancelEventArgs e)
-        {
-            m_commentBrowserContextMenuHandler.UpdateButtons();
-        }
-
-        void webBrowserComment_ContextMenuShowing(object sender, HtmlElementEventArgs e)
-        {
-            contextMenuStripComment.Show(webBrowserComment.PointToScreen(e.MousePosition));
-            e.ReturnValue = false;
-        }
-
         void contextMenuStripSoul_Opening(object sender, CancelEventArgs e)
         {
             m_soulBrowserContextMenuHandler.UpdateButtons();
@@ -348,9 +318,6 @@ namespace Waveface.DetailUI
         {
             if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
                 webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
-
-            if ((webBrowserComment.Document != null) && (webBrowserComment.Document.Body != null))
-                webBrowserComment.Height = webBrowserComment.Document.Body.ScrollRectangle.Height;
 
             if ((webBrowserSoul.Document != null) && (webBrowserSoul.Document.Body != null))
                 webBrowserSoul.Height = webBrowserSoul.Document.Body.ScrollRectangle.Height;

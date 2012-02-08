@@ -253,27 +253,25 @@ namespace Waveface
 
         public static string ResizeImage(string orgImageFilePath, string fileName, string resizeRatio, int ratio)
         {
-            bool _rotatedOK = false;
             string _rotatedImagePath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + fileName;
 
-            using (Bitmap _img = (Bitmap)Image.FromFile(orgImageFilePath))
+            if (resizeRatio.Equals(string.Empty) || resizeRatio.Equals("100%"))
             {
-                ExifOrientations _exifOrientations =  ImageOrientation(_img);
+                return orgImageFilePath;
+            }
+
+            using (Bitmap _img = (Bitmap) Image.FromFile(orgImageFilePath))
+            {
+                ExifOrientations _exifOrientations = ImageOrientation(_img);
 
                 if (_exifOrientations != ExifOrientations.Unknown)
                 {
                     CorrectOrientation(_exifOrientations, _img);
                     _img.Save(_rotatedImagePath);
-                    _rotatedOK = true;
                 }
             }
 
-            string _resize = resizeRatio;
-
-            if (_resize.Equals(string.Empty) || _resize.Equals("100%"))
-                return _rotatedOK ? _rotatedImagePath : orgImageFilePath;
-
-            int _longestSide = int.Parse(_resize);
+            int _longestSide = int.Parse(resizeRatio);
 
             try
             {

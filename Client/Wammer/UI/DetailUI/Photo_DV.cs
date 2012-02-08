@@ -27,7 +27,6 @@ namespace Waveface.DetailUI
         private Panel panelMain;
         private AutoScrollPanel panelRight;
         private WebBrowser webBrowserTop;
-        private WebBrowser webBrowserComment;
         private ImageListView imageListView;
         private Post m_post;
         private Panel panelPictureInfo;
@@ -46,13 +45,10 @@ namespace Waveface.DetailUI
         private Localization.CultureManager cultureManager;
         private ContextMenuStrip contextMenuStripTop;
         private ToolStripMenuItem miCopyTop;
-        private ContextMenuStrip contextMenuStripComment;
-        private ToolStripMenuItem miCopyComment;
 
         private int m_loadingPhotosCount;
 
         private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
-        private WebBrowserContextMenuHandler m_commentBrowserContextMenuHandler;
 
         #endregion
 
@@ -114,23 +110,19 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo_DV));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.panelRight = new Waveface.Compoment.AutoScrollPanel();
-            this.webBrowserComment = new System.Windows.Forms.WebBrowser();
-            this.imageListView = new Manina.Windows.Forms.ImageListView();
-            this.panelPictureInfo = new System.Windows.Forms.Panel();
-            this.labelPictureInfo = new System.Windows.Forms.Label();
-            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripComment = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCopyComment = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelRight = new Waveface.Compoment.AutoScrollPanel();
+            this.imageListView = new Manina.Windows.Forms.ImageListView();
+            this.panelPictureInfo = new System.Windows.Forms.Panel();
+            this.labelPictureInfo = new System.Windows.Forms.Label();
+            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.panelMain.SuspendLayout();
+            this.contextMenuStripTop.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.panelPictureInfo.SuspendLayout();
-            this.contextMenuStripTop.SuspendLayout();
-            this.contextMenuStripComment.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -140,23 +132,35 @@ namespace Waveface.DetailUI
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
             // 
+            // timer
+            // 
+            this.timer.Interval = 3000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // contextMenuStripTop
+            // 
+            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopyTop});
+            this.contextMenuStripTop.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
+            // 
+            // miCopyTop
+            // 
+            this.miCopyTop.Name = "miCopyTop";
+            resources.ApplyResources(this.miCopyTop, "miCopyTop");
+            // 
             // panelRight
             // 
             resources.ApplyResources(this.panelRight, "panelRight");
             this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.panelRight.Controls.Add(this.webBrowserComment);
             this.panelRight.Controls.Add(this.imageListView);
             this.panelRight.Controls.Add(this.panelPictureInfo);
             this.panelRight.Controls.Add(this.webBrowserTop);
             this.panelRight.Name = "panelRight";
-            // 
-            // webBrowserComment
-            // 
-            this.webBrowserComment.AllowWebBrowserDrop = false;
-            resources.ApplyResources(this.webBrowserComment, "webBrowserComment");
-            this.webBrowserComment.Name = "webBrowserComment";
-            this.webBrowserComment.ScrollBarsEnabled = false;
-            this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
             // 
             // imageListView
             // 
@@ -194,39 +198,6 @@ namespace Waveface.DetailUI
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
-            // timer
-            // 
-            this.timer.Interval = 3000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // contextMenuStripTop
-            // 
-            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopyTop});
-            this.contextMenuStripTop.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
-            // 
-            // miCopyTop
-            // 
-            this.miCopyTop.Name = "miCopyTop";
-            resources.ApplyResources(this.miCopyTop, "miCopyTop");
-            // 
-            // contextMenuStripComment
-            // 
-            this.contextMenuStripComment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopyComment});
-            this.contextMenuStripComment.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripComment, "contextMenuStripComment");
-            // 
-            // miCopyComment
-            // 
-            this.miCopyComment.Name = "miCopyComment";
-            resources.ApplyResources(this.miCopyComment, "miCopyComment");
-            // 
             // Photo_DV
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
@@ -235,10 +206,9 @@ namespace Waveface.DetailUI
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
+            this.contextMenuStripTop.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.panelPictureInfo.ResumeLayout(false);
-            this.contextMenuStripTop.ResumeLayout(false);
-            this.contextMenuStripComment.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -263,7 +233,6 @@ namespace Waveface.DetailUI
         private void RefreshUI()
         {
             Set_MainContent_Part();
-            Set_Comments_Part();
             Set_Pictures();
 
             ReLayout();
@@ -279,11 +248,6 @@ namespace Waveface.DetailUI
             {
                 imageListView.Height = 0;
             }
-        }
-
-        private void Set_Comments_Part()
-        {
-            MyParent.SetComments(webBrowserComment, Post, true);
         }
 
         private void Set_MainContent_Part()
@@ -305,9 +269,13 @@ namespace Waveface.DetailUI
 
             _html = _html.Replace("[Text]", _content);
 
+            _html += MyParent.GenCommentHTML(Post);
+
+            _html = HtmlUtility.MakeLink(_html);
+
             _html = "<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>";
 
-            webBrowserTop.DocumentText = HtmlUtility.MakeLink(HtmlUtility.TrimScript(_html));
+            webBrowserTop.DocumentText = HtmlUtility.TrimScript(_html);
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -319,17 +287,6 @@ namespace Waveface.DetailUI
             contextMenuStripTop.Opening += contextMenuStripTop_Opening;
             miCopyTop.Click += m_topBrowserContextMenuHandler.CopyCtxMenuClickHandler;
             webBrowserTop.Document.ContextMenuShowing += webBrowserTop_ContextMenuShowing;
-        }
-
-        private void webBrowserComment_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            int _h = webBrowserComment.Document.Body.ScrollRectangle.Height;
-            webBrowserComment.Height = _h;
-
-            m_commentBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserComment, miCopyComment);
-            contextMenuStripComment.Opening += contextMenuStripComment_Opening;
-            miCopyComment.Click += m_commentBrowserContextMenuHandler.CopyCtxMenuClickHandler;
-            webBrowserComment.Document.ContextMenuShowing += webBrowserComment_ContextMenuShowing;
         }
 
         private void Set_Pictures()
@@ -565,17 +522,6 @@ namespace Waveface.DetailUI
             e.ReturnValue = false;
         }
 
-        void contextMenuStripComment_Opening(object sender, CancelEventArgs e)
-        {
-            m_commentBrowserContextMenuHandler.UpdateButtons();
-        }
-
-        void webBrowserComment_ContextMenuShowing(object sender, HtmlElementEventArgs e)
-        {
-            contextMenuStripComment.Show(webBrowserComment.PointToScreen(e.MousePosition));
-            e.ReturnValue = false;
-        }
-
         #endregion
 
         private void imageListView_Resize(object sender, EventArgs e)
@@ -586,8 +532,15 @@ namespace Waveface.DetailUI
             if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
                 webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
 
-            if ((webBrowserComment.Document != null) && (webBrowserComment.Document.Body != null))
-                webBrowserComment.Height = webBrowserComment.Document.Body.ScrollRectangle.Height;
+            if (imageListView.Width > 768)
+            {
+                int _w = (int)(imageListView.Width / 6.5);
+                imageListView.ThumbnailSize = new Size(_w, _w);
+            }
+            else
+            {
+                imageListView.ThumbnailSize = new Size(128, 128);
+            }
         }
     }
 }
