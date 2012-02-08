@@ -70,6 +70,7 @@ namespace Waveface
         private NewPostManager m_newPostManager;
         private StationState m_stationState;
         private Post m_loadingAllPhotosPost;
+        private AppLimit.NetSparkle.Sparkle m_autoUpdator;
 
         #endregion
 
@@ -168,6 +169,9 @@ namespace Waveface
             m_formSettings.SaveOnClose = true;
 
             System.Net.ServicePointManager.DefaultConnectionLimit = 64;
+
+            m_autoUpdator = new AppLimit.NetSparkle.Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
+            m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
 
             s_logger.Trace("Constructor: OK");
         }

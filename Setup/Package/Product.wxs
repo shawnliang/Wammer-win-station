@@ -190,6 +190,8 @@
     </ComponentGroup>
 
     <ComponentGroup Id="Wammer.Client">
+      <ComponentRef Id="AppLimit.NetSparkle.dll"/>
+      <ComponentRef Id="AppLimit.NetSparkle.resources.dll"/>
       <ComponentRef Id="AxInterop.SHDocVw.dll"/>
       <ComponentRef Id="DropableNotifyIcon.dll"/>
       <ComponentRef Id="HTML2XHTML.dll"/>
@@ -269,6 +271,9 @@
       </Component>
       
       <!-- client files -->
+      <Component Guid="*">
+        <File Id="AppLimit.NetSparkle.dll" Source="$(var.Wammer.TargetDir)\AppLimit.NetSparkle.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="AxInterop.SHDocVw.dll" Guid="{345D9FC1-4BF7-43E0-883F-F94AAD20D530}">
         <File Id="AxInterop.SHDocVw.dll" Source="$(var.Wammer.TargetDir)\AxInterop.SHDocVw.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -333,6 +338,9 @@
 
     <!-- localization resources -->
     <DirectoryRef Id="zh_TW">
+      <Component Guid="*">
+        <File Id="AppLimit.NetSparkle.resources.dll" Source="$(var.Wammer.TargetDir)\zh-TW/AppLimit.NetSparkle.resources.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Guid="*">
         <File Id="StationUI.resources.dll" Source="$(var.StationUI.TargetDir)\zh-TW\StationUI.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
