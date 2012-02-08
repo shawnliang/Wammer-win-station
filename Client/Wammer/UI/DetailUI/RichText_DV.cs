@@ -149,7 +149,7 @@ namespace Waveface.DetailUI
 
         private void Set_Comments_Part()
         {
-            MyParent.SetComments(webBrowserComment, Post, true);
+            //MyParent.SetComments(webBrowserComment, Post);
         }
 
         private void Set_MainContent_Part()

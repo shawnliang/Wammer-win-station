@@ -42,7 +42,7 @@ namespace Manina.Windows.Forms
 	[DefaultProperty("Items")]
 	[Designer(typeof(ImageListViewDesigner))]
 	[Docking(DockingBehavior.Ask)]
-	public partial class ImageListView : Control, IComponent
+	public partial class ImageListView : Panel, IComponent
 	{
 		#region Constants
 		/// <summary>

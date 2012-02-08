@@ -196,9 +196,9 @@ namespace Waveface
         {
             try
             {
-                Bitmap _img = new Bitmap(128, 128);
+                Bitmap _img = new Bitmap(256, 256);
                 Graphics _g = Graphics.FromImage(_img);
-                _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, 128, 128));
+                _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, 256, 256));
                 _img.Save(GCONST.CachePath + "LoadingImage" + ".jpg");
             }
             catch (Exception _e)
