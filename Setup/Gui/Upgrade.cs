@@ -13,24 +13,20 @@ namespace Gui
 {
 	class Migration
 	{
-		static Migration()
-		{
-			// make sure MongoDB is started
-			ServiceController svc = new ServiceController("MongoDBForWaveface");
-			if (svc.Status != ServiceControllerStatus.Running &&
-				svc.Status != ServiceControllerStatus.StartPending)
-				svc.Start();
-
-			svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(2));
-		}
-
-
 		public static void DoBackup()
 		{
 			try
 			{
 				if (HasFeaure("MainFeature"))
 				{
+					// make sure MongoDB is started
+					ServiceController svc = new ServiceController("MongoDBForWaveface");
+					if (svc.Status != ServiceControllerStatus.Running &&
+						svc.Status != ServiceControllerStatus.StartPending)
+						svc.Start();
+
+					svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(2));
+
 					MongoDump();
 					BackupRegistry();
 				}
@@ -192,7 +188,7 @@ namespace Gui
 		public static bool HasFeaure(string featureId)
 		{
 			foreach (Feature feature in MsiConnection.Instance.Features)
-				if (feature.Id == featureId)
+				if (feature.Id == featureId && feature.State == FeatureState.Installed)
 				{
 					return true;
 				}
