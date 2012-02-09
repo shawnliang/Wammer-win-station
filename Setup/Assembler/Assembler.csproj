@@ -8,7 +8,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{973E45FC-0ABC-4438-8181-DF93FB683429}</ProjectGuid>
-    <AssemblyName>WavefaceSetup-1.0.1</AssemblyName>
+    <AssemblyName>WavefaceSetup</AssemblyName>
     <OutputPath>..\$(Configuration)\</OutputPath>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -107,10 +107,10 @@
     <IncludeInCab Include="..\..\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongodump.exe">
       <Link>mongodump.exe</Link>
     </IncludeInCab>
-	<IncludeInCab Include="..\..\Station\3rd_party\mongo-driver\MongoDB.Bson.dll">
+    <IncludeInCab Include="..\..\Station\3rd_party\mongo-driver\MongoDB.Bson.dll">
       <Link>MongoDB.Bson.dll</Link>
     </IncludeInCab>
-	<IncludeInCab Include="..\..\Station\3rd_party\mongo-driver\MongoDB.Driver.dll">
+    <IncludeInCab Include="..\..\Station\3rd_party\mongo-driver\MongoDB.Driver.dll">
       <Link>MongoDB.Driver.dll</Link>
     </IncludeInCab>
   </ItemGroup>
