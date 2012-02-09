@@ -8,7 +8,7 @@ namespace Waveface
     {
         public static int GetPostOffset = 10;
         
-        public static int OriginFileReDownloadDelayTime = 5;
+        public static int OriginFileReDownloadDelayTime = 3;
 
         public static bool ADVANCED_FEATURE = true;
         public static bool DEBUG = true;

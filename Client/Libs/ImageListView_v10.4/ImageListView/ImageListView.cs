@@ -1361,13 +1361,14 @@ namespace Manina.Windows.Forms
 		#endregion
 
 		#region Rendering Methods
+
 		/// <summary>
 		/// Refreshes the control.
 		/// </summary>
 		/// <param name="force">Forces a refresh even if the renderer is suspended.</param>
 		/// <param name="lazy">Refreshes the control only if a set amount of time
 		/// has passed since the last refresh.</param>
-		internal void Refresh (bool force, bool lazy)
+		public void Refresh (bool force, bool lazy)
 		{
 			if (force)
 				base.Refresh (); else if (lazy) {
@@ -1383,7 +1384,7 @@ namespace Manina.Windows.Forms
 		/// </summary>
 		/// <param name="force">If true, forces an immediate update, even if
 		/// the renderer is suspended by a SuspendPaint call.</param>
-		private void Refresh (bool force)
+		public void Refresh (bool force)
 		{
 			Refresh (force, false);
 		}

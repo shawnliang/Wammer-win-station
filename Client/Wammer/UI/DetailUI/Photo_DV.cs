@@ -37,9 +37,6 @@ namespace Waveface.DetailUI
 
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
-        private List<string> m_urlCloudOrigins;
-        private List<string> m_urlOrigins;
-        private List<string> m_urlMediums;
 
         private List<Attachment> m_imageAttachments;
         private Localization.CultureManager cultureManager;
@@ -93,7 +90,7 @@ namespace Waveface.DetailUI
             imageListView.ThumbnailSize = new Size(128, 128);
             imageListView.CacheMode = CacheMode.Continuous;
 
-            imageListView.AutoRotateThumbnails = false;
+            //imageListView.AutoRotateThumbnails = false;
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
             m_filesMapping = new Dictionary<string, string>();
@@ -291,13 +288,12 @@ namespace Waveface.DetailUI
 
         private void Set_Pictures()
         {
+            PhotoDownloader.PreloadPictures(m_post, true);
+
             imageListView.Items.Clear();
 
             m_filePathOrigins = new List<string>();
             m_filePathMediums = new List<string>();
-            m_urlCloudOrigins = new List<string>();
-            m_urlOrigins = new List<string>();
-            m_urlMediums = new List<string>();
 
             m_imageAttachments = new List<Attachment>();
 
@@ -321,10 +317,6 @@ namespace Waveface.DetailUI
                 string _localFileO = Main.GCONST.CachePath + _fileNameO;
 
                 m_filePathOrigins.Add(_localFileO);
-                m_urlOrigins.Add(_urlO);
-
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, true);
-                m_urlCloudOrigins.Add(_urlO);
 
                 if (!m_filesMapping.ContainsKey(_fileNameO))
                 {
@@ -339,28 +331,11 @@ namespace Waveface.DetailUI
                 string _localFileM = Main.GCONST.CachePath + _fileNameM;
 
                 m_filePathMediums.Add(_localFileM);
-                m_urlMediums.Add(_urlM);
 
                 if (!m_filesMapping.ContainsKey(_fileNameM))
                 {
                     if ((_attachment.file_name != string.Empty) && (!_attachment.file_name.Contains("?")))
                         m_filesMapping.Add(_fileNameM, _attachment.file_name);
-                }
-            }
-
-            for (int i = m_imageAttachments.Count - 1; i >= 0; i--)
-            {
-                if (!File.Exists(m_filePathOrigins[i]) || !File.Exists(m_filePathMediums[i]))
-                {
-                    ImageItem _item = new ImageItem();
-                    _item.PostItemType = PostItemType.Origin; //PostItemType.Origin
-                    _item.CloudOriginPath = m_urlCloudOrigins[i];
-                    _item.OriginPath = m_urlOrigins[i];
-                    _item.MediumPath = m_urlMediums[i];
-                    _item.LocalFilePath_Origin = m_filePathOrigins[i];
-                    _item.LocalFilePath_Medium = m_filePathMediums[i];
-
-                    Main.Current.PhotoDownloader.Add(_item, false);
                 }
             }
 
@@ -381,18 +356,9 @@ namespace Waveface.DetailUI
         private bool FillImageListView(bool firstTime)
         {
             int _count = 0;
-            int _orig = 0;
 
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
-                if (File.Exists(m_filePathOrigins[i]))
-                {
-                    _count++;
-                    _orig++;
-
-                    continue;
-                }
-
                 if (File.Exists(m_filePathMediums[i]))
                 {
                     _count++;
@@ -410,16 +376,12 @@ namespace Waveface.DetailUI
                 ShowImageListView(firstTime);
                 return false;
             }
-            //else
-            //{
-            //    return true;
-            //}
 
-            if (_orig == m_imageAttachments.Count)
+            if (_count == m_imageAttachments.Count) // _orig 
             {
                 timer.Enabled = false;
 
-                ShowImageListView(firstTime); //
+                ShowImageListView(firstTime);
 
                 return true;
             }
@@ -437,22 +399,6 @@ namespace Waveface.DetailUI
 
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
-                /*
-                if (File.Exists(m_filePathOrigins[i]))
-                {
-                    if (firstTime)
-                        imageListView.Items.Add(m_filePathOrigins[i]);
-                    else
-                        imageListView.Items[i].FileName = m_filePathOrigins[i];
-
-                    imageListView.Items[i].Tag = "origin";
-
-                    k++;
-
-                    continue;
-                }
-                */
-
                 if (File.Exists(m_filePathMediums[i]))
                 {
                     if (firstTime)
@@ -460,7 +406,7 @@ namespace Waveface.DetailUI
                     else
                         imageListView.Items[i].FileName = m_filePathMediums[i];
 
-                    imageListView.Items[i].Tag = "medium";
+                    imageListView.Items[i].Tag = ""; //medium
 
                     k++;
 
@@ -491,7 +437,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //PhotoDownloader.PreloadPictures(m_post, true);
+            PhotoDownloader.PreloadPictures(m_post, true);
 
             List<string> _files = new List<string>();
 
@@ -500,7 +446,7 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            using (PhotoView _photoView = new PhotoView(_files, m_filesMapping, e.Item.FileName))
+            using (PhotoView _photoView = new PhotoView(m_imageAttachments, m_filePathOrigins, m_filePathMediums, m_filesMapping, e.Item.FileName))
             {
                 _photoView.ShowDialog();
             }

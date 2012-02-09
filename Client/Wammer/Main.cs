@@ -916,7 +916,8 @@ namespace Waveface
 
                 postsArea.updateRefreshUI(false);
 
-                bgWorkerGetAllData.RunWorkerAsync();
+                if (!bgWorkerGetAllData.IsBusy)
+                    bgWorkerGetAllData.RunWorkerAsync();
             }
         }
 
@@ -1474,7 +1475,7 @@ namespace Waveface
         {
             if (RT.CurrentGroupPosts != null)
             {
-                PrefetchImages(RT.CurrentGroupPosts, true);
+                PrefetchImages(RT.CurrentGroupPosts, false); //@
             }
         }
 
