@@ -18,7 +18,7 @@ if __name__ == "__main__":
     binlen = os.path.getsize(os.path.join(os.path.dirname(solution_dir), binfile))
     binver = version
 
-    xml = """<?xml version="1.0" encoding="utf-8"?>
+    dev_xml = """<?xml version="1.0" encoding="utf-8"?>
 
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
     <channel>
@@ -41,6 +41,6 @@ if __name__ == "__main__":
 </rss>
 """.format(link, title, rnote, pubdate, binurl, binlen, binver)
 
-    with open(os.path.join(os.path.dirname(solution_dir), "versioninfo.xml"), "w") as f:
-        f.write(xml)
+    with open(os.path.join(os.path.dirname(solution_dir), "versioninfo_dev.xml"), "w") as f:
+        f.write(dev_xml)
 
