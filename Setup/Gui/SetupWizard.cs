@@ -73,7 +73,10 @@ namespace Gui
 					case InstallationMode.Upgrade:
 						AddStep(new LicenseStep());
 
-						AddStep(featureStep);
+						// Cannot change feature in upgade mode. So use existing feature set.
+						featureStep.SelectedFeature = Migration.HasFeaure("MainFeature") ?
+							FeatureSet.StationAndClient : FeatureSet.ClientOnly;
+
 						AddStep(new BackupAndUninstallStep());
 						
 						/*

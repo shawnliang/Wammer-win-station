@@ -15,7 +15,7 @@ namespace Gui
 	[System.ComponentModel.ToolboxItem(false)]
 	public partial class FeatureSelectionStep : ModernActionStep
 	{
-		public FeatureSet SelectedFeature { get; private set; }
+		public FeatureSet SelectedFeature { get; set; }
 
 		public FeatureSelectionStep()
 		{

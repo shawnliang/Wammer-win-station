@@ -117,12 +117,12 @@
 			// 
 			// groupBox1
 			// 
+			resources.ApplyResources(this.groupBox1, "groupBox1");
 			this.groupBox1.Controls.Add(this.labelConnectionStatus);
 			this.groupBox1.Controls.Add(this.btnTestConnection);
 			this.groupBox1.Controls.Add(this.checkBox_autoStartWaveface);
 			this.groupBox1.Controls.Add(this.lblLocalStorageUsage);
 			this.groupBox1.Controls.Add(this.lblLocalStorageUsageTitle);
-			resources.ApplyResources(this.groupBox1, "groupBox1");
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.TabStop = false;
 			// 
@@ -157,6 +157,7 @@
 			// 
 			// groupBox2
 			// 
+			resources.ApplyResources(this.groupBox2, "groupBox2");
 			this.groupBox2.Controls.Add(this.label_DaysLeftValue);
 			this.groupBox2.Controls.Add(this.label_UsedCountValue);
 			this.groupBox2.Controls.Add(this.label_MonthlyLimitValue);
@@ -177,7 +178,6 @@
 			this.groupBox2.Controls.Add(this.lblDeviceNameTitle);
 			this.groupBox2.Controls.Add(this.lblDeviceName);
 			this.groupBox2.Controls.Add(this.lblDropboxStorageAccountTitle);
-			resources.ApplyResources(this.groupBox2, "groupBox2");
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.TabStop = false;
 			// 
@@ -269,9 +269,9 @@
 			// 
 			// groupBox3
 			// 
+			resources.ApplyResources(this.groupBox3, "groupBox3");
 			this.groupBox3.Controls.Add(this.lblVersionTitle);
 			this.groupBox3.Controls.Add(this.lblVersion);
-			resources.ApplyResources(this.groupBox3, "groupBox3");
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.TabStop = false;
 			// 

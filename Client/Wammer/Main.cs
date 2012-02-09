@@ -200,9 +200,9 @@ namespace Waveface
         {
             try
             {
-                Bitmap _img = new Bitmap(128, 128);
+                Bitmap _img = new Bitmap(256, 256);
                 Graphics _g = Graphics.FromImage(_img);
-                _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, 128, 128));
+                _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, 256, 256));
                 _img.Save(GCONST.CachePath + "LoadingImage" + ".jpg");
             }
             catch (Exception _e)
@@ -920,7 +920,8 @@ namespace Waveface
 
                 postsArea.updateRefreshUI(false);
 
-                bgWorkerGetAllData.RunWorkerAsync();
+                if (!bgWorkerGetAllData.IsBusy)
+                    bgWorkerGetAllData.RunWorkerAsync();
             }
         }
 
@@ -1478,7 +1479,7 @@ namespace Waveface
         {
             if (RT.CurrentGroupPosts != null)
             {
-                PrefetchImages(RT.CurrentGroupPosts, true);
+                PrefetchImages(RT.CurrentGroupPosts, false); //@
             }
         }
 

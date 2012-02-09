@@ -60,13 +60,6 @@ namespace Wammer.Station.Properties {
             }
         }
         
-        internal static System.Drawing.Icon Icon {
-            get {
-                object obj = ResourceManager.GetObject("Icon", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap P1 {
             get {
                 object obj = ResourceManager.GetObject("P1", resourceCulture);
@@ -113,6 +106,13 @@ namespace Wammer.Station.Properties {
             get {
                 object obj = ResourceManager.GetObject("P7", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon station_icon_256andAll {
+            get {
+                object obj = ResourceManager.GetObject("station_icon_256andAll", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

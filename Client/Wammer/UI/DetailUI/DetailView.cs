@@ -210,8 +210,6 @@ namespace Waveface
 
                     break;
             }
-
-            ControlUtility.DisableAllTabStop(this);
         }
 
         private void setupTitle()
@@ -355,12 +353,9 @@ namespace Waveface
             return true;
         }
 
-        public void SetComments(WebBrowser wb, Post post, bool changeBgColor)
+        public string GenCommentHTML(Post post)
         {
-            string _html = "<div>";
-
-            if (post.comment_count > 0)
-                _html += "<HR>";
+            string _html = "<blockquote><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif' color='#eef'>";
 
             int k = 1;
 
@@ -370,17 +365,18 @@ namespace Waveface
 
                 _s.Append("	<table border=\"0\">");
                 _s.Append("    	   <tr>");
-                //_s.Append("      	     <td><img src=\"[Avatar]\" width=\"40\" height=\"40\" /></td>");
+                //_s.Append("      	     <td>&nbsp;&nbsp;&nbsp;</td>");
                 _s.Append("      	     <td>");
                 _s.Append(" 		<table border=\"0\">");
                 _s.Append("    			<tr>");
 
-                string _t = "      				<td><font size='2pt' color='gray'>[CommentTime] " + I18n.L.T("DetailView.Via") + " [code_name]</font></td>";
+                string _t = "      				<td><font size='2pt' color='gray'>[CommentTime] " + I18n.L.T("DetailView.Via") +
+                            " [code_name]</font></td>";
 
                 _s.Append(_t);
                 _s.Append("    			</tr>");
                 _s.Append("    			<tr>");
-                _s.Append("      				<td><font size='2.75pt'>[Comment]</font></td>"); //<td><strong>[Comment]<strong></td>
+                _s.Append("      				<td><font size='2.75pt'>[Comment]</font></td>");
                 _s.Append("    			</tr>");
                 _s.Append("		</table>");
                 _s.Append("      	     </td>");
@@ -407,20 +403,12 @@ namespace Waveface
                 }
             }
 
-            _html += "</div>";
+            _html += "</font></blockquote>";
 
-            _html = "<font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + _html + "</font>";
+            if (post.comment_count > 0)
+                _html += "<HR>";
 
-            string _h;
-
-            if (changeBgColor)
-                _h = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
-            else
-                _h = HtmlUtility.TrimScript(_html);
-
-            _h = HtmlUtility.MakeLink(_h);
-
-            wb.DocumentText = _h;
+            return _html;
         }
 
         private void btnComment_Click(object sender, EventArgs e)

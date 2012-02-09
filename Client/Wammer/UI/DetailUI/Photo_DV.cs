@@ -27,10 +27,7 @@ namespace Waveface.DetailUI
         private Panel panelMain;
         private AutoScrollPanel panelRight;
         private WebBrowser webBrowserTop;
-        private WebBrowser webBrowserComment;
-        private Panel PanelPictures;
         private ImageListView imageListView;
-        private PictureBox pictureBoxRemote;
         private Post m_post;
         private Panel panelPictureInfo;
         private Label labelPictureInfo;
@@ -40,21 +37,15 @@ namespace Waveface.DetailUI
 
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
-        private List<string> m_urlCloudOrigins;
-        private List<string> m_urlOrigins;
-        private List<string> m_urlMediums;
 
         private List<Attachment> m_imageAttachments;
         private Localization.CultureManager cultureManager;
         private ContextMenuStrip contextMenuStripTop;
         private ToolStripMenuItem miCopyTop;
-        private ContextMenuStrip contextMenuStripComment;
-        private ToolStripMenuItem miCopyComment;
 
         private int m_loadingPhotosCount;
 
         private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
-        private WebBrowserContextMenuHandler m_commentBrowserContextMenuHandler;
 
         #endregion
 
@@ -99,46 +90,36 @@ namespace Waveface.DetailUI
             imageListView.ThumbnailSize = new Size(128, 128);
             imageListView.CacheMode = CacheMode.Continuous;
 
-            imageListView.AutoRotateThumbnails = false;
+            //imageListView.AutoRotateThumbnails = false;
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
             m_filesMapping = new Dictionary<string, string>();
         }
-        
+
         #region Component Designer generated code
 
         /// <summary> 
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        // private void InitializeComponent()
-        // {
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo_DV));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.panelRight = new Waveface.Compoment.AutoScrollPanel();
-            this.webBrowserComment = new System.Windows.Forms.WebBrowser();
-            this.PanelPictures = new System.Windows.Forms.Panel();
-            this.imageListView = new Manina.Windows.Forms.ImageListView();
-            this.pictureBoxRemote = new System.Windows.Forms.PictureBox();
-            this.panelPictureInfo = new System.Windows.Forms.Panel();
-            this.labelPictureInfo = new System.Windows.Forms.Label();
-            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripComment = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCopyComment = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelRight = new Waveface.Compoment.AutoScrollPanel();
+            this.imageListView = new Manina.Windows.Forms.ImageListView();
+            this.panelPictureInfo = new System.Windows.Forms.Panel();
+            this.labelPictureInfo = new System.Windows.Forms.Label();
+            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.panelMain.SuspendLayout();
-            this.panelRight.SuspendLayout();
-            this.PanelPictures.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemote)).BeginInit();
-            this.panelPictureInfo.SuspendLayout();
             this.contextMenuStripTop.SuspendLayout();
-            this.contextMenuStripComment.SuspendLayout();
+            this.panelRight.SuspendLayout();
+            this.panelPictureInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -147,74 +128,6 @@ namespace Waveface.DetailUI
             this.panelMain.Controls.Add(this.panelRight);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            // 
-            // panelRight
-            // 
-            resources.ApplyResources(this.panelRight, "panelRight");
-            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.panelRight.Controls.Add(this.webBrowserComment);
-            this.panelRight.Controls.Add(this.PanelPictures);
-            this.panelRight.Controls.Add(this.panelPictureInfo);
-            this.panelRight.Controls.Add(this.webBrowserTop);
-            this.panelRight.Name = "panelRight";
-            // 
-            // webBrowserComment
-            // 
-            this.webBrowserComment.AllowWebBrowserDrop = false;
-            resources.ApplyResources(this.webBrowserComment, "webBrowserComment");
-            this.webBrowserComment.Name = "webBrowserComment";
-            this.webBrowserComment.ScrollBarsEnabled = false;
-            this.webBrowserComment.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserComment_DocumentCompleted);
-            // 
-            // PanelPictures
-            // 
-            resources.ApplyResources(this.PanelPictures, "PanelPictures");
-            this.PanelPictures.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.PanelPictures.Controls.Add(this.imageListView);
-            this.PanelPictures.Controls.Add(this.pictureBoxRemote);
-            this.PanelPictures.Name = "PanelPictures";
-            // 
-            // imageListView
-            // 
-            this.imageListView.AllowDuplicateFileNames = true;
-            this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.imageListView.CacheLimit = "0";
-            this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
-            this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.imageListView.DefaultImage = global::Waveface.Properties.Resources.LoadingImage;
-            resources.ApplyResources(this.imageListView, "imageListView");
-            this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
-            this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.imageListView.Name = "imageListView";
-            this.imageListView.ThumbnailSize = new System.Drawing.Size(128, 128);
-            this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
-            // 
-            // pictureBoxRemote
-            // 
-            resources.ApplyResources(this.pictureBoxRemote, "pictureBoxRemote");
-            this.pictureBoxRemote.Name = "pictureBoxRemote";
-            this.pictureBoxRemote.TabStop = false;
-            // 
-            // panelPictureInfo
-            // 
-            this.panelPictureInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(208)))), ((int)(((byte)(170)))));
-            this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
-            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
-            this.panelPictureInfo.Name = "panelPictureInfo";
-            // 
-            // labelPictureInfo
-            // 
-            resources.ApplyResources(this.labelPictureInfo, "labelPictureInfo");
-            this.labelPictureInfo.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.labelPictureInfo.Name = "labelPictureInfo";
-            // 
-            // webBrowserTop
-            // 
-            this.webBrowserTop.AllowWebBrowserDrop = false;
-            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
-            this.webBrowserTop.Name = "webBrowserTop";
-            this.webBrowserTop.ScrollBarsEnabled = false;
-            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
             // timer
             // 
@@ -237,17 +150,50 @@ namespace Waveface.DetailUI
             this.miCopyTop.Name = "miCopyTop";
             resources.ApplyResources(this.miCopyTop, "miCopyTop");
             // 
-            // contextMenuStripComment
+            // panelRight
             // 
-            this.contextMenuStripComment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopyComment});
-            this.contextMenuStripComment.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripComment, "contextMenuStripComment");
+            resources.ApplyResources(this.panelRight, "panelRight");
+            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.panelRight.Controls.Add(this.imageListView);
+            this.panelRight.Controls.Add(this.panelPictureInfo);
+            this.panelRight.Controls.Add(this.webBrowserTop);
+            this.panelRight.Name = "panelRight";
             // 
-            // miCopyComment
+            // imageListView
             // 
-            this.miCopyComment.Name = "miCopyComment";
-            resources.ApplyResources(this.miCopyComment, "miCopyComment");
+            this.imageListView.AllowDuplicateFileNames = true;
+            this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.imageListView.CacheLimit = "0";
+            this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.imageListView.DefaultImage = global::Waveface.Properties.Resources.LoadingImage;
+            resources.ApplyResources(this.imageListView, "imageListView");
+            this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
+            this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.imageListView.Name = "imageListView";
+            this.imageListView.ThumbnailSize = new System.Drawing.Size(128, 128);
+            this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
+            this.imageListView.Resize += new System.EventHandler(this.imageListView_Resize);
+            // 
+            // panelPictureInfo
+            // 
+            this.panelPictureInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(208)))), ((int)(((byte)(170)))));
+            this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
+            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
+            this.panelPictureInfo.Name = "panelPictureInfo";
+            // 
+            // labelPictureInfo
+            // 
+            resources.ApplyResources(this.labelPictureInfo, "labelPictureInfo");
+            this.labelPictureInfo.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.labelPictureInfo.Name = "labelPictureInfo";
+            // 
+            // webBrowserTop
+            // 
+            this.webBrowserTop.AllowWebBrowserDrop = false;
+            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
+            this.webBrowserTop.Name = "webBrowserTop";
+            this.webBrowserTop.ScrollBarsEnabled = false;
+            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
             // Photo_DV
             // 
@@ -257,12 +203,9 @@ namespace Waveface.DetailUI
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
-            this.panelRight.ResumeLayout(false);
-            this.PanelPictures.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemote)).EndInit();
-            this.panelPictureInfo.ResumeLayout(false);
             this.contextMenuStripTop.ResumeLayout(false);
-            this.contextMenuStripComment.ResumeLayout(false);
+            this.panelRight.ResumeLayout(false);
+            this.panelPictureInfo.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -287,7 +230,6 @@ namespace Waveface.DetailUI
         private void RefreshUI()
         {
             Set_MainContent_Part();
-            Set_Comments_Part();
             Set_Pictures();
 
             ReLayout();
@@ -297,19 +239,12 @@ namespace Waveface.DetailUI
         {
             if (Post.attachment_count > 0)
             {
-                PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
+                imageListView.Height = imageListView.VScrollBar.Maximum + 16;
             }
             else
             {
-                PanelPictures.Height = 0;
+                imageListView.Height = 0;
             }
-
-            panelRight.Focus();
-        }
-
-        private void Set_Comments_Part()
-        {
-            MyParent.SetComments(webBrowserComment, Post, true);
         }
 
         private void Set_MainContent_Part()
@@ -325,15 +260,19 @@ namespace Waveface.DetailUI
             _sb.Append("<font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'><p>[Text]</p></font>");
 
             string _html = _sb.ToString();
-            
+
             string _content = Post.content.Replace(Environment.NewLine, "<BR>");
             _content = _content.Replace("\n", "<BR>");
 
             _html = _html.Replace("[Text]", _content);
 
+            _html += MyParent.GenCommentHTML(Post);
+
+            _html = HtmlUtility.MakeLink(_html);
+
             _html = "<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>";
 
-            webBrowserTop.DocumentText = HtmlUtility.MakeLink(HtmlUtility.TrimScript(_html));
+            webBrowserTop.DocumentText = HtmlUtility.TrimScript(_html);
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -347,26 +286,14 @@ namespace Waveface.DetailUI
             webBrowserTop.Document.ContextMenuShowing += webBrowserTop_ContextMenuShowing;
         }
 
-        private void webBrowserComment_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            int _h = webBrowserComment.Document.Body.ScrollRectangle.Height;
-            webBrowserComment.Height = _h;
-
-            m_commentBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserComment, miCopyComment);
-            contextMenuStripComment.Opening += contextMenuStripComment_Opening;
-            miCopyComment.Click += m_commentBrowserContextMenuHandler.CopyCtxMenuClickHandler;
-            webBrowserComment.Document.ContextMenuShowing += webBrowserComment_ContextMenuShowing;
-        }
-
         private void Set_Pictures()
         {
+            PhotoDownloader.PreloadPictures(m_post, true);
+
             imageListView.Items.Clear();
 
             m_filePathOrigins = new List<string>();
             m_filePathMediums = new List<string>();
-            m_urlCloudOrigins = new List<string>();
-            m_urlOrigins = new List<string>();
-            m_urlMediums = new List<string>();
 
             m_imageAttachments = new List<Attachment>();
 
@@ -390,10 +317,6 @@ namespace Waveface.DetailUI
                 string _localFileO = Main.GCONST.CachePath + _fileNameO;
 
                 m_filePathOrigins.Add(_localFileO);
-                m_urlOrigins.Add(_urlO);
-
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, true);
-                m_urlCloudOrigins.Add(_urlO);
 
                 if (!m_filesMapping.ContainsKey(_fileNameO))
                 {
@@ -408,28 +331,11 @@ namespace Waveface.DetailUI
                 string _localFileM = Main.GCONST.CachePath + _fileNameM;
 
                 m_filePathMediums.Add(_localFileM);
-                m_urlMediums.Add(_urlM);
 
                 if (!m_filesMapping.ContainsKey(_fileNameM))
                 {
                     if ((_attachment.file_name != string.Empty) && (!_attachment.file_name.Contains("?")))
                         m_filesMapping.Add(_fileNameM, _attachment.file_name);
-                }
-            }
-
-            for (int i = m_imageAttachments.Count - 1; i >= 0; i--)
-            {
-                if (!File.Exists(m_filePathOrigins[i]) || !File.Exists(m_filePathMediums[i]))
-                {
-                    ImageItem _item = new ImageItem();
-                    _item.PostItemType = PostItemType.Origin; //PostItemType.Origin
-                    _item.CloudOriginPath = m_urlCloudOrigins[i];
-                    _item.OriginPath = m_urlOrigins[i];
-                    _item.MediumPath = m_urlMediums[i];
-                    _item.LocalFilePath_Origin = m_filePathOrigins[i];
-                    _item.LocalFilePath_Medium = m_filePathMediums[i];
-
-                    Main.Current.PhotoDownloader.Add(_item, false);
                 }
             }
 
@@ -450,18 +356,9 @@ namespace Waveface.DetailUI
         private bool FillImageListView(bool firstTime)
         {
             int _count = 0;
-            int _orig = 0;
 
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
-                if (File.Exists(m_filePathOrigins[i]))
-                {
-                    _count++;
-                    _orig++;
-
-                    continue;
-                }
-
                 if (File.Exists(m_filePathMediums[i]))
                 {
                     _count++;
@@ -479,16 +376,12 @@ namespace Waveface.DetailUI
                 ShowImageListView(firstTime);
                 return false;
             }
-            //else
-            //{
-            //    return true;
-            //}
 
-            if (_orig == m_imageAttachments.Count)
+            if (_count == m_imageAttachments.Count) // _orig 
             {
                 timer.Enabled = false;
 
-                ShowImageListView(firstTime); //
+                ShowImageListView(firstTime);
 
                 return true;
             }
@@ -506,20 +399,6 @@ namespace Waveface.DetailUI
 
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
-                if (File.Exists(m_filePathOrigins[i]))
-                {
-                    if (firstTime)
-                        imageListView.Items.Add(m_filePathOrigins[i]);
-                    else
-                        imageListView.Items[i].FileName = m_filePathOrigins[i];
-
-                    imageListView.Items[i].Tag = "origin";
-
-                    k++;
-
-                    continue;
-                }
-
                 if (File.Exists(m_filePathMediums[i]))
                 {
                     if (firstTime)
@@ -527,7 +406,7 @@ namespace Waveface.DetailUI
                     else
                         imageListView.Items[i].FileName = m_filePathMediums[i];
 
-                    imageListView.Items[i].Tag = "medium";
+                    imageListView.Items[i].Tag = ""; //medium
 
                     k++;
 
@@ -558,7 +437,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //PhotoDownloader.PreloadPictures(m_post, true);
+            PhotoDownloader.PreloadPictures(m_post, true);
 
             List<string> _files = new List<string>();
 
@@ -567,7 +446,7 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            using (PhotoView _photoView = new PhotoView(_files, m_filesMapping, e.Item.FileName))
+            using (PhotoView _photoView = new PhotoView(m_imageAttachments, m_filePathOrigins, m_filePathMediums, m_filesMapping, e.Item.FileName))
             {
                 _photoView.ShowDialog();
             }
@@ -575,7 +454,7 @@ namespace Waveface.DetailUI
 
         private void DetailView_Resize(object sender, EventArgs e)
         {
-            PanelPictures.Height = imageListView.VScrollBar.Maximum + 16;
+            imageListView.Height = imageListView.VScrollBar.Maximum + 16;
         }
 
         #region ContextMenu
@@ -591,17 +470,25 @@ namespace Waveface.DetailUI
             e.ReturnValue = false;
         }
 
-        void contextMenuStripComment_Opening(object sender, CancelEventArgs e)
-        {
-            m_commentBrowserContextMenuHandler.UpdateButtons();
-        }
-
-        void webBrowserComment_ContextMenuShowing(object sender, HtmlElementEventArgs e)
-        {
-            contextMenuStripComment.Show(webBrowserComment.PointToScreen(e.MousePosition));
-            e.ReturnValue = false;
-        }
-
         #endregion
+
+        private void imageListView_Resize(object sender, EventArgs e)
+        {
+            if (Post != null)
+                ReLayout();
+
+            if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
+                webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
+
+            if (imageListView.Width > 768)
+            {
+                int _w = (int)(imageListView.Width / 6.5);
+                imageListView.ThumbnailSize = new Size(_w, _w);
+            }
+            else
+            {
+                imageListView.ThumbnailSize = new Size(128, 128);
+            }
+        }
     }
 }

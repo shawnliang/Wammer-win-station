@@ -47,6 +47,7 @@ namespace Waveface
             this.StatusLabelOriginSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelCurrentSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -54,6 +55,7 @@ namespace Waveface
             // 
             // imageListView
             // 
+            this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStrip;
             resources.ApplyResources(this.imageListView, "imageListView");
@@ -158,6 +160,11 @@ namespace Waveface
             this.panelMain.Controls.Add(this.imageListView);
             this.panelMain.Name = "panelMain";
             // 
+            // timer
+            // 
+            this.timer.Interval = 3000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
             // PhotoView
             // 
             resources.ApplyResources(this, "$this");
@@ -192,6 +199,7 @@ namespace Waveface
         private System.Windows.Forms.Panel panelMain;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelFileName;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelCurrentSize;
+        private System.Windows.Forms.Timer timer;
     }
 }
 

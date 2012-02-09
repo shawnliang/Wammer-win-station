@@ -60,38 +60,31 @@ namespace StationSystemTray.Properties {
             }
         }
         
-        public static System.Drawing.Icon Icon {
+        public static System.Drawing.Bitmap station_icon_16 {
             get {
-                object obj = ResourceManager.GetObject("Icon", resourceCulture);
+                object obj = ResourceManager.GetObject("station_icon_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Icon station_icon_256andAll {
+            get {
+                object obj = ResourceManager.GetObject("station_icon_256andAll", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
         
-        public static System.Drawing.Icon Icon_gray {
+        public static System.Drawing.Bitmap station_icon_disable_16 {
             get {
-                object obj = ResourceManager.GetObject("Icon_gray", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                object obj = ResourceManager.GetObject("station_icon_disable_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        public static System.Drawing.Icon station_run {
+        public static System.Drawing.Bitmap station_icon_warn_16 {
             get {
-                object obj = ResourceManager.GetObject("station_run", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        public static System.Drawing.Icon station_stop {
-            get {
-                object obj = ResourceManager.GetObject("station_stop", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        public static System.Drawing.Icon station_warn {
-            get {
-                object obj = ResourceManager.GetObject("station_warn", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                object obj = ResourceManager.GetObject("station_icon_warn_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
