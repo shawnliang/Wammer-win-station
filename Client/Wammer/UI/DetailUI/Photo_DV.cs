@@ -437,6 +437,7 @@ namespace Waveface.DetailUI
 
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
+                /*
                 if (File.Exists(m_filePathOrigins[i]))
                 {
                     if (firstTime)
@@ -450,6 +451,7 @@ namespace Waveface.DetailUI
 
                     continue;
                 }
+                */
 
                 if (File.Exists(m_filePathMediums[i]))
                 {
