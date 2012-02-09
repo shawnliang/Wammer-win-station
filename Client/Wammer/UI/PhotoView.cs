@@ -23,6 +23,7 @@ namespace Waveface
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
         private int m_selectedImageIndex;
+        private MyImageListViewRenderer m_imageListViewRenderer;
 
         public PhotoView()
         {
@@ -30,7 +31,7 @@ namespace Waveface
         }
 
         public PhotoView(List<Attachment> imageAttachments, List<string> filePathOrigins, List<string> filePathMediums,
-                         Dictionary<string, string> filesMapping, string fileName)
+                         Dictionary<string, string> filesMapping, int selectedIndex)
         {
             InitializeComponent();
 
@@ -50,10 +51,10 @@ namespace Waveface
             //imageListView.AutoRotateThumbnails = false;
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
-            MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer();
-            _imageListViewRenderer.Clip = false;
+            m_imageListViewRenderer = new MyImageListViewRenderer();
+            m_imageListViewRenderer.Clip = false;
 
-            imageListView.SetRenderer(_imageListViewRenderer);
+            imageListView.SetRenderer(m_imageListViewRenderer);
 
 
             timer.Interval = ((m_imageAttachments.Count / 200) + 2) * 1000;
@@ -61,33 +62,15 @@ namespace Waveface
             if (!FillImageListView(true))
                 timer.Enabled = true;
 
-            initSelectedItem(fileName);
+            setSelectedItem(selectedIndex);
         }
 
-        private void initSelectedItem(string fileName)
+        private void setSelectedItem(int selectedIndex)
         {
-            int i = 0;
+            imageListView.Items[selectedIndex].Selected = true;
+            imageListView.Items[selectedIndex].Focused = true;
 
-            foreach (ImageListViewItem _item in imageListView.Items)
-            {
-                if (fileName == _item.FileName)
-                {
-                    _item.Selected = true;
-                    _item.Focused = true;
-
-                    imageListView.EnsureVisible(i);
-
-                    return;
-                }
-
-                i++;
-            }
-
-            if (imageListView.Items.Count > 0)
-            {
-                imageListView.Items[0].Selected = true;
-                imageListView.Items[0].Focused = true;
-            }
+            imageListView.EnsureVisible(selectedIndex);
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -126,25 +109,26 @@ namespace Waveface
 
             if (firstTime || _show)
             {
-                ShowImageListView(firstTime);
+                ShowImageListView();
                 return false;
             }
 
             if (_orig == m_imageAttachments.Count)
             {
+                ShowImageListView();
+
                 timer.Enabled = false;
-
-                ShowImageListView(firstTime);
-
                 return true;
             }
 
             return false;
         }
 
-        private bool ShowImageListView(bool firstTime)
+        private bool ShowImageListView()
         {
             int k = 0;
+
+            imageListView.Items.Clear();
 
             imageListView.SuspendLayout();
 
@@ -152,15 +136,7 @@ namespace Waveface
             {
                 if (File.Exists(m_filePathOrigins[i]))
                 {
-                    if (firstTime)
-                    {
-                        imageListView.Items.Add(m_filePathOrigins[i]);
-                    }
-                    else
-                    {
-                        imageListView.Items[i].FileName = m_filePathOrigins[i];
-                    }
-
+                    imageListView.Items.Add(m_filePathOrigins[i]);
                     imageListView.Items[i].Tag = i.ToString();
 
                     k++;
@@ -170,15 +146,7 @@ namespace Waveface
 
                 if (File.Exists(m_filePathMediums[i]))
                 {
-                    if (firstTime)
-                    {
-                        imageListView.Items.Add(m_filePathMediums[i]);
-                    }
-                    else
-                    {
-                        imageListView.Items[i].FileName = m_filePathMediums[i];
-                    }
-
+                    imageListView.Items.Add(m_filePathMediums[i]);
                     imageListView.Items[i].Tag = i.ToString();
 
                     k++;
@@ -186,11 +154,7 @@ namespace Waveface
                     continue;
                 }
 
-                if (firstTime)
-                    imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
-                else
-                    imageListView.Items[i].FileName = Main.GCONST.CachePath + "LoadingImage" + ".jpg";
-
+                imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
                 imageListView.Items[i].Tag = i.ToString();
             }
 
@@ -205,13 +169,12 @@ namespace Waveface
 
         private void UpdateMainImage()
         {
-            /*
             if (m_selectedImage != null)
             {
-                imageListView.Items.FocusedItem = imageListView.Items[m_selectedImageIndex];
-                imageListView.Update();
+                setSelectedItem(m_selectedImageIndex);
+                //imageListView.Items.FocusedItem = imageListView.Items[m_selectedImageIndex];
+                //imageListView.Update();
             }
-            */
         }
 
         private void imageListView_SelectionChanged(object sender, EventArgs e)

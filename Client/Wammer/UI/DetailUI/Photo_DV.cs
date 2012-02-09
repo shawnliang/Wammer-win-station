@@ -406,7 +406,7 @@ namespace Waveface.DetailUI
                     else
                         imageListView.Items[i].FileName = m_filePathMediums[i];
 
-                    imageListView.Items[i].Tag = ""; //medium
+                    imageListView.Items[i].Tag = i.ToString();
 
                     k++;
 
@@ -418,7 +418,7 @@ namespace Waveface.DetailUI
                 else
                     imageListView.Items[i].FileName = Main.GCONST.CachePath + "LoadingImage" + ".jpg";
 
-                imageListView.Items[i].Tag = "";
+                imageListView.Items[i].Tag = i.ToString();
             }
 
             imageListView.ResumeLayout();
@@ -446,7 +446,7 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            using (PhotoView _photoView = new PhotoView(m_imageAttachments, m_filePathOrigins, m_filePathMediums, m_filesMapping, e.Item.FileName))
+            using (PhotoView _photoView = new PhotoView(m_imageAttachments, m_filePathOrigins, m_filePathMediums, m_filesMapping, int.Parse(e.Item.Tag.ToString())))
             {
                 _photoView.ShowDialog();
             }
