@@ -126,19 +126,27 @@ namespace Gui
 				KillProcess("StationSetup");
 				KillProcess("StationUI");
 
-				string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-				string wavefaceData = Path.Combine(appData, "Waveface");
-				string BackupData = Path.Combine(appData, "oldWaveface");
+				System.Threading.Thread.Sleep(1000);
 
-				if (Directory.Exists(BackupData))
-					Directory.Delete(BackupData, true);
-
-				if (Directory.Exists(wavefaceData))
-					Directory.Move(wavefaceData, BackupData);
+				MoveDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "waveface", "oldWaveface");
+				MoveDir(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "waveface", "oldWaveface");
 			}
-			catch
+			catch (Exception)
 			{
+				//System.Windows.Forms.MessageBox.Show("Unable to backup client AppData: " + e.ToString());
 			}
+		}
+
+		private static void MoveDir(string parentFolder, string orig, string backup)
+		{
+			string origName = Path.Combine(parentFolder, orig);
+			string newName = Path.Combine(parentFolder, backup);
+
+			if (Directory.Exists(newName))
+				Directory.Delete(newName, true);
+
+			if (Directory.Exists(origName))
+				Directory.Move(origName, newName);
 		}
 
 		private static void KillProcess(string name)

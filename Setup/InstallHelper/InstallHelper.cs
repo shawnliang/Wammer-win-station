@@ -191,17 +191,25 @@ namespace Wammer.Station
 		{
 			try
 			{
-				string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-				string backupData = Path.Combine(appData, "oldWaveface");
-				string restoreData = Path.Combine(appData, "waveface");
+				Logger.Debug("Restoring Client AppData");
+				RestoreWavefaceFolder(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+				RestoreWavefaceFolder(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 
-				if (Directory.Exists(backupData) && !Directory.Exists(restoreData))
-					Directory.Move(backupData, restoreData);
+				Logger.Debug("Restore Client AppData complete");
 			}
 			catch (Exception e)
 			{
 				Logger.Warn("Unable to restore client app data", e);
 			}
+		}
+
+		private static void RestoreWavefaceFolder(string parentFolder)
+		{
+			string backupData = Path.Combine(parentFolder, "oldWaveface");
+			string restoreData = Path.Combine(parentFolder, "waveface");
+
+			if (Directory.Exists(backupData) && !Directory.Exists(restoreData))
+				Directory.Move(backupData, restoreData);
 		}
 
 		private static void RunProgram(string file, string args)
