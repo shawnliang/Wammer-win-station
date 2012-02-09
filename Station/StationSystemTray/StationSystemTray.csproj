@@ -135,10 +135,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\station_run.ico" />
-    <None Include="Resources\station_stop.ico" />
-    <None Include="Resources\station_warn.ico" />
+    <None Include="Resources\station_icon_16.png" />
     <Content Include="Resources\station_icon_256andAll.ico" />
+    <None Include="Resources\station_icon_disable_16.png" />
+    <None Include="Resources\station_icon_warn_16.png" />
     <Content Include="SystemTrayML.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

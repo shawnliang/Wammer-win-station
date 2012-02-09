@@ -53,9 +53,9 @@ namespace StationSystemTray
 			
 			Type type = this.GetType();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(type.Namespace + ".Properties.Resources", this.GetType().Assembly);
-			this.iconRunning = StationSystemTray.Properties.Resources.station_run;
-			this.iconPaused = StationSystemTray.Properties.Resources.station_stop;
-			this.iconWarning = StationSystemTray.Properties.Resources.station_warn;
+			this.iconRunning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_16.GetHicon());
+			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_disable_16.GetHicon());
+			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_warn_16.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
 			
 			this.messenger = new Messenger(this);
