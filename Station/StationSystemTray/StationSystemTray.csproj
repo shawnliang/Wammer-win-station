@@ -36,7 +36,7 @@
     <StartupObject>StationSystemTray.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\station_run.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\station_icon_256andAll.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -117,9 +117,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
       <Name>Localizer</Name>
@@ -138,10 +135,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icon_gray.ico" />
     <None Include="Resources\station_run.ico" />
     <None Include="Resources\station_stop.ico" />
     <None Include="Resources\station_warn.ico" />
+    <Content Include="Resources\station_icon_256andAll.ico" />
     <Content Include="SystemTrayML.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

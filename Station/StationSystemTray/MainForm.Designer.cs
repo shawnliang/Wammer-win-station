@@ -44,14 +44,13 @@
 			// 
 			// TrayIcon
 			// 
+			resources.ApplyResources(this.TrayIcon, "TrayIcon");
 			this.TrayIcon.ContextMenuStrip = this.TrayMenu;
-			this.TrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("TrayIcon.Icon")));
-			this.TrayIcon.Text = "Waveface Station";
-			this.TrayIcon.Visible = true;
 			this.TrayIcon.DoubleClick += new System.EventHandler(this.menuPreference_Click);
 			// 
 			// TrayMenu
 			// 
+			resources.ApplyResources(this.TrayMenu, "TrayMenu");
 			this.TrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuRelogin,
             this.menuServiceAction,
@@ -60,47 +59,40 @@
             this.toolStripSeparator2,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
-			this.TrayMenu.Size = new System.Drawing.Size(146, 104);
 			this.TrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.TrayMenu_Opening);
 			// 
 			// menuRelogin
 			// 
-			this.menuRelogin.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			resources.ApplyResources(this.menuRelogin, "menuRelogin");
 			this.menuRelogin.Name = "menuRelogin";
-			this.menuRelogin.Size = new System.Drawing.Size(145, 22);
-			this.menuRelogin.Text = "Re-Login";
-			this.menuRelogin.Visible = false;
 			this.menuRelogin.Click += new System.EventHandler(this.menuRelogin_Click);
 			// 
 			// menuServiceAction
 			// 
+			resources.ApplyResources(this.menuServiceAction, "menuServiceAction");
 			this.menuServiceAction.Name = "menuServiceAction";
-			this.menuServiceAction.Size = new System.Drawing.Size(145, 22);
-			this.menuServiceAction.Text = "Pause Service";
 			this.menuServiceAction.Click += new System.EventHandler(this.menuServiceAction_Click);
 			// 
 			// toolStripSeparator1
 			// 
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(142, 6);
 			// 
 			// menuPreference
 			// 
+			resources.ApplyResources(this.menuPreference, "menuPreference");
 			this.menuPreference.Name = "menuPreference";
-			this.menuPreference.Size = new System.Drawing.Size(145, 22);
-			this.menuPreference.Text = "Preference...";
 			this.menuPreference.Click += new System.EventHandler(this.menuPreference_Click);
 			// 
 			// toolStripSeparator2
 			// 
+			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(142, 6);
 			// 
 			// menuQuit
 			// 
+			resources.ApplyResources(this.menuQuit, "menuQuit");
 			this.menuQuit.Name = "menuQuit";
-			this.menuQuit.Size = new System.Drawing.Size(145, 22);
-			this.menuQuit.Text = "Quit";
 			this.menuQuit.Click += new System.EventHandler(this.menuQuit_Click);
 			// 
 			// checkStationTimer
@@ -110,13 +102,10 @@
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(284, 262);
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainForm";
 			this.ShowInTaskbar = false;
-			this.Text = "Waveface Station";
 			this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
 			this.TrayMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
