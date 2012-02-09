@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\station_run.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\station_icon_256andAll.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>StationSetup.Program</StartupObject>
@@ -149,7 +149,7 @@
     <None Include="Resources\P5.PNG" />
     <None Include="Resources\P6.PNG" />
     <None Include="Resources\P7.png" />
-    <Content Include="Resources\Icon.ico" />
+    <None Include="Resources\station_icon_256andAll.ico" />
     <Content Include="StationML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
