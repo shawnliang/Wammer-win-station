@@ -15,10 +15,21 @@ namespace Waveface
 {
     public partial class PhotoView : Form
     {
+        #region 
+
+        class TAG
+        {
+            public int Index { get; set;}
+            public string Type { get; set;}
+        }
+
+        #endregion
+
         private Dictionary<string, string> m_filesMapping;
         private ImageListViewItem m_selectedImage;
         private bool m_onlyOnePhoto;
         private int m_loadingPhotosCount;
+        private int m_loadingOriginPhotosCount;
         private List<Attachment> m_imageAttachments;
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
@@ -83,14 +94,14 @@ namespace Waveface
         private bool FillImageListView(bool firstTime)
         {
             int _count = 0;
-            int _orig = 0;
+            int _origin = 0;
 
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
                 if (File.Exists(m_filePathOrigins[i]))
                 {
                     _count++;
-                    _orig++;
+                    _origin++;
 
                     continue;
                 }
@@ -103,9 +114,10 @@ namespace Waveface
                 }
             }
 
-            bool _show = (m_loadingPhotosCount != m_imageAttachments.Count);
+            bool _show = (m_loadingPhotosCount != m_imageAttachments.Count) || (m_loadingOriginPhotosCount != _origin);
 
             m_loadingPhotosCount = _count;
+            m_loadingOriginPhotosCount = _origin;
 
             if (firstTime || _show)
             {
@@ -113,7 +125,7 @@ namespace Waveface
                 return false;
             }
 
-            if (_orig == m_imageAttachments.Count)
+            if (_origin == m_imageAttachments.Count)
             {
                 ShowImageListView();
 
@@ -137,7 +149,7 @@ namespace Waveface
                 if (File.Exists(m_filePathOrigins[i]))
                 {
                     imageListView.Items.Add(m_filePathOrigins[i]);
-                    imageListView.Items[i].Tag = i.ToString();
+                    imageListView.Items[i].Tag = new TAG{Index = i,Type = "Origin" };
 
                     k++;
 
@@ -147,7 +159,7 @@ namespace Waveface
                 if (File.Exists(m_filePathMediums[i]))
                 {
                     imageListView.Items.Add(m_filePathMediums[i]);
-                    imageListView.Items[i].Tag = i.ToString();
+                    imageListView.Items[i].Tag = new TAG { Index = i, Type = "Medium" };
 
                     k++;
 
@@ -155,7 +167,7 @@ namespace Waveface
                 }
 
                 imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
-                imageListView.Items[i].Tag = i.ToString();
+                imageListView.Items[i].Tag = new TAG { Index = i, Type = "Loading" };
             }
 
             imageListView.ResumeLayout();
@@ -172,8 +184,6 @@ namespace Waveface
             if (m_selectedImage != null)
             {
                 setSelectedItem(m_selectedImageIndex);
-                //imageListView.Items.FocusedItem = imageListView.Items[m_selectedImageIndex];
-                //imageListView.Update();
             }
         }
 
@@ -182,7 +192,7 @@ namespace Waveface
             if (imageListView.SelectedItems.Count != 0)
             {
                 m_selectedImage = imageListView.SelectedItems[0];
-                m_selectedImageIndex = int.Parse(imageListView.SelectedItems[0].Tag.ToString());
+                m_selectedImageIndex = ((TAG) imageListView.SelectedItems[0].Tag).Index;
 
                 string _trueName = new FileInfo(m_selectedImage.FileName).Name;
 
