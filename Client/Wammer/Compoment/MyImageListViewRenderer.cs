@@ -15,7 +15,7 @@ namespace Waveface.Component
         {
             base.InitializeGraphics(g);
 
-            ItemDrawOrder = ItemDrawOrder.NormalSelectedHovered;
+            ItemDrawOrder = ItemDrawOrder.SelectedNormalHovered;
         }
 
         public override Size MeasureItem(View view)
@@ -224,20 +224,18 @@ namespace Waveface.Component
                 Rectangle _pos = GetSizedImageBounds(image,
                                                             new Rectangle(bounds.Location + _itemMargin,
                                                                           bounds.Size - _itemMargin - _itemMargin));
-
-                /*
-                if ((bounds.Size.Width < item.Dimensions.Width) || (bounds.Size.Height < item.Dimensions.Height))
-                {
-                    Bitmap _bmp = new Bitmap(item.FileName);
-                    g.DrawImage(_bmp, _pos, new Rectangle(0, 0, _bmp.Width, _bmp.Height), GraphicsUnit.Pixel);
-                    _bmp = null;
-                }
-                else
-                */
+                 
+                //if ((bounds.Size.Width < item.Dimensions.Width) || (bounds.Size.Height < item.Dimensions.Height))
+                //{
+                //    Bitmap _bmp = new Bitmap(item.FileName);
+                //    g.DrawImage(_bmp, _pos, new Rectangle(0, 0, _bmp.Width, _bmp.Height), GraphicsUnit.Pixel);
+                //    _bmp = null;
+                //}
+                //else
                 {
                     g.DrawImage(image, _pos);
                 }
-                
+              
 
                 // Draw image border
                 if (Math.Min(_pos.Width, _pos.Height) > 32)
