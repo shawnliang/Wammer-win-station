@@ -375,7 +375,7 @@ namespace Waveface
             if (!Current.CheckNetworkStatus())
                 return;
 
-            m_setting = new SettingForm();
+            m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
 
             m_setting = null;

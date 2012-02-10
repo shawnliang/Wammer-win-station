@@ -291,4 +291,21 @@
     <zh-TW>檔案上傳中：{0}個檔案已上傳，剩下{1}個檔案，和{2}篇貼文</zh-TW>
   </WItem>
 
+  <WItem>
+    <ID>CheckForUpdates</ID>
+    <en-US>Check for Updates</en-US>
+    <zh-TW>檢查更新</zh-TW>
+  </WItem>
+
+  <WItem>
+    <ID>CheckingUpdates</ID>
+    <en-US>Checking</en-US>
+    <zh-TW>檢查中</zh-TW>
+  </WItem>
+
+  <WItem>
+    <ID>AlreadyUpdated</ID>
+    <en-US>Your Waveface has been updated to the latest version.</en-US>
+    <zh-TW>您的Waveface已經更新到最新版了</zh-TW>
+  </WItem>
 </WItems>
