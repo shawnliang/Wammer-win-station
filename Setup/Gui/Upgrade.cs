@@ -29,6 +29,13 @@ namespace Gui
 
 					MongoDump();
 					BackupRegistry();
+
+					ServiceController wfSvc = new ServiceController("WavefaceStation");
+					if (wfSvc.Status != ServiceControllerStatus.Stopped &&
+						wfSvc.Status != ServiceControllerStatus.StopPending)
+						svc.Stop();
+
+					svc.WaitForStatus(ServiceControllerStatus.Stopped);
 				}
 
 				BackupClientAppData();
