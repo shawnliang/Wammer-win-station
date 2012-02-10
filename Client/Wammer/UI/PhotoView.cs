@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
@@ -15,15 +16,31 @@ namespace Waveface
 {
     public partial class PhotoView : Form
     {
+        #region TAG
+
+        class TAG
+        {
+            public int Index { get; set; }
+            public string Type { get; set; }
+        }
+
+        #endregion
+
+        private const string MEDIUM = "Medium";
+        private const string ORIGIN = "Origin";
+        private const string LOADING = "Loading";
+
         private Dictionary<string, string> m_filesMapping;
         private ImageListViewItem m_selectedImage;
         private bool m_onlyOnePhoto;
         private int m_loadingPhotosCount;
+        private int m_loadingOriginPhotosCount;
         private List<Attachment> m_imageAttachments;
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
         private int m_selectedImageIndex;
         private MyImageListViewRenderer m_imageListViewRenderer;
+        private string m_selectedImageType;
 
         public PhotoView()
         {
@@ -76,21 +93,19 @@ namespace Waveface
         private void timer_Tick(object sender, EventArgs e)
         {
             FillImageListView(false);
-
-            Application.DoEvents();
         }
 
         private bool FillImageListView(bool firstTime)
         {
             int _count = 0;
-            int _orig = 0;
+            int _origin = 0;
 
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
                 if (File.Exists(m_filePathOrigins[i]))
                 {
                     _count++;
-                    _orig++;
+                    _origin++;
 
                     continue;
                 }
@@ -103,32 +118,37 @@ namespace Waveface
                 }
             }
 
-            bool _show = (m_loadingPhotosCount != m_imageAttachments.Count);
+            bool _show1 = (m_loadingPhotosCount != m_imageAttachments.Count);
+            bool _show2 = (m_loadingOriginPhotosCount != _origin);
 
             m_loadingPhotosCount = _count;
+            m_loadingOriginPhotosCount = _origin;
 
-            if (firstTime || _show)
+            if (_origin == m_imageAttachments.Count)
             {
-                ShowImageListView();
-                return false;
-            }
-
-            if (_orig == m_imageAttachments.Count)
-            {
-                ShowImageListView();
+                ShowImageListView(firstTime);
 
                 timer.Enabled = false;
                 return true;
             }
 
+            if (_show1 || _show2)
+            {
+                ShowImageListView(firstTime);
+                return false;
+            }
+
             return false;
         }
 
-        private bool ShowImageListView()
+        private void ShowImageListView(bool firstTime)
         {
             int k = 0;
 
-            imageListView.Items.Clear();
+            bool _reload = firstTime || checkSelectedImageTypeChange();
+
+            if (_reload)
+                imageListView.Items.Clear();
 
             imageListView.SuspendLayout();
 
@@ -136,8 +156,12 @@ namespace Waveface
             {
                 if (File.Exists(m_filePathOrigins[i]))
                 {
-                    imageListView.Items.Add(m_filePathOrigins[i]);
-                    imageListView.Items[i].Tag = i.ToString();
+                    if (_reload)
+                        imageListView.Items.Add(m_filePathOrigins[i]);
+                    else
+                        imageListView.Items[i].FileName = m_filePathOrigins[i];
+
+                    imageListView.Items[i].Tag = new TAG { Index = i, Type = ORIGIN };
 
                     k++;
 
@@ -146,25 +170,30 @@ namespace Waveface
 
                 if (File.Exists(m_filePathMediums[i]))
                 {
-                    imageListView.Items.Add(m_filePathMediums[i]);
-                    imageListView.Items[i].Tag = i.ToString();
+                    if (_reload)
+                        imageListView.Items.Add(m_filePathMediums[i]);
+                    else
+                        imageListView.Items[i].FileName = m_filePathMediums[i];
+
+                    imageListView.Items[i].Tag = new TAG { Index = i, Type = MEDIUM };
 
                     k++;
 
                     continue;
                 }
 
-                imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
-                imageListView.Items[i].Tag = i.ToString();
+                if (_reload)
+                    imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
+                else
+                    imageListView.Items[i].FileName = Main.GCONST.CachePath + "LoadingImage" + ".jpg";
+
+                imageListView.Items[i].Tag = new TAG { Index = i, Type = LOADING };
             }
 
             imageListView.ResumeLayout();
 
-            UpdateMainImage();
-
-            Application.DoEvents();
-
-            return (k == m_imageAttachments.Count);
+            if (!firstTime)
+                UpdateMainImage();
         }
 
         private void UpdateMainImage()
@@ -172,9 +201,34 @@ namespace Waveface
             if (m_selectedImage != null)
             {
                 setSelectedItem(m_selectedImageIndex);
-                //imageListView.Items.FocusedItem = imageListView.Items[m_selectedImageIndex];
-                //imageListView.Update();
             }
+        }
+
+        private bool checkSelectedImageTypeChange()
+        {
+            if (m_selectedImage == null)
+                return true;
+
+            bool _originExist = File.Exists(m_filePathOrigins[m_selectedImageIndex]);
+            bool _mediumsExist = File.Exists(m_filePathMediums[m_selectedImageIndex]);
+
+            switch (m_selectedImageType)
+            {
+                case LOADING:
+
+                    if (_originExist || _mediumsExist)
+                        return true;
+
+                    break;
+                case MEDIUM:
+
+                    if (_originExist)
+                        return true;
+
+                    break;
+            }
+
+            return false;
         }
 
         private void imageListView_SelectionChanged(object sender, EventArgs e)
@@ -182,7 +236,8 @@ namespace Waveface
             if (imageListView.SelectedItems.Count != 0)
             {
                 m_selectedImage = imageListView.SelectedItems[0];
-                m_selectedImageIndex = int.Parse(imageListView.SelectedItems[0].Tag.ToString());
+                m_selectedImageIndex = ((TAG)imageListView.SelectedItems[0].Tag).Index;
+                m_selectedImageType = ((TAG)imageListView.SelectedItems[0].Tag).Type;
 
                 string _trueName = new FileInfo(m_selectedImage.FileName).Name;
 
@@ -190,6 +245,8 @@ namespace Waveface
                     _trueName = m_filesMapping[_trueName];
 
                 StatusLabelFileName.Text = _trueName;
+
+                StatusLabelCurrentSize.Text = m_selectedImage.Dimensions.Width + " x " + m_selectedImage.Dimensions.Height;
             }
         }
 

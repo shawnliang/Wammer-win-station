@@ -198,17 +198,11 @@
   <data name="StatusLabelFileName.Size" type="System.Drawing.Size, System.Drawing">
     <value>4, 23</value>
   </data>
-  <data name="StatusLabelFileName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="StatusLabelOriginSize.Size" type="System.Drawing.Size, System.Drawing">
-    <value>354, 23</value>
-  </data>
-  <data name="StatusLabelOriginSize.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="StatusLabelCurrentSize.Size" type="System.Drawing.Size, System.Drawing">
-    <value>354, 23</value>
+    <value>4, 23</value>
+  </data>
+  <data name="StatusLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 23</value>
   </data>
   <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 414</value>
@@ -384,12 +378,6 @@
   <data name="&gt;&gt;StatusLabelFileName.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;StatusLabelOriginSize.Name" xml:space="preserve">
-    <value>StatusLabelOriginSize</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelOriginSize.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;StatusLabelCurrentSize.Name" xml:space="preserve">
     <value>StatusLabelCurrentSize</value>
   </data>
@@ -401,6 +389,12 @@
   </data>
   <data name="&gt;&gt;timer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusLabel.Name" xml:space="preserve">
+    <value>StatusLabel</value>
+  </data>
+  <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PhotoView</value>
