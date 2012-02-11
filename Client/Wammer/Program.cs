@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using NLog;
-using Waveface.Compoment;
+using Waveface.Component;
 using Waveface.Diagnostics;
 using Waveface.Localization;
 

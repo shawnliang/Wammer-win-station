@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 #endregion
 
-namespace Waveface.Compoment.PopupControl
+namespace Waveface.Component.PopupControl
 {
     internal static class NativeMethods
     {

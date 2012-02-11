@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Waveface.API.V2;
-using Waveface.Compoment;
+using Waveface.Component;
 using Waveface.Component;
 
 #endregion
@@ -81,7 +81,7 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebLink_DV));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.panelRight = new Waveface.Compoment.AutoScrollPanel();
+            this.panelRight = new Waveface.Component.AutoScrollPanel();
             this.panelWebBrowser = new System.Windows.Forms.Panel();
             this.webBrowserSoul = new System.Windows.Forms.WebBrowser();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();

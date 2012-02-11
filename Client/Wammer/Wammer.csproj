@@ -114,49 +114,49 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compoment\Panel\AutoScrollPanel.cs">
+    <Compile Include="Component\Panel\AutoScrollPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\MsgBox.cs">
+    <Compile Include="Component\MsgBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\MsgBox.designer.cs">
+    <Compile Include="Component\MsgBox.designer.cs">
       <DependentUpon>MsgBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\PSTaskDialog\CommandButton.cs">
+    <Compile Include="Component\PSTaskDialog\CommandButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\PSTaskDialog\CommandButton.designer.cs">
+    <Compile Include="Component\PSTaskDialog\CommandButton.designer.cs">
       <DependentUpon>CommandButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\PSTaskDialog\cTaskDialog.cs" />
-    <Compile Include="Compoment\PSTaskDialog\FormTaskDialog.cs">
+    <Compile Include="Component\PSTaskDialog\cTaskDialog.cs" />
+    <Compile Include="Component\PSTaskDialog\FormTaskDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\PSTaskDialog\FormTaskDialog.designer.cs">
+    <Compile Include="Component\PSTaskDialog\FormTaskDialog.designer.cs">
       <DependentUpon>FormTaskDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\PSTaskDialog\frmTaskDialog.cs">
+    <Compile Include="Component\PSTaskDialog\frmTaskDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\PSTaskDialog\frmTaskDialog.designer.cs">
+    <Compile Include="Component\PSTaskDialog\frmTaskDialog.designer.cs">
       <DependentUpon>frmTaskDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\PSTaskDialog\VistaActiveTaskDialog.cs" />
-    <Compile Include="Compoment\PSTaskDialog\VistaTaskDialog.cs" />
-    <Compile Include="Compoment\PSTaskDialog\VistaTaskDialogCommonDialog.cs">
+    <Compile Include="Component\PSTaskDialog\VistaActiveTaskDialog.cs" />
+    <Compile Include="Component\PSTaskDialog\VistaTaskDialog.cs" />
+    <Compile Include="Component\PSTaskDialog\VistaTaskDialogCommonDialog.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\PSTaskDialog\VistaTaskDialogNotificationArgs.cs" />
-    <Compile Include="Compoment\PSTaskDialog\VistaUnsafeNativeMethods.cs" />
-    <Compile Include="Compoment\Panel\ScrollablePanel.cs">
+    <Compile Include="Component\PSTaskDialog\VistaTaskDialogNotificationArgs.cs" />
+    <Compile Include="Component\PSTaskDialog\VistaUnsafeNativeMethods.cs" />
+    <Compile Include="Component\Panel\ScrollablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\SingleInstance.cs" />
-    <Compile Include="Compoment\WaterMarkRichTextBox.cs">
+    <Compile Include="Component\SingleInstance.cs" />
+    <Compile Include="Component\WaterMarkRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\WebBrowserContextMenuHandler.cs" />
+    <Compile Include="Component\WebBrowserContextMenuHandler.cs" />
     <Compile Include="Data\ConnectServiceStateType.cs" />
     <Compile Include="Data\Delegates.cs" />
     <Compile Include="Data\StationState.cs" />
@@ -196,126 +196,126 @@
       <DependentUpon>NewPostManagerUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\UploadOriginPhotosToStationManager.cs" />
-    <Compile Include="Compoment\FileIconLib.cs" />
-    <Compile Include="Compoment\FirefoxDialog\EtchedLine.cs">
+    <Compile Include="Component\FileIconLib.cs" />
+    <Compile Include="Component\FirefoxDialog\EtchedLine.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Compoment\FirefoxDialog\FirefoxDialog.cs">
+    <Compile Include="Component\FirefoxDialog\FirefoxDialog.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Compoment\FirefoxDialog\FirefoxDialog.designer.cs">
+    <Compile Include="Component\FirefoxDialog\FirefoxDialog.designer.cs">
       <DependentUpon>FirefoxDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\FirefoxDialog\PageProp.cs" />
-    <Compile Include="Compoment\FirefoxDialog\PropertyPage.cs">
+    <Compile Include="Component\FirefoxDialog\PageProp.cs" />
+    <Compile Include="Component\FirefoxDialog\PropertyPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Compoment\IconHelper\IconHelper.cs" />
-    <Compile Include="Compoment\IconHelper\IconListManager.cs" />
-    <Compile Include="Compoment\MouseWheelRedirector.cs" />
-    <Compile Include="Compoment\MozBar\ImageListPanel.cs">
+    <Compile Include="Component\IconHelper\IconHelper.cs" />
+    <Compile Include="Component\IconHelper\IconListManager.cs" />
+    <Compile Include="Component\MouseWheelRedirector.cs" />
+    <Compile Include="Component\MozBar\ImageListPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\MozBar\ImageMapEditor.cs" />
-    <Compile Include="Compoment\MozBar\MozItem.cs">
+    <Compile Include="Component\MozBar\ImageMapEditor.cs" />
+    <Compile Include="Component\MozBar\MozItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\MozBar\MozPane.cs">
+    <Compile Include="Component\MozBar\MozPane.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\MozBar\ScrollableControlWithScrollEvents.cs">
+    <Compile Include="Component\MozBar\ScrollableControlWithScrollEvents.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\MyImageListViewRenderer.cs" />
-    <Compile Include="Compoment\PopupControl\ComboBox.cs">
+    <Compile Include="Component\MyImageListViewRenderer.cs" />
+    <Compile Include="Component\PopupControl\ComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\PopupControl\ComboBox.designer.cs">
+    <Compile Include="Component\PopupControl\ComboBox.designer.cs">
       <DependentUpon>ComboBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\PopupControl\GripBounds.cs" />
-    <Compile Include="Compoment\PopupControl\NativeMethods.cs" />
-    <Compile Include="Compoment\PopupControl\Popup.cs">
+    <Compile Include="Component\PopupControl\GripBounds.cs" />
+    <Compile Include="Component\PopupControl\NativeMethods.cs" />
+    <Compile Include="Component\PopupControl\Popup.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\PopupControl\Popup.designer.cs">
+    <Compile Include="Component\PopupControl\Popup.designer.cs">
       <DependentUpon>Popup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\PopupControl\PopupAnimations.cs" />
-    <Compile Include="Compoment\PopupControl\PopupComboBox.cs">
+    <Compile Include="Component\PopupControl\PopupAnimations.cs" />
+    <Compile Include="Component\PopupControl\PopupComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\PopupControl\PopupComboBox.designer.cs">
+    <Compile Include="Component\PopupControl\PopupComboBox.designer.cs">
       <DependentUpon>PopupComboBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\PreviewHandler.cs">
+    <Compile Include="Component\PreviewHandler.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\TimePicker\HourMinuteSelectorForm.cs">
+    <Compile Include="Component\TimePicker\HourMinuteSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\TimePicker\HourMinuteSelectorForm.designer.cs">
+    <Compile Include="Component\TimePicker\HourMinuteSelectorForm.designer.cs">
       <DependentUpon>HourMinuteSelectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\TimePicker\HourSelectorForm.cs">
+    <Compile Include="Component\TimePicker\HourSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\TimePicker\HourSelectorForm.designer.cs">
+    <Compile Include="Component\TimePicker\HourSelectorForm.designer.cs">
       <DependentUpon>HourSelectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\TimePicker\MinuteSelectorForm.cs">
+    <Compile Include="Component\TimePicker\MinuteSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\TimePicker\MinuteSelectorForm.designer.cs">
+    <Compile Include="Component\TimePicker\MinuteSelectorForm.designer.cs">
       <DependentUpon>MinuteSelectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\TimePicker\TimeChangeEventArgs.cs" />
-    <Compile Include="Compoment\TimePicker\TimePicker.cs">
+    <Compile Include="Component\TimePicker\TimeChangeEventArgs.cs" />
+    <Compile Include="Component\TimePicker\TimePicker.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Compoment\TimePicker\TimePicker.designer.cs">
+    <Compile Include="Component\TimePicker\TimePicker.designer.cs">
       <DependentUpon>TimePicker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\TimePicker\TimePickerValueEditor.cs" />
+    <Compile Include="Component\TimePicker\TimePickerValueEditor.cs" />
     <Compile Include="Data\ClipObject.cs" />
-    <Compile Include="Compoment\CollapsibleSplitter.cs">
+    <Compile Include="Component\CollapsibleSplitter.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\Colors.cs" />
-    <Compile Include="Compoment\ControlPaint.cs" />
-    <Compile Include="Compoment\DragDropTabControl.cs">
+    <Compile Include="Component\Colors.cs" />
+    <Compile Include="Component\ControlPaint.cs" />
+    <Compile Include="Component\DragDropTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\FlashWindow.cs" />
-    <Compile Include="Compoment\FlatTabControl.cs">
+    <Compile Include="Component\FlashWindow.cs" />
+    <Compile Include="Component\FlatTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\ImageViewer\ImageBox.cs">
+    <Compile Include="Component\ImageViewer\ImageBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Compoment\ImageViewer\ImageBox.designer.cs">
+    <Compile Include="Component\ImageViewer\ImageBox.designer.cs">
       <DependentUpon>ImageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\ImageViewer\ImageBoxGridScale.cs" />
-    <Compile Include="Compoment\ImageViewer\ImageViewerForm.cs">
+    <Compile Include="Component\ImageViewer\ImageBoxGridScale.cs" />
+    <Compile Include="Component\ImageViewer\ImageViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\ImageViewer\ImageViewerForm.designer.cs">
+    <Compile Include="Component\ImageViewer\ImageViewerForm.designer.cs">
       <DependentUpon>ImageViewerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\ListBarControl\CustomBorderColor.cs" />
-    <Compile Include="Compoment\ListBarControl\frmListBarTest.cs">
+    <Compile Include="Component\ListBarControl\CustomBorderColor.cs" />
+    <Compile Include="Component\ListBarControl\frmListBarTest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\ListBarControl\frmVsNetListBarTest.cs">
+    <Compile Include="Component\ListBarControl\frmVsNetListBarTest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\ListBarControl\HLSRGB.cs" />
-    <Compile Include="Compoment\ListBarControl\ListBar.cs">
+    <Compile Include="Component\ListBarControl\HLSRGB.cs" />
+    <Compile Include="Component\ListBarControl\ListBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Compoment\ListBarControl\PopupCancel.cs" />
-    <Compile Include="Compoment\ListBarControl\VSNetListBar.cs">
+    <Compile Include="Component\ListBarControl\PopupCancel.cs" />
+    <Compile Include="Component\ListBarControl\VSNetListBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Data\PostType.cs" />
@@ -347,16 +347,16 @@
     </Compile>
     <Compile Include="Libs\Utility\HtmlUtility.cs" />
     <Compile Include="Libs\Utility\TabOrderManager.cs" />
-    <Compile Include="Compoment\TaskbarNotifier\MyTaskbarNotifier.cs">
+    <Compile Include="Component\TaskbarNotifier\MyTaskbarNotifier.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\TaskbarNotifier\MyTaskbarNotifier.designer.cs">
+    <Compile Include="Component\TaskbarNotifier\MyTaskbarNotifier.designer.cs">
       <DependentUpon>MyTaskbarNotifier.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compoment\TaskbarNotifier\TaskbarNotifier.cs">
+    <Compile Include="Component\TaskbarNotifier\TaskbarNotifier.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compoment\XPButton.cs">
+    <Compile Include="Component\XPButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Test\Group And User\GroupManager.cs">
@@ -462,7 +462,7 @@
     <Compile Include="Subs\ImageCapture\States\WindowState.cs" />
     <Compile Include="Subs\ImageCapture\Utils\ScreenCapture.cs" />
     <Compile Include="Subs\ImageCapture\Utils\WinApi.cs" />
-    <Compile Include="Compoment\StickyWindow.cs" />
+    <Compile Include="Component\StickyWindow.cs" />
     <Compile Include="UI\PostUI\RichText.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -559,73 +559,73 @@
     <Compile Include="UI\VirtualFolderForm.designer.cs">
       <DependentUpon>VirtualFolderForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Compoment\CollapsibleSplitter.resx">
+    <EmbeddedResource Include="Component\CollapsibleSplitter.resx">
       <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\FirefoxDialog\EtchedLine.resx">
+    <EmbeddedResource Include="Component\FirefoxDialog\EtchedLine.resx">
       <DependentUpon>EtchedLine.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\FirefoxDialog\FirefoxDialog.resx">
+    <EmbeddedResource Include="Component\FirefoxDialog\FirefoxDialog.resx">
       <DependentUpon>FirefoxDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\FirefoxDialog\PropertyPage.resx">
+    <EmbeddedResource Include="Component\FirefoxDialog\PropertyPage.resx">
       <DependentUpon>PropertyPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\ImageViewer\ImageViewerForm.resx">
+    <EmbeddedResource Include="Component\ImageViewer\ImageViewerForm.resx">
       <DependentUpon>ImageViewerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\ListBarControl\frmListBarTest.resx">
+    <EmbeddedResource Include="Component\ListBarControl\frmListBarTest.resx">
       <DependentUpon>frmListBarTest.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\ListBarControl\frmVsNetListBarTest.resx">
+    <EmbeddedResource Include="Component\ListBarControl\frmVsNetListBarTest.resx">
       <DependentUpon>frmVsNetListBarTest.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\ListBarControl\ListBar.resx">
+    <EmbeddedResource Include="Component\ListBarControl\ListBar.resx">
       <DependentUpon>ListBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\ListBarControl\VSNetListBar.resx">
+    <EmbeddedResource Include="Component\ListBarControl\VSNetListBar.resx">
       <DependentUpon>VSNetListBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\MozBar\ImageListPanel.resx">
+    <EmbeddedResource Include="Component\MozBar\ImageListPanel.resx">
       <DependentUpon>ImageListPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\MozBar\MozItem.resx">
+    <EmbeddedResource Include="Component\MozBar\MozItem.resx">
       <DependentUpon>MozItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\MozBar\MozPane.resx">
+    <EmbeddedResource Include="Component\MozBar\MozPane.resx">
       <DependentUpon>MozPane.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\MozBar\ScrollableControlWithScrollEvents.resx">
+    <EmbeddedResource Include="Component\MozBar\ScrollableControlWithScrollEvents.resx">
       <DependentUpon>ScrollableControlWithScrollEvents.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\MsgBox.resx">
+    <EmbeddedResource Include="Component\MsgBox.resx">
       <DependentUpon>MsgBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\MsgBox.zh-TW.resx">
+    <EmbeddedResource Include="Component\MsgBox.zh-TW.resx">
       <DependentUpon>MsgBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\PSTaskDialog\FormTaskDialog.resx">
+    <EmbeddedResource Include="Component\PSTaskDialog\FormTaskDialog.resx">
       <DependentUpon>FormTaskDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\PSTaskDialog\frmTaskDialog.resx">
+    <EmbeddedResource Include="Component\PSTaskDialog\frmTaskDialog.resx">
       <DependentUpon>frmTaskDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\TaskbarNotifier\MyTaskbarNotifier.resx">
+    <EmbeddedResource Include="Component\TaskbarNotifier\MyTaskbarNotifier.resx">
       <DependentUpon>MyTaskbarNotifier.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\TimePicker\HourMinuteSelectorForm.resx">
+    <EmbeddedResource Include="Component\TimePicker\HourMinuteSelectorForm.resx">
       <DependentUpon>HourMinuteSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\TimePicker\HourSelectorForm.resx">
+    <EmbeddedResource Include="Component\TimePicker\HourSelectorForm.resx">
       <DependentUpon>HourSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\TimePicker\MinuteSelectorForm.resx">
+    <EmbeddedResource Include="Component\TimePicker\MinuteSelectorForm.resx">
       <DependentUpon>MinuteSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\TimePicker\TimePicker.resx">
+    <EmbeddedResource Include="Component\TimePicker\TimePicker.resx">
       <DependentUpon>TimePicker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compoment\XPButton.resx">
+    <EmbeddedResource Include="Component\XPButton.resx">
       <DependentUpon>XPButton.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.zh-TW.resx">
@@ -925,8 +925,8 @@
     <None Include="Resources\waveface_icon32.png" />
     <None Include="Resources\waveface_icon128.png" />
     <None Include="Resources\waveface_icon128.ico" />
-    <EmbeddedResource Include="Compoment\PSTaskDialog\green_arrow1.png" />
-    <EmbeddedResource Include="Compoment\PSTaskDialog\green_arrow2.png" />
+    <EmbeddedResource Include="Component\PSTaskDialog\green_arrow1.png" />
+    <EmbeddedResource Include="Component\PSTaskDialog\green_arrow2.png" />
     <Content Include="Icon.ico" />
     <None Include="Resources\Cloud.png" />
     <None Include="Resources\Station.png" />

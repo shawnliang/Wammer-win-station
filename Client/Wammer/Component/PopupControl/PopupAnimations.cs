@@ -5,7 +5,7 @@ using System;
 
 #endregion
 
-namespace Waveface.Compoment.PopupControl
+namespace Waveface.Component.PopupControl
 {
     // Types of animation of the pop-up window.
     [Flags]

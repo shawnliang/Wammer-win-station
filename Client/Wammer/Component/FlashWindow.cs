@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 #endregion
 
-namespace Waveface.Compoment
+namespace Waveface.Component
 {
     public static class FlashWindow
     {

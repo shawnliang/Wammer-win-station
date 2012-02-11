@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using Waveface.API.V2;
-using Waveface.Compoment.PopupControl;
+using Waveface.Component.PopupControl;
 using Waveface.Component;
 using Waveface.DetailUI;
 

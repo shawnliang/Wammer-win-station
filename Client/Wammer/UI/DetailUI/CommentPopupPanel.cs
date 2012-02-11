@@ -2,7 +2,7 @@
 
 using System.Drawing;
 using System.Windows.Forms;
-using Waveface.Compoment.PopupControl;
+using Waveface.Component.PopupControl;
 using Waveface.Component;
 
 #endregion

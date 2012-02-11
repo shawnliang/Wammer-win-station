@@ -13,7 +13,7 @@ using VS = System.Windows.Forms.VisualStyles;
 
 #endregion
 
-namespace Waveface.Compoment.PopupControl
+namespace Waveface.Component.PopupControl
 {
     [CLSCompliant(true), ToolboxItem(false)]
     public partial class Popup : ToolStripDropDown
@@ -568,7 +568,7 @@ namespace Waveface.Compoment.PopupControl
                     }
                     else
                     {
-                        ControlPaint.DrawSizeGrip(g, Content.BackColor, 0, 0, 0x10, 0x10);
+                        System.Windows.Forms.ControlPaint.DrawSizeGrip(g, Content.BackColor, 0, 0, 0x10, 0x10);
                     }
                 }
 

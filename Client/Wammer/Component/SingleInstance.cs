@@ -8,7 +8,7 @@ using System.Threading;
 
 #endregion
 
-namespace Waveface.Compoment
+namespace Waveface.Component
 {
 
     /*

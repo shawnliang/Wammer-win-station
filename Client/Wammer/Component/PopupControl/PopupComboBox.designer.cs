@@ -1,6 +1,6 @@
-﻿namespace Waveface.Compoment.PopupControl
+﻿namespace Waveface.Component.PopupControl
 {
-    partial class ComboBox
+    partial class PopupComboBox
     {
         /// <summary>
         /// Required designer variable.
@@ -19,6 +19,10 @@
                 {
                     components.Dispose();
                 }
+                if (m_dropDown != null)
+                {
+                    m_dropDown.Dispose();
+                }
             }
             base.Dispose(disposing);
         }
@@ -33,7 +37,7 @@
         {
             this.SuspendLayout();
             // 
-            // ComboBox
+            // PopupComboBox
             // 
             this.ResumeLayout(false);
 

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 #endregion
 
-namespace Waveface.Compoment.PopupControl
+namespace Waveface.Component.PopupControl
 {
     // Represents a Windows combo box control which can be used in a popup's content control.
     [ToolboxBitmap(typeof (System.Windows.Forms.ComboBox)), ToolboxItem(true), ToolboxItemFilter("System.Windows.Forms"), Description("Displays an editable text box with a drop-down list of permitted values.")]

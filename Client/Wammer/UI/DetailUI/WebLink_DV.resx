@@ -217,7 +217,7 @@
     <value>panelRight</value>
   </data>
   <data name="&gt;&gt;panelRight.Type" xml:space="preserve">
-    <value>Waveface.Compoment.AutoScrollPanel, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.AutoScrollPanel, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;panelRight.Parent" xml:space="preserve">
     <value>panelMain</value>

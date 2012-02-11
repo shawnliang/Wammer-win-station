@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using Manina.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
-using Waveface.Compoment;
+using Waveface.Component;
 using Waveface.Component;
 
 #endregion
@@ -111,7 +111,7 @@ namespace Waveface.DetailUI
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelRight = new Waveface.Compoment.AutoScrollPanel();
+            this.panelRight = new Waveface.Component.AutoScrollPanel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();

@@ -6,7 +6,7 @@ using mshtml;
 
 #endregion
 
-namespace Waveface.Compoment
+namespace Waveface.Component
 {
     public class WebBrowserContextMenuHandler
     {

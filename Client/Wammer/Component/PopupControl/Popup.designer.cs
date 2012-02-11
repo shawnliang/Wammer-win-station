@@ -1,11 +1,11 @@
-﻿namespace Waveface.Compoment.PopupControl
+﻿namespace Waveface.Component.PopupControl
 {
-    partial class PopupComboBox
+    partial class Popup
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer components;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -19,9 +19,11 @@
                 {
                     components.Dispose();
                 }
-                if (m_dropDown != null)
+                if (Content != null)
                 {
-                    m_dropDown.Dispose();
+                    System.Windows.Forms.Control _content = Content;
+                    Content = null;
+                    _content.Dispose();
                 }
             }
             base.Dispose(disposing);
@@ -35,12 +37,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // PopupComboBox
-            // 
-            this.ResumeLayout(false);
-
+            components = new System.ComponentModel.Container();
         }
 
         #endregion

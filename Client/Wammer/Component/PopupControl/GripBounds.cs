@@ -4,7 +4,7 @@ using System.Drawing;
 
 #endregion
 
-namespace Waveface.Compoment.PopupControl
+namespace Waveface.Component.PopupControl
 {
     internal struct GripBounds
     {

@@ -15,7 +15,7 @@ namespace Waveface.Component
         {
             base.InitializeGraphics(g);
 
-            ItemDrawOrder = ItemDrawOrder.SelectedNormalHovered;
+            ItemDrawOrder = ItemDrawOrder.NormalSelectedHovered;
         }
 
         public override Size MeasureItem(View view)
