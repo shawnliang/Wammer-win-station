@@ -12,7 +12,7 @@ using View = Manina.Windows.Forms.View;
 
 #endregion
 
-namespace Waveface
+namespace Waveface.DetailUI
 {
     public partial class PhotoView : Form
     {
@@ -350,5 +350,33 @@ namespace Waveface
         }
 
         #endregion
+
+        private void btnSlideShow_Click(object sender, EventArgs e)
+        {
+            List<string> _imageFilesPath = new List<string>();
+
+            for (int i = 0; i < m_imageAttachments.Count; i++)
+            {
+                if (File.Exists(m_filePathOrigins[i]))
+                {
+                    _imageFilesPath.Add(m_filePathOrigins[i]);
+                    continue;
+                }
+
+                if (File.Exists(m_filePathMediums[i]))
+                {
+                    _imageFilesPath.Add(m_filePathMediums[i]);
+                    continue;
+                }
+            }
+
+            if(_imageFilesPath.Count > 0)
+            {
+                using (SlideShowForm _form = new SlideShowForm(_imageFilesPath, m_selectedImageIndex))
+                {
+                    _form.ShowDialog();
+                }
+            }
+        }
     }
 }

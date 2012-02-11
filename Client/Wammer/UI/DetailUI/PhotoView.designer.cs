@@ -1,7 +1,7 @@
 ﻿using Manina.Windows.Forms;
 using Waveface.Component;
 
-namespace Waveface
+namespace Waveface.DetailUI
 {
     partial class PhotoView
     {
@@ -43,9 +43,10 @@ namespace Waveface
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabelFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelCurrentSize = new System.Windows.Forms.ToolStripStatusLabel();
+            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnSlideShow = new Waveface.Component.XPButton();
             this.btnSave = new Waveface.Component.XPButton();
             this.btnSaveAll = new Waveface.Component.XPButton();
             this.contextMenuStrip.SuspendLayout();
@@ -117,9 +118,15 @@ namespace Waveface
             this.StatusLabelCurrentSize.Name = "StatusLabelCurrentSize";
             resources.ApplyResources(this.StatusLabelCurrentSize, "StatusLabelCurrentSize");
             // 
+            // StatusLabel
+            // 
+            this.StatusLabel.Name = "StatusLabel";
+            resources.ApplyResources(this.StatusLabel, "StatusLabel");
+            // 
             // panelMain
             // 
             resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.Controls.Add(this.btnSlideShow);
             this.panelMain.Controls.Add(this.btnSave);
             this.panelMain.Controls.Add(this.btnSaveAll);
             this.panelMain.Controls.Add(this.imageListView);
@@ -130,10 +137,16 @@ namespace Waveface
             this.timer.Interval = 3000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // StatusLabel
+            // btnSlideShow
             // 
-            this.StatusLabel.Name = "StatusLabel";
-            resources.ApplyResources(this.StatusLabel, "StatusLabel");
+            this.btnSlideShow.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnSlideShow, "btnSlideShow");
+            this.btnSlideShow.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnSlideShow.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnSlideShow.Image = global::Waveface.Properties.Resources.SlideShow;
+            this.btnSlideShow.Name = "btnSlideShow";
+            this.btnSlideShow.UseVisualStyleBackColor = true;
+            this.btnSlideShow.Click += new System.EventHandler(this.btnSlideShow_Click);
             // 
             // btnSave
             // 
@@ -194,6 +207,7 @@ namespace Waveface
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelCurrentSize;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
+        private XPButton btnSlideShow;
     }
 }
 

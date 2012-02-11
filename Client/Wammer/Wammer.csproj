@@ -183,6 +183,12 @@
     <Compile Include="UI\DetailUI\CommentPopupPanel.designer.cs">
       <DependentUpon>CommentPopupPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\DetailUI\SlideShowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\DetailUI\SlideShowForm.designer.cs">
+      <DependentUpon>SlideShowForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\DropAreaInforForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -481,10 +487,10 @@
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\PhotoView.cs">
+    <Compile Include="UI\DetailUI\PhotoView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\PhotoView.designer.cs">
+    <Compile Include="UI\DetailUI\PhotoView.designer.cs">
       <DependentUpon>PhotoView.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\BatchPostViewerForm.cs">
@@ -681,6 +687,9 @@
       <DependentUpon>Photo_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\SlideShowForm.resx">
+      <DependentUpon>SlideShowForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\WebLink_DV.resx">
       <DependentUpon>WebLink_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -707,7 +716,7 @@
     <EmbeddedResource Include="UI\LeftArea.zh-TW.resx">
       <DependentUpon>LeftArea.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PhotoView.zh-TW.resx">
+    <EmbeddedResource Include="UI\DetailUI\PhotoView.zh-TW.resx">
       <DependentUpon>PhotoView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostArea.resx">
@@ -751,7 +760,7 @@
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PhotoView.resx">
+    <EmbeddedResource Include="UI\DetailUI\PhotoView.resx">
       <DependentUpon>PhotoView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -931,6 +940,7 @@
     <None Include="Resources\Cloud.png" />
     <None Include="Resources\Station.png" />
     <None Include="Resources\DropArea\dragdrop-tutorial.png" />
+    <None Include="Resources\SlideShow.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
