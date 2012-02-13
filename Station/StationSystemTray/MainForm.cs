@@ -252,9 +252,18 @@ namespace StationSystemTray
 		{
 			if (preferenceForm == null)
 			{
-				preferenceForm = new PreferenceForm(this);
-				preferenceForm.FormClosed += new FormClosedEventHandler(preferenceForm_FormClosed);
-				preferenceForm.Show();
+				try
+				{
+					preferenceForm = new PreferenceForm(this);
+					preferenceForm.FormClosed += new FormClosedEventHandler(preferenceForm_FormClosed);
+					preferenceForm.Show();
+				}
+				catch (Exception ex)
+				{
+					logger.Warn("Unable to create preference form", ex);
+					messenger.ShowMessage(I18n.L.T("SystemError"));
+					preferenceForm = null;
+				}
 			}
 			else
 			{
