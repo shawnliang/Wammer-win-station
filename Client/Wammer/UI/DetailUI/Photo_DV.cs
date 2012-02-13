@@ -414,9 +414,9 @@ namespace Waveface.DetailUI
                 }
 
                 if (firstTime)
-                    imageListView.Items.Add(Main.GCONST.CachePath + "LoadingImage" + ".jpg");
+                    imageListView.Items.Add(Main.Current.LoadingImagePath);
                 else
-                    imageListView.Items[i].FileName = Main.GCONST.CachePath + "LoadingImage" + ".jpg";
+                    imageListView.Items[i].FileName = Main.Current.LoadingImagePath;
 
                 imageListView.Items[i].Tag = i.ToString();
             }

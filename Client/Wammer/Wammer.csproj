@@ -183,6 +183,7 @@
     <Compile Include="UI\DetailUI\CommentPopupPanel.designer.cs">
       <DependentUpon>CommentPopupPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\DetailUI\ImageViewItemTAG.cs" />
     <Compile Include="UI\DetailUI\SlideShowForm.cs">
       <SubType>Form</SubType>
     </Compile>

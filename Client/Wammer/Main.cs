@@ -75,6 +75,14 @@ namespace Waveface
 
         #region Properties
 
+        public string LoadingImagePath
+        {
+            get
+            {
+                return GCONST.CachePath + "LoadingImage.jpg";
+            }
+        }
+
         public StationState StationState
         {
             get
@@ -199,7 +207,7 @@ namespace Waveface
                 Bitmap _img = new Bitmap(256, 256);
                 Graphics _g = Graphics.FromImage(_img);
                 _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, 256, 256));
-                _img.Save(GCONST.CachePath + "LoadingImage" + ".jpg");
+                _img.Save(LoadingImagePath);
             }
             catch (Exception _e)
             {

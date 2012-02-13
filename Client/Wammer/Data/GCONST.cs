@@ -10,7 +10,6 @@ namespace Waveface
         
         public static int OriginFileReDownloadDelayTime = 3;
 
-        public static bool ADVANCED_FEATURE = true;
         public static bool DEBUG = true;
 
         public string AppDataPath;

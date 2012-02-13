@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using NLog;
 using Newtonsoft.Json;
 using Waveface.API.V2;
-using Waveface.Component;
 
 #endregion
 
@@ -98,7 +97,7 @@ namespace Waveface
                 ShowMessage(I18n.L.T("NewPostManager.DragDropHere"));
             }
 
-            Thread.Sleep(3000);
+            Thread.Sleep(10000);
 
             StartUpload = true;
 
@@ -174,7 +173,7 @@ namespace Waveface
                     }
                 }
 
-                Thread.Sleep(2000);
+                Thread.Sleep(5000);
             }
         }
 

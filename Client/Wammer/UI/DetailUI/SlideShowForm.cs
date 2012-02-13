@@ -260,7 +260,7 @@ namespace Waveface.DetailUI
             //Code for Show/Hide cursor
             m_timeSpan = DateTime.Now - m_lastMouseMove;
 
-            if (m_timeSpan > m_maxTimeToHide && m_isHidden == false)
+            if (m_timeSpan > m_maxTimeToHide && !m_isHidden)
             {
                 Cursor.Hide();
 

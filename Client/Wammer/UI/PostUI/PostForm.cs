@@ -17,13 +17,14 @@ namespace Waveface
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         private PostType m_postType;
-        private bool m_GenerateWebPreview = true;
+        private bool m_generateWebPreview = true;
         private bool m_isFixHeight;
         private int m_fixHeight;
         private List<string> m_parsedErrorURLs = new List<string>();
         private Dictionary<string, bool> m_parsedURLs = new Dictionary<string, bool>();
         private WorkItem m_workItem;
         private bool m_forceCheckedWebLink;
+        //private bool m_doUnderline;
 
         public NewPostItem NewPostItem { get; set; }
 
@@ -230,7 +231,7 @@ namespace Waveface
 
         private void cbGenerateWebPreview_CheckedChanged(object sender, EventArgs e)
         {
-            m_GenerateWebPreview = cbGenerateWebPreview.Checked;
+            m_generateWebPreview = cbGenerateWebPreview.Checked;
             pureTextBox.DetectUrls = cbGenerateWebPreview.Checked;
         }
 
@@ -341,11 +342,28 @@ namespace Waveface
             if (m_postType == PostType.Link)
                 return;
 
-            CheckWebLink_All();
+            //if (!m_doUnderline)
+                CheckWebLink_All();
         }
 
         private void ThreadMethod(object state)
         {
+            /*
+            //int _idx = pureTextBox.SelectionStart;
+
+            m_doUnderline = true;
+
+            foreach (string _url in m_parsedURLs.Keys)
+            {
+                UnderlineURL(_url);
+            }
+
+            m_doUnderline = false;
+
+            //pureTextBox.SelectionStart = _idx;
+            */
+
+
             foreach (string _url in m_parsedURLs.Keys)
             {
                 if (m_parsedErrorURLs.Contains(_url))
@@ -376,6 +394,36 @@ namespace Waveface
                 {
                     if (!m_parsedErrorURLs.Contains(_url))
                         m_parsedErrorURLs.Add(_url);
+                }
+            }
+        }
+
+        private void UnderlineURL(string url)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { UnderlineURL(url); }
+                           ));
+            }
+            else
+            {
+                string _text = pureTextBox.Text;
+
+                while (true)
+                {
+                    int _idx = _text.IndexOf(url);
+
+                    if (_idx < 0)
+                    {
+                        return;
+                    }
+
+                    pureTextBox.SelectionStart = _idx;
+                    pureTextBox.SelectionLength = url.Length;
+                    pureTextBox.SelectionColor = Color.Red;
+
+                    _text = _text.Substring(_idx + url.Length);
                 }
             }
         }
@@ -418,7 +466,7 @@ namespace Waveface
 
         private void checkWebLink()
         {
-            if (m_GenerateWebPreview)
+            if (m_generateWebPreview)
             {
                 if (m_workItem != null)
                 {

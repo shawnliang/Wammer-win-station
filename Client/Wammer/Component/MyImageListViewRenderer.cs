@@ -4,6 +4,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using Manina.Windows.Forms;
+using Waveface.DetailUI;
 
 #endregion
 
@@ -187,16 +188,15 @@ namespace Waveface.Component
                     }
                 }
 
-                if (GCONST.ADVANCED_FEATURE)
+                if (item.Tag != null)
                 {
-                    if (item.Tag != null)
+                    if (item.Tag is ImageViewItemTAG)
                     {
-                        string _type = item.Tag.ToString();
+                        string _type = (item.Tag as ImageViewItemTAG).Type;
 
-                        if (_type == "medium")
+                        if (_type == "Medium" || _type == "Loading")
                         {
-                            g.FillRectangle(Brushes.OrangeRed, bounds.Left + bounds.Width - 2,
-                                            bounds.Top + bounds.Height - 2, 1, 1);
+                            g.FillRectangle(Brushes.OrangeRed, bounds.Left + 2, bounds.Top + 2, 1, 1);
                         }
                     }
                 }
@@ -224,7 +224,7 @@ namespace Waveface.Component
                 Rectangle _pos = GetSizedImageBounds(image,
                                                             new Rectangle(bounds.Location + _itemMargin,
                                                                           bounds.Size - _itemMargin - _itemMargin));
-                 
+
                 //if ((bounds.Size.Width < item.Dimensions.Width) || (bounds.Size.Height < item.Dimensions.Height))
                 //{
                 //    Bitmap _bmp = new Bitmap(item.FileName);
@@ -235,7 +235,7 @@ namespace Waveface.Component
                 {
                     g.DrawImage(image, _pos);
                 }
-              
+
 
                 // Draw image border
                 if (Math.Min(_pos.Width, _pos.Height) > 32)
@@ -303,6 +303,6 @@ namespace Waveface.Component
             return GetSizedImageBounds(image, fit, 50.0f, 50.0f);
         }
 
-        #endregion     
+        #endregion
     }
 }
