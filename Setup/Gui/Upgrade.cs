@@ -30,12 +30,9 @@ namespace Gui
 					MongoDump();
 					BackupRegistry();
 
-					ServiceController wfSvc = new ServiceController("WavefaceStation");
-					if (wfSvc.Status != ServiceControllerStatus.Stopped &&
-						wfSvc.Status != ServiceControllerStatus.StopPending)
-						svc.Stop();
-
-					svc.WaitForStatus(ServiceControllerStatus.Stopped);
+					// stop WF service to prevent WinXP pops up "Waveface Installer
+					// need to be stopped first".
+					StopService("WavefaceStation");
 				}
 
 				BackupClientAppData();
@@ -46,6 +43,39 @@ namespace Gui
 				throw;
 			}
 		}
+
+		private static void StopService(string svcName)
+		{
+			ServiceController svc = new ServiceController(svcName);
+			int retry = 10;
+
+			while (retry-- > 0)
+			{
+				try
+				{
+					if (svc.Status != ServiceControllerStatus.Stopped &&
+						svc.Status != ServiceControllerStatus.StopPending)
+						svc.Stop();
+
+					svc.WaitForStatus(ServiceControllerStatus.Stopped);
+				}
+				catch(Exception e)
+				{
+					System.Threading.Thread.Sleep(500);
+					if (svc.Status == ServiceControllerStatus.Stopped)
+						return;
+
+					if (retry == 0)
+					{
+						System.Windows.Forms.MessageBox.Show(e.ToString());
+						throw;
+
+					}
+				}
+			}
+		}
+
+
 
 		public static bool DriverRegistered()
 		{
