@@ -29,6 +29,8 @@
     <CustomAction Id='SignoffStationAction' BinaryKey='InstallHelperDll' DllEntry='SignoffStation'/>
     <!-- Clean station registry and DB -->
     <CustomAction Id='CleanStationInfoAction' BinaryKey='InstallHelperDll' DllEntry='CleanStationInfo'/>
+    <!-- Clean app data -->
+    <CustomAction Id='CleanAppData' BinaryKey='InstallHelperDll' DllEntry='CleanAppData'/>
     <!-- Kill running process -->
     <CustomAction Id='KillClientProcess' BinaryKey='InstallHelperDll' DllEntry='KillClientProcess' />
     <!-- Set Registry -->
@@ -51,6 +53,9 @@
       </Custom>
       <Custom Action="SignoffStationAction" Before="CleanStationInfoAction">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <Custom Action="CleanAppData" Before="CleanStationInfoAction">
+        (&amp;ClientFeature = 2) AND (!ClientFeature = 3)
       </Custom>
       <Custom Action="CleanStationInfoAction" Before="RemovePerfCounters">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
@@ -80,6 +85,7 @@
       <ProgressText Action="KillClientProcess">!(loc.KILL.PROCESS.DESC)</ProgressText>
       <ProgressText Action="SignoffStationAction">!(loc.SIGNOFF.STATION.DESC)</ProgressText>
       <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
+      <ProgressText Action="CleanAppData">!(loc.CLEAN.APP.DATA.DESC)</ProgressText>
       <ProgressText Action="StartAndWaitMongoDbReady">!(loc.WaitMongoDbReady)</ProgressText>
       <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
       <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
