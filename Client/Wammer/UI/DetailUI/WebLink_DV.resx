@@ -304,13 +304,13 @@
     <value>327, 21</value>
   </metadata>
   <data name="miCopySoul.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>106, 22</value>
   </data>
   <data name="miCopySoul.Text" xml:space="preserve">
     <value>Copy</value>
   </data>
   <data name="contextMenuStripSoul.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 48</value>
+    <value>107, 26</value>
   </data>
   <data name="&gt;&gt;contextMenuStripSoul.Name" xml:space="preserve">
     <value>contextMenuStripSoul</value>
