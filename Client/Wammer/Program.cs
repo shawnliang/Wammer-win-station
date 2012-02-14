@@ -68,6 +68,7 @@ namespace Waveface
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 ProgramSetting _settings = new ProgramSetting();
+                _settings.Upgrade();
 
                 LoginForm _loginForm;
 

@@ -12,6 +12,7 @@
   <String Id="DOWNGRADE.ERROR">A later version of [ProductName] is already installed. Setup will now exit.</String>
   <String Id="SIGNOFF.STATION.DESC">Signing off this Waveface Station</String>
   <String Id="CLEAN.STATION.INFO.DESC">Cleaning station registry and database</String>
+  <String Id="CLEAN.APP.DATA.DESC">Cleaning application data</String>
   <String Id="KILL.PROCESS.DESC">Close running process</String>
   <String Id="WaitMongoDbReady">Preparing MongoDB. This may take minutes. Please wait.</String>
   <String Id="StartWavefaceService">Starting Waveface Station service</String>

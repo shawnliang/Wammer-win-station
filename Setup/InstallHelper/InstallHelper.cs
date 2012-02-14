@@ -367,6 +367,21 @@ namespace Wammer.Station
 		}
 
 		[CustomAction]
+		public static ActionResult CleanAppData(Session session)
+		{
+			RemoveDirectory(Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"waveface"));
+
+			RemoveDirectory(Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				"waveface"));
+
+			return ActionResult.Success;
+		}
+
+
+		[CustomAction]
 		public static ActionResult StartAndWaitMongoDbReady(Session session)
 		{
 			string installDir = session["INSTALLLOCATION"];
