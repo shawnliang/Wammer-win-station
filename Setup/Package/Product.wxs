@@ -19,7 +19,7 @@
     <Property Id="INSTALLLEVEL" Value="100" />
     <Property Id="ALLUSERS" Value="1" />
     <Property Id="TEST" Value="NO" />
-    <Icon Id="icon.ico" SourceFile="..\ProductBuild\sampleIcon.ico" />
+    <Icon Id="icon.ico" SourceFile="..\ProductBuild\install_icon.ico" />
 
     <!-- Upgrade -->
     <MajorUpgrade DowngradeErrorMessage="A newer version of this product is found. Cannot proceed."
