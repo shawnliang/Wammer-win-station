@@ -284,6 +284,11 @@ namespace Waveface
                 Cursor = Cursors.Default;
 
                 m_programSetting.RememberPassword = RememberPassword;
+                m_programSetting.Email = email;
+                if (RememberPassword)
+                {
+                    m_programSetting.Password = password;
+                }
                 m_programSetting.Save();
 
                 Hide();
@@ -320,7 +325,7 @@ namespace Waveface
             {
                 m_formSettings.Save();
 
-                doLogin(txtUserName.Text.Trim(), txtPassword.Text.Trim());
+                doLogin(txtUserName.Text.Trim(), txtPassword.Text);
             }
             else
             {
