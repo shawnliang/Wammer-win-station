@@ -942,6 +942,8 @@
     <None Include="Resources\Station.png" />
     <None Include="Resources\DropArea\dragdrop-tutorial.png" />
     <None Include="Resources\SlideShow.png" />
+    <None Include="Resources\minmax.js" />
+    <None Include="Resources\WFPreviewWin.css" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

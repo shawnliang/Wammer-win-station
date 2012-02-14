@@ -2,13 +2,10 @@
 
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
-using Waveface.Component;
-using mshtml;
 
 #endregion
 
@@ -30,7 +27,8 @@ namespace Waveface.DetailUI
         private WebBrowserContextMenuHandler m_soulBrowserContextMenuHandler;
         private ContextMenuStrip contextMenuStripSoul;
         private ToolStripMenuItem miCopySoul;
-
+        private bool m_showCancelledNavigationMessage;
+        private bool m_addedLinkClickEventHandler;
 
         public Post Post
         {
@@ -150,13 +148,14 @@ namespace Waveface.DetailUI
             // 
             // webBrowserSoul
             // 
-            this.webBrowserSoul.AllowNavigation = false;
             resources.ApplyResources(this.webBrowserSoul, "webBrowserSoul");
             this.webBrowserSoul.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserSoul.Name = "webBrowserSoul";
             this.webBrowserSoul.ScriptErrorsSuppressed = true;
             this.webBrowserSoul.ScrollBarsEnabled = false;
             this.webBrowserSoul.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserSoul_DocumentCompleted);
+            this.webBrowserSoul.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserSoul_Navigating);
+            this.webBrowserSoul.NewWindow += new System.ComponentModel.CancelEventHandler(this.webBrowserSoul_NewWindow);
             // 
             // webBrowserTop
             // 
@@ -258,8 +257,15 @@ namespace Waveface.DetailUI
                 _html = _html.Replace("[PriviewText]", _p.description);
             }
 
+            string _minimaxJS = Properties.Resources.minmax;
+            _minimaxJS = "<script type=\"text/javascript\">" + _minimaxJS + "</script>";
+
+            //string _wfPreviewWin = Properties.Resources.WFPreviewWin;
+            //_wfPreviewWin = "<style type=\"text/css\">" + _wfPreviewWin + "</style>";
+
             webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
-            webBrowserSoul.DocumentText = "<style type=\"text/css\">img {width: 50%;}</style>" + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
+            //webBrowserSoul.DocumentText = _minimaxJS + _wfPreviewWin + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
+            webBrowserSoul.DocumentText = _minimaxJS + "<style type=\"text/css\">img {max-width: 95%;}</style>" + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -280,10 +286,41 @@ namespace Waveface.DetailUI
             if (m_post.soul.Trim() != string.Empty)
                 panelWebBrowser.Visible = true;
 
+            if (!m_addedLinkClickEventHandler)
+            {
+                m_addedLinkClickEventHandler = true;
+
+                for (int i = 0; i < webBrowserSoul.Document.Links.Count; i++)
+                {
+                    webBrowserSoul.Document.Links[i].Click += LinkClick;
+                }
+            }
+
             m_soulBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserSoul, miCopySoul);
             contextMenuStripSoul.Opening += contextMenuStripSoul_Opening;
             miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
             webBrowserSoul.Document.ContextMenuShowing += webBrowserSoul_ContextMenuShowing;
+        }
+
+        private void LinkClick(object sender, EventArgs e)
+        {
+            m_showCancelledNavigationMessage = true;
+
+            // MessageBox.Show("Link Was Clicked Navigation was Cancelled", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void webBrowserSoul_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            if (m_showCancelledNavigationMessage)
+            {
+                e.Cancel = true;
+                m_showCancelledNavigationMessage = false;
+            }
+        }
+
+        private void webBrowserSoul_NewWindow(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
         }
 
         private void changeWebBrowserSoulSize()
