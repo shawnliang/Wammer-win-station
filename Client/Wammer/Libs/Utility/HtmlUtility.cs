@@ -10,6 +10,9 @@ namespace Waveface
 {
     public class HtmlUtility
     {
+        public static string URL_RegExp_Pattern =
+            "(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))";
+
         public static string TrimScript(string htmlDocText)
         {
             string _bodyText;
@@ -21,7 +24,7 @@ namespace Waveface
 
         public static string MakeLink(string txt)
         {
-            Regex _r = new Regex("(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))", RegexOptions.None);
+            Regex _r = new Regex(URL_RegExp_Pattern, RegexOptions.None);
             return _r.Replace(txt, "<a href=\"$1\" target=\"&#95;blank\">$1</a>").Replace("href=\"www", "href=\"http://www");
         }
 

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Waveface.Component.PopupControl;
 using Waveface.Component;
+using Waveface.Component.RichEdit;
 
 #endregion
 

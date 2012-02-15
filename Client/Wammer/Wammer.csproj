@@ -152,8 +152,38 @@
     <Compile Include="Component\Panel\ScrollablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Component\RichEdit\AutoCompleteAcceptedArgs.cs" />
+    <Compile Include="Component\RichEdit\AutoCompleteAcceptedHandler.cs" />
+    <Compile Include="Component\RichEdit\AutoCompleteDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Component\RichEdit\ChangeDescription.cs" />
+    <Compile Include="Component\RichEdit\ChangeTracker.cs" />
+    <Compile Include="Component\RichEdit\CharacterInfo.cs" />
+    <Compile Include="Component\RichEdit\Format.cs" />
+    <Compile Include="Component\RichEdit\FormattingInstruction.cs" />
+    <Compile Include="Component\RichEdit\FormattingRule.cs" />
+    <Compile Include="Component\RichEdit\FormattinInstructionCollection.cs" />
+    <Compile Include="Component\RichEdit\IEditor.cs" />
+    <Compile Include="Component\RichEdit\Interop.cs" />
+    <Compile Include="Component\RichEdit\RichEditConstants.cs" />
+    <Compile Include="Component\RichEdit\RichTextBox2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Component\RichEdit\RichTextEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Component\RichEdit\RichTextEditorSample.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Component\RichEdit\TextChanged2EventArgs.cs" />
+    <Compile Include="Component\RichEdit\TextChanged2EventHanlder.cs" />
+    <Compile Include="Component\RichEdit\UnderlineColor.cs" />
+    <Compile Include="Component\RichEdit\UnderlineFormat.cs" />
+    <Compile Include="Component\RichEdit\UnderlineStyle.cs" />
+    <Compile Include="Component\RichEdit\WinUserConstants.cs" />
     <Compile Include="Component\SingleInstance.cs" />
-    <Compile Include="Component\WaterMarkRichTextBox.cs">
+    <Compile Include="Component\RichEdit\WaterMarkRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Component\WebBrowserContextMenuHandler.cs" />
@@ -617,6 +647,15 @@
     <EmbeddedResource Include="Component\PSTaskDialog\frmTaskDialog.resx">
       <DependentUpon>frmTaskDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Component\RichEdit\AutoCompleteDialog.resx">
+      <DependentUpon>AutoCompleteDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Component\RichEdit\RichTextEditor.resx">
+      <DependentUpon>RichTextEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Component\RichEdit\RichTextEditorSample.resx">
+      <DependentUpon>RichTextEditorSample.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Component\TaskbarNotifier\MyTaskbarNotifier.resx">
       <DependentUpon>MyTaskbarNotifier.cs</DependentUpon>
     </EmbeddedResource>
@@ -949,6 +988,7 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
