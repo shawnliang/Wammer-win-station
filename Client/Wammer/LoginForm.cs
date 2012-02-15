@@ -287,7 +287,7 @@ namespace Waveface
                 m_programSetting.Email = email;
                 if (RememberPassword)
                 {
-                    m_programSetting.Password = password;
+                    m_programSetting.EncryptedPassword = password;
                 }
                 m_programSetting.Save();
 

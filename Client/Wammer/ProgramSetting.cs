@@ -1,11 +1,15 @@
-﻿
+﻿using System.Security.Cryptography;
 using System.Configuration;
+using System.Text;
+using System;
 
 
 namespace Waveface
 {
     public class ProgramSetting: ApplicationSettingsBase
     {
+        private static byte[] secret = { 1, 2, 3, 4, 5, 6 };
+
         [UserScopedSetting]
         [DefaultSettingValue("")]
         public string StationToken
@@ -43,6 +47,30 @@ namespace Waveface
         {
             get { return (string)this["Password"]; }
             set { this["Password"] = value; }
+        }
+
+        [UserScopedSetting]
+        [DefaultSettingValue("")]
+        public string EncryptedPassword
+        {
+            get {
+                if (string.IsNullOrEmpty((string)this["EncryptedPassword"]))
+                    return (string)this["EncryptedPassword"];
+                else
+                    return Encoding.Default.GetString(ProtectedData.Unprotect(Convert.FromBase64String((string)this["EncryptedPassword"]), secret, DataProtectionScope.CurrentUser));
+            }
+            set {
+                byte[] bpasswd = ProtectedData.Protect(Encoding.Default.GetBytes(value), secret, DataProtectionScope.CurrentUser);
+                this["EncryptedPassword"] = Convert.ToBase64String(bpasswd);
+            }
+        }
+
+        [UserScopedSetting]
+        [DefaultSettingValue("false")]
+        public bool IsUpgraded
+        {
+            get { return (bool)this["IsUpgraded"]; }
+            set { this["IsUpgraded"] = value; }
         }
     }
 
