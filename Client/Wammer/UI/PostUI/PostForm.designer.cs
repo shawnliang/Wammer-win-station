@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.Component;
+using Waveface.Component.RichEdit;
 using Waveface.PostUI;
 using Waveface.Windows.Forms;
 
@@ -58,6 +59,8 @@ namespace Waveface
             this.panelText = new System.Windows.Forms.Panel();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.backgroundWorker_GetPreview = new System.ComponentModel.BackgroundWorker();
+            this.labelNoPreviewMsg = new System.Windows.Forms.Label();
+            this.timerNoPreviewMsg = new System.Windows.Forms.Timer(this.components);
             this.richText_UI = new Waveface.PostUI.RichText();
             this.btnPureText = new Waveface.Component.XPButton();
             this.weblink_UI = new Waveface.PostUI.WebLink();
@@ -67,7 +70,7 @@ namespace Waveface
             this.btnAddDoc = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
             this.buttonRichText = new Waveface.Component.XPButton();
-            this.pureTextBox = new Waveface.Component.WaterMarkRichTextBox();
+            this.pureTextBox = new Waveface.Component.RichEdit.RichTextEditor();
             this.contextMenuStripEdit.SuspendLayout();
             this.multiPanel.SuspendLayout();
             this.Page_RichText.SuspendLayout();
@@ -194,6 +197,7 @@ namespace Waveface
             // panelMiddleBar
             // 
             this.panelMiddleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.panelMiddleBar.Controls.Add(this.labelNoPreviewMsg);
             this.panelMiddleBar.Controls.Add(this.cbGenerateWebPreview);
             this.panelMiddleBar.Controls.Add(this.panelToolbar);
             this.panelMiddleBar.Controls.Add(this.btnSend);
@@ -228,6 +232,17 @@ namespace Waveface
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
+            // 
+            // labelNoPreviewMsg
+            // 
+            resources.ApplyResources(this.labelNoPreviewMsg, "labelNoPreviewMsg");
+            this.labelNoPreviewMsg.ForeColor = System.Drawing.Color.Red;
+            this.labelNoPreviewMsg.Name = "labelNoPreviewMsg";
+            // 
+            // timerNoPreviewMsg
+            // 
+            this.timerNoPreviewMsg.Interval = 5000;
+            this.timerNoPreviewMsg.Tick += new System.EventHandler(this.timerNoPreviewMsg_Tick);
             // 
             // richText_UI
             // 
@@ -320,11 +335,14 @@ namespace Waveface
             this.pureTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.pureTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pureTextBox.ContextMenuStrip = this.contextMenuStripEdit;
+            this.pureTextBox.DetectUrls = false;
             this.pureTextBox.Name = "pureTextBox";
+            this.pureTextBox.UndoLength = 100;
             this.pureTextBox.WaterMarkColor = System.Drawing.Color.Silver;
             this.pureTextBox.WaterMarkText = "";
+            this.pureTextBox.TextChanged2 += new Waveface.Component.RichEdit.TextChanged2EventHandler(this.pureTextBox_TextChanged2);
             this.pureTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
-            this.pureTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
+            this.pureTextBox.TextChanged += new System.EventHandler(this.pureTextBox_TextChanged);
             // 
             // PostForm
             // 
@@ -366,7 +384,7 @@ namespace Waveface
         private Photo photo_UI;
         private Document document_UI;
         private RichText richText_UI;
-        public WaterMarkRichTextBox pureTextBox;
+        public RichTextEditor pureTextBox;
         private Component.MultiPage.MultiPanel multiPanel;
         private Component.MultiPage.MultiPanelPage Page_RichText;
         private Component.MultiPage.MultiPanelPage Page_P_D_W;
@@ -394,6 +412,8 @@ namespace Waveface
         private ToolTip toolTip;
         private System.ComponentModel.BackgroundWorker backgroundWorker_GetPreview;
         private CheckBox cbGenerateWebPreview;
+        private Label labelNoPreviewMsg;
+        private Timer timerNoPreviewMsg;
     }
 }
 

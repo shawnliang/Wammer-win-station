@@ -221,6 +221,34 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   查詢類似 // minmax.js: make IE5+/Win support CSS min/max-width/height
+        ///// version 1.0, 08-Aug-2003
+        ///// written by Andrew Clover &lt;and@doxdesk.com&gt;, use freely
+        ///
+        ////*@cc_on
+        ///@if (@_win32 &amp;&amp; @_jscript_version&gt;4)
+        ///
+        ///var minmax_elements;
+        ///
+        ///minmax_props= new Array(
+        ///  new Array(&apos;min-width&apos;, &apos;minWidth&apos;),
+        ///  new Array(&apos;max-width&apos;, &apos;maxWidth&apos;),
+        ///  new Array(&apos;min-height&apos;,&apos;minHeight&apos;),
+        ///  new Array(&apos;max-height&apos;,&apos;maxHeight&apos;)
+        ///);
+        ///
+        ///// Binding. Called on all new elements. If &lt;body&gt;, initialise; check all
+        ///// elements for minmax properties
+        ///
+        ///funct [字串的其餘部分已遭截斷]&quot;; 的當地語系化字串。
+        /// </summary>
+        internal static string minmax {
+            get {
+                return ResourceManager.GetString("minmax", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap Month {
             get {
                 object obj = ResourceManager.GetObject("Month", resourceCulture);
@@ -365,6 +393,33 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("webcam", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 html, body, div, span, object, iframe,
+        ///h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        ///a, abbr, acronym, address, code,
+        ///del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
+        ///fieldset, form, label, legend,
+        ///table, caption, tbody, tfoot, thead, tr, th, td {
+        ///  margin: 0;
+        ///  padding: 0;
+        ///  border: 0;
+        ///  font-weight: inherit;
+        ///  font-style: inherit;
+        ///  font-size: 100%;
+        ///  font-family: inherit;
+        ///  vertical-align: baseline;
+        ///}
+        ///
+        ///
+        ////* Tables still need &apos;cellspacing=&quot;0&quot;&apos; in the markup. */
+        ///table { border-collapse: separate; border-spacing: [字串的其餘部分已遭截斷]&quot;; 的當地語系化字串。
+        /// </summary>
+        internal static string WFPreviewWin {
+            get {
+                return ResourceManager.GetString("WFPreviewWin", resourceCulture);
             }
         }
         

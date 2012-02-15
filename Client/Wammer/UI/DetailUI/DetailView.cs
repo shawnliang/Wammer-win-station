@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component.PopupControl;
 using Waveface.Component;
+using Waveface.Component.RichEdit;
 using Waveface.DetailUI;
 
 #endregion

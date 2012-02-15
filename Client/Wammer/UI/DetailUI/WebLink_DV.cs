@@ -2,11 +2,9 @@
 
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Waveface.API.V2;
-using Waveface.Component;
 using Waveface.Component;
 
 #endregion
@@ -29,7 +27,8 @@ namespace Waveface.DetailUI
         private WebBrowserContextMenuHandler m_soulBrowserContextMenuHandler;
         private ContextMenuStrip contextMenuStripSoul;
         private ToolStripMenuItem miCopySoul;
-
+        private bool m_showCancelledNavigationMessage;
+        private bool m_addedLinkClickEventHandler;
 
         public Post Post
         {
@@ -81,20 +80,20 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebLink_DV));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.panelRight = new Waveface.Component.AutoScrollPanel();
-            this.panelWebBrowser = new System.Windows.Forms.Panel();
-            this.webBrowserSoul = new System.Windows.Forms.WebBrowser();
-            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripSoul = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopySoul = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelRight = new Waveface.Component.AutoScrollPanel();
+            this.panelWebBrowser = new System.Windows.Forms.Panel();
+            this.webBrowserSoul = new System.Windows.Forms.WebBrowser();
+            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.panelMain.SuspendLayout();
-            this.panelRight.SuspendLayout();
-            this.panelWebBrowser.SuspendLayout();
             this.contextMenuStripTop.SuspendLayout();
             this.contextMenuStripSoul.SuspendLayout();
+            this.panelRight.SuspendLayout();
+            this.panelWebBrowser.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -103,39 +102,6 @@ namespace Waveface.DetailUI
             this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelMain.Controls.Add(this.panelRight);
             this.panelMain.Name = "panelMain";
-            // 
-            // panelRight
-            // 
-            resources.ApplyResources(this.panelRight, "panelRight");
-            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.panelRight.Controls.Add(this.panelWebBrowser);
-            this.panelRight.Controls.Add(this.webBrowserTop);
-            this.panelRight.Name = "panelRight";
-            // 
-            // panelWebBrowser
-            // 
-            this.panelWebBrowser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.panelWebBrowser.Controls.Add(this.webBrowserSoul);
-            resources.ApplyResources(this.panelWebBrowser, "panelWebBrowser");
-            this.panelWebBrowser.Name = "panelWebBrowser";
-            // 
-            // webBrowserSoul
-            // 
-            this.webBrowserSoul.AllowNavigation = false;
-            resources.ApplyResources(this.webBrowserSoul, "webBrowserSoul");
-            this.webBrowserSoul.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowserSoul.Name = "webBrowserSoul";
-            this.webBrowserSoul.ScriptErrorsSuppressed = true;
-            this.webBrowserSoul.ScrollBarsEnabled = false;
-            this.webBrowserSoul.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserSoul_DocumentCompleted);
-            // 
-            // webBrowserTop
-            // 
-            this.webBrowserTop.AllowWebBrowserDrop = false;
-            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
-            this.webBrowserTop.Name = "webBrowserTop";
-            this.webBrowserTop.ScrollBarsEnabled = false;
-            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
             // cultureManager
             // 
@@ -165,6 +131,40 @@ namespace Waveface.DetailUI
             this.miCopySoul.Name = "miCopySoul";
             resources.ApplyResources(this.miCopySoul, "miCopySoul");
             // 
+            // panelRight
+            // 
+            resources.ApplyResources(this.panelRight, "panelRight");
+            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.panelRight.Controls.Add(this.panelWebBrowser);
+            this.panelRight.Controls.Add(this.webBrowserTop);
+            this.panelRight.Name = "panelRight";
+            // 
+            // panelWebBrowser
+            // 
+            this.panelWebBrowser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.panelWebBrowser.Controls.Add(this.webBrowserSoul);
+            resources.ApplyResources(this.panelWebBrowser, "panelWebBrowser");
+            this.panelWebBrowser.Name = "panelWebBrowser";
+            // 
+            // webBrowserSoul
+            // 
+            resources.ApplyResources(this.webBrowserSoul, "webBrowserSoul");
+            this.webBrowserSoul.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowserSoul.Name = "webBrowserSoul";
+            this.webBrowserSoul.ScriptErrorsSuppressed = true;
+            this.webBrowserSoul.ScrollBarsEnabled = false;
+            this.webBrowserSoul.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserSoul_DocumentCompleted);
+            this.webBrowserSoul.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserSoul_Navigating);
+            this.webBrowserSoul.NewWindow += new System.ComponentModel.CancelEventHandler(this.webBrowserSoul_NewWindow);
+            // 
+            // webBrowserTop
+            // 
+            this.webBrowserTop.AllowWebBrowserDrop = false;
+            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
+            this.webBrowserTop.Name = "webBrowserTop";
+            this.webBrowserTop.ScrollBarsEnabled = false;
+            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
+            // 
             // WebLink_DV
             // 
             this.Controls.Add(this.panelMain);
@@ -172,10 +172,10 @@ namespace Waveface.DetailUI
             this.Name = "WebLink_DV";
             this.Resize += new System.EventHandler(this.WebLink_DV_Resize);
             this.panelMain.ResumeLayout(false);
-            this.panelRight.ResumeLayout(false);
-            this.panelWebBrowser.ResumeLayout(false);
             this.contextMenuStripTop.ResumeLayout(false);
             this.contextMenuStripSoul.ResumeLayout(false);
+            this.panelRight.ResumeLayout(false);
+            this.panelWebBrowser.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -224,6 +224,7 @@ namespace Waveface.DetailUI
 
             string _content = Post.content.Replace(Environment.NewLine, "<BR>");
             _content = _content.Replace("\n", "<BR>");
+            _content = _content.Replace("\r", "<BR>");
 
             _html = _html.Replace("[Text]", _content);
 
@@ -257,35 +258,92 @@ namespace Waveface.DetailUI
                 _html = _html.Replace("[PriviewText]", _p.description);
             }
 
+            string _minimaxJS = Properties.Resources.minmax;
+            _minimaxJS = "<script type=\"text/javascript\">" + _minimaxJS + "</script>";
+
+            //string _wfPreviewWin = Properties.Resources.WFPreviewWin;
+            //_wfPreviewWin = "<style type=\"text/css\">" + _wfPreviewWin + "</style>";
+
             webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
-            webBrowserSoul.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
+            Application.DoEvents();
+
+            //webBrowserSoul.DocumentText = _minimaxJS + _wfPreviewWin + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
+            webBrowserSoul.DocumentText = _minimaxJS + "<style type=\"text/css\">img {max-width: 95%;} iframe {max-width: 95%;}</style>" + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            int _h = webBrowserTop.Document.Body.ScrollRectangle.Height;
-            webBrowserTop.Height = _h;
-
             m_topBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserTop, miCopyTop);
             contextMenuStripTop.Opening += contextMenuStripTop_Opening;
             miCopyTop.Click += m_topBrowserContextMenuHandler.CopyCtxMenuClickHandler;
             webBrowserTop.Document.ContextMenuShowing += webBrowserTop_ContextMenuShowing;
+
+            ReLayout();
         }
 
         private void webBrowserSoul_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            int _h = webBrowserSoul.Document.Body.ScrollRectangle.Height;
-
-            panelWebBrowser.Height = _h + 4;
-            webBrowserSoul.Height = _h;
-
             if (m_post.soul.Trim() != string.Empty)
                 panelWebBrowser.Visible = true;
+
+            if (!m_addedLinkClickEventHandler)
+            {
+                m_addedLinkClickEventHandler = true;
+
+                for (int i = 0; i < webBrowserSoul.Document.Links.Count; i++)
+                {
+                    webBrowserSoul.Document.Links[i].Click += LinkClick;
+                }
+            }
 
             m_soulBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserSoul, miCopySoul);
             contextMenuStripSoul.Opening += contextMenuStripSoul_Opening;
             miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
             webBrowserSoul.Document.ContextMenuShowing += webBrowserSoul_ContextMenuShowing;
+
+            ReLayout();
+        }
+
+        private void WebLink_DV_Resize(object sender, EventArgs e)
+        {
+            ReLayout();
+        }
+
+        private void ReLayout()
+        {
+            if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
+            {
+                webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
+            }
+
+            if ((webBrowserSoul.Document != null) && (webBrowserSoul.Document.Body != null))
+            {
+                int _h = webBrowserSoul.Document.Body.ScrollRectangle.Height;
+
+                panelWebBrowser.Height = _h + 8;
+                webBrowserSoul.Height = _h;
+            }
+        }
+
+        private void LinkClick(object sender, EventArgs e)
+        {
+            m_showCancelledNavigationMessage = true;
+
+            // MessageBox.Show("Link Was Clicked Navigation was Cancelled", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void webBrowserSoul_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            if (m_showCancelledNavigationMessage)
+            {
+                e.Cancel = true;
+                m_showCancelledNavigationMessage = false;
+            }
+        }
+
+        private void webBrowserSoul_NewWindow(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
         }
 
         #region ContextMenu
@@ -313,14 +371,5 @@ namespace Waveface.DetailUI
         }
 
         #endregion
-
-        private void WebLink_DV_Resize(object sender, EventArgs e)
-        {
-            if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
-                webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
-
-            if ((webBrowserSoul.Document != null) && (webBrowserSoul.Document.Body != null))
-                webBrowserSoul.Height = webBrowserSoul.Document.Body.ScrollRectangle.Height;
-        }
     }
 }
