@@ -372,19 +372,30 @@ namespace Wammer.Station
 		}
 	}
 
-	class GifImageSaveStrategy : ImageSaveStrategy
+	abstract class CommonImageSaveStrategy : ImageSaveStrategy
 	{
+		private ImageFormat format;
+		private string suffix;
+		private string mimeType;
+
+		protected CommonImageSaveStrategy(ImageFormat format, string suffix, string mimeType)
+		{
+			this.format = format;
+			this.suffix = suffix;
+			this.mimeType = mimeType;
+		}
+
 		public SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver)
 		{
 			using (MemoryStream m = new MemoryStream())
 			{
-				img.Save(m, ImageFormat.Gif);
+				img.Save(m, format);
 
 				SavedResult savedResult = new SavedResult
 				{
 					SavedRawData = m.ToArray(),
-					FileName = string.Format("{0}_{1}.gif", attchId, meta.ToString().ToLower()),
-					MimeType = "image/gif"
+					FileName = string.Format("{0}_{1}.{2}", attchId, meta.ToString().ToLower(), suffix),
+					MimeType = mimeType
 				};
 
 				new FileStorage(driver).SaveFile(savedResult.FileName, new ArraySegment<byte>(savedResult.SavedRawData));
@@ -394,26 +405,18 @@ namespace Wammer.Station
 		}
 	}
 
-	class PngImageSaveStrategy : ImageSaveStrategy
+	class GifImageSaveStrategy : CommonImageSaveStrategy
 	{
-		public SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver)
-		{
-			using (MemoryStream m = new MemoryStream())
-			{
-				img.Save(m, ImageFormat.Png);
+		public GifImageSaveStrategy()
+			:base(ImageFormat.Gif, "gif", "image/gif")
+		{}
+	}
 
-				SavedResult savedResult = new SavedResult
-				{
-					SavedRawData = m.ToArray(),
-					FileName = string.Format("{0}_{1}.png", attchId, meta.ToString().ToLower()),
-					MimeType = "image/png"
-				};
-
-				new FileStorage(driver).SaveFile(savedResult.FileName, new ArraySegment<byte>(savedResult.SavedRawData));
-
-				return savedResult;
-			}
-		}
+	class PngImageSaveStrategy : CommonImageSaveStrategy
+	{
+		public PngImageSaveStrategy()
+			:base(ImageFormat.Png, "png", "image/png")
+		{}
 	}
 
 	public class ThumbnailUpstreamedEventArgs : EventArgs
