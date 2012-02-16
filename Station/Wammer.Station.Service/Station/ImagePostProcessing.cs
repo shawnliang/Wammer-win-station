@@ -24,8 +24,6 @@ namespace Wammer.Station
 
 		public event EventHandler<ThumbnailUpstreamedEventArgs> ThumbnailUpstreamed;
 
-		static long g_counter = 0;
-
 		public void HandleImageAttachmentSaved(object sender, ImageAttachmentEventArgs evt)
 		{
 			System.Diagnostics.Debug.Assert(evt.Attachment.type == AttachmentType.image);
@@ -67,16 +65,20 @@ namespace Wammer.Station
 				exist.DeepMerge(update.ToBsonDocument());
 				AttachmentCollection.Instance.Save(exist);
 
-				TaskQueue.EnqueueMedium(this.UpstreamThumbnail,
-					new UpstreamArgs
-					{
-						FullImageId = evt.Attachment.object_id,
-						GroupId = evt.Attachment.group_id,
-						ImageMeta = ImageMeta.Medium,
-						Thumbnail = medium,
-						UserApiKey = evt.UserApiKey,
-						UserSessionToken = evt.UserSessionToken
-					});
+				TaskQueue.EnqueueMedium(
+					new UpstreamMediumThumbnailTask(
+						new UpstreamArgs
+						{
+							FullImageId = evt.Attachment.object_id,
+							GroupId = evt.Attachment.group_id,
+							ImageMeta = ImageMeta.Medium,
+							Thumbnail = medium,
+							UserApiKey = evt.UserApiKey,
+							UserSessionToken = evt.UserSessionToken
+						},
+						ThumbnailUpstreamed
+					)
+				);
 				
 			}
 			catch (Exception e)
@@ -90,75 +92,10 @@ namespace Wammer.Station
 			if (evt.Attachment.type != AttachmentType.image || evt.Meta != ImageMeta.Origin)
 				return;
 
-
-			TaskQueue.EnqueueMedium(this.HandleImageAttachmentCompletedSync, evt);
+			TaskQueue.EnqueueMedium(new UpstreamThumbnailsTask(evt, this.ThumbnailUpstreamed));
 		}
 
-		public void HandleImageAttachmentCompletedSync(object args)
-		{
-			ImageAttachmentEventArgs evt = (ImageAttachmentEventArgs)args;
-
-			if (evt.Attachment.type != AttachmentType.image || evt.Meta != ImageMeta.Origin)
-				return;
-
-			try
-			{
-				ThumbnailInfo small;
-				ThumbnailInfo large;
-				ThumbnailInfo square;
-				string origImgObjectId = evt.Attachment.object_id;
-
-				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
-				{
-					// release raw data immediately
-					evt.Attachment.RawData = new ArraySegment<byte>();
-
-					small = MakeThumbnail(origImage, ImageMeta.Small, evt.Attachment.Orientation,
-										origImgObjectId, evt.Driver, evt.Attachment.file_name);
-					large = MakeThumbnail(origImage, ImageMeta.Large, evt.Attachment.Orientation,
-										origImgObjectId, evt.Driver, evt.Attachment.file_name);
-					square = MakeThumbnail(origImage, ImageMeta.Square, evt.Attachment.Orientation,
-										origImgObjectId, evt.Driver, evt.Attachment.file_name);
-				}
-
-				Attachment update = new Attachment
-				{
-					object_id = evt.Attachment.object_id,
-					image_meta = new ImageProperty
-					{
-						small = small,
-						large = large,
-						square = square
-					}
-				};
-
-				BsonDocument doc = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
-																Query.EQ("_id", origImgObjectId));
-				doc.DeepMerge(update.ToBsonDocument());
-				AttachmentCollection.Instance.Save(doc);
-				doc.Clear();
-				doc = null;
-
-				UpstreamThumbnail(small, evt.Attachment.group_id, evt.Attachment.object_id,
-					ImageMeta.Small, evt.UserApiKey, evt.UserSessionToken);
-				UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
-					ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
-				UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
-					ImageMeta.Square, evt.UserApiKey, evt.UserSessionToken);
-
-
-				long newValue = Interlocked.Add(ref g_counter, 1L);
-				if (newValue % 5 == 0)
-					GC.Collect();
-				
-			}
-			catch (Exception e)
-			{
-				logger.Warn("Image attachment post processing unsuccess", e);
-			}
-		}
-
-		private static Bitmap BuildBitmap(ArraySegment<byte> imageData)
+		public static Bitmap BuildBitmap(ArraySegment<byte> imageData)
 		{
 			using (MemoryStream s = new MemoryStream(imageData.Array, imageData.Offset, imageData.Count))
 			{
@@ -225,46 +162,6 @@ namespace Wammer.Station
 			}
 		}
 
-		private void UpstreamThumbnail(object state)
-		{
-			UpstreamArgs args = (UpstreamArgs)state;
-
-			try
-			{
-				try
-				{
-					UpstreamThumbnail(args.Thumbnail, args.GroupId, args.FullImageId, args.ImageMeta,
-						args.UserApiKey, args.UserSessionToken);
-				}
-				catch (WebException e)
-				{
-					WammerCloudException ex = new WammerCloudException(
-						"Unable to upstream " + args.Thumbnail.file_name +
-						" thumbnail of orig image " + args.FullImageId, e);
-
-					logger.Warn(ex.ToString());
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Warn("Unable to upstream " + args.Thumbnail.file_name +
-												" thumbnail of orig image " + args.FullImageId, e);
-			}
-		}
-
-		private void UpstreamThumbnail(ThumbnailInfo thumbnail, string groupId, string fullImgId, 
-														ImageMeta meta, string apiKey, string token)
-		{
-			using (MemoryStream output = new MemoryStream())
-			{
-				Attachment.UploadImage(new ArraySegment<byte>(thumbnail.RawData), groupId, fullImgId, 
-												thumbnail.file_name, "image/jpeg", meta, apiKey, token);
-
-				OnThumbnailUpstreamed(new ThumbnailUpstreamedEventArgs(thumbnail.RawData.Length));
-				logger.DebugFormat("Thumbnail {0} is uploaded to Cloud", thumbnail.file_name);
-			}
-		}
-
 		private static Bitmap MakeSquareThumbnail(Bitmap origin)
 		{
 			Bitmap tmpImage = ImageHelper.ScaleBasedOnShortSide(origin, 128);
@@ -282,6 +179,144 @@ namespace Wammer.Station
 			if (handler != null)
 			{
 				handler(this, evt);
+			}
+		}
+	}
+
+	public abstract class UpstreamTask: ITask
+	{
+		private EventHandler<ThumbnailUpstreamedEventArgs> upstreamedHandler;
+		protected static ILog logger = LogManager.GetLogger("MakeThumbnail");
+
+		protected UpstreamTask(EventHandler<ThumbnailUpstreamedEventArgs> upstreamedHandler)
+		{
+			this.upstreamedHandler = upstreamedHandler;
+		}
+
+		protected void UpstreamThumbnail(ThumbnailInfo thumbnail, string groupId, string fullImgId,
+														ImageMeta meta, string apiKey, string token)
+		{
+			Attachment.UploadImage(new ArraySegment<byte>(thumbnail.RawData), groupId, fullImgId,
+				thumbnail.file_name, "image/jpeg", meta, apiKey, token);
+
+			OnThumbnailUpstreamed(thumbnail);
+			logger.DebugFormat("Thumbnail {0} is uploaded to Cloud", thumbnail.file_name);
+		}
+
+		protected void OnThumbnailUpstreamed(ThumbnailInfo thumbnail)
+		{
+			if (upstreamedHandler != null)
+				upstreamedHandler(this, new ThumbnailUpstreamedEventArgs(thumbnail.RawData.Length));
+		}
+
+		public abstract void Execute();
+	}
+
+
+	public class UpstreamThumbnailsTask : UpstreamTask
+	{
+		private static long g_counter = 0;
+		private ImageAttachmentEventArgs evt;
+
+		public UpstreamThumbnailsTask(ImageAttachmentEventArgs evt, 
+			EventHandler<ThumbnailUpstreamedEventArgs> upstreamedHandler)
+			:base(upstreamedHandler)
+		{
+			this.evt = evt;
+		}
+
+		public override void Execute()
+		{
+			if (evt.Attachment.type != AttachmentType.image || evt.Meta != ImageMeta.Origin)
+				return;
+
+			try
+			{
+				ThumbnailInfo small;
+				ThumbnailInfo large;
+				ThumbnailInfo square;
+				string origImgObjectId = evt.Attachment.object_id;
+
+				using (Bitmap origImage = ImagePostProcessing.BuildBitmap(evt.Attachment.RawData))
+				{
+					// release raw data immediately
+					evt.Attachment.RawData = new ArraySegment<byte>();
+
+					small = ImagePostProcessing.MakeThumbnail(origImage, ImageMeta.Small, evt.Attachment.Orientation,
+										origImgObjectId, evt.Driver, evt.Attachment.file_name);
+					large = ImagePostProcessing.MakeThumbnail(origImage, ImageMeta.Large, evt.Attachment.Orientation,
+										origImgObjectId, evt.Driver, evt.Attachment.file_name);
+					square = ImagePostProcessing.MakeThumbnail(origImage, ImageMeta.Square, evt.Attachment.Orientation,
+										origImgObjectId, evt.Driver, evt.Attachment.file_name);
+				}
+
+				Attachment update = new Attachment
+				{
+					object_id = evt.Attachment.object_id,
+					image_meta = new ImageProperty
+					{
+						small = small,
+						large = large,
+						square = square
+					}
+				};
+
+				BsonDocument doc = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
+																Query.EQ("_id", origImgObjectId));
+				doc.DeepMerge(update.ToBsonDocument());
+				AttachmentCollection.Instance.Save(doc);
+				doc.Clear();
+				doc = null;
+
+				UpstreamThumbnail(small, evt.Attachment.group_id, evt.Attachment.object_id,
+					ImageMeta.Small, evt.UserApiKey, evt.UserSessionToken);
+				UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
+					ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
+				UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
+					ImageMeta.Square, evt.UserApiKey, evt.UserSessionToken);
+
+
+				long newValue = Interlocked.Add(ref g_counter, 1L);
+				if (newValue % 5 == 0)
+					GC.Collect();
+
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Image attachment post processing unsuccess", e);
+			}
+		}
+	}
+
+	class UpstreamMediumThumbnailTask : UpstreamTask
+	{
+		private UpstreamArgs args;
+
+		public UpstreamMediumThumbnailTask(UpstreamArgs args, EventHandler<ThumbnailUpstreamedEventArgs> upstreamedHandler)
+			:base(upstreamedHandler)
+		{
+			this.args = args;
+		}
+
+		public override void Execute()
+		{
+			try
+			{
+				UpstreamThumbnail(args.Thumbnail, args.GroupId, args.FullImageId, args.ImageMeta,
+					args.UserApiKey, args.UserSessionToken);
+			}
+			catch (WebException e)
+			{
+				WammerCloudException ex = new WammerCloudException(
+					"Unable to upstream " + args.Thumbnail.file_name +
+					" thumbnail of orig image " + args.FullImageId, e);
+
+				logger.Warn(ex.ToString());
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unable to upstream " + args.Thumbnail.file_name +
+					" thumbnail of orig image " + args.FullImageId, e);
 			}
 		}
 	}

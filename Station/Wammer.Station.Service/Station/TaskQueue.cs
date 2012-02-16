@@ -12,70 +12,56 @@ namespace Wammer.Station
 	{
 		private static object lockAllQueue = new object();
 
-		private static LinkedList<Task> HighPriorityQueue = new LinkedList<Task>();
-		private static LinkedList<Task> MediumPriorityQueue = new LinkedList<Task>();
-		private static LinkedList<Task> LowPriorityQueue = new LinkedList<Task>();
+		private static LinkedList<ITask> HighPriorityQ = new LinkedList<ITask>();
+		private static LinkedList<ITask> MediumPriorityQ = new LinkedList<ITask>();
+		private static LinkedList<ITask> LowPriorityQ = new LinkedList<ITask>();
+
 		private static log4net.ILog Logger = log4net.LogManager.GetLogger("TaskQueue");
 
 		private static IPerfCounter itemsInQueue = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE);
 		private static IPerfCounter itemsInProgress = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_PROGRESS);
 
-		public static void EnqueueHigh(WaitCallback callback, object state)
+		public static void EnqueueHigh(ITask task)
 		{
-			Enqueue(HighPriorityQueue, callback, state);
+			Enqueue(HighPriorityQ, task);
 		}
 
-		public static void EnqueueHigh(WaitCallback callback)
+		public static void EnqueueMedium(ITask task)
 		{
-			Enqueue(HighPriorityQueue, callback, null); 
+			Enqueue(MediumPriorityQ, task);
 		}
 
-		public static void EnqueueMedium(WaitCallback callback, object state)
+		public static void EnqueueLow(ITask task)
 		{
-			Enqueue(MediumPriorityQueue, callback, state);
+			Enqueue(LowPriorityQ, task);
 		}
 
-		public static void EnqueueMedium(WaitCallback callback)
-		{
-			Enqueue(MediumPriorityQueue, callback, null);
-		}
-
-		public static void EnqueueLow(WaitCallback callback, object state)
-		{
-			Enqueue(LowPriorityQueue, callback, state);
-		}
-
-		public static void EnqueueLow(WaitCallback callback)
-		{
-			Enqueue(LowPriorityQueue, callback, null);
-		}
-
-		private static void Enqueue(LinkedList<Task> Queue, WaitCallback callback, object state)
+		private static void Enqueue(LinkedList<ITask> queue, ITask task)
 		{
 			itemsInQueue.Increment();
 			lock (lockAllQueue)
 			{
-				Queue.AddLast(new Task(callback, state));
+				queue.AddLast(task);
 			}
 
 			System.Threading.ThreadPool.QueueUserWorkItem(RunPriorityQueue);
 		}
 
-		private static Task Dequeue()
+		private static ITask Dequeue()
 		{
 			lock (lockAllQueue)
 			{
-				LinkedList<Task> queue;
-				if (HighPriorityQueue.Count > 0)
-					queue = HighPriorityQueue;
-				else if (MediumPriorityQueue.Count > 0)
-					queue = MediumPriorityQueue;
-				else if (LowPriorityQueue.Count > 0)
-					queue = LowPriorityQueue;
+				LinkedList<ITask> queue;
+				if (HighPriorityQ.Count > 0)
+					queue = HighPriorityQ;
+				else if (MediumPriorityQ.Count > 0)
+					queue = MediumPriorityQ;
+				else if (LowPriorityQ.Count > 0)
+					queue = LowPriorityQ;
 				else
 					throw new InvalidOperationException("No items in TaskQueue");
 
-				Task task = queue.First.Value;
+				ITask task = queue.First.Value;
 				queue.RemoveFirst();
 
 				itemsInQueue.Decrement();
@@ -87,9 +73,9 @@ namespace Wammer.Station
 		{
 			try
 			{
-				Task task = Dequeue();
+				ITask task = Dequeue();
 				itemsInProgress.Increment();
-				task.Execute(null);
+				task.Execute();
 			}
 			catch (Exception e)
 			{
@@ -100,6 +86,11 @@ namespace Wammer.Station
 				itemsInProgress.Decrement();
 			}
 		}
+	}
+
+	interface ITask
+	{
+		void Execute();
 	}
 
 	class Task

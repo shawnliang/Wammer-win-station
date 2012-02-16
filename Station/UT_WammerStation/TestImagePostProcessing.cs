@@ -361,8 +361,8 @@ namespace UT_WammerStation
 				Driver = new Driver { email = "driver1@waveface.com", folder = "resource", groups = groups, session_token = "session_token1", user_id = "id1" }
 			};
 
-			ImagePostProcessing post = new ImagePostProcessing();
-			post.HandleImageAttachmentCompletedSync(args);
+			UpstreamThumbnailsTask task = new UpstreamThumbnailsTask(args, null);
+			task.Execute();
 
 			//save
 			Attachment doc = mongodb.GetDatabase("wammer").

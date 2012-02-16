@@ -149,7 +149,7 @@ namespace Wammer.Station
 				logger.Info("External port is registered: " + externalPort);
 
 				if (IsReadyToNotifyCloud())
-					TaskQueue.EnqueueMedium(this.NotifyCloudOfExternalPort);
+					TaskQueue.EnqueueMedium(new NotifyCloudOfExternalPortTask());
 			}
 		}
 
@@ -164,7 +164,7 @@ namespace Wammer.Station
 				logger.Info("Public IP detected: " + externalIP.ToString());
 
 				if (IsReadyToNotifyCloud())
-					TaskQueue.EnqueueMedium(this.NotifyCloudOfExternalPort);
+					TaskQueue.EnqueueMedium(new NotifyCloudOfExternalPortTask());
 			}
 		}
 
@@ -175,7 +175,7 @@ namespace Wammer.Station
 				hasDriver = true;
 
 				if (IsReadyToNotifyCloud())
-					TaskQueue.EnqueueMedium(this.NotifyCloudOfExternalPort);
+					TaskQueue.EnqueueMedium(new NotifyCloudOfExternalPortTask());
 			}
 		}
 
@@ -183,33 +183,6 @@ namespace Wammer.Station
 		{
 			return this.externalIP != null && this.externalPort != 0 && this.hasDriver;
 		}
-
-		private void NotifyCloudOfExternalPort(object nil)
-		{
-			logger.InfoFormat("Notify public port info to cloud: ext ip {0}, ext port {1} via heartbeat",
-				this.externalIP, this.externalPort);
-
-			try
-			{
-				Model.StationInfo stationInfo = Model.StationCollection.Instance.FindOne();
-				if (stationInfo == null)
-					return;
-
-				Cloud.StationApi api = new Cloud.StationApi(stationInfo.Id, stationInfo.SessionToken);
-
-				Cloud.StationDetail detail = StatusChecker.GetDetail();
-
-				logger.Debug("detail: " + detail.ToFastJSON());
-
-				api.Heartbeat(new WebClient(), detail);
-			}
-			catch (Exception e)
-			{
-				logger.Warn("Unable to notify external ip/port to cloud", e);
-			}
-		}
-
-
 		
 		////////////////////////////////////////////////////////////////////////////
 		// Innter classes
@@ -244,6 +217,34 @@ namespace Wammer.Station
 				logger.Debug("Add port mapping");
 				PublicPortMapping.Instance.AddMapping();
 				return this;
+			}
+		}
+	}
+
+
+	class NotifyCloudOfExternalPortTask : ITask
+	{
+		private static log4net.ILog logger = log4net.LogManager.GetLogger("UPnP");
+
+		public void Execute()
+		{
+			try
+			{
+				Model.StationInfo stationInfo = Model.StationCollection.Instance.FindOne();
+				if (stationInfo == null)
+					return;
+
+				Cloud.StationApi api = new Cloud.StationApi(stationInfo.Id, stationInfo.SessionToken);
+
+				Cloud.StationDetail detail = StatusChecker.GetDetail();
+
+				logger.Debug("Notify cloud about station info changed: " + detail.ToFastJSON());
+
+				api.Heartbeat(new WebClient(), detail);
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unable to notify external ip/port to cloud", e);
 			}
 		}
 	}

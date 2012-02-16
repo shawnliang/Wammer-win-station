@@ -19,8 +19,8 @@ namespace Wammer.Station
 	{
 		private int port;
 		private HttpListener listener;
-		private Dictionary<string, HttpHandlerProxy> handlers;
-		private HttpHandlerProxy defaultHandler;
+		private Dictionary<string, IHttpHandler> handlers;
+		private IHttpHandler defaultHandler;
 		private bool started = false;
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpServer");
 		private object cs = new object();
@@ -30,7 +30,7 @@ namespace Wammer.Station
 		{
 			this.port = port;
 			this.listener = new HttpListener();
-			this.handlers = new Dictionary<string, HttpHandlerProxy>();
+			this.handlers = new Dictionary<string, IHttpHandler>();
 			this.defaultHandler = null;
 			this.authblocked = false;
 		}
@@ -60,7 +60,7 @@ namespace Wammer.Station
 				absPath += "/";
 			}
 
-			handlers.Add(absPath, new HttpHandlerProxy(handler));
+			handlers.Add(absPath, handler);
 			listener.Prefixes.Add(urlPrefix);
 		}
 
@@ -69,7 +69,7 @@ namespace Wammer.Station
 			if (handler == null)
 				throw new ArgumentNullException();
 
-			defaultHandler = new HttpHandlerProxy(handler);
+			defaultHandler = handler;
 		}
 
 		public void Start()
@@ -132,11 +132,10 @@ namespace Wammer.Station
 					}
 					else
 					{
-						HttpHandlerProxy handler = FindBestMatch(
-													context.Request.Url.AbsolutePath);
+						IHttpHandler handler = FindBestMatch(context.Request.Url.AbsolutePath);
 
 						if (handler != null)
-							TaskQueue.EnqueueHigh(handler.Do, new HttpData(context, beginTime));
+							TaskQueue.EnqueueHigh(new HttpHandlingTask(handler, context, beginTime));
 						else
 							respond404NotFound(context);
 					}
@@ -208,7 +207,7 @@ namespace Wammer.Station
 				logger.Warn("Unable to respond 401 Unauthorized", e);
 			}
 		}
-		private HttpHandlerProxy FindBestMatch(string requestAbsPath)
+		private IHttpHandler FindBestMatch(string requestAbsPath)
 		{
 			string path = requestAbsPath;
 			if (!path.EndsWith("/"))
@@ -222,47 +221,33 @@ namespace Wammer.Station
 		}
 	}
 
-	class HttpData
+	class HttpHandlingTask : ITask
 	{
-		public HttpListenerContext Context { get; private set; }
-		public long BeginTime { get; private set; }
-
-		public HttpData(HttpListenerContext context, long beginTime)
-		{
-			this.Context = context;
-			this.BeginTime = beginTime;
-		}
-	}
-
-	class HttpHandlerProxy
-	{
-		private readonly IHttpHandler handler;
+		private IHttpHandler handler;
+		private HttpListenerContext context;
+		private long beginTime;
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
-		public HttpHandlerProxy(IHttpHandler handler)
+		public HttpHandlingTask(IHttpHandler handler, HttpListenerContext context, long beginTime)
 		{
-			if (handler == null)
-				throw new ArgumentNullException();
-
-			this.handler = handler; // (IHttpHandler)handler.Clone();
+			this.handler = (IHttpHandler)handler.Clone();
+			this.context = context;
+			this.beginTime = beginTime;
 		}
 
-		public void Do(object state)
+		public void Execute()
 		{
-			HttpData ctx = (HttpData)state;
-
 			try
 			{
-				IHttpHandler clonedHandler = (IHttpHandler)this.handler.Clone();
-				clonedHandler.SetBeginTimestamp(ctx.BeginTime);
-				clonedHandler.HandleRequest(ctx.Context.Request, ctx.Context.Response);
+				handler.SetBeginTimestamp(beginTime);
+				handler.HandleRequest(context.Request, context.Response);
 			}
 			catch (Cloud.WammerCloudException e)
 			{
 				// cannot connect to Waveface cloud
 				if (e.HttpError != WebExceptionStatus.ProtocolError)
 				{
-					HttpHelper.RespondFailure(ctx.Context.Response, new WammerStationException(e.InnerException.Message, (int)StationApiError.ConnectToCloudError), (int)HttpStatusCode.BadRequest);
+					HttpHelper.RespondFailure(context.Response, new WammerStationException(e.InnerException.Message, (int)StationApiError.ConnectToCloudError), (int)HttpStatusCode.BadRequest);
 					logger.Warn("Connection to cloud error", e);
 					return;
 				}
@@ -277,49 +262,48 @@ namespace Wammer.Station
 						if (webres.StatusCode == HttpStatusCode.BadRequest)
 						{
 							Cloud.CloudResponse cloudres = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(e.response);
-							HttpHelper.RespondFailure(ctx.Context.Response, cloudres);
+							HttpHelper.RespondFailure(context.Response, cloudres);
 							logger.Warn("Connection to cloud error", e);
 							return;
 						}
 
-						HttpHelper.RespondFailure(ctx.Context.Response,
+						HttpHelper.RespondFailure(context.Response,
 							new WammerStationException(e.InnerException.Message, e.WammerError), (int)webres.StatusCode);
 						logger.Warn("Connecting to cloud error", e);
 						return;
 					}
 				}
 
-				HttpHelper.RespondFailure(ctx.Context.Response,
+				HttpHelper.RespondFailure(context.Response,
 					new WammerStationException(e.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
 				logger.Warn("Connecting to cloud error", e);
 			}
 			catch (ServiceUnavailableException e)
 			{
-				HttpHelper.RespondFailure(ctx.Context.Response, e, (int)HttpStatusCode.ServiceUnavailable);
+				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.ServiceUnavailable);
 				logger.Warn("Service unavailable", e);
 			}
 			catch (WammerStationException e)
 			{
-				HttpHelper.RespondFailure(ctx.Context.Response, e, (int)HttpStatusCode.BadRequest);
+				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.BadRequest);
 				logger.Warn("Http handler error", e);
 			}
 			catch (FormatException e)
 			{
-				HttpHelper.RespondFailure(ctx.Context.Response, e, (int)HttpStatusCode.BadRequest);
+				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.BadRequest);
 				logger.Warn("Request format is incorrect", e);
 			}
 			catch (WebException webex)
 			{
 				Wammer.Cloud.WammerCloudException ex = new Cloud.WammerCloudException("Request to cloud failed", webex);
-				HttpHelper.RespondFailure(ctx.Context.Response, webex, (int)HttpStatusCode.InternalServerError);
+				HttpHelper.RespondFailure(context.Response, webex, (int)HttpStatusCode.InternalServerError);
 				logger.Warn("Connecting to cloud error", ex);
 			}
 			catch (Exception e)
 			{
-				HttpHelper.RespondFailure(ctx.Context.Response, e, (int)HttpStatusCode.InternalServerError);
+				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.InternalServerError);
 				logger.Warn("Internal server error", e);
 			}
 		}
 	}
-
 }
