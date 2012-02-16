@@ -268,7 +268,8 @@ namespace Waveface.DetailUI
             Application.DoEvents();
 
             //webBrowserSoul.DocumentText = _minimaxJS + _wfPreviewWin + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
-            webBrowserSoul.DocumentText = _minimaxJS + "<style type=\"text/css\">img {max-width: 95%;} iframe {max-width: 95%;}</style>" + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
+            webBrowserSoul.DocumentText = "<html>" + _minimaxJS + "<style type=\"text/css\">img {max-width: 95%;} iframe {max-width: 95%;}</style>" + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>" + "</html>");
+            //Application.DoEvents();
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
