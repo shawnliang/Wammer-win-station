@@ -29,7 +29,6 @@ namespace Waveface
         private FormattingRule m_linkFormattingRule;
         private FormSettings m_formSettings;
         private bool m_getPreviewNow;
-        private bool m_forceCheckedWebLink;
 
         public NewPostItem NewPostItem { get; set; }
 
@@ -205,8 +204,8 @@ namespace Waveface
 
             MaximizeBox = false;
 
-            m_fixHeight = 454;
-            Size = new Size(720, 454);
+            m_fixHeight = 464;
+            Size = new Size(720, 464);
         }
 
         private void toPhoto_Mode(List<string> files)
@@ -334,8 +333,9 @@ namespace Waveface
 
             if (pureTextBox.CanPaste(_format))
             {
-                m_forceCheckedWebLink = true;
                 pureTextBox.Paste(_format);
+
+                CheckWebPreview();
             }
         }
 
@@ -368,17 +368,25 @@ namespace Waveface
                 m_parsedURLs.Add(text);
             }
 
-            checkWebLink();
+            InvokeCheckWebPreview();
         }
 
-        private void pureTextBox_TextChanged(object sender, EventArgs e)
+        private void pureTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyCode == Keys.Enter) || (e.KeyCode == Keys.Space))
+            {
+                CheckWebPreview();
+            }
+        }
+
+        private void CheckWebPreview()
         {
             if (!CanGetPreview())
                 return;
 
             getParsedURLs(pureTextBox.Text);
 
-            checkWebLink();
+            InvokeCheckWebPreview();
         }
 
         private bool CanGetPreview()
@@ -402,15 +410,14 @@ namespace Waveface
                 if (m_parsedErrorURLs.Contains(_url))
                     continue;
 
-                showIndicator(true);
+                showIndicator(true, _url);
 
                 MR_previews_get_adv _mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
                 bool _isOK = (_mrPreviewsGetAdv != null) &&
                              (_mrPreviewsGetAdv.preview != null) &&
-                             (_mrPreviewsGetAdv.preview.images != null) &&
-                             (_mrPreviewsGetAdv.preview.images.Count != 0);
+                             (_mrPreviewsGetAdv.preview.images != null);
 
-                showIndicator(false);
+                showIndicator(false, _url);
 
                 if (_isOK)
                 {
@@ -422,26 +429,11 @@ namespace Waveface
                     if (!m_parsedErrorURLs.Contains(_url))
                         m_parsedErrorURLs.Add(_url);
 
-                    showNoPreviewMessage(_url);
+                    showPreviewMessage("無法取得網站預覽: [" + _url + "]", false, 5000);
                 }
             }
 
             m_getPreviewNow = false;
-        }
-
-        private void showNoPreviewMessage(string url)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(
-                           delegate { showNoPreviewMessage(url); }
-                           ));
-            }
-            else
-            {
-                timerNoPreviewMsg.Enabled = true;
-                labelNoPreviewMsg.Text = "這個網站無法產生預覽: [" + url + "]";
-            }
         }
 
         private void showWebLinkPreview(MR_previews_get_adv mrPreviewsGetAdv)
@@ -459,12 +451,12 @@ namespace Waveface
             }
         }
 
-        private void showIndicator(bool flag)
+        private void showIndicator(bool flag, string url)
         {
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                           delegate { showIndicator(flag); }
+                           delegate { showIndicator(flag, url); }
                            ));
             }
             else
@@ -472,15 +464,61 @@ namespace Waveface
                 if (flag)
                 {
                     Cursor = Cursors.WaitCursor;
+                    showPreviewMessage("取得網站預覽: [" + url + "]", true, 0);
                 }
                 else
                 {
                     Cursor = Cursors.Default;
+                    showPreviewMessage("", false, 0);
                 }
             }
         }
 
-        private void checkWebLink()
+        private void showPreviewMessage(string message, bool showWaitingIcon, int timeout)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { showPreviewMessage(message, showWaitingIcon, timeout); }
+                           ));
+            }
+            else
+            {
+                if (showWaitingIcon)
+                {
+                    pictureBoxWaiting.Visible = true;
+                    labelPreviewMsg.Left = 34;
+
+                    labelPreviewMsg.Text = message;
+
+                    timerNoPreviewMsg.Enabled = false;
+                }
+                else
+                {
+                    pictureBoxWaiting.Visible = false;
+                    labelPreviewMsg.Left = 12;
+
+                    labelPreviewMsg.Text = message;
+
+                    if (timeout == 0)
+                    {
+                        timerNoPreviewMsg.Enabled = false;
+                    }
+                    else
+                    {
+                        timerNoPreviewMsg.Interval = timeout;
+                        timerNoPreviewMsg.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void timerNoPreviewMsg_Tick(object sender, EventArgs e)
+        {
+            showPreviewMessage("", false, 0);
+        }
+
+        private void InvokeCheckWebPreview()
         {
             if (!CanGetPreview())
                 return;
@@ -514,13 +552,6 @@ namespace Waveface
                                                     ' ', '\n', '\r'
                                                 });
 
-                if ((_strs.Length < 2) && !m_forceCheckedWebLink)
-                {
-                    return;
-                }
-
-                m_forceCheckedWebLink = false;
-
                 foreach (string _str in _strs)
                 {
                     if (FindUrls(_str) != string.Empty)
@@ -547,12 +578,5 @@ namespace Waveface
         }
 
         #endregion
-
-        private void timerNoPreviewMsg_Tick(object sender, EventArgs e)
-        {
-            timerNoPreviewMsg.Enabled = false;
-
-            labelNoPreviewMsg.Text = string.Empty;
-        }
     }
 }

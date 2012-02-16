@@ -2,7 +2,9 @@
 
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
@@ -149,7 +151,6 @@ namespace Waveface.DetailUI
             // webBrowserSoul
             // 
             resources.ApplyResources(this.webBrowserSoul, "webBrowserSoul");
-            this.webBrowserSoul.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserSoul.Name = "webBrowserSoul";
             this.webBrowserSoul.ScriptErrorsSuppressed = true;
             this.webBrowserSoul.ScrollBarsEnabled = false;
@@ -212,6 +213,7 @@ namespace Waveface.DetailUI
         private void RefreshUI()
         {
             Set_MainContent_Preview_Part();
+            Set_Soul_Part();
         }
 
         private void Set_MainContent_Preview_Part()
@@ -258,18 +260,33 @@ namespace Waveface.DetailUI
                 _html = _html.Replace("[PriviewText]", _p.description);
             }
 
+            webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
+            Application.DoEvents();
+        }
+
+        private void Set_Soul_Part()
+        {
             string _minimaxJS = Properties.Resources.minmax;
             _minimaxJS = "<script type=\"text/javascript\">" + _minimaxJS + "</script>";
 
             //string _wfPreviewWin = Properties.Resources.WFPreviewWin;
             //_wfPreviewWin = "<style type=\"text/css\">" + _wfPreviewWin + "</style>";
 
-            webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
-            Application.DoEvents();
+            webBrowserSoul.Tag = false;
 
             //webBrowserSoul.DocumentText = _minimaxJS + _wfPreviewWin + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
-            webBrowserSoul.DocumentText = "<html>" + _minimaxJS + "<style type=\"text/css\">img {max-width: 95%;} iframe {max-width: 95%;}</style>" + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>" + "</html>");
-            //Application.DoEvents();
+            webBrowserSoul.DocumentText = "<html>" + _minimaxJS +
+                                          "<style type=\"text/css\">img {max-width: 95%;} iframe {max-width: 95%;}</style>" +
+                                          "<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" +
+                                          HtmlUtility.TrimScript(m_post.soul) +
+                                          "</font></body></html>";
+
+            //Hack
+            while (!((bool)webBrowserSoul.Tag))
+            {
+                Application.DoEvents();
+                Thread.Sleep(10);
+            }
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -284,7 +301,9 @@ namespace Waveface.DetailUI
 
         private void webBrowserSoul_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            if (m_post.soul.Trim() != string.Empty)
+            webBrowserSoul.Tag = true;
+
+            //if (m_post.soul.Trim() != string.Empty)
                 panelWebBrowser.Visible = true;
 
             if (!m_addedLinkClickEventHandler)

@@ -983,6 +983,7 @@
     <None Include="Resources\SlideShow.png" />
     <None Include="Resources\minmax.js" />
     <None Include="Resources\WFPreviewWin.css" />
+    <None Include="Resources\loader.gif" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
