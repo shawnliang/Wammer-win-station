@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 #endregion
 
-namespace Waveface.Component
+namespace Waveface.Component.RichEdit
 {
     public class WaterMarkRichTextBox : RichTextBox
     {
@@ -54,6 +54,11 @@ namespace Waveface.Component
             base.OnCreateControl();
 
             WaterMark_Toggel(null, null);
+            
+            // Hack... Orz
+            Text = " ";
+            Application.DoEvents();
+            Text = "";
         }
 
         protected override void WndProc(ref Message m)
@@ -89,7 +94,7 @@ namespace Waveface.Component
 
                 base.WndProc(ref m);
             }
-            catch(Exception _e)
+            catch (Exception _e)
             {
                 Console.WriteLine(_e.Message);
             }

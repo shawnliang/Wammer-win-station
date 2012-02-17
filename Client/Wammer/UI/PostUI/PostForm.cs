@@ -2,11 +2,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
+using Waveface.Component.RichEdit;
+using Waveface.Configuration;
 
 #endregion
 
@@ -21,16 +24,26 @@ namespace Waveface
         private bool m_isFixHeight;
         private int m_fixHeight;
         private List<string> m_parsedErrorURLs = new List<string>();
-        private Dictionary<string, bool> m_parsedURLs = new Dictionary<string, bool>();
+        private List<string> m_parsedURLs = new List<string>();
         private WorkItem m_workItem;
-        private bool m_forceCheckedWebLink;
-        //private bool m_doUnderline;
+        private FormattingRule m_linkFormattingRule;
+        private FormSettings m_formSettings;
+        private bool m_getPreviewNow;
 
         public NewPostItem NewPostItem { get; set; }
 
         public PostForm(List<string> files, PostType postType)
         {
             InitializeComponent();
+
+            m_formSettings = new FormSettings(this);
+            m_formSettings.UseSize = true;
+            m_formSettings.UseLocation = true;
+            m_formSettings.UseWindowState = true;
+            m_formSettings.AllowMinimized = false;
+            m_formSettings.SaveOnClose = true;
+
+            CreateLinkFormattingRule();
 
             weblink_UI.MyParent = this;
             photo_UI.MyParent = this;
@@ -42,6 +55,15 @@ namespace Waveface
             pureTextBox.WaterMarkText = I18n.L.T("PostForm.PuretextWaterMark");
 
             ToSubControl(files, postType);
+        }
+
+        private void CreateLinkFormattingRule()
+        {
+            Format _format = new Format();
+            _format.Link = true;
+            _format.Font = pureTextBox.Font;
+            m_linkFormattingRule = new FormattingRule(new Regex(HtmlUtility.URL_RegExp_Pattern, RegexOptions.None),
+                                                      _format);
         }
 
         private void ToSubControl(List<string> files, PostType postType)
@@ -182,8 +204,8 @@ namespace Waveface
 
             MaximizeBox = false;
 
-            m_fixHeight = 454;
-            Size = new Size(720, 454);
+            m_fixHeight = 464;
+            Size = new Size(720, 464);
         }
 
         private void toPhoto_Mode(List<string> files)
@@ -232,7 +254,6 @@ namespace Waveface
         private void cbGenerateWebPreview_CheckedChanged(object sender, EventArgs e)
         {
             m_generateWebPreview = cbGenerateWebPreview.Checked;
-            pureTextBox.DetectUrls = cbGenerateWebPreview.Checked;
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -252,7 +273,8 @@ namespace Waveface
 
                     if (_np == null)
                     {
-                        MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
                         return;
                     }
 
@@ -263,10 +285,33 @@ namespace Waveface
                 }
                 catch (Exception _e)
                 {
-
                     MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void pureTextBox_TextChanged2(object sender, TextChanged2EventArgs args)
+        {
+            CreateLink();
+        }
+
+        private void CreateLink()
+        {
+            string _contents = pureTextBox.Text;
+            FormattingInstructionCollection _instructions = new FormattingInstructionCollection();
+
+            Format _format = new Format();
+            //_format.ForeColor = Color.Black;
+            //_format.Font = pureTextBox.Font;
+            //_format.UnderlineFormat = new UnderlineFormat(UnderlineStyle.None, UnderlineColor.Black);
+            _instructions.Add(new FormattingInstruction(0, _contents.Length, _format));
+
+            foreach (Match _match in m_linkFormattingRule.Regex.Matches(_contents))
+            {
+                _instructions.Add(new FormattingInstruction(_match.Index, _match.Length, m_linkFormattingRule.Format));
+            }
+
+            pureTextBox.BatchFormat(_instructions);
         }
 
         #region richTextBox
@@ -284,26 +329,19 @@ namespace Waveface
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IDataObject _data = Clipboard.GetDataObject();
+            DataFormats.Format _format = DataFormats.GetFormat(DataFormats.Text);
 
-            if (_data.GetDataPresent(DataFormats.Text))
+            if (pureTextBox.CanPaste(_format))
             {
-                pureTextBox.SelectedText = _data.GetData(DataFormats.Text).ToString();
+                pureTextBox.Paste(_format);
 
-                m_forceCheckedWebLink = true;
+                CheckWebPreview();
             }
         }
 
-        private void contextMenuStripEdit_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void contextMenuStripEdit_Opening(object sender, CancelEventArgs e)
         {
-            if (!Clipboard.ContainsData(DataFormats.Text))
-            {
-                pasteToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                pasteToolStripMenuItem.Enabled = true;
-            }
+            pasteToolStripMenuItem.Enabled = Clipboard.ContainsData(DataFormats.Text);
         }
 
         #endregion
@@ -320,70 +358,66 @@ namespace Waveface
 
         private void CheckWebLink_Direct(string text)
         {
+            if (!CanGetPreview())
+                return;
+
             lock (m_parsedURLs)
             {
                 m_parsedURLs.Clear();
 
-                m_parsedURLs.Add(text, true);
+                m_parsedURLs.Add(text);
             }
 
-            checkWebLink();
+            InvokeCheckWebPreview();
         }
 
-        private void CheckWebLink_All()
+        private void pureTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            getParsedURLs(pureTextBox.Text);
-
-            checkWebLink();
+            if ((e.KeyCode == Keys.Enter) || (e.KeyCode == Keys.Space))
+            {
+                CheckWebPreview();
+            }
         }
 
-        private void richTextBox_TextChanged(object sender, EventArgs e)
+        private void CheckWebPreview()
         {
-            if (m_postType == PostType.Link)
+            if (!CanGetPreview())
                 return;
 
-            //if (!m_doUnderline)
-                CheckWebLink_All();
+            getParsedURLs(pureTextBox.Text);
+
+            InvokeCheckWebPreview();
+        }
+
+        private bool CanGetPreview()
+        {
+            return ((m_postType == PostType.Text) || (m_postType == PostType.All)) && !m_getPreviewNow;
         }
 
         private void ThreadMethod(object state)
         {
-            /*
-            //int _idx = pureTextBox.SelectionStart;
+            m_getPreviewNow = true;
 
-            m_doUnderline = true;
+            int k = 0;
 
-            foreach (string _url in m_parsedURLs.Keys)
+            foreach (string _url in m_parsedURLs)
             {
-                UnderlineURL(_url);
-            }
+                if (k > 0)
+                    break;
 
-            m_doUnderline = false;
+                k++;
 
-            //pureTextBox.SelectionStart = _idx;
-            */
-
-
-            foreach (string _url in m_parsedURLs.Keys)
-            {
                 if (m_parsedErrorURLs.Contains(_url))
                     continue;
 
-                if (!m_parsedURLs[_url]) //!force
-                {
-                    if ((m_postType != PostType.Text) && (m_postType != PostType.All))
-                        continue;
-                }
-
-                showIndicator(true);
+                showIndicator(true, _url);
 
                 MR_previews_get_adv _mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
                 bool _isOK = (_mrPreviewsGetAdv != null) &&
                              (_mrPreviewsGetAdv.preview != null) &&
-                             (_mrPreviewsGetAdv.preview.images != null) &&
-                             (_mrPreviewsGetAdv.preview.images.Count != 0);
+                             (_mrPreviewsGetAdv.preview.images != null);
 
-                showIndicator(false);
+                showIndicator(false, _url);
 
                 if (_isOK)
                 {
@@ -394,38 +428,12 @@ namespace Waveface
                 {
                     if (!m_parsedErrorURLs.Contains(_url))
                         m_parsedErrorURLs.Add(_url);
+
+                    showPreviewMessage("無法取得網站預覽: [" + _url + "]", false, 5000);
                 }
             }
-        }
 
-        private void UnderlineURL(string url)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(
-                           delegate { UnderlineURL(url); }
-                           ));
-            }
-            else
-            {
-                string _text = pureTextBox.Text;
-
-                while (true)
-                {
-                    int _idx = _text.IndexOf(url);
-
-                    if (_idx < 0)
-                    {
-                        return;
-                    }
-
-                    pureTextBox.SelectionStart = _idx;
-                    pureTextBox.SelectionLength = url.Length;
-                    pureTextBox.SelectionColor = Color.Red;
-
-                    _text = _text.Substring(_idx + url.Length);
-                }
-            }
+            m_getPreviewNow = false;
         }
 
         private void showWebLinkPreview(MR_previews_get_adv mrPreviewsGetAdv)
@@ -443,12 +451,12 @@ namespace Waveface
             }
         }
 
-        private void showIndicator(bool flag)
+        private void showIndicator(bool flag, string url)
         {
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                           delegate { showIndicator(flag); }
+                           delegate { showIndicator(flag, url); }
                            ));
             }
             else
@@ -456,16 +464,65 @@ namespace Waveface
                 if (flag)
                 {
                     Cursor = Cursors.WaitCursor;
+                    showPreviewMessage("取得網站預覽: [" + url + "]", true, 0);
                 }
                 else
                 {
                     Cursor = Cursors.Default;
+                    showPreviewMessage("", false, 0);
                 }
             }
         }
 
-        private void checkWebLink()
+        private void showPreviewMessage(string message, bool showWaitingIcon, int timeout)
         {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { showPreviewMessage(message, showWaitingIcon, timeout); }
+                           ));
+            }
+            else
+            {
+                if (showWaitingIcon)
+                {
+                    pictureBoxWaiting.Visible = true;
+                    labelPreviewMsg.Left = 34;
+
+                    labelPreviewMsg.Text = message;
+
+                    timerNoPreviewMsg.Enabled = false;
+                }
+                else
+                {
+                    pictureBoxWaiting.Visible = false;
+                    labelPreviewMsg.Left = 12;
+
+                    labelPreviewMsg.Text = message;
+
+                    if (timeout == 0)
+                    {
+                        timerNoPreviewMsg.Enabled = false;
+                    }
+                    else
+                    {
+                        timerNoPreviewMsg.Interval = timeout;
+                        timerNoPreviewMsg.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void timerNoPreviewMsg_Tick(object sender, EventArgs e)
+        {
+            showPreviewMessage("", false, 0);
+        }
+
+        private void InvokeCheckWebPreview()
+        {
+            if (!CanGetPreview())
+                return;
+
             if (m_generateWebPreview)
             {
                 if (m_workItem != null)
@@ -490,40 +547,25 @@ namespace Waveface
             {
                 m_parsedURLs.Clear();
 
-
                 string[] _strs = text.Split(new[]
-                                             {
-                                                 ' ', '\n'
-                                             });
-
-                if ((_strs.Length < 2) && !m_forceCheckedWebLink)
-                {
-                    return;
-                }
-
-                m_forceCheckedWebLink = false;
-
-                int k = 0;
+                                                {
+                                                    ' ', '\n', '\r'
+                                                });
 
                 foreach (string _str in _strs)
                 {
-                    if (k > _strs.Length - 2)
-                        break;
-
                     if (FindUrls(_str) != string.Empty)
                     {
-                        if (!m_parsedURLs.ContainsKey(_str))
-                            m_parsedURLs.Add(_str, false);
+                        if (!m_parsedURLs.Contains(_str))
+                            m_parsedURLs.Add(_str);
                     }
-
-                    k++;
                 }
             }
         }
 
         private string FindUrls(string input)
         {
-            Regex _r1 = new Regex("(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))", RegexOptions.None);
+            Regex _r1 = new Regex(HtmlUtility.URL_RegExp_Pattern, RegexOptions.None);
 
             MatchCollection _ms1 = _r1.Matches(input);
 

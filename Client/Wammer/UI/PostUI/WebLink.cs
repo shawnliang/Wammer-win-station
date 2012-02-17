@@ -73,11 +73,14 @@ namespace Waveface.PostUI
             _og.url = _aog.url;
             _og.title = _aog.title;
 
-            if (!cbNoThumbnail.Checked || (m_ogsImgs.Count == 0))
+            if (!cbNoThumbnail.Checked)
             {
-                _og.thumbnail_url = _aog.images[m_currentPreviewImageIndex].url;
-                _og.thumbnail_width = _aog.images[m_currentPreviewImageIndex].width;
-                _og.thumbnail_height = _aog.images[m_currentPreviewImageIndex].height;
+                if (_aog.images.Count != 0)
+                {
+                    _og.thumbnail_url = _aog.images[m_currentPreviewImageIndex].url;
+                    _og.thumbnail_width = _aog.images[m_currentPreviewImageIndex].width;
+                    _og.thumbnail_height = _aog.images[m_currentPreviewImageIndex].height;
+                }
             }
 
             _og.type = _aog.type;
@@ -119,8 +122,10 @@ namespace Waveface.PostUI
 
             pictureBoxPreview.Image = null;
 
-            labelTitle.Text = m_mrPreviewsGetAdv.preview.title;
-            richTextBoxDescription.Text = m_mrPreviewsGetAdv.preview.description;
+            labelTitle.Text = m_mrPreviewsGetAdv.preview.title.Trim();
+            labelProvider.Text = m_mrPreviewsGetAdv.preview.provider_display;
+            richTextBoxDescription.Text = m_mrPreviewsGetAdv.preview.description.Trim();
+            labelSummary.Text = "網路預覽來自 - " + m_mrPreviewsGetAdv.preview.url;
 
             buttonPrev.Enabled = false;
             buttonNext.Enabled = false;
@@ -131,8 +136,18 @@ namespace Waveface.PostUI
 
             UpdateSelectPreviewPicturesButtons(true);
 
-            if (m_ogsImgs.Count != 0)
+            if (m_ogsImgs.Count == 0)
             {
+                panelContent.Left = 0;
+                panelContent.Width = panelPreview.Width - 8;
+                panelSelectPicture.Visible = false;
+            }
+            else
+            {
+                panelContent.Left = 196;
+                panelContent.Width = Width - panelSelectPicture.Width - 32;
+                panelSelectPicture.Visible = true;
+
                 LoadRemotePic();
             }
         }

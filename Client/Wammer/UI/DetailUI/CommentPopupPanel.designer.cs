@@ -1,4 +1,5 @@
 ﻿using Waveface.Component;
+using Waveface.Component.RichEdit;
 
 namespace Waveface
 {
@@ -32,7 +33,7 @@ namespace Waveface
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommentPopupPanel));
             this.buttonAddComment = new Waveface.Component.XPButton();
-            this.textBoxComment = new Waveface.Component.WaterMarkRichTextBox();
+            this.textBoxComment = new WaterMarkRichTextBox();
             this.SuspendLayout();
             // 
             // buttonAddComment

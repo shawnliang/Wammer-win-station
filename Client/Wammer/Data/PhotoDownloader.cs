@@ -137,11 +137,13 @@ namespace Waveface
             string _localPath = string.Empty;
             string _url = string.Empty;
 
+            Thread.Sleep(3000);
+
             while (true)
             {
                 ImageItem _item = null;
 
-                Thread.Sleep(50);
+                Thread.Sleep(100);
 
                 if ((ThumbnailItems.Count == 0) && (PhotoItems.Count == 0))
                 {

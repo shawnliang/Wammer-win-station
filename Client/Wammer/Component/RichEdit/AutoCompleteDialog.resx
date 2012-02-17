@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,23 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="cbNoThumbnail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 18</value>
-  </data>
-  <data name="cbNoThumbnail.Text" xml:space="preserve">
-    <value>沒有縮圖</value>
-  </data>
-  <data name="buttonRemovePreview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>533, 2</value>
-  </data>
-  <data name="buttonRemovePreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 26</value>
-  </data>
-  <data name="buttonRemovePreview.Text" xml:space="preserve">
-    <value>移除</value>
-  </data>
-  <data name="btnSend.Text" xml:space="preserve">
-    <value>貼文</value>
-  </data>
 </root>

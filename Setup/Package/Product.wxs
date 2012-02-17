@@ -48,7 +48,7 @@
     
     <InstallExecuteSequence>
       <!-- while uninstall -->
-      <Custom Action="KillClientProcess" Before="SignoffStationAction">
+      <Custom Action="KillClientProcess" Before="InstallValidate">
         (&amp;ClientFeature = 2) AND (!ClientFeature = 3)
       </Custom>
       <Custom Action="SignoffStationAction" Before="CleanStationInfoAction">

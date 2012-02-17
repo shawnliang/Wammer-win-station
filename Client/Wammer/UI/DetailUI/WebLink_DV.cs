@@ -2,7 +2,9 @@
 
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
@@ -149,7 +151,6 @@ namespace Waveface.DetailUI
             // webBrowserSoul
             // 
             resources.ApplyResources(this.webBrowserSoul, "webBrowserSoul");
-            this.webBrowserSoul.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserSoul.Name = "webBrowserSoul";
             this.webBrowserSoul.ScriptErrorsSuppressed = true;
             this.webBrowserSoul.ScrollBarsEnabled = false;
@@ -212,6 +213,7 @@ namespace Waveface.DetailUI
         private void RefreshUI()
         {
             Set_MainContent_Preview_Part();
+            Set_Soul_Part();
         }
 
         private void Set_MainContent_Preview_Part()
@@ -224,6 +226,7 @@ namespace Waveface.DetailUI
 
             string _content = Post.content.Replace(Environment.NewLine, "<BR>");
             _content = _content.Replace("\n", "<BR>");
+            _content = _content.Replace("\r", "<BR>");
 
             _html = _html.Replace("[Text]", _content);
 
@@ -257,33 +260,50 @@ namespace Waveface.DetailUI
                 _html = _html.Replace("[PriviewText]", _p.description);
             }
 
+            webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
+            Application.DoEvents();
+        }
+
+        private void Set_Soul_Part()
+        {
             string _minimaxJS = Properties.Resources.minmax;
             _minimaxJS = "<script type=\"text/javascript\">" + _minimaxJS + "</script>";
 
             //string _wfPreviewWin = Properties.Resources.WFPreviewWin;
             //_wfPreviewWin = "<style type=\"text/css\">" + _wfPreviewWin + "</style>";
 
-            webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
+            webBrowserSoul.Tag = false;
+
             //webBrowserSoul.DocumentText = _minimaxJS + _wfPreviewWin + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
-            webBrowserSoul.DocumentText = _minimaxJS + "<style type=\"text/css\">img {max-width: 95%;}</style>" + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
+            webBrowserSoul.DocumentText = "<html>" + _minimaxJS +
+                                          "<style type=\"text/css\">img {max-width: 95%;} iframe {max-width: 95%;}</style>" +
+                                          "<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" +
+                                          HtmlUtility.TrimScript(m_post.soul) +
+                                          "</font></body></html>";
+
+            //Hack
+            while (!((bool)webBrowserSoul.Tag))
+            {
+                Application.DoEvents();
+                Thread.Sleep(10);
+            }
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            int _h = webBrowserTop.Document.Body.ScrollRectangle.Height;
-            webBrowserTop.Height = _h;
-
             m_topBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserTop, miCopyTop);
             contextMenuStripTop.Opening += contextMenuStripTop_Opening;
             miCopyTop.Click += m_topBrowserContextMenuHandler.CopyCtxMenuClickHandler;
             webBrowserTop.Document.ContextMenuShowing += webBrowserTop_ContextMenuShowing;
+
+            ReLayout();
         }
 
         private void webBrowserSoul_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            changeWebBrowserSoulSize();
+            webBrowserSoul.Tag = true;
 
-            if (m_post.soul.Trim() != string.Empty)
+            //if (m_post.soul.Trim() != string.Empty)
                 panelWebBrowser.Visible = true;
 
             if (!m_addedLinkClickEventHandler)
@@ -300,6 +320,29 @@ namespace Waveface.DetailUI
             contextMenuStripSoul.Opening += contextMenuStripSoul_Opening;
             miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
             webBrowserSoul.Document.ContextMenuShowing += webBrowserSoul_ContextMenuShowing;
+
+            ReLayout();
+        }
+
+        private void WebLink_DV_Resize(object sender, EventArgs e)
+        {
+            ReLayout();
+        }
+
+        private void ReLayout()
+        {
+            if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
+            {
+                webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
+            }
+
+            if ((webBrowserSoul.Document != null) && (webBrowserSoul.Document.Body != null))
+            {
+                int _h = webBrowserSoul.Document.Body.ScrollRectangle.Height;
+
+                panelWebBrowser.Height = _h + 8;
+                webBrowserSoul.Height = _h;
+            }
         }
 
         private void LinkClick(object sender, EventArgs e)
@@ -321,18 +364,6 @@ namespace Waveface.DetailUI
         private void webBrowserSoul_NewWindow(object sender, CancelEventArgs e)
         {
             e.Cancel = true;
-        }
-
-        private void changeWebBrowserSoulSize()
-        {
-            int _h = webBrowserSoul.Document.Body.ScrollRectangle.Height;
-            int _w = webBrowserSoul.Document.Body.ScrollRectangle.Width;
-
-            panelWebBrowser.Height = _h + 4;
-            webBrowserSoul.Height = _h;
-
-            //panelWebBrowser.Width = _w + 4;
-            //webBrowserSoul.Width = _w;
         }
 
         #region ContextMenu
@@ -360,14 +391,5 @@ namespace Waveface.DetailUI
         }
 
         #endregion
-
-        private void WebLink_DV_Resize(object sender, EventArgs e)
-        {
-            if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
-                webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
-
-            if ((webBrowserSoul.Document != null) && (webBrowserSoul.Document.Body != null))
-                changeWebBrowserSoulSize();
-        }
     }
 }

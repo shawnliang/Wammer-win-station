@@ -595,7 +595,7 @@ namespace Waveface
             RT.Login = _login;
 
             m_settings.Email = email;
-            m_settings.Password = password;
+            m_settings.EncryptedPassword = password;
 
             getGroupAndUser();
             fillUserInformation();

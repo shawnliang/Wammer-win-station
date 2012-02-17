@@ -263,6 +263,7 @@ namespace Waveface.DetailUI
 
             string _content = Post.content.Replace(Environment.NewLine, "<BR>");
             _content = _content.Replace("\n", "<BR>");
+            _content = _content.Replace("\r", "<BR>");
 
             _html = _html.Replace("[Text]", _content);
 
