@@ -297,36 +297,6 @@
   <data name="&gt;&gt;panelLeft.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="detailView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="detailView.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="detailView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="detailView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="detailView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>472, 471</value>
-  </data>
-  <data name="detailView.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;detailView.Name" xml:space="preserve">
-    <value>detailView</value>
-  </data>
-  <data name="&gt;&gt;detailView.Type" xml:space="preserve">
-    <value>Waveface.DetailView, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;detailView.Parent" xml:space="preserve">
-    <value>panelMain</value>
-  </data>
-  <data name="&gt;&gt;detailView.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="panelMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>

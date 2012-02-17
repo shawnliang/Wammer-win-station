@@ -124,13 +124,137 @@
   <data name="panelPreview.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
+  <data name="&gt;&gt;panelContent.Name" xml:space="preserve">
+    <value>panelContent</value>
+  </data>
+  <data name="&gt;&gt;panelContent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelContent.Parent" xml:space="preserve">
+    <value>panelPreview</value>
+  </data>
+  <data name="&gt;&gt;panelContent.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelSelectPicture.Name" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;panelSelectPicture.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelSelectPicture.Parent" xml:space="preserve">
+    <value>panelPreview</value>
+  </data>
+  <data name="&gt;&gt;panelSelectPicture.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="panelPreview.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 0</value>
+  </data>
+  <data name="panelPreview.Size" type="System.Drawing.Size, System.Drawing">
+    <value>605, 194</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="panelPreview.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;panelPreview.Name" xml:space="preserve">
+    <value>panelPreview</value>
+  </data>
+  <data name="&gt;&gt;panelPreview.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelPreview.Parent" xml:space="preserve">
+    <value>panel</value>
+  </data>
+  <data name="&gt;&gt;panelPreview.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 0</value>
+  </data>
+  <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>608, 196</value>
+  </data>
+  <data name="panel.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;panel.Name" xml:space="preserve">
+    <value>panel</value>
+  </data>
+  <data name="&gt;&gt;panel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="panelContent.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;labelProvider.Name" xml:space="preserve">
+    <value>labelProvider</value>
+  </data>
+  <data name="&gt;&gt;labelProvider.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelProvider.Parent" xml:space="preserve">
+    <value>panelContent</value>
+  </data>
+  <data name="&gt;&gt;labelProvider.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;labelTitle.Name" xml:space="preserve">
+    <value>labelTitle</value>
+  </data>
+  <data name="&gt;&gt;labelTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelTitle.Parent" xml:space="preserve">
+    <value>panelContent</value>
+  </data>
+  <data name="&gt;&gt;labelTitle.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;richTextBoxDescription.Name" xml:space="preserve">
+    <value>richTextBoxDescription</value>
+  </data>
+  <data name="&gt;&gt;richTextBoxDescription.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;richTextBoxDescription.Parent" xml:space="preserve">
+    <value>panelContent</value>
+  </data>
+  <data name="&gt;&gt;richTextBoxDescription.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="panelContent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 5</value>
+  </data>
+  <data name="panelContent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>397, 184</value>
+  </data>
+  <data name="panelContent.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;panelContent.Name" xml:space="preserve">
+    <value>panelContent</value>
+  </data>
+  <data name="&gt;&gt;panelContent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelContent.Parent" xml:space="preserve">
+    <value>panelPreview</value>
+  </data>
+  <data name="&gt;&gt;panelContent.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="labelProvider.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="labelProvider.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 8.25pt</value>
   </data>
@@ -143,7 +267,6 @@
   <data name="labelProvider.Size" type="System.Drawing.Size, System.Drawing">
     <value>388, 16</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="labelProvider.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
@@ -228,26 +351,86 @@
   <data name="&gt;&gt;richTextBoxDescription.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="panelContent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>200, 5</value>
+  <data name="&gt;&gt;pictureBoxPreview.Name" xml:space="preserve">
+    <value>pictureBoxPreview</value>
   </data>
-  <data name="panelContent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>397, 184</value>
+  <data name="&gt;&gt;pictureBoxPreview.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="panelContent.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
+  <data name="&gt;&gt;pictureBoxPreview.Parent" xml:space="preserve">
+    <value>panelSelectPicture</value>
   </data>
-  <data name="&gt;&gt;panelContent.Name" xml:space="preserve">
-    <value>panelContent</value>
+  <data name="&gt;&gt;pictureBoxPreview.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;panelContent.Type" xml:space="preserve">
+  <data name="&gt;&gt;buttonNext.Name" xml:space="preserve">
+    <value>buttonNext</value>
+  </data>
+  <data name="&gt;&gt;buttonNext.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;buttonNext.Parent" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;buttonNext.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;labelPictureIndex.Name" xml:space="preserve">
+    <value>labelPictureIndex</value>
+  </data>
+  <data name="&gt;&gt;labelPictureIndex.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelPictureIndex.Parent" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;labelPictureIndex.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;cbNoThumbnail.Name" xml:space="preserve">
+    <value>cbNoThumbnail</value>
+  </data>
+  <data name="&gt;&gt;cbNoThumbnail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbNoThumbnail.Parent" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;cbNoThumbnail.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;buttonPrev.Name" xml:space="preserve">
+    <value>buttonPrev</value>
+  </data>
+  <data name="&gt;&gt;buttonPrev.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;buttonPrev.Parent" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;buttonPrev.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="panelSelectPicture.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 5</value>
+  </data>
+  <data name="panelSelectPicture.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 184</value>
+  </data>
+  <data name="panelSelectPicture.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;panelSelectPicture.Name" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;panelSelectPicture.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;panelContent.Parent" xml:space="preserve">
+  <data name="&gt;&gt;panelSelectPicture.Parent" xml:space="preserve">
     <value>panelPreview</value>
   </data>
-  <data name="&gt;&gt;panelContent.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;panelSelectPicture.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="pictureBoxPreview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -389,69 +572,6 @@
   </data>
   <data name="&gt;&gt;buttonPrev.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="panelSelectPicture.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 5</value>
-  </data>
-  <data name="panelSelectPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 184</value>
-  </data>
-  <data name="panelSelectPicture.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;panelSelectPicture.Name" xml:space="preserve">
-    <value>panelSelectPicture</value>
-  </data>
-  <data name="&gt;&gt;panelSelectPicture.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelSelectPicture.Parent" xml:space="preserve">
-    <value>panelPreview</value>
-  </data>
-  <data name="&gt;&gt;panelSelectPicture.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelPreview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 0</value>
-  </data>
-  <data name="panelPreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>605, 194</value>
-  </data>
-  <data name="panelPreview.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;panelPreview.Name" xml:space="preserve">
-    <value>panelPreview</value>
-  </data>
-  <data name="&gt;&gt;panelPreview.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelPreview.Parent" xml:space="preserve">
-    <value>panel</value>
-  </data>
-  <data name="&gt;&gt;panelPreview.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 0</value>
-  </data>
-  <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>608, 196</value>
-  </data>
-  <data name="panel.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;panel.Name" xml:space="preserve">
-    <value>panel</value>
-  </data>
-  <data name="&gt;&gt;panel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panel.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>

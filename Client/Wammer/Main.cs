@@ -160,8 +160,6 @@ namespace Waveface
 
             InitializeComponent();
 
-            postsArea.PostsList.DetailView = detailView;
-
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
             //initVirtualFolderForm();
@@ -184,6 +182,8 @@ namespace Waveface
 
         private void Form_Load(object sender, EventArgs e)
         {
+            postsArea.PostsList.DetailView = detailView;
+
             NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 
             UpdateNetworkStatus();

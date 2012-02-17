@@ -117,20 +117,18 @@
             this.leftArea.Name = "leftArea";
             this.leftArea.TabStop = false;
             // 
+            // detailView
+            // 
+            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.detailView, "detailView");
+		    this.detailView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.detailView.Name = "detailView";
+            // 
             // panelMain
             // 
             this.panelMain.Controls.Add(this.detailView);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            // 
-            // detailView
-            // 
-            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.detailView, "detailView");
-            this.detailView.MinimumSize = new System.Drawing.Size(200, 2);
-            this.detailView.Name = "detailView";
-            this.detailView.Post = null;
-            this.detailView.User = null;
             // 
             // mnuTray
             // 

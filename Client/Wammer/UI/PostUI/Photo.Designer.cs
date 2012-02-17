@@ -57,6 +57,7 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnSend = new Waveface.Component.XPButton();
             this.btnBatchPost = new Waveface.Component.XPButton();
+            this.labelSummary = new System.Windows.Forms.Label();
             this.panel.SuspendLayout();
             this.columnContextMenu.SuspendLayout();
             this.panelToolbar.SuspendLayout();
@@ -132,6 +133,7 @@
             // 
             resources.ApplyResources(this.panelToolbar, "panelToolbar");
             this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(197)))), ((int)(((byte)(186)))));
+            this.panelToolbar.Controls.Add(this.labelSummary);
             this.panelToolbar.Controls.Add(this.btnDeletePhoto);
             this.panelToolbar.Controls.Add(this.btnAddPhoto);
             this.panelToolbar.Name = "panelToolbar";
@@ -300,6 +302,13 @@
             this.btnBatchPost.UseVisualStyleBackColor = true;
             this.btnBatchPost.Click += new System.EventHandler(this.btnBatchPost_Click);
             // 
+            // labelSummary
+            // 
+            resources.ApplyResources(this.labelSummary, "labelSummary");
+            this.labelSummary.AutoEllipsis = true;
+            this.labelSummary.ForeColor = System.Drawing.Color.DimGray;
+            this.labelSummary.Name = "labelSummary";
+            // 
             // Photo
             // 
             resources.ApplyResources(this, "$this");
@@ -350,5 +359,6 @@
         private System.Windows.Forms.ToolStripMenuItem sortDescendingToolStripMenuItem;
         private Localization.CultureManager cultureManager;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Label labelSummary;
     }
 }

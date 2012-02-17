@@ -38,14 +38,14 @@
             this.richTextBoxDescription = new System.Windows.Forms.RichTextBox();
             this.panelSelectPicture = new System.Windows.Forms.Panel();
             this.pictureBoxPreview = new System.Windows.Forms.PictureBox();
+            this.buttonNext = new Waveface.Component.XPButton();
             this.labelPictureIndex = new System.Windows.Forms.Label();
             this.cbNoThumbnail = new System.Windows.Forms.CheckBox();
+            this.buttonPrev = new Waveface.Component.XPButton();
             this.panelToolbar = new System.Windows.Forms.Panel();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.labelSummary = new System.Windows.Forms.Label();
             this.buttonRemovePreview = new Waveface.Component.XPButton();
-            this.buttonNext = new Waveface.Component.XPButton();
-            this.buttonPrev = new Waveface.Component.XPButton();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.btnSend = new Waveface.Component.XPButton();
             this.panel.SuspendLayout();
             this.panelPreview.SuspendLayout();
@@ -117,6 +117,16 @@
             this.pictureBoxPreview.TabStop = false;
             this.pictureBoxPreview.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pictureBoxPreview_LoadCompleted);
             // 
+            // buttonNext
+            // 
+            this.buttonNext.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.buttonNext.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonNext.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            resources.ApplyResources(this.buttonNext, "buttonNext");
+            this.buttonNext.Name = "buttonNext";
+            this.buttonNext.UseVisualStyleBackColor = true;
+            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
+            // 
             // labelPictureIndex
             // 
             resources.ApplyResources(this.labelPictureIndex, "labelPictureIndex");
@@ -129,6 +139,16 @@
             this.cbNoThumbnail.UseVisualStyleBackColor = true;
             this.cbNoThumbnail.CheckedChanged += new System.EventHandler(this.cbNoThumbnail_CheckedChanged);
             // 
+            // buttonPrev
+            // 
+            this.buttonPrev.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.buttonPrev.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.buttonPrev.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            resources.ApplyResources(this.buttonPrev, "buttonPrev");
+            this.buttonPrev.Name = "buttonPrev";
+            this.buttonPrev.UseVisualStyleBackColor = true;
+            this.buttonPrev.Click += new System.EventHandler(this.buttonPrev_Click);
+            // 
             // panelToolbar
             // 
             resources.ApplyResources(this.panelToolbar, "panelToolbar");
@@ -137,13 +157,11 @@
             this.panelToolbar.Controls.Add(this.buttonRemovePreview);
             this.panelToolbar.Name = "panelToolbar";
             // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
             // labelSummary
             // 
             resources.ApplyResources(this.labelSummary, "labelSummary");
+            this.labelSummary.AutoEllipsis = true;
+            this.labelSummary.ForeColor = System.Drawing.Color.DimGray;
             this.labelSummary.Name = "labelSummary";
             // 
             // buttonRemovePreview
@@ -157,25 +175,9 @@
             this.buttonRemovePreview.UseVisualStyleBackColor = true;
             this.buttonRemovePreview.Click += new System.EventHandler(this.buttonRemovePreview_Click);
             // 
-            // buttonNext
+            // cultureManager
             // 
-            this.buttonNext.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonNext.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonNext.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            resources.ApplyResources(this.buttonNext, "buttonNext");
-            this.buttonNext.Name = "buttonNext";
-            this.buttonNext.UseVisualStyleBackColor = true;
-            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
-            // 
-            // buttonPrev
-            // 
-            this.buttonPrev.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.buttonPrev.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonPrev.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            resources.ApplyResources(this.buttonPrev, "buttonPrev");
-            this.buttonPrev.Name = "buttonPrev";
-            this.buttonPrev.UseVisualStyleBackColor = true;
-            this.buttonPrev.Click += new System.EventHandler(this.buttonPrev_Click);
+            this.cultureManager.ManagedControl = this;
             // 
             // btnSend
             // 

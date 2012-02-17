@@ -274,6 +274,8 @@ namespace Waveface.DetailUI
 
             webBrowserSoul.Tag = false;
 
+            panelWebBrowser.Visible = true;
+
             //webBrowserSoul.DocumentText = _minimaxJS + _wfPreviewWin + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
             webBrowserSoul.DocumentText = "<html>" + _minimaxJS +
                                           "<style type=\"text/css\">img {max-width: 95%;} iframe {max-width: 95%;}</style>" +
@@ -301,10 +303,7 @@ namespace Waveface.DetailUI
 
         private void webBrowserSoul_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            webBrowserSoul.Tag = true;
-
-            //if (m_post.soul.Trim() != string.Empty)
-                panelWebBrowser.Visible = true;
+            webBrowserSoul.Tag = true;       
 
             if (!m_addedLinkClickEventHandler)
             {

@@ -125,7 +125,7 @@ namespace Waveface.PostUI
             labelTitle.Text = m_mrPreviewsGetAdv.preview.title.Trim();
             labelProvider.Text = m_mrPreviewsGetAdv.preview.provider_display;
             richTextBoxDescription.Text = m_mrPreviewsGetAdv.preview.description.Trim();
-            labelSummary.Text = "網路預覽來自 - " + m_mrPreviewsGetAdv.preview.url;
+            labelSummary.Text = I18n.L.T("WebLink.ComeFrom") + " " + m_mrPreviewsGetAdv.preview.url;
 
             buttonPrev.Enabled = false;
             buttonNext.Enabled = false;

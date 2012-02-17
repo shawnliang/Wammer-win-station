@@ -37,7 +37,6 @@ namespace Waveface
             InitializeComponent();
 
             m_formSettings = new FormSettings(this);
-            m_formSettings.UseSize = true;
             m_formSettings.UseLocation = true;
             m_formSettings.UseWindowState = true;
             m_formSettings.AllowMinimized = false;
@@ -186,7 +185,7 @@ namespace Waveface
             MaximizeBox = false;
 
             m_fixHeight = 268;
-            Size = new Size(720, 268);
+            Size = new Size(760, 268);
 
             //pureTextBox.Focus();
         }
@@ -205,7 +204,7 @@ namespace Waveface
             MaximizeBox = false;
 
             m_fixHeight = 464;
-            Size = new Size(720, 464);
+            Size = new Size(760, 464);
         }
 
         private void toPhoto_Mode(List<string> files)
@@ -221,7 +220,7 @@ namespace Waveface
 
             MaximizeBox = true;
 
-            Size = new Size(720, 530);
+            Size = new Size(760, 530);
 
             if (files == null)
             {
@@ -246,7 +245,7 @@ namespace Waveface
 
             MaximizeBox = true;
 
-            Size = new Size(720, 530);
+            Size = new Size(760, 530);
         }
 
         #endregion
@@ -429,7 +428,7 @@ namespace Waveface
                     if (!m_parsedErrorURLs.Contains(_url))
                         m_parsedErrorURLs.Add(_url);
 
-                    showPreviewMessage("無法取得網站預覽: [" + _url + "]", false, 5000);
+                    showPreviewMessage(I18n.L.T("PostForm.NoWebPreview") + " " + _url, false, 5000);
                 }
             }
 
@@ -464,7 +463,7 @@ namespace Waveface
                 if (flag)
                 {
                     Cursor = Cursors.WaitCursor;
-                    showPreviewMessage("取得網站預覽: [" + url + "]", true, 0);
+                    showPreviewMessage(I18n.L.T("PostForm.GetWebPreview") + " " + url, true, 0);
                 }
                 else
                 {

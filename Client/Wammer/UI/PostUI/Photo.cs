@@ -78,6 +78,7 @@ namespace Waveface.PostUI
 
         private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
         {
+            labelSummary.Text = string.Format(I18n.L.T("Photo.Summary") , imageListView.Items.Count);
         }
 
         private void toolStripButtonCamera_Click(object sender, EventArgs e)

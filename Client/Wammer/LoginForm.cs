@@ -44,7 +44,7 @@ namespace Waveface
 
         public string Password
         {
-            get { return txtPassword.Text.Trim(); }
+            get { return txtPassword.Text; }
         }
 
         #endregion
@@ -321,7 +321,7 @@ namespace Waveface
 
             DialogResult = DialogResult.None;
 
-            if ((txtUserName.Text.Trim() != "") && (txtPassword.Text.Trim() != ""))
+            if ((txtUserName.Text.Trim() != "") && (txtPassword.Text != ""))
             {
                 m_formSettings.Save();
 
