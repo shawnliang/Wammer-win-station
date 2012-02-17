@@ -2,7 +2,6 @@
 
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -82,20 +81,20 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebLink_DV));
             this.panelMain = new System.Windows.Forms.Panel();
+            this.panelRight = new Waveface.Component.AutoScrollPanel();
+            this.panelWebBrowser = new System.Windows.Forms.Panel();
+            this.webBrowserSoul = new System.Windows.Forms.WebBrowser();
+            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripSoul = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopySoul = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelRight = new Waveface.Component.AutoScrollPanel();
-            this.panelWebBrowser = new System.Windows.Forms.Panel();
-            this.webBrowserSoul = new System.Windows.Forms.WebBrowser();
-            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.panelMain.SuspendLayout();
-            this.contextMenuStripTop.SuspendLayout();
-            this.contextMenuStripSoul.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.panelWebBrowser.SuspendLayout();
+            this.contextMenuStripTop.SuspendLayout();
+            this.contextMenuStripSoul.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -104,34 +103,6 @@ namespace Waveface.DetailUI
             this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelMain.Controls.Add(this.panelRight);
             this.panelMain.Name = "panelMain";
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // contextMenuStripTop
-            // 
-            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopyTop});
-            this.contextMenuStripTop.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
-            // 
-            // miCopyTop
-            // 
-            this.miCopyTop.Name = "miCopyTop";
-            resources.ApplyResources(this.miCopyTop, "miCopyTop");
-            // 
-            // contextMenuStripSoul
-            // 
-            this.contextMenuStripSoul.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopySoul});
-            this.contextMenuStripSoul.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripSoul, "contextMenuStripSoul");
-            // 
-            // miCopySoul
-            // 
-            this.miCopySoul.Name = "miCopySoul";
-            resources.ApplyResources(this.miCopySoul, "miCopySoul");
             // 
             // panelRight
             // 
@@ -166,6 +137,34 @@ namespace Waveface.DetailUI
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // contextMenuStripTop
+            // 
+            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopyTop});
+            this.contextMenuStripTop.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
+            // 
+            // miCopyTop
+            // 
+            this.miCopyTop.Name = "miCopyTop";
+            resources.ApplyResources(this.miCopyTop, "miCopyTop");
+            // 
+            // contextMenuStripSoul
+            // 
+            this.contextMenuStripSoul.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopySoul});
+            this.contextMenuStripSoul.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripSoul, "contextMenuStripSoul");
+            // 
+            // miCopySoul
+            // 
+            this.miCopySoul.Name = "miCopySoul";
+            resources.ApplyResources(this.miCopySoul, "miCopySoul");
+            // 
             // WebLink_DV
             // 
             this.Controls.Add(this.panelMain);
@@ -173,10 +172,10 @@ namespace Waveface.DetailUI
             this.Name = "WebLink_DV";
             this.Resize += new System.EventHandler(this.WebLink_DV_Resize);
             this.panelMain.ResumeLayout(false);
-            this.contextMenuStripTop.ResumeLayout(false);
-            this.contextMenuStripSoul.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.panelWebBrowser.ResumeLayout(false);
+            this.contextMenuStripTop.ResumeLayout(false);
+            this.contextMenuStripSoul.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -269,8 +268,8 @@ namespace Waveface.DetailUI
             string _minimaxJS = Properties.Resources.minmax;
             _minimaxJS = "<script type=\"text/javascript\">" + _minimaxJS + "</script>";
 
-            //string _wfPreviewWin = Properties.Resources.WFPreviewWin;
-            //_wfPreviewWin = "<style type=\"text/css\">" + _wfPreviewWin + "</style>";
+            string _wfPreviewWin = Properties.Resources.WFPreviewWin;
+            _wfPreviewWin = "<style type=\"text/css\">" + _wfPreviewWin + "</style>";
 
             webBrowserSoul.Tag = false;
 
@@ -278,7 +277,7 @@ namespace Waveface.DetailUI
 
             //webBrowserSoul.DocumentText = _minimaxJS + _wfPreviewWin + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
             webBrowserSoul.DocumentText = "<html>" + _minimaxJS +
-                                          "<style type=\"text/css\">img {max-width: 95%;} iframe {max-width: 95%;}</style>" +
+                                          "<style type=\"text/css\">img {width: auto; max-height: 256px;} iframe {max-width: 95%;}</style>" +
                                           "<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" +
                                           HtmlUtility.TrimScript(m_post.soul) +
                                           "</font></body></html>";
@@ -303,7 +302,7 @@ namespace Waveface.DetailUI
 
         private void webBrowserSoul_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            webBrowserSoul.Tag = true;       
+            webBrowserSoul.Tag = true;
 
             if (!m_addedLinkClickEventHandler)
             {
@@ -319,7 +318,7 @@ namespace Waveface.DetailUI
             contextMenuStripSoul.Opening += contextMenuStripSoul_Opening;
             miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
             webBrowserSoul.Document.ContextMenuShowing += webBrowserSoul_ContextMenuShowing;
-
+            
             ReLayout();
         }
 

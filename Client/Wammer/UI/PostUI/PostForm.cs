@@ -376,6 +376,14 @@ namespace Waveface
             {
                 CheckWebPreview();
             }
+
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                if (pureTextBox.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
+                {
+                    e.SuppressKeyPress = true;
+                }
+            }
         }
 
         private void CheckWebPreview()
@@ -411,10 +419,21 @@ namespace Waveface
 
                 showIndicator(true, _url);
 
-                MR_previews_get_adv _mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
-                bool _isOK = (_mrPreviewsGetAdv != null) &&
-                             (_mrPreviewsGetAdv.preview != null) &&
-                             (_mrPreviewsGetAdv.preview.images != null);
+                bool _isOK;
+                MR_previews_get_adv _mrPreviewsGetAdv = null;
+
+                try
+                {
+                    _mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
+                 
+                    _isOK = (_mrPreviewsGetAdv != null) &&
+                            (_mrPreviewsGetAdv.preview != null) &&
+                            (_mrPreviewsGetAdv.preview.images != null);
+                }
+                catch
+                {
+                    _isOK = false;
+                }
 
                 showIndicator(false, _url);
 
