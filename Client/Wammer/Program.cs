@@ -40,6 +40,8 @@ namespace Waveface
 
         #endregion
 
+        public static bool ShowCrashReporter { get; set;}
+
         [STAThread]
         private static void Main(string[] args)
         {
@@ -147,8 +149,12 @@ namespace Waveface
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             NLogUtility.Exception(s_logger, (Exception)e.ExceptionObject, "CurrentDomain_UnhandledException");
-            CrashReporter _errorDlg = new CrashReporter((Exception)e.ExceptionObject);
-            _errorDlg.ShowDialog();
+
+            if (ShowCrashReporter)
+            {
+                CrashReporter _errorDlg = new CrashReporter((Exception) e.ExceptionObject);
+                _errorDlg.ShowDialog();
+            }
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

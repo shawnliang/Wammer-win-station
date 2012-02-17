@@ -240,6 +240,8 @@ namespace Waveface
         {
             Cursor = Cursors.WaitCursor;
 
+            Program.ShowCrashReporter = true;
+
             try
             {
                 if (_doLogin(email, password) == QuitOption.QuitProgram)

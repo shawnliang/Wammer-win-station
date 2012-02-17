@@ -134,7 +134,7 @@ namespace Waveface
             // 
             // timerGC
             // 
-            this.timerGC.Interval = 30000;
+            this.timerGC.Interval = 60000;
             this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
             // 
             // cultureManager

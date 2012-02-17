@@ -173,7 +173,7 @@ namespace Waveface
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
 
-            System.Net.ServicePointManager.DefaultConnectionLimit = 64;
+            //System.Net.ServicePointManager.DefaultConnectionLimit = 64;
 
             s_logger.Trace("Constructor: OK");
         }
@@ -339,6 +339,8 @@ namespace Waveface
 
         public void Logout()
         {
+            Program.ShowCrashReporter = false;
+
             QuitOption = QuitOption.Logout;
 
             try
