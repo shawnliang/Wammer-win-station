@@ -127,6 +127,8 @@
             // 
             // loopToolStripMenuItem
             // 
+            this.loopToolStripMenuItem.Checked = true;
+            this.loopToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.loopToolStripMenuItem.Name = "loopToolStripMenuItem";
             this.loopToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loopToolStripMenuItem.Text = "Loop";

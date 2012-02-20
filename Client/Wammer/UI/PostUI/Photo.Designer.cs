@@ -38,6 +38,7 @@
             this.sortAscendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortDescendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelToolbar = new System.Windows.Forms.Panel();
+            this.labelSummary = new System.Windows.Forms.Label();
             this.btnDeletePhoto = new Waveface.Component.XPButton();
             this.btnAddPhoto = new Waveface.Component.XPButton();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -57,7 +58,6 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnSend = new Waveface.Component.XPButton();
             this.btnBatchPost = new Waveface.Component.XPButton();
-            this.labelSummary = new System.Windows.Forms.Label();
             this.panel.SuspendLayout();
             this.columnContextMenu.SuspendLayout();
             this.panelToolbar.SuspendLayout();
@@ -137,6 +137,13 @@
             this.panelToolbar.Controls.Add(this.btnDeletePhoto);
             this.panelToolbar.Controls.Add(this.btnAddPhoto);
             this.panelToolbar.Name = "panelToolbar";
+            // 
+            // labelSummary
+            // 
+            resources.ApplyResources(this.labelSummary, "labelSummary");
+            this.labelSummary.AutoEllipsis = true;
+            this.labelSummary.ForeColor = System.Drawing.Color.DimGray;
+            this.labelSummary.Name = "labelSummary";
             // 
             // btnDeletePhoto
             // 
@@ -301,13 +308,6 @@
             this.btnBatchPost.Name = "btnBatchPost";
             this.btnBatchPost.UseVisualStyleBackColor = true;
             this.btnBatchPost.Click += new System.EventHandler(this.btnBatchPost_Click);
-            // 
-            // labelSummary
-            // 
-            resources.ApplyResources(this.labelSummary, "labelSummary");
-            this.labelSummary.AutoEllipsis = true;
-            this.labelSummary.ForeColor = System.Drawing.Color.DimGray;
-            this.labelSummary.Name = "labelSummary";
             // 
             // Photo
             // 

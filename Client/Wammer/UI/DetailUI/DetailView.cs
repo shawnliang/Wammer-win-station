@@ -54,6 +54,8 @@ namespace Waveface
         {
             InitializeComponent();
 
+            MouseWheelRedirector.Attach(this);
+
             m_commentPopup = new Popup(m_commentPopupPanel = new CommentPopupPanel());
             m_commentPopup.Resizable = true;
             m_commentPopupPanel.buttonAddComment.Click += buttonAddComment_Click;
@@ -389,8 +391,12 @@ namespace Waveface
 
                 k++;
 
+                string _content = _c.content.Replace(Environment.NewLine, "<BR>");
+                _content = _content.Replace("\n", "<BR>");
+                _content = _content.Replace("\r", "<BR>");
+
                 _html += _s.ToString();
-                _html = _html.Replace("[Comment]", _c.content);
+                _html = _html.Replace("[Comment]", _content);
                 _html = _html.Replace("[CommentTime]", DateTimeHelp.ISO8601ToDotNet(_c.timestamp, true));
                 _html = _html.Replace("[code_name]", _c.code_name);
 
@@ -406,8 +412,7 @@ namespace Waveface
 
             _html += "</font></blockquote>";
 
-            if (post.comment_count > 0)
-                _html += "<HR>";
+            _html += "<HR>";
 
             return _html;
         }

@@ -268,6 +268,11 @@
     <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
   </WItem>
   <WItem>
+    <ID>ForceLogout</ID>
+    <en-US>System Error. Re-enter your password to log in again.</en-US>
+    <zh-TW>系統發生不可預期的錯誤, 請重新輸入密碼以便登入.</zh-TW>
+  </WItem>  
+  <WItem>
     <ID>MinimizetoTrayApp</ID>
     <en-US>Minimize to Tray App</en-US>
     <zh-TW>縮小至系統工具列</zh-TW>

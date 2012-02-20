@@ -47,7 +47,7 @@ namespace Waveface
         private Popup m_trayIconPopup;
         private TrayIconPanel m_trayIconPanel;
 
-        private bool m_process401Exception;
+        private bool m_forceLogout;
         private bool m_canAutoFetchNewestPosts = true;
         private bool m_manualRefresh;
         private ShowTimelineIndexType m_showTimelineIndexType;
@@ -311,7 +311,27 @@ namespace Waveface
                 MessageBox.Show(I18n.L.T("Station401Exception"), "Waveface", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
-                m_process401Exception = true;
+                m_forceLogout = true;
+                QuitOption = QuitOption.Logout;
+
+                Close();
+            }
+        }
+
+        public void ForceLogout()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { ForceLogout(); }
+                           ));
+            }
+            else
+            {
+                MessageBox.Show(I18n.L.T("ForceLogout"), "Waveface", MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
+
+                m_forceLogout = true;
                 QuitOption = QuitOption.Logout;
 
                 Close();
@@ -329,7 +349,7 @@ namespace Waveface
             if (m_virtualFolderForm != null)
                 m_virtualFolderForm.Close();
 
-            if (!m_process401Exception)
+            if (!m_forceLogout)
                 SetLastReadPos();
 
             SaveRunTime();
@@ -553,7 +573,7 @@ namespace Waveface
             if (online)
                 RT.Reset();
 
-            m_process401Exception = false;
+            m_forceLogout = false;
 
             WService.StationIP = "";
 
@@ -644,11 +664,13 @@ namespace Waveface
                     case ConnectServiceStateType.NetworkDisconnected:
                     case ConnectServiceStateType.Cloud:
                         StatusLabelServiceStatus.Image = Resources.Cloud;
+                        StatusLabelServiceStatus.Text = "Cloud";
                         break;
 
                     case ConnectServiceStateType.Station_LocalIP:
                     case ConnectServiceStateType.Station_UPnP:
                         StatusLabelServiceStatus.Image = Resources.Station;
+                        StatusLabelServiceStatus.Text = "Station";
                         break;
                 }
 
@@ -1340,6 +1362,10 @@ namespace Waveface
                             }
 
                             _remainingCount = _postsGet.remaining_count;
+                        }
+                        else
+                        {
+                            ForceLogout();
                         }
                     }
                 }

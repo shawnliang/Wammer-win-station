@@ -131,27 +131,6 @@
     <value>248, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="toolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 6</value>
-  </data>
-  <data name="sortAscendingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 22</value>
-  </data>
-  <data name="sortAscendingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Ascending</value>
-  </data>
-  <data name="sortDescendingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 22</value>
-  </data>
-  <data name="sortDescendingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Descending</value>
-  </data>
-  <data name="sortByToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 22</value>
-  </data>
-  <data name="sortByToolStripMenuItem.Text" xml:space="preserve">
-    <value>Sort By</value>
-  </data>
   <data name="columnContextMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 26</value>
   </data>
@@ -196,7 +175,7 @@
     <value>2, 2</value>
   </data>
   <data name="imageListView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>603, 338</value>
+    <value>603, 334</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="imageListView.TabIndex" type="System.Int32, mscorlib">
@@ -216,6 +195,105 @@
   </data>
   <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.Name" xml:space="preserve">
+    <value>labelSummary</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.Parent" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btnDeletePhoto.Name" xml:space="preserve">
+    <value>btnDeletePhoto</value>
+  </data>
+  <data name="&gt;&gt;btnDeletePhoto.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnDeletePhoto.Parent" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;btnDeletePhoto.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Name" xml:space="preserve">
+    <value>btnAddPhoto</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Parent" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="panelToolbar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 339</value>
+  </data>
+  <data name="panelToolbar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>602, 31</value>
+  </data>
+  <data name="panelToolbar.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.Name" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.Parent" xml:space="preserve">
+    <value>panel</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 0</value>
+  </data>
+  <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>606, 373</value>
+  </data>
+  <data name="panel.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;panel.Name" xml:space="preserve">
+    <value>panel</value>
+  </data>
+  <data name="&gt;&gt;panel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="sortByToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 22</value>
+  </data>
+  <data name="sortByToolStripMenuItem.Text" xml:space="preserve">
+    <value>Sort By</value>
+  </data>
+  <data name="toolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>140, 6</value>
+  </data>
+  <data name="sortAscendingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 22</value>
+  </data>
+  <data name="sortAscendingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="sortDescendingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 22</value>
+  </data>
+  <data name="sortDescendingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Descending</value>
   </data>
   <data name="labelSummary.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -247,6 +325,9 @@
   <data name="&gt;&gt;labelSummary.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>567, 17</value>
+  </metadata>
   <data name="btnDeletePhoto.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -271,9 +352,6 @@
   <data name="btnDeletePhoto.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>567, 17</value>
-  </metadata>
   <data name="btnDeletePhoto.ToolTip" xml:space="preserve">
     <value>Delete Photo</value>
   </data>
@@ -322,53 +400,35 @@
   <data name="&gt;&gt;btnAddPhoto.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="panelToolbar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 343</value>
-  </data>
-  <data name="panelToolbar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>602, 31</value>
-  </data>
-  <data name="panelToolbar.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Name" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Parent" xml:space="preserve">
-    <value>panel</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 0</value>
-  </data>
-  <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>606, 377</value>
-  </data>
-  <data name="panel.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;panel.Name" xml:space="preserve">
-    <value>panel</value>
-  </data>
-  <data name="&gt;&gt;panel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <metadata name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <data name="toolStrip.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
+  </data>
+  <data name="toolStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 242</value>
+  </data>
+  <data name="toolStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>357, 25</value>
+  </data>
+  <data name="toolStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="toolStrip.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;toolStrip.Name" xml:space="preserve">
+    <value>toolStrip</value>
+  </data>
+  <data name="&gt;&gt;toolStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStrip.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;toolStrip.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="removeAllToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -584,30 +644,6 @@
   <data name="toolStripComboBoxResize.Size" type="System.Drawing.Size, System.Drawing">
     <value>140, 25</value>
   </data>
-  <data name="toolStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 242</value>
-  </data>
-  <data name="toolStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>357, 25</value>
-  </data>
-  <data name="toolStrip.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="toolStrip.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.Name" xml:space="preserve">
-    <value>toolStrip</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>112, 17</value>
   </metadata>
@@ -639,7 +675,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>538, 380</value>
+    <value>538, 381</value>
   </data>
   <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -672,7 +708,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnBatchPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>458, 380</value>
+    <value>458, 381</value>
   </data>
   <data name="btnBatchPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -818,4 +854,7 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>567, 17</value>
+  </metadata>
 </root>

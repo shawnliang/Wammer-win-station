@@ -184,8 +184,8 @@ namespace Waveface
 
             MaximizeBox = false;
 
-            m_fixHeight = 268;
-            Size = new Size(760, 268);
+            m_fixHeight = 272;
+            Size = new Size(760, 272);
 
             //pureTextBox.Focus();
         }
@@ -203,8 +203,8 @@ namespace Waveface
 
             MaximizeBox = false;
 
-            m_fixHeight = 464;
-            Size = new Size(760, 464);
+            m_fixHeight = 466;
+            Size = new Size(760, 466);
         }
 
         private void toPhoto_Mode(List<string> files)
