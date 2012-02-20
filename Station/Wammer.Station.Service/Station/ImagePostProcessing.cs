@@ -65,7 +65,7 @@ namespace Wammer.Station
 				exist.DeepMerge(update.ToBsonDocument());
 				AttachmentCollection.Instance.Save(exist);
 
-				TaskQueue.EnqueueMedium(
+				TaskQueue.Enqueue(
 					new UpstreamMediumThumbnailTask(
 						new UpstreamArgs
 						{
@@ -77,7 +77,8 @@ namespace Wammer.Station
 							UserSessionToken = evt.UserSessionToken
 						},
 						ThumbnailUpstreamed
-					)
+					),
+					TaskPriority.Medium
 				);
 				
 			}
@@ -92,7 +93,7 @@ namespace Wammer.Station
 			if (evt.Attachment.type != AttachmentType.image || evt.Meta != ImageMeta.Origin)
 				return;
 
-			TaskQueue.EnqueueMedium(new UpstreamThumbnailsTask(evt, this.ThumbnailUpstreamed));
+			TaskQueue.Enqueue(new UpstreamThumbnailsTask(evt, this.ThumbnailUpstreamed), TaskPriority.Medium);
 		}
 
 		public static Bitmap BuildBitmap(ArraySegment<byte> imageData)

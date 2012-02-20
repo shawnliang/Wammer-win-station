@@ -92,6 +92,7 @@
     <Compile Include="TestGenerateMultipart.cs" />
     <Compile Include="TestHttpServer.cs" />
     <Compile Include="TestImagePostProcessing.cs" />
+    <Compile Include="TestMQ.cs" />
     <Compile Include="TestMultiPart.cs" />
     <Compile Include="TestAttachmentUpload.cs" />
     <Compile Include="TestNetworkHelper.cs" />

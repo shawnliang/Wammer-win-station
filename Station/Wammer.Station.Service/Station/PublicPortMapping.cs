@@ -149,7 +149,7 @@ namespace Wammer.Station
 				logger.Info("External port is registered: " + externalPort);
 
 				if (IsReadyToNotifyCloud())
-					TaskQueue.EnqueueMedium(new NotifyCloudOfExternalPortTask());
+					TaskQueue.Enqueue(new NotifyCloudOfExternalPortTask(), TaskPriority.Medium);
 			}
 		}
 
@@ -164,7 +164,7 @@ namespace Wammer.Station
 				logger.Info("Public IP detected: " + externalIP.ToString());
 
 				if (IsReadyToNotifyCloud())
-					TaskQueue.EnqueueMedium(new NotifyCloudOfExternalPortTask());
+					TaskQueue.Enqueue(new NotifyCloudOfExternalPortTask(), TaskPriority.Medium);
 			}
 		}
 
@@ -175,7 +175,7 @@ namespace Wammer.Station
 				hasDriver = true;
 
 				if (IsReadyToNotifyCloud())
-					TaskQueue.EnqueueMedium(new NotifyCloudOfExternalPortTask());
+					TaskQueue.Enqueue(new NotifyCloudOfExternalPortTask(), TaskPriority.Medium);
 			}
 		}
 

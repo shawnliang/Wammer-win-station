@@ -135,7 +135,7 @@ namespace Wammer.Station
 						IHttpHandler handler = FindBestMatch(context.Request.Url.AbsolutePath);
 
 						if (handler != null)
-							TaskQueue.EnqueueHigh(new HttpHandlingTask(handler, context, beginTime));
+							TaskQueue.Enqueue(new HttpHandlingTask(handler, context, beginTime), TaskPriority.High);
 						else
 							respond404NotFound(context);
 					}

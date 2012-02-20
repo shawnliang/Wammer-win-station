@@ -8,6 +8,13 @@ using Wammer.PerfMonitor;
 namespace Wammer.Station
 {
 
+	enum TaskPriority
+	{
+		Low,
+		Medium,
+		High
+	}
+
 	static class TaskQueue
 	{
 		private static object lockAllQueue = new object();
@@ -21,22 +28,29 @@ namespace Wammer.Station
 		private static IPerfCounter itemsInQueue = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE);
 		private static IPerfCounter itemsInProgress = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_PROGRESS);
 
-		public static void EnqueueHigh(ITask task)
+
+		public static void Enqueue(ITask task, TaskPriority priority)
 		{
-			Enqueue(HighPriorityQ, task);
+			Enqueue(task, priority, false);
 		}
 
-		public static void EnqueueMedium(ITask task)
+		public static void Enqueue(ITask task, TaskPriority priority, bool persistent)
 		{
-			Enqueue(MediumPriorityQ, task);
+			LinkedList<ITask> queue = null;
+
+			if (priority == TaskPriority.High)
+				queue = HighPriorityQ;
+			else if (priority == TaskPriority.Medium)
+				queue = MediumPriorityQ;
+			else if (priority == TaskPriority.Low)
+				queue = LowPriorityQ;
+			else
+				throw new ArgumentOutOfRangeException("unknown priority: " + priority.ToString());
+
+			Enqueue(queue, task, persistent);
 		}
 
-		public static void EnqueueLow(ITask task)
-		{
-			Enqueue(LowPriorityQ, task);
-		}
-
-		private static void Enqueue(LinkedList<ITask> queue, ITask task)
+		private static void Enqueue(LinkedList<ITask> queue, ITask task, bool persistent)
 		{
 			itemsInQueue.Increment();
 			lock (lockAllQueue)
@@ -93,25 +107,8 @@ namespace Wammer.Station
 		void Execute();
 	}
 
-	class Task
+	class TaskQueueItem
 	{
-		private WaitCallback callback;
-		private object state;
 
-		public Task(WaitCallback callback)
-		{
-			this.callback = callback;
-		}
-
-		public Task(WaitCallback callback, object state)
-		{
-			this.callback = callback;
-			this.state = state;
-		}
-
-		public void Execute(object nil)
-		{
-			this.callback(this.state);
-		}
 	}
 }
