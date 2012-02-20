@@ -22,9 +22,22 @@ namespace Waveface
             return _bodyText;
         }
 
-        public static string MakeLink(string txt)
+        public static string MakeLink(string txt, List<string> clickableUrl)
         {
             Regex _r = new Regex(URL_RegExp_Pattern, RegexOptions.None);
+
+            MatchCollection _ms1 = _r.Matches(txt);
+
+            foreach (Match _m in _ms1)
+            {
+                if (!clickableUrl.Contains(_m.Value))
+                {
+                    clickableUrl.Add(_m.Value);
+                    clickableUrl.Add("http://" + _m.Value);
+                    clickableUrl.Add("https://" + _m.Value);
+                }
+            }
+
             return _r.Replace(txt, "<a href=\"$1\" target=\"&#95;blank\">$1</a>").Replace("href=\"www", "href=\"http://www");
         }
 

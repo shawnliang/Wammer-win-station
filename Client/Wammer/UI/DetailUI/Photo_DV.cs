@@ -47,6 +47,8 @@ namespace Waveface.DetailUI
 
         private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
 
+        private List<string> m_clickableURL;
+
         #endregion
 
         #region Properties
@@ -94,6 +96,7 @@ namespace Waveface.DetailUI
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
             m_filesMapping = new Dictionary<string, string>();
+            m_clickableURL = new List<string>();
         }
 
         #region Component Designer generated code
@@ -269,7 +272,7 @@ namespace Waveface.DetailUI
 
             _html += MyParent.GenCommentHTML(Post);
 
-            _html = HtmlUtility.MakeLink(_html);
+            _html = HtmlUtility.MakeLink(_html, m_clickableURL);
 
             _html = "<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>";
 

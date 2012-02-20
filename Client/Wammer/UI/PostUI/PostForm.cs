@@ -383,6 +383,12 @@ namespace Waveface
                 {
                     e.SuppressKeyPress = true;
                 }
+                else if (pureTextBox.CanPaste(DataFormats.GetFormat(DataFormats.Text)))
+                {
+                    pureTextBox.Paste(DataFormats.GetFormat(DataFormats.Text));
+                    CheckWebPreview();
+                    e.SuppressKeyPress = true;
+                }
             }
         }
 
@@ -425,7 +431,7 @@ namespace Waveface
                 try
                 {
                     _mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
-                 
+
                     _isOK = (_mrPreviewsGetAdv != null) &&
                             (_mrPreviewsGetAdv.preview != null) &&
                             (_mrPreviewsGetAdv.preview.images != null);

@@ -1,8 +1,10 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
@@ -23,6 +25,8 @@ namespace Waveface.DetailUI
         private bool m_showCancelledNavigationMessage;
         private WebBrowser webBrowser;
         private bool m_addedLinkClickEventHandler;
+        private List<string> m_clickableURL;
+        private bool m_canOpenNewWindow;
 
         public Post Post
         {
@@ -46,6 +50,8 @@ namespace Waveface.DetailUI
         public WebLink_DV()
         {
             InitializeComponent();
+
+            m_clickableURL = new List<string>();
         }
 
         protected override void Dispose(bool disposing)
@@ -145,7 +151,7 @@ namespace Waveface.DetailUI
 
             _htmlMainAndComment += MyParent.GenCommentHTML(Post);
 
-            _htmlMainAndComment = HtmlUtility.MakeLink(_htmlMainAndComment);
+            _htmlMainAndComment = HtmlUtility.MakeLink(_htmlMainAndComment, m_clickableURL);
 
             if (Post.preview.url != null)
             {
@@ -201,11 +207,30 @@ namespace Waveface.DetailUI
             m_soulBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowser, miCopySoul);
             contextMenuStrip.Opening += contextMenuStrip_Opening;
             miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
-            webBrowser.Document.ContextMenuShowing += webBrowser_ContextMenuShowing;        
+            webBrowser.Document.ContextMenuShowing += webBrowser_ContextMenuShowing;
         }
 
         private void LinkClick(object sender, EventArgs e)
         {
+            string _text1 = string.Empty;
+            string _text2 = string.Empty;
+
+            string _text = ((HtmlElement)sender).OuterHtml;
+            Regex _r = new Regex(HtmlUtility.URL_RegExp_Pattern, RegexOptions.None);
+
+            MatchCollection _ms = _r.Matches(_text);
+
+            if (_ms.Count > 0)
+                _text1 = _ms[0].Value;
+
+            if (_ms.Count > 1)
+                _text2 = _ms[1].Value;
+
+            if (m_clickableURL.Contains(_text1) || m_clickableURL.Contains(_text2))
+                m_canOpenNewWindow = true;
+            else
+                m_canOpenNewWindow = false;
+
             m_showCancelledNavigationMessage = true;
 
             // MessageBox.Show("Link Was Clicked Navigation was Cancelled", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -223,7 +248,8 @@ namespace Waveface.DetailUI
 
         private void webBrowser_NewWindow(object sender, CancelEventArgs e)
         {
-            e.Cancel = true;
+            if (!m_canOpenNewWindow)
+                e.Cancel = true;
         }
 
         void contextMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -234,6 +260,7 @@ namespace Waveface.DetailUI
         void webBrowser_ContextMenuShowing(object sender, HtmlElementEventArgs e)
         {
             contextMenuStrip.Show(webBrowser.PointToScreen(e.MousePosition));
+
             e.ReturnValue = false;
         }
     }
