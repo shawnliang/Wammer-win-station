@@ -268,7 +268,7 @@ namespace Waveface
             {
                 try
                 {
-                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(pureTextBox.Text, "", "", "text");
+                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(pureTextBox.Text), "", "", "text");
 
                     if (_np == null)
                     {

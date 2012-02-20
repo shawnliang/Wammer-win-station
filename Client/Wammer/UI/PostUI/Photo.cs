@@ -169,7 +169,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.pureTextBox.Text, files, "", _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text), files, "", _type);
 
                 if (_np == null)
                 {
@@ -218,7 +218,7 @@ namespace Waveface.PostUI
 
             NewPostItem _newPostItem = new NewPostItem();
             _newPostItem.PostType = PostType.Photo;
-            _newPostItem.Text = MyParent.pureTextBox.Text;
+            _newPostItem.Text = StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text);
             _newPostItem.ResizeRatio = toolStripComboBoxResize.Text;
             _newPostItem.OrgPostTime = DateTime.Now;
 

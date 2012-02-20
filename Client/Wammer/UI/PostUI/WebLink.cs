@@ -94,7 +94,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.pureTextBox.Text, "", previews, _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text), "", previews, _type);
 
                 if (_np == null)
                 {

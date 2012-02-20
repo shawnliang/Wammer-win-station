@@ -89,11 +89,12 @@ namespace Waveface.DetailUI
             this.panelMain.Controls.Add(this.webBrowser);
             this.panelMain.Name = "panelMain";
             // 
-            // webBrowserSoul
+            // webBrowser
             // 
             resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 18);
             this.webBrowser.Name = "webBrowser";
+            this.webBrowser.ScriptErrorsSuppressed = true;
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
             this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating);
             this.webBrowser.NewWindow += new System.ComponentModel.CancelEventHandler(this.webBrowser_NewWindow);
@@ -102,7 +103,7 @@ namespace Waveface.DetailUI
             // 
             this.cultureManager.ManagedControl = this;
             // 
-            // contextMenuStripSoul
+            // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopySoul});
