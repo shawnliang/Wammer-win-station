@@ -182,6 +182,11 @@ namespace Waveface.DetailUI
                 _htmlMainAndComment = _htmlMainAndComment.Replace("[PriviewLink]", _p.url);
                 _htmlMainAndComment = _htmlMainAndComment.Replace("[PriviewLink2]", StringUtility.ExtractDomainNameFromURL(_p.url));
                 _htmlMainAndComment = _htmlMainAndComment.Replace("[PriviewText]", _p.description);
+
+                if (!m_clickableURL.Contains(_p.url))
+                {
+                    m_clickableURL.Add(_p.url);
+                }
             }
 
             string _minimaxJS = Properties.Resources.minmax;

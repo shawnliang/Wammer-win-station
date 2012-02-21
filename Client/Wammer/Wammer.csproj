@@ -730,6 +730,9 @@
     <EmbeddedResource Include="UI\DetailUI\SlideShowForm.resx">
       <DependentUpon>SlideShowForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\SlideShowForm.zh-TW.resx">
+      <DependentUpon>SlideShowForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\WebLink_DV.resx">
       <DependentUpon>WebLink_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
