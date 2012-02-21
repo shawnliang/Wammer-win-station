@@ -93,7 +93,6 @@ namespace Waveface
 
         public void Thumbnail_EventHandler(ImageItem item)
         {
-
             RefreshUI();
         }
 
@@ -275,8 +274,9 @@ namespace Waveface
 
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 12, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 20);
 
-            TextRenderer.DrawText(g, post.preview.title.Trim(), new Font("Arial", 10, FontStyle.Bold), _rectAll, Color.FromArgb(23, 53, 93),
-                 TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+            if(!string.IsNullOrEmpty(post.preview.title))
+                TextRenderer.DrawText(g, post.preview.title.Trim(), new Font("Arial", 10, FontStyle.Bold), _rectAll, Color.FromArgb(23, 53, 93),
+                    TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
         private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, Font fontText, int thumbnailRectWidth, bool selected)

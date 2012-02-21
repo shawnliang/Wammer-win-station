@@ -38,7 +38,8 @@ namespace Waveface
                 }
             }
 
-            return _r.Replace(txt, "<a href=\"$1\" target=\"&#95;blank\">$1</a>").Replace("href=\"www", "href=\"http://www").Replace("href=\"WWW", "href=\"http://www");
+            txt = _r.Replace(txt, "<a href=\"$1\" target=\"&#95;blank\">$1</a>");
+            return Regex.Replace(txt, "href=\"www", "href=\"http://www", RegexOptions.IgnoreCase);
         }
 
         public static string RemoveClassTag(string html)
