@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
+using System.Web;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component.PopupControl;
@@ -391,7 +392,8 @@ namespace Waveface
 
                 k++;
 
-                string _content = _c.content.Replace(Environment.NewLine, "<BR>");
+                string _content = HttpUtility.HtmlEncode(_c.content);
+                _content = _content.Replace(Environment.NewLine, "<BR>");
                 _content = _content.Replace("\n", "<BR>");
                 _content = _content.Replace("\r", "<BR>");
 

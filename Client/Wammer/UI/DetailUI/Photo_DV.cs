@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text;
+using System.Web;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using NLog;
@@ -264,7 +265,8 @@ namespace Waveface.DetailUI
 
             string _html = _sb.ToString();
 
-            string _content = Post.content.Replace(Environment.NewLine, "<BR>");
+            string _content = HttpUtility.HtmlEncode(Post.content);
+            _content = _content.Replace(Environment.NewLine, "<BR>");
             _content = _content.Replace("\n", "<BR>");
             _content = _content.Replace("\r", "<BR>");
 

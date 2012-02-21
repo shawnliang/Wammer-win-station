@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
@@ -97,10 +98,13 @@ namespace Waveface.DetailUI
             // 
             // webBrowser
             // 
+            this.webBrowser.AllowWebBrowserDrop = false;
+            this.webBrowser.CausesValidation = false;
             resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 18);
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.ScriptErrorsSuppressed = true;
+            this.webBrowser.WebBrowserShortcutsEnabled = false;
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
             this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating);
             this.webBrowser.NewWindow += new System.ComponentModel.CancelEventHandler(this.webBrowser_NewWindow);
@@ -143,7 +147,8 @@ namespace Waveface.DetailUI
 
             string _htmlMainAndComment = _sb.ToString();
 
-            string _content = Post.content.Replace(Environment.NewLine, "<BR>");
+            string _content = HttpUtility.HtmlEncode(Post.content);
+            _content = _content.Replace(Environment.NewLine, "<BR>");
             _content = _content.Replace("\n", "<BR>");
             _content = _content.Replace("\r", "<BR>");
 

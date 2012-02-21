@@ -29,6 +29,7 @@ namespace Waveface
         private FormattingRule m_linkFormattingRule;
         private FormSettings m_formSettings;
         private bool m_getPreviewNow;
+        private string m_lastPreviewURL = string.Empty;
 
         public NewPostItem NewPostItem { get; set; }
 
@@ -415,10 +416,13 @@ namespace Waveface
 
             foreach (string _url in m_parsedURLs)
             {
-                if (k > 0)
+                if (k > 0) //Only First Item
                     break;
 
                 k++;
+
+                if (_url == m_lastPreviewURL)
+                    break;
 
                 if (m_parsedErrorURLs.Contains(_url))
                     continue;
@@ -446,6 +450,9 @@ namespace Waveface
                 if (_isOK)
                 {
                     showWebLinkPreview(_mrPreviewsGetAdv);
+                    
+                    m_lastPreviewURL = _url;
+
                     break;
                 }
                 else
