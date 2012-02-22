@@ -69,7 +69,7 @@ namespace Waveface
         private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
         private NewPostManager m_newPostManager;
         private StationState m_stationState;
-        private Post m_loadingAllPhotosPost;
+        private bool m_getAllDataError;
 
         #endregion
 
@@ -1329,7 +1329,20 @@ namespace Waveface
             Dictionary<string, Post> _allPosts = new Dictionary<string, Post>();
             string _datum = string.Empty;
 
-            MR_posts_getLatest _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+            MR_posts_getLatest _getLatest = null;
+
+            try
+            {
+                _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+            }
+            catch
+            {
+                //Hack: Cloud ¦R¥X¿ù»~¸ê®Æ
+                
+                ForceLogout();
+                m_getAllDataError = true;
+                return;
+            }
 
             if (_getLatest != null)
             {
@@ -1363,10 +1376,6 @@ namespace Waveface
 
                             _remainingCount = _postsGet.remaining_count;
                         }
-                        else
-                        {
-                            ForceLogout();
-                        }
                     }
                 }
             }
@@ -1395,11 +1404,18 @@ namespace Waveface
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Cursor = Cursors.Default;
+            if (m_getAllDataError)
+            {
+                m_getAllDataError = false;
+            }
+            else
+            {
+                Cursor = Cursors.Default;
 
-            postsArea.updateRefreshUI(true);
+                postsArea.updateRefreshUI(true);
 
-            GetLastReadAndShow();
+                GetLastReadAndShow();
+            }
         }
 
         #endregion

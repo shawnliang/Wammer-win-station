@@ -36,5 +36,16 @@ namespace Waveface
 
             base.WndProc(ref m);
         }
+
+        private void textBoxComment_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                if (textBoxComment.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
+                {
+                    e.SuppressKeyPress = true;
+                }
+            }
+        }
     }
 }
