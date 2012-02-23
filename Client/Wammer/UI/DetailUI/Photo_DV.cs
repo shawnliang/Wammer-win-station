@@ -345,7 +345,7 @@ namespace Waveface.DetailUI
                 }
             }
 
-            timer.Interval = ((m_imageAttachments.Count / 200) + 2) * 1000;
+            timer.Interval = ((m_imageAttachments.Count / 200) + 3) * 1000;
 
             if (!FillImageListView(true))
                 timer.Enabled = true;
@@ -355,8 +355,6 @@ namespace Waveface.DetailUI
         private void timer_Tick(object sender, EventArgs e)
         {
             FillImageListView(false);
-
-            Application.DoEvents();
         }
 
         private bool FillImageListView(bool firstTime)
@@ -403,29 +401,31 @@ namespace Waveface.DetailUI
 
             imageListView.SuspendLayout();
 
-            if (firstTime)
-            {
-                for (int i = 0; i < m_imageAttachments.Count; i++)
-                {
-                    imageListView.Items.Add(Main.Current.LoadingImagePath);
-                    imageListView.Items[i].Tag = i.ToString();
-                }
-            }
-
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
                 if (File.Exists(m_filePathMediums[i]))
                 {
-                    imageListView.Items[i].FileName = m_filePathMediums[i];
+                    if (firstTime)
+                        imageListView.Items.Add(m_filePathMediums[i]);
+                    else
+                        imageListView.Items[i].FileName = m_filePathMediums[i];
+
                     imageListView.Items[i].Tag = i.ToString();
 
                     k++;
+
+                    continue;
                 }
+
+                if (firstTime)
+                    imageListView.Items.Add(Main.Current.LoadingImagePath);
+                else
+                    imageListView.Items[i].FileName = Main.Current.LoadingImagePath;
+
+                imageListView.Items[i].Tag = i.ToString();
             }
 
             imageListView.ResumeLayout();
-
-            Application.DoEvents();
 
             labelPictureInfo.Text = "[" + k + "/" + m_imageAttachments.Count + "]";
 
