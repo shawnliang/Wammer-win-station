@@ -403,28 +403,24 @@ namespace Waveface.DetailUI
 
             imageListView.SuspendLayout();
 
+            if (firstTime)
+            {
+                for (int i = 0; i < m_imageAttachments.Count; i++)
+                {
+                    imageListView.Items.Add(Main.Current.LoadingImagePath);
+                    imageListView.Items[i].Tag = i.ToString();
+                }
+            }
+
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
                 if (File.Exists(m_filePathMediums[i]))
                 {
-                    if (firstTime)
-                        imageListView.Items.Add(m_filePathMediums[i]);
-                    else
-                        imageListView.Items[i].FileName = m_filePathMediums[i];
-
+                    imageListView.Items[i].FileName = m_filePathMediums[i];
                     imageListView.Items[i].Tag = i.ToString();
 
                     k++;
-
-                    continue;
                 }
-
-                if (firstTime)
-                    imageListView.Items.Add(Main.Current.LoadingImagePath);
-                else
-                    imageListView.Items[i].FileName = Main.Current.LoadingImagePath;
-
-                imageListView.Items[i].Tag = i.ToString();
             }
 
             imageListView.ResumeLayout();
