@@ -89,6 +89,7 @@
     <Compile Include="JsonFormatTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBypassHttpHandler.cs" />
+    <Compile Include="TestMQPersistence.cs" />
     <Compile Include="TestGenerateMultipart.cs" />
     <Compile Include="TestHttpServer.cs" />
     <Compile Include="TestImagePostProcessing.cs" />

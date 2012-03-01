@@ -4,13 +4,22 @@ using System.Text;
 
 namespace Wammer.Queue
 {
+
+	public interface IPersistentStore
+	{
+		WMSQueue TryLoadQueue(string qname);
+	}
+
 	public class WMSBroker
 	{
-		private Dictionary<String, WMSQueue> queues;
+		private Dictionary<String, WMSQueue> queues = new Dictionary<string, WMSQueue>();
 
 		public WMSBroker()
 		{
-			queues = new Dictionary<string, WMSQueue>();
+		}
+
+		public WMSBroker(IPersistentStore persistentStore)
+		{
 		}
 
 		public WMSQueue GetQueue(string name)
@@ -78,6 +87,18 @@ namespace Wammer.Queue
 		public WMSMessage()
 		{
 			Id = Guid.NewGuid();
+		}
+		
+		public WMSMessage(object data)
+		{
+			Id = Guid.NewGuid();
+			this.Data = data;
+		}
+
+		public WMSMessage(Guid id, object data)
+		{
+			this.Id = id;
+			this.Data = data;
 		}
 
 		public void Acknowledge()

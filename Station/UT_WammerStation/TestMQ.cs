@@ -129,7 +129,8 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void TestQueuePushDoesNotAcceptNull()
 		{
-			WMSQueue q = new WMSQueue();
+			WMSBroker qMgr = new WMSBroker();
+			WMSQueue q = qMgr.GetQueue("name");
 			q.Push(null);
 		}
 	}
