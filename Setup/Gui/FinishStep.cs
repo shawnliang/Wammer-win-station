@@ -24,6 +24,11 @@ namespace Gui
 
 		private void FinishStep_Finish(object sender, ChangeStepEventArgs e)
 		{
+			if (mode == InstallationMode.Install ||
+				mode == InstallationMode.Upgrade)
+			{
+				StartStationUIExe();
+			}
 		}
 
 		private void FinishStep_Entering(object sender, ChangeStepEventArgs e)
@@ -32,43 +37,14 @@ namespace Gui
 			{
 				label_Hint.Hide();
 			}
-			else if (mode == InstallationMode.Install)
-			{
-				StartStationUIExe();
-
-				Wizard.Finish();
-			}
-			else if (mode == InstallationMode.Upgrade ||
-				mode == InstallationMode.Reinstall)
-			{
-				StartStationUIExe();
-
-				try
-				{
-					if (!Migration.DriverRegistered())
-					{
-						Wizard.Finish();
-					}
-				}
-				catch (Exception)
-				{
-					// skip mongodb connection force closed exception
-				}
-			}
 		}
 
 		private static void StartStationUIExe()
 		{
 			string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-			string stationUI = Path.Combine(installDir, "StationUI.exe");
-			using (Process p = new Process())
-			{
-				p.StartInfo = new ProcessStartInfo(stationUI);
-				// Installer is run as admistrator but we don't want stationUI inherits such 
-				// privillege. So we specify "RunAsUser" below.
-				p.StartInfo.Verb = "runasuser";
-				p.Start();
-			}
+			string stationUI = Path.Combine(installDir, "stationUI.exe");
+
+			UACHelper.CreateProcessAsStandardUser(stationUI, "");
 		}
 	}
 }
