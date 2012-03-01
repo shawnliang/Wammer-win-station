@@ -10,20 +10,11 @@ namespace Gui
 	public partial class FinishStep : ModernInfoStep
 	{
 		private InstallationMode mode;
-		private FeatureSelectionStep featureStep;
 
 		public FinishStep(InstallationMode mode)
 		{
 			InitializeComponent();
 			this.mode = mode;
-			this.featureStep = null;
-		}
-
-		public FinishStep(InstallationMode mode, FeatureSelectionStep featureStep)
-		{
-			InitializeComponent();
-			this.mode = mode;
-			this.featureStep = featureStep;
 		}
 
 		private void FinishStep_Entered(object sender, EventArgs e)
@@ -41,23 +32,16 @@ namespace Gui
 			{
 				label_Hint.Hide();
 			}
-			else if (mode == InstallationMode.Install &&
-				featureStep != null &&
-				featureStep.SelectedFeature == FeatureSet.StationAndClient)
+			else if (mode == InstallationMode.Install)
 			{
-				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-				string stationUI = Path.Combine(installDir, "StationUI.exe");
-				Process.Start(stationUI).Close();
+				StartStationUIExe();
 
 				Wizard.Finish();
 			}
-			else if (mode == InstallationMode.Upgrade &&
-				featureStep != null &&
-				featureStep.SelectedFeature == FeatureSet.StationAndClient)
+			else if (mode == InstallationMode.Upgrade ||
+				mode == InstallationMode.Reinstall)
 			{
-				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-				string stationUI = Path.Combine(installDir, "StationUI.exe");
-				Process.Start(stationUI).Close();
+				StartStationUIExe();
 
 				try
 				{
@@ -71,23 +55,19 @@ namespace Gui
 					// skip mongodb connection force closed exception
 				}
 			}
-			else if (mode == InstallationMode.Reinstall && Migration.HasFeaure("MainFeature"))
-			{
-				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-				string stationUI = Path.Combine(installDir, "StationUI.exe");
-				Process.Start(stationUI).Close();
+		}
 
-				try
-				{
-					if (!Migration.DriverRegistered())
-					{
-						Wizard.Finish();
-					}
-				}
-				catch (Exception)
-				{
-					// skip mongodb connection force closed exception
-				}
+		private static void StartStationUIExe()
+		{
+			string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
+			string stationUI = Path.Combine(installDir, "StationUI.exe");
+			using (Process p = new Process())
+			{
+				p.StartInfo = new ProcessStartInfo(stationUI);
+				// Installer is run as admistrator but we don't want stationUI inherits such 
+				// privillege. So we specify "RunAsUser" below.
+				p.StartInfo.Verb = "runasuser";
+				p.Start();
 			}
 		}
 	}

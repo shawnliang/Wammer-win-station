@@ -106,17 +106,7 @@
             <Shortcut Id="Desktop.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
                   WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
           </Component>
-
-          <!-- for client only client -->
-          <Component Id="pmd_client" Guid="{C2757ED7-6129-4A3C-A21A-B577DDAED7CF}">
-            <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
-            <RemoveFolder Id="ProgramMenuDirRF_client" On="uninstall" />
-            <Shortcut Id="ProgMenu.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
-            <Shortcut Id="Desktop.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
-          </Component>
-          
+         
         </Directory>
       </Directory>
       <Directory Id="DesktopFolder" Name="Desktop" />
@@ -396,7 +386,6 @@
     
     <Feature Id='ClientFeature' Level='100' Title='Waveface client only'>
       <ComponentGroupRef Id='Wammer.Client'/>
-      <ComponentRef Id="pmd_client"/>
       <ComponentRef Id="CultureSetting"/>
     </Feature>
 
