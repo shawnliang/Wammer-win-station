@@ -358,30 +358,6 @@
     <Compile Include="Data\PostType.cs" />
     <Compile Include="Data\I18n.cs" />
     <Compile Include="Libs\Utility\OsUtility.cs" />
-    <Compile Include="Test\Group And User\Password.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\Group And User\Password.Designer.cs">
-      <DependentUpon>Password.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test\Group And User\SelectKickUser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\Group And User\SelectKickUser.Designer.cs">
-      <DependentUpon>SelectKickUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test\Group And User\CreateGroup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\Group And User\CreateGroup.Designer.cs">
-      <DependentUpon>CreateGroup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test\Group And User\SelectInviteUser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\Group And User\SelectInviteUser.Designer.cs">
-      <DependentUpon>SelectInviteUser.cs</DependentUpon>
-    </Compile>
     <Compile Include="Libs\Utility\HtmlUtility.cs" />
     <Compile Include="Libs\Utility\TabOrderManager.cs" />
     <Compile Include="Component\TaskbarNotifier\MyTaskbarNotifier.cs">
@@ -395,12 +371,6 @@
     </Compile>
     <Compile Include="Component\XPButton.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Test\Group And User\GroupManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\Group And User\GroupManager.Designer.cs">
-      <DependentUpon>GroupManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Libs\Diagnostics\CrashReporter.cs">
       <SubType>Form</SubType>
@@ -417,19 +387,7 @@
     <Compile Include="Libs\Utility\WebPostHelper.cs" />
     <Compile Include="REST\WService.cs" />
     <Compile Include="REST\WData.cs" />
-    <Compile Include="Test\Group And User\Signup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\Group And User\Signup.Designer.cs">
-      <DependentUpon>Signup.cs</DependentUpon>
-    </Compile>
     <Compile Include="Data\RunTime.cs" />
-    <Compile Include="Test\TestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\TestForm.Designer.cs">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\DetailUI\RichText_DV.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -680,29 +638,11 @@
     <EmbeddedResource Include="Main.zh-TW.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Test\Group And User\Password.resx">
-      <DependentUpon>Password.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\Group And User\SelectKickUser.resx">
-      <DependentUpon>SelectKickUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\Group And User\CreateGroup.resx">
-      <DependentUpon>CreateGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\Group And User\GroupManager.resx">
-      <DependentUpon>GroupManager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\Group And User\SelectInviteUser.resx">
-      <DependentUpon>SelectInviteUser.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Libs\Diagnostics\CrashReporter.resx">
       <DependentUpon>CrashReporter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subs\ImageCapture\CaptureForm.resx">
       <DependentUpon>CaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\TestForm.resx">
-      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\BgPanel.resx">
       <DependentUpon>BgPanel.cs</DependentUpon>
