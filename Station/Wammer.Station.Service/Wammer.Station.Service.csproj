@@ -142,6 +142,7 @@
     <Compile Include="Station\CloudStorageSync.cs" />
     <Compile Include="Station\DropboxFileStorage.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
+    <Compile Include="Station\ListDriverHandler.cs" />
     <Compile Include="Station\PingHandler.cs" />
     <Compile Include="Station\PublicPortMapping.cs" />
     <Compile Include="Station\RemoveOwnerHandler.cs" />
