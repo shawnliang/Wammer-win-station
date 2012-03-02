@@ -43,9 +43,9 @@ namespace Wammer.Station
 
 			try
 			{
-				AddUserResult result = StationController.AddUser(email, password);
+				StationController.AddUser(email, password);
 
-				DropboxInstallAndLink(email, password, result);
+				DropboxInstallAndLink(email, password);
 
 				Close();
 			}
@@ -73,9 +73,9 @@ namespace Wammer.Station
 						Cursor = Cursors.WaitCursor;
 
 						StationController.SignoffStation(_e.Id, textBoxMail.Text, textBoxPassword.Text);
-						AddUserResult result = StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
-						result.has_old_station = true;
-						DropboxInstallAndLink(textBoxMail.Text, textBoxPassword.Text, result);
+						StationController.AddUser(textBoxMail.Text, textBoxPassword.Text);
+						
+						DropboxInstallAndLink(textBoxMail.Text, textBoxPassword.Text);
 
 						Close();
 					}
@@ -109,11 +109,11 @@ namespace Wammer.Station
 			}
 		}
 
-		private void DropboxInstallAndLink(string email, string password, AddUserResult userInfo)
+		private void DropboxInstallAndLink(string email, string password)
 		{
 			Hide();
 
-			DropboxForm _dropboxForm = new DropboxForm(email, password, userInfo);
+			DropboxForm _dropboxForm = new DropboxForm(email, password);
 			_dropboxForm.ShowDialog();
 		}
 

@@ -41,7 +41,6 @@ namespace UT_WammerStation
         #endregion
 
         static MongoServer mongodb;
-        HttpServer funcServer;
         AddDriverHandler handler;
 
         [ClassInitialize()]
@@ -53,8 +52,7 @@ namespace UT_WammerStation
         [TestInitialize]
         public void setUp()
         {
-            funcServer = new HttpServer(9981);
-            handler = new AddDriverHandler("stationId", "resource", funcServer, new StationTimer(funcServer));
+            handler = new AddDriverHandler("stationId", "resource");
             Server.AddHandler("/v2/station/drivers/add/", handler);
             Server.Start();
 

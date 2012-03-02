@@ -147,7 +147,7 @@ namespace Wammer.Station.Management
 		/// <exception cref="Wammer.Station.Management.ConnectToCloudException">
 		/// Unable to connect to waveface cloud, network down?
 		/// </exception>
-		public static AddUserResult AddUser(string email, string password)
+		public static void AddUser(string email, string password)
 		{
 			try
 			{
@@ -158,8 +158,6 @@ namespace Wammer.Station.Management
 					{ "email", email},
 					{ "password", password}
 				});
-
-				return new AddUserResult();
 			}
 			catch (Cloud.WammerCloudException e)
 			{
@@ -935,9 +933,4 @@ namespace Wammer.Station.Management
 		public long used { get; set; }
 	}
 
-	public class AddUserResult
-	{
-		public string session_token { get; set; }
-		public bool has_old_station { get; set; }
-	}
 }

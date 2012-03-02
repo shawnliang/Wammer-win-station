@@ -20,10 +20,6 @@ namespace Wammer.Station
 		private readonly string stationId;
 		private readonly string resourceBasePath;
 
-        //Larry 2012/03/01 Mark, function server control by admin panel
-        //private readonly HttpServer functionServer;
-        //private readonly StationTimer stationTimer;
-
 		private const int ERR_USER_HAS_ANOTHER_STATION = 16387;
 		private const int ERR_BAD_NAME_PASSWORD = 4097;
 
@@ -35,15 +31,6 @@ namespace Wammer.Station
 			this.resourceBasePath = resourceBasePath;
 		}
 
-		public AddDriverHandler(string stationId, string resourceBasePath, HttpServer functionServer, StationTimer stationTimer)
-		{
-			this.stationId = stationId;
-			this.resourceBasePath = resourceBasePath;
-
-            //Larry 2012/03/01 Mark, function server control by admin panel
-            //this.functionServer = functionServer;
-            //this.stationTimer = stationTimer;
-		}
 
 		protected override void HandleRequest()
 		{
@@ -52,10 +39,6 @@ namespace Wammer.Station
 
 			if (email == null || password == null)
 				throw new FormatException("Parameter email or password is missing");
-
-            //Larry 2012/03/01 Mark, accept service multiple user
-            //if (DriverCollection.Instance.FindOne() != null)
-            //    throw new WammerStationException("Already has a driver", (int)StationApiError.DriverExist);
 
 			using (WebClient agent = new WebClient())
 			{
@@ -69,13 +52,6 @@ namespace Wammer.Station
 					if (!isDriverExists)
 						stationToken = SignUpStation(email, password, agent);
 					
-                    //Larry 2012/03/01 Mark
-                    //logger.Debug("Station logon successfully, start function server");
-                    //functionServer.BlockAuth(false);
-                    //functionServer.Start();
-                    //stationTimer.Start();
-                    //WriteOnlineStateToDB();
-
 					User user = User.LogIn(agent, email, password);
 					driver = new Driver
 					{
@@ -141,17 +117,6 @@ namespace Wammer.Station
 			if (handler != null)
 				handler(this, args);
 		}
-
-        //Larry 2012/03/02 Mark, multiple user use the same service
-        //private static void WriteOnlineStateToDB()
-        //{
-        //    Model.Service svc = new Model.Service 
-        //    {
-        //        Id = "StationService",
-        //        State = ServiceState.Online
-        //    };
-        //    ServiceCollection.Instance.Save(svc);
-        //}
 
 		public override object Clone()
 		{
