@@ -10,20 +10,11 @@ namespace Gui
 	public partial class FinishStep : ModernInfoStep
 	{
 		private InstallationMode mode;
-		private FeatureSelectionStep featureStep;
 
 		public FinishStep(InstallationMode mode)
 		{
 			InitializeComponent();
 			this.mode = mode;
-			this.featureStep = null;
-		}
-
-		public FinishStep(InstallationMode mode, FeatureSelectionStep featureStep)
-		{
-			InitializeComponent();
-			this.mode = mode;
-			this.featureStep = featureStep;
 		}
 
 		private void FinishStep_Entered(object sender, EventArgs e)
@@ -33,6 +24,11 @@ namespace Gui
 
 		private void FinishStep_Finish(object sender, ChangeStepEventArgs e)
 		{
+			if (mode == InstallationMode.Install ||
+				mode == InstallationMode.Upgrade)
+			{
+				StartStationUIExe();
+			}
 		}
 
 		private void FinishStep_Entering(object sender, ChangeStepEventArgs e)
@@ -41,54 +37,14 @@ namespace Gui
 			{
 				label_Hint.Hide();
 			}
-			else if (mode == InstallationMode.Install &&
-				featureStep != null &&
-				featureStep.SelectedFeature == FeatureSet.StationAndClient)
-			{
-				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-				string stationUI = Path.Combine(installDir, "StationUI.exe");
-				Process.Start(stationUI).Close();
+		}
 
-				Wizard.Finish();
-			}
-			else if (mode == InstallationMode.Upgrade &&
-				featureStep != null &&
-				featureStep.SelectedFeature == FeatureSet.StationAndClient)
-			{
-				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-				string stationUI = Path.Combine(installDir, "StationUI.exe");
-				Process.Start(stationUI).Close();
+		private static void StartStationUIExe()
+		{
+			string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
+			string stationUI = Path.Combine(installDir, "stationUI.exe");
 
-				try
-				{
-					if (!Migration.DriverRegistered())
-					{
-						Wizard.Finish();
-					}
-				}
-				catch (Exception)
-				{
-					// skip mongodb connection force closed exception
-				}
-			}
-			else if (mode == InstallationMode.Reinstall && Migration.HasFeaure("MainFeature"))
-			{
-				string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-				string stationUI = Path.Combine(installDir, "StationUI.exe");
-				Process.Start(stationUI).Close();
-
-				try
-				{
-					if (!Migration.DriverRegistered())
-					{
-						Wizard.Finish();
-					}
-				}
-				catch (Exception)
-				{
-					// skip mongodb connection force closed exception
-				}
-			}
+			UACHelper.CreateProcessAsStandardUser(stationUI, "");
 		}
 	}
 }

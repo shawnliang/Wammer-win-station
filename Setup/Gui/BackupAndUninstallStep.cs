@@ -24,6 +24,7 @@ namespace Gui
 		{
 			Wizard.BackButton.Enabled = false;
 			Wizard.NextButton.Enabled = false;
+			Wizard.CancelButton.Enabled = false;
 
 			ipProgress.StartListening();
 			try
