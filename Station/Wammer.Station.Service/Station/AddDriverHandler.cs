@@ -53,10 +53,6 @@ namespace Wammer.Station
 			if (email == null || password == null)
 				throw new FormatException("Parameter email or password is missing");
 
-            Driver driver = Model.DriverCollection.Instance.FindOne(Query.EQ("email", email));
-            if(driver != null)
-                throw new WammerStationException("Already has the same driver", (int)StationApiError.DriverExist);
-
             //Larry 2012/03/01 Mark, accept service multiple user
             //if (DriverCollection.Instance.FindOne() != null)
             //    throw new WammerStationException("Already has a driver", (int)StationApiError.DriverExist);
@@ -65,7 +61,13 @@ namespace Wammer.Station
 			{
 				try
 				{
-					string stationToken = SignUpStation(email, password, agent);
+					string stationToken = string.Empty;
+					Driver driver = Model.DriverCollection.Instance.FindOne(Query.EQ("email", email));
+					Boolean isDriverExists = driver != null;
+
+
+					if (!isDriverExists)
+						stationToken = SignUpStation(email, password, agent);
 					
                     //Larry 2012/03/01 Mark
                     //logger.Debug("Station logon successfully, start function server");
@@ -84,6 +86,12 @@ namespace Wammer.Station
 						session_token = user.Token
 					};
 
+					if (isDriverExists)
+					{
+						RespondSuccess(new AddUserResponse());
+						return;
+					}
+
 					DriverCollection.Instance.Save(driver);
 
 					StationCollection.Instance.Save(
@@ -98,7 +106,7 @@ namespace Wammer.Station
 
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
-					RespondSuccess(new AddUserResponse(stationToken));
+					RespondSuccess(new AddUserResponse());
 				}
 				catch (WammerCloudException ex)
 				{
@@ -155,17 +163,11 @@ namespace Wammer.Station
 	public class AddUserResponse : CloudResponse
 	{
 		public UserStation station { get; set; }
-		public string session_token { get; set; }
+
 
 		public AddUserResponse()
-			: base()
-		{
-		}
-
-		public AddUserResponse(string session_token)
 			: base(200, DateTime.UtcNow, 0, "success")
 		{
-			this.session_token = session_token;
 		}
 	}
 

@@ -82,7 +82,6 @@
   <ItemGroup>
     <Compile Include="TestAddDriver.cs" />
     <Compile Include="TestAddDriver_AddMoreUser.cs" />
-    <Compile Include="TestAddDriver_alreadyHasADriver.cs" />
     <Compile Include="TestAttachmentGet.cs" />
     <Compile Include="TestBsonHelper.cs" />
     <Compile Include="FakeClient.cs" />

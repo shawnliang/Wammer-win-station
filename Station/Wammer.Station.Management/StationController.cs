@@ -159,11 +159,7 @@ namespace Wammer.Station.Management
 					{ "password", password}
 				});
 
-				return new AddUserResult
-				{
-					session_token = res.session_token,
-					has_old_station = res.has_old_station
-				};
+				return new AddUserResult();
 			}
 			catch (Cloud.WammerCloudException e)
 			{

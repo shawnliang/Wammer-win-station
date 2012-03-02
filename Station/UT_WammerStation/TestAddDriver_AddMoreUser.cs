@@ -83,22 +83,45 @@ namespace UT_WammerStation
         {
             Server.Close();
 
-            if (Directory.Exists(@"C:\TempUT"))
-                Directory.Delete(@"C:\TempUT", true);
+			if (Directory.Exists(@"C:\TempUT"))
+				Directory.Delete(@"C:\TempUT",true);
 
             mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
             mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(WammerCloudException))]
-        public void TestAddTheSameDriver()
-        {
-            CloudServer.request<CloudResponse>(new WebClient(), REST_COMMAND_ADD,
-                new Dictionary<object, object>{ 
-					{ "email", "exist@gmail.com"}, 
-					{ "password", "12345"} });
-        }
+		[TestMethod]
+		public void TestAddTheSameDriver()
+		{
+			UserLogInResponse res = new UserLogInResponse
+			{
+				api_ret_message = "success",
+				api_ret_code = 0,
+				session_token = "token2",
+				status = 200,
+				timestamp = DateTime.UtcNow,
+				groups = new List<UserGroup>{
+					new UserGroup {
+						creator_id = "creator1",
+						description = "gdesc1",
+						group_id = "group_id1",
+						name = "group1"				
+					}
+				},
+				user = new UserInfo { user_id = "uid1" }
+			};
+
+			using (FakeCloud cloud = new FakeCloud(res))
+			{
+				CloudServer.request<CloudResponse>(new WebClient(), REST_COMMAND_ADD,
+					new Dictionary<object, object>{ 
+		            { "email", "exist@gmail.com"}, 
+		            { "password", "12345"} });
+			}
+
+			Driver driver = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", "exist@gmail.com"));
+			Assert.IsNotNull(driver);
+		}
 
         [TestMethod]
         public void TestAddAnotherDriver()
