@@ -37,20 +37,23 @@ namespace Waveface
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.panelCustomFilter = new System.Windows.Forms.Panel();
+            this.tvCustomFilter = new System.Windows.Forms.TreeView();
+            this.imageListCustomFilter = new System.Windows.Forms.ImageList(this.components);
             this.panelTimeline = new System.Windows.Forms.Panel();
             this.panelCalendar = new System.Windows.Forms.Panel();
             this.monthCalendar = new CustomControls.MonthCalendar();
-            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             this.imageListLarge = new System.Windows.Forms.ImageList(this.components);
             this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
-            this.imageListCustomFilter = new System.Windows.Forms.ImageList(this.components);
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
+            this.tvTimeline = new System.Windows.Forms.TreeView();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
             this.panelFilter.SuspendLayout();
             this.panelCustomFilter.SuspendLayout();
+            this.panelTimeline.SuspendLayout();
             this.panelCalendar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,12 +98,27 @@ namespace Waveface
             // 
             // panelCustomFilter
             // 
+            this.panelCustomFilter.Controls.Add(this.tvCustomFilter);
             resources.ApplyResources(this.panelCustomFilter, "panelCustomFilter");
             this.panelCustomFilter.Name = "panelCustomFilter";
+            // 
+            // tvCustomFilter
+            // 
+            resources.ApplyResources(this.tvCustomFilter, "tvCustomFilter");
+            this.tvCustomFilter.ImageList = this.imageListCustomFilter;
+            this.tvCustomFilter.Name = "tvCustomFilter";
+            // 
+            // imageListCustomFilter
+            // 
+            this.imageListCustomFilter.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListCustomFilter.ImageStream")));
+            this.imageListCustomFilter.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListCustomFilter.Images.SetKeyName(0, "bullet_wrench.png");
+            this.imageListCustomFilter.Images.SetKeyName(1, "bullet_orange.png");
             // 
             // panelTimeline
             // 
             this.panelTimeline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelTimeline.Controls.Add(this.tvTimeline);
             resources.ApplyResources(this.panelTimeline, "panelTimeline");
             this.panelTimeline.Name = "panelTimeline";
             // 
@@ -131,6 +149,29 @@ namespace Waveface
             this.monthCalendar.UseShortestDayNames = true;
             this.monthCalendar.DateClicked += new System.EventHandler<CustomControls.DateEventArgs>(this.monthCalendar_DateClicked);
             // 
+            // imageListLarge
+            // 
+            this.imageListLarge.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListLarge.ImageStream")));
+            this.imageListLarge.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListLarge.Images.SetKeyName(0, "image.png");
+            // 
+            // imageListSmall
+            // 
+            this.imageListSmall.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListSmall.ImageStream")));
+            this.imageListSmall.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListSmall.Images.SetKeyName(0, "image.png");
+            // 
+            // imageListTimeline
+            // 
+            this.imageListTimeline.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTimeline.ImageStream")));
+            this.imageListTimeline.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTimeline.Images.SetKeyName(0, "AllTime.png");
+            this.imageListTimeline.Images.SetKeyName(1, "Month.png");
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
             // vsNetListBarGroups
             // 
             this.vsNetListBarGroups.AllowDragGroups = true;
@@ -144,35 +185,11 @@ namespace Waveface
             this.vsNetListBarGroups.SmallImageList = this.imageListSmall;
             this.vsNetListBarGroups.ToolTip = null;
             // 
-            // imageListLarge
+            // tvTimeline
             // 
-            this.imageListLarge.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListLarge.ImageStream")));
-            this.imageListLarge.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListLarge.Images.SetKeyName(0, "image.png");
-            // 
-            // imageListSmall
-            // 
-            this.imageListSmall.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListSmall.ImageStream")));
-            this.imageListSmall.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListSmall.Images.SetKeyName(0, "image.png");
-            // 
-            // imageListCustomFilter
-            // 
-            this.imageListCustomFilter.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListCustomFilter.ImageStream")));
-            this.imageListCustomFilter.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListCustomFilter.Images.SetKeyName(0, "bullet_wrench.png");
-            this.imageListCustomFilter.Images.SetKeyName(1, "bullet_orange.png");
-            // 
-            // imageListTimeline
-            // 
-            this.imageListTimeline.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTimeline.ImageStream")));
-            this.imageListTimeline.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListTimeline.Images.SetKeyName(0, "AllTime.png");
-            this.imageListTimeline.Images.SetKeyName(1, "Month.png");
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
+            resources.ApplyResources(this.tvTimeline, "tvTimeline");
+            this.tvTimeline.ImageList = this.imageListCustomFilter;
+            this.tvTimeline.Name = "tvTimeline";
             // 
             // LeftArea
             // 
@@ -183,11 +200,13 @@ namespace Waveface
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelBottom);
             this.Name = "LeftArea";
+            this.Resize += new System.EventHandler(this.LeftArea_Resize);
             this.panelBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).EndInit();
             this.panelMain.ResumeLayout(false);
             this.panelFilter.ResumeLayout(false);
             this.panelCustomFilter.ResumeLayout(false);
+            this.panelTimeline.ResumeLayout(false);
             this.panelCalendar.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -209,6 +228,8 @@ namespace Waveface
         private System.Windows.Forms.Panel panelTimeline;
         private CustomControls.MonthCalendar monthCalendar;
         private Localization.CultureManager cultureManager;
+        private System.Windows.Forms.TreeView tvCustomFilter;
+        private System.Windows.Forms.TreeView tvTimeline;
 
     }
 }

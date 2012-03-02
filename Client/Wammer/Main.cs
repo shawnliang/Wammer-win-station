@@ -13,7 +13,6 @@ using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Component.PopupControl;
-using Waveface.Component;
 using Waveface.Component.DropableNotifyIcon;
 using Waveface.Configuration;
 using Waveface.FilterUI;
@@ -627,7 +626,6 @@ namespace Waveface
 
             StartBgThreads();
 
-            leftArea.SetUI(true);
             leftArea.SetNewPostManager();
 
             postsArea.showRefreshUI(true);
@@ -969,6 +967,8 @@ namespace Waveface
                 List<Post> _posts = RT.CurrentGroupPosts;
 
                 setCalendarBoldedDates(_posts);
+
+                leftArea.SetUI(true);
 
                 int _index = RT.GetMyTimelinePosition(showTimelineIndexType);
 

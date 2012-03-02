@@ -11,10 +11,7 @@ namespace Waveface.FilterUI
         {
             MR_fetchfilters_list _list = Main.Current.RT.REST.SearchFilters_List();
 
-            if (_list == null)
-                return null;
-            else
-                return _list.fetch_filters;
+            return (_list == null) ? null : _list.fetch_filters;
         }
 
         #region TimeRangeFilter
