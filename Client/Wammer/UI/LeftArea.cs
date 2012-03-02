@@ -156,8 +156,8 @@ namespace Waveface
 
                 FilterItem _item = new FilterItem();
                 _item.Name = _m;
-                //_item.Filter = FilterHelper.GetTimeRangeFilterJson(_from, _to, -10, "[type]", "[offset]"); //@
-                _item.Filter = FilterHelper.GetTimeStampFilterJson(_to, -20, "[type]", "[offset]");
+                _item.Filter = FilterHelper.GetTimeRangeFilterJson(_from, _to, -100, "[type]", "[offset]");
+                //_item.Filter = FilterHelper.GetTimeStampFilterJson(_to, -20, "[type]", "[offset]");
 
                 m_monthFilters.Add(_item);
 
@@ -470,6 +470,26 @@ namespace Waveface
         {
             if (m_buttonAddNewFilter != null)
                 m_buttonAddNewFilter.Width = Width - 8;
+        }
+
+        private void tvTimeline_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Action == TreeViewAction.ByMouse)
+            {
+                FilterItem _item = (FilterItem)e.Node.Tag;
+
+                Main.Current.DoTimelineFilter(_item, true);
+            }
+        }
+
+        private void tvCustomFilter_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Action == TreeViewAction.ByMouse)
+            {
+                FilterItem _item = (FilterItem)e.Node.Tag;
+
+                Main.Current.DoTimelineFilter(_item, false);
+            }
         }
     }
 }

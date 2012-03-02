@@ -744,7 +744,7 @@ namespace Waveface
 
         private void FilterFetchPostsAndShow(bool firstTime)
         {
-            if (RT.FilterPostsAllCount == RT.FilterPosts.Count)
+            if ((RT.FilterPostsAllCount != 0) && (RT.FilterPostsAllCount == RT.FilterPosts.Count))
                 return;
 
             int _offset = RT.FilterPosts.Count;

@@ -36,7 +36,9 @@ namespace Waveface
 
         public string GetPostType()
         {
-            return m_types[comboBoxType.SelectedIndex];
+            return "all"; //@
+
+            //@ return m_types[comboBoxType.SelectedIndex];
         }
 
         public string GetPostTypeText()

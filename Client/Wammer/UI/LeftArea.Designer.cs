@@ -40,14 +40,14 @@ namespace Waveface
             this.tvCustomFilter = new System.Windows.Forms.TreeView();
             this.imageListCustomFilter = new System.Windows.Forms.ImageList(this.components);
             this.panelTimeline = new System.Windows.Forms.Panel();
+            this.tvTimeline = new System.Windows.Forms.TreeView();
             this.panelCalendar = new System.Windows.Forms.Panel();
             this.monthCalendar = new CustomControls.MonthCalendar();
+            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             this.imageListLarge = new System.Windows.Forms.ImageList(this.components);
             this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
-            this.tvTimeline = new System.Windows.Forms.TreeView();
             this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
@@ -107,6 +107,7 @@ namespace Waveface
             resources.ApplyResources(this.tvCustomFilter, "tvCustomFilter");
             this.tvCustomFilter.ImageList = this.imageListCustomFilter;
             this.tvCustomFilter.Name = "tvCustomFilter";
+            this.tvCustomFilter.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvCustomFilter_AfterSelect);
             // 
             // imageListCustomFilter
             // 
@@ -121,6 +122,13 @@ namespace Waveface
             this.panelTimeline.Controls.Add(this.tvTimeline);
             resources.ApplyResources(this.panelTimeline, "panelTimeline");
             this.panelTimeline.Name = "panelTimeline";
+            // 
+            // tvTimeline
+            // 
+            resources.ApplyResources(this.tvTimeline, "tvTimeline");
+            this.tvTimeline.ImageList = this.imageListCustomFilter;
+            this.tvTimeline.Name = "tvTimeline";
+            this.tvTimeline.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvTimeline_AfterSelect);
             // 
             // panelCalendar
             // 
@@ -149,6 +157,19 @@ namespace Waveface
             this.monthCalendar.UseShortestDayNames = true;
             this.monthCalendar.DateClicked += new System.EventHandler<CustomControls.DateEventArgs>(this.monthCalendar_DateClicked);
             // 
+            // vsNetListBarGroups
+            // 
+            this.vsNetListBarGroups.AllowDragGroups = true;
+            this.vsNetListBarGroups.AllowDragItems = true;
+            this.vsNetListBarGroups.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            resources.ApplyResources(this.vsNetListBarGroups, "vsNetListBarGroups");
+            this.vsNetListBarGroups.DrawStyle = Waveface.Component.ListBarControl.ListBarDrawStyle.ListBarDrawStyleNormal;
+            this.vsNetListBarGroups.LargeImageList = this.imageListLarge;
+            this.vsNetListBarGroups.Name = "vsNetListBarGroups";
+            this.vsNetListBarGroups.SelectOnMouseDown = true;
+            this.vsNetListBarGroups.SmallImageList = this.imageListSmall;
+            this.vsNetListBarGroups.ToolTip = null;
+            // 
             // imageListLarge
             // 
             this.imageListLarge.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListLarge.ImageStream")));
@@ -171,25 +192,6 @@ namespace Waveface
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
-            // 
-            // vsNetListBarGroups
-            // 
-            this.vsNetListBarGroups.AllowDragGroups = true;
-            this.vsNetListBarGroups.AllowDragItems = true;
-            this.vsNetListBarGroups.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            resources.ApplyResources(this.vsNetListBarGroups, "vsNetListBarGroups");
-            this.vsNetListBarGroups.DrawStyle = Waveface.Component.ListBarControl.ListBarDrawStyle.ListBarDrawStyleNormal;
-            this.vsNetListBarGroups.LargeImageList = this.imageListLarge;
-            this.vsNetListBarGroups.Name = "vsNetListBarGroups";
-            this.vsNetListBarGroups.SelectOnMouseDown = true;
-            this.vsNetListBarGroups.SmallImageList = this.imageListSmall;
-            this.vsNetListBarGroups.ToolTip = null;
-            // 
-            // tvTimeline
-            // 
-            resources.ApplyResources(this.tvTimeline, "tvTimeline");
-            this.tvTimeline.ImageList = this.imageListCustomFilter;
-            this.tvTimeline.Name = "tvTimeline";
             // 
             // LeftArea
             // 
