@@ -53,6 +53,7 @@ namespace Wammer.Station
 					return ActionResult.Success;
 				}
 
+                //TODO: no user id can get
 				Wammer.Cloud.StationApi.SignOff(new WebClient(), station.Id, station.SessionToken);
 				Logger.Info("Sign off station success");
 				return ActionResult.Success;

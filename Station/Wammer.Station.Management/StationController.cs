@@ -147,7 +147,7 @@ namespace Wammer.Station.Management
 		/// <exception cref="Wammer.Station.Management.ConnectToCloudException">
 		/// Unable to connect to waveface cloud, network down?
 		/// </exception>
-		public static AddUserResult AddUser(string email, string password)
+		public static void AddUser(string email, string password)
 		{
 			try
 			{
@@ -158,12 +158,6 @@ namespace Wammer.Station.Management
 					{ "email", email},
 					{ "password", password}
 				});
-
-				return new AddUserResult
-				{
-					session_token = res.session_token,
-					has_old_station = res.has_old_station
-				};
 			}
 			catch (Cloud.WammerCloudException e)
 			{
@@ -207,7 +201,7 @@ namespace Wammer.Station.Management
 			using (WebClient agent = new WebClient())
 			{
 				User user = User.LogIn(agent, driverEmail, password);
-				Cloud.StationApi.SignOff(agent, stationId, user.Token);
+				Cloud.StationApi.SignOff(agent, stationId, user.Token, user.Id);
 			}
 		}
 
@@ -455,17 +449,23 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		public static void RemoveOwner(string stationSessionToken)
+		public static void RemoveOwner(string userId)
 		{
 			try
 			{
+				Model.Driver driver = Model.DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
+				if (driver == null)
+					throw new UserDoesNotExistException("driver " + userId + " does not exist");
+
+
 				CloudServer.request<CloudResponse>(
 					new WebClient(),
 					StationMgmtURL + "station/drivers/remove",
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-						{CloudServer.PARAM_SESSION_TOKEN, stationSessionToken}
+						{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+						{CloudServer.PARAM_USER_ID, userId},
 					}
 				);
 			}
@@ -939,9 +939,4 @@ namespace Wammer.Station.Management
 		public long used { get; set; }
 	}
 
-	public class AddUserResult
-	{
-		public string session_token { get; set; }
-		public bool has_old_station { get; set; }
-	}
 }
