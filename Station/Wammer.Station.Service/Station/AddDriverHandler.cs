@@ -59,7 +59,8 @@ namespace Wammer.Station
 						folder = Path.Combine(resourceBasePath, "user_" + user.Id),
 						user_id = user.Id,
 						groups = user.Groups,
-						session_token = user.Token
+						session_token = user.Token,
+						isPrimaryStation = (user.Stations == null || user.Stations.Count == 0)
 					};
 
 					if (isDriverExists)

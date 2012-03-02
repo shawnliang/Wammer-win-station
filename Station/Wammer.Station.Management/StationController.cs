@@ -449,17 +449,23 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		public static void RemoveOwner(string stationSessionToken)
+		public static void RemoveOwner(string userId)
 		{
 			try
 			{
+				Model.Driver driver = Model.DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
+				if (driver == null)
+					throw new UserDoesNotExistException("driver " + userId + " does not exist");
+
+
 				CloudServer.request<CloudResponse>(
 					new WebClient(),
 					StationMgmtURL + "station/drivers/remove",
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-						{CloudServer.PARAM_SESSION_TOKEN, stationSessionToken}
+						{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+						{CloudServer.PARAM_USER_ID, userId},
 					}
 				);
 			}

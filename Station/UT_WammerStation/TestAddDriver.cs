@@ -87,7 +87,7 @@ namespace UT_WammerStation
 						name = "group1"				
 					}
 				},
-				user = new UserInfo { user_id = "uid1" }
+				user = new UserInfo { user_id = "uid1"}
 			};
 
 			StationLogOnResponse res3 = new StationLogOnResponse(200, DateTime.UtcNow, "token3");
@@ -111,6 +111,7 @@ namespace UT_WammerStation
 		        Assert.AreEqual("user1@gmail.com", driver.email);
 		        Assert.AreEqual(@"resource\user_uid1", driver.folder);
 		        Assert.AreEqual(res2.user.user_id, driver.user_id);
+				Assert.IsTrue(driver.isPrimaryStation);
 		        Assert.AreEqual(1, driver.groups.Count);
 				Assert.AreEqual(res2.session_token, driver.session_token);
 		        Assert.AreEqual(res2.groups[0].group_id, driver.groups[0].group_id);
@@ -122,6 +123,77 @@ namespace UT_WammerStation
 				Assert.IsNotNull(s);
 				Assert.AreEqual("token3", s.SessionToken);
 		    }
+		}
+
+
+
+		[TestMethod]
+		public void TestAddADriver_SecondaryStation()
+		{
+			StationSignUpResponse res1 = new StationSignUpResponse
+			{
+				api_ret_code = 0,
+				api_ret_message = "success",
+				session_token = "token1",
+				status = 200,
+				timestamp = DateTime.UtcNow
+			};
+
+			UserLogInResponse res2 = new UserLogInResponse
+			{
+				api_ret_message = "success",
+				api_ret_code = 0,
+				session_token = "token2",
+				status = 200,
+				timestamp = DateTime.UtcNow,
+				groups = new List<UserGroup>{
+					new UserGroup {
+						creator_id = "creator1",
+						description = "gdesc1",
+						group_id = "group_id1",
+						name = "group1"				
+					}
+				},
+				user = new UserInfo { user_id = "uid1" },
+				stations = new List<UserStation>()
+				{
+					new UserStation() { station_id = "aabbcc" }
+				}
+			};
+
+			StationLogOnResponse res3 = new StationLogOnResponse(200, DateTime.UtcNow, "token3");
+			res3.api_ret_code = 0;
+
+			using (FakeCloud cloud = new FakeCloud(res1))
+			{
+				cloud.addJsonResponse(res3);
+				cloud.addJsonResponse(res2);
+				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/add",
+					new Dictionary<object, object>{ 
+					{ "email", "user1@gmail.com"}, 
+					{ "password", "12345"} });
+
+
+				// verify db
+				Driver driver = mongodb.GetDatabase("wammer").
+					GetCollection<Driver>("drivers").FindOne(
+					Query.EQ("email", "user1@gmail.com"));
+
+				Assert.AreEqual("user1@gmail.com", driver.email);
+				Assert.AreEqual(@"resource\user_uid1", driver.folder);
+				Assert.AreEqual(res2.user.user_id, driver.user_id);
+				Assert.IsFalse(driver.isPrimaryStation);
+				Assert.AreEqual(1, driver.groups.Count);
+				Assert.AreEqual(res2.session_token, driver.session_token);
+				Assert.AreEqual(res2.groups[0].group_id, driver.groups[0].group_id);
+				Assert.AreEqual(res2.groups[0].name, driver.groups[0].name);
+				Assert.AreEqual(res2.groups[0].description, driver.groups[0].description);
+
+				//verify station
+				Wammer.Model.StationInfo s = Wammer.Model.StationCollection.Instance.FindOne();
+				Assert.IsNotNull(s);
+				Assert.AreEqual("token3", s.SessionToken);
+			}
 		}
 
 		[TestMethod]
