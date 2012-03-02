@@ -366,8 +366,6 @@ namespace Waveface.DetailUI
                 if (File.Exists(m_filePathMediums[i]))
                 {
                     _count++;
-
-                    continue;
                 }
             }
 
@@ -381,7 +379,7 @@ namespace Waveface.DetailUI
                 return false;
             }
 
-            if (_count == m_imageAttachments.Count) // _orig 
+            if (_count == m_imageAttachments.Count)
             {
                 timer.Enabled = false;
 
@@ -434,7 +432,12 @@ namespace Waveface.DetailUI
 
             ReLayout();
 
-            return (k == m_imageAttachments.Count);
+            bool _flag = (k == m_imageAttachments.Count);
+
+            if (_flag)
+                MyParent.CanEdit = true;
+
+            return _flag;
         }
 
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)

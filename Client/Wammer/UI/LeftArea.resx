@@ -128,6 +128,9 @@
   <data name="pbDropArea.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 11.25pt</value>
   </data>
+  <data name="pbDropArea.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="pbDropArea.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -180,53 +183,87 @@
   <data name="&gt;&gt;panelBottom.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="taskPaneFilter.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="tvCustomFilter.ImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="taskPaneFilter.AutoScrollMargin" type="System.Drawing.Size, System.Drawing">
-    <value>12, 12</value>
+  <metadata name="imageListCustomFilter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>440, 17</value>
+  </metadata>
+  <data name="imageListCustomFilter.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAA0
+        CAAAAk1TRnQBSQFMAgEBAgEAAbQBAgG0AQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
+        AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
+        AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
+        AWYDAAGZAwABzAIAATMDAAIzAgABMwFmAgABMwGZAgABMwHMAgABMwH/AgABZgMAAWYBMwIAAmYCAAFm
+        AZkCAAFmAcwCAAFmAf8CAAGZAwABmQEzAgABmQFmAgACmQIAAZkBzAIAAZkB/wIAAcwDAAHMATMCAAHM
+        AWYCAAHMAZkCAALMAgABzAH/AgAB/wFmAgAB/wGZAgAB/wHMAQABMwH/AgAB/wEAATMBAAEzAQABZgEA
+        ATMBAAGZAQABMwEAAcwBAAEzAQAB/wEAAf8BMwIAAzMBAAIzAWYBAAIzAZkBAAIzAcwBAAIzAf8BAAEz
+        AWYCAAEzAWYBMwEAATMCZgEAATMBZgGZAQABMwFmAcwBAAEzAWYB/wEAATMBmQIAATMBmQEzAQABMwGZ
+        AWYBAAEzApkBAAEzAZkBzAEAATMBmQH/AQABMwHMAgABMwHMATMBAAEzAcwBZgEAATMBzAGZAQABMwLM
+        AQABMwHMAf8BAAEzAf8BMwEAATMB/wFmAQABMwH/AZkBAAEzAf8BzAEAATMC/wEAAWYDAAFmAQABMwEA
+        AWYBAAFmAQABZgEAAZkBAAFmAQABzAEAAWYBAAH/AQABZgEzAgABZgIzAQABZgEzAWYBAAFmATMBmQEA
+        AWYBMwHMAQABZgEzAf8BAAJmAgACZgEzAQADZgEAAmYBmQEAAmYBzAEAAWYBmQIAAWYBmQEzAQABZgGZ
+        AWYBAAFmApkBAAFmAZkBzAEAAWYBmQH/AQABZgHMAgABZgHMATMBAAFmAcwBmQEAAWYCzAEAAWYBzAH/
+        AQABZgH/AgABZgH/ATMBAAFmAf8BmQEAAWYB/wHMAQABzAEAAf8BAAH/AQABzAEAApkCAAGZATMBmQEA
+        AZkBAAGZAQABmQEAAcwBAAGZAwABmQIzAQABmQEAAWYBAAGZATMBzAEAAZkBAAH/AQABmQFmAgABmQFm
+        ATMBAAGZATMBZgEAAZkBZgGZAQABmQFmAcwBAAGZATMB/wEAApkBMwEAApkBZgEAA5kBAAKZAcwBAAKZ
+        Af8BAAGZAcwCAAGZAcwBMwEAAWYBzAFmAQABmQHMAZkBAAGZAswBAAGZAcwB/wEAAZkB/wIAAZkB/wEz
+        AQABmQHMAWYBAAGZAf8BmQEAAZkB/wHMAQABmQL/AQABzAMAAZkBAAEzAQABzAEAAWYBAAHMAQABmQEA
+        AcwBAAHMAQABmQEzAgABzAIzAQABzAEzAWYBAAHMATMBmQEAAcwBMwHMAQABzAEzAf8BAAHMAWYCAAHM
+        AWYBMwEAAZkCZgEAAcwBZgGZAQABzAFmAcwBAAGZAWYB/wEAAcwBmQIAAcwBmQEzAQABzAGZAWYBAAHM
+        ApkBAAHMAZkBzAEAAcwBmQH/AQACzAIAAswBMwEAAswBZgEAAswBmQEAA8wBAALMAf8BAAHMAf8CAAHM
+        Af8BMwEAAZkB/wFmAQABzAH/AZkBAAHMAf8BzAEAAcwC/wEAAcwBAAEzAQAB/wEAAWYBAAH/AQABmQEA
+        AcwBMwIAAf8CMwEAAf8BMwFmAQAB/wEzAZkBAAH/ATMBzAEAAf8BMwH/AQAB/wFmAgAB/wFmATMBAAHM
+        AmYBAAH/AWYBmQEAAf8BZgHMAQABzAFmAf8BAAH/AZkCAAH/AZkBMwEAAf8BmQFmAQAB/wKZAQAB/wGZ
+        AcwBAAH/AZkB/wEAAf8BzAIAAf8BzAEzAQAB/wHMAWYBAAH/AcwBmQEAAf8CzAEAAf8BzAH/AQAC/wEz
+        AQABzAH/AWYBAAL/AZkBAAL/AcwBAAJmAf8BAAFmAf8BZgEAAWYC/wEAAf8CZgEAAf8BZgH/AQAC/wFm
+        AQABIQEAAaUBAANfAQADdwEAA4YBAAOWAQADywEAA7IBAAPXAQAD3QEAA+MBAAPqAQAD8QEAA/gBAAHw
+        AfsB/wEAAaQCoAEAA4ADAAH/AgAB/wMAAv8BAAH/AwAB/wEAAf8BAAL/AgAD/8QAAfMCtAEJPAABtAIJ
+        AbQB3TsAAbQDCQG0AbwMAAH/ARoBUwFSARoB/ygAAfIBtQMJAbQMAAEaAXoCmgF6ARopAAHyAbUBCQG0
+        AbUBBwHyAfMB/wgAAXUBmgJ6AZoBUioAAfICtQHwAQcC9wGSAfIHAAF1ARoBmgF6AZoBUysAAf8B7wG8
+        AfABvAHwAQcB7QcAARoBmgIaAXoBGiwAAfMB7wHwAe8B7QEHAewHAAH/ARoCdQEaAf8sAAHzAe8B8gGS
+        AgcB8DkAAf8B7wHyAfABBzwAAfIB7wGSAfC0AAFCAU0BPgcAAT4DAAEoAwABQAMAARADAAEBAQABAQUA
+        AYAXAAP/AQAE/wQABP8EAAT/BAAB4QP/BAAB4AP/BAAB4AF/AfgBHwQAAeABfwH4AR8EAAHwAQcB+AEf
+        BAAB+AEDAfgBHwQAAfwBAwH4AR8EAAH+AQMB+AEfBAAB/gEDAv8EAAH+AQ8C/wQAAf8BDwL/BAAE/wQA
+        BP8EAAs=
+</value>
   </data>
-  <data name="taskPaneFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="tvCustomFilter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 26</value>
   </data>
-  <data name="taskPaneFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="tvCustomFilter.SelectedImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="taskPaneFilter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
+  <data name="tvCustomFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 116</value>
   </data>
-  <data name="taskPaneFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 232</value>
+  <data name="tvCustomFilter.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="taskPaneFilter.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="&gt;&gt;tvCustomFilter.Name" xml:space="preserve">
+    <value>tvCustomFilter</value>
   </data>
-  <data name="taskPaneFilter.Text" xml:space="preserve">
-    <value>Filter</value>
+  <data name="&gt;&gt;tvCustomFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="taskPaneFilter.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;taskPaneFilter.Name" xml:space="preserve">
-    <value>taskPaneFilter</value>
-  </data>
-  <data name="&gt;&gt;taskPaneFilter.Type" xml:space="preserve">
-    <value>XPExplorerBar.TaskPane, XPExplorerBar, Version=3.3.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;taskPaneFilter.Parent" xml:space="preserve">
+  <data name="&gt;&gt;tvCustomFilter.Parent" xml:space="preserve">
     <value>panelCustomFilter</value>
   </data>
-  <data name="&gt;&gt;taskPaneFilter.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;tvCustomFilter.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="panelCustomFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="panelCustomFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 41</value>
+    <value>0, 125</value>
   </data>
   <data name="panelCustomFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 232</value>
+    <value>193, 148</value>
   </data>
   <data name="panelCustomFilter.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -243,6 +280,33 @@
   <data name="&gt;&gt;panelCustomFilter.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="tvTimeline.ImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tvTimeline.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 4</value>
+  </data>
+  <data name="tvTimeline.SelectedImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tvTimeline.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 116</value>
+  </data>
+  <data name="tvTimeline.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tvTimeline.Name" xml:space="preserve">
+    <value>tvTimeline</value>
+  </data>
+  <data name="&gt;&gt;tvTimeline.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tvTimeline.Parent" xml:space="preserve">
+    <value>panelTimeline</value>
+  </data>
+  <data name="&gt;&gt;tvTimeline.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="panelTimeline.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
@@ -250,7 +314,7 @@
     <value>0, 0</value>
   </data>
   <data name="panelTimeline.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 41</value>
+    <value>193, 125</value>
   </data>
   <data name="panelTimeline.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -278,6 +342,9 @@
   </data>
   <data name="panelFilter.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
+  </data>
+  <data name="panelFilter.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;panelFilter.Name" xml:space="preserve">
     <value>panelFilter</value>
@@ -350,7 +417,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADy
-        FwAAAk1TRnQBSQFMAwEBAAFcAQUBXAEFASABAAEgAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABgAMA
+        FwAAAk1TRnQBSQFMAwEBAAGUAQUBlAEFASABAAEgAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABgAMA
         ASADAAEBAQABIAYAAUD/AP8A/wD/ABoAAxkBIwMtAUUDNAFUAzoBYgM/AW0DQwF4A0MBeANDAXgDQwF4
         A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4
         A0MBeANDAXgDOgFgAy4BSAMaAST/AI0AAy0BRQNKAYoCUgFRAacCWwFZAcMCYQFeAdoCXQFOAfACXQFO
@@ -469,7 +536,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACM
-        BgAAAk1TRnQBSQFMAwEBAAFkAQUBZAEFARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
+        BgAAAk1TRnQBSQFMAwEBAAGcAQUBnAEFARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
         ARADAAEBAQABIAYAARD/ABcAA0oBigJbAVkBwwJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJd
         AU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8ANMAZDIAAJhAVsB4QHuAewB6gH/AfcB8gHw
         Af8B+AHzAfAB/wH4AfMB7wH/AfcB8wHvAf8B9wHyAe8B/wH3AfIB7gH/AfcB8gHuAf8B9wHyAe4B/wH3
@@ -545,52 +612,6 @@
   <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="imageListCustomFilter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>440, 17</value>
-  </metadata>
-  <data name="imageListCustomFilter.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAA0
-        CAAAAk1TRnQBSQFMAgEBAgEAAXwBAgF8AQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
-        AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
-        AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
-        AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
-        AWYDAAGZAwABzAIAATMDAAIzAgABMwFmAgABMwGZAgABMwHMAgABMwH/AgABZgMAAWYBMwIAAmYCAAFm
-        AZkCAAFmAcwCAAFmAf8CAAGZAwABmQEzAgABmQFmAgACmQIAAZkBzAIAAZkB/wIAAcwDAAHMATMCAAHM
-        AWYCAAHMAZkCAALMAgABzAH/AgAB/wFmAgAB/wGZAgAB/wHMAQABMwH/AgAB/wEAATMBAAEzAQABZgEA
-        ATMBAAGZAQABMwEAAcwBAAEzAQAB/wEAAf8BMwIAAzMBAAIzAWYBAAIzAZkBAAIzAcwBAAIzAf8BAAEz
-        AWYCAAEzAWYBMwEAATMCZgEAATMBZgGZAQABMwFmAcwBAAEzAWYB/wEAATMBmQIAATMBmQEzAQABMwGZ
-        AWYBAAEzApkBAAEzAZkBzAEAATMBmQH/AQABMwHMAgABMwHMATMBAAEzAcwBZgEAATMBzAGZAQABMwLM
-        AQABMwHMAf8BAAEzAf8BMwEAATMB/wFmAQABMwH/AZkBAAEzAf8BzAEAATMC/wEAAWYDAAFmAQABMwEA
-        AWYBAAFmAQABZgEAAZkBAAFmAQABzAEAAWYBAAH/AQABZgEzAgABZgIzAQABZgEzAWYBAAFmATMBmQEA
-        AWYBMwHMAQABZgEzAf8BAAJmAgACZgEzAQADZgEAAmYBmQEAAmYBzAEAAWYBmQIAAWYBmQEzAQABZgGZ
-        AWYBAAFmApkBAAFmAZkBzAEAAWYBmQH/AQABZgHMAgABZgHMATMBAAFmAcwBmQEAAWYCzAEAAWYBzAH/
-        AQABZgH/AgABZgH/ATMBAAFmAf8BmQEAAWYB/wHMAQABzAEAAf8BAAH/AQABzAEAApkCAAGZATMBmQEA
-        AZkBAAGZAQABmQEAAcwBAAGZAwABmQIzAQABmQEAAWYBAAGZATMBzAEAAZkBAAH/AQABmQFmAgABmQFm
-        ATMBAAGZATMBZgEAAZkBZgGZAQABmQFmAcwBAAGZATMB/wEAApkBMwEAApkBZgEAA5kBAAKZAcwBAAKZ
-        Af8BAAGZAcwCAAGZAcwBMwEAAWYBzAFmAQABmQHMAZkBAAGZAswBAAGZAcwB/wEAAZkB/wIAAZkB/wEz
-        AQABmQHMAWYBAAGZAf8BmQEAAZkB/wHMAQABmQL/AQABzAMAAZkBAAEzAQABzAEAAWYBAAHMAQABmQEA
-        AcwBAAHMAQABmQEzAgABzAIzAQABzAEzAWYBAAHMATMBmQEAAcwBMwHMAQABzAEzAf8BAAHMAWYCAAHM
-        AWYBMwEAAZkCZgEAAcwBZgGZAQABzAFmAcwBAAGZAWYB/wEAAcwBmQIAAcwBmQEzAQABzAGZAWYBAAHM
-        ApkBAAHMAZkBzAEAAcwBmQH/AQACzAIAAswBMwEAAswBZgEAAswBmQEAA8wBAALMAf8BAAHMAf8CAAHM
-        Af8BMwEAAZkB/wFmAQABzAH/AZkBAAHMAf8BzAEAAcwC/wEAAcwBAAEzAQAB/wEAAWYBAAH/AQABmQEA
-        AcwBMwIAAf8CMwEAAf8BMwFmAQAB/wEzAZkBAAH/ATMBzAEAAf8BMwH/AQAB/wFmAgAB/wFmATMBAAHM
-        AmYBAAH/AWYBmQEAAf8BZgHMAQABzAFmAf8BAAH/AZkCAAH/AZkBMwEAAf8BmQFmAQAB/wKZAQAB/wGZ
-        AcwBAAH/AZkB/wEAAf8BzAIAAf8BzAEzAQAB/wHMAWYBAAH/AcwBmQEAAf8CzAEAAf8BzAH/AQAC/wEz
-        AQABzAH/AWYBAAL/AZkBAAL/AcwBAAJmAf8BAAFmAf8BZgEAAWYC/wEAAf8CZgEAAf8BZgH/AQAC/wFm
-        AQABIQEAAaUBAANfAQADdwEAA4YBAAOWAQADywEAA7IBAAPXAQAD3QEAA+MBAAPqAQAD8QEAA/gBAAHw
-        AfsB/wEAAaQCoAEAA4ADAAH/AgAB/wMAAv8BAAH/AwAB/wEAAf8BAAL/AgAD/8QAAfMCtAEJPAABtAIJ
-        AbQB3TsAAbQDCQG0AbwMAAH/ARoBUwFSARoB/ygAAfIBtQMJAbQMAAEaAXoCmgF6ARopAAHyAbUBCQG0
-        AbUBBwHyAfMB/wgAAXUBmgJ6AZoBUioAAfICtQHwAQcC9wGSAfIHAAF1ARoBmgF6AZoBUysAAf8B7wG8
-        AfABvAHwAQcB7QcAARoBmgIaAXoBGiwAAfMB7wHwAe8B7QEHAewHAAH/ARoCdQEaAf8sAAHzAe8B8gGS
-        AgcB8DkAAf8B7wHyAfABBzwAAfIB7wGSAfC0AAFCAU0BPgcAAT4DAAEoAwABQAMAARADAAEBAQABAQUA
-        AYAXAAP/AQAE/wQABP8EAAT/BAAB4QP/BAAB4AP/BAAB4AF/AfgBHwQAAeABfwH4AR8EAAHwAQcB+AEf
-        BAAB+AEDAfgBHwQAAfwBAwH4AR8EAAH+AQMB+AEfBAAB/gEDAv8EAAH+AQ8C/wQAAf8BDwL/BAAE/wQA
-        BP8EAAs=
-</value>
-  </data>
   <metadata name="imageListTimeline.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>621, 17</value>
   </metadata>
@@ -599,7 +620,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADo
-        CAAAAk1TRnQBSQFMAgEBAgEAAZwBAgGcAQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAdQBAgHUAQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -658,6 +679,12 @@
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>193, 652</value>
   </data>
+  <data name="&gt;&gt;imageListCustomFilter.Name" xml:space="preserve">
+    <value>imageListCustomFilter</value>
+  </data>
+  <data name="&gt;&gt;imageListCustomFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;imageListLarge.Name" xml:space="preserve">
     <value>imageListLarge</value>
   </data>
@@ -670,12 +697,6 @@
   <data name="&gt;&gt;imageListSmall.Type" xml:space="preserve">
     <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;imageListCustomFilter.Name" xml:space="preserve">
-    <value>imageListCustomFilter</value>
-  </data>
-  <data name="&gt;&gt;imageListCustomFilter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;imageListTimeline.Name" xml:space="preserve">
     <value>imageListTimeline</value>
   </data>
@@ -686,7 +707,7 @@
     <value>cultureManager</value>
   </data>
   <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, Waveface.Localization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>LeftArea</value>
