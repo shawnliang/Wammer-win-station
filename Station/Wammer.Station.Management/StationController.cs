@@ -207,7 +207,7 @@ namespace Wammer.Station.Management
 			using (WebClient agent = new WebClient())
 			{
 				User user = User.LogIn(agent, driverEmail, password);
-				Cloud.StationApi.SignOff(agent, stationId, user.Token);
+				Cloud.StationApi.SignOff(agent, stationId, user.Token, user.Id);
 			}
 		}
 

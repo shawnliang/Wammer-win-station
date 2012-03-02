@@ -89,27 +89,5 @@ namespace UT_WammerStation
 
 			Assert.Fail("expected exception is not thrown");
 		}
-
-		[TestMethod]
-		public void TestAlreadyHasAUser()
-		{
-			try
-			{
-				CloudServer.request<CloudResponse>(
-						new WebClient(),
-						"http://localhost:8080/v2/station/drivers/add",
-						new Dictionary<object, object>{ 
-							{ "email", "new_user@gmail.com"}, 
-							{ "password", "12345"} 
-						});
-			}
-			catch (WammerCloudException e)
-			{
-				Assert.AreEqual((int)StationApiError.DriverExist, e.WammerError);
-				return;
-			}
-
-			Assert.Fail("expected exception is not thrown");
-		}
 	}
 }

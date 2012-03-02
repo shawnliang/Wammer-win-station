@@ -162,50 +162,6 @@ namespace UT_WammerStation
 			}
 		}
 
-		[TestMethod]
-		public void TestAddADriver_AlreadyHasAStation()
-		{
-			StationSignUpResponse res1 = new StationSignUpResponse
-			{
-				api_ret_message = "fail",
-				api_ret_code = 16387, // already has station
-				timestamp = DateTime.UtcNow,
-				status = 400,
-				station = new UserStation
-				{
-					creator_id = Guid.NewGuid().ToString(),
-					location = "http://location.com/",
-					station_id = Guid.NewGuid().ToString(),
-					status = "connected",
-					LastSeen = DateTime.UtcNow
-				}
-			};
-
-			using (FakeCloud cloud = new FakeCloud(res1, res1.status))
-			{
-				try
-				{
-					CloudServer.request<CloudResponse>(
-						new WebClient(),
-						"http://localhost:8080/v2/station/drivers/add",
-						new Dictionary<object, object>{ 
-							{ "email", "user1@gmail.com"}, 
-							{ "password", "12345"} 
-						});
-				}
-				catch (WammerCloudException e)
-				{
-					Assert.AreEqual((int)StationApiError.AlreadyHasStaion, e.WammerError);
-					AddUserResponse res = fastJSON.JSON.Instance.ToObject<AddUserResponse>(e.response);
-					Assert.AreEqual(res1.station.station_id, res.station.station_id);
-					Assert.AreEqual(res1.station.location, res.station.location);
-					Assert.AreEqual(res1.station.last_seen, res.station.last_seen);
-					return;
-				}
-
-				Assert.Fail("Expected exception is not thrown");
-			}
-		}
 
 		[TestMethod]
 		public void TestAddADriver_UpgradeStation()
