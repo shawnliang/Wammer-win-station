@@ -33,7 +33,6 @@ namespace Waveface
 
         private FormSettings m_formSettings;
         private string m_savePassword = "";
-        private ProgramSetting m_programSetting;
 
         #region Properties
 
@@ -67,10 +66,13 @@ namespace Waveface
 
         #endregion
 
-        public LoginForm(ProgramSetting programSetting, string email, string password)
+        public LoginForm()
         {
-            m_programSetting = programSetting;
+            InitializeComponent();  
+        }
 
+        public LoginForm(string email, string password)
+        {
             InitializeComponent();
 
             m_savePassword = password;
@@ -81,6 +83,8 @@ namespace Waveface
             m_formSettings = new FormSettings(this);
             m_formSettings.UseSize = false;
             m_formSettings.SaveOnClose = true;
+            Opacity = 0;
+            Visible = false;
         }
 
         protected override void Dispose(bool disposing)
@@ -202,6 +206,7 @@ namespace Waveface
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.Load += new System.EventHandler(this.LoginForm_Load);
+            this.Shown += new System.EventHandler(this.LoginForm_Shown);
             this.DoubleClick += new System.EventHandler(this.LoginForm_DoubleClick);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -213,21 +218,6 @@ namespace Waveface
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            if ((txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty))
-            {
-                doLogin(txtUserName.Text, txtPassword.Text);
-                return;
-            }
-
-            RememberPassword = m_programSetting.RememberPassword;
-
-            if (m_programSetting.RememberPassword && (txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty))
-            {
-                Application.DoEvents();
-
-                doLogin(txtUserName.Text, txtPassword.Text);
-            }
-
             if (txtUserName.Text == string.Empty)
             {
                 txtUserName.Focus();
@@ -291,13 +281,6 @@ namespace Waveface
             {
                 Cursor = Cursors.Default;
 
-                m_programSetting.RememberPassword = RememberPassword;
-                m_programSetting.Email = email;
-                if (RememberPassword)
-                {
-                    m_programSetting.EncryptedPassword = password;
-                }
-                m_programSetting.Save();
 
                 Hide();
 
@@ -344,8 +327,6 @@ namespace Waveface
 
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            m_programSetting.RememberPassword = RememberPassword;
-            m_programSetting.Save();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -394,5 +375,15 @@ namespace Waveface
         }
 
         #endregion
+
+        private void LoginForm_Shown(object sender, EventArgs e)
+        {
+            if ((txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty))
+            {
+                Visible = false;
+                doLogin(txtUserName.Text, txtPassword.Text);
+                return;
+            }
+        }
     }
 }

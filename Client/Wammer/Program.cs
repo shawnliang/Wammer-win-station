@@ -69,40 +69,18 @@ namespace Waveface
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                ProgramSetting _settings = new ProgramSetting();
-                if (!_settings.IsUpgraded)
-                {
-                    _settings.Upgrade();
-                    _settings.IsUpgraded = true;
-
-                    // convert old plain text password to encrypted one
-                    if (!String.IsNullOrEmpty(_settings.Password))
-                    {
-                        _settings.EncryptedPassword = _settings.Password;
-                        _settings.Password = "";
-                    }
-
-                    _settings.Save();
-                }
-
                 LoginForm _loginForm;
 
-                if (args.Length == 3)
+                if (args.Length == 2)
                 {
                     string _email = args[0];
                     string _password = args[1];
-                    string _token = args[2];
 
-                    _settings.Email = _email;
-                    _settings.EncryptedPassword = _password;
-                    _settings.StationToken = _token;
-                    _settings.Save();
-
-                    _loginForm = new LoginForm(_settings, _email, _password);
+                    _loginForm = new LoginForm(_email, _password);
                 }
                 else
                 {
-                    _loginForm = new LoginForm(_settings, _settings.Email, _settings.EncryptedPassword);
+                    _loginForm = new LoginForm();
                 }
 
                 #region force window to have focus
