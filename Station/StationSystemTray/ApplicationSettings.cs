@@ -43,4 +43,59 @@ namespace StationSystemTray
 		public string Password { get; set; }
 		public bool RememberPassword { get; set; }
 	}
+
+	public class UserLoginSettingContainer
+	{
+		private ApplicationSettings settings;
+
+		public UserLoginSettingContainer(ApplicationSettings settings)
+		{
+			this.settings = settings;
+		}
+
+		public void AddUserLoginSetting(UserLoginSetting userlogin)
+		{
+			settings.Users.Add(userlogin);
+			settings.LastLogin = userlogin.Email;
+			settings.Save();
+		}
+
+		public void UpdateUserLoginSetting(UserLoginSetting userlogin)
+		{
+			foreach (UserLoginSetting oldUserlogin in settings.Users)
+			{
+				if (oldUserlogin.Email == userlogin.Email)
+				{
+					oldUserlogin.Password = userlogin.Password;
+					oldUserlogin.RememberPassword = userlogin.RememberPassword;
+				}
+			}
+			settings.LastLogin = userlogin.Email;
+			settings.Save();
+		}
+
+		public UserLoginSetting GetUserLogin(string email)
+		{
+			foreach (UserLoginSetting userlogin in settings.Users)
+			{
+				if (userlogin.Email.ToLower() == email.ToLower())
+				{
+					return userlogin;
+				}
+			}
+			return null;
+		}
+
+		public UserLoginSetting GetLastUserLogin()
+		{
+			foreach (UserLoginSetting userlogin in settings.Users)
+			{
+				if (userlogin.Email == settings.LastLogin)
+				{
+					return userlogin;
+				}
+			}
+			return null;
+		}
+	}
 }

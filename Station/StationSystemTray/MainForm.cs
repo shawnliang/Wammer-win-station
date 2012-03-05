@@ -25,7 +25,7 @@ namespace StationSystemTray
 	{
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
-		private ApplicationSettings settings;
+		private UserLoginSettingContainer userloginContainer;
 		private bool formCloseEnabled;
 		private Messenger messenger;
 		private PauseServiceUIController uictrlPauseService;
@@ -57,7 +57,7 @@ namespace StationSystemTray
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
 
-			this.settings = new ApplicationSettings();
+			this.userloginContainer = new UserLoginSettingContainer(new ApplicationSettings());
 			this.formCloseEnabled = false;
 
 			Type type = this.GetType();
@@ -88,47 +88,27 @@ namespace StationSystemTray
 			this.menuPreference.Text = I18n.L.T("WFPreference");
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
-			
-			ListDriverResponse res = StationController.ListUser();
-
-			foreach (UserLoginSetting userlogin in settings.Users)
-			{
-				foreach (Driver driver in res.drivers)
-				{
-					if (userlogin.Email == driver.email)
-					{
-						cmbEmail.Items.Add(userlogin.Email);
-						if (settings.LastLogin == userlogin.Email)
-						{
-							cmbEmail.Text = userlogin.Email;
-							if (userlogin.RememberPassword)
-							{
-								txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
-							}
-						}
-					}
-				}
-			}
-
-			if (string.IsNullOrEmpty(cmbEmail.Text))
-			{
-				cmbEmail.Focus();
-			}
-			else if (string.IsNullOrEmpty(txtPassword.Text))
-			{
-				txtPassword.Focus();
-			}
-			else
-			{
-				btnSignIn.Focus();
-			}
 
 			this.checkStationTimer.Enabled = true;
 			this.checkStationTimer.Start();
 
 			CurrentState.Onlining();
 
-			base.OnLoad(e);
+			InitEmailList();
+			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+		}
+
+		private void InitEmailList()
+		{
+			ListDriverResponse res = StationController.ListUser();
+			foreach (Driver driver in res.drivers)
+			{
+				UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
+				if (userlogin != null)
+				{
+					cmbEmail.Items.Add(userlogin.Email);
+				}
+			}
 		}
 
 		private void PauseServiceUICallback(object sender, SimpleEventArgs evt)
@@ -548,6 +528,54 @@ namespace StationSystemTray
 			Application.Exit();
 		}
 
+		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
+		{
+			tabControl.SelectedTab = tabpage;
+
+			if (tabpage == tabSignIn)
+			{
+				if (userlogin == null)
+				{
+					cmbEmail.SelectedItem = string.Empty;
+					txtPassword.Text = string.Empty;
+					chkRememberPassword.Checked = false;
+				}
+				else
+				{
+					cmbEmail.SelectedItem = userlogin.Email;
+					if (userlogin.RememberPassword)
+					{
+						txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
+					}
+					else
+					{
+						txtPassword.Text = string.Empty;
+					}
+					chkRememberPassword.Checked = userlogin.RememberPassword;
+				}
+
+				if (cmbEmail.SelectedItem == null)
+				{
+					cmbEmail.Select();
+				}
+				else if (string.IsNullOrEmpty(txtPassword.Text))
+				{
+					txtPassword.Select();
+				}
+				else
+				{
+					btnSignIn.Select();
+				}
+
+				this.AcceptButton = btnSignIn;
+			}
+			else if (tabpage == tabMainStationSetup)
+			{
+				btnOK.Focus();
+				this.AcceptButton = btnOK;
+			}
+		}
+
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (!formCloseEnabled)
@@ -576,105 +604,56 @@ namespace StationSystemTray
 				return;
 			}
 
-			foreach (UserLoginSetting userlogin in settings.Users)
-			{
-				if (cmbEmail.Text.ToLower() == userlogin.Email.ToLower())
-				{
-					StationController.StationOnline(cmbEmail.Text.ToLower(), txtPassword.Text);
-					LaunchWavefaceClient(cmbEmail.Text.ToLower(), txtPassword.Text);
-					Close();
-					return;
-				}
-			}
-
-			AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, chkRememberPassword.Checked);
-
-			return;
-		}
-
-		private void AddUser(string email, string password, bool remember)
-		{
-			Cursor = Cursors.WaitCursor;
-
 			try
 			{
-				StationController.AddUser(email, password);
-
-				settings.Users.Add(new UserLoginSetting { 
-					Email = email, 
-					Password = SecurityHelper.EncryptPassword(password), 
-					RememberPassword = remember
-				});
-				settings.LastLogin = email;
-				settings.Save();
-
-				Cursor = Cursors.Default;
-
-				this.tabControl.SelectedTab = this.tabMainStationSetup;
-				this.AcceptButton = this.btnOK;
-			}
-			catch (AuthenticationException)
-			{
-				Cursor = Cursors.Default;
-
-				MessageBox.Show(I18n.L.T("AuthError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-				txtPassword.Text = string.Empty;
-
-				return;
-			}
-			catch (UserAlreadyHasStationException _e)
-			{
-				Cursor = Cursors.Default;
-
-				RemoveStationForm _form = new RemoveStationForm(_e.ComputerName);
-				DialogResult _dr = _form.ShowDialog();
-
-				if (_dr == DialogResult.Yes)
+				Cursor = Cursors.WaitCursor;
+				UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
+				if (userlogin == null)
 				{
-					try
-					{
-						Cursor = Cursors.WaitCursor;
+					StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+					
+					userloginContainer.AddUserLoginSetting(
+						new UserLoginSetting
+						{
+							Email = cmbEmail.Text.ToLower(),
+							Password = SecurityHelper.EncryptPassword(txtPassword.Text),
+							RememberPassword = chkRememberPassword.Checked
+						}
+					);
 
-						StationController.SignoffStation(_e.Id, email, password);
-						StationController.AddUser(email, password);
-
-						Close();
-					}
-					catch (Exception e)
-					{
-						Cursor = Cursors.Default;
-
-						ShowErrorDialogAndExit(I18n.L.T("SignOffStationError") + " : " + e.ToString());
-					}
+					GotoTabPage(tabMainStationSetup, null);
 				}
 				else
 				{
-					ShowErrorDialogAndExit(I18n.L.T("MustRemoveOld"));
+					StationController.StationOnline(cmbEmail.Text.ToLower(), txtPassword.Text);
+					LaunchWavefaceClient(cmbEmail.Text.ToLower(), txtPassword.Text);
+					
+					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
+					userlogin.RememberPassword = chkRememberPassword.Checked;
+					userloginContainer.UpdateUserLoginSetting(userlogin);
+					
+					Close();
 				}
 			}
-			catch (StationAlreadyHasDriverException)
+			catch (AuthenticationException)
 			{
-				Cursor = Cursors.Default;
+				MessageBox.Show(I18n.L.T("AuthError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-				ShowErrorDialogAndExit(I18n.L.T("StationHasDriverError"));
+				txtPassword.Text = string.Empty;
+				txtPassword.Focus();
 			}
 			catch (StationServiceDownException)
 			{
-				Cursor = Cursors.Default;
 				MessageBox.Show(I18n.L.T("StationDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (Exception)
 			{
-				Cursor = Cursors.Default;
 				MessageBox.Show(I18n.L.T("UnknownSigninError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
-		}
-
-		private void ShowErrorDialogAndExit(string message)
-		{
-			MessageBox.Show(message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			Close();
+			finally
+			{
+				Cursor = Cursors.Default;
+			}
 		}
 
 		private bool TestEmailFormat(string emailAddress)
