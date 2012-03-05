@@ -70,6 +70,7 @@ namespace Waveface.PostUI
             _og.description = _aog.description;
             _og.provider_name = _aog.provider_name;
             _og.provider_url = _aog.provider_url;
+            _og.provider_display = _aog.provider_display;
             _og.url = _aog.url;
             _og.title = _aog.title;
 

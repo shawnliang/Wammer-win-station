@@ -36,7 +36,14 @@ namespace Waveface
         private Localization.CultureManager cultureManager;
 
         private Popup m_commentPopup;
+        private XPButton btnRemove;
+        private XPButton btnEdit;
         private CommentPopupPanel m_commentPopupPanel;
+
+        public bool CanEdit
+        {
+            set { btnEdit.Visible = value; }
+        }
 
         public Post Post
         {
@@ -44,6 +51,8 @@ namespace Waveface
             set
             {
                 m_post = value;
+
+                CanEdit = false;
 
                 ShowContent(false);
             }
@@ -88,6 +97,8 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnRemove = new Waveface.Component.XPButton();
+            this.btnEdit = new Waveface.Component.XPButton();
             this.btnComment = new Waveface.Component.XPButton();
             this.labelWho = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
@@ -100,11 +111,35 @@ namespace Waveface
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.panelTop.Controls.Add(this.btnRemove);
+            this.panelTop.Controls.Add(this.btnEdit);
             this.panelTop.Controls.Add(this.btnComment);
             this.panelTop.Controls.Add(this.labelWho);
             this.panelTop.Controls.Add(this.labelTime);
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnRemove, "btnRemove");
+            this.btnRemove.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnRemove.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnRemove.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnRemove.Image = global::Waveface.Properties.Resources.trash;
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnEdit, "btnEdit");
+            this.btnEdit.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnEdit.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnEdit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnEdit.Image = global::Waveface.Properties.Resources.page;
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.UseVisualStyleBackColor = true;
             // 
             // btnComment
             // 
@@ -113,7 +148,7 @@ namespace Waveface
             this.btnComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnComment.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnComment.Image = global::Waveface.Properties.Resources.write_comment;
+            this.btnComment.Image = global::Waveface.Properties.Resources.white_edit;
             this.btnComment.Name = "btnComment";
             this.btnComment.UseVisualStyleBackColor = true;
             this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
@@ -184,7 +219,7 @@ namespace Waveface
                 return;
 
             btnComment.Visible = true;
-            //linkLabelRemove.Visible = true;
+            btnRemove.Visible = true;
 
             setupTitle();
 

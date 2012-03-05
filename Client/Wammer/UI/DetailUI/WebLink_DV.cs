@@ -218,6 +218,8 @@ namespace Waveface.DetailUI
             contextMenuStrip.Opening += contextMenuStrip_Opening;
             miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
             webBrowser.Document.ContextMenuShowing += webBrowser_ContextMenuShowing;
+
+            MyParent.CanEdit = true;
         }
 
         private void LinkClick(object sender, EventArgs e)

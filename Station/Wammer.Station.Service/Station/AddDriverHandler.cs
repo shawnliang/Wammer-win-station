@@ -19,8 +19,6 @@ namespace Wammer.Station
 		private static ILog logger = LogManager.GetLogger("AddDriverHandler");
 		private readonly string stationId;
 		private readonly string resourceBasePath;
-		private readonly HttpServer functionServer;
-		private readonly StationTimer stationTimer;
 
 		private const int ERR_USER_HAS_ANOTHER_STATION = 16387;
 		private const int ERR_BAD_NAME_PASSWORD = 4097;
@@ -33,13 +31,6 @@ namespace Wammer.Station
 			this.resourceBasePath = resourceBasePath;
 		}
 
-		public AddDriverHandler(string stationId, string resourceBasePath, HttpServer functionServer, StationTimer stationTimer)
-		{
-			this.stationId = stationId;
-			this.resourceBasePath = resourceBasePath;
-			this.functionServer = functionServer;
-			this.stationTimer = stationTimer;
-		}
 
 		protected override void HandleRequest()
 		{
@@ -49,31 +40,34 @@ namespace Wammer.Station
 			if (email == null || password == null)
 				throw new FormatException("Parameter email or password is missing");
 
-			if (DriverCollection.Instance.FindOne() != null)
-				throw new WammerStationException("Already has a driver", (int)StationApiError.DriverExist);
-
 			using (WebClient agent = new WebClient())
 			{
 				try
 				{
-					bool has_old_station;
-					string stationToken = SignUpStation(email, password, agent, out has_old_station);
-					
-					logger.Debug("Station logon successfully, start function server");
-					functionServer.BlockAuth(false);
-					functionServer.Start();
-					stationTimer.Start();
-					WriteOnlineStateToDB();
+					string stationToken = string.Empty;
+					Driver driver = Model.DriverCollection.Instance.FindOne(Query.EQ("email", email));
+					Boolean isDriverExists = driver != null;
 
+
+					if (!isDriverExists)
+						stationToken = SignUpStation(email, password, agent);
+					
 					User user = User.LogIn(agent, email, password);
-					Driver driver = new Driver
+					driver = new Driver
 					{
 						email = email,
 						folder = Path.Combine(resourceBasePath, "user_" + user.Id),
 						user_id = user.Id,
 						groups = user.Groups,
-						session_token = user.Token
+						session_token = user.Token,
+						isPrimaryStation = (user.Stations == null || user.Stations.Count == 0)
 					};
+
+					if (isDriverExists)
+					{
+						RespondSuccess(new AddUserResponse());
+						return;
+					}
 
 					DriverCollection.Instance.Save(driver);
 
@@ -89,7 +83,7 @@ namespace Wammer.Station
 
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
-					RespondSuccess(new AddUserResponse(stationToken, has_old_station));
+					RespondSuccess(new AddUserResponse());
 				}
 				catch (WammerCloudException ex)
 				{
@@ -103,10 +97,6 @@ namespace Wammer.Station
 					if (ex.WammerError == ERR_BAD_NAME_PASSWORD)
 						throw new WammerStationException(
 							"Bad user name or password", (int)StationApiError.AuthFailed);
-					else if (ex.WammerError == ERR_USER_HAS_ANOTHER_STATION)
-					{
-						ThrowAlreadyHasStation(ex.response);
-					}
 					else
 						throw;
 				}
@@ -114,42 +104,11 @@ namespace Wammer.Station
 
 		}
 
-		private string SignUpStation(string email, string password, WebClient agent, out bool has_old_station)
+		private string SignUpStation(string email, string password, WebClient agent)
 		{
-			try
-			{
-				StationApi api = StationApi.SignUp(agent, stationId, email, password);
-				api.LogOn(agent, StatusChecker.GetDetail());
-				has_old_station = false;
-				return api.Token;
-			}
-			catch (WammerCloudException e)
-			{
-				if (e.WammerError != ERR_USER_HAS_ANOTHER_STATION)
-					throw;
-
-				AddUserResponse resp = fastJSON.JSON.Instance.ToObject<AddUserResponse>(e.response);
-				if (resp.station.station_id != this.stationId)
-					throw;
-
-				has_old_station = true;
-				return StationApi.LogOn(agent, stationId, email, password, StatusChecker.GetDetail()).session_token;
-			}
-		}
-		
-		private static void ThrowAlreadyHasStation(string responseJson)
-		{
-			AddUserResponse resp = fastJSON.JSON.Instance.ToObject<AddUserResponse>(responseJson);
-			throw new WammerStationException(
-				new AddUserResponse
-				{
-					api_ret_code = (int)StationApiError.AlreadyHasStaion,
-					api_ret_message = "already has a station",
-					status = (int)HttpStatusCode.Conflict,
-					timestamp = DateTime.UtcNow,
-					station = resp.station,
-					has_old_station = true
-				});
+			StationApi api = StationApi.SignUp(agent, stationId, email, password);
+			api.LogOn(agent, StatusChecker.GetDetail());
+			return api.Token;
 		}
 
 		private void OnDriverAdded(DriverAddedEvtArgs args)
@@ -158,16 +117,6 @@ namespace Wammer.Station
 
 			if (handler != null)
 				handler(this, args);
-		}
-
-		private static void WriteOnlineStateToDB()
-		{
-			Model.Service svc = new Model.Service 
-			{
-				Id = "StationService",
-				State = ServiceState.Online
-			};
-			ServiceCollection.Instance.Save(svc);
 		}
 
 		public override object Clone()
@@ -180,19 +129,11 @@ namespace Wammer.Station
 	public class AddUserResponse : CloudResponse
 	{
 		public UserStation station { get; set; }
-		public string session_token { get; set; }
-		public bool has_old_station { get; set; }
+
 
 		public AddUserResponse()
-			: base()
-		{
-		}
-
-		public AddUserResponse(string session_token, bool has_old_station)
 			: base(200, DateTime.UtcNow, 0, "success")
 		{
-			this.session_token = session_token;
-			this.has_old_station = has_old_station;
 		}
 	}
 

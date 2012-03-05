@@ -13,7 +13,6 @@ using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Component.PopupControl;
-using Waveface.Component;
 using Waveface.Component.DropableNotifyIcon;
 using Waveface.Configuration;
 using Waveface.FilterUI;
@@ -627,7 +626,6 @@ namespace Waveface
 
             StartBgThreads();
 
-            leftArea.SetUI(true);
             leftArea.SetNewPostManager();
 
             postsArea.showRefreshUI(true);
@@ -746,7 +744,7 @@ namespace Waveface
 
         private void FilterFetchPostsAndShow(bool firstTime)
         {
-            if (RT.FilterPostsAllCount == RT.FilterPosts.Count)
+            if ((RT.FilterPostsAllCount != 0) && (RT.FilterPostsAllCount == RT.FilterPosts.Count))
                 return;
 
             int _offset = RT.FilterPosts.Count;
@@ -969,6 +967,8 @@ namespace Waveface
                 List<Post> _posts = RT.CurrentGroupPosts;
 
                 setCalendarBoldedDates(_posts);
+
+                leftArea.SetUI(true);
 
                 int _index = RT.GetMyTimelinePosition(showTimelineIndexType);
 

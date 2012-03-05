@@ -27,7 +27,6 @@ namespace Wammer.Station
 		private bool m_doAutoPost;
 		private string m_email;
 		private string m_password;
-		private AddUserResult m_userInfo;
 		private string m_dropboxOAuthUrl = string.Empty;
 		private bool m_verifyOK;
 		private bool m_verifying;
@@ -66,11 +65,10 @@ namespace Wammer.Station
 			gotoPage(Page_Welcome);
 		}
 
-		public DropboxForm(string email, string password, AddUserResult userInfo)
+		public DropboxForm(string email, string password)
 		{
 			m_email = email;
 			m_password = password;
-			m_userInfo = userInfo;
 
 			InitializeComponent();
 
@@ -320,12 +318,6 @@ namespace Wammer.Station
 
 		private void backgroundWorkerDefaultPosts_DoWork(object sender, DoWorkEventArgs e)
 		{
-			if (!m_userInfo.has_old_station)
-			{
-				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-				//DefaultPosts _posts = new DefaultPosts();
-				//_posts.AutoPost(m_email, m_password);
-			}
 		}
 
 		private void backgroundWorkerDefaultPosts_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

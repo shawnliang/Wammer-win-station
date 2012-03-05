@@ -27,11 +27,16 @@ namespace Wammer.Model
 		public List<UserGroup> groups { get; set; }
 		[BsonIgnoreIfNull]
 		public string session_token { get; set; }
+		
+		[BsonDefaultValue(true)]
+		[BsonIgnoreIfNull]
+		public bool isPrimaryStation { get; set; }
 
 		public Driver()
 		{
 			groups = new List<UserGroup>();
 		}
+
 	}
 
 	public class DriverCollection : Collection<Driver>
@@ -53,24 +58,4 @@ namespace Wammer.Model
 			get { return instance; }
 		}
 	}
-
-	//public class OldDriverCollection : Collection<Driver>
-	//{
-	//    private static OldDriverCollection instance;
-
-	//    static OldDriverCollection()
-	//    {
-	//        instance = new OldDriverCollection();
-	//    }
-
-	//    private OldDriverCollection()
-	//        : base("oldDrivers")
-	//    {
-	//    }
-
-	//    public static OldDriverCollection Instance
-	//    {
-	//        get { return instance; }
-	//    }
-	//}
 }

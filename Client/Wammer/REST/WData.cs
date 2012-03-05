@@ -223,6 +223,7 @@ namespace Waveface.API.V2
     {
         public string provider_url { get; set; }
         public string provider_name { get; set; }
+        public string provider_display { get; set; }
         public string title { get; set; }
         public string url { get; set; }
         public string description { get; set; }
