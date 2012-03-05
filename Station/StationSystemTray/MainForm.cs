@@ -741,6 +741,19 @@ namespace StationSystemTray
                 txtPassword.Text = "test";
             }
         }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.Tab))
+            {
+                return true;
+            }
+            else
+            {
+                return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+
 	}
 
 	#region PauseServiceUIController
@@ -792,4 +805,6 @@ namespace StationSystemTray
 		}
 	}
 	#endregion
+
+  
 }
