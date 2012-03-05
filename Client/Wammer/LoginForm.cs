@@ -252,7 +252,7 @@ namespace Waveface
                 NLogUtility.Exception(s_logger, _e, "doLogin");
 
                 MessageBox.Show(I18n.L.T("StationServiceDown"), "Waveface");
-                Close();
+                Environment.Exit(-1);
             }
             catch (ServiceUnavailableException _e)
             {
@@ -261,14 +261,14 @@ namespace Waveface
                 // user should re-register station if receive service unavailable exception
                 // so we close the login page here
                 MessageBox.Show(I18n.L.T("RegisteredRequired", txtUserName.Text), "Waveface");
-                Close();
+                Environment.Exit(-1);
             }
             catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "doLogin");
 
                 MessageBox.Show(I18n.L.T("LoginForm.LogInError") + " : " + _e.Message, "Waveface");
-                Close();
+                Environment.Exit(-1);
             }
         }
 
