@@ -88,7 +88,19 @@ namespace StationSystemTray
 			this.menuPreference.Text = I18n.L.T("WFPreference");
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
-			
+
+			this.checkStationTimer.Enabled = true;
+			this.checkStationTimer.Start();
+
+			CurrentState.Onlining();
+
+			InitSignInPage();
+
+			base.OnLoad(e);
+		}
+
+		private void InitSignInPage()
+		{
 			ListDriverResponse res = StationController.ListUser();
 
 			foreach (UserLoginSetting userlogin in settings.Users)
@@ -122,13 +134,6 @@ namespace StationSystemTray
 			{
 				btnSignIn.Focus();
 			}
-
-			this.checkStationTimer.Enabled = true;
-			this.checkStationTimer.Start();
-
-			CurrentState.Onlining();
-
-			base.OnLoad(e);
 		}
 
 		private void PauseServiceUICallback(object sender, SimpleEventArgs evt)
