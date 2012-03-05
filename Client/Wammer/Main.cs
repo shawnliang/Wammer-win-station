@@ -37,8 +37,6 @@ namespace Waveface
         //Main
         public SettingForm m_setting;
 
-        private ProgramSetting m_settings = new ProgramSetting();
-
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private VirtualFolderForm m_virtualFolderForm;
         private MyTaskbarNotifier m_taskbarNotifier;
@@ -353,7 +351,6 @@ namespace Waveface
 
             SaveRunTime();
             NewPostManager.Save();
-            m_settings.Save();
         }
 
         public void Logout()
@@ -615,8 +612,6 @@ namespace Waveface
 
             RT.Login = _login;
 
-            m_settings.Email = email;
-            m_settings.EncryptedPassword = password;
 
             getGroupAndUser();
             fillUserInformation();

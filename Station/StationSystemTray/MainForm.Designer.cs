@@ -55,10 +55,13 @@
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lblWelcome = new System.Windows.Forms.Label();
 			this.lblMainStationSetup = new System.Windows.Forms.Label();
+            this.tabSignUp = new System.Windows.Forms.TabPage();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
 			this.TrayMenu.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabSignIn.SuspendLayout();
 			this.tabMainStationSetup.SuspendLayout();
+            this.tabSignUp.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// TrayIcon
@@ -178,16 +181,19 @@
 			resources.ApplyResources(this.lblSignUp, "lblSignUp");
 			this.lblSignUp.Name = "lblSignUp";
 			this.lblSignUp.TabStop = true;
+            this.lblSignUp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblSignUp_LinkClicked);
 			// 
 			// tabControl
 			// 
 			this.tabControl.Controls.Add(this.tabSignIn);
 			this.tabControl.Controls.Add(this.tabMainStationSetup);
+            this.tabControl.Controls.Add(this.tabSignUp);
 			resources.ApplyResources(this.tabControl, "tabControl");
 			this.tabControl.Multiline = true;
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
 			this.tabControl.TabStop = false;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
 			// 
 			// tabSignIn
 			// 
@@ -230,6 +236,18 @@
 			resources.ApplyResources(this.lblMainStationSetup, "lblMainStationSetup");
 			this.lblMainStationSetup.Name = "lblMainStationSetup";
 			// 
+            // tabSignUp
+            // 
+            this.tabSignUp.Controls.Add(this.webBrowser1);
+            resources.ApplyResources(this.tabSignUp, "tabSignUp");
+            this.tabSignUp.Name = "tabSignUp";
+            this.tabSignUp.UseVisualStyleBackColor = true;
+            // 
+            // webBrowser1
+            // 
+            resources.ApplyResources(this.webBrowser1, "webBrowser1");
+            this.webBrowser1.Name = "webBrowser1";
+            // 
 			// MainForm
 			// 
 			this.AcceptButton = this.btnSignIn;
@@ -241,12 +259,14 @@
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
 			this.TrayMenu.ResumeLayout(false);
 			this.tabControl.ResumeLayout(false);
 			this.tabSignIn.ResumeLayout(false);
 			this.tabSignIn.PerformLayout();
 			this.tabMainStationSetup.ResumeLayout(false);
 			this.tabMainStationSetup.PerformLayout();
+            this.tabSignUp.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -266,8 +286,6 @@
 		private System.Windows.Forms.Label lblSignIn;
 		private System.Windows.Forms.Label lblEmail;
 		private System.Windows.Forms.Label lblPassword;
-		private System.Windows.Forms.TextBox txtPassword;
-		private System.Windows.Forms.ComboBox cmbEmail;
 		private System.Windows.Forms.Button btnSignIn;
 		private System.Windows.Forms.CheckBox chkRememberPassword;
 		private System.Windows.Forms.Label label1;
@@ -278,6 +296,10 @@
 		private System.Windows.Forms.Label lblMainStationSetup;
 		private System.Windows.Forms.Label lblWelcome;
 		private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.TabPage tabSignUp;
+        private System.Windows.Forms.WebBrowser webBrowser1;
+        internal System.Windows.Forms.TextBox txtPassword;
+        internal System.Windows.Forms.ComboBox cmbEmail;
 	}
 }
 

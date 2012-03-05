@@ -18,9 +18,12 @@ using Wammer.Station.Management;
 using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;
+using System.Security.Permissions;
 
 namespace StationSystemTray
 {
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+    [ComVisible(true)]
 	public partial class MainForm : Form, StationStateContext
 	{
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
@@ -686,6 +689,50 @@ namespace StationSystemTray
 			formCloseEnabled = true;
 			Close();
 		}
+
+        private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            tabControl.SelectedTab = tabSignUp;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl.SelectedTab == tabSignUp)
+            {
+                webBrowser1.ObjectForScripting = this;
+                webBrowser1.Navigate(@"C:\Users\larry\Desktop\Test.html");
+            }
+        }
+
+        public void SignUpCompleted(string functionName)
+        {
+            string ret = webBrowser1.Document.InvokeScript(functionName, new object[] { string.Empty, string.Empty }).ToString();
+            Boolean isSignUpCompleted = !string.IsNullOrEmpty(ret);
+            if (isSignUpCompleted)
+            {
+                tabControl.SelectedTab = tabSignIn;
+                cmbEmail.Text = "test";
+                txtPassword.Text = "test";
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.Tab))
+            {
+                return true;
+            }
+            else
+            {
+                return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+
 	}
 
 	#region PauseServiceUIController
@@ -723,7 +770,7 @@ namespace StationSystemTray
 
 		protected override object Action(object obj)
 		{
-			StationController.StationOnline();
+			//StationController.StationOnline();
 			return null;
 		}
 
@@ -737,4 +784,6 @@ namespace StationSystemTray
 		}
 	}
 	#endregion
+
+  
 }
