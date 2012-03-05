@@ -598,7 +598,7 @@ namespace StationSystemTray
 
 			try
 			{
-				AddUserResult result = StationController.AddUser(email, password);
+				StationController.AddUser(email, password);
 
 				settings.Users.Add(new UserLoginSetting { 
 					Email = email, 
@@ -637,8 +637,7 @@ namespace StationSystemTray
 						Cursor = Cursors.WaitCursor;
 
 						StationController.SignoffStation(_e.Id, email, password);
-						AddUserResult result = StationController.AddUser(email, password);
-						result.has_old_station = true;
+						StationController.AddUser(email, password);
 
 						Close();
 					}
