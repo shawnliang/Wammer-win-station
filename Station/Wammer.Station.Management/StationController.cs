@@ -653,6 +653,32 @@ namespace Wammer.Station.Management
 			}
 		}
 
+		public static ListDriverResponse ListUser()
+		{
+			try
+			{
+				ListDriverResponse res = CloudServer.request<ListDriverResponse>(
+					new WebClient(),
+					StationMgmtURL + "station/drivers/list",
+					new Dictionary<object, object>
+					{
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+					}
+				);
+
+				return res;
+			}
+			catch (WammerCloudException e)
+			{
+				string msg = ExtractApiRetMsg(e);
+
+				if (!string.IsNullOrEmpty(msg))
+					throw new Exception(msg);
+
+				throw;
+			}
+		}
+
 		private static string ExtractApiRetMsg(Cloud.WammerCloudException e)
 		{
 			if (e.HttpError != WebExceptionStatus.ProtocolError)
