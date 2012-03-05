@@ -243,14 +243,16 @@ namespace Waveface
                 if (_doLogin(email, password) == QuitOption.QuitProgram)
                     Close();
                 else
-                    Show();
+                {
+                    Environment.Exit(-1);
+                }
             }
             catch (StationServiceDownException _e)
             {
                 NLogUtility.Exception(s_logger, _e, "doLogin");
 
                 MessageBox.Show(I18n.L.T("StationServiceDown"), "Waveface");
-                Show();
+                Close();
             }
             catch (ServiceUnavailableException _e)
             {
@@ -266,7 +268,7 @@ namespace Waveface
                 NLogUtility.Exception(s_logger, _e, "doLogin");
 
                 MessageBox.Show(I18n.L.T("LoginForm.LogInError") + " : " + _e.Message, "Waveface");
-                Show();
+                Close();
             }
         }
 

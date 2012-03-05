@@ -122,6 +122,7 @@ namespace Waveface
             SingleInstance.Stop();
 
             s_logger.Trace("==================== Windows Client Exit ====================");
+            return;
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
