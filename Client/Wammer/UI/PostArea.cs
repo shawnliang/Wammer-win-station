@@ -8,8 +8,7 @@ using System.Windows.Forms;
 namespace Waveface
 {
     public partial class PostArea : UserControl
-    {
-        string[] m_types = { "all", "text", "image", "link", "rtf", "doc" };
+    {      
         //private bool m_init;
 
         public PostsList PostsList
@@ -34,13 +33,6 @@ namespace Waveface
             comboBoxType.Visible = flag;
         }
 
-        public string GetPostType()
-        {
-            return "all"; //@
-
-            //@ return m_types[comboBoxType.SelectedIndex];
-        }
-
         public string GetPostTypeText()
         {
             return comboBoxType.Text;
@@ -52,8 +44,15 @@ namespace Waveface
             //    Main.Current.DoTimelineFilter(null, true);
         }
 
-        public void ShowPostInfo(int all, int getPostCounts)
+        public void ShowPostInforPanel(bool flag)
         {
+            panelButtom.Visible = flag;
+        }
+
+        public void ShowPostInfor(int all, int getPostCounts)
+        {
+            ShowPostInforPanel(true);
+
             if (all == getPostCounts)
             {
                 linkLabelReadMore.Visible = false;

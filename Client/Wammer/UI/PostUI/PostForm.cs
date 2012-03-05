@@ -30,12 +30,17 @@ namespace Waveface
         private FormSettings m_formSettings;
         private bool m_getPreviewNow;
         private string m_lastPreviewURL = string.Empty;
+        private bool m_editMode;
+        private Post m_post;
 
         public NewPostItem NewPostItem { get; set; }
 
-        public PostForm(List<string> files, PostType postType)
+        public PostForm(List<string> files, PostType postType, Post post, bool editMode)
         {
             InitializeComponent();
+
+            m_editMode = editMode;
+            m_post = post;
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseLocation = true;
@@ -54,7 +59,35 @@ namespace Waveface
 
             pureTextBox.WaterMarkText = I18n.L.T("PostForm.PuretextWaterMark");
 
-            ToSubControl(files, postType);
+            if (m_editMode)
+            {
+                Text = "編輯貼文";
+                btnSend.Text = "更改";
+
+                ChangeToEditModeUI();
+
+                pureTextBox.Text = m_post.content;
+                CreateLink();
+
+                if (m_post.type == "link")
+                {
+                    CheckWebPreview();
+                }
+
+                ToSubControl(files, getPostType(m_post.type));
+            }
+            else
+            {
+                ToSubControl(files, postType);
+            }
+        }
+
+        private void ChangeToEditModeUI()
+        {
+            weblink_UI.ChangeToEditModeUI(m_post);
+            photo_UI.ChangeToEditModeUI(m_post);
+            //richText_UI.ChangeToEditModeUI(m_post);
+            //document_UI.ChangeToEditModeUI(m_post);
         }
 
         private void CreateLinkFormattingRule()
@@ -66,11 +99,36 @@ namespace Waveface
                                                       _format);
         }
 
+        private PostType getPostType(string postType)
+        {
+            switch (postType)
+            {
+                case "text":
+                    return PostType.Text;
+
+                case "doc":
+                    return PostType.Document;
+
+                case "link":
+                    return PostType.Link;
+
+                case "image":
+                    return PostType.Photo;
+
+                case "rtf":
+
+                    return PostType.RichText;
+            }
+
+            return PostType.Text;
+        }
+
         private void ToSubControl(List<string> files, PostType postType)
         {
             switch (postType)
             {
                 case PostType.All:
+                case PostType.Text:
                     toPureText_Mode();
                     break;
 
@@ -88,10 +146,6 @@ namespace Waveface
 
                 case PostType.RichText:
                     toRichText_Mode();
-                    break;
-
-                case PostType.Text:
-                    toPureText_Mode();
                     break;
             }
 
@@ -301,9 +355,6 @@ namespace Waveface
             FormattingInstructionCollection _instructions = new FormattingInstructionCollection();
 
             Format _format = new Format();
-            //_format.ForeColor = Color.Black;
-            //_format.Font = pureTextBox.Font;
-            //_format.UnderlineFormat = new UnderlineFormat(UnderlineStyle.None, UnderlineColor.Black);
             _instructions.Add(new FormattingInstruction(0, _contents.Length, _format));
 
             foreach (Match _match in m_linkFormattingRule.Regex.Matches(_contents))
@@ -450,7 +501,7 @@ namespace Waveface
                 if (_isOK)
                 {
                     showWebLinkPreview(_mrPreviewsGetAdv);
-                    
+
                     m_lastPreviewURL = _url;
 
                     break;

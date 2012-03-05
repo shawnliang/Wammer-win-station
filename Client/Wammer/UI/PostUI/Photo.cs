@@ -36,6 +36,11 @@ namespace Waveface.PostUI
             InitImageListView();
         }
 
+        public void ChangeToEditModeUI(Post post)
+        {
+            btnSend.Text = "更改";
+        }
+
         #region ImageListView
 
         private void InitImageListView()

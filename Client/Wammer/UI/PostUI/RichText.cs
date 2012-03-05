@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Waveface.API.V2;
 using Waveface.Component.HtmlEditor;
 using Waveface.Util;
 
@@ -54,6 +55,11 @@ namespace Waveface.PostUI
                     MyParent.SetDialogResult_OK_AndClose();
                     break;
             }
+        }
+
+        public void ChangeToEditModeUI(Post post)
+        {
+            btnSend.Text = "更改";
         }
 
         private void htmlEditorControl_HtmlException(object sender, HtmlExceptionEventArgs args)
