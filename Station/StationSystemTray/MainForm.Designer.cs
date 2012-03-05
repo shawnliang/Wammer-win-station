@@ -165,8 +165,6 @@
 			// chkRememberPassword
 			// 
 			resources.ApplyResources(this.chkRememberPassword, "chkRememberPassword");
-			this.chkRememberPassword.Checked = true;
-			this.chkRememberPassword.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkRememberPassword.Name = "chkRememberPassword";
 			this.chkRememberPassword.UseVisualStyleBackColor = true;
 			// 
