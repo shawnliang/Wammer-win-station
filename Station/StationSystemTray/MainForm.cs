@@ -629,13 +629,23 @@ namespace StationSystemTray
 				else
 				{
 					StationController.StationOnline(cmbEmail.Text.ToLower(), txtPassword.Text);
-					LaunchWavefaceClient(cmbEmail.Text.ToLower(), txtPassword.Text);
+					Process clientProcess = LaunchWavefaceClient(cmbEmail.Text.ToLower(), txtPassword.Text);
 					
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
 					userloginContainer.UpdateUserLoginSetting(userlogin);
-					
-					Close();
+
+                    Hide();
+                    if (clientProcess != null)
+                        clientProcess.WaitForExit();
+
+                    if (clientProcess.ExitCode == 0)
+                    {
+                        Close();
+                        return;
+                    }
+
+                    Show();
 				}
 			}
 			catch (AuthenticationException)
@@ -677,11 +687,11 @@ namespace StationSystemTray
 			Close();
 		}
 
-		private void LaunchWavefaceClient(string email, string password)
+		private Process LaunchWavefaceClient(string email, string password)
 		{
 			string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 		   "WavefaceWindowsClient.exe");
-			Process.Start(_execPath, email + " " + password);
+			return Process.Start(_execPath, email + " " + password);
 		}
 
 		private void ExitProgram()
