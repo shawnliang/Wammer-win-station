@@ -38,7 +38,7 @@ namespace Wammer.Station
 				functionServer.Stop();
 				stationTimer.Stop();
 
-				throw new ServiceUnavailableException("Station cannot work without driver", (int)StationApiError.InvalidDriver);
+				throw new InvalidOperationException("Station cannot work without driver");
 			}
 
 			if (email != null && password != null && driver.email != email)

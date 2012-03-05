@@ -17,7 +17,7 @@ namespace Wammer.Station
 		{
 			List<Driver> drivers = new List<Driver>(DriverCollection.Instance.FindAll());
 
-			RespondSuccess(new ListDriverResponse(drivers));
+			RespondSuccess(new ListDriverResponse { drivers = drivers});
 		}
 
 		public override object Clone()
@@ -28,10 +28,11 @@ namespace Wammer.Station
 
 	public class ListDriverResponse: CloudResponse
 	{
-		public List<Driver> drivers;
-		public ListDriverResponse(List<Driver> drivers)
+		public List<Driver> drivers { get; set; }
+
+		public ListDriverResponse()
+			:base()
 		{
-			this.drivers = drivers;
 		}
 	}
 }
