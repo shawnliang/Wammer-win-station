@@ -262,10 +262,7 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -301,10 +298,7 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -336,10 +330,7 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -361,10 +352,7 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -389,10 +377,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -416,10 +401,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -440,10 +422,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -471,10 +450,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -500,10 +476,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -532,6 +505,8 @@ namespace Wammer.Station.Management
 			catch (WammerCloudException e)
 			{
 				ExtractApiRetMsg(e);
+
+				throw;
 			}
 		}
 
@@ -544,6 +519,8 @@ namespace Wammer.Station.Management
 			catch (WammerCloudException e)
 			{
 				ExtractApiRetMsg(e);
+
+				throw;
 			}
 		}
 
@@ -565,10 +542,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -592,10 +566,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}			
@@ -618,10 +589,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
@@ -644,16 +612,36 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				string msg = ExtractApiRetMsg(e);
-
-				if (!string.IsNullOrEmpty(msg))
-					throw new Exception(msg);
+				ExtractApiRetMsg(e);
 
 				throw;
 			}
 		}
 
-		private static string ExtractApiRetMsg(Cloud.WammerCloudException e)
+		public static ListDriverResponse ListUser()
+		{
+			try
+			{
+				ListDriverResponse res = CloudServer.request<ListDriverResponse>(
+					new WebClient(),
+					StationMgmtURL + "station/drivers/list",
+					new Dictionary<object, object>
+					{
+						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+					}
+				);
+
+				return res;
+			}
+			catch (WammerCloudException e)
+			{
+				ExtractApiRetMsg(e);
+
+				throw;
+			}
+		}
+
+		private static void ExtractApiRetMsg(Cloud.WammerCloudException e)
 		{
 			if (e.HttpError != WebExceptionStatus.ProtocolError)
 			{
@@ -695,7 +683,7 @@ namespace Wammer.Station.Management
 							case (int)StationApiError.ConnectToCloudError:
 								throw new ConnectToCloudException(r.api_ret_message);
 							default:
-								return r.api_ret_message;
+								throw new Exception(r.api_ret_message);
 						}
 					}
 					else if (webres.StatusCode == HttpStatusCode.Unauthorized)
@@ -709,11 +697,9 @@ namespace Wammer.Station.Management
 				}
 				else
 				{
-					return webex.Message;
+					throw new Exception(webex.Message);
 				}
 			}
-
-			return string.Empty;
 		}
 		#region private accessors
 

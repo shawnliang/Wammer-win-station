@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationSettings.cs" />
     <Compile Include="I18n.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -70,18 +72,22 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignInForm.cs">
+    <Compile Include="ReloginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SignInForm.Designer.cs">
-      <DependentUpon>SignInForm.cs</DependentUpon>
+    <Compile Include="ReloginForm.Designer.cs">
+      <DependentUpon>ReloginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SecurityHelper.cs" />
     <Compile Include="SimpleUIController.cs" />
     <Compile Include="StateMachine.cs" />
     <Compile Include="Win32Helper.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.zh-TW.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PreferenceForm.resx">
       <DependentUpon>PreferenceForm.cs</DependentUpon>
@@ -99,11 +105,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SignInForm.resx">
-      <DependentUpon>SignInForm.cs</DependentUpon>
+    <EmbeddedResource Include="ReloginForm.resx">
+      <DependentUpon>ReloginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SignInForm.zh-TW.resx">
-      <DependentUpon>SignInForm.cs</DependentUpon>
+    <EmbeddedResource Include="ReloginForm.zh-TW.resx">
+      <DependentUpon>ReloginForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Properties\Settings.settings">

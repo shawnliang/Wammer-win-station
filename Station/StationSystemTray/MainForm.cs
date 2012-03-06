@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -15,18 +16,25 @@ using System.Net.NetworkInformation;
 
 using Wammer.Station.Management;
 using Wammer.Cloud;
+using Wammer.Station;
+using Wammer.Model;
+using System.Security.Permissions;
 
 namespace StationSystemTray
 {
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+    [ComVisible(true)]
 	public partial class MainForm : Form, StationStateContext
 	{
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
+		private UserLoginSettingContainer userloginContainer;
+		private bool formCloseEnabled;
 		private Messenger messenger;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
 		private PreferenceForm preferenceForm;
-		private SignInForm signInForm;
+		private ReloginForm signInForm;
 
 		private object cs = new object();
 		private object csStationTimerTick = new object();
@@ -49,8 +57,12 @@ namespace StationSystemTray
 
 		public MainForm()
 		{
+			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
-			
+
+			this.userloginContainer = new UserLoginSettingContainer(new ApplicationSettings());
+			this.formCloseEnabled = false;
+
 			Type type = this.GetType();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(type.Namespace + ".Properties.Resources", this.GetType().Assembly);
 			this.iconRunning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_16.GetHicon());
@@ -68,9 +80,6 @@ namespace StationSystemTray
 			this.uictrlResumeService.UICallback += this.ResumeServiceUICallback;
 			this.uictrlResumeService.UIError += this.ResumeServiceUIError;
 
-			this.checkStationTimer.Enabled = true;
-			this.checkStationTimer.Start();
-
 			NetworkChange.NetworkAvailabilityChanged += checkStationTimer_Tick;
 			NetworkChange.NetworkAddressChanged += checkStationTimer_Tick;
 
@@ -79,15 +88,30 @@ namespace StationSystemTray
 
 		protected override void OnLoad(EventArgs e)
 		{
-			this.Visible = false;
-
 			this.menuPreference.Text = I18n.L.T("WFPreference");
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
 
+			this.checkStationTimer.Enabled = true;
+			this.checkStationTimer.Start();
+
 			CurrentState.Onlining();
 
-			base.OnLoad(e);
+			InitEmailList();
+			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+		}
+
+		private void InitEmailList()
+		{
+			ListDriverResponse res = StationController.ListUser();
+			foreach (Driver driver in res.drivers)
+			{
+				UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
+				if (userlogin != null)
+				{
+					cmbEmail.Items.Add(userlogin.Email);
+				}
+			}
 		}
 
 		private void PauseServiceUICallback(object sender, SimpleEventArgs evt)
@@ -105,7 +129,7 @@ namespace StationSystemTray
 			}
 			else if (ex is UserAlreadyHasStationException)
 			{
-				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+				messenger.ShowMessage(I18n.L.T("StationExpired"));
 				ReregisterStation();
 			}
 			else if (ex is ConnectToCloudException)
@@ -133,7 +157,7 @@ namespace StationSystemTray
 			}
 			else if (ex is UserAlreadyHasStationException)
 			{
-				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+				messenger.ShowMessage(I18n.L.T("StationExpired"));
 				ReregisterStation();
 			}
 			else
@@ -154,7 +178,7 @@ namespace StationSystemTray
 			}
 			finally
 			{
-				Application.Exit();
+				ExitProgram();
 			}
 		}
 
@@ -449,7 +473,7 @@ namespace StationSystemTray
 				TrayIcon.Icon = this.iconWarning;
 				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
 				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
-				TrayIcon.DoubleClick -= menuPreference_Click;
+				TrayIcon.DoubleClick -= menuManageAccounts_Click;
 				TrayIcon.DoubleClick += menuRelogin_Click;
 				TrayIconText = I18n.L.T("Station401Exception");
 			}
@@ -472,7 +496,7 @@ namespace StationSystemTray
 				menuRelogin.Visible = false;
 				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
 				TrayIcon.DoubleClick -= menuRelogin_Click;
-				TrayIcon.DoubleClick += menuPreference_Click;
+				TrayIcon.DoubleClick += menuManageAccounts_Click;
 			}
 		}
 
@@ -494,7 +518,7 @@ namespace StationSystemTray
 				return;
 			}
 
-			signInForm = new SignInForm(this);
+			signInForm = new ReloginForm(this);
 			signInForm.FormClosed += new FormClosedEventHandler(signInForm_FormClosed);
 			signInForm.Show();
 		}
@@ -506,6 +530,219 @@ namespace StationSystemTray
 			Process.Start(_execPath);
 			Application.Exit();
 		}
+
+		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
+		{
+			tabControl.SelectedTab = tabpage;
+
+			if (tabpage == tabSignIn)
+			{
+				if (userlogin == null)
+				{
+					cmbEmail.SelectedItem = string.Empty;
+					txtPassword.Text = string.Empty;
+					chkRememberPassword.Checked = false;
+				}
+				else
+				{
+					cmbEmail.SelectedItem = userlogin.Email;
+					if (userlogin.RememberPassword)
+					{
+						txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
+					}
+					else
+					{
+						txtPassword.Text = string.Empty;
+					}
+					chkRememberPassword.Checked = userlogin.RememberPassword;
+				}
+
+				if (cmbEmail.SelectedItem == null)
+				{
+					cmbEmail.Select();
+				}
+				else if (string.IsNullOrEmpty(txtPassword.Text))
+				{
+					txtPassword.Select();
+				}
+				else
+				{
+					btnSignIn.Select();
+				}
+
+				this.AcceptButton = btnSignIn;
+			}
+			else if (tabpage == tabMainStationSetup)
+			{
+				btnOK.Focus();
+				this.AcceptButton = btnOK;
+			}
+		}
+
+		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (!formCloseEnabled)
+			{
+				this.Visible = false;
+				e.Cancel = true;
+			}
+		}
+
+		private void menuManageAccounts_Click(object sender, EventArgs e)
+		{
+			this.Visible = true;
+		}
+
+		private void btnSignIn_Click(object sender, EventArgs e)
+		{
+			if ((cmbEmail.Text == string.Empty) || (txtPassword.Text == string.Empty))
+			{
+				MessageBox.Show(I18n.L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			if (!TestEmailFormat(cmbEmail.Text))
+			{
+				MessageBox.Show(I18n.L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			try
+			{
+				Cursor = Cursors.WaitCursor;
+				UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
+				if (userlogin == null)
+				{
+					StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+					
+					userloginContainer.AddUserLoginSetting(
+						new UserLoginSetting
+						{
+							Email = cmbEmail.Text.ToLower(),
+							Password = SecurityHelper.EncryptPassword(txtPassword.Text),
+							RememberPassword = chkRememberPassword.Checked
+						}
+					);
+
+					GotoTabPage(tabMainStationSetup, null);
+				}
+				else
+				{
+					StationController.StationOnline(cmbEmail.Text.ToLower(), txtPassword.Text);
+					Process clientProcess = LaunchWavefaceClient(cmbEmail.Text.ToLower(), txtPassword.Text);
+					
+					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
+					userlogin.RememberPassword = chkRememberPassword.Checked;
+					userloginContainer.UpdateUserLoginSetting(userlogin);
+
+                    Hide();
+                    if (clientProcess != null)
+                        clientProcess.WaitForExit();
+
+                    if (clientProcess.ExitCode == 0)
+                    {
+                        Close();
+                        return;
+                    }
+
+                    Show();
+				}
+			}
+			catch (AuthenticationException)
+			{
+				MessageBox.Show(I18n.L.T("AuthError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+				txtPassword.Text = string.Empty;
+				txtPassword.Focus();
+			}
+			catch (StationServiceDownException)
+			{
+				MessageBox.Show(I18n.L.T("StationDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (Exception)
+			{
+				MessageBox.Show(I18n.L.T("UnknownSigninError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			finally
+			{
+				Cursor = Cursors.Default;
+			}
+		}
+
+		private bool TestEmailFormat(string emailAddress)
+		{
+			const string _patternStrict = @"^(([^<>()[\]\\.,;:\s@\""]+"
+										 + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
+										 + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
+										 + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
+										 + @"[a-zA-Z]{2,}))$";
+
+			Regex _reStrict = new Regex(_patternStrict);
+			return _reStrict.IsMatch(emailAddress);
+		}
+
+		private void btnOK_Click(object sender, EventArgs e)
+		{
+			LaunchWavefaceClient(cmbEmail.Text.ToLower(), txtPassword.Text);
+			Close();
+		}
+
+		private Process LaunchWavefaceClient(string email, string password)
+		{
+			string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+		   "WavefaceWindowsClient.exe");
+			return Process.Start(_execPath, email + " " + password);
+		}
+
+		private void ExitProgram()
+		{
+			formCloseEnabled = true;
+			Close();
+		}
+
+        private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            tabControl.SelectedTab = tabSignUp;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl.SelectedTab == tabSignUp)
+            {
+                webBrowser1.ObjectForScripting = this;
+                webBrowser1.Navigate(@"C:\Users\larry\Desktop\Test.html");
+            }
+        }
+
+        public void SignUpCompleted(string functionName)
+        {
+            string ret = webBrowser1.Document.InvokeScript(functionName, new object[] { string.Empty, string.Empty }).ToString();
+            Boolean isSignUpCompleted = !string.IsNullOrEmpty(ret);
+            if (isSignUpCompleted)
+            {
+                tabControl.SelectedTab = tabSignIn;
+                cmbEmail.Text = "test";
+                txtPassword.Text = "test";
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.Tab))
+            {
+                return true;
+            }
+            else
+            {
+                return base.ProcessCmdKey(ref msg, keyData);
+            }
+        }
+
 	}
 
 	#region PauseServiceUIController
@@ -543,7 +780,7 @@ namespace StationSystemTray
 
 		protected override object Action(object obj)
 		{
-			StationController.StationOnline();
+			//StationController.StationOnline();
 			return null;
 		}
 
@@ -557,4 +794,6 @@ namespace StationSystemTray
 		}
 	}
 	#endregion
+
+  
 }

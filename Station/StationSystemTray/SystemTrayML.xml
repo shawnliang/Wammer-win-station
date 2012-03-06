@@ -1,12 +1,12 @@
 <?xml version="1.0" standalone="yes"?>
 <WItems>
   <WItem>
-    <ID>LoginForm.FillAllFields</ID>
+    <ID>FillAllFields</ID>
     <en-US>Please fill all the fields!</en-US>
     <zh-TW>請填寫所有欄位.</zh-TW>
   </WItem>
   <WItem>
-    <ID>LoginForm.LogInError</ID>
+    <ID>LogInError</ID>
     <en-US>Log In error. Please try again.</en-US>
     <zh-TW>登錄時發生錯誤, 請重新輸入.</zh-TW>
   </WItem>
@@ -16,27 +16,32 @@
     <zh-TW>帳號或密碼錯誤, 請再試一次.</zh-TW>
   </WItem>
   <WItem>
+    <ID>UserExisted</ID>
+    <en-US>There is already an account with that name. Please type a different name.</en-US>
+    <zh-TW>使用者帳號已存在, 請輸入不同的帳號.</zh-TW>
+  </WItem>
+  <WItem>
     <ID>InvalidDriverError</ID>
     <en-US>The user name is different to the driver account of this Waveface Station. Please try again.</en-US>
     <zh-TW>帳號與這台 Waveface Station 的管理者帳號不符, 請再試一次.</zh-TW>
   </WItem>
   <WItem>
-    <ID>LoginForm.StationExpired</ID>
+    <ID>StationExpired</ID>
     <en-US>The registration information of this Waveface Station is expired. Please restart the program to re-register the station.</en-US>
     <zh-TW>這台 Waveface Station 的註冊資訊已失效, 請重新啟動程式以註冊新的 Waveface Station.</zh-TW>
   </WItem>
   <WItem>
-    <ID>LoginForm.UserNotExisted</ID>
+    <ID>UserNotExisted</ID>
     <en-US>Driver account is deleted. Please restart the program to re-register the station with a valid driver account.</en-US>
     <zh-TW>管理者帳號已被刪除. 請重新啟動程式並用有效的管理者帳號註冊新的 Waveface Station.</zh-TW>
   </WItem>
   <WItem>
-    <ID>Main.ChangeOwnerWarning</ID>
+    <ID>ChangeOwnerWarning</ID>
     <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Waveface Station.</en-US>
     <zh-TW>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</zh-TW>
   </WItem>
   <WItem>
-    <ID>Main.ChangeOwnerSuccess</ID>
+    <ID>ChangeOwnerSuccess</ID>
     <en-US>User '{0}' is unassociated with Waveface Station successfully.
 Please restart Waveface to continue assign a new Waveface Station user
     </en-US>

@@ -14,14 +14,14 @@ using Wammer.Station.Management;
 
 namespace StationSystemTray
 {
-	public partial class SignInForm : Form
+	public partial class ReloginForm : Form
 	{
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("SignInForm");
 
 		private Messenger messenger;
 		private MainForm mainform;
 
-		public SignInForm(MainForm mainform)
+		public ReloginForm(MainForm mainform)
 		{
 			InitializeComponent();
 
@@ -35,7 +35,7 @@ namespace StationSystemTray
 
 			if (this.txtEmail.Text == "" || this.txtPassword.Text == "")
 			{
-				messenger.ShowMessage(I18n.L.T("LoginForm.FillAllFields"));
+				messenger.ShowMessage(I18n.L.T("FillAllFields"));
 				return;
 			}
 
@@ -52,12 +52,12 @@ namespace StationSystemTray
 			}
 			catch (UserDoesNotExistException)
 			{
-				messenger.ShowMessage(I18n.L.T("LoginForm.UserNotExisted"));
+				messenger.ShowMessage(I18n.L.T("UserNotExisted"));
 				mainform.ReregisterStation();
 			}
 			catch (UserAlreadyHasStationException)
 			{
-				messenger.ShowMessage(I18n.L.T("LoginForm.StationExpired"));
+				messenger.ShowMessage(I18n.L.T("StationExpired"));
 				mainform.ReregisterStation();
 			}
 			catch (InvalidDriverException)
@@ -70,7 +70,7 @@ namespace StationSystemTray
 			catch (Exception ex)
 			{
 				logger.Error("StationOnline failed", ex);
-				messenger.ShowMessage(I18n.L.T("LoginForm.LogInError"));
+				messenger.ShowMessage(I18n.L.T("LogInError"));
 				this.txtPassword.Text = "";
 				this.txtPassword.Focus();
 			}
