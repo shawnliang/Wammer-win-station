@@ -628,7 +628,7 @@ namespace StationSystemTray
 
 			UserLoginSetting userlogin = userloginContainer.GetUserLogin(menu.Text);
 			if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
-		{
+			{
 				LaunchWavefaceClient(userlogin);
 			}
 			else
