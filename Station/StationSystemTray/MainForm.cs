@@ -130,6 +130,10 @@ namespace StationSystemTray
 			{
 				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
 				TrayMenu.Items.RemoveByKey(userlogin.Email);
+				if (TrayMenu.Items.Count == 8)
+				{
+					menuSignInOut.Text = "Sign In...";
+				}
 				GotoTabPage(tabSignIn, userlogin);
 				Show();
 				Activate();
@@ -198,6 +202,7 @@ namespace StationSystemTray
 		{
 			try
 			{
+				uictrlWavefaceClient.Terminate();
 				StationController.StationOffline();
 			}
 			catch (Exception ex)
@@ -706,6 +711,7 @@ namespace StationSystemTray
 				ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
 				menu.Name = userlogin.Email;
 				TrayMenu.Items.Insert(TrayMenu.Items.IndexOf(toolStripSeparator2), menu);
+				menuSignInOut.Text = "Switch to another account...";
 			}
 		}
 
