@@ -21,6 +21,11 @@ namespace Waveface.PostUI
             InitializeComponent();
         }
 
+        public void ChangeToEditModeUI(Post post)
+        {
+            btnSend.Text = "更改";
+        }
+
         private void btnSend_Click(object sender, EventArgs e)
         {
             if (!Main.Current.CheckNetworkStatus())
