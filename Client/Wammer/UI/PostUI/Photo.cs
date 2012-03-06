@@ -394,7 +394,7 @@ namespace Waveface.PostUI
 
         private void columnContextMenu_Closing(object sender, ToolStripDropDownClosingEventArgs e)
         {
-            imageListView.SetRenderer(m_imageListViewRenderer);
+            imageListView.SetRenderer(new MyImageListViewRenderer());
         }
 
         #endregion

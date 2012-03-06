@@ -69,6 +69,10 @@ namespace Waveface
         public LoginForm()
         {
             InitializeComponent();  
+
+            m_formSettings = new FormSettings(this);
+            m_formSettings.UseSize = false;
+            m_formSettings.SaveOnClose = true;
         }
 
         public LoginForm(string email, string password)

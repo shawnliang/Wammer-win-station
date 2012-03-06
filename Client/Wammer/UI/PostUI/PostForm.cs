@@ -30,8 +30,10 @@ namespace Waveface
         private FormSettings m_formSettings;
         private bool m_getPreviewNow;
         private string m_lastPreviewURL = string.Empty;
+        
         private bool m_editMode;
         private Post m_post;
+        private Dictionary<string, string> m_oldImageFiles;
 
         public NewPostItem NewPostItem { get; set; }
 
@@ -41,6 +43,7 @@ namespace Waveface
 
             m_editMode = editMode;
             m_post = post;
+            m_oldImageFiles = new Dictionary<string, string>();
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseLocation = true;
@@ -61,33 +64,54 @@ namespace Waveface
 
             if (m_editMode)
             {
-                Text = "編輯貼文";
-                btnSend.Text = "更改";
-
-                ChangeToEditModeUI();
-
-                pureTextBox.Text = m_post.content;
-                CreateLink();
-
-                if (m_post.type == "link")
-                {
-                    CheckWebPreview();
-                }
-
-                ToSubControl(files, getPostType(m_post.type));
+                InitEditMode();
             }
             else
             {
-                ToSubControl(files, postType);
+                InitNewMode(files, postType);
             }
         }
 
-        private void ChangeToEditModeUI()
+        private void InitEditMode()
         {
+            List<string> _pics = new List<string>();
+
+            Text = "編輯貼文";
+
+            // Send/Edit Button Text
+            btnSend.Text = "更改";
             weblink_UI.ChangeToEditModeUI(m_post);
             photo_UI.ChangeToEditModeUI(m_post);
-            //richText_UI.ChangeToEditModeUI(m_post);
-            //document_UI.ChangeToEditModeUI(m_post);
+
+
+            pureTextBox.Text = m_post.content;
+            CreateLink();
+
+            switch (m_post.type)
+            {
+                case "link":
+                    CheckWebPreview();
+                    break;
+                
+                case "image":
+                    {
+                        m_oldImageFiles = AttachmentUtility.GetAllMediumsPhotoPathsByPost(m_post);
+
+                        foreach (KeyValuePair<string, string> _imgPair in m_oldImageFiles)
+                        {
+                           _pics.Add(_imgPair.Value); 
+                        }
+                    }
+
+                    break;
+            }
+
+            ToSubControl(_pics, getPostType(m_post.type));
+        }
+
+        private void InitNewMode(List<string> files, PostType postType)
+        {
+            ToSubControl(files, postType);
         }
 
         private void CreateLinkFormattingRule()
