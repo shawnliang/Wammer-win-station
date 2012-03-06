@@ -26,7 +26,6 @@ namespace Waveface
         private Image m_dropAreaImage;
         private Font m_font = new Font("Arial", 10, FontStyle.Bold);
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
-        private List<FilterItem> m_monthFilters;
 
         #region Properties
 
@@ -61,7 +60,7 @@ namespace Waveface
 
             m_dropAreaImage = new Bitmap(150, 138);
 
-            InitMonthFilters();
+            InitDefaultFilters();
 
             InitAddNewButton();
         }
@@ -130,14 +129,28 @@ namespace Waveface
 
         #region Timeline
 
-        public void InitMonthFilters()
+        private void InitDefaultFilters()
         {
-            DateTime _beginDay = new DateTime(2011, 11, 1); //@ 要改以註冊時間
+            InitAllAndPostTypeFilters();
+            InitMonthFilters();
+        }
+
+        private void InitAllAndPostTypeFilters()
+        {
+            // "all", "text", "image", "link", "rtf", "doc"
+
+            AddTimelineTreeNode(FilterHelper.CreateAllPostFilterItemByPostType("全部", "all"));
+            AddTimelineTreeNode(FilterHelper.CreateAllPostFilterItemByPostType("文字", "text"));
+            AddTimelineTreeNode(FilterHelper.CreateAllPostFilterItemByPostType("照片", "image"));
+            AddTimelineTreeNode(FilterHelper.CreateAllPostFilterItemByPostType("網頁", "link"));
+        }
+
+        private void InitMonthFilters()
+        {
+            DateTime _beginDay = new DateTime(2012, 1, 1); //@ 要改以註冊時間
             DateTime _endDay = DateTime.Now;
 
             IEnumerable<DateTime> _months = MonthsBetween(_beginDay, _endDay).Reverse();
-
-            m_monthFilters = new List<FilterItem>();
 
             foreach (DateTime _dt in _months)
             {
@@ -156,39 +169,23 @@ namespace Waveface
 
                 FilterItem _item = new FilterItem();
                 _item.Name = _m;
-                _item.Filter = FilterHelper.GetTimeRangeFilterJson(_from, _to, -100, "[type]", "[offset]");
-                //_item.Filter = FilterHelper.GetTimeStampFilterJson(_to, -20, "[type]", "[offset]");
+                _item.Filter = FilterHelper.GetTimeRangeFilterJson(_from, _to, -100, "all", "[offset]");
+                //_item.Filter = FilterHelper.GetTimeStampFilterJson(_to, -20, "all", "[offset]");
 
-                m_monthFilters.Add(_item);
-
-
-                TreeNode _treeNode = new TreeNode();
-                _treeNode.Text = _item.Name;
-                _treeNode.Tag = _item;
-
-                _treeNode.ImageIndex = 1;
-                _treeNode.SelectedImageIndex = 1;
-
-                tvTimeline.Nodes.Add(_treeNode);
+                AddTimelineTreeNode(_item);
             }
         }
 
-        private void tvCustomFilter_Click(object sender, EventArgs e)
+        private void AddTimelineTreeNode(FilterItem _item)
         {
-            TreeNode _treeNode = (TreeNode)sender;
+            TreeNode _treeNode = new TreeNode();
+            _treeNode.Text = _item.Name;
+            _treeNode.Tag = _item;
 
-            FilterItem _item = (FilterItem)_treeNode.Tag;
+            _treeNode.ImageIndex = 1;
+            _treeNode.SelectedImageIndex = 1;
 
-            Main.Current.DoTimelineFilter(_item, false);
-        }
-
-        private void tvTimeline_Click(object sender, EventArgs e)
-        {
-            TreeNode _treeNode = (TreeNode)sender;
-
-            FilterItem _item = (FilterItem)_treeNode.Tag;
-
-            Main.Current.DoTimelineFilter(_item, true);
+            tvTimeline.Nodes.Add(_treeNode);
         }
 
         private IEnumerable<DateTime> MonthsBetween(DateTime d0, DateTime d1)

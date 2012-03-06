@@ -21,6 +21,8 @@ namespace Waveface.API.V2
         public string type { get; set; }
         public string status { get; set; }
 
+        public bool hidden { get; set; }
+
         public int comment_count { get; set; }
         public List<Comment> comments { get; set; }
 

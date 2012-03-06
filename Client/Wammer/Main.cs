@@ -735,6 +735,7 @@ namespace Waveface
 
         public void FilterReadMorePost()
         {
+            FilterFetchPostsAndShow(false);
         }
 
         private void FilterFetchPostsAndShow(bool firstTime)
@@ -745,7 +746,10 @@ namespace Waveface
             int _offset = RT.FilterPosts.Count;
 
             string _filter = RT.CurrentFilterItem.Filter;
-            _filter = _filter.Replace("[type]", postsArea.GetPostType());
+
+            if (RT.CurrentFilterItem.DynamicNow)
+                _filter = FilterHelper.GetAllPostFilterStringByPostType(_filter);
+
             _filter = _filter.Replace("[offset]", _offset.ToString());
 
             Cursor = Cursors.WaitCursor;
@@ -779,7 +783,7 @@ namespace Waveface
 
             setCalendarBoldedDates(_posts);
 
-            postsArea.ShowPostInfo(RT.FilterPostsAllCount, _posts.Count);
+            postsArea.ShowPostInfor(RT.FilterPostsAllCount, _posts.Count);
 
             postsArea.PostsList.SetFilterPosts(_posts, refreshCurrentPost, RT.IsFilterFirstTimeGetData);
         }
@@ -963,6 +967,7 @@ namespace Waveface
 
                 setCalendarBoldedDates(_posts);
 
+                postsArea.ShowPostInforPanel(false);
                 leftArea.SetUI(true);
 
                 int _index = RT.GetMyTimelinePosition(showTimelineIndexType);
@@ -1002,25 +1007,19 @@ namespace Waveface
 
             timerDelayPost.Enabled = false;
 
-            DoRealPost(m_delayPostPicList, m_delayPostType);
+            DoRealPostForm(m_delayPostPicList, m_delayPostType);
 
             m_delayPostPicList.Clear();
 
             timerDelayPost.Enabled = true;
         }
-
+        
         public void Post()
         {
-            DoRealPost(new List<string>(), PostType.All);
+            DoRealPostForm(new List<string>(), PostType.All);
         }
-
-        public void Post(List<string> pics, PostType postType)
-        {
-            m_delayPostType = postType;
-            m_delayPostPicList = pics;
-        }
-
-        private void DoRealPost(List<string> pics, PostType postType)
+        
+        public void EditPost(Post post)
         {
             if (!RT.LoginOK)
             {
@@ -1032,7 +1031,50 @@ namespace Waveface
 
             try
             {
-                m_postForm = new PostForm(pics, postType);
+                m_postForm = new PostForm(new List<string>(), PostType.All, post, true);
+                DialogResult _dr = m_postForm.ShowDialog();
+
+                switch (_dr)
+                {
+                    case DialogResult.Yes:
+                        break;
+
+                    case DialogResult.OK:
+                        NewPostManager.Add(m_postForm.NewPostItem);
+                        break;
+                }
+            }
+            catch (Exception _e)
+            {
+                //MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface");
+
+                NLogUtility.Exception(s_logger, _e, "Edit Post");
+            }
+
+            m_postForm = null;
+
+            m_canAutoFetchNewestPosts = true;
+        }
+
+        public void Post(List<string> pics, PostType postType)
+        {
+            m_delayPostType = postType;
+            m_delayPostPicList = pics;
+        }
+
+        private void DoRealPostForm(List<string> pics, PostType postType)
+        {
+            if (!RT.LoginOK)
+            {
+                MessageBox.Show("Please Login first.", "Waveface");
+                return;
+            }
+
+            m_canAutoFetchNewestPosts = false;
+
+            try
+            {
+                m_postForm = new PostForm(pics, postType, null, false);
                 DialogResult _dr = m_postForm.ShowDialog();
 
                 switch (_dr)
@@ -1243,7 +1285,7 @@ namespace Waveface
             {
                 MessageBox.Show("Remove Post Success!");
 
-                ShowPostToUI(false);
+                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
             }
         }
 
@@ -1313,6 +1355,28 @@ namespace Waveface
             postsArea.ShowStatusText("");
         }
 
+        public void ShowFileMissDialog(string text)
+        {
+            NewPostThreadErrorDialogResult = DialogResult.None;
+
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.FileMiss"), text), "Waveface", MessageBoxIcon.Warning);
+            _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
+            DialogResult _dr = _msgBox.ShowDialog();
+
+            NewPostThreadErrorDialogResult = _dr;
+        }
+
+        public void OverQuotaMissDialog(string text)
+        {
+            NewPostThreadErrorDialogResult = DialogResult.None;
+
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.OverQuota"), text), "Waveface", MessageBoxIcon.Warning);
+            _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
+            DialogResult _dr = _msgBox.ShowDialog();
+
+            NewPostThreadErrorDialogResult = _dr;
+        }
+
         #endregion
 
         #region GetAllData
@@ -1333,7 +1397,7 @@ namespace Waveface
             catch
             {
                 //Hack: Cloud ¦R¥X¿ù»~¸ê®Æ
-                
+
                 ForceLogout();
                 m_getAllDataError = true;
                 return;
@@ -1527,27 +1591,5 @@ namespace Waveface
         }
 
         #endregion
-
-        public void ShowFileMissDialog(string text)
-        {
-            NewPostThreadErrorDialogResult = DialogResult.None;
-
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.FileMiss"), text), "Waveface", MessageBoxIcon.Warning);
-            _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
-            DialogResult _dr = _msgBox.ShowDialog();
-
-            NewPostThreadErrorDialogResult = _dr;
-        }
-
-        public void OverQuotaMissDialog(string text)
-        {
-            NewPostThreadErrorDialogResult = DialogResult.None;
-
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.OverQuota"), text), "Waveface", MessageBoxIcon.Warning);
-            _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
-            DialogResult _dr = _msgBox.ShowDialog();
-
-            NewPostThreadErrorDialogResult = _dr;
-        }
     }
 }

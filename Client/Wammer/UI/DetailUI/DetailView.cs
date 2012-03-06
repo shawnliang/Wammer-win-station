@@ -129,6 +129,7 @@ namespace Waveface
             this.btnRemove.Image = global::Waveface.Properties.Resources.trash;
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // btnEdit
             // 
@@ -140,6 +141,7 @@ namespace Waveface
             this.btnEdit.Image = global::Waveface.Properties.Resources.page;
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnComment
             // 
@@ -475,8 +477,7 @@ namespace Waveface
             }
         }
 
-        /*
-        private void linkLabelRemove_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnRemove_Click(object sender, EventArgs e)
         {
             DialogResult _dr = MessageBox.Show("Do you really want to remove this post?", "Waveface", MessageBoxButtons.YesNo);
 
@@ -485,6 +486,13 @@ namespace Waveface
 
             Main.Current.HidePost(m_post.post_id);
         }
-        */
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
+            Main.Current.EditPost(Post);
+        }
     }
 }

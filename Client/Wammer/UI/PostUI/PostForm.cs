@@ -30,12 +30,20 @@ namespace Waveface
         private FormSettings m_formSettings;
         private bool m_getPreviewNow;
         private string m_lastPreviewURL = string.Empty;
+        
+        private bool m_editMode;
+        private Post m_post;
+        private Dictionary<string, string> m_oldImageFiles;
 
         public NewPostItem NewPostItem { get; set; }
 
-        public PostForm(List<string> files, PostType postType)
+        public PostForm(List<string> files, PostType postType, Post post, bool editMode)
         {
             InitializeComponent();
+
+            m_editMode = editMode;
+            m_post = post;
+            m_oldImageFiles = new Dictionary<string, string>();
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseLocation = true;
@@ -54,6 +62,55 @@ namespace Waveface
 
             pureTextBox.WaterMarkText = I18n.L.T("PostForm.PuretextWaterMark");
 
+            if (m_editMode)
+            {
+                InitEditMode();
+            }
+            else
+            {
+                InitNewMode(files, postType);
+            }
+        }
+
+        private void InitEditMode()
+        {
+            List<string> _pics = new List<string>();
+
+            Text = "編輯貼文";
+
+            // Send/Edit Button Text
+            btnSend.Text = "更改";
+            weblink_UI.ChangeToEditModeUI(m_post);
+            photo_UI.ChangeToEditModeUI(m_post);
+
+
+            pureTextBox.Text = m_post.content;
+            CreateLink();
+
+            switch (m_post.type)
+            {
+                case "link":
+                    CheckWebPreview();
+                    break;
+                
+                case "image":
+                    {
+                        m_oldImageFiles = AttachmentUtility.GetAllMediumsPhotoPathsByPost(m_post);
+
+                        foreach (KeyValuePair<string, string> _imgPair in m_oldImageFiles)
+                        {
+                           _pics.Add(_imgPair.Value); 
+                        }
+                    }
+
+                    break;
+            }
+
+            ToSubControl(_pics, getPostType(m_post.type));
+        }
+
+        private void InitNewMode(List<string> files, PostType postType)
+        {
             ToSubControl(files, postType);
         }
 
@@ -66,11 +123,36 @@ namespace Waveface
                                                       _format);
         }
 
+        private PostType getPostType(string postType)
+        {
+            switch (postType)
+            {
+                case "text":
+                    return PostType.Text;
+
+                case "doc":
+                    return PostType.Document;
+
+                case "link":
+                    return PostType.Link;
+
+                case "image":
+                    return PostType.Photo;
+
+                case "rtf":
+
+                    return PostType.RichText;
+            }
+
+            return PostType.Text;
+        }
+
         private void ToSubControl(List<string> files, PostType postType)
         {
             switch (postType)
             {
                 case PostType.All:
+                case PostType.Text:
                     toPureText_Mode();
                     break;
 
@@ -88,10 +170,6 @@ namespace Waveface
 
                 case PostType.RichText:
                     toRichText_Mode();
-                    break;
-
-                case PostType.Text:
-                    toPureText_Mode();
                     break;
             }
 
@@ -301,9 +379,6 @@ namespace Waveface
             FormattingInstructionCollection _instructions = new FormattingInstructionCollection();
 
             Format _format = new Format();
-            //_format.ForeColor = Color.Black;
-            //_format.Font = pureTextBox.Font;
-            //_format.UnderlineFormat = new UnderlineFormat(UnderlineStyle.None, UnderlineColor.Black);
             _instructions.Add(new FormattingInstruction(0, _contents.Length, _format));
 
             foreach (Match _match in m_linkFormattingRule.Regex.Matches(_contents))
@@ -450,7 +525,7 @@ namespace Waveface
                 if (_isOK)
                 {
                     showWebLinkPreview(_mrPreviewsGetAdv);
-                    
+
                     m_lastPreviewURL = _url;
 
                     break;
