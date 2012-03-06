@@ -117,51 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;pbDropArea.Name" xml:space="preserve">
-    <value>pbDropArea</value>
-  </data>
-  <data name="&gt;&gt;pbDropArea.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pbDropArea.Parent" xml:space="preserve">
-    <value>panelBottom</value>
-  </data>
-  <data name="&gt;&gt;pbDropArea.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="panelBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="panelBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 481</value>
-  </data>
-  <data name="panelBottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 171</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="panelBottom.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.Name" xml:space="preserve">
-    <value>panelBottom</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="pbDropArea.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Center</value>
   </data>
   <data name="pbDropArea.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pbDropArea.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 11.25pt</value>
   </data>
@@ -177,6 +140,7 @@
   <data name="pbDropArea.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>CenterImage</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pbDropArea.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -195,6 +159,30 @@
   <data name="&gt;&gt;pbDropArea.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="panelBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="panelBottom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 481</value>
+  </data>
+  <data name="panelBottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 171</value>
+  </data>
+  <data name="panelBottom.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.Name" xml:space="preserve">
+    <value>panelBottom</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="tvCustomFilter.ImageIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -206,7 +194,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAA0
-        CAAAAk1TRnQBSQFMAgEBAgEAAbwBAgG8AQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAcQBAgHEAQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -272,10 +260,10 @@
     <value>Fill</value>
   </data>
   <data name="panelCustomFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 125</value>
+    <value>0, 145</value>
   </data>
   <data name="panelCustomFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 148</value>
+    <value>193, 128</value>
   </data>
   <data name="panelCustomFilter.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -291,6 +279,21 @@
   </data>
   <data name="&gt;&gt;panelCustomFilter.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="tvTimeline.ImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tvTimeline.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 4</value>
+  </data>
+  <data name="tvTimeline.SelectedImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tvTimeline.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 135</value>
+  </data>
+  <data name="tvTimeline.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;tvTimeline.Name" xml:space="preserve">
     <value>tvTimeline</value>
@@ -311,7 +314,7 @@
     <value>0, 0</value>
   </data>
   <data name="panelTimeline.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 125</value>
+    <value>193, 145</value>
   </data>
   <data name="panelTimeline.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -353,6 +356,15 @@
     <value>panelMain</value>
   </data>
   <data name="&gt;&gt;panelFilter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="monthCalendar.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
+  </data>
+  <data name="monthCalendar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="monthCalendar.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="&gt;&gt;monthCalendar.Name" xml:space="preserve">
@@ -405,7 +417,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADy
-        FwAAAk1TRnQBSQFMAwEBAAGcAQUBnAEFASABAAEgAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABgAMA
+        FwAAAk1TRnQBSQFMAwEBAAGkAQUBpAEFASABAAEgAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABgAMA
         ASADAAEBAQABIAYAAUD/AP8A/wD/ABoAAxkBIwMtAUUDNAFUAzoBYgM/AW0DQwF4A0MBeANDAXgDQwF4
         A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4
         A0MBeANDAXgDOgFgAy4BSAMaAST/AI0AAy0BRQNKAYoCUgFRAacCWwFZAcMCYQFeAdoCXQFOAfACXQFO
@@ -524,7 +536,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACM
-        BgAAAk1TRnQBSQFMAwEBAAGkAQUBpAEFARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
+        BgAAAk1TRnQBSQFMAwEBAAGsAQUBrAEFARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
         ARADAAEBAQABIAYAARD/ABcAA0oBigJbAVkBwwJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJd
         AU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8ANMAZDIAAJhAVsB4QHuAewB6gH/AfcB8gHw
         Af8B+AHzAfAB/wH4AfMB7wH/AfcB8wHvAf8B9wHyAe8B/wH3AfIB7gH/AfcB8gHuAf8B9wHyAe4B/wH3
@@ -600,54 +612,6 @@
   <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="tvTimeline.ImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tvTimeline.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 4</value>
-  </data>
-  <data name="tvTimeline.SelectedImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tvTimeline.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 116</value>
-  </data>
-  <data name="tvTimeline.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;tvTimeline.Name" xml:space="preserve">
-    <value>tvTimeline</value>
-  </data>
-  <data name="&gt;&gt;tvTimeline.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tvTimeline.Parent" xml:space="preserve">
-    <value>panelTimeline</value>
-  </data>
-  <data name="&gt;&gt;tvTimeline.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="monthCalendar.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="monthCalendar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="monthCalendar.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;monthCalendar.Name" xml:space="preserve">
-    <value>monthCalendar</value>
-  </data>
-  <data name="&gt;&gt;monthCalendar.Type" xml:space="preserve">
-    <value>CustomControls.MonthCalendar, MonthCalendarControl, Version=1.0.4331.30294, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;monthCalendar.Parent" xml:space="preserve">
-    <value>panelCalendar</value>
-  </data>
-  <data name="&gt;&gt;monthCalendar.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <metadata name="imageListTimeline.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>621, 17</value>
   </metadata>
@@ -656,7 +620,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADo
-        CAAAAk1TRnQBSQFMAgEBAgEAAdwBAgHcAQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAeQBAgHkAQIBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA

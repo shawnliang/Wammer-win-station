@@ -141,6 +141,8 @@ namespace Waveface.DetailUI
 
         private void SetHTML()
         {
+            MyParent.CanEdit = true;
+
             StringBuilder _sb = new StringBuilder();
 
             _sb.Append("<font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif' color='#eef'><p>[Text]</p></font>");
@@ -217,9 +219,7 @@ namespace Waveface.DetailUI
             m_soulBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowser, miCopySoul);
             contextMenuStrip.Opening += contextMenuStrip_Opening;
             miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
-            webBrowser.Document.ContextMenuShowing += webBrowser_ContextMenuShowing;
-
-            MyParent.CanEdit = true;
+            webBrowser.Document.ContextMenuShowing += webBrowser_ContextMenuShowing;            
         }
 
         private void LinkClick(object sender, EventArgs e)

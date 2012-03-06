@@ -27,6 +27,11 @@ namespace Waveface.PostUI
             InitIconListManager();
         }
 
+        public void ChangeToEditModeUI(Post post)
+        {
+            btnSend.Text = "更改";
+        }
+
         private void InitIconListManager()
         {
             m_smallImageList.ColorDepth = ColorDepth.Depth32Bit;

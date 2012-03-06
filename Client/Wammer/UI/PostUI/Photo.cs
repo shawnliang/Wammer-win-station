@@ -36,6 +36,11 @@ namespace Waveface.PostUI
             InitImageListView();
         }
 
+        public void ChangeToEditModeUI(Post post)
+        {
+            btnSend.Text = "更改";
+        }
+
         #region ImageListView
 
         private void InitImageListView()
@@ -389,7 +394,7 @@ namespace Waveface.PostUI
 
         private void columnContextMenu_Closing(object sender, ToolStripDropDownClosingEventArgs e)
         {
-            imageListView.SetRenderer(m_imageListViewRenderer);
+            imageListView.SetRenderer(new MyImageListViewRenderer());
         }
 
         #endregion

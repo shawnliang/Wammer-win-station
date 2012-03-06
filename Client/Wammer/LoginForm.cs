@@ -69,6 +69,10 @@ namespace Waveface
         public LoginForm()
         {
             InitializeComponent();  
+
+            m_formSettings = new FormSettings(this);
+            m_formSettings.UseSize = false;
+            m_formSettings.SaveOnClose = true;
         }
 
         public LoginForm(string email, string password)
@@ -240,8 +244,15 @@ namespace Waveface
 
             try
             {
-                if (_doLogin(email, password) == QuitOption.QuitProgram)
+                QuitOption quit = _doLogin(email, password);
+                if (quit == QuitOption.QuitProgram)
+                {
                     Close();
+                }
+                else if (quit == QuitOption.Logout)
+                {
+                    Environment.Exit(-2);
+                }
                 else
                 {
                     Environment.Exit(-1);

@@ -111,19 +111,19 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo_DV));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.timer = new System.Windows.Forms.Timer(this.components);
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
             this.panelRight = new Waveface.Component.AutoScrollPanel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
-            this.contextMenuStripTop.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.panelPictureInfo.SuspendLayout();
+            this.contextMenuStripTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -132,27 +132,6 @@ namespace Waveface.DetailUI
             this.panelMain.Controls.Add(this.panelRight);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            // 
-            // timer
-            // 
-            this.timer.Interval = 3000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // contextMenuStripTop
-            // 
-            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopyTop});
-            this.contextMenuStripTop.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
-            // 
-            // miCopyTop
-            // 
-            this.miCopyTop.Name = "miCopyTop";
-            resources.ApplyResources(this.miCopyTop, "miCopyTop");
             // 
             // panelRight
             // 
@@ -165,6 +144,8 @@ namespace Waveface.DetailUI
             // 
             // imageListView
             // 
+            this.imageListView.AllowDrag = true;
+            this.imageListView.AllowDrop = true;
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.CacheLimit = "0";
@@ -199,6 +180,27 @@ namespace Waveface.DetailUI
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
+            // timer
+            // 
+            this.timer.Interval = 3000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // contextMenuStripTop
+            // 
+            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopyTop});
+            this.contextMenuStripTop.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
+            // 
+            // miCopyTop
+            // 
+            this.miCopyTop.Name = "miCopyTop";
+            resources.ApplyResources(this.miCopyTop, "miCopyTop");
+            // 
             // Photo_DV
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
@@ -207,9 +209,9 @@ namespace Waveface.DetailUI
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
-            this.contextMenuStripTop.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.panelPictureInfo.ResumeLayout(false);
+            this.contextMenuStripTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

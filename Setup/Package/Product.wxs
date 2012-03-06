@@ -6,7 +6,7 @@
   <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
   <?define AppVersionMajor = "1" ?>
   <?define AppVersionMinor = "0" ?>
-  <?define AppVersionPatch = "2" ?>
+  <?define AppVersionPatch = "3" ?>
   <?define AppVersionBuild = "0" ?>
   <?define AppVersion = "$(var.AppVersionMajor).$(var.AppVersionMinor).$(var.AppVersionPatch).$(var.AppVersionBuild)" ?>
   <?define AppManufacturer = "Waveface" ?>
@@ -113,7 +113,7 @@
     <DirectoryRef Id="TARGETDIR">
       <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
         <RegistryKey Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Run">
-          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationUI.exe"' KeyPath='yes'/>
+          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationSystemTray.exe"' KeyPath='yes'/>
         </RegistryKey>
       </Component> 
       <!-- Compatibility Mode -->
@@ -170,8 +170,6 @@
       <ComponentRef Id="log4net.dll"/>
       <ComponentRef Id="MongoDB.Bson.dll"/>
       <ComponentRef Id="MongoDB.Driver.dll"/>
-      <ComponentRef Id="StationUI.exe"/>
-      <ComponentRef Id="StationUI.resources.dll"/>
       <ComponentRef Id="StationSystemTray.exe"/>
       <ComponentRef Id="StationSystemTray.exe.config"/>
       <ComponentRef Id="StationSystemTray.resources.dll"/>
@@ -239,9 +237,6 @@
       </Component>
       <Component Id="Station.Management.exe" Guid="{F6BE5F51-E2BB-4BC3-BA4E-9488DCBA4D5B}">
         <File Id="Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Guid="*">
-        <File Id="StationUI.exe" Source="$(var.StationUI.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Guid="*">
         <File Id="StationSystemTray.exe" Source="$(var.StationSystemTray.TargetPath)" KeyPath="yes" Checksum="yes"/>
@@ -327,9 +322,6 @@
 
     <!-- localization resources -->
     <DirectoryRef Id="zh_TW">
-      <Component Guid="*">
-        <File Id="StationUI.resources.dll" Source="$(var.StationUI.TargetDir)\zh-TW\StationUI.resources.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
       <Component Guid="*">
         <File Id="StationSystemTray.resources.dll" Source="$(var.StationSystemTray.TargetDir)\zh-TW\StationSystemTray.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>

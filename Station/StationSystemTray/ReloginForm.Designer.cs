@@ -75,7 +75,7 @@
 			resources.ApplyResources(this.lblSignInMsg, "lblSignInMsg");
 			this.lblSignInMsg.Name = "lblSignInMsg";
 			// 
-			// SignInForm
+			// ReloginForm
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -89,7 +89,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "SignInForm";
+			this.Name = "ReloginForm";
 			this.Activated += new System.EventHandler(this.SignInForm_Activated);
 			this.Load += new System.EventHandler(this.SignInForm_Load);
 			this.ResumeLayout(false);

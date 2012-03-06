@@ -1,14 +1,40 @@
 ﻿
 using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Net;
 using System.Web;
 using Waveface.API.V2;
 
 namespace Waveface
 {
-    public class AttachmentUrlUtility
+    public class AttachmentUtility
     {
+        public static Dictionary<string, string> GetAllMediumsPhotoPathsByPost(Post post)
+        {
+            Dictionary<string, string> _files = new Dictionary<string, string>();
+
+            List<Attachment> _imageAttachments = new List<Attachment>();
+
+            foreach (Attachment _a in post.attachments)
+            {
+                if (_a.type == "image")
+                    _imageAttachments.Add(_a);
+            }
+
+            foreach (Attachment _a in _imageAttachments)
+            {
+                string _urlM = string.Empty;
+                string _fileNameM = string.Empty;
+                Main.Current.RT.REST.attachments_getRedirectURL_Image(_a, "medium", out _urlM, out _fileNameM, false);
+
+                string _localFileM = Main.GCONST.CachePath + _fileNameM;
+
+                _files.Add(_a.object_id, _localFileM);
+            }
+
+            return _files;
+        }
+
         public static string GetRedirectURL(string orgURL, string session_token, string object_id, bool isImage)
         {
             session_token = HttpUtility.UrlEncode(session_token);
