@@ -126,16 +126,14 @@ namespace StationSystemTray
 		{
 			int exitCode = (int)evt.param;
 
-			if (exitCode != 0)
+			if (exitCode == -2)  // client logout
 			{
-				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
+				TrayMenu.Items.RemoveByKey(userlogin.Email);
+				GotoTabPage(tabSignIn, userlogin);
 				Show();
 				Activate();
 			}
-
-			menuSignInOut.Text = "Sign In";
-			menuSignInOut.Click -= menuSignOut_Click;
-			menuSignInOut.Click += menuSignIn_Click;
 		}
 
 		private void WavefaceClientUIError(object sender, SimpleEventArgs evt)
@@ -598,16 +596,28 @@ namespace StationSystemTray
 
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
+			uictrlWavefaceClient.Terminate();
+			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
 			Show();
 			Activate();
 		}
 
-		private void menuSignOut_Click(object sender, EventArgs e)
+		private void menuSwitchUser_Click(object sender, EventArgs e)
 		{
-			if (clientProcess != null)
+			ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+
+			UserLoginSetting userlogin = userloginContainer.GetUserLogin(menu.Text);
+			if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
 			{
-				clientProcess.Kill();
+				LaunchWavefaceClient(userlogin);
 			}
+			else
+			{
+				uictrlWavefaceClient.Terminate();
+				LaunchWavefaceClient(userlogin);
+			}
+
+			Close();
 		}
 
 		private void btnSignIn_Click(object sender, EventArgs e)
@@ -631,7 +641,9 @@ namespace StationSystemTray
 				if (userlogin == null)
 				{
 					StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
-					
+
+					uictrlWavefaceClient.Terminate();
+
 					userloginContainer.AddUserLoginSetting(
 						new UserLoginSetting
 						{
@@ -645,17 +657,14 @@ namespace StationSystemTray
 				}
 				else
 				{
-					StationController.StationOnline(cmbEmail.Text.ToLower(), txtPassword.Text);
-					
+					StationController.StationOnline(userlogin.Email, txtPassword.Text);
+
+					uictrlWavefaceClient.Terminate();
+
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
-					userloginContainer.UpdateUserLoginSetting(userlogin);
 
-					uictrlWavefaceClient.PerformAction(userlogin);
-
-					menuSignInOut.Text = "Sign Out";
-					menuSignInOut.Click -= menuSignIn_Click;
-					menuSignInOut.Click += menuSignOut_Click;
+					LaunchWavefaceClient(userlogin);
 
 					Close();
 				}
@@ -681,6 +690,25 @@ namespace StationSystemTray
 			}
 		}
 
+		private void LaunchWavefaceClient(UserLoginSetting userlogin)
+		{
+			if (userlogin == null)
+			{
+				userlogin = userloginContainer.GetLastUserLogin();
+			}
+			else
+			{
+				userloginContainer.UpdateUserLoginSetting(userlogin);
+			}
+			uictrlWavefaceClient.PerformAction(userlogin);
+			if (!TrayMenu.Items.ContainsKey(userlogin.Email))
+			{
+				ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+				menu.Name = userlogin.Email;
+				TrayMenu.Items.Insert(TrayMenu.Items.IndexOf(toolStripSeparator2), menu);
+			}
+		}
+
 		private bool TestEmailFormat(string emailAddress)
 		{
 			const string _patternStrict = @"^(([^<>()[\]\\.,;:\s@\""]+"
@@ -695,14 +723,7 @@ namespace StationSystemTray
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
-
-			uictrlWavefaceClient.PerformAction(userlogin);
-
-			menuSignInOut.Text = "Sign Out";
-			menuSignInOut.Click -= menuSignIn_Click;
-			menuSignInOut.Click += menuSignOut_Click;
-
+			LaunchWavefaceClient(null);
 			Close();
 		}
 
@@ -756,29 +777,44 @@ namespace StationSystemTray
 	public class WavefaceClientController : SimpleUIController
 	{
 		private MainForm mainform;
+		private object cs;
 
 		public WavefaceClientController(MainForm form)
 			: base(form)
 		{
 			mainform = form;
+			cs = new object();
+		}
+
+		public void Terminate()
+		{
+			if (mainform.clientProcess != null)
+			{
+				mainform.clientProcess.Kill();
+			}
 		}
 
 		protected override object Action(object obj)
 		{
-			UserLoginSetting userlogin = (UserLoginSetting)obj;
-			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-		   "WavefaceWindowsClient.exe");
-			mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
+			lock (cs)
+			{
+				UserLoginSetting userlogin = (UserLoginSetting)obj;
+				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+			   "WavefaceWindowsClient.exe");
+				mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
 
-			if (mainform.clientProcess != null)
-				mainform.clientProcess.WaitForExit();
+				if (mainform.clientProcess != null)
+					mainform.clientProcess.WaitForExit();
 
-			return mainform.clientProcess.ExitCode;
+				int exitCode = mainform.clientProcess.ExitCode;
+				mainform.clientProcess = null;
+
+				return exitCode;
+			}
 		}
 
 		protected override void ActionCallback(object obj)
 		{
-			mainform.clientProcess = null;
 		}
 
 		protected override void ActionError(Exception ex)

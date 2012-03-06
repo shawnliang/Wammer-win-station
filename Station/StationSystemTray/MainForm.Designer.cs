@@ -36,8 +36,9 @@
 			this.menuServiceAction = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuSignInOut = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuPreference = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuPreference = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
 			this.lblSignIn = new System.Windows.Forms.Label();
@@ -77,8 +78,9 @@
             this.menuServiceAction,
             this.toolStripSeparator1,
             this.menuSignInOut,
-            this.menuPreference,
             this.toolStripSeparator2,
+            this.menuPreference,
+            this.toolStripSeparator3,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
 			resources.ApplyResources(this.TrayMenu, "TrayMenu");
@@ -106,16 +108,21 @@
 			resources.ApplyResources(this.menuSignInOut, "menuSignInOut");
 			this.menuSignInOut.Click += new System.EventHandler(this.menuSignIn_Click);
 			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+			// 
 			// menuPreference
 			// 
 			this.menuPreference.Name = "menuPreference";
 			resources.ApplyResources(this.menuPreference, "menuPreference");
 			this.menuPreference.Click += new System.EventHandler(this.menuPreference_Click);
 			// 
-			// toolStripSeparator2
+			// toolStripSeparator3
 			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
 			// 
 			// menuQuit
 			// 
@@ -299,6 +306,7 @@
         private System.Windows.Forms.WebBrowser webBrowser1;
         internal System.Windows.Forms.TextBox txtPassword;
         internal System.Windows.Forms.ComboBox cmbEmail;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 	}
 }
 
