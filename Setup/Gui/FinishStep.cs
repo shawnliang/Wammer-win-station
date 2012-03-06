@@ -27,7 +27,7 @@ namespace Gui
 			if (mode == InstallationMode.Install ||
 				mode == InstallationMode.Upgrade)
 			{
-				StartStationUIExe();
+				LaunchWaveface();
 			}
 		}
 
@@ -39,12 +39,12 @@ namespace Gui
 			}
 		}
 
-		private static void StartStationUIExe()
+		private static void LaunchWaveface()
 		{
 			string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-			string stationUI = Path.Combine(installDir, "stationUI.exe");
+			string filePath = Path.Combine(installDir, "StationSystemTray.exe");
 
-			UACHelper.CreateProcessAsStandardUser(stationUI, "");
+			UACHelper.CreateProcessAsStandardUser(filePath, "");
 		}
 	}
 }

@@ -82,5 +82,10 @@ namespace Wammer.Model
 		{
 			return collection.FindAll();
 		}
+
+		public void Update(IMongoQuery query, IMongoUpdate update)
+		{
+			collection.Update(query, update);
+		}
 	}
 }
