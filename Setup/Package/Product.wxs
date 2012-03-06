@@ -99,12 +99,10 @@
           <Component Id="pmd" Guid="{60fa9a1b-662a-43df-a97b-d7667e79cb19}">
             <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
             <RemoveFolder Id="ProgramMenuDirRF" On="uninstall" />
-            <Shortcut Id="ProgMenu.Shortcut.StationUI" Name="!(loc.SHORTCUT.STARTWAVEFACE.STATION)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationUI.exe"/>
-            <Shortcut Id="ProgMenu.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
-            <Shortcut Id="Desktop.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
+            <Shortcut Id="ProgMenu.Shortcut.Waveface" Name="!(loc.APPNAME)"
+                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe"/>
+            <Shortcut Id="Desktop.Shortcut.Waveface" Name="!(loc.APPNAME)"
+                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe" Directory="DesktopFolder"/>
           </Component>
          
         </Directory>
