@@ -67,12 +67,13 @@
 			// 
 			// TrayIcon
 			// 
-			this.TrayIcon.ContextMenuStrip = this.TrayMenu;
 			resources.ApplyResources(this.TrayIcon, "TrayIcon");
+			this.TrayIcon.ContextMenuStrip = this.TrayMenu;
 			this.TrayIcon.DoubleClick += new System.EventHandler(this.menuPreference_Click);
 			// 
 			// TrayMenu
 			// 
+			resources.ApplyResources(this.TrayMenu, "TrayMenu");
 			this.TrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuRelogin,
             this.menuServiceAction,
@@ -83,7 +84,6 @@
             this.toolStripSeparator3,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
-			resources.ApplyResources(this.TrayMenu, "TrayMenu");
 			// 
 			// menuRelogin
 			// 
@@ -93,41 +93,41 @@
 			// 
 			// menuServiceAction
 			// 
-			this.menuServiceAction.Name = "menuServiceAction";
 			resources.ApplyResources(this.menuServiceAction, "menuServiceAction");
+			this.menuServiceAction.Name = "menuServiceAction";
 			this.menuServiceAction.Click += new System.EventHandler(this.menuServiceAction_Click);
 			// 
 			// toolStripSeparator1
 			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			// 
 			// menuSignInOut
 			// 
-			this.menuSignInOut.Name = "menuSignInOut";
 			resources.ApplyResources(this.menuSignInOut, "menuSignInOut");
+			this.menuSignInOut.Name = "menuSignInOut";
 			this.menuSignInOut.Click += new System.EventHandler(this.menuSignIn_Click);
 			// 
 			// toolStripSeparator2
 			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			// 
 			// menuPreference
 			// 
-			this.menuPreference.Name = "menuPreference";
 			resources.ApplyResources(this.menuPreference, "menuPreference");
+			this.menuPreference.Name = "menuPreference";
 			this.menuPreference.Click += new System.EventHandler(this.menuPreference_Click);
 			// 
 			// toolStripSeparator3
 			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			// 
 			// menuQuit
 			// 
-			this.menuQuit.Name = "menuQuit";
 			resources.ApplyResources(this.menuQuit, "menuQuit");
+			this.menuQuit.Name = "menuQuit";
 			this.menuQuit.Click += new System.EventHandler(this.menuQuit_Click);
 			// 
 			// checkStationTimer
@@ -158,10 +158,10 @@
 			// 
 			// cmbEmail
 			// 
+			resources.ApplyResources(this.cmbEmail, "cmbEmail");
 			this.cmbEmail.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
 			this.cmbEmail.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
 			this.cmbEmail.FormattingEnabled = true;
-			resources.ApplyResources(this.cmbEmail, "cmbEmail");
 			this.cmbEmail.Name = "cmbEmail";
 			// 
 			// btnSignIn
@@ -191,10 +191,10 @@
 			// 
 			// tabControl
 			// 
+			resources.ApplyResources(this.tabControl, "tabControl");
 			this.tabControl.Controls.Add(this.tabSignIn);
 			this.tabControl.Controls.Add(this.tabMainStationSetup);
 			this.tabControl.Controls.Add(this.tabSignUp);
-			resources.ApplyResources(this.tabControl, "tabControl");
 			this.tabControl.Multiline = true;
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
@@ -203,6 +203,7 @@
 			// 
 			// tabSignIn
 			// 
+			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.BackColor = System.Drawing.SystemColors.Control;
 			this.tabSignIn.Controls.Add(this.lblSignIn);
 			this.tabSignIn.Controls.Add(this.lblEmail);
@@ -213,16 +214,15 @@
 			this.tabSignIn.Controls.Add(this.cmbEmail);
 			this.tabSignIn.Controls.Add(this.lblPassword);
 			this.tabSignIn.Controls.Add(this.chkRememberPassword);
-			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.Name = "tabSignIn";
 			// 
 			// tabMainStationSetup
 			// 
+			resources.ApplyResources(this.tabMainStationSetup, "tabMainStationSetup");
 			this.tabMainStationSetup.BackColor = System.Drawing.SystemColors.Control;
 			this.tabMainStationSetup.Controls.Add(this.btnOK);
 			this.tabMainStationSetup.Controls.Add(this.lblWelcome);
 			this.tabMainStationSetup.Controls.Add(this.lblMainStationSetup);
-			resources.ApplyResources(this.tabMainStationSetup, "tabMainStationSetup");
 			this.tabMainStationSetup.Name = "tabMainStationSetup";
 			// 
 			// btnOK
@@ -244,8 +244,8 @@
 			// 
 			// tabSignUp
 			// 
-			this.tabSignUp.Controls.Add(this.webBrowser1);
 			resources.ApplyResources(this.tabSignUp, "tabSignUp");
+			this.tabSignUp.Controls.Add(this.webBrowser1);
 			this.tabSignUp.Name = "tabSignUp";
 			this.tabSignUp.UseVisualStyleBackColor = true;
 			// 
@@ -258,8 +258,8 @@
 			// MainForm
 			// 
 			this.AcceptButton = this.btnSignIn;
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			resources.ApplyResources(this, "$this");
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.tabControl);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
