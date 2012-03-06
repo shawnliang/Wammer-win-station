@@ -244,8 +244,15 @@ namespace Waveface
 
             try
             {
-                if (_doLogin(email, password) == QuitOption.QuitProgram)
+                QuitOption quit = _doLogin(email, password);
+                if (quit == QuitOption.QuitProgram)
+                {
                     Close();
+                }
+                else if (quit == QuitOption.Logout)
+                {
+                    Environment.Exit(-2);
+                }
                 else
                 {
                     Environment.Exit(-1);

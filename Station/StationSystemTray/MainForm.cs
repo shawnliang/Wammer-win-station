@@ -22,15 +22,18 @@ using System.Security.Permissions;
 
 namespace StationSystemTray
 {
-    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-    [ComVisible(true)]
+	[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+	[ComVisible(true)]
 	public partial class MainForm : Form, StationStateContext
 	{
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private UserLoginSettingContainer userloginContainer;
 		private bool formCloseEnabled;
+		public Process clientProcess;
+
 		private Messenger messenger;
+		private WavefaceClientController uictrlWavefaceClient;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
 		private PreferenceForm preferenceForm;
@@ -62,6 +65,7 @@ namespace StationSystemTray
 
 			this.userloginContainer = new UserLoginSettingContainer(new ApplicationSettings());
 			this.formCloseEnabled = false;
+			this.clientProcess = null;
 
 			Type type = this.GetType();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(type.Namespace + ".Properties.Resources", this.GetType().Assembly);
@@ -71,6 +75,10 @@ namespace StationSystemTray
 			this.TrayIcon.Icon = this.iconPaused;
 			
 			this.messenger = new Messenger(this);
+
+			this.uictrlWavefaceClient = new WavefaceClientController(this);
+			this.uictrlWavefaceClient.UICallback += this.WavefaceClientUICallback;
+			this.uictrlWavefaceClient.UIError += this.WavefaceClientUIError;
 
 			this.uictrlPauseService = new PauseServiceUIController(this);
 			this.uictrlPauseService.UICallback += this.PauseServiceUICallback;
@@ -112,6 +120,30 @@ namespace StationSystemTray
 					cmbEmail.Items.Add(userlogin.Email);
 				}
 			}
+		}
+
+		private void WavefaceClientUICallback(object sender, SimpleEventArgs evt)
+		{
+			int exitCode = (int)evt.param;
+
+			if (exitCode == -2)  // client logout
+			{
+				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
+				TrayMenu.Items.RemoveByKey(userlogin.Email);
+				if (TrayMenu.Items.Count == 8)
+				{
+					menuSignInOut.Text = "Sign In...";
+				}
+				GotoTabPage(tabSignIn, userlogin);
+				Show();
+				Activate();
+			}
+		}
+
+		private void WavefaceClientUIError(object sender, SimpleEventArgs evt)
+		{
+			Exception ex = (Exception)evt.param;
+			messenger.ShowMessage(ex.Message);
 		}
 
 		private void PauseServiceUICallback(object sender, SimpleEventArgs evt)
@@ -170,6 +202,7 @@ namespace StationSystemTray
 		{
 			try
 			{
+				uictrlWavefaceClient.Terminate();
 				StationController.StationOffline();
 			}
 			catch (Exception ex)
@@ -248,28 +281,6 @@ namespace StationSystemTray
 			{
 				CurrentState.Onlining();
 			}
-		}
-
-		private void TrayMenu_Opening(object sender, CancelEventArgs e)
-		{
-			//// force window to have focus
-			//// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
-			//uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
-			//uint appThread = GetCurrentThreadId();
-			////const uint SW_SHOW = 5;
-			//if (foreThread != appThread)
-			//{
-			//    AttachThreadInput(foreThread, appThread, true);
-			//    BringWindowToTop(this.Handle);
-			//    //ShowWindow(this.Handle, SW_SHOW);
-			//    AttachThreadInput(foreThread, appThread, false);
-			//}
-			//else
-			//{
-			//    BringWindowToTop(this.Handle);
-			//    //ShowWindow(this.Handle, SW_SHOW);
-			//}
-			//this.Activate();
 		}
 
 		private void menuPreference_Click(object sender, EventArgs e)
@@ -473,7 +484,7 @@ namespace StationSystemTray
 				TrayIcon.Icon = this.iconWarning;
 				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
 				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
-				TrayIcon.DoubleClick -= menuManageAccounts_Click;
+				TrayIcon.DoubleClick -= menuPreference_Click;
 				TrayIcon.DoubleClick += menuRelogin_Click;
 				TrayIconText = I18n.L.T("Station401Exception");
 			}
@@ -496,7 +507,7 @@ namespace StationSystemTray
 				menuRelogin.Visible = false;
 				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
 				TrayIcon.DoubleClick -= menuRelogin_Click;
-				TrayIcon.DoubleClick += menuManageAccounts_Click;
+				TrayIcon.DoubleClick += menuPreference_Click;
 			}
 		}
 
@@ -583,14 +594,35 @@ namespace StationSystemTray
 		{
 			if (!formCloseEnabled)
 			{
-				this.Visible = false;
+				Hide();
 				e.Cancel = true;
 			}
 		}
 
-		private void menuManageAccounts_Click(object sender, EventArgs e)
+		private void menuSignIn_Click(object sender, EventArgs e)
 		{
-			this.Visible = true;
+			uictrlWavefaceClient.Terminate();
+			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+			Show();
+			Activate();
+		}
+
+		private void menuSwitchUser_Click(object sender, EventArgs e)
+		{
+			ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+
+			UserLoginSetting userlogin = userloginContainer.GetUserLogin(menu.Text);
+			if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
+			{
+				LaunchWavefaceClient(userlogin);
+			}
+			else
+			{
+				uictrlWavefaceClient.Terminate();
+				LaunchWavefaceClient(userlogin);
+			}
+
+			Close();
 		}
 
 		private void btnSignIn_Click(object sender, EventArgs e)
@@ -614,7 +646,9 @@ namespace StationSystemTray
 				if (userlogin == null)
 				{
 					StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
-					
+
+					uictrlWavefaceClient.Terminate();
+
 					userloginContainer.AddUserLoginSetting(
 						new UserLoginSetting
 						{
@@ -628,24 +662,16 @@ namespace StationSystemTray
 				}
 				else
 				{
-					StationController.StationOnline(cmbEmail.Text.ToLower(), txtPassword.Text);
-					Process clientProcess = LaunchWavefaceClient(cmbEmail.Text.ToLower(), txtPassword.Text);
-					
+					StationController.StationOnline(userlogin.Email, txtPassword.Text);
+
+					uictrlWavefaceClient.Terminate();
+
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
-					userloginContainer.UpdateUserLoginSetting(userlogin);
 
-                    Hide();
-                    if (clientProcess != null)
-                        clientProcess.WaitForExit();
+					LaunchWavefaceClient(userlogin);
 
-                    if (clientProcess.ExitCode == 0)
-                    {
-                        Close();
-                        return;
-                    }
-
-                    Show();
+					Close();
 				}
 			}
 			catch (AuthenticationException)
@@ -669,6 +695,26 @@ namespace StationSystemTray
 			}
 		}
 
+		private void LaunchWavefaceClient(UserLoginSetting userlogin)
+		{
+			if (userlogin == null)
+			{
+				userlogin = userloginContainer.GetLastUserLogin();
+			}
+			else
+			{
+				userloginContainer.UpdateUserLoginSetting(userlogin);
+			}
+			uictrlWavefaceClient.PerformAction(userlogin);
+			if (!TrayMenu.Items.ContainsKey(userlogin.Email))
+			{
+				ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+				menu.Name = userlogin.Email;
+				TrayMenu.Items.Insert(TrayMenu.Items.IndexOf(toolStripSeparator2), menu);
+				menuSignInOut.Text = "Switch to another account...";
+			}
+		}
+
 		private bool TestEmailFormat(string emailAddress)
 		{
 			const string _patternStrict = @"^(([^<>()[\]\\.,;:\s@\""]+"
@@ -683,15 +729,8 @@ namespace StationSystemTray
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			LaunchWavefaceClient(cmbEmail.Text.ToLower(), txtPassword.Text);
+			LaunchWavefaceClient(null);
 			Close();
-		}
-
-		private Process LaunchWavefaceClient(string email, string password)
-		{
-			string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-		   "WavefaceWindowsClient.exe");
-			return Process.Start(_execPath, email + " " + password);
 		}
 
 		private void ExitProgram()
@@ -700,50 +739,96 @@ namespace StationSystemTray
 			Close();
 		}
 
-        private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            tabControl.SelectedTab = tabSignUp;
-        }
+		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			tabControl.SelectedTab = tabSignUp;
+		}
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
+		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (tabControl.SelectedTab == tabSignUp)
+			{
+				webBrowser1.ObjectForScripting = this;
+				webBrowser1.Navigate(@"C:\Users\larry\Desktop\Test.html");
+			}
+		}
 
-        }
+		public void SignUpCompleted(string functionName)
+		{
+			string ret = webBrowser1.Document.InvokeScript(functionName, new object[] { string.Empty, string.Empty }).ToString();
+			Boolean isSignUpCompleted = !string.IsNullOrEmpty(ret);
+			if (isSignUpCompleted)
+			{
+				tabControl.SelectedTab = tabSignIn;
+				cmbEmail.Text = "test";
+				txtPassword.Text = "test";
+			}
+		}
 
-        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (tabControl.SelectedTab == tabSignUp)
-            {
-                webBrowser1.ObjectForScripting = this;
-                webBrowser1.Navigate(@"C:\Users\larry\Desktop\Test.html");
-            }
-        }
-
-        public void SignUpCompleted(string functionName)
-        {
-            string ret = webBrowser1.Document.InvokeScript(functionName, new object[] { string.Empty, string.Empty }).ToString();
-            Boolean isSignUpCompleted = !string.IsNullOrEmpty(ret);
-            if (isSignUpCompleted)
-            {
-                tabControl.SelectedTab = tabSignIn;
-                cmbEmail.Text = "test";
-                txtPassword.Text = "test";
-            }
-        }
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Control | Keys.Tab))
-            {
-                return true;
-            }
-            else
-            {
-                return base.ProcessCmdKey(ref msg, keyData);
-            }
-        }
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == (Keys.Control | Keys.Tab))
+			{
+				return true;
+			}
+			else
+			{
+				return base.ProcessCmdKey(ref msg, keyData);
+			}
+		}
 
 	}
+
+	#region WavefaceClientController
+	public class WavefaceClientController : SimpleUIController
+	{
+		private MainForm mainform;
+		private object cs;
+
+		public WavefaceClientController(MainForm form)
+			: base(form)
+		{
+			mainform = form;
+			cs = new object();
+		}
+
+		public void Terminate()
+		{
+			if (mainform.clientProcess != null)
+			{
+				mainform.clientProcess.Kill();
+			}
+		}
+
+		protected override object Action(object obj)
+		{
+			lock (cs)
+			{
+				UserLoginSetting userlogin = (UserLoginSetting)obj;
+				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+			   "WavefaceWindowsClient.exe");
+				mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
+
+				if (mainform.clientProcess != null)
+					mainform.clientProcess.WaitForExit();
+
+				int exitCode = mainform.clientProcess.ExitCode;
+				mainform.clientProcess = null;
+
+				return exitCode;
+			}
+		}
+
+		protected override void ActionCallback(object obj)
+		{
+		}
+
+		protected override void ActionError(Exception ex)
+		{
+			mainform.clientProcess = null;
+		}
+	}
+	#endregion
 
 	#region PauseServiceUIController
 	public class PauseServiceUIController : SimpleUIController
