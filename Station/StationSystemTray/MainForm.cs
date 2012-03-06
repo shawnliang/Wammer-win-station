@@ -27,39 +27,39 @@ namespace StationSystemTray
 	[ComVisible(true)]
 	public partial class MainForm : Form, StationStateContext
 	{
-        #region Const
-        const string WEB_API_VERSION = "{\"version\": \"1.0\"}";
-        const string WEB_SIGNUP_PAGE_URL_PATTERN = @"https://waveface.com/signup?device=windows&l={0}";
-        const string DEV_WEB_SIGNUP_PAGE_URL_PATTERN = @"http://develop.waveface.com:4343/signup?device=windows&l={0}";
-        #endregion
+		#region Const
+		const string WEB_API_VERSION = "{\"version\": \"1.0\"}";
+		const string WEB_SIGNUP_PAGE_URL_PATTERN = @"https://waveface.com/signup?device=windows&l={0}";
+		const string DEV_WEB_SIGNUP_PAGE_URL_PATTERN = @"http://develop.waveface.com:4343/signup?device=windows&l={0}";
+		#endregion
 
 
-        #region Var
-        string _SignUpPage;
-        #endregion
+		#region Var
+		string _SignUpPage;
+		#endregion
 
 
-        #region Private Property
-        private string m_SignUpPage 
-        {
-            get
-            {
-                if (_SignUpPage == null)
-                {
-                    string cultureName = CultureManager.ApplicationUICulture.Name;
-                    if (Wammer.Cloud.CloudServer.BaseUrl.Contains("develop.waveface.com"))
-                    {
-                        _SignUpPage = string.Format(DEV_WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);
-                    }
-                    else
-                    {
-                        _SignUpPage = string.Format(WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);
-                    }
-                }
-                return _SignUpPage;
-            }
-        }
-        #endregion
+		#region Private Property
+		private string m_SignUpPage 
+		{
+			get
+			{
+				if (_SignUpPage == null)
+				{
+					string cultureName = CultureManager.ApplicationUICulture.Name;
+					if (Wammer.Cloud.CloudServer.BaseUrl.Contains("develop.waveface.com"))
+					{
+						_SignUpPage = string.Format(DEV_WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);
+					}
+					else
+					{
+						_SignUpPage = string.Format(WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);
+					}
+				}
+				return _SignUpPage;
+			}
+		}
+		#endregion
 
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
@@ -166,17 +166,16 @@ namespace StationSystemTray
 
 		private void GotoTimeline(UserLoginSetting userlogin)
 		{
-			if (userlogin.RememberPassword)
+			if (userlogin != null)
 			{
-				LaunchWavefaceClient(userlogin);
-				Close();
+				if (userlogin.RememberPassword)
+				{
+					LaunchWavefaceClient(userlogin);
+					Close();
+				}
 			}
-			else
-			{
-				GotoTabPage(tabSignIn, userlogin);
-				Show();
-				Activate();
-			}
+
+			GotoTabPage(tabSignIn, userlogin);
 		}
 
 		private void WavefaceClientUICallback(object sender, SimpleEventArgs evt)
@@ -186,8 +185,6 @@ namespace StationSystemTray
 			if (exitCode == -2)  // client logout
 			{
 				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
-				Show();
-				Activate();
 			}
 		}
 
@@ -593,6 +590,24 @@ namespace StationSystemTray
 			Application.Exit();
 		}
 
+		[DllImport("user32.dll")]
+		private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+		[DllImport("user32.dll")]
+		private static extern bool BringWindowToTop(IntPtr hWnd);
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr GetForegroundWindow();
+
+		[DllImport("user32.dll")]
+		private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
+
+		[DllImport("kernel32.dll")]
+		private static extern uint GetCurrentThreadId();
+
+		[DllImport("user32.dll")]
+		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
+
 		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
 		{
 			tabControl.SelectedTab = tabpage;
@@ -640,6 +655,24 @@ namespace StationSystemTray
 				btnOK.Focus();
 				this.AcceptButton = btnOK;
 			}
+
+			// force window to have focus
+			// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
+			uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
+			uint appThread = GetCurrentThreadId();
+			if (foreThread != appThread)
+			{
+				AttachThreadInput(foreThread, appThread, true);
+				BringWindowToTop(this.Handle);
+				Show();
+				AttachThreadInput(foreThread, appThread, false);
+			}
+			else
+			{
+				BringWindowToTop(this.Handle);
+				Show();
+			}
+			Activate();
 		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -655,8 +688,6 @@ namespace StationSystemTray
 		{
 			uictrlWavefaceClient.Terminate();
 			GotoTabPage(tabSignIn, null);
-			Show();
-			Activate();
 		}
 
 		private void menuSwitchUser_Click(object sender, EventArgs e)
@@ -665,7 +696,7 @@ namespace StationSystemTray
 
 			UserLoginSetting userlogin = userloginContainer.GetUserLogin(menu.Text);
 			if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
-		{
+			{
 				GotoTimeline(userlogin);
 			}
 			else
@@ -790,85 +821,85 @@ namespace StationSystemTray
 			tabControl.SelectedTab = tabSignUp;
 		}
 
-        #region Private Method
-        /// <summary>
-        /// Gets the sign up data.
-        /// </summary>
-        /// <param name="functionName">Name of the function.</param>
-        /// <param name="attributeName">Name of the attribute.</param>
-        /// <returns></returns>
-        private string GetSignUpData(string functionName, string attributeName)
+		#region Private Method
+		/// <summary>
+		/// Gets the sign up data.
+		/// </summary>
+		/// <param name="functionName">Name of the function.</param>
+		/// <param name="attributeName">Name of the attribute.</param>
+		/// <returns></returns>
+		private string GetSignUpData(string functionName, string attributeName)
 		{
-            string data = webBrowser1.Document.InvokeScript(functionName, new object[] { attributeName, WEB_API_VERSION }).ToString();
+			string data = webBrowser1.Document.InvokeScript(functionName, new object[] { attributeName, WEB_API_VERSION }).ToString();
 
-            //not empty => decode
-            if (data.Length > 0)
-                data = System.Web.HttpUtility.UrlDecode(data);
+			//not empty => decode
+			if (data.Length > 0)
+				data = System.Web.HttpUtility.UrlDecode(data);
 
-            return data;
-        }
-        #endregion
+			return data;
+		}
+		#endregion
 
-        #region Protected Method
-        /// <summary>
-        /// Processes a command key.
-        /// </summary>
-        /// <param name="msg">A <see cref="T:System.Windows.Forms.Message"/>, passed by reference, that represents the Win32 message to process.</param>
-        /// <param name="keyData">One of the <see cref="T:System.Windows.Forms.Keys"/> values that represents the key to process.</param>
-        /// <returns>
-        /// true if the keystroke was processed and consumed by the control; otherwise, false to allow further processing.
-        /// </returns>
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		#region Protected Method
+		/// <summary>
+		/// Processes a command key.
+		/// </summary>
+		/// <param name="msg">A <see cref="T:System.Windows.Forms.Message"/>, passed by reference, that represents the Win32 message to process.</param>
+		/// <param name="keyData">One of the <see cref="T:System.Windows.Forms.Keys"/> values that represents the key to process.</param>
+		/// <returns>
+		/// true if the keystroke was processed and consumed by the control; otherwise, false to allow further processing.
+		/// </returns>
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 			{
-            //prevent ctrl+tab to switch signin pages
-            if (keyData == (Keys.Control | Keys.Tab))
-            {
-                return true;
-            }
-            else
-            {
-                return base.ProcessCmdKey(ref msg, keyData);
+			//prevent ctrl+tab to switch signin pages
+			if (keyData == (Keys.Control | Keys.Tab))
+			{
+				return true;
+			}
+			else
+			{
+				return base.ProcessCmdKey(ref msg, keyData);
 			}
 		}
-        #endregion
+		#endregion
 
 
-        #region Public Method
-        /// <summary>
-        /// Signs up completed triggered by webpage.
-        /// </summary>
-        /// <param name="functionName">Name of the function.</param>
+		#region Public Method
+		/// <summary>
+		/// Signs up completed triggered by webpage.
+		/// </summary>
+		/// <param name="functionName">Name of the function.</param>
 		public void SignUpCompleted(string functionName)
 		{
-            string email = GetSignUpData(functionName, "email");
-            string password = GetSignUpData(functionName, "passwd");
+			string email = GetSignUpData(functionName, "email");
+			string password = GetSignUpData(functionName, "passwd");
 
-            Boolean isSignUpCompleted = !(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password));
+			Boolean isSignUpCompleted = !(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password));
 			if (isSignUpCompleted)
 			{
 				tabControl.SelectedTab = tabSignIn;
-                cmbEmail.Text = email;
-                txtPassword.Text = password;
+				cmbEmail.Text = email;
+				txtPassword.Text = password;
 			}
 		}
-        #endregion
+		#endregion
 
 
-        #region Event Process
-        /// <summary>
-        /// Handles the SelectedIndexChanged event of the tabControl control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+		#region Event Process
+		/// <summary>
+		/// Handles the SelectedIndexChanged event of the tabControl control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
 		{
-            if (tabControl.SelectedTab == tabSignUp)
+			if (tabControl.SelectedTab == tabSignUp)
 			{
-                webBrowser1.ObjectForScripting = this;
-                webBrowser1.Navigate(m_SignUpPage);
+				webBrowser1.ObjectForScripting = this;
+				webBrowser1.Navigate(m_SignUpPage);
 			}
 			}
-        #endregion
+		#endregion
 	}
 
 	#region WavefaceClientController

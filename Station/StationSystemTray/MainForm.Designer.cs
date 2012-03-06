@@ -272,7 +272,6 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
-			this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.TrayMenu.ResumeLayout(false);
 			this.tabControl.ResumeLayout(false);
