@@ -117,22 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&gt;&gt;webBrowser1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="lblMainStationSetup.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
   </data>
-  <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
-    <value>lblMainStationSetup</value>
-  </data>
-  <data name="tabSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lblPassword.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="lblMainStationSetup.Text" xml:space="preserve">
+    <value>It's your first time signing in to Waveface via Windows, so we will setup this PC as your main Waveface station.</value>
   </data>
   <data name="btnSignIn.Location" type="System.Drawing.Point, System.Drawing">
     <value>310, 207</value>
@@ -152,20 +145,21 @@
   <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;lblEmail.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
   <data name="&gt;&gt;menuServiceAction.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="webBrowser1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="lblMainStationSetup.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 51</value>
   </data>
   <data name="&gt;&gt;btnSignIn.Parent" xml:space="preserve">
     <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>MainForm</value>
   </data>
   <data name="lblPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>60, 15</value>
@@ -185,6 +179,12 @@
   <data name="&gt;&gt;TrayIcon.Type" xml:space="preserve">
     <value>System.Windows.Forms.NotifyIcon, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="tabSignIn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
   <data name="lblWelcome.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 25</value>
   </data>
@@ -193,13 +193,6 @@
   </data>
   <data name="&gt;&gt;txtPassword.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lblMainStationSetup.Text" xml:space="preserve">
-    <value>It's your first time signing in to Waveface via Windows, so we will setup this PC as your main Waveface station.</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="webBrowser1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
   </data>
   <data name="&gt;&gt;menuQuit.Name" xml:space="preserve">
     <value>menuQuit</value>
@@ -669,8 +662,23 @@
   <data name="&gt;&gt;tabSignIn.Name" xml:space="preserve">
     <value>tabSignIn</value>
   </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
+  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>310, 207</value>
+  </data>
+  <data name="&gt;&gt;webBrowser1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lblPassword.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
+  <data name="cmbEmail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>375, 23</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="lblSignUp.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1986,26 +1994,8 @@
         loIpaRxZSgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="&gt;&gt;webBrowser1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="cmbEmail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>375, 23</value>
-  </data>
-  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
-  </data>
-  <data name="lblSignUp.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="lblSignUp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 15</value>
+  <data name="lblSignIn.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;lblSignUp.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -2021,9 +2011,6 @@
   </data>
   <data name="&gt;&gt;menuPreference.Name" xml:space="preserve">
     <value>menuPreference</value>
-  </data>
-  <data name="tabSignUp.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
   </data>
   <data name="&gt;&gt;tabMainStationSetup.Parent" xml:space="preserve">
     <value>tabControl</value>
@@ -2061,8 +2048,11 @@
   <data name="lblEmail.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
-  <data name="&gt;&gt;TrayMenu.Name" xml:space="preserve">
-    <value>TrayMenu</value>
+  <data name="&gt;&gt;menuGotoTimeline.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tabSignUp.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
     <value>toolStripSeparator1</value>
@@ -2094,8 +2084,8 @@
   <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="tabMainStationSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>397, 242</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>MainForm</value>
   </data>
   <data name="&gt;&gt;cmbEmail.Name" xml:space="preserve">
     <value>cmbEmail</value>
@@ -2112,8 +2102,8 @@
   <data name="&gt;&gt;tabSignIn.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="lblSignIn.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;lblPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblSignIn.Name" xml:space="preserve">
     <value>lblSignIn</value>
@@ -2148,9 +2138,7 @@
   <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>310, 207</value>
-  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="lblSignIn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -2160,11 +2148,17 @@
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
+  <data name="menuGotoTimeline.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
   <data name="&gt;&gt;chkRememberPassword.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
   <data name="menuPreference.Text" xml:space="preserve">
     <value>Preference...</value>
+  </data>
+  <data name="&gt;&gt;TrayMenu.Name" xml:space="preserve">
+    <value>TrayMenu</value>
   </data>
   <data name="&gt;&gt;txtPassword.Name" xml:space="preserve">
     <value>txtPassword</value>
@@ -2172,11 +2166,14 @@
   <data name="tabMainStationSetup.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 24</value>
   </data>
-  <data name="lblWelcome.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="webBrowser1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="&gt;&gt;btnSignIn.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabMainStationSetup.Name" xml:space="preserve">
+    <value>tabMainStationSetup</value>
   </data>
   <data name="&gt;&gt;lblSignUp.Name" xml:space="preserve">
     <value>lblSignUp</value>
@@ -2184,8 +2181,8 @@
   <data name="cmbEmail.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 69</value>
   </data>
-  <data name="&gt;&gt;tabControl.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="lblMainStationSetup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>386, 40</value>
   </data>
   <data name="lblWelcome.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 9</value>
@@ -2211,9 +2208,6 @@
   <data name="lblSignUp.Text" xml:space="preserve">
     <value>Create one now!</value>
   </data>
-  <data name="&gt;&gt;webBrowser1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblSignIn.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -2228,9 +2222,6 @@
   </data>
   <data name="&gt;&gt;checkStationTimer.Name" xml:space="preserve">
     <value>checkStationTimer</value>
-  </data>
-  <data name="lblMainStationSetup.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -2247,11 +2238,11 @@
   <data name="&gt;&gt;cmbEmail.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="&gt;&gt;lblEmail.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
+  <data name="lblPassword.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="&gt;&gt;lblEmail.Name" xml:space="preserve">
-    <value>lblEmail</value>
+  <data name="lblMainStationSetup.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
   </data>
   <data name="lblEmail.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 15</value>
@@ -2262,8 +2253,8 @@
   <data name="txtPassword.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 124</value>
   </data>
-  <data name="&gt;&gt;tabMainStationSetup.Name" xml:space="preserve">
-    <value>tabMainStationSetup</value>
+  <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
+    <value>lblMainStationSetup</value>
   </data>
   <data name="&gt;&gt;lblSignIn.Parent" xml:space="preserve">
     <value>tabSignIn</value>
@@ -2274,14 +2265,17 @@
   <data name="&gt;&gt;tabControl.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="&gt;&gt;chkRememberPassword.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
   <data name="lblWelcome.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 14.25pt</value>
   </data>
   <data name="&gt;&gt;webBrowser1.Parent" xml:space="preserve">
     <value>tabSignUp</value>
   </data>
-  <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+  <data name="lblMainStationSetup.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;lblMainStationSetup.Parent" xml:space="preserve">
     <value>tabMainStationSetup</value>
@@ -2301,26 +2295,23 @@
   <data name="chkRememberPassword.Text" xml:space="preserve">
     <value>Remember password</value>
   </data>
+  <data name="tabSignIn.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
   <data name="lblPassword.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="&gt;&gt;tabSignUp.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="lblMainStationSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>386, 40</value>
-  </data>
   <data name="&gt;&gt;lblWelcome.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="TrayIcon.Visible" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;tabControl.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;menuQuit.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
   </data>
   <data name="lblSignIn.Size" type="System.Drawing.Size, System.Drawing">
     <value>179, 25</value>
@@ -2343,8 +2334,8 @@
   <data name="&gt;&gt;lblMainStationSetup.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;txtPassword.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
+  <data name="&gt;&gt;lblEmail.Name" xml:space="preserve">
+    <value>lblEmail</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Don't have an account yet?</value>
@@ -2355,8 +2346,8 @@
   <data name="&gt;&gt;toolStripSeparator3.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="menuRelogin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+  <data name="&gt;&gt;cmbEmail.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
   </data>
   <data name="TrayIcon.Text" xml:space="preserve">
     <value>Waveface Station</value>
@@ -2370,11 +2361,14 @@
   <data name="lblSignIn.Text" xml:space="preserve">
     <value>Sign in to Waveface</value>
   </data>
-  <data name="menuServiceAction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+  <data name="TrayIcon.Visible" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;tabControl.Name" xml:space="preserve">
     <value>tabControl</value>
+  </data>
+  <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="&gt;&gt;checkStationTimer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2382,11 +2376,14 @@
   <data name="&gt;&gt;lblSignUp.Parent" xml:space="preserve">
     <value>tabSignIn</value>
   </data>
-  <data name="chkRememberPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="lblWelcome.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
+  </data>
+  <data name="&gt;&gt;menuGotoTimeline.Name" xml:space="preserve">
+    <value>menuGotoTimeline</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>399, 242</value>
@@ -2400,13 +2397,13 @@
   <data name="&gt;&gt;chkRememberPassword.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="webBrowser1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
     <value>toolStripSeparator2</value>
   </data>
   <data name="webBrowser1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>397, 242</value>
+  </data>
+  <data name="tabMainStationSetup.Size" type="System.Drawing.Size, System.Drawing">
     <value>397, 242</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
@@ -2424,8 +2421,8 @@
   <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
     <value>lblWelcome</value>
   </data>
-  <data name="tabSignIn.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="&gt;&gt;txtPassword.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
   </data>
   <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -2436,11 +2433,23 @@
   <data name="&gt;&gt;lblEmail.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="menuRelogin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
   <data name="&gt;&gt;menuRelogin.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="menuServiceAction.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
   <data name="tabSignIn.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
+  </data>
+  <data name="lblSignUp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 15</value>
+  </data>
+  <data name="chkRememberPassword.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
   <data name="&gt;&gt;btnSignIn.Name" xml:space="preserve">
     <value>btnSignIn</value>

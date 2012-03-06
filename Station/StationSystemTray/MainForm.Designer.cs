@@ -36,6 +36,7 @@
 			this.menuServiceAction = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuSignInOut = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuGotoTimeline = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuPreference = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -79,6 +80,7 @@
             this.menuServiceAction,
             this.toolStripSeparator1,
             this.menuSignInOut,
+            this.menuGotoTimeline,
             this.toolStripSeparator2,
             this.menuPreference,
             this.toolStripSeparator3,
@@ -107,6 +109,11 @@
 			resources.ApplyResources(this.menuSignInOut, "menuSignInOut");
 			this.menuSignInOut.Name = "menuSignInOut";
 			this.menuSignInOut.Click += new System.EventHandler(this.menuSignIn_Click);
+			// 
+			// menuGotoTimeline
+			// 
+			resources.ApplyResources(this.menuGotoTimeline, "menuGotoTimeline");
+			this.menuGotoTimeline.Name = "menuGotoTimeline";
 			// 
 			// toolStripSeparator2
 			// 
@@ -265,6 +272,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
+			this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.TrayMenu.ResumeLayout(false);
 			this.tabControl.ResumeLayout(false);
@@ -307,6 +315,7 @@
         internal System.Windows.Forms.TextBox txtPassword;
         internal System.Windows.Forms.ComboBox cmbEmail;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem menuGotoTimeline;
 	}
 }
 
