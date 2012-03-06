@@ -45,15 +45,20 @@ namespace Wammer.Station
 				try
 				{
 					string stationToken = string.Empty;
-					Driver driver = Model.DriverCollection.Instance.FindOne(Query.EQ("email", email));
-					Boolean isDriverExists = driver != null;
+					Driver existingDriver = Model.DriverCollection.Instance.FindOne(Query.EQ("email", email));
+					Boolean isDriverExists = existingDriver != null;
 
 
-					if (!isDriverExists)
-						stationToken = SignUpStation(email, password, agent);
-					
+					if (isDriverExists)
+					{
+						CheckPasswordOnly(email, password, agent, existingDriver);
+						return;
+					}
+
+					stationToken = SignUpStation(email, password, agent);					
 					User user = User.LogIn(agent, email, password);
-					driver = new Driver
+								
+					Driver driver = new Driver
 					{
 						email = email,
 						folder = Path.Combine(resourceBasePath, "user_" + user.Id),
@@ -62,12 +67,6 @@ namespace Wammer.Station
 						session_token = user.Token,
 						isPrimaryStation = (user.Stations == null || user.Stations.Count == 0)
 					};
-
-					if (isDriverExists)
-					{
-						RespondSuccess(new AddUserResponse());
-						return;
-					}
 
 					DriverCollection.Instance.Save(driver);
 
@@ -83,7 +82,11 @@ namespace Wammer.Station
 
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
-					RespondSuccess(new AddUserResponse());
+					RespondSuccess(new AddUserResponse() 
+						{ 
+							UserId = user.Id, 
+							IsPrimaryStation = driver.isPrimaryStation 
+						});
 				}
 				catch (WammerCloudException ex)
 				{
@@ -102,6 +105,17 @@ namespace Wammer.Station
 				}
 			}
 
+		}
+
+		private void CheckPasswordOnly(string email, string password, WebClient agent, Driver existingDriver)
+		{
+			User u = User.LogIn(agent, email, password);
+			Model.DriverCollection.Instance.Update(Query.EQ("_id", u.Id), Update.Set("session_token", u.Token));
+			RespondSuccess(new AddUserResponse()
+			{
+				IsPrimaryStation = existingDriver.isPrimaryStation,
+				UserId = existingDriver.user_id
+			});
 		}
 
 		private string SignUpStation(string email, string password, WebClient agent)
@@ -128,8 +142,8 @@ namespace Wammer.Station
 
 	public class AddUserResponse : CloudResponse
 	{
-		public UserStation station { get; set; }
-
+		public string UserId { get; set; }
+		public bool IsPrimaryStation { get; set; }
 
 		public AddUserResponse()
 			: base(200, DateTime.UtcNow, 0, "success")

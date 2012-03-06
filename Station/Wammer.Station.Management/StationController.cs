@@ -26,6 +26,8 @@ namespace Wammer.Station.Management
 		static StationController()
 		{
 			scvCtrl = new ServiceController(StationService.SERVICE_NAME);
+			StationMgmtURL = "http://127.0.0.1:9989/v2/";
+			StationFuncURL = "http://127.0.0.1:9981/v2/";
 		}
 
 		/// <summary>
@@ -147,7 +149,7 @@ namespace Wammer.Station.Management
 		/// <exception cref="Wammer.Station.Management.ConnectToCloudException">
 		/// Unable to connect to waveface cloud, network down?
 		/// </exception>
-		public static void AddUser(string email, string password)
+		public static AddUserResult AddUser(string email, string password)
 		{
 			try
 			{
@@ -158,6 +160,8 @@ namespace Wammer.Station.Management
 					{ "email", email},
 					{ "password", password}
 				});
+
+				return new AddUserResult() { UserId = res.UserId, IsPrimaryStation = res.IsPrimaryStation };
 			}
 			catch (Cloud.WammerCloudException e)
 			{
@@ -358,8 +362,8 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		private static string StationMgmtURL = "http://127.0.0.1:9989/v2/";
-		private static string StationFuncURL = "http://127.0.0.1:9981/v2/";
+		public static string StationMgmtURL { get; set; }
+		public static string StationFuncURL { get; set; }
 
 		public static void StationOnline()
 		{
@@ -923,6 +927,12 @@ namespace Wammer.Station.Management
 		public bool connected { get; set; }
 		public long quota { get; set; }
 		public long used { get; set; }
+	}
+
+	public class AddUserResult
+	{
+		public string UserId { get; set; }
+		public bool IsPrimaryStation { get; set; }
 	}
 
 }
