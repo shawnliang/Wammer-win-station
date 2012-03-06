@@ -19,6 +19,7 @@ using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;
 using System.Security.Permissions;
+using Waveface.Localization;
 
 namespace StationSystemTray
 {
@@ -26,6 +27,40 @@ namespace StationSystemTray
 	[ComVisible(true)]
 	public partial class MainForm : Form, StationStateContext
 	{
+        #region Const
+        const string WEB_API_VERSION = "{\"version\": \"1.0\"}";
+        const string WEB_SIGNUP_PAGE_URL_PATTERN = @"https://waveface.com/signup?device=windows&l={0}";
+        const string DEV_WEB_SIGNUP_PAGE_URL_PATTERN = @"http://develop.waveface.com:4343/signup?device=windows&l={0}";
+        #endregion
+
+
+        #region Var
+        string _SignUpPage;
+        #endregion
+
+
+        #region Private Property
+        private string m_SignUpPage 
+        {
+            get
+            {
+                if (_SignUpPage == null)
+                {
+                    string cultureName = CultureManager.ApplicationUICulture.Name;
+                    if (Wammer.Cloud.CloudServer.BaseUrl.Contains("develop.waveface.com"))
+                    {
+                        _SignUpPage = string.Format(DEV_WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);
+                    }
+                    else
+                    {
+                        _SignUpPage = string.Format(WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);
+                    }
+                }
+                return _SignUpPage;
+            }
+        }
+        #endregion
+
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private UserLoginSettingContainer userloginContainer;
@@ -132,7 +167,7 @@ namespace StationSystemTray
 				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
 				TrayMenu.Items.RemoveByKey(userlogin.Email);
 				if (TrayMenu.Items.Count == 8)
-				{
+			{
 					menuSignInOut.Text = "Sign In...";
 				}
 				GotoTabPage(tabSignIn, userlogin);
@@ -615,7 +650,7 @@ namespace StationSystemTray
 
 			UserLoginSetting userlogin = userloginContainer.GetUserLogin(menu.Text);
 			if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
-			{
+		{
 				LaunchWavefaceClient(userlogin);
 			}
 			else
@@ -648,7 +683,7 @@ namespace StationSystemTray
 				if (userlogin == null)
 				{
 					StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
-
+					
 					uictrlWavefaceClient.Terminate();
 
 					userloginContainer.AddUserLoginSetting(
@@ -667,7 +702,7 @@ namespace StationSystemTray
 					StationController.StationOnline(userlogin.Email, txtPassword.Text);
 
 					uictrlWavefaceClient.Terminate();
-
+					
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
 
@@ -746,39 +781,85 @@ namespace StationSystemTray
 			tabControl.SelectedTab = tabSignUp;
 		}
 
-		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        #region Private Method
+        /// <summary>
+        /// Gets the sign up data.
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
+        /// <param name="attributeName">Name of the attribute.</param>
+        /// <returns></returns>
+        private string GetSignUpData(string functionName, string attributeName)
 		{
-			if (tabControl.SelectedTab == tabSignUp)
+            string data = webBrowser1.Document.InvokeScript(functionName, new object[] { attributeName, WEB_API_VERSION }).ToString();
+
+            //not empty => decode
+            if (data.Length > 0)
+                data = System.Web.HttpUtility.UrlDecode(data);
+
+            return data;
+        }
+        #endregion
+
+        #region Protected Method
+        /// <summary>
+        /// Processes a command key.
+        /// </summary>
+        /// <param name="msg">A <see cref="T:System.Windows.Forms.Message"/>, passed by reference, that represents the Win32 message to process.</param>
+        /// <param name="keyData">One of the <see cref="T:System.Windows.Forms.Keys"/> values that represents the key to process.</param>
+        /// <returns>
+        /// true if the keystroke was processed and consumed by the control; otherwise, false to allow further processing.
+        /// </returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 			{
-				webBrowser1.ObjectForScripting = this;
-				webBrowser1.Navigate(@"C:\Users\larry\Desktop\Test.html");
+            //prevent ctrl+tab to switch signin pages
+            if (keyData == (Keys.Control | Keys.Tab))
+            {
+                return true;
+            }
+            else
+            {
+                return base.ProcessCmdKey(ref msg, keyData);
 			}
 		}
+        #endregion
 
+
+        #region Public Method
+        /// <summary>
+        /// Signs up completed triggered by webpage.
+        /// </summary>
+        /// <param name="functionName">Name of the function.</param>
 		public void SignUpCompleted(string functionName)
 		{
-			string ret = webBrowser1.Document.InvokeScript(functionName, new object[] { string.Empty, string.Empty }).ToString();
-			Boolean isSignUpCompleted = !string.IsNullOrEmpty(ret);
+            string email = GetSignUpData(functionName, "email");
+            string password = GetSignUpData(functionName, "passwd");
+
+            Boolean isSignUpCompleted = !(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password));
 			if (isSignUpCompleted)
 			{
 				tabControl.SelectedTab = tabSignIn;
-				cmbEmail.Text = "test";
-				txtPassword.Text = "test";
+                cmbEmail.Text = email;
+                txtPassword.Text = password;
 			}
 		}
+        #endregion
 
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+
+        #region Event Process
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the tabControl control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (keyData == (Keys.Control | Keys.Tab))
+            if (tabControl.SelectedTab == tabSignUp)
 			{
-				return true;
+                webBrowser1.ObjectForScripting = this;
+                webBrowser1.Navigate(m_SignUpPage);
 			}
-			else
-			{
-				return base.ProcessCmdKey(ref msg, keyData);
 			}
-		}
-
+        #endregion
 	}
 
 	#region WavefaceClientController
@@ -806,13 +887,13 @@ namespace StationSystemTray
 		{
 			lock (cs)
 			{
-				UserLoginSetting userlogin = (UserLoginSetting)obj;
-				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-			   "WavefaceWindowsClient.exe");
-				mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
+			UserLoginSetting userlogin = (UserLoginSetting)obj;
+			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+		   "WavefaceWindowsClient.exe");
+			mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
 
-				if (mainform.clientProcess != null)
-					mainform.clientProcess.WaitForExit();
+			if (mainform.clientProcess != null)
+				mainform.clientProcess.WaitForExit();
 
 				int exitCode = mainform.clientProcess.ExitCode;
 				mainform.clientProcess = null;
