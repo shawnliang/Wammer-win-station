@@ -111,6 +111,7 @@ namespace StationSystemTray
 
 		private void InitEmailList()
 		{
+			cmbEmail.Items.Clear();
 			ListDriverResponse res = StationController.ListUser();
 			foreach (Driver driver in res.drivers)
 			{
@@ -548,6 +549,7 @@ namespace StationSystemTray
 
 			if (tabpage == tabSignIn)
 			{
+				InitEmailList();
 				if (userlogin == null)
 				{
 					cmbEmail.SelectedItem = string.Empty;
@@ -602,7 +604,7 @@ namespace StationSystemTray
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
 			uictrlWavefaceClient.Terminate();
-			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+			GotoTabPage(tabSignIn, null);
 			Show();
 			Activate();
 		}
