@@ -144,8 +144,6 @@ namespace Waveface.DetailUI
             // 
             // imageListView
             // 
-            this.imageListView.AllowDrag = true;
-            this.imageListView.AllowDrop = true;
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.CacheLimit = "0";
