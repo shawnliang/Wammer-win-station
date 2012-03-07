@@ -132,18 +132,22 @@ namespace StationSystemTray
 		{
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
+			this.menuSignInOut.Text = "Sign In...";
+			this.menuGotoTimeline.Text = "Go to Timeline";
 
 			this.checkStationTimer.Enabled = true;
 			this.checkStationTimer.Start();
 
 			CurrentState.Onlining();
 
-			InitEmailList();
-			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
-		private void InitEmailList()
+		private void RefreshUserList()
 		{
+			cmbEmail.Items.Clear();
+			menuGotoTimeline.DropDownItems.Clear();
+
 			ListDriverResponse res = StationController.ListUser();
 			foreach (Driver driver in res.drivers)
 			{
@@ -151,8 +155,25 @@ namespace StationSystemTray
 				if (userlogin != null)
 				{
 					cmbEmail.Items.Add(userlogin.Email);
+					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+					menu.Name = userlogin.Email;
+					menuGotoTimeline.DropDownItems.Add(menu);					
+				}
 				}
 			}
+
+		private void GotoTimeline(UserLoginSetting userlogin)
+		{
+			if (userlogin != null)
+			{
+				if (userlogin.RememberPassword)
+				{
+					LaunchWavefaceClient(userlogin);
+					Close();
+				}
+			}
+
+			GotoTabPage(tabSignIn, userlogin);
 		}
 
 		private void WavefaceClientUICallback(object sender, SimpleEventArgs evt)
@@ -161,15 +182,7 @@ namespace StationSystemTray
 
 			if (exitCode == -2)  // client logout
 			{
-				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
-				TrayMenu.Items.RemoveByKey(userlogin.Email);
-				if (TrayMenu.Items.Count == 8)
-			{
-					menuSignInOut.Text = "Sign In...";
-				}
-				GotoTabPage(tabSignIn, userlogin);
-				Show();
-				Activate();
+				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
 			}
 		}
 
@@ -557,12 +570,31 @@ namespace StationSystemTray
 			Application.Exit();
 		}
 
+		[DllImport("user32.dll")]
+		private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+		[DllImport("user32.dll")]
+		private static extern bool BringWindowToTop(IntPtr hWnd);
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr GetForegroundWindow();
+
+		[DllImport("user32.dll")]
+		private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
+
+		[DllImport("kernel32.dll")]
+		private static extern uint GetCurrentThreadId();
+
+		[DllImport("user32.dll")]
+		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
+
 		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
 		{
 			tabControl.SelectedTab = tabpage;
 
 			if (tabpage == tabSignIn)
 			{
+				RefreshUserList();
 				if (userlogin == null)
 				{
 					cmbEmail.SelectedItem = string.Empty;
@@ -603,6 +635,24 @@ namespace StationSystemTray
 				btnOK.Focus();
 				this.AcceptButton = btnOK;
 			}
+
+			// force window to have focus
+			// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
+			uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
+			uint appThread = GetCurrentThreadId();
+			if (foreThread != appThread)
+			{
+				AttachThreadInput(foreThread, appThread, true);
+				BringWindowToTop(this.Handle);
+				Show();
+				AttachThreadInput(foreThread, appThread, false);
+			}
+			else
+			{
+				BringWindowToTop(this.Handle);
+				Show();
+			}
+			Activate();
 		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -617,9 +667,7 @@ namespace StationSystemTray
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
 			uictrlWavefaceClient.Terminate();
-			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
-			Show();
-			Activate();
+			GotoTabPage(tabSignIn, null);
 		}
 
 		private void menuSwitchUser_Click(object sender, EventArgs e)
@@ -629,15 +677,13 @@ namespace StationSystemTray
 			UserLoginSetting userlogin = userloginContainer.GetUserLogin(menu.Text);
 			if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
 			{
-				LaunchWavefaceClient(userlogin);
+				GotoTimeline(userlogin);
 			}
 			else
 			{
 				uictrlWavefaceClient.Terminate();
-				LaunchWavefaceClient(userlogin);
+				GotoTimeline(userlogin);
 			}
-
-			Close();
 		}
 
 		private void btnSignIn_Click(object sender, EventArgs e)
@@ -720,14 +766,9 @@ namespace StationSystemTray
 			{
 				userloginContainer.UpdateUserLoginSetting(userlogin);
 			}
+
 			uictrlWavefaceClient.PerformAction(userlogin);
-			if (!TrayMenu.Items.ContainsKey(userlogin.Email))
-			{
-				ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-				menu.Name = userlogin.Email;
-                TrayMenu.Items.Insert(TrayMenu.Items.IndexOf(toolStripSeparator3), menu);
-				menuSignInOut.Text = "Switch to another account...";
-			}
+			RefreshUserList();
 		}
 
 		private bool TestEmailFormat(string emailAddress)

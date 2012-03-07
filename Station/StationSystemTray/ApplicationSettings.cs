@@ -55,7 +55,22 @@ namespace StationSystemTray
 
 		public void AddUserLoginSetting(UserLoginSetting userlogin)
 		{
-			settings.Users.Add(userlogin);
+			bool duplicated = false;
+
+			foreach (UserLoginSetting oldUserlogin in settings.Users)
+			{
+				if (oldUserlogin.Email == userlogin.Email)
+				{
+					oldUserlogin.Password = userlogin.Password;
+					oldUserlogin.RememberPassword = userlogin.RememberPassword;
+					duplicated = true;
+				}
+			}
+
+			if (!duplicated)
+			{
+				settings.Users.Add(userlogin);
+			}
 			settings.LastLogin = userlogin.Email;
 			settings.Save();
 		}
