@@ -25,41 +25,7 @@ namespace StationSystemTray
 {
 	public partial class MainForm : Form, StationStateContext
 	{
-		#region Const
-		const string WEB_API_VERSION = "{\"version\": \"1.0\"}";
-		const string WEB_SIGNUP_PAGE_URL_PATTERN = @"https://waveface.com/signup?device=windows&l={0}";
-		const string DEV_WEB_SIGNUP_PAGE_URL_PATTERN = @"http://develop.waveface.com:4343/signup?device=windows&l={0}";
-		#endregion
-
-
-		#region Var
-		string _SignUpPage;
-		#endregion
-
-
-		#region Private Property
-		private string m_SignUpPage 
-		{
-			get
-			{
-				if (_SignUpPage == null)
-				{
-					string cultureName = CultureManager.ApplicationUICulture.Name;
-					if (Wammer.Cloud.CloudServer.BaseUrl.Contains("develop.waveface.com"))
-					{
-						_SignUpPage = string.Format(DEV_WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);
-					}
-					else
-					{
-						_SignUpPage = string.Format(WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);
-					}
-				}
-				return _SignUpPage;
-			}
-		}
-		#endregion
-
-
+        private bool m_IsSignUpRunning { get; set; }
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private UserLoginSettingContainer userloginContainer;
@@ -339,6 +305,9 @@ namespace StationSystemTray
 
 		private void menuPreference_Click(object sender, EventArgs e)
 		{
+            if (m_IsSignUpRunning)
+                return;
+
 			if (clientProcess != null && !clientProcess.HasExited)
 			{
 				IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
@@ -809,6 +778,7 @@ namespace StationSystemTray
 
 		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
+            m_IsSignUpRunning = true;
             var dialog = new SignUpDialog()
             {
                 Text = this.Text,
@@ -825,6 +795,7 @@ namespace StationSystemTray
             }
             tabControl.SelectedTab = tabSignIn;
             this.Show();
+            m_IsSignUpRunning = false;
 		}
 
 
