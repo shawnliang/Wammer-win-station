@@ -40,7 +40,7 @@ namespace StationSystemTray
 
 
 		#region Private Property
-		private string m_SignUpPage 
+		private string m_SignUpPage
 		{
 			get
 			{
@@ -72,11 +72,11 @@ namespace StationSystemTray
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
 		private ReloginForm signInForm;
-
+		private bool initMinimized;
 		private object cs = new object();
 		private object csStationTimerTick = new object();
 		public StationState CurrentState { get; private set; }
-
+		
 		public Icon iconRunning;
 		public Icon iconPaused;
 		public Icon iconWarning;
@@ -84,15 +84,15 @@ namespace StationSystemTray
 		public string TrayIconText
 		{
 			get { return TrayIcon.Text; }
-			set 
-			{ 
+			set
+			{
 				TrayIcon.Text = value;
 				TrayIcon.BalloonTipText = value;
 				TrayIcon.ShowBalloonTip(3);
 			}
 		}
 
-		public MainForm()
+		public MainForm(bool initMinimized)
 		{
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
@@ -107,7 +107,7 @@ namespace StationSystemTray
 			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_disable_16.GetHicon());
 			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_warn_16.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
-			
+
 			this.messenger = new Messenger(this);
 
 			this.uictrlWavefaceClient = new WavefaceClientController(this);
@@ -126,6 +126,8 @@ namespace StationSystemTray
 			NetworkChange.NetworkAddressChanged += checkStationTimer_Tick;
 
 			this.CurrentState = CreateState(StationStateEnum.Initial);
+
+			this.initMinimized = initMinimized;
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -140,7 +142,14 @@ namespace StationSystemTray
 
 			CurrentState.Onlining();
 
-			GotoTimeline(userloginContainer.GetLastUserLogin());
+			if (this.initMinimized)
+			{
+				this.WindowState = FormWindowState.Minimized;
+				this.ShowInTaskbar = false;
+				this.initMinimized = false;
+			}
+			else
+				GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
 		private void RefreshUserList()
@@ -157,10 +166,10 @@ namespace StationSystemTray
 					cmbEmail.Items.Add(userlogin.Email);
 					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
 					menu.Name = userlogin.Email;
-					menuGotoTimeline.DropDownItems.Add(menu);					
-				}
+					menuGotoTimeline.DropDownItems.Add(menu);
 				}
 			}
+		}
 
 		private void GotoTimeline(UserLoginSetting userlogin)
 		{
@@ -312,7 +321,7 @@ namespace StationSystemTray
 			lock (cs)
 			{
 				CurrentState.OnLeaving(this, new EventArgs());
-				CurrentState = CreateState(state);				
+				CurrentState = CreateState(state);
 				CurrentState.OnEntering(this, new EventArgs());
 			}
 		}
@@ -331,19 +340,19 @@ namespace StationSystemTray
 
 		private void menuPreference_Click(object sender, EventArgs e)
 		{
-            if (clientProcess != null && !clientProcess.HasExited)
-            {
-                IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
-                Win32Helper.ShowWindow(handle, 1);
-                Win32Helper.SetForegroundWindow(handle);
-            }
-            else
-            {
-                if (WindowState == FormWindowState.Minimized)
-                    WindowState = FormWindowState.Normal;
-                Show();
-                Activate();
-            }
+			if (clientProcess != null && !clientProcess.HasExited)
+			{
+				IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
+				Win32Helper.ShowWindow(handle, 1);
+				Win32Helper.SetForegroundWindow(handle);
+			}
+			else
+			{
+				if (WindowState == FormWindowState.Minimized)
+					WindowState = FormWindowState.Normal;
+				Show();
+				Activate();
+			}
 		}
 
 
@@ -636,6 +645,10 @@ namespace StationSystemTray
 				this.AcceptButton = btnOK;
 			}
 
+
+			if (this.WindowState == FormWindowState.Minimized)
+				this.WindowState = FormWindowState.Normal;
+
 			// force window to have focus
 			// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
 			uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
@@ -707,7 +720,7 @@ namespace StationSystemTray
 				if (userlogin == null)
 				{
 					StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
-					
+
 					uictrlWavefaceClient.Terminate();
 
 					userloginContainer.AddUserLoginSetting(
@@ -726,7 +739,7 @@ namespace StationSystemTray
 					StationController.StationOnline(userlogin.Email, txtPassword.Text);
 
 					uictrlWavefaceClient.Terminate();
-					
+
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
 
@@ -829,7 +842,7 @@ namespace StationSystemTray
 		/// true if the keystroke was processed and consumed by the control; otherwise, false to allow further processing.
 		/// </returns>
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-			{
+		{
 			//prevent ctrl+tab to switch signin pages
 			if (keyData == (Keys.Control | Keys.Tab))
 			{
@@ -877,7 +890,7 @@ namespace StationSystemTray
 				webBrowser1.ObjectForScripting = this;
 				webBrowser1.Navigate(m_SignUpPage);
 			}
-			}
+		}
 		#endregion
 	}
 
@@ -906,13 +919,13 @@ namespace StationSystemTray
 		{
 			lock (cs)
 			{
-			UserLoginSetting userlogin = (UserLoginSetting)obj;
-			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-		   "WavefaceWindowsClient.exe");
-			mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
+				UserLoginSetting userlogin = (UserLoginSetting)obj;
+				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+			   "WavefaceWindowsClient.exe");
+				mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
 
-			if (mainform.clientProcess != null)
-				mainform.clientProcess.WaitForExit();
+				if (mainform.clientProcess != null)
+					mainform.clientProcess.WaitForExit();
 
 				int exitCode = mainform.clientProcess.ExitCode;
 				mainform.clientProcess = null;
@@ -982,5 +995,5 @@ namespace StationSystemTray
 	}
 	#endregion
 
-  
+
 }
