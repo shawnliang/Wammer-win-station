@@ -25,7 +25,7 @@ namespace StationSystemTray
 {
 	public partial class MainForm : Form, StationStateContext
 	{
-        private bool m_IsSignUpRunning { get; set; }
+		private bool m_IsSignUpRunning { get; set; }
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private UserLoginSettingContainer userloginContainer;
@@ -311,8 +311,8 @@ namespace StationSystemTray
 
 		private void menuPreference_Click(object sender, EventArgs e)
 		{
-            if (m_IsSignUpRunning)
-                return;
+			if (m_IsSignUpRunning)
+				return;
 
 			if (clientProcess != null && !clientProcess.HasExited)
 			{
@@ -788,24 +788,24 @@ namespace StationSystemTray
 
 		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-            m_IsSignUpRunning = true;
-            var dialog = new SignUpDialog()
-            {
-                Text = this.Text,
-                Icon = this.Icon,
-                StartPosition = FormStartPosition.CenterParent
-            };
+			m_IsSignUpRunning = true;
+			var dialog = new SignUpDialog()
+			{
+				Text = this.Text,
+				Icon = this.Icon,
+				StartPosition = FormStartPosition.CenterParent
+			};
 
-            this.Hide();
-            dialog.ShowDialog();
-            if (dialog.DialogResult == System.Windows.Forms.DialogResult.OK)
-            {
-                cmbEmail.Text = dialog.EMail;
-                txtPassword.Text = dialog.Password;
-            }
-            tabControl.SelectedTab = tabSignIn;
-            this.Show();
-            m_IsSignUpRunning = false;
+			this.Hide();
+			dialog.ShowDialog();
+			if (dialog.DialogResult == System.Windows.Forms.DialogResult.OK)
+			{
+				cmbEmail.Text = dialog.EMail;
+				txtPassword.Text = dialog.Password;
+			}
+			tabControl.SelectedTab = tabSignIn;
+			this.Show();
+			m_IsSignUpRunning = false;
 		}
 
 
