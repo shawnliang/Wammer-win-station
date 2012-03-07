@@ -47,70 +47,102 @@ namespace StationSystemTray
 	public class UserLoginSettingContainer
 	{
 		private ApplicationSettings settings;
+		private object cs;
 
 		public UserLoginSettingContainer(ApplicationSettings settings)
 		{
 			this.settings = settings;
+			this.cs = new object();
+		}
+
+		public void ResetUserLoginSetting(List<UserLoginSetting> userlogins, string lastlogin)
+		{
+			lock (cs)
+			{
+				settings.Users.Clear();
+				settings.LastLogin = string.Empty;
+				foreach (UserLoginSetting userlogin in userlogins)
+				{
+					settings.Users.Add(userlogin);
+					if (userlogin.Email == lastlogin)
+					{
+						settings.LastLogin = lastlogin;
+					}
+				}
+				settings.Save();
+			}
 		}
 
 		public void AddUserLoginSetting(UserLoginSetting userlogin)
 		{
-			bool duplicated = false;
-
-			foreach (UserLoginSetting oldUserlogin in settings.Users)
+			lock (cs)
 			{
-				if (oldUserlogin.Email == userlogin.Email)
+				bool duplicated = false;
+
+				foreach (UserLoginSetting oldUserlogin in settings.Users)
 				{
-					oldUserlogin.Password = userlogin.Password;
-					oldUserlogin.RememberPassword = userlogin.RememberPassword;
-					duplicated = true;
+					if (oldUserlogin.Email == userlogin.Email)
+					{
+						oldUserlogin.Password = userlogin.Password;
+						oldUserlogin.RememberPassword = userlogin.RememberPassword;
+						duplicated = true;
+					}
 				}
-			}
 
-			if (!duplicated)
-			{
-				settings.Users.Add(userlogin);
+				if (!duplicated)
+				{
+					settings.Users.Add(userlogin);
+				}
+				settings.LastLogin = userlogin.Email;
+				settings.Save();
 			}
-			settings.LastLogin = userlogin.Email;
-			settings.Save();
 		}
 
 		public void UpdateUserLoginSetting(UserLoginSetting userlogin)
 		{
-			foreach (UserLoginSetting oldUserlogin in settings.Users)
+			lock (cs)
 			{
-				if (oldUserlogin.Email == userlogin.Email)
+				foreach (UserLoginSetting oldUserlogin in settings.Users)
 				{
-					oldUserlogin.Password = userlogin.Password;
-					oldUserlogin.RememberPassword = userlogin.RememberPassword;
+					if (oldUserlogin.Email == userlogin.Email)
+					{
+						oldUserlogin.Password = userlogin.Password;
+						oldUserlogin.RememberPassword = userlogin.RememberPassword;
+					}
 				}
+				settings.LastLogin = userlogin.Email;
+				settings.Save();
 			}
-			settings.LastLogin = userlogin.Email;
-			settings.Save();
 		}
 
 		public UserLoginSetting GetUserLogin(string email)
 		{
-			foreach (UserLoginSetting userlogin in settings.Users)
+			lock (cs)
 			{
-				if (userlogin.Email.ToLower() == email.ToLower())
+				foreach (UserLoginSetting userlogin in settings.Users)
 				{
-					return userlogin;
+					if (userlogin.Email.ToLower() == email.ToLower())
+					{
+						return userlogin;
+					}
 				}
+				return null;
 			}
-			return null;
 		}
 
 		public UserLoginSetting GetLastUserLogin()
 		{
-			foreach (UserLoginSetting userlogin in settings.Users)
+			lock (cs)
 			{
-				if (userlogin.Email == settings.LastLogin)
+				foreach (UserLoginSetting userlogin in settings.Users)
 				{
-					return userlogin;
+					if (userlogin.Email == settings.LastLogin)
+					{
+						return userlogin;
+					}
 				}
+				return null;
 			}
-			return null;
 		}
 	}
 }

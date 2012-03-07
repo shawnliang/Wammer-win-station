@@ -140,6 +140,7 @@ namespace StationSystemTray
 
 			CurrentState.Onlining();
 
+			RefreshUserList();
 			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
@@ -147,6 +148,8 @@ namespace StationSystemTray
 		{
 			cmbEmail.Items.Clear();
 			menuGotoTimeline.DropDownItems.Clear();
+
+			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
 
 			ListDriverResponse res = StationController.ListUser();
 			foreach (Driver driver in res.drivers)
@@ -157,10 +160,14 @@ namespace StationSystemTray
 					cmbEmail.Items.Add(userlogin.Email);
 					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
 					menu.Name = userlogin.Email;
-					menuGotoTimeline.DropDownItems.Add(menu);					
-				}
+					menuGotoTimeline.DropDownItems.Add(menu);
+					userlogins.Add(userlogin);
 				}
 			}
+
+			string lastlogin = userloginContainer.GetLastUserLogin().Email;
+			userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
+		}
 
 		private void GotoTimeline(UserLoginSetting userlogin)
 		{
@@ -331,19 +338,19 @@ namespace StationSystemTray
 
 		private void menuPreference_Click(object sender, EventArgs e)
 		{
-            if (clientProcess != null && !clientProcess.HasExited)
-            {
-                IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
-                Win32Helper.ShowWindow(handle, 1);
-                Win32Helper.SetForegroundWindow(handle);
-            }
-            else
-            {
-                if (WindowState == FormWindowState.Minimized)
-                    WindowState = FormWindowState.Normal;
-                Show();
-                Activate();
-            }
+			if (clientProcess != null && !clientProcess.HasExited)
+			{
+				IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
+				Win32Helper.ShowWindow(handle, 1);
+				Win32Helper.SetForegroundWindow(handle);
+			}
+			else
+			{
+				if (WindowState == FormWindowState.Minimized)
+					WindowState = FormWindowState.Normal;
+				Show();
+				Activate();
+			}
 		}
 
 
