@@ -155,6 +155,43 @@
     <value>339, 17</value>
   </metadata>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnAddPhoto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="btnAddPhoto.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="btnAddPhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 2</value>
+  </data>
+  <data name="btnAddPhoto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 26</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnAddPhoto.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="btnAddPhoto.Text" xml:space="preserve">
+    <value>Add Photo</value>
+  </data>
+  <data name="btnAddPhoto.ToolTip" xml:space="preserve">
+    <value>Add Photo</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Name" xml:space="preserve">
+    <value>btnAddPhoto</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.Parent" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;btnAddPhoto.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="richText_UI.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -167,7 +204,6 @@
   <data name="richText_UI.Size" type="System.Drawing.Size, System.Drawing">
     <value>574, 202</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="richText_UI.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
@@ -508,7 +544,7 @@
     <value>Fill</value>
   </data>
   <data name="panelPWD_Main.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 232</value>
+    <value>0, 236</value>
   </data>
   <data name="panelPWD_Main.Size" type="System.Drawing.Size, System.Drawing">
     <value>574, 0</value>
@@ -528,77 +564,35 @@
   <data name="&gt;&gt;panelPWD_Main.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="cbGenerateWebPreview.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="cbGenerateWebPreview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="pictureBoxWaiting.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="cbGenerateWebPreview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 42</value>
+  <data name="pictureBoxWaiting.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 48</value>
   </data>
-  <data name="cbGenerateWebPreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 18</value>
+  <data name="pictureBoxWaiting.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
   </data>
-  <data name="cbGenerateWebPreview.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
+  <data name="pictureBoxWaiting.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
   </data>
-  <data name="cbGenerateWebPreview.Text" xml:space="preserve">
-    <value>Generate Web Preview</value>
-  </data>
-  <data name="cbGenerateWebPreview.Visible" type="System.Boolean, mscorlib">
+  <data name="pictureBoxWaiting.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.Name" xml:space="preserve">
-    <value>cbGenerateWebPreview</value>
+  <data name="&gt;&gt;pictureBoxWaiting.Name" xml:space="preserve">
+    <value>pictureBoxWaiting</value>
   </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;pictureBoxWaiting.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.Parent" xml:space="preserve">
+  <data name="&gt;&gt;pictureBoxWaiting.Parent" xml:space="preserve">
     <value>panelMiddleBar</value>
   </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;pictureBoxWaiting.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
-  </data>
-  <data name="btnAddPhoto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="btnAddPhoto.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="btnAddPhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 2</value>
-  </data>
-  <data name="btnAddPhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 26</value>
-  </data>
-  <data name="btnAddPhoto.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="btnAddPhoto.Text" xml:space="preserve">
-    <value>Add Photo</value>
-  </data>
-  <data name="btnAddPhoto.ToolTip" xml:space="preserve">
-    <value>Add Photo</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.Name" xml:space="preserve">
-    <value>btnAddPhoto</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="btnAddDoc.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -655,7 +649,7 @@
     <value>1</value>
   </data>
   <data name="btnSend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+    <value>Bottom, Right</value>
   </data>
   <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
@@ -667,7 +661,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>493, 36</value>
+    <value>492, 44</value>
   </data>
   <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -690,14 +684,77 @@
   <data name="&gt;&gt;btnSend.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="labelPreviewMsg.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="labelPreviewMsg.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
+  </data>
+  <data name="labelPreviewMsg.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelPreviewMsg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 49</value>
+  </data>
+  <data name="labelPreviewMsg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>460, 14</value>
+  </data>
+  <data name="labelPreviewMsg.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;labelPreviewMsg.Name" xml:space="preserve">
+    <value>labelPreviewMsg</value>
+  </data>
+  <data name="&gt;&gt;labelPreviewMsg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelPreviewMsg.Parent" xml:space="preserve">
+    <value>panelMiddleBar</value>
+  </data>
+  <data name="&gt;&gt;labelPreviewMsg.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="cbGenerateWebPreview.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbGenerateWebPreview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="cbGenerateWebPreview.Location" type="System.Drawing.Point, System.Drawing">
+    <value>332, 48</value>
+  </data>
+  <data name="cbGenerateWebPreview.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 18</value>
+  </data>
+  <data name="cbGenerateWebPreview.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="cbGenerateWebPreview.Text" xml:space="preserve">
+    <value>Generate Web Preview</value>
+  </data>
+  <data name="cbGenerateWebPreview.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;cbGenerateWebPreview.Name" xml:space="preserve">
+    <value>cbGenerateWebPreview</value>
+  </data>
+  <data name="&gt;&gt;cbGenerateWebPreview.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbGenerateWebPreview.Parent" xml:space="preserve">
+    <value>panelMiddleBar</value>
+  </data>
+  <data name="&gt;&gt;cbGenerateWebPreview.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="panelMiddleBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
   <data name="panelMiddleBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 163</value>
+    <value>0, 157</value>
   </data>
   <data name="panelMiddleBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 69</value>
+    <value>574, 79</value>
   </data>
   <data name="panelMiddleBar.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -751,7 +808,7 @@
     <value>0</value>
   </data>
   <data name="pureTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="pureTextBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 11.25pt</value>
@@ -763,7 +820,7 @@
     <value>ForcedBoth</value>
   </data>
   <data name="pureTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>559, 145</value>
+    <value>559, 139</value>
   </data>
   <data name="pureTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -775,7 +832,7 @@
     <value>pureTextBox</value>
   </data>
   <data name="&gt;&gt;pureTextBox.Type" xml:space="preserve">
-    <value>Waveface.Component.WaterMarkRichTextBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.RichEdit.RichTextEditor, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pureTextBox.Parent" xml:space="preserve">
     <value>panelText</value>
@@ -790,7 +847,7 @@
     <value>0, 0</value>
   </data>
   <data name="panelText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 163</value>
+    <value>574, 157</value>
   </data>
   <data name="panelText.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -814,7 +871,7 @@
     <value>0, 0</value>
   </data>
   <data name="Page_P_D_W.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 230</value>
+    <value>574, 234</value>
   </data>
   <data name="Page_P_D_W.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -841,7 +898,7 @@
     <value>0, 0</value>
   </data>
   <data name="multiPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 230</value>
+    <value>574, 234</value>
   </data>
   <data name="multiPanel.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -868,7 +925,7 @@
     <value>50</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>574, 230</value>
+    <value>574, 234</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt</value>
@@ -1161,7 +1218,7 @@
 </value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>580, 268</value>
+    <value>580, 272</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
@@ -1205,6 +1262,12 @@
   <data name="&gt;&gt;backgroundWorker_GetPreview.Type" xml:space="preserve">
     <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;timerNoPreviewMsg.Name" xml:space="preserve">
+    <value>timerNoPreviewMsg</value>
+  </data>
+  <data name="&gt;&gt;timerNoPreviewMsg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PostForm</value>
   </data>
@@ -1213,5 +1276,8 @@
   </data>
   <metadata name="backgroundWorker_GetPreview.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>425, 17</value>
+  </metadata>
+  <metadata name="timerNoPreviewMsg.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>656, 15</value>
   </metadata>
 </root>

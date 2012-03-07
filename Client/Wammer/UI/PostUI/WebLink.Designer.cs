@@ -31,42 +31,91 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebLink));
             this.panel = new System.Windows.Forms.Panel();
-            this.panelToolbar = new System.Windows.Forms.Panel();
-            this.buttonNext = new Waveface.Component.XPButton();
-            this.buttonPrev = new Waveface.Component.XPButton();
-            this.buttonRemovePreview = new Waveface.Component.XPButton();
-            this.labelPictureIndex = new System.Windows.Forms.Label();
-            this.label = new System.Windows.Forms.Label();
             this.panelPreview = new System.Windows.Forms.Panel();
-            this.cbNoThumbnail = new System.Windows.Forms.CheckBox();
-            this.richTextBoxDescription = new System.Windows.Forms.RichTextBox();
+            this.panelContent = new System.Windows.Forms.Panel();
+            this.labelProvider = new System.Windows.Forms.Label();
             this.labelTitle = new System.Windows.Forms.Label();
+            this.richTextBoxDescription = new System.Windows.Forms.RichTextBox();
+            this.panelSelectPicture = new System.Windows.Forms.Panel();
             this.pictureBoxPreview = new System.Windows.Forms.PictureBox();
-            this.btnSend = new Waveface.Component.XPButton();
+            this.buttonNext = new Waveface.Component.XPButton();
+            this.labelPictureIndex = new System.Windows.Forms.Label();
+            this.cbNoThumbnail = new System.Windows.Forms.CheckBox();
+            this.buttonPrev = new Waveface.Component.XPButton();
+            this.panelToolbar = new System.Windows.Forms.Panel();
+            this.labelSummary = new System.Windows.Forms.Label();
+            this.buttonRemovePreview = new Waveface.Component.XPButton();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.btnSend = new Waveface.Component.XPButton();
             this.panel.SuspendLayout();
-            this.panelToolbar.SuspendLayout();
             this.panelPreview.SuspendLayout();
+            this.panelContent.SuspendLayout();
+            this.panelSelectPicture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).BeginInit();
+            this.panelToolbar.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel
             // 
             resources.ApplyResources(this.panel, "panel");
-            this.panel.Controls.Add(this.panelToolbar);
             this.panel.Controls.Add(this.panelPreview);
             this.panel.Name = "panel";
             // 
-            // panelToolbar
+            // panelPreview
             // 
-            resources.ApplyResources(this.panelToolbar, "panelToolbar");
-            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(197)))), ((int)(((byte)(186)))));
-            this.panelToolbar.Controls.Add(this.buttonNext);
-            this.panelToolbar.Controls.Add(this.buttonPrev);
-            this.panelToolbar.Controls.Add(this.buttonRemovePreview);
-            this.panelToolbar.Controls.Add(this.labelPictureIndex);
-            this.panelToolbar.Controls.Add(this.label);
-            this.panelToolbar.Name = "panelToolbar";
+            resources.ApplyResources(this.panelPreview, "panelPreview");
+            this.panelPreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelPreview.Controls.Add(this.panelContent);
+            this.panelPreview.Controls.Add(this.panelSelectPicture);
+            this.panelPreview.Name = "panelPreview";
+            // 
+            // panelContent
+            // 
+            resources.ApplyResources(this.panelContent, "panelContent");
+            this.panelContent.Controls.Add(this.labelProvider);
+            this.panelContent.Controls.Add(this.labelTitle);
+            this.panelContent.Controls.Add(this.richTextBoxDescription);
+            this.panelContent.Name = "panelContent";
+            // 
+            // labelProvider
+            // 
+            resources.ApplyResources(this.labelProvider, "labelProvider");
+            this.labelProvider.AutoEllipsis = true;
+            this.labelProvider.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.labelProvider.ForeColor = System.Drawing.Color.Gray;
+            this.labelProvider.Name = "labelProvider";
+            // 
+            // labelTitle
+            // 
+            resources.ApplyResources(this.labelTitle, "labelTitle");
+            this.labelTitle.AutoEllipsis = true;
+            this.labelTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.labelTitle.Name = "labelTitle";
+            // 
+            // richTextBoxDescription
+            // 
+            resources.ApplyResources(this.richTextBoxDescription, "richTextBoxDescription");
+            this.richTextBoxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.richTextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxDescription.Name = "richTextBoxDescription";
+            this.richTextBoxDescription.ReadOnly = true;
+            // 
+            // panelSelectPicture
+            // 
+            this.panelSelectPicture.Controls.Add(this.pictureBoxPreview);
+            this.panelSelectPicture.Controls.Add(this.buttonNext);
+            this.panelSelectPicture.Controls.Add(this.labelPictureIndex);
+            this.panelSelectPicture.Controls.Add(this.cbNoThumbnail);
+            this.panelSelectPicture.Controls.Add(this.buttonPrev);
+            resources.ApplyResources(this.panelSelectPicture, "panelSelectPicture");
+            this.panelSelectPicture.Name = "panelSelectPicture";
+            // 
+            // pictureBoxPreview
+            // 
+            resources.ApplyResources(this.pictureBoxPreview, "pictureBoxPreview");
+            this.pictureBoxPreview.Name = "pictureBoxPreview";
+            this.pictureBoxPreview.TabStop = false;
+            this.pictureBoxPreview.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pictureBoxPreview_LoadCompleted);
             // 
             // buttonNext
             // 
@@ -78,6 +127,18 @@
             this.buttonNext.UseVisualStyleBackColor = true;
             this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
             // 
+            // labelPictureIndex
+            // 
+            resources.ApplyResources(this.labelPictureIndex, "labelPictureIndex");
+            this.labelPictureIndex.Name = "labelPictureIndex";
+            // 
+            // cbNoThumbnail
+            // 
+            resources.ApplyResources(this.cbNoThumbnail, "cbNoThumbnail");
+            this.cbNoThumbnail.Name = "cbNoThumbnail";
+            this.cbNoThumbnail.UseVisualStyleBackColor = true;
+            this.cbNoThumbnail.CheckedChanged += new System.EventHandler(this.cbNoThumbnail_CheckedChanged);
+            // 
             // buttonPrev
             // 
             this.buttonPrev.AdjustImageLocation = new System.Drawing.Point(0, 0);
@@ -87,6 +148,21 @@
             this.buttonPrev.Name = "buttonPrev";
             this.buttonPrev.UseVisualStyleBackColor = true;
             this.buttonPrev.Click += new System.EventHandler(this.buttonPrev_Click);
+            // 
+            // panelToolbar
+            // 
+            resources.ApplyResources(this.panelToolbar, "panelToolbar");
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(197)))), ((int)(((byte)(186)))));
+            this.panelToolbar.Controls.Add(this.labelSummary);
+            this.panelToolbar.Controls.Add(this.buttonRemovePreview);
+            this.panelToolbar.Name = "panelToolbar";
+            // 
+            // labelSummary
+            // 
+            resources.ApplyResources(this.labelSummary, "labelSummary");
+            this.labelSummary.AutoEllipsis = true;
+            this.labelSummary.ForeColor = System.Drawing.Color.DimGray;
+            this.labelSummary.Name = "labelSummary";
             // 
             // buttonRemovePreview
             // 
@@ -99,54 +175,9 @@
             this.buttonRemovePreview.UseVisualStyleBackColor = true;
             this.buttonRemovePreview.Click += new System.EventHandler(this.buttonRemovePreview_Click);
             // 
-            // labelPictureIndex
+            // cultureManager
             // 
-            resources.ApplyResources(this.labelPictureIndex, "labelPictureIndex");
-            this.labelPictureIndex.Name = "labelPictureIndex";
-            // 
-            // label
-            // 
-            resources.ApplyResources(this.label, "label");
-            this.label.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label.Name = "label";
-            // 
-            // panelPreview
-            // 
-            resources.ApplyResources(this.panelPreview, "panelPreview");
-            this.panelPreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panelPreview.Controls.Add(this.cbNoThumbnail);
-            this.panelPreview.Controls.Add(this.richTextBoxDescription);
-            this.panelPreview.Controls.Add(this.labelTitle);
-            this.panelPreview.Controls.Add(this.pictureBoxPreview);
-            this.panelPreview.Name = "panelPreview";
-            // 
-            // cbNoThumbnail
-            // 
-            resources.ApplyResources(this.cbNoThumbnail, "cbNoThumbnail");
-            this.cbNoThumbnail.Name = "cbNoThumbnail";
-            this.cbNoThumbnail.UseVisualStyleBackColor = true;
-            this.cbNoThumbnail.CheckedChanged += new System.EventHandler(this.cbNoThumbnail_CheckedChanged);
-            // 
-            // richTextBoxDescription
-            // 
-            resources.ApplyResources(this.richTextBoxDescription, "richTextBoxDescription");
-            this.richTextBoxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.richTextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBoxDescription.Name = "richTextBoxDescription";
-            this.richTextBoxDescription.ReadOnly = true;
-            // 
-            // labelTitle
-            // 
-            resources.ApplyResources(this.labelTitle, "labelTitle");
-            this.labelTitle.AutoEllipsis = true;
-            this.labelTitle.Name = "labelTitle";
-            // 
-            // pictureBoxPreview
-            // 
-            resources.ApplyResources(this.pictureBoxPreview, "pictureBoxPreview");
-            this.pictureBoxPreview.Name = "pictureBoxPreview";
-            this.pictureBoxPreview.TabStop = false;
-            this.pictureBoxPreview.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pictureBoxPreview_LoadCompleted);
+            this.cultureManager.ManagedControl = this;
             // 
             // btnSend
             // 
@@ -158,26 +189,24 @@
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
             // WebLink
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.Controls.Add(this.panelToolbar);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.btnSend);
             this.MinimumSize = new System.Drawing.Size(500, 130);
             this.Name = "WebLink";
             this.Resize += new System.EventHandler(this.General_WebLink_Resize);
             this.panel.ResumeLayout(false);
-            this.panelToolbar.ResumeLayout(false);
-            this.panelToolbar.PerformLayout();
             this.panelPreview.ResumeLayout(false);
-            this.panelPreview.PerformLayout();
+            this.panelContent.ResumeLayout(false);
+            this.panelSelectPicture.ResumeLayout(false);
+            this.panelSelectPicture.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).EndInit();
+            this.panelToolbar.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -197,6 +226,9 @@
         private Component.XPButton buttonNext;
         private Component.XPButton buttonPrev;
         private Localization.CultureManager cultureManager;
-        private System.Windows.Forms.Label label;
+        private System.Windows.Forms.Panel panelContent;
+        private System.Windows.Forms.Label labelProvider;
+        private System.Windows.Forms.Panel panelSelectPicture;
+        private System.Windows.Forms.Label labelSummary;
     }
 }

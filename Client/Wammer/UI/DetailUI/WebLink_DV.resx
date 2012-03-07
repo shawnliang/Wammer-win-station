@@ -121,108 +121,30 @@
   <data name="panelMain.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="panelRight.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="panelRight.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="webBrowserSoul.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="webBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="webBrowserSoul.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 6</value>
-  </data>
-  <data name="webBrowserSoul.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 153</value>
-  </data>
-  <data name="webBrowserSoul.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;webBrowserSoul.Name" xml:space="preserve">
-    <value>webBrowserSoul</value>
-  </data>
-  <data name="&gt;&gt;webBrowserSoul.Type" xml:space="preserve">
-    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;webBrowserSoul.Parent" xml:space="preserve">
-    <value>panelWebBrowser</value>
-  </data>
-  <data name="&gt;&gt;webBrowserSoul.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelWebBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelWebBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 200</value>
-  </data>
-  <data name="panelWebBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>522, 165</value>
-  </data>
-  <data name="panelWebBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="panelWebBrowser.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;panelWebBrowser.Name" xml:space="preserve">
-    <value>panelWebBrowser</value>
-  </data>
-  <data name="&gt;&gt;panelWebBrowser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelWebBrowser.Parent" xml:space="preserve">
-    <value>panelRight</value>
-  </data>
-  <data name="&gt;&gt;panelWebBrowser.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="webBrowserTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="webBrowserTop.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="webBrowser.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="webBrowserTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>522, 200</value>
+  <data name="webBrowser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>531, 585</value>
   </data>
-  <data name="webBrowserTop.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="webBrowser.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
-  <data name="&gt;&gt;webBrowserTop.Name" xml:space="preserve">
-    <value>webBrowserTop</value>
+  <data name="&gt;&gt;webBrowser.Name" xml:space="preserve">
+    <value>webBrowser</value>
   </data>
-  <data name="&gt;&gt;webBrowserTop.Type" xml:space="preserve">
+  <data name="&gt;&gt;webBrowser.Type" xml:space="preserve">
     <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;webBrowserTop.Parent" xml:space="preserve">
-    <value>panelRight</value>
-  </data>
-  <data name="&gt;&gt;webBrowserTop.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 4</value>
-  </data>
-  <data name="panelRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>522, 576</value>
-  </data>
-  <data name="panelRight.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;panelRight.Name" xml:space="preserve">
-    <value>panelRight</value>
-  </data>
-  <data name="&gt;&gt;panelRight.Type" xml:space="preserve">
-    <value>Waveface.Compoment.AutoScrollPanel, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;panelRight.Parent" xml:space="preserve">
+  <data name="&gt;&gt;webBrowser.Parent" xml:space="preserve">
     <value>panelMain</value>
   </data>
-  <data name="&gt;&gt;panelRight.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;webBrowser.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
@@ -244,10 +166,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>23, 18</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -264,12 +186,6 @@
   <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
     <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;miCopyTop.Name" xml:space="preserve">
-    <value>miCopyTop</value>
-  </data>
-  <data name="&gt;&gt;miCopyTop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;miCopySoul.Name" xml:space="preserve">
     <value>miCopySoul</value>
   </data>
@@ -282,40 +198,22 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="contextMenuStripTop.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>161, 17</value>
-  </metadata>
-  <data name="miCopyTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 22</value>
-  </data>
-  <data name="miCopyTop.Text" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="contextMenuStripTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 26</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripTop.Name" xml:space="preserve">
-    <value>contextMenuStripTop</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripTop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <metadata name="contextMenuStripSoul.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>327, 21</value>
+  <metadata name="contextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>159, 23</value>
   </metadata>
   <data name="miCopySoul.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>106, 22</value>
   </data>
   <data name="miCopySoul.Text" xml:space="preserve">
     <value>Copy</value>
   </data>
-  <data name="contextMenuStripSoul.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 48</value>
+  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 26</value>
   </data>
-  <data name="&gt;&gt;contextMenuStripSoul.Name" xml:space="preserve">
-    <value>contextMenuStripSoul</value>
+  <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
+    <value>contextMenuStrip</value>
   </data>
-  <data name="&gt;&gt;contextMenuStripSoul.Type" xml:space="preserve">
+  <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

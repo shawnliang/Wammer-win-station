@@ -5,44 +5,37 @@ using System.Text;
 
 using Wammer.Cloud;
 using MongoDB.Driver.Builders;
+using Wammer.Model;
 
 namespace Wammer.Station
 {
-	class RemoveOwnerHandler : HttpHandler
+	public class RemoveOwnerHandler : HttpHandler
 	{
 		private readonly string stationId;
-		private readonly HttpServer functionServer;
-		private readonly StationTimer stationTimer;
 
-		public RemoveOwnerHandler(string stationId, HttpServer functionServer, StationTimer stationTimer)
+		public RemoveOwnerHandler(string stationId)
 		{
 			this.stationId = stationId;
-			this.functionServer = functionServer;
-			this.stationTimer = stationTimer;
 		}
 
 		protected override void HandleRequest()
 		{
 			string stationToken = Parameters["session_token"];
+            string userID = Parameters["user_ID"];
 
-			if (stationToken == null)
-				throw new FormatException("One of parameters is missing: email/password/session_token");
+            if (stationToken == null || userID == null)
+                throw new FormatException("One of parameters is missing: email/password/session_token/userID");
 
-			StationApi.SignOff(new WebClient(), stationId, stationToken);
+            StationApi.SignOff(new WebClient(), stationId, stationToken, userID);
 
-			functionServer.Stop();
-			stationTimer.Stop();
+      
 
-			Model.DriverCollection.Instance.RemoveAll();
-			Model.StationCollection.Instance.RemoveAll();
+            Model.DriverCollection.Instance.Remove(Query.EQ("_id", userID));
 
-			//TODO: move to ServiceCollection
-			Model.Service service = Model.ServiceCollection.Instance.FindOne(Query.EQ("_id", "StationService"));
-			if (service != null)
-			{
-				service.State = Model.ServiceState.Offline;
-				Model.ServiceCollection.Instance.Save(service);
-			}
+			Driver driver = Model.DriverCollection.Instance.FindOne();
+			if (driver == null)
+				Model.StationCollection.Instance.RemoveAll();
+
 
 			RespondSuccess();
 		}

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Manina.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
+using Waveface.Component;
 using Waveface.WebCam;
 
 namespace Waveface.PostUI
@@ -16,6 +17,7 @@ namespace Waveface.PostUI
 
         private long m_avail_month_total_objects;
         private long m_month_total_objects;
+        private MyImageListViewRenderer m_imageListViewRenderer;
 
         public PostForm MyParent { get; set; }
 
@@ -34,13 +36,23 @@ namespace Waveface.PostUI
             InitImageListView();
         }
 
+        public void ChangeToEditModeUI(Post post)
+        {
+            btnSend.Text = "更改";
+        }
+
         #region ImageListView
 
         private void InitImageListView()
         {
             Application.Idle += Application_Idle;
 
-            imageListView.SetRenderer(new ImageListViewRenderers.NoirRenderer());
+            m_imageListViewRenderer = new MyImageListViewRenderer();
+
+            imageListView.SetRenderer(m_imageListViewRenderer);
+            imageListView.BackColor = Color.FromArgb(243, 242, 238);
+            imageListView.Colors.BackColor = Color.FromArgb(243, 242, 238);
+            imageListView.Colors.PaneBackColor = Color.FromArgb(243, 242, 238);
         }
 
         private void Application_Idle(object sender, EventArgs e)
@@ -71,6 +83,7 @@ namespace Waveface.PostUI
 
         private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
         {
+            labelSummary.Text = string.Format(I18n.L.T("Photo.Summary") , imageListView.Items.Count);
         }
 
         private void toolStripButtonCamera_Click(object sender, EventArgs e)
@@ -161,7 +174,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.pureTextBox.Text, files, "", _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text), files, "", _type);
 
                 if (_np == null)
                 {
@@ -210,7 +223,7 @@ namespace Waveface.PostUI
 
             NewPostItem _newPostItem = new NewPostItem();
             _newPostItem.PostType = PostType.Photo;
-            _newPostItem.Text = MyParent.pureTextBox.Text;
+            _newPostItem.Text = StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text);
             _newPostItem.ResizeRatio = toolStripComboBoxResize.Text;
             _newPostItem.OrgPostTime = DateTime.Now;
 
@@ -259,6 +272,14 @@ namespace Waveface.PostUI
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 imageListView.Items.AddRange(openFileDialog.FileNames);
+            }
+            else
+            {
+                if (imageListView.Items.Count == 0)
+                {
+                    MyParent.toPureText_Mode();
+                    return;
+                }
             }
         }
 
@@ -373,7 +394,7 @@ namespace Waveface.PostUI
 
         private void columnContextMenu_Closing(object sender, ToolStripDropDownClosingEventArgs e)
         {
-            imageListView.SetRenderer(new ImageListViewRenderers.NoirRenderer());
+            imageListView.SetRenderer(new MyImageListViewRenderer());
         }
 
         #endregion

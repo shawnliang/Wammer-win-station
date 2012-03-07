@@ -5,7 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Waveface.Compoment;
+using Waveface.Component;
 using Waveface.DragDropLib;
 
 namespace Waveface

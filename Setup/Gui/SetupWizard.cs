@@ -48,8 +48,6 @@ namespace Gui
 			}
 			else if (type == LifecycleActionType.ModeSelected)
 			{
-				FeatureSelectionStep featureStep = new FeatureSelectionStep();
-
 				switch ((InstallationMode)argument)
 				{
 					case InstallationMode.Install:
@@ -58,13 +56,10 @@ namespace Gui
 						//AddStep(new UserRegistrationStep());
 						//AddStep(new InstallationTypeStep());
 						//AddStep(new InstallationLocationStep());
-						
-						AddStep(featureStep);
-
 						//AddStep(new Step1());
 						//AddStep(new ReadyStep());
-						AddStep(new InstallationStep(InstallationMode.Install, featureStep));
-						AddStep(new FinishStep(InstallationMode.Install, featureStep));
+						AddStep(new InstallationStep(InstallationMode.Install));
+						AddStep(new FinishStep(InstallationMode.Install));
 						break;
 					case InstallationMode.Uninstall:
 						AddStep(new InstallationStep(InstallationMode.Uninstall));
@@ -72,11 +67,6 @@ namespace Gui
 						break;
 					case InstallationMode.Upgrade:
 						AddStep(new LicenseStep());
-
-						// Cannot change feature in upgade mode. So use existing feature set.
-						featureStep.SelectedFeature = Migration.HasFeaure("MainFeature") ?
-							FeatureSet.StationAndClient : FeatureSet.ClientOnly;
-
 						AddStep(new BackupAndUninstallStep());
 						
 						/*
@@ -84,8 +74,8 @@ namespace Gui
 						AddStep(new InstallationLocationStep());
 						*/
 
-						AddStep(new InstallationStep(InstallationMode.Install, featureStep));
-						AddStep(new FinishStep(InstallationMode.Upgrade, featureStep));
+						AddStep(new InstallationStep(InstallationMode.Install));
+						AddStep(new FinishStep(InstallationMode.Upgrade));
 						break;
 					case InstallationMode.Reinstall:
 						AddStep(new InstallationStep(InstallationMode.Install));

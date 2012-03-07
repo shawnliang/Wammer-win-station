@@ -11,11 +11,26 @@ namespace Waveface.FilterUI
         {
             MR_fetchfilters_list _list = Main.Current.RT.REST.SearchFilters_List();
 
-            if (_list == null)
-                return null;
-            else
-                return _list.fetch_filters;
+            return (_list == null) ? null : _list.fetch_filters;
         }
+
+        #region All
+
+        public static string GetAllPostFilterStringByPostType(string postType)
+        {
+            return GetTimeStampFilterJson(DateTime.Now.AddYears(1), -20, postType, "[offset]");
+        }
+
+        public static FilterItem CreateAllPostFilterItemByPostType(string name, string postType)
+        {
+            FilterItem _item = new FilterItem();
+            _item.Name = name;
+            _item.Filter = postType;
+            _item.DynamicNow = true;
+            return _item;
+        }
+
+        #endregion
 
         #region TimeRangeFilter
 

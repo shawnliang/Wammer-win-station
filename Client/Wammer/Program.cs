@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using NLog;
-using Waveface.Compoment;
+using Waveface.Component;
 using Waveface.Diagnostics;
 using Waveface.Localization;
 
@@ -40,6 +40,8 @@ namespace Waveface
 
         #endregion
 
+        public static bool ShowCrashReporter { get; set;}
+
         [STAThread]
         private static void Main(string[] args)
         {
@@ -67,26 +69,18 @@ namespace Waveface
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                ProgramSetting _settings = new ProgramSetting();
-
                 LoginForm _loginForm;
 
-                if (args.Length == 3)
+                if (args.Length == 2)
                 {
                     string _email = args[0];
                     string _password = args[1];
-                    string _token = args[2];
 
-                    _settings.Email = _email;
-                    _settings.Password = _password;
-                    _settings.StationToken = _token;
-                    _settings.Save();
-
-                    _loginForm = new LoginForm(_settings, _email, _password);
+                    _loginForm = new LoginForm(_email, _password);
                 }
                 else
                 {
-                    _loginForm = new LoginForm(_settings, _settings.Email, _settings.Password);
+                    _loginForm = new LoginForm();
                 }
 
                 #region force window to have focus
@@ -128,13 +122,18 @@ namespace Waveface
             SingleInstance.Stop();
 
             s_logger.Trace("==================== Windows Client Exit ====================");
+            return;
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             NLogUtility.Exception(s_logger, (Exception)e.ExceptionObject, "CurrentDomain_UnhandledException");
-            CrashReporter _errorDlg = new CrashReporter((Exception)e.ExceptionObject);
-            _errorDlg.ShowDialog();
+
+            if (ShowCrashReporter)
+            {
+                CrashReporter _errorDlg = new CrashReporter((Exception) e.ExceptionObject);
+                _errorDlg.ShowDialog();
+            }
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

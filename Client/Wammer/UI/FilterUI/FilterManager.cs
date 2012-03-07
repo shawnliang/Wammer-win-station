@@ -13,7 +13,6 @@ namespace Waveface.FilterUI
     public partial class FilterManager : Form
     {
         private FilterItem m_currentFilterItem;
-        private string m_filterString;
         private TimeRangeFilter m_timeRangeFilter;
         private TimeStampFilter m_timeStampFilter;
         private bool m_isAddMode;
@@ -26,12 +25,12 @@ namespace Waveface.FilterUI
 
             (new TabOrderManager(this)).SetTabOrder(TabOrderManager.TabScheme.AcrossFirst);
 
-            ResetAll();
+            Reset();
 
-            FillListview();
+            FillFilterListview();
         }
 
-        private void FillListview()
+        private void FillFilterListview()
         {
             listViewFiles.Items.Clear();
 
@@ -80,7 +79,7 @@ namespace Waveface.FilterUI
 
         private void addFileButton_Click(object sender, EventArgs e)
         {
-            ResetAll();
+            Reset();
         }
 
         private void listViewFiles_SelectedIndexChanged(object sender, EventArgs e)
@@ -93,8 +92,8 @@ namespace Waveface.FilterUI
                 Text = "Filter Manager [Edit]";
 
                 m_currentFilterItem = (FilterItem)listViewFiles.SelectedItems[0].Tag;
+
                 SetUiUsingFilterString(m_currentFilterItem);
-                m_filterString = m_currentFilterItem.Filter;
             }
         }
 
@@ -102,13 +101,13 @@ namespace Waveface.FilterUI
 
         private void DoSave()
         {
-            if (textBoxName.Text == string.Empty)
+            if (tbName.Text == string.Empty)
             {
                 MessageBox.Show("Please enter a value for the \"Name\" field.", "Waveface", MessageBoxButtons.OK);
                 return;
             }
 
-            MR_fetchfilters_item _item = Main.Current.RT.REST.FetchFilters_New(textBoxName.Text, GetFilterString(), "");
+            MR_fetchfilters_item _item = Main.Current.RT.REST.FetchFilters_New(tbName.Text, GetFilterString(), "");
 
             if (_item == null)
             {
@@ -118,20 +117,20 @@ namespace Waveface.FilterUI
             {
                 MessageBox.Show("Add New Filter success!");
 
-                ResetAll();
-                FillListview();
+                Reset();
+                FillFilterListview();
             }
         }
 
         private void DoUpdate()
         {
-            if (textBoxName.Text == string.Empty)
+            if (tbName.Text == string.Empty)
             {
                 MessageBox.Show("Please enter a value for the \"Name\" field.", "Waveface", MessageBoxButtons.OK);
                 return;
             }
 
-            MR_fetchfilters_item _item = Main.Current.RT.REST.FetchFilters_Update(m_currentFilterItem.searchfilter_id, textBoxName.Text, GetFilterString(), "");
+            MR_fetchfilters_item _item = Main.Current.RT.REST.FetchFilters_Update(m_currentFilterItem.searchfilter_id, tbName.Text, GetFilterString(), "");
 
             if (_item == null)
             {
@@ -141,8 +140,8 @@ namespace Waveface.FilterUI
             {
                 MessageBox.Show("Update Filter success!");
 
-                ResetAll();
-                FillListview();
+                Reset();
+                FillFilterListview();
             }
         }
 
@@ -264,11 +263,10 @@ namespace Waveface.FilterUI
 
         #endregion
 
-        private void ResetAll()
+        private void Reset()
         {
             m_isAddMode = true;
 
-            m_filterString = string.Empty;
             m_currentFilterItem = null;
 
             m_timeRangeFilter = null;
@@ -278,7 +276,7 @@ namespace Waveface.FilterUI
             Text = "Filter Manager [New]";
 
             rbTimeRange.Checked = true;
-            textBoxName.Text = "";
+            tbName.Text = "";
             cmbType.SelectedIndex = 0;
             datePicker_TR_From.Value = DateTime.Today;
             datePicker_TR_To.Value = DateTime.Today;
@@ -286,12 +284,12 @@ namespace Waveface.FilterUI
             datePicker_TS_Time.Value = DateTime.Today;
             numericUpDown_TS_Limit.Value = 20;
 
-            textBoxName.Focus();
+            tbName.Focus();
         }
 
         private void SetUiUsingFilterString(FilterItem filterItem)
         {
-            textBoxName.Text = filterItem.Name;
+            tbName.Text = filterItem.Name;
 
             string _filterString = filterItem.Filter;
 

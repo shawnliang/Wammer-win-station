@@ -80,8 +80,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestRemoveDriver.cs" />
     <Compile Include="TestAddDriver.cs" />
-    <Compile Include="TestAddDriver_alreadyHasADriver.cs" />
+    <Compile Include="TestAddDriver_AddMoreUser.cs" />
     <Compile Include="TestAttachmentGet.cs" />
     <Compile Include="TestBsonHelper.cs" />
     <Compile Include="FakeClient.cs" />
@@ -132,6 +133,10 @@
     <Folder Include="Test References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Wammer.Station.Management\Wammer.Station.Management.csproj">
+      <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
+      <Name>Wammer.Station.Management</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wammer.Station.Service\Wammer.Station.Service.csproj">
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
       <Name>Wammer.Station.Service</Name>

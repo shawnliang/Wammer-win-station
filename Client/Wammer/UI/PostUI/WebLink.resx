@@ -117,218 +117,110 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="panel.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="panel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="buttonNext.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <metadata name="panelPreview.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="panelPreview.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <metadata name="panelContent.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="panelContent.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <metadata name="labelProvider.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="labelProvider.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="buttonNext.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 2</value>
+  <data name="labelProvider.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
   </data>
-  <data name="buttonNext.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 26</value>
+  <data name="labelProvider.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelProvider.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 26</value>
+  </data>
+  <data name="labelProvider.Size" type="System.Drawing.Size, System.Drawing">
+    <value>388, 16</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="buttonNext.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
+  <data name="labelProvider.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
-  <data name="buttonNext.Text" xml:space="preserve">
-    <value>&gt;</value>
+  <data name="labelProvider.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
-  <data name="&gt;&gt;buttonNext.Name" xml:space="preserve">
-    <value>buttonNext</value>
+  <data name="&gt;&gt;labelProvider.Name" xml:space="preserve">
+    <value>labelProvider</value>
   </data>
-  <data name="&gt;&gt;buttonNext.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;labelProvider.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;buttonNext.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
+  <data name="&gt;&gt;labelProvider.Parent" xml:space="preserve">
+    <value>panelContent</value>
   </data>
-  <data name="&gt;&gt;buttonNext.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;labelProvider.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="buttonPrev.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <metadata name="labelTitle.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="labelTitle.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="labelTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11.25pt, style=Bold</value>
+  </data>
+  <data name="labelTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="buttonPrev.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 2</value>
+  <data name="labelTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 3</value>
   </data>
-  <data name="buttonPrev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 26</value>
+  <data name="labelTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>388, 23</value>
   </data>
-  <data name="buttonPrev.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="buttonPrev.Text" xml:space="preserve">
-    <value>&lt;</value>
-  </data>
-  <data name="&gt;&gt;buttonPrev.Name" xml:space="preserve">
-    <value>buttonPrev</value>
-  </data>
-  <data name="&gt;&gt;buttonPrev.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;buttonPrev.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;buttonPrev.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="buttonRemovePreview.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="buttonRemovePreview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="buttonRemovePreview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>575, 2</value>
-  </data>
-  <data name="buttonRemovePreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 26</value>
-  </data>
-  <data name="buttonRemovePreview.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;buttonRemovePreview.Name" xml:space="preserve">
-    <value>buttonRemovePreview</value>
-  </data>
-  <data name="&gt;&gt;buttonRemovePreview.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;buttonRemovePreview.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;buttonRemovePreview.ZOrder" xml:space="preserve">
+  <data name="labelTitle.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="labelPictureIndex.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="labelTitle.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
-  <data name="labelPictureIndex.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;labelTitle.Name" xml:space="preserve">
+    <value>labelTitle</value>
   </data>
-  <data name="labelPictureIndex.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 8</value>
-  </data>
-  <data name="labelPictureIndex.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 14</value>
-  </data>
-  <data name="labelPictureIndex.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="labelPictureIndex.Text" xml:space="preserve">
-    <value>[]</value>
-  </data>
-  <data name="&gt;&gt;labelPictureIndex.Name" xml:space="preserve">
-    <value>labelPictureIndex</value>
-  </data>
-  <data name="&gt;&gt;labelPictureIndex.Type" xml:space="preserve">
+  <data name="&gt;&gt;labelTitle.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;labelPictureIndex.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
+  <data name="&gt;&gt;labelTitle.Parent" xml:space="preserve">
+    <value>panelContent</value>
   </data>
-  <data name="&gt;&gt;labelPictureIndex.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;labelTitle.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="label.AutoSize" type="System.Boolean, mscorlib">
+  <metadata name="richTextBoxDescription.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
-  <data name="label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 8</value>
-  </data>
-  <data name="label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 14</value>
-  </data>
-  <data name="label.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="label.Text" xml:space="preserve">
-    <value>Choose a Thumbnail</value>
-  </data>
-  <data name="&gt;&gt;label.Name" xml:space="preserve">
-    <value>label</value>
-  </data>
-  <data name="&gt;&gt;label.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;label.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="panelToolbar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 0</value>
-  </data>
-  <data name="panelToolbar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>604, 31</value>
-  </data>
-  <data name="panelToolbar.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Name" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Parent" xml:space="preserve">
-    <value>panel</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelPreview.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="cbNoThumbnail.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="cbNoThumbnail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="cbNoThumbnail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 138</value>
-  </data>
-  <data name="cbNoThumbnail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 18</value>
-  </data>
-  <data name="cbNoThumbnail.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="cbNoThumbnail.Text" xml:space="preserve">
-    <value>No Thumbnail</value>
-  </data>
-  <data name="&gt;&gt;cbNoThumbnail.Name" xml:space="preserve">
-    <value>cbNoThumbnail</value>
-  </data>
-  <data name="&gt;&gt;cbNoThumbnail.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbNoThumbnail.Parent" xml:space="preserve">
-    <value>panelPreview</value>
-  </data>
-  <data name="&gt;&gt;cbNoThumbnail.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
+  </metadata>
   <data name="richTextBoxDescription.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <data name="richTextBoxDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>201, 42</value>
+    <value>7, 48</value>
   </data>
   <data name="richTextBoxDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 101</value>
+    <value>387, 133</value>
   </data>
   <data name="richTextBoxDescription.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -343,46 +235,43 @@
     <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;richTextBoxDescription.Parent" xml:space="preserve">
-    <value>panelPreview</value>
+    <value>panelContent</value>
   </data>
   <data name="&gt;&gt;richTextBoxDescription.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="labelTitle.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="labelTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11.25pt, style=Bold</value>
-  </data>
-  <data name="labelTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="labelTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>198, 12</value>
-  </data>
-  <data name="labelTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>394, 27</value>
-  </data>
-  <data name="labelTitle.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;labelTitle.Name" xml:space="preserve">
-    <value>labelTitle</value>
+  <data name="panelContent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 5</value>
   </data>
-  <data name="&gt;&gt;labelTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="panelContent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>397, 184</value>
   </data>
-  <data name="&gt;&gt;labelTitle.Parent" xml:space="preserve">
+  <data name="panelContent.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;panelContent.Name" xml:space="preserve">
+    <value>panelContent</value>
+  </data>
+  <data name="&gt;&gt;panelContent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelContent.Parent" xml:space="preserve">
     <value>panelPreview</value>
   </data>
-  <data name="&gt;&gt;labelTitle.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;panelContent.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
+  <metadata name="panelSelectPicture.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="pictureBoxPreview.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="pictureBoxPreview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="pictureBoxPreview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
+    <value>3, 3</value>
   </data>
   <data name="pictureBoxPreview.Size" type="System.Drawing.Size, System.Drawing">
     <value>180, 120</value>
@@ -400,16 +289,163 @@
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBoxPreview.Parent" xml:space="preserve">
-    <value>panelPreview</value>
+    <value>panelSelectPicture</value>
   </data>
   <data name="&gt;&gt;pictureBoxPreview.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="buttonNext.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="buttonNext.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="buttonNext.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 131</value>
+  </data>
+  <data name="buttonNext.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 22</value>
+  </data>
+  <data name="buttonNext.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="buttonNext.Text" xml:space="preserve">
+    <value>&gt;</value>
+  </data>
+  <data name="&gt;&gt;buttonNext.Name" xml:space="preserve">
+    <value>buttonNext</value>
+  </data>
+  <data name="&gt;&gt;buttonNext.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;buttonNext.Parent" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;buttonNext.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="labelPictureIndex.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="labelPictureIndex.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelPictureIndex.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelPictureIndex.Location" type="System.Drawing.Point, System.Drawing">
+    <value>48, 135</value>
+  </data>
+  <data name="labelPictureIndex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>17, 14</value>
+  </data>
+  <data name="labelPictureIndex.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="labelPictureIndex.Text" xml:space="preserve">
+    <value>[]</value>
+  </data>
+  <data name="&gt;&gt;labelPictureIndex.Name" xml:space="preserve">
+    <value>labelPictureIndex</value>
+  </data>
+  <data name="&gt;&gt;labelPictureIndex.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelPictureIndex.Parent" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;labelPictureIndex.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="cbNoThumbnail.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="cbNoThumbnail.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbNoThumbnail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="cbNoThumbnail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 159</value>
+  </data>
+  <data name="cbNoThumbnail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 18</value>
+  </data>
+  <data name="cbNoThumbnail.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="cbNoThumbnail.Text" xml:space="preserve">
+    <value>No Thumbnail</value>
+  </data>
+  <data name="&gt;&gt;cbNoThumbnail.Name" xml:space="preserve">
+    <value>cbNoThumbnail</value>
+  </data>
+  <data name="&gt;&gt;cbNoThumbnail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbNoThumbnail.Parent" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;cbNoThumbnail.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <metadata name="buttonPrev.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="buttonPrev.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="buttonPrev.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 131</value>
+  </data>
+  <data name="buttonPrev.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 22</value>
+  </data>
+  <data name="buttonPrev.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="buttonPrev.Text" xml:space="preserve">
+    <value>&lt;</value>
+  </data>
+  <data name="&gt;&gt;buttonPrev.Name" xml:space="preserve">
+    <value>buttonPrev</value>
+  </data>
+  <data name="&gt;&gt;buttonPrev.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;buttonPrev.Parent" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;buttonPrev.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="panelSelectPicture.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 5</value>
+  </data>
+  <data name="panelSelectPicture.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 184</value>
+  </data>
+  <data name="panelSelectPicture.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;panelSelectPicture.Name" xml:space="preserve">
+    <value>panelSelectPicture</value>
+  </data>
+  <data name="&gt;&gt;panelSelectPicture.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelSelectPicture.Parent" xml:space="preserve">
+    <value>panelPreview</value>
+  </data>
+  <data name="&gt;&gt;panelSelectPicture.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="panelPreview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 40</value>
+    <value>2, 0</value>
   </data>
   <data name="panelPreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>605, 176</value>
+    <value>605, 194</value>
   </data>
   <data name="panelPreview.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -424,13 +460,13 @@
     <value>panel</value>
   </data>
   <data name="&gt;&gt;panelPreview.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="panel.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 0</value>
   </data>
   <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>608, 219</value>
+    <value>608, 196</value>
   </data>
   <data name="panel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -445,10 +481,127 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="panelToolbar.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <metadata name="labelSummary.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="labelSummary.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="labelSummary.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
+  </data>
+  <data name="labelSummary.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelSummary.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 8</value>
+  </data>
+  <data name="labelSummary.Size" type="System.Drawing.Size, System.Drawing">
+    <value>507, 16</value>
+  </data>
+  <data name="labelSummary.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.Name" xml:space="preserve">
+    <value>labelSummary</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.Parent" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="buttonRemovePreview.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="buttonRemovePreview.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="buttonRemovePreview.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="buttonRemovePreview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="buttonRemovePreview.Location" type="System.Drawing.Point, System.Drawing">
+    <value>520, 2</value>
+  </data>
+  <data name="buttonRemovePreview.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 26</value>
+  </data>
+  <data name="buttonRemovePreview.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="buttonRemovePreview.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="buttonRemovePreview.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;buttonRemovePreview.Name" xml:space="preserve">
+    <value>buttonRemovePreview</value>
+  </data>
+  <data name="&gt;&gt;buttonRemovePreview.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;buttonRemovePreview.Parent" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;buttonRemovePreview.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panelToolbar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 198</value>
+  </data>
+  <data name="panelToolbar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>606, 31</value>
+  </data>
+  <data name="panelToolbar.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.Name" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelToolbar.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>52</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 14</value>
+  </data>
+  <metadata name="btnSend.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="btnSend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+    <value>Top, Right</value>
   </data>
   <data name="btnSend.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -457,7 +610,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>540, 233</value>
+    <value>541, 239</value>
   </data>
   <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -478,25 +631,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnSend.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>52</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 14</value>
+    <value>2</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>620, 269</value>
+    <value>620, 275</value>
   </data>
   <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
     <value>cultureManager</value>

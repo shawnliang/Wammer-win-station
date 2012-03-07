@@ -12,7 +12,6 @@ namespace Gui
 	public partial class InstallationStep : ModernActionStep
 	{
 		InstallationMode mode;
-		FeatureSelectionStep featureStep;
 
 		public InstallationStep(InstallationMode mode)
 		{
@@ -20,15 +19,10 @@ namespace Gui
 			this.mode = mode;
 		}
 
-		public InstallationStep(InstallationMode mode, FeatureSelectionStep featureStep)
-		{
-			InitializeComponent();
-			this.mode = mode;
-			this.featureStep = featureStep;
-		}
-
 		private void InstallationStep_Entered(object sender, EventArgs e)
 		{
+			Wizard.CancelButton.Enabled = false;
+
 			ipProgress.StartListening();
 			try
 			{
@@ -58,9 +52,6 @@ namespace Gui
 					MsiConnection.Instance.OpenSaved("MainInstall");
 					*/
 
-					if (featureStep != null)
-						ApplyFeatureSet(featureStep.SelectedFeature);
-
 					MsiConnection.Instance.Install();
 				}
 				else
@@ -79,18 +70,6 @@ namespace Gui
 		public override bool CanClose()
 		{
 			return false;
-		}
-
-		private void ApplyFeatureSet(FeatureSet featureSet)
-		{
-			foreach (Feature feature in MsiConnection.Instance.Features)
-			{
-				if (feature.Id == "MainFeature")
-				{
-					feature.State = (featureSet == FeatureSet.StationAndClient) ?
-												FeatureState.Installed : FeatureState.NotInstalled;
-				}
-			}
 		}
 	}
 }

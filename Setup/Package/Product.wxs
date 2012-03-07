@@ -6,7 +6,7 @@
   <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
   <?define AppVersionMajor = "1" ?>
   <?define AppVersionMinor = "0" ?>
-  <?define AppVersionPatch = "2" ?>
+  <?define AppVersionPatch = "3" ?>
   <?define AppVersionBuild = "0" ?>
   <?define AppVersion = "$(var.AppVersionMajor).$(var.AppVersionMinor).$(var.AppVersionPatch).$(var.AppVersionBuild)" ?>
   <?define AppManufacturer = "Waveface" ?>
@@ -19,7 +19,7 @@
     <Property Id="INSTALLLEVEL" Value="100" />
     <Property Id="ALLUSERS" Value="1" />
     <Property Id="TEST" Value="NO" />
-    <Icon Id="icon.ico" SourceFile="..\ProductBuild\sampleIcon.ico" />
+    <Icon Id="icon.ico" SourceFile="..\ProductBuild\install_icon.ico" />
 
     <!-- Upgrade -->
     <MajorUpgrade DowngradeErrorMessage="A newer version of this product is found. Cannot proceed."
@@ -29,6 +29,8 @@
     <CustomAction Id='SignoffStationAction' BinaryKey='InstallHelperDll' DllEntry='SignoffStation'/>
     <!-- Clean station registry and DB -->
     <CustomAction Id='CleanStationInfoAction' BinaryKey='InstallHelperDll' DllEntry='CleanStationInfo'/>
+    <!-- Clean app data -->
+    <CustomAction Id='CleanAppData' BinaryKey='InstallHelperDll' DllEntry='CleanAppData'/>
     <!-- Kill running process -->
     <CustomAction Id='KillClientProcess' BinaryKey='InstallHelperDll' DllEntry='KillClientProcess' />
     <!-- Set Registry -->
@@ -46,11 +48,14 @@
     
     <InstallExecuteSequence>
       <!-- while uninstall -->
-      <Custom Action="KillClientProcess" Before="SignoffStationAction">
+      <Custom Action="KillClientProcess" Before="InstallValidate">
         (&amp;ClientFeature = 2) AND (!ClientFeature = 3)
       </Custom>
       <Custom Action="SignoffStationAction" Before="CleanStationInfoAction">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <Custom Action="CleanAppData" Before="CleanStationInfoAction">
+        (&amp;ClientFeature = 2) AND (!ClientFeature = 3)
       </Custom>
       <Custom Action="CleanStationInfoAction" Before="RemovePerfCounters">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
@@ -80,6 +85,7 @@
       <ProgressText Action="KillClientProcess">!(loc.KILL.PROCESS.DESC)</ProgressText>
       <ProgressText Action="SignoffStationAction">!(loc.SIGNOFF.STATION.DESC)</ProgressText>
       <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
+      <ProgressText Action="CleanAppData">!(loc.CLEAN.APP.DATA.DESC)</ProgressText>
       <ProgressText Action="StartAndWaitMongoDbReady">!(loc.WaitMongoDbReady)</ProgressText>
       <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
       <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
@@ -93,24 +99,12 @@
           <Component Id="pmd" Guid="{60fa9a1b-662a-43df-a97b-d7667e79cb19}">
             <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
             <RemoveFolder Id="ProgramMenuDirRF" On="uninstall" />
-            <Shortcut Id="ProgMenu.Shortcut.StationUI" Name="!(loc.SHORTCUT.STARTWAVEFACE.STATION)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationUI.exe"/>
-            <Shortcut Id="ProgMenu.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
-            <Shortcut Id="Desktop.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
+            <Shortcut Id="ProgMenu.Shortcut.Waveface" Name="!(loc.APPNAME)"
+                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe"/>
+            <Shortcut Id="Desktop.Shortcut.Waveface" Name="!(loc.APPNAME)"
+                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe" Directory="DesktopFolder"/>
           </Component>
-
-          <!-- for client only client -->
-          <Component Id="pmd_client" Guid="{C2757ED7-6129-4A3C-A21A-B577DDAED7CF}">
-            <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
-            <RemoveFolder Id="ProgramMenuDirRF_client" On="uninstall" />
-            <Shortcut Id="ProgMenu.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
-            <Shortcut Id="Desktop.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
-          </Component>
-          
+         
         </Directory>
       </Directory>
       <Directory Id="DesktopFolder" Name="Desktop" />
@@ -119,7 +113,7 @@
     <DirectoryRef Id="TARGETDIR">
       <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
         <RegistryKey Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Run">
-          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationUI.exe"' KeyPath='yes'/>
+          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationSystemTray.exe" --minimized' KeyPath='yes'/>
         </RegistryKey>
       </Component> 
       <!-- Compatibility Mode -->
@@ -176,8 +170,6 @@
       <ComponentRef Id="log4net.dll"/>
       <ComponentRef Id="MongoDB.Bson.dll"/>
       <ComponentRef Id="MongoDB.Driver.dll"/>
-      <ComponentRef Id="StationUI.exe"/>
-      <ComponentRef Id="StationUI.resources.dll"/>
       <ComponentRef Id="StationSystemTray.exe"/>
       <ComponentRef Id="StationSystemTray.exe.config"/>
       <ComponentRef Id="StationSystemTray.resources.dll"/>
@@ -247,9 +239,6 @@
       </Component>
       <Component Id="Station.Management.exe" Guid="{F6BE5F51-E2BB-4BC3-BA4E-9488DCBA4D5B}">
         <File Id="Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Guid="*">
-        <File Id="StationUI.exe" Source="$(var.StationUI.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Guid="*">
         <File Id="StationSystemTray.exe" Source="$(var.StationSystemTray.TargetPath)" KeyPath="yes" Checksum="yes"/>
@@ -341,10 +330,6 @@
       <Component Guid="*">
         <File Id="AppLimit.NetSparkle.resources.dll" Source="$(var.Wammer.TargetDir)\zh-TW/AppLimit.NetSparkle.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Guid="*">
-        <File Id="StationUI.resources.dll" Source="$(var.StationUI.TargetDir)\zh-TW\StationUI.resources.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Guid="*">
         <File Id="StationSystemTray.resources.dll" Source="$(var.StationSystemTray.TargetDir)\zh-TW\StationSystemTray.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="WavefaceWindowsClient.resources.dll" Guid="{F9E63329-F16F-433C-AF22-845350BA079C}">
@@ -398,7 +383,6 @@
     
     <Feature Id='ClientFeature' Level='100' Title='Waveface client only'>
       <ComponentGroupRef Id='Wammer.Client'/>
-      <ComponentRef Id="pmd_client"/>
       <ComponentRef Id="CultureSetting"/>
     </Feature>
 

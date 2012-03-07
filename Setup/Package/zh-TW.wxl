@@ -12,6 +12,7 @@
   <String Id="DOWNGRADE.ERROR">您已安裝了比較新的 [ProductName] 版本. 安裝程序即將結束</String>
   <String Id="SIGNOFF.STATION.DESC">退出Waveface Station</String>
   <String Id="CLEAN.STATION.INFO.DESC">清除Waveface Station註冊碼與資料庫</String>
+  <String Id="CLEAN.APP.DATA.DESC">清除應用程式資料</String>
   <String Id="KILL.PROCESS.DESC">關閉執行中的程式</String>
   <String Id="WaitMongoDbReady">準備MongoDB中. 可能會需要數分鐘, 請稍候</String>
   <String Id="StartWavefaceService">正在啟動Waveface Station服務</String>

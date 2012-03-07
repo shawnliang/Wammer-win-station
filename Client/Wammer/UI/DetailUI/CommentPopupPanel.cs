@@ -2,8 +2,9 @@
 
 using System.Drawing;
 using System.Windows.Forms;
-using Waveface.Compoment.PopupControl;
+using Waveface.Component.PopupControl;
 using Waveface.Component;
+using Waveface.Component.RichEdit;
 
 #endregion
 
@@ -34,6 +35,17 @@ namespace Waveface
             }
 
             base.WndProc(ref m);
+        }
+
+        private void textBoxComment_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                if (textBoxComment.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
+                {
+                    e.SuppressKeyPress = true;
+                }
+            }
         }
     }
 }

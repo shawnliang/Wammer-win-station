@@ -23,7 +23,7 @@
   <WItem>
     <ID>LoginForm.LogInError</ID>
     <en-US>Log In error. Please try again.</en-US>
-    <zh-TW>登錄時發生錯誤, 請重新輸入.</zh-TW>
+    <zh-TW>帳號或密碼錯誤, 請重新輸入.</zh-TW>
   </WItem>
   <WItem>
     <ID>LoginForm.StationRequired</ID>
@@ -222,6 +222,27 @@
     <zh-TW>在此寫下描述...</zh-TW>
   </WItem>
   <WItem>
+    <ID>PostForm.GetWebPreview</ID>
+    <en-US>Getting the web preview for</en-US>
+    <zh-TW>取得網站預覽</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PostForm.NoWebPreview</ID>
+    <en-US>No web preview for</en-US>
+    <zh-TW>無法取得網站預覽</zh-TW>
+  </WItem>  
+   <WItem>
+    <ID>WebLink.ComeFrom</ID>
+    <en-US>Web link preview for</en-US>
+    <zh-TW>網站預覽來自</zh-TW>
+  </WItem> 
+   <WItem>
+    <ID>Photo.Summary</ID>
+    <en-US>Photo Preview ({0} photo added)</en-US>
+    <zh-TW>照片預覽 (共{0}張)</zh-TW>
+  </WItem>   
+  
+  <WItem>
     <ID>SystemError</ID>
     <en-US>There appears to be an error with the system. Please try again later.</en-US>
     <zh-TW>抱歉, 系統發生未預期錯誤, 請稍後再試.</zh-TW>
@@ -246,6 +267,11 @@
     <en-US>Your authentication is expired. Re-enter your password to log in again.</en-US>
     <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
   </WItem>
+  <WItem>
+    <ID>ForceLogout</ID>
+    <en-US>System Error. Re-enter your password to log in again.</en-US>
+    <zh-TW>系統發生不可預期的錯誤, 請重新輸入密碼以便登入.</zh-TW>
+  </WItem>  
   <WItem>
     <ID>MinimizetoTrayApp</ID>
     <en-US>Minimize to Tray App</en-US>

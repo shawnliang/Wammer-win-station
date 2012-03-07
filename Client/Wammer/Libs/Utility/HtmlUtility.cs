@@ -10,6 +10,9 @@ namespace Waveface
 {
     public class HtmlUtility
     {
+        public static string URL_RegExp_Pattern =
+            "(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))";
+
         public static string TrimScript(string htmlDocText)
         {
             string _bodyText;
@@ -19,11 +22,24 @@ namespace Waveface
             return _bodyText;
         }
 
-        public static string MakeLink(string txt)
+        public static string MakeLink(string txt, List<string> clickableUrl)
         {
-            string _regex = @"((www\.|(http|https|ftp|news|file)+\:\/\/)[&#95;.a-z0-9-]+\.[a-z0-9\/&#95;:@=.+?,##%&~-]*[^.|\'|\# |!|\(|?|,| |>|<|;|\)])";
-            Regex _r = new Regex(_regex, RegexOptions.IgnoreCase);
-            return _r.Replace(txt, "<a href=\"$1\" target=\"&#95;blank\">$1</a>").Replace("href=\"www", "href=\"http://www");
+            Regex _r = new Regex(URL_RegExp_Pattern, RegexOptions.None);
+
+            MatchCollection _ms1 = _r.Matches(txt);
+
+            foreach (Match _m in _ms1)
+            {
+                if (!clickableUrl.Contains(_m.Value))
+                {
+                    clickableUrl.Add(_m.Value);
+                    clickableUrl.Add("http://" + _m.Value);
+                    clickableUrl.Add("https://" + _m.Value);
+                }
+            }
+
+            txt = _r.Replace(txt, "<a href=\"$1\" target=\"&#95;blank\">$1</a>");
+            return Regex.Replace(txt, "href=\"www", "href=\"http://www", RegexOptions.IgnoreCase);
         }
 
         public static string RemoveClassTag(string html)

@@ -16,6 +16,8 @@ using System.ServiceProcess;
 using Wammer.Station.Service;
 using ICSharpCode.SharpZipLib.Tar;
 using ICSharpCode.SharpZipLib.GZip;
+using System.Runtime.InteropServices;
+
 
 namespace Wammer.Station
 {
@@ -51,6 +53,7 @@ namespace Wammer.Station
 					return ActionResult.Success;
 				}
 
+                //TODO: no user id can get
 				Wammer.Cloud.StationApi.SignOff(new WebClient(), station.Id, station.SessionToken);
 				Logger.Info("Sign off station success");
 				return ActionResult.Success;
@@ -86,11 +89,50 @@ namespace Wammer.Station
 					return;
 
 				foreach (Process p in procs)
+				{
 					p.Kill();
+					if (name == "StationSystemTray")
+					{
+						ClearGhostTrayIcons();
+					}
+				}
 			}
 			catch (Exception e)
 			{
 				Logger.Warn("Cannot kill process " + name, e);
+			}
+		}
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string className, IntPtr title);
+
+		private struct RECT
+		{
+			public int left;
+			public int top;
+			public int right;
+			public int bottom;
+		}
+
+		[DllImport("user32.dll")]
+		private static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr SendMessage(IntPtr hWnd, UInt32 msg, Int32 wparam, Int32 lparam);
+		private static readonly UInt32 WM_MOUSEMOVE = 0x0200;
+
+		private static void ClearGhostTrayIcons()
+		{
+			IntPtr hwndTray = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", IntPtr.Zero);
+			IntPtr hwndNotify = FindWindowEx(hwndTray, IntPtr.Zero, "TrayNotifyWnd", IntPtr.Zero);
+			IntPtr hwndPager = FindWindowEx(hwndNotify, IntPtr.Zero, "SysPager", IntPtr.Zero);
+			IntPtr hwndToolbar = FindWindowEx(hwndPager, IntPtr.Zero, "ToolbarWindow32", IntPtr.Zero);
+
+			RECT toolbarRect;
+			GetClientRect(hwndToolbar, out toolbarRect);
+			for (int x = 0; x <= toolbarRect.right; x += 5)
+			{
+				SendMessage(hwndToolbar, WM_MOUSEMOVE, 0, toolbarRect.bottom / 2 << 16 + x);
 			}
 		}
 
@@ -365,6 +407,21 @@ namespace Wammer.Station
 
 			return ActionResult.Success;
 		}
+
+		[CustomAction]
+		public static ActionResult CleanAppData(Session session)
+		{
+			RemoveDirectory(Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"waveface"));
+
+			RemoveDirectory(Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				"waveface"));
+
+			return ActionResult.Success;
+		}
+
 
 		[CustomAction]
 		public static ActionResult StartAndWaitMongoDbReady(Session session)
