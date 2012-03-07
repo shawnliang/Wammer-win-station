@@ -99,7 +99,6 @@ namespace StationSystemTray
 		{
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
-			this.menuSignInOut.Text = "Sign In...";
 			this.menuGotoTimeline.Text = "Go to Timeline";
 
 			this.checkStationTimer.Enabled = true;
@@ -120,6 +119,7 @@ namespace StationSystemTray
 		private void RefreshUserList()
 		{
 			cmbEmail.Items.Clear();
+            menuGotoTimeline.DropDownItems.Remove(menuNewUser);
 			menuGotoTimeline.DropDownItems.Clear();
 
 			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
@@ -137,6 +137,7 @@ namespace StationSystemTray
 					userlogins.Add(userlogin);
 				}
 			}
+            menuGotoTimeline.DropDownItems.Add(menuNewUser);
 
 			if (userlogins.Count > 0)
 			{
@@ -652,11 +653,7 @@ namespace StationSystemTray
 			}
 		}
 
-		private void menuSignIn_Click(object sender, EventArgs e)
-		{
-			uictrlWavefaceClient.Terminate();
-			GotoTabPage(tabSignIn, null);
-		}
+
 
 		private void menuSwitchUser_Click(object sender, EventArgs e)
 		{
@@ -831,6 +828,25 @@ namespace StationSystemTray
 			}
 		}
 		#endregion
+
+        private void newUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            uictrlWavefaceClient.Terminate();
+            cmbEmail.Text = string.Empty;
+            txtPassword.Text = string.Empty;
+            GotoTabPage(tabSignIn, null);
+        }
+
+        private void menuSignIn_Click(object sender, EventArgs e)
+        {
+            uictrlWavefaceClient.Terminate();
+            GotoTabPage(tabSignIn, null);
+        }
+
+        private void TrayMenu_VisibleChanged(object sender, EventArgs e)
+        {
+           menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "SignOut...": "SignIn...";
+        }
 
 
 	}

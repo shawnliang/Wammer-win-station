@@ -146,11 +146,17 @@
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 6</value>
   </data>
-  <data name="menuSignInOut.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
-  <data name="menuSignInOut.Text" xml:space="preserve">
-    <value>Sign In...</value>
+  <data name="menuSignIn.Text" xml:space="preserve">
+    <value>SignIn...</value>
+  </data>
+  <data name="menuNewUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="menuNewUser.Text" xml:space="preserve">
+    <value>New user...</value>
   </data>
   <data name="menuGotoTimeline.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
@@ -168,7 +174,7 @@
     <value>Quit</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 126</value>
+    <value>153, 148</value>
   </data>
   <data name="&gt;&gt;TrayMenu.Name" xml:space="preserve">
     <value>TrayMenu</value>
@@ -2373,12 +2379,6 @@
   <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;menuSignInOut.Name" xml:space="preserve">
-    <value>menuSignInOut</value>
-  </data>
-  <data name="&gt;&gt;menuSignInOut.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;menuGotoTimeline.Name" xml:space="preserve">
     <value>menuGotoTimeline</value>
   </data>
@@ -2402,6 +2402,18 @@
   </data>
   <data name="&gt;&gt;checkStationTimer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuNewUser.Name" xml:space="preserve">
+    <value>menuNewUser</value>
+  </data>
+  <data name="&gt;&gt;menuNewUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuSignIn.Name" xml:space="preserve">
+    <value>menuSignIn</value>
+  </data>
+  <data name="&gt;&gt;menuSignIn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>
