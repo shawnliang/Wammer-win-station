@@ -119,7 +119,7 @@ namespace StationSystemTray
 		private void RefreshUserList()
 		{
 			cmbEmail.Items.Clear();
-            menuGotoTimeline.DropDownItems.Remove(menuNewUser);
+			menuGotoTimeline.DropDownItems.Remove(menuNewUser);
 			menuGotoTimeline.DropDownItems.Clear();
 
 			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
@@ -137,7 +137,7 @@ namespace StationSystemTray
 					userlogins.Add(userlogin);
 				}
 			}
-            menuGotoTimeline.DropDownItems.Add(menuNewUser);
+			menuGotoTimeline.DropDownItems.Add(menuNewUser);
 
 			if (userlogins.Count > 0)
 			{
@@ -148,10 +148,28 @@ namespace StationSystemTray
 
 		private void GotoTimeline(UserLoginSetting userlogin)
 		{
+			if (clientProcess != null && !clientProcess.HasExited)
+			{
+				Debug.Assert(userlogin != null, "param userlogin cannot be empty when timeline opened");
+
+				if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
+				{
+					IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
+					Win32Helper.SetForegroundWindow(handle);
+					Win32Helper.ShowWindow(handle, 1);
+					return;
+				}
+				else
+				{
+					uictrlWavefaceClient.Terminate();
+				}
+			}
+
 			if (userlogin != null && userlogin.RememberPassword)
 			{
 				LaunchWavefaceClient(userlogin);
 				Close();
+				return;
 			}
 
 			GotoTabPage(tabSignIn, userlogin);
@@ -315,19 +333,7 @@ namespace StationSystemTray
 			if (m_IsSignUpRunning)
 				return;
 
-			if (clientProcess != null && !clientProcess.HasExited)
-			{
-				IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
-				Win32Helper.ShowWindow(handle, 1);
-				Win32Helper.SetForegroundWindow(handle);
-			}
-			else
-			{
-				if (WindowState == FormWindowState.Minimized)
-					WindowState = FormWindowState.Normal;
-				Show();
-				Activate();
-			}
+			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
 
@@ -554,27 +560,31 @@ namespace StationSystemTray
 			Application.Exit();
 		}
 
-		[DllImport("user32.dll")]
-		private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
-
-		[DllImport("user32.dll")]
-		private static extern bool BringWindowToTop(IntPtr hWnd);
-
-		[DllImport("user32.dll")]
-		private static extern IntPtr GetForegroundWindow();
-
-		[DllImport("user32.dll")]
-		private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
-
-		[DllImport("kernel32.dll")]
-		private static extern uint GetCurrentThreadId();
-
-		[DllImport("user32.dll")]
-		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
-
 		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
 		{
 			tabControl.SelectedTab = tabpage;
+
+			if (this.WindowState == FormWindowState.Minimized)
+			{
+				this.WindowState = FormWindowState.Normal;
+				this.ShowInTaskbar = true;
+			}
+
+			uint foreThread = Win32Helper.GetWindowThreadProcessId(Win32Helper.GetForegroundWindow(), IntPtr.Zero);
+			uint appThread = Win32Helper.GetCurrentThreadId();
+			if (foreThread != appThread)
+			{
+				Win32Helper.AttachThreadInput(foreThread, appThread, true);
+				Win32Helper.BringWindowToTop(this.Handle);
+				Show();
+				Win32Helper.AttachThreadInput(foreThread, appThread, false);
+			}
+			else
+			{
+				Win32Helper.BringWindowToTop(this.Handle);
+				Show();
+			}
+			Activate();
 
 			if (tabpage == tabSignIn)
 			{
@@ -620,28 +630,6 @@ namespace StationSystemTray
 				btnOK.Focus();
 				this.AcceptButton = btnOK;
 			}
-
-
-			if (this.WindowState == FormWindowState.Minimized)
-				this.WindowState = FormWindowState.Normal;
-
-			// force window to have focus
-			// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
-			uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
-			uint appThread = GetCurrentThreadId();
-			if (foreThread != appThread)
-			{
-				AttachThreadInput(foreThread, appThread, true);
-				BringWindowToTop(this.Handle);
-				Show();
-				AttachThreadInput(foreThread, appThread, false);
-			}
-			else
-			{
-				BringWindowToTop(this.Handle);
-				Show();
-			}
-			Activate();
 		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -659,20 +647,10 @@ namespace StationSystemTray
 		{
 			ToolStripMenuItem menu = (ToolStripMenuItem)sender;
 
-            UserLoginSetting userlogin = userloginContainer.GetUserLogin(menu.Text);
-            if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
-            {
-                if (clientProcess != null && !clientProcess.HasExited)
-                {
-                    IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
-                    Win32Helper.ShowWindow(handle, 1);
-                    Win32Helper.SetForegroundWindow(handle);
-                    return;
-                }
-            }
-            uictrlWavefaceClient.Terminate();
-            GotoTimeline(userlogin);
-        }
+			UserLoginSetting userlogin = userloginContainer.GetUserLogin(menu.Text);
+
+			GotoTimeline(userlogin);
+		}
 
 		private void btnSignIn_Click(object sender, EventArgs e)
 		{
@@ -833,24 +811,24 @@ namespace StationSystemTray
 		}
 		#endregion
 
-        private void newUserToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            uictrlWavefaceClient.Terminate();
-            cmbEmail.Text = string.Empty;
-            txtPassword.Text = string.Empty;
-            GotoTabPage(tabSignIn, null);
-        }
+		private void newUserToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			uictrlWavefaceClient.Terminate();
+			cmbEmail.Text = string.Empty;
+			txtPassword.Text = string.Empty;
+			GotoTabPage(tabSignIn, null);
+		}
 
-        private void menuSignIn_Click(object sender, EventArgs e)
-        {
-            uictrlWavefaceClient.Terminate();
-            GotoTabPage(tabSignIn, null);
-        }
+		private void menuSignIn_Click(object sender, EventArgs e)
+		{
+			uictrlWavefaceClient.Terminate();
+			GotoTabPage(tabSignIn, null);
+		}
 
-        private void TrayMenu_VisibleChanged(object sender, EventArgs e)
-        {
-           menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "SignOut...": "SignIn...";
-        }
+		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
+		{
+		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "SignOut...": "SignIn...";
+		}
 
 
 	}
