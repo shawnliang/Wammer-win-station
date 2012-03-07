@@ -330,6 +330,7 @@
       <Component Guid="*">
         <File Id="AppLimit.NetSparkle.resources.dll" Source="$(var.Wammer.TargetDir)\zh-TW/AppLimit.NetSparkle.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Guid="*">
         <File Id="StationSystemTray.resources.dll" Source="$(var.StationSystemTray.TargetDir)\zh-TW\StationSystemTray.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="WavefaceWindowsClient.resources.dll" Guid="{F9E63329-F16F-433C-AF22-845350BA079C}">
