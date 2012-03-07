@@ -710,6 +710,7 @@ namespace StationSystemTray
 					else
 					{
 						LaunchWavefaceClient(userlogin);
+						Close();
 					}
 				}
 				else
