@@ -232,6 +232,12 @@ namespace Gui
 
 		public static Process CreateProcessAsStandardUser(string file, string args)
 		{
+			// If windows XP/2000 which has no UAC, no need to adjust security token. 
+			// Just create a process and return.
+			if (Environment.OSVersion.Version.Major < 6)
+				return Process.Start(file, args);
+
+
 			//The following implementation is roughly based on Aaron Margosis' post:
 			//http://blogs.msdn.com/aaron_margosis/archive/2009/06/06/faq-how-do-i-start-a-program-as-the-desktop-user-from-an-elevated-app.aspx
 			//and User Access Control Helpers: 
