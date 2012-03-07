@@ -16,7 +16,7 @@ namespace StationSystemTray
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main()
+		static void Main(string[] args)
 		{
 			log4net.Config.XmlConfigurator.Configure();
 			FileStream fileLock = null;
@@ -29,7 +29,10 @@ namespace StationSystemTray
 
 					Application.EnableVisualStyles();
 					Application.SetCompatibleTextRenderingDefault(false);
-					Application.Run(new MainForm());
+
+					bool initMinimized = (args != null && args.Length > 0 && args[0] == "--minimized");
+
+					Application.Run(new MainForm(initMinimized));
 				}
 			}
 			catch (FileLoadException)
