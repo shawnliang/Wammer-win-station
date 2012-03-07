@@ -39,8 +39,6 @@
             this.sortDescendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelToolbar = new System.Windows.Forms.Panel();
             this.labelSummary = new System.Windows.Forms.Label();
-            this.btnDeletePhoto = new Waveface.Component.XPButton();
-            this.btnAddPhoto = new Waveface.Component.XPButton();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.removeAllToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.addToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -56,6 +54,8 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnDeletePhoto = new Waveface.Component.XPButton();
+            this.btnAddPhoto = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
             this.btnBatchPost = new Waveface.Component.XPButton();
             this.panel.SuspendLayout();
@@ -92,6 +92,7 @@
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
             this.imageListView.ThumbnailSize = new System.Drawing.Size(120, 120);
+            this.imageListView.ItemHover += new Manina.Windows.Forms.ItemHoverEventHandler(this.imageListView_ItemHover);
             this.imageListView.ItemCollectionChanged += new Manina.Windows.Forms.ItemCollectionChangedEventHandler(this.imageListView_ItemCollectionChanged);
             // 
             // columnContextMenu
@@ -144,30 +145,6 @@
             this.labelSummary.AutoEllipsis = true;
             this.labelSummary.ForeColor = System.Drawing.Color.DimGray;
             this.labelSummary.Name = "labelSummary";
-            // 
-            // btnDeletePhoto
-            // 
-            this.btnDeletePhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnDeletePhoto, "btnDeletePhoto");
-            this.btnDeletePhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnDeletePhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnDeletePhoto.Image = global::Waveface.Properties.Resources.trash;
-            this.btnDeletePhoto.Name = "btnDeletePhoto";
-            this.toolTip.SetToolTip(this.btnDeletePhoto, resources.GetString("btnDeletePhoto.ToolTip"));
-            this.btnDeletePhoto.UseVisualStyleBackColor = true;
-            this.btnDeletePhoto.Click += new System.EventHandler(this.btnDeletePhoto_Click);
-            // 
-            // btnAddPhoto
-            // 
-            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
-            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
-            this.btnAddPhoto.Name = "btnAddPhoto";
-            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
-            this.btnAddPhoto.UseVisualStyleBackColor = true;
-            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // toolStrip
             // 
@@ -287,6 +264,30 @@
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
+            // 
+            // btnDeletePhoto
+            // 
+            this.btnDeletePhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnDeletePhoto, "btnDeletePhoto");
+            this.btnDeletePhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnDeletePhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnDeletePhoto.Image = global::Waveface.Properties.Resources.trash;
+            this.btnDeletePhoto.Name = "btnDeletePhoto";
+            this.toolTip.SetToolTip(this.btnDeletePhoto, resources.GetString("btnDeletePhoto.ToolTip"));
+            this.btnDeletePhoto.UseVisualStyleBackColor = true;
+            this.btnDeletePhoto.Click += new System.EventHandler(this.btnDeletePhoto_Click);
+            // 
+            // btnAddPhoto
+            // 
+            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
+            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
+            this.btnAddPhoto.Name = "btnAddPhoto";
+            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
+            this.btnAddPhoto.UseVisualStyleBackColor = true;
+            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // btnSend
             // 
