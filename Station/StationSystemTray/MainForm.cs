@@ -140,7 +140,6 @@ namespace StationSystemTray
 
 			CurrentState.Onlining();
 
-			RefreshUserList();
 			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
@@ -174,13 +173,10 @@ namespace StationSystemTray
 
 		private void GotoTimeline(UserLoginSetting userlogin)
 		{
-			if (userlogin != null)
+			if (userlogin != null && userlogin.RememberPassword)
 			{
-				if (userlogin.RememberPassword)
-				{
-					LaunchWavefaceClient(userlogin);
-					Close();
-				}
+				LaunchWavefaceClient(userlogin);
+				Close();
 			}
 
 			GotoTabPage(tabSignIn, userlogin);
@@ -642,6 +638,7 @@ namespace StationSystemTray
 			}
 			else if (tabpage == tabMainStationSetup)
 			{
+				btnOK.Tag = userlogin;
 				btnOK.Focus();
 				this.AcceptButton = btnOK;
 			}
@@ -716,29 +713,28 @@ namespace StationSystemTray
 				UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
 				if (userlogin == null)
 				{
-					StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
 					
-					uictrlWavefaceClient.Terminate();
-
-					userloginContainer.AddUserLoginSetting(
-						new UserLoginSetting
+					userlogin = new UserLoginSetting
 						{
 							Email = cmbEmail.Text.ToLower(),
 							Password = SecurityHelper.EncryptPassword(txtPassword.Text),
 							RememberPassword = chkRememberPassword.Checked
-						}
-					);
+						};
 
-					RefreshUserList();
-
-					GotoTabPage(tabMainStationSetup, null);
+					if (res.IsPrimaryStation)
+					{
+						GotoTabPage(tabMainStationSetup, userlogin);
+					}
+					else
+					{
+						LaunchWavefaceClient(userlogin);
+					}
 				}
 				else
 				{
 					StationController.StationOnline(userlogin.Email, txtPassword.Text);
 
-					uictrlWavefaceClient.Terminate();
-					
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
 
@@ -776,7 +772,8 @@ namespace StationSystemTray
 			}
 			else
 			{
-				userloginContainer.UpdateUserLoginSetting(userlogin);
+				userloginContainer.UpsertUserLoginSetting(userlogin);
+				RefreshUserList();
 			}
 
 			uictrlWavefaceClient.PerformAction(userlogin);
@@ -796,7 +793,9 @@ namespace StationSystemTray
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			LaunchWavefaceClient(null);
+			Button btn = (Button)sender;
+
+			LaunchWavefaceClient((UserLoginSetting)btn.Tag);
 			Close();
 		}
 
@@ -917,13 +916,13 @@ namespace StationSystemTray
 		{
 			lock (cs)
 			{
-			UserLoginSetting userlogin = (UserLoginSetting)obj;
-			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-		   "WavefaceWindowsClient.exe");
-			mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
+				UserLoginSetting userlogin = (UserLoginSetting)obj;
+				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+			   "WavefaceWindowsClient.exe");
+				mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
 
-			if (mainform.clientProcess != null)
-				mainform.clientProcess.WaitForExit();
+				if (mainform.clientProcess != null)
+					mainform.clientProcess.WaitForExit();
 
 				int exitCode = mainform.clientProcess.ExitCode;
 				mainform.clientProcess = null;

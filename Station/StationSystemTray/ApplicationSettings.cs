@@ -73,7 +73,7 @@ namespace StationSystemTray
 			}
 		}
 
-		public void AddUserLoginSetting(UserLoginSetting userlogin)
+		public void UpsertUserLoginSetting(UserLoginSetting userlogin)
 		{
 			lock (cs)
 			{
@@ -93,23 +93,7 @@ namespace StationSystemTray
 				{
 					settings.Users.Add(userlogin);
 				}
-				settings.LastLogin = userlogin.Email;
-				settings.Save();
-			}
-		}
 
-		public void UpdateUserLoginSetting(UserLoginSetting userlogin)
-		{
-			lock (cs)
-			{
-				foreach (UserLoginSetting oldUserlogin in settings.Users)
-				{
-					if (oldUserlogin.Email == userlogin.Email)
-					{
-						oldUserlogin.Password = userlogin.Password;
-						oldUserlogin.RememberPassword = userlogin.RememberPassword;
-					}
-				}
 				settings.LastLogin = userlogin.Email;
 				settings.Save();
 			}
