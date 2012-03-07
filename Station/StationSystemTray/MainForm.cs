@@ -165,8 +165,11 @@ namespace StationSystemTray
 				}
 			}
 
-			string lastlogin = userloginContainer.GetLastUserLogin().Email;
-			userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
+			if (userlogins.Count > 0)
+			{
+				string lastlogin = userloginContainer.GetLastUserLogin().Email;
+				userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
+			}
 		}
 
 		private void GotoTimeline(UserLoginSetting userlogin)
