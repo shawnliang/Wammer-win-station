@@ -123,17 +123,22 @@ namespace StationSystemTray
 			menuGotoTimeline.DropDownItems.Clear();
 
 			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
-
+			bool addSeparator = false;
 			ListDriverResponse res = StationController.ListUser();
 			foreach (Driver driver in res.drivers)
 			{
 				UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
 				if (userlogin != null)
 				{
+					if (!addSeparator)
+					{
+						menuGotoTimeline.DropDownItems.Insert(0, new ToolStripSeparator());
+						addSeparator = true;
+					}
 					cmbEmail.Items.Add(userlogin.Email);
 					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
 					menu.Name = userlogin.Email;
-					menuGotoTimeline.DropDownItems.Add(menu);
+					menuGotoTimeline.DropDownItems.Insert(0, menu);
 					userlogins.Add(userlogin);
 				}
 			}
@@ -641,8 +646,6 @@ namespace StationSystemTray
 			}
 		}
 
-
-
 		private void menuSwitchUser_Click(object sender, EventArgs e)
 		{
 			ToolStripMenuItem menu = (ToolStripMenuItem)sender;
@@ -814,23 +817,19 @@ namespace StationSystemTray
 		private void newUserToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			uictrlWavefaceClient.Terminate();
-			cmbEmail.Text = string.Empty;
-			txtPassword.Text = string.Empty;
 			GotoTabPage(tabSignIn, null);
 		}
 
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
 			uictrlWavefaceClient.Terminate();
-			GotoTabPage(tabSignIn, null);
+			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
 		}
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "SignOut...": "SignIn...";
+		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "Logout": "Sign In...";
 		}
-
-
 	}
 
 	#region WavefaceClientController

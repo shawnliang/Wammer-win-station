@@ -124,57 +124,8 @@
     <value>130, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="menuRelogin.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt, style=Bold</value>
-  </data>
-  <data name="menuRelogin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="menuRelogin.Text" xml:space="preserve">
-    <value>Re-Login</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="menuRelogin.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="menuServiceAction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="menuServiceAction.Text" xml:space="preserve">
-    <value>Pause Service</value>
-  </data>
-  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
-  </data>
-  <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="menuSignIn.Text" xml:space="preserve">
-    <value>SignIn...</value>
-  </data>
-  <data name="menuNewUser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="menuNewUser.Text" xml:space="preserve">
-    <value>New user...</value>
-  </data>
-  <data name="menuGotoTimeline.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="menuGotoTimeline.Text" xml:space="preserve">
-    <value>Go to Timeline</value>
-  </data>
-  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
-  </data>
-  <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="menuQuit.Text" xml:space="preserve">
-    <value>Quit</value>
-  </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 148</value>
+    <value>153, 126</value>
   </data>
   <data name="&gt;&gt;TrayMenu.Name" xml:space="preserve">
     <value>TrayMenu</value>
@@ -626,21 +577,73 @@
   <data name="TrayIcon.Text" xml:space="preserve">
     <value>Waveface Station</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TrayIcon.Visible" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="menuRelogin.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt, style=Bold</value>
+  </data>
+  <data name="menuRelogin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="menuRelogin.Text" xml:space="preserve">
+    <value>Re-Login</value>
+  </data>
+  <data name="menuRelogin.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="menuServiceAction.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="menuServiceAction.Text" xml:space="preserve">
+    <value>Pause Service</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="menuSignIn.Text" xml:space="preserve">
+    <value>Sign In...</value>
+  </data>
+  <data name="menuGotoTimeline.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="menuGotoTimeline.Text" xml:space="preserve">
+    <value>Go to Timeline</value>
+  </data>
+  <data name="menuNewUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="menuNewUser.Text" xml:space="preserve">
+    <value>New User...</value>
+  </data>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="menuQuit.Text" xml:space="preserve">
+    <value>Quit</value>
   </data>
   <metadata name="checkStationTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>236, 17</value>
   </metadata>
+  <data name="btnSignIn.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnSignIn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>410, 263</value>
+    <value>387, 255</value>
   </data>
   <data name="btnSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 25</value>
   </data>
   <data name="btnSignIn.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -664,16 +667,16 @@
     <value>True</value>
   </data>
   <data name="lblSignIn.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 14.25pt</value>
+    <value>Segoe UI, 15.75pt</value>
   </data>
   <data name="lblSignIn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="lblSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 9</value>
+    <value>6, 9</value>
   </data>
   <data name="lblSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 25</value>
+    <value>198, 30</value>
   </data>
   <data name="lblSignIn.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -703,7 +706,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblEmail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 59</value>
+    <value>8, 58</value>
   </data>
   <data name="lblEmail.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 15</value>
@@ -726,6 +729,9 @@
   <data name="&gt;&gt;lblEmail.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="lblSignUp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="lblSignUp.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -736,7 +742,7 @@
     <value>27, 42</value>
   </data>
   <data name="lblSignUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 267</value>
+    <value>11, 262</value>
   </data>
   <data name="lblSignUp.Size" type="System.Drawing.Size, System.Drawing">
     <value>245, 21</value>
@@ -760,10 +766,10 @@
     <value>3</value>
   </data>
   <data name="txtPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 156</value>
+    <value>11, 147</value>
   </data>
   <data name="txtPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>468, 23</value>
+    <value>451, 23</value>
   </data>
   <data name="txtPassword.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -781,10 +787,10 @@
     <value>4</value>
   </data>
   <data name="cmbEmail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 85</value>
+    <value>11, 80</value>
   </data>
   <data name="cmbEmail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>468, 23</value>
+    <value>451, 23</value>
   </data>
   <data name="cmbEmail.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -811,7 +817,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 130</value>
+    <value>8, 125</value>
   </data>
   <data name="lblPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>60, 15</value>
@@ -841,7 +847,7 @@
     <value>NoControl</value>
   </data>
   <data name="chkRememberPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 202</value>
+    <value>12, 201</value>
   </data>
   <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 19</value>
@@ -871,7 +877,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>497, 310</value>
+    <value>474, 292</value>
   </data>
   <data name="tabSignIn.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -888,14 +894,98 @@
   <data name="&gt;&gt;tabSignIn.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
+    <value>btnOK</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
+    <value>tabMainStationSetup</value>
+  </data>
+  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
+    <value>lblWelcome</value>
+  </data>
+  <data name="&gt;&gt;lblWelcome.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblWelcome.Parent" xml:space="preserve">
+    <value>tabMainStationSetup</value>
+  </data>
+  <data name="&gt;&gt;lblWelcome.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
+    <value>lblMainStationSetup</value>
+  </data>
+  <data name="&gt;&gt;lblMainStationSetup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblMainStationSetup.Parent" xml:space="preserve">
+    <value>tabMainStationSetup</value>
+  </data>
+  <data name="&gt;&gt;lblMainStationSetup.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tabMainStationSetup.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tabMainStationSetup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 292</value>
+  </data>
+  <data name="tabMainStationSetup.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tabMainStationSetup.Name" xml:space="preserve">
+    <value>tabMainStationSetup</value>
+  </data>
+  <data name="&gt;&gt;tabMainStationSetup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabMainStationSetup.Parent" xml:space="preserve">
+    <value>tabControl</value>
+  </data>
+  <data name="&gt;&gt;tabMainStationSetup.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tabControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tabControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tabControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 292</value>
+  </data>
+  <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;tabControl.Name" xml:space="preserve">
+    <value>tabControl</value>
+  </data>
+  <data name="&gt;&gt;tabControl.Type" xml:space="preserve">
+    <value>StationSystemTray.Control.TabControlEx, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tabControl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tabControl.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnOK.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="btnOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>410, 275</value>
+    <value>387, 255</value>
   </data>
   <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 25</value>
   </data>
   <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -919,7 +1009,7 @@
     <value>True</value>
   </data>
   <data name="lblWelcome.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 14.25pt</value>
+    <value>Segoe UI, 15.75pt</value>
   </data>
   <data name="lblWelcome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -928,7 +1018,7 @@
     <value>6, 9</value>
   </data>
   <data name="lblWelcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 25</value>
+    <value>222, 30</value>
   </data>
   <data name="lblWelcome.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -955,10 +1045,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblMainStationSetup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 51</value>
+    <value>8, 57</value>
   </data>
   <data name="lblMainStationSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>386, 40</value>
+    <value>454, 40</value>
   </data>
   <data name="lblMainStationSetup.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -978,51 +1068,6 @@
   <data name="&gt;&gt;lblMainStationSetup.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="tabMainStationSetup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tabMainStationSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>497, 310</value>
-  </data>
-  <data name="tabMainStationSetup.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;tabMainStationSetup.Name" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;tabMainStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabMainStationSetup.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabMainStationSetup.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tabControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tabControl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tabControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>497, 310</value>
-  </data>
-  <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;tabControl.Name" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabControl.Type" xml:space="preserve">
-    <value>StationSystemTray.Control.TabControlEx, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;tabControl.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tabControl.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -1030,7 +1075,7 @@
     <value>53</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>497, 310</value>
+    <value>474, 292</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
@@ -2349,6 +2394,9 @@
         loIpaRxZSgAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
   </data>
@@ -2379,10 +2427,22 @@
   <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;menuSignIn.Name" xml:space="preserve">
+    <value>menuSignIn</value>
+  </data>
+  <data name="&gt;&gt;menuSignIn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;menuGotoTimeline.Name" xml:space="preserve">
     <value>menuGotoTimeline</value>
   </data>
   <data name="&gt;&gt;menuGotoTimeline.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuNewUser.Name" xml:space="preserve">
+    <value>menuNewUser</value>
+  </data>
+  <data name="&gt;&gt;menuNewUser.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator3.Name" xml:space="preserve">
@@ -2402,18 +2462,6 @@
   </data>
   <data name="&gt;&gt;checkStationTimer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuNewUser.Name" xml:space="preserve">
-    <value>menuNewUser</value>
-  </data>
-  <data name="&gt;&gt;menuNewUser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuSignIn.Name" xml:space="preserve">
-    <value>menuSignIn</value>
-  </data>
-  <data name="&gt;&gt;menuSignIn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>
