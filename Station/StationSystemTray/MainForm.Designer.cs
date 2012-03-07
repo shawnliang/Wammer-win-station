@@ -1,4 +1,5 @@
-﻿namespace StationSystemTray
+﻿using StationSystemTray.Control;
+namespace StationSystemTray
 {
 	partial class MainForm
 	{
@@ -40,27 +41,24 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
             this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
+            this.btnSignIn = new System.Windows.Forms.Button();
+            this.tabControl = new StationSystemTray.Control.TabControlEx();
+            this.tabSignIn = new System.Windows.Forms.TabPage();
             this.lblSignIn = new System.Windows.Forms.Label();
             this.lblEmail = new System.Windows.Forms.Label();
-            this.lblPassword = new System.Windows.Forms.Label();
+            this.lblSignUp = new System.Windows.Forms.LinkLabel();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.cmbEmail = new System.Windows.Forms.ComboBox();
-            this.btnSignIn = new System.Windows.Forms.Button();
+            this.lblPassword = new System.Windows.Forms.Label();
             this.chkRememberPassword = new System.Windows.Forms.CheckBox();
-            this.lblSignUp = new System.Windows.Forms.LinkLabel();
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.tabSignIn = new System.Windows.Forms.TabPage();
             this.tabMainStationSetup = new System.Windows.Forms.TabPage();
             this.btnOK = new System.Windows.Forms.Button();
             this.lblWelcome = new System.Windows.Forms.Label();
             this.lblMainStationSetup = new System.Windows.Forms.Label();
-            this.tabSignUp = new System.Windows.Forms.TabPage();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.TrayMenu.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabSignIn.SuspendLayout();
             this.tabMainStationSetup.SuspendLayout();
-            this.tabSignUp.SuspendLayout();
             this.SuspendLayout();
             // 
             // TrayIcon
@@ -126,6 +124,38 @@
             this.checkStationTimer.Interval = 3000;
             this.checkStationTimer.Tick += new System.EventHandler(this.checkStationTimer_Tick);
             // 
+            // btnSignIn
+            // 
+            resources.ApplyResources(this.btnSignIn, "btnSignIn");
+            this.btnSignIn.Name = "btnSignIn";
+            this.btnSignIn.UseVisualStyleBackColor = true;
+            this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
+            // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabSignIn);
+            this.tabControl.Controls.Add(this.tabMainStationSetup);
+            resources.ApplyResources(this.tabControl, "tabControl");
+            this.tabControl.HideTabs = true;
+            this.tabControl.Multiline = true;
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.TabStop = false;
+            // 
+            // tabSignIn
+            // 
+            this.tabSignIn.BackColor = System.Drawing.SystemColors.Control;
+            this.tabSignIn.Controls.Add(this.lblSignIn);
+            this.tabSignIn.Controls.Add(this.lblEmail);
+            this.tabSignIn.Controls.Add(this.btnSignIn);
+            this.tabSignIn.Controls.Add(this.lblSignUp);
+            this.tabSignIn.Controls.Add(this.txtPassword);
+            this.tabSignIn.Controls.Add(this.cmbEmail);
+            this.tabSignIn.Controls.Add(this.lblPassword);
+            this.tabSignIn.Controls.Add(this.chkRememberPassword);
+            resources.ApplyResources(this.tabSignIn, "tabSignIn");
+            this.tabSignIn.Name = "tabSignIn";
+            // 
             // lblSignIn
             // 
             resources.ApplyResources(this.lblSignIn, "lblSignIn");
@@ -136,10 +166,13 @@
             resources.ApplyResources(this.lblEmail, "lblEmail");
             this.lblEmail.Name = "lblEmail";
             // 
-            // lblPassword
+            // lblSignUp
             // 
-            resources.ApplyResources(this.lblPassword, "lblPassword");
-            this.lblPassword.Name = "lblPassword";
+            resources.ApplyResources(this.lblSignUp, "lblSignUp");
+            this.lblSignUp.Name = "lblSignUp";
+            this.lblSignUp.TabStop = true;
+            this.lblSignUp.UseCompatibleTextRendering = true;
+            this.lblSignUp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblSignUp_LinkClicked);
             // 
             // txtPassword
             // 
@@ -155,52 +188,16 @@
             resources.ApplyResources(this.cmbEmail, "cmbEmail");
             this.cmbEmail.Name = "cmbEmail";
             // 
-            // btnSignIn
+            // lblPassword
             // 
-            resources.ApplyResources(this.btnSignIn, "btnSignIn");
-            this.btnSignIn.Name = "btnSignIn";
-            this.btnSignIn.UseVisualStyleBackColor = true;
-            this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
+            resources.ApplyResources(this.lblPassword, "lblPassword");
+            this.lblPassword.Name = "lblPassword";
             // 
             // chkRememberPassword
             // 
             resources.ApplyResources(this.chkRememberPassword, "chkRememberPassword");
             this.chkRememberPassword.Name = "chkRememberPassword";
             this.chkRememberPassword.UseVisualStyleBackColor = true;
-            // 
-            // lblSignUp
-            // 
-            resources.ApplyResources(this.lblSignUp, "lblSignUp");
-            this.lblSignUp.Name = "lblSignUp";
-            this.lblSignUp.TabStop = true;
-            this.lblSignUp.UseCompatibleTextRendering = true;
-            this.lblSignUp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblSignUp_LinkClicked);
-            // 
-            // tabControl
-            // 
-            this.tabControl.Controls.Add(this.tabSignIn);
-            this.tabControl.Controls.Add(this.tabMainStationSetup);
-            this.tabControl.Controls.Add(this.tabSignUp);
-            resources.ApplyResources(this.tabControl, "tabControl");
-            this.tabControl.Multiline = true;
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.TabStop = false;
-            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
-            // 
-            // tabSignIn
-            // 
-            this.tabSignIn.BackColor = System.Drawing.SystemColors.Control;
-            this.tabSignIn.Controls.Add(this.lblSignIn);
-            this.tabSignIn.Controls.Add(this.lblEmail);
-            this.tabSignIn.Controls.Add(this.btnSignIn);
-            this.tabSignIn.Controls.Add(this.lblSignUp);
-            this.tabSignIn.Controls.Add(this.txtPassword);
-            this.tabSignIn.Controls.Add(this.cmbEmail);
-            this.tabSignIn.Controls.Add(this.lblPassword);
-            this.tabSignIn.Controls.Add(this.chkRememberPassword);
-            resources.ApplyResources(this.tabSignIn, "tabSignIn");
-            this.tabSignIn.Name = "tabSignIn";
             // 
             // tabMainStationSetup
             // 
@@ -228,18 +225,6 @@
             resources.ApplyResources(this.lblMainStationSetup, "lblMainStationSetup");
             this.lblMainStationSetup.Name = "lblMainStationSetup";
             // 
-            // tabSignUp
-            // 
-            this.tabSignUp.Controls.Add(this.webBrowser1);
-            resources.ApplyResources(this.tabSignUp, "tabSignUp");
-            this.tabSignUp.Name = "tabSignUp";
-            this.tabSignUp.UseVisualStyleBackColor = true;
-            // 
-            // webBrowser1
-            // 
-            resources.ApplyResources(this.webBrowser1, "webBrowser1");
-            this.webBrowser1.Name = "webBrowser1";
-            // 
             // MainForm
             // 
             this.AcceptButton = this.btnSignIn;
@@ -257,7 +242,6 @@
             this.tabSignIn.PerformLayout();
             this.tabMainStationSetup.ResumeLayout(false);
             this.tabMainStationSetup.PerformLayout();
-            this.tabSignUp.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -278,14 +262,12 @@
 		private System.Windows.Forms.Button btnSignIn;
 		private System.Windows.Forms.CheckBox chkRememberPassword;
 		private System.Windows.Forms.LinkLabel lblSignUp;
-		private System.Windows.Forms.TabControl tabControl;
+        private TabControlEx tabControl;
 		private System.Windows.Forms.TabPage tabSignIn;
 		private System.Windows.Forms.TabPage tabMainStationSetup;
 		private System.Windows.Forms.Label lblMainStationSetup;
 		private System.Windows.Forms.Label lblWelcome;
-		private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.TabPage tabSignUp;
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.Button btnOK;
         internal System.Windows.Forms.TextBox txtPassword;
         internal System.Windows.Forms.ComboBox cmbEmail;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
