@@ -659,17 +659,20 @@ namespace StationSystemTray
 		{
 			ToolStripMenuItem menu = (ToolStripMenuItem)sender;
 
-			UserLoginSetting userlogin = userloginContainer.GetUserLogin(menu.Text);
-			if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
-			{
-				GotoTimeline(userlogin);
-			}
-			else
-			{
-				uictrlWavefaceClient.Terminate();
-				GotoTimeline(userlogin);
-			}
-		}
+            UserLoginSetting userlogin = userloginContainer.GetUserLogin(menu.Text);
+            if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
+            {
+                if (clientProcess != null && !clientProcess.HasExited)
+                {
+                    IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
+                    Win32Helper.ShowWindow(handle, 1);
+                    Win32Helper.SetForegroundWindow(handle);
+                    return;
+                }
+            }
+            uictrlWavefaceClient.Terminate();
+            GotoTimeline(userlogin);
+        }
 
 		private void btnSignIn_Click(object sender, EventArgs e)
 		{
