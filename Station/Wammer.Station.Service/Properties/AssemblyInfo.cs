@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Waveface")]
-[assembly: AssemblyProduct("Waveface.Station.Service")]
+[assembly: AssemblyProduct("Waveface")]
 [assembly: AssemblyCopyright("Copyright © 2012 Waveface Inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

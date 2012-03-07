@@ -9,10 +9,8 @@ namespace Waveface
 {
     public class AttachmentUtility
     {
-        public static Dictionary<string, string> GetAllMediumsPhotoPathsByPost(Post post)
+        public static void GetAllMediumsPhotoPathsByPost(Post post, Dictionary<string, string> files, Dictionary<string, string> mapping)
         {
-            Dictionary<string, string> _files = new Dictionary<string, string>();
-
             List<Attachment> _imageAttachments = new List<Attachment>();
 
             foreach (Attachment _a in post.attachments)
@@ -29,10 +27,14 @@ namespace Waveface
 
                 string _localFileM = Main.GCONST.CachePath + _fileNameM;
 
-                _files.Add(_a.object_id, _localFileM);
-            }
+                files.Add(_a.object_id, _localFileM);
 
-            return _files;
+                if (!mapping.ContainsKey(_fileNameM))
+                {
+                    if ((_a.file_name != string.Empty) && (!_a.file_name.Contains("?")))
+                        mapping.Add(_fileNameM, _a.file_name);
+                }
+            }
         }
 
         public static string GetRedirectURL(string orgURL, string session_token, string object_id, bool isImage)

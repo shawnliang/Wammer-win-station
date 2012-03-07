@@ -23,44 +23,9 @@ using Waveface.Localization;
 
 namespace StationSystemTray
 {
-	[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-	[ComVisible(true)]
 	public partial class MainForm : Form, StationStateContext
 	{
-		#region Const
-		const string WEB_API_VERSION = "{\"version\": \"1.0\"}";
-		const string WEB_SIGNUP_PAGE_URL_PATTERN = @"https://waveface.com/signup?device=windows&l={0}";
-		const string DEV_WEB_SIGNUP_PAGE_URL_PATTERN = @"http://develop.waveface.com:4343/signup?device=windows&l={0}";
-		#endregion
-
-
-		#region Var
-		string _SignUpPage;
-		#endregion
-
-
-		#region Private Property
-		private string m_SignUpPage 
-		{
-			get
-			{
-				if (_SignUpPage == null)
-				{
-					string cultureName = CultureManager.ApplicationUICulture.Name;
-					if (Wammer.Cloud.CloudServer.BaseUrl.Contains("develop.waveface.com"))
-					{
-						_SignUpPage = string.Format(DEV_WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);
-					}
-					else
-					{
-						_SignUpPage = string.Format(WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);
-					}
-				}
-				return _SignUpPage;
-			}
-		}
-		#endregion
-
+        private bool m_IsSignUpRunning { get; set; }
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private UserLoginSettingContainer userloginContainer;
@@ -72,11 +37,11 @@ namespace StationSystemTray
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
 		private ReloginForm signInForm;
-
+		private bool initMinimized;
 		private object cs = new object();
 		private object csStationTimerTick = new object();
 		public StationState CurrentState { get; private set; }
-
+		
 		public Icon iconRunning;
 		public Icon iconPaused;
 		public Icon iconWarning;
@@ -84,15 +49,15 @@ namespace StationSystemTray
 		public string TrayIconText
 		{
 			get { return TrayIcon.Text; }
-			set 
-			{ 
+			set
+			{
 				TrayIcon.Text = value;
 				TrayIcon.BalloonTipText = value;
 				TrayIcon.ShowBalloonTip(3);
 			}
 		}
 
-		public MainForm()
+		public MainForm(bool initMinimized)
 		{
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
@@ -107,7 +72,7 @@ namespace StationSystemTray
 			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_disable_16.GetHicon());
 			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_warn_16.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
-			
+
 			this.messenger = new Messenger(this);
 
 			this.uictrlWavefaceClient = new WavefaceClientController(this);
@@ -126,6 +91,8 @@ namespace StationSystemTray
 			NetworkChange.NetworkAddressChanged += checkStationTimer_Tick;
 
 			this.CurrentState = CreateState(StationStateEnum.Initial);
+
+			this.initMinimized = initMinimized;
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -140,7 +107,14 @@ namespace StationSystemTray
 
 			CurrentState.Onlining();
 
-			GotoTimeline(userloginContainer.GetLastUserLogin());
+			if (this.initMinimized)
+			{
+				this.WindowState = FormWindowState.Minimized;
+				this.ShowInTaskbar = false;
+				this.initMinimized = false;
+			}
+			else
+				GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
 		private void RefreshUserList()
@@ -318,7 +292,7 @@ namespace StationSystemTray
 			lock (cs)
 			{
 				CurrentState.OnLeaving(this, new EventArgs());
-				CurrentState = CreateState(state);				
+				CurrentState = CreateState(state);
 				CurrentState.OnEntering(this, new EventArgs());
 			}
 		}
@@ -337,6 +311,9 @@ namespace StationSystemTray
 
 		private void menuPreference_Click(object sender, EventArgs e)
 		{
+            if (m_IsSignUpRunning)
+                return;
+
 			if (clientProcess != null && !clientProcess.HasExited)
 			{
 				IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
@@ -643,6 +620,10 @@ namespace StationSystemTray
 				this.AcceptButton = btnOK;
 			}
 
+
+			if (this.WindowState == FormWindowState.Minimized)
+				this.WindowState = FormWindowState.Normal;
+
 			// force window to have focus
 			// please refer http://stackoverflow.com/questions/278237/keep-window-on-top-and-steal-focus-in-winforms
 			uint foreThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
@@ -714,7 +695,7 @@ namespace StationSystemTray
 				if (userlogin == null)
 				{
 					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
-					
+
 					userlogin = new UserLoginSetting
 						{
 							Email = cmbEmail.Text.ToLower(),
@@ -807,27 +788,26 @@ namespace StationSystemTray
 
 		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			tabControl.SelectedTab = tabSignUp;
+            m_IsSignUpRunning = true;
+            var dialog = new SignUpDialog()
+            {
+                Text = this.Text,
+                Icon = this.Icon,
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            this.Hide();
+            dialog.ShowDialog();
+            if (dialog.DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                cmbEmail.Text = dialog.EMail;
+                txtPassword.Text = dialog.Password;
+            }
+            tabControl.SelectedTab = tabSignIn;
+            this.Show();
+            m_IsSignUpRunning = false;
 		}
 
-		#region Private Method
-		/// <summary>
-		/// Gets the sign up data.
-		/// </summary>
-		/// <param name="functionName">Name of the function.</param>
-		/// <param name="attributeName">Name of the attribute.</param>
-		/// <returns></returns>
-		private string GetSignUpData(string functionName, string attributeName)
-		{
-			string data = webBrowser1.Document.InvokeScript(functionName, new object[] { attributeName, WEB_API_VERSION }).ToString();
-
-			//not empty => decode
-			if (data.Length > 0)
-				data = System.Web.HttpUtility.UrlDecode(data);
-
-			return data;
-		}
-		#endregion
 
 		#region Protected Method
 		/// <summary>
@@ -839,7 +819,7 @@ namespace StationSystemTray
 		/// true if the keystroke was processed and consumed by the control; otherwise, false to allow further processing.
 		/// </returns>
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-			{
+		{
 			//prevent ctrl+tab to switch signin pages
 			if (keyData == (Keys.Control | Keys.Tab))
 			{
@@ -853,42 +833,6 @@ namespace StationSystemTray
 		#endregion
 
 
-		#region Public Method
-		/// <summary>
-		/// Signs up completed triggered by webpage.
-		/// </summary>
-		/// <param name="functionName">Name of the function.</param>
-		public void SignUpCompleted(string functionName)
-		{
-			string email = GetSignUpData(functionName, "email");
-			string password = GetSignUpData(functionName, "passwd");
-
-			Boolean isSignUpCompleted = !(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password));
-			if (isSignUpCompleted)
-			{
-				tabControl.SelectedTab = tabSignIn;
-				cmbEmail.Text = email;
-				txtPassword.Text = password;
-			}
-		}
-		#endregion
-
-
-		#region Event Process
-		/// <summary>
-		/// Handles the SelectedIndexChanged event of the tabControl control.
-		/// </summary>
-		/// <param name="sender">The source of the event.</param>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (tabControl.SelectedTab == tabSignUp)
-			{
-				webBrowser1.ObjectForScripting = this;
-				webBrowser1.Navigate(m_SignUpPage);
-			}
-			}
-		#endregion
 	}
 
 	#region WavefaceClientController
@@ -992,5 +936,5 @@ namespace StationSystemTray
 	}
 	#endregion
 
-  
+
 }

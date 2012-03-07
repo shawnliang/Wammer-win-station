@@ -113,7 +113,7 @@
     <DirectoryRef Id="TARGETDIR">
       <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
         <RegistryKey Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Run">
-          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationSystemTray.exe"' KeyPath='yes'/>
+          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationSystemTray.exe" --minimized' KeyPath='yes'/>
         </RegistryKey>
       </Component> 
       <!-- Compatibility Mode -->
@@ -182,6 +182,8 @@
     </ComponentGroup>
 
     <ComponentGroup Id="Wammer.Client">
+      <ComponentRef Id="AppLimit.NetSparkle.dll"/>
+      <ComponentRef Id="AppLimit.NetSparkle.resources.dll"/>
       <ComponentRef Id="AxInterop.SHDocVw.dll"/>
       <ComponentRef Id="DropableNotifyIcon.dll"/>
       <ComponentRef Id="HTML2XHTML.dll"/>
@@ -258,6 +260,9 @@
       </Component>
       
       <!-- client files -->
+      <Component Guid="*">
+        <File Id="AppLimit.NetSparkle.dll" Source="$(var.Wammer.TargetDir)\AppLimit.NetSparkle.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="AxInterop.SHDocVw.dll" Guid="{345D9FC1-4BF7-43E0-883F-F94AAD20D530}">
         <File Id="AxInterop.SHDocVw.dll" Source="$(var.Wammer.TargetDir)\AxInterop.SHDocVw.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -322,6 +327,9 @@
 
     <!-- localization resources -->
     <DirectoryRef Id="zh_TW">
+      <Component Guid="*">
+        <File Id="AppLimit.NetSparkle.resources.dll" Source="$(var.Wammer.TargetDir)\zh-TW/AppLimit.NetSparkle.resources.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Guid="*">
         <File Id="StationSystemTray.resources.dll" Source="$(var.StationSystemTray.TargetDir)\zh-TW\StationSystemTray.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using NLog;
@@ -21,6 +22,8 @@ namespace Waveface.PostUI
 
         public PostForm MyParent { get; set; }
 
+        public Dictionary<string, string> FileNameMapping { get; set; }
+
         public List<string> Files
         {
             set
@@ -32,6 +35,8 @@ namespace Waveface.PostUI
         public Photo()
         {
             InitializeComponent();
+
+            FileNameMapping = new Dictionary<string, string>();
 
             InitImageListView();
         }
@@ -83,7 +88,7 @@ namespace Waveface.PostUI
 
         private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
         {
-            labelSummary.Text = string.Format(I18n.L.T("Photo.Summary") , imageListView.Items.Count);
+            labelSummary.Text = string.Format(I18n.L.T("Photo.Summary"), imageListView.Items.Count);
         }
 
         private void toolStripButtonCamera_Click(object sender, EventArgs e)
@@ -285,7 +290,7 @@ namespace Waveface.PostUI
 
         private void RemoveAllAndReturnToParent()
         {
-            if(imageListView.Items.Count == 0)
+            if (imageListView.Items.Count == 0)
             {
                 MyParent.toPureText_Mode();
                 return;
@@ -328,7 +333,7 @@ namespace Waveface.PostUI
         {
             if (!Main.Current.CheckNetworkStatus())
                 return;
-            
+
             if (imageListView.SelectedItems.Count == 0)
             {
                 RemoveAllAndReturnToParent();
@@ -402,6 +407,28 @@ namespace Waveface.PostUI
         private void Photo_Resize(object sender, EventArgs e)
         {
             BackColor = Color.FromArgb(243, 242, 238); //Hack
+        }
+
+        private void imageListView_ItemHover(object sender, ItemHoverEventArgs e)
+        {
+            if (e.Item == null)
+            {
+                Cursor = Cursors.Default;
+
+                labelSummary.Text = string.Format(I18n.L.T("Photo.Summary"), imageListView.Items.Count);
+            }
+            else
+            {
+                Cursor = Cursors.SizeAll;
+
+                string _filePath = e.Item.FileName;
+                string _fileName = new FileInfo(e.Item.FileName).Name;
+
+                if (FileNameMapping.ContainsKey(_fileName))
+                    _filePath = FileNameMapping[_fileName];
+
+                labelSummary.Text = _filePath;
+            }
         }
     }
 }

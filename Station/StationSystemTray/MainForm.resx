@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -168,7 +168,7 @@
     <value>Quit</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 148</value>
+    <value>153, 126</value>
   </data>
   <data name="&gt;&gt;TrayMenu.Name" xml:space="preserve">
     <value>TrayMenu</value>
@@ -626,18 +626,45 @@
   <metadata name="checkStationTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>236, 17</value>
   </metadata>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnSignIn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnSignIn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>410, 263</value>
+  </data>
+  <data name="btnSignIn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="btnSignIn.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="btnSignIn.Text" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="&gt;&gt;btnSignIn.Name" xml:space="preserve">
+    <value>btnSignIn</value>
+  </data>
+  <data name="&gt;&gt;btnSignIn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSignIn.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
+  <data name="&gt;&gt;btnSignIn.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="lblSignIn.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="lblSignIn.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 14.25pt</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="lblSignIn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="lblSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 9</value>
+    <value>12, 9</value>
   </data>
   <data name="lblSignIn.Size" type="System.Drawing.Size, System.Drawing">
     <value>179, 25</value>
@@ -666,8 +693,11 @@
   <data name="lblEmail.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
+  <data name="lblEmail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="lblEmail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 51</value>
+    <value>14, 59</value>
   </data>
   <data name="lblEmail.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 15</value>
@@ -690,137 +720,17 @@
   <data name="&gt;&gt;lblEmail.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="lblPassword.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblPassword.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="lblPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 106</value>
-  </data>
-  <data name="lblPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 15</value>
-  </data>
-  <data name="lblPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="lblPassword.Text" xml:space="preserve">
-    <value>Password:</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.Name" xml:space="preserve">
-    <value>lblPassword</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="txtPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 124</value>
-  </data>
-  <data name="txtPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>375, 23</value>
-  </data>
-  <data name="txtPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Name" xml:space="preserve">
-    <value>txtPassword</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="cmbEmail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 69</value>
-  </data>
-  <data name="cmbEmail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>375, 23</value>
-  </data>
-  <data name="cmbEmail.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.Name" xml:space="preserve">
-    <value>cmbEmail</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="btnSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>310, 207</value>
-  </data>
-  <data name="btnSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="btnSignIn.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="btnSignIn.Text" xml:space="preserve">
-    <value>Sign In</value>
-  </data>
-  <data name="&gt;&gt;btnSignIn.Name" xml:space="preserve">
-    <value>btnSignIn</value>
-  </data>
-  <data name="&gt;&gt;btnSignIn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnSignIn.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;btnSignIn.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="chkRememberPassword.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkRememberPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 162</value>
-  </data>
-  <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 19</value>
-  </data>
-  <data name="chkRememberPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="chkRememberPassword.Text" xml:space="preserve">
-    <value>Remember password</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.Name" xml:space="preserve">
-    <value>chkRememberPassword</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
   <data name="lblSignUp.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="lblSignUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lblSignUp.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
     <value>27, 42</value>
   </data>
   <data name="lblSignUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 211</value>
+    <value>17, 267</value>
   </data>
   <data name="lblSignUp.Size" type="System.Drawing.Size, System.Drawing">
     <value>245, 21</value>
@@ -843,14 +753,119 @@
   <data name="&gt;&gt;lblSignUp.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="txtPassword.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 156</value>
+  </data>
+  <data name="txtPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>468, 23</value>
+  </data>
+  <data name="txtPassword.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;txtPassword.Name" xml:space="preserve">
+    <value>txtPassword</value>
+  </data>
+  <data name="&gt;&gt;txtPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtPassword.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
+  <data name="&gt;&gt;txtPassword.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="cmbEmail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 85</value>
+  </data>
+  <data name="cmbEmail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>468, 23</value>
+  </data>
+  <data name="cmbEmail.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;cmbEmail.Name" xml:space="preserve">
+    <value>cmbEmail</value>
+  </data>
+  <data name="&gt;&gt;cmbEmail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmbEmail.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
+  <data name="&gt;&gt;cmbEmail.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lblPassword.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblPassword.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="lblPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblPassword.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 130</value>
+  </data>
+  <data name="lblPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 15</value>
+  </data>
+  <data name="lblPassword.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblPassword.Text" xml:space="preserve">
+    <value>Password:</value>
+  </data>
+  <data name="&gt;&gt;lblPassword.Name" xml:space="preserve">
+    <value>lblPassword</value>
+  </data>
+  <data name="&gt;&gt;lblPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblPassword.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
+  <data name="&gt;&gt;lblPassword.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="chkRememberPassword.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkRememberPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkRememberPassword.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 202</value>
+  </data>
+  <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 19</value>
+  </data>
+  <data name="chkRememberPassword.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="chkRememberPassword.Text" xml:space="preserve">
+    <value>Remember password</value>
+  </data>
+  <data name="&gt;&gt;chkRememberPassword.Name" xml:space="preserve">
+    <value>chkRememberPassword</value>
+  </data>
+  <data name="&gt;&gt;chkRememberPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkRememberPassword.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
+  <data name="&gt;&gt;chkRememberPassword.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
   <data name="tabSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
+    <value>0, 0</value>
   </data>
   <data name="tabSignIn.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>397, 242</value>
+    <value>497, 310</value>
   </data>
   <data name="tabSignIn.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -867,8 +882,11 @@
   <data name="&gt;&gt;tabSignIn.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="btnOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>310, 207</value>
+    <value>410, 275</value>
   </data>
   <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -897,6 +915,9 @@
   <data name="lblWelcome.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 14.25pt</value>
   </data>
+  <data name="lblWelcome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="lblWelcome.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 9</value>
   </data>
@@ -924,6 +945,9 @@
   <data name="lblMainStationSetup.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
+  <data name="lblMainStationSetup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="lblMainStationSetup.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 51</value>
   </data>
@@ -949,10 +973,10 @@
     <value>2</value>
   </data>
   <data name="tabMainStationSetup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
+    <value>0, 0</value>
   </data>
   <data name="tabMainStationSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>397, 242</value>
+    <value>497, 310</value>
   </data>
   <data name="tabMainStationSetup.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -969,59 +993,14 @@
   <data name="&gt;&gt;tabMainStationSetup.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="webBrowser1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="tabControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="webBrowser1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="tabControl.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="webBrowser1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>397, 242</value>
-  </data>
-  <data name="webBrowser1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;webBrowser1.Name" xml:space="preserve">
-    <value>webBrowser1</value>
-  </data>
-  <data name="&gt;&gt;webBrowser1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;webBrowser1.Parent" xml:space="preserve">
-    <value>tabSignUp</value>
-  </data>
-  <data name="&gt;&gt;webBrowser1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tabSignUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="tabSignUp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>397, 242</value>
-  </data>
-  <data name="tabSignUp.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tabSignUp.Text" xml:space="preserve">
-    <value>tabSignUp</value>
-  </data>
-  <data name="&gt;&gt;tabSignUp.Name" xml:space="preserve">
-    <value>tabSignUp</value>
-  </data>
-  <data name="&gt;&gt;tabSignUp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabSignUp.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabSignUp.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="tabControl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-2, -24</value>
-  </data>
   <data name="tabControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>405, 270</value>
+    <value>497, 310</value>
   </data>
   <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1030,7 +1009,7 @@
     <value>tabControl</value>
   </data>
   <data name="&gt;&gt;tabControl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>StationSystemTray.Control.TabControlEx, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tabControl.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1045,7 +1024,7 @@
     <value>53</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>399, 242</value>
+    <value>497, 310</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
@@ -2368,7 +2347,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Waveface</value>
+    <value>Log In - Waveface</value>
   </data>
   <data name="&gt;&gt;TrayIcon.Name" xml:space="preserve">
     <value>TrayIcon</value>

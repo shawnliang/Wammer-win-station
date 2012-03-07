@@ -34,6 +34,7 @@ namespace Waveface
         private bool m_editMode;
         private Post m_post;
         private Dictionary<string, string> m_oldImageFiles;
+        private Dictionary<string, string> m_fileNameMapping;
 
         public NewPostItem NewPostItem { get; set; }
 
@@ -44,6 +45,7 @@ namespace Waveface
             m_editMode = editMode;
             m_post = post;
             m_oldImageFiles = new Dictionary<string, string>();
+            m_fileNameMapping = new Dictionary<string, string>();
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseLocation = true;
@@ -95,7 +97,9 @@ namespace Waveface
                 
                 case "image":
                     {
-                        m_oldImageFiles = AttachmentUtility.GetAllMediumsPhotoPathsByPost(m_post);
+                        AttachmentUtility.GetAllMediumsPhotoPathsByPost(m_post, m_oldImageFiles, m_fileNameMapping);
+
+                        photo_UI.FileNameMapping = m_fileNameMapping;
 
                         foreach (KeyValuePair<string, string> _imgPair in m_oldImageFiles)
                         {
