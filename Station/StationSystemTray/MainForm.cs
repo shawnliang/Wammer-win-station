@@ -726,6 +726,8 @@ namespace StationSystemTray
 						}
 					);
 
+					RefreshUserList();
+
 					GotoTabPage(tabMainStationSetup, null);
 				}
 				else
@@ -775,7 +777,6 @@ namespace StationSystemTray
 			}
 
 			uictrlWavefaceClient.PerformAction(userlogin);
-			RefreshUserList();
 		}
 
 		private bool TestEmailFormat(string emailAddress)
