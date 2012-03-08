@@ -24,8 +24,8 @@ using Waveface.Localization;
 namespace StationSystemTray
 {
 	public partial class MainForm : Form, StationStateContext
-	{
-		private bool m_IsSignUpRunning { get; set; }
+    {
+        private bool m_IsSignUpRunning { get; set; }
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private UserLoginSettingContainer userloginContainer;
@@ -828,7 +828,7 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "Logout": "Sign In...";
+		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "Logout...": "Login...";
 		}
 	}
 
