@@ -65,7 +65,7 @@ namespace Wammer.Station
 						user_id = user.Id,
 						groups = user.Groups,
 						session_token = user.Token,
-						isPrimaryStation = (user.Stations == null || user.Stations.Count == 0)
+						isPrimaryStation = IsThisPrimaryStation(user.Stations)
 					};
 
 					DriverCollection.Instance.Save(driver);
@@ -105,6 +105,23 @@ namespace Wammer.Station
 				}
 			}
 
+		}
+
+		private bool IsThisPrimaryStation(List<UserStation> stations)
+		{
+			if (stations == null)
+				return false;
+
+			foreach (UserStation s in stations)
+				if (s.station_id == this.stationId)
+				{
+					if (string.Compare(s.type, "primary", true) == 0)
+						return true;
+					else
+						return false;
+				}
+
+			return false;
 		}
 
 		private void CheckPasswordOnly(string email, string password, WebClient agent, Driver existingDriver)

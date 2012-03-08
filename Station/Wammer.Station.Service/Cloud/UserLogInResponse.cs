@@ -15,6 +15,7 @@ namespace Wammer.Cloud
 		public string accessible { get; set; }
 		public string public_location { get; set; }
 		public bool upnp { get; set; }
+		public string type { get; set; }
 
 		[System.Xml.Serialization.XmlIgnore]
 		public DateTime LastSeen 
