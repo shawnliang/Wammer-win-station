@@ -14,6 +14,10 @@ namespace StationSystemTray
 {
 	static class Program
 	{
+        #region Const
+        const string CLIENT_TITLE = "Waveface ";        
+        #endregion
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -37,7 +41,7 @@ namespace StationSystemTray
                     if (process.Id == currentProcess.Id)
                         continue;
 
-                    IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
+                    IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
                     if (handle == IntPtr.Zero)
                     {
                         handle = Win32Helper.FindWindow(null, "Log In - Waveface");

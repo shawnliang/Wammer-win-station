@@ -149,7 +149,7 @@ namespace Waveface
         #endregion
 
         public Main()
-        {
+        {            
             QuitOption = QuitOption.QuitProgram;
 
             Current = this;
@@ -157,6 +157,8 @@ namespace Waveface
             File.Delete(m_shellContentMenuFilePath);
 
             InitializeComponent();
+
+            this.Text = "Waveface ";
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 

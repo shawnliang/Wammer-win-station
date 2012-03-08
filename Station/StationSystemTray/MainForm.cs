@@ -25,7 +25,11 @@ namespace StationSystemTray
 {
 	public partial class MainForm : Form, StationStateContext
     {
-        private bool m_IsSignUpRunning { get; set; }
+        #region Const
+        const string CLIENT_TITLE = "Waveface ";
+        #endregion
+
+        private SignUpDialog m_SignUpDialog;
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private UserLoginSettingContainer userloginContainer;
@@ -63,8 +67,6 @@ namespace StationSystemTray
 			InitializeComponent();
 
 			this.userloginContainer = new UserLoginSettingContainer(new ApplicationSettings());
-			this.formCloseEnabled = false;
-			this.clientProcess = null;
 
 			Type type = this.GetType();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(type.Namespace + ".Properties.Resources", this.GetType().Assembly);
@@ -161,7 +163,7 @@ namespace StationSystemTray
 
 				if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
 				{
-					IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
+                    IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
 					Win32Helper.SetForegroundWindow(handle);
 					Win32Helper.ShowWindow(handle, 1);
 					return;
@@ -337,9 +339,6 @@ namespace StationSystemTray
 
 		private void menuPreference_Click(object sender, EventArgs e)
 		{
-			if (m_IsSignUpRunning)
-				return;
-
 			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
@@ -569,6 +568,9 @@ namespace StationSystemTray
 
 		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
 		{
+            if (m_SignUpDialog != null)
+                m_SignUpDialog.Close();
+
 			tabControl.SelectedTab = tabpage;
 
 			if (this.WindowState == FormWindowState.Minimized)
@@ -772,8 +774,7 @@ namespace StationSystemTray
 
 		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			m_IsSignUpRunning = true;
-			var dialog = new SignUpDialog()
+            m_SignUpDialog = new SignUpDialog()
 			{
 				Text = this.Text,
 				Icon = this.Icon,
@@ -781,15 +782,18 @@ namespace StationSystemTray
 			};
 
 			this.Hide();
-			dialog.ShowDialog();
-			if (dialog.DialogResult == System.Windows.Forms.DialogResult.OK)
+            m_SignUpDialog.ShowDialog();
+            if (m_SignUpDialog.DialogResult == System.Windows.Forms.DialogResult.OK)
 			{
-				cmbEmail.Text = dialog.EMail;
-				txtPassword.Text = dialog.Password;
+                cmbEmail.Text = m_SignUpDialog.EMail;
+                txtPassword.Text = m_SignUpDialog.Password;
 			}
+            m_SignUpDialog.Dispose();
+            m_SignUpDialog = null;
 			tabControl.SelectedTab = tabSignIn;
-			this.Show();
-			m_IsSignUpRunning = false;
+
+            if (!this.IsDisposed)
+                this.Show();
 		}
 
 
