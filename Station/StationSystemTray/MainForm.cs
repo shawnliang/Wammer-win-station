@@ -29,6 +29,24 @@ namespace StationSystemTray
         const string CLIENT_TITLE = "Waveface ";
         #endregion
 
+
+        #region Var
+        private Messenger _messenger;
+        #endregion
+
+
+        #region Private Property
+        private Messenger messenger
+        {
+            get
+            {
+                if (_messenger == null)
+                    _messenger = new Messenger(this);
+                return _messenger;
+            }
+        }
+        #endregion
+
         private SignUpDialog m_SignUpDialog;
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
@@ -36,7 +54,6 @@ namespace StationSystemTray
 		private bool formCloseEnabled;
 		public Process clientProcess;
 
-		private Messenger messenger;
 		private WavefaceClientController uictrlWavefaceClient;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
@@ -65,17 +82,20 @@ namespace StationSystemTray
 		{
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
+			this.initMinimized = initMinimized;
+		}
 
-			this.userloginContainer = new UserLoginSettingContainer(new ApplicationSettings());
+		protected override void OnLoad(EventArgs e)
+		{
+            Show();
+            Application.DoEvents();
 
-			Type type = this.GetType();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(type.Namespace + ".Properties.Resources", this.GetType().Assembly);
+            this.userloginContainer = new UserLoginSettingContainer(new ApplicationSettings());
+
 			this.iconRunning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_16.GetHicon());
 			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_disable_16.GetHicon());
 			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_warn_16.GetHicon());
-			this.TrayIcon.Icon = this.iconPaused;
-
-			this.messenger = new Messenger(this);
+            this.TrayIcon.Icon = this.iconPaused;
 
 			this.uictrlWavefaceClient = new WavefaceClientController(this);
 			this.uictrlWavefaceClient.UICallback += this.WavefaceClientUICallback;
@@ -93,12 +113,6 @@ namespace StationSystemTray
 			NetworkChange.NetworkAddressChanged += checkStationTimer_Tick;
 
 			this.CurrentState = CreateState(StationStateEnum.Initial);
-
-			this.initMinimized = initMinimized;
-		}
-
-		protected override void OnLoad(EventArgs e)
-		{
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
 			this.menuGotoTimeline.Text = "Go to Timeline";
@@ -108,51 +122,57 @@ namespace StationSystemTray
 
 			CurrentState.Onlining();
 
-			if (this.initMinimized)
-			{
-				this.WindowState = FormWindowState.Minimized;
-				this.ShowInTaskbar = false;
-				this.initMinimized = false;
+            if (this.initMinimized)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                this.ShowInTaskbar = false;
+                this.initMinimized = false;
 
-				RefreshUserList();  // init user list on tray icon
-			}
-			else
-				GotoTimeline(userloginContainer.GetLastUserLogin());
+                RefreshUserList();  // init user list on tray icon
+            }
+            else
+                GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
 		private void RefreshUserList()
 		{
 			cmbEmail.Items.Clear();
-			menuGotoTimeline.DropDownItems.Remove(menuNewUser);
-			menuGotoTimeline.DropDownItems.Clear();
+            try
+            {
+                menuGotoTimeline.DropDownItems.Remove(menuNewUser);
+                menuGotoTimeline.DropDownItems.Clear();
 
-			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
-			bool addSeparator = false;
-			ListDriverResponse res = StationController.ListUser();
-			foreach (Driver driver in res.drivers)
-			{
-				UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
-				if (userlogin != null)
-				{
-					if (!addSeparator)
-					{
-						menuGotoTimeline.DropDownItems.Insert(0, new ToolStripSeparator());
-						addSeparator = true;
-					}
-					cmbEmail.Items.Add(userlogin.Email);
-					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-					menu.Name = userlogin.Email;
-					menuGotoTimeline.DropDownItems.Insert(0, menu);
-					userlogins.Add(userlogin);
-				}
-			}
-			menuGotoTimeline.DropDownItems.Add(menuNewUser);
+                List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
+                bool addSeparator = false;
+                ListDriverResponse res = StationController.ListUser();
+                foreach (Driver driver in res.drivers)
+                {
+                    UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
+                    if (userlogin != null)
+                    {
+                        if (!addSeparator)
+                        {
+                            menuGotoTimeline.DropDownItems.Insert(0, new ToolStripSeparator());
+                            addSeparator = true;
+                        }
+                        cmbEmail.Items.Add(userlogin.Email);
+                        ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+                        menu.Name = userlogin.Email;
+                        menuGotoTimeline.DropDownItems.Insert(0, menu);
+                        userlogins.Add(userlogin);
+                    }
+                }
 
-			if (userlogins.Count > 0)
-			{
-				string lastlogin = userloginContainer.GetLastUserLogin().Email;
-				userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
-			}
+                if (userlogins.Count > 0)
+                {
+                    string lastlogin = userloginContainer.GetLastUserLogin().Email;
+                    userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
+                }
+            }
+            finally
+            {
+                menuGotoTimeline.DropDownItems.Add(menuNewUser);
+            }
 		}
 
 		private void GotoTimeline(UserLoginSetting userlogin)
