@@ -53,6 +53,7 @@ namespace StationSystemTray
 		private UserLoginSettingContainer userloginContainer;
 		private bool formCloseEnabled;
 		public Process clientProcess;
+		private bool iscmbEmailFirstChanged;
 
 		private WavefaceClientController uictrlWavefaceClient;
 		private PauseServiceUIController uictrlPauseService;
@@ -616,12 +617,14 @@ namespace StationSystemTray
 				if (userlogin == null)
 				{
 					cmbEmail.Text = string.Empty;
+					iscmbEmailFirstChanged = false;
 					txtPassword.Text = string.Empty;
 					chkRememberPassword.Checked = false;
 				}
 				else
 				{
 					cmbEmail.Text = userlogin.Email;
+					iscmbEmailFirstChanged = true;
 					if (userlogin.RememberPassword)
 					{
 						txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
@@ -849,6 +852,30 @@ namespace StationSystemTray
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
 		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "Logout...": "Login...";
+		}
+
+		private void cmbEmail_SelectionChangeCommitted(object sender, EventArgs e)
+		{
+			UserLoginSetting userlogin = userloginContainer.GetUserLogin((string)cmbEmail.SelectedItem);
+			if (userlogin.RememberPassword)
+			{
+				txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
+			}
+			else
+			{
+				txtPassword.Text = string.Empty;
+			}
+			chkRememberPassword.Checked = userlogin.RememberPassword;
+		}
+
+		private void cmbEmail_TextUpdate(object sender, EventArgs e)
+		{
+			if (iscmbEmailFirstChanged)
+			{
+				txtPassword.Text = string.Empty;
+				chkRememberPassword.Checked = false;
+				iscmbEmailFirstChanged = false;
+			}
 		}
 	}
 
