@@ -88,7 +88,11 @@ namespace UT_WammerStation
 						name = "group1"				
 					}
 				},
-				user = new UserInfo { user_id = "uid1"}
+				user = new UserInfo { user_id = "uid1" },
+				stations = new List<UserStation>()
+				{
+					new UserStation() { station_id = "stationId", type = "primary" }
+				}
 			};
 
 			StationLogOnResponse res3 = new StationLogOnResponse(200, DateTime.UtcNow, "token3");
@@ -153,7 +157,11 @@ namespace UT_WammerStation
 						name = "group1"				
 					}
 				},
-				user = new UserInfo { user_id = "uid1" }
+				user = new UserInfo { user_id = "uid1" },
+				stations = new List<UserStation>()
+				{
+					new UserStation() { station_id = "stationId", type = "primary"}
+				}
 			};
 
 			StationLogOnResponse res3 = new StationLogOnResponse(200, DateTime.UtcNow, "token3");
@@ -222,7 +230,7 @@ namespace UT_WammerStation
 				user = new UserInfo { user_id = "uid1" },
 				stations = new List<UserStation>()
 				{
-					new UserStation() { station_id = "aabbcc" }
+					new UserStation() { station_id = "aabbcc" },
 				}
 			};
 

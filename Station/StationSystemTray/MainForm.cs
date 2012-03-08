@@ -111,6 +111,8 @@ namespace StationSystemTray
 				this.WindowState = FormWindowState.Minimized;
 				this.ShowInTaskbar = false;
 				this.initMinimized = false;
+
+				RefreshUserList();  // init user list on tray icon
 			}
 			else
 				GotoTimeline(userloginContainer.GetLastUserLogin());
