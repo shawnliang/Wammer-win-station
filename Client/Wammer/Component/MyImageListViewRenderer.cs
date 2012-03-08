@@ -199,6 +199,16 @@ namespace Waveface.Component
                             g.FillRectangle(Brushes.OrangeRed, bounds.Left + 2, bounds.Top + 2, 1, 1);
                         }
                     }
+
+                    if (item.Tag is EditModePhotoType)
+                    {
+                        EditModePhotoType _type = (EditModePhotoType) item.Tag;
+
+                        if (_type == EditModePhotoType.NewAdd)
+                        {
+                            g.DrawString("+", new Font("Tahoma", 9, FontStyle.Bold), Brushes.Red, bounds.Left + 1, bounds.Top + 1);
+                        }
+                    }
                 }
             }
         }
