@@ -30,19 +30,19 @@ namespace Waveface
         private FormSettings m_formSettings;
         private bool m_getPreviewNow;
         private string m_lastPreviewURL = string.Empty;
-        
-        private bool m_editMode;
+
         private Post m_post;
         private Dictionary<string, string> m_oldImageFiles;
         private Dictionary<string, string> m_fileNameMapping;
 
         public NewPostItem NewPostItem { get; set; }
+        public bool EditMode { get; set; }
 
         public PostForm(List<string> files, PostType postType, Post post, bool editMode)
         {
             InitializeComponent();
 
-            m_editMode = editMode;
+            EditMode = editMode;
             m_post = post;
             m_oldImageFiles = new Dictionary<string, string>();
             m_fileNameMapping = new Dictionary<string, string>();
@@ -64,7 +64,7 @@ namespace Waveface
 
             pureTextBox.WaterMarkText = I18n.L.T("PostForm.PuretextWaterMark");
 
-            if (m_editMode)
+            if (EditMode)
             {
                 InitEditMode();
             }
