@@ -615,13 +615,13 @@ namespace StationSystemTray
 			{
 				if (userlogin == null)
 				{
-					cmbEmail.SelectedItem = string.Empty;
+					cmbEmail.Text = string.Empty;
 					txtPassword.Text = string.Empty;
 					chkRememberPassword.Checked = false;
 				}
 				else
 				{
-					cmbEmail.SelectedItem = userlogin.Email;
+					cmbEmail.Text = userlogin.Email;
 					if (userlogin.RememberPassword)
 					{
 						txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
@@ -633,7 +633,7 @@ namespace StationSystemTray
 					chkRememberPassword.Checked = userlogin.RememberPassword;
 				}
 
-				if (cmbEmail.SelectedItem == null)
+				if (string.IsNullOrEmpty(cmbEmail.Text))
 				{
 					cmbEmail.Select();
 				}
