@@ -93,7 +93,6 @@ namespace Waveface
 
         public void Thumbnail_EventHandler(ImageItem item)
         {
-
             RefreshUI();
         }
 
@@ -275,8 +274,9 @@ namespace Waveface
 
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 12, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 20);
 
-            TextRenderer.DrawText(g, post.preview.title.Trim(), new Font("Arial", 10, FontStyle.Bold), _rectAll, Color.FromArgb(23, 53, 93),
-                 TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
+            if(!string.IsNullOrEmpty(post.preview.title))
+                TextRenderer.DrawText(g, post.preview.title.Trim(), new Font("Arial", 10, FontStyle.Bold), _rectAll, Color.FromArgb(23, 53, 93),
+                    TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
         private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, Font fontText, int thumbnailRectWidth, bool selected)
@@ -286,7 +286,7 @@ namespace Waveface
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 14, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 20);
 
             TextRenderer.DrawText(g, post.content, fontText, _rectAll, Color.Black,
-                      TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
+                      TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
         private void Draw_RichText_Post(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontText, int thumbnailRectWidth)
@@ -294,7 +294,7 @@ namespace Waveface
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + 8, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - 16);
 
             TextRenderer.DrawText(g, post.content, fontText, _rectAll, Color.Black,
-                      TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
+                      TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
         private void Draw_Text_Post(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontText)
@@ -302,7 +302,7 @@ namespace Waveface
             Rectangle _rectAll = new Rectangle(rect.X + 8, rect.Y + 8, rect.Width - 8, rect.Height - timeRectHeight - 18);
 
             TextRenderer.DrawText(g, post.content, fontText, _rectAll, Color.Black,
-                      TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
+                      TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
         private Rectangle DrawPostInfo(Graphics g, Font font, Rectangle cellRect, Post post, int thumbnailOffset_X, bool selected)

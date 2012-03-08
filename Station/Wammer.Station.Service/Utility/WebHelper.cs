@@ -87,6 +87,10 @@ namespace Waveface
 			request.UserAgent = userAgent;
 			request.CookieContainer = new CookieContainer();
 
+            request.Headers.Set("Content-Encoding", "UTF-8");
+            request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
+            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+
 			// We need to count how many bytes we're sending. 
 			request.ContentLength = formData.Length;
 

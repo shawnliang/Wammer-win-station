@@ -27,13 +27,12 @@ namespace Waveface
         private IContainer components;
         private Label labelTitle;
         private XPButton btnCancel;
-        private XPButton btnOK;
+        internal XPButton btnOK;
         private GroupBox groupBox1;
         private CultureManager cultureManager;
 
         private FormSettings m_formSettings;
         private string m_savePassword = "";
-        private ProgramSetting m_programSetting;
 
         #region Properties
 
@@ -44,7 +43,7 @@ namespace Waveface
 
         public string Password
         {
-            get { return txtPassword.Text.Trim(); }
+            get { return txtPassword.Text; }
         }
 
         #endregion
@@ -67,10 +66,17 @@ namespace Waveface
 
         #endregion
 
-        public LoginForm(ProgramSetting programSetting, string email, string password)
+        public LoginForm()
         {
-            m_programSetting = programSetting;
+            InitializeComponent();  
 
+            m_formSettings = new FormSettings(this);
+            m_formSettings.UseSize = false;
+            m_formSettings.SaveOnClose = true;
+        }
+
+        public LoginForm(string email, string password)
+        {
             InitializeComponent();
 
             m_savePassword = password;
@@ -81,6 +87,8 @@ namespace Waveface
             m_formSettings = new FormSettings(this);
             m_formSettings.UseSize = false;
             m_formSettings.SaveOnClose = true;
+            Opacity = 0;
+            Visible = false;
         }
 
         protected override void Dispose(bool disposing)
@@ -154,12 +162,12 @@ namespace Waveface
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.txtUserName);
             this.groupBox1.Controls.Add(this.txtPassword);
             this.groupBox1.Controls.Add(this.lblUserName);
             this.groupBox1.Controls.Add(this.lblPassword);
             this.groupBox1.Controls.Add(this.cbRemember);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -170,21 +178,21 @@ namespace Waveface
             // 
             // btnCancel
             // 
-            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnCancel.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnCancel.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOK
             // 
-            resources.ApplyResources(this.btnOK, "btnOK");
             this.btnOK.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnOK.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnOK.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            resources.ApplyResources(this.btnOK, "btnOK");
             this.btnOK.Name = "btnOK";
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
@@ -202,6 +210,7 @@ namespace Waveface
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.Load += new System.EventHandler(this.LoginForm_Load);
+            this.Shown += new System.EventHandler(this.LoginForm_Shown);
             this.DoubleClick += new System.EventHandler(this.LoginForm_DoubleClick);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -213,15 +222,6 @@ namespace Waveface
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            RememberPassword = m_programSetting.RememberPassword;
-
-            if (m_programSetting.RememberPassword && (txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty))
-            {
-                Application.DoEvents();
-
-                doLogin(txtUserName.Text, txtPassword.Text);
-            }
-
             if (txtUserName.Text == string.Empty)
             {
                 txtUserName.Focus();
@@ -240,19 +240,30 @@ namespace Waveface
         {
             Cursor = Cursors.WaitCursor;
 
+            Program.ShowCrashReporter = true;
+
             try
             {
-                if (_doLogin(email, password) == QuitOption.QuitProgram)
+                QuitOption quit = _doLogin(email, password);
+                if (quit == QuitOption.QuitProgram)
+                {
                     Close();
+                }
+                else if (quit == QuitOption.Logout)
+                {
+                    Environment.Exit(-2);
+                }
                 else
-                    Show();
+                {
+                    Environment.Exit(-1);
+                }
             }
             catch (StationServiceDownException _e)
             {
                 NLogUtility.Exception(s_logger, _e, "doLogin");
 
                 MessageBox.Show(I18n.L.T("StationServiceDown"), "Waveface");
-                Show();
+                Environment.Exit(-1);
             }
             catch (ServiceUnavailableException _e)
             {
@@ -261,14 +272,14 @@ namespace Waveface
                 // user should re-register station if receive service unavailable exception
                 // so we close the login page here
                 MessageBox.Show(I18n.L.T("RegisteredRequired", txtUserName.Text), "Waveface");
-                Close();
+                Environment.Exit(-1);
             }
             catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "doLogin");
 
                 MessageBox.Show(I18n.L.T("LoginForm.LogInError") + " : " + _e.Message, "Waveface");
-                Show();
+                Environment.Exit(-1);
             }
         }
 
@@ -283,13 +294,6 @@ namespace Waveface
             {
                 Cursor = Cursors.Default;
 
-                m_programSetting.RememberPassword = RememberPassword;
-                m_programSetting.Email = email;
-                if (RememberPassword)
-                {
-                    m_programSetting.EncryptedPassword = password;
-                }
-                m_programSetting.Save();
 
                 Hide();
 
@@ -321,7 +325,7 @@ namespace Waveface
 
             DialogResult = DialogResult.None;
 
-            if ((txtUserName.Text.Trim() != "") && (txtPassword.Text.Trim() != ""))
+            if ((txtUserName.Text.Trim() != "") && (txtPassword.Text != ""))
             {
                 m_formSettings.Save();
 
@@ -336,8 +340,6 @@ namespace Waveface
 
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            m_programSetting.RememberPassword = RememberPassword;
-            m_programSetting.Save();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -386,5 +388,15 @@ namespace Waveface
         }
 
         #endregion
+
+        private void LoginForm_Shown(object sender, EventArgs e)
+        {
+            if ((txtUserName.Text != string.Empty) && (txtPassword.Text != string.Empty))
+            {
+                Visible = false;
+                doLogin(txtUserName.Text, txtPassword.Text);
+                return;
+            }
+        }
     }
 }

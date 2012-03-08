@@ -27,6 +27,11 @@ namespace Waveface.PostUI
             InitIconListManager();
         }
 
+        public void ChangeToEditModeUI(Post post)
+        {
+            btnSend.Text = "更改";
+        }
+
         private void InitIconListManager()
         {
             m_smallImageList.ColorDepth = ColorDepth.Depth32Bit;
@@ -347,7 +352,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.pureTextBox.Text, files, "", _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text), files, "", _type);
 
                 if (_np == null)
                 {

@@ -21,6 +21,11 @@ namespace Waveface.PostUI
             InitializeComponent();
         }
 
+        public void ChangeToEditModeUI(Post post)
+        {
+            btnSend.Text = "更改";
+        }
+
         private void btnSend_Click(object sender, EventArgs e)
         {
             if (!Main.Current.CheckNetworkStatus())
@@ -70,6 +75,7 @@ namespace Waveface.PostUI
             _og.description = _aog.description;
             _og.provider_name = _aog.provider_name;
             _og.provider_url = _aog.provider_url;
+            _og.provider_display = _aog.provider_display;
             _og.url = _aog.url;
             _og.title = _aog.title;
 
@@ -94,7 +100,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(MyParent.pureTextBox.Text, "", previews, _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text), "", previews, _type);
 
                 if (_np == null)
                 {
@@ -125,7 +131,7 @@ namespace Waveface.PostUI
             labelTitle.Text = m_mrPreviewsGetAdv.preview.title.Trim();
             labelProvider.Text = m_mrPreviewsGetAdv.preview.provider_display;
             richTextBoxDescription.Text = m_mrPreviewsGetAdv.preview.description.Trim();
-            labelSummary.Text = "網路預覽來自 - " + m_mrPreviewsGetAdv.preview.url;
+            labelSummary.Text = I18n.L.T("WebLink.ComeFrom") + " " + m_mrPreviewsGetAdv.preview.url;
 
             buttonPrev.Enabled = false;
             buttonNext.Enabled = false;

@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text;
+using System.Web;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using NLog;
@@ -46,6 +47,8 @@ namespace Waveface.DetailUI
         private int m_loadingPhotosCount;
 
         private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
+
+        private List<string> m_clickableURL;
 
         #endregion
 
@@ -94,6 +97,7 @@ namespace Waveface.DetailUI
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
             m_filesMapping = new Dictionary<string, string>();
+            m_clickableURL = new List<string>();
         }
 
         #region Component Designer generated code
@@ -107,19 +111,19 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo_DV));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.timer = new System.Windows.Forms.Timer(this.components);
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
             this.panelRight = new Waveface.Component.AutoScrollPanel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
-            this.contextMenuStripTop.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.panelPictureInfo.SuspendLayout();
+            this.contextMenuStripTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -128,27 +132,6 @@ namespace Waveface.DetailUI
             this.panelMain.Controls.Add(this.panelRight);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            // 
-            // timer
-            // 
-            this.timer.Interval = 3000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // contextMenuStripTop
-            // 
-            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopyTop});
-            this.contextMenuStripTop.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
-            // 
-            // miCopyTop
-            // 
-            this.miCopyTop.Name = "miCopyTop";
-            resources.ApplyResources(this.miCopyTop, "miCopyTop");
             // 
             // panelRight
             // 
@@ -195,6 +178,27 @@ namespace Waveface.DetailUI
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
+            // timer
+            // 
+            this.timer.Interval = 3000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // contextMenuStripTop
+            // 
+            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopyTop});
+            this.contextMenuStripTop.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
+            // 
+            // miCopyTop
+            // 
+            this.miCopyTop.Name = "miCopyTop";
+            resources.ApplyResources(this.miCopyTop, "miCopyTop");
+            // 
             // Photo_DV
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
@@ -203,9 +207,9 @@ namespace Waveface.DetailUI
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
-            this.contextMenuStripTop.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.panelPictureInfo.ResumeLayout(false);
+            this.contextMenuStripTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -261,7 +265,8 @@ namespace Waveface.DetailUI
 
             string _html = _sb.ToString();
 
-            string _content = Post.content.Replace(Environment.NewLine, "<BR>");
+            string _content = HttpUtility.HtmlEncode(Post.content);
+            _content = _content.Replace(Environment.NewLine, "<BR>");
             _content = _content.Replace("\n", "<BR>");
             _content = _content.Replace("\r", "<BR>");
 
@@ -269,7 +274,7 @@ namespace Waveface.DetailUI
 
             _html += MyParent.GenCommentHTML(Post);
 
-            _html = HtmlUtility.MakeLink(_html);
+            _html = HtmlUtility.MakeLink(_html, m_clickableURL);
 
             _html = "<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>";
 
@@ -340,7 +345,7 @@ namespace Waveface.DetailUI
                 }
             }
 
-            timer.Interval = ((m_imageAttachments.Count / 200) + 2) * 1000;
+            timer.Interval = ((m_imageAttachments.Count / 200) + 3) * 1000;
 
             if (!FillImageListView(true))
                 timer.Enabled = true;
@@ -350,8 +355,6 @@ namespace Waveface.DetailUI
         private void timer_Tick(object sender, EventArgs e)
         {
             FillImageListView(false);
-
-            Application.DoEvents();
         }
 
         private bool FillImageListView(bool firstTime)
@@ -363,8 +366,6 @@ namespace Waveface.DetailUI
                 if (File.Exists(m_filePathMediums[i]))
                 {
                     _count++;
-
-                    continue;
                 }
             }
 
@@ -378,7 +379,7 @@ namespace Waveface.DetailUI
                 return false;
             }
 
-            if (_count == m_imageAttachments.Count) // _orig 
+            if (_count == m_imageAttachments.Count)
             {
                 timer.Enabled = false;
 
@@ -424,8 +425,6 @@ namespace Waveface.DetailUI
 
             imageListView.ResumeLayout();
 
-            Application.DoEvents();
-
             labelPictureInfo.Text = "[" + k + "/" + m_imageAttachments.Count + "]";
 
             if (k == m_imageAttachments.Count)
@@ -433,7 +432,12 @@ namespace Waveface.DetailUI
 
             ReLayout();
 
-            return (k == m_imageAttachments.Count);
+            bool _flag = (k == m_imageAttachments.Count);
+
+            if (_flag)
+                MyParent.CanEdit = true;
+
+            return _flag;
         }
 
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)

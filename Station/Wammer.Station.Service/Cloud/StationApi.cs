@@ -98,17 +98,30 @@ namespace Wammer.Cloud
 				CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
 		}
 
-		public static void SignOff(WebClient agent, string stationId, string sessionToken)
+		public static void SignOff(WebClient agent, string stationId, string sessionToken, string userID)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ CloudServer.PARAM_STATION_ID, stationId },
+				{ CloudServer.PARAM_SESSION_TOKEN, sessionToken },
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey },
+                { CloudServer.PARAM_USER_ID, userID }
+			};
+
+			CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters);
+		}
+
+        public static void SignOff(WebClient agent, string stationId, string sessionToken)
+        {
+            Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_STATION_ID, stationId },
 				{ CloudServer.PARAM_SESSION_TOKEN, sessionToken },
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
 			};
 
-			CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters);
-		}
+            CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters);
+        }
 
 		public void Offline(WebClient agent)
 		{

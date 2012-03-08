@@ -33,7 +33,7 @@ namespace Waveface
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommentPopupPanel));
             this.buttonAddComment = new Waveface.Component.XPButton();
-            this.textBoxComment = new WaterMarkRichTextBox();
+            this.textBoxComment = new Waveface.Component.RichEdit.WaterMarkRichTextBox();
             this.SuspendLayout();
             // 
             // buttonAddComment
@@ -51,6 +51,7 @@ namespace Waveface
             this.textBoxComment.Name = "textBoxComment";
             this.textBoxComment.WaterMarkColor = System.Drawing.Color.Silver;
             this.textBoxComment.WaterMarkText = "Water Mark";
+            this.textBoxComment.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxComment_KeyDown);
             // 
             // CommentPopupPanel
             // 

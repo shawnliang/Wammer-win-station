@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Waveface.Configuration;
 
 #endregion
 
@@ -10,7 +11,7 @@ namespace Waveface.DetailUI
 {
     public partial class SlideShowForm : Form
     {
-        //private FormSettings m_formSettings;
+        private FormSettings m_formSettings;
 
         private int m_index;
         private int m_displayCount; //Stores how many pictures are shown in SlideShow
@@ -19,7 +20,7 @@ namespace Waveface.DetailUI
 
         private bool m_isHidden;
         private DateTime m_lastMouseMove;
-        private bool m_loop;
+        private bool m_loop = true;
 
         private TimeSpan m_maxTimeToHide = TimeSpan.FromSeconds(2);
         private bool m_playing;
@@ -27,9 +28,12 @@ namespace Waveface.DetailUI
         private bool m_shuffle;
         private TimeSpan m_timeSpan;
 
+        private bool m_fast;
+        private bool m_medium = true;
+        private bool m_slow;
+
         #region Properties
 
-        //[PropertySetting(DefaultValue = false)]
         public bool Loop
         {
             get
@@ -39,10 +43,10 @@ namespace Waveface.DetailUI
             set
             {
                 m_loop = value;
+                loopToolStripMenuItem.Checked = value;
             }
         }
 
-        //[PropertySetting(DefaultValue = false)]
         public bool Shuffle
         {
             get
@@ -52,6 +56,37 @@ namespace Waveface.DetailUI
             set
             {
                 m_shuffle = value;
+                shuffleToolStripMenuItem.Checked = value;
+            }
+        }
+
+        public bool Fast
+        {
+            get { return m_fast; }
+            set
+            {
+                m_fast = value;
+                fastToolStripMenuItem.Checked = value;
+            }
+        }
+
+        public bool Medium
+        {
+            get { return m_medium; }
+            set
+            {
+                m_medium = value;
+                mediumToolStripMenuItem.Checked = value;
+            }
+        }
+
+        public bool Slow
+        {
+            get { return m_slow; }
+            set
+            {
+                m_slow = value;
+                slowToolStripMenuItem.Checked = value;
             }
         }
 
@@ -61,9 +96,13 @@ namespace Waveface.DetailUI
         {
             InitializeComponent();
 
-            //m_formSettings = new FormSettings(this);
-            //m_formSettings.UseSize = false;
-            //m_formSettings.SaveOnClose = true;
+            m_formSettings = new FormSettings(this);
+            m_formSettings.UseSize = false;
+            m_formSettings.Settings.Add(new PropertySetting("Loop", this, "Loop", true));
+            m_formSettings.Settings.Add(new PropertySetting("Shuffle", this, "Shuffle", false));
+            m_formSettings.Settings.Add(new PropertySetting("Fast", this, "Fast", false));
+            m_formSettings.Settings.Add(new PropertySetting("Medium", this, "Medium", true));
+            m_formSettings.Settings.Add(new PropertySetting("Slow", this, "Slow", false));
 
             m_imageFilesPath = imageFilesPath;
             m_fileCount = m_imageFilesPath.Count;
@@ -76,7 +115,7 @@ namespace Waveface.DetailUI
             //Form enters fullscreen
             FormBorderStyle = FormBorderStyle.None;
             Bounds = Screen.PrimaryScreen.Bounds;
-            //TopMost = true;
+            TopMost = true;
 
             //Height of picturebox becomes equal to that of form
             pictureBox.Height = Height;
@@ -194,27 +233,28 @@ namespace Waveface.DetailUI
         {
             timer.Interval = 2000;
 
-            fastToolStripMenuItem.Checked = true;
-            mediumToolStripMenuItem.Checked = false;
-            slowToolStripMenuItem.Checked = false;
+            setSpeedValue(true, false, false);
         }
 
         private void mediumToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Interval = 4000;
 
-            fastToolStripMenuItem.Checked = false;
-            mediumToolStripMenuItem.Checked = true;
-            slowToolStripMenuItem.Checked = false;
+            setSpeedValue(false, true, false);
         }
 
         private void slowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Interval = 6000;
 
-            fastToolStripMenuItem.Checked = false;
-            mediumToolStripMenuItem.Checked = false;
-            slowToolStripMenuItem.Checked = true;
+            setSpeedValue(false, false, true);
+        }
+
+        private void setSpeedValue(bool fast, bool medium, bool slow)
+        {
+            m_fast = fastToolStripMenuItem.Checked = fast;
+            m_medium = mediumToolStripMenuItem.Checked = medium;
+            m_slow = slowToolStripMenuItem.Checked = slow;
         }
 
         private void nextToolStripMenuItem_Click(object sender, EventArgs e)
@@ -294,7 +334,7 @@ namespace Waveface.DetailUI
 
         private void SlideShowForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //m_formSettings.Save();
+            m_formSettings.Save();
         }
     }
 }

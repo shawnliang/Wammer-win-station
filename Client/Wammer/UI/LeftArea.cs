@@ -1,10 +1,14 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using CustomControls;
 using NLog;
+using Waveface.API.V2;
+using Waveface.FilterUI;
 using Waveface.Properties;
 using MonthCalendar = CustomControls.MonthCalendar;
 
@@ -16,8 +20,8 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        // private FilterManager m_filterManager;
-        // private Button m_buttonAddNewFilter;
+        private FilterManager m_filterManager;
+        private Button m_buttonAddNewFilter;
         private string m_dropAreaMessage;
         private Image m_dropAreaImage;
         private Font m_font = new Font("Arial", 10, FontStyle.Bold);
@@ -54,10 +58,11 @@ namespace Waveface
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
             pbDropArea.AllowDrop = true;
 
-            // taskPaneFilter.UseCustomTheme("panther.dll");
-            // taskPaneFilter.UseClassicTheme();
-
             m_dropAreaImage = new Bitmap(150, 138);
+
+            InitDefaultFilters();
+
+            InitAddNewButton();
         }
 
         public void SetNewPostManager()
@@ -69,7 +74,6 @@ namespace Waveface
             Main.Current.NewPostManager.OverQuotaMissDialog += OverQuotaMissDialog;
         }
 
-        /*
         #region CustomizedFilters
 
         private void AddNewItem_Click(object sender, EventArgs e)
@@ -83,63 +87,70 @@ namespace Waveface
 
         public void FillCustomizedFilters()
         {
-            expandoQuicklist.Items.Clear();
-
-            // --
             List<Fetch_Filter> _filters = FilterHelper.GetList();
 
             if (_filters != null)
             {
+                tvCustomFilter.SuspendLayout();
+
+                tvCustomFilter.Nodes.Clear();
+
                 foreach (Fetch_Filter _f in _filters)
                 {
                     FilterItem _item = new FilterItem();
                     _item.Name = _f.filter_name;
                     _item.Filter = _f.filter_entity.ToString();
 
-                    TaskItem _taskItem = CreateTaskItem(_item, true);
-                    _taskItem.ImageList = imageListCustomFilter;
-                    _taskItem.ImageIndex = 1;
+                    TreeNode _treeNode = new TreeNode();
+                    _treeNode.Text = _item.Name;
+                    _treeNode.Tag = _item;
 
-                    expandoQuicklist.Items.Add(_taskItem);
+                    _treeNode.ImageIndex = 0;
+                    _treeNode.SelectedImageIndex = 0;
+
+                    tvCustomFilter.Nodes.Add(_treeNode);
                 }
-            }
 
-            // --
+                ResumeLayout();
+            }
+        }
+
+        private void InitAddNewButton()
+        {
             m_buttonAddNewFilter = new Button();
             m_buttonAddNewFilter.Text = "Add New Filter";
             m_buttonAddNewFilter.Click += AddNewItem_Click;
-            m_buttonAddNewFilter.Width = expandoQuicklist.Width - 16;
+            m_buttonAddNewFilter.Width = panelCustomFilter.Width - 16;
 
-            expandoQuicklist.Items.Add(m_buttonAddNewFilter);
-        }
-
-        private void taskPaneFilter_Resize(object sender, EventArgs e)
-        {
-            if (m_buttonAddNewFilter != null)
-                m_buttonAddNewFilter.Width = expandoQuicklist.Width - 16;
+            panelCustomFilter.Controls.Add(m_buttonAddNewFilter);
         }
 
         #endregion
 
         #region Timeline
 
-        private void resetAllTaskItemForeColor()
+        private void InitDefaultFilters()
         {
-            foreach (Control _control in expandoQuicklist.Items)
-            {
-                if (_control is TaskItem)
-                    ((TaskItem)_control).CustomSettings.LinkColor = SystemColors.HotTrack;
-            }
+            InitAllAndPostTypeFilters();
+            InitMonthFilters();
         }
 
-        public void initTimeline()
+        private void InitAllAndPostTypeFilters()
         {
-            DateTime _beginDay = new DateTime(2011, 11, 1); //@ 要改以註冊時間
+            // "all", "text", "image", "link", "rtf", "doc"
+
+            AddTimelineTreeNode(FilterHelper.CreateAllPostFilterItemByPostType("全部", "all"));
+            AddTimelineTreeNode(FilterHelper.CreateAllPostFilterItemByPostType("文字", "text"));
+            AddTimelineTreeNode(FilterHelper.CreateAllPostFilterItemByPostType("照片", "image"));
+            AddTimelineTreeNode(FilterHelper.CreateAllPostFilterItemByPostType("網頁", "link"));
+        }
+
+        private void InitMonthFilters()
+        {
+            DateTime _beginDay = new DateTime(2012, 1, 1); //@ 要改以註冊時間
             DateTime _endDay = DateTime.Now;
 
             IEnumerable<DateTime> _months = MonthsBetween(_beginDay, _endDay).Reverse();
-
-            List<FilterItem> _filterItems = new List<FilterItem>();
 
             foreach (DateTime _dt in _months)
             {
@@ -158,50 +169,23 @@ namespace Waveface
 
                 FilterItem _item = new FilterItem();
                 _item.Name = _m;
-                //_item.Filter = FilterHelper.GetTimeRangeFilterJson(_from, _to, -10, "[type]", "[offset]"); //@
-                _item.Filter = FilterHelper.GetTimeStampFilterJson(_to, -20, "[type]", "[offset]");
+                _item.Filter = FilterHelper.GetTimeRangeFilterJson(_from, _to, -100, "all", "[offset]");
+                //_item.Filter = FilterHelper.GetTimeStampFilterJson(_to, -20, "all", "[offset]");
 
-                _filterItems.Add(_item);
+                AddTimelineTreeNode(_item);
             }
         }
 
-        private TaskItem CreateTaskItem(FilterItem item, bool isCustom)
+        private void AddTimelineTreeNode(FilterItem _item)
         {
-            TaskItem _taskItem = new TaskItem();
-            _taskItem.CustomSettings.LinkColor = SystemColors.HotTrack;
-            _taskItem.Text = item.Name;
-            _taskItem.Tag = item;
+            TreeNode _treeNode = new TreeNode();
+            _treeNode.Text = _item.Name;
+            _treeNode.Tag = _item;
 
-            if (isCustom)
-                _taskItem.Click += CustomFilterTaskItem_Click;
-            else
-                _taskItem.Click += FilterlinkLabel_Click;
+            _treeNode.ImageIndex = 1;
+            _treeNode.SelectedImageIndex = 1;
 
-            return _taskItem;
-        }
-
-        private void CustomFilterTaskItem_Click(object sender, EventArgs e)
-        {
-            resetAllTaskItemForeColor();
-
-            TaskItem _taskItem = (TaskItem)sender;
-            _taskItem.CustomSettings.LinkColor = Color.DarkOrange;
-
-            FilterItem _item = (FilterItem)_taskItem.Tag;
-
-            Main.Current.DoTimelineFilter(_item, false);
-        }
-
-        private void FilterlinkLabel_Click(object sender, EventArgs e)
-        {
-            resetAllTaskItemForeColor();
-
-            TaskItem _taskItem = (TaskItem)sender;
-            _taskItem.CustomSettings.LinkColor = Color.DarkOrange;
-
-            FilterItem _item = (FilterItem)_taskItem.Tag;
-
-            Main.Current.DoTimelineFilter(_item, true);
+            tvTimeline.Nodes.Add(_treeNode);
         }
 
         private IEnumerable<DateTime> MonthsBetween(DateTime d0, DateTime d1)
@@ -218,7 +202,6 @@ namespace Waveface
         }
 
         #endregion
-        */
 
         #region Group
 
@@ -283,7 +266,9 @@ namespace Waveface
 
         public void SetUI(bool flag)
         {
-            //taskPaneFilter.Visible = flag;
+            panelFilter.Visible = flag;
+
+            FillCustomizedFilters();
         }
 
         private void monthCalendar_DateClicked(object sender, DateEventArgs e)
@@ -375,7 +360,7 @@ namespace Waveface
             else
             {
                 Main.Current.ShowFileMissDialog(text);
-            }            
+            }
         }
 
         void OverQuotaMissDialog(string text)
@@ -389,7 +374,7 @@ namespace Waveface
             else
             {
                 Main.Current.OverQuotaMissDialog(text);
-            }            
+            }
         }
 
         private void UploadDone(string text)
@@ -467,8 +452,6 @@ namespace Waveface
             m_dragDropClipboardHelper.Drag_Over(e);
         }
 
-        #endregion
-
         private void pbDropArea_Click(object sender, EventArgs e)
         {
             if (!Main.Current.CheckNetworkStatus())
@@ -476,6 +459,34 @@ namespace Waveface
 
             DropAreaInforForm _inforForm = new DropAreaInforForm();
             _inforForm.ShowDialog();
+        }
+
+        #endregion
+
+        private void LeftArea_Resize(object sender, EventArgs e)
+        {
+            if (m_buttonAddNewFilter != null)
+                m_buttonAddNewFilter.Width = Width - 8;
+        }
+
+        private void tvTimeline_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Action == TreeViewAction.ByMouse)
+            {
+                FilterItem _item = (FilterItem)e.Node.Tag;
+
+                Main.Current.DoTimelineFilter(_item, true);
+            }
+        }
+
+        private void tvCustomFilter_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Action == TreeViewAction.ByMouse)
+            {
+                FilterItem _item = (FilterItem)e.Node.Tag;
+
+                Main.Current.DoTimelineFilter(_item, false);
+            }
         }
     }
 }

@@ -18,9 +18,6 @@ namespace Waveface
 
         #region System
 
-        //private string RUN_TIME_FILE = "Waveface RunTime.dat";
-        //private string LAST_READ_FILE = "Waveface Read.dat";
-
         private RT_REST m_rest;
         public MR_auth_login Login { get; set; }
 

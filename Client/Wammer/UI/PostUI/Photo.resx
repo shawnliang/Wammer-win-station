@@ -196,7 +196,7 @@
     <value>2, 2</value>
   </data>
   <data name="imageListView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>603, 338</value>
+    <value>603, 334</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="imageListView.TabIndex" type="System.Int32, mscorlib">
@@ -216,6 +216,36 @@
   </data>
   <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
+  </data>
+  <data name="labelSummary.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="labelSummary.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
+  </data>
+  <data name="labelSummary.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelSummary.Location" type="System.Drawing.Point, System.Drawing">
+    <value>110, 9</value>
+  </data>
+  <data name="labelSummary.Size" type="System.Drawing.Size, System.Drawing">
+    <value>400, 16</value>
+  </data>
+  <data name="labelSummary.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.Name" xml:space="preserve">
+    <value>labelSummary</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.Parent" xml:space="preserve">
+    <value>panelToolbar</value>
+  </data>
+  <data name="&gt;&gt;labelSummary.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="btnDeletePhoto.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -257,7 +287,7 @@
     <value>panelToolbar</value>
   </data>
   <data name="&gt;&gt;btnDeletePhoto.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="btnAddPhoto.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -290,10 +320,10 @@
     <value>panelToolbar</value>
   </data>
   <data name="&gt;&gt;btnAddPhoto.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="panelToolbar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 343</value>
+    <value>2, 339</value>
   </data>
   <data name="panelToolbar.Size" type="System.Drawing.Size, System.Drawing">
     <value>602, 31</value>
@@ -317,7 +347,7 @@
     <value>6, 0</value>
   </data>
   <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>606, 377</value>
+    <value>606, 373</value>
   </data>
   <data name="panel.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -576,7 +606,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;toolStrip.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>112, 17</value>
@@ -609,7 +639,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>538, 380</value>
+    <value>538, 381</value>
   </data>
   <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -642,7 +672,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnBatchPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>458, 380</value>
+    <value>458, 381</value>
   </data>
   <data name="btnBatchPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>

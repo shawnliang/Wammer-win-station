@@ -48,12 +48,12 @@
             this.comboBox_TS_PN = new System.Windows.Forms.ComboBox();
             this.numericUpDown_TS_Limit = new System.Windows.Forms.NumericUpDown();
             this.datePicker_TS_Time = new CustomControls.DatePicker();
+            this.btnSaveUpdate = new Waveface.Component.XPButton();
             this.cmbType = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBoxName = new System.Windows.Forms.TextBox();
+            this.tbName = new System.Windows.Forms.TextBox();
             this.label = new System.Windows.Forms.Label();
-            this.btnSaveUpdate = new Waveface.Component.XPButton();
             this.panelLeft.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -135,7 +135,7 @@
             this.panelMain.Controls.Add(this.cmbType);
             this.panelMain.Controls.Add(this.label2);
             this.panelMain.Controls.Add(this.label1);
-            this.panelMain.Controls.Add(this.textBoxName);
+            this.panelMain.Controls.Add(this.tbName);
             this.panelMain.Controls.Add(this.label);
             this.panelMain.Location = new System.Drawing.Point(257, 8);
             this.panelMain.Name = "panelMain";
@@ -165,7 +165,7 @@
             // 
             this.datePicker_TR_To.Location = new System.Drawing.Point(62, 61);
             this.datePicker_TR_To.Name = "datePicker_TR_To";
-            this.datePicker_TR_To.PickerDayFont = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.datePicker_TR_To.PickerDayFont = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.datePicker_TR_To.Size = new System.Drawing.Size(114, 24);
             this.datePicker_TR_To.TabIndex = 1;
             this.datePicker_TR_To.Value = new System.DateTime(2011, 11, 11, 0, 0, 0, 0);
@@ -174,7 +174,7 @@
             // 
             this.datePicker_TR_From.Location = new System.Drawing.Point(62, 18);
             this.datePicker_TR_From.Name = "datePicker_TR_From";
-            this.datePicker_TR_From.PickerDayFont = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.datePicker_TR_From.PickerDayFont = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.datePicker_TR_From.Size = new System.Drawing.Size(114, 24);
             this.datePicker_TR_From.TabIndex = 0;
             this.datePicker_TR_From.Value = new System.DateTime(2011, 11, 11, 0, 0, 0, 0);
@@ -261,10 +261,26 @@
             // 
             this.datePicker_TS_Time.Location = new System.Drawing.Point(58, 17);
             this.datePicker_TS_Time.Name = "datePicker_TS_Time";
-            this.datePicker_TS_Time.PickerDayFont = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.datePicker_TS_Time.PickerDayFont = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.datePicker_TS_Time.Size = new System.Drawing.Size(114, 24);
             this.datePicker_TS_Time.TabIndex = 7;
             this.datePicker_TS_Time.Value = new System.DateTime(2011, 11, 11, 0, 0, 0, 0);
+            // 
+            // btnSaveUpdate
+            // 
+            this.btnSaveUpdate.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.btnSaveUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveUpdate.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnSaveUpdate.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnSaveUpdate.Image = global::Waveface.Properties.Resources.disk;
+            this.btnSaveUpdate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSaveUpdate.Location = new System.Drawing.Point(222, 224);
+            this.btnSaveUpdate.Name = "btnSaveUpdate";
+            this.btnSaveUpdate.Size = new System.Drawing.Size(74, 32);
+            this.btnSaveUpdate.TabIndex = 7;
+            this.btnSaveUpdate.Text = "Save";
+            this.btnSaveUpdate.UseVisualStyleBackColor = true;
+            this.btnSaveUpdate.Click += new System.EventHandler(this.btnSaveUpdate_Click);
             // 
             // cmbType
             // 
@@ -274,9 +290,7 @@
             "All",
             "Text",
             "Image",
-            "Web Link",
-            "Document",
-            "Rich Text"});
+            "Web Link"});
             this.cmbType.Location = new System.Drawing.Point(77, 188);
             this.cmbType.Name = "cmbType";
             this.cmbType.Size = new System.Drawing.Size(79, 22);
@@ -300,12 +314,12 @@
             this.label1.Text = "Condition:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBoxName
+            // tbName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(73, 13);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(227, 22);
-            this.textBoxName.TabIndex = 1;
+            this.tbName.Location = new System.Drawing.Point(73, 13);
+            this.tbName.Name = "tbName";
+            this.tbName.Size = new System.Drawing.Size(227, 22);
+            this.tbName.TabIndex = 1;
             // 
             // label
             // 
@@ -315,22 +329,6 @@
             this.label.TabIndex = 0;
             this.label.Text = "Name:";
             this.label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // btnSaveUpdate
-            // 
-            this.btnSaveUpdate.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnSaveUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveUpdate.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnSaveUpdate.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSaveUpdate.Image = global::Waveface.Properties.Resources.disk;
-            this.btnSaveUpdate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaveUpdate.Location = new System.Drawing.Point(222, 224);
-            this.btnSaveUpdate.Name = "btnSaveUpdate";
-            this.btnSaveUpdate.Size = new System.Drawing.Size(74, 32);
-            this.btnSaveUpdate.TabIndex = 7;
-            this.btnSaveUpdate.Text = "Save";
-            this.btnSaveUpdate.UseVisualStyleBackColor = true;
-            this.btnSaveUpdate.Click += new System.EventHandler(this.btnSaveUpdate_Click);
             // 
             // FilterManager
             // 
@@ -368,7 +366,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ListView listViewFiles;
         private System.Windows.Forms.Panel panelMain;
-        private System.Windows.Forms.TextBox textBoxName;
+        private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.Label label;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbType;

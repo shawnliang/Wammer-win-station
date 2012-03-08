@@ -6,7 +6,7 @@
   <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
   <?define AppVersionMajor = "1" ?>
   <?define AppVersionMinor = "0" ?>
-  <?define AppVersionPatch = "2" ?>
+  <?define AppVersionPatch = "3" ?>
   <?define AppVersionBuild = "0" ?>
   <?define AppVersion = "$(var.AppVersionMajor).$(var.AppVersionMinor).$(var.AppVersionPatch).$(var.AppVersionBuild)" ?>
   <?define AppManufacturer = "Waveface" ?>
@@ -99,24 +99,12 @@
           <Component Id="pmd" Guid="{60fa9a1b-662a-43df-a97b-d7667e79cb19}">
             <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
             <RemoveFolder Id="ProgramMenuDirRF" On="uninstall" />
-            <Shortcut Id="ProgMenu.Shortcut.StationUI" Name="!(loc.SHORTCUT.STARTWAVEFACE.STATION)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationUI.exe"/>
-            <Shortcut Id="ProgMenu.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
-            <Shortcut Id="Desktop.Shortcut.Client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
+            <Shortcut Id="ProgMenu.Shortcut.Waveface" Name="!(loc.APPNAME)"
+                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe"/>
+            <Shortcut Id="Desktop.Shortcut.Waveface" Name="!(loc.APPNAME)"
+                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe" Directory="DesktopFolder"/>
           </Component>
-
-          <!-- for client only client -->
-          <Component Id="pmd_client" Guid="{C2757ED7-6129-4A3C-A21A-B577DDAED7CF}">
-            <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
-            <RemoveFolder Id="ProgramMenuDirRF_client" On="uninstall" />
-            <Shortcut Id="ProgMenu.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe"/>
-            <Shortcut Id="Desktop.Shortcut.Client_client" Name="!(loc.SHORTCUT.STARTWAVEFACE.CLIENT)"
-                  WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WavefaceWindowsClient.exe" Directory="DesktopFolder"/>
-          </Component>
-          
+         
         </Directory>
       </Directory>
       <Directory Id="DesktopFolder" Name="Desktop" />
@@ -125,7 +113,7 @@
     <DirectoryRef Id="TARGETDIR">
       <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
         <RegistryKey Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Run">
-          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationUI.exe"' KeyPath='yes'/>
+          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]StationSystemTray.exe" --minimized' KeyPath='yes'/>
         </RegistryKey>
       </Component> 
       <!-- Compatibility Mode -->
@@ -182,8 +170,6 @@
       <ComponentRef Id="log4net.dll"/>
       <ComponentRef Id="MongoDB.Bson.dll"/>
       <ComponentRef Id="MongoDB.Driver.dll"/>
-      <ComponentRef Id="StationUI.exe"/>
-      <ComponentRef Id="StationUI.resources.dll"/>
       <ComponentRef Id="StationSystemTray.exe"/>
       <ComponentRef Id="StationSystemTray.exe.config"/>
       <ComponentRef Id="StationSystemTray.resources.dll"/>
@@ -196,6 +182,8 @@
     </ComponentGroup>
 
     <ComponentGroup Id="Wammer.Client">
+      <ComponentRef Id="AppLimit.NetSparkle.dll"/>
+      <ComponentRef Id="AppLimit.NetSparkle.resources.dll"/>
       <ComponentRef Id="AxInterop.SHDocVw.dll"/>
       <ComponentRef Id="DropableNotifyIcon.dll"/>
       <ComponentRef Id="HTML2XHTML.dll"/>
@@ -253,9 +241,6 @@
         <File Id="Station.Management.exe" Source="$(var.Wammer.Station.Management.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Guid="*">
-        <File Id="StationUI.exe" Source="$(var.StationUI.TargetPath)" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Guid="*">
         <File Id="StationSystemTray.exe" Source="$(var.StationSystemTray.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Guid="*">
@@ -275,6 +260,9 @@
       </Component>
       
       <!-- client files -->
+      <Component Guid="*">
+        <File Id="AppLimit.NetSparkle.dll" Source="$(var.Wammer.TargetDir)\AppLimit.NetSparkle.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="AxInterop.SHDocVw.dll" Guid="{345D9FC1-4BF7-43E0-883F-F94AAD20D530}">
         <File Id="AxInterop.SHDocVw.dll" Source="$(var.Wammer.TargetDir)\AxInterop.SHDocVw.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -340,7 +328,7 @@
     <!-- localization resources -->
     <DirectoryRef Id="zh_TW">
       <Component Guid="*">
-        <File Id="StationUI.resources.dll" Source="$(var.StationUI.TargetDir)\zh-TW\StationUI.resources.dll" KeyPath="yes" Checksum="yes"/>
+        <File Id="AppLimit.NetSparkle.resources.dll" Source="$(var.Wammer.TargetDir)\zh-TW/AppLimit.NetSparkle.resources.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Guid="*">
         <File Id="StationSystemTray.resources.dll" Source="$(var.StationSystemTray.TargetDir)\zh-TW\StationSystemTray.resources.dll" KeyPath="yes" Checksum="yes"/>
@@ -396,7 +384,6 @@
     
     <Feature Id='ClientFeature' Level='100' Title='Waveface client only'>
       <ComponentGroupRef Id='Wammer.Client'/>
-      <ComponentRef Id="pmd_client"/>
       <ComponentRef Id="CultureSetting"/>
     </Feature>
 

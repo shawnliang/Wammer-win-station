@@ -28,71 +28,53 @@ namespace Wammer.Station
 			string email = Parameters["email"];
 			string password = Parameters["password"];
 
-			Driver driver = DriverCollection.Instance.FindOne();
-			if (driver == null)
-			{
-				logger.Error("No driver detected");
-				
-				// function server should be stopped if driver's info is removed
-				logger.Debug("Try to stop function server");
-				functionServer.Stop();
-				stationTimer.Stop();
-
-				throw new ServiceUnavailableException("Station cannot work without driver", (int)StationApiError.InvalidDriver);
-			}
-
-			if (email != null && password != null && driver.email != email)
-			{
-				logger.Error("Invalid driver");
-				throw new WammerStationException("Invalid driver", (int)StationApiError.InvalidDriver);
-			}
-
-			StationInfo stationInfo = StationCollection.Instance.FindOne();
-			if (stationInfo == null)
-			{
-				logger.Error("Station has no info");
-				throw new InvalidOperationException("Station collection is empty");
-			}
-
 			try
 			{
-				logger.Debug("Start function server");
+				StationInfo stationInfo = StationCollection.Instance.FindOne();
+				if (stationInfo != null)
+				{
+					logger.DebugFormat("Station logon with stationId = {0}", stationInfo.Id);
 
+					StationLogOnResponse logonRes;
+					if (email != null && password != null)
+					{
+						using (WebClient agent = new WebClient())
+						{
+							Driver driver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
+							if (driver == null)
+							{
+								throw new InvalidOperationException("User is not registered to this station");
+							}
+
+							// station.logon must be called before user.login to handle non-existing driver case
+							logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password, StatusChecker.GetDetail());
+
+							User user = User.LogIn(agent, email, password);
+
+							// update user's session token
+							driver.session_token = user.Token;
+							DriverCollection.Instance.Save(driver);
+						}
+					}
+					else
+					{
+						StationApi api = new StationApi(stationInfo.Id, stationInfo.SessionToken);
+						logonRes = api.LogOn(new WebClient(), StatusChecker.GetDetail());
+					}
+
+					// update session in DB
+					stationInfo.SessionToken = logonRes.session_token;
+					StationCollection.Instance.Save(stationInfo);
+
+					logger.Debug("Station logon successfully, disable block auth of function server");
+					functionServer.BlockAuth(false);
+				}
+
+				logger.Debug("Start function server");
 				functionServer.Start();
 				stationTimer.Start();
-
-				logger.DebugFormat("Station logon with stationId = {0}", stationInfo.Id);
-
-				StationLogOnResponse logonRes;
-
-				if (email != null && password != null)
-				{
-					using (WebClient agent = new WebClient())
-					{
-						// station.logon must be called before user.login to handle non-existing driver case
-						logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password, StatusChecker.GetDetail());
-
-						User user = User.LogIn(agent, email, password);
-
-						// update user's session token
-						driver.session_token = user.Token;
-						DriverCollection.Instance.Save(driver);
-					}
-				}
-				else
-				{
-					StationApi api = new StationApi(stationInfo.Id, stationInfo.SessionToken);
-					logonRes = api.LogOn(new WebClient(), StatusChecker.GetDetail());
-				}
-
-				// update session in DB
-				stationInfo.SessionToken = logonRes.session_token;
-				StationCollection.Instance.Save(stationInfo);
-				
-				logger.Debug("Station logon successfully, disable block auth of function server");
-				functionServer.BlockAuth(false);
-
 				logger.Debug("Start function server successfully");
+
 				RespondSuccess();
 			}
 			catch (WammerCloudException e)

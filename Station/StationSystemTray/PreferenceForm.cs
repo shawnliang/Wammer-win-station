@@ -329,7 +329,7 @@ namespace StationSystemTray
 
 		private void label_switchAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			DialogResult _confirm = MessageBox.Show(I18n.L.T("Main.ChangeOwnerWarning", lblUserName.Text), "Waveface",
+			DialogResult _confirm = MessageBox.Show(I18n.L.T("ChangeOwnerWarning", lblUserName.Text), "Waveface",
 												   MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
 			if (_confirm == DialogResult.No)
@@ -341,7 +341,7 @@ namespace StationSystemTray
 			{
 				StationController.RemoveOwner(m_stationToken);
 
-				MessageBox.Show(I18n.L.T("Main.ChangeOwnerSuccess", m_driver.email), "waveface");
+				MessageBox.Show(I18n.L.T("ChangeOwnerSuccess", m_driver.email), "waveface");
 
 				string statioinUI = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "StationUI.exe");
 				Process.Start(statioinUI);

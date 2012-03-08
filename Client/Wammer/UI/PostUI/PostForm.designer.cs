@@ -61,11 +61,11 @@ namespace Waveface
             this.document_UI = new Waveface.PostUI.Document();
             this.panelMiddleBar = new System.Windows.Forms.Panel();
             this.pictureBoxWaiting = new System.Windows.Forms.PictureBox();
-            this.labelPreviewMsg = new System.Windows.Forms.Label();
-            this.cbGenerateWebPreview = new System.Windows.Forms.CheckBox();
             this.panelToolbar = new System.Windows.Forms.Panel();
             this.btnAddDoc = new Waveface.Component.XPButton();
             this.btnSend = new Waveface.Component.XPButton();
+            this.labelPreviewMsg = new System.Windows.Forms.Label();
+            this.cbGenerateWebPreview = new System.Windows.Forms.CheckBox();
             this.panelText = new System.Windows.Forms.Panel();
             this.buttonRichText = new Waveface.Component.XPButton();
             this.pureTextBox = new Waveface.Component.RichEdit.RichTextEditor();
@@ -253,10 +253,10 @@ namespace Waveface
             // 
             this.panelMiddleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelMiddleBar.Controls.Add(this.pictureBoxWaiting);
-            this.panelMiddleBar.Controls.Add(this.labelPreviewMsg);
-            this.panelMiddleBar.Controls.Add(this.cbGenerateWebPreview);
             this.panelMiddleBar.Controls.Add(this.panelToolbar);
             this.panelMiddleBar.Controls.Add(this.btnSend);
+            this.panelMiddleBar.Controls.Add(this.labelPreviewMsg);
+            this.panelMiddleBar.Controls.Add(this.cbGenerateWebPreview);
             resources.ApplyResources(this.panelMiddleBar, "panelMiddleBar");
             this.panelMiddleBar.Name = "panelMiddleBar";
             // 
@@ -266,21 +266,6 @@ namespace Waveface
             resources.ApplyResources(this.pictureBoxWaiting, "pictureBoxWaiting");
             this.pictureBoxWaiting.Name = "pictureBoxWaiting";
             this.pictureBoxWaiting.TabStop = false;
-            // 
-            // labelPreviewMsg
-            // 
-            resources.ApplyResources(this.labelPreviewMsg, "labelPreviewMsg");
-            this.labelPreviewMsg.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.labelPreviewMsg.Name = "labelPreviewMsg";
-            // 
-            // cbGenerateWebPreview
-            // 
-            resources.ApplyResources(this.cbGenerateWebPreview, "cbGenerateWebPreview");
-            this.cbGenerateWebPreview.Checked = true;
-            this.cbGenerateWebPreview.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbGenerateWebPreview.Name = "cbGenerateWebPreview";
-            this.cbGenerateWebPreview.UseVisualStyleBackColor = true;
-            this.cbGenerateWebPreview.CheckedChanged += new System.EventHandler(this.cbGenerateWebPreview_CheckedChanged);
             // 
             // panelToolbar
             // 
@@ -310,6 +295,22 @@ namespace Waveface
             this.btnSend.Name = "btnSend";
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            // 
+            // labelPreviewMsg
+            // 
+            resources.ApplyResources(this.labelPreviewMsg, "labelPreviewMsg");
+            this.labelPreviewMsg.AutoEllipsis = true;
+            this.labelPreviewMsg.ForeColor = System.Drawing.Color.DimGray;
+            this.labelPreviewMsg.Name = "labelPreviewMsg";
+            // 
+            // cbGenerateWebPreview
+            // 
+            resources.ApplyResources(this.cbGenerateWebPreview, "cbGenerateWebPreview");
+            this.cbGenerateWebPreview.Checked = true;
+            this.cbGenerateWebPreview.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbGenerateWebPreview.Name = "cbGenerateWebPreview";
+            this.cbGenerateWebPreview.UseVisualStyleBackColor = true;
+            this.cbGenerateWebPreview.CheckedChanged += new System.EventHandler(this.cbGenerateWebPreview_CheckedChanged);
             // 
             // panelText
             // 

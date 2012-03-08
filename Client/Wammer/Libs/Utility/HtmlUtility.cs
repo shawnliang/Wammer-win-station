@@ -22,10 +22,24 @@ namespace Waveface
             return _bodyText;
         }
 
-        public static string MakeLink(string txt)
+        public static string MakeLink(string txt, List<string> clickableUrl)
         {
             Regex _r = new Regex(URL_RegExp_Pattern, RegexOptions.None);
-            return _r.Replace(txt, "<a href=\"$1\" target=\"&#95;blank\">$1</a>").Replace("href=\"www", "href=\"http://www");
+
+            MatchCollection _ms1 = _r.Matches(txt);
+
+            foreach (Match _m in _ms1)
+            {
+                if (!clickableUrl.Contains(_m.Value))
+                {
+                    clickableUrl.Add(_m.Value);
+                    clickableUrl.Add("http://" + _m.Value);
+                    clickableUrl.Add("https://" + _m.Value);
+                }
+            }
+
+            txt = _r.Replace(txt, "<a href=\"$1\" target=\"&#95;blank\">$1</a>");
+            return Regex.Replace(txt, "href=\"www", "href=\"http://www", RegexOptions.IgnoreCase);
         }
 
         public static string RemoveClassTag(string html)

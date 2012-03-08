@@ -1,10 +1,11 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Text;
-using System.Threading;
+using System.Text.RegularExpressions;
+using System.Web;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
@@ -17,20 +18,16 @@ namespace Waveface.DetailUI
     {
         private IContainer components;
         private Panel panelMain;
-        private AutoScrollPanel panelRight;
-        private WebBrowser webBrowserTop;
         private Post m_post;
-        private Panel panelWebBrowser;
-        private WebBrowser webBrowserSoul;
         private Localization.CultureManager cultureManager;
-        private ContextMenuStrip contextMenuStripTop;
-        private ToolStripMenuItem miCopyTop;
-        private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
         private WebBrowserContextMenuHandler m_soulBrowserContextMenuHandler;
-        private ContextMenuStrip contextMenuStripSoul;
+        private ContextMenuStrip contextMenuStrip;
         private ToolStripMenuItem miCopySoul;
         private bool m_showCancelledNavigationMessage;
+        private WebBrowser webBrowser;
         private bool m_addedLinkClickEventHandler;
+        private List<string> m_clickableURL;
+        private bool m_canOpenNewWindow;
 
         public Post Post
         {
@@ -43,7 +40,7 @@ namespace Waveface.DetailUI
                 m_post = value;
 
                 if (m_post != null)
-                    RefreshUI();
+                    SetHTML();
             }
         }
 
@@ -54,6 +51,8 @@ namespace Waveface.DetailUI
         public WebLink_DV()
         {
             InitializeComponent();
+
+            m_clickableURL = new List<string>();
         }
 
         protected override void Dispose(bool disposing)
@@ -82,157 +81,84 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebLink_DV));
             this.panelMain = new System.Windows.Forms.Panel();
+            this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripSoul = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopySoul = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelRight = new Waveface.Component.AutoScrollPanel();
-            this.panelWebBrowser = new System.Windows.Forms.Panel();
-            this.webBrowserSoul = new System.Windows.Forms.WebBrowser();
-            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.panelMain.SuspendLayout();
-            this.contextMenuStripTop.SuspendLayout();
-            this.contextMenuStripSoul.SuspendLayout();
-            this.panelRight.SuspendLayout();
-            this.panelWebBrowser.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
             // 
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.panelMain.Controls.Add(this.panelRight);
+            this.panelMain.Controls.Add(this.webBrowser);
             this.panelMain.Name = "panelMain";
+            // 
+            // webBrowser
+            // 
+            this.webBrowser.AllowWebBrowserDrop = false;
+            this.webBrowser.CausesValidation = false;
+            resources.ApplyResources(this.webBrowser, "webBrowser");
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 18);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.ScriptErrorsSuppressed = true;
+            this.webBrowser.WebBrowserShortcutsEnabled = false;
+            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
+            this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating);
+            this.webBrowser.NewWindow += new System.ComponentModel.CancelEventHandler(this.webBrowser_NewWindow);
             // 
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
             // 
-            // contextMenuStripTop
+            // contextMenuStrip
             // 
-            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopyTop});
-            this.contextMenuStripTop.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
-            // 
-            // miCopyTop
-            // 
-            this.miCopyTop.Name = "miCopyTop";
-            resources.ApplyResources(this.miCopyTop, "miCopyTop");
-            // 
-            // contextMenuStripSoul
-            // 
-            this.contextMenuStripSoul.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopySoul});
-            this.contextMenuStripSoul.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripSoul, "contextMenuStripSoul");
+            this.contextMenuStrip.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
             // miCopySoul
             // 
             this.miCopySoul.Name = "miCopySoul";
             resources.ApplyResources(this.miCopySoul, "miCopySoul");
             // 
-            // panelRight
-            // 
-            resources.ApplyResources(this.panelRight, "panelRight");
-            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.panelRight.Controls.Add(this.panelWebBrowser);
-            this.panelRight.Controls.Add(this.webBrowserTop);
-            this.panelRight.Name = "panelRight";
-            // 
-            // panelWebBrowser
-            // 
-            this.panelWebBrowser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.panelWebBrowser.Controls.Add(this.webBrowserSoul);
-            resources.ApplyResources(this.panelWebBrowser, "panelWebBrowser");
-            this.panelWebBrowser.Name = "panelWebBrowser";
-            // 
-            // webBrowserSoul
-            // 
-            resources.ApplyResources(this.webBrowserSoul, "webBrowserSoul");
-            this.webBrowserSoul.Name = "webBrowserSoul";
-            this.webBrowserSoul.ScriptErrorsSuppressed = true;
-            this.webBrowserSoul.ScrollBarsEnabled = false;
-            this.webBrowserSoul.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserSoul_DocumentCompleted);
-            this.webBrowserSoul.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserSoul_Navigating);
-            this.webBrowserSoul.NewWindow += new System.ComponentModel.CancelEventHandler(this.webBrowserSoul_NewWindow);
-            // 
-            // webBrowserTop
-            // 
-            this.webBrowserTop.AllowWebBrowserDrop = false;
-            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
-            this.webBrowserTop.Name = "webBrowserTop";
-            this.webBrowserTop.ScrollBarsEnabled = false;
-            this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
-            // 
             // WebLink_DV
             // 
             this.Controls.Add(this.panelMain);
             resources.ApplyResources(this, "$this");
             this.Name = "WebLink_DV";
-            this.Resize += new System.EventHandler(this.WebLink_DV_Resize);
             this.panelMain.ResumeLayout(false);
-            this.contextMenuStripTop.ResumeLayout(false);
-            this.contextMenuStripSoul.ResumeLayout(false);
-            this.panelRight.ResumeLayout(false);
-            this.panelWebBrowser.ResumeLayout(false);
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        /*
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+
+        private void SetHTML()
         {
-            switch (keyData)
-            {
-                case Keys.PageDown:
-                    panelRight.VerticalScroll.Value = panelRight.VerticalScroll.Value + 64;
-                    return true;
+            MyParent.CanEdit = true;
 
-                case Keys.PageUp:
-                    panelRight.VerticalScroll.Value = panelRight.VerticalScroll.Value - 64;
-                    return true;
-
-                case Keys.Down:
-                    panelRight.VerticalScroll.Value = panelRight.VerticalScroll.Value + 16;
-                    return true;
-
-                case Keys.Up:
-                    panelRight.VerticalScroll.Value = panelRight.VerticalScroll.Value - 16;
-                    return true;
-            }
-
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-        */
-
-        private void RefreshUI()
-        {
-            Set_MainContent_Preview_Part();
-            Set_Soul_Part();
-        }
-
-        private void Set_MainContent_Preview_Part()
-        {
             StringBuilder _sb = new StringBuilder();
 
             _sb.Append("<font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif' color='#eef'><p>[Text]</p></font>");
 
-            string _html = _sb.ToString();
+            string _htmlMainAndComment = _sb.ToString();
 
-            string _content = Post.content.Replace(Environment.NewLine, "<BR>");
+            string _content = HttpUtility.HtmlEncode(Post.content);
+            _content = _content.Replace(Environment.NewLine, "<BR>");
             _content = _content.Replace("\n", "<BR>");
             _content = _content.Replace("\r", "<BR>");
 
-            _html = _html.Replace("[Text]", _content);
+            _htmlMainAndComment = _htmlMainAndComment.Replace("[Text]", _content);
 
-            _html += MyParent.GenCommentHTML(Post);
+            _htmlMainAndComment += MyParent.GenCommentHTML(Post);
 
-            _html = HtmlUtility.MakeLink(_html);
+            _htmlMainAndComment = HtmlUtility.MakeLink(_htmlMainAndComment, m_clickableURL);
 
             if (Post.preview.url != null)
             {
@@ -251,145 +177,103 @@ namespace Waveface.DetailUI
 
                 _s.Append("</table>");
 
-                _html += _s.ToString();
+                _htmlMainAndComment += _s.ToString();
 
-                _html = _html.Replace("[PreviewPic]", _p.thumbnail_url);
-                _html = _html.Replace("[PriviewTitle]", _p.title);
-                _html = _html.Replace("[PriviewLink]", _p.url);
-                _html = _html.Replace("[PriviewLink2]", StringUtility.ExtractDomainNameFromURL(_p.url));
-                _html = _html.Replace("[PriviewText]", _p.description);
+                _htmlMainAndComment = _htmlMainAndComment.Replace("[PreviewPic]", _p.thumbnail_url);
+                _htmlMainAndComment = _htmlMainAndComment.Replace("[PriviewTitle]", _p.title);
+                _htmlMainAndComment = _htmlMainAndComment.Replace("[PriviewLink]", _p.url);
+                _htmlMainAndComment = _htmlMainAndComment.Replace("[PriviewLink2]", StringUtility.ExtractDomainNameFromURL(_p.url));
+                _htmlMainAndComment = _htmlMainAndComment.Replace("[PriviewText]", _p.description);
+
+                if (!m_clickableURL.Contains(_p.url))
+                {
+                    m_clickableURL.Add(_p.url);
+                }
             }
 
-            webBrowserTop.DocumentText = HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\">" + _html + "</body>");
-            Application.DoEvents();
-        }
-
-        private void Set_Soul_Part()
-        {
             string _minimaxJS = Properties.Resources.minmax;
             _minimaxJS = "<script type=\"text/javascript\">" + _minimaxJS + "</script>";
 
-            //string _wfPreviewWin = Properties.Resources.WFPreviewWin;
-            //_wfPreviewWin = "<style type=\"text/css\">" + _wfPreviewWin + "</style>";
+            string _wfPreviewWin = Properties.Resources.WFPreviewWin;
+            _wfPreviewWin = "<style type=\"text/css\">" + _wfPreviewWin + "</style>";
 
-            webBrowserSoul.Tag = false;
-
-            //webBrowserSoul.DocumentText = _minimaxJS + _wfPreviewWin + HtmlUtility.TrimScript("<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" + m_post.soul + "</font></body>");
-            webBrowserSoul.DocumentText = "<html>" + _minimaxJS +
-                                          "<style type=\"text/css\">img {max-width: 95%;} iframe {max-width: 95%;}</style>" +
+            webBrowser.DocumentText = "<html>" + _minimaxJS +
+                                          "<style type=\"text/css\">img {height: auto; max-width: 95%;}</style>" +
                                           "<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" +
-                                          HtmlUtility.TrimScript(m_post.soul) +
+                                          HtmlUtility.TrimScript(_htmlMainAndComment + m_post.soul) +
                                           "</font></body></html>";
-
-            //Hack
-            while (!((bool)webBrowserSoul.Tag))
-            {
-                Application.DoEvents();
-                Thread.Sleep(10);
-            }
         }
 
-        private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            m_topBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserTop, miCopyTop);
-            contextMenuStripTop.Opening += contextMenuStripTop_Opening;
-            miCopyTop.Click += m_topBrowserContextMenuHandler.CopyCtxMenuClickHandler;
-            webBrowserTop.Document.ContextMenuShowing += webBrowserTop_ContextMenuShowing;
-
-            ReLayout();
-        }
-
-        private void webBrowserSoul_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            webBrowserSoul.Tag = true;
-
-            //if (m_post.soul.Trim() != string.Empty)
-                panelWebBrowser.Visible = true;
-
             if (!m_addedLinkClickEventHandler)
             {
                 m_addedLinkClickEventHandler = true;
 
-                for (int i = 0; i < webBrowserSoul.Document.Links.Count; i++)
+                for (int i = 0; i < webBrowser.Document.Links.Count; i++)
                 {
-                    webBrowserSoul.Document.Links[i].Click += LinkClick;
+                    webBrowser.Document.Links[i].Click += LinkClick;
                 }
             }
 
-            m_soulBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowserSoul, miCopySoul);
-            contextMenuStripSoul.Opening += contextMenuStripSoul_Opening;
+            m_soulBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowser, miCopySoul);
+            contextMenuStrip.Opening += contextMenuStrip_Opening;
             miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
-            webBrowserSoul.Document.ContextMenuShowing += webBrowserSoul_ContextMenuShowing;
-
-            ReLayout();
-        }
-
-        private void WebLink_DV_Resize(object sender, EventArgs e)
-        {
-            ReLayout();
-        }
-
-        private void ReLayout()
-        {
-            if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
-            {
-                webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
-            }
-
-            if ((webBrowserSoul.Document != null) && (webBrowserSoul.Document.Body != null))
-            {
-                int _h = webBrowserSoul.Document.Body.ScrollRectangle.Height;
-
-                panelWebBrowser.Height = _h + 8;
-                webBrowserSoul.Height = _h;
-            }
+            webBrowser.Document.ContextMenuShowing += webBrowser_ContextMenuShowing;            
         }
 
         private void LinkClick(object sender, EventArgs e)
         {
+            string _text1 = string.Empty;
+            string _text2 = string.Empty;
+
+            string _text = ((HtmlElement)sender).OuterHtml;
+            Regex _r = new Regex(HtmlUtility.URL_RegExp_Pattern, RegexOptions.None);
+
+            MatchCollection _ms = _r.Matches(_text);
+
+            if (_ms.Count > 0)
+                _text1 = _ms[0].Value;
+
+            if (_ms.Count > 1)
+                _text2 = _ms[1].Value;
+
+            if (m_clickableURL.Contains(_text1) || m_clickableURL.Contains(_text2))
+                m_canOpenNewWindow = true;
+            else
+                m_canOpenNewWindow = false;
+
             m_showCancelledNavigationMessage = true;
 
             // MessageBox.Show("Link Was Clicked Navigation was Cancelled", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        private void webBrowserSoul_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        private void webBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             if (m_showCancelledNavigationMessage)
             {
                 e.Cancel = true;
+
                 m_showCancelledNavigationMessage = false;
             }
         }
 
-        private void webBrowserSoul_NewWindow(object sender, CancelEventArgs e)
+        private void webBrowser_NewWindow(object sender, CancelEventArgs e)
         {
-            e.Cancel = true;
+            if (!m_canOpenNewWindow)
+                e.Cancel = true;
         }
 
-        #region ContextMenu
-
-        void contextMenuStripTop_Opening(object sender, CancelEventArgs e)
-        {
-            m_topBrowserContextMenuHandler.UpdateButtons();
-        }
-
-        void webBrowserTop_ContextMenuShowing(object sender, HtmlElementEventArgs e)
-        {
-            contextMenuStripTop.Show(webBrowserTop.PointToScreen(e.MousePosition));
-            e.ReturnValue = false;
-        }
-
-        void contextMenuStripSoul_Opening(object sender, CancelEventArgs e)
+        void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             m_soulBrowserContextMenuHandler.UpdateButtons();
         }
 
-        void webBrowserSoul_ContextMenuShowing(object sender, HtmlElementEventArgs e)
+        void webBrowser_ContextMenuShowing(object sender, HtmlElementEventArgs e)
         {
-            contextMenuStripSoul.Show(webBrowserSoul.PointToScreen(e.MousePosition));
+            contextMenuStrip.Show(webBrowser.PointToScreen(e.MousePosition));
+
             e.ReturnValue = false;
         }
-
-        #endregion
     }
 }

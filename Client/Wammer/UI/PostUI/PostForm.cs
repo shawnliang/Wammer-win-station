@@ -29,15 +29,25 @@ namespace Waveface
         private FormattingRule m_linkFormattingRule;
         private FormSettings m_formSettings;
         private bool m_getPreviewNow;
+        private string m_lastPreviewURL = string.Empty;
+        
+        private bool m_editMode;
+        private Post m_post;
+        private Dictionary<string, string> m_oldImageFiles;
+        private Dictionary<string, string> m_fileNameMapping;
 
         public NewPostItem NewPostItem { get; set; }
 
-        public PostForm(List<string> files, PostType postType)
+        public PostForm(List<string> files, PostType postType, Post post, bool editMode)
         {
             InitializeComponent();
 
+            m_editMode = editMode;
+            m_post = post;
+            m_oldImageFiles = new Dictionary<string, string>();
+            m_fileNameMapping = new Dictionary<string, string>();
+
             m_formSettings = new FormSettings(this);
-            m_formSettings.UseSize = true;
             m_formSettings.UseLocation = true;
             m_formSettings.UseWindowState = true;
             m_formSettings.AllowMinimized = false;
@@ -54,6 +64,57 @@ namespace Waveface
 
             pureTextBox.WaterMarkText = I18n.L.T("PostForm.PuretextWaterMark");
 
+            if (m_editMode)
+            {
+                InitEditMode();
+            }
+            else
+            {
+                InitNewMode(files, postType);
+            }
+        }
+
+        private void InitEditMode()
+        {
+            List<string> _pics = new List<string>();
+
+            Text = "編輯貼文";
+
+            // Send/Edit Button Text
+            btnSend.Text = "更改";
+            weblink_UI.ChangeToEditModeUI(m_post);
+            photo_UI.ChangeToEditModeUI(m_post);
+
+
+            pureTextBox.Text = m_post.content;
+            CreateLink();
+
+            switch (m_post.type)
+            {
+                case "link":
+                    CheckWebPreview();
+                    break;
+                
+                case "image":
+                    {
+                        AttachmentUtility.GetAllMediumsPhotoPathsByPost(m_post, m_oldImageFiles, m_fileNameMapping);
+
+                        photo_UI.FileNameMapping = m_fileNameMapping;
+
+                        foreach (KeyValuePair<string, string> _imgPair in m_oldImageFiles)
+                        {
+                           _pics.Add(_imgPair.Value); 
+                        }
+                    }
+
+                    break;
+            }
+
+            ToSubControl(_pics, getPostType(m_post.type));
+        }
+
+        private void InitNewMode(List<string> files, PostType postType)
+        {
             ToSubControl(files, postType);
         }
 
@@ -66,11 +127,36 @@ namespace Waveface
                                                       _format);
         }
 
+        private PostType getPostType(string postType)
+        {
+            switch (postType)
+            {
+                case "text":
+                    return PostType.Text;
+
+                case "doc":
+                    return PostType.Document;
+
+                case "link":
+                    return PostType.Link;
+
+                case "image":
+                    return PostType.Photo;
+
+                case "rtf":
+
+                    return PostType.RichText;
+            }
+
+            return PostType.Text;
+        }
+
         private void ToSubControl(List<string> files, PostType postType)
         {
             switch (postType)
             {
                 case PostType.All:
+                case PostType.Text:
                     toPureText_Mode();
                     break;
 
@@ -88,10 +174,6 @@ namespace Waveface
 
                 case PostType.RichText:
                     toRichText_Mode();
-                    break;
-
-                case PostType.Text:
-                    toPureText_Mode();
                     break;
             }
 
@@ -185,8 +267,8 @@ namespace Waveface
 
             MaximizeBox = false;
 
-            m_fixHeight = 268;
-            Size = new Size(720, 268);
+            m_fixHeight = 272;
+            Size = new Size(760, 272);
 
             //pureTextBox.Focus();
         }
@@ -204,8 +286,8 @@ namespace Waveface
 
             MaximizeBox = false;
 
-            m_fixHeight = 464;
-            Size = new Size(720, 464);
+            m_fixHeight = 466;
+            Size = new Size(760, 466);
         }
 
         private void toPhoto_Mode(List<string> files)
@@ -221,7 +303,7 @@ namespace Waveface
 
             MaximizeBox = true;
 
-            Size = new Size(720, 530);
+            Size = new Size(760, 530);
 
             if (files == null)
             {
@@ -246,7 +328,7 @@ namespace Waveface
 
             MaximizeBox = true;
 
-            Size = new Size(720, 530);
+            Size = new Size(760, 530);
         }
 
         #endregion
@@ -269,7 +351,7 @@ namespace Waveface
             {
                 try
                 {
-                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(pureTextBox.Text, "", "", "text");
+                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(pureTextBox.Text), "", "", "text");
 
                     if (_np == null)
                     {
@@ -301,9 +383,6 @@ namespace Waveface
             FormattingInstructionCollection _instructions = new FormattingInstructionCollection();
 
             Format _format = new Format();
-            //_format.ForeColor = Color.Black;
-            //_format.Font = pureTextBox.Font;
-            //_format.UnderlineFormat = new UnderlineFormat(UnderlineStyle.None, UnderlineColor.Black);
             _instructions.Add(new FormattingInstruction(0, _contents.Length, _format));
 
             foreach (Match _match in m_linkFormattingRule.Regex.Matches(_contents))
@@ -377,6 +456,20 @@ namespace Waveface
             {
                 CheckWebPreview();
             }
+
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                if (pureTextBox.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
+                {
+                    e.SuppressKeyPress = true;
+                }
+                else if (pureTextBox.CanPaste(DataFormats.GetFormat(DataFormats.Text)))
+                {
+                    pureTextBox.Paste(DataFormats.GetFormat(DataFormats.Text));
+                    CheckWebPreview();
+                    e.SuppressKeyPress = true;
+                }
+            }
         }
 
         private void CheckWebPreview()
@@ -402,26 +495,43 @@ namespace Waveface
 
             foreach (string _url in m_parsedURLs)
             {
-                if (k > 0)
+                if (k > 0) //Only First Item
                     break;
 
                 k++;
+
+                if (_url == m_lastPreviewURL)
+                    break;
 
                 if (m_parsedErrorURLs.Contains(_url))
                     continue;
 
                 showIndicator(true, _url);
 
-                MR_previews_get_adv _mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
-                bool _isOK = (_mrPreviewsGetAdv != null) &&
-                             (_mrPreviewsGetAdv.preview != null) &&
-                             (_mrPreviewsGetAdv.preview.images != null);
+                bool _isOK;
+                MR_previews_get_adv _mrPreviewsGetAdv = null;
+
+                try
+                {
+                    _mrPreviewsGetAdv = Main.Current.RT.REST.Preview_GetAdvancedPreview(_url);
+
+                    _isOK = (_mrPreviewsGetAdv != null) &&
+                            (_mrPreviewsGetAdv.preview != null) &&
+                            (_mrPreviewsGetAdv.preview.images != null);
+                }
+                catch
+                {
+                    _isOK = false;
+                }
 
                 showIndicator(false, _url);
 
                 if (_isOK)
                 {
                     showWebLinkPreview(_mrPreviewsGetAdv);
+
+                    m_lastPreviewURL = _url;
+
                     break;
                 }
                 else
@@ -429,7 +539,7 @@ namespace Waveface
                     if (!m_parsedErrorURLs.Contains(_url))
                         m_parsedErrorURLs.Add(_url);
 
-                    showPreviewMessage("無法取得網站預覽: [" + _url + "]", false, 5000);
+                    showPreviewMessage(I18n.L.T("PostForm.NoWebPreview") + " " + _url, false, 5000);
                 }
             }
 
@@ -464,7 +574,7 @@ namespace Waveface
                 if (flag)
                 {
                     Cursor = Cursors.WaitCursor;
-                    showPreviewMessage("取得網站預覽: [" + url + "]", true, 0);
+                    showPreviewMessage(I18n.L.T("PostForm.GetWebPreview") + " " + url, true, 0);
                 }
                 else
                 {

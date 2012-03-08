@@ -13,6 +13,12 @@ namespace Waveface
 {
     public class StringUtility
     {
+        public static string RichTextBox_ReplaceNewline(string text)
+        {
+            return text.Replace("\r", Environment.NewLine);
+        }
+
+
         public static string ExtractDomainNameFromURL(string Url)
         {
             if (!Url.Contains("://"))

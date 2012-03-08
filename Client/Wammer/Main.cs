@@ -13,7 +13,6 @@ using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Component.PopupControl;
-using Waveface.Component;
 using Waveface.Component.DropableNotifyIcon;
 using Waveface.Configuration;
 using Waveface.FilterUI;
@@ -38,8 +37,6 @@ namespace Waveface
         //Main
         public SettingForm m_setting;
 
-        private ProgramSetting m_settings = new ProgramSetting();
-
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private VirtualFolderForm m_virtualFolderForm;
         private MyTaskbarNotifier m_taskbarNotifier;
@@ -47,7 +44,7 @@ namespace Waveface
         private Popup m_trayIconPopup;
         private TrayIconPanel m_trayIconPanel;
 
-        private bool m_process401Exception;
+        private bool m_forceLogout;
         private bool m_canAutoFetchNewestPosts = true;
         private bool m_manualRefresh;
         private ShowTimelineIndexType m_showTimelineIndexType;
@@ -69,7 +66,8 @@ namespace Waveface
         private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
         private NewPostManager m_newPostManager;
         private StationState m_stationState;
-        private Post m_loadingAllPhotosPost;
+        private AppLimit.NetSparkle.Sparkle m_autoUpdator;
+        private bool m_getAllDataError;
 
         #endregion
 
@@ -160,8 +158,6 @@ namespace Waveface
 
             InitializeComponent();
 
-            postsArea.PostsList.DetailView = detailView;
-
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
             //initVirtualFolderForm();
@@ -175,7 +171,10 @@ namespace Waveface
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
 
-            System.Net.ServicePointManager.DefaultConnectionLimit = 64;
+            //System.Net.ServicePointManager.DefaultConnectionLimit = 64;
+
+            m_autoUpdator = new AppLimit.NetSparkle.Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
+            m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
 
             s_logger.Trace("Constructor: OK");
         }
@@ -184,6 +183,8 @@ namespace Waveface
 
         private void Form_Load(object sender, EventArgs e)
         {
+            postsArea.PostsList.DetailView = detailView;
+
             NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 
             UpdateNetworkStatus();
@@ -311,7 +312,27 @@ namespace Waveface
                 MessageBox.Show(I18n.L.T("Station401Exception"), "Waveface", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
-                m_process401Exception = true;
+                m_forceLogout = true;
+                QuitOption = QuitOption.Logout;
+
+                Close();
+            }
+        }
+
+        public void ForceLogout()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { ForceLogout(); }
+                           ));
+            }
+            else
+            {
+                MessageBox.Show(I18n.L.T("ForceLogout"), "Waveface", MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
+
+                m_forceLogout = true;
                 QuitOption = QuitOption.Logout;
 
                 Close();
@@ -329,16 +350,17 @@ namespace Waveface
             if (m_virtualFolderForm != null)
                 m_virtualFolderForm.Close();
 
-            if (!m_process401Exception)
+            if (!m_forceLogout)
                 SetLastReadPos();
 
             SaveRunTime();
             NewPostManager.Save();
-            m_settings.Save();
         }
 
         public void Logout()
         {
+            Program.ShowCrashReporter = false;
+
             QuitOption = QuitOption.Logout;
 
             try
@@ -379,7 +401,7 @@ namespace Waveface
             if (!Current.CheckNetworkStatus())
                 return;
 
-            m_setting = new SettingForm();
+            m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
 
             m_setting = null;
@@ -551,7 +573,7 @@ namespace Waveface
             if (online)
                 RT.Reset();
 
-            m_process401Exception = false;
+            m_forceLogout = false;
 
             WService.StationIP = "";
 
@@ -594,8 +616,6 @@ namespace Waveface
 
             RT.Login = _login;
 
-            m_settings.Email = email;
-            m_settings.EncryptedPassword = password;
 
             getGroupAndUser();
             fillUserInformation();
@@ -605,7 +625,6 @@ namespace Waveface
 
             StartBgThreads();
 
-            leftArea.SetUI(true);
             leftArea.SetNewPostManager();
 
             postsArea.showRefreshUI(true);
@@ -642,11 +661,13 @@ namespace Waveface
                     case ConnectServiceStateType.NetworkDisconnected:
                     case ConnectServiceStateType.Cloud:
                         StatusLabelServiceStatus.Image = Resources.Cloud;
+                        StatusLabelServiceStatus.Text = "Cloud";
                         break;
 
                     case ConnectServiceStateType.Station_LocalIP:
                     case ConnectServiceStateType.Station_UPnP:
                         StatusLabelServiceStatus.Image = Resources.Station;
+                        StatusLabelServiceStatus.Text = "Station";
                         break;
                 }
 
@@ -718,17 +739,21 @@ namespace Waveface
 
         public void FilterReadMorePost()
         {
+            FilterFetchPostsAndShow(false);
         }
 
         private void FilterFetchPostsAndShow(bool firstTime)
         {
-            if (RT.FilterPostsAllCount == RT.FilterPosts.Count)
+            if ((RT.FilterPostsAllCount != 0) && (RT.FilterPostsAllCount == RT.FilterPosts.Count))
                 return;
 
             int _offset = RT.FilterPosts.Count;
 
             string _filter = RT.CurrentFilterItem.Filter;
-            _filter = _filter.Replace("[type]", postsArea.GetPostType());
+
+            if (RT.CurrentFilterItem.DynamicNow)
+                _filter = FilterHelper.GetAllPostFilterStringByPostType(_filter);
+
             _filter = _filter.Replace("[offset]", _offset.ToString());
 
             Cursor = Cursors.WaitCursor;
@@ -762,7 +787,7 @@ namespace Waveface
 
             setCalendarBoldedDates(_posts);
 
-            postsArea.ShowPostInfo(RT.FilterPostsAllCount, _posts.Count);
+            postsArea.ShowPostInfor(RT.FilterPostsAllCount, _posts.Count);
 
             postsArea.PostsList.SetFilterPosts(_posts, refreshCurrentPost, RT.IsFilterFirstTimeGetData);
         }
@@ -946,6 +971,9 @@ namespace Waveface
 
                 setCalendarBoldedDates(_posts);
 
+                postsArea.ShowPostInforPanel(false);
+                leftArea.SetUI(true);
+
                 int _index = RT.GetMyTimelinePosition(showTimelineIndexType);
 
                 s_logger.Info("ShowAllTimeline: showTimelineIndexType=" + showTimelineIndexType + ", TimelineIndex=" +
@@ -983,25 +1011,19 @@ namespace Waveface
 
             timerDelayPost.Enabled = false;
 
-            DoRealPost(m_delayPostPicList, m_delayPostType);
+            DoRealPostForm(m_delayPostPicList, m_delayPostType);
 
             m_delayPostPicList.Clear();
 
             timerDelayPost.Enabled = true;
         }
-
+        
         public void Post()
         {
-            DoRealPost(new List<string>(), PostType.All);
+            DoRealPostForm(new List<string>(), PostType.All);
         }
-
-        public void Post(List<string> pics, PostType postType)
-        {
-            m_delayPostType = postType;
-            m_delayPostPicList = pics;
-        }
-
-        private void DoRealPost(List<string> pics, PostType postType)
+        
+        public void EditPost(Post post)
         {
             if (!RT.LoginOK)
             {
@@ -1013,7 +1035,50 @@ namespace Waveface
 
             try
             {
-                m_postForm = new PostForm(pics, postType);
+                m_postForm = new PostForm(new List<string>(), PostType.All, post, true);
+                DialogResult _dr = m_postForm.ShowDialog();
+
+                switch (_dr)
+                {
+                    case DialogResult.Yes:
+                        break;
+
+                    case DialogResult.OK:
+                        NewPostManager.Add(m_postForm.NewPostItem);
+                        break;
+                }
+            }
+            catch (Exception _e)
+            {
+                //MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface");
+
+                NLogUtility.Exception(s_logger, _e, "Edit Post");
+            }
+
+            m_postForm = null;
+
+            m_canAutoFetchNewestPosts = true;
+        }
+
+        public void Post(List<string> pics, PostType postType)
+        {
+            m_delayPostType = postType;
+            m_delayPostPicList = pics;
+        }
+
+        private void DoRealPostForm(List<string> pics, PostType postType)
+        {
+            if (!RT.LoginOK)
+            {
+                MessageBox.Show("Please Login first.", "Waveface");
+                return;
+            }
+
+            m_canAutoFetchNewestPosts = false;
+
+            try
+            {
+                m_postForm = new PostForm(pics, postType, null, false);
                 DialogResult _dr = m_postForm.ShowDialog();
 
                 switch (_dr)
@@ -1224,7 +1289,7 @@ namespace Waveface
             {
                 MessageBox.Show("Remove Post Success!");
 
-                ShowPostToUI(false);
+                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
             }
         }
 
@@ -1294,6 +1359,28 @@ namespace Waveface
             postsArea.ShowStatusText("");
         }
 
+        public void ShowFileMissDialog(string text)
+        {
+            NewPostThreadErrorDialogResult = DialogResult.None;
+
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.FileMiss"), text), "Waveface", MessageBoxIcon.Warning);
+            _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
+            DialogResult _dr = _msgBox.ShowDialog();
+
+            NewPostThreadErrorDialogResult = _dr;
+        }
+
+        public void OverQuotaMissDialog(string text)
+        {
+            NewPostThreadErrorDialogResult = DialogResult.None;
+
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.OverQuota"), text), "Waveface", MessageBoxIcon.Warning);
+            _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
+            DialogResult _dr = _msgBox.ShowDialog();
+
+            NewPostThreadErrorDialogResult = _dr;
+        }
+
         #endregion
 
         #region GetAllData
@@ -1305,7 +1392,20 @@ namespace Waveface
             Dictionary<string, Post> _allPosts = new Dictionary<string, Post>();
             string _datum = string.Empty;
 
-            MR_posts_getLatest _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+            MR_posts_getLatest _getLatest = null;
+
+            try
+            {
+                _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+            }
+            catch
+            {
+                //Hack: Cloud ¦R¥X¿ù»~¸ê®Æ
+
+                ForceLogout();
+                m_getAllDataError = true;
+                return;
+            }
 
             if (_getLatest != null)
             {
@@ -1367,11 +1467,18 @@ namespace Waveface
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Cursor = Cursors.Default;
+            if (m_getAllDataError)
+            {
+                m_getAllDataError = false;
+            }
+            else
+            {
+                Cursor = Cursors.Default;
 
-            postsArea.updateRefreshUI(true);
+                postsArea.updateRefreshUI(true);
 
-            GetLastReadAndShow();
+                GetLastReadAndShow();
+            }
         }
 
         #endregion
@@ -1488,27 +1595,5 @@ namespace Waveface
         }
 
         #endregion
-
-        public void ShowFileMissDialog(string text)
-        {
-            NewPostThreadErrorDialogResult = DialogResult.None;
-
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.FileMiss"), text), "Waveface", MessageBoxIcon.Warning);
-            _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
-            DialogResult _dr = _msgBox.ShowDialog();
-
-            NewPostThreadErrorDialogResult = _dr;
-        }
-
-        public void OverQuotaMissDialog(string text)
-        {
-            NewPostThreadErrorDialogResult = DialogResult.None;
-
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.OverQuota"), text), "Waveface", MessageBoxIcon.Warning);
-            _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
-            DialogResult _dr = _msgBox.ShowDialog();
-
-            NewPostThreadErrorDialogResult = _dr;
-        }
     }
 }

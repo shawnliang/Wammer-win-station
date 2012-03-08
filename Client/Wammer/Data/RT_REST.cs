@@ -45,17 +45,17 @@ namespace Waveface
 
         public string attachments_getRedirectURL(string orgURL, string object_id, bool isImage)
         {
-            return AttachmentUrlUtility.GetRedirectURL(orgURL, SessionToken, object_id, isImage);
+            return AttachmentUtility.GetRedirectURL(orgURL, SessionToken, object_id, isImage);
         }
 
         public string attachments_getRedirectURL_Image(Attachment a, string imageType, out string url, out string fileName, bool forceCloud)
         {
-            return AttachmentUrlUtility.GetRedirectURL_Image(SessionToken, a, imageType, out url, out fileName, forceCloud);
+            return AttachmentUtility.GetRedirectURL_Image(SessionToken, a, imageType, out url, out fileName, forceCloud);
         }
 
         public string attachments_getRedirectURL_PdfCoverPage(string orgURL)
         {
-            return AttachmentUrlUtility.GetRedirectURL_PdfCoverPage(orgURL, SessionToken);
+            return AttachmentUtility.GetRedirectURL_PdfCoverPage(orgURL, SessionToken);
         }
 
         #endregion

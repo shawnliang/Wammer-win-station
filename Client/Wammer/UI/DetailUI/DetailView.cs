@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
+using System.Web;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component.PopupControl;
@@ -35,7 +36,14 @@ namespace Waveface
         private Localization.CultureManager cultureManager;
 
         private Popup m_commentPopup;
+        private XPButton btnRemove;
+        private XPButton btnEdit;
         private CommentPopupPanel m_commentPopupPanel;
+
+        public bool CanEdit
+        {
+            set { btnEdit.Visible = value; }
+        }
 
         public Post Post
         {
@@ -43,6 +51,8 @@ namespace Waveface
             set
             {
                 m_post = value;
+
+                CanEdit = false;
 
                 ShowContent(false);
             }
@@ -53,6 +63,8 @@ namespace Waveface
         public DetailView()
         {
             InitializeComponent();
+
+            MouseWheelRedirector.Attach(this);
 
             m_commentPopup = new Popup(m_commentPopupPanel = new CommentPopupPanel());
             m_commentPopup.Resizable = true;
@@ -85,6 +97,8 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnRemove = new Waveface.Component.XPButton();
+            this.btnEdit = new Waveface.Component.XPButton();
             this.btnComment = new Waveface.Component.XPButton();
             this.labelWho = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
@@ -97,11 +111,37 @@ namespace Waveface
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.panelTop.Controls.Add(this.btnRemove);
+            this.panelTop.Controls.Add(this.btnEdit);
             this.panelTop.Controls.Add(this.btnComment);
             this.panelTop.Controls.Add(this.labelWho);
             this.panelTop.Controls.Add(this.labelTime);
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnRemove, "btnRemove");
+            this.btnRemove.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnRemove.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnRemove.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnRemove.Image = global::Waveface.Properties.Resources.trash;
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnEdit, "btnEdit");
+            this.btnEdit.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnEdit.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnEdit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.btnEdit.Image = global::Waveface.Properties.Resources.page;
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnComment
             // 
@@ -110,7 +150,7 @@ namespace Waveface
             this.btnComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnComment.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnComment.Image = global::Waveface.Properties.Resources.write_comment;
+            this.btnComment.Image = global::Waveface.Properties.Resources.white_edit;
             this.btnComment.Name = "btnComment";
             this.btnComment.UseVisualStyleBackColor = true;
             this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
@@ -134,7 +174,7 @@ namespace Waveface
             // 
             // timerGC
             // 
-            this.timerGC.Interval = 30000;
+            this.timerGC.Interval = 60000;
             this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
             // 
             // cultureManager
@@ -181,7 +221,7 @@ namespace Waveface
                 return;
 
             btnComment.Visible = true;
-            //linkLabelRemove.Visible = true;
+            btnRemove.Visible = true;
 
             setupTitle();
 
@@ -389,8 +429,13 @@ namespace Waveface
 
                 k++;
 
+                string _content = HttpUtility.HtmlEncode(_c.content);
+                _content = _content.Replace(Environment.NewLine, "<BR>");
+                _content = _content.Replace("\n", "<BR>");
+                _content = _content.Replace("\r", "<BR>");
+
                 _html += _s.ToString();
-                _html = _html.Replace("[Comment]", _c.content);
+                _html = _html.Replace("[Comment]", _content);
                 _html = _html.Replace("[CommentTime]", DateTimeHelp.ISO8601ToDotNet(_c.timestamp, true));
                 _html = _html.Replace("[code_name]", _c.code_name);
 
@@ -406,8 +451,7 @@ namespace Waveface
 
             _html += "</font></blockquote>";
 
-            if (post.comment_count > 0)
-                _html += "<HR>";
+            _html += "<HR>";
 
             return _html;
         }
@@ -433,8 +477,7 @@ namespace Waveface
             }
         }
 
-        /*
-        private void linkLabelRemove_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnRemove_Click(object sender, EventArgs e)
         {
             DialogResult _dr = MessageBox.Show("Do you really want to remove this post?", "Waveface", MessageBoxButtons.YesNo);
 
@@ -443,6 +486,13 @@ namespace Waveface
 
             Main.Current.HidePost(m_post.post_id);
         }
-        */
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
+            Main.Current.EditPost(Post);
+        }
     }
 }
