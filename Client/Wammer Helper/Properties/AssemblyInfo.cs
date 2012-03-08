@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Waveface")]
-[assembly: AssemblyProduct("Waveface Windows Client")]
+[assembly: AssemblyProduct("Waveface")]
 [assembly: AssemblyCopyright("Copyright Waveface 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

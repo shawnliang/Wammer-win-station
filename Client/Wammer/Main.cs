@@ -66,6 +66,7 @@ namespace Waveface
         private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
         private NewPostManager m_newPostManager;
         private StationState m_stationState;
+        private AppLimit.NetSparkle.Sparkle m_autoUpdator;
         private bool m_getAllDataError;
 
         #endregion
@@ -171,6 +172,9 @@ namespace Waveface
             m_formSettings.SaveOnClose = true;
 
             //System.Net.ServicePointManager.DefaultConnectionLimit = 64;
+
+            m_autoUpdator = new AppLimit.NetSparkle.Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
+            m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
 
             s_logger.Trace("Constructor: OK");
         }
@@ -397,7 +401,7 @@ namespace Waveface
             if (!Current.CheckNetworkStatus())
                 return;
 
-            m_setting = new SettingForm();
+            m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
 
             m_setting = null;

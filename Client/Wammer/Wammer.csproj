@@ -64,6 +64,9 @@
     <StartupObject>Waveface.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AppLimit.NetSparkle">
+      <HintPath>..\..\Station\3rd_party\NetSparkle-1.0.83\AppLimit.NetSparkle.dll</HintPath>
+    </Reference>
     <Reference Include="AxInterop.SHDocVw">
       <HintPath>..\Libs\AxInterop.SHDocVw.dll</HintPath>
     </Reference>

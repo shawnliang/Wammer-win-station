@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Web;
 using System.Windows.Forms;
 using Waveface.API.V2;
-
+using AppLimit.NetSparkle;
 #endregion
 
 namespace Waveface.SettingUI
@@ -26,13 +26,11 @@ namespace Waveface.SettingUI
         #endregion
 
         // private static Logger s_logger = LogManager.GetCurrentClassLogger();
+        Sparkle m_autoUpdator;
 
-        public bool IsUserSwitched { get; private set; }
-
-        public SettingForm()
+        public SettingForm(Sparkle autoUpdator)
         {
-            IsUserSwitched = false;
-
+            m_autoUpdator = autoUpdator;
             InitializeComponent();
         }
 
@@ -101,6 +99,38 @@ namespace Waveface.SettingUI
         private void linkLegalNotice_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(WService.WebURL + "/page/privacy", null);
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            bgworkerUpdate.RunWorkerAsync();
+            btnUpdate.Text = I18n.L.T("CheckingUpdates");
+            btnUpdate.Enabled = false;
+        }
+
+        private void bgworkerUpdate_DoWork(object sender, DoWorkEventArgs e)
+        {
+            NetSparkleAppCastItem lastVersion;
+
+            if (m_autoUpdator.IsUpdateRequired(m_autoUpdator.GetApplicationConfig(), out lastVersion))
+                e.Result = lastVersion;
+            else
+                e.Result = null;
+        }
+
+        private void bgworkerUpdate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            NetSparkleAppCastItem lastVersion = e.Result as NetSparkleAppCastItem;
+
+            if (lastVersion != null)
+            {
+                m_autoUpdator.ShowUpdateNeededUI(lastVersion);
+            }
+            else
+                MessageBox.Show(I18n.L.T("AlreadyUpdated"));
+
+            btnUpdate.Enabled = true;
+            btnUpdate.Text = I18n.L.T("CheckForUpdates");
         }
     }
 }
