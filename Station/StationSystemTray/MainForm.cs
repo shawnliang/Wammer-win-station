@@ -32,6 +32,7 @@ namespace StationSystemTray
 
 		#region Var
 		private Messenger _messenger;
+        private SignUpDialog _SignUpDialog;
 		#endregion
 
 
@@ -45,9 +46,27 @@ namespace StationSystemTray
 				return _messenger;
 			}
 		}
+
+        private SignUpDialog m_SignUpDialog 
+        {
+            get
+            {
+                if (_SignUpDialog == null)
+                    _SignUpDialog = new SignUpDialog()
+                    {
+                        Text = this.Text,
+                        Icon = this.Icon,
+                        StartPosition = FormStartPosition.CenterParent
+                    };
+                return _SignUpDialog;
+            }
+            set
+            {
+                _SignUpDialog = value;
+            }
+        }
 		#endregion
 
-		private SignUpDialog m_SignUpDialog;
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private UserLoginSettingContainer userloginContainer;
@@ -585,8 +604,11 @@ namespace StationSystemTray
 
 		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
 		{
-			if (m_SignUpDialog != null)
-				m_SignUpDialog.Close();
+            if (m_SignUpDialog != null)
+            {
+                m_SignUpDialog.Dispose();
+                m_SignUpDialog = null;
+            }
 
 			tabControl.SelectedTab = tabpage;
 
@@ -791,13 +813,6 @@ namespace StationSystemTray
 
 		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			m_SignUpDialog = new SignUpDialog()
-			{
-				Text = this.Text,
-				Icon = this.Icon,
-				StartPosition = FormStartPosition.CenterParent
-			};
-
 			this.Hide();
 			m_SignUpDialog.ShowDialog();
 			if (m_SignUpDialog.DialogResult == System.Windows.Forms.DialogResult.OK)
