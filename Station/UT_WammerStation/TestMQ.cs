@@ -131,7 +131,7 @@ namespace UT_WammerStation
 		{
 			WMSBroker qMgr = new WMSBroker();
 			WMSQueue q = qMgr.GetQueue("name");
-			q.Push(null);
+			q.Push(null, true);
 		}
 	}
 }

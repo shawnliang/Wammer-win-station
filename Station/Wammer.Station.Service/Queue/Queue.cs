@@ -8,8 +8,17 @@ namespace Wammer.Queue
 	{
 		private LinkedList<WMSMessage> items = new LinkedList<WMSMessage>();
 		private Dictionary<Guid, UnackedMsg> popMsgs = new Dictionary<Guid, UnackedMsg>();
+		private IPersistentStore persistentStorage;
 
-		public void Push(WMSMessage msg)
+		public string Name { get; private set; }
+
+		public WMSQueue(string name, IPersistentStore persistentStorage)
+		{
+			this.persistentStorage = persistentStorage;
+			this.Name = name;
+		}
+
+		public void Push(WMSMessage msg, bool persistent)
 		{
 			if (msg == null)
 				throw new ArgumentNullException();
@@ -17,7 +26,12 @@ namespace Wammer.Queue
 			lock (items)
 			{
 				msg.Queue = this;
+				msg.IsPersistent = persistent;
+
 				items.AddLast(msg);
+
+				if (persistent)
+					this.persistentStorage.Save(msg);
 			}
 		}
 
@@ -42,6 +56,9 @@ namespace Wammer.Queue
 			{
 				if (!popMsgs.Remove(msg.Id))
 					throw new KeyNotFoundException("Msg " + msg.Id.ToString() + " is never popped before");
+
+				if (msg.IsPersistent)
+					persistentStorage.Remove(msg);
 			}
 		}
 

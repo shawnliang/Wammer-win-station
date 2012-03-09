@@ -8,25 +8,50 @@ namespace Wammer.Queue
 	public interface IPersistentStore
 	{
 		WMSQueue TryLoadQueue(string qname);
+		void Save(WMSMessage msg);
+		void Remove(WMSMessage msg);
+	}
+
+	public class NullPersistentStore : IPersistentStore
+	{
+		public WMSQueue TryLoadQueue(string qname)
+		{
+			return new WMSQueue(qname, this);
+		}
+
+		public void Save(WMSMessage msg)
+		{
+		}
+
+		public void Remove(WMSMessage msg)
+		{
+		}
 	}
 
 	public class WMSBroker
 	{
 		private Dictionary<String, WMSQueue> queues = new Dictionary<string, WMSQueue>();
+		private IPersistentStore persistentStore;
 
 		public WMSBroker()
 		{
+			this.persistentStore = new NullPersistentStore();
 		}
 
 		public WMSBroker(IPersistentStore persistentStore)
 		{
+			if (persistentStore == null)
+				throw new ArgumentNullException();
+
+			this.persistentStore = persistentStore;
 		}
 
 		public WMSQueue GetQueue(string name)
 		{
-			if (!queues.ContainsKey(name))
-				queues[name] = new WMSQueue();
+			if (queues.ContainsKey(name))
+				return queues[name];
 
+			queues[name] = persistentStore.TryLoadQueue(name);
 			return queues[name];
 		}
 
@@ -59,7 +84,13 @@ namespace Wammer.Queue
 		public void Push(WMSQueue queue, object data)
 		{
 			WMSMessage msg = new WMSMessage() { Data = data };
-			queue.Push(msg);
+			queue.Push(msg, false);
+		}
+
+		public void Push(WMSQueue queue, object data, bool persistent)
+		{
+			WMSMessage msg = new WMSMessage() { Data = data };
+			queue.Push(msg, persistent);
 		}
 
 		public void Close()
@@ -82,7 +113,7 @@ namespace Wammer.Queue
 		public object Data { get; set; }
 		public Guid Id { get; private set; }
 		public WMSQueue Queue { get; set; }
-
+		public bool IsPersistent { get; set; }
 
 		public WMSMessage()
 		{
