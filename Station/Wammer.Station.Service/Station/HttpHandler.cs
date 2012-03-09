@@ -159,7 +159,7 @@ namespace Wammer.Station
 				throw new ArgumentException("incorrect use of this function: " +
 														"input part.ContentDisposition is null");
 
-			if (disp.Value.ToLower().Equals("form-data"))
+			if (disp.Value.Equals("form-data",StringComparison.CurrentCultureIgnoreCase))
 			{
 				string filename = disp.Parameters["filename"];
 
@@ -240,7 +240,7 @@ namespace Wammer.Station
 		private static bool HasMultiPartFormData(HttpListenerRequest request)
 		{
 			return request.ContentType != null &&
-							request.ContentType.ToLower().StartsWith(MULTIPART_FORM);
+							request.ContentType.StartsWith(MULTIPART_FORM,StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		private static string GetMultipartBoundary(string contentType)
