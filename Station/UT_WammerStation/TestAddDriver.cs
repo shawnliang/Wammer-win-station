@@ -36,12 +36,7 @@ namespace UT_WammerStation
 			server = new HttpServer(8080);
 			handler = new AddDriverHandler("stationId", "resource");
 			server.AddHandler("/v2/station/drivers/add/", handler);
-			server.Start();
-
-			if (!Directory.Exists(@"C:\TempUT"))
-				Directory.CreateDirectory(@"c:\TempUT");
-			if (!Directory.Exists(@"C:\TempUT\user1"))
-				Directory.CreateDirectory(@"c:\TempUT\user1");
+            server.Start();
 
 			CloudServer.BaseUrl = "http://localhost/v2/";
 
@@ -53,9 +48,6 @@ namespace UT_WammerStation
 		public void tearDown()
 		{
 			server.Close();
-
-			if (Directory.Exists(@"C:\TempUT"))
-				Directory.Delete(@"C:\TempUT", true);
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
