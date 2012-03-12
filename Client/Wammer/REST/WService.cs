@@ -964,6 +964,96 @@ namespace Waveface.API.V2
             }
         }
 
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+
+        public MR_posts_update posts_update(string session_token, string group_id, string post_id, string last_update_time, Dictionary<string, string> OptionalParams)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+            post_id = HttpUtility.UrlEncode(post_id);
+            last_update_time = HttpUtility.UrlEncode(last_update_time);
+
+            try
+            {
+                string _url = BaseURL + "/posts/update";
+
+                _url += "?";
+
+                foreach (KeyValuePair<string, string> _pair in OptionalParams)
+                {
+                    _url += _pair.Key + "=" + HttpUtility.UrlEncode(_pair.Value) + "&";
+                }
+
+                _url += "apikey" + "=" + APIKEY + "&" +
+                       "session_token" + "=" + session_token + "&" +
+                       "group_id" + "=" + group_id + "&" +
+                       "last_update_time" + "=" + last_update_time + "&" +
+                       "post_id" + "=" + post_id;
+
+                return HttpGetObject<MR_posts_update>(_url);
+            }
+            catch (WebException _e)
+            {
+                NLogUtility.WebException(s_logger, _e, "posts_update", false);
+
+                if (_e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
+
+                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new Station401Exception();
+                }
+
+                throw;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "posts_update");
+
+                throw;
+            }
+        }
+
+
         public MR_posts_get posts_fetchByFilter(string session_token, string group_id, string filter_entity)
         {
             session_token = HttpUtility.UrlEncode(session_token);

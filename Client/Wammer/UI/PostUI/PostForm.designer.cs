@@ -232,6 +232,7 @@ namespace Waveface
             // 
             resources.ApplyResources(this.photo_UI, "photo_UI");
             this.photo_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.photo_UI.FileNameMapping = ((System.Collections.Generic.Dictionary<string, string>)(resources.GetObject("photo_UI.FileNameMapping")));
             this.photo_UI.MinimumSize = new System.Drawing.Size(500, 78);
             this.photo_UI.MyParent = null;
             this.photo_UI.Name = "photo_UI";

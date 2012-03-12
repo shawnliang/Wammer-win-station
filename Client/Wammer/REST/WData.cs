@@ -32,6 +32,12 @@ namespace Waveface.API.V2
 
         public Preview_OpenGraph preview { get; set; }
         public string soul { get; set; }
+
+        // 2012.3
+        public string update_time { get; set; }
+        public string event_time { get; set; }
+        public string cover_attach { get; set; }
+        public string favorite { get; set; } //int
     }
 
     public class Attachment
@@ -233,6 +239,19 @@ namespace Waveface.API.V2
         public string type { get; set; }
         public string thumbnail_width { get; set; }
         public string thumbnail_height { get; set; }
+
+        /*
+        public string favicon_url { get; set; }
+        public string keywords { get; set; }
+        public string images { get; set; }
+        public string embeds { get; set; }
+        public string safe { get; set; }
+        public string author_name { get; set; }
+        public string original_url { get; set; }
+        public string place { get; set; }
+        public string cache_age { get; set; }
+        public string author_url { get; set; }
+        */
     }
 
     public class Preview_AdvancedOpenGraph
@@ -430,6 +449,13 @@ namespace Waveface.API.V2
     #region MR_posts
 
     public class MR_posts_getSingle : General_R
+    {
+        public string group_id { get; set; }
+
+        public Post post { get; set; }
+    }
+
+    public class MR_posts_update : General_R
     {
         public string group_id { get; set; }
 

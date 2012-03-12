@@ -22,6 +22,7 @@ namespace Waveface
 
         private const int PicHeight = 102; //115
         private const int PicWidth = 102; //115
+        private const int FavoriteIconSize = 22;
 
         private IContainer components;
         private DataGridView dataGridView;
@@ -186,6 +187,8 @@ namespace Waveface
         {
             try
             {
+                //@ dataGridView.Rows[e.RowIndex].Height = 120 + (e.RowIndex % 10) * 20;
+
                 bool _isDrawThumbnail;
 
                 Graphics _g = e.Graphics;
@@ -226,6 +229,8 @@ namespace Waveface
 
                 Rectangle _timeRect = DrawPostTime(_g, m_fontPostTime, _cellRect, _post);
 
+                DrawFavoriteIcon(_g, _post, e.CellBounds);
+
                 Rectangle _thumbnailRect = new Rectangle(_X + 4, _Y + 8, PicWidth, PicHeight);
 
                 _isDrawThumbnail = DrawThumbnail(_g, _thumbnailRect, _post);
@@ -265,6 +270,28 @@ namespace Waveface
             e.Handled = true;
         }
 
+        private void DrawFavoriteIcon(Graphics g, Post post, Rectangle r)
+        {
+            if (post.favorite != null)
+            {
+                int _value = int.Parse(post.favorite);
+
+                switch (_value)
+                {
+                    case 0:
+                        g.DrawRectangle(Pens.Red, r.X + r.Width - FavoriteIconSize - 6,
+                                        r.Y + r.Height - FavoriteIconSize - 4, FavoriteIconSize, FavoriteIconSize);
+
+                        break;
+                    case 1:
+                        g.FillRectangle(Brushes.Red, r.X + r.Width - FavoriteIconSize - 6,
+                                        r.Y + r.Height - FavoriteIconSize - 4, FavoriteIconSize, FavoriteIconSize);
+
+                        break;
+                }
+            }
+        }
+
         private void Draw_Link(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, int thumbnailRectWidth, bool selected)
         {
             if (post.preview.thumbnail_url == null)
@@ -274,7 +301,7 @@ namespace Waveface
 
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 12, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 20);
 
-            if(!string.IsNullOrEmpty(post.preview.title))
+            if (!string.IsNullOrEmpty(post.preview.title))
                 TextRenderer.DrawText(g, post.preview.title.Trim(), new Font("Arial", 10, FontStyle.Bold), _rectAll, Color.FromArgb(23, 53, 93),
                     TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
@@ -341,7 +368,7 @@ namespace Waveface
             _postTime = DateTimeHelp.PrettyDate(_postTime);
 
             Size _sizeTime = TextRenderer.MeasureText(g, _postTime, font) + new Size(2, 2);
-            Rectangle _timeRect = new Rectangle(cellRect.X + cellRect.Width - _sizeTime.Width - 2, cellRect.Y + cellRect.Height - _sizeTime.Height - 4, _sizeTime.Width, _sizeTime.Height);
+            Rectangle _timeRect = new Rectangle(cellRect.X + cellRect.Width - _sizeTime.Width - 2 - ((post.favorite != null) ? FavoriteIconSize : 0), cellRect.Y + cellRect.Height - _sizeTime.Height - 4, _sizeTime.Width, _sizeTime.Height);
 
             TextRenderer.DrawText(g, _postTime, font, _timeRect, Color.FromArgb(127, 127, 127),
                                   TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
@@ -576,7 +603,7 @@ namespace Waveface
 
             if (m_clickIndex == (m_postBS.Count - 1))
             {
-                Main.Current.FilterReadMorePost();
+                //@ Main.Current.FilterReadMorePost();
             }
         }
 
@@ -754,6 +781,7 @@ namespace Waveface
             this.dataGridView.Size = new System.Drawing.Size(385, 274);
             this.dataGridView.TabIndex = 0;
             this.dataGridView.VirtualMode = true;
+            this.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseClick);
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
             this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
             // 
@@ -804,5 +832,25 @@ namespace Waveface
         }
 
         #endregion
+
+        private void dataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            Post _post = m_postBS[e.RowIndex] as Post;
+
+            if (_post.favorite == null)
+                return;
+
+            Size _sizeCell = dataGridView[e.ColumnIndex, e.RowIndex].Size;
+
+            int _x = _sizeCell.Width - FavoriteIconSize - 8;
+            int _y = _sizeCell.Height - FavoriteIconSize - 4;
+
+            if ((e.X > _x) && (e.Y > _y))
+            {
+                MessageBox.Show("Hit");
+
+
+            }
+        }
     }
 }

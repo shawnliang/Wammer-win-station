@@ -43,7 +43,11 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = "更改";
+            btnSend.Text = "更改"; //@ I18n
+
+            btnAddPhoto.Visible = false;
+            btnDeletePhoto.Visible = false;
+            labelSummary.Location = new Point(4, labelSummary.Location.Y);
         }
 
         #region ImageListView

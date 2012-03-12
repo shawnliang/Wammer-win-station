@@ -141,7 +141,10 @@ namespace Waveface.DetailUI
 
         private void SetHTML()
         {
-            MyParent.CanEdit = true;
+            // if (m_post.preview.url == null) // PostType.Link 目前不支援
+            {
+                MyParent.CanEdit = true;
+            }
 
             StringBuilder _sb = new StringBuilder();
 

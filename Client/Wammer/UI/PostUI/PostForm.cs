@@ -78,13 +78,9 @@ namespace Waveface
         {
             List<string> _pics = new List<string>();
 
-            Text = "編輯貼文";
-
-            // Send/Edit Button Text
-            btnSend.Text = "更改";
+            ChangeToEditModeUI();
             weblink_UI.ChangeToEditModeUI(m_post);
             photo_UI.ChangeToEditModeUI(m_post);
-
 
             pureTextBox.Text = m_post.content;
             CreateLink();
@@ -111,6 +107,15 @@ namespace Waveface
             }
 
             ToSubControl(_pics, getPostType(m_post.type));
+        }
+
+        private void ChangeToEditModeUI()
+        {
+            Text = "編輯貼文"; //@ I18n
+
+            btnSend.Text = "更改"; //@ I18n
+
+            btnAddPhoto.Visible = false;
         }
 
         private void InitNewMode(List<string> files, PostType postType)
