@@ -59,7 +59,7 @@ namespace Wammer.Station
 			if (Parameters["apikey"] == null || Parameters["session_token"] == null)
 				throw new FormatException("apikey or session_token is missing");
 
-			Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));
+			Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));            
 			if (driver==null)
 				throw new FormatException("group_id is not assocaited with a registered user");
 
@@ -68,6 +68,15 @@ namespace Wammer.Station
 
 			IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
 			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this);
+
+            //Larry 2012/03/12, Enqueue upload original photo process
+            if (!driver.isPrimaryStation && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy)))
+            {
+                TaskQueue.EnqueueLow((state) =>
+                {
+                    file.Upload(ImageMeta.Origin, Parameters["apikey"], Parameters["session_token"]);
+                });
+            }
 
 			long newValue = System.Threading.Interlocked.Add(ref g_counter, 1);
 
