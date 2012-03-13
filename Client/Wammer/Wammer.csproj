@@ -191,6 +191,7 @@
     </Compile>
     <Compile Include="Component\WebBrowserContextMenuHandler.cs" />
     <Compile Include="Data\ConnectServiceStateType.cs" />
+    <Compile Include="Data\EditModePhotoType.cs" />
     <Compile Include="Data\Delegates.cs" />
     <Compile Include="Data\StationState.cs" />
     <Compile Include="Data\UploadOriginPhotosToStationItem.cs" />
@@ -418,6 +419,12 @@
     </Compile>
     <Compile Include="UI\PostArea.Designer.cs">
       <DependentUpon>PostArea.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PostUI\OldImagesPopupPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\PostUI\OldImagesPopupPanel.designer.cs">
+      <DependentUpon>OldImagesPopupPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\PostUI\Document.cs">
       <SubType>UserControl</SubType>
@@ -710,6 +717,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostArea.zh-TW.resx">
       <DependentUpon>PostArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\OldImagesPopupPanel.resx">
+      <DependentUpon>OldImagesPopupPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostUI\OldImagesPopupPanel.zh-TW.resx">
+      <DependentUpon>OldImagesPopupPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PostUI\Document.resx">
       <DependentUpon>Document.cs</DependentUpon>

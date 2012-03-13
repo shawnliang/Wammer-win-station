@@ -23,7 +23,14 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = "更改";
+            btnSend.Text = "更改"; //@ I18n
+
+            buttonRemovePreview.Visible = false;
+
+            buttonPrev.Visible = false;
+            buttonNext.Visible = false;
+            labelPictureIndex.Visible = false;
+            cbNoThumbnail.Visible = false;
         }
 
         private void btnSend_Click(object sender, EventArgs e)

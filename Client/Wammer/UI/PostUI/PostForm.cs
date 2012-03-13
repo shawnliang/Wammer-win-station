@@ -30,19 +30,19 @@ namespace Waveface
         private FormSettings m_formSettings;
         private bool m_getPreviewNow;
         private string m_lastPreviewURL = string.Empty;
-        
-        private bool m_editMode;
+
         private Post m_post;
         private Dictionary<string, string> m_oldImageFiles;
         private Dictionary<string, string> m_fileNameMapping;
 
         public NewPostItem NewPostItem { get; set; }
+        public bool EditMode { get; set; }
 
         public PostForm(List<string> files, PostType postType, Post post, bool editMode)
         {
             InitializeComponent();
 
-            m_editMode = editMode;
+            EditMode = editMode;
             m_post = post;
             m_oldImageFiles = new Dictionary<string, string>();
             m_fileNameMapping = new Dictionary<string, string>();
@@ -64,7 +64,7 @@ namespace Waveface
 
             pureTextBox.WaterMarkText = I18n.L.T("PostForm.PuretextWaterMark");
 
-            if (m_editMode)
+            if (EditMode)
             {
                 InitEditMode();
             }
@@ -78,13 +78,9 @@ namespace Waveface
         {
             List<string> _pics = new List<string>();
 
-            Text = "編輯貼文";
-
-            // Send/Edit Button Text
-            btnSend.Text = "更改";
+            ChangeToEditModeUI();
             weblink_UI.ChangeToEditModeUI(m_post);
             photo_UI.ChangeToEditModeUI(m_post);
-
 
             pureTextBox.Text = m_post.content;
             CreateLink();
@@ -111,6 +107,15 @@ namespace Waveface
             }
 
             ToSubControl(_pics, getPostType(m_post.type));
+        }
+
+        private void ChangeToEditModeUI()
+        {
+            Text = "編輯貼文"; //@ I18n
+
+            btnSend.Text = "更改"; //@ I18n
+
+            btnAddPhoto.Visible = false;
         }
 
         private void InitNewMode(List<string> files, PostType postType)

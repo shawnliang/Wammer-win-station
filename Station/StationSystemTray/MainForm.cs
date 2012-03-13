@@ -25,14 +25,55 @@ namespace StationSystemTray
 {
 	public partial class MainForm : Form, StationStateContext
 	{
-		private bool m_IsSignUpRunning { get; set; }
+		#region Const
+		const string CLIENT_TITLE = "Waveface ";
+		#endregion
+
+
+		#region Var
+		private Messenger _messenger;
+        private SignUpDialog _SignUpDialog;
+		#endregion
+
+
+		#region Private Property
+		private Messenger messenger
+		{
+			get
+			{
+				if (_messenger == null)
+					_messenger = new Messenger(this);
+				return _messenger;
+			}
+		}
+
+        private SignUpDialog m_SignUpDialog 
+        {
+            get
+            {
+                if (_SignUpDialog == null)
+                    _SignUpDialog = new SignUpDialog()
+                    {
+                        Text = this.Text,
+                        Icon = this.Icon,
+                        StartPosition = FormStartPosition.CenterParent
+                    };
+                return _SignUpDialog;
+            }
+            set
+            {
+                _SignUpDialog = value;
+            }
+        }
+		#endregion
+
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
 
 		private UserLoginSettingContainer userloginContainer;
 		private bool formCloseEnabled;
 		public Process clientProcess;
+		private bool iscmbEmailFirstChanged;
 
-		private Messenger messenger;
 		private WavefaceClientController uictrlWavefaceClient;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
@@ -61,19 +102,17 @@ namespace StationSystemTray
 		{
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
+			this.initMinimized = initMinimized;
+		}
 
+		protected override void OnLoad(EventArgs e)
+		{
 			this.userloginContainer = new UserLoginSettingContainer(new ApplicationSettings());
-			this.formCloseEnabled = false;
-			this.clientProcess = null;
 
-			Type type = this.GetType();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(type.Namespace + ".Properties.Resources", this.GetType().Assembly);
 			this.iconRunning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_16.GetHicon());
 			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_disable_16.GetHicon());
 			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_warn_16.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
-
-			this.messenger = new Messenger(this);
 
 			this.uictrlWavefaceClient = new WavefaceClientController(this);
 			this.uictrlWavefaceClient.UICallback += this.WavefaceClientUICallback;
@@ -91,15 +130,10 @@ namespace StationSystemTray
 			NetworkChange.NetworkAddressChanged += checkStationTimer_Tick;
 
 			this.CurrentState = CreateState(StationStateEnum.Initial);
-
-			this.initMinimized = initMinimized;
-		}
-
-		protected override void OnLoad(EventArgs e)
-		{
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
 			this.menuGotoTimeline.Text = "Go to Timeline";
+			RefreshUserList();
 
 			this.checkStationTimer.Enabled = true;
 			this.checkStationTimer.Start();
@@ -111,8 +145,6 @@ namespace StationSystemTray
 				this.WindowState = FormWindowState.Minimized;
 				this.ShowInTaskbar = false;
 				this.initMinimized = false;
-
-				RefreshUserList();  // init user list on tray icon
 			}
 			else
 				GotoTimeline(userloginContainer.GetLastUserLogin());
@@ -121,35 +153,41 @@ namespace StationSystemTray
 		private void RefreshUserList()
 		{
 			cmbEmail.Items.Clear();
-			menuGotoTimeline.DropDownItems.Remove(menuNewUser);
-			menuGotoTimeline.DropDownItems.Clear();
-
-			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
-			bool addSeparator = false;
-			ListDriverResponse res = StationController.ListUser();
-			foreach (Driver driver in res.drivers)
+			try
 			{
-				UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
-				if (userlogin != null)
+				menuGotoTimeline.DropDownItems.Remove(menuNewUser);
+				menuGotoTimeline.DropDownItems.Clear();
+
+				List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
+				bool addSeparator = false;
+				ListDriverResponse res = StationController.ListUser();
+				foreach (Driver driver in res.drivers)
 				{
-					if (!addSeparator)
+					UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
+					if (userlogin != null)
 					{
-						menuGotoTimeline.DropDownItems.Insert(0, new ToolStripSeparator());
-						addSeparator = true;
+						if (!addSeparator)
+						{
+							menuGotoTimeline.DropDownItems.Insert(0, new ToolStripSeparator());
+							addSeparator = true;
+						}
+						cmbEmail.Items.Add(userlogin.Email);
+						ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+						menu.Name = userlogin.Email;
+						menuGotoTimeline.DropDownItems.Insert(0, menu);
+						userlogins.Add(userlogin);
 					}
-					cmbEmail.Items.Add(userlogin.Email);
-					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-					menu.Name = userlogin.Email;
-					menuGotoTimeline.DropDownItems.Insert(0, menu);
-					userlogins.Add(userlogin);
+				}
+
+				if (userlogins.Count > 0)
+				{
+					string lastlogin = userloginContainer.GetLastUserLogin().Email;
+					userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
 				}
 			}
-			menuGotoTimeline.DropDownItems.Add(menuNewUser);
-
-			if (userlogins.Count > 0)
+			finally
 			{
-				string lastlogin = userloginContainer.GetLastUserLogin().Email;
-				userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
+				menuGotoTimeline.DropDownItems.Add(menuNewUser);
 			}
 		}
 
@@ -161,7 +199,7 @@ namespace StationSystemTray
 
 				if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
 				{
-					IntPtr handle = Win32Helper.FindWindow(null, "Waveface");
+					IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
 					Win32Helper.SetForegroundWindow(handle);
 					Win32Helper.ShowWindow(handle, 1);
 					return;
@@ -337,9 +375,6 @@ namespace StationSystemTray
 
 		private void menuPreference_Click(object sender, EventArgs e)
 		{
-			if (m_IsSignUpRunning)
-				return;
-
 			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
@@ -569,6 +604,12 @@ namespace StationSystemTray
 
 		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
 		{
+            if (m_SignUpDialog != null)
+            {
+                m_SignUpDialog.Dispose();
+                m_SignUpDialog = null;
+            }
+
 			tabControl.SelectedTab = tabpage;
 
 			if (this.WindowState == FormWindowState.Minimized)
@@ -595,16 +636,17 @@ namespace StationSystemTray
 
 			if (tabpage == tabSignIn)
 			{
-				RefreshUserList();
 				if (userlogin == null)
 				{
-					cmbEmail.SelectedItem = string.Empty;
+					cmbEmail.Text = string.Empty;
+					iscmbEmailFirstChanged = false;
 					txtPassword.Text = string.Empty;
 					chkRememberPassword.Checked = false;
 				}
 				else
 				{
-					cmbEmail.SelectedItem = userlogin.Email;
+					cmbEmail.Text = userlogin.Email;
+					iscmbEmailFirstChanged = true;
 					if (userlogin.RememberPassword)
 					{
 						txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
@@ -616,7 +658,7 @@ namespace StationSystemTray
 					chkRememberPassword.Checked = userlogin.RememberPassword;
 				}
 
-				if (cmbEmail.SelectedItem == null)
+				if (string.IsNullOrEmpty(cmbEmail.Text))
 				{
 					cmbEmail.Select();
 				}
@@ -634,7 +676,7 @@ namespace StationSystemTray
 			else if (tabpage == tabMainStationSetup)
 			{
 				btnOK.Tag = userlogin;
-				btnOK.Focus();
+				btnOK.Select();
 				this.AcceptButton = btnOK;
 			}
 		}
@@ -685,6 +727,8 @@ namespace StationSystemTray
 							Password = SecurityHelper.EncryptPassword(txtPassword.Text),
 							RememberPassword = chkRememberPassword.Checked
 						};
+					userloginContainer.UpsertUserLoginSetting(userlogin);
+					RefreshUserList();
 
 					if (res.IsPrimaryStation)
 					{
@@ -702,6 +746,8 @@ namespace StationSystemTray
 
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
+					userloginContainer.UpsertUserLoginSetting(userlogin);
+					RefreshUserList();
 
 					LaunchWavefaceClient(userlogin);
 
@@ -735,11 +781,6 @@ namespace StationSystemTray
 			{
 				userlogin = userloginContainer.GetLastUserLogin();
 			}
-			else
-			{
-				userloginContainer.UpsertUserLoginSetting(userlogin);
-				RefreshUserList();
-			}
 
 			uictrlWavefaceClient.PerformAction(userlogin);
 		}
@@ -772,24 +813,19 @@ namespace StationSystemTray
 
 		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			m_IsSignUpRunning = true;
-			var dialog = new SignUpDialog()
-			{
-				Text = this.Text,
-				Icon = this.Icon,
-				StartPosition = FormStartPosition.CenterParent
-			};
-
 			this.Hide();
-			dialog.ShowDialog();
-			if (dialog.DialogResult == System.Windows.Forms.DialogResult.OK)
+			m_SignUpDialog.ShowDialog();
+			if (m_SignUpDialog.DialogResult == System.Windows.Forms.DialogResult.OK)
 			{
-				cmbEmail.Text = dialog.EMail;
-				txtPassword.Text = dialog.Password;
+				cmbEmail.Text = m_SignUpDialog.EMail;
+				txtPassword.Text = m_SignUpDialog.Password;
 			}
+			m_SignUpDialog.Dispose();
+			m_SignUpDialog = null;
 			tabControl.SelectedTab = tabSignIn;
-			this.Show();
-			m_IsSignUpRunning = false;
+
+			if (!this.IsDisposed)
+				this.Show();
 		}
 
 
@@ -830,7 +866,31 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "Logout": "Sign In...";
+		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "Logout...": "Login...";
+		}
+
+		private void cmbEmail_SelectionChangeCommitted(object sender, EventArgs e)
+		{
+			UserLoginSetting userlogin = userloginContainer.GetUserLogin((string)cmbEmail.SelectedItem);
+			if (userlogin.RememberPassword)
+			{
+				txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
+			}
+			else
+			{
+				txtPassword.Text = string.Empty;
+			}
+			chkRememberPassword.Checked = userlogin.RememberPassword;
+		}
+
+		private void cmbEmail_TextUpdate(object sender, EventArgs e)
+		{
+			if (iscmbEmailFirstChanged)
+			{
+				txtPassword.Text = string.Empty;
+				chkRememberPassword.Checked = false;
+				iscmbEmailFirstChanged = false;
+			}
 		}
 	}
 

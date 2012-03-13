@@ -7,11 +7,17 @@ using Wammer.Station.Management;
 using Wammer.Station;
 using Waveface.Localization;
 using System.Globalization;
+using System.Threading;
+using System.Reflection;
 
 namespace StationSystemTray
 {
 	static class Program
 	{
+        #region Const
+        const string CLIENT_TITLE = "Waveface ";        
+        #endregion
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -19,26 +25,46 @@ namespace StationSystemTray
 		static void Main(string[] args)
 		{
 			log4net.Config.XmlConfigurator.Configure();
-			FileStream fileLock = null;
 
-			try
-			{
-				using (fileLock = AcquireLock())
-				{
-					ApplyInstalledCulture();
+            bool isFirstCreated;
 
-					Application.EnableVisualStyles();
-					Application.SetCompatibleTextRenderingDefault(false);
+            //Create a new mutex using specific mutex name
+            Mutex m = new Mutex(false, "StationSystemTray", out isFirstCreated);
 
-					bool initMinimized = (args != null && args.Length > 0 && args[0] == "--minimized");
+            if (!isFirstCreated)
+            {
+                var currentProcess = Process.GetCurrentProcess();
+                var processes = Process.GetProcessesByName(Assembly.GetExecutingAssembly().GetName().Name);
 
-					Application.Run(new MainForm(initMinimized));
-				}
-			}
-			catch (FileLoadException)
-			{
-				// is already running
-			}
+                foreach (var process in processes)
+                {
+                    if (process.Id == currentProcess.Id)
+                        continue;
+
+                    IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
+                    if (handle == IntPtr.Zero)
+                    {
+                        handle = Win32Helper.FindWindow(null, "Log In - Waveface");
+                    }
+
+                    if (handle == IntPtr.Zero)
+                        return;
+
+                    Win32Helper.SetForegroundWindow(handle);
+                    Win32Helper.ShowWindow(handle, 1);
+                    return;
+                }
+                return;
+            }
+
+            ApplyInstalledCulture();
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            bool initMinimized = (args != null && args.Length > 0 && args[0] == "--minimized");
+
+            Application.Run(new MainForm(initMinimized));
 		}
 
 		private static void ApplyInstalledCulture()
@@ -50,27 +76,5 @@ namespace StationSystemTray
 			else
 				CultureManager.ApplicationUICulture = new CultureInfo(_culture);
 		}
-
-		private const string PID_FILE = "WavefaceSysTray.lock";
-
-		static FileStream AcquireLock()
-		{
-			try
-			{
-				string appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-				string lockFile = Path.Combine(appDataDir, PID_FILE);
-
-				return File.Open(lockFile, FileMode.Create, FileAccess.Write, FileShare.None);
-			}
-			catch (Exception)
-			{
-				throw new FileLoadException();
-			}
-		}
-	}
-
-
-	class FileLockException: System.Exception
-	{
 	}
 }

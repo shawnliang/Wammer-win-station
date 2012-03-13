@@ -28,7 +28,7 @@ namespace Waveface.PostUI
         {
             set
             {
-                imageListView.Items.AddRange(value.ToArray());
+                AddFileToImageListView(value.ToArray(), true);
             }
         }
 
@@ -43,7 +43,11 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = "更改";
+            btnSend.Text = "更改"; //@ I18n
+
+            btnAddPhoto.Visible = false;
+            btnDeletePhoto.Visible = false;
+            labelSummary.Location = new Point(4, labelSummary.Location.Y);
         }
 
         #region ImageListView
@@ -69,6 +73,21 @@ namespace Waveface.PostUI
 
             sortAscendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Ascending;
             sortDescendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Descending;
+        }
+
+        private void AddFileToImageListView(string[] images, bool forceOrigin)
+        {
+            foreach (string _pic in images)
+            {
+                ImageListViewItem _item = new ImageListViewItem(_pic);
+
+                if (MyParent.EditMode && !forceOrigin)
+                    _item.Tag = EditModePhotoType.NewAdd;
+                else
+                    _item.Tag = EditModePhotoType.Origin;
+
+                imageListView.Items.Add(_item);
+            }
         }
 
         private void addToolStripButton_Click(object sender, EventArgs e)
@@ -276,7 +295,7 @@ namespace Waveface.PostUI
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                imageListView.Items.AddRange(openFileDialog.FileNames);
+                AddFileToImageListView(openFileDialog.FileNames, false);
             }
             else
             {

@@ -197,6 +197,8 @@ namespace StationSystemTray
 			this.cmbEmail.FormattingEnabled = true;
 			resources.ApplyResources(this.cmbEmail, "cmbEmail");
 			this.cmbEmail.Name = "cmbEmail";
+			this.cmbEmail.SelectionChangeCommitted += new System.EventHandler(this.cmbEmail_SelectionChangeCommitted);
+			this.cmbEmail.TextUpdate += new System.EventHandler(this.cmbEmail_TextUpdate);
 			// 
 			// lblPassword
 			// 
@@ -241,6 +243,7 @@ namespace StationSystemTray
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.tabControl);
+			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

@@ -1,5 +1,6 @@
 ﻿#region
 
+using System.Collections.Generic;
 using System.IO;
 using Waveface.API.V2;
 
@@ -177,6 +178,31 @@ namespace Waveface
             return null;
         }
 
+        public MR_posts_update Posts_update(string post_id, string last_update_time, Dictionary<string, string> OptionalParams)
+        {
+            if (!IsNetworkAvailable)
+                return null;
+
+            MR_posts_update _ret = null;
+
+            try
+            {
+                _ret = m_service.posts_update(SessionToken, m_rt.CurrentGroupID, post_id, last_update_time, OptionalParams);
+            }
+            catch (Station401Exception _e)
+            {
+                Main.Current.Station401ExceptionHandler(_e.Message);
+            }
+
+            if (_ret != null)
+            {
+                if (_ret.status == "200")
+                    return _ret;
+            }
+
+            return null;
+        }
+
         public MR_posts_getSingle Posts_GetSingle(string post_id)
         {
             if (!IsNetworkAvailable)
@@ -201,6 +227,8 @@ namespace Waveface
 
             return null;
         }
+
+
 
         public MR_previews_get_adv Preview_GetAdvancedPreview(string url)
         {

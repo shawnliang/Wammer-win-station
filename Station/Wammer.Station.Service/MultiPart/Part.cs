@@ -106,8 +106,8 @@ namespace Wammer.MultiPart
 
 			foreach (string name in headers.AllKeys)
 			{
-				if (disposition != null && name.ToLower().Equals(
-														"content-disposition"))
+				if (disposition != null && name.Equals(
+														"content-disposition",StringComparison.CurrentCultureIgnoreCase))
 					continue;
 
 
