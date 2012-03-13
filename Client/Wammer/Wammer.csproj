@@ -943,6 +943,9 @@
     <None Include="Resources\minmax.js" />
     <None Include="Resources\WFPreviewWin.css" />
     <None Include="Resources\loader.gif" />
+    <None Include="Resources\star.png" />
+    <None Include="Resources\star_empty.png" />
+    <None Include="Resources\CoverImage.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

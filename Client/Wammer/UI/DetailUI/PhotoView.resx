@@ -122,19 +122,25 @@
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="miSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 22</value>
+    <value>184, 22</value>
   </data>
   <data name="miSave.Text" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="miSaveAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 22</value>
+    <value>184, 22</value>
   </data>
   <data name="miSaveAll.Text" xml:space="preserve">
     <value>Save All</value>
   </data>
+  <data name="miSetAsCoverImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>184, 22</value>
+  </data>
+  <data name="miSetAsCoverImage.Text" xml:space="preserve">
+    <value>Set as Cover Image</value>
+  </data>
   <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 48</value>
+    <value>185, 92</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
     <value>contextMenuStrip</value>
@@ -166,7 +172,7 @@
     <value>panelMain</value>
   </data>
   <data name="&gt;&gt;imageListView.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <metadata name="saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>173, 17</value>
@@ -231,6 +237,33 @@
   <data name="panelMain.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="btnCoverImage.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnCoverImage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnCoverImage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>660, 13</value>
+  </data>
+  <data name="btnCoverImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 26</value>
+  </data>
+  <data name="btnCoverImage.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;btnCoverImage.Name" xml:space="preserve">
+    <value>btnCoverImage</value>
+  </data>
+  <data name="&gt;&gt;btnCoverImage.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnCoverImage.Parent" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;btnCoverImage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="btnSlideShow.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -241,7 +274,7 @@
     <value>692, 13</value>
   </data>
   <data name="btnSlideShow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>24, 26</value>
+    <value>26, 26</value>
   </data>
   <data name="btnSlideShow.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -256,16 +289,16 @@
     <value>panelMain</value>
   </data>
   <data name="&gt;&gt;btnSlideShow.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="btnSave.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnSave.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 13</value>
+    <value>11, 13</value>
   </data>
   <data name="btnSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>24, 26</value>
+    <value>26, 26</value>
   </data>
   <data name="btnSave.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -286,7 +319,7 @@
     <value>panelMain</value>
   </data>
   <data name="&gt;&gt;btnSave.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="btnSaveAll.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -295,7 +328,7 @@
     <value>43, 13</value>
   </data>
   <data name="btnSaveAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>24, 26</value>
+    <value>26, 26</value>
   </data>
   <data name="btnSaveAll.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -313,7 +346,7 @@
     <value>panelMain</value>
   </data>
   <data name="&gt;&gt;btnSaveAll.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -363,9 +396,6 @@
         //8AAP//AAD//w==
 </value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
   </data>
@@ -382,6 +412,12 @@
     <value>miSaveAll</value>
   </data>
   <data name="&gt;&gt;miSaveAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;miSetAsCoverImage.Name" xml:space="preserve">
+    <value>miSetAsCoverImage</value>
+  </data>
+  <data name="&gt;&gt;miSetAsCoverImage.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;saveFileDialog.Name" xml:space="preserve">

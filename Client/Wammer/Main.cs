@@ -149,7 +149,7 @@ namespace Waveface
         #endregion
 
         public Main()
-        {            
+        {
             QuitOption = QuitOption.QuitProgram;
 
             Current = this;
@@ -1019,12 +1019,12 @@ namespace Waveface
 
             timerDelayPost.Enabled = true;
         }
-        
+
         public void Post()
         {
             DoRealPostForm(new List<string>(), PostType.All);
         }
-        
+
         public void EditPost(Post post)
         {
             if (!RT.LoginOK)
@@ -1107,9 +1107,140 @@ namespace Waveface
 
         #endregion
 
-        #region AfterPostComment
+        #region PostUpdate
 
-        public void AfterPostComment(string post_id)
+        public bool ChangePostCoverImage(Post post, string cover_attach)
+        {
+            if (!CheckNetworkStatus())
+                return false;
+
+            try
+            {
+                string _time = post.timestamp;
+
+                if (post.update_time != null)
+                {
+                    _time = post.update_time;
+                }
+
+                Dictionary<string, string> _params = new Dictionary<string, string>();
+                _params.Add("cover_attach", cover_attach);
+
+                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, _params);
+
+                if (_update == null)
+                {
+                    return false;
+                }
+
+                RefreshSinglePost(_update.post);
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool ChangePostContent(Post post, string content)
+        {
+            if (!CheckNetworkStatus())
+                return false;
+
+            try
+            {
+                string _time = post.timestamp;
+
+                if (post.update_time != null)
+                {
+                    _time = post.update_time;
+                }
+
+                Dictionary<string, string> _params = new Dictionary<string, string>();
+                _params.Add("content", content);
+
+                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, _params);
+
+                if (_update == null)
+                {
+                    return false;
+                }
+
+                RefreshSinglePost(_update.post);
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool ChangePostFavorite(Post post)
+        {
+            if (!CheckNetworkStatus())
+                return false;
+
+            try
+            {
+                if (post.favorite == null)
+                    return false;
+
+                int _value = int.Parse(post.favorite);
+
+                _value = (_value == 0) ? 1 : 0;
+
+                string _time = post.timestamp;
+
+                if (post.update_time != null)
+                {
+                    _time = post.update_time;
+                }
+
+                Dictionary<string, string> _params = new Dictionary<string, string>();
+                _params.Add("favorite", _value.ToString());
+
+                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, _params);
+
+                if (_update == null)
+                {
+                    return false;
+                }
+
+                RefreshSinglePost(_update.post);
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool HidePost(string postId)
+        {
+            if (!CheckNetworkStatus())
+                return false;
+
+            MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
+
+            if (_ret != null)
+            {
+                MessageBox.Show("Remove Post Success!"); //@ I18n
+
+                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public void RefreshSinglePost_ByID(string post_id)
         {
             MR_posts_getSingle _singlePost = RT.REST.Posts_GetSingle(post_id);
 
@@ -1118,10 +1249,19 @@ namespace Waveface
                 ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
                 //ReplacePostInList(_singlePost.post, RT.FilterPosts);
 
-                s_logger.Trace("AfterPostComment.ShowAllTimeline(true)");
+                s_logger.Trace("RefreshSinglePost_ByID.ShowAllTimeline(true)");
 
                 ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
             }
+        }
+
+        public void RefreshSinglePost(Post post)
+        {
+            ReplacePostInList(post, RT.CurrentGroupPosts);
+
+            s_logger.Trace("RefreshSinglePost.ShowAllTimeline(true)");
+
+            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
         }
 
         private bool ReplacePostInList(Post post, List<Post> posts)
@@ -1282,18 +1422,6 @@ namespace Waveface
         #endregion
 
         #region Misc
-
-        public void HidePost(string postId)
-        {
-            MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
-
-            if (_ret != null)
-            {
-                MessageBox.Show("Remove Post Success!");
-
-                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
-            }
-        }
 
         private void showTaskbarNotifier(Post post)
         {

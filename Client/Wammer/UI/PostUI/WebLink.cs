@@ -38,35 +38,46 @@ namespace Waveface.PostUI
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            //[1] 有Preview
-            if (m_mrPreviewsGetAdv != null)
-            {
-                try
-                {
-                    Preview_OpenGraph _openGraph = CreateOpenGraph();
-                    string _og = JsonConvert.SerializeObject(_openGraph);
-
-                    if (DoRealPost(_og))
-                    {
-                        MyParent.SetDialogResult_Yes_AndClose();
-                    }
-
-                    return;
-                }
-                catch (Exception _e)
-                {
-                    MessageBox.Show(_e.Message);
-                    return;
-                }
-            }
-
-            //[2] 單純文字
             if (MyParent.pureTextBox.Text.Trim().Equals(string.Empty))
             {
                 MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MyParent.EditMode)
+            {
+                if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
+                {
+                    Main.Current.ChangePostContent(MyParent.Post, MyParent.pureTextBox.Text.Trim());
+                }
+
+                MyParent.SetDialogResult_Yes_AndClose();
             }
             else
             {
+                //[1] 有Preview
+                if (m_mrPreviewsGetAdv != null)
+                {
+                    try
+                    {
+                        Preview_OpenGraph _openGraph = CreateOpenGraph();
+                        string _og = JsonConvert.SerializeObject(_openGraph);
+
+                        if (DoRealPost(_og))
+                        {
+                            MyParent.SetDialogResult_Yes_AndClose();
+                        }
+
+                        return;
+                    }
+                    catch (Exception _e)
+                    {
+                        MessageBox.Show(_e.Message);
+                        return;
+                    }
+                }
+
+                //[2] 單純文字
                 if (DoRealPost(""))
                 {
                     MyParent.SetDialogResult_Yes_AndClose();
