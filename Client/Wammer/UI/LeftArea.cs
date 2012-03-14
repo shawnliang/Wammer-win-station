@@ -266,7 +266,7 @@ namespace Waveface
 
         public void SetUI(bool flag)
         {
-            panelFilter.Visible = flag;
+            //@ panelFilter.Visible = flag;
 
             FillCustomizedFilters();
         }

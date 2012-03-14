@@ -19,6 +19,8 @@ namespace Waveface
 {
     public class DetailView : UserControl
     {
+        private const int FavoriteIconSize = 20;
+
         private IContainer components;
         private Post m_post;
 
@@ -118,6 +120,8 @@ namespace Waveface
             this.panelTop.Controls.Add(this.labelTime);
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
+            this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
+            this.panelTop.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseClick);
             // 
             // btnRemove
             // 
@@ -224,6 +228,7 @@ namespace Waveface
             btnRemove.Visible = true;
 
             setupTitle();
+            drawFavorite();
 
             PostType _postType = getPostType();
 
@@ -259,6 +264,45 @@ namespace Waveface
             labelWho.Text = I18n.L.T("DetailView.Via") + " " + Post.code_name;
 
             labelWho.Left = labelTime.Right + 8;
+        }
+
+        private void drawFavorite()
+        {
+            panelTop.Refresh();
+        }
+
+        private void panelTop_Paint(object sender, PaintEventArgs e)
+        {
+            if (m_post == null)
+                return;
+
+            if (m_post.favorite == null)
+                return;
+
+            int _value = int.Parse(m_post.favorite);
+
+            int _x = 6;
+
+            if (_value == 0)
+                e.Graphics.DrawImage(Properties.Resources.star_empty, _x, 6, FavoriteIconSize, FavoriteIconSize);
+            else
+                e.Graphics.DrawImage(Properties.Resources.star, _x, 6, FavoriteIconSize, FavoriteIconSize);
+        }
+
+        private void panelTop_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (m_post == null)
+                return;
+
+            if (m_post.favorite == null)
+                return;
+
+            int _x = 6;
+
+            if((e.X > (_x - 2)) && (e.X < (_x + FavoriteIconSize + 2)))
+            {
+                Main.Current.ChangePostFavorite(m_post);
+            }
         }
 
         private PostType getPostType()
@@ -386,7 +430,7 @@ namespace Waveface
 
             if (_postsNewComment != null)
             {
-                Main.Current.AfterPostComment(post.post_id);
+                Main.Current.RefreshSinglePost_ByID(post.post_id);
             }
 
             textBox.Text = "";

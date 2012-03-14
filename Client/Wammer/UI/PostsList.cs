@@ -22,7 +22,7 @@ namespace Waveface
 
         private const int PicHeight = 102; //115
         private const int PicWidth = 102; //115
-        private const int FavoriteIconSize = 22;
+        private const int FavoriteIconSize = 18;
 
         private IContainer components;
         private DataGridView dataGridView;
@@ -279,14 +279,17 @@ namespace Waveface
                 switch (_value)
                 {
                     case 0:
-                        g.DrawRectangle(Pens.Red, r.X + r.Width - FavoriteIconSize - 6,
-                                        r.Y + r.Height - FavoriteIconSize - 4, FavoriteIconSize, FavoriteIconSize);
+                        //g.DrawRectangle(Pens.Red, r.X + r.Width - FavoriteIconSize - 6,
+                        //                r.Y + r.Height - FavoriteIconSize - 3, FavoriteIconSize, FavoriteIconSize);
+
+                        g.DrawImage(Properties.Resources.star_empty, r.X + r.Width - FavoriteIconSize - 6, r.Y + r.Height - FavoriteIconSize - 6, FavoriteIconSize, FavoriteIconSize);
 
                         break;
                     case 1:
-                        g.FillRectangle(Brushes.Red, r.X + r.Width - FavoriteIconSize - 6,
-                                        r.Y + r.Height - FavoriteIconSize - 4, FavoriteIconSize, FavoriteIconSize);
+                        //g.FillRectangle(Brushes.Red, r.X + r.Width - FavoriteIconSize - 6,
+                        //                r.Y + r.Height - FavoriteIconSize - 3, FavoriteIconSize, FavoriteIconSize);
 
+                        g.DrawImage(Properties.Resources.star, r.X + r.Width - FavoriteIconSize - 6, r.Y + r.Height - FavoriteIconSize - 6, FavoriteIconSize, FavoriteIconSize);
                         break;
                 }
             }
@@ -486,9 +489,23 @@ namespace Waveface
         {
             try
             {
-                Attachment _a = post.attachments[0];
+                Attachment _attachment = post.attachments[0];
+                
+                if (post.cover_attach != null)
+                {
+                    string _cover_attach = post.cover_attach;
 
-                DrawResizedThumbnail_2(thumbnailRect, g, _a);
+                    foreach (Attachment _a in post.attachments)
+                    {
+                        if(_cover_attach == _a.object_id)
+                        {
+                            _attachment = _a;
+                            break;
+                        }
+                    }
+                }
+
+                DrawResizedThumbnail_2(thumbnailRect, g, _attachment);
             }
             catch
             {
@@ -843,13 +860,11 @@ namespace Waveface
             Size _sizeCell = dataGridView[e.ColumnIndex, e.RowIndex].Size;
 
             int _x = _sizeCell.Width - FavoriteIconSize - 8;
-            int _y = _sizeCell.Height - FavoriteIconSize - 4;
+            int _y = _sizeCell.Height - FavoriteIconSize - 8;
 
             if ((e.X > _x) && (e.Y > _y))
             {
-                MessageBox.Show("Hit");
-
-
+                Main.Current.ChangePostFavorite(_post);
             }
         }
     }
