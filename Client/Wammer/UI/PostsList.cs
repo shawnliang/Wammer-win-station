@@ -187,7 +187,7 @@ namespace Waveface
         {
             try
             {
-                //@ dataGridView.Rows[e.RowIndex].Height = 120 + (e.RowIndex % 10) * 20;
+                //dataGridView.Rows[e.RowIndex].Height = 120 + (e.RowIndex % 10) * 20;
 
                 bool _isDrawThumbnail;
 

@@ -19,18 +19,11 @@ namespace Waveface.PostUI
         private long m_avail_month_total_objects;
         private long m_month_total_objects;
         private MyImageListViewRenderer m_imageListViewRenderer;
+        private List<string> m_editModeOriginPhotoFiles;
 
         public PostForm MyParent { get; set; }
 
         public Dictionary<string, string> FileNameMapping { get; set; }
-
-        public List<string> Files
-        {
-            set
-            {
-                AddFileToImageListView(value.ToArray(), true);
-            }
-        }
 
         public Photo()
         {
@@ -59,6 +52,7 @@ namespace Waveface.PostUI
             m_imageListViewRenderer = new MyImageListViewRenderer();
 
             imageListView.SetRenderer(m_imageListViewRenderer);
+
             imageListView.BackColor = Color.FromArgb(243, 242, 238);
             imageListView.Colors.BackColor = Color.FromArgb(243, 242, 238);
             imageListView.Colors.PaneBackColor = Color.FromArgb(243, 242, 238);
@@ -75,18 +69,42 @@ namespace Waveface.PostUI
             sortDescendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Descending;
         }
 
-        private void AddFileToImageListView(string[] images, bool forceOrigin)
+        public void AddNewPostPhotoFiles(List<string> files)
         {
-            foreach (string _pic in images)
+            foreach (string _pic in files)
             {
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
-                if (MyParent.EditMode && !forceOrigin)
-                    _item.Tag = EditModePhotoType.NewAdd;
-                else
-                    _item.Tag = EditModePhotoType.Origin;
+                EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
+
+                _tag.AddPhotoType = EditModePhotoType.NewPostOrigin;
+
+                _item.Tag = _tag;
 
                 imageListView.Items.Add(_item);
+            }
+        }
+
+        public void AddEditModePhotoFiles(List<string> files, List<Attachment> attachments)
+        {
+            m_editModeOriginPhotoFiles = files;
+
+            int i = 0;
+
+            foreach (string _pic in m_editModeOriginPhotoFiles)
+            {
+                ImageListViewItem _item = new ImageListViewItem(_pic);
+
+                EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
+
+                _tag.AddPhotoType = EditModePhotoType.EditModeOrigin;
+                _tag.ObjectID = attachments[i].object_id;
+
+                _item.Tag = _tag;
+
+                imageListView.Items.Add(_item);
+
+                i++;
             }
         }
 
@@ -174,7 +192,69 @@ namespace Waveface.PostUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            btnBatchPost_Click(sender, e);
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
+            if (MyParent.EditMode)
+            {
+                Dictionary<string, string> _params = new Dictionary<string, string>();
+
+                if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
+                {
+                    _params.Add("content", MyParent.pureTextBox.Text.Trim());
+                }
+
+                if (EditModePhotosChanged())
+                {
+                    _params.Add("attachment_id_array", getNewAttachmentIdArray());
+                }
+
+                if (_params.Count != 0)
+                {
+                    Main.Current.PostUpdate(MyParent.Post, _params);
+                }
+
+                MyParent.SetDialogResult_Yes_AndClose();
+            }
+            else
+            {
+                BatchPost();
+            }
+        }
+
+        private bool EditModePhotosChanged()
+        {
+            if (imageListView.Items.Count == m_editModeOriginPhotoFiles.Count)
+            {
+                for (int i = 0; i < imageListView.Items.Count; i++)
+                {
+                    if (imageListView.Items[i].FileName != m_editModeOriginPhotoFiles[i])
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private string getNewAttachmentIdArray()
+        {
+            string _ids = "[";
+
+            foreach (ImageListViewItem _item in imageListView.Items)
+            {
+                _ids += "\"" + ((EditModeImageListViewItemTag)_item.Tag).ObjectID + "\"" + ",";
+            }
+
+            _ids = _ids.Substring(0, _ids.Length - 1);
+            _ids += "]";
+
+            return _ids;
         }
 
         private void SendPureText()
@@ -213,16 +293,12 @@ namespace Waveface.PostUI
             {
                 MessageBox.Show(_e.Message);
 
-
                 return false;
             }
         }
 
-        private void btnBatchPost_Click(object sender, EventArgs e)
+        private void BatchPost()
         {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
             if (imageListView.Items.Count == 0)
             {
                 SendPureText();
@@ -295,7 +371,21 @@ namespace Waveface.PostUI
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                AddFileToImageListView(openFileDialog.FileNames, false);
+                foreach (string _pic in openFileDialog.FileNames)
+                {
+                    ImageListViewItem _item = new ImageListViewItem(_pic);
+
+                    EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
+
+                    if (MyParent.EditMode)
+                        _tag.AddPhotoType = EditModePhotoType.EditModeNewAdd;
+                    else
+                        _tag.AddPhotoType = EditModePhotoType.NewPostNewAdd;
+
+                    _item.Tag = _tag;
+
+                    imageListView.Items.Add(_item);
+                }
             }
             else
             {

@@ -57,7 +57,6 @@
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnSend = new Waveface.Component.XPButton();
-            this.btnBatchPost = new Waveface.Component.XPButton();
             this.panel.SuspendLayout();
             this.columnContextMenu.SuspendLayout();
             this.panelToolbar.SuspendLayout();
@@ -299,17 +298,6 @@
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // btnBatchPost
-            // 
-            this.btnBatchPost.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnBatchPost, "btnBatchPost");
-            this.btnBatchPost.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnBatchPost.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnBatchPost.Image = global::Waveface.Properties.Resources.arrow_divide;
-            this.btnBatchPost.Name = "btnBatchPost";
-            this.btnBatchPost.UseVisualStyleBackColor = true;
-            this.btnBatchPost.Click += new System.EventHandler(this.btnBatchPost_Click);
-            // 
             // Photo
             // 
             resources.ApplyResources(this, "$this");
@@ -318,7 +306,6 @@
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.btnSend);
-            this.Controls.Add(this.btnBatchPost);
             this.Name = "Photo";
             this.Resize += new System.EventHandler(this.Photo_Resize);
             this.panel.ResumeLayout(false);
@@ -333,7 +320,6 @@
 
         #endregion
 
-        private Component.XPButton btnBatchPost;
         private Component.XPButton btnSend;
         private System.Windows.Forms.Panel panel;
         private Manina.Windows.Forms.ImageListView imageListView;

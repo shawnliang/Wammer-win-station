@@ -412,7 +412,10 @@ namespace Waveface.DetailUI
         {
             string _cover_attach = m_imageAttachments[m_selectedImageIndex].object_id;
 
-            if (Main.Current.ChangePostCoverImage(m_post, _cover_attach))
+            Dictionary<string, string> _params = new Dictionary<string, string>();
+            _params.Add("cover_attach", _cover_attach);
+
+            if (Main.Current.PostUpdate(m_post, _params))
                 Close();
         }
 

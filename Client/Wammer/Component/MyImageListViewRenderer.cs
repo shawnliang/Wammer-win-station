@@ -200,11 +200,11 @@ namespace Waveface.Component
                         }
                     }
 
-                    if (item.Tag is EditModePhotoType)
+                    if (item.Tag is EditModeImageListViewItemTag)
                     {
-                        EditModePhotoType _type = (EditModePhotoType) item.Tag;
+                        EditModePhotoType _type = ((EditModeImageListViewItemTag)item.Tag).AddPhotoType;
 
-                        if (_type == EditModePhotoType.NewAdd)
+                        if (_type == EditModePhotoType.EditModeNewAdd)
                         {
                             g.DrawString("+", new Font("Tahoma", 9, FontStyle.Bold), Brushes.Red, bounds.Left + 1, bounds.Top + 1);
                         }

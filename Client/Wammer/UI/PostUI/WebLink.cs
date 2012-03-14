@@ -48,7 +48,10 @@ namespace Waveface.PostUI
             {
                 if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
                 {
-                    Main.Current.ChangePostContent(MyParent.Post, MyParent.pureTextBox.Text.Trim());
+                    Dictionary<string, string> _params = new Dictionary<string, string>();
+                    _params.Add("content", MyParent.pureTextBox.Text.Trim());
+
+                    Main.Current.PostUpdate(MyParent.Post, _params);
                 }
 
                 MyParent.SetDialogResult_Yes_AndClose();

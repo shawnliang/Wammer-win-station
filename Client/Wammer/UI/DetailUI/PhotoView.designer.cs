@@ -77,18 +77,21 @@ namespace Waveface.DetailUI
             // 
             // miSave
             // 
+            this.miSave.Image = global::Waveface.Properties.Resources.Save;
             this.miSave.Name = "miSave";
             resources.ApplyResources(this.miSave, "miSave");
             this.miSave.Click += new System.EventHandler(this.miSave_Click);
             // 
             // miSaveAll
             // 
+            this.miSaveAll.Image = global::Waveface.Properties.Resources.SaveAll;
             this.miSaveAll.Name = "miSaveAll";
             resources.ApplyResources(this.miSaveAll, "miSaveAll");
             this.miSaveAll.Click += new System.EventHandler(this.miSaveAll_Click);
             // 
             // miSetAsCoverImage
             // 
+            this.miSetAsCoverImage.Image = global::Waveface.Properties.Resources.CoverImage;
             this.miSetAsCoverImage.Name = "miSetAsCoverImage";
             resources.ApplyResources(this.miSetAsCoverImage, "miSetAsCoverImage");
             this.miSetAsCoverImage.Click += new System.EventHandler(this.miSetAsCoverImage_Click);

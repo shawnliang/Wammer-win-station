@@ -50,6 +50,7 @@ namespace Waveface
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseLocation = true;
+            m_formSettings.UseSize = false;
             m_formSettings.UseWindowState = true;
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
@@ -306,17 +307,24 @@ namespace Waveface
 
             panelMiddleBar.Visible = false;
 
-            MaximizeBox = true;
-
             Size = new Size(760, 530);
 
-            if (files == null)
+            MaximizeBox = true;
+
+            if (EditMode)
             {
-                photo_UI.AddPhoto();
+                photo_UI.AddEditModePhotoFiles(files, Post.attachments);
             }
             else
             {
-                photo_UI.Files = files;
+                if (files == null)
+                {
+                    photo_UI.AddPhoto();
+                }
+                else
+                {
+                    photo_UI.AddNewPostPhotoFiles(files);
+                }
             }
         }
 
@@ -358,7 +366,10 @@ namespace Waveface
             {
                 if (!pureTextBox.Text.Trim().Equals(OldText))
                 {
-                    Main.Current.ChangePostContent(Post, pureTextBox.Text.Trim());
+                    Dictionary<string, string> _params = new Dictionary<string, string>();
+                    _params.Add("content", pureTextBox.Text.Trim());
+
+                    Main.Current.PostUpdate(Post, _params);
                 }
 
                 SetDialogResult_Yes_AndClose();
