@@ -18,6 +18,18 @@ namespace Wammer.Queue
 			this.Name = name;
 		}
 
+		public WMSQueue(string name, IPersistentStore persistentStorage, List<WMSMessage> initMessages)
+		{
+			this.persistentStorage = persistentStorage;
+			this.Name = name;
+
+			foreach (WMSMessage msg in initMessages)
+			{
+				msg.Queue = this;
+				this.items.AddLast(msg);
+			}
+		}
+
 		public void Push(WMSMessage msg, bool persistent)
 		{
 			if (msg == null)
@@ -80,6 +92,17 @@ namespace Wammer.Queue
 
 				foreach (Guid key in KeysToRemove)
 					popMsgs.Remove(key);
+			}
+		}
+
+		public int Count
+		{
+			get
+			{
+				lock (items)
+				{
+					return items.Count;
+				}
 			}
 		}
 	}

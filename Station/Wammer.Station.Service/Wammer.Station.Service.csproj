@@ -136,6 +136,7 @@
     <Compile Include="PerfMonitor\PerfCounterInstaller.cs" />
     <Compile Include="Queue\Queue.cs" />
     <Compile Include="Queue\QueueManager.cs" />
+    <Compile Include="Queue\SQLitePersistentStorage.cs" />
     <Compile Include="Station\AddDriverHandler.cs" />
     <Compile Include="Station\AttachmentGetHandler.cs" />
     <Compile Include="Model\Database.cs" />

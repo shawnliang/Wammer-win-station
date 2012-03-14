@@ -72,10 +72,8 @@ namespace Wammer.Station
             //Larry 2012/03/12, Enqueue upload original photo process
             if (!driver.isPrimaryStation && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy)))
             {
-                TaskQueue.EnqueueLow((state) =>
-                {
-                    file.Upload(ImageMeta.Origin, Parameters["apikey"], Parameters["session_token"]);
-                });
+                TaskQueue.Enqueue(new UploadOrigToCloudTask(file, Parameters["apikey"], Parameters["session_token"]), 
+					TaskPriority.Low);
             }
 
 			long newValue = System.Threading.Interlocked.Add(ref g_counter, 1);
@@ -261,6 +259,25 @@ namespace Wammer.Station
 
 		public AttachmentEventArgs()
 		{
+		}
+	}
+
+	class UploadOrigToCloudTask : ITask
+	{
+		private Attachment file;
+		private string api_key;
+		private string session_token;
+
+		public UploadOrigToCloudTask(Attachment file, string api_key, string session_token)
+		{
+			this.file = file;
+			this.api_key = api_key;
+			this.session_token = session_token;
+		}
+
+		public void Execute()
+		{
+			file.Upload(ImageMeta.Origin, api_key, session_token);
 		}
 	}
 }
