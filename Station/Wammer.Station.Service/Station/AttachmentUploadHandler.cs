@@ -67,7 +67,7 @@ namespace Wammer.Station
 			FileStorage storage = new FileStorage(driver);
 
 			IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
-			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this);
+			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this, storage);
 
 			long newValue = System.Threading.Interlocked.Add(ref g_counter, 1);
 
@@ -239,6 +239,7 @@ namespace Wammer.Station
 		public ImageMeta Meta { get; set; }
 		public string UserApiKey { get; set; }
 		public string UserSessionToken { get; set; }
+		public FileStorage Storage { get; set; }
 
 		public ImageAttachmentEventArgs()
 		{

@@ -308,13 +308,15 @@ namespace UT_WammerStation
 					type = AttachmentType.image,
 					RawData = new ArraySegment<byte>(imageRawData),
 					object_id = object_id1,
-					file_name = "orig_file.jpeg"
+					file_name = "orig_file.jpeg",
+					saved_file_name = "Penguins.jpg"
 				},
 				Meta = ImageMeta.Origin,
 				UserApiKey = "key1",
 				UserSessionToken = "token1",
-				Driver = new Driver { email = "driver1@waveface.com", folder = "resource", groups = groups, session_token = "session_token1", user_id = "id1" }
+				Driver = new Driver { email = "driver1@waveface.com", folder = "", groups = groups, session_token = "session_token1", user_id = "id1" }
 			};
+			args.Storage = new FileStorage(args.Driver);
 
 			ImagePostProcessing post = new ImagePostProcessing();
 			post.HandleImageAttachmentSaved(this, args);
@@ -353,13 +355,15 @@ namespace UT_WammerStation
 					mime_type = "image/jpeg",
 					type = AttachmentType.image,
 					RawData = new ArraySegment<byte>(imageRawData),
-					object_id = object_id1
+					object_id = object_id1,
+					saved_file_name = "Penguins.jpg"
 				},
 				Meta = ImageMeta.Origin,
 				UserSessionToken = "session1",
 				UserApiKey = "apikey1",
-				Driver = new Driver { email = "driver1@waveface.com", folder = "resource", groups = groups, session_token = "session_token1", user_id = "id1" }
+				Driver = new Driver { email = "driver1@waveface.com", folder = "", groups = groups, session_token = "session_token1", user_id = "id1" }
 			};
+			args.Storage = new FileStorage(args.Driver);
 
 			ImagePostProcessing post = new ImagePostProcessing();
 			post.HandleImageAttachmentCompletedSync(args);
