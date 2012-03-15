@@ -87,5 +87,10 @@ namespace Wammer.Model
 		{
 			collection.Update(query, update);
 		}
+
+		public void Update(IMongoQuery query, IMongoUpdate update, UpdateFlags flags)
+		{
+			collection.Update(query, update, flags);
+		}
 	}
 }

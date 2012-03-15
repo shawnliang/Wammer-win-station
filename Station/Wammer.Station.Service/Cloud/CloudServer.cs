@@ -5,6 +5,7 @@ using System.Net;
 using Wammer.Station;
 using System.Web;
 using System.IO;
+using System.ComponentModel;
 
 namespace Wammer.Cloud
 {
@@ -25,6 +26,11 @@ namespace Wammer.Cloud
 		public const string PARAM_STATION_ID = "station_id";
 		public const string PARAM_LOCATION = "location";
         public const string PARAM_USER_ID = "user_id";
+		public const string PARAM_LIMIT = "limit";
+		public const string PARAM_FILTER_ENTITY = "filter_entity";
+		public const string PARAM_GROUP_ID = "group_id";
+		public const string PARAM_OBJECT_ID = "object_id";
+		public const string PARAM_IMAGE_META = "image_meta";
 
 		public static string SessionToken { get; set; }
 
@@ -60,6 +66,25 @@ namespace Wammer.Cloud
 				return (string)StationRegistry.GetValue("cloudAPIKey", DEF_API_KEY);
 			}
 			set { apiKey = value; }
+		}
+
+		public static void requestAsyncDownload(WebClient agent, string path, Dictionary<object, object> parameters, 
+			string filepath, AsyncCompletedEventHandler handler, object evtargs)
+		{
+			StringBuilder buf = new StringBuilder();
+			foreach (KeyValuePair<object, object> pair in parameters)
+			{
+				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
+				buf.Append("=");
+				buf.Append(HttpUtility.UrlEncode(pair.Value.ToString()));
+				buf.Append("&");
+			}
+
+			// remove last &
+			buf.Remove(buf.Length - 1, 1);
+
+			agent.DownloadFileCompleted += handler;
+			agent.DownloadFileAsync(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()), filepath, evtargs);
 		}
 
 		/// <summary>
