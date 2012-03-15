@@ -146,20 +146,18 @@ namespace UT_WammerStation
 			try
 			{
 				context = listener.EndGetContext(result);
+
+				requestedPath = context.Request.Url.AbsolutePath;
+				reqeustedContentType = context.Request.ContentType;
+
+				using (StreamReader reader = new StreamReader(context.Request.InputStream))
+				{
+					postData = reader.ReadToEnd();
+				}
 			}
 			catch (Exception)
 			{
 				return;
-			}
-
-			
-
-			requestedPath = context.Request.Url.AbsolutePath;
-			reqeustedContentType = context.Request.ContentType;
-
-			using (StreamReader reader = new StreamReader(context.Request.InputStream))
-			{
-				postData = reader.ReadToEnd();
 			}
 
 			lock (this.resWriters)

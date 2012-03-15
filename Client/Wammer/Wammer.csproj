@@ -191,7 +191,7 @@
     </Compile>
     <Compile Include="Component\WebBrowserContextMenuHandler.cs" />
     <Compile Include="Data\ConnectServiceStateType.cs" />
-    <Compile Include="Data\EditModePhotoType.cs" />
+    <Compile Include="Data\EditMode.cs" />
     <Compile Include="Data\Delegates.cs" />
     <Compile Include="Data\StationState.cs" />
     <Compile Include="Data\UploadOriginPhotosToStationItem.cs" />

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -38,7 +38,7 @@ namespace Wammer.Station
 				ThumbnailInfo medium;
 				Attachment update;
 
-				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
+				using (Bitmap origImage = new Bitmap(evt.Storage.Load(evt.Attachment.saved_file_name)))
 				{
 					// release raw data immediately
 					evt.Attachment.RawData = new ArraySegment<byte>();
@@ -94,14 +94,6 @@ namespace Wammer.Station
 				return;
 
 			TaskQueue.Enqueue(new UpstreamThumbnailsTask(evt, this.ThumbnailUpstreamed), TaskPriority.Medium);
-		}
-
-		public static Bitmap BuildBitmap(ArraySegment<byte> imageData)
-		{
-			using (MemoryStream s = new MemoryStream(imageData.Array, imageData.Offset, imageData.Count))
-			{
-				return new Bitmap(s);
-			}
 		}
 
 		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, ExifOrientations orientation,
@@ -238,7 +230,7 @@ namespace Wammer.Station
 				ThumbnailInfo square;
 				string origImgObjectId = evt.Attachment.object_id;
 
-				using (Bitmap origImage = ImagePostProcessing.BuildBitmap(evt.Attachment.RawData))
+				using (Bitmap origImage = new Bitmap(evt.Storage.Load(evt.Attachment.saved_file_name)))
 				{
 					// release raw data immediately
 					evt.Attachment.RawData = new ArraySegment<byte>();

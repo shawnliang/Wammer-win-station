@@ -1109,7 +1109,7 @@ namespace Waveface
 
         #region PostUpdate
 
-        public bool ChangePostCoverImage(Post post, string cover_attach)
+        public bool PostUpdate(Post post, Dictionary<string, string> optionalParams)
         {
             if (!CheckNetworkStatus())
                 return false;
@@ -1123,45 +1123,7 @@ namespace Waveface
                     _time = post.update_time;
                 }
 
-                Dictionary<string, string> _params = new Dictionary<string, string>();
-                _params.Add("cover_attach", cover_attach);
-
-                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, _params);
-
-                if (_update == null)
-                {
-                    return false;
-                }
-
-                RefreshSinglePost(_update.post);
-            }
-            catch (Exception _e)
-            {
-                MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool ChangePostContent(Post post, string content)
-        {
-            if (!CheckNetworkStatus())
-                return false;
-
-            try
-            {
-                string _time = post.timestamp;
-
-                if (post.update_time != null)
-                {
-                    _time = post.update_time;
-                }
-
-                Dictionary<string, string> _params = new Dictionary<string, string>();
-                _params.Add("content", content);
-
-                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, _params);
+                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, optionalParams);
 
                 if (_update == null)
                 {
