@@ -179,6 +179,42 @@ namespace Wammer.Model
 	public class Attachment
 	{
 		#region Upload utility functions
+        public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
+                                    string objectId, string fileName, string contentType,
+                                    ImageMeta meta, AttachmentType type, string apiKey,
+                                    string token)
+        {
+            try
+            {
+                Dictionary<string, object> pars = new Dictionary<string, object>();
+                pars["type"] = type.ToString();
+                if (meta != ImageMeta.None)
+                    pars["image_meta"] = meta.ToString().ToLower();
+                pars["session_token"] = token;
+                pars["apikey"] = apiKey;
+                if (objectId != null)
+                    pars["object_id"] = objectId;
+                pars["group_id"] = groupId;
+                HttpWebResponse _webResponse =
+                    Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+                    url,
+                    "Mozilla 4.0+",
+                    pars,
+                    fileName,
+                    contentType,
+                    dataStream);
+
+                using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
+                {
+                    return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
+                }
+            }
+            catch (WebException e)
+            {
+                throw new WammerCloudException("Wammer cloud error", e);
+            }
+        }
+
 		public static ObjectUploadResponse Upload(string url, ArraySegment<byte> imageData, string groupId,
 											string objectId, string fileName, string contentType,
 											ImageMeta meta, AttachmentType type, string apiKey, 

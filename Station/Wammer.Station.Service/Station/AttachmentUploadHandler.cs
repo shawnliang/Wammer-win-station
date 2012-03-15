@@ -33,7 +33,7 @@ namespace Wammer.Station
 		public event EventHandler<ThumbnailUpstreamedEventArgs> ThumbnailUpstreamed;
 
 
-		private static long g_counter = 0;
+        //private static long g_counter = 0;
 
 		public AttachmentUploadHandler()
 			: base()
@@ -70,18 +70,20 @@ namespace Wammer.Station
 			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this);
 
             //Larry 2012/03/12, Enqueue upload original photo process
-            if (!driver.isPrimaryStation && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy)))
+            if (!driver.isPrimaryStation && meta == ImageMeta.Origin && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy)))
             {
                 TaskQueue.EnqueueLow((state) =>
                 {
-                    file.Upload(ImageMeta.Origin, Parameters["apikey"], Parameters["session_token"]);
+                    string url = CloudServer.BaseUrl + "attachments/upload/";
+                    Attachment.Upload(url, storage.Load(file.saved_file_name), file.group_id, file.object_id, file.file_name, file.mime_type,
+                                                                meta, file.type, Parameters["apikey"], Parameters["session_token"]); 
                 });
             }
 
-			long newValue = System.Threading.Interlocked.Add(ref g_counter, 1);
+            //long newValue = System.Threading.Interlocked.Add(ref g_counter, 1);
 
-			if (newValue % 5 == 0)
-				GC.Collect();
+            //if (newValue % 5 == 0)
+            //    GC.Collect();
 		}
 
 		private static IAttachmentUploadStrategy GetHandleStrategy(Attachment file, bool isNewOrigImage, ImageMeta meta)
@@ -245,12 +247,14 @@ namespace Wammer.Station
 
 	public class ImageAttachmentEventArgs : AttachmentEventArgs
 	{
+        public Boolean NeedUploadThumbnail { get; set; }
 		public ImageMeta Meta { get; set; }
 		public string UserApiKey { get; set; }
 		public string UserSessionToken { get; set; }
 
-		public ImageAttachmentEventArgs()
+        public ImageAttachmentEventArgs(Boolean needUploadThumbnail = true)
 		{
+            NeedUploadThumbnail = needUploadThumbnail;
 		}
 	}
 

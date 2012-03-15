@@ -235,7 +235,7 @@ namespace Wammer.Station.Service
 	{
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			Debug.Fail("should not reach this code");
+            //Debug.Fail("should not reach this code");
 		}
 
 		public object Clone()

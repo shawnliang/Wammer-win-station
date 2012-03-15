@@ -97,6 +97,9 @@
     <Reference Include="MongoDB.Driver">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\Dropbox\Software\Program\JsonCSharpClassGenerator\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
@@ -126,6 +129,7 @@
     <Compile Include="Cloud\User.cs" />
     <Compile Include="Cloud\UserLogInResponse.cs" />
     <Compile Include="Cloud\WammerCloudException.cs" />
+    <Compile Include="Extension\StreamExtension.cs" />
     <Compile Include="Model\Attachments.cs" />
     <Compile Include="Model\CloudStorage.cs" />
     <Compile Include="Model\Drivers.cs" />
@@ -138,17 +142,28 @@
     <Compile Include="Station\AttachmentGetHandler.cs" />
     <Compile Include="Model\Database.cs" />
     <Compile Include="Station\AttachmentUploadStrategy.cs" />
+    <Compile Include="JSON Class\AttachmentView.cs" />
     <Compile Include="Station\CloudStorageHandler.cs" />
     <Compile Include="Station\CloudStorageSync.cs" />
+    <Compile Include="JSON Class\Debug.cs" />
     <Compile Include="Station\DropboxFileStorage.cs" />
+    <Compile Include="JSON Class\Exif.cs" />
+    <Compile Include="JSON Class\Gps.cs" />
+    <Compile Include="JSON Class\ImageMeta.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
+    <Compile Include="JSON Class\JsonClassHelper.cs" />
+    <Compile Include="JSON Class\Large.cs" />
     <Compile Include="Station\ListDriverHandler.cs" />
+    <Compile Include="JSON Class\Medium.cs" />
     <Compile Include="Station\PingHandler.cs" />
+    <Compile Include="JSON Class\Places.cs" />
     <Compile Include="Station\PublicPortMapping.cs" />
     <Compile Include="Station\RemoveOwnerHandler.cs" />
     <Compile Include="Station\ResouceDirHandler.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
     <Compile Include="Station\ServiceUnavailableException.cs" />
+    <Compile Include="JSON Class\Small.cs" />
+    <Compile Include="JSON Class\Square.cs" />
     <Compile Include="Station\StationOfflineHandler.cs" />
     <Compile Include="Station\StationOnlineHandler.cs" />
     <Compile Include="Station\StationTimer.cs" />
@@ -233,6 +248,9 @@
     <None Include="natpmp.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Newtonsoft.Json.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
