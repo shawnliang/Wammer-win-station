@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
 using System.IO;
-using Wammer.Cloud;
+using System.Net;
 using log4net;
-
+using Wammer.Cloud;
 using Wammer.Utility;
 
 namespace Wammer.Station

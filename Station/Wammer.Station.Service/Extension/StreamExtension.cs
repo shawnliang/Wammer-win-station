@@ -1,7 +1,4 @@
 using System;
-using System.Reflection;
-using System.ComponentModel;
-using System.Linq;
 using System.IO;
 
 public static class StreamExtension

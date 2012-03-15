@@ -1,9 +1,8 @@
 ﻿// JSON C# Class Generator
 // http://at-my-window.blogspot.com/?page=json-class-generator
 
-using System;
-using Newtonsoft.Json.Linq;
 using JsonCSharpClassGenerator;
+using Newtonsoft.Json.Linq;
 
 namespace Wammer.Station.JSONClass
 {

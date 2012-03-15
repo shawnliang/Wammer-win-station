@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography;
-
-using Wammer.Cloud;
-using Wammer.MultiPart;
-using Wammer.Station;
+using System.Text;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.IdGenerators;
-using MongoDB.Driver;
+using Wammer.Cloud;
+using Wammer.Station;
 
 namespace Wammer.Model
 {

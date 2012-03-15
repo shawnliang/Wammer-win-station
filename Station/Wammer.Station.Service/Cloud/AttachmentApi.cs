@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Net;
-
-using Wammer.Model;
-using MongoDB.Bson;
 using MongoDB.Driver.Builders;
+using Wammer.Model;
 
 namespace Wammer.Cloud
 {

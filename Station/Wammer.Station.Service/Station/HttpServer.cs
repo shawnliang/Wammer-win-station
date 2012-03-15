@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Net;
-using System.Threading;
 
 using Wammer.Utility;
 

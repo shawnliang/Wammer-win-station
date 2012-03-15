@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Win32;
-using System.Text;
+﻿using Microsoft.Win32;
 
 namespace Wammer.Utility
 {
