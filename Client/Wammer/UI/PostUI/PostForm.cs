@@ -35,7 +35,7 @@ namespace Waveface
         private Dictionary<string, string> m_fileNameMapping;
 
         public Post Post { get; set; }
-        public NewPostItem NewPostItem { get; set; }
+        public BatchPostItem BatchPostItem { get; set; }
         public bool EditMode { get; set; }
         public string OldText { get; set; }
 
