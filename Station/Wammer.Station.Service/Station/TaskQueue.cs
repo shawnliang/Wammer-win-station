@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Text;
 using Wammer.PerfMonitor;
-
+using Wammer.Queue;
 
 namespace Wammer.Station
 {
@@ -19,14 +19,32 @@ namespace Wammer.Station
 	{
 		private static object lockAllQueue = new object();
 
-		private static LinkedList<ITask> HighPriorityQ = new LinkedList<ITask>();
-		private static LinkedList<ITask> MediumPriorityQ = new LinkedList<ITask>();
-		private static LinkedList<ITask> LowPriorityQ = new LinkedList<ITask>();
+		//private static LinkedList<ITask> HighPriorityQ = new LinkedList<ITask>();
+		//private static LinkedList<ITask> MediumPriorityQ = new LinkedList<ITask>();
+		//private static LinkedList<ITask> LowPriorityQ = new LinkedList<ITask>();
+
+		
 
 		private static log4net.ILog Logger = log4net.LogManager.GetLogger("TaskQueue");
 
 		private static IPerfCounter itemsInQueue = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE);
 		private static IPerfCounter itemsInProgress = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_PROGRESS);
+
+
+		private static WMSBroker mqBroker;
+		private static WMSSession mqSession;
+		private static WMSQueue mqHighPriority;
+		private static WMSQueue mqMediumPriority;
+		private static WMSQueue mqLowPriority;
+
+		public static TaskQueue()
+		{
+			mqBroker = new WMSBroker(new SQLitePersistentStorage("taskQueue.db"));
+			mqSession = mqBroker.CreateSession();
+			mqHighPriority = mqBroker.GetQueue("high");
+			mqMediumPriority = mqBroker.GetQueue("medium");
+			mqLowPriority = mqBroker.GetQueue("low");
+		}
 
 		/// <summary>
 		/// Enqueues a non-persistent task
@@ -46,27 +64,25 @@ namespace Wammer.Station
 		/// <param name="persistent"></param>
 		public static void Enqueue(ITask task, TaskPriority priority, bool persistent)
 		{
-			LinkedList<ITask> queue = null;
+			WMSQueue queue = null;
 
 			if (priority == TaskPriority.High)
-				queue = HighPriorityQ;
+				queue = mqHighPriority;
 			else if (priority == TaskPriority.Medium)
-				queue = MediumPriorityQ;
+				queue = mqMediumPriority;
 			else if (priority == TaskPriority.Low)
-				queue = LowPriorityQ;
+				queue = mqLowPriority;
 			else
 				throw new ArgumentOutOfRangeException("unknown priority: " + priority.ToString());
 
 			Enqueue(queue, task, persistent);
 		}
 
-		private static void Enqueue(LinkedList<ITask> queue, ITask task, bool persistent)
+		private static void Enqueue(WMSQueue queue, ITask task, bool persistent)
 		{
 			itemsInQueue.Increment();
-			lock (lockAllQueue)
-			{
-				queue.AddLast(task);
-			}
+
+			mqSession.Push(queue, task, persistent);
 
 			System.Threading.ThreadPool.QueueUserWorkItem(RunPriorityQueue);
 		}
@@ -115,10 +131,5 @@ namespace Wammer.Station
 	interface ITask
 	{
 		void Execute();
-	}
-
-	class TaskQueueItem
-	{
-
 	}
 }
