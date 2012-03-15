@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using System.IO;
-
-using Wammer.MultiPart;
-using Wammer.Cloud;
-using Wammer.Utility;
-using Wammer.Model;
+using System;
 using System.Drawing;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
+using System.IO;
 using MongoDB.Bson;
+using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Model;
 
 namespace Wammer.Station
 {
@@ -33,7 +26,7 @@ namespace Wammer.Station
 		public event EventHandler<ThumbnailUpstreamedEventArgs> ThumbnailUpstreamed;
 
 
-		private static long g_counter = 0;
+		//private static long g_counter = 0;
 
 		public AttachmentUploadHandler()
 			: base()
@@ -67,19 +60,19 @@ namespace Wammer.Station
 			FileStorage storage = new FileStorage(driver);
 
 			IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
-			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this, storage);
+			Boolean forwardBySecondaryStation = !driver.isPrimaryStation && meta == ImageMeta.Origin && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy));
+			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this, storage, driver.isPrimaryStation || !forwardBySecondaryStation);
 
 			//Larry 2012/03/12, Enqueue upload original photo process
-			if (!driver.isPrimaryStation && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy)))
+			if (forwardBySecondaryStation)
 			{
-				TaskQueue.Enqueue(new UploadOrigToCloudTask(file, Parameters["apikey"], Parameters["session_token"]), 
-					TaskPriority.Low);
+				TaskQueue.EnqueueLow((state) =>
+				{
+					string url = CloudServer.BaseUrl + "attachments/upload/";
+					Attachment.Upload(url, storage.Load(file.saved_file_name), file.group_id, file.object_id, file.file_name, file.mime_type,
+																meta, file.type, Parameters["apikey"], Parameters["session_token"]); 
+				}, null);
 			}
-
-			long newValue = System.Threading.Interlocked.Add(ref g_counter, 1);
-
-			if (newValue % 5 == 0)
-				GC.Collect();
 		}
 
 		private static IAttachmentUploadStrategy GetHandleStrategy(Attachment file, bool isNewOrigImage, ImageMeta meta)
@@ -243,13 +236,15 @@ namespace Wammer.Station
 
 	public class ImageAttachmentEventArgs : AttachmentEventArgs
 	{
+		public Boolean NeedUploadThumbnail { get; set; }
 		public ImageMeta Meta { get; set; }
 		public string UserApiKey { get; set; }
 		public string UserSessionToken { get; set; }
 		public FileStorage Storage { get; set; }
 
-		public ImageAttachmentEventArgs()
+		public ImageAttachmentEventArgs(Boolean needUploadThumbnail = true)
 		{
+			NeedUploadThumbnail = needUploadThumbnail;
 		}
 	}
 

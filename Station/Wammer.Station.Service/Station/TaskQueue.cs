@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Text;
 using Wammer.PerfMonitor;
 using Wammer.Queue;
 
@@ -69,6 +68,36 @@ namespace Wammer.Station
 			Enqueue(queue, task, persistent);
 		}
 
+		/// <summary>
+		/// Enqueues a non persistent task to low priority queue
+		/// </summary>
+		/// <param name="cb"></param>
+		/// <param name="state"></param>
+		public static void EnqueueLow(WaitCallback cb, object state)
+		{
+			Enqueue(new SimpleTask(cb, state), TaskPriority.Low, false);
+		}
+
+		/// <summary>
+		/// Enqueues a non persistent task to medium priority queue
+		/// </summary>
+		/// <param name="cb"></param>
+		/// <param name="state"></param>
+		public static void EnqueueMedium(WaitCallback cb, object state)
+		{
+			Enqueue(new SimpleTask(cb, state), TaskPriority.Medium, false);
+		}
+
+		/// <summary>
+		/// Enqueues a non persistent task to high priority queue
+		/// </summary>
+		/// <param name="cb"></param>
+		/// <param name="state"></param>
+		public static void EnqueueHigh(WaitCallback cb, object state)
+		{
+			Enqueue(new SimpleTask(cb, state), TaskPriority.High, false);
+		}
+
 		private static void Enqueue(WMSQueue queue, ITask task, bool persistent)
 		{
 			itemsInQueue.Increment();
@@ -131,5 +160,22 @@ namespace Wammer.Station
 	interface ITask
 	{
 		void Execute();
+	}
+
+	class SimpleTask : ITask
+	{
+		private WaitCallback cb;
+		private object state;
+
+		public SimpleTask(WaitCallback cb, object state)
+		{
+			this.cb = cb;
+			this.state = state;
+		}
+
+		public void Execute()
+		{
+			this.cb(this.state);
+		}
 	}
 }

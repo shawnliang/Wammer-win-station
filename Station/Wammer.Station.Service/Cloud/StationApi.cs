@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Web;
 
-using Wammer.Model;
 using Wammer.Utility;
 
 namespace Wammer.Cloud

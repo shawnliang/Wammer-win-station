@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Collections.Specialized;
-using System.IO;
-using System.Text;
 using System.Drawing;
+using System.IO;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using MongoDB.Driver;
-using MongoDB.Bson;
-using Wammer.Cloud;
 
 namespace Wammer.Station
 {
 	interface IAttachmentUploadStrategy
 	{
-		void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters,
-			Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage);
+
+        void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true);
+
 	}
 
 
@@ -24,8 +23,7 @@ namespace Wammer.Station
 		protected AttachmentUploadHandler handler;
 		protected Driver driver;
 
-		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters,
-			Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage)
+		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true)
 		{
 			this.handler = handler;
 			this.driver = driver;
@@ -48,6 +46,7 @@ namespace Wammer.Station
 
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
 			{
+                NeedUploadThumbnail = needUploadThumbnail,
 				Attachment = file,
 				Meta = meta,
 				UserApiKey = Parameters["apikey"],
@@ -175,8 +174,8 @@ namespace Wammer.Station
 
 	class DocumentUploadStrategy : IAttachmentUploadStrategy
 	{
-		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName,
-			AttachmentUploadHandler handler, FileStorage storage)
+
+        public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true)
 		{
 			file.file_size = file.RawData.Count;
 			file.modify_time = DateTime.UtcNow;

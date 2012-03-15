@@ -1,20 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
-using System.Drawing;
-using System.Threading;
-using System.Drawing.Imaging;
-
-using Wammer.Utility;
-using Wammer.Cloud;
-using Wammer.Model;
 using log4net;
-
-using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Utility;
+using System.Threading;
 
 namespace Wammer.Station
 {
@@ -261,13 +256,16 @@ namespace Wammer.Station
 				doc.Clear();
 				doc = null;
 
-				UpstreamThumbnail(small, evt.Attachment.group_id, evt.Attachment.object_id,
-					ImageMeta.Small, evt.UserApiKey, evt.UserSessionToken);
-				UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
-					ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
-				UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
-					ImageMeta.Square, evt.UserApiKey, evt.UserSessionToken);
 
+				if (evt.NeedUploadThumbnail)
+				{
+					UpstreamThumbnail(small, evt.Attachment.group_id, evt.Attachment.object_id,
+						ImageMeta.Small, evt.UserApiKey, evt.UserSessionToken);
+					UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
+						ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
+					UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
+						ImageMeta.Square, evt.UserApiKey, evt.UserSessionToken);
+				}
 
 				long newValue = Interlocked.Add(ref g_counter, 1L);
 				if (newValue % 5 == 0)

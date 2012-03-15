@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
 
 namespace Wammer.Model
 {

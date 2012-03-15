@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
-using System.Net;
 using System.IO;
+using System.Net;
+using System.Text;
 using System.Web;
-
 using Wammer.MultiPart;
 
 namespace Wammer.Station
@@ -175,68 +174,6 @@ namespace Wammer.Station
 					this.Parameters.Add(name, part.Text);
 				}
 			}
-		}
-
-		protected void TunnelToCloud(string additionalParam)
-		{
-			if (additionalParam == null || additionalParam.Length == 0)
-				throw new ArgumentException("param cannot be null or empty. If you really need it blank, change the code.");
-
-			logger.Debug("Forward to cloud");
-
-			Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
-
-			string queryString = Request.Url.Query;
-
-			if (string.Compare(Request.HttpMethod, "GET", true) == 0)
-				if (queryString == null || queryString.Length == 0)
-					queryString = additionalParam;
-				else
-					queryString += "&" + additionalParam;
-
-			UriBuilder uri = new UriBuilder(baseUri.Scheme, baseUri.Host, baseUri.Port,
-				Request.Url.AbsolutePath, queryString);
-
-			HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri.Uri);
-			req.Method = Request.HttpMethod;
-			req.ContentType = Request.ContentType;
-
-			if (string.Compare(req.Method, "POST", true) == 0)
-			{
-				using (Stream reqStream = req.GetRequestStream())
-				{
-					Wammer.Utility.StreamHelper.Copy(
-						new MemoryStream(this.RawPostData),
-						reqStream);
-
-					StreamWriter w = new StreamWriter(reqStream);
-					w.Write("&" + additionalParam);
-					w.Flush();
-				}
-			}
-
-			HttpWebResponse resp;
-			try
-			{
-				resp = (HttpWebResponse)req.GetResponse();
-			}
-			catch (WebException e)
-			{
-				resp = (HttpWebResponse)e.Response;
-
-				if (resp == null)
-					throw new WammerStationException(e.Message, -1);
-			}
-
-			Response.StatusCode = (int)resp.StatusCode;
-			Response.ContentType = resp.GetResponseHeader("content-type");
-			using (Stream from = resp.GetResponseStream())
-			using (Stream to = Response.OutputStream)
-			{
-				Wammer.Utility.StreamHelper.Copy(from, to);
-			}
-			Response.OutputStream.Close();
-			Response.Close();
 		}
 
 		protected abstract void HandleRequest();

@@ -1,21 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Net;
-using System.ServiceProcess;
-using System.Text;
 using System.IO;
+using System.Net;
 using System.Reflection;
-
-using MongoDB.Driver.Builders;
-using Microsoft.Win32;
-using Wammer.Station;
+using System.ServiceProcess;
 using Wammer.Cloud;
-using Wammer.Model;
 using Wammer.PerfMonitor;
-using TCMPortMapper;
 
 namespace Wammer.Station.Service
 {
@@ -236,7 +225,7 @@ namespace Wammer.Station.Service
 	{
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			Debug.Fail("should not reach this code");
+			//Debug.Fail("should not reach this code");
 		}
 
 		public object Clone()
