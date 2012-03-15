@@ -12,28 +12,24 @@ namespace StationSystemTray
 		[DefaultSettingValue("")]
 		public List<UserLoginSetting> Users
 		{
-			get
-			{
-				return (List<UserLoginSetting>)this["Users"];
-			}
-			set
-			{
-				this["Users"] = value;
-			}
+			get	{ return (List<UserLoginSetting>)this["Users"];	}
+			set	{ this["Users"] = value; }
 		}
 
 		[UserScopedSetting()]
 		[DefaultSettingValue("")]
 		public string LastLogin
 		{
-			get
-			{
-				return (string)this["LastLogin"];
-			}
-			set
-			{
-				this["LastLogin"] = value;
-			}
+			get	{ return (string)this["LastLogin"]; }
+			set	{ this["LastLogin"] = value; }
+		}
+
+		[UserScopedSetting()]
+		[DefaultSettingValue("false")]
+		public bool isUpgraded
+		{
+			get { return (bool)this["isUpgraded"]; }
+			set { this["isUpgraded"] = value; }
 		}
 	}
 

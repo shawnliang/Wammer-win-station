@@ -107,7 +107,14 @@ namespace StationSystemTray
 
 		protected override void OnLoad(EventArgs e)
 		{
-			this.userloginContainer = new UserLoginSettingContainer(new ApplicationSettings());
+			ApplicationSettings settings = new ApplicationSettings();
+			if (!settings.isUpgraded)
+			{
+				settings.Upgrade();
+				settings.isUpgraded = true;
+			}
+
+			this.userloginContainer = new UserLoginSettingContainer(settings);
 
 			this.iconRunning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_16.GetHicon());
 			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_disable_16.GetHicon());
