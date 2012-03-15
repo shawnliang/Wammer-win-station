@@ -139,12 +139,15 @@ namespace Wammer.Station
 				doc.Clear();
 				doc = null;
 
-				UpstreamThumbnail(small, evt.Attachment.group_id, evt.Attachment.object_id,
-					ImageMeta.Small, evt.UserApiKey, evt.UserSessionToken);
-				UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
-					ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
-				UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
-					ImageMeta.Square, evt.UserApiKey, evt.UserSessionToken);
+                if (evt.NeedUploadThumbnail)
+                {
+                    UpstreamThumbnail(small, evt.Attachment.group_id, evt.Attachment.object_id,
+                        ImageMeta.Small, evt.UserApiKey, evt.UserSessionToken);
+                    UpstreamThumbnail(large, evt.Attachment.group_id, evt.Attachment.object_id,
+                        ImageMeta.Large, evt.UserApiKey, evt.UserSessionToken);
+                    UpstreamThumbnail(square, evt.Attachment.group_id, evt.Attachment.object_id,
+                        ImageMeta.Square, evt.UserApiKey, evt.UserSessionToken);
+                }
 
 
                 //long newValue = Interlocked.Add(ref g_counter, 1L);

@@ -14,7 +14,7 @@ namespace Wammer.Station
 {
 	interface IAttachmentUploadStrategy
 	{
-		void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler);
+        void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, Boolean needUploadThumbnail = true);
 	}
 
 
@@ -23,7 +23,7 @@ namespace Wammer.Station
 		protected AttachmentUploadHandler handler;
 		protected Driver driver;
 
-		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler)
+		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, Boolean needUploadThumbnail = true)
 		{
 			this.handler = handler;
 			this.driver = driver;
@@ -46,6 +46,7 @@ namespace Wammer.Station
 
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
 			{
+                NeedUploadThumbnail = needUploadThumbnail,
 				Attachment = file,
 				Meta = meta,
 				UserApiKey = Parameters["apikey"],
@@ -172,7 +173,7 @@ namespace Wammer.Station
 
 	class DocumentUploadStrategy : IAttachmentUploadStrategy
 	{
-		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler)
+        public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, Boolean needUploadThumbnail = true)
 		{
 			file.file_size = file.RawData.Count;
 			file.modify_time = DateTime.UtcNow;

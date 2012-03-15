@@ -66,11 +66,12 @@ namespace Wammer.Station
 			string savedName = GetSavedFilename(file, meta);
 			FileStorage storage = new FileStorage(driver);
 
-			IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
-			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this);
+            IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
+            Boolean forwardBySecondaryStation = !driver.isPrimaryStation && meta == ImageMeta.Origin && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy));
+            handleStrategy.Execute(file, meta, Parameters, driver, savedName, this, driver.isPrimaryStation || !forwardBySecondaryStation);
 
             //Larry 2012/03/12, Enqueue upload original photo process
-            if (!driver.isPrimaryStation && meta == ImageMeta.Origin && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy)))
+            if (forwardBySecondaryStation)
             {
                 TaskQueue.EnqueueLow((state) =>
                 {
