@@ -195,11 +195,19 @@ namespace Wammer.Station
 		public void OnAsyncDownloadComplete(object sender, AsyncCompletedEventArgs evtarg)
 		{
 			ResourceDownloadEventArgs args = (ResourceDownloadEventArgs)evtarg.UserState;
-
 			Driver driver = args.driver;
 			AttachmentInfo attachment = args.attachment;
 			ImageMeta imagemeta = args.imagemeta;
 			string filepath = args.filepath;
+
+			if (evtarg.Error != null)
+			{
+				logger.Debug("Unable to download resource, id=" + attachment.object_id + 
+							 " meta=" + imagemeta.ToString() + 
+							 " reason=" + evtarg.Error.Message);
+				File.Delete(filepath);
+				return;
+			}
 
 			ThumbnailInfo thumbnail;
 			string savedFileName;
