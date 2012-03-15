@@ -251,11 +251,11 @@ namespace Waveface
 
         #region Resize Image
 
-        public static string ResizeImage(string orgImageFilePath, string fileName, string resizeRatio, int ratio)
+        public static string ResizeImage(string orgImageFilePath, string fileName, string longSideResizeOrRatio, int zoomRatio)
         {
-            string _rotatedImagePath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + fileName;
+            string _changedImagePath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + fileName;
 
-            if (resizeRatio.Equals(string.Empty) || resizeRatio.Equals("100%"))
+            if (longSideResizeOrRatio.Equals(string.Empty) || longSideResizeOrRatio.Equals("100%"))
             {
                 return orgImageFilePath;
             }
@@ -267,21 +267,25 @@ namespace Waveface
                 if (_exifOrientations != ExifOrientations.Unknown)
                 {
                     CorrectOrientation(_exifOrientations, _img);
-                    _img.Save(_rotatedImagePath);
+                    _img.Save(_changedImagePath);
+                }
+                else
+                {
+                    _changedImagePath = orgImageFilePath;
                 }
             }
 
-            int _longestSide = int.Parse(resizeRatio);
+            int _longestSide = int.Parse(longSideResizeOrRatio);
 
             try
             {
-                Bitmap _bmp = ResizeImage_Impl(_rotatedImagePath, _longestSide);
+                Bitmap _bmp = ResizeImage_Impl(_changedImagePath, _longestSide);
 
                 if (_bmp == null)
-                    return _rotatedImagePath;
+                    return _changedImagePath;
 
                 if ((_bmp.Height < _longestSide) && (_bmp.Width < _longestSide))
-                    return _rotatedImagePath;
+                    return _changedImagePath;
 
                 string _newPath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" +
                                   fileName;
@@ -290,7 +294,7 @@ namespace Waveface
                 EncoderParameters _params = new EncoderParameters(1);
 
                 // Set quality (100)
-                _params.Param[0] = new EncoderParameter(Encoder.Quality, ratio);
+                _params.Param[0] = new EncoderParameter(Encoder.Quality, zoomRatio);
 
                 // Create encoder info
                 ImageCodecInfo _codec = null;
@@ -317,7 +321,7 @@ namespace Waveface
                 MessageBox.Show(_e.Message);
             }
 
-            return _rotatedImagePath;
+            return _changedImagePath;
         }
 
         public static Bitmap ResizeImage(Bitmap image, int longestSide)

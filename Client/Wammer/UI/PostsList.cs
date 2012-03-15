@@ -799,6 +799,7 @@ namespace Waveface
             this.dataGridView.TabIndex = 0;
             this.dataGridView.VirtualMode = true;
             this.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseClick);
+            this.dataGridView.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseMove);
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
             this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
             // 
@@ -865,6 +866,25 @@ namespace Waveface
             if ((e.X > _x) && (e.Y > _y))
             {
                 Main.Current.ChangePostFavorite(_post);
+            }
+        }
+
+        private void dataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            Post _post = m_postBS[e.RowIndex] as Post;
+
+            Size _sizeCell = dataGridView[e.ColumnIndex, e.RowIndex].Size;
+
+            int _x = _sizeCell.Width - FavoriteIconSize - 8;
+            int _y = _sizeCell.Height - FavoriteIconSize - 8;
+
+            if ((e.X > _x) && (e.Y > _y))
+            {
+                Cursor = Cursors.Hand;
+            }
+            else
+            {
+                Cursor = Cursors.Default;
             }
         }
     }

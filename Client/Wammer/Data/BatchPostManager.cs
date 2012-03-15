@@ -14,7 +14,7 @@ using Waveface.API.V2;
 
 namespace Waveface
 {
-    public class NewPostManager
+    public class BatchPostManager
     {
         public event ProgressUpdateUI_Delegate UpdateUI;
         public event ShowMessage_Delegate ShowMessage;
@@ -25,13 +25,13 @@ namespace Waveface
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         private bool m_startUpload;
-        private bool m_downloading;
+        private bool m_uploading;
 
         private WorkItem m_workItem;
 
         #region Properties
 
-        public List<NewPostItem> Items { get; set; }
+        public List<BatchPostItem> Items { get; set; }
 
         public bool StartUpload
         {
@@ -39,22 +39,22 @@ namespace Waveface
             set { m_startUpload = value; }
         }
 
-        public bool Downloading
+        public bool Uploading
         {
-            get { return m_downloading; }
-            set { m_downloading = value; }
+            get { return m_uploading; }
+            set { m_uploading = value; }
         }
 
         #endregion
 
-        public NewPostManager()
+        public BatchPostManager()
         {
-            Items = new List<NewPostItem>();
+            Items = new List<BatchPostItem>();
         }
 
         public void Start()
         {
-            m_workItem = AbortableThreadPool.QueueUserWorkItem(BatchPostThreadMethod, 0);
+            m_workItem = AbortableThreadPool.QueueUserWorkItem(ThreadMethod, 0);
         }
 
         public WorkItemStatus AbortThread()
@@ -64,14 +64,14 @@ namespace Waveface
             return AbortableThreadPool.Cancel(m_workItem, true);
         }
 
-        public void Add(NewPostItem item)
+        public void Add(BatchPostItem item)
         {
             Items.Add(item);
 
             Save();
         }
 
-        public void Remove(NewPostItem item)
+        public void Remove(BatchPostItem item)
         {
             Items.Remove(item);
 
@@ -82,7 +82,7 @@ namespace Waveface
         {
             int _ret = 0;
 
-            foreach (NewPostItem _item in Items)
+            foreach (BatchPostItem _item in Items)
             {
                 _ret += (_item.Files.Count - _item.UploadedFiles.Count);
             }
@@ -90,11 +90,11 @@ namespace Waveface
             return _ret;
         }
 
-        private void BatchPostThreadMethod(object state)
+        private void ThreadMethod(object state)
         {
             if (ShowMessage != null)
             {
-                ShowMessage(I18n.L.T("NewPostManager.DragDropHere"));
+                ShowMessage(I18n.L.T("BatchPostManager.DragDropHere"));
             }
 
             Thread.Sleep(10000);
@@ -103,7 +103,7 @@ namespace Waveface
 
             while (true)
             {
-                NewPostItem _newPost;
+                BatchPostItem _batchPost;
 
                 if (!Main.Current.RT.REST.IsNetworkAvailable)
                 {
@@ -119,31 +119,31 @@ namespace Waveface
                 {
                     if (Items.Count > 0)
                     {
-                        _newPost = Items[0];
+                        _batchPost = Items[0];
                     }
                     else
                     {
-                        _newPost = null;
+                        _batchPost = null;
 
                         if (ShowMessage != null)
-                            ShowMessage(I18n.L.T("NewPostManager.DragDropHere"));
+                            ShowMessage(I18n.L.T("BatchPostManager.DragDropHere"));
                     }
                 }
 
-                if (_newPost != null)
+                if (_batchPost != null)
                 {
                     if (ShowMessage != null)
                         ShowMessage("");
 
                     if (StartUpload)
                     {
-                        NewPostItem _retItem = BatchPhotoPost(_newPost);
+                        BatchPostItem _retItem = BatchUploadPhoto(_batchPost);
 
                         if (_retItem.PostOK)
                         {
                             lock (this)
                             {
-                                Remove(_newPost);
+                                Remove(_batchPost);
 
                                 if (UploadDone != null)
                                     UploadDone(I18n.L.T("PostForm.PostSuccess"));
@@ -153,7 +153,7 @@ namespace Waveface
                         {
                             if (_retItem.ErrorAndDeletePost)
                             {
-                                Remove(_newPost);
+                                Remove(_batchPost);
 
                                 UpdateUI(int.MinValue, "");
 
@@ -177,32 +177,28 @@ namespace Waveface
             }
         }
 
-        private NewPostItem BatchPhotoPost(NewPostItem newPost)
+        private BatchPostItem BatchUploadPhoto(BatchPostItem nItem)
         {
             int _count = 0;
             string _tmpStamp = DateTime.Now.Ticks.ToString();
 
-            s_logger.Trace("[" + _tmpStamp + "]" + "BatchPhotoPost:" + newPost.Text + ", Files=" + newPost.Files.Count);
-
-            string _ids = "[";
+            s_logger.Trace("[" + _tmpStamp + "]" + "BatchPhotoPost:" + nItem.Text + ", Files=" + nItem.Files.Count);
 
             while (true)
             {
                 if (StartUpload)
                 {
-                    string _file = newPost.Files[_count];
+                    string _file = nItem.Files[_count];
 
-                    if (newPost.UploadedFiles.Keys.Contains(_file))
+                    if (nItem.UploadedFiles.Keys.Contains(_file))
                     {
-                        _ids += "\"" + newPost.UploadedFiles[_file] + "\"" + ",";
-
                         s_logger.Trace("[" + _tmpStamp + "]" + "Batch Sended Photo [" + _count + "]" + _file);
                     }
                     else
                     {
                         try
                         {
-                            Downloading = true;
+                            Uploading = true;
 
                             if (!File.Exists(_file))
                             {
@@ -218,25 +214,25 @@ namespace Waveface
                                 switch (Main.Current.NewPostThreadErrorDialogResult)
                                 {
                                     case DialogResult.Cancel:  // Delete Post
-                                        newPost.ErrorAndDeletePost = true;
-                                        newPost.PostOK = false;
-                                        return newPost;
+                                        nItem.ErrorAndDeletePost = true;
+                                        nItem.PostOK = false;
+                                        return nItem;
 
                                     case DialogResult.Yes: // Remove Picture
                                         s_logger.Error("Remove: [" + _file + "]");
 
-                                        newPost.Files.Remove(_file);
-                                        newPost.PostOK = false;
+                                        nItem.Files.Remove(_file);
+                                        nItem.PostOK = false;
 
                                         UpdateUI(int.MinValue, "");
 
-                                        return newPost;
+                                        return nItem;
 
                                     case DialogResult.Retry:  // DoNothing
                                         s_logger.Error("Ignore & Retry Miss File: [" + _file + "]");
 
-                                        newPost.PostOK = false;
-                                        return newPost;
+                                        nItem.PostOK = false;
+                                        return nItem;
                                 }
                             }
 
@@ -244,7 +240,6 @@ namespace Waveface
                             {
                                 if (CheckStoragesUsage() <= 0) //Hack 
                                 {
-
                                     // 雲端個人儲存空間不足. 作錯誤處裡 
                                     s_logger.Error("(CheckStoragesUsage() <= 0)");
 
@@ -257,53 +252,65 @@ namespace Waveface
                                     switch (Main.Current.NewPostThreadErrorDialogResult)
                                     {
                                         case DialogResult.Cancel: // Delete Post
-                                            newPost.ErrorAndDeletePost = true;
-                                            newPost.PostOK = false;
-                                            return newPost;
+                                            nItem.ErrorAndDeletePost = true;
+                                            nItem.PostOK = false;
+                                            return nItem;
 
                                         case DialogResult.Retry: // DoNothing
 
-                                            newPost.PostOK = false;
-                                            return newPost;
+                                            nItem.PostOK = false;
+                                            return nItem;
                                     }
                                 }
                             }
 
                             string _text = new FileName(_file).Name;
-                            string _resizedImage = ImageUtility.ResizeImage(_file, _text, newPost.ResizeRatio, 100);
+                            string _resizedImage = ImageUtility.ResizeImage(_file, _text, nItem.LongSideResizeOrRatio, 100);
 
                             MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, "",
                                                                                              true);
                             if (_uf == null)
                             {
-                                newPost.PostOK = false;
-                                return newPost;
+                                nItem.PostOK = false;
+                                return nItem;
                             }
 
-                            _ids += "\"" + _uf.object_id + "\"" + ",";
-
-                            newPost.UploadedFiles.Add(_file, _uf.object_id);
+                            nItem.UploadedFiles.Add(_file, _uf.object_id);
 
                             s_logger.Trace("[" + _tmpStamp + "]" + "Batch Upload Photo [" + _count + "]" + _file);
 
-                            string _localFile = Main.GCONST.CachePath + _uf.object_id + "_origin_" + _text;
-                            File.Copy(_file, _localFile);
+                            // Cache Origin
+                            string _localFileOrigin = Main.GCONST.CachePath + _uf.object_id + "_" + _text;
+                            File.Copy(_file, _localFileOrigin);
 
-                            Downloading = false;
+                            // Cache Medium
+                            string _localFileMedium = Main.GCONST.CachePath + _uf.object_id + "_medium_" + _text;
+                            string _resizedMediumImageFilePath = ImageUtility.ResizeImage(_file, _text, "512", 100);
+                            File.Copy(_resizedMediumImageFilePath, _localFileMedium);
+
+                            // Small
+                            if (_count == 0)
+                            {
+                                string _localFileSmall = Main.GCONST.CachePath + _uf.object_id + "_small_" + _text;
+                                string _resizedSmallImageFilePath = ImageUtility.ResizeImage(_file, _text, "120", 100);
+                                File.Copy(_resizedSmallImageFilePath, _localFileSmall);
+                            }
+
+                            Uploading = false;
                         }
                         catch (Exception _e)
                         {
-                            Downloading = false;
+                            Uploading = false;
 
                             NLogUtility.Exception(s_logger, _e, "BatchPhotoPost:File_UploadFile");
-                            newPost.PostOK = false;
-                            return newPost;
+                            nItem.PostOK = false;
+                            return nItem;
                         }
                     }
 
                     _count++;
 
-                    int _counts = newPost.Files.Count;
+                    int _counts = nItem.Files.Count;
 
                     if (UpdateUI != null)
                     {
@@ -326,36 +333,44 @@ namespace Waveface
                 }
                 else
                 {
-                    newPost.PostOK = false;
-                    return newPost;
+                    nItem.PostOK = false;
+                    return nItem;
                 }
+            }
+
+            string _ids = "[";
+
+            for (int i = 0; i < nItem.UploadedFiles.Count; i++)
+            {
+                _ids += "\"" + nItem.UploadedFiles[nItem.Files[i]] + "\"" + ",";
             }
 
             _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
             _ids += "]";
 
+
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(newPost.Text, _ids, "", "image");
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(nItem.Text, _ids, "", "image");
 
                 if (_np == null)
                 {
-                    newPost.PostOK = false;
-                    return newPost;
+                    nItem.PostOK = false;
+                    return nItem;
                 }
 
-                s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + newPost.Text + ", Files=" + newPost.Files.Count);
+                s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + nItem.Text + ", Files=" + nItem.Files.Count);
             }
             catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "BatchPhotoPost:File_UploadFile");
 
-                newPost.PostOK = false;
-                return newPost;
+                nItem.PostOK = false;
+                return nItem;
             }
 
-            newPost.PostOK = true;
-            return newPost;
+            nItem.PostOK = true;
+            return nItem;
         }
 
         private long CheckStoragesUsage()
@@ -416,7 +431,7 @@ namespace Waveface
             return true;
         }
 
-        public static NewPostManager Load()
+        public static BatchPostManager Load()
         {
             try
             {
@@ -430,7 +445,7 @@ namespace Waveface
                 if (!GCONST.DEBUG)
                     _json = StringUtility.Decompress(_json);
 
-                NewPostManager _npm = JsonConvert.DeserializeObject<NewPostManager>(_json);
+                BatchPostManager _npm = JsonConvert.DeserializeObject<BatchPostManager>(_json);
 
                 s_logger.Trace("Load:OK");
 

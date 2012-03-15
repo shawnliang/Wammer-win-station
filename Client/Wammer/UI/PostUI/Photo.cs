@@ -321,18 +321,18 @@ namespace Waveface.PostUI
                 return;
             }
 
-            NewPostItem _newPostItem = new NewPostItem();
-            _newPostItem.PostType = PostType.Photo;
-            _newPostItem.Text = StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text);
-            _newPostItem.ResizeRatio = toolStripComboBoxResize.Text;
-            _newPostItem.OrgPostTime = DateTime.Now;
+            BatchPostItem _batchPostItem = new BatchPostItem();
+            _batchPostItem.PostType = PostType.Photo;
+            _batchPostItem.Text = StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text);
+            _batchPostItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
+            _batchPostItem.OrgPostTime = DateTime.Now;
 
             foreach (ImageListViewItem _vi in imageListView.Items)
             {
-                _newPostItem.Files.Add(_vi.FileName);
+                _batchPostItem.Files.Add(_vi.FileName);
             }
 
-            MyParent.NewPostItem = _newPostItem;
+            MyParent.BatchPostItem = _batchPostItem;
             MyParent.SetDialogResult_OK_AndClose();
         }
 
@@ -344,7 +344,7 @@ namespace Waveface.PostUI
 
                 if (_storagesUsage != null)
                 {
-                    int _queuedUnsendFiles = Main.Current.NewPostManager.GetQueuedUnsendFilesCount();
+                    int _queuedUnsendFiles = Main.Current.BatchPostManager.GetQueuedUnsendFilesCount(); //@ + EditMode ...
                     m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
                     m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
 
