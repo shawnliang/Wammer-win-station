@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Waveface.API.V2;
 
 namespace Waveface
 {
     public class BatchPostItem
     {
+        public bool EditMode { get; set; }
+        public List<string> ObjectIDs { get; set; }
+        public Post Post { get; set; }
+
         public PostType PostType { get; set; }
         public string Text { get; set; }
         public string Previews { get; set; }
