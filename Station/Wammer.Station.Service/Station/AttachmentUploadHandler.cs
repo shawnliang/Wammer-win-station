@@ -69,12 +69,12 @@ namespace Wammer.Station
 			IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
 			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this, storage);
 
-            //Larry 2012/03/12, Enqueue upload original photo process
-            if (!driver.isPrimaryStation && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy)))
-            {
-                TaskQueue.Enqueue(new UploadOrigToCloudTask(file, Parameters["apikey"], Parameters["session_token"]), 
+			//Larry 2012/03/12, Enqueue upload original photo process
+			if (!driver.isPrimaryStation && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy)))
+			{
+				TaskQueue.Enqueue(new UploadOrigToCloudTask(file, Parameters["apikey"], Parameters["session_token"]), 
 					TaskPriority.Low);
-            }
+			}
 
 			long newValue = System.Threading.Interlocked.Add(ref g_counter, 1);
 

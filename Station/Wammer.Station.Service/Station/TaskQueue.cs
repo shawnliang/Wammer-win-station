@@ -28,12 +28,22 @@ namespace Wammer.Station
 		private static IPerfCounter itemsInQueue = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE);
 		private static IPerfCounter itemsInProgress = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_PROGRESS);
 
-
+		/// <summary>
+		/// Enqueues a non-persistent task
+		/// </summary>
+		/// <param name="task"></param>
+		/// <param name="priority"></param>
 		public static void Enqueue(ITask task, TaskPriority priority)
 		{
 			Enqueue(task, priority, false);
 		}
 
+		/// <summary>
+		/// Enqueues a task
+		/// </summary>
+		/// <param name="task"></param>
+		/// <param name="priority"></param>
+		/// <param name="persistent"></param>
 		public static void Enqueue(ITask task, TaskPriority priority, bool persistent)
 		{
 			LinkedList<ITask> queue = null;
