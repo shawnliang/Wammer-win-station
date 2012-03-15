@@ -212,6 +212,9 @@ namespace StationSystemTray
 
 			if (userlogin != null && userlogin.RememberPassword)
 			{
+				userloginContainer.UpsertUserLoginSetting(userlogin);
+				RefreshUserList();
+
 				LaunchWavefaceClient(userlogin);
 				Close();
 				return;
