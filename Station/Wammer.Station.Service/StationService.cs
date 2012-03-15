@@ -110,8 +110,9 @@ namespace Wammer.Station.Service
 								new AttachmentGetHandler());
 
 
-
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/",
+								new PingHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/reachability/ping/",
 								new PingHandler());
 
 				//if (Wammer.Utility.AutoRun.Exists("WavefaceStation"))

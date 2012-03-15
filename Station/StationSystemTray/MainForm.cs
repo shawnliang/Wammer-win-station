@@ -201,7 +201,7 @@ namespace StationSystemTray
 				{
 					IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
 					Win32Helper.SetForegroundWindow(handle);
-					Win32Helper.ShowWindow(handle, 1);
+					Win32Helper.ShowWindow(handle, 5);
 					return;
 				}
 				else
@@ -212,6 +212,9 @@ namespace StationSystemTray
 
 			if (userlogin != null && userlogin.RememberPassword)
 			{
+				userloginContainer.UpsertUserLoginSetting(userlogin);
+				RefreshUserList();
+
 				LaunchWavefaceClient(userlogin);
 				Close();
 				return;

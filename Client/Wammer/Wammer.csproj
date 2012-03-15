@@ -195,7 +195,7 @@
     <Compile Include="Data\Delegates.cs" />
     <Compile Include="Data\StationState.cs" />
     <Compile Include="Data\UploadOriginPhotosToStationItem.cs" />
-    <Compile Include="Data\NewPostManager.cs" />
+    <Compile Include="Data\BatchPostManager.cs" />
     <Compile Include="Data\PhotoDownloader.cs" />
     <Compile Include="Data\ImageItem.cs" />
     <Compile Include="Data\PostItemType.cs" />
@@ -387,7 +387,7 @@
     <Compile Include="Libs\DragDropLib\IDragSourceHelper.cs" />
     <Compile Include="Libs\DragDropLib\IDropTargetHelper.cs" />
     <Compile Include="Libs\DragDropLib\NativeStructures.cs" />
-    <Compile Include="Data\NewPostItem.cs" />
+    <Compile Include="Data\BatchPostItem.cs" />
     <Compile Include="Libs\Utility\WebPostHelper.cs" />
     <Compile Include="REST\WService.cs" />
     <Compile Include="REST\WData.cs" />

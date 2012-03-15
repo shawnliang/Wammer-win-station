@@ -122,6 +122,7 @@ namespace Waveface
             this.panelTop.Name = "panelTop";
             this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
             this.panelTop.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseClick);
+            this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseMove);
             // 
             // btnRemove
             // 
@@ -302,6 +303,20 @@ namespace Waveface
             if((e.X > (_x - 2)) && (e.X < (_x + FavoriteIconSize + 2)))
             {
                 Main.Current.ChangePostFavorite(m_post);
+            }
+        }
+
+        private void panelTop_MouseMove(object sender, MouseEventArgs e)
+        {
+            int _x = 6;
+
+            if((e.X > _x) && (e.X < (_x + FavoriteIconSize)))
+            {
+                Cursor = Cursors.Hand;
+            }
+            else
+            {
+                Cursor = Cursors.Default;
             }
         }
 

@@ -51,7 +51,7 @@ namespace StationSystemTray
                         return;
 
                     Win32Helper.SetForegroundWindow(handle);
-                    Win32Helper.ShowWindow(handle, 1);
+                    Win32Helper.ShowWindow(handle, 5);
                     return;
                 }
                 return;

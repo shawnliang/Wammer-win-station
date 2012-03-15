@@ -223,6 +223,9 @@ namespace Wammer.Station
 			catch (WebException e)
 			{
 				resp = (HttpWebResponse)e.Response;
+
+				if (resp == null)
+					throw new WammerStationException(e.Message, -1);
 			}
 
 			Response.StatusCode = (int)resp.StatusCode;
@@ -232,6 +235,8 @@ namespace Wammer.Station
 			{
 				Wammer.Utility.StreamHelper.Copy(from, to);
 			}
+			Response.OutputStream.Close();
+			Response.Close();
 		}
 
 		protected abstract void HandleRequest();
