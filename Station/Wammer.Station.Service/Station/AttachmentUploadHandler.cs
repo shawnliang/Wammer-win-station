@@ -67,7 +67,7 @@ namespace Wammer.Station
 			FileStorage storage = new FileStorage(driver);
 
 			IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
-			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this);
+			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this, storage);
 
             //Larry 2012/03/12, Enqueue upload original photo process
             if (!driver.isPrimaryStation && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy)))
@@ -248,6 +248,7 @@ namespace Wammer.Station
 		public ImageMeta Meta { get; set; }
 		public string UserApiKey { get; set; }
 		public string UserSessionToken { get; set; }
+		public FileStorage Storage { get; set; }
 
 		public ImageAttachmentEventArgs()
 		{
