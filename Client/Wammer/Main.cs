@@ -64,7 +64,7 @@ namespace Waveface
 
         private PhotoDownloader m_photoDownloader;
         private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
-        private NewPostManager m_newPostManager;
+        private BatchPostManager m_batchPostManager;
         private StationState m_stationState;
         private AppLimit.NetSparkle.Sparkle m_autoUpdator;
         private bool m_getAllDataError;
@@ -95,18 +95,18 @@ namespace Waveface
             set { m_stationState = value; }
         }
 
-        public NewPostManager NewPostManager
+        public BatchPostManager BatchPostManager
         {
             get
             {
-                if (m_newPostManager == null)
+                if (m_batchPostManager == null)
                 {
-                    m_newPostManager = NewPostManager.Load() ?? new NewPostManager();
+                    m_batchPostManager = BatchPostManager.Load() ?? new BatchPostManager();
                 }
 
-                return m_newPostManager;
+                return m_batchPostManager;
             }
-            set { m_newPostManager = value; }
+            set { m_batchPostManager = value; }
         }
 
         public UploadOriginPhotosToStationManager UploadOriginPhotosToStationManager
@@ -149,7 +149,7 @@ namespace Waveface
         #endregion
 
         public Main()
-        {            
+        {
             QuitOption = QuitOption.QuitProgram;
 
             Current = this;
@@ -356,7 +356,7 @@ namespace Waveface
                 SetLastReadPos();
 
             SaveRunTime();
-            NewPostManager.Save();
+            BatchPostManager.Save();
         }
 
         public void Logout()
@@ -367,10 +367,10 @@ namespace Waveface
 
             try
             {
-                if (NewPostManager != null)
+                if (BatchPostManager != null)
                 {
-                    NewPostManager.AbortThread();
-                    NewPostManager = null;
+                    BatchPostManager.AbortThread();
+                    BatchPostManager = null;
                 }
 
                 if (PhotoDownloader != null)
@@ -642,7 +642,7 @@ namespace Waveface
         {
             UploadOriginPhotosToStationManager.Start();
             PhotoDownloader.Start();
-            NewPostManager.Start();
+            BatchPostManager.Start();
 
             StationState.ShowStationState += StationState_ShowStationState;
             StationState.Start();
@@ -1019,12 +1019,12 @@ namespace Waveface
 
             timerDelayPost.Enabled = true;
         }
-        
+
         public void Post()
         {
             DoRealPostForm(new List<string>(), PostType.All);
         }
-        
+
         public void EditPost(Post post)
         {
             if (!RT.LoginOK)
@@ -1046,7 +1046,7 @@ namespace Waveface
                         break;
 
                     case DialogResult.OK:
-                        NewPostManager.Add(m_postForm.NewPostItem);
+                        BatchPostManager.Add(m_postForm.BatchPostItem);
                         break;
                 }
             }
@@ -1089,7 +1089,7 @@ namespace Waveface
                         break;
 
                     case DialogResult.OK:
-                        NewPostManager.Add(m_postForm.NewPostItem);
+                        BatchPostManager.Add(m_postForm.BatchPostItem);
                         break;
                 }
             }
@@ -1107,9 +1107,102 @@ namespace Waveface
 
         #endregion
 
-        #region AfterPostComment
+        #region PostUpdate
 
-        public void AfterPostComment(string post_id)
+        public bool PostUpdate(Post post, Dictionary<string, string> optionalParams)
+        {
+            if (!CheckNetworkStatus())
+                return false;
+
+            try
+            {
+                string _time = post.timestamp;
+
+                if (post.update_time != null)
+                {
+                    _time = post.update_time;
+                }
+
+                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, optionalParams);
+
+                if (_update == null)
+                {
+                    return false;
+                }
+
+                RefreshSinglePost(_update.post);
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool ChangePostFavorite(Post post)
+        {
+            if (!CheckNetworkStatus())
+                return false;
+
+            try
+            {
+                if (post.favorite == null)
+                    return false;
+
+                int _value = int.Parse(post.favorite);
+
+                _value = (_value == 0) ? 1 : 0;
+
+                string _time = post.timestamp;
+
+                if (post.update_time != null)
+                {
+                    _time = post.update_time;
+                }
+
+                Dictionary<string, string> _params = new Dictionary<string, string>();
+                _params.Add("favorite", _value.ToString());
+
+                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, _params);
+
+                if (_update == null)
+                {
+                    return false;
+                }
+
+                RefreshSinglePost(_update.post);
+            }
+            catch (Exception _e)
+            {
+                MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool HidePost(string postId)
+        {
+            if (!CheckNetworkStatus())
+                return false;
+
+            MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
+
+            if (_ret != null)
+            {
+                MessageBox.Show("Remove Post Success!"); //@ I18n
+
+                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public void RefreshSinglePost_ByID(string post_id)
         {
             MR_posts_getSingle _singlePost = RT.REST.Posts_GetSingle(post_id);
 
@@ -1118,10 +1211,15 @@ namespace Waveface
                 ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
                 //ReplacePostInList(_singlePost.post, RT.FilterPosts);
 
-                s_logger.Trace("AfterPostComment.ShowAllTimeline(true)");
-
                 ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
             }
+        }
+
+        public void RefreshSinglePost(Post post)
+        {
+            ReplacePostInList(post, RT.CurrentGroupPosts);
+
+            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
         }
 
         private bool ReplacePostInList(Post post, List<Post> posts)
@@ -1283,18 +1381,6 @@ namespace Waveface
 
         #region Misc
 
-        public void HidePost(string postId)
-        {
-            MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
-
-            if (_ret != null)
-            {
-                MessageBox.Show("Remove Post Success!");
-
-                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
-            }
-        }
-
         private void showTaskbarNotifier(Post post)
         {
             string _url = string.Empty;
@@ -1365,7 +1451,7 @@ namespace Waveface
         {
             NewPostThreadErrorDialogResult = DialogResult.None;
 
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.FileMiss"), text), "Waveface", MessageBoxIcon.Warning);
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.FileMiss"), text), "Waveface", MessageBoxIcon.Warning);
             _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
             DialogResult _dr = _msgBox.ShowDialog();
 
@@ -1376,7 +1462,7 @@ namespace Waveface
         {
             NewPostThreadErrorDialogResult = DialogResult.None;
 
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("NewPostManager.OverQuota"), text), "Waveface", MessageBoxIcon.Warning);
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.OverQuota"), text), "Waveface", MessageBoxIcon.Warning);
             _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
             DialogResult _dr = _msgBox.ShowDialog();
 

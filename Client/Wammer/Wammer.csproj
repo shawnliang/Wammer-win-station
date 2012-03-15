@@ -191,11 +191,11 @@
     </Compile>
     <Compile Include="Component\WebBrowserContextMenuHandler.cs" />
     <Compile Include="Data\ConnectServiceStateType.cs" />
-    <Compile Include="Data\EditModePhotoType.cs" />
+    <Compile Include="Data\EditMode.cs" />
     <Compile Include="Data\Delegates.cs" />
     <Compile Include="Data\StationState.cs" />
     <Compile Include="Data\UploadOriginPhotosToStationItem.cs" />
-    <Compile Include="Data\NewPostManager.cs" />
+    <Compile Include="Data\BatchPostManager.cs" />
     <Compile Include="Data\PhotoDownloader.cs" />
     <Compile Include="Data\ImageItem.cs" />
     <Compile Include="Data\PostItemType.cs" />
@@ -387,7 +387,7 @@
     <Compile Include="Libs\DragDropLib\IDragSourceHelper.cs" />
     <Compile Include="Libs\DragDropLib\IDropTargetHelper.cs" />
     <Compile Include="Libs\DragDropLib\NativeStructures.cs" />
-    <Compile Include="Data\NewPostItem.cs" />
+    <Compile Include="Data\BatchPostItem.cs" />
     <Compile Include="Libs\Utility\WebPostHelper.cs" />
     <Compile Include="REST\WService.cs" />
     <Compile Include="REST\WData.cs" />
@@ -943,6 +943,9 @@
     <None Include="Resources\minmax.js" />
     <None Include="Resources\WFPreviewWin.css" />
     <None Include="Resources\loader.gif" />
+    <None Include="Resources\star.png" />
+    <None Include="Resources\star_empty.png" />
+    <None Include="Resources\CoverImage.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

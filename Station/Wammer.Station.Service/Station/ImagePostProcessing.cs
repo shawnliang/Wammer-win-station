@@ -40,7 +40,8 @@ namespace Wammer.Station
 				ThumbnailInfo medium;
 				Attachment update;
 
-				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
+				//using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
+				using (Bitmap origImage = new Bitmap(evt.Storage.Load(evt.Attachment.saved_file_name)))
 				{
 					// release raw data immediately
 					evt.Attachment.RawData = new ArraySegment<byte>();
@@ -108,7 +109,7 @@ namespace Wammer.Station
 				ThumbnailInfo square;
 				string origImgObjectId = evt.Attachment.object_id;
 
-				using (Bitmap origImage = BuildBitmap(evt.Attachment.RawData))
+				using (Bitmap origImage = new Bitmap(evt.Storage.Load(evt.Attachment.saved_file_name)))
 				{
 					// release raw data immediately
 					evt.Attachment.RawData = new ArraySegment<byte>();

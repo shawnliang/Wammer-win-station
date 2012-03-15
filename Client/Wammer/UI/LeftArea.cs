@@ -67,11 +67,12 @@ namespace Waveface
 
         public void SetNewPostManager()
         {
-            Main.Current.NewPostManager.ShowMessage += ShowDragDropMessage;
-            Main.Current.NewPostManager.UpdateUI += UpdateDragAndDropUI;
-            Main.Current.NewPostManager.UploadDone += UploadDone;
-            Main.Current.NewPostManager.ShowFileMissDialog += ShowFileMissDialog;
-            Main.Current.NewPostManager.OverQuotaMissDialog += OverQuotaMissDialog;
+            Main.Current.BatchPostManager.ShowMessage += ShowDragDropMessage;
+            Main.Current.BatchPostManager.UpdateUI += UpdateDragAndDropUI;
+            Main.Current.BatchPostManager.UploadDone += UploadDone;
+
+            Main.Current.BatchPostManager.ShowFileMissDialog += ShowFileMissDialog;
+            Main.Current.BatchPostManager.OverQuotaMissDialog += OverQuotaMissDialog;
         }
 
         #region CustomizedFilters
@@ -266,7 +267,7 @@ namespace Waveface
 
         public void SetUI(bool flag)
         {
-            panelFilter.Visible = flag;
+            //@ panelFilter.Visible = flag;
 
             FillCustomizedFilters();
         }

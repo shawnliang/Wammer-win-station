@@ -29,7 +29,8 @@ namespace Wammer.Station
 
 		private static void CreateFolder(string basePath)
 		{
-			if (!Directory.Exists(basePath))
+			
+			if (basePath != "" && !Directory.Exists(basePath))
 				Directory.CreateDirectory(basePath);
 		}
 

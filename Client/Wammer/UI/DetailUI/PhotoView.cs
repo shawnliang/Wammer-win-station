@@ -30,16 +30,18 @@ namespace Waveface.DetailUI
         private int m_selectedImageIndex;
         private MyImageListViewRenderer m_imageListViewRenderer;
         private string m_selectedImageType;
+        private Post m_post;
 
         public PhotoView()
         {
             InitializeComponent();
         }
 
-        public PhotoView(List<Attachment> imageAttachments, List<string> filePathOrigins, List<string> filePathMediums,
-                         Dictionary<string, string> filesMapping, int selectedIndex)
+        public PhotoView(Post post, List<Attachment> imageAttachments, List<string> filePathOrigins, List<string> filePathMediums, Dictionary<string, string> filesMapping, int selectedIndex)
         {
             InitializeComponent();
+
+            m_post = post;
 
             m_imageAttachments = imageAttachments;
             m_filesMapping = filesMapping;
@@ -52,6 +54,9 @@ namespace Waveface.DetailUI
             {
                 btnSaveAll.Visible = false;
                 miSaveAll.Visible = false;
+
+                btnCoverImage.Visible = false;
+                miSetAsCoverImage.Visible = false;
             }
 
             imageListView.View = View.Gallery;
@@ -254,6 +259,16 @@ namespace Waveface.DetailUI
                     btnSave.Visible = true;
                     miSave.Visible = true;
                 }
+
+                if (m_post.cover_attach != null)
+                {
+                    if (!m_onlyOnePhoto)
+                    {
+                        string _cover_attach = m_imageAttachments[m_selectedImageIndex].object_id;
+
+                        btnCoverImage.Visible = miSetAsCoverImage.Visible = (_cover_attach != m_post.cover_attach);
+                    }
+                }
             }
         }
 
@@ -392,5 +407,26 @@ namespace Waveface.DetailUI
         }
 
         #endregion
+
+        private void SetAsCoverImage()
+        {
+            string _cover_attach = m_imageAttachments[m_selectedImageIndex].object_id;
+
+            Dictionary<string, string> _params = new Dictionary<string, string>();
+            _params.Add("cover_attach", _cover_attach);
+
+            if (Main.Current.PostUpdate(m_post, _params))
+                Close();
+        }
+
+        private void btnCoverImage_Click(object sender, EventArgs e)
+        {
+            SetAsCoverImage();
+        }
+
+        private void miSetAsCoverImage_Click(object sender, EventArgs e)
+        {
+            SetAsCoverImage();
+        }
     }
 }

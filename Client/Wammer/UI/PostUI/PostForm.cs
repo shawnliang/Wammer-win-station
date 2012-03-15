@@ -31,24 +31,26 @@ namespace Waveface
         private bool m_getPreviewNow;
         private string m_lastPreviewURL = string.Empty;
 
-        private Post m_post;
         private Dictionary<string, string> m_oldImageFiles;
         private Dictionary<string, string> m_fileNameMapping;
 
-        public NewPostItem NewPostItem { get; set; }
+        public Post Post { get; set; }
+        public BatchPostItem BatchPostItem { get; set; }
         public bool EditMode { get; set; }
+        public string OldText { get; set; }
 
         public PostForm(List<string> files, PostType postType, Post post, bool editMode)
         {
             InitializeComponent();
 
             EditMode = editMode;
-            m_post = post;
+            Post = post;
             m_oldImageFiles = new Dictionary<string, string>();
             m_fileNameMapping = new Dictionary<string, string>();
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseLocation = true;
+            m_formSettings.UseSize = false;
             m_formSettings.UseWindowState = true;
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
@@ -79,34 +81,35 @@ namespace Waveface
             List<string> _pics = new List<string>();
 
             ChangeToEditModeUI();
-            weblink_UI.ChangeToEditModeUI(m_post);
-            photo_UI.ChangeToEditModeUI(m_post);
+            weblink_UI.ChangeToEditModeUI(Post);
+            photo_UI.ChangeToEditModeUI(Post);
 
-            pureTextBox.Text = m_post.content;
+            OldText = Post.content;
+            pureTextBox.Text = OldText;
             CreateLink();
 
-            switch (m_post.type)
+            switch (Post.type)
             {
                 case "link":
                     CheckWebPreview();
                     break;
-                
+
                 case "image":
                     {
-                        AttachmentUtility.GetAllMediumsPhotoPathsByPost(m_post, m_oldImageFiles, m_fileNameMapping);
+                        AttachmentUtility.GetAllMediumsPhotoPathsByPost(Post, m_oldImageFiles, m_fileNameMapping);
 
                         photo_UI.FileNameMapping = m_fileNameMapping;
 
                         foreach (KeyValuePair<string, string> _imgPair in m_oldImageFiles)
                         {
-                           _pics.Add(_imgPair.Value); 
+                            _pics.Add(_imgPair.Value);
                         }
                     }
 
                     break;
             }
 
-            ToSubControl(_pics, getPostType(m_post.type));
+            ToSubControl(_pics, getPostType(Post.type));
         }
 
         private void ChangeToEditModeUI()
@@ -274,8 +277,6 @@ namespace Waveface
 
             m_fixHeight = 272;
             Size = new Size(760, 272);
-
-            //pureTextBox.Focus();
         }
 
         private void toWebLink_Mode()
@@ -306,17 +307,24 @@ namespace Waveface
 
             panelMiddleBar.Visible = false;
 
-            MaximizeBox = true;
-
             Size = new Size(760, 530);
 
-            if (files == null)
+            MaximizeBox = true;
+
+            if (EditMode)
             {
-                photo_UI.AddPhoto();
+                photo_UI.AddEditModePhotoFiles(files, Post.attachments);
             }
             else
             {
-                photo_UI.Files = files;
+                if (files == null)
+                {
+                    photo_UI.AddPhoto();
+                }
+                else
+                {
+                    photo_UI.AddNewPostPhotoFiles(files);
+                }
             }
         }
 
@@ -351,12 +359,28 @@ namespace Waveface
             if (pureTextBox.Text.Trim().Equals(string.Empty))
             {
                 MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (EditMode)
+            {
+                if (!pureTextBox.Text.Trim().Equals(OldText))
+                {
+                    Dictionary<string, string> _params = new Dictionary<string, string>();
+                    _params.Add("content", pureTextBox.Text.Trim());
+
+                    Main.Current.PostUpdate(Post, _params);
+                }
+
+                SetDialogResult_Yes_AndClose();
             }
             else
             {
                 try
                 {
-                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(pureTextBox.Text), "", "", "text");
+                    MR_posts_new _np =
+                        Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(pureTextBox.Text),
+                                                       "", "", "text");
 
                     if (_np == null)
                     {

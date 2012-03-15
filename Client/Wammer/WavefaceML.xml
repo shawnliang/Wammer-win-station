@@ -147,13 +147,13 @@
     <zh-TW>選擇存檔路徑</zh-TW>
   </WItem>
   <WItem>
-    <ID>NewPostManager.DragDropHere</ID>
+    <ID>BatchPostManager.DragDropHere</ID>
     <en-US>Drag &amp; Drop here</en-US>
     <zh-TW>拖拉檔案至此處</zh-TW>
   </WItem>
 
   <WItem>
-    <ID>NewPostManager.FileMiss</ID>
+    <ID>BatchPostManager.FileMiss</ID>
     <en-US>
       <![CDATA[
       Photo does not exist: [{0}]. You could choose to:
@@ -171,7 +171,7 @@
   </WItem>
   
   <WItem>
-    <ID>NewPostManager.OverQuota</ID>
+    <ID>BatchPostManager.OverQuota</ID>
     <en-US>
       <![CDATA[
       You have already reached your monthly upload limit. You could choose to: 

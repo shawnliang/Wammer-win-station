@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -14,7 +14,9 @@ namespace Wammer.Station
 {
 	interface IAttachmentUploadStrategy
 	{
-        void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, Boolean needUploadThumbnail = true);
+
+        void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true);
+
 	}
 
 
@@ -23,7 +25,7 @@ namespace Wammer.Station
 		protected AttachmentUploadHandler handler;
 		protected Driver driver;
 
-		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, Boolean needUploadThumbnail = true)
+		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true)
 		{
 			this.handler = handler;
 			this.driver = driver;
@@ -35,7 +37,7 @@ namespace Wammer.Station
 			file.saved_file_name = savedName;
 
 			BeforeSaveAttachment(file, Parameters, meta);
-			new FileStorage(driver).SaveFile(savedName, file.RawData);
+			storage.SaveFile(savedName, file.RawData);
 			SaveAttachmentInfoToDB(file, meta, savedName);
 
 			AttachmentEventArgs aEvtArgs = new AttachmentEventArgs
@@ -51,7 +53,8 @@ namespace Wammer.Station
 				Meta = meta,
 				UserApiKey = Parameters["apikey"],
 				UserSessionToken = Parameters["session_token"],
-				Driver = driver
+				Driver = driver,
+				Storage = storage
 			};
 
 			handler.OnAttachmentSaved(aEvtArgs);
@@ -173,7 +176,8 @@ namespace Wammer.Station
 
 	class DocumentUploadStrategy : IAttachmentUploadStrategy
 	{
-        public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, Boolean needUploadThumbnail = true)
+
+        public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true)
 		{
 			file.file_size = file.RawData.Count;
 			file.modify_time = DateTime.UtcNow;

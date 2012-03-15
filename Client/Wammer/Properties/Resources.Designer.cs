@@ -109,6 +109,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CoverImage {
+            get {
+                object obj = ResourceManager.GetObject("CoverImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Cut {
             get {
                 object obj = ResourceManager.GetObject("Cut", resourceCulture);
@@ -348,6 +355,20 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap SlideShow {
             get {
                 object obj = ResourceManager.GetObject("SlideShow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap star {
+            get {
+                object obj = ResourceManager.GetObject("star", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap star_empty {
+            get {
+                object obj = ResourceManager.GetObject("star_empty", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

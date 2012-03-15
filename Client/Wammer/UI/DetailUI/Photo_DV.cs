@@ -111,19 +111,19 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo_DV));
             this.panelMain = new System.Windows.Forms.Panel();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
             this.panelRight = new Waveface.Component.AutoScrollPanel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
-            this.timer = new System.Windows.Forms.Timer(this.components);
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
+            this.contextMenuStripTop.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.panelPictureInfo.SuspendLayout();
-            this.contextMenuStripTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -132,6 +132,27 @@ namespace Waveface.DetailUI
             this.panelMain.Controls.Add(this.panelRight);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
+            // 
+            // timer
+            // 
+            this.timer.Interval = 3000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // contextMenuStripTop
+            // 
+            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopyTop});
+            this.contextMenuStripTop.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
+            // 
+            // miCopyTop
+            // 
+            this.miCopyTop.Name = "miCopyTop";
+            resources.ApplyResources(this.miCopyTop, "miCopyTop");
             // 
             // panelRight
             // 
@@ -155,6 +176,7 @@ namespace Waveface.DetailUI
             this.imageListView.Name = "imageListView";
             this.imageListView.ThumbnailSize = new System.Drawing.Size(128, 128);
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
+            this.imageListView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imageListView_MouseMove);
             this.imageListView.Resize += new System.EventHandler(this.imageListView_Resize);
             // 
             // panelPictureInfo
@@ -178,27 +200,6 @@ namespace Waveface.DetailUI
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
-            // timer
-            // 
-            this.timer.Interval = 3000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // contextMenuStripTop
-            // 
-            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopyTop});
-            this.contextMenuStripTop.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
-            // 
-            // miCopyTop
-            // 
-            this.miCopyTop.Name = "miCopyTop";
-            resources.ApplyResources(this.miCopyTop, "miCopyTop");
-            // 
             // Photo_DV
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
@@ -207,9 +208,9 @@ namespace Waveface.DetailUI
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
+            this.contextMenuStripTop.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
             this.panelPictureInfo.ResumeLayout(false);
-            this.contextMenuStripTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -451,7 +452,7 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            using (PhotoView _photoView = new PhotoView(m_imageAttachments, m_filePathOrigins, m_filePathMediums, m_filesMapping, int.Parse(e.Item.Tag.ToString())))
+            using (PhotoView _photoView = new PhotoView(m_post, m_imageAttachments, m_filePathOrigins, m_filePathMediums, m_filesMapping, int.Parse(e.Item.Tag.ToString())))
             {
                 _photoView.ShowDialog();
             }
@@ -493,6 +494,18 @@ namespace Waveface.DetailUI
             else
             {
                 imageListView.ThumbnailSize = new Size(128, 128);
+            }
+        }
+
+        private void imageListView_MouseMove(object sender, MouseEventArgs e)
+        {
+            ImageListView.HitInfo _hitInfo;
+
+            imageListView.HitTest(e.Location, out _hitInfo);
+
+            if(_hitInfo.ItemIndex != -1)
+            {
+                //MessageBox.Show(_hitInfo.ItemIndex.ToString());
             }
         }
     }

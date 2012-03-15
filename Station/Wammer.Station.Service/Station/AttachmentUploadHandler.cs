@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
@@ -66,9 +66,9 @@ namespace Wammer.Station
 			string savedName = GetSavedFilename(file, meta);
 			FileStorage storage = new FileStorage(driver);
 
-            IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
+			IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
             Boolean forwardBySecondaryStation = !driver.isPrimaryStation && meta == ImageMeta.Origin && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy));
-            handleStrategy.Execute(file, meta, Parameters, driver, savedName, this, driver.isPrimaryStation || !forwardBySecondaryStation);
+            handleStrategy.Execute(file, meta, Parameters, driver, savedName, this, storage, driver.isPrimaryStation || !forwardBySecondaryStation);
 
             //Larry 2012/03/12, Enqueue upload original photo process
             if (forwardBySecondaryStation)
@@ -252,6 +252,7 @@ namespace Wammer.Station
 		public ImageMeta Meta { get; set; }
 		public string UserApiKey { get; set; }
 		public string UserSessionToken { get; set; }
+		public FileStorage Storage { get; set; }
 
         public ImageAttachmentEventArgs(Boolean needUploadThumbnail = true)
 		{
