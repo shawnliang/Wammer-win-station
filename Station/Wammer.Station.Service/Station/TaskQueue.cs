@@ -17,19 +17,10 @@ namespace Wammer.Station
 
 	static class TaskQueue
 	{
-		private static object lockAllQueue = new object();
-
-		//private static LinkedList<ITask> HighPriorityQ = new LinkedList<ITask>();
-		//private static LinkedList<ITask> MediumPriorityQ = new LinkedList<ITask>();
-		//private static LinkedList<ITask> LowPriorityQ = new LinkedList<ITask>();
-
-		
-
 		private static log4net.ILog Logger = log4net.LogManager.GetLogger("TaskQueue");
 
 		private static IPerfCounter itemsInQueue = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE);
 		private static IPerfCounter itemsInProgress = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_PROGRESS);
-
 
 		private static WMSBroker mqBroker;
 		private static WMSSession mqSession;
@@ -37,7 +28,7 @@ namespace Wammer.Station
 		private static WMSQueue mqMediumPriority;
 		private static WMSQueue mqLowPriority;
 
-		public static TaskQueue()
+		static TaskQueue()
 		{
 			mqBroker = new WMSBroker(new SQLitePersistentStorage("taskQueue.db"));
 			mqSession = mqBroker.CreateSession();
@@ -87,35 +78,43 @@ namespace Wammer.Station
 			System.Threading.ThreadPool.QueueUserWorkItem(RunPriorityQueue);
 		}
 
-		private static ITask Dequeue()
+		private static WMSMessage Dequeue()
 		{
-			lock (lockAllQueue)
+
+			WMSMessage item = null;
+
+			try
 			{
-				LinkedList<ITask> queue;
-				if (HighPriorityQ.Count > 0)
-					queue = HighPriorityQ;
-				else if (MediumPriorityQ.Count > 0)
-					queue = MediumPriorityQ;
-				else if (LowPriorityQ.Count > 0)
-					queue = LowPriorityQ;
-				else
-					throw new InvalidOperationException("No items in TaskQueue");
+				item = mqSession.Pop(mqHighPriority);
+				if (item != null)
+					return item;
 
-				ITask task = queue.First.Value;
-				queue.RemoveFirst();
+				item = mqSession.Pop(mqMediumPriority);
+				if (item != null)
+					return item;
 
-				itemsInQueue.Decrement();
-				return task;
+				item = mqSession.Pop(mqLowPriority);
+				if (item != null)
+					return item;
 			}
+			finally
+			{
+				if (item != null)
+					itemsInQueue.Decrement();
+			}
+
+			throw new InvalidOperationException("No items in TaskQueue");
 		}
 
 		public static void RunPriorityQueue(object nil)
 		{
+			WMSMessage queueItem = null;
+			
 			try
 			{
-				ITask task = Dequeue();
 				itemsInProgress.Increment();
-				task.Execute();
+				queueItem = Dequeue();
+				((ITask)queueItem.Data).Execute();
 			}
 			catch (Exception e)
 			{
@@ -124,6 +123,7 @@ namespace Wammer.Station
 			finally
 			{
 				itemsInProgress.Decrement();
+				queueItem.Acknowledge();
 			}
 		}
 	}
