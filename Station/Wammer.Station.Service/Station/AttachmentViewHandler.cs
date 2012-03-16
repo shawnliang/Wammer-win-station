@@ -101,7 +101,7 @@ namespace Wammer.Station
 
             logger.Debug("Forward to cloud");
 
-            additionalParam += "&" + "return_meta=true"; ;
+            additionalParam += "&" + "return_meta=true"; 
 
             Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
 
