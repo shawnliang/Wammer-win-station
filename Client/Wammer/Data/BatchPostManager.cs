@@ -104,6 +104,7 @@ namespace Waveface
             while (true)
             {
                 BatchPostItem _batchPost;
+                bool _editMode = false;
 
                 if (!Main.Current.RT.REST.IsNetworkAvailable)
                 {
@@ -120,6 +121,7 @@ namespace Waveface
                     if (Items.Count > 0)
                     {
                         _batchPost = Items[0];
+                        _editMode = _batchPost.EditMode;
                     }
                     else
                     {
@@ -155,6 +157,12 @@ namespace Waveface
                             {
                                 Remove(_batchPost);
 
+                                if (_editMode)
+                                {
+                                    // Todo ----------------------------------------------------
+                                    // 
+                                }
+
                                 UpdateUI(int.MinValue, "");
 
                                 if (UploadDone != null)
@@ -173,7 +181,7 @@ namespace Waveface
                     }
                 }
 
-                Thread.Sleep(5000);
+                Thread.Sleep(2000);
             }
         }
 
@@ -181,6 +189,7 @@ namespace Waveface
         {
             int _count = 0;
             string _tmpStamp = DateTime.Now.Ticks.ToString();
+            bool _editMode = nItem.EditMode;
 
             s_logger.Trace("[" + _tmpStamp + "]" + "BatchPhotoPost:" + nItem.Text + ", Files=" + nItem.Files.Count);
 
@@ -222,6 +231,19 @@ namespace Waveface
                                         s_logger.Error("Remove: [" + _file + "]");
 
                                         nItem.Files.Remove(_file);
+
+                                        if (_editMode)
+                                        {
+                                            // Todo ----------------------------------------------------
+                                            for (int i = 0; i < nItem.ObjectIDs.Count; i++)
+                                            {
+                                                if (nItem.ObjectIDs[i] == _file)
+                                                {
+                                                    nItem.ObjectIDs.RemoveAt(i);
+                                                }
+                                            }
+                                        }
+
                                         nItem.PostOK = false;
 
                                         UpdateUI(int.MinValue, "");
@@ -338,35 +360,84 @@ namespace Waveface
                 }
             }
 
-            string _ids = "[";
-
-            for (int i = 0; i < nItem.UploadedFiles.Count; i++)
+            if (_editMode)
             {
-                _ids += "\"" + nItem.UploadedFiles[nItem.Files[i]] + "\"" + ",";
-            }
+                // Todo: 
 
-            _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
-            _ids += "]";
+                string _ids = "[";
 
-
-            try
-            {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(nItem.Text, _ids, "", "image");
-
-                if (_np == null)
+                for (int i = 0; i < nItem.ObjectIDs.Count; i++)
                 {
+                    string _id = nItem.ObjectIDs[i];
+
+                    if (nItem.UploadedFiles.Keys.Contains(_id))
+                        _id = nItem.UploadedFiles[_id];
+
+                    _ids += "\"" + _id + "\"" + ",";
+                }
+
+                _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
+                _ids += "]";
+
+                string _time = nItem.Post.timestamp;
+
+                if (nItem.Post.update_time != null)
+                {
+                    _time = nItem.Post.update_time;
+                }
+
+                try
+                {
+                    Dictionary<string, string> _params = new Dictionary<string, string>();
+
+                    if (nItem.Text != string.Empty)
+                    {
+                        _params.Add("content", nItem.Text);
+                    }
+
+                    _params.Add("attachment_id_array", _ids);
+
+                    MR_posts_update _update = Main.Current.RT.REST.Posts_update(nItem.Post.post_id, _time, _params);
+
+                    if (_update == null)
+                    {
+                    }
+                }
+                catch
+                {
+                }
+            }
+            else
+            {
+                string _ids = "[";
+
+                for (int i = 0; i < nItem.UploadedFiles.Count; i++)
+                {
+                    _ids += "\"" + nItem.UploadedFiles[nItem.Files[i]] + "\"" + ",";
+                }
+
+                _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
+                _ids += "]";
+
+                try
+                {
+                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(nItem.Text, _ids, "", "image");
+
+                    if (_np == null)
+                    {
+                        nItem.PostOK = false;
+                        return nItem;
+                    }
+
+                    s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + nItem.Text + ", Files=" + nItem.Files.Count);
+                }
+                catch (Exception _e)
+                {
+                    NLogUtility.Exception(s_logger, _e, "BatchPhotoPost:File_UploadFile");
+
                     nItem.PostOK = false;
                     return nItem;
                 }
-
-                s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + nItem.Text + ", Files=" + nItem.Files.Count);
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "BatchPhotoPost:File_UploadFile");
-
-                nItem.PostOK = false;
-                return nItem;
             }
 
             nItem.PostOK = true;

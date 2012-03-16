@@ -38,9 +38,9 @@ namespace Waveface.PostUI
         {
             btnSend.Text = "更改"; //@ I18n
 
-            btnAddPhoto.Visible = false;
-            btnDeletePhoto.Visible = false;
-            labelSummary.Location = new Point(4, labelSummary.Location.Y);
+            //btnAddPhoto.Visible = false;
+            //btnDeletePhoto.Visible = false;
+            //labelSummary.Location = new Point(4, labelSummary.Location.Y);
         }
 
         #region ImageListView
@@ -120,7 +120,8 @@ namespace Waveface.PostUI
 
         private void removeAllToolStripButton_Click(object sender, EventArgs e)
         {
-            RemoveAllAndReturnToParent();
+            if (!MyParent.EditMode)
+                RemoveAllAndReturnToParent();
         }
 
         private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
@@ -197,6 +198,40 @@ namespace Waveface.PostUI
 
             if (MyParent.EditMode)
             {
+                EditModePost();
+            }
+            else
+            {
+                BatchPost();
+            }
+        }
+
+        private void EditModePost()
+        {
+            List<string> _objectsID = new List<string>();
+            List<string> _files = new List<string>();
+            int _newAdd = 0;
+
+            foreach (ImageListViewItem _vi in imageListView.Items)
+            {
+                EditModeImageListViewItemTag _tag = (EditModeImageListViewItemTag)_vi.Tag;
+
+                if (_tag.AddPhotoType == EditModePhotoType.EditModeNewAdd)
+                {
+                    _files.Add(_vi.FileName);
+
+                    _objectsID.Add(_vi.FileName);
+
+                    _newAdd++;
+                }
+                else
+                {
+                    _objectsID.Add(_tag.ObjectID);
+                }
+            }
+
+            if (_newAdd == 0)
+            {
                 Dictionary<string, string> _params = new Dictionary<string, string>();
 
                 if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
@@ -218,7 +253,44 @@ namespace Waveface.PostUI
             }
             else
             {
-                BatchPost();
+                long _storagesUsage = CheckStoragesUsage(_newAdd);
+
+                if (_storagesUsage == long.MinValue)
+                {
+                    MessageBox.Show(I18n.L.T("SystemError"), "Waveface", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Exclamation);
+
+                    return;
+                }
+
+                if (_storagesUsage < 0)
+                {
+                    MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
+                                    "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                string _text = string.Empty;
+
+                if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
+                {
+                    _text = MyParent.pureTextBox.Text;
+                }
+
+                BatchPostItem _batchPostItem = new BatchPostItem();
+                _batchPostItem.PostType = PostType.Photo;
+                _batchPostItem.Text = StringUtility.RichTextBox_ReplaceNewline(_text);
+                _batchPostItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
+                _batchPostItem.OrgPostTime = DateTime.Now;
+                _batchPostItem.Files = _files;
+
+                _batchPostItem.EditMode = true;
+                _batchPostItem.ObjectIDs = _objectsID;
+                _batchPostItem.Post = MyParent.Post;
+
+                MyParent.BatchPostItem = _batchPostItem;
+                MyParent.SetDialogResult_OK_AndClose();
             }
         }
 
@@ -305,7 +377,7 @@ namespace Waveface.PostUI
                 return;
             }
 
-            long _storagesUsage = CheckStoragesUsage();
+            long _storagesUsage = CheckStoragesUsage(imageListView.Items.Count);
 
             if (_storagesUsage == long.MinValue)
             {
@@ -336,7 +408,7 @@ namespace Waveface.PostUI
             MyParent.SetDialogResult_OK_AndClose();
         }
 
-        private long CheckStoragesUsage()
+        private long CheckStoragesUsage(int went)
         {
             try
             {
@@ -354,7 +426,7 @@ namespace Waveface.PostUI
                         return long.MaxValue;
                     }
 
-                    return m_avail_month_total_objects - _queuedUnsendFiles - imageListView.Items.Count;
+                    return m_avail_month_total_objects - _queuedUnsendFiles - went;
                 }
             }
             catch (Exception _e)
@@ -391,7 +463,9 @@ namespace Waveface.PostUI
             {
                 if (imageListView.Items.Count == 0)
                 {
-                    MyParent.toPureText_Mode();
+                    if (!MyParent.EditMode)
+                        MyParent.toPureText_Mode();
+                    
                     return;
                 }
             }
@@ -445,7 +519,8 @@ namespace Waveface.PostUI
 
             if (imageListView.SelectedItems.Count == 0)
             {
-                RemoveAllAndReturnToParent();
+                if (!MyParent.EditMode)
+                    RemoveAllAndReturnToParent();
             }
             else
             {
