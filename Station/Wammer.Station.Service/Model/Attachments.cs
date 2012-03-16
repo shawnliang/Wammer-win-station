@@ -174,41 +174,41 @@ namespace Wammer.Model
 	public class Attachment
 	{
 		#region Upload utility functions
-        public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
-                                    string objectId, string fileName, string contentType,
-                                    ImageMeta meta, AttachmentType type, string apiKey,
-                                    string token)
-        {
-            try
-            {
-                Dictionary<string, object> pars = new Dictionary<string, object>();
-                pars["type"] = type.ToString();
-                if (meta != ImageMeta.None)
-                    pars["image_meta"] = meta.ToString().ToLower();
-                pars["session_token"] = token;
-                pars["apikey"] = apiKey;
-                if (objectId != null)
-                    pars["object_id"] = objectId;
-                pars["group_id"] = groupId;
-                HttpWebResponse _webResponse =
-                    Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
-                    url,
-                    "Mozilla 4.0+",
-                    pars,
-                    fileName,
-                    contentType,
-                    dataStream);
+		public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
+									string objectId, string fileName, string contentType,
+									ImageMeta meta, AttachmentType type, string apiKey,
+									string token)
+		{
+			try
+			{
+				Dictionary<string, object> pars = new Dictionary<string, object>();
+				pars["type"] = type.ToString();
+				if (meta != ImageMeta.None)
+					pars["image_meta"] = meta.ToString().ToLower();
+				pars["session_token"] = token;
+				pars["apikey"] = apiKey;
+				if (objectId != null)
+					pars["object_id"] = objectId;
+				pars["group_id"] = groupId;
+				HttpWebResponse _webResponse =
+					Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+					url,
+					"Mozilla 4.0+",
+					pars,
+					fileName,
+					contentType,
+					dataStream);
 
-                using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
-                {
-                    return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
-                }
-            }
-            catch (WebException e)
-            {
-                throw new WammerCloudException("Wammer cloud error", e);
-            }
-        }
+				using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
+				{
+					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
+				}
+			}
+			catch (WebException e)
+			{
+				throw new WammerCloudException("Wammer cloud error", e);
+			}
+		}
 
 		public static ObjectUploadResponse Upload(string url, ArraySegment<byte> imageData, string groupId,
 											string objectId, string fileName, string contentType,
@@ -377,6 +377,26 @@ namespace Wammer.Model
 		}
 
 		private ArraySegment<byte> rawData;
+
+		public bool HasThumbnail(ImageMeta meta)
+		{
+			if (this.image_meta == null)
+				return false;
+
+			switch (meta)
+			{
+				case ImageMeta.Small:
+					return this.image_meta.small != null;
+				case ImageMeta.Medium:
+					return this.image_meta.medium != null;
+				case ImageMeta.Large:
+					return this.image_meta.large != null;
+				case ImageMeta.Square:
+					return this.image_meta.square != null;
+				default:
+					throw new ArgumentException("not a valid thumbmail meta: " + meta);
+			}
+		}
 	}
 
 	public class AttachmentCollection : Collection<Attachment>

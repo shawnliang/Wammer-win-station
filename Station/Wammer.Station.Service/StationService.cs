@@ -83,7 +83,7 @@ namespace Wammer.Station.Service
 				
 
 				CloudStorageSync cloudSync = new CloudStorageSync();
-				attachmentHandler.AttachmentSaved += cloudSync.HandleAttachmentSaved;
+				attachmentHandler.BodyAttachmentSaved += cloudSync.HandleAttachmentSaved;
 				attachmentHandler.ProcessSucceeded += attachmentMonitor.OnProcessSucceeded;
 
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",

@@ -10,6 +10,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Wammer.Station
 {
@@ -21,11 +22,15 @@ namespace Wammer.Station
 
 		public void HandleImageAttachmentSaved(object sender, ImageAttachmentEventArgs evt)
 		{
-			System.Diagnostics.Debug.Assert(evt.Attachment.type == AttachmentType.image);
 			if (evt.Meta != ImageMeta.Origin)
 				return;
 
-			if (evt.Attachment.image_meta != null && evt.Attachment.image_meta.medium != null)
+			Attachment attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", evt.AttachmentId));
+
+			// Don't regenerate a medium thumbnail if its modify time is later than orig attachment
+			if (attachment == null || 
+				(attachment.HasThumbnail(ImageMeta.Medium) && 
+				 attachment.modify_time <= attachment.image_meta.medium.modify_time))
 				return;
 
 			try
@@ -33,19 +38,23 @@ namespace Wammer.Station
 				ThumbnailInfo medium;
 				Attachment update;
 
-				using (Bitmap origImage = new Bitmap(evt.Storage.Load(evt.Attachment.saved_file_name)))
+				Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", evt.UserId));
+				if (user == null)
+					return;
+
+				FileStorage storage = new FileStorage(user);
+
+				using (Bitmap origImage = new Bitmap(storage.Load(attachment.saved_file_name)))
 				{
-					// release raw data immediately
-					evt.Attachment.RawData = new ArraySegment<byte>();
 					medium = MakeThumbnail(origImage, ImageMeta.Medium, 
-						evt.Attachment.Orientation, 
-						evt.Attachment.object_id, 
-						evt.Driver,
-						evt.Attachment.file_name);
+						ExifOrientations.Unknown,
+						evt.AttachmentId,
+						user,
+						attachment.file_name);
 
 					update = new Attachment
 					{
-						object_id = evt.Attachment.object_id,
+						object_id = evt.AttachmentId,
 						image_meta = new ImageProperty
 						{
 							width = origImage.Width,
@@ -55,17 +64,18 @@ namespace Wammer.Station
 					};
 				}
 
-				BsonDocument exist = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
-													Query.EQ("_id", evt.Attachment.object_id));
-				exist.DeepMerge(update.ToBsonDocument());
-				AttachmentCollection.Instance.Save(exist);
+				AttachmentCollection.Instance.Update(Query.EQ("_id", evt.AttachmentId),
+					Update.Set("image_meta.width", update.image_meta.width).
+							Set("image_meta.height", update.image_meta.height).
+							Set("image_meta.medium", medium.ToBsonDocument()) );
+
 
 				TaskQueue.Enqueue(
 					new UpstreamMediumThumbnailTask(
 						new UpstreamArgs
 						{
-							FullImageId = evt.Attachment.object_id,
-							GroupId = evt.Attachment.group_id,
+							FullImageId = evt.AttachmentId,
+							GroupId = attachment.group_id,
 							ImageMeta = ImageMeta.Medium,
 							Thumbnail = medium,
 							UserApiKey = evt.UserApiKey,
@@ -279,22 +289,17 @@ namespace Wammer.Station
 		}
 	}
 
-	class UpstreamMediumThumbnailTask : UpstreamTask
+
+	class UpstreamThumbnailTask: ITask
 	{
-		private UpstreamArgs args;
+		protected static ILog logger = LogManager.GetLogger("MakeThumbnail");
 
-		public UpstreamMediumThumbnailTask(UpstreamArgs args, EventHandler<ThumbnailUpstreamedEventArgs> upstreamedHandler)
-			:base(upstreamedHandler)
-		{
-			this.args = args;
-		}
-
-		public override void Execute()
+		public void Execute()
 		{
 			try
 			{
-				UpstreamThumbnail(args.Thumbnail, args.GroupId, args.FullImageId, args.ImageMeta,
-					args.UserApiKey, args.UserSessionToken);
+				// HERE!!!
+				Attachment.Upload(.........)
 			}
 			catch (WebException e)
 			{
@@ -311,6 +316,42 @@ namespace Wammer.Station
 			}
 		}
 	}
+
+
+	//class UpstreamMediumThumbnailTask : UpstreamTask
+	//{
+	//    private UpstreamArgs args;
+
+	//    public UpstreamMediumThumbnailTask(UpstreamArgs args, EventHandler<ThumbnailUpstreamedEventArgs> upstreamedHandler)
+	//        :base(upstreamedHandler)
+	//    {
+	//        this.args = args;
+	//    }
+
+	//    public override void Execute()
+	//    {
+	//        try
+	//        {
+	//            UpstreamThumbnail(args.Thumbnail, args.GroupId, args.FullImageId, args.ImageMeta,
+	//                args.UserApiKey, args.UserSessionToken);
+
+	//            Attachment.Upload("url", )
+	//        }
+	//        catch (WebException e)
+	//        {
+	//            WammerCloudException ex = new WammerCloudException(
+	//                "Unable to upstream " + args.Thumbnail.file_name +
+	//                " thumbnail of orig image " + args.FullImageId, e);
+
+	//            logger.Warn(ex.ToString());
+	//        }
+	//        catch (Exception e)
+	//        {
+	//            logger.Warn("Unable to upstream " + args.Thumbnail.file_name +
+	//                " thumbnail of orig image " + args.FullImageId, e);
+	//        }
+	//    }
+	//}
 
 	class UpstreamArgs
 	{

@@ -21,7 +21,7 @@ namespace Wammer.Station
 		/// <summary>
 		/// Fired on the uploaded attachment is saved
 		/// </summary>
-		public event EventHandler<AttachmentEventArgs> AttachmentSaved;
+		public event EventHandler<AttachmentEventArgs> BodyAttachmentSaved;
 
 		public event EventHandler<ThumbnailUpstreamedEventArgs> ThumbnailUpstreamed;
 
@@ -70,7 +70,7 @@ namespace Wammer.Station
 				{
 					string url = CloudServer.BaseUrl + "attachments/upload/";
 					Attachment.Upload(url, storage.Load(file.saved_file_name), file.group_id, file.object_id, file.file_name, file.mime_type,
-																meta, file.type, Parameters["apikey"], Parameters["session_token"]); 
+																meta, file.type, Parameters["apikey"], Parameters["session_token"]);
 				}, null);
 			}
 		}
@@ -87,45 +87,6 @@ namespace Wammer.Station
 				return new OldOriginImageUploadStrategy();
 		}
 
-		private static BsonDocument CreateDbDocument(Attachment file, ImageMeta meta,
-																				string savedName)
-		{
-			if (meta == ImageMeta.None)
-				return file.ToBsonDocument();
-
-			// image 
-			if (meta == ImageMeta.Origin)
-			{
-				return file.ToBsonDocument();
-			}
-			else
-			{
-				using (Bitmap img = new Bitmap(new MemoryStream(file.RawData.Array, file.RawData.Offset, file.RawData.Count)))
-				{
-					Attachment thumbnailAttachment = new Attachment(file);
-					thumbnailAttachment.image_meta = new ImageProperty();
-					thumbnailAttachment.image_meta.SetThumbnailInfo(meta,
-						new ThumbnailInfo
-						{
-							mime_type = file.mime_type,
-							modify_time = DateTime.UtcNow,
-							url = file.url + "&image_meta=" + meta.ToString().ToLower(),
-							file_size = file.file_size,
-							file_name = savedName,
-							width = img.Width,
-							height = img.Height,
-							saved_file_name = savedName
-						});
-
-					thumbnailAttachment.mime_type = null;
-					thumbnailAttachment.modify_time = DateTime.UtcNow;
-					thumbnailAttachment.url = null;
-					thumbnailAttachment.file_size = 0;
-					return thumbnailAttachment.ToBsonDocument();
-				}
-			}
-		}
-
 		private ImageMeta GetImageMeta()
 		{
 			string imageMeta = Parameters["image_meta"];
@@ -137,9 +98,9 @@ namespace Wammer.Station
 			return meta;
 		}
 
-		public void OnAttachmentSaved(AttachmentEventArgs evt)
+		public void OnBodyAttachmentSaved(AttachmentEventArgs evt)
 		{
-			EventHandler<AttachmentEventArgs> handler = AttachmentSaved;
+			EventHandler<AttachmentEventArgs> handler = BodyAttachmentSaved;
 			if (handler != null)
 			{
 				handler(this, evt);
@@ -238,8 +199,7 @@ namespace Wammer.Station
 	{
 		public Boolean NeedUploadThumbnail { get; set; }
 		public ImageMeta Meta { get; set; }
-		public string UserApiKey { get; set; }
-		public string UserSessionToken { get; set; }
+		
 		public FileStorage Storage { get; set; }
 
 		public ImageAttachmentEventArgs(Boolean needUploadThumbnail = true)
@@ -252,6 +212,11 @@ namespace Wammer.Station
 	{
 		public Attachment Attachment { get; set; }
 		public Driver Driver { get; set; }
+
+		public string AttachmentId { get; set; }
+		public string UserId { get; set; }
+		public string UserApiKey { get; set; }
+		public string UserSessionToken { get; set; }
 
 		public AttachmentEventArgs()
 		{

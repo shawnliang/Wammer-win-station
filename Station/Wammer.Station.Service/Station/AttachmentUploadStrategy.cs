@@ -13,7 +13,7 @@ namespace Wammer.Station
 	interface IAttachmentUploadStrategy
 	{
 
-        void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true);
+		void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true);
 
 	}
 
@@ -41,12 +41,17 @@ namespace Wammer.Station
 			AttachmentEventArgs aEvtArgs = new AttachmentEventArgs
 			{
 				Attachment = file,
-				Driver = driver
+				Driver = driver,
+
+				AttachmentId = file.object_id,
+				UserId = driver.user_id,
+				UserApiKey = Parameters["apikey"],
+				UserSessionToken = Parameters["session_token"]
 			};
 
 			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
 			{
-                NeedUploadThumbnail = needUploadThumbnail,
+				NeedUploadThumbnail = needUploadThumbnail,
 				Attachment = file,
 				Meta = meta,
 				UserApiKey = Parameters["apikey"],
@@ -55,7 +60,9 @@ namespace Wammer.Station
 				Storage = storage
 			};
 
-			handler.OnAttachmentSaved(aEvtArgs);
+			if (meta == ImageMeta.Origin)
+				handler.OnBodyAttachmentSaved(aEvtArgs);
+
 			handler.OnImageAttachmentSaved(evtArgs);
 
 			HttpHelper.RespondSuccess(handler.Response, ObjectUploadResponse.CreateSuccess(file.object_id));
@@ -148,6 +155,11 @@ namespace Wammer.Station
 
 				medium = ImagePostProcessing.MakeThumbnail(
 				   imageBitmap, ImageMeta.Medium, file.Orientation, file.object_id, driver, file.file_name);
+
+
+				// medium is made from original attachment file. Set their modify_time identical to 
+				// prevent ImagePostProcessing task re-generates a medium thumbnail.
+				medium.modify_time = file.modify_time;
 			}
 
 			Attachment thumb = new Attachment(file);
@@ -175,7 +187,7 @@ namespace Wammer.Station
 	class DocumentUploadStrategy : IAttachmentUploadStrategy
 	{
 
-        public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true)
+		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true)
 		{
 			file.file_size = file.RawData.Count;
 			file.modify_time = DateTime.UtcNow;
@@ -204,7 +216,7 @@ namespace Wammer.Station
 				Driver = driver
 			};
 
-			handler.OnAttachmentSaved(aEvtArgs);
+			handler.OnBodyAttachmentSaved(aEvtArgs);
 			HttpHelper.RespondSuccess(handler.Response, ObjectUploadResponse.CreateSuccess(file.object_id));
 		}
 

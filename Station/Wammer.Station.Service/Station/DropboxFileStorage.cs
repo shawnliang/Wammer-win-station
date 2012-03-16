@@ -37,20 +37,25 @@ namespace Wammer.Station
 
 			if (AllocateSpace(attachment))
 			{
-				string SavedFileName = SaveFile(attachment.file_name, attachment.RawData);
+				string file = Path.Combine(driver.folder, attachment.saved_file_name);
+				string SavedFilePath = GetDropboxFilePath(attachment.file_name);
 
-				logger.DebugFormat("call setloc for file {0}", SavedFileName);
+				File.Copy(
+					Path.Combine(driver.folder, attachment.saved_file_name),
+					SavedFilePath, true);
+
+				logger.DebugFormat("call setloc for file {0}", Path.GetFileName(SavedFilePath));
 				AttachmentApi api = new AttachmentApi(driver.user_id);
 				api.AttachmentSetLoc(
 					new WebClient(),
 					(int)AttachmentApi.Location.Dropbox,
 					attachment.object_id,
-					Path.Combine(driver.folder, SavedFileName)
+					Path.Combine(driver.folder, Path.GetFileName(SavedFilePath))
 				);
 			}
 		}
 
-		public string SaveFile(string filename, ArraySegment<byte> data)
+		public string GetDropboxFilePath(string filename)
 		{
 			string filePath = Path.Combine(basePath, filename);
 			string ext = Path.GetExtension(filePath);
@@ -61,20 +66,8 @@ namespace Wammer.Station
 				index++;
 				filePath = Path.Combine(basePath, fileNameNoExt + " (" + index.ToString() + ")" + ext);
 			}
-
-			using (BinaryWriter w = new BinaryWriter(File.Open(filePath, FileMode.Create)))
-			{
-				w.Write(data.Array, data.Offset, data.Count);
-			}
-
-			if (index == 0)
-			{
-				return filename;
-			}
-			else
-			{
-				return fileNameNoExt + " (" + index.ToString() + ")" + ext;
-			}
+			
+			return filePath;
 		}
 
 		public long GetAvailSize()
