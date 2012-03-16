@@ -101,6 +101,8 @@ namespace Wammer.Station
 
             logger.Debug("Forward to cloud");
 
+            additionalParam += "&" + "return_meta=true"; ;
+
             Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
 
             string queryString = Request.Url.Query;
@@ -111,8 +113,6 @@ namespace Wammer.Station
                     queryString = additionalParam;
                 else
                     queryString += "&" + additionalParam;
-
-            queryString += "&" + "return_meta=true";
 
             UriBuilder uri = new UriBuilder(baseUri.Scheme, baseUri.Host, baseUri.Port,
                 Request.Url.AbsolutePath, queryString);

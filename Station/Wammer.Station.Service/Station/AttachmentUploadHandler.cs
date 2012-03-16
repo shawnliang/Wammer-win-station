@@ -26,8 +26,6 @@ namespace Wammer.Station
 		public event EventHandler<ThumbnailUpstreamedEventArgs> ThumbnailUpstreamed;
 
 
-        //private static long g_counter = 0;
-
 		public AttachmentUploadHandler()
 			: base()
 		{
@@ -73,11 +71,6 @@ namespace Wammer.Station
                                                                 meta, file.type, Parameters["apikey"], Parameters["session_token"]); 
                 });
             }
-
-            //long newValue = System.Threading.Interlocked.Add(ref g_counter, 1);
-
-            //if (newValue % 5 == 0)
-            //    GC.Collect();
 		}
 
 		private static IAttachmentUploadStrategy GetHandleStrategy(Attachment file, bool isNewOrigImage, ImageMeta meta)
