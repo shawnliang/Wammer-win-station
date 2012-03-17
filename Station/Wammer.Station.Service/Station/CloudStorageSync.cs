@@ -18,7 +18,11 @@ namespace Wammer.Station
 				if (cloudstorage != null)
 				{
 					logger.DebugFormat("Trying to backup file {0} to Dropbox", evt.AttachmentId);
-					new DropboxFileStorage(evt.Driver, cloudstorage).SaveAttachment(evt.Attachment);
+					Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", evt.UserId));
+					Attachment file = AttachmentCollection.Instance.FindOne(Query.EQ("_id", evt.AttachmentId));
+
+					if (user == null || file == null)
+						new DropboxFileStorage(user, cloudstorage).SaveAttachment(file);
 				}
 			}
 		}

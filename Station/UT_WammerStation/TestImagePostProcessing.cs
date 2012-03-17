@@ -365,7 +365,7 @@ namespace UT_WammerStation
 			};
 			args.Storage = new FileStorage(args.Driver);
 
-			UpstreamThumbnailsTask task = new UpstreamThumbnailsTask(args, null);
+			MakeAllThumbnailsAndUpstreamTask task = new MakeAllThumbnailsAndUpstreamTask(args, null);
 			task.Execute();
 
 			//save

@@ -12,9 +12,7 @@ namespace Wammer.Station
 {
 	interface IAttachmentUploadStrategy
 	{
-
-		void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true);
-
+		void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage);
 	}
 
 
@@ -23,7 +21,7 @@ namespace Wammer.Station
 		protected AttachmentUploadHandler handler;
 		protected Driver driver;
 
-		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true)
+		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage)
 		{
 			this.handler = handler;
 			this.driver = driver;
@@ -38,36 +36,20 @@ namespace Wammer.Station
 			storage.SaveFile(savedName, file.RawData);
 			SaveAttachmentInfoToDB(file, meta, savedName);
 
-			AttachmentEventArgs aEvtArgs = new AttachmentEventArgs
-			{
-				Attachment = file,
-				Driver = driver,
+			AttachmentEventArgs attachmentEvtArg = new AttachmentEventArgs(
+				file.object_id, driver.user_id, Parameters["apikey"], Parameters["session_token"]);
 
-				AttachmentId = file.object_id,
-				UserId = driver.user_id,
-				UserApiKey = Parameters["apikey"],
-				UserSessionToken = Parameters["session_token"]
-			};
-
-			ImageAttachmentEventArgs evtArgs = new ImageAttachmentEventArgs
-			{
-				NeedUploadThumbnail = needUploadThumbnail,
-				Attachment = file,
-				Meta = meta,
-				UserApiKey = Parameters["apikey"],
-				UserSessionToken = Parameters["session_token"],
-				Driver = driver,
-				Storage = storage
-			};
-
+			ImageAttachmentEventArgs imgAttachmentEvtArg = new ImageAttachmentEventArgs(
+				file.object_id, driver.user_id, Parameters["apikey"], Parameters["session_token"], meta);
+			
 			if (meta == ImageMeta.Origin)
-				handler.OnBodyAttachmentSaved(aEvtArgs);
+				handler.OnBodyAttachmentSaved(attachmentEvtArg);
 
-			handler.OnImageAttachmentSaved(evtArgs);
+			handler.OnImageAttachmentSaved(imgAttachmentEvtArg);
 
 			HttpHelper.RespondSuccess(handler.Response, ObjectUploadResponse.CreateSuccess(file.object_id));
 
-			handler.OnImageAttachmentCompleted(evtArgs);
+			handler.OnImageAttachmentCompleted(imgAttachmentEvtArg);
 		}
 
 		private void SaveAttachmentInfoToDB(Attachment file, ImageMeta meta, string savedName)
@@ -187,7 +169,7 @@ namespace Wammer.Station
 	class DocumentUploadStrategy : IAttachmentUploadStrategy
 	{
 
-		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage, Boolean needUploadThumbnail = true)
+		public void Execute(Attachment file, ImageMeta meta, NameValueCollection Parameters, Driver driver, string savedName, AttachmentUploadHandler handler, FileStorage storage)
 		{
 			file.file_size = file.RawData.Count;
 			file.modify_time = DateTime.UtcNow;
@@ -195,9 +177,7 @@ namespace Wammer.Station
 			file.saved_file_name = savedName;
 
 			file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
-			new FileStorage(driver).SaveAttachment(file);
-
-
+			storage.SaveAttachment(file);
 
 			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
 			BsonDocument existDoc = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
@@ -210,11 +190,8 @@ namespace Wammer.Station
 			else
 				AttachmentCollection.Instance.Save(dbDoc);
 
-			AttachmentEventArgs aEvtArgs = new AttachmentEventArgs
-			{
-				Attachment = file,
-				Driver = driver
-			};
+			AttachmentEventArgs aEvtArgs = new AttachmentEventArgs(
+				file.object_id, driver.user_id, Parameters["apikey"], Parameters["session_token"]);
 
 			handler.OnBodyAttachmentSaved(aEvtArgs);
 			HttpHelper.RespondSuccess(handler.Response, ObjectUploadResponse.CreateSuccess(file.object_id));

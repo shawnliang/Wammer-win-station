@@ -75,16 +75,19 @@ namespace Wammer.Station.Service
 				AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
 				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();
 				ImagePostProcessing imgProc = new ImagePostProcessing();
-				imgProc.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
+				
 				
 				attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
 				attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
 				attachmentHandler.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
-				
+				UpstreamThumbnailTask.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
+
 
 				CloudStorageSync cloudSync = new CloudStorageSync();
 				attachmentHandler.BodyAttachmentSaved += cloudSync.HandleAttachmentSaved;
 				attachmentHandler.ProcessSucceeded += attachmentMonitor.OnProcessSucceeded;
+				
+
 
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
 								attachmentHandler);
@@ -104,12 +107,9 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/reachability/ping/",
 								new PingHandler());
 
-				//if (Wammer.Utility.AutoRun.Exists("WavefaceStation"))
-				//{
-					logger.Debug("Start function server");
-					functionServer.Start();
-					stationTimer.Start();
-				//}
+				logger.Debug("Start function server");
+				functionServer.Start();
+				stationTimer.Start();
 
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989);

@@ -48,31 +48,20 @@ namespace Wammer.Station
 			{
 				file.object_id = Guid.NewGuid().ToString();
 			}
-			 
+
 			if (Parameters["apikey"] == null || Parameters["session_token"] == null)
 				throw new FormatException("apikey or session_token is missing");
 
-			Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));            
-			if (driver==null)
+			Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", file.group_id)));
+			if (driver == null)
 				throw new FormatException("group_id is not assocaited with a registered user");
 
 			string savedName = GetSavedFilename(file, meta);
 			FileStorage storage = new FileStorage(driver);
 
 			IAttachmentUploadStrategy handleStrategy = GetHandleStrategy(file, isNewOrigImage, meta);
-			Boolean forwardBySecondaryStation = !driver.isPrimaryStation && meta == ImageMeta.Origin && ((handleStrategy is NewOriginalImageUploadStrategy) || (handleStrategy is OldOriginImageUploadStrategy));
-			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this, storage, driver.isPrimaryStation || !forwardBySecondaryStation);
-
-			//Larry 2012/03/12, Enqueue upload original photo process
-			if (forwardBySecondaryStation)
-			{
-				TaskQueue.EnqueueLow((state) =>
-				{
-					string url = CloudServer.BaseUrl + "attachments/upload/";
-					Attachment.Upload(url, storage.Load(file.saved_file_name), file.group_id, file.object_id, file.file_name, file.mime_type,
-																meta, file.type, Parameters["apikey"], Parameters["session_token"]);
-				}, null);
-			}
+			Boolean forwardBySecondaryStation = !driver.isPrimaryStation && meta == ImageMeta.Origin;
+			handleStrategy.Execute(file, meta, Parameters, driver, savedName, this, storage);
 		}
 
 		private static IAttachmentUploadStrategy GetHandleStrategy(Attachment file, bool isNewOrigImage, ImageMeta meta)
@@ -197,29 +186,28 @@ namespace Wammer.Station
 
 	public class ImageAttachmentEventArgs : AttachmentEventArgs
 	{
-		public Boolean NeedUploadThumbnail { get; set; }
-		public ImageMeta Meta { get; set; }
-		
-		public FileStorage Storage { get; set; }
+		public ImageMeta Meta { get; private set; }
 
-		public ImageAttachmentEventArgs(Boolean needUploadThumbnail = true)
+		public ImageAttachmentEventArgs(string attachmentId, string userId, string apikey, string token, ImageMeta meta)
+			: base(attachmentId, userId, apikey, token)
 		{
-			NeedUploadThumbnail = needUploadThumbnail;
+			this.Meta = meta;
 		}
 	}
 
 	public class AttachmentEventArgs : EventArgs
 	{
-		public Attachment Attachment { get; set; }
-		public Driver Driver { get; set; }
+		public string AttachmentId { get; private set; }
+		public string UserId { get; private set; }
+		public string UserApiKey { get; private set; }
+		public string UserSessionToken { get; private set; }
 
-		public string AttachmentId { get; set; }
-		public string UserId { get; set; }
-		public string UserApiKey { get; set; }
-		public string UserSessionToken { get; set; }
-
-		public AttachmentEventArgs()
+		public AttachmentEventArgs(string attachmentId, string userId, string apikey, string token)
 		{
+			this.AttachmentId = attachmentId;
+			this.UserId = userId;
+			this.UserApiKey = apikey;
+			this.UserSessionToken = token;
 		}
 	}
 

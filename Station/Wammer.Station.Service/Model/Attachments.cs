@@ -41,8 +41,14 @@ namespace Wammer.Model
 		doc
 	}
 
+	public interface IImageAttachmentInfo
+	{
+		string mime_type { get; }
+		string saved_file_name { get; }
+	}
+
 	[BsonIgnoreExtraElements]
-	public class ThumbnailInfo
+	public class ThumbnailInfo : IImageAttachmentInfo
 	{
 		[BsonIgnoreIfNull]
 		public string url { get; set; }
@@ -171,9 +177,18 @@ namespace Wammer.Model
 	}
 
 	[BsonIgnoreExtraElements]
-	public class Attachment
+	public class Attachment : IImageAttachmentInfo
 	{
 		#region Upload utility functions
+		public static ObjectUploadResponse Upload(Stream dataStream, string groupId,
+									string objectId, string fileName, string contentType,
+									ImageMeta meta, AttachmentType type, string apiKey,
+									string token)
+		{
+			return Upload(CloudServer.BaseUrl + "attachments/upload", dataStream, groupId,
+				objectId, fileName, contentType, meta, type, apiKey, token);
+		}
+
 		public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
 									string objectId, string fileName, string contentType,
 									ImageMeta meta, AttachmentType type, string apiKey,
@@ -396,6 +411,17 @@ namespace Wammer.Model
 				default:
 					throw new ArgumentException("not a valid thumbmail meta: " + meta);
 			}
+		}
+
+		public IImageAttachmentInfo GetImgInfo(ImageMeta meta)
+		{
+			if (meta == ImageMeta.None)
+				throw new ArgumentException("argument meta cannot be " + meta);
+
+			if (meta == ImageMeta.Origin)
+				return this;
+			else
+				return this.image_meta.GetThumbnailInfo(meta);
 		}
 	}
 

@@ -10,7 +10,7 @@ namespace Wammer.Station
 	public interface IFileStorage
 	{
 		void SaveAttachment(Attachment attachment);
-		string SaveFile(string filename, ArraySegment<byte> data);
+		//string SaveFile(string filename, ArraySegment<byte> data);
 		long GetAvailSize();
 		long GetUsedSize();
 	}
