@@ -74,7 +74,7 @@ namespace Wammer.Station.Service
 
 				AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
 				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();
-				ImagePostProcessing imgProc = new ImagePostProcessing();
+				ImagePostProcessing imgProc = new ImagePostProcessing(new UpstreamThumbnailTaskFactory());
 				
 				
 				attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;

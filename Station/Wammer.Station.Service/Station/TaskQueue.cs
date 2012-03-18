@@ -157,7 +157,7 @@ namespace Wammer.Station
 		}
 	}
 
-	interface ITask
+	public interface ITask
 	{
 		void Execute();
 	}

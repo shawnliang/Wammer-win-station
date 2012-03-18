@@ -14,9 +14,25 @@ using Wammer.Cloud;
 using Wammer.Model;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using MongoDB.Driver.Builders;
 
 namespace UT_WammerStation
 {
+	class NullTask : ITask
+	{
+		public void Execute()
+		{
+		}
+	}
+
+	class NullUpstreamThumbnailTaskFactory: IUpstreamThumbnailTaskFactory
+	{
+		public ITask CreateTask(AttachmentEventArgs args, ImageMeta meta)
+		{
+			return new NullTask();
+		}
+	}
+
 	class DummyImageUploadHandler : HttpHandler
 	{
 		public static List<UploadedFile> recvFiles;
@@ -101,6 +117,10 @@ namespace UT_WammerStation
 				title = "orig_title",
 				description = "orig_desc",
 				type = AttachmentType.image,
+				file_name = "file_name",
+				saved_file_name = object_id1 + ".jpg",
+				modify_time = DateTime.UtcNow,
+
 				image_meta = new ImageProperty {
 					small = new ThumbnailInfo {
 								mime_type = "image/jpeg",
@@ -108,6 +128,9 @@ namespace UT_WammerStation
 								file_size = 123,
 								width = 1000,
 								height = 2000
+							},
+					medium = new ThumbnailInfo {
+								modify_time = DateTime.UtcNow.AddDays(-1.0)
 							}
 					
 				}
@@ -127,6 +150,8 @@ namespace UT_WammerStation
 
 			if (!Directory.Exists(@"resource\group1"))
 				Directory.CreateDirectory(@"resource\group1");
+
+			File.Copy("Penguins.jpg", Path.Combine(@"resource\group1", object_id1 + ".jpg"));
 		}
 
 		[TestCleanup]
@@ -294,38 +319,16 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestHandleImageAttachmentSaved()
+		public void TestUpdateMediumThumbnailIfItsModifyTimeIsOlder()
 		{
-			List<UserGroup> groups = new List<UserGroup>();
-			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
-
-			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs
-			{
-				Attachment = new Attachment
-				{
-					title = "title1",
-					mime_type = "image/jpeg",
-					type = AttachmentType.image,
-					RawData = new ArraySegment<byte>(imageRawData),
-					object_id = object_id1,
-					file_name = "orig_file.jpeg",
-					saved_file_name = "Penguins.jpg"
-				},
-				Meta = ImageMeta.Origin,
-				UserApiKey = "key1",
-				UserSessionToken = "token1",
-				Driver = new Driver { email = "driver1@waveface.com", folder = "", groups = groups, session_token = "session_token1", user_id = "id1" }
-			};
-			args.Storage = new FileStorage(args.Driver);
-
-			ImagePostProcessing post = new ImagePostProcessing();
+			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs(
+				object_id1, "driver1_id", "key1", "token1", ImageMeta.Origin);
+			
+			ImagePostProcessing post = new ImagePostProcessing(new NullUpstreamThumbnailTaskFactory());
 			post.HandleImageAttachmentSaved(this, args);
 
-			//save
-			Attachment doc = mongodb.GetDatabase("wammer").
-				GetCollection<Attachment>("attachments").FindOne(
-				new QueryDocument("_id", args.Attachment.object_id));
-
+			Attachment doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id1));
+				
 			Assert.AreEqual(1024, doc.image_meta.width);
 			Assert.AreEqual(768, doc.image_meta.height);
 			Assert.AreEqual("orig_title", doc.title);
@@ -336,42 +339,22 @@ namespace UT_WammerStation
 			Assert.AreEqual(384, doc.image_meta.medium.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.medium.mime_type);
 			Assert.AreEqual(object_id1 + "_medium.jpeg", doc.image_meta.medium.saved_file_name);
-			Assert.AreEqual(args.Attachment.file_name, doc.image_meta.medium.file_name);
+			Assert.AreEqual(doc.file_name, doc.image_meta.medium.file_name);
 			Assert.IsTrue(doc.image_meta.medium.file_size > 0);
-			Assert.IsTrue(doc.image_meta.medium.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
+			Assert.IsTrue(doc.image_meta.medium.modify_time > doc.modify_time);
 		}
 
 		[TestMethod]
-		public void TestHandleImageCompleted()
+		public void TestGenerateSmallLargeAndSquareThumbnails()
 		{
-			List<UserGroup> groups = new List<UserGroup>();
-			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
+			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs(
+				object_id1, "driver1_id", "key1", "token1", ImageMeta.Origin);
 
-			ImageAttachmentEventArgs args = new ImageAttachmentEventArgs
-			{
-				Attachment = new Attachment
-				{
-					title = "title1",
-					mime_type = "image/jpeg",
-					type = AttachmentType.image,
-					RawData = new ArraySegment<byte>(imageRawData),
-					object_id = object_id1,
-					saved_file_name = "Penguins.jpg"
-				},
-				Meta = ImageMeta.Origin,
-				UserSessionToken = "session1",
-				UserApiKey = "apikey1",
-				Driver = new Driver { email = "driver1@waveface.com", folder = "", groups = groups, session_token = "session_token1", user_id = "id1" }
-			};
-			args.Storage = new FileStorage(args.Driver);
-
-			MakeAllThumbnailsAndUpstreamTask task = new MakeAllThumbnailsAndUpstreamTask(args, null);
+			MakeAllThumbnailsAndUpstreamTask task = new MakeAllThumbnailsAndUpstreamTask(
+				args, new NullUpstreamThumbnailTaskFactory());
 			task.Execute();
 
-			//save
-			Attachment doc = mongodb.GetDatabase("wammer").
-				GetCollection<Attachment>("attachments").FindOne(
-				new QueryDocument("_id", args.Attachment.object_id));
+			Attachment doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id1));
 
 			Assert.IsNotNull(doc.image_meta.small);
 			Assert.IsNotNull(doc.image_meta.large);
@@ -383,7 +366,7 @@ namespace UT_WammerStation
 			Assert.AreEqual(120, doc.image_meta.small.width);
 			Assert.AreEqual(90, doc.image_meta.small.height);
 			Assert.AreEqual("image/jpeg", doc.image_meta.small.mime_type);
-			Assert.AreEqual(object_id1+"_small.jpeg", doc.image_meta.small.saved_file_name);
+			Assert.AreEqual(object_id1 + "_small.jpeg", doc.image_meta.small.saved_file_name);
 			Assert.IsTrue(doc.image_meta.small.file_size > 0);
 			Assert.IsTrue(doc.image_meta.small.modify_time - DateTime.UtcNow < TimeSpan.FromSeconds(10));
 

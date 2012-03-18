@@ -17,6 +17,12 @@ namespace Wammer.Station
 	public class ImagePostProcessing
 	{
 		private static ILog logger = LogManager.GetLogger(typeof(ImagePostProcessing));
+		private IUpstreamThumbnailTaskFactory upstreamTaskFactory;
+
+		public ImagePostProcessing(IUpstreamThumbnailTaskFactory factory)
+		{
+			this.upstreamTaskFactory = factory;
+		}
 
 		public void HandleImageAttachmentSaved(object sender, ImageAttachmentEventArgs evt)
 		{
@@ -70,7 +76,7 @@ namespace Wammer.Station
 
 
 				TaskQueue.Enqueue(
-					new UpstreamThumbnailTask(evt, ImageMeta.Medium), TaskPriority.Medium, true);
+					upstreamTaskFactory.CreateTask(evt, ImageMeta.Medium), TaskPriority.Medium, true);
 				
 			}
 			catch (Exception e)
@@ -84,7 +90,7 @@ namespace Wammer.Station
 			if (evt.Meta != ImageMeta.Origin)
 				return;
 
-			TaskQueue.Enqueue(new MakeAllThumbnailsAndUpstreamTask(evt), TaskPriority.Medium, true);
+			TaskQueue.Enqueue(new MakeAllThumbnailsAndUpstreamTask(evt, upstreamTaskFactory), TaskPriority.Medium, true);
 
 			Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", evt.UserId));
 			if (!user.isPrimaryStation && evt.Meta == ImageMeta.Origin)
@@ -165,15 +171,17 @@ namespace Wammer.Station
 	{
 		protected static ILog logger = LogManager.GetLogger("MakeThumbnail");
 		private ImageAttachmentEventArgs evt;
+		private IUpstreamThumbnailTaskFactory upstreamTaskfactory;
 
-		public MakeAllThumbnailsAndUpstreamTask(ImageAttachmentEventArgs evt)
+		public MakeAllThumbnailsAndUpstreamTask(ImageAttachmentEventArgs evt, IUpstreamThumbnailTaskFactory factory)
 		{
 			this.evt = evt;
+			this.upstreamTaskfactory = factory;
 		}
 
 		public void Execute()
 		{
-			Debug.Assert(evt.Meta != ImageMeta.Origin);
+			Debug.Assert(evt.Meta == ImageMeta.Origin);
 
 			try
 			{
@@ -215,15 +223,29 @@ namespace Wammer.Station
 				// generates thumbnails. 
 				if (user.isPrimaryStation)
 				{
-					TaskQueue.Enqueue(new UpstreamThumbnailTask(evt, ImageMeta.Small), TaskPriority.Medium, true);
-					TaskQueue.Enqueue(new UpstreamThumbnailTask(evt, ImageMeta.Large), TaskPriority.Medium, true);
-					TaskQueue.Enqueue(new UpstreamThumbnailTask(evt, ImageMeta.Square), TaskPriority.Medium, true);
+					TaskQueue.Enqueue(upstreamTaskfactory.CreateTask(evt, ImageMeta.Small), TaskPriority.Medium, true);
+					TaskQueue.Enqueue(upstreamTaskfactory.CreateTask(evt, ImageMeta.Large), TaskPriority.Medium, true);
+					TaskQueue.Enqueue(upstreamTaskfactory.CreateTask(evt, ImageMeta.Square), TaskPriority.Medium, true);
 				}
 			}
 			catch (Exception e)
 			{
 				logger.Warn("Image attachment post processing unsuccess", e);
 			}
+		}
+	}
+
+	
+	public interface IUpstreamThumbnailTaskFactory
+	{
+		ITask CreateTask(AttachmentEventArgs args, ImageMeta meta);
+	}
+
+	class UpstreamThumbnailTaskFactory: IUpstreamThumbnailTaskFactory
+	{
+		public ITask CreateTask(AttachmentEventArgs args, ImageMeta meta)
+		{
+			return new UpstreamThumbnailTask(args, meta);
 		}
 	}
 
