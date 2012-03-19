@@ -385,7 +385,6 @@ namespace Waveface.DetailUI
                 timer.Enabled = false;
 
                 ShowImageListView(firstTime);
-
                 return true;
             }
 

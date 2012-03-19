@@ -897,16 +897,17 @@ namespace Waveface
 
                     RT.SetCurrentGroupLastRead(_lastRead);
 
-                    if (IsLastReadPostInCacheData(_lastRead.post_id))
+                    //@
+                    //if (IsLastReadPostInCacheData(_lastRead.post_id))
                     {
                         ShowAllTimeline(m_showTimelineIndexType);
                     }
-                    else
+                    /*else
                     {
                         s_logger.Trace("GetLastReadAndShow: Get more posts");
 
                         timerReloadAllData.Enabled = true;
-                    }
+                    }*/
                 }
             }
         }

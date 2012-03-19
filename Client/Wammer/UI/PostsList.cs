@@ -279,17 +279,12 @@ namespace Waveface
                 switch (_value)
                 {
                     case 0:
-                        //g.DrawRectangle(Pens.Red, r.X + r.Width - FavoriteIconSize - 6,
-                        //                r.Y + r.Height - FavoriteIconSize - 3, FavoriteIconSize, FavoriteIconSize);
-
                         g.DrawImage(Properties.Resources.star_empty, r.X + r.Width - FavoriteIconSize - 6, r.Y + r.Height - FavoriteIconSize - 6, FavoriteIconSize, FavoriteIconSize);
 
                         break;
                     case 1:
-                        //g.FillRectangle(Brushes.Red, r.X + r.Width - FavoriteIconSize - 6,
-                        //                r.Y + r.Height - FavoriteIconSize - 3, FavoriteIconSize, FavoriteIconSize);
-
                         g.DrawImage(Properties.Resources.star, r.X + r.Width - FavoriteIconSize - 6, r.Y + r.Height - FavoriteIconSize - 6, FavoriteIconSize, FavoriteIconSize);
+                        
                         break;
                 }
             }

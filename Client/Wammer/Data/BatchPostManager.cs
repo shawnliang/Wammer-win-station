@@ -103,7 +103,7 @@ namespace Waveface
 
             while (true)
             {
-                BatchPostItem _batchPost;
+                BatchPostItem _postItem;
                 bool _editMode = false;
 
                 if (!Main.Current.RT.REST.IsNetworkAvailable)
@@ -120,42 +120,51 @@ namespace Waveface
                 {
                     if (Items.Count > 0)
                     {
-                        _batchPost = Items[0];
-                        _editMode = _batchPost.EditMode;
+                        _postItem = Items[0];
+                        _editMode = _postItem.EditMode;
                     }
                     else
                     {
-                        _batchPost = null;
+                        _postItem = null;
 
                         if (ShowMessage != null)
                             ShowMessage(I18n.L.T("BatchPostManager.DragDropHere"));
                     }
                 }
 
-                if (_batchPost != null)
+                if (_postItem != null)
                 {
                     if (ShowMessage != null)
                         ShowMessage("");
 
                     if (StartUpload)
                     {
-                        BatchPostItem _retItem = BatchUploadPhoto(_batchPost);
+                        BatchPostItem _retItem = UploadPhoto(_postItem);
 
                         if (_retItem.PostOK)
                         {
                             lock (this)
                             {
-                                Remove(_batchPost);
+                                Remove(_postItem);
 
                                 if (UploadDone != null)
-                                    UploadDone(I18n.L.T("PostForm.PostSuccess"));
+                                {
+                                    if (_editMode)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        UploadDone(I18n.L.T("PostForm.PostSuccess"));
+                                    }
+                                }
                             }
                         }
                         else
                         {
                             if (_retItem.ErrorAndDeletePost)
                             {
-                                Remove(_batchPost);
+                                Remove(_postItem);
 
                                 if (_editMode)
                                 {
@@ -166,9 +175,17 @@ namespace Waveface
                                 UpdateUI(int.MinValue, "");
 
                                 if (UploadDone != null)
-                                    UploadDone(I18n.L.T("PostForm.PostError"));
+                                {
+                                    if (_editMode)
+                                    {
+                                    }
+                                    else
+                                    {
+                                        UploadDone(I18n.L.T("PostForm.PostError"));
 
-                                s_logger.Error("Remove New Post");
+                                        s_logger.Error("Remove New Post");
+                                    }
+                                }
 
                                 continue;
                             }
@@ -185,21 +202,21 @@ namespace Waveface
             }
         }
 
-        private BatchPostItem BatchUploadPhoto(BatchPostItem nItem)
+        private BatchPostItem UploadPhoto(BatchPostItem postItem)
         {
             int _count = 0;
             string _tmpStamp = DateTime.Now.Ticks.ToString();
-            bool _editMode = nItem.EditMode;
+            bool _editMode = postItem.EditMode;
 
-            s_logger.Trace("[" + _tmpStamp + "]" + "BatchPhotoPost:" + nItem.Text + ", Files=" + nItem.Files.Count);
+            s_logger.Trace("[" + _tmpStamp + "]" + "UploadPhoto:" + postItem.Text + ", Files=" + postItem.Files.Count);
 
             while (true)
             {
                 if (StartUpload)
                 {
-                    string _file = nItem.Files[_count];
+                    string _file = postItem.Files[_count];
 
-                    if (nItem.UploadedFiles.Keys.Contains(_file))
+                    if (postItem.UploadedFiles.Keys.Contains(_file))
                     {
                         s_logger.Trace("[" + _tmpStamp + "]" + "Batch Sended Photo [" + _count + "]" + _file);
                     }
@@ -222,39 +239,39 @@ namespace Waveface
 
                                 switch (Main.Current.NewPostThreadErrorDialogResult)
                                 {
-                                    case DialogResult.Cancel:  // Delete Post
-                                        nItem.ErrorAndDeletePost = true;
-                                        nItem.PostOK = false;
-                                        return nItem;
+                                    case DialogResult.Cancel: // Delete Post
+                                        postItem.ErrorAndDeletePost = true;
+                                        postItem.PostOK = false;
+                                        return postItem;
 
                                     case DialogResult.Yes: // Remove Picture
                                         s_logger.Error("Remove: [" + _file + "]");
 
-                                        nItem.Files.Remove(_file);
+                                        postItem.Files.Remove(_file);
 
                                         if (_editMode)
                                         {
                                             // Todo ----------------------------------------------------
-                                            for (int i = 0; i < nItem.ObjectIDs.Count; i++)
+                                            for (int i = 0; i < postItem.ObjectIDs.Count; i++)
                                             {
-                                                if (nItem.ObjectIDs[i] == _file)
+                                                if (postItem.ObjectIDs[i] == _file)
                                                 {
-                                                    nItem.ObjectIDs.RemoveAt(i);
+                                                    postItem.ObjectIDs.RemoveAt(i);
                                                 }
                                             }
                                         }
 
-                                        nItem.PostOK = false;
+                                        postItem.PostOK = false;
 
                                         UpdateUI(int.MinValue, "");
 
-                                        return nItem;
+                                        return postItem;
 
-                                    case DialogResult.Retry:  // DoNothing
+                                    case DialogResult.Retry: // DoNothing
                                         s_logger.Error("Ignore & Retry Miss File: [" + _file + "]");
 
-                                        nItem.PostOK = false;
-                                        return nItem;
+                                        postItem.PostOK = false;
+                                        return postItem;
                                 }
                             }
 
@@ -274,30 +291,31 @@ namespace Waveface
                                     switch (Main.Current.NewPostThreadErrorDialogResult)
                                     {
                                         case DialogResult.Cancel: // Delete Post
-                                            nItem.ErrorAndDeletePost = true;
-                                            nItem.PostOK = false;
-                                            return nItem;
+                                            postItem.ErrorAndDeletePost = true;
+                                            postItem.PostOK = false;
+                                            return postItem;
 
                                         case DialogResult.Retry: // DoNothing
 
-                                            nItem.PostOK = false;
-                                            return nItem;
+                                            postItem.PostOK = false;
+                                            return postItem;
                                     }
                                 }
                             }
 
                             string _text = new FileName(_file).Name;
-                            string _resizedImage = ImageUtility.ResizeImage(_file, _text, nItem.LongSideResizeOrRatio, 100);
+                            string _resizedImage = ImageUtility.ResizeImage(_file, _text, postItem.LongSideResizeOrRatio,
+                                                                            100);
 
                             MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, "",
                                                                                              true);
                             if (_uf == null)
                             {
-                                nItem.PostOK = false;
-                                return nItem;
+                                postItem.PostOK = false;
+                                return postItem;
                             }
 
-                            nItem.UploadedFiles.Add(_file, _uf.object_id);
+                            postItem.UploadedFiles.Add(_file, _uf.object_id);
 
                             s_logger.Trace("[" + _tmpStamp + "]" + "Batch Upload Photo [" + _count + "]" + _file);
 
@@ -324,15 +342,15 @@ namespace Waveface
                         {
                             Uploading = false;
 
-                            NLogUtility.Exception(s_logger, _e, "BatchPhotoPost:File_UploadFile");
-                            nItem.PostOK = false;
-                            return nItem;
+                            NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile");
+                            postItem.PostOK = false;
+                            return postItem;
                         }
                     }
 
                     _count++;
 
-                    int _counts = nItem.Files.Count;
+                    int _counts = postItem.Files.Count;
 
                     if (UpdateUI != null)
                     {
@@ -344,7 +362,8 @@ namespace Waveface
                         }
                         else
                         {
-                            _msg = string.Format(I18n.L.T("MultiplePostUpload"), _count, _counts - _count, Items.Count - 1);
+                            _msg = string.Format(I18n.L.T("MultiplePostUpload"), _count, _counts - _count,
+                                                 Items.Count - 1);
                         }
 
                         UpdateUI(_count * 100 / _counts, _msg);
@@ -355,23 +374,22 @@ namespace Waveface
                 }
                 else
                 {
-                    nItem.PostOK = false;
-                    return nItem;
+                    postItem.PostOK = false;
+
+                    return postItem;
                 }
             }
 
             if (_editMode)
             {
-                // Todo: 
-
                 string _ids = "[";
 
-                for (int i = 0; i < nItem.ObjectIDs.Count; i++)
+                for (int i = 0; i < postItem.ObjectIDs.Count; i++)
                 {
-                    string _id = nItem.ObjectIDs[i];
+                    string _id = postItem.ObjectIDs[i];
 
-                    if (nItem.UploadedFiles.Keys.Contains(_id))
-                        _id = nItem.UploadedFiles[_id];
+                    if (postItem.UploadedFiles.Keys.Contains(_id))
+                        _id = postItem.UploadedFiles[_id];
 
                     _ids += "\"" + _id + "\"" + ",";
                 }
@@ -379,41 +397,47 @@ namespace Waveface
                 _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
                 _ids += "]";
 
-                string _time = nItem.Post.timestamp;
+                string _time = postItem.Post.timestamp;
 
-                if (nItem.Post.update_time != null)
+                if (postItem.Post.update_time != null)
                 {
-                    _time = nItem.Post.update_time;
+                    _time = postItem.Post.update_time;
                 }
 
                 try
                 {
                     Dictionary<string, string> _params = new Dictionary<string, string>();
 
-                    if (nItem.Text != string.Empty)
+                    if (postItem.Text != string.Empty)
                     {
-                        _params.Add("content", nItem.Text);
+                        _params.Add("content", postItem.Text);
                     }
 
                     _params.Add("attachment_id_array", _ids);
 
-                    MR_posts_update _update = Main.Current.RT.REST.Posts_update(nItem.Post.post_id, _time, _params);
+                    MR_posts_update _update = Main.Current.RT.REST.Posts_update(postItem.Post.post_id, _time, _params);
 
                     if (_update == null)
                     {
+                        postItem.PostOK = false;
+
+                        return postItem;
                     }
                 }
                 catch
                 {
+                    postItem.PostOK = false;
+
+                    return postItem;
                 }
             }
             else
             {
                 string _ids = "[";
 
-                for (int i = 0; i < nItem.UploadedFiles.Count; i++)
+                for (int i = 0; i < postItem.UploadedFiles.Count; i++)
                 {
-                    _ids += "\"" + nItem.UploadedFiles[nItem.Files[i]] + "\"" + ",";
+                    _ids += "\"" + postItem.UploadedFiles[postItem.Files[i]] + "\"" + ",";
                 }
 
                 _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
@@ -421,27 +445,27 @@ namespace Waveface
 
                 try
                 {
-                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(nItem.Text, _ids, "", "image");
+                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(postItem.Text, _ids, "", "image");
 
                     if (_np == null)
                     {
-                        nItem.PostOK = false;
-                        return nItem;
+                        postItem.PostOK = false;
+                        return postItem;
                     }
 
-                    s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + nItem.Text + ", Files=" + nItem.Files.Count);
+                    s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + postItem.Text + ", Files=" + postItem.Files.Count);
                 }
                 catch (Exception _e)
                 {
-                    NLogUtility.Exception(s_logger, _e, "BatchPhotoPost:File_UploadFile");
+                    NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile");
 
-                    nItem.PostOK = false;
-                    return nItem;
+                    postItem.PostOK = false;
+                    return postItem;
                 }
             }
 
-            nItem.PostOK = true;
-            return nItem;
+            postItem.PostOK = true;
+            return postItem;
         }
 
         private long CheckStoragesUsage()
@@ -452,7 +476,8 @@ namespace Waveface
 
                 if (_storagesUsage != null)
                 {
-                    long m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
+                    long m_avail_month_total_objects =
+                        _storagesUsage.storages.waveface.available.avail_month_total_objects;
                     long m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
 
                     //Hack

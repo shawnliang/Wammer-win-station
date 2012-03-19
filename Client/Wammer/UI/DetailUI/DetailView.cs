@@ -52,9 +52,9 @@ namespace Waveface
             get { return m_post; }
             set
             {
-                m_post = value;
-
                 CanEdit = false;
+
+                m_post = value;
 
                 ShowContent(false);
             }
