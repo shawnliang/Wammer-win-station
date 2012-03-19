@@ -45,9 +45,12 @@ namespace Wammer.Queue
 				List<WMSMessage> messages = new List<WMSMessage>();
 				using (SQLiteDataReader r = cmd2.ExecuteReader())
 				{
-					WMSMessage msg = new WMSMessage((Guid)r["id"], r["data"]);
-					msg.IsPersistent = true;
-					messages.Add(msg);
+					if (r.HasRows)
+					{
+						WMSMessage msg = new WMSMessage((Guid)r["id"], r["data"]);
+						msg.IsPersistent = true;
+						messages.Add(msg);
+					}
 				}
 
 				return new WMSQueue(qname, this, messages);
