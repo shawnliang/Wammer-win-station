@@ -92,9 +92,11 @@ namespace UT_WammerStation
 			using (FakeCloud cloud = new FakeCloud(new CloudResponse()))
 			{
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/remove",
-		 new Dictionary<object, object>{ 
-					{ "session_token", "token123"}, 
-					{ "user_ID", "exist_uid1"} });
+					new Dictionary<object, object>{
+						{ "session_token", "token123"},
+						{ "user_ID", "exist_uid1"}
+					});
+
 				Assert.IsNotNull(Wammer.Model.StationCollection.Instance.FindOne());
 			}
 		}

@@ -323,6 +323,9 @@ namespace Wammer.Model
 		private object rawDataMutex = new object();
 
 		[BsonIgnore]
+		public string creator_id { get; set; }
+
+		[BsonIgnore]
 		[System.Xml.Serialization.XmlIgnore]
 		public ArraySegment<byte> RawData
 		{

@@ -164,8 +164,10 @@ namespace Wammer.Station
 
 			Response.StatusCode = (int)resp.StatusCode;
 
-			var attachmentView = new Wammer.Station.JSONClass.AttachmentView(responseMsg);
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachmentView.CreatorId));
+			string redirectURL = resp.GetResponseHeader("location");
+			//var attachmentView = new Wammer.Station.JSONClass.AttachmentView(responseMsg);
+			var attachmentView = fastJSON.JSON.Instance.ToObject<Wammer.Station.JSONClass.AttachmentView>(responseMsg);
+			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachmentView.creator_id));
 
 			if (driver == null)
 			{
@@ -182,30 +184,30 @@ namespace Wammer.Station
 			else
 				imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta), Parameters["image_meta"], true);
 
-			var fileName = GetSavedFile(Parameters["object_id"], attachmentView.RedirectTo, imageMeta);
+			var fileName = GetSavedFile(Parameters["object_id"], redirectURL, imageMeta);
 			var file = Path.Combine(driver.folder, fileName);
 
 			if (!Directory.Exists(driver.folder))
 				Directory.CreateDirectory(driver.folder);
 
 			WebClient wc = new WebClient();
-			wc.DownloadFile(attachmentView.RedirectTo, file);
+			wc.DownloadFile(redirectURL, file);
 
 			using (var fs = File.Open(file, FileMode.Open))
 			{
 				if (imageMeta == ImageMeta.Origin)
 				{
 					AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
-						.Set("file_name", attachmentView.FileName)
+						.Set("file_name", attachmentView.file_name)
 						.Set("mime_type", wc.ResponseHeaders["content-type"])
 						.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
 						.Set("file_size", fs.Length)
 						.Set("modify_time", DateTime.UtcNow)
-						.Set("image_meta.width", attachmentView.Width)
-						.Set("image_meta.height", attachmentView.Height)
-						.Set("md5", attachmentView.Md5)
-						.Set("type", attachmentView.Type)
-						.Set("group_id", attachmentView.GroupId)
+						.Set("image_meta.width", attachmentView.image_meta.width)
+						.Set("image_meta.height", attachmentView.image_meta.height)
+						.Set("md5", attachmentView.md5)
+						.Set("type", attachmentView.type)
+						.Set("group_id", attachmentView.group_id)
 						.Set("saved_file_name", fileName), UpdateFlags.Upsert);
 				}
 				else
@@ -216,9 +218,9 @@ namespace Wammer.Station
 						modify_time = DateTime.UtcNow,
 						url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + imageMeta.ToString().ToLower(),
 						file_size = fs.Length,
-						file_name = attachmentView.FileName,
-						width = attachmentView.Width,
-						height = attachmentView.Height,
+						file_name = attachmentView.file_name,
+						width = attachmentView.image_meta.GetThumbnail(imageMeta).width,
+						height = attachmentView.image_meta.GetThumbnail(imageMeta).height,
 						saved_file_name = fileName
 					}.ToBsonDocument()), UpdateFlags.Upsert);
 				}
