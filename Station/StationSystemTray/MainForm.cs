@@ -13,6 +13,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 using System.Net.NetworkInformation;
+using System.Net;
 
 using Wammer.Station.Management;
 using Wammer.Cloud;
@@ -27,6 +28,8 @@ namespace StationSystemTray
 	{
 		#region Const
 		const string CLIENT_TITLE = "Waveface ";
+		const int STATION_TIMER_LONG_INTERVAL = 60000;
+		const int STATION_TIMER_SHORT_INTERVAL = 3000;
 		#endregion
 
 
@@ -74,13 +77,13 @@ namespace StationSystemTray
 		public Process clientProcess;
 		private bool iscmbEmailFirstChanged;
 
+		private StationStatusUIController uictrlStationStatus;
 		private WavefaceClientController uictrlWavefaceClient;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
 		private ReloginForm signInForm;
 		private bool initMinimized;
 		private object cs = new object();
-		private object csStationTimerTick = new object();
 		public StationState CurrentState { get; private set; }
 		
 		public Icon iconRunning;
@@ -120,6 +123,10 @@ namespace StationSystemTray
 			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_disable_16.GetHicon());
 			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_warn_16.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
+
+			this.uictrlStationStatus = new StationStatusUIController(this);
+			this.uictrlStationStatus.UICallback += this.StationStatusUICallback;
+			this.uictrlStationStatus.UIError += this.StationStatusUIError;
 
 			this.uictrlWavefaceClient = new WavefaceClientController(this);
 			this.uictrlWavefaceClient.UICallback += this.WavefaceClientUICallback;
@@ -298,6 +305,44 @@ namespace StationSystemTray
 			}
 		}
 
+		private void StationStatusUICallback(object sender, SimpleEventArgs evt)
+		{
+			checkStationTimer.Interval = STATION_TIMER_LONG_INTERVAL;
+
+			if (CurrentState.Value != StationStateEnum.Running)
+				CurrentState.Onlining();
+		}
+
+		private void StationStatusUIError(object sender, SimpleEventArgs evt)
+		{
+			// recover quickly if falling to error/offline state unexpectedly
+			if (CurrentState.Value == StationStateEnum.Running)
+				checkStationTimer.Interval = STATION_TIMER_SHORT_INTERVAL;
+
+			Exception ex = (Exception)evt.param;
+
+			if (ex is ConnectToCloudException)
+			{
+				logger.Debug("Unable to connect to Waveface cloud", ex);
+				CurrentState.Offlined();
+			}
+			else if (ex is AuthenticationException)
+			{
+				logger.Debug("Session expired while connecting to Waveface cloud");
+				CurrentState.SessionExpired();
+			}
+			else if (ex is WebException)
+			{
+				logger.Debug("Unable to connect to internet", ex);
+				CurrentState.Offlined();
+			}
+			else
+			{
+				logger.Warn("Unexpected exception in station status cheking", ex);
+				CurrentState.Error();
+			}
+		}
+
 		private void menuQuit_Click(object sender, EventArgs e)
 		{
 			try
@@ -391,50 +436,7 @@ namespace StationSystemTray
 
 		private void checkStationTimer_Tick(object sender, EventArgs e)
 		{
-			const int LONG_INTERVAL = 60000;
-			const int SHORT_INTERVAL = 3000;
-
-			lock (csStationTimerTick)
-			{
-				try
-				{
-					StationController.PingForServiceAlive();
-				}
-				catch (ConnectToCloudException)
-				{
-					CurrentState.Offlined();
-					checkStationTimer.Interval = SHORT_INTERVAL;
-					return;
-				}
-
-				checkStationTimer.Interval = LONG_INTERVAL;
-
-				if (!StationController.IsConnectToInternet())
-				{
-					CurrentState.Offlined();
-					return;
-				}
-
-				try
-				{
-					StationController.PingForAvailability();
-
-					if (CurrentState.Value != StationStateEnum.Running)
-						CurrentState.Onlining();
-				}
-				catch (AuthenticationException)
-				{
-					CurrentState.SessionExpired();
-				}
-				catch (ConnectToCloudException)
-				{
-					logger.Debug("Unable to detect function server");
-				}
-				catch (Exception ex)
-				{
-					logger.Warn("Unexpected exception in station status cheking", ex);
-				}
-			}
+			uictrlStationStatus.PerformAction();
 		}
 
 		void ClickBallonFor401Exception(object sender, EventArgs e)
@@ -903,6 +905,40 @@ namespace StationSystemTray
 			}
 		}
 	}
+
+	#region StationStatusUIController
+	public class StationStatusUIController : SimpleUIController
+	{
+		private MainForm mainform;
+		object csStationTimerTick = new object();
+
+		public StationStatusUIController(MainForm form)
+			: base(form)
+		{
+			mainform = form;
+		}
+
+		protected override object Action(object obj)
+		{
+			lock (csStationTimerTick)
+			{
+				StationController.PingForServiceAlive();
+				StationController.ConnectToInternet();
+				StationController.PingForAvailability();
+
+				return null;
+			}
+		}
+
+		protected override void ActionCallback(object obj)
+		{
+		}
+
+		protected override void ActionError(Exception ex)
+		{	
+		}
+	}
+	#endregion
 
 	#region WavefaceClientController
 	public class WavefaceClientController : SimpleUIController
