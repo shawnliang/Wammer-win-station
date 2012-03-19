@@ -447,20 +447,4 @@ namespace Wammer.Model
 			get { return instance; }
 		}
 	}
-
-	public class AttachmentResponse : CloudResponse
-	{
-		public Attachment attachment { get; set; }
-
-		public AttachmentResponse()
-			: base(200, 0, "success")
-		{
-		}
-
-		public AttachmentResponse(Attachment att)
-			: base(200, 0, "success")
-		{
-			attachment = att;
-		}
-	}
 }

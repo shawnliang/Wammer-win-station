@@ -113,9 +113,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cloud\AttachmentApi.cs" />
+    <Compile Include="Cloud\AttachmentResponse.cs" />
     <Compile Include="Cloud\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
     <Compile Include="Cloud\ObjectUploadResponse.cs" />
+    <Compile Include="Cloud\PostApi.cs" />
+    <Compile Include="Cloud\PostResponse.cs" />
     <Compile Include="Cloud\StationApi.cs" />
     <Compile Include="Cloud\StationSignUpResponse.cs" />
     <Compile Include="Cloud\StorageApi.cs" />
@@ -149,6 +152,7 @@
     <Compile Include="Station\PublicPortMapping.cs" />
     <Compile Include="Station\RemoveOwnerHandler.cs" />
     <Compile Include="Station\ResouceDirHandler.cs" />
+    <Compile Include="Station\ResourceSyncer.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
     <Compile Include="Station\ServiceUnavailableException.cs" />
     <Compile Include="Station\StationOfflineHandler.cs" />

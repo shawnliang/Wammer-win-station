@@ -9,7 +9,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
-	public class StatusChecker
+	public class StatusChecker : IStationTimer
 	{
 		private Timer timer;
 		private long timerPeriod;

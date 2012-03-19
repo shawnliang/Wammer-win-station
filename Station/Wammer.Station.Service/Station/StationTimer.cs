@@ -1,6 +1,13 @@
 ﻿
 namespace Wammer.Station
 {
+	public interface IStationTimer
+	{
+		void Start();
+		void Stop();
+		void Close();
+	}
+
 	public class StationTimer
 	{
 #if DEBUG
@@ -8,26 +15,45 @@ namespace Wammer.Station
 #else
 		private const long STATUS_CHECK_PERIOD = 10 * 60 * 1000; // TODO: remove hardcode
 #endif
-		private StatusChecker statusChecker;
+
+#if DEBUG
+		private const long RESOURCE_SYNC_PEROID = 10 * 1000;
+#else
+		private const long RESOURCE_SYNC_PEROID = 10 * 20 * 1000;
+#endif
+
+		private List<IStationTimer> timers;
 
 		public StationTimer(HttpServer functionServer)
 		{
-			statusChecker = new StatusChecker(STATUS_CHECK_PERIOD, functionServer);
+			timers = new List<IStationTimer> {
+				new StatusChecker(STATUS_CHECK_PERIOD, functionServer), 
+				new ResourceSyncer(RESOURCE_SYNC_PEROID)
+			};
 		}
 
 		public void Start()
 		{
-			statusChecker.Start();
+			foreach (IStationTimer timer in timers)
+			{
+				timer.Start();
+			}
 		}
 
 		public void Stop()
 		{
-			statusChecker.Stop();
+			foreach (IStationTimer timer in timers)
+			{
+				timer.Stop();
+			}
 		}
 
 		public void Close()
 		{
-			statusChecker.Close();
+			foreach (IStationTimer timer in timers)
+			{
+				timer.Close();
+			}
 		}
 	}
 }

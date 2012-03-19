@@ -26,6 +26,9 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public bool isPrimaryStation { get; set; }
 
+		[BsonIgnoreIfNull]
+		public SyncRange sync_range { get; set; }
+
 		public Driver()
 		{
 			groups = new List<UserGroup>();
@@ -51,5 +54,12 @@ namespace Wammer.Model
 		{
 			get { return instance; }
 		}
+	}
+
+	public class SyncRange
+	{
+		public string start_time { get; set; }
+		public string end_time { get; set; }
+		public string first_post_time { get; set; }
 	}
 }
