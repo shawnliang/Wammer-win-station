@@ -26,8 +26,6 @@ namespace Wammer.Station
 		public event EventHandler<ThumbnailUpstreamedEventArgs> ThumbnailUpstreamed;
 
 
-		//private static long g_counter = 0;
-
 		public AttachmentUploadHandler()
 			: base()
 		{
