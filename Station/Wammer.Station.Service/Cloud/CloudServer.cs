@@ -179,7 +179,7 @@ namespace Wammer.Cloud
 			{
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
 				buf.Append("=");
-				buf.Append(HttpUtility.UrlEncode(pair.Value.ToString()));
+				buf.Append(HttpUtility.UrlEncode(Convert.ToString(pair.Value)));
 				buf.Append("&");
 			}
 

@@ -38,16 +38,15 @@ namespace Wammer.Station
 		}
 
 		public string SaveFile(string filename, ArraySegment<byte> data)
-		{
-			string filePath = Path.Combine(basePath, filename);
+        {
+            string filePath = Path.Combine(basePath, filename);
 
-			using (FileStream f = File.Open(filePath, FileMode.Create))
-			using (BinaryWriter w = new BinaryWriter(f))
-			{
-				w.Write(data.Array, data.Offset, data.Count);
-			}
+            using (FileStream f = File.Open(filePath, FileMode.Create))
+            {
+                f.Write(data.Array, data.Offset, data.Count);
+            }
 
-			return filename;
+            return filename;
 		}
 
 		public FileStream Load(string filename)
