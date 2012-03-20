@@ -27,6 +27,12 @@ namespace Wammer.Station
 		private static WMSQueue mqMediumPriority;
 		private static WMSQueue mqLowPriority;
 
+
+		public static int MaxCurrentTaskCount { get; set; }
+		private static int runningTaskCount;
+		private static int totalTaskCount;
+		private static object lockObj = new object();
+
 		static TaskQueue()
 		{
 			mqBroker = new WMSBroker(new SQLitePersistentStorage("taskQueue.db"));
@@ -34,6 +40,10 @@ namespace Wammer.Station
 			mqHighPriority = mqBroker.GetQueue("high");
 			mqMediumPriority = mqBroker.GetQueue("medium");
 			mqLowPriority = mqBroker.GetQueue("low");
+
+			MaxCurrentTaskCount = 6;
+			runningTaskCount = 0;
+			totalTaskCount = 0;
 		}
 
 		/// <summary>
@@ -104,7 +114,15 @@ namespace Wammer.Station
 
 			mqSession.Push(queue, task, persistent);
 
-			System.Threading.ThreadPool.QueueUserWorkItem(RunPriorityQueue);
+			lock (lockObj)
+			{
+				++totalTaskCount;
+				if (runningTaskCount < MaxCurrentTaskCount)
+				{
+					ThreadPool.QueueUserWorkItem(RunPriorityQueue);
+					++runningTaskCount;
+				}
+			}
 		}
 
 		private static WMSMessage Dequeue()
@@ -153,6 +171,19 @@ namespace Wammer.Station
 			{
 				itemsInProgress.Decrement();
 				queueItem.Acknowledge();
+
+				lock (lockObj)
+				{
+					--runningTaskCount;
+					--totalTaskCount;
+
+					if (totalTaskCount > runningTaskCount &&
+						runningTaskCount < MaxCurrentTaskCount)
+					{
+						System.Threading.ThreadPool.QueueUserWorkItem(RunPriorityQueue);
+						++runningTaskCount;
+					}
+				}
 			}
 		}
 	}
