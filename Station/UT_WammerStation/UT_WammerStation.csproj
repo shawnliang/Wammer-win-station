@@ -109,8 +109,11 @@
     <Compile Include="TestPersistentQueue.cs" />
     <Compile Include="TestServiceHelper.cs" />
     <Compile Include="TestStreamHelper.cs" />
+    <Compile Include="TestTimelineChange_PostInfoProvider.cs" />
+    <Compile Include="TestTimelineChange_UserUpdator.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
+    <Compile Include="TestUserTrack.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt">

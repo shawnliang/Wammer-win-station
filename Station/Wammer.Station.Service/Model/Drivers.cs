@@ -61,5 +61,6 @@ namespace Wammer.Model
 		public string start_time { get; set; }
 		public string end_time { get; set; }
 		public string first_post_time { get; set; }
+		public string change_log_sync_time { get; set; }
 	}
 }

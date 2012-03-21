@@ -125,6 +125,8 @@
     <Compile Include="Cloud\StorageResponse.cs" />
     <Compile Include="Cloud\User.cs" />
     <Compile Include="Cloud\UserLogInResponse.cs" />
+    <Compile Include="Cloud\UserTracksApi.cs" />
+    <Compile Include="Cloud\UserTracksResponse.cs" />
     <Compile Include="Cloud\WammerCloudException.cs" />
     <Compile Include="Extension\StreamExtension.cs" />
     <Compile Include="Model\Attachments.cs" />
@@ -161,6 +163,9 @@
     <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Station\StatusGetHandler.cs" />
     <Compile Include="Station\TaskQueue.cs" />
+    <Compile Include="Station\TimelineChange\PostInfoProvider.cs" />
+    <Compile Include="Station\TimelineChange\TimelineChangeHistory.cs" />
+    <Compile Include="Station\TimelineChange\UserInfoUpdator.cs" />
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
