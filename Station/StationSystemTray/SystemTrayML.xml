@@ -205,4 +205,14 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Re-Login</en-US>
     <zh-TW>重新登入</zh-TW>
   </WItem>
+  <WItem>
+    <ID>LoginMenuItem</ID>
+    <en-US>Login...</en-US>
+    <zh-TW>登入...</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>LogoutMenuItem</ID>
+    <en-US>Logout...</en-US>
+    <zh-TW>登出...</zh-TW>
+  </WItem>
 </WItems>

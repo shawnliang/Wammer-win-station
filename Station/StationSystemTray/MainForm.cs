@@ -146,7 +146,6 @@ namespace StationSystemTray
 			this.CurrentState = CreateState(StationStateEnum.Initial);
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
-			this.menuGotoTimeline.Text = "Go to Timeline";
 			RefreshUserList();
 
 			this.checkStationTimer.Enabled = true;
@@ -167,41 +166,24 @@ namespace StationSystemTray
 		private void RefreshUserList()
 		{
 			cmbEmail.Items.Clear();
-			try
+			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
+			ListDriverResponse res = StationController.ListUser();
+			foreach (Driver driver in res.drivers)
 			{
-				menuGotoTimeline.DropDownItems.Remove(menuNewUser);
-				menuGotoTimeline.DropDownItems.Clear();
-
-				List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
-				bool addSeparator = false;
-				ListDriverResponse res = StationController.ListUser();
-				foreach (Driver driver in res.drivers)
+				UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
+				if (userlogin != null)
 				{
-					UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
-					if (userlogin != null)
-					{
-						if (!addSeparator)
-						{
-							menuGotoTimeline.DropDownItems.Insert(0, new ToolStripSeparator());
-							addSeparator = true;
-						}
-						cmbEmail.Items.Add(userlogin.Email);
-						ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-						menu.Name = userlogin.Email;
-						menuGotoTimeline.DropDownItems.Insert(0, menu);
-						userlogins.Add(userlogin);
-					}
-				}
-
-				if (userlogins.Count > 0)
-				{
-					string lastlogin = userloginContainer.GetLastUserLogin().Email;
-					userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
+					cmbEmail.Items.Add(userlogin.Email);
+					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+					menu.Name = userlogin.Email;
+					userlogins.Add(userlogin);
 				}
 			}
-			finally
+
+			if (userlogins.Count > 0)
 			{
-				menuGotoTimeline.DropDownItems.Add(menuNewUser);
+				string lastlogin = userloginContainer.GetLastUserLogin().Email;
+				userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
 			}
 		}
 
@@ -869,12 +851,6 @@ namespace StationSystemTray
 		}
 		#endregion
 
-		private void newUserToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			uictrlWavefaceClient.Terminate();
-			GotoTabPage(tabSignIn, null);
-		}
-
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
 			uictrlWavefaceClient.Terminate();
@@ -883,7 +859,7 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "Logout...": "Login...";
+		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
 		}
 
 		private void cmbEmail_SelectionChangeCommitted(object sender, EventArgs e)

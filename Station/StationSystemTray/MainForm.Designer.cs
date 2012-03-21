@@ -37,8 +37,6 @@ namespace StationSystemTray
 			this.menuServiceAction = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuSignIn = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuGotoTimeline = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuNewUser = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
@@ -75,7 +73,6 @@ namespace StationSystemTray
             this.menuServiceAction,
             this.toolStripSeparator1,
             this.menuSignIn,
-            this.menuGotoTimeline,
             this.toolStripSeparator3,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
@@ -104,19 +101,6 @@ namespace StationSystemTray
 			this.menuSignIn.Name = "menuSignIn";
 			resources.ApplyResources(this.menuSignIn, "menuSignIn");
 			this.menuSignIn.Click += new System.EventHandler(this.menuSignIn_Click);
-			// 
-			// menuGotoTimeline
-			// 
-			this.menuGotoTimeline.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuNewUser});
-			this.menuGotoTimeline.Name = "menuGotoTimeline";
-			resources.ApplyResources(this.menuGotoTimeline, "menuGotoTimeline");
-			// 
-			// menuNewUser
-			// 
-			this.menuNewUser.Name = "menuNewUser";
-			resources.ApplyResources(this.menuNewUser, "menuNewUser");
-			this.menuNewUser.Click += new System.EventHandler(this.newUserToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
@@ -283,8 +267,6 @@ namespace StationSystemTray
         internal System.Windows.Forms.TextBox txtPassword;
         internal System.Windows.Forms.ComboBox cmbEmail;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		private System.Windows.Forms.ToolStripMenuItem menuGotoTimeline;
-        private System.Windows.Forms.ToolStripMenuItem menuNewUser;
         private System.Windows.Forms.ToolStripMenuItem menuSignIn;
 	}
 }
