@@ -1030,7 +1030,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Waveface");
+                MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
                 return;
             }
 
@@ -1048,6 +1048,12 @@ namespace Waveface
 
                     case DialogResult.OK:
                         BatchPostManager.Add(m_postForm.BatchPostItem);
+
+                        if(m_postForm.BatchPostItem.Post != null)
+                        {
+                            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                        }
+
                         break;
                 }
             }
@@ -1073,7 +1079,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Waveface");
+                MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
                 return;
             }
 

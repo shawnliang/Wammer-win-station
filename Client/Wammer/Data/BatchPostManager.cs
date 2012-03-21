@@ -19,6 +19,7 @@ namespace Waveface
         public event ProgressUpdateUI_Delegate UpdateUI;
         public event ShowMessage_Delegate ShowMessage;
         public event ShowMessage_Delegate UploadDone;
+        public event ShowMessage_Delegate EditUpdateDone;
         public event ShowDialog_Delegate ShowFileMissDialog;
         public event ShowDialog_Delegate OverQuotaMissDialog;
 
@@ -76,6 +77,22 @@ namespace Waveface
             Items.Remove(item);
 
             Save();
+        }
+
+        public bool CheckPostInQueue(string postID)
+        {
+            foreach (BatchPostItem _item in Items)
+            {
+                if (_item.Post != null)
+                {
+                    if (_item.Post.post_id == postID)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public int GetQueuedUnsendFilesCount()
@@ -147,17 +164,17 @@ namespace Waveface
                             {
                                 Remove(_postItem);
 
-                                if (UploadDone != null)
+                                if (_editMode)
                                 {
-                                    if (_editMode)
-                                    {
-
-                                    }
-                                    else
-                                    {
-                                        UploadDone(I18n.L.T("PostForm.PostSuccess"));
-                                    }
+                                    if (EditUpdateDone != null)
+                                        EditUpdateDone(I18n.L.T("PostForm.PostSuccess")); //@
                                 }
+                                else
+                                {
+                                    if (UploadDone != null)
+                                        UploadDone(I18n.L.T("PostForm.PostSuccess"));
+                                }
+
                             }
                         }
                         else
@@ -166,25 +183,21 @@ namespace Waveface
                             {
                                 Remove(_postItem);
 
-                                if (_editMode)
-                                {
-                                    // Todo ----------------------------------------------------
-                                    // 
-                                }
-
                                 UpdateUI(int.MinValue, "");
 
-                                if (UploadDone != null)
+                                if (_editMode)
                                 {
-                                    if (_editMode)
-                                    {
-                                    }
-                                    else
-                                    {
+                                    if (EditUpdateDone != null)
+                                        EditUpdateDone(I18n.L.T("PostForm.PostError")); //@
+
+                                    s_logger.Error("Remove EditUpdate Post");
+                                }
+                                else
+                                {
+                                    if (UploadDone != null)
                                         UploadDone(I18n.L.T("PostForm.PostError"));
 
-                                        s_logger.Error("Remove New Post");
-                                    }
+                                    s_logger.Error("Remove New Post");
                                 }
 
                                 continue;
@@ -251,7 +264,6 @@ namespace Waveface
 
                                         if (_editMode)
                                         {
-                                            // Todo ----------------------------------------------------
                                             for (int i = 0; i < postItem.ObjectIDs.Count; i++)
                                             {
                                                 if (postItem.ObjectIDs[i] == _file)

@@ -850,6 +850,9 @@ namespace Waveface
         {
             Post _post = m_postBS[e.RowIndex] as Post;
 
+            if (Main.Current.BatchPostManager.CheckPostInQueue(_post.post_id))
+                return;
+
             if (_post.favorite == null)
                 return;
 
@@ -867,6 +870,9 @@ namespace Waveface
         private void dataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             Post _post = m_postBS[e.RowIndex] as Post;
+
+            if (Main.Current.BatchPostManager.CheckPostInQueue(_post.post_id))
+                return;
 
             Size _sizeCell = dataGridView[e.ColumnIndex, e.RowIndex].Size;
 
