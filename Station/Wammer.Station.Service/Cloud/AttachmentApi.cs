@@ -66,7 +66,7 @@ namespace Wammer.Cloud
 			return res;
 		}
 
-		public void AttachmentView(WebClient agent, AsyncCompletedEventHandler handler, ResourceDownloadEventArgs evtargs)
+		public void AttachmentView(WebClient agent, ResourceDownloadEventArgs evtargs)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object> 
 			{ 
@@ -80,7 +80,7 @@ namespace Wammer.Cloud
 				parameters.Add(CloudServer.PARAM_IMAGE_META, evtargs.imagemeta.ToString().ToLower());
 			}
 
-			CloudServer.requestAsyncDownload(agent, "attachments/view", parameters, evtargs.filepath, handler, evtargs);
+			CloudServer.requestDownload(agent, "attachments/view", parameters, evtargs.filepath);
 		}
 	}
 }

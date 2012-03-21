@@ -67,6 +67,35 @@ namespace Wammer.Cloud
 			set { apiKey = value; }
 		}
 
+		public static void requestDownload(WebClient agent, string path, Dictionary<object, object> parameters,
+			string filepath)
+		{
+			StringBuilder buf = new StringBuilder();
+			try
+			{
+				foreach (KeyValuePair<object, object> pair in parameters)
+				{
+					buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
+					buf.Append("=");
+					buf.Append(HttpUtility.UrlEncode(pair.Value.ToString()));
+					buf.Append("&");
+				}
+
+				// remove last &
+				buf.Remove(buf.Length - 1, 1);
+
+				agent.DownloadFile(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()), filepath);
+			}
+			catch (WebException e)
+			{
+				throw new WammerCloudException("Wammer cloud error",  buf.ToString(), e);
+			}
+			catch (Exception e)
+			{
+				throw new WammerCloudException("Wammer cloud error", e);
+			}
+		}
+
 		public static void requestAsyncDownload(WebClient agent, string path, Dictionary<object, object> parameters, 
 			string filepath, AsyncCompletedEventHandler handler, object evtargs)
 		{
