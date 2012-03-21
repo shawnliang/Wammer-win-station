@@ -160,8 +160,8 @@ namespace UT_WammerStation
 			if (mongodb.GetDatabase("wammer").CollectionExists("attachments"))
 				mongodb.GetDatabase("wammer").DropCollection("attachments");
 
-			if (Directory.Exists("resource"))
-				Directory.Delete("resource", true);
+            //if (Directory.Exists("resource"))
+            //    Directory.Delete("resource", true);
 		}
 
 		[TestMethod]

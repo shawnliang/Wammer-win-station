@@ -22,7 +22,53 @@ namespace UT_WammerStation
 		Guid object_id1;
 		Guid object_id2;
 
-		[ClassInitialize()]
+        #region Private Method
+        private static void TestTunnelToCloud(string argument, string requestMethod)
+        {
+            CloudServer.BaseUrl = "http://localhost/v2/";
+
+            using (HttpServer cloud = new HttpServer(80))
+            using (HttpServer server = new HttpServer(8080))
+            {
+                cloud.AddHandler("/v1/objects/view", new FakeCloudRemoteHandler());
+                cloud.AddHandler("/v1/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
+                cloud.Start();
+
+                server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
+                server.Start();
+
+                Boolean isGetRequest = requestMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
+
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
+                    "http://localhost:8080/v1/objects/view" + ((isGetRequest) ? argument : string.Empty));
+                req.ContentType = "application/x-www-form-urlencoded";
+                req.Method = requestMethod.ToLower();
+
+                if (!isGetRequest)
+                    using (StreamWriter fs = new StreamWriter(req.GetRequestStream()))
+                    {
+                        fs.Write(argument);
+                    }
+
+                HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+                Assert.AreEqual("image/jpeg", response.ContentType);
+
+                using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+                {
+                    byte[] readData = reader.ReadBytes(1000);
+                    Assert.AreEqual(10, readData.Length);
+
+                    for (int i = 0; i < readData.Length; i++)
+                        Assert.AreEqual((byte)i + 1, readData[i]);
+                }
+
+                Assert.AreEqual("sid", FakeCloudRemoteHandler.SavedParams["station_id"]);
+            }
+        }
+        #endregion
+
+        [ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
 		{
 			mongodb = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
@@ -111,6 +157,8 @@ namespace UT_WammerStation
 		{
 			System.Threading.Thread.Sleep(200);
 			Directory.Delete("resource", true);
+
+			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 		}
 
 		[TestMethod]
@@ -259,155 +307,105 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestView_FileNotFound_ForwardToCloud()
 		{
-			CloudServer.BaseUrl = "http://localhost/v2/";
-
-			RawDataResponseWriter writer =  new RawDataResponseWriter 
-			{	
-				RawData = new byte[] { 1,2,3,4,5,6,7,8,9,0 },
-				ContentType = "image/jpeg" 
-			};
-
-			using (FakeCloud cloud = new FakeCloud(writer))
-			using (HttpServer server = new HttpServer(8080))
-			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
-				server.Start();
-
-				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-										"http://localhost:8080/v1/objects/view" +
-										"?object_id=abc&apikey=123&session_token=token123&image_meta=medium");
-				req.Method = "GET";
-
-				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				Assert.AreEqual("image/jpeg", response.ContentType);
-
-				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-				{
-					byte[] readData = reader.ReadBytes(1000);
-					Assert.AreEqual(writer.RawData.Length, readData.Length);
-
-					for (int i = 0; i < readData.Length; i++)
-						Assert.AreEqual(writer.RawData[i], readData[i]);
-				}
-			}
+            TestTunnelToCloud("?object_id=abc&apikey=123&session_token=token123&image_meta=medium", "GET");
 		}
 
 		[TestMethod]
 		public void TestView_FileNotFound_ForwardToCloud_ByPost()
 		{
-			CloudServer.BaseUrl = "http://localhost/v2/";
-
-			RawDataResponseWriter writer = new RawDataResponseWriter
-			{
-				RawData = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 },
-				ContentType = "image/jpeg"
-			};
-
-			using (FakeCloud cloud = new FakeCloud(writer))
-			using (HttpServer server = new HttpServer(8080))
-			{
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
-				server.Start();
-
-				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-										"http://localhost:8080/v1/objects/view");
-				req.ContentType = "application/x-www-form-urlencoded";
-				req.Method = "POST";
-				using (StreamWriter fs = new StreamWriter(req.GetRequestStream()))
-				{
-					fs.Write("object_id=abc&apikey=123&session_token=token123&image_meta=medium");
-				}
-
-				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				Assert.AreEqual("image/jpeg", response.ContentType);
-
-				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-				{
-					byte[] readData = reader.ReadBytes(1000);
-					Assert.AreEqual(writer.RawData.Length, readData.Length);
-
-					for (int i = 0; i < readData.Length; i++)
-						Assert.AreEqual(writer.RawData[i], readData[i]);
-				}
-			}
+            TestTunnelToCloud("object_id=abc&apikey=123&session_token=token123&image_meta=medium", "POST");
 		}
 
 		[TestMethod]
 		public void TestView_AlsoForwardBodyRequestToCloud_ByPost()
 		{
-			CloudServer.BaseUrl = "http://localhost/v2/";
-
-			using (HttpServer cloud = new HttpServer(80))
-			using (HttpServer server = new HttpServer(8080))
-			{
-				cloud.AddHandler("/v1/objects/view", new FakeCloudRemoteHandler());
-				cloud.Start();
-
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
-				server.Start();
-
-				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-										"http://localhost:8080/v1/objects/view");
-				req.ContentType = "application/x-www-form-urlencoded";
-				req.Method = "POST";
-				using (StreamWriter fs = new StreamWriter(req.GetRequestStream()))
-				{
-					fs.Write("object_id=abc&apikey=123&session_token=token123");
-				}
-
-				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				Assert.AreEqual("image/jpeg", response.ContentType);
-
-				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-				{
-					byte[] readData = reader.ReadBytes(1000);
-					Assert.AreEqual(10, readData.Length);
-
-					for (int i = 0; i < readData.Length; i++)
-						Assert.AreEqual((byte)i+1, readData[i]);
-				}
-
-				Assert.AreEqual("sid", FakeCloudRemoteHandler.SavedParams["station_id"]);
-			}
+            TestTunnelToCloud("object_id=abc&apikey=123&session_token=token123", "POST");
 		}
+
+       
 
 		[TestMethod]
 		public void TestView_AlsoForwardBodyRequestToCloud_ByGet()
 		{
-			using (HttpServer cloud = new HttpServer(80))
-			using (HttpServer server = new HttpServer(8080))
-			{
-				cloud.AddHandler("/v1/objects/view", new FakeCloudRemoteHandler());
-				cloud.Start();
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
-				server.Start();
-
-				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-										"http://localhost:8080/v1/objects/view" +
-										"?object_id=abc&apikey=123&session_token=token123");
-
-				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
-				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-				Assert.AreEqual("image/jpeg", response.ContentType);
-
-				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-				{
-					byte[] readData = reader.ReadBytes(1000);
-					Assert.AreEqual(10, readData.Length);
-
-					for (int i = 0; i < readData.Length; i++)
-						Assert.AreEqual((byte)i+1, readData[i]);
-				}
-
-				Assert.AreEqual("sid", FakeCloudRemoteHandler.SavedParams["station_id"]);
-			}
+            TestTunnelToCloud("?object_id=abc&apikey=123&session_token=token123", "GET");
 		}
 	}
 
 	class FakeCloudRemoteHandler: HttpHandler
+	{
+		public static System.Collections.Specialized.NameValueCollection SavedParams;
+
+		protected override void HandleRequest()
+		{
+			SavedParams = this.Parameters;
+
+			Response.RedirectLocation = "http://localhost:80/v1/objects/view/DownloadAttachment";
+
+			Response.StatusCode = 200;
+			Response.ContentType = "application/json";
+
+			var jsonString = @"{
+	""status"": 302,
+	""session_token"": ""IPiyl7s8H85V0VBaI5PJTuAQ.KER6e9YNVYs8ypjsZ6+C8UFcVey375SytfvOH9X9SLA"",
+	""session_expires"": ""2012-05-19T02:44:36Z"",
+	""redirect_to"": ""https://wammer-file.s3.amazonaws.com/98d5cac5-4387-48cc-b974-414a921a6144_medium.jpg?Signature=QKJyH6Dkui0n6yCCbX3qfn6Oe90%3D&Expires=1332212078&AWSAccessKeyId=AKIAIVNI655G7NQZGN3A"",
+	""api_ret_code"": 0,
+	""api_ret_message"": ""success"",
+	""debug"": {
+		""connection_id"": ""133221147833549391""
+	},
+	""loc"": 0,
+	""group_id"": ""e8e228bd-3e6a-417a-88fe-16a6a8fdf94e"",
+	""meta_time"": 0,
+	""description"": """",
+	""title"": """",
+	""file_name"": ""IMG_20120319_104743.jpg"",
+	""meta_status"": ""OK"",
+	""object_id"": ""98d5cac5-4387-48cc-b974-414a921a6144"",
+	""creator_id"": ""driver1_id"",
+	""image_meta"": {
+		""small"": {
+			""url"": ""/v2/attachments/view?object_id=98d5cac5-4387-48cc-b974-414a921a6144&image_meta=small"",
+			""height"": 120,
+			""width"": 72,
+			""modify_time"": 1332125268,
+			""file_size"": 3002,
+			""mime_type"": ""image/jpeg"",
+			""md5"": ""332daefeef4a3b646dff4ded0285a16b""
+		},
+		""medium"": {
+			""url"": ""/v2/attachments/view?object_id=98d5cac5-4387-48cc-b974-414a921a6144&image_meta=medium"",
+			""file_name"": ""IMG_20120319_104743.jpg"",
+			""height"": 512,
+			""width"": 307,
+			""modify_time"": 1332125267,
+			""file_size"": 96632,
+			""mime_type"": ""image/jpeg"",
+			""md5"": ""c96562d5a457d0234d5f2f4615c6514d""
+		}
+	},
+	""default_post"": false,
+	""modify_time"": 1332125267,
+	""code_name"": ""Android"",
+	""hidden"": ""false"",
+	""type"": ""image"",
+	""device_id"": ""7c80239a-b9a9-460a-9da8-d8001896f0f0""
+}";
+
+			using (StreamWriter w = new StreamWriter(Response.OutputStream))
+			{
+				w.Write(jsonString);
+			}
+		}
+
+		public override object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+	}
+
+
+	class FakeCloudRemoteAttachmentHandler : HttpHandler
 	{
 		public static System.Collections.Specialized.NameValueCollection SavedParams;
 
