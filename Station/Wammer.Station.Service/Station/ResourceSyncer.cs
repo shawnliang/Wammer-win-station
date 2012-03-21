@@ -123,7 +123,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private void DownloadMissedResource(List<PostInfo> posts)
+		private static void DownloadMissedResource(List<PostInfo> posts)
 		{
 			foreach (PostInfo post in posts)
 			{
@@ -143,7 +143,7 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Origin,
 								filepath = Path.GetTempFileName()
 							};
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+							TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.small != null)
 						{
@@ -154,7 +154,7 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Small,
 								filepath = Path.GetTempFileName()
 							};
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+							TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.medium != null)
 						{
@@ -165,7 +165,7 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Medium,
 								filepath = Path.GetTempFileName()
 							};
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+							TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.large != null)
 						{
@@ -176,7 +176,7 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Large,
 								filepath = Path.GetTempFileName()
 							};
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+							TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.square != null)
 						{
@@ -187,14 +187,14 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Square,
 								filepath = Path.GetTempFileName()
 							};
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+							TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 						}
 					}
 				}
 			}
 		}
 
-		private void DownstreamResource(object state)
+		private static void DownstreamResource(object state)
 		{
 			ResourceDownloadEventArgs evtargs = (ResourceDownloadEventArgs)state;
 			try
@@ -209,7 +209,7 @@ namespace Wammer.Station
 			}
 		}
 
-		public void DownloadComplete(ResourceDownloadEventArgs args)
+		private static void DownloadComplete(ResourceDownloadEventArgs args)
 		{
 			try
 			{
