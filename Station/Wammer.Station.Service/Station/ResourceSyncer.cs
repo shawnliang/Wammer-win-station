@@ -25,105 +25,84 @@ namespace Wammer.Station
 		public string filepath { get; set; }
 	}
 
-	public class ResourceSyncer : IStationTimer
+	public class ResourceSyncer : NonReentrantTimer
 	{
-		private Timer timer;
-		private long timerPeriod;
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceSyncer));
 
 		public ResourceSyncer(long timerPeriod)
+			:base(timerPeriod)
 		{
-			TimerCallback tcb = PullTimeline;
-			this.timer = new Timer(tcb);
-			this.timerPeriod = timerPeriod;
 		}
 
-		public void Start()
+		protected override void ExecuteOnTimedUp(object state)
 		{
-			// PullTimeline is not reentrant, so the timer behaves like javascript's setTimeout
-			timer.Change(0, Timeout.Infinite);
-		}
-
-		public void Stop()
-		{
-			timer.Change(Timeout.Infinite, Timeout.Infinite);
-		}
-
-		public void Close()
-		{
-			timer.Dispose();
+			PullTimeline(state);
 		}
 
 		private void PullTimeline(Object obj)
 		{
-			try
+
+			using (WebClient agent = new WebClient())
 			{
-				using (WebClient agent = new WebClient())
+				foreach (Driver driver in DriverCollection.Instance.FindAll())
 				{
-					foreach (Driver driver in DriverCollection.Instance.FindAll())
+					PostApi api = new PostApi(driver);
+					if (driver.sync_range == null)
 					{
-						PostApi api = new PostApi(driver);
-						if (driver.sync_range == null)
+						PostGetLatestResponse res = api.PostGetLatest(agent, 20);
+						DownloadMissedResource(res.posts);
+						driver.sync_range = new SyncRange
 						{
-							PostGetLatestResponse res = api.PostGetLatest(agent, 20);
-							DownloadMissedResource(res.posts);
-							driver.sync_range = new SyncRange
+							start_time = res.posts.Last().timestamp,
+							end_time = res.posts.First().timestamp
+						};
+						if (res.total_count == res.get_count)
+						{
+							driver.sync_range.first_post_time = driver.sync_range.start_time;
+						}
+					}
+					else
+					{
+						PostFetchByFilterResponse newerRes = api.PostFetchByFilter(agent,
+							new FilterEntity
 							{
-								start_time = res.posts.Last().timestamp,
-								end_time = res.posts.First().timestamp
-							};
-							if (res.total_count == res.get_count)
+								limit = 20,
+								timestamp = driver.sync_range.end_time,
+								type = "image"
+							}
+						);
+						DownloadMissedResource(newerRes.posts);
+						if (newerRes.posts.Count != 0)
+						{
+							driver.sync_range.end_time = newerRes.posts.First().timestamp;
+						}
+
+						if (driver.sync_range.start_time != driver.sync_range.first_post_time)
+						{
+							PostFetchByFilterResponse olderRes = api.PostFetchByFilter(agent,
+								new FilterEntity
+								{
+									limit = -20,
+									timestamp = driver.sync_range.start_time,
+									type = "image"
+								}
+							);
+							DownloadMissedResource(olderRes.posts);
+							driver.sync_range.start_time = olderRes.posts.Last().timestamp;
+
+							if (olderRes.remaining_count == 0)
 							{
 								driver.sync_range.first_post_time = driver.sync_range.start_time;
 							}
 						}
-						else
-						{
-							PostFetchByFilterResponse newerRes = api.PostFetchByFilter(agent,
-								new FilterEntity
-								{
-									limit = 20,
-									timestamp = driver.sync_range.end_time,
-									type = "image"
-								}
-							);
-							DownloadMissedResource(newerRes.posts);
-							if (newerRes.posts.Count != 0)
-							{
-								driver.sync_range.end_time = newerRes.posts.First().timestamp;
-							}
-
-							if (driver.sync_range.start_time != driver.sync_range.first_post_time)
-							{
-								PostFetchByFilterResponse olderRes = api.PostFetchByFilter(agent,
-									new FilterEntity
-									{
-										limit = -20,
-										timestamp = driver.sync_range.start_time,
-										type = "image"
-									}
-								);
-								DownloadMissedResource(olderRes.posts);
-								driver.sync_range.start_time = olderRes.posts.Last().timestamp;
-
-								if (olderRes.remaining_count == 0)
-								{
-									driver.sync_range.first_post_time = driver.sync_range.start_time;
-								}
-							}
-						}
-
-						DriverCollection.Instance.Save(driver);
 					}
+
+					DriverCollection.Instance.Save(driver);
 				}
-			}
-			finally
-			{
-				timer.Change(timerPeriod, Timeout.Infinite);
 			}
 		}
 
-		private void DownloadMissedResource(List<PostInfo> posts)
+		public static void DownloadMissedResource(List<PostInfo> posts)
 		{
 			foreach (PostInfo post in posts)
 			{
@@ -143,7 +122,7 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Origin,
 								filepath = Path.GetTempFileName()
 							};
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+							TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.small != null)
 						{
@@ -154,7 +133,7 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Small,
 								filepath = Path.GetTempFileName()
 							};
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+							TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.medium != null)
 						{
@@ -165,7 +144,7 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Medium,
 								filepath = Path.GetTempFileName()
 							};
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+							TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.large != null)
 						{
@@ -176,7 +155,7 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Large,
 								filepath = Path.GetTempFileName()
 							};
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+							TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.square != null)
 						{
@@ -187,14 +166,14 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Square,
 								filepath = Path.GetTempFileName()
 							};
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+							TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 						}
 					}
 				}
 			}
 		}
 
-		private void DownstreamResource(object state)
+		private static void DownstreamResource(object state)
 		{
 			ResourceDownloadEventArgs evtargs = (ResourceDownloadEventArgs)state;
 			try
@@ -210,7 +189,7 @@ namespace Wammer.Station
 			}
 		}
 
-		public void DownloadComplete(ResourceDownloadEventArgs args)
+		private static void DownloadComplete(ResourceDownloadEventArgs args)
 		{
 			try
 			{

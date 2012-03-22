@@ -40,19 +40,24 @@ namespace Wammer.Station
 			{
 				try
 				{
-					string stationToken = string.Empty;
 					Driver existingDriver = Model.DriverCollection.Instance.FindOne(Query.EQ("email", email));
-					Boolean isDriverExists = existingDriver != null;
-
+					Boolean isDriverExists = existingDriver != null;                    
 
 					if (isDriverExists)
 					{
-						CheckPasswordOnly(email, password, agent, existingDriver);
+                        existingDriver.ref_count += 1;
+                        DriverCollection.Instance.Save(existingDriver);
+
+                        RespondSuccess(new AddUserResponse()
+                        {
+                            UserId = existingDriver.user_id,
+                            IsPrimaryStation = existingDriver.isPrimaryStation
+                        });
 						return;
 					}
 
-					stationToken = SignUpStation(email, password, agent);					
-					User user = User.LogIn(agent, email, password);
+                    string stationToken = SignUpStation(email, password, agent);
+                    User user = User.LogIn(agent, email, password);				
 								
 					Driver driver = new Driver
 					{
@@ -61,7 +66,8 @@ namespace Wammer.Station
 						user_id = user.Id,
 						groups = user.Groups,
 						session_token = user.Token,
-						isPrimaryStation = IsThisPrimaryStation(user.Stations)
+						isPrimaryStation = IsThisPrimaryStation(user.Stations),
+						ref_count = 1
 					};
 
 					DriverCollection.Instance.Save(driver);
@@ -120,16 +126,6 @@ namespace Wammer.Station
 			return false;
 		}
 
-		private void CheckPasswordOnly(string email, string password, WebClient agent, Driver existingDriver)
-		{
-			User u = User.LogIn(agent, email, password);
-			Model.DriverCollection.Instance.Update(Query.EQ("_id", u.Id), Update.Set("session_token", u.Token));
-			RespondSuccess(new AddUserResponse()
-			{
-				IsPrimaryStation = existingDriver.isPrimaryStation,
-				UserId = existingDriver.user_id
-			});
-		}
 
 		private string SignUpStation(string email, string password, WebClient agent)
 		{

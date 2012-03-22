@@ -155,8 +155,8 @@ namespace UT_WammerStation
 		[TestCleanup]
 		public void tearDown()
 		{
-			System.Threading.Thread.Sleep(200);
-			Directory.Delete("resource", true);
+            System.Threading.Thread.Sleep(200);
+            Directory.Delete("resource", true);
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 		}
