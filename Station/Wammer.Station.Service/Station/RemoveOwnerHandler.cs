@@ -36,8 +36,8 @@ namespace Wammer.Station
                 return;
             }
 
-            //reference count > 0 => reference count decrease one
-            if (existingDriver.ref_count > 0)
+            //reference count > 1 => reference count decrease one
+            if (existingDriver.ref_count > 1)
             {
                 --existingDriver.ref_count;
                 DriverCollection.Instance.Save(existingDriver);
