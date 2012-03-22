@@ -22,6 +22,7 @@ namespace Wammer.Station.TimelineChange
 	{
 		public List<string> ChangedPostIds { get; set; }
 		public string LastSyncTime {get;set;}
+		public bool HasMore { get; set; }
 	}
 
 	public class TimelineChangeHistory
@@ -37,25 +38,40 @@ namespace Wammer.Station.TimelineChange
 
 		public List<PostInfo> GetChangedPosts(Driver user)
 		{
-			string lastSyncTime = null;
+			
+			string lastSyncTimeInDB = null;
 			if (user.sync_range != null && !string.IsNullOrEmpty(user.sync_range.change_log_sync_time))
-				lastSyncTime = user.sync_range.change_log_sync_time;
+				lastSyncTimeInDB = user.sync_range.change_log_sync_time;
 
+			string lastSyncTime = lastSyncTimeInDB;
 			using (System.Net.WebClient agent = new System.Net.WebClient())
 			{
-				
-				ChangeHistory changeHistory =
-					postInfoProvider.RetrieveChangedPosts(agent, user.session_token, lastSyncTime, CloudServer.APIKey, user.groups[0].group_id);
 
-				if (changeHistory == null ||
-					changeHistory.ChangedPostIds == null ||
-					changeHistory.ChangedPostIds.Count == 0 ||
-					(changeHistory.LastSyncTime == lastSyncTime && !string.IsNullOrEmpty(lastSyncTime)))
+				bool hasMoreData = false;
+				List<string> changedPostIds = new List<string>();
+
+				do
+				{
+					ChangeHistory changeHistory = postInfoProvider.RetrieveChangedPosts(agent,
+						user.session_token, lastSyncTime, CloudServer.APIKey, user.groups[0].group_id);
+
+					if (changeHistory.LastSyncTime == lastSyncTimeInDB)
+						hasMoreData = false;
+					else
+					{
+						changedPostIds.AddRange(changeHistory.ChangedPostIds);
+						hasMoreData = changeHistory.HasMore;
+						lastSyncTime = changeHistory.LastSyncTime;
+					}
+				}
+				while (hasMoreData);
+
+
+				if (changedPostIds.Count == 0)
 					return new List<PostInfo>();
 
-				List<PostInfo> changedPosts = postInfoProvider.RetrievePosts(agent, changeHistory.ChangedPostIds, user);
-
-				userInfoUpdator.UpdateChangeLogSyncTime(user.user_id, changeHistory.LastSyncTime);
+				List<PostInfo> changedPosts = postInfoProvider.RetrievePosts(agent, changedPostIds, user);
+				userInfoUpdator.UpdateChangeLogSyncTime(user.user_id, lastSyncTime);
 
 				return changedPosts;
 			}
