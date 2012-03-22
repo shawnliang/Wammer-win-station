@@ -432,7 +432,7 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		public static void RemoveOwner(string userId)
+		public static void RemoveOwner(string userId, Boolean removeResource = true)
 		{
 			try
 			{
@@ -449,6 +449,7 @@ namespace Wammer.Station.Management
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
 						{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 						{CloudServer.PARAM_USER_ID, userId},
+						{"remove_resource", removeResource}
 					}
 				);
 			}
