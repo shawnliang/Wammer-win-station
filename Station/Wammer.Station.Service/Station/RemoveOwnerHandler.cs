@@ -23,12 +23,25 @@ namespace Wammer.Station
             if (stationToken == null || userID == null)
                 throw new FormatException("One of parameters is missing: email/password/session_token/userID");
 
+            //Try to find existing driver
+            Driver existingDriver = Model.DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+            Boolean isDriverExists = existingDriver != null;
+
+            //If driver exists & reference count > 0 => reference count decrease one
+            if (isDriverExists && existingDriver.ref_count > 0)
+            {
+                --existingDriver.ref_count;
+                DriverCollection.Instance.Save(existingDriver);
+                return;
+            }
+
+            //Notify cloud server that the user signoff
             StationApi.SignOff(new WebClient(), stationId, stationToken, userID);
 
-      
-
+            //Remove the user from db, and stop service this user
             Model.DriverCollection.Instance.Remove(Query.EQ("_id", userID));
 
+            //All driver removed => Remove station from db
 			Driver driver = Model.DriverCollection.Instance.FindOne();
 			if (driver == null)
 				Model.StationCollection.Instance.RemoveAll();

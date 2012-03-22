@@ -5,61 +5,115 @@ using Wammer.Cloud;
 
 namespace Wammer.Model
 {
-	[BsonIgnoreExtraElements]
-	public class Driver
-	{
-		[BsonIgnore]
-		public static MongoCollection<Driver> collection = Database.wammer.GetCollection<Driver>("drivers");
+    /// <summary>
+    /// The Driver model class, that can specified which user will be servicied
+    /// </summary>
+    [BsonIgnoreExtraElements]
+    public class Driver
+    {
+        #region Var
+        private List<UserGroup> _groups;
+        #endregion
 
-		[BsonId]
-		public string user_id { get; set; }
-		[BsonIgnoreIfNull]
-		public string email { get; set; }
-		[BsonIgnoreIfNull]
-		public string folder { get; set; }
-		[BsonIgnoreIfNull]
-		public List<UserGroup> groups { get; set; }
-		[BsonIgnoreIfNull]
-		public string session_token { get; set; }
-		
-		[BsonDefaultValue(true)]
-		[BsonIgnoreIfNull]
-		public bool isPrimaryStation { get; set; }
+        #region Public Property
+        /// <summary>
+        /// Gets or sets the user_id.
+        /// </summary>
+        /// <value>The user_id.</value>
+        [BsonId]
+        public string user_id { get; set; }
 
-		[BsonIgnoreIfNull]
-		public SyncRange sync_range { get; set; }
+        /// <summary>
+        /// Gets or sets the email.
+        /// </summary>
+        /// <value>The email.</value>
+        [BsonIgnoreIfNull]
+        public string email { get; set; }
 
-		public Driver()
-		{
-			groups = new List<UserGroup>();
-		}
+        /// <summary>
+        /// Gets or sets the folder.
+        /// </summary>
+        /// <value>The folder.</value>
+        [BsonIgnoreIfNull]
+        public string folder { get; set; }
 
-	}
+        /// <summary>
+        /// Gets or sets the groups.
+        /// </summary>
+        /// <value>The groups.</value>
+        [BsonIgnoreIfNull]
+        public List<UserGroup> groups
+        {
+            get
+            {
+                if (_groups == null)
+                    _groups = new List<UserGroup>();
+                return _groups;
+            }
+            set
+            {
+                _groups = value;
+            }
+        }
 
-	public class DriverCollection : Collection<Driver>
-	{
-		private static DriverCollection instance;
+        /// <summary>
+        /// Gets or sets the session_token.
+        /// </summary>
+        /// <value>The session_token.</value>
+        [BsonIgnoreIfNull]
+        public string session_token { get; set; }
 
-		static DriverCollection()
-		{
-			instance = new DriverCollection();
-		}
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is primary station.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is primary station; otherwise, <c>false</c>.
+        /// </value>
+        [BsonDefaultValue(true)]
+        [BsonIgnoreIfNull]
+        public bool isPrimaryStation { get; set; }
 
-		private DriverCollection()
-			:base("drivers")
-		{
-		}
+        /// <summary>
+        /// Gets or sets the sync_range.
+        /// </summary>
+        /// <value>The sync_range.</value>
+        [BsonIgnoreIfNull]
+        public SyncRange sync_range { get; set; }
 
-		public static DriverCollection Instance
-		{
-			get { return instance; }
-		}
-	}
+        /// <summary>
+        /// Gets or sets the ref_count.
+        /// </summary>
+        /// <value>The ref_count.</value>
+        [BsonDefaultValue(0)]
+        [BsonIgnoreIfNull]
+        public int ref_count { get; set; }
+        #endregion
+    }
 
-	public class SyncRange
-	{
-		public string start_time { get; set; }
-		public string end_time { get; set; }
-		public string first_post_time { get; set; }
-	}
+    public class DriverCollection : Collection<Driver>
+    {
+        private static DriverCollection instance;
+
+        static DriverCollection()
+        {
+            instance = new DriverCollection();
+        }
+
+        private DriverCollection()
+            : base("drivers")
+        {
+        }
+
+        public static DriverCollection Instance
+        {
+            get { return instance; }
+        }
+    }
+
+    public class SyncRange
+    {
+        public string start_time { get; set; }
+        public string end_time { get; set; }
+        public string first_post_time { get; set; }
+    }
 }
