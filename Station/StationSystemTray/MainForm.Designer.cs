@@ -176,13 +176,12 @@ namespace StationSystemTray
 			// 
 			// cmbEmail
 			// 
-			this.cmbEmail.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+			this.cmbEmail.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
 			this.cmbEmail.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
 			this.cmbEmail.FormattingEnabled = true;
 			resources.ApplyResources(this.cmbEmail, "cmbEmail");
 			this.cmbEmail.Name = "cmbEmail";
-			this.cmbEmail.SelectionChangeCommitted += new System.EventHandler(this.cmbEmail_SelectionChangeCommitted);
-			this.cmbEmail.TextUpdate += new System.EventHandler(this.cmbEmail_TextUpdate);
+			this.cmbEmail.TextChanged += new System.EventHandler(this.cmbEmail_TextChanged);
 			// 
 			// lblPassword
 			// 
@@ -267,7 +266,7 @@ namespace StationSystemTray
         internal System.Windows.Forms.TextBox txtPassword;
         internal System.Windows.Forms.ComboBox cmbEmail;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem menuSignIn;
+		private System.Windows.Forms.ToolStripMenuItem menuSignIn;
 	}
 }
 

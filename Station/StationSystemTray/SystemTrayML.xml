@@ -215,4 +215,9 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Logout...</en-US>
     <zh-TW>登出...</zh-TW>
   </WItem>
+  <WItem>
+    <ID>RemoveUserMsg</ID>
+    <en-US>{0} will be unlinked from this computer.</en-US>
+    <zh-TW>{0} 的資訊將從這台電腦移除。</zh-TW>
+  </WItem>
 </WItems>
