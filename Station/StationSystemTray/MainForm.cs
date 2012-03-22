@@ -159,7 +159,9 @@ namespace StationSystemTray
 				this.initMinimized = false;
 			}
 			else
+			{
 				GotoTimeline(userloginContainer.GetLastUserLogin());
+			}
 		}
 
 		private void RefreshUserList()
@@ -211,11 +213,18 @@ namespace StationSystemTray
 				RefreshUserList();
 
 				LaunchWavefaceClient(userlogin);
-				Close();
-				return;
-			}
 
-			GotoTabPage(tabSignIn, userlogin);
+				// if the function is called by OnLoad, Close() won't hide the mainform
+				// so we have to play some tricks here
+				this.WindowState = FormWindowState.Minimized;
+				this.ShowInTaskbar = false;
+
+				Close();
+			}
+			else
+			{
+				GotoTabPage(tabSignIn, userlogin);
+			}
 		}
 
 		private void WavefaceClientUICallback(object sender, SimpleEventArgs evt)
