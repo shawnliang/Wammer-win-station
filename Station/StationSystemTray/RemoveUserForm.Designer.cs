@@ -29,31 +29,31 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoveUserForm));
-			this.btnOK = new System.Windows.Forms.Button();
-			this.btnCancel = new System.Windows.Forms.Button();
-			this.lblRemoveUser1 = new System.Windows.Forms.Label();
+			this.btnYes = new System.Windows.Forms.Button();
+			this.btnNo = new System.Windows.Forms.Button();
+			this.lblConfirm = new System.Windows.Forms.Label();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// btnOK
+			// btnYes
 			// 
-			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.Yes;
-			resources.ApplyResources(this.btnOK, "btnOK");
-			this.btnOK.Name = "btnOK";
-			this.btnOK.UseVisualStyleBackColor = true;
+			this.btnYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
+			resources.ApplyResources(this.btnYes, "btnYes");
+			this.btnYes.Name = "btnYes";
+			this.btnYes.UseVisualStyleBackColor = true;
 			// 
-			// btnCancel
+			// btnNo
 			// 
-			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.No;
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnNo.DialogResult = System.Windows.Forms.DialogResult.No;
+			resources.ApplyResources(this.btnNo, "btnNo");
+			this.btnNo.Name = "btnNo";
+			this.btnNo.UseVisualStyleBackColor = true;
 			// 
-			// lblRemoveUser1
+			// lblConfirm
 			// 
-			resources.ApplyResources(this.lblRemoveUser1, "lblRemoveUser1");
-			this.lblRemoveUser1.Name = "lblRemoveUser1";
+			resources.ApplyResources(this.lblConfirm, "lblConfirm");
+			this.lblConfirm.Name = "lblConfirm";
 			// 
 			// pictureBox1
 			// 
@@ -63,14 +63,14 @@
 			// 
 			// RemoveUserForm
 			// 
-			this.AcceptButton = this.btnOK;
+			this.AcceptButton = this.btnYes;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.CancelButton = this.btnCancel;
+			this.CancelButton = this.btnNo;
 			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.pictureBox1);
-			this.Controls.Add(this.lblRemoveUser1);
-			this.Controls.Add(this.btnCancel);
-			this.Controls.Add(this.btnOK);
+			this.Controls.Add(this.lblConfirm);
+			this.Controls.Add(this.btnNo);
+			this.Controls.Add(this.btnYes);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -84,9 +84,9 @@
 
 		#endregion
 
-		private System.Windows.Forms.Button btnOK;
-		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.Label lblRemoveUser1;
+		private System.Windows.Forms.Button btnYes;
+		private System.Windows.Forms.Button btnNo;
+		private System.Windows.Forms.Label lblConfirm;
 		private System.Windows.Forms.PictureBox pictureBox1;
 	}
 }

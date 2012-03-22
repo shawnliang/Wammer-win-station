@@ -235,6 +235,21 @@ namespace StationSystemTray
 			{
 				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
 			}
+			else if (exitCode == -3)  // client unlink
+			{
+				ListDriverResponse res = StationController.ListUser();
+				foreach (Driver driver in res.drivers)
+				{
+					if (driver.email == userloginContainer.GetLastUserLogin().Email)
+					{
+						StationController.RemoveOwner(driver.user_id, false);
+						userloginContainer.RemoveUserLogin(driver.email);
+						RefreshUserList();
+						break;
+					}
+				}
+				GotoTabPage(tabSignIn, null);
+			}
 		}
 
 		private void WavefaceClientUIError(object sender, SimpleEventArgs evt)
@@ -716,10 +731,10 @@ namespace StationSystemTray
 			{
 				Cursor = Cursors.WaitCursor;
 				UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
-                
+				
 				if (userlogin == null)
 				{
-                    AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
 
 					userlogin = new UserLoginSetting
 						{

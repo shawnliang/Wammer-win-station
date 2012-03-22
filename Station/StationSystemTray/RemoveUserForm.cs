@@ -15,8 +15,8 @@ namespace StationSystemTray
 		{
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
-			this.pictureBox1.Image = SystemIcons.Warning.ToBitmap();
-			this.lblRemoveUser1.Text = I18n.L.T("RemoveUserMsg", email);
+			this.pictureBox1.Image = SystemIcons.Question.ToBitmap();
+			this.lblConfirm.Text = I18n.L.T("CleanResourceMsg", email);
 		}
 	}
 }

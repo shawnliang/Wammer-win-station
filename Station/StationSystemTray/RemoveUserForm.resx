@@ -118,80 +118,80 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>280, 85</value>
+  <data name="btnYes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>284, 85</value>
   </data>
-  <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="btnYes.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
+  <data name="btnYes.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="btnOK.Text" xml:space="preserve">
-    <value>OK</value>
+  <data name="btnYes.Text" xml:space="preserve">
+    <value>Yes</value>
   </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
+  <data name="&gt;&gt;btnYes.Name" xml:space="preserve">
+    <value>btnYes</value>
   </data>
-  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
+  <data name="&gt;&gt;btnYes.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
+  <data name="&gt;&gt;btnYes.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btnYes.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>361, 85</value>
+  <data name="btnNo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>365, 85</value>
   </data>
-  <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="btnNo.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
+  <data name="btnNo.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="btnCancel.Text" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="btnNo.Text" xml:space="preserve">
+    <value>No</value>
   </data>
-  <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
-    <value>btnCancel</value>
+  <data name="&gt;&gt;btnNo.Name" xml:space="preserve">
+    <value>btnNo</value>
   </data>
-  <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
+  <data name="&gt;&gt;btnNo.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btnCancel.Parent" xml:space="preserve">
+  <data name="&gt;&gt;btnNo.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btnNo.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="lblRemoveUser1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblConfirm.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lblRemoveUser1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblConfirm.Location" type="System.Drawing.Point, System.Drawing">
     <value>59, 24</value>
   </data>
-  <data name="lblRemoveUser1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>304, 15</value>
+  <data name="lblConfirm.Size" type="System.Drawing.Size, System.Drawing">
+    <value>388, 15</value>
   </data>
-  <data name="lblRemoveUser1.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblConfirm.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="lblRemoveUser1.Text" xml:space="preserve">
-    <value>xxx@waveface.com will be unlinked from this computer.</value>
+  <data name="lblConfirm.Text" xml:space="preserve">
+    <value>Do you want to remove all files of xxx@waveface.com on this computer?</value>
   </data>
-  <data name="&gt;&gt;lblRemoveUser1.Name" xml:space="preserve">
-    <value>lblRemoveUser1</value>
+  <data name="&gt;&gt;lblConfirm.Name" xml:space="preserve">
+    <value>lblConfirm</value>
   </data>
-  <data name="&gt;&gt;lblRemoveUser1.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblConfirm.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblRemoveUser1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblConfirm.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;lblRemoveUser1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblConfirm.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
@@ -219,7 +219,7 @@
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>448, 120</value>
+    <value>452, 120</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
@@ -1543,7 +1543,7 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Unlink Account</value>
+    <value>Remove all files?</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>RemoveUserForm</value>
