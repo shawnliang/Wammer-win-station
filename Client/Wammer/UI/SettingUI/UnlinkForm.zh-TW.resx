@@ -118,109 +118,28 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>465, 14</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>這台電腦將會停止同步你上傳至 Waveface 的檔案，但已存在本機的檔案不會被刪除。</value>
+  </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>365, 357</value>
+    <value>334, 66</value>
   </data>
   <data name="btnOK.Text" xml:space="preserve">
-    <value>確 定</value>
+    <value>確定</value>
   </data>
-  <data name="lblUserNameTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 20</value>
+  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>427, 66</value>
   </data>
-  <data name="lblUserNameTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 14</value>
-  </data>
-  <data name="lblUserNameTitle.Text" xml:space="preserve">
-    <value>帳戶Email</value>
-  </data>
-  <data name="lblUserName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 41</value>
-  </data>
-  <data name="lblCloudUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 14</value>
-  </data>
-  <data name="lblCloudUsageTitle.Text" xml:space="preserve">
-    <value>本月傳輸使用量</value>
-  </data>
-  <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 131</value>
-  </data>
-  <data name="label_UsedCountValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>77, 111</value>
-  </data>
-  <data name="label_MonthlyLimitValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>105, 92</value>
-  </data>
-  <data name="lblCloudStorageUsed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>60, 233</value>
-  </data>
-  <data name="label_UsedCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 14</value>
-  </data>
-  <data name="label_UsedCount.Text" xml:space="preserve">
-    <value>已使用:</value>
-  </data>
-  <data name="label_DaysLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 14</value>
-  </data>
-  <data name="label_DaysLeft.Text" xml:space="preserve">
-    <value>週期剩餘天數：</value>
-  </data>
-  <data name="label_MonthlyLimit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 14</value>
-  </data>
-  <data name="label_MonthlyLimit.Text" xml:space="preserve">
-    <value>每月傳輸量:</value>
-  </data>
-  <data name="lblDayLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 254</value>
-  </data>
-  <data name="lblCloudStorageLimit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>84, 214</value>
-  </data>
-  <data name="btnEditAccount.Text" xml:space="preserve">
-    <value>編輯帳戶資訊</value>
-  </data>
-  <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 14</value>
-  </data>
-  <data name="lblVersionTitle.Text" xml:space="preserve">
-    <value>版本</value>
-  </data>
-  <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>45, 25</value>
-  </data>
-  <data name="lblCopyRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 344</value>
-  </data>
-  <data name="lblCopyRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 14</value>
-  </data>
-  <data name="lblCopyRight.Text" xml:space="preserve">
-    <value>版權所有 © 2011-2012 Waveface Inc. 保留所有權利.</value>
-  </data>
-  <data name="linkLegalNotice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 371</value>
-  </data>
-  <data name="linkLegalNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 14</value>
-  </data>
-  <data name="linkLegalNotice.Text" xml:space="preserve">
-    <value>隱私權政策</value>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>取消</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>468, 404</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Waveface Desktop 版本</value>
+    <value>526, 103</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>帳戶資訊</value>
-  </data>
-  <data name="btnUpdate.Text" xml:space="preserve">
-    <value>檢查更新</value>
-  </data>
-  <data name="btnUnlink.Text" xml:space="preserve">
-    <value>移除連結</value>
+    <value>從這台電腦移除連結</value>
   </data>
 </root>

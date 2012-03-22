@@ -547,6 +547,12 @@
     <Compile Include="UI\SettingUI\SettingForm.Designer.cs">
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SettingUI\UnlinkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SettingUI\UnlinkForm.Designer.cs">
+      <DependentUpon>UnlinkForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\TrayIconPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -786,6 +792,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\SettingForm.zh-TW.resx">
       <DependentUpon>SettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\UnlinkForm.resx">
+      <DependentUpon>UnlinkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\UnlinkForm.zh-TW.resx">
+      <DependentUpon>UnlinkForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\TrayIconPanel.resx">
       <DependentUpon>TrayIconPanel.cs</DependentUpon>

@@ -405,7 +405,11 @@ namespace Waveface
 
             m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
-
+            if (m_setting.isUnlink)
+            {
+                QuitOption = QuitOption.Unlink;
+                Close();
+            }
             m_setting = null;
         }
 
