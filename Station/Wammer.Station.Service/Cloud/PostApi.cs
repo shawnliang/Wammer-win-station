@@ -50,7 +50,7 @@ namespace Wammer.Cloud
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_GROUP_ID, this.driver.groups[0].group_id},
-				{CloudServer.PARAM_FILTER_ENTITY, GetPostIdList(postIds)},
+				{CloudServer.PARAM_POST_ID_LIST, GetPostIdList(postIds)},
 				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};

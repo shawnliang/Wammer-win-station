@@ -24,7 +24,7 @@ namespace UT_WammerStation
 				api_ret_message = "success",
 				get_count = 3,
 				group_id = "group_id1",
-				lastest_timestamp = "timestamp1",
+				latest_timestamp = "timestamp1",
 				post_id_list = new List<string> { "post1", "post2", "post3" },
 				remaining_count = 0,
 				status = 200,
@@ -52,7 +52,7 @@ namespace UT_WammerStation
 			Assert.AreEqual("post1", history.ChangedPostIds[0]);
 			Assert.AreEqual("post2", history.ChangedPostIds[1]);
 			Assert.AreEqual("post3", history.ChangedPostIds[2]);
-			Assert.AreEqual(answer.lastest_timestamp, history.LastSyncTime);
+			Assert.AreEqual(answer.latest_timestamp, history.LastSyncTime);
 		}
 	}
 }

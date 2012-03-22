@@ -17,7 +17,7 @@ namespace Wammer.Station.TimelineChange
 			return new ChangeHistory 
 			{ 
 				ChangedPostIds = resp.post_id_list,
-				LastSyncTime = resp.lastest_timestamp
+				LastSyncTime = resp.latest_timestamp
 			};
 		}
 
