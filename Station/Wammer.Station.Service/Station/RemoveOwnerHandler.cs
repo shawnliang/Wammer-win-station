@@ -27,11 +27,19 @@ namespace Wammer.Station
             Driver existingDriver = Model.DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
             Boolean isDriverExists = existingDriver != null;
 
-            //If driver exists & reference count > 0 => reference count decrease one
-            if (isDriverExists && existingDriver.ref_count > 0)
+            //Driver not exists => return
+            if (!isDriverExists)
+            {
+                RespondSuccess();
+                return;
+            }
+
+            //reference count > 0 => reference count decrease one
+            if (existingDriver.ref_count > 0)
             {
                 --existingDriver.ref_count;
                 DriverCollection.Instance.Save(existingDriver);
+                RespondSuccess();
                 return;
             }
 
