@@ -109,6 +109,31 @@ namespace UT_WammerStation
 			Assert.AreEqual("2000-10-10T01:02:03Z", userInfoUpdator.SavedTime);
 			Assert.AreEqual(user.user_id, userInfoUpdator.SavedUserId);
 		}
+
+		[TestMethod]
+		public void TestGetChangedPosts_lastSyncTimeIsTheSame_ReturnNothing()
+		{
+			Driver user = new Driver
+			{
+				email = "user1@w.com",
+				user_id = "user1_id",
+				session_token = "user1_token",
+				groups = new List<Wammer.Cloud.UserGroup> {
+					new UserGroup() { group_id = "user1_group_id" }
+				},
+				sync_range = new SyncRange() { change_log_sync_time = "2000-10-10T01:02:03Z" }
+			};
+
+			FakePostInfoProvider postInfoProvider = new FakePostInfoProvider();
+			FakeUserInfoUpdator userInfoUpdator = new FakeUserInfoUpdator();
+
+			TimelineChangeHistory changeHistory = new TimelineChangeHistory(
+				postInfoProvider, userInfoUpdator);
+
+			List<PostInfo> posts = changeHistory.GetChangedPosts(user);
+
+			Assert.AreEqual(0, posts.Count);
+		}
 	}
 
 

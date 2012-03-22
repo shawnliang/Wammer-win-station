@@ -43,12 +43,14 @@ namespace Wammer.Station.TimelineChange
 
 			using (System.Net.WebClient agent = new System.Net.WebClient())
 			{
+				
 				ChangeHistory changeHistory =
 					postInfoProvider.RetrieveChangedPosts(agent, user.session_token, lastSyncTime, CloudServer.APIKey, user.groups[0].group_id);
 
 				if (changeHistory == null ||
 					changeHistory.ChangedPostIds == null ||
-					changeHistory.ChangedPostIds.Count == 0)
+					changeHistory.ChangedPostIds.Count == 0 ||
+					(changeHistory.LastSyncTime == lastSyncTime && !string.IsNullOrEmpty(lastSyncTime)))
 					return new List<PostInfo>();
 
 				List<PostInfo> changedPosts = postInfoProvider.RetrievePosts(agent, changeHistory.ChangedPostIds, user);
