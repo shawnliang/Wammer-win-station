@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Wammer.Cloud;
 using System.Net;
+using Wammer.Model;
 
 namespace Wammer.Station.TimelineChange
 {
@@ -20,9 +21,11 @@ namespace Wammer.Station.TimelineChange
 			};
 		}
 
-		public List<PostInfo> RetrievePosts(WebClient agent, List<string> posts)
+		public List<PostInfo> RetrievePosts(WebClient agent, List<string> posts, Driver user)
 		{
-			throw new NotImplementedException();
+			PostApi api = new PostApi(user);
+
+			return api.PostFetchByPostId(agent, posts).posts;
 		}
 	}
 }

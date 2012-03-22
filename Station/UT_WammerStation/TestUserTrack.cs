@@ -146,7 +146,7 @@ namespace UT_WammerStation
 			};
 		}
 
-		public List<PostInfo> RetrievePosts(WebClient agent, List<string> posts)
+		public List<PostInfo> RetrievePosts(WebClient agent, List<string> posts, Driver user)
 		{
 			return new List<PostInfo> {
 						 new PostInfo {

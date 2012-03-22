@@ -111,6 +111,7 @@
     <Compile Include="TestStreamHelper.cs" />
     <Compile Include="TestTimelineChange_PostInfoProvider.cs" />
     <Compile Include="TestTimelineChange_UserUpdator.cs" />
+    <Compile Include="TestTimelineChange_PostInfoProvider2.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
     <Compile Include="TestUserTrack.cs" />

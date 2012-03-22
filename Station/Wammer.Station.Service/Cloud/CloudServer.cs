@@ -27,6 +27,7 @@ namespace Wammer.Cloud
 		public const string PARAM_USER_ID = "user_id";
 		public const string PARAM_LIMIT = "limit";
 		public const string PARAM_FILTER_ENTITY = "filter_entity";
+		public const string PARAM_POST_ID_LIST = "post_id_list";
 		public const string PARAM_GROUP_ID = "group_id";
 		public const string PARAM_OBJECT_ID = "object_id";
 		public const string PARAM_IMAGE_META = "image_meta";

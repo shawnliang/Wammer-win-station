@@ -95,7 +95,7 @@ namespace Wammer.Station
 			}
 			catch (Exception e)
 			{
-				log4net.LogManager.GetLogger(typeof(NonReentrantTimer)).Debug(e);
+				log4net.LogManager.GetLogger(typeof(NonReentrantTimer)).Warn(e);
 			}
 			finally
 			{

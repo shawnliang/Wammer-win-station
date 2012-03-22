@@ -15,7 +15,7 @@ namespace Wammer.Station.TimelineChange
 	public interface IPostInfoProvider
 	{
 		ChangeHistory RetrieveChangedPosts(System.Net.WebClient agent, string session_token, string start_time, string apikey, string group_id);
-		List<PostInfo> RetrievePosts(System.Net.WebClient agent, List<string> posts);
+		List<PostInfo> RetrievePosts(System.Net.WebClient agent, List<string> posts, Driver user);
 	}
 
 	public class ChangeHistory
@@ -51,7 +51,7 @@ namespace Wammer.Station.TimelineChange
 					changeHistory.ChangedPostIds.Count == 0)
 					return new List<PostInfo>();
 
-				List<PostInfo> changedPosts = postInfoProvider.RetrievePosts(agent, changeHistory.ChangedPostIds);
+				List<PostInfo> changedPosts = postInfoProvider.RetrievePosts(agent, changeHistory.ChangedPostIds, user);
 
 				userInfoUpdator.UpdateChangeLogSyncTime(user.user_id, changeHistory.LastSyncTime);
 

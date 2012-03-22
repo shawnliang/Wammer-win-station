@@ -17,7 +17,9 @@ namespace Wammer.Cloud
 						 {"group_id", group_id}
 			};
 
-			if (!string.IsNullOrEmpty(since))
+			if (since == null)
+				parameters.Add("timestamp", "");
+			else
 				parameters.Add("timestamp", since);
 
 			return CloudServer.request<UserTrackResponse>(agent, CloudServer.BaseUrl + "usertracks/get", parameters);
