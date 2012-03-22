@@ -964,47 +964,6 @@ namespace Waveface.API.V2
             }
         }
 
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-
         public MR_posts_update posts_update(string session_token, string group_id, string post_id, string last_update_time, Dictionary<string, string> OptionalParams)
         {
             session_token = HttpUtility.UrlEncode(session_token);

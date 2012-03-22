@@ -279,17 +279,12 @@ namespace Waveface
                 switch (_value)
                 {
                     case 0:
-                        //g.DrawRectangle(Pens.Red, r.X + r.Width - FavoriteIconSize - 6,
-                        //                r.Y + r.Height - FavoriteIconSize - 3, FavoriteIconSize, FavoriteIconSize);
-
                         g.DrawImage(Properties.Resources.star_empty, r.X + r.Width - FavoriteIconSize - 6, r.Y + r.Height - FavoriteIconSize - 6, FavoriteIconSize, FavoriteIconSize);
 
                         break;
                     case 1:
-                        //g.FillRectangle(Brushes.Red, r.X + r.Width - FavoriteIconSize - 6,
-                        //                r.Y + r.Height - FavoriteIconSize - 3, FavoriteIconSize, FavoriteIconSize);
-
                         g.DrawImage(Properties.Resources.star, r.X + r.Width - FavoriteIconSize - 6, r.Y + r.Height - FavoriteIconSize - 6, FavoriteIconSize, FavoriteIconSize);
+                        
                         break;
                 }
             }
@@ -855,6 +850,9 @@ namespace Waveface
         {
             Post _post = m_postBS[e.RowIndex] as Post;
 
+            if (Main.Current.BatchPostManager.CheckPostInQueue(_post.post_id))
+                return;
+
             if (_post.favorite == null)
                 return;
 
@@ -872,6 +870,9 @@ namespace Waveface
         private void dataGridView_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             Post _post = m_postBS[e.RowIndex] as Post;
+
+            if (Main.Current.BatchPostManager.CheckPostInQueue(_post.post_id))
+                return;
 
             Size _sizeCell = dataGridView[e.ColumnIndex, e.RowIndex].Size;
 

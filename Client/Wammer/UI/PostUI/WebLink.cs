@@ -31,6 +31,17 @@ namespace Waveface.PostUI
             buttonNext.Visible = false;
             labelPictureIndex.Visible = false;
             cbNoThumbnail.Visible = false;
+
+            if (post.type == "link")
+            {
+                if (Main.Current.CheckNetworkStatus())
+                    pictureBoxPreview.LoadAsync(post.preview.thumbnail_url);
+
+                labelTitle.Text = post.preview.title.Trim();
+                labelProvider.Text = post.preview.provider_display;
+                richTextBoxDescription.Text = post.preview.description.Trim();
+                labelSummary.Text = I18n.L.T("WebLink.ComeFrom") + " " + post.preview.url;
+            }
         }
 
         private void btnSend_Click(object sender, EventArgs e)

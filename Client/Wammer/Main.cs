@@ -405,7 +405,11 @@ namespace Waveface
 
             m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
-
+            if (m_setting.isUnlink)
+            {
+                QuitOption = QuitOption.Unlink;
+                Close();
+            }
             m_setting = null;
         }
 
@@ -897,16 +901,17 @@ namespace Waveface
 
                     RT.SetCurrentGroupLastRead(_lastRead);
 
-                    if (IsLastReadPostInCacheData(_lastRead.post_id))
+                    //@
+                    //if (IsLastReadPostInCacheData(_lastRead.post_id))
                     {
                         ShowAllTimeline(m_showTimelineIndexType);
                     }
-                    else
+                    /*else
                     {
                         s_logger.Trace("GetLastReadAndShow: Get more posts");
 
                         timerReloadAllData.Enabled = true;
-                    }
+                    }*/
                 }
             }
         }
@@ -1029,7 +1034,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Waveface");
+                MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
                 return;
             }
 
@@ -1047,6 +1052,12 @@ namespace Waveface
 
                     case DialogResult.OK:
                         BatchPostManager.Add(m_postForm.BatchPostItem);
+
+                        if(m_postForm.BatchPostItem.Post != null)
+                        {
+                            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                        }
+
                         break;
                 }
             }
@@ -1072,7 +1083,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Waveface");
+                MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
                 return;
             }
 

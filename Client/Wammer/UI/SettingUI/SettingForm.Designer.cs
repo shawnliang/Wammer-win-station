@@ -54,6 +54,7 @@
 			this.btnUpdate = new System.Windows.Forms.Button();
 			this.bgworkerUpdate = new System.ComponentModel.BackgroundWorker();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.btnUnlink = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -181,12 +182,20 @@
 			// 
 			// groupBox1
 			// 
-			resources.ApplyResources(this.groupBox1, "groupBox1");
+			this.groupBox1.Controls.Add(this.btnUnlink);
 			this.groupBox1.Controls.Add(this.btnUpdate);
 			this.groupBox1.Controls.Add(this.lblVersion);
 			this.groupBox1.Controls.Add(this.lblVersionTitle);
+			resources.ApplyResources(this.groupBox1, "groupBox1");
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.TabStop = false;
+			// 
+			// btnUnlink
+			// 
+			resources.ApplyResources(this.btnUnlink, "btnUnlink");
+			this.btnUnlink.Name = "btnUnlink";
+			this.btnUnlink.UseVisualStyleBackColor = true;
+			this.btnUnlink.Click += new System.EventHandler(this.btnUnlink_Click);
 			// 
 			// SettingForm
 			// 
@@ -250,5 +259,6 @@
 		private System.Windows.Forms.Button btnUpdate;
 		private System.ComponentModel.BackgroundWorker bgworkerUpdate;
 		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Button btnUnlink;
     }
 }

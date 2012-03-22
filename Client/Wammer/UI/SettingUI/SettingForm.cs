@@ -27,6 +27,7 @@ namespace Waveface.SettingUI
 
         // private static Logger s_logger = LogManager.GetCurrentClassLogger();
         Sparkle m_autoUpdator;
+        public bool isUnlink = false;
 
         public SettingForm(Sparkle autoUpdator)
         {
@@ -131,6 +132,17 @@ namespace Waveface.SettingUI
 
             btnUpdate.Enabled = true;
             btnUpdate.Text = I18n.L.T("CheckForUpdates");
+        }
+
+        private void btnUnlink_Click(object sender, EventArgs e)
+        {
+            UnlinkForm unlinkform = new UnlinkForm();
+            DialogResult res = unlinkform.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                isUnlink = true;
+                Close();
+            }
         }
     }
 }

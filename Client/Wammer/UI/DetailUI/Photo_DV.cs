@@ -19,7 +19,7 @@ using Waveface.Component;
 
 namespace Waveface.DetailUI
 {
-    public class Photo_DV : UserControl
+    public class Photo_DV : UserControl, IDetailView
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
@@ -50,6 +50,8 @@ namespace Waveface.DetailUI
 
         private List<string> m_clickableURL;
 
+        private bool m_canEdit;
+
         #endregion
 
         #region Properties
@@ -62,7 +64,11 @@ namespace Waveface.DetailUI
                 m_post = value;
 
                 if (m_post != null)
+                {
+                    m_canEdit = false;
+
                     RefreshUI();
+                }
             }
         }
 
@@ -232,6 +238,11 @@ namespace Waveface.DetailUI
 
         #endregion
 
+        public bool CanEdit()
+        {
+            return m_canEdit;
+        }
+
         private void RefreshUI()
         {
             Set_MainContent_Part();
@@ -385,7 +396,6 @@ namespace Waveface.DetailUI
                 timer.Enabled = false;
 
                 ShowImageListView(firstTime);
-
                 return true;
             }
 
@@ -436,7 +446,7 @@ namespace Waveface.DetailUI
             bool _flag = (k == m_imageAttachments.Count);
 
             if (_flag)
-                MyParent.CanEdit = true;
+                m_canEdit = true;
 
             return _flag;
         }
@@ -483,8 +493,14 @@ namespace Waveface.DetailUI
             if (Post != null)
                 ReLayout();
 
-            if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
-                webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
+            try
+            {
+                if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
+                    webBrowserTop.Height = webBrowserTop.Document.Body.ScrollRectangle.Height;
+            }
+            catch
+            {
+            }
 
             if (imageListView.Width > 768)
             {
@@ -503,7 +519,7 @@ namespace Waveface.DetailUI
 
             imageListView.HitTest(e.Location, out _hitInfo);
 
-            if(_hitInfo.ItemIndex != -1)
+            if (_hitInfo.ItemIndex != -1)
             {
                 //MessageBox.Show(_hitInfo.ItemIndex.ToString());
             }

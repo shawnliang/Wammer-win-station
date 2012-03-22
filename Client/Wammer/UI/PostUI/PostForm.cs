@@ -85,13 +85,17 @@ namespace Waveface
             photo_UI.ChangeToEditModeUI(Post);
 
             OldText = Post.content;
+
             pureTextBox.Text = OldText;
+            pureTextBox.SelectionStart = OldText.Length;
+            pureTextBox.SelectionFont = new Font("Tahoma", 11, FontStyle.Regular);
+
             CreateLink();
 
             switch (Post.type)
             {
                 case "link":
-                    CheckWebPreview();
+                    //CheckWebPreview();
                     break;
 
                 case "image":

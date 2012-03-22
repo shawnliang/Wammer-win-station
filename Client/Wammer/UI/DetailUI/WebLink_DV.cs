@@ -14,7 +14,7 @@ using Waveface.Component;
 
 namespace Waveface.DetailUI
 {
-    public class WebLink_DV : UserControl
+    public class WebLink_DV : UserControl, IDetailView
     {
         private IContainer components;
         private Panel panelMain;
@@ -28,6 +28,7 @@ namespace Waveface.DetailUI
         private bool m_addedLinkClickEventHandler;
         private List<string> m_clickableURL;
         private bool m_canOpenNewWindow;
+        private bool m_canEdit;
 
         public Post Post
         {
@@ -40,7 +41,11 @@ namespace Waveface.DetailUI
                 m_post = value;
 
                 if (m_post != null)
+                {
+                    m_canEdit = false;
+
                     SetHTML();
+                }
             }
         }
 
@@ -138,13 +143,14 @@ namespace Waveface.DetailUI
 
         #endregion
 
+        public bool CanEdit()
+        {
+            return m_canEdit;
+        }
 
         private void SetHTML()
         {
-            // if (m_post.preview.url == null) // PostType.Link 目前不支援
-            {
-                MyParent.CanEdit = true;
-            }
+            m_canEdit = true;
 
             StringBuilder _sb = new StringBuilder();
 
