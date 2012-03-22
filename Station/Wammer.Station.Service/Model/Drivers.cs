@@ -84,7 +84,7 @@ namespace Wammer.Model
         /// Gets or sets the ref_count.
         /// </summary>
         /// <value>The ref_count.</value>
-        [BsonDefaultValue(0)]
+        [BsonDefaultValue(1)]
         [BsonIgnoreIfNull]
         public int ref_count { get; set; }
         #endregion

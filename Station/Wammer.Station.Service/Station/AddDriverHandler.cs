@@ -66,7 +66,8 @@ namespace Wammer.Station
 						user_id = user.Id,
 						groups = user.Groups,
 						session_token = user.Token,
-						isPrimaryStation = IsThisPrimaryStation(user.Stations)
+						isPrimaryStation = IsThisPrimaryStation(user.Stations),
+						ref_count = 1
 					};
 
 					DriverCollection.Instance.Save(driver);

@@ -86,7 +86,8 @@ namespace UT_WammerStation
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/remove",
 					new Dictionary<object, object>{
 						{ "session_token", "token123"},
-						{ "user_ID", "exist_uid1"}
+						{ "user_ID", "exist_uid1"},
+						{"remove_resource", true}
 					});
 
 				Assert.IsNotNull(Wammer.Model.StationCollection.Instance.FindOne());
@@ -120,7 +121,8 @@ namespace UT_WammerStation
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/remove",
 					new Dictionary<object, object>{ 
 						{ "session_token", "token123"}, 
-						{ "user_ID", "exist_uid1"} 
+						{ "user_ID", "exist_uid1"} ,
+						{"remove_resource", true}
 					});
 
 				Assert.IsNull(Wammer.Model.StationCollection.Instance.FindOne());
