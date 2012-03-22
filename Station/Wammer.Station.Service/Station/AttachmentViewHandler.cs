@@ -190,8 +190,11 @@ namespace Wammer.Station
             if (!Directory.Exists(driver.folder))
                 Directory.CreateDirectory(driver.folder);
 
+
+            string tempFile = System.IO.Path.GetTempFileName();
             WebClient wc = new WebClient();
-			wc.DownloadFile(redirectURL, file);
+            wc.DownloadFile(redirectURL, tempFile);
+            System.IO.File.Move(tempFile, file);
 
             using (var fs = File.Open(file, FileMode.Open))
             {

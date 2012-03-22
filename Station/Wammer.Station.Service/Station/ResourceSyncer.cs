@@ -184,7 +184,8 @@ namespace Wammer.Station
 			}
 			catch (WammerCloudException ex)
 			{
-				logger.DebugFormat("Unable to download attachment", ex);
+				logger.DebugFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
+				logger.Debug("Detail exception:", ex);
 			}
 		}
 
@@ -343,7 +344,7 @@ namespace Wammer.Station
 			}
 			catch (Exception ex)
 			{
-				logger.Info("Unable to save attachment, ignore it.", ex);
+				logger.Debug("Unable to save attachment, ignore it.", ex);
 			}
 		}
 	}
