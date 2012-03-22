@@ -716,9 +716,10 @@ namespace StationSystemTray
 			{
 				Cursor = Cursors.WaitCursor;
 				UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
+                
 				if (userlogin == null)
 				{
-					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+                    AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
 
 					userlogin = new UserLoginSetting
 						{
@@ -741,11 +742,6 @@ namespace StationSystemTray
 				}
 				else
 				{
-					// Always tell station to add this user in case of the user is already in tray icon's 
-					// appData but not in station's Mongo DB.
-					// Station api handler will return success immediately if the user is already added.
-					// So it is totally OK to add a user multiple times.
-					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
 					StationController.StationOnline(userlogin.Email, txtPassword.Text);
 
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
