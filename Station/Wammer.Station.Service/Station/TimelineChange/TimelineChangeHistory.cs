@@ -70,11 +70,35 @@ namespace Wammer.Station.TimelineChange
 				if (changedPostIds.Count == 0)
 					return new List<PostInfo>();
 
-				List<PostInfo> changedPosts = postInfoProvider.RetrievePosts(agent, changedPostIds, user);
+				List<PostInfo> finalResult = BatchGetPostInfo(user, agent, changedPostIds);			
 				userInfoUpdator.UpdateChangeLogSyncTime(user.user_id, lastSyncTime);
 
-				return changedPosts;
+				return finalResult;
 			}
+		}
+
+		private List<PostInfo> BatchGetPostInfo(Driver user, System.Net.WebClient agent, List<string> changedPostIds)
+		{
+			List<PostInfo> finalResult = new List<PostInfo>();
+			List<string> batch = new List<string>(100);
+
+			foreach (string postId in changedPostIds)
+			{
+				batch.Add(postId);
+				if (batch.Count == 100)
+				{
+					List<PostInfo> batchResult = postInfoProvider.RetrievePosts(agent, batch, user);
+					finalResult.AddRange(batchResult);
+					batch = new List<string>();
+				}
+			}
+
+			if (batch.Count > 0)
+			{
+				List<PostInfo> batchResult = postInfoProvider.RetrievePosts(agent, batch, user);
+				finalResult.AddRange(batchResult);
+			}
+			return finalResult;
 		}
 	}
 }
