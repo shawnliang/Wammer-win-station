@@ -37,11 +37,6 @@ namespace UT_WammerStation
 			server.AddHandler("/v2/station/drivers/remove/", handler);
 			server.Start();
 
-			if (!Directory.Exists(@"C:\TempUT"))
-				Directory.CreateDirectory(@"c:\TempUT");
-			if (!Directory.Exists(@"C:\TempUT\user1"))
-				Directory.CreateDirectory(@"c:\TempUT\user1");
-
 			CloudServer.BaseUrl = "http://localhost/v2/";
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
@@ -52,9 +47,6 @@ namespace UT_WammerStation
 		public void tearDown()
 		{
 			server.Close();
-
-			if (Directory.Exists(@"C:\TempUT"))
-				Directory.Delete(@"C:\TempUT", true);
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
@@ -94,7 +86,8 @@ namespace UT_WammerStation
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/remove",
 					new Dictionary<object, object>{
 						{ "session_token", "token123"},
-						{ "user_ID", "exist_uid1"}
+						{ "user_ID", "exist_uid1"},
+						{"remove_resource", true}
 					});
 
 				Assert.IsNotNull(Wammer.Model.StationCollection.Instance.FindOne());
@@ -128,7 +121,8 @@ namespace UT_WammerStation
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/remove",
 					new Dictionary<object, object>{ 
 						{ "session_token", "token123"}, 
-						{ "user_ID", "exist_uid1"} 
+						{ "user_ID", "exist_uid1"} ,
+						{"remove_resource", true}
 					});
 
 				Assert.IsNull(Wammer.Model.StationCollection.Instance.FindOne());

@@ -102,27 +102,27 @@ namespace UT_WammerStation
 		[TestCleanup]
 		public void TearDown()
 		{
-			if (Directory.Exists("resource"))
-				Directory.Delete("resource", true);
+            //if (Directory.Exists("resource"))
+            //    Directory.Delete("resource", true);
 		}
 
 		[TestMethod]
 		public void TestFileStorage()
 		{
-			List<UserGroup> groups = new List<UserGroup>();
-			groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none"});
-			FileStorage storage = new FileStorage(new Driver { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1"});
-			storage.SaveFile("id1.jpeg", new ArraySegment<byte>(file));
+            List<UserGroup> groups = new List<UserGroup>();
+            groups.Add(new UserGroup { creator_id = "id1", group_id = "gid1", name = "group1", description = "none" });
+            FileStorage storage = new FileStorage(new Driver { email = "driver1@waveface.com", folder = @"resource\group1", groups = groups, session_token = "session_token1", user_id = "id1" });
+            storage.SaveFile("id1.jpeg", new ArraySegment<byte>(file));
 
-			using (FileStream f = File.OpenRead(@"resource\group1\id1.jpeg"))
-			{
-				Assert.AreEqual(file.Length, f.Length);
-				byte[] savedFile = new byte[file.Length];
-				int size = f.Read(savedFile, 0, savedFile.Length);
-				Assert.AreEqual(size, f.Length);
-				for (int i = 0; i < size; i++)
-					Assert.AreEqual(file[i], savedFile[i]);
-			}
+            using (FileStream f = File.OpenRead(@"resource\group1\id1.jpeg"))
+            {
+                Assert.AreEqual(file.Length, f.Length);
+                byte[] savedFile = new byte[file.Length];
+                int size = f.Read(savedFile, 0, savedFile.Length);
+                Assert.AreEqual(size, f.Length);
+                for (int i = 0; i < size; i++)
+                    Assert.AreEqual(file[i], savedFile[i]);
+            }
 		}
 
 		[TestMethod]

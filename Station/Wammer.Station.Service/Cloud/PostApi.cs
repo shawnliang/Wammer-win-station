@@ -42,6 +42,24 @@ namespace Wammer.Cloud
 			return res;
 		}
 
+		public PostFetchByFilterResponse PostFetchByPostId(WebClient agent, List<string> postIds)
+		{
+			if (postIds == null || postIds.Count == 0)
+				throw new ArgumentException("postIds is null or empty");
+
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_GROUP_ID, this.driver.groups[0].group_id},
+				{CloudServer.PARAM_POST_ID_LIST, GetPostIdList(postIds)},
+				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			};
+
+			PostFetchByFilterResponse res =
+				CloudServer.requestPath<PostFetchByFilterResponse>(agent, "posts/fetchByFilter", parameters);
+			return res;
+		}
+
 		public PostGetLatestResponse PostGetLatest(WebClient agent, int limit)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>
@@ -55,6 +73,21 @@ namespace Wammer.Cloud
 			PostGetLatestResponse res = 
 				CloudServer.requestPath<PostGetLatestResponse>(agent, "posts/getLatest", parameters);
 			return res;
+		}
+
+		private string GetPostIdList(List<string>postIds)
+		{
+			StringBuilder buff = new StringBuilder();
+			buff.Append("[").Append("\"").Append(postIds[0]).Append("\"");
+
+			for (int i = 1; i < postIds.Count; i++)
+			{
+				buff.Append(",").Append("\"").Append(postIds[i]).Append("\"");
+			}
+
+			buff.Append("]");
+
+			return buff.ToString();
 		}
 	}
 }

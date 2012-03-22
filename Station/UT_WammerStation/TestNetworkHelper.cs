@@ -12,14 +12,6 @@ namespace UT_WammerStation
 	[TestClass]
 	public class TestNetworkHelper
 	{
-		[TestMethod]
-		public void TestMethod1()
-		{
-			Assert.IsTrue(NetworkHelper.IsLinkLocal(IPAddress.Parse("169.254.0.0")));
-			Assert.IsTrue(NetworkHelper.IsLinkLocal(IPAddress.Parse("169.254.255.255")));
-			Assert.IsFalse(NetworkHelper.IsLinkLocal(IPAddress.Parse("10.1.1.1")));
-			Assert.IsFalse(NetworkHelper.IsLinkLocal(IPAddress.Parse("192.168.1.1")));
-		}
 
 		[TestMethod]
 		public void TestIPAddressCompare()

@@ -216,6 +216,10 @@ namespace Wammer.Station.Service
 				logger.InfoFormat("Min worker threads {0}, min IO completion threads {1}",
 					minWorker, minIO);
 			}
+
+			int maxConcurrentTaskCount = (int)StationRegistry.GetValue("MaxConcurrentTaskCount", 6);
+			if (maxConcurrentTaskCount > 0)
+				TaskQueue.MaxCurrentTaskCount = maxConcurrentTaskCount;
 		}
 
 	}

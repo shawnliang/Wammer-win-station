@@ -37,17 +37,19 @@ namespace Wammer.Station
 			SaveFile(attachment.saved_file_name, attachment.RawData);
 		}
 
-		public string SaveFile(string filename, ArraySegment<byte> data)
-		{
-			string filePath = Path.Combine(basePath, filename);
+		public void SaveFile(string filename, ArraySegment<byte> data)
+        {
+            string filePath = Path.Combine(basePath, filename);
+            string tempFile = System.IO.Path.GetTempFileName();
 
-			using (FileStream f = File.Open(filePath, FileMode.Create))
-			using (BinaryWriter w = new BinaryWriter(f))
-			{
-				w.Write(data.Array, data.Offset, data.Count);
-			}
+            using (FileStream stream = File.Open(tempFile, FileMode.Create))
+            {
+                stream.Write(data.Array, data.Offset, data.Count);
+            }
 
-			return filename;
+            if (System.IO.File.Exists(filePath))
+                System.IO.File.Delete(filePath);
+            System.IO.File.Move(tempFile, filePath);
 		}
 
 		public FileStream Load(string filename)
@@ -60,13 +62,14 @@ namespace Wammer.Station
 																				object userObject)
 		{
 			string filePath = Path.Combine(basePath, filename);
+            string tempFile = System.IO.Path.GetTempFileName();
 
-			FileStream fs = new FileStream(filePath, FileMode.Create,
+            FileStream fs = new FileStream(tempFile, FileMode.Create,
 								FileAccess.Write, FileShare.None, 4096, true);
 
-			return new FileStorageAsyncResult(
-				fs.BeginWrite(data, 0, data.Length, callback, userObject),
-				fs, userObject);
+            return new FileStorageAsyncResult(
+                fs.BeginWrite(data, 0, data.Length, callback, userObject),
+                fs, userObject) { TempFile = tempFile, TargetFile = filePath };
 		}
 
 		public void EndSave(IAsyncResult async)
@@ -76,11 +79,18 @@ namespace Wammer.Station
 			{
 				fsAsync.OutputStream.EndWrite(fsAsync.InnerObject);
 			}
-			finally
-			{
-				fsAsync.OutputStream.Close();
-			}
-		}
+            finally
+            {
+                fsAsync.OutputStream.Close();
+            }
+
+            if (System.IO.File.Exists(fsAsync.TempFile))
+            {
+                if (System.IO.File.Exists(fsAsync.TargetFile))
+                    System.IO.File.Delete(fsAsync.TargetFile);
+                System.IO.File.Move(fsAsync.TempFile, fsAsync.TargetFile);
+            }
+        }
 
 		public FileStream LoadByNameWithNoSuffix(string objectId)
 		{
@@ -104,7 +114,10 @@ namespace Wammer.Station
 
 
 	class FileStorageAsyncResult : IAsyncResult
-	{
+    {
+        public string TempFile { get; set; }
+        public string TargetFile { get; set; }
+
 		private IAsyncResult fileStreamAsyncResult;
 		private FileStream fs;
 		private object userObject;

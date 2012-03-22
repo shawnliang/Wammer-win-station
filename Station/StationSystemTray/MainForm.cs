@@ -35,7 +35,7 @@ namespace StationSystemTray
 
 		#region Var
 		private Messenger _messenger;
-        private SignUpDialog _SignUpDialog;
+		private SignUpDialog _SignUpDialog;
 		#endregion
 
 
@@ -50,24 +50,24 @@ namespace StationSystemTray
 			}
 		}
 
-        private SignUpDialog m_SignUpDialog 
-        {
-            get
-            {
-                if (_SignUpDialog == null)
-                    _SignUpDialog = new SignUpDialog()
-                    {
-                        Text = this.Text,
-                        Icon = this.Icon,
-                        StartPosition = FormStartPosition.CenterParent
-                    };
-                return _SignUpDialog;
-            }
-            set
-            {
-                _SignUpDialog = value;
-            }
-        }
+		private SignUpDialog m_SignUpDialog 
+		{
+			get
+			{
+				if (_SignUpDialog == null)
+					_SignUpDialog = new SignUpDialog()
+					{
+						Text = this.Text,
+						Icon = this.Icon,
+						StartPosition = FormStartPosition.CenterParent
+					};
+				return _SignUpDialog;
+			}
+			set
+			{
+				_SignUpDialog = value;
+			}
+		}
 		#endregion
 
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
@@ -616,11 +616,11 @@ namespace StationSystemTray
 
 		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
 		{
-            if (m_SignUpDialog != null)
-            {
-                m_SignUpDialog.Dispose();
-                m_SignUpDialog = null;
-            }
+			if (m_SignUpDialog != null)
+			{
+				m_SignUpDialog.Dispose();
+				m_SignUpDialog = null;
+			}
 
 			tabControl.SelectedTab = tabpage;
 
@@ -729,9 +729,10 @@ namespace StationSystemTray
 			{
 				Cursor = Cursors.WaitCursor;
 				UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
+                
 				if (userlogin == null)
 				{
-					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+                    AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
 
 					userlogin = new UserLoginSetting
 						{
