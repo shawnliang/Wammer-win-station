@@ -67,8 +67,7 @@ namespace Wammer.Station
 							new FilterEntity
 							{
 								limit = 20,
-								timestamp = driver.sync_range.end_time,
-								type = "image"
+								timestamp = driver.sync_range.end_time
 							}
 						);
 						DownloadMissedResource(newerRes.posts);
@@ -83,8 +82,7 @@ namespace Wammer.Station
 								new FilterEntity
 								{
 									limit = -20,
-									timestamp = driver.sync_range.start_time,
-									type = "image"
+									timestamp = driver.sync_range.start_time
 								}
 							);
 							DownloadMissedResource(olderRes.posts);
