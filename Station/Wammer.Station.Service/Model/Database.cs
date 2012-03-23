@@ -78,14 +78,19 @@ namespace Wammer.Model
 			return collection.FindAll();
 		}
 
+		public MongoCursor<T> Find(IMongoQuery query)
+		{
+			return collection.Find(query);
+		}
+
 		public void Update(IMongoQuery query, IMongoUpdate update)
 		{
 			collection.Update(query, update);
 		}
 
-        public void Update(IMongoQuery query, IMongoUpdate update, UpdateFlags updateFlags)
-        {
-            collection.Update(query, update, updateFlags);
-        }
+		public void Update(IMongoQuery query, IMongoUpdate update, UpdateFlags updateFlags)
+		{
+			collection.Update(query, update, updateFlags);
+		}
 	}
 }

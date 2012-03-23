@@ -132,6 +132,7 @@
     <Compile Include="Model\Attachments.cs" />
     <Compile Include="Model\CloudStorage.cs" />
     <Compile Include="Model\Drivers.cs" />
+    <Compile Include="Model\Posts.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\StationInfo.cs" />
     <Compile Include="PerfMonitor\AttachmentUploadMonitor.cs" />

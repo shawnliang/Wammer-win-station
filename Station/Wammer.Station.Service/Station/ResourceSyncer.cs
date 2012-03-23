@@ -28,6 +28,7 @@ namespace Wammer.Station
 	public class ResourceSyncer : NonReentrantTimer
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceSyncer));
+		private bool isFirstRun = true;
 
 		public ResourceSyncer(long timerPeriod)
 			:base(timerPeriod)
@@ -36,8 +37,82 @@ namespace Wammer.Station
 
 		protected override void ExecuteOnTimedUp(object state)
 		{
+			if (isFirstRun)
+			{
+				ResumeUnfinishedDownstreamTasks();
+				isFirstRun = false;
+			}
+
 			PullTimeline(state);
 		}
+
+		private void ResumeUnfinishedDownstreamTasks()
+		{
+			MongoCursor<PostInfo> posts = PostCollection.Instance.Find(
+				Query.Exists("attachments", true));
+
+			foreach (PostInfo post in posts)
+			{
+				foreach (AttachmentInfo attachment in post.attachments)
+				{
+					Attachment savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
+					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
+
+					// origin
+					if (driver.isPrimaryStation && 
+						attachment.url != null && 
+						savedDoc.saved_file_name == null)
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
+					}
+
+					if (attachment.image_meta == null)
+						break;
+
+					// small
+					if (attachment.image_meta.small != null && 
+						(savedDoc.image_meta == null || savedDoc.image_meta.small == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
+					}
+
+					// medium
+					if (attachment.image_meta.medium != null &&
+						(savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
+					}
+
+					// large
+					if (attachment.image_meta.large != null &&
+						(savedDoc.image_meta == null || savedDoc.image_meta.large == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
+					}
+
+					// square
+					if (attachment.image_meta.square != null &&
+						(savedDoc.image_meta == null || savedDoc.image_meta.square == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+					}
+
+				}
+			}
+		}
+
+		private static void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
+		{
+			ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
+			{
+				driver = driver,
+				attachment = attachment,
+				imagemeta = meta,
+				filepath = Path.GetTempFileName()
+			};
+			TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+		}
+
 
 		private void PullTimeline(Object obj)
 		{
@@ -50,6 +125,7 @@ namespace Wammer.Station
 					if (driver.sync_range == null)
 					{
 						PostGetLatestResponse res = api.PostGetLatest(agent, 20);
+						SavePosts(res.posts);
 						DownloadMissedResource(res.posts);
 						driver.sync_range = new SyncRange
 						{
@@ -70,6 +146,7 @@ namespace Wammer.Station
 								timestamp = driver.sync_range.end_time
 							}
 						);
+						SavePosts(newerRes.posts);
 						DownloadMissedResource(newerRes.posts);
 						if (newerRes.posts.Count != 0)
 						{
@@ -85,6 +162,7 @@ namespace Wammer.Station
 									timestamp = driver.sync_range.start_time
 								}
 							);
+							SavePosts(olderRes.posts);
 							DownloadMissedResource(olderRes.posts);
 							driver.sync_range.start_time = olderRes.posts.Last().timestamp;
 
@@ -100,6 +178,16 @@ namespace Wammer.Station
 			}
 		}
 
+
+		private void SavePosts(List<PostInfo> posts)
+		{
+			if (posts == null)
+				return;
+
+			foreach (PostInfo post in posts)
+				PostCollection.Instance.Save(post);
+		}
+
 		public static void DownloadMissedResource(List<PostInfo> posts)
 		{
 			foreach (PostInfo post in posts)
@@ -111,14 +199,7 @@ namespace Wammer.Station
 					// original
 					if (!string.IsNullOrEmpty(attachment.url) && driver.isPrimaryStation)
 					{
-						ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-						{
-							driver = driver,
-							attachment = attachment,
-							imagemeta = ImageMeta.Origin,
-							filepath = Path.GetTempFileName()
-						};
-						TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
 					}
 
 					if (attachment.image_meta == null)
@@ -127,53 +208,25 @@ namespace Wammer.Station
 					// small
 					if (attachment.image_meta.small != null)
 					{
-						ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-						{
-							driver = driver,
-							attachment = attachment,
-							imagemeta = ImageMeta.Small,
-							filepath = Path.GetTempFileName()
-						};
-						TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
 					}
 
 					// medium
 					if (attachment.image_meta.medium != null)
 					{
-						ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-						{
-							driver = driver,
-							attachment = attachment,
-							imagemeta = ImageMeta.Medium,
-							filepath = Path.GetTempFileName()
-						};
-						TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
 					}
 
 					// large
 					if (attachment.image_meta.large != null)
 					{
-						ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-						{
-							driver = driver,
-							attachment = attachment,
-							imagemeta = ImageMeta.Large,
-							filepath = Path.GetTempFileName()
-						};
-						TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
 					}
 
 					// square
 					if (attachment.image_meta.square != null)
 					{
-						ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-						{
-							driver = driver,
-							attachment = attachment,
-							imagemeta = ImageMeta.Square,
-							filepath = Path.GetTempFileName()
-						};
-						TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
 					}
 				}
 			}
