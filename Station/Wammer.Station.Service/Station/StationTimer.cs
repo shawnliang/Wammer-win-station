@@ -30,7 +30,7 @@ namespace Wammer.Station
 		public StationTimer(HttpServer functionServer)
 		{
 			timers = new List<IStationTimer> {
-				new StatusChecker(STATUS_CHECK_PERIOD, functionServer), 
+				new StatusChecker(STATUS_CHECK_PERIOD, functionServer),
 				new ResourceSyncer(RESOURCE_SYNC_PEROID),
 				new ChangeHistorySyncer(RESOURCE_SYNC_PEROID)
 			};

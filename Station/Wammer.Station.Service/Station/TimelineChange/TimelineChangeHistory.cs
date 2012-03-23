@@ -22,6 +22,7 @@ namespace Wammer.Station.TimelineChange
 	{
 		public List<string> ChangedPostIds { get; set; }
 		public string LastSyncTime {get;set;}
+		public bool HasMore { get; set; }
 	}
 
 	public class TimelineChangeHistory
@@ -37,28 +38,68 @@ namespace Wammer.Station.TimelineChange
 
 		public List<PostInfo> GetChangedPosts(Driver user)
 		{
-			string lastSyncTime = null;
+			
+			string lastSyncTimeInDB = null;
 			if (user.sync_range != null && !string.IsNullOrEmpty(user.sync_range.change_log_sync_time))
-				lastSyncTime = user.sync_range.change_log_sync_time;
+				lastSyncTimeInDB = user.sync_range.change_log_sync_time;
 
+			string lastSyncTime = lastSyncTimeInDB;
 			using (System.Net.WebClient agent = new System.Net.WebClient())
 			{
-				
-				ChangeHistory changeHistory =
-					postInfoProvider.RetrieveChangedPosts(agent, user.session_token, lastSyncTime, CloudServer.APIKey, user.groups[0].group_id);
 
-				if (changeHistory == null ||
-					changeHistory.ChangedPostIds == null ||
-					changeHistory.ChangedPostIds.Count == 0 ||
-					(changeHistory.LastSyncTime == lastSyncTime && !string.IsNullOrEmpty(lastSyncTime)))
+				bool hasMoreData = false;
+				HashSet<string> changedPostIds = new HashSet<string>();
+
+				do
+				{
+					ChangeHistory changeHistory = postInfoProvider.RetrieveChangedPosts(agent,
+						user.session_token, lastSyncTime, CloudServer.APIKey, user.groups[0].group_id);
+
+					if (changeHistory.LastSyncTime == lastSyncTimeInDB)
+						hasMoreData = false;
+					else
+					{
+						foreach(string postId in changeHistory.ChangedPostIds)
+							changedPostIds.Add(postId);
+						hasMoreData = changeHistory.HasMore;
+						lastSyncTime = changeHistory.LastSyncTime;
+					}
+				}
+				while (hasMoreData);
+
+
+				if (changedPostIds.Count == 0)
 					return new List<PostInfo>();
 
-				List<PostInfo> changedPosts = postInfoProvider.RetrievePosts(agent, changeHistory.ChangedPostIds, user);
+				List<PostInfo> finalResult = BatchGetPostInfo(user, agent, changedPostIds);			
+				userInfoUpdator.UpdateChangeLogSyncTime(user.user_id, lastSyncTime);
 
-				userInfoUpdator.UpdateChangeLogSyncTime(user.user_id, changeHistory.LastSyncTime);
-
-				return changedPosts;
+				return finalResult;
 			}
+		}
+
+		private List<PostInfo> BatchGetPostInfo(Driver user, System.Net.WebClient agent, HashSet<string> changedPostIds)
+		{
+			List<PostInfo> finalResult = new List<PostInfo>();
+			List<string> batch = new List<string>(100);
+
+			foreach (string postId in changedPostIds)
+			{
+				batch.Add(postId);
+				if (batch.Count == 100)
+				{
+					List<PostInfo> batchResult = postInfoProvider.RetrievePosts(agent, batch, user);
+					finalResult.AddRange(batchResult);
+					batch = new List<string>();
+				}
+			}
+
+			if (batch.Count > 0)
+			{
+				List<PostInfo> batchResult = postInfoProvider.RetrievePosts(agent, batch, user);
+				finalResult.AddRange(batchResult);
+			}
+			return finalResult;
 		}
 	}
 }

@@ -14,11 +14,17 @@ namespace Wammer.Station.TimelineChange
 		{
 			UserTrackResponse resp = UserTracksApi.GetChangeHistory(agent, session_token, apikey, group_id, start_time);
 
-			return new ChangeHistory 
+			ChangeHistory  ret = new ChangeHistory 
 			{ 
 				ChangedPostIds = resp.post_id_list,
-				LastSyncTime = resp.latest_timestamp
+				LastSyncTime = resp.latest_timestamp,
+				HasMore = resp.remaining_count > 0
 			};
+
+			if (ret.ChangedPostIds == null)
+				ret.ChangedPostIds = new List<string>();
+
+			return ret;
 		}
 
 		public List<PostInfo> RetrievePosts(WebClient agent, List<string> posts, Driver user)
