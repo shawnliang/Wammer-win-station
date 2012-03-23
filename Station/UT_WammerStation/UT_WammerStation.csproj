@@ -117,6 +117,7 @@
     <Compile Include="TestUserTrack.cs" />
     <Compile Include="TestUserTrack_HasMore.cs" />
     <Compile Include="TestUserTrack_LotsOfPosts.cs" />
+    <Compile Include="TestUserTrack_MergePostId.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt">
