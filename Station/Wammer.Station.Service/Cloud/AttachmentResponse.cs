@@ -98,6 +98,7 @@ namespace Wammer.Cloud
 		public string meta_status { get; set; }
 		public string object_id { get; set; }
 		public string creator_id { get; set; }
+		public string url { get; set; }
 		public ImageMeta image_meta { get; set; }
 		public bool default_post { get; set; }
 		public long modify_time { get; set; }
