@@ -75,7 +75,6 @@ namespace StationSystemTray
 		private UserLoginSettingContainer userloginContainer;
 		private bool formCloseEnabled;
 		public Process clientProcess;
-		private bool iscmbEmailFirstChanged;
 
 		private StationStatusUIController uictrlStationStatus;
 		private WavefaceClientController uictrlWavefaceClient;
@@ -160,7 +159,9 @@ namespace StationSystemTray
 				this.initMinimized = false;
 			}
 			else
+			{
 				GotoTimeline(userloginContainer.GetLastUserLogin());
+			}
 		}
 
 		private void RefreshUserList()
@@ -212,11 +213,18 @@ namespace StationSystemTray
 				RefreshUserList();
 
 				LaunchWavefaceClient(userlogin);
-				Close();
-				return;
-			}
 
-			GotoTabPage(tabSignIn, userlogin);
+				// if the function is called by OnLoad, Close() won't hide the mainform
+				// so we have to play some tricks here
+				this.WindowState = FormWindowState.Minimized;
+				this.ShowInTaskbar = false;
+
+				Close();
+			}
+			else
+			{
+				GotoTabPage(tabSignIn, userlogin);
+			}
 		}
 
 		private void WavefaceClientUICallback(object sender, SimpleEventArgs evt)
@@ -226,6 +234,21 @@ namespace StationSystemTray
 			if (exitCode == -2)  // client logout
 			{
 				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+			}
+			else if (exitCode == -3)  // client unlink
+			{
+				ListDriverResponse res = StationController.ListUser();
+				foreach (Driver driver in res.drivers)
+				{
+					if (driver.email == userloginContainer.GetLastUserLogin().Email)
+					{
+						StationController.RemoveOwner(driver.user_id, false);
+						userloginContainer.RemoveUserLogin(driver.email);
+						RefreshUserList();
+						break;
+					}
+				}
+				GotoTabPage(tabSignIn, null);
 			}
 		}
 
@@ -532,7 +555,6 @@ namespace StationSystemTray
 				menuRelogin.Visible = true;
 				menuRelogin.Text = I18n.L.T("ReLoginMenuItem");
 
-
 				menuServiceAction.Enabled = false;
 
 				TrayIcon.Icon = this.iconWarning;
@@ -633,14 +655,12 @@ namespace StationSystemTray
 				if (userlogin == null)
 				{
 					cmbEmail.Text = string.Empty;
-					iscmbEmailFirstChanged = false;
 					txtPassword.Text = string.Empty;
 					chkRememberPassword.Checked = false;
 				}
 				else
 				{
 					cmbEmail.Text = userlogin.Email;
-					iscmbEmailFirstChanged = true;
 					if (userlogin.RememberPassword)
 					{
 						txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
@@ -711,10 +731,10 @@ namespace StationSystemTray
 			{
 				Cursor = Cursors.WaitCursor;
 				UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
-                
+				
 				if (userlogin == null)
 				{
-                    AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
 
 					userlogin = new UserLoginSetting
 						{
@@ -858,27 +878,25 @@ namespace StationSystemTray
 		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
 		}
 
-		private void cmbEmail_SelectionChangeCommitted(object sender, EventArgs e)
+		private void cmbEmail_TextChanged(object sender, EventArgs e)
 		{
-			UserLoginSetting userlogin = userloginContainer.GetUserLogin((string)cmbEmail.SelectedItem);
-			if (userlogin.RememberPassword)
+			UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
+			if (userlogin != null)
 			{
-				txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
+				if (userlogin.RememberPassword)
+				{
+					txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
+				}
+				else
+				{
+					txtPassword.Text = string.Empty;
+				}
+				chkRememberPassword.Checked = userlogin.RememberPassword;
 			}
 			else
 			{
 				txtPassword.Text = string.Empty;
-			}
-			chkRememberPassword.Checked = userlogin.RememberPassword;
-		}
-
-		private void cmbEmail_TextUpdate(object sender, EventArgs e)
-		{
-			if (iscmbEmailFirstChanged)
-			{
-				txtPassword.Text = string.Empty;
 				chkRememberPassword.Checked = false;
-				iscmbEmailFirstChanged = false;
 			}
 		}
 	}

@@ -82,6 +82,12 @@
     <Compile Include="ReloginForm.Designer.cs">
       <DependentUpon>ReloginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RemoveUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RemoveUserForm.Designer.cs">
+      <DependentUpon>RemoveUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SecurityHelper.cs" />
     <Compile Include="SignUpDialog.cs">
       <SubType>Form</SubType>
@@ -120,6 +126,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReloginForm.zh-TW.resx">
       <DependentUpon>ReloginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemoveUserForm.resx">
+      <DependentUpon>RemoveUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemoveUserForm.zh-TW.resx">
+      <DependentUpon>RemoveUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SignUpDialog.resx">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
