@@ -409,13 +409,6 @@ namespace Waveface
                 _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
                 _ids += "]";
 
-                string _time = postItem.Post.timestamp;
-
-                if (postItem.Post.update_time != null)
-                {
-                    _time = postItem.Post.update_time;
-                }
-
                 try
                 {
                     Dictionary<string, string> _params = new Dictionary<string, string>();
@@ -426,6 +419,8 @@ namespace Waveface
                     }
 
                     _params.Add("attachment_id_array", _ids);
+
+                    string _time = Main.Current.GetPostUpdateTime(postItem.Post);
 
                     MR_posts_update _update = Main.Current.RT.REST.Posts_update(postItem.Post.post_id, _time, _params);
 

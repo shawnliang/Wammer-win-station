@@ -1053,7 +1053,7 @@ namespace Waveface
                     case DialogResult.OK:
                         BatchPostManager.Add(m_postForm.BatchPostItem);
 
-                        if(m_postForm.BatchPostItem.Post != null)
+                        if (m_postForm.BatchPostItem.Post != null)
                         {
                             ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
                         }
@@ -1120,6 +1120,32 @@ namespace Waveface
 
         #region PostUpdate
 
+        public string GetPostUpdateTime(Post post)
+        {
+            string _time = post.timestamp;
+
+            if (!CheckNetworkStatus())
+                return _time;
+
+            try
+            {
+                MR_posts_getSingle _singlePost = RT.REST.Posts_GetSingle(post.post_id);
+
+                if ((_singlePost != null) && (_singlePost.post != null))
+                {
+                    if (_singlePost.post.update_time != null)
+                    {
+                        _time = _singlePost.post.update_time;
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return _time;
+        }
+
         public bool PostUpdate(Post post, Dictionary<string, string> optionalParams)
         {
             if (!CheckNetworkStatus())
@@ -1127,12 +1153,7 @@ namespace Waveface
 
             try
             {
-                string _time = post.timestamp;
-
-                if (post.update_time != null)
-                {
-                    _time = post.update_time;
-                }
+                string _time = GetPostUpdateTime(post);
 
                 MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, optionalParams);
 
@@ -1166,12 +1187,7 @@ namespace Waveface
 
                 _value = (_value == 0) ? 1 : 0;
 
-                string _time = post.timestamp;
-
-                if (post.update_time != null)
-                {
-                    _time = post.update_time;
-                }
+                string _time = GetPostUpdateTime(post);
 
                 Dictionary<string, string> _params = new Dictionary<string, string>();
                 _params.Add("favorite", _value.ToString());
