@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Web;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Drawing;
 using Waveface.API.V2;
 using AppLimit.NetSparkle;
 #endregion
@@ -14,7 +16,13 @@ namespace Waveface.SettingUI
 {
     public partial class SettingForm : Form
     {
-        #region StorageUsage
+        #region AllData
+
+        public class AllData
+        {
+            public StorageUsage storageusage { get; set; }
+            public List<Station> mystations { get; set; }
+        }
 
         public class StorageUsage
         {
@@ -74,21 +82,59 @@ namespace Waveface.SettingUI
             }
         }
 
+        private void RefreshLinkedComputers(List<Station> mystations)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                            delegate { RefreshLinkedComputers(mystations); }
+                            ));
+            }
+            else
+            {
+                foreach (Station station in mystations)
+                {
+                    StationDisplay display;
+                    if (station.computer_name == Environment.MachineName)
+                    {
+                        Button btn = new Button();
+                        btn.Text = I18n.L.T("UnlinkButton");
+                        btn.Anchor = AnchorStyles.None;
+                        btn.Size = new Size(110, 23);
+                        btn.Click += btnUnlink_Click;
+                        display = new StationDisplay(station, btn);
+                    }
+                    else
+                    {
+                        display = new StationDisplay(station, null);
+                    }
+            
+                    flowPanelComputerName.Controls.Add(display);
+                }
+            }
+        }
+
         private void bgworkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            RefreshCloudStorage((StorageUsage) e.Result);
+            AllData alldata = (AllData)e.Result;
+            RefreshCloudStorage(alldata.storageusage);
+            RefreshLinkedComputers(alldata.mystations);
         }
 
         private void bgworkerGetAllData_DoWork(object sender, DoWorkEventArgs e)
         {
             WService _service = new WService();
             MR_storages_usage _storageUsage = _service.storages_usage(Main.Current.RT.Login.session_token);
-
             long _quota = _storageUsage.storages.waveface.quota.month_total_objects;
             long _usage = _storageUsage.storages.waveface.usage.month_total_objects;
             int _daysLeft = _storageUsage.storages.waveface.interval.quota_interval_left_days;
 
-            e.Result = new StorageUsage {quota = _quota, usage = _usage, daysLeft = _daysLeft};
+            MR_users_findMyStation _myStations = _service.users_findMyStation(Main.Current.RT.Login.session_token);
+
+            e.Result = new AllData {
+                storageusage = new StorageUsage {quota = _quota, usage = _usage, daysLeft = _daysLeft},
+                mystations = _myStations.stations
+            };
         }
 
         private void btnEditAccount_Click(object sender, EventArgs e)

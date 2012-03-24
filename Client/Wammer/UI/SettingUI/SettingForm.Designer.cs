@@ -54,8 +54,14 @@
 			this.btnUpdate = new System.Windows.Forms.Button();
 			this.bgworkerUpdate = new System.ComponentModel.BackgroundWorker();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.btnUnlink = new System.Windows.Forms.Button();
+			this.groupStations = new System.Windows.Forms.GroupBox();
+			this.flowPanelComputerName = new System.Windows.Forms.FlowLayoutPanel();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.groupBox1.SuspendLayout();
+			this.groupStations.SuspendLayout();
+			this.flowLayoutPanel1.SuspendLayout();
+			this.tableLayoutPanel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnOK
@@ -182,34 +188,51 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Controls.Add(this.btnUnlink);
+			resources.ApplyResources(this.groupBox1, "groupBox1");
 			this.groupBox1.Controls.Add(this.btnUpdate);
 			this.groupBox1.Controls.Add(this.lblVersion);
 			this.groupBox1.Controls.Add(this.lblVersionTitle);
-			resources.ApplyResources(this.groupBox1, "groupBox1");
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.TabStop = false;
 			// 
-			// btnUnlink
+			// groupStations
 			// 
-			resources.ApplyResources(this.btnUnlink, "btnUnlink");
-			this.btnUnlink.Name = "btnUnlink";
-			this.btnUnlink.UseVisualStyleBackColor = true;
-			this.btnUnlink.Click += new System.EventHandler(this.btnUnlink_Click);
+			resources.ApplyResources(this.groupStations, "groupStations");
+			this.groupStations.Controls.Add(this.flowPanelComputerName);
+			this.groupStations.Name = "groupStations";
+			this.groupStations.TabStop = false;
+			// 
+			// flowPanelComputerName
+			// 
+			resources.ApplyResources(this.flowPanelComputerName, "flowPanelComputerName");
+			this.flowPanelComputerName.Name = "flowPanelComputerName";
+			// 
+			// flowLayoutPanel1
+			// 
+			resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
+			this.flowLayoutPanel1.Controls.Add(this.groupStations);
+			this.flowLayoutPanel1.Controls.Add(this.groupBox1);
+			this.flowLayoutPanel1.Controls.Add(this.lblCopyRight);
+			this.flowLayoutPanel1.Controls.Add(this.tableLayoutPanel2);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			// 
+			// tableLayoutPanel2
+			// 
+			resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+			this.tableLayoutPanel2.Controls.Add(this.linkLegalNotice, 0, 0);
+			this.tableLayoutPanel2.Controls.Add(this.btnOK, 1, 0);
+			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			// 
 			// SettingForm
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.flowLayoutPanel1);
 			this.Controls.Add(this.label_DaysLeftValue);
-			this.Controls.Add(this.linkLegalNotice);
 			this.Controls.Add(this.label_UsedCountValue);
-			this.Controls.Add(this.lblCopyRight);
 			this.Controls.Add(this.label_MonthlyLimitValue);
 			this.Controls.Add(this.lblCloudStorageUsed);
 			this.Controls.Add(this.label_UsedCount);
-			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.label_DaysLeft);
 			this.Controls.Add(this.label_MonthlyLimit);
 			this.Controls.Add(this.lblUserNameTitle);
@@ -228,6 +251,12 @@
 			this.Load += new System.EventHandler(this.PreferenceForm_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			this.groupStations.ResumeLayout(false);
+			this.groupStations.PerformLayout();
+			this.flowLayoutPanel1.ResumeLayout(false);
+			this.flowLayoutPanel1.PerformLayout();
+			this.tableLayoutPanel2.ResumeLayout(false);
+			this.tableLayoutPanel2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -259,6 +288,9 @@
 		private System.Windows.Forms.Button btnUpdate;
 		private System.ComponentModel.BackgroundWorker bgworkerUpdate;
 		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.Button btnUnlink;
+		private System.Windows.Forms.GroupBox groupStations;
+		private System.Windows.Forms.FlowLayoutPanel flowPanelComputerName;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     }
 }

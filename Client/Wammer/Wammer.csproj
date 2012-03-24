@@ -112,6 +112,9 @@
     <Reference Include="Waveface.Configuration.WindowsForms">
       <HintPath>..\Libs\Waveface.Configuration.WindowsForms.dll</HintPath>
     </Reference>
+    <Reference Include="WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="WebCam_Capture">
       <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
     </Reference>
@@ -547,6 +550,12 @@
     <Compile Include="UI\SettingUI\SettingForm.Designer.cs">
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SettingUI\StationDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\SettingUI\StationDisplay.Designer.cs">
+      <DependentUpon>StationDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SettingUI\UnlinkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -792,6 +801,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\SettingForm.zh-TW.resx">
       <DependentUpon>SettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\StationDisplay.resx">
+      <DependentUpon>StationDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\UnlinkForm.resx">
       <DependentUpon>UnlinkForm.cs</DependentUpon>

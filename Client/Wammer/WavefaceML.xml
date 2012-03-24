@@ -334,4 +334,16 @@
     <en-US>Your Waveface has been updated to the latest version.</en-US>
     <zh-TW>您的Waveface已經更新到最新版了</zh-TW>
   </WItem>
+
+  <WItem>
+    <ID>UnlinkButton</ID>
+    <en-US>Unlink</en-US>
+    <zh-TW>移除連結</zh-TW>
+  </WItem>
+
+  <WItem>
+    <ID>ThisPC</ID>
+    <en-US>(This PC)</en-US>
+    <zh-TW>(這台電腦)</zh-TW>
+  </WItem>
 </WItems>
