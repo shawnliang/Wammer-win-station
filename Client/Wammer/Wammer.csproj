@@ -971,6 +971,10 @@
     <None Include="Resources\star.png" />
     <None Include="Resources\star_empty.png" />
     <None Include="Resources\CoverImage.png" />
+    <None Include="Resources\Heart.png" />
+    <None Include="Resources\Heart_empty.png" />
+    <None Include="Resources\fav.png" />
+    <None Include="Resources\unfav.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

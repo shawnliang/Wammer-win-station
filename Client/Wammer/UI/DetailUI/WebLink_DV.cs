@@ -208,7 +208,7 @@ namespace Waveface.DetailUI
 
             webBrowser.DocumentText = "<html>" + _minimaxJS +
                                           "<style type=\"text/css\">img {height: auto; max-width: 95%;}</style>" +
-                                          "<body bgcolor=\"rgb(243, 242, 238)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" +
+                                          "<body bgcolor=\"rgb(240, 240, 240)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" +
                                           HtmlUtility.TrimScript(_htmlMainAndComment + m_post.soul) +
                                           "</font></body></html>";
         }

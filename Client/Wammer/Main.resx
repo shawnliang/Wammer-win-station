@@ -297,6 +297,33 @@
   <data name="&gt;&gt;panelLeft.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="detailView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="detailView.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
+  </data>
+  <data name="detailView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="detailView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>472, 471</value>
+  </data>
+  <data name="detailView.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;detailView.Name" xml:space="preserve">
+    <value>detailView</value>
+  </data>
+  <data name="&gt;&gt;detailView.Type" xml:space="preserve">
+    <value>Waveface.DetailView, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;detailView.Parent" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;detailView.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="panelMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -346,7 +373,7 @@
     <value>Desktop</value>
   </data>
   <data name="screenShotMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="screenShotMenu.Text" xml:space="preserve">
     <value>Screen Shot</value>
@@ -355,13 +382,13 @@
     <value>False</value>
   </data>
   <data name="logoutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="logoutMenuItem.Text" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="mnuTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 70</value>
+    <value>144, 48</value>
   </data>
   <data name="&gt;&gt;mnuTray.Name" xml:space="preserve">
     <value>mnuTray</value>
@@ -1904,6 +1931,9 @@
         fauOBZR8O63G8GsKAD4gAMXo68Zf3+pb9SzA/bsWRj9tAFDf6lt9O7W2OgDUt/pWB4D6Vt/q25m4/T/N
         loIpaRxZSgAAAABJRU5ErkJggg==
 </value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>1000, 606</value>

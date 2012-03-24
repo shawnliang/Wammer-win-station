@@ -291,7 +291,7 @@ namespace Waveface.PostUI
 
         private void General_WebLink_Resize(object sender, EventArgs e)
         {
-            BackColor = Color.FromArgb(243, 242, 238); //Hack
+            BackColor = Color.FromArgb(240, 240, 240); //Hack
         }
 
         private void cbNoThumbnail_CheckedChanged(object sender, EventArgs e)

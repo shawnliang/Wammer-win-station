@@ -206,10 +206,35 @@ namespace Waveface.Component
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
                         {
-                            g.DrawString("+", new Font("Tahoma", 9, FontStyle.Bold), Brushes.Red, bounds.Left + 1, bounds.Top + 1);
+                            FillRoundedCorner(g, new SolidBrush(Color.FromArgb(222, 222, 214)), bounds.Left + 1, bounds.Top + 1, 16, 16, 4);
+
+                            g.DrawString("+", new Font("Tahoma", 10, FontStyle.Bold), new SolidBrush(Color.FromArgb(104, 176, 197)), bounds.Left, bounds.Top);
                         }
                     }
                 }
+            }
+        }
+
+        private static GraphicsPath GetRoundedCornerPath(int x, int y, int width, int height, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+
+            path.AddLine(x + radius, y, x + width + radius, y);
+
+            path.AddLine(x, y + height + radius, x, y + radius);
+
+            path.AddLine(x, y + radius, x + radius, y);
+
+            path.AddArc(x, y, radius * 2, radius * 2, 180, 90);
+
+            return path;
+        }
+
+        private static void FillRoundedCorner(Graphics graphics, Brush brush, int x, int y, int width, int height, int radius)
+        {
+            using (GraphicsPath path = GetRoundedCornerPath(x, y, width, height, radius))
+            {
+                graphics.FillPath(brush, path);
             }
         }
 
