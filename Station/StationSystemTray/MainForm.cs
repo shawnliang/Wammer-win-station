@@ -168,30 +168,23 @@ namespace StationSystemTray
 		{
 			cmbEmail.Items.Clear();
 			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
-			try
+			ListDriverResponse res = StationController.ListUser();
+			foreach (Driver driver in res.drivers)
 			{
-				ListDriverResponse res = StationController.ListUser();
-				foreach (Driver driver in res.drivers)
+				UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
+				if (userlogin != null)
 				{
-					UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
-					if (userlogin != null)
-					{
-						cmbEmail.Items.Add(userlogin.Email);
-						ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-						menu.Name = userlogin.Email;
-						userlogins.Add(userlogin);
-					}
-				}
-
-				if (userlogins.Count > 0)
-				{
-					UserLoginSetting lastUserLogin = userloginContainer.GetLastUserLogin();
-					userloginContainer.ResetUserLoginSetting(userlogins, lastUserLogin == null ? "" : lastUserLogin.Email);
+					cmbEmail.Items.Add(userlogin.Email);
+					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+					menu.Name = userlogin.Email;
+					userlogins.Add(userlogin);
 				}
 			}
-			catch (Exception e)
-			{
 
+			if (userlogins.Count > 0)
+			{
+				UserLoginSetting lastUserLogin = userloginContainer.GetLastUserLogin();
+				userloginContainer.ResetUserLoginSetting(userlogins, lastUserLogin == null ? "" : lastUserLogin.Email);
 			}
 		}
 

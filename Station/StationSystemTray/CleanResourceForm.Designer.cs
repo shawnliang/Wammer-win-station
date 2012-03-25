@@ -65,9 +65,9 @@
 			// CleanResourceForm
 			// 
 			this.AcceptButton = this.btnYes;
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.CancelButton = this.btnNo;
-			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.lblConfirm);
 			this.Controls.Add(this.btnNo);
