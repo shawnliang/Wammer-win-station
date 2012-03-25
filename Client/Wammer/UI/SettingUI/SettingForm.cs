@@ -51,6 +51,9 @@ namespace Waveface.SettingUI
             FileVersionInfo version = FileVersionInfo.GetVersionInfo(_execPath);
             lblVersion.Text = version.FileVersion;
 
+            btnOK.Select();
+
+            Cursor = Cursors.WaitCursor;
             bgworkerGetAllData.RunWorkerAsync();
         }
 
@@ -79,6 +82,15 @@ namespace Waveface.SettingUI
                 label_UsedCountValue.Text = storage.usage.ToString();
 
                 barCloudUsage.Value = (int) (storage.usage*100/storage.quota);
+
+                lblLoadingUsage.Visible = false;
+                label_MonthlyLimit.Visible = true;
+                label_MonthlyLimitValue.Visible = true;
+                label_UsedCount.Visible = true;
+                label_UsedCountValue.Visible = true;
+                label_DaysLeft.Visible = true;
+                label_DaysLeftValue.Visible = true;
+                barCloudUsage.Visible = true;
             }
         }
 
@@ -92,10 +104,11 @@ namespace Waveface.SettingUI
             }
             else
             {
+                lblLoadingStations.Visible = false;
                 foreach (Station station in mystations)
                 {
                     StationDisplay display;
-                    if (station.computer_name == Environment.MachineName)
+                    if (station.station_id == (string)StationRegHelper.GetValue("stationId", ""))
                     {
                         Button btn = new Button();
                         btn.Text = I18n.L.T("UnlinkButton");
@@ -116,9 +129,18 @@ namespace Waveface.SettingUI
 
         private void bgworkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            AllData alldata = (AllData)e.Result;
-            RefreshCloudStorage(alldata.storageusage);
-            RefreshLinkedComputers(alldata.mystations);
+            if (e.Error == null)
+            {
+                AllData alldata = (AllData)e.Result;
+                RefreshCloudStorage(alldata.storageusage);
+                RefreshLinkedComputers(alldata.mystations);
+            }
+            else
+            {
+                lblLoadingUsage.Text = I18n.L.T("LoadDataFailed");
+                lblLoadingStations.Text = I18n.L.T("LoadDataFailed");
+            }
+            Cursor = Cursors.Default;
         }
 
         private void bgworkerGetAllData_DoWork(object sender, DoWorkEventArgs e)

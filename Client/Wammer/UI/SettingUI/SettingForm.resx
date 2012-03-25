@@ -150,44 +150,11 @@
   <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="lblUserNameTitle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblUserNameTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt, style=Bold</value>
-  </data>
-  <data name="lblUserNameTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblUserNameTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 20</value>
-  </data>
-  <data name="lblUserNameTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 14</value>
-  </data>
-  <data name="lblUserNameTitle.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="lblUserNameTitle.Text" xml:space="preserve">
-    <value>Account Email</value>
-  </data>
-  <data name="&gt;&gt;lblUserNameTitle.Name" xml:space="preserve">
-    <value>lblUserNameTitle</value>
-  </data>
-  <data name="&gt;&gt;lblUserNameTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblUserNameTitle.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblUserNameTitle.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="lblUserName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="lblUserName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 38</value>
+    <value>15, 28</value>
   </data>
   <data name="lblUserName.Size" type="System.Drawing.Size, System.Drawing">
     <value>115, 14</value>
@@ -205,49 +172,22 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblUserName.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;lblUserName.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="lblCloudUsageTitle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblCloudUsageTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt, style=Bold</value>
-  </data>
-  <data name="lblCloudUsageTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 74</value>
-  </data>
-  <data name="lblCloudUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 14</value>
-  </data>
-  <data name="lblCloudUsageTitle.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="lblCloudUsageTitle.Text" xml:space="preserve">
-    <value>Current Monthly Usage</value>
-  </data>
-  <data name="&gt;&gt;lblCloudUsageTitle.Name" xml:space="preserve">
-    <value>lblCloudUsageTitle</value>
-  </data>
-  <data name="&gt;&gt;lblCloudUsageTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblCloudUsageTitle.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblCloudUsageTitle.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>0</value>
   </data>
   <data name="barCloudUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 148</value>
+    <value>18, 87</value>
   </data>
   <data name="barCloudUsage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>416, 18</value>
+    <value>393, 18</value>
   </data>
   <data name="barCloudUsage.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
+  </data>
+  <data name="barCloudUsage.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;barCloudUsage.Name" xml:space="preserve">
     <value>barCloudUsage</value>
@@ -256,16 +196,16 @@
     <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;barCloudUsage.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupMonthlyUsage</value>
   </data>
   <data name="&gt;&gt;barCloudUsage.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>7</value>
   </data>
   <data name="label_DaysLeftValue.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>112, 128</value>
+    <value>115, 63</value>
   </data>
   <data name="label_DaysLeftValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>21, 14</value>
@@ -276,6 +216,9 @@
   <data name="label_DaysLeftValue.Text" xml:space="preserve">
     <value>80</value>
   </data>
+  <data name="label_DaysLeftValue.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;label_DaysLeftValue.Name" xml:space="preserve">
     <value>label_DaysLeftValue</value>
   </data>
@@ -283,16 +226,16 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_DaysLeftValue.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupMonthlyUsage</value>
   </data>
   <data name="&gt;&gt;label_DaysLeftValue.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="label_UsedCountValue.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label_UsedCountValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>48, 110</value>
+    <value>51, 43</value>
   </data>
   <data name="label_UsedCountValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>21, 14</value>
@@ -303,6 +246,9 @@
   <data name="label_UsedCountValue.Text" xml:space="preserve">
     <value>20</value>
   </data>
+  <data name="label_UsedCountValue.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;label_UsedCountValue.Name" xml:space="preserve">
     <value>label_UsedCountValue</value>
   </data>
@@ -310,16 +256,16 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_UsedCountValue.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupMonthlyUsage</value>
   </data>
   <data name="&gt;&gt;label_UsedCountValue.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="label_MonthlyLimitValue.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label_MonthlyLimitValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>108, 92</value>
+    <value>111, 23</value>
   </data>
   <data name="label_MonthlyLimitValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 14</value>
@@ -330,6 +276,9 @@
   <data name="label_MonthlyLimitValue.Text" xml:space="preserve">
     <value>100</value>
   </data>
+  <data name="label_MonthlyLimitValue.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;label_MonthlyLimitValue.Name" xml:space="preserve">
     <value>label_MonthlyLimitValue</value>
   </data>
@@ -337,7 +286,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_MonthlyLimitValue.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupMonthlyUsage</value>
   </data>
   <data name="&gt;&gt;label_MonthlyLimitValue.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -364,13 +313,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblCloudStorageUsed.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>1</value>
   </data>
   <data name="label_UsedCount.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label_UsedCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 110</value>
+    <value>15, 43</value>
   </data>
   <data name="label_UsedCount.Size" type="System.Drawing.Size, System.Drawing">
     <value>38, 14</value>
@@ -381,6 +330,9 @@
   <data name="label_UsedCount.Text" xml:space="preserve">
     <value>Used:</value>
   </data>
+  <data name="label_UsedCount.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;label_UsedCount.Name" xml:space="preserve">
     <value>label_UsedCount</value>
   </data>
@@ -388,7 +340,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_UsedCount.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupMonthlyUsage</value>
   </data>
   <data name="&gt;&gt;label_UsedCount.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -397,7 +349,7 @@
     <value>True</value>
   </data>
   <data name="label_DaysLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 128</value>
+    <value>15, 63</value>
   </data>
   <data name="label_DaysLeft.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 14</value>
@@ -408,6 +360,9 @@
   <data name="label_DaysLeft.Text" xml:space="preserve">
     <value>Days left in cycle:</value>
   </data>
+  <data name="label_DaysLeft.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;label_DaysLeft.Name" xml:space="preserve">
     <value>label_DaysLeft</value>
   </data>
@@ -415,7 +370,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_DaysLeft.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupMonthlyUsage</value>
   </data>
   <data name="&gt;&gt;label_DaysLeft.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -424,7 +379,7 @@
     <value>True</value>
   </data>
   <data name="label_MonthlyLimit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 92</value>
+    <value>15, 23</value>
   </data>
   <data name="label_MonthlyLimit.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 14</value>
@@ -435,6 +390,9 @@
   <data name="label_MonthlyLimit.Text" xml:space="preserve">
     <value>Limit per month:</value>
   </data>
+  <data name="label_MonthlyLimit.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;label_MonthlyLimit.Name" xml:space="preserve">
     <value>label_MonthlyLimit</value>
   </data>
@@ -442,10 +400,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label_MonthlyLimit.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupMonthlyUsage</value>
   </data>
   <data name="&gt;&gt;label_MonthlyLimit.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>1</value>
   </data>
   <data name="lblDayLeft.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -469,7 +427,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblDayLeft.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>2</value>
   </data>
   <data name="lblCloudStorageLimit.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -493,10 +451,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblCloudStorageLimit.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>3</value>
   </data>
   <data name="btnEditAccount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>298, 34</value>
+    <value>278, 24</value>
   </data>
   <data name="btnEditAccount.Size" type="System.Drawing.Size, System.Drawing">
     <value>133, 23</value>
@@ -514,10 +472,10 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnEditAccount.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;btnEditAccount.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>1</value>
   </data>
   <data name="lblVersionTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -577,7 +535,7 @@
     <value>Left</value>
   </data>
   <data name="lblCopyRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 183</value>
+    <value>3, 175</value>
   </data>
   <data name="lblCopyRight.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 18, 3, 0</value>
@@ -649,7 +607,196 @@
     <value>True</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>455, 425</value>
+    <value>455, 476</value>
+  </data>
+  <data name="flowLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="groupStations.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flowPanelComputerName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLoadingStations.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLoadingStations.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblLoadingStations.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 9</value>
+  </data>
+  <data name="lblLoadingStations.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 9, 3, 0</value>
+  </data>
+  <data name="lblLoadingStations.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 14</value>
+  </data>
+  <data name="lblLoadingStations.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblLoadingStations.Text" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.Name" xml:space="preserve">
+    <value>lblLoadingStations</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.Parent" xml:space="preserve">
+    <value>flowPanelComputerName</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="flowPanelComputerName.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="flowPanelComputerName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 21</value>
+  </data>
+  <data name="flowPanelComputerName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="flowPanelComputerName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 30</value>
+  </data>
+  <data name="flowPanelComputerName.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;flowPanelComputerName.Name" xml:space="preserve">
+    <value>flowPanelComputerName</value>
+  </data>
+  <data name="&gt;&gt;flowPanelComputerName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowPanelComputerName.Parent" xml:space="preserve">
+    <value>groupStations</value>
+  </data>
+  <data name="&gt;&gt;flowPanelComputerName.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupStations.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="groupStations.Size" type="System.Drawing.Size, System.Drawing">
+    <value>422, 69</value>
+  </data>
+  <data name="groupStations.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="groupStations.Text" xml:space="preserve">
+    <value>Linked Computers</value>
+  </data>
+  <data name="&gt;&gt;groupStations.Name" xml:space="preserve">
+    <value>groupStations</value>
+  </data>
+  <data name="&gt;&gt;groupStations.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupStations.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;groupStations.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;btnUpdate.Name" xml:space="preserve">
+    <value>btnUpdate</value>
+  </data>
+  <data name="&gt;&gt;btnUpdate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnUpdate.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnUpdate.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 85</value>
+  </data>
+  <data name="groupBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 10, 3, 3</value>
+  </data>
+  <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 7, 3</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>421, 69</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Waveface Desktop Version</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 189</value>
+  </data>
+  <data name="tableLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 3, 3</value>
+  </data>
+  <data name="tableLayoutPanel2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 3, 0</value>
+  </data>
+  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>428, 34</value>
+  </data>
+  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="linkLegalNotice" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="btnOK" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,27.12264,Percent,72.87736" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="flowLayoutPanel1.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 230</value>
+  </data>
+  <data name="flowLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 10</value>
+  </data>
+  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>431, 226</value>
+  </data>
+  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
   </data>
   <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
     <value>flowLayoutPanel1</value>
@@ -662,6 +809,93 @@
   </data>
   <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="groupMonthlyUsage.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLoadingUsage.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLoadingUsage.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblLoadingUsage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 23</value>
+  </data>
+  <data name="lblLoadingUsage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 9, 3, 0</value>
+  </data>
+  <data name="lblLoadingUsage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 14</value>
+  </data>
+  <data name="lblLoadingUsage.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="lblLoadingUsage.Text" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingUsage.Name" xml:space="preserve">
+    <value>lblLoadingUsage</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingUsage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingUsage.Parent" xml:space="preserve">
+    <value>groupMonthlyUsage</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingUsage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupMonthlyUsage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 93</value>
+  </data>
+  <data name="groupMonthlyUsage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>422, 126</value>
+  </data>
+  <data name="groupMonthlyUsage.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="groupMonthlyUsage.Text" xml:space="preserve">
+    <value>Current Monthly Usage</value>
+  </data>
+  <data name="&gt;&gt;groupMonthlyUsage.Name" xml:space="preserve">
+    <value>groupMonthlyUsage</value>
+  </data>
+  <data name="&gt;&gt;groupMonthlyUsage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupMonthlyUsage.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupMonthlyUsage.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="groupBox2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 20</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>422, 68</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Account Email</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt</value>
@@ -723,223 +957,4 @@
   <metadata name="bgworkerUpdate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>317, 17</value>
   </metadata>
-  <data name="groupBox1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;btnUpdate.Name" xml:space="preserve">
-    <value>btnUpdate</value>
-  </data>
-  <data name="&gt;&gt;btnUpdate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnUpdate.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;btnUpdate.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 93</value>
-  </data>
-  <data name="groupBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 18, 3, 3</value>
-  </data>
-  <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 7, 3</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>421, 69</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>32</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Waveface Desktop Version</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="groupStations.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;flowPanelComputerName.Name" xml:space="preserve">
-    <value>flowPanelComputerName</value>
-  </data>
-  <data name="&gt;&gt;flowPanelComputerName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;flowPanelComputerName.Parent" xml:space="preserve">
-    <value>groupStations</value>
-  </data>
-  <data name="&gt;&gt;flowPanelComputerName.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="groupStations.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="groupStations.Size" type="System.Drawing.Size, System.Drawing">
-    <value>422, 69</value>
-  </data>
-  <data name="groupStations.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
-  </data>
-  <data name="groupStations.Text" xml:space="preserve">
-    <value>Linked Computers</value>
-  </data>
-  <data name="&gt;&gt;groupStations.Name" xml:space="preserve">
-    <value>groupStations</value>
-  </data>
-  <data name="&gt;&gt;groupStations.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupStations.Parent" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;groupStations.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="flowPanelComputerName.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="flowPanelComputerName.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
-    <value>TopDown</value>
-  </data>
-  <data name="flowPanelComputerName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 21</value>
-  </data>
-  <data name="flowPanelComputerName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="flowPanelComputerName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 30</value>
-  </data>
-  <data name="flowPanelComputerName.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
-  </data>
-  <data name="&gt;&gt;flowPanelComputerName.Name" xml:space="preserve">
-    <value>flowPanelComputerName</value>
-  </data>
-  <data name="&gt;&gt;flowPanelComputerName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;flowPanelComputerName.Parent" xml:space="preserve">
-    <value>groupStations</value>
-  </data>
-  <data name="&gt;&gt;flowPanelComputerName.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="flowLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;groupStations.Name" xml:space="preserve">
-    <value>groupStations</value>
-  </data>
-  <data name="&gt;&gt;groupStations.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupStations.Parent" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;groupStations.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="linkLegalNotice" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="btnOK" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,27.12264,Percent,72.87736" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="flowLayoutPanel1.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
-    <value>TopDown</value>
-  </data>
-  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 184</value>
-  </data>
-  <data name="flowLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 18, 3, 3</value>
-  </data>
-  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 234</value>
-  </data>
-  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>35</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 197</value>
-  </data>
-  <data name="tableLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 3, 3</value>
-  </data>
-  <data name="tableLayoutPanel2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 3, 0</value>
-  </data>
-  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>428, 34</value>
-  </data>
-  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
-    <value>36</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="linkLegalNotice" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="btnOK" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,27.12264,Percent,72.87736" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
 </root>

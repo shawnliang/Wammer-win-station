@@ -337,13 +337,18 @@
 
   <WItem>
     <ID>UnlinkButton</ID>
-    <en-US>Unlink</en-US>
-    <zh-TW>移除連結</zh-TW>
+    <en-US>Unlink...</en-US>
+    <zh-TW>移除連結...</zh-TW>
   </WItem>
-
   <WItem>
     <ID>ThisPC</ID>
-    <en-US>(This PC)</en-US>
+    <en-US>(this PC)</en-US>
     <zh-TW>(這台電腦)</zh-TW>
   </WItem>
+  <WItem>
+    <ID>LoadDataFailed</ID>
+    <en-US>Unable to retrieve data</en-US>
+    <zh-TW>無法取得資料</zh-TW>
+  </WItem>
+  
 </WItems>
