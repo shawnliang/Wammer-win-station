@@ -58,10 +58,14 @@ namespace Wammer.Station
 					Attachment savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
 					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
 
+					// driver might be removed before download tasks completed
+					if (driver == null)
+						break;
+
 					// origin
 					if (driver.isPrimaryStation && 
 						attachment.url != null && 
-						savedDoc.saved_file_name == null)
+						(savedDoc == null || savedDoc.saved_file_name == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
 					}
@@ -71,28 +75,28 @@ namespace Wammer.Station
 
 					// small
 					if (attachment.image_meta.small != null && 
-						(savedDoc.image_meta == null || savedDoc.image_meta.small == null))
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.small == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
 					}
 
 					// medium
 					if (attachment.image_meta.medium != null &&
-						(savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
 					}
 
 					// large
 					if (attachment.image_meta.large != null &&
-						(savedDoc.image_meta == null || savedDoc.image_meta.large == null))
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.large == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
 					}
 
 					// square
 					if (attachment.image_meta.square != null &&
-						(savedDoc.image_meta == null || savedDoc.image_meta.square == null))
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.square == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
 					}

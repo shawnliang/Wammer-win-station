@@ -168,23 +168,30 @@ namespace StationSystemTray
 		{
 			cmbEmail.Items.Clear();
 			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
-			ListDriverResponse res = StationController.ListUser();
-			foreach (Driver driver in res.drivers)
+			try
 			{
-				UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
-				if (userlogin != null)
+				ListDriverResponse res = StationController.ListUser();
+				foreach (Driver driver in res.drivers)
 				{
-					cmbEmail.Items.Add(userlogin.Email);
-					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-					menu.Name = userlogin.Email;
-					userlogins.Add(userlogin);
+					UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
+					if (userlogin != null)
+					{
+						cmbEmail.Items.Add(userlogin.Email);
+						ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+						menu.Name = userlogin.Email;
+						userlogins.Add(userlogin);
+					}
+				}
+
+				if (userlogins.Count > 0)
+				{
+					UserLoginSetting lastUserLogin = userloginContainer.GetLastUserLogin();
+					userloginContainer.ResetUserLoginSetting(userlogins, lastUserLogin == null ? "" : lastUserLogin.Email);
 				}
 			}
-
-			if (userlogins.Count > 0)
+			catch (Exception e)
 			{
-				string lastlogin = userloginContainer.GetLastUserLogin().Email;
-				userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
+
 			}
 		}
 
@@ -237,12 +244,22 @@ namespace StationSystemTray
 			}
 			else if (exitCode == -3)  // client unlink
 			{
+				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
+
+				bool isCleanResource = false;
+				CleanResourceForm cleanform = new CleanResourceForm(userlogin.Email);
+				DialogResult cleanResult = cleanform.ShowDialog();
+				if (cleanResult == DialogResult.Yes)
+				{
+					isCleanResource = true;
+				}
+
 				ListDriverResponse res = StationController.ListUser();
 				foreach (Driver driver in res.drivers)
 				{
-					if (driver.email == userloginContainer.GetLastUserLogin().Email)
+					if (driver.email == userlogin.Email)
 					{
-						StationController.RemoveOwner(driver.user_id, false);
+						StationController.RemoveOwner(driver.user_id, isCleanResource);
 						userloginContainer.RemoveUserLogin(driver.email);
 						RefreshUserList();
 						break;
@@ -939,13 +956,12 @@ namespace StationSystemTray
 	public class WavefaceClientController : SimpleUIController
 	{
 		private MainForm mainform;
-		private object cs;
+		private object cs = new object();
 
 		public WavefaceClientController(MainForm form)
 			: base(form)
 		{
 			mainform = form;
-			cs = new object();
 		}
 
 		public void Terminate()

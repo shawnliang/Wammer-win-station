@@ -1,6 +1,6 @@
 ﻿namespace StationSystemTray
 {
-	partial class RemoveUserForm
+	partial class CleanResourceForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoveUserForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CleanResourceForm));
 			this.btnYes = new System.Windows.Forms.Button();
 			this.btnNo = new System.Windows.Forms.Button();
 			this.lblConfirm = new System.Windows.Forms.Label();
@@ -38,15 +38,16 @@
 			// 
 			// btnYes
 			// 
-			this.btnYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
 			resources.ApplyResources(this.btnYes, "btnYes");
+			this.btnYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
 			this.btnYes.Name = "btnYes";
 			this.btnYes.UseVisualStyleBackColor = true;
+			this.btnYes.Click += new System.EventHandler(this.btnYes_Click);
 			// 
 			// btnNo
 			// 
-			this.btnNo.DialogResult = System.Windows.Forms.DialogResult.No;
 			resources.ApplyResources(this.btnNo, "btnNo");
+			this.btnNo.DialogResult = System.Windows.Forms.DialogResult.No;
 			this.btnNo.Name = "btnNo";
 			this.btnNo.UseVisualStyleBackColor = true;
 			// 
@@ -61,7 +62,7 @@
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.TabStop = false;
 			// 
-			// RemoveUserForm
+			// CleanResourceForm
 			// 
 			this.AcceptButton = this.btnYes;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -74,7 +75,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "RemoveUserForm";
+			this.Name = "CleanResourceForm";
 			this.ShowIcon = false;
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
