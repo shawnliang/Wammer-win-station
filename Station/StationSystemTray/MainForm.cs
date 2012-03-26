@@ -21,6 +21,7 @@ using Wammer.Station;
 using Wammer.Model;
 using System.Security.Permissions;
 using Waveface.Localization;
+using MongoDB.Driver.Builders;
 
 namespace StationSystemTray
 {
@@ -767,6 +768,11 @@ namespace StationSystemTray
 				}
 				else
 				{
+					// In case the user is in AppData but not in Station DB (usually in testing environment)
+					bool userAlreadyInDB = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", cmbEmail.Text.ToLower())) != null;
+					if (!userAlreadyInDB)
+						StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+
 					StationController.StationOnline(userlogin.Email, txtPassword.Text);
 
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
