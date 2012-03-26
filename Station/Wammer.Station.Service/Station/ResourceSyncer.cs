@@ -200,6 +200,10 @@ namespace Wammer.Station
 				{
 					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
 
+					// driver might be removed before running download tasks
+					if (driver == null)
+						break;
+
 					// original
 					if (!string.IsNullOrEmpty(attachment.url) && driver.isPrimaryStation)
 					{
