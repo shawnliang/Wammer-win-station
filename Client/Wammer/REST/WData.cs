@@ -643,4 +643,13 @@ namespace Waveface.API.V2
     }
 
     #endregion
+
+    #region MR_usertracks
+
+    public class MR_usertracks_get : General_R
+    {
+
+    }
+
+    #endregion
 }

@@ -36,8 +36,16 @@ namespace Waveface.PostUI
             {
                 if (Main.Current.CheckNetworkStatus())
                 {
-                    if (post.preview.thumbnail_url != null)
+                    if (post.preview.thumbnail_url == null)
+                    {
+                        panelContent.Left = 0;
+                        panelContent.Width = panelPreview.Width - 8;
+                        panelSelectPicture.Visible = false;
+                    }
+                    else
+                    {
                         pictureBoxPreview.LoadAsync(post.preview.thumbnail_url);
+                    }
                 }
 
                 labelTitle.Text = post.preview.title.Trim();
