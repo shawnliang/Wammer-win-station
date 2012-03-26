@@ -35,7 +35,10 @@ namespace Waveface.PostUI
             if (post.type == "link")
             {
                 if (Main.Current.CheckNetworkStatus())
-                    pictureBoxPreview.LoadAsync(post.preview.thumbnail_url);
+                {
+                    if (post.preview.thumbnail_url != null)
+                        pictureBoxPreview.LoadAsync(post.preview.thumbnail_url);
+                }
 
                 labelTitle.Text = post.preview.title.Trim();
                 labelProvider.Text = post.preview.provider_display;

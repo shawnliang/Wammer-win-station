@@ -1146,20 +1146,22 @@ namespace Waveface
             return _time;
         }
 
-        public bool PostUpdate(Post post, Dictionary<string, string> optionalParams)
+        public Post PostUpdate(Post post, Dictionary<string, string> optionalParams)
         {
             if (!CheckNetworkStatus())
-                return false;
+                return null;
+
+            MR_posts_update _update = null;
 
             try
             {
                 string _time = GetPostUpdateTime(post);
 
-                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, optionalParams);
+                _update = RT.REST.Posts_update(post.post_id, _time, optionalParams);
 
                 if (_update == null)
                 {
-                    return false;
+                    return null;
                 }
 
                 RefreshSinglePost(_update.post);
@@ -1167,10 +1169,10 @@ namespace Waveface
             catch (Exception _e)
             {
                 MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                return null;
             }
 
-            return true;
+            return _update.post;
         }
 
         public bool ChangePostFavorite(Post post)
