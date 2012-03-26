@@ -90,7 +90,7 @@ namespace UT_WammerStation
 				groups = new List<Wammer.Cloud.UserGroup> {
 					new UserGroup() { group_id = "user1_group_id" }
 				},
-				sync_range = new SyncRange() {  change_log_sync_time = "2010-03-04T05:06:07Z"}
+				change_log_sync_time = "2010-03-04T05:06:07Z"
 			};
 
 			FakePostInfoProvider postInfoProvider = new FakePostInfoProvider();
@@ -103,7 +103,7 @@ namespace UT_WammerStation
 
 			Assert.AreEqual(user.groups[0].group_id, postInfoProvider.passedGroupId);
 			Assert.AreEqual(user.session_token, postInfoProvider.passedSessionToken);
-			Assert.AreEqual(user.sync_range.change_log_sync_time, postInfoProvider.passedStartTime);
+			Assert.AreEqual(user.change_log_sync_time, postInfoProvider.passedStartTime);
 
 			Assert.AreEqual(2, posts.Count);
 			Assert.AreEqual("2000-10-10T01:02:03Z", userInfoUpdator.SavedTime);
@@ -121,7 +121,7 @@ namespace UT_WammerStation
 				groups = new List<Wammer.Cloud.UserGroup> {
 					new UserGroup() { group_id = "user1_group_id" }
 				},
-				sync_range = new SyncRange() { change_log_sync_time = "2000-10-10T01:02:03Z" }
+				change_log_sync_time = "2000-10-10T01:02:03Z"
 			};
 
 			FakePostInfoProvider postInfoProvider = new FakePostInfoProvider();

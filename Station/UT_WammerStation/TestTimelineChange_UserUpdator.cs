@@ -21,7 +21,7 @@ namespace UT_WammerStation
 			updator.UpdateChangeLogSyncTime("u1", "2012-3-4T1:2:3Z");
 
 			Driver savedData = DriverCollection.Instance.FindOne(Query.EQ("_id", "u1"));
-			Assert.AreEqual("2012-3-4T1:2:3Z", savedData.sync_range.change_log_sync_time);
+			Assert.AreEqual("2012-3-4T1:2:3Z", savedData.change_log_sync_time);
 		}
 	}
 }
