@@ -180,11 +180,7 @@ namespace Wammer.Station
 					}
 
 					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
-						Update.Set("sync_range.first_post_time", driver.sync_range.first_post_time));
-					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
-						Update.Set("sync_range.end_time", driver.sync_range.end_time));
-					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
-						Update.Set("sync_range.start_time", driver.sync_range.start_time));
+						Update.Set("sync_range", driver.sync_range.ToBsonDocument()));
 				}
 			}
 		}

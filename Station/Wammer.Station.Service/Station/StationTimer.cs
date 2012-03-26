@@ -22,7 +22,7 @@ namespace Wammer.Station
 #if DEBUG
 		private const long RESOURCE_SYNC_PEROID = 10 * 1000;
 #else
-		private const long RESOURCE_SYNC_PEROID = 10 * 20 * 1000;
+		private const long RESOURCE_SYNC_PEROID = 60 * 1000;
 #endif
 
 		private List<IStationTimer> timers;
@@ -32,7 +32,8 @@ namespace Wammer.Station
 			timers = new List<IStationTimer> {
 				new StatusChecker(STATUS_CHECK_PERIOD, functionServer),
 				new ResourceSyncer(RESOURCE_SYNC_PEROID),
-				new ChangeHistorySyncer(RESOURCE_SYNC_PEROID)
+				// Use a strange value to make ResourceSyncer and ChangeHistorySyncer not running at the same time.
+				new ChangeHistorySyncer(RESOURCE_SYNC_PEROID * 2 - 10 * 1000)
 			};
 		}
 

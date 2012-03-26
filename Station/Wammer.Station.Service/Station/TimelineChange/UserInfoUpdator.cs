@@ -13,7 +13,7 @@ namespace Wammer.Station.TimelineChange
 		{
 			Model.DriverCollection.Instance.Update(
 				Query.EQ("_id", user_id),
-				Update.Set("sync_range.change_log_sync_time", time));
+				Update.Set("change_log_sync_time", time));
 		}
 	}
 }
