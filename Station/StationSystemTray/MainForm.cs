@@ -21,6 +21,7 @@ using Wammer.Station;
 using Wammer.Model;
 using System.Security.Permissions;
 using Waveface.Localization;
+using MongoDB.Driver.Builders;
 
 namespace StationSystemTray
 {
@@ -75,7 +76,6 @@ namespace StationSystemTray
 		private UserLoginSettingContainer userloginContainer;
 		private bool formCloseEnabled;
 		public Process clientProcess;
-		private bool iscmbEmailFirstChanged;
 
 		private StationStatusUIController uictrlStationStatus;
 		private WavefaceClientController uictrlWavefaceClient;
@@ -146,7 +146,6 @@ namespace StationSystemTray
 			this.CurrentState = CreateState(StationStateEnum.Initial);
 			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
 			this.menuQuit.Text = I18n.L.T("QuitWFService");
-			this.menuGotoTimeline.Text = "Go to Timeline";
 			RefreshUserList();
 
 			this.checkStationTimer.Enabled = true;
@@ -161,47 +160,32 @@ namespace StationSystemTray
 				this.initMinimized = false;
 			}
 			else
+			{
 				GotoTimeline(userloginContainer.GetLastUserLogin());
+			}
 		}
 
 		private void RefreshUserList()
 		{
 			cmbEmail.Items.Clear();
-			try
+			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
+			ListDriverResponse res = StationController.ListUser();
+			foreach (Driver driver in res.drivers)
 			{
-				menuGotoTimeline.DropDownItems.Remove(menuNewUser);
-				menuGotoTimeline.DropDownItems.Clear();
-
-				List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
-				bool addSeparator = false;
-				ListDriverResponse res = StationController.ListUser();
-				foreach (Driver driver in res.drivers)
+				UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
+				if (userlogin != null)
 				{
-					UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
-					if (userlogin != null)
-					{
-						if (!addSeparator)
-						{
-							menuGotoTimeline.DropDownItems.Insert(0, new ToolStripSeparator());
-							addSeparator = true;
-						}
-						cmbEmail.Items.Add(userlogin.Email);
-						ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-						menu.Name = userlogin.Email;
-						menuGotoTimeline.DropDownItems.Insert(0, menu);
-						userlogins.Add(userlogin);
-					}
-				}
-
-				if (userlogins.Count > 0)
-				{
-					string lastlogin = userloginContainer.GetLastUserLogin().Email;
-					userloginContainer.ResetUserLoginSetting(userlogins, lastlogin);
+					cmbEmail.Items.Add(userlogin.Email);
+					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+					menu.Name = userlogin.Email;
+					userlogins.Add(userlogin);
 				}
 			}
-			finally
+
+			if (userlogins.Count > 0)
 			{
-				menuGotoTimeline.DropDownItems.Add(menuNewUser);
+				UserLoginSetting lastUserLogin = userloginContainer.GetLastUserLogin();
+				userloginContainer.ResetUserLoginSetting(userlogins, lastUserLogin == null ? "" : lastUserLogin.Email);
 			}
 		}
 
@@ -230,11 +214,18 @@ namespace StationSystemTray
 				RefreshUserList();
 
 				LaunchWavefaceClient(userlogin);
-				Close();
-				return;
-			}
 
-			GotoTabPage(tabSignIn, userlogin);
+				// if the function is called by OnLoad, Close() won't hide the mainform
+				// so we have to play some tricks here
+				this.WindowState = FormWindowState.Minimized;
+				this.ShowInTaskbar = false;
+
+				Close();
+			}
+			else
+			{
+				GotoTabPage(tabSignIn, userlogin);
+			}
 		}
 
 		private void WavefaceClientUICallback(object sender, SimpleEventArgs evt)
@@ -244,6 +235,31 @@ namespace StationSystemTray
 			if (exitCode == -2)  // client logout
 			{
 				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+			}
+			else if (exitCode == -3)  // client unlink
+			{
+				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
+
+				bool isCleanResource = false;
+				CleanResourceForm cleanform = new CleanResourceForm(userlogin.Email);
+				DialogResult cleanResult = cleanform.ShowDialog();
+				if (cleanResult == DialogResult.Yes)
+				{
+					isCleanResource = true;
+				}
+
+				ListDriverResponse res = StationController.ListUser();
+				foreach (Driver driver in res.drivers)
+				{
+					if (driver.email == userlogin.Email)
+					{
+						StationController.RemoveOwner(driver.user_id, isCleanResource);
+						userloginContainer.RemoveUserLogin(driver.email);
+						RefreshUserList();
+						break;
+					}
+				}
+				GotoTabPage(tabSignIn, null);
 			}
 		}
 
@@ -550,7 +566,6 @@ namespace StationSystemTray
 				menuRelogin.Visible = true;
 				menuRelogin.Text = I18n.L.T("ReLoginMenuItem");
 
-
 				menuServiceAction.Enabled = false;
 
 				TrayIcon.Icon = this.iconWarning;
@@ -651,14 +666,12 @@ namespace StationSystemTray
 				if (userlogin == null)
 				{
 					cmbEmail.Text = string.Empty;
-					iscmbEmailFirstChanged = false;
 					txtPassword.Text = string.Empty;
 					chkRememberPassword.Checked = false;
 				}
 				else
 				{
 					cmbEmail.Text = userlogin.Email;
-					iscmbEmailFirstChanged = true;
 					if (userlogin.RememberPassword)
 					{
 						txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
@@ -729,10 +742,10 @@ namespace StationSystemTray
 			{
 				Cursor = Cursors.WaitCursor;
 				UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
-                
+				
 				if (userlogin == null)
 				{
-                    AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
 
 					userlogin = new UserLoginSetting
 						{
@@ -755,6 +768,11 @@ namespace StationSystemTray
 				}
 				else
 				{
+					// In case the user is in AppData but not in Station DB (usually in testing environment)
+					bool userAlreadyInDB = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", cmbEmail.Text.ToLower())) != null;
+					if (!userAlreadyInDB)
+						StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+
 					StationController.StationOnline(userlogin.Email, txtPassword.Text);
 
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
@@ -865,12 +883,6 @@ namespace StationSystemTray
 		}
 		#endregion
 
-		private void newUserToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			uictrlWavefaceClient.Terminate();
-			GotoTabPage(tabSignIn, null);
-		}
-
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
 			uictrlWavefaceClient.Terminate();
@@ -879,30 +891,28 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? "Logout...": "Login...";
+		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
 		}
 
-		private void cmbEmail_SelectionChangeCommitted(object sender, EventArgs e)
+		private void cmbEmail_TextChanged(object sender, EventArgs e)
 		{
-			UserLoginSetting userlogin = userloginContainer.GetUserLogin((string)cmbEmail.SelectedItem);
-			if (userlogin.RememberPassword)
+			UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
+			if (userlogin != null)
 			{
-				txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
+				if (userlogin.RememberPassword)
+				{
+					txtPassword.Text = SecurityHelper.DecryptPassword(userlogin.Password);
+				}
+				else
+				{
+					txtPassword.Text = string.Empty;
+				}
+				chkRememberPassword.Checked = userlogin.RememberPassword;
 			}
 			else
 			{
 				txtPassword.Text = string.Empty;
-			}
-			chkRememberPassword.Checked = userlogin.RememberPassword;
-		}
-
-		private void cmbEmail_TextUpdate(object sender, EventArgs e)
-		{
-			if (iscmbEmailFirstChanged)
-			{
-				txtPassword.Text = string.Empty;
 				chkRememberPassword.Checked = false;
-				iscmbEmailFirstChanged = false;
 			}
 		}
 	}
@@ -945,13 +955,12 @@ namespace StationSystemTray
 	public class WavefaceClientController : SimpleUIController
 	{
 		private MainForm mainform;
-		private object cs;
+		private object cs = new object();
 
 		public WavefaceClientController(MainForm form)
 			: base(form)
 		{
 			mainform = form;
-			cs = new object();
 		}
 
 		public void Terminate()

@@ -61,18 +61,18 @@ namespace Wammer.Station
 			Model.StationInfo sinfo = Model.StationCollection.Instance.FindOne();
 			if (sinfo != null)
 			{
-				bool locChange = false;
-				string baseurl = NetworkHelper.GetBaseURL();
-				if (baseurl != sinfo.Location)
-				{
-					// update location if baseurl changed
-					logger.DebugFormat("station location changed: {0}", baseurl);
-					sinfo.Location = baseurl;
-					locChange = true;
-				}
-
 				try
 				{
+					bool locChange = false;
+					string baseurl = NetworkHelper.GetBaseURL();
+					if (baseurl != sinfo.Location)
+					{
+						// update location if baseurl changed
+						logger.DebugFormat("station location changed: {0}", baseurl);
+						sinfo.Location = baseurl;
+						locChange = true;
+					}
+
 					WebClient agent = new WebClient();
 					Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
 					if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))

@@ -48,7 +48,7 @@ namespace Wammer.Station.TimelineChange
 			{
 
 				bool hasMoreData = false;
-				List<string> changedPostIds = new List<string>();
+				HashSet<string> changedPostIds = new HashSet<string>();
 
 				do
 				{
@@ -59,7 +59,8 @@ namespace Wammer.Station.TimelineChange
 						hasMoreData = false;
 					else
 					{
-						changedPostIds.AddRange(changeHistory.ChangedPostIds);
+						foreach(string postId in changeHistory.ChangedPostIds)
+							changedPostIds.Add(postId);
 						hasMoreData = changeHistory.HasMore;
 						lastSyncTime = changeHistory.LastSyncTime;
 					}
@@ -77,7 +78,7 @@ namespace Wammer.Station.TimelineChange
 			}
 		}
 
-		private List<PostInfo> BatchGetPostInfo(Driver user, System.Net.WebClient agent, List<string> changedPostIds)
+		private List<PostInfo> BatchGetPostInfo(Driver user, System.Net.WebClient agent, HashSet<string> changedPostIds)
 		{
 			List<PostInfo> finalResult = new List<PostInfo>();
 			List<string> batch = new List<string>(100);

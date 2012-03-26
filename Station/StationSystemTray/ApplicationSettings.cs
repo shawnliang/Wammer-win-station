@@ -95,6 +95,34 @@ namespace StationSystemTray
 			}
 		}
 
+		public void RemoveUserLogin(string email)
+		{
+			lock (cs)
+			{
+				List<UserLoginSetting> newusers = new List<UserLoginSetting>();
+				foreach (UserLoginSetting userlogin in settings.Users)
+				{
+					if (userlogin.Email != email.ToLower())
+					{
+						newusers.Add(userlogin);
+					}
+				}
+				string lastlogin = settings.LastLogin;
+
+				settings.Users.Clear();
+				settings.LastLogin = string.Empty;
+				foreach (UserLoginSetting userlogin in newusers)
+				{
+					settings.Users.Add(userlogin);
+					if (userlogin.Email == lastlogin)
+					{
+						settings.LastLogin = lastlogin;
+					}
+				}
+				settings.Save();
+			}
+		}
+
 		public UserLoginSetting GetUserLogin(string email)
 		{
 			lock (cs)
