@@ -617,6 +617,29 @@ namespace Waveface
             return null;
         }
 
+        public MR_usertracks_get usertracks_get(string timestamp)
+        {
+            if (!IsNetworkAvailable)
+                return null;
 
+            MR_usertracks_get _ret = null;
+
+            try
+            {
+                _ret = m_service.usertracks_get(SessionToken, m_rt.CurrentGroupID, timestamp);
+            }
+            catch (Station401Exception _e)
+            {
+                Main.Current.Station401ExceptionHandler(_e.Message);
+            }
+
+            if (_ret != null)
+            {
+                if (_ret.status == "200")
+                    return _ret;
+            }
+
+            return null;
+        }
     }
 }

@@ -2063,6 +2063,50 @@ namespace Waveface.API.V2
         }
 
         #endregion
+
+        #region usertracks
+
+        public MR_usertracks_get usertracks_get(string session_token, string group_id, string timestamp)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+            timestamp = HttpUtility.UrlEncode(timestamp);
+
+            try
+            {
+                string _url = BaseURL + "/usertracks/get";
+
+                _url += "?" + 
+                       "apikey" + "=" + APIKEY + "&" +
+                       "session_token" + "=" + session_token + "&" +
+                       "group_id" + "=" + group_id + "&" +
+                       "timestamp" + "=" + timestamp;
+
+                return HttpGetObject<MR_usertracks_get>(_url);
+            }
+            catch (WebException _e)
+            {
+                NLogUtility.WebException(s_logger, _e, "usertracks_get", false);
+
+                if (_e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
+
+                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new Station401Exception();
+                }
+
+                throw;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "usertracks_get");
+
+                throw;
+            }
+        }
+
+        #endregion
     }
 
     #region ServiceUnavailableException
