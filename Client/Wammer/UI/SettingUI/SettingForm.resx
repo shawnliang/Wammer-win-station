@@ -205,7 +205,7 @@
     <value>True</value>
   </data>
   <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 63</value>
+    <value>122, 63</value>
   </data>
   <data name="label_DaysLeftValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>21, 14</value>
@@ -235,7 +235,7 @@
     <value>True</value>
   </data>
   <data name="label_UsedCountValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>51, 43</value>
+    <value>54, 43</value>
   </data>
   <data name="label_UsedCountValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>21, 14</value>
@@ -265,7 +265,7 @@
     <value>True</value>
   </data>
   <data name="label_MonthlyLimitValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>111, 23</value>
+    <value>115, 23</value>
   </data>
   <data name="label_MonthlyLimitValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 14</value>
@@ -454,7 +454,7 @@
     <value>3</value>
   </data>
   <data name="btnEditAccount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 24</value>
+    <value>277, 23</value>
   </data>
   <data name="btnEditAccount.Size" type="System.Drawing.Size, System.Drawing">
     <value>133, 23</value>
@@ -534,6 +534,9 @@
   <data name="lblCopyRight.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left</value>
   </data>
+  <data name="lblCopyRight.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="lblCopyRight.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 175</value>
   </data>
@@ -541,7 +544,7 @@
     <value>3, 18, 3, 0</value>
   </data>
   <data name="lblCopyRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>333, 14</value>
+    <value>332, 14</value>
   </data>
   <data name="lblCopyRight.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -615,57 +618,6 @@
   <data name="groupStations.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="flowPanelComputerName.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblLoadingStations.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblLoadingStations.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="lblLoadingStations.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 9</value>
-  </data>
-  <data name="lblLoadingStations.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 9, 3, 0</value>
-  </data>
-  <data name="lblLoadingStations.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 14</value>
-  </data>
-  <data name="lblLoadingStations.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblLoadingStations.Text" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="&gt;&gt;lblLoadingStations.Name" xml:space="preserve">
-    <value>lblLoadingStations</value>
-  </data>
-  <data name="&gt;&gt;lblLoadingStations.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblLoadingStations.Parent" xml:space="preserve">
-    <value>flowPanelComputerName</value>
-  </data>
-  <data name="&gt;&gt;lblLoadingStations.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="flowPanelComputerName.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
-    <value>TopDown</value>
-  </data>
-  <data name="flowPanelComputerName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 21</value>
-  </data>
-  <data name="flowPanelComputerName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="flowPanelComputerName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 30</value>
-  </data>
-  <data name="flowPanelComputerName.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
-  </data>
   <data name="&gt;&gt;flowPanelComputerName.Name" xml:space="preserve">
     <value>flowPanelComputerName</value>
   </data>
@@ -724,10 +676,10 @@
     <value>3, 10, 3, 3</value>
   </data>
   <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 7, 3</value>
+    <value>3, 3, 8, 3</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>421, 69</value>
+    <value>422, 69</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>32</value>
@@ -787,13 +739,13 @@
     <value>TopDown</value>
   </data>
   <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 230</value>
+    <value>12, 237</value>
   </data>
   <data name="flowLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 0, 3, 10</value>
   </data>
   <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 226</value>
+    <value>431, 227</value>
   </data>
   <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>35</value>
@@ -813,27 +765,6 @@
   <data name="groupMonthlyUsage.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lblLoadingUsage.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblLoadingUsage.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="lblLoadingUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 23</value>
-  </data>
-  <data name="lblLoadingUsage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 9, 3, 0</value>
-  </data>
-  <data name="lblLoadingUsage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 14</value>
-  </data>
-  <data name="lblLoadingUsage.TabIndex" type="System.Int32, mscorlib">
-    <value>30</value>
-  </data>
-  <data name="lblLoadingUsage.Text" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
   <data name="&gt;&gt;lblLoadingUsage.Name" xml:space="preserve">
     <value>lblLoadingUsage</value>
   </data>
@@ -847,7 +778,7 @@
     <value>0</value>
   </data>
   <data name="groupMonthlyUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 93</value>
+    <value>15, 100</value>
   </data>
   <data name="groupMonthlyUsage.Size" type="System.Drawing.Size, System.Drawing">
     <value>422, 126</value>
@@ -957,4 +888,112 @@
   <metadata name="bgworkerUpdate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>317, 17</value>
   </metadata>
+  <data name="flowPanelComputerName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.Name" xml:space="preserve">
+    <value>lblLoadingStations</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.Parent" xml:space="preserve">
+    <value>flowPanelComputerName</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="flowPanelComputerName.FlowDirection" type="System.Windows.Forms.FlowDirection, System.Windows.Forms">
+    <value>TopDown</value>
+  </data>
+  <data name="flowPanelComputerName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 21</value>
+  </data>
+  <data name="flowPanelComputerName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="flowPanelComputerName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 30</value>
+  </data>
+  <data name="flowPanelComputerName.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;flowPanelComputerName.Name" xml:space="preserve">
+    <value>flowPanelComputerName</value>
+  </data>
+  <data name="&gt;&gt;flowPanelComputerName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowPanelComputerName.Parent" xml:space="preserve">
+    <value>groupStations</value>
+  </data>
+  <data name="&gt;&gt;flowPanelComputerName.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblLoadingStations.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLoadingStations.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblLoadingStations.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 9</value>
+  </data>
+  <data name="lblLoadingStations.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 9, 3, 0</value>
+  </data>
+  <data name="lblLoadingStations.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 14</value>
+  </data>
+  <data name="lblLoadingStations.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblLoadingStations.Text" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.Name" xml:space="preserve">
+    <value>lblLoadingStations</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.Parent" xml:space="preserve">
+    <value>flowPanelComputerName</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingStations.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblLoadingUsage.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLoadingUsage.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblLoadingUsage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 23</value>
+  </data>
+  <data name="lblLoadingUsage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 9, 3, 0</value>
+  </data>
+  <data name="lblLoadingUsage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 14</value>
+  </data>
+  <data name="lblLoadingUsage.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="lblLoadingUsage.Text" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingUsage.Name" xml:space="preserve">
+    <value>lblLoadingUsage</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingUsage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingUsage.Parent" xml:space="preserve">
+    <value>groupMonthlyUsage</value>
+  </data>
+  <data name="&gt;&gt;lblLoadingUsage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
 </root>

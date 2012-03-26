@@ -803,6 +803,9 @@
     <EmbeddedResource Include="UI\SettingUI\StationDisplay.resx">
       <DependentUpon>StationDisplay.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\StationDisplay.zh-TW.resx">
+      <DependentUpon>StationDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\UnlinkForm.resx">
       <DependentUpon>UnlinkForm.cs</DependentUpon>
     </EmbeddedResource>

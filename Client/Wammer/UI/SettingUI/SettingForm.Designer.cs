@@ -54,12 +54,12 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.groupStations = new System.Windows.Forms.GroupBox();
 			this.flowPanelComputerName = new System.Windows.Forms.FlowLayoutPanel();
+			this.lblLoadingStations = new System.Windows.Forms.Label();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.groupMonthlyUsage = new System.Windows.Forms.GroupBox();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.lblLoadingUsage = new System.Windows.Forms.Label();
-			this.lblLoadingStations = new System.Windows.Forms.Label();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.groupBox1.SuspendLayout();
 			this.groupStations.SuspendLayout();
 			this.flowPanelComputerName.SuspendLayout();
@@ -203,6 +203,11 @@
 			this.flowPanelComputerName.Controls.Add(this.lblLoadingStations);
 			this.flowPanelComputerName.Name = "flowPanelComputerName";
 			// 
+			// lblLoadingStations
+			// 
+			resources.ApplyResources(this.lblLoadingStations, "lblLoadingStations");
+			this.lblLoadingStations.Name = "lblLoadingStations";
+			// 
 			// flowLayoutPanel1
 			// 
 			resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
@@ -233,6 +238,11 @@
 			this.groupMonthlyUsage.Name = "groupMonthlyUsage";
 			this.groupMonthlyUsage.TabStop = false;
 			// 
+			// lblLoadingUsage
+			// 
+			resources.ApplyResources(this.lblLoadingUsage, "lblLoadingUsage");
+			this.lblLoadingUsage.Name = "lblLoadingUsage";
+			// 
 			// groupBox2
 			// 
 			resources.ApplyResources(this.groupBox2, "groupBox2");
@@ -240,16 +250,6 @@
 			this.groupBox2.Controls.Add(this.btnEditAccount);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.TabStop = false;
-			// 
-			// lblLoadingUsage
-			// 
-			resources.ApplyResources(this.lblLoadingUsage, "lblLoadingUsage");
-			this.lblLoadingUsage.Name = "lblLoadingUsage";
-			// 
-			// lblLoadingStations
-			// 
-			resources.ApplyResources(this.lblLoadingStations, "lblLoadingStations");
-			this.lblLoadingStations.Name = "lblLoadingStations";
 			// 
 			// SettingForm
 			// 
