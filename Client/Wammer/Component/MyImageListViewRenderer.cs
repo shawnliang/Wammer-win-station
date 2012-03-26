@@ -202,14 +202,41 @@ namespace Waveface.Component
 
                     if (item.Tag is EditModeImageListViewItemTag)
                     {
-                        EditModePhotoType _type = ((EditModeImageListViewItemTag)item.Tag).AddPhotoType;
+                        EditModePhotoType _type = ((EditModeImageListViewItemTag) item.Tag).AddPhotoType;
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
                         {
-                            g.DrawString("+", new Font("Tahoma", 9, FontStyle.Bold), Brushes.Red, bounds.Left + 1, bounds.Top + 1);
+                            FillRoundedCorner(g, new SolidBrush(Color.FromArgb(222, 222, 214)), bounds.Left, bounds.Top,
+                                              16, 16, 4);
+
+                            g.DrawString("+", new Font("Tahoma", 10, FontStyle.Bold),
+                                         new SolidBrush(Color.FromArgb(104, 176, 197)), bounds.Left, bounds.Top);
                         }
                     }
                 }
+            }
+        }
+
+        private static GraphicsPath GetRoundedCornerPath(int x, int y, int w, int h, int r)
+        {
+            GraphicsPath _path = new GraphicsPath();
+
+            _path.AddLine(x + r, y, x + r + w, y);
+
+            _path.AddLine(x + r + w, y, x, y + r + h);
+
+            _path.AddLine(x, y + r + h, x, y + r);
+
+            _path.AddArc(x, y, r, r, 180, 90);
+
+            return _path;
+        }
+
+        private static void FillRoundedCorner(Graphics graphics, Brush brush, int x, int y, int width, int height, int r)
+        {
+            using (GraphicsPath path = GetRoundedCornerPath(x, y, width, height, r))
+            {
+                graphics.FillPath(brush, path);
             }
         }
 
@@ -232,8 +259,8 @@ namespace Waveface.Component
                 // Calculate image bounds
                 Size _itemMargin = MeasureItemMargin(ImageListView.View);
                 Rectangle _pos = GetSizedImageBounds(image,
-                                                            new Rectangle(bounds.Location + _itemMargin,
-                                                                          bounds.Size - _itemMargin - _itemMargin));
+                                                     new Rectangle(bounds.Location + _itemMargin,
+                                                                   bounds.Size - _itemMargin - _itemMargin));
 
                 //if ((bounds.Size.Width < item.Dimensions.Width) || (bounds.Size.Height < item.Dimensions.Height))
                 //{
@@ -245,7 +272,6 @@ namespace Waveface.Component
                 {
                     g.DrawImage(image, _pos);
                 }
-
 
                 // Draw image border
                 if (Math.Min(_pos.Width, _pos.Height) > 32)
@@ -262,52 +288,33 @@ namespace Waveface.Component
 
         #region GetSizedImageBounds
 
-        /// <summary>
-        /// Gets the scaled size of an image required to fit
-        /// in to the given size keeping the image aspect ratio.
-        /// </summary>
-        /// <param name="image">The source image.</param>
-        /// <param name="fit">The size to fit in to.</param>
-        /// <returns>New image size.</returns>
         internal static Size GetSizedImageBounds(Image image, Size fit)
         {
-            float f = Math.Max(image.Width / (float)fit.Width, image.Height / (float)fit.Height);
-            if (f < 1.0f) f = 1.0f; // Do not upsize small images
-            int width = (int)Math.Round(image.Width / f);
-            int height = (int)Math.Round(image.Height / f);
-            return new Size(width, height);
+            float _f = Math.Max(image.Width/(float) fit.Width, image.Height/(float) fit.Height);
+
+            if (_f < 1.0f)
+                _f = 1.0f; // Do not upsize small images
+
+            int _width = (int) Math.Round(image.Width/_f);
+            int _height = (int) Math.Round(image.Height/_f);
+            return new Size(_width, _height);
         }
 
-        /// <summary>
-        /// Gets the bounding rectangle of an image required to fit
-        /// in to the given rectangle keeping the image aspect ratio.
-        /// </summary>
-        /// <param name="image">The source image.</param>
-        /// <param name="fit">The rectangle to fit in to.</param>
-        /// <param name="hAlign">Horizontal image aligment in percent.</param>
-        /// <param name="vAlign">Vertical image aligment in percent.</param>
-        /// <returns>New image size.</returns>
         public static Rectangle GetSizedImageBounds(Image image, Rectangle fit, float hAlign, float vAlign)
         {
             if (hAlign < 0 || hAlign > 100.0f)
                 throw new ArgumentException("hAlign must be between 0.0 and 100.0 (inclusive).", "hAlign");
+
             if (vAlign < 0 || vAlign > 100.0f)
                 throw new ArgumentException("vAlign must be between 0.0 and 100.0 (inclusive).", "vAlign");
-            Size scaled = GetSizedImageBounds(image, fit.Size);
-            int x = fit.Left + (int)(hAlign / 100.0f * (fit.Width - scaled.Width));
-            int y = fit.Top + (int)(vAlign / 100.0f * (fit.Height - scaled.Height));
 
-            return new Rectangle(x, y, scaled.Width, scaled.Height);
+            Size _scaled = GetSizedImageBounds(image, fit.Size);
+            int _x = fit.Left + (int) (hAlign/100.0f*(fit.Width - _scaled.Width));
+            int _y = fit.Top + (int) (vAlign/100.0f*(fit.Height - _scaled.Height));
+
+            return new Rectangle(_x, _y, _scaled.Width, _scaled.Height);
         }
 
-        /// <summary>
-        /// Gets the bounding rectangle of an image required to fit
-        /// in to the given rectangle keeping the image aspect ratio.
-        /// The image will be centered in the fit box.
-        /// </summary>
-        /// <param name="image">The source image.</param>
-        /// <param name="fit">The rectangle to fit in to.</param>
-        /// <returns>New image size.</returns>
         public static Rectangle GetSizedImageBounds(Image image, Rectangle fit)
         {
             return GetSizedImageBounds(image, fit, 50.0f, 50.0f);

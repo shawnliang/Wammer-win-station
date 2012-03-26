@@ -1053,7 +1053,7 @@ namespace Waveface
                     case DialogResult.OK:
                         BatchPostManager.Add(m_postForm.BatchPostItem);
 
-                        if(m_postForm.BatchPostItem.Post != null)
+                        if (m_postForm.BatchPostItem.Post != null)
                         {
                             ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
                         }
@@ -1120,25 +1120,48 @@ namespace Waveface
 
         #region PostUpdate
 
-        public bool PostUpdate(Post post, Dictionary<string, string> optionalParams)
+        public string GetPostUpdateTime(Post post)
         {
+            string _time = post.timestamp;
+
             if (!CheckNetworkStatus())
-                return false;
+                return _time;
 
             try
             {
-                string _time = post.timestamp;
+                MR_posts_getSingle _singlePost = RT.REST.Posts_GetSingle(post.post_id);
 
-                if (post.update_time != null)
+                if ((_singlePost != null) && (_singlePost.post != null))
                 {
-                    _time = post.update_time;
+                    if (_singlePost.post.update_time != null)
+                    {
+                        _time = _singlePost.post.update_time;
+                    }
                 }
+            }
+            catch
+            {
+            }
 
-                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, optionalParams);
+            return _time;
+        }
+
+        public Post PostUpdate(Post post, Dictionary<string, string> optionalParams)
+        {
+            if (!CheckNetworkStatus())
+                return null;
+
+            MR_posts_update _update = null;
+
+            try
+            {
+                string _time = GetPostUpdateTime(post);
+
+                _update = RT.REST.Posts_update(post.post_id, _time, optionalParams);
 
                 if (_update == null)
                 {
-                    return false;
+                    return null;
                 }
 
                 RefreshSinglePost(_update.post);
@@ -1146,10 +1169,10 @@ namespace Waveface
             catch (Exception _e)
             {
                 MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                return null;
             }
 
-            return true;
+            return _update.post;
         }
 
         public bool ChangePostFavorite(Post post)
@@ -1166,12 +1189,7 @@ namespace Waveface
 
                 _value = (_value == 0) ? 1 : 0;
 
-                string _time = post.timestamp;
-
-                if (post.update_time != null)
-                {
-                    _time = post.update_time;
-                }
+                string _time = GetPostUpdateTime(post);
 
                 Dictionary<string, string> _params = new Dictionary<string, string>();
                 _params.Add("favorite", _value.ToString());

@@ -19,7 +19,7 @@ namespace Waveface
 {
     public class DetailView : UserControl
     {
-        private const int FavoriteIconSize = 20;
+        private const int FavoriteIconSize = 18;
 
         private IContainer components;
         private Post m_post;
@@ -108,13 +108,13 @@ namespace Waveface
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            resources.ApplyResources(this.panelTop, "panelTop");
+            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.panelTop.Controls.Add(this.btnRemove);
             this.panelTop.Controls.Add(this.btnEdit);
             this.panelTop.Controls.Add(this.btnComment);
             this.panelTop.Controls.Add(this.labelWho);
             this.panelTop.Controls.Add(this.labelTime);
-            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
             this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
             this.panelTop.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseClick);
@@ -122,8 +122,8 @@ namespace Waveface
             // 
             // btnRemove
             // 
-            this.btnRemove.AdjustImageLocation = new System.Drawing.Point(0, 0);
             resources.ApplyResources(this.btnRemove, "btnRemove");
+            this.btnRemove.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnRemove.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnRemove.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnRemove.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
@@ -134,8 +134,8 @@ namespace Waveface
             // 
             // btnEdit
             // 
-            this.btnEdit.AdjustImageLocation = new System.Drawing.Point(0, 0);
             resources.ApplyResources(this.btnEdit, "btnEdit");
+            this.btnEdit.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnEdit.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnEdit.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnEdit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
@@ -146,8 +146,8 @@ namespace Waveface
             // 
             // btnComment
             // 
-            this.btnComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
             resources.ApplyResources(this.btnComment, "btnComment");
+            this.btnComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnComment.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
@@ -159,13 +159,13 @@ namespace Waveface
             // labelWho
             // 
             resources.ApplyResources(this.labelWho, "labelWho");
-            this.labelWho.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.labelWho.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
             this.labelWho.Name = "labelWho";
             // 
             // labelTime
             // 
             resources.ApplyResources(this.labelTime, "labelTime");
-            this.labelTime.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.labelTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
             this.labelTime.Name = "labelTime";
             // 
             // panelMain
@@ -190,9 +190,9 @@ namespace Waveface
             // 
             // DetailView
             // 
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelTop);
-            resources.ApplyResources(this, "$this");
             this.Name = "DetailView";
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
@@ -284,9 +284,9 @@ namespace Waveface
             int _x = 6;
 
             if (_value == 0)
-                e.Graphics.DrawImage(Properties.Resources.star_empty, _x, 6, FavoriteIconSize, FavoriteIconSize);
+                e.Graphics.DrawImage(Properties.Resources.Heart_empty, _x, 8, FavoriteIconSize, FavoriteIconSize);
             else
-                e.Graphics.DrawImage(Properties.Resources.star, _x, 6, FavoriteIconSize, FavoriteIconSize);
+                e.Graphics.DrawImage(Properties.Resources.Heart, _x, 8, FavoriteIconSize, FavoriteIconSize);
         }
 
         private void panelTop_MouseClick(object sender, MouseEventArgs e)
