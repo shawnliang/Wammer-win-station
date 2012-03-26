@@ -150,10 +150,12 @@ namespace Wammer.Station
 								timestamp = driver.sync_range.end_time
 							}
 						);
-						SavePosts(newerRes.posts);
-						DownloadMissedResource(newerRes.posts);
-						if (newerRes.posts.Count != 0)
+
+						if (newerRes.posts.Count > 0 &&
+							newerRes.posts.First().timestamp != driver.sync_range.end_time)
 						{
+							SavePosts(newerRes.posts);
+							DownloadMissedResource(newerRes.posts);
 							driver.sync_range.end_time = newerRes.posts.First().timestamp;
 						}
 
@@ -177,7 +179,12 @@ namespace Wammer.Station
 						}
 					}
 
-					DriverCollection.Instance.Save(driver);
+					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
+						Update.Set("sync_range.first_post_time", driver.sync_range.first_post_time));
+					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
+						Update.Set("sync_range.end_time", driver.sync_range.end_time));
+					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
+						Update.Set("sync_range.start_time", driver.sync_range.start_time));
 				}
 			}
 		}
