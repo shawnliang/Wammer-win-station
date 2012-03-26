@@ -203,6 +203,25 @@ namespace Waveface
             s_logger.Trace("Form_Load: OK");
         }
 
+        protected override bool ProcessCmdKey(ref Message message, Keys keys)
+        {
+            switch (keys)
+            {
+                case (Keys.Control | Keys.N):
+                    if (RT.Login != null)
+                    {
+                        if (CheckNetworkStatus())
+                        {
+                            Post();
+                        }
+                    }
+
+                    return true;
+            }
+
+            return false;
+        }
+
         private void CreateLoadingImage()
         {
             try
@@ -621,7 +640,6 @@ namespace Waveface
             Reset(true);
 
             RT.Login = _login;
-
 
             getGroupAndUser();
             fillUserInformation();
@@ -1272,6 +1290,34 @@ namespace Waveface
             }
 
             return false;
+        }
+
+        private string GetNewestPostID(List<Post> posts)
+        {
+            DateTime _dtNewest = new DateTime(1, 1, 1);
+            DateTime _dt;
+
+            string _postID = "";
+
+            try
+            {
+                for (int i = 0; i < posts.Count; i++)
+                {
+                    _dt = DateTimeHelp.ISO8601ToDateTime(posts[i].update_time);
+
+                    if (_dt > _dtNewest)
+                    {
+                        _dtNewest = _dt;
+                        _postID = posts[i].post_id;
+                    }
+                }
+            }
+            catch
+            {
+                return "";
+            }
+
+            return _postID;
         }
 
         #endregion
