@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
+using Waveface.Configuration;
 using View = Manina.Windows.Forms.View;
 
 #endregion
@@ -31,6 +32,7 @@ namespace Waveface.DetailUI
         private MyImageListViewRenderer m_imageListViewRenderer;
         private string m_selectedImageType;
         private Post m_post;
+        private FormSettings m_formSettings;
 
         public PhotoView()
         {
@@ -38,8 +40,14 @@ namespace Waveface.DetailUI
         }
 
         public PhotoView(Post post, List<Attachment> imageAttachments, List<string> filePathOrigins, List<string> filePathMediums, Dictionary<string, string> filesMapping, int selectedIndex)
+            : this()
         {
-            InitializeComponent();
+            m_formSettings = new FormSettings(this);
+            m_formSettings.UseLocation = true;
+            m_formSettings.UseSize = true;
+            m_formSettings.UseWindowState = true;
+            m_formSettings.AllowMinimized = false;
+            m_formSettings.SaveOnClose = true;
 
             m_post = post;
 
@@ -260,6 +268,7 @@ namespace Waveface.DetailUI
                     miSave.Visible = true;
                 }
 
+                /*
                 if (m_post.cover_attach != null)
                 {
                     if (!m_onlyOnePhoto)
@@ -269,6 +278,7 @@ namespace Waveface.DetailUI
                         btnCoverImage.Visible = miSetAsCoverImage.Visible = (_cover_attach != m_post.cover_attach);
                     }
                 }
+                */
             }
         }
 
@@ -412,11 +422,24 @@ namespace Waveface.DetailUI
         {
             string _cover_attach = m_imageAttachments[m_selectedImageIndex].object_id;
 
-            Dictionary<string, string> _params = new Dictionary<string, string>();
-            _params.Add("cover_attach", _cover_attach);
+            if (_cover_attach == m_post.cover_attach)
+            {
 
-            if (Main.Current.PostUpdate(m_post, _params))
-                Close();
+            }
+            else
+            {
+                Dictionary<string, string> _params = new Dictionary<string, string>();
+                _params.Add("cover_attach", _cover_attach);
+
+                Post _retPost = Main.Current.PostUpdate(m_post, _params);
+
+                if (_retPost != null)
+                {
+                    m_post = _retPost;
+
+                    //@ Close();
+                }
+            }
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)

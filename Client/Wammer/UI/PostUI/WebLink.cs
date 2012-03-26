@@ -35,7 +35,10 @@ namespace Waveface.PostUI
             if (post.type == "link")
             {
                 if (Main.Current.CheckNetworkStatus())
-                    pictureBoxPreview.LoadAsync(post.preview.thumbnail_url);
+                {
+                    if (post.preview.thumbnail_url != null)
+                        pictureBoxPreview.LoadAsync(post.preview.thumbnail_url);
+                }
 
                 labelTitle.Text = post.preview.title.Trim();
                 labelProvider.Text = post.preview.provider_display;
@@ -291,7 +294,7 @@ namespace Waveface.PostUI
 
         private void General_WebLink_Resize(object sender, EventArgs e)
         {
-            BackColor = Color.FromArgb(243, 242, 238); //Hack
+            BackColor = Color.FromArgb(240, 240, 240); //Hack
         }
 
         private void cbNoThumbnail_CheckedChanged(object sender, EventArgs e)

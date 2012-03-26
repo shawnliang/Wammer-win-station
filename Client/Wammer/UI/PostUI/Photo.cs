@@ -49,9 +49,9 @@ namespace Waveface.PostUI
 
             imageListView.SetRenderer(m_imageListViewRenderer);
 
-            imageListView.BackColor = Color.FromArgb(243, 242, 238);
-            imageListView.Colors.BackColor = Color.FromArgb(243, 242, 238);
-            imageListView.Colors.PaneBackColor = Color.FromArgb(243, 242, 238);
+            imageListView.BackColor = Color.FromArgb(240, 240, 240);
+            imageListView.Colors.BackColor = Color.FromArgb(240, 240, 240);
+            imageListView.Colors.PaneBackColor = Color.FromArgb(240, 240, 240);
         }
 
         private void Application_Idle(object sender, EventArgs e)
@@ -586,7 +586,7 @@ namespace Waveface.PostUI
 
         private void Photo_Resize(object sender, EventArgs e)
         {
-            BackColor = Color.FromArgb(243, 242, 238); //Hack
+            BackColor = Color.FromArgb(240, 240, 240); //Hack
         }
 
         private void imageListView_ItemHover(object sender, ItemHoverEventArgs e)

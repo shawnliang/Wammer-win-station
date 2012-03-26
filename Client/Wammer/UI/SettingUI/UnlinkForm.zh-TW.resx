@@ -119,27 +119,27 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>465, 14</value>
+    <value>297, 14</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>這台電腦將會停止同步你上傳至 Waveface 的檔案，但已存在本機的檔案不會被刪除。</value>
+    <value>你上傳至 Waveface 的檔案將會停止同步到這台電腦。</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>334, 66</value>
+    <value>180, 66</value>
   </data>
   <data name="btnOK.Text" xml:space="preserve">
     <value>確定</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>427, 66</value>
+    <value>273, 66</value>
   </data>
   <data name="btnCancel.Text" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>526, 103</value>
+    <value>372, 103</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>從這台電腦移除連結</value>
+    <value>取消這台電腦的連結</value>
   </data>
 </root>

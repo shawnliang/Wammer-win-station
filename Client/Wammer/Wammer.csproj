@@ -547,6 +547,12 @@
     <Compile Include="UI\SettingUI\SettingForm.Designer.cs">
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SettingUI\StationDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\SettingUI\StationDisplay.Designer.cs">
+      <DependentUpon>StationDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SettingUI\UnlinkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -765,6 +771,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\PhotoView.resx">
       <DependentUpon>PhotoView.cs</DependentUpon>
@@ -792,6 +799,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\SettingForm.zh-TW.resx">
       <DependentUpon>SettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\StationDisplay.resx">
+      <DependentUpon>StationDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\UnlinkForm.resx">
       <DependentUpon>UnlinkForm.cs</DependentUpon>
@@ -959,6 +969,10 @@
     <None Include="Resources\star.png" />
     <None Include="Resources\star_empty.png" />
     <None Include="Resources\CoverImage.png" />
+    <None Include="Resources\Heart.png" />
+    <None Include="Resources\Heart_empty.png" />
+    <None Include="Resources\fav.png" />
+    <None Include="Resources\unfav.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
