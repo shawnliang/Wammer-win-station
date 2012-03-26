@@ -156,11 +156,11 @@ namespace Wammer.Station.Service
 			if (e.IsTerminating)
 			{
 				logger.Fatal("Unhandled exception. Program terminates");
-				logger.Fatal(e.ToString());
+				logger.Fatal(e.ExceptionObject);
 			}
 			else
 			{
-				logger.Fatal("Unhandled exception" + e.ToString());
+				logger.Fatal("Unhandled exception: " + e.ExceptionObject);
 			}
 		}
 
