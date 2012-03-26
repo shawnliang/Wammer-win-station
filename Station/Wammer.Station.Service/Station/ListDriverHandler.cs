@@ -20,6 +20,10 @@ namespace Wammer.Station
 		{
 			return this.MemberwiseClone();
 		}
+
+		public override void OnTaskEnqueue(System.EventArgs e)
+		{
+		}
 	}
 
 	public class ListDriverResponse: CloudResponse

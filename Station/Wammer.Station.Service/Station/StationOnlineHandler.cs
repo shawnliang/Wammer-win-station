@@ -118,7 +118,11 @@ namespace Wammer.Station
 		public override object Clone()
 		{
 			return this.MemberwiseClone();
-		} 
+		}
+
+		public override void OnTaskEnqueue(EventArgs e)
+		{
+		}
 	}
 
 	public class StationOnlineResponse : CloudResponse

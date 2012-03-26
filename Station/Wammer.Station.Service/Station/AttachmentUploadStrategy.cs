@@ -78,7 +78,10 @@ namespace Wammer.Station
 		protected override void  BeforeSaveAttachment(Attachment file, NameValueCollection Parameters, ImageMeta meta)
 		{
 			file.saved_file_name = null; // this is thumbnail, so don't modify saved_file_name of original image
-			file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
+			file.Upload(meta, Parameters["apikey"], Parameters["session_token"], 1024, (sender, e) => 
+			{
+				handler.OnThumbnailUpstreamed(new ThumbnailUpstreamedEventArgs(long.Parse(e.UserState.ToString())));
+			});			
 		}
 
 		protected override BsonDocument  CreateDbDocument(Attachment file, ImageMeta meta, string savedName)
@@ -148,9 +151,10 @@ namespace Wammer.Station
 			thumb.RawData = new ArraySegment<byte>(medium.RawData);
 			thumb.file_size = medium.file_size;
 			thumb.mime_type = medium.mime_type;
-			thumb.Upload(ImageMeta.Medium, Parameters["apikey"], Parameters["session_token"]);
-
-			handler.OnThumbnailUpstreamed(new ThumbnailUpstreamedEventArgs(thumb.file_size));
+			thumb.Upload(ImageMeta.Medium, Parameters["apikey"], Parameters["session_token"] ,1024, (sender, e) => 
+			{
+				handler.OnThumbnailUpstreamed(new ThumbnailUpstreamedEventArgs(long.Parse(e.UserState.ToString())));
+			});			
 
 			file.image_meta = new ImageProperty
 			{

@@ -24,19 +24,37 @@ namespace Wammer.PerfMonitor
 				PerformanceCounterType.AverageBase));
 
 
-			// 3. Thumbnail upstream bytes/sec
+			// 3. upstream bytes/sec
 			counters.Add(new CounterCreationData(
-				PerfCounter.THUMBNAIL_UPSTREAM_RATE,
-				PerfCounter.THUMBNAIL_UPSTREAM_RATE,
+				PerfCounter.UPSTREAM_RATE,
+				PerfCounter.UPSTREAM_RATE,
 				PerformanceCounterType.RateOfCountsPerSecond64));
 
-			// 4. Items in queue
+			// 4. dwstream bytes/sec
+			counters.Add(new CounterCreationData(
+				PerfCounter.DWSTREAM_RATE,
+				PerfCounter.DWSTREAM_RATE,
+				PerformanceCounterType.RateOfCountsPerSecond64));
+
+			// 5. upload remained count
+			counters.Add(new CounterCreationData(
+				PerfCounter.UP_REMAINED_COUNT,
+				PerfCounter.UP_REMAINED_COUNT,
+				PerformanceCounterType.NumberOfItems32));
+
+			// 6. download remained count
+			counters.Add(new CounterCreationData(
+				PerfCounter.DW_REMAINED_COUNT,
+				PerfCounter.DW_REMAINED_COUNT,
+				PerformanceCounterType.NumberOfItems32));
+					
+			// 7. Items in queue
 			counters.Add(new CounterCreationData(
 				PerfCounter.ITEMS_IN_QUEUE,
 				PerfCounter.ITEMS_IN_QUEUE,
 				PerformanceCounterType.NumberOfItems32));
 
-			// 5. Items in progress
+			// 8. Items in progress
 			counters.Add(new CounterCreationData(
 				PerfCounter.ITEMS_IN_PROGRESS,
 				PerfCounter.ITEMS_IN_PROGRESS,

@@ -7,6 +7,7 @@ using System.Text;
 using MongoDB.Bson.Serialization.Attributes;
 using Wammer.Cloud;
 using Wammer.Station;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Model
 {
@@ -183,16 +184,16 @@ namespace Wammer.Model
 		public static ObjectUploadResponse Upload(Stream dataStream, string groupId,
 									string objectId, string fileName, string contentType,
 									ImageMeta meta, AttachmentType type, string apiKey,
-									string token)
+									string token, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			return Upload(CloudServer.BaseUrl + "attachments/upload", dataStream, groupId,
-				objectId, fileName, contentType, meta, type, apiKey, token);
+				objectId, fileName, contentType, meta, type, apiKey, token,bufferSize,progressChangedCallBack);
 		}
 
 		public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
 									string objectId, string fileName, string contentType,
 									ImageMeta meta, AttachmentType type, string apiKey,
-									string token)
+									string token, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			try
 			{
@@ -205,14 +206,26 @@ namespace Wammer.Model
 				if (objectId != null)
 					pars["object_id"] = objectId;
 				pars["group_id"] = groupId;
-				HttpWebResponse _webResponse =
-					Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
-					url,
-					"Mozilla 4.0+",
-					pars,
-					fileName,
-					contentType,
-					dataStream);
+
+				HttpWebResponse _webResponse = null;
+				try 
+				{	       
+					_webResponse = 
+						Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+						url,
+						"Mozilla 4.0+",
+						pars,
+						fileName,
+						contentType,
+						dataStream , bufferSize,progressChangedCallBack);
+				}
+				finally
+				{
+					var counter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
+
+					if (counter.Value > 0)
+						counter.Decrement();
+				}
 
 				using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
 				{
@@ -227,8 +240,8 @@ namespace Wammer.Model
 
 		public static ObjectUploadResponse Upload(string url, ArraySegment<byte> imageData, string groupId,
 											string objectId, string fileName, string contentType,
-											ImageMeta meta, AttachmentType type, string apiKey, 
-											string token)
+											ImageMeta meta, AttachmentType type, string apiKey,
+											string token, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			try
 			{
@@ -241,14 +254,27 @@ namespace Wammer.Model
 				if (objectId != null)
 					pars["object_id"] = objectId;
 				pars["group_id"] = groupId;
-				HttpWebResponse _webResponse =
-					Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
-					url,
-					"Mozilla 4.0+",
-					pars,
-					fileName,
-					contentType,
-					imageData);
+
+				HttpWebResponse _webResponse = null;
+				try
+				{
+					_webResponse =
+						Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+						url,
+						"Mozilla 4.0+",
+						pars,
+						fileName,
+						contentType,
+						imageData, bufferSize, progressChangedCallBack);
+				}
+				finally
+				{
+					var counter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
+
+					if (counter.Value > 0)
+						counter.Decrement();
+				}
+				
 
 				using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
 				{
@@ -279,12 +305,12 @@ namespace Wammer.Model
 				apikey, token);
 		}
 
-		public ObjectUploadResponse Upload(ImageMeta meta, string apiKey, string sessionToken)
+		public ObjectUploadResponse Upload(ImageMeta meta, string apiKey, string sessionToken, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			string url = CloudServer.BaseUrl + "attachments/upload/";
 
-			return Upload(url, rawData, group_id, object_id, file_name, mime_type, 
-																meta, type, apiKey, sessionToken);
+			return Upload(url, rawData, group_id, object_id, file_name, mime_type,
+																meta, type, apiKey, sessionToken, bufferSize, progressChangedCallBack);
 		}
 		#endregion
 

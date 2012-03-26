@@ -6,6 +6,8 @@ namespace Wammer.PerfMonitor
 {
 	public interface IPerfCounter
 	{
+		long Value { get; set; }
+
 		void Increment();
 		void IncrementBy(long value);
 		void Decrement();
@@ -17,7 +19,10 @@ namespace Wammer.PerfMonitor
 		public const string CATEGORY_NAME = "Waveface Station";
 		public const string AVG_TIME_PER_ATTACHMENT_UPLOAD = "Average time per attachment upload";
 		public const string AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE = "Average time per attachment upload base";
-		public const string THUMBNAIL_UPSTREAM_RATE = "Thumbnail upstream rate (bytes/sec)";
+		public const string UPSTREAM_RATE = "Upstream rate (bytes/sec)";
+		public const string DWSTREAM_RATE = "Downstream rate (bytes/sec)";
+		public const string UP_REMAINED_COUNT = "Atachement upload remained count";
+		public const string DW_REMAINED_COUNT = "Atachement download remained count";
 		public const string ITEMS_IN_QUEUE = "Items in queue";
 		public const string ITEMS_IN_PROGRESS = "Items in progress";
 		private static bool CategoryExists;
@@ -25,8 +30,14 @@ namespace Wammer.PerfMonitor
 		#endregion
 
 		#region instance variables
-		PerformanceCounter Counter;
+		PerformanceCounter Counter;		
 		#endregion
+
+		public long Value
+		{
+			get { return Counter.RawValue; }
+			set { Counter.RawValue = value; }
+		}
 
 		static PerfCounter()
 		{
@@ -38,12 +49,15 @@ namespace Wammer.PerfMonitor
 			this.Counter = counter;
 		}
 
-		public static IPerfCounter GetCounter(string counterName)
+		public static IPerfCounter GetCounter(string counterName, Boolean needInitValue = true)
 		{
 			try
 			{
 				PerformanceCounter counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
-				counter.RawValue = 0;
+
+				if (needInitValue)
+					counter.RawValue = 0;
+
 				return new PerfCounter(counter);
 			}
 			catch (Exception e)
@@ -53,7 +67,7 @@ namespace Wammer.PerfMonitor
 			}
 		}
 
-		public void Increment() 
+		public void Increment()
 		{
 			Counter.Increment();
 		}
@@ -69,10 +83,22 @@ namespace Wammer.PerfMonitor
 		}
 	}
 
-	class NullPerfCounter:IPerfCounter
+	class NullPerfCounter : IPerfCounter
 	{
-		public void Increment() {}
-		public void IncrementBy(long value) {}
-		public void Decrement() {}
+		public void Increment() { }
+		public void IncrementBy(long value) { }
+		public void Decrement() { }
+
+		public long Value
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }

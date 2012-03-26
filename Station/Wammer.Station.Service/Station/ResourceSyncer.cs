@@ -14,6 +14,7 @@ using MongoDB.Driver.Builders;
 using Wammer.Model;
 using Wammer.Cloud;
 using Wammer.Utility;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station
 {
@@ -143,6 +144,8 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Origin,
 								filepath = Path.GetTempFileName()
 							};
+
+							PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
 							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.small != null)
@@ -154,6 +157,8 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Small,
 								filepath = Path.GetTempFileName()
 							};
+
+							PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
 							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.medium != null)
@@ -165,6 +170,8 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Medium,
 								filepath = Path.GetTempFileName()
 							};
+
+							PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
 							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.large != null)
@@ -176,6 +183,8 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Large,
 								filepath = Path.GetTempFileName()
 							};
+
+							PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
 							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
 						}
 						if (attachment.image_meta.square != null)
@@ -187,6 +196,8 @@ namespace Wammer.Station
 								imagemeta = ImageMeta.Square,
 								filepath = Path.GetTempFileName()
 							};
+
+							PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
 							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
 						}
 					}
@@ -223,6 +234,9 @@ namespace Wammer.Station
 				string savedFileName;
 				ArraySegment<byte> rawdata = new ArraySegment<byte>(File.ReadAllBytes(filepath));
 				FileStorage fs = new FileStorage(driver);
+				
+
+				PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy((long)rawdata.Count);
 
 				switch (imagemeta)
 				{
@@ -235,7 +249,7 @@ namespace Wammer.Station
 						{
 							width = img.Width;
 							height = img.Height;
-						}
+						}						
 						File.Delete(filepath);
 
 						MD5 md5 = MD5.Create();
@@ -257,6 +271,7 @@ namespace Wammer.Station
 								).Set("md5", md5buff.ToString()
 								).Set("image_meta.width", width
 								).Set("image_meta.height", height
+								).Set("file_size", rawdata.Count
 								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)),
 							UpdateFlags.Upsert
 						);
@@ -366,6 +381,13 @@ namespace Wammer.Station
 			catch (Exception ex)
 			{
 				logger.Debug("Unable to save attachment, ignore it.", ex);
+			}
+			finally
+			{
+				var counter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
+
+				if (counter.Value > 0)
+					counter.Decrement();
 			}
 		}
 	}

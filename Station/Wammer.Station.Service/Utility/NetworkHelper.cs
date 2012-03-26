@@ -14,7 +14,7 @@ namespace Wammer.Utility
             return (from adapter in NetworkInterface.GetAllNetworkInterfaces()
                     let statistics = adapter.GetIPv4Statistics()
                     where (!adapter.IsReceiveOnly && adapter.NetworkInterfaceType != NetworkInterfaceType.Loopback && adapter.NetworkInterfaceType != NetworkInterfaceType.Tunnel) && (statistics.BytesReceived > 0 && statistics.BytesSent > 0)
-                    from AddressInfo in adapter.GetIPProperties().UnicastAddresses.OfType<UnicastIPAddressInformation>()
+                    from AddressInfo in adapter.GetIPProperties().UnicastAddresses
                     where AddressInfo.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
                     let ipAddress = AddressInfo.Address.ToString()
                     select ipAddress);

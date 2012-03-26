@@ -22,6 +22,7 @@ namespace Wammer.Station.Service
 
 		public StationService()
 		{
+			PerfCounterInstaller.Install();
 			log4net.Config.XmlConfigurator.Configure();
 			InitializeComponent();
 			this.ServiceName = SERVICE_NAME;
@@ -238,6 +239,11 @@ namespace Wammer.Station.Service
 		}
 
 		public void SetBeginTimestamp(long beginTime)
+		{
+		}
+
+
+		public void OnTaskEnqueue(EventArgs e)
 		{
 		}
 	}
