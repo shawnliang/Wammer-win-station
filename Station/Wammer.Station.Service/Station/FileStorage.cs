@@ -40,7 +40,7 @@ namespace Wammer.Station
 		public void SaveFile(string filename, ArraySegment<byte> data)
         {
             string filePath = Path.Combine(basePath, filename);
-            string tempFile = System.IO.Path.GetTempFileName();
+			string tempFile = filePath + @".tmp";
 
             using (FileStream stream = File.Open(tempFile, FileMode.Create))
             {
@@ -50,8 +50,7 @@ namespace Wammer.Station
             if (System.IO.File.Exists(filePath))
                 System.IO.File.Delete(filePath);
 
-            System.IO.File.Copy(tempFile, filePath);
-			System.IO.File.Delete(tempFile);
+            System.IO.File.Move(tempFile, filePath);
 		}
 
 		public FileStream Load(string filename)
@@ -64,7 +63,7 @@ namespace Wammer.Station
 																				object userObject)
 		{
 			string filePath = Path.Combine(basePath, filename);
-            string tempFile = System.IO.Path.GetTempFileName();
+			string tempFile = filePath + @".tmp";
 
             FileStream fs = new FileStream(tempFile, FileMode.Create,
 								FileAccess.Write, FileShare.None, 4096, true);
@@ -91,8 +90,7 @@ namespace Wammer.Station
                 if (System.IO.File.Exists(fsAsync.TargetFile))
                     System.IO.File.Delete(fsAsync.TargetFile);
 
-                System.IO.File.Copy(fsAsync.TempFile, fsAsync.TargetFile);
-				System.IO.File.Delete(fsAsync.TempFile);
+                System.IO.File.Move(fsAsync.TempFile, fsAsync.TargetFile);
             }
         }
 

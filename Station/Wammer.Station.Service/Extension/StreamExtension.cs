@@ -86,4 +86,9 @@ public static class StreamExtension
             }
         }
     }
+
+	public static void WriteTo(this Stream sourceStream, Stream targetStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	{
+		targetStream.Write(sourceStream, bufferSize, progressChangedCallBack);
+	}
 }
