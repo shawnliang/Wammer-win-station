@@ -33,6 +33,7 @@ namespace Wammer.Station
 				new StatusChecker(STATUS_CHECK_PERIOD, functionServer),
 				new ResourceSyncer(RESOURCE_SYNC_PEROID),
 				// Use a strange value to make ResourceSyncer and ChangeHistorySyncer not running at the same time.
+				// (The two syncers is OK to run concurrently but just could get same data and waste resource)
 				new ChangeHistorySyncer(RESOURCE_SYNC_PEROID * 2 - 10 * 1000)
 			};
 		}
