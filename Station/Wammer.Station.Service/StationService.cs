@@ -44,6 +44,8 @@ namespace Wammer.Station.Service
 				logger.Info("============== Starting Waveface Station =================");
 				ConfigThreadPool();
 
+				ResetPerformanceCounter();
+
 				AppDomain.CurrentDomain.UnhandledException +=
 					new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
@@ -139,6 +141,16 @@ namespace Wammer.Station.Service
 				throw;
 			}
 		}
+
+		#region Private Method
+		private void ResetPerformanceCounter()
+		{
+			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, true);
+			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, true);
+			PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, true);
+			PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, true);
+		} 
+		#endregion
 
 		void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
