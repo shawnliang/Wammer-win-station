@@ -45,11 +45,11 @@ namespace Wammer.Station
 				// "target" parameter is used to request cover image or slide page.
 				// In this version station has no such resources so station always forward this
 				// request to cloud.
-                if (Parameters["target"] != null)
-                {
-                    TunnelToCloud(AdditionalParam);                    
-                    return;
-                }
+				if (Parameters["target"] != null)
+				{
+					TunnelToCloud(AdditionalParam);                    
+					return;
+				}
 
 				string namePart = objectId;
 				string metaStr = "";
@@ -59,18 +59,18 @@ namespace Wammer.Station
 					namePart += "_" + metaStr;
 				}
 
-                Attachment doc = null;
+				Attachment doc = null;
 
-                if (imageMeta == ImageMeta.Origin)
-                    doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", objectId));
-                else
-                    doc = AttachmentCollection.Instance.FindOne(Query.And(Query.EQ("_id", objectId), Query.Exists("image_meta." + imageMeta.ToString().ToLower(), true)));
+				if (imageMeta == ImageMeta.Origin)
+					doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", objectId));
+				else
+					doc = AttachmentCollection.Instance.FindOne(Query.And(Query.EQ("_id", objectId), Query.Exists("image_meta." + imageMeta.ToString().ToLower(), true)));
 
-                if (doc == null)
-                {
-                    TunnelToCloud(AdditionalParam);
-                    return;
-                }
+				if (doc == null)
+				{
+					TunnelToCloud(AdditionalParam);
+					return;
+				}
 
 				Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", doc.group_id)));
 				FileStorage storage = new FileStorage(driver);
@@ -94,167 +94,169 @@ namespace Wammer.Station
 		}
 
 
-        protected void TunnelToCloud(string additionalParam)
-        {
-            if (additionalParam == null || additionalParam.Length == 0)
-                throw new ArgumentException("param cannot be null or empty. If you really need it blank, change the code.");
+		protected void TunnelToCloud(string additionalParam)
+		{
+			if (additionalParam == null || additionalParam.Length == 0)
+				throw new ArgumentException("param cannot be null or empty. If you really need it blank, change the code.");
 
-            logger.Debug("Forward to cloud");
+			logger.Debug("Forward to cloud");
 
-            Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
+			Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
 
-            string queryString = Request.Url.Query;
-            Boolean IsGetRequest = Request.HttpMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
+			string queryString = Request.Url.Query;
+			Boolean IsGetRequest = Request.HttpMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
 
-            if (IsGetRequest)
-                if (queryString == null || queryString.Length == 0)
+			if (IsGetRequest)
+				if (queryString == null || queryString.Length == 0)
 					queryString = additionalParam + "&return_meta=true";
-                else
+				else
 					queryString += "&" + additionalParam + "&return_meta=true";
 
-            UriBuilder uri = new UriBuilder(baseUri.Scheme, baseUri.Host, baseUri.Port,
-                Request.Url.AbsolutePath, queryString);
+			UriBuilder uri = new UriBuilder(baseUri.Scheme, baseUri.Host, baseUri.Port,
+				Request.Url.AbsolutePath, queryString);
 
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri.Uri);
-            req.Method = Request.HttpMethod;
-            req.ContentType = Request.ContentType;
-            req.AllowAutoRedirect = false;
+			HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri.Uri);
+			req.Method = Request.HttpMethod;
+			req.ContentType = Request.ContentType;
+			req.AllowAutoRedirect = false;
 
-            if (!IsGetRequest)
-            {
-                using (Stream reqStream = req.GetRequestStream())
-                {
-                    Wammer.Utility.StreamHelper.Copy(
-                        new MemoryStream(this.RawPostData),
-                        reqStream);
+			if (!IsGetRequest)
+			{
+				using (Stream reqStream = req.GetRequestStream())
+				{
+					Wammer.Utility.StreamHelper.Copy(
+						new MemoryStream(this.RawPostData),
+						reqStream);
 
-                    StreamWriter w = new StreamWriter(reqStream);
-                    w.Write("&" + additionalParam);
+					StreamWriter w = new StreamWriter(reqStream);
+					w.Write("&" + additionalParam);
 					w.Write("&return_meta=true");
-                    w.Flush();
-                }
-            }
+					w.Flush();
+				}
+			}
 
-            Action<HttpWebResponse> errorResponseProcess = (HttpWebResponse response) => 
-            {
-                Response.StatusCode = (int)response.StatusCode;
-                Response.ContentType = response.GetResponseHeader("content-type");
-                Response.OutputStream.Write(response.GetResponseStream(), 1024);
-                Response.Close();
-            };
+			Action<HttpWebResponse> errorResponseProcess = (HttpWebResponse response) => 
+			{
+				Response.StatusCode = (int)response.StatusCode;
+				Response.ContentType = response.GetResponseHeader("content-type");
+				Response.OutputStream.Write(response.GetResponseStream(), 1024);
+				Response.Close();
+			};
 
-            HttpWebResponse resp;
-            try
-            {
-                resp = (HttpWebResponse)req.GetResponse();                
-            }
-            catch (WebException e)
-            {
-                errorResponseProcess((HttpWebResponse)e.Response);
-                return;
-            }
+			HttpWebResponse resp;
+			try
+			{
+				resp = (HttpWebResponse)req.GetResponse();                
+			}
+			catch (WebException e)
+			{
+				errorResponseProcess((HttpWebResponse)e.Response);
+				return;
+			}
 
-            var responseStream = resp.GetResponseStream();
-            
-            string responseMsg;
-            using (var sr = new StreamReader(responseStream))
-            {
-                responseMsg = sr.ReadToEnd();                
-            }
+			var responseStream = resp.GetResponseStream();
+			
+			string responseMsg;
+			using (var sr = new StreamReader(responseStream))
+			{
+				responseMsg = sr.ReadToEnd();                
+			}
 
-            Response.StatusCode = (int)resp.StatusCode;
+			Response.StatusCode = (int)resp.StatusCode;
 
 			string redirectURL = resp.GetResponseHeader("location");
 			//var attachmentView = new Wammer.Station.JSONClass.AttachmentView(responseMsg);
 			var attachmentView = fastJSON.JSON.Instance.ToObject<Wammer.Station.JSONClass.AttachmentView>(responseMsg);
 			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachmentView.creator_id));
 
-            if (driver == null)
-            {
-                errorResponseProcess(resp);
-                return;
-            }
+			if (driver == null)
+			{
+				errorResponseProcess(resp);
+				return;
+			}
 
 
-            resp.Close();
+			resp.Close();
 
-            ImageMeta imageMeta = ImageMeta.None;
-            if (Parameters["image_meta"] == null)
-                imageMeta = ImageMeta.Origin;
-            else
-                imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta), Parameters["image_meta"], true);
+			ImageMeta imageMeta = ImageMeta.None;
+			if (Parameters["image_meta"] == null)
+				imageMeta = ImageMeta.Origin;
+			else
+				imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta), Parameters["image_meta"], true);
 
 			var fileName = GetSavedFile(Parameters["object_id"], redirectURL, imageMeta);
-            var file = Path.Combine(driver.folder, fileName);
+			var file = Path.Combine(driver.folder, fileName);
 
-            if (!Directory.Exists(driver.folder))
-                Directory.CreateDirectory(driver.folder);
-
-
-            string tempFile = System.IO.Path.GetTempFileName();
-            WebClient wc = new WebClient();
-            wc.DownloadFile(redirectURL, tempFile);
-            System.IO.File.Move(tempFile, file);
-
-            using (var fs = File.Open(file, FileMode.Open))
-            {
-                if (imageMeta == ImageMeta.Origin)
-                {
-                    AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
-						.Set("file_name", attachmentView.file_name)
-                        .Set("mime_type", wc.ResponseHeaders["content-type"])
-                        .Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
-                        .Set("file_size", fs.Length)
-                        .Set("modify_time", DateTime.UtcNow)
-						.Set("image_meta.width", attachmentView.image_meta.width)
-						.Set("image_meta.height", attachmentView.image_meta.height)
-						.Set("md5", attachmentView.md5)
-						.Set("type", attachmentView.type)
-						.Set("group_id", attachmentView.group_id)
-                        .Set("saved_file_name", fileName), UpdateFlags.Upsert);
-                }
-                else
-                {
-                    AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update.Set("image_meta." + imageMeta.ToString().ToLower(), new ThumbnailInfo()
-                    {
-                        mime_type = wc.ResponseHeaders["content-type"],
-                        modify_time = DateTime.UtcNow,
-                        url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + imageMeta.ToString().ToLower(),
-                        file_size = fs.Length,
-						file_name = attachmentView.file_name,
-						width = attachmentView.image_meta.GetThumbnail(imageMeta).width,
-						height = attachmentView.image_meta.GetThumbnail(imageMeta).height,
-                        saved_file_name = fileName
-                    }.ToBsonDocument()), UpdateFlags.Upsert);
-                }
-                    
-                fs.Seek(0, SeekOrigin.Begin);
-                Response.ContentType = wc.ResponseHeaders["content-type"];
-                Response.OutputStream.Write(fs, 1024);
-                Response.OutputStream.Close();
-            }
-        }
+			if (!Directory.Exists(driver.folder))
+				Directory.CreateDirectory(driver.folder);
 
 
+			string tempFile = System.IO.Path.GetTempFileName();
+			using (WebClientProxy wc = WebClientPool.GetFreeClient())
+			{
+				wc.Agent.DownloadFile(redirectURL, tempFile);
+				System.IO.File.Move(tempFile, file);
 
-        private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
-        {
-            string fileName = objectID;
+				using (var fs = File.Open(file, FileMode.Open))
+				{
+					if (imageMeta == ImageMeta.Origin)
+					{
+						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
+							.Set("file_name", attachmentView.file_name)
+							.Set("mime_type", wc.Agent.ResponseHeaders["content-type"])
+							.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
+							.Set("file_size", fs.Length)
+							.Set("modify_time", DateTime.UtcNow)
+							.Set("image_meta.width", attachmentView.image_meta.width)
+							.Set("image_meta.height", attachmentView.image_meta.height)
+							.Set("md5", attachmentView.md5)
+							.Set("type", attachmentView.type)
+							.Set("group_id", attachmentView.group_id)
+							.Set("saved_file_name", fileName), UpdateFlags.Upsert);
+					}
+					else
+					{
+						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update.Set("image_meta." + imageMeta.ToString().ToLower(), new ThumbnailInfo()
+						{
+							mime_type = wc.Agent.ResponseHeaders["content-type"],
+							modify_time = DateTime.UtcNow,
+							url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + imageMeta.ToString().ToLower(),
+							file_size = fs.Length,
+							file_name = attachmentView.file_name,
+							width = attachmentView.image_meta.GetThumbnail(imageMeta).width,
+							height = attachmentView.image_meta.GetThumbnail(imageMeta).height,
+							saved_file_name = fileName
+						}.ToBsonDocument()), UpdateFlags.Upsert);
+					}
 
-            if (meta != ImageMeta.Origin && meta != ImageMeta.None)
-            {
-                fileName += "_" + meta.ToString().ToLower();
-            }
+					fs.Seek(0, SeekOrigin.Begin);
+					Response.ContentType = wc.Agent.ResponseHeaders["content-type"];
+					Response.OutputStream.Write(fs, 1024);
+					Response.OutputStream.Close();
+				}
+			}
+		}
 
-            if (uri.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
-                uri = new Uri(uri).AbsolutePath;
-            
-            string extension = Path.GetExtension(uri);
-            if (!string.IsNullOrEmpty(extension))
-                fileName += extension;
 
-            return fileName;
-        }
+
+		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
+		{
+			string fileName = objectID;
+
+			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
+			{
+				fileName += "_" + meta.ToString().ToLower();
+			}
+
+			if (uri.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
+				uri = new Uri(uri).AbsolutePath;
+			
+			string extension = Path.GetExtension(uri);
+			if (!string.IsNullOrEmpty(extension))
+				fileName += extension;
+
+			return fileName;
+		}
 
 
 
