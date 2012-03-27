@@ -940,7 +940,7 @@ namespace StationSystemTray
 		{
 			var upRemainedCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Sample.RawValue;
 			var downloadRemainedCount = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Sample.RawValue;
-			var upSpeed = ComputeSpeed(_PreUpSpeed, PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample);
+			var upSpeed = ComputeSpeed(_PreUpSpeed, PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample) / 1000;
 			var downloadSpeed = ComputeSpeed(_PreDownloadSpeed, PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample) / 1000;
 
 			_PreUpSpeed = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample;
