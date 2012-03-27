@@ -6,7 +6,7 @@ namespace Wammer.PerfMonitor
 {
 	public interface IPerfCounter
 	{
-		long Value { get; set; }
+		CounterSample Sample { get; }
 
 		void Increment();
 		void IncrementBy(long value);
@@ -33,10 +33,12 @@ namespace Wammer.PerfMonitor
 		PerformanceCounter Counter;		
 		#endregion
 
-		public long Value
+		public CounterSample Sample
 		{
-			get { return Counter.RawValue; }
-			set { Counter.RawValue = value; }
+			get 
+			{
+				return Counter.NextSample(); 
+			}
 		}
 
 		static PerfCounter()
@@ -89,13 +91,9 @@ namespace Wammer.PerfMonitor
 		public void IncrementBy(long value) { }
 		public void Decrement() { }
 
-		public long Value
+		public CounterSample Sample
 		{
 			get
-			{
-				throw new NotImplementedException();
-			}
-			set
 			{
 				throw new NotImplementedException();
 			}

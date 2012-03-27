@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using System;
 
 namespace Wammer.Station
 {
@@ -28,8 +30,9 @@ namespace Wammer.Station
 		public StationTimer(HttpServer functionServer)
 		{
 			timers = new List<IStationTimer> {
-				new StatusChecker(STATUS_CHECK_PERIOD, functionServer), 
-				new ResourceSyncer(RESOURCE_SYNC_PEROID)
+				new StatusChecker(STATUS_CHECK_PERIOD, functionServer),
+				new ResourceSyncer(RESOURCE_SYNC_PEROID),
+				new ChangeHistorySyncer(RESOURCE_SYNC_PEROID)
 			};
 		}
 
@@ -56,5 +59,50 @@ namespace Wammer.Station
 				timer.Close();
 			}
 		}
+	}
+
+	abstract public class NonReentrantTimer: IStationTimer
+	{
+		private System.Threading.Timer timer;
+		private long timerPeriod;
+
+		protected NonReentrantTimer(long timerPeriod)
+		{
+			this.timer = new Timer(this.OnTimedUp);
+			this.timerPeriod = timerPeriod;
+		}
+
+		public void Start()
+		{
+			timer.Change(0, Timeout.Infinite);
+		}
+
+		public void Stop()
+		{
+			timer.Change(Timeout.Infinite, Timeout.Infinite);
+		}
+
+		public void Close()
+		{
+			timer.Dispose();
+		}
+
+		private void OnTimedUp(object state)
+		{
+			try
+			{
+				ExecuteOnTimedUp(state);
+			}
+			catch (Exception e)
+			{
+				log4net.LogManager.GetLogger(typeof(NonReentrantTimer)).Warn(e);
+			}
+			finally
+			{
+				timer.Change(timerPeriod, Timeout.Infinite);
+			}
+		}
+
+		protected abstract void ExecuteOnTimedUp(object state);
 	}
 }

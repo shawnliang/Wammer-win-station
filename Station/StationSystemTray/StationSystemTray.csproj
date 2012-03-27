@@ -43,6 +43,12 @@
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\log4net-1.2.11\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <HintPath>..\3rd_party\mongo-driver\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
@@ -82,6 +88,12 @@
     <Compile Include="ReloginForm.Designer.cs">
       <DependentUpon>ReloginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CleanResourceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CleanResourceForm.Designer.cs">
+      <DependentUpon>CleanResourceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SecurityHelper.cs" />
     <Compile Include="SignUpDialog.cs">
       <SubType>Form</SubType>
@@ -120,6 +132,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReloginForm.zh-TW.resx">
       <DependentUpon>ReloginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CleanResourceForm.resx">
+      <DependentUpon>CleanResourceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CleanResourceForm.zh-TW.resx">
+      <DependentUpon>CleanResourceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SignUpDialog.resx">
       <DependentUpon>SignUpDialog.cs</DependentUpon>

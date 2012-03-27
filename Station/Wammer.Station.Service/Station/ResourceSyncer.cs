@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,39 +26,104 @@ namespace Wammer.Station
 		public string filepath { get; set; }
 	}
 
-	public class ResourceSyncer : IStationTimer
+	public class ResourceSyncer : NonReentrantTimer
 	{
-		private Timer timer;
-		private long timerPeriod;
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceSyncer));
+		private bool isFirstRun = true;
 
 		public ResourceSyncer(long timerPeriod)
+			:base(timerPeriod)
 		{
-			TimerCallback tcb = PullTimeline;
-			this.timer = new Timer(tcb);
-			this.timerPeriod = timerPeriod;
 		}
 
-		public void Start()
+		protected override void ExecuteOnTimedUp(object state)
 		{
-			// PullTimeline is not reentrant, so the timer behaves like javascript's setTimeout
-			timer.Change(0, Timeout.Infinite);
+			if (isFirstRun)
+			{
+				ResumeUnfinishedDownstreamTasks();
+				isFirstRun = false;
+			}
+
+			PullTimeline(state);
 		}
 
-		public void Stop()
+		private void ResumeUnfinishedDownstreamTasks()
 		{
-			timer.Change(Timeout.Infinite, Timeout.Infinite);
+			MongoCursor<PostInfo> posts = PostCollection.Instance.Find(
+				Query.Exists("attachments", true));
+
+			foreach (PostInfo post in posts)
+			{
+				foreach (AttachmentInfo attachment in post.attachments)
+				{
+					Attachment savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
+					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
+
+					// driver might be removed before download tasks completed
+					if (driver == null)
+						break;
+
+					// origin
+					if (driver.isPrimaryStation && 
+						attachment.url != null && 
+						(savedDoc == null || savedDoc.saved_file_name == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
+					}
+
+					if (attachment.image_meta == null)
+						break;
+
+					// small
+					if (attachment.image_meta.small != null && 
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.small == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
+					}
+
+					// medium
+					if (attachment.image_meta.medium != null &&
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
 		}
 
-		public void Close()
+					// large
+					if (attachment.image_meta.large != null &&
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.large == null))
 		{
-			timer.Dispose();
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
 		}
+
+					// square
+					if (attachment.image_meta.square != null &&
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.square == null))
+		{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+					}
+
+				}
+			}
+		}
+
+		private static void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
+		{
+			ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
+		{
+				driver = driver,
+				attachment = attachment,
+				imagemeta = meta,
+				filepath = Path.GetTempFileName()
+			};
+
+			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
+			TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+		}
+
 
 		private void PullTimeline(Object obj)
 		{
-			try
-			{
+
 				using (WebClient agent = new WebClient())
 				{
 					foreach (Driver driver in DriverCollection.Instance.FindAll())
@@ -67,6 +132,7 @@ namespace Wammer.Station
 						if (driver.sync_range == null)
 						{
 							PostGetLatestResponse res = api.PostGetLatest(agent, 20);
+						SavePosts(res.posts);
 							DownloadMissedResource(res.posts);
 							driver.sync_range = new SyncRange
 							{
@@ -84,13 +150,15 @@ namespace Wammer.Station
 								new FilterEntity
 								{
 									limit = 20,
-									timestamp = driver.sync_range.end_time,
-									type = "image"
+								timestamp = driver.sync_range.end_time
 								}
 							);
+
+						if (newerRes.posts.Count > 0 &&
+							newerRes.posts.First().timestamp != driver.sync_range.end_time)
+						{
+							SavePosts(newerRes.posts);
 							DownloadMissedResource(newerRes.posts);
-							if (newerRes.posts.Count != 0)
-							{
 								driver.sync_range.end_time = newerRes.posts.First().timestamp;
 							}
 
@@ -100,10 +168,10 @@ namespace Wammer.Station
 									new FilterEntity
 									{
 										limit = -20,
-										timestamp = driver.sync_range.start_time,
-										type = "image"
+									timestamp = driver.sync_range.start_time
 									}
 								);
+							SavePosts(olderRes.posts);
 								DownloadMissedResource(olderRes.posts);
 								driver.sync_range.start_time = olderRes.posts.Last().timestamp;
 
@@ -114,114 +182,127 @@ namespace Wammer.Station
 							}
 						}
 
-						DriverCollection.Instance.Save(driver);
+					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
+						Update.Set("sync_range.first_post_time", driver.sync_range.first_post_time));
+					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
+						Update.Set("sync_range.end_time", driver.sync_range.end_time));
+					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
+						Update.Set("sync_range.start_time", driver.sync_range.start_time));
 					}
 				}
 			}
-			finally
+
+
+		private void SavePosts(List<PostInfo> posts)
 			{
-				timer.Change(timerPeriod, Timeout.Infinite);
-			}
+			if (posts == null)
+				return;
+
+			foreach (PostInfo post in posts)
+				PostCollection.Instance.Save(post);
 		}
 
-		private void DownloadMissedResource(List<PostInfo> posts)
+		public static void DownloadMissedResource(List<PostInfo> posts)
 		{
 			foreach (PostInfo post in posts)
 			{
 				foreach (AttachmentInfo attachment in post.attachments)
 				{
-					Attachment attachmentDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
-					if (attachmentDoc == null)
-					{
-						AttachmentCollection.Instance.Save(new Attachment {object_id = attachment.object_id});
 						Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
-						if (driver.isPrimaryStation)
-						{
-							ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-							{
-								driver = driver,
-								attachment = attachment,
-								imagemeta = ImageMeta.Origin,
-								filepath = Path.GetTempFileName()
-							};
 
-							PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+					// driver might be removed before running download tasks
+					if (driver == null)
+						break;
+
+					// original
+					if (!string.IsNullOrEmpty(attachment.url) && driver.isPrimaryStation)
+						{
+							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
 						}
+
+					if (attachment.image_meta == null)
+						break;
+
+					// small
 						if (attachment.image_meta.small != null)
-						{
-							ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-							{
-								driver = driver,
-								attachment = attachment,
-								imagemeta = ImageMeta.Small,
-								filepath = Path.GetTempFileName()
-							};
-
-							PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+						{							
+							EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
 						}
+
+					// medium
 						if (attachment.image_meta.medium != null)
 						{
-							ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-							{
-								driver = driver,
-								attachment = attachment,
-								imagemeta = ImageMeta.Medium,
-								filepath = Path.GetTempFileName()
-							};
-
-							PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
 						}
+
+					// large
 						if (attachment.image_meta.large != null)
 						{
-							ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-							{
-								driver = driver,
-								attachment = attachment,
-								imagemeta = ImageMeta.Large,
-								filepath = Path.GetTempFileName()
-							};
-
-							PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
 						}
+
+					// square
 						if (attachment.image_meta.square != null)
 						{
-							ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-							{
-								driver = driver,
-								attachment = attachment,
-								imagemeta = ImageMeta.Square,
-								filepath = Path.GetTempFileName()
-							};
-
-							PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-							TaskQueue.EnqueueLow(this.DownstreamResource, evtargs);
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
 						}
 					}
 				}
 			}
-		}
 
-		private void DownstreamResource(object state)
+		private static void DownstreamResource(object state)
 		{
 			ResourceDownloadEventArgs evtargs = (ResourceDownloadEventArgs)state;
 			try
 			{
+				bool alreadyExist = AttachmentExists(evtargs);
+
+				if (alreadyExist)
+				{
+					logger.DebugFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id, evtargs.imagemeta);
+					return;
+				}
+
 				AttachmentApi api = new AttachmentApi(evtargs.driver.user_id);
 				api.AttachmentView(new WebClient(), evtargs);
+
 				DownloadComplete(evtargs);
 			}
 			catch (WammerCloudException ex)
 			{
-				logger.DebugFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
-				logger.Debug("Detail exception:", ex);
+				logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
+				logger.Warn("Detail exception:", ex);
+			}
+			finally
+			{
+				var counter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
+
+				if (counter.Sample.RawValue > 0)
+					counter.Decrement();
 			}
 		}
 
-		public void DownloadComplete(ResourceDownloadEventArgs args)
+		private static bool AttachmentExists(ResourceDownloadEventArgs evtargs)
+		{
+			bool alreadyExist;
+
+			if (evtargs.imagemeta == ImageMeta.Origin || evtargs.imagemeta == ImageMeta.None)
+				// origin image and non-image attachment here
+				alreadyExist = AttachmentCollection.Instance.FindOne(
+					Query.And(
+						Query.EQ("_id", evtargs.attachment.object_id),
+						Query.Exists("saved_file_name", true))) != null;
+			else
+				// thumbnails here
+				alreadyExist = AttachmentCollection.Instance.FindOne(
+					Query.And(
+						Query.EQ("_id", evtargs.attachment.object_id),
+						Query.Exists("image_meta." + evtargs.imagemeta.ToString().ToLower() + ".saved_file_name", true))) != null;
+
+			return alreadyExist;
+		}
+
+		private static void DownloadComplete(ResourceDownloadEventArgs args)
 		{
 			try
 			{
@@ -233,10 +314,10 @@ namespace Wammer.Station
 				ThumbnailInfo thumbnail;
 				string savedFileName;
 				ArraySegment<byte> rawdata = new ArraySegment<byte>(File.ReadAllBytes(filepath));
-				FileStorage fs = new FileStorage(driver);
-				
 
-				PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy((long)rawdata.Count);
+				PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(rawdata.Count);
+
+				FileStorage fs = new FileStorage(driver);
 
 				switch (imagemeta)
 				{
@@ -249,7 +330,7 @@ namespace Wammer.Station
 						{
 							width = img.Width;
 							height = img.Height;
-						}						
+						}
 						File.Delete(filepath);
 
 						MD5 md5 = MD5.Create();
@@ -377,17 +458,11 @@ namespace Wammer.Station
 						logger.WarnFormat("Unknown image meta type {0}", imagemeta);
 						break;
 				}
+
 			}
 			catch (Exception ex)
 			{
-				logger.Debug("Unable to save attachment, ignore it.", ex);
-			}
-			finally
-			{
-				var counter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
-
-				if (counter.Value > 0)
-					counter.Decrement();
+				logger.Warn("Unable to save attachment, ignore it.", ex);
 			}
 		}
 	}

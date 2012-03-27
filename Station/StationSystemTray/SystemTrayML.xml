@@ -205,4 +205,19 @@ Please restart the program to initialize Waveface Station.</en-US>
     <en-US>Re-Login</en-US>
     <zh-TW>重新登入</zh-TW>
   </WItem>
+  <WItem>
+    <ID>LoginMenuItem</ID>
+    <en-US>Login...</en-US>
+    <zh-TW>登入...</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>LogoutMenuItem</ID>
+    <en-US>Logout...</en-US>
+    <zh-TW>登出...</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>CleanResourceMsg</ID>
+    <en-US>Do you want to remove all files of {0} on this computer?</en-US>
+    <zh-TW>是否要將 {0} 在本機儲存的所有檔案刪除？</zh-TW>
+  </WItem>
 </WItems>

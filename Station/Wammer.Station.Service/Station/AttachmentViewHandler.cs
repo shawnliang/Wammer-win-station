@@ -205,7 +205,7 @@ namespace Wammer.Station
 			{
 				var counter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
 
-				if (counter.Value > 0)
+				if (counter.Sample.RawValue > 0)
 					counter.Decrement();
 			}			
 
