@@ -169,6 +169,7 @@
     <Compile Include="Station\TimelineChange\TimelineChangeHistory.cs" />
     <Compile Include="Station\TimelineChange\UserInfoUpdator.cs" />
     <Compile Include="Station\WammerStationException.cs" />
+    <Compile Include="Station\WebClientPool.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\DropboxHelper.cs" />
@@ -240,6 +241,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="miniupnp.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

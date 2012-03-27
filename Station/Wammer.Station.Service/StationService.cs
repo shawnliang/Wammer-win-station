@@ -240,5 +240,10 @@ namespace Wammer.Station.Service
 		public void SetBeginTimestamp(long beginTime)
 		{
 		}
+
+
+		public void OnTaskEnqueue(EventArgs e)
+		{
+		}
 	}
 }

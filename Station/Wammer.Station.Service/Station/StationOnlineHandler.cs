@@ -34,7 +34,7 @@ namespace Wammer.Station
 					StationLogOnResponse logonRes;
 					if (email != null && password != null)
 					{
-						using (WebClient agent = new WebClient())
+						using (WebClientProxy client = WebClientPool.GetFreeClient())
 						{
 							Driver driver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
 							if (driver == null)
@@ -43,9 +43,9 @@ namespace Wammer.Station
 							}
 
 							// station.logon must be called before user.login to handle non-existing driver case
-							logonRes = StationApi.LogOn(new WebClient(), stationInfo.Id, email, password, StatusChecker.GetDetail());
+							logonRes = StationApi.LogOn(client.Agent, stationInfo.Id, email, password, StatusChecker.GetDetail());
 
-							User user = User.LogIn(agent, email, password);
+							User user = User.LogIn(client.Agent, email, password);
 
 							// update user's session token
 							driver.session_token = user.Token;
@@ -54,8 +54,11 @@ namespace Wammer.Station
 					}
 					else
 					{
-						StationApi api = new StationApi(stationInfo.Id, stationInfo.SessionToken);
-						logonRes = api.LogOn(new WebClient(), StatusChecker.GetDetail());
+						using (WebClientProxy client = WebClientPool.GetFreeClient())
+						{
+							StationApi api = new StationApi(stationInfo.Id, stationInfo.SessionToken);
+							logonRes = api.LogOn(client.Agent, StatusChecker.GetDetail());
+						}
 					}
 
 					// update session in DB
@@ -118,7 +121,11 @@ namespace Wammer.Station
 		public override object Clone()
 		{
 			return this.MemberwiseClone();
-		} 
+		}
+
+		public override void OnTaskEnqueue(EventArgs e)
+		{
+		}
 	}
 
 	public class StationOnlineResponse : CloudResponse

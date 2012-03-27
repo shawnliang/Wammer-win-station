@@ -287,9 +287,10 @@ namespace Wammer.Station
 				using (FileStream f = storage.Load(info.saved_file_name))
 				{
 					Attachment.Upload(f, file.group_id, file.object_id,
-						file.file_name, info.mime_type, meta, file.type, args.UserApiKey, args.UserSessionToken);
-
-					OnThumbnailUpstreamed(this, new ThumbnailUpstreamedEventArgs(f.Length));
+						file.file_name, info.mime_type, meta, file.type, args.UserApiKey, args.UserSessionToken, 1024, (sender, e) =>
+						{
+							OnThumbnailUpstreamed(this, new ThumbnailUpstreamedEventArgs(long.Parse(e.UserState.ToString())));
+						});			
 				}
 			}
 			catch (WebException e)

@@ -22,6 +22,7 @@ using Wammer.Model;
 using System.Security.Permissions;
 using Waveface.Localization;
 using MongoDB.Driver.Builders;
+using Wammer.PerfMonitor;
 
 namespace StationSystemTray
 {
@@ -33,14 +34,27 @@ namespace StationSystemTray
 		const int STATION_TIMER_SHORT_INTERVAL = 3000;
 		#endregion
 
-
 		#region Var
+		private CounterSample _PreUpSpeed;
+		private CounterSample _PreDownloadSpeed;
 		private Messenger _messenger;
 		private SignUpDialog _SignUpDialog;
+		private System.Windows.Forms.Timer _timer;
 		#endregion
 
 
+
 		#region Private Property
+		private System.Windows.Forms.Timer m_Timer
+		{
+			get 
+			{
+				if (_timer == null)
+					_timer = new System.Windows.Forms.Timer();
+				return _timer; 
+			}
+		}
+
 		private Messenger messenger
 		{
 			get
@@ -106,7 +120,12 @@ namespace StationSystemTray
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
 			this.initMinimized = initMinimized;
+
+			m_Timer.Interval = 100;
+			m_Timer.Tick += (sender, e) => { AdjustIconText(); };
+			m_Timer.Start();
 		}
+
 
 		protected override void OnLoad(EventArgs e)
 		{
@@ -472,7 +491,7 @@ namespace StationSystemTray
 			else
 			{
 				TrayIcon.Icon = iconPaused;
-				TrayIconText = I18n.L.T("StartingWFService");
+				TrayIconText = I18n.L.T("StartingWFService") ;
 
 				menuServiceAction.Enabled = false;
 			}
@@ -915,6 +934,39 @@ namespace StationSystemTray
 				chkRememberPassword.Checked = false;
 			}
 		}
+
+		
+		private void AdjustIconText()
+		{
+			var upRemainedCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Sample.RawValue;
+			var downloadRemainedCount = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Sample.RawValue;
+			var upSpeed = ComputeSpeed(_PreUpSpeed, PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample);
+			var downloadSpeed = ComputeSpeed(_PreDownloadSpeed, PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample) / 1000;
+
+			_PreUpSpeed = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample;
+			_PreDownloadSpeed = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample;
+
+			var iconText = TrayIcon.BalloonTipText;
+			iconText = string.Format("{0}{1}↑ ({2}): {3:0.0} KB/s{4}↓ ({5}): {6:0.0}KB/s",
+				iconText, 
+				Environment.NewLine,
+				upRemainedCount,
+				upSpeed,
+				Environment.NewLine,
+				downloadRemainedCount,
+				downloadSpeed);
+
+			this.TrayIcon.Text = iconText;
+		}
+
+		Single ComputeSpeed(CounterSample s0, CounterSample s1)
+		{
+			Single numerator = (Single)(s1.RawValue - s0.RawValue);
+			Single denomenator = (Single)(s1.TimeStamp - s0.TimeStamp) / (Single)s1.SystemFrequency;
+			Single counterValue = numerator / denomenator;
+			return (counterValue);
+		}
+
 	}
 
 	#region StationStatusUIController

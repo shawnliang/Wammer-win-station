@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +14,7 @@ using MongoDB.Driver.Builders;
 using Wammer.Model;
 using Wammer.Cloud;
 using Wammer.Utility;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station
 {
@@ -23,6 +24,12 @@ namespace Wammer.Station
 		public AttachmentInfo attachment { get; set; }
 		public ImageMeta imagemeta { get; set; }
 		public string filepath { get; set; }
+		public int failureCount { get; set; }
+
+		public ResourceDownloadEventArgs()
+		{
+			this.failureCount = 0;
+		}
 	}
 
 	public class ResourceSyncer : NonReentrantTimer
@@ -114,6 +121,8 @@ namespace Wammer.Station
 				imagemeta = meta,
 				filepath = Path.GetTempFileName()
 			};
+
+			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
 			TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 		}
 
@@ -121,14 +130,14 @@ namespace Wammer.Station
 		private void PullTimeline(Object obj)
 		{
 
-			using (WebClient agent = new WebClient())
+			using (WebClientProxy client = WebClientPool.GetFreeClient())
 			{
 				foreach (Driver driver in DriverCollection.Instance.FindAll())
 				{
 					PostApi api = new PostApi(driver);
 					if (driver.sync_range == null)
 					{
-						PostGetLatestResponse res = api.PostGetLatest(agent, 20);
+						PostGetLatestResponse res = api.PostGetLatest(client.Agent, 20);
 						SavePosts(res.posts);
 						DownloadMissedResource(res.posts);
 						driver.sync_range = new SyncRange
@@ -143,7 +152,7 @@ namespace Wammer.Station
 					}
 					else
 					{
-						PostFetchByFilterResponse newerRes = api.PostFetchByFilter(agent,
+						PostFetchByFilterResponse newerRes = api.PostFetchByFilter(client.Agent,
 							new FilterEntity
 							{
 								limit = 20,
@@ -161,7 +170,7 @@ namespace Wammer.Station
 
 						if (driver.sync_range.start_time != driver.sync_range.first_post_time)
 						{
-							PostFetchByFilterResponse olderRes = api.PostFetchByFilter(agent,
+							PostFetchByFilterResponse olderRes = api.PostFetchByFilter(client.Agent,
 								new FilterEntity
 								{
 									limit = -20,
@@ -257,14 +266,34 @@ namespace Wammer.Station
 				}
 
 				AttachmentApi api = new AttachmentApi(evtargs.driver.user_id);
-				api.AttachmentView(new WebClient(), evtargs);
+				using (WebClientProxy client = WebClientPool.GetFreeClient())
+				{
+					api.AttachmentView(client.Agent, evtargs);
+				}
 				DownloadComplete(evtargs);
 			}
 			catch (WammerCloudException ex)
 			{
-				logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
-				logger.Warn("Detail exception:", ex);
+				++evtargs.failureCount;
+
+				if (evtargs.failureCount >= 3)
+				{
+					logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
+					logger.Warn("Detail exception:", ex);
+				}
+				else
+				{
+					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
+					TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+				}
 			}
+			finally
+			{
+				var counter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
+
+				if (counter.Sample.RawValue > 0)
+					counter.Decrement();
+		}
 		}
 
 		private static bool AttachmentExists(ResourceDownloadEventArgs evtargs)
@@ -299,6 +328,9 @@ namespace Wammer.Station
 				ThumbnailInfo thumbnail;
 				string savedFileName;
 				ArraySegment<byte> rawdata = new ArraySegment<byte>(File.ReadAllBytes(filepath));
+
+				PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(rawdata.Count);
+
 				FileStorage fs = new FileStorage(driver);
 
 				switch (imagemeta)
@@ -334,6 +366,7 @@ namespace Wammer.Station
 								).Set("md5", md5buff.ToString()
 								).Set("image_meta.width", width
 								).Set("image_meta.height", height
+								).Set("file_size", rawdata.Count
 								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)),
 							UpdateFlags.Upsert
 						);
@@ -439,6 +472,7 @@ namespace Wammer.Station
 						logger.WarnFormat("Unknown image meta type {0}", imagemeta);
 						break;
 				}
+
 			}
 			catch (Exception ex)
 			{

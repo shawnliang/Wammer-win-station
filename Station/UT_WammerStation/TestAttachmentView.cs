@@ -402,6 +402,10 @@ namespace UT_WammerStation
 		{
 			return this.MemberwiseClone();
 		}
+
+		public override void OnTaskEnqueue(EventArgs e)
+		{
+		}
 	}
 
 
@@ -419,6 +423,10 @@ namespace UT_WammerStation
 		public override object Clone()
 		{
 			return this.MemberwiseClone();
+		}
+
+		public override void OnTaskEnqueue(EventArgs e)
+		{
 		}
 	}
 

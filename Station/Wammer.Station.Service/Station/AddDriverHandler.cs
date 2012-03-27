@@ -36,7 +36,7 @@ namespace Wammer.Station
 			if (email == null || password == null)
 				throw new FormatException("Parameter email or password is missing");
 
-			using (WebClient agent = new WebClient())
+			using (WebClientProxy client = WebClientPool.GetFreeClient())
 			{
 				try
 				{
@@ -45,19 +45,19 @@ namespace Wammer.Station
 
 					if (isDriverExists)
 					{
-                        existingDriver.ref_count += 1;
-                        DriverCollection.Instance.Save(existingDriver);
+						existingDriver.ref_count += 1;
+						DriverCollection.Instance.Save(existingDriver);
 
-                        RespondSuccess(new AddUserResponse()
-                        {
-                            UserId = existingDriver.user_id,
-                            IsPrimaryStation = existingDriver.isPrimaryStation
-                        });
+						RespondSuccess(new AddUserResponse()
+						{
+							UserId = existingDriver.user_id,
+							IsPrimaryStation = existingDriver.isPrimaryStation
+						});
 						return;
 					}
 
-                    string stationToken = SignUpStation(email, password, agent);
-                    User user = User.LogIn(agent, email, password);				
+					string stationToken = SignUpStation(email, password, client.Agent);
+					User user = User.LogIn(client.Agent, email, password);				
 								
 					Driver driver = new Driver
 					{
@@ -145,6 +145,10 @@ namespace Wammer.Station
 		public override object Clone()
 		{
 			return this.MemberwiseClone();
+		}
+
+		public override void OnTaskEnqueue(EventArgs e)
+		{
 		}
 	}
 

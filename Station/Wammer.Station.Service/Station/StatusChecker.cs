@@ -73,27 +73,29 @@ namespace Wammer.Station
 						locChange = true;
 					}
 
-					WebClient agent = new WebClient();
-					Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
-					if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
+					using (WebClientProxy client = WebClientPool.GetFreeClient())
 					{
-						logger.Debug("cloud logon start");
-						api.LogOn(agent, detail);
-						logon = true;
+						Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
+						if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
+						{
+							logger.Debug("cloud logon start");
+							api.LogOn(client.Agent, detail);
+							logon = true;
 
-						// update station info in database
-						logger.Debug("update station information");
-						sinfo.LastLogOn = DateTime.Now;
-						Model.StationCollection.Instance.Save(sinfo);
-					}
+							// update station info in database
+							logger.Debug("update station information");
+							sinfo.LastLogOn = DateTime.Now;
+							Model.StationCollection.Instance.Save(sinfo);
+						}
 
-					if (locChange)
-					{
-						// update station info in database
-						logger.Debug("update station information");
-						Model.StationCollection.Instance.Save(sinfo);
+						if (locChange)
+						{
+							// update station info in database
+							logger.Debug("update station information");
+							Model.StationCollection.Instance.Save(sinfo);
+						}
+						api.Heartbeat(client.Agent, detail);
 					}
-					api.Heartbeat(agent, detail);
 				}
 				catch (WammerCloudException ex)
 				{
@@ -130,7 +132,7 @@ namespace Wammer.Station
 		public void Stop()
 		{
 			timer.Change(Timeout.Infinite, Timeout.Infinite);
-			using (WebClient agent = new WebClient())
+			using (WebClientProxy client = WebClientPool.GetFreeClient())
 			{
 				Model.StationInfo sinfo = Model.StationCollection.Instance.FindOne();
 				if (sinfo != null)
@@ -138,7 +140,7 @@ namespace Wammer.Station
 					try
 					{
 						Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
-						api.Offline(agent);
+						api.Offline(client.Agent);
 					}
 					catch (Exception ex)
 					{
