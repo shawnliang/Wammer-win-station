@@ -40,8 +40,8 @@ namespace Wammer.Station.TimelineChange
 		{
 			
 			string lastSyncTimeInDB = null;
-			if (user.sync_range != null && !string.IsNullOrEmpty(user.sync_range.change_log_sync_time))
-				lastSyncTimeInDB = user.sync_range.change_log_sync_time;
+			if (!string.IsNullOrEmpty(user.change_log_sync_time))
+				lastSyncTimeInDB = user.change_log_sync_time;
 
 			string lastSyncTime = lastSyncTimeInDB;
 			using (System.Net.WebClient agent = new System.Net.WebClient())
