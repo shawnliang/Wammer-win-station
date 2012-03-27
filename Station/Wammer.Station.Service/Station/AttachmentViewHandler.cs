@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using MongoDB.Bson;
@@ -193,13 +193,12 @@ namespace Wammer.Station
 
 
             string tempFile = System.IO.Path.GetTempFileName();
-
-			WebClient wc = null;
+			using (WebClientProxy wc = WebClientPool.GetFreeClient())
+			{
 			try
 			{
 				PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-				wc = new WebClient();
-				wc.DownloadFile(redirectURL, tempFile);				
+					wc.Agent.DownloadFile(redirectURL, tempFile);
 			}
 			finally
 			{
@@ -220,7 +219,7 @@ namespace Wammer.Station
                 {
                     AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
 						.Set("file_name", attachmentView.file_name)
-                        .Set("mime_type", wc.ResponseHeaders["content-type"])
+								.Set("mime_type", wc.Agent.ResponseHeaders["content-type"])
                         .Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
                         .Set("file_size", fs.Length)
                         .Set("modify_time", DateTime.UtcNow)
@@ -235,7 +234,7 @@ namespace Wammer.Station
                 {
                     AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update.Set("image_meta." + imageMeta.ToString().ToLower(), new ThumbnailInfo()
                     {
-                        mime_type = wc.ResponseHeaders["content-type"],
+							mime_type = wc.Agent.ResponseHeaders["content-type"],
                         modify_time = DateTime.UtcNow,
                         url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + imageMeta.ToString().ToLower(),
                         file_size = fs.Length,
@@ -247,12 +246,16 @@ namespace Wammer.Station
                 }
                     
                 fs.Seek(0, SeekOrigin.Begin);
-                Response.ContentType = wc.ResponseHeaders["content-type"];
+					Response.ContentType = wc.Agent.ResponseHeaders["content-type"];
                 Response.OutputStream.Write(fs, 1024);
                 Response.OutputStream.Close();
             }
         }
+		}
 
+		public override void OnTaskEnqueue(EventArgs e)
+		{
+		}
 
 
         private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
@@ -291,7 +294,8 @@ namespace Wammer.Station
 			}
 			finally
 			{
-				try{
+				try
+				{
 					state.source.Close();
 					state.response.Close();
 				}
@@ -300,10 +304,6 @@ namespace Wammer.Station
 					logger.Warn("error closing source and response", e);
 				}
 			}
-		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
 		}
 	}
 

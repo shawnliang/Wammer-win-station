@@ -46,7 +46,10 @@ namespace Wammer.Station
 			}
 	  
 			//Notify cloud server that the user signoff
-			StationApi.SignOff(new WebClient(), stationId, stationToken, userID);
+			using (WebClientProxy client = WebClientPool.GetFreeClient())
+			{
+				StationApi.SignOff(client.Agent, stationId, stationToken, userID);
+			}
 
 			//Remove the user from db, and stop service this user
 			Model.DriverCollection.Instance.Remove(Query.EQ("_id", userID));

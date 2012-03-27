@@ -24,6 +24,12 @@ namespace Wammer.Station
 		public AttachmentInfo attachment { get; set; }
 		public ImageMeta imagemeta { get; set; }
 		public string filepath { get; set; }
+		public int failureCount { get; set; }
+
+		public ResourceDownloadEventArgs()
+		{
+			this.failureCount = 0;
+		}
 	}
 
 	public class ResourceSyncer : NonReentrantTimer
@@ -124,14 +130,14 @@ namespace Wammer.Station
 		private void PullTimeline(Object obj)
 		{
 
-			using (WebClient agent = new WebClient())
+			using (WebClientProxy client = WebClientPool.GetFreeClient())
 			{
 				foreach (Driver driver in DriverCollection.Instance.FindAll())
 				{
 					PostApi api = new PostApi(driver);
 					if (driver.sync_range == null)
 					{
-						PostGetLatestResponse res = api.PostGetLatest(agent, 20);
+						PostGetLatestResponse res = api.PostGetLatest(client.Agent, 20);
 						SavePosts(res.posts);
 						DownloadMissedResource(res.posts);
 						driver.sync_range = new SyncRange
@@ -146,7 +152,7 @@ namespace Wammer.Station
 					}
 					else
 					{
-						PostFetchByFilterResponse newerRes = api.PostFetchByFilter(agent,
+						PostFetchByFilterResponse newerRes = api.PostFetchByFilter(client.Agent,
 							new FilterEntity
 							{
 								limit = 20,
@@ -164,7 +170,7 @@ namespace Wammer.Station
 
 						if (driver.sync_range.start_time != driver.sync_range.first_post_time)
 						{
-							PostFetchByFilterResponse olderRes = api.PostFetchByFilter(agent,
+							PostFetchByFilterResponse olderRes = api.PostFetchByFilter(client.Agent,
 								new FilterEntity
 								{
 									limit = -20,
@@ -268,8 +274,18 @@ namespace Wammer.Station
 			}
 			catch (WammerCloudException ex)
 			{
-				logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
-				logger.Warn("Detail exception:", ex);
+				++evtargs.failureCount;
+
+				if (evtargs.failureCount >= 3)
+				{
+					logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
+					logger.Warn("Detail exception:", ex);
+				}
+				else
+				{
+					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
+					TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+				}
 			}
 			finally
 			{

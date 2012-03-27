@@ -55,18 +55,22 @@ namespace Wammer.Station
 			// currently only support one driver
 			Driver driver = DriverCollection.Instance.FindOne();
 			StorageApi api = new StorageApi(driver.user_id);
-			StorageAuthResponse res = api.StorageAuthorize(new WebClient(), CloudStorageType.DROPBOX);
-			logger.DebugFormat("Dropbox OAuth URL = {0}", res.storages.authorization_url);
+			using (WebClientProxy client = WebClientPool.GetFreeClient())
+			{
+				StorageAuthResponse res = api.StorageAuthorize(client.Agent, CloudStorageType.DROPBOX);
 
-			RespondSuccess(
-				new GetDropboxOAuthResponse
-				{
-					api_ret_code = 0,
-					api_ret_message = "success",
-					status = 200,
-					timestamp = DateTime.UtcNow,
-					oauth_url = res.storages.authorization_url
-				});	
+				logger.DebugFormat("Dropbox OAuth URL = {0}", res.storages.authorization_url);
+
+				RespondSuccess(
+					new GetDropboxOAuthResponse
+					{
+						api_ret_code = 0,
+						api_ret_message = "success",
+						status = 200,
+						timestamp = DateTime.UtcNow,
+						oauth_url = res.storages.authorization_url
+					});
+			}
 		}
 
 		public override object Clone()
@@ -101,15 +105,15 @@ namespace Wammer.Station
 				// try connecting Dropbox if cloudstorage has no Dropbox info
 				if (storageDoc == null)
 				{
-					using (WebClient agent = new WebClient())
+					using (WebClientProxy client = WebClientPool.GetFreeClient())
 					{
 						StorageLinkResponse linkRes;
-						linkRes = api.StorageLink(agent, CloudStorageType.DROPBOX);
+						linkRes = api.StorageLink(client.Agent, CloudStorageType.DROPBOX);
 						linked = true;
 
 						VerifyAccountLink(folder, linkRes.storages.token);
 
-						StorageCheckResponse res = api.StorageCheck(agent, CloudStorageType.DROPBOX);
+						StorageCheckResponse res = api.StorageCheck(client.Agent, CloudStorageType.DROPBOX);
 						if (res.storages.status != 0)
 						{
 							logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", res.ToFastJSON());
@@ -134,7 +138,10 @@ namespace Wammer.Station
 			catch (Exception)
 			{
 				if (linked)
-					api.StorageUnlink(new WebClient(), CloudStorageType.DROPBOX);
+					using (WebClientProxy client = WebClientPool.GetFreeClient())
+					{
+						api.StorageUnlink(client.Agent, CloudStorageType.DROPBOX);
+					}
 
 				throw;
 			}
@@ -214,7 +221,11 @@ namespace Wammer.Station
 			if (storageDoc != null)
 			{
 				logger.Debug("Unlink Dropbox account");
-				api.StorageUnlink(new WebClient(), CloudStorageType.DROPBOX);
+
+				using (WebClientProxy client = WebClientPool.GetFreeClient())
+				{
+					api.StorageUnlink(client.Agent, CloudStorageType.DROPBOX);
+				}
 				CloudStorageCollection.Instance.Remove(Query.EQ("Type", "dropbox"));
 			}
 
