@@ -33,6 +33,10 @@ namespace Wammer.Station
 			return this.MemberwiseClone();
 		}
 
+
+		public override void OnTaskEnqueue(EventArgs e)
+		{
+		}
 	}
 
 	class ResouceDirSetHandler: HttpHandler
@@ -54,6 +58,10 @@ namespace Wammer.Station
 			return this.MemberwiseClone();
 		}
 
+
+		public override void OnTaskEnqueue(EventArgs e)
+		{
+		}
 	}
 
 	public class GetResourceDirResponse : Cloud.CloudResponse

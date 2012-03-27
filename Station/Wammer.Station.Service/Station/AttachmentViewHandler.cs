@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station
 {
@@ -192,12 +193,28 @@ namespace Wammer.Station
 
 
             string tempFile = System.IO.Path.GetTempFileName();
-            WebClient wc = new WebClient();
-            wc.DownloadFile(redirectURL, tempFile);
+
+			WebClient wc = null;
+			try
+			{
+				PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
+				wc = new WebClient();
+				wc.DownloadFile(redirectURL, tempFile);				
+			}
+			finally
+			{
+				var counter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
+
+				if (counter.Sample.RawValue > 0)
+					counter.Decrement();
+			}			
+
             System.IO.File.Move(tempFile, file);
 
             using (var fs = File.Open(file, FileMode.Open))
             {
+				PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(fs.Length);
+
                 if (imageMeta == ImageMeta.Origin)
                 {
                     AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
@@ -282,6 +299,10 @@ namespace Wammer.Station
 					logger.Warn("error closing source and response", e);
 				}
 			}
+		}
+
+		public override void OnTaskEnqueue(EventArgs e)
+		{
 		}
 	}
 

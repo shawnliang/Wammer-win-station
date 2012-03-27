@@ -11,6 +11,7 @@ namespace Wammer.Station
 	{
 		void HandleRequest(HttpListenerRequest request, HttpListenerResponse response);
 		void SetBeginTimestamp(long beginTime);
+		void OnTaskEnqueue(EventArgs e);
 	}
 
 	public class HttpServer : IDisposable
@@ -133,7 +134,10 @@ namespace Wammer.Station
 						IHttpHandler handler = FindBestMatch(context.Request.Url.AbsolutePath);
 
 						if (handler != null)
+						{
+							handler.OnTaskEnqueue(EventArgs.Empty);
 							TaskQueue.Enqueue(new HttpHandlingTask(handler, context, beginTime), TaskPriority.High);
+						}
 						else
 							respond404NotFound(context);
 					}
@@ -210,7 +214,7 @@ namespace Wammer.Station
 			string path = requestAbsPath;
 			if (!path.EndsWith("/"))
 				path += "/";
-
+			
 
 			if (handlers.ContainsKey(path))
 				return handlers[path];

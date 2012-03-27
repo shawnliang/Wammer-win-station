@@ -246,6 +246,9 @@ namespace Wammer.Station
 				w.Write(data);
 			}
 		}
+
+
+		public abstract void OnTaskEnqueue(EventArgs e);
 	}
 
 

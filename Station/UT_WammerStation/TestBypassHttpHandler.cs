@@ -41,6 +41,11 @@ namespace UT_WammerStation
 		public void SetBeginTimestamp(long beginTime)
 		{
 		}
+
+
+		public void OnTaskEnqueue(EventArgs e)
+		{
+		}
 	}
 
 
@@ -83,6 +88,11 @@ namespace UT_WammerStation
 		public object Clone()
 		{
 			return new MyForwardedHandler();
+		}
+
+
+		public void OnTaskEnqueue(EventArgs e)
+		{
 		}
 	}
 

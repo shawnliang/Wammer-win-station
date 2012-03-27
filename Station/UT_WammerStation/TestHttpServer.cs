@@ -40,6 +40,11 @@ namespace UT_WammerStation
 		public void SetBeginTimestamp(long beginTime)
 		{
 		}
+
+
+		public void OnTaskEnqueue(EventArgs e)
+		{
+		}
 	}
 
 	class MyHandler2 : HttpHandler
@@ -54,6 +59,10 @@ namespace UT_WammerStation
 		{
 			SavedParameters = this.Parameters;
 			this.RespondSuccess();
+		}
+
+		public override void OnTaskEnqueue(EventArgs e)
+		{
 		}
 	}
 
