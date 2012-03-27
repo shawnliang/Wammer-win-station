@@ -112,47 +112,39 @@ namespace Waveface
                 try
                 {
                     List<string> _pics = new List<string>();
-                    List<string> _imageFileInDir = new List<string>();
 
-                    string[] _dropFileList = (string[])data.GetData(DataFormats.FileDrop, false);
+                    string[] _dropFiles = (string[])data.GetData(DataFormats.FileDrop, false);
 
-                    // 檢查是否為目錄, 並取出圖檔
-                    if (_dropFileList.Length == 1)
+
+                    foreach (string _file in _dropFiles)
                     {
-                        if (Directory.Exists(_dropFileList[0]))
+                        if (Directory.Exists(_file))
                         {
-                            DirectoryInfo _d = new DirectoryInfo(_dropFileList[0]);
+                            DirectoryInfo _d = new DirectoryInfo(_file);
 
                             FileInfo[] _fileInfos = _d.GetFiles();
 
                             foreach (FileInfo _f in _fileInfos)
                             {
-                                FileAttributes _attributes = File.GetAttributes(_f.FullName);
+                                FileAttributes _a = File.GetAttributes(_f.FullName);
 
                                 // 過濾隱藏檔
-                                if ((_attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+                                if ((_a & FileAttributes.Hidden) == FileAttributes.Hidden)
                                     continue;
 
                                 string _mime = FileUtility.GetMimeType(_f).ToLower();
 
                                 if (_mime.IndexOf("image") >= 0)
-                                    _imageFileInDir.Add(_f.FullName);
-                            }
-
-                            if (_imageFileInDir.Count > 0)
-                            {
-                                Main.Current.Post(_imageFileInDir, PostType.Photo);
-                                return;
+                                    _pics.Add(_f.FullName);
                             }
                         }
-                    }
+                        else
+                        {
+                            string _mime = FileUtility.GetMimeType(new FileInfo(_file)).ToLower();
 
-                    foreach (string _file in _dropFileList)
-                    {
-                        string _mime = FileUtility.GetMimeType(new FileInfo(_file)).ToLower();
-
-                        if (_mime.IndexOf("image") >= 0)
-                            _pics.Add(_file);
+                            if (_mime.IndexOf("image") >= 0)
+                                _pics.Add(_file);
+                        }
                     }
 
                     if (_pics.Count > 0)
@@ -299,7 +291,7 @@ namespace Waveface
             //if (_workStr.Length > 32)
             //    _retStr = _workStr.Substring(0, 32) + "...";
             //else
-                _retStr = _workStr;
+            _retStr = _workStr;
 
             return _retStr;
         }

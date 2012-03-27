@@ -229,19 +229,19 @@ namespace Waveface.API.V2
 
     public class Preview_OpenGraph
     {
-        public string provider_url { get; set; }
-        public string provider_name { get; set; }
         public string provider_display { get; set; }
         public string title { get; set; }
         public string url { get; set; }
         public string description { get; set; }
         public string thumbnail_url { get; set; }
         public string type { get; set; }
-        public string thumbnail_width { get; set; }
-        public string thumbnail_height { get; set; }
+        public string favicon_url { get; set; }
 
         /*
-        public string favicon_url { get; set; }
+        public string provider_url { get; set; }
+        public string provider_name { get; set; }
+        public string thumbnail_width { get; set; }
+        public string thumbnail_height { get; set; }
         public string keywords { get; set; }
         public string images { get; set; }
         public string embeds { get; set; }

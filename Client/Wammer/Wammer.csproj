@@ -239,35 +239,9 @@
     </Compile>
     <Compile Include="Data\UploadOriginPhotosToStationManager.cs" />
     <Compile Include="Component\FileIconLib.cs" />
-    <Compile Include="Component\FirefoxDialog\EtchedLine.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Component\FirefoxDialog\FirefoxDialog.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Component\FirefoxDialog\FirefoxDialog.designer.cs">
-      <DependentUpon>FirefoxDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Component\FirefoxDialog\PageProp.cs" />
-    <Compile Include="Component\FirefoxDialog\PropertyPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Component\IconHelper\IconHelper.cs" />
     <Compile Include="Component\IconHelper\IconListManager.cs" />
     <Compile Include="Component\MouseWheelRedirector.cs" />
-    <Compile Include="Component\MozBar\ImageListPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component\MozBar\ImageMapEditor.cs" />
-    <Compile Include="Component\MozBar\MozItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component\MozBar\MozPane.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component\MozBar\ScrollableControlWithScrollEvents.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Component\MyImageListViewRenderer.cs" />
     <Compile Include="Component\PopupControl\ComboBox.cs">
       <SubType>Component</SubType>
@@ -524,6 +498,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="app.config" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -580,15 +555,6 @@
     <EmbeddedResource Include="Component\CollapsibleSplitter.resx">
       <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\FirefoxDialog\EtchedLine.resx">
-      <DependentUpon>EtchedLine.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\FirefoxDialog\FirefoxDialog.resx">
-      <DependentUpon>FirefoxDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\FirefoxDialog\PropertyPage.resx">
-      <DependentUpon>PropertyPage.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Component\ImageViewer\ImageViewerForm.resx">
       <DependentUpon>ImageViewerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -603,18 +569,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Component\ListBarControl\VSNetListBar.resx">
       <DependentUpon>VSNetListBar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\MozBar\ImageListPanel.resx">
-      <DependentUpon>ImageListPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\MozBar\MozItem.resx">
-      <DependentUpon>MozItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\MozBar\MozPane.resx">
-      <DependentUpon>MozPane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\MozBar\ScrollableControlWithScrollEvents.resx">
-      <DependentUpon>ScrollableControlWithScrollEvents.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Component\MsgBox.resx">
       <DependentUpon>MsgBox.cs</DependentUpon>

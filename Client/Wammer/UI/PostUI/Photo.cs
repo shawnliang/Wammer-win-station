@@ -36,7 +36,7 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = "更改"; //@ I18n
+            btnSend.Text = I18n.L.T("Update");
         }
 
         #region ImageListView
@@ -439,21 +439,7 @@ namespace Waveface.PostUI
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                foreach (string _pic in openFileDialog.FileNames)
-                {
-                    ImageListViewItem _item = new ImageListViewItem(_pic);
-
-                    EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-
-                    if (MyParent.EditMode)
-                        _tag.AddPhotoType = EditModePhotoType.EditModeNewAdd;
-                    else
-                        _tag.AddPhotoType = EditModePhotoType.NewPostNewAdd;
-
-                    _item.Tag = _tag;
-
-                    imageListView.Items.Add(_item);
-                }
+                AddPhotos(openFileDialog.FileNames);
             }
             else
             {
@@ -464,6 +450,25 @@ namespace Waveface.PostUI
                     
                     return;
                 }
+            }
+        }
+
+        private void AddPhotos(string[] files)
+        {
+            foreach (string _pic in files)
+            {
+                ImageListViewItem _item = new ImageListViewItem(_pic);
+
+                EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
+
+                if (MyParent.EditMode)
+                    _tag.AddPhotoType = EditModePhotoType.EditModeNewAdd;
+                else
+                    _tag.AddPhotoType = EditModePhotoType.NewPostNewAdd;
+
+                _item.Tag = _tag;
+
+                imageListView.Items.Add(_item);
             }
         }
 
@@ -545,19 +550,19 @@ namespace Waveface.PostUI
 
             foreach (ImageListView.ImageListViewColumnHeader col in imageListView.Columns)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem(col.Text);
-                item.Checked = (imageListView.SortColumn == i);
-                item.Tag = i;
-                item.Click += sortColumnMenuItem_Click;
-                sortByToolStripMenuItem.DropDownItems.Insert(i, item);
+                ToolStripMenuItem _item = new ToolStripMenuItem(col.Text);
+                _item.Checked = (imageListView.SortColumn == i);
+                _item.Tag = i;
+                _item.Click += sortColumnMenuItem_Click;
+                sortByToolStripMenuItem.DropDownItems.Insert(i, _item);
                 i++;
             }
 
             if (i == 0)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem("None");
-                item.Enabled = false;
-                sortByToolStripMenuItem.DropDownItems.Insert(0, item);
+                ToolStripMenuItem _item = new ToolStripMenuItem("None");
+                _item.Enabled = false;
+                sortByToolStripMenuItem.DropDownItems.Insert(0, _item);
             }
         }
 
@@ -609,6 +614,57 @@ namespace Waveface.PostUI
 
                 labelSummary.Text = _filePath;
             }
+        }
+
+        private void imageListView_DropFiles(object sender, DropFileEventArgs e)
+        {
+            try
+            {
+                List<string> _pics = new List<string>();
+
+                string[] _dropFils = e.FileNames;
+            
+                foreach (string _file in _dropFils)
+                {
+                    if (Directory.Exists(_file))
+                    {
+                        DirectoryInfo _d = new DirectoryInfo(_file);
+
+                        FileInfo[] _fileInfos = _d.GetFiles();
+
+                        foreach (FileInfo _f in _fileInfos)
+                        {
+                            FileAttributes _attributes = File.GetAttributes(_f.FullName);
+
+                            // 過濾隱藏檔
+                            if ((_attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+                                continue;
+
+                            string _mime = FileUtility.GetMimeType(_f).ToLower();
+
+                            if (_mime.IndexOf("image") >= 0)
+                                _pics.Add(_f.FullName);
+                        }
+                    }
+                    else
+                    {
+                        string _mime = FileUtility.GetMimeType(new FileInfo(_file)).ToLower();
+
+                        if (_mime.IndexOf("image") >= 0)
+                            _pics.Add(_file);
+                    }
+                }
+
+                if (_pics.Count > 0)
+                {
+                    AddPhotos(_pics.ToArray());
+                }
+            }
+            catch
+            {
+            }
+
+            e.Cancel = true;
         }
     }
 }

@@ -110,22 +110,13 @@ namespace Waveface.Component
 
         public new FlatStyle FlatStyle
         {
-            get
-            {
-                return base.FlatStyle;
-            }
-            set
-            {
-                base.FlatStyle = FlatStyle.Standard;
-            }
+            get { return base.FlatStyle; }
+            set { base.FlatStyle = FlatStyle.Standard; }
         }
 
         public emunType.BtnShape BtnShape
         {
-            get
-            {
-                return m_btnShape;
-            }
+            get { return m_btnShape; }
             set
             {
                 m_btnShape = value;
@@ -137,10 +128,7 @@ namespace Waveface.Component
          RefreshProperties(RefreshProperties.Repaint)]
         public emunType.XPStyle BtnStyle
         {
-            get
-            {
-                return m_btnStyle;
-            }
+            get { return m_btnStyle; }
             set
             {
                 m_btnStyle = value;
@@ -150,10 +138,7 @@ namespace Waveface.Component
 
         public Point AdjustImageLocation
         {
-            get
-            {
-                return locPoint;
-            }
+            get { return locPoint; }
             set
             {
                 locPoint = value;
@@ -508,13 +493,13 @@ namespace Waveface.Component
                             rc.X = 0;
                             rc.Y = 0;
                             ImagePoint.X = rc.Width;
-                            ImagePoint.Y = ClientRectangle.Height/2 - Image.Height/2;
+                            ImagePoint.Y = ClientRectangle.Height / 2 - Image.Height / 2;
                             break;
                         }
                     case ContentAlignment.TopCenter:
                         {
                             ImagePoint.Y = 2;
-                            ImagePoint.X = (ClientRectangle.Width - Image.Width)/2;
+                            ImagePoint.X = (ClientRectangle.Width - Image.Width) / 2;
                             rc.Width = ClientRectangle.Width;
                             rc.Height = ClientRectangle.Height - Image.Height - 4;
                             rc.X = ClientRectangle.X;
@@ -524,8 +509,8 @@ namespace Waveface.Component
                     case ContentAlignment.MiddleCenter:
                         {
                             // no text in this alignment
-                            ImagePoint.X = (ClientRectangle.Width - Image.Width)/2;
-                            ImagePoint.Y = (ClientRectangle.Height - Image.Height)/2;
+                            ImagePoint.X = (ClientRectangle.Width - Image.Width) / 2;
+                            ImagePoint.Y = (ClientRectangle.Height - Image.Height) / 2;
                             rc.Width = 0;
                             rc.Height = 0;
                             rc.X = ClientRectangle.Width;
@@ -535,7 +520,7 @@ namespace Waveface.Component
                     default:
                         {
                             ImagePoint.X = 6;
-                            ImagePoint.Y = ClientRectangle.Height/2 - Image.Height/2;
+                            ImagePoint.Y = ClientRectangle.Height / 2 - Image.Height / 2;
                             rc.Width = ClientRectangle.Width - Image.Width;
                             rc.Height = ClientRectangle.Height;
                             rc.X = Image.Width;
@@ -545,10 +530,12 @@ namespace Waveface.Component
                 }
                 ImagePoint.X += locPoint.X;
                 ImagePoint.Y += locPoint.Y;
+
                 if (Enabled)
                     g.DrawImage(Image, ImagePoint);
                 else
-                    System.Windows.Forms.ControlPaint.DrawImageDisabled(g, Image, locPoint.X, locPoint.Y, BackColor);
+                    System.Windows.Forms.ControlPaint.DrawImageDisabled(g, Image, ImagePoint.X, ImagePoint.Y, BackColor);
+
                 if (ContentAlignment.MiddleCenter != ImageAlign)
                     g.DrawString(
                         Text,
@@ -581,13 +568,16 @@ namespace Waveface.Component
                                                               LinearGradientMode.Vertical);
                     break;
                 case emunType.XPStyle.Blue:
-                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(248, 252, 253), Color.FromArgb(172, 171, 201), LinearGradientMode.Vertical);
+                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(248, 252, 253),
+                                                              Color.FromArgb(172, 171, 201), LinearGradientMode.Vertical);
                     break;
                 case emunType.XPStyle.OliveGreen:
-                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(250, 250, 240), Color.FromArgb(235, 220, 190), LinearGradientMode.Vertical);
+                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(250, 250, 240),
+                                                              Color.FromArgb(235, 220, 190), LinearGradientMode.Vertical);
                     break;
                 case emunType.XPStyle.Silver:
-                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(253, 253, 253), Color.FromArgb(205, 205, 205),
+                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(253, 253, 253),
+                                                              Color.FromArgb(205, 205, 205),
                                                               LinearGradientMode.Vertical);
                     break;
             }
@@ -626,13 +616,16 @@ namespace Waveface.Component
                                                               LinearGradientMode.Vertical);
                     break;
                 case emunType.XPStyle.Blue:
-                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(248, 252, 253), Color.FromArgb(172, 171, 201), LinearGradientMode.Vertical);
+                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(248, 252, 253),
+                                                              Color.FromArgb(172, 171, 201), LinearGradientMode.Vertical);
                     break;
                 case emunType.XPStyle.OliveGreen:
-                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(250, 250, 240), Color.FromArgb(235, 220, 190), LinearGradientMode.Vertical);
+                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(250, 250, 240),
+                                                              Color.FromArgb(235, 220, 190), LinearGradientMode.Vertical);
                     break;
                 case emunType.XPStyle.Silver:
-                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(253, 253, 253), Color.FromArgb(205, 205, 205),
+                    brushBackground = new LinearGradientBrush(rcBackground, Color.FromArgb(253, 253, 253),
+                                                              Color.FromArgb(205, 205, 205),
                                                               LinearGradientMode.Vertical);
                     break;
             }

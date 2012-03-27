@@ -23,7 +23,7 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = "更改"; //@ I18n
+            btnSend.Text = I18n.L.T("Update");
 
             buttonRemovePreview.Visible = false;
 
@@ -115,24 +115,23 @@ namespace Waveface.PostUI
             Preview_AdvancedOpenGraph _aog = m_mrPreviewsGetAdv.preview;
 
             Preview_OpenGraph _og = new Preview_OpenGraph();
+            _og.type = _aog.type;
             _og.description = _aog.description;
-            _og.provider_name = _aog.provider_name;
-            _og.provider_url = _aog.provider_url;
             _og.provider_display = _aog.provider_display;
             _og.url = _aog.url;
             _og.title = _aog.title;
+            _og.thumbnail_url = "";
 
             if (!cbNoThumbnail.Checked)
             {
                 if (_aog.images.Count != 0)
                 {
                     _og.thumbnail_url = _aog.images[m_currentPreviewImageIndex].url;
-                    _og.thumbnail_width = _aog.images[m_currentPreviewImageIndex].width;
-                    _og.thumbnail_height = _aog.images[m_currentPreviewImageIndex].height;
                 }
             }
 
-            _og.type = _aog.type;
+            if (!string.IsNullOrEmpty(_aog.favicon_url))
+                _og.favicon_url = _aog.favicon_url;
 
             return _og;
         }
@@ -287,14 +286,7 @@ namespace Waveface.PostUI
             }
             else
             {
-                if (flag)
-                {
-                    Cursor = Cursors.WaitCursor;
-                }
-                else
-                {
-                    Cursor = Cursors.Default;
-                }
+                Cursor = flag ? Cursors.WaitCursor : Cursors.Default;
 
                 cbNoThumbnail.Refresh(); //HACK
             }
