@@ -1445,5 +1445,10 @@ namespace Waveface
 
             return _ret;
         }
+
+        public static float ConvertBytesToMegaBytes(long bytes)
+        {
+			return (bytes / 1024f) / 1024f;
+        }
     }
 }
