@@ -29,7 +29,7 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = "更改";
+            btnSend.Text = I18n.L.T("Update");
         }
 
         private void InitIconListManager()

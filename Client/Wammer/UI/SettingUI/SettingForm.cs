@@ -36,6 +36,7 @@ namespace Waveface.SettingUI
         // private static Logger s_logger = LogManager.GetCurrentClassLogger();
         Sparkle m_autoUpdator;
         public bool isUnlink = false;
+        List<StationInfo> stationList = new List<StationInfo>();
 
         public SettingForm(Sparkle autoUpdator)
         {
@@ -94,6 +95,37 @@ namespace Waveface.SettingUI
             }
         }
 
+        private class StationInfo
+        {
+            public Station info;
+            public bool isThisPC;
+
+            public StationInfo(Station info, bool isThisPC)
+            {
+                this.info = info;
+                this.isThisPC = isThisPC;
+            }
+
+            public string Display
+            {
+                get
+                {
+                    if (isThisPC)
+                        return info.computer_name + " " + I18n.L.T("ThisPC");
+                    else
+                        return info.computer_name;
+                }
+            }
+
+            public string Id
+            {
+                get
+                {
+                    return info.station_id;
+                }
+            }
+        }
+
         private void RefreshLinkedComputers(List<Station> mystations)
         {
             if (InvokeRequired)
@@ -105,25 +137,47 @@ namespace Waveface.SettingUI
             else
             {
                 lblLoadingStations.Visible = false;
+                StationInfo thisPC = null;
+                bool firstStation = true;
                 foreach (Station station in mystations)
                 {
-                    StationDisplay display;
+                    StationInfo stationInfo;
+
                     if (station.station_id == (string)StationRegHelper.GetValue("stationId", ""))
                     {
-                        Button btn = new Button();
-                        btn.Text = I18n.L.T("UnlinkButton");
-                        btn.Anchor = AnchorStyles.None;
-                        btn.Size = new Size(110, 23);
-                        btn.Click += btnUnlink_Click;
-                        display = new StationDisplay(station, btn);
+                        stationInfo = new StationInfo(station, true);
+                        thisPC = stationInfo;
                     }
                     else
                     {
-                        display = new StationDisplay(station, null);
+                        stationInfo = new StationInfo(station, false);
                     }
-            
-                    flowPanelComputerName.Controls.Add(display);
+
+                    stationList.Add(stationInfo);
+
+                    if (firstStation)
+                    {
+                        lblPrimaryStation.Text = stationInfo.Display;
+                        firstStation = false;
+                    }
                 }
+                cmbStations.DataSource = stationList;
+                cmbStations.DisplayMember = "Display";
+                cmbStations.ValueMember = "Id";
+                if (thisPC != null)
+                    cmbStations.SelectedValue = thisPC.Id;
+                else
+                    cmbStations.SelectedValue = stationList[0].Id;
+
+                cmbStations.Visible = true;
+                lblLastSync.Visible = true;
+                lblLastSyncValue.Visible = true;
+                lblStorageUsage.Visible = true;
+                lblStorageUsageValue.Visible = true;
+                lblOriginDesc.Visible = true;
+                lblPrimaryStation.Visible = true;
+                btnChangeLoc.Visible = true;
+                btnUnlink.Visible = true;
             }
         }
 
@@ -210,6 +264,41 @@ namespace Waveface.SettingUI
             {
                 isUnlink = true;
                 Close();
+            }
+        }
+
+        private void cmbStations_SelectedValueChanged(object sender, EventArgs e)
+        {
+            string id = cmbStations.SelectedValue.ToString();
+            foreach (StationInfo station in stationList)
+            {
+                if (id == station.Id)
+                {
+                    DateTime lastSync = DateTimeHelp.ConvertUnixTimestampToDateTime(long.Parse(station.info.last_seen));
+                    string lastSyncString = DateTimeHelp.PrettyDate(lastSync.ToString());
+                    if (lastSyncString == lastSync.ToString())
+                        lblLastSyncValue.Text = lastSync.ToString("MM/dd tt hh:mm:ss");
+                    else
+                        lblLastSyncValue.Text = lastSyncString;
+                    if (station.info.diskusage.Count > 0)
+                    {
+                        float usage = FileUtility.ConvertBytesToMegaBytes(station.info.diskusage[0].used);
+                        lblStorageUsageValue.Text = usage.ToString("F") + " MB";
+                    }
+                    else
+                        lblStorageUsageValue.Text = "N/A";
+
+                    if (station.isThisPC)
+                    {
+                        btnChangeLoc.Enabled = true;
+                        btnUnlink.Enabled = true;
+                    }
+                    else
+                    {
+                        btnChangeLoc.Enabled = false;
+                        btnUnlink.Enabled = false;
+                    }
+                }
             }
         }
     }

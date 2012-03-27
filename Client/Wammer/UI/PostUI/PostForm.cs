@@ -118,9 +118,9 @@ namespace Waveface
 
         private void ChangeToEditModeUI()
         {
-            Text = "編輯貼文"; //@ I18n
+            Text = I18n.L.T("EditPost");
 
-            btnSend.Text = "更改"; //@ I18n
+            btnSend.Text = I18n.L.T("Update");
 
             btnAddPhoto.Visible = false;
         }
