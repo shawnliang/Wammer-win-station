@@ -119,25 +119,25 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="barCloudUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 91</value>
+    <value>13, 91</value>
   </data>
   <data name="barCloudUsage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 18</value>
+    <value>389, 18</value>
   </data>
   <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>50, 45</value>
+    <value>54, 45</value>
   </data>
   <data name="label_UsedCountValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>86, 66</value>
+    <value>90, 66</value>
   </data>
   <data name="label_MonthlyLimitValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>74, 24</value>
+    <value>78, 24</value>
   </data>
   <data name="lblCloudStorageUsed.Location" type="System.Drawing.Point, System.Drawing">
     <value>52, 181</value>
   </data>
   <data name="label_UsedCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 45</value>
+    <value>10, 45</value>
   </data>
   <data name="label_UsedCount.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 14</value>
@@ -146,7 +146,7 @@
     <value>已使用:</value>
   </data>
   <data name="label_DaysLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 66</value>
+    <value>10, 66</value>
   </data>
   <data name="label_DaysLeft.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 14</value>
@@ -155,7 +155,7 @@
     <value>週期剩餘天數:</value>
   </data>
   <data name="label_MonthlyLimit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 24</value>
+    <value>10, 24</value>
   </data>
   <data name="label_MonthlyLimit.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 14</value>
@@ -184,65 +184,11 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>427, 535</value>
   </data>
-  <data name="linkLegalNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 14</value>
-  </data>
-  <data name="linkLegalNotice.Text" xml:space="preserve">
-    <value>隱私權政策</value>
-  </data>
   <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 489</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>409, 34</value>
-  </data>
-  <data name="lblPrimaryStation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>170, 135</value>
-  </data>
-  <data name="lblOriginDesc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 14</value>
-  </data>
-  <data name="lblOriginDesc.Text" xml:space="preserve">
-    <value>你所有的檔案會被自動儲存在:</value>
-  </data>
-  <data name="btnUnlink.Text" xml:space="preserve">
-    <value>移除連結</value>
-  </data>
-  <data name="btnChangeLoc.Text" xml:space="preserve">
-    <value>改變儲存位置</value>
-  </data>
-  <data name="lblStorageUsageValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>74, 75</value>
-  </data>
-  <data name="lblLastSyncValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 55</value>
-  </data>
-  <data name="lblLastSyncValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 14</value>
-  </data>
-  <data name="lblLastSyncValue.Text" xml:space="preserve">
-    <value>5 分鐘前</value>
-  </data>
-  <data name="lblStorageUsage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 14</value>
-  </data>
-  <data name="lblStorageUsage.Text" xml:space="preserve">
-    <value>已使用空間:</value>
-  </data>
-  <data name="lblLastSync.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 14</value>
-  </data>
-  <data name="lblLastSync.Text" xml:space="preserve">
-    <value>上次同步:</value>
-  </data>
-  <data name="lblLoadingStations.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 28</value>
-  </data>
-  <data name="lblLoadingStations.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 14</value>
-  </data>
-  <data name="lblLoadingStations.Text" xml:space="preserve">
-    <value>讀取中...</value>
   </data>
   <data name="groupStations.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 221</value>
@@ -252,15 +198,6 @@
   </data>
   <data name="groupStations.Text" xml:space="preserve">
     <value>已連結的電腦</value>
-  </data>
-  <data name="lblLoadingUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 24</value>
-  </data>
-  <data name="lblLoadingUsage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 14</value>
-  </data>
-  <data name="lblLoadingUsage.Text" xml:space="preserve">
-    <value>讀取中...</value>
   </data>
   <data name="groupMonthlyUsage.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 85</value>
@@ -279,24 +216,6 @@
   </data>
   <data name="lblCopyRight.Text" xml:space="preserve">
     <value>版權所有 © 2011-2012 Waveface Inc. 保留所有權利.</value>
-  </data>
-  <data name="btnUpdate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 26</value>
-  </data>
-  <data name="btnUpdate.Text" xml:space="preserve">
-    <value>檢查更新</value>
-  </data>
-  <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 30</value>
-  </data>
-  <data name="lblVersionTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 30</value>
-  </data>
-  <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 14</value>
-  </data>
-  <data name="lblVersionTitle.Text" xml:space="preserve">
-    <value>版本</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 394</value>
@@ -318,5 +237,83 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>帳戶資訊</value>
+  </data>
+  <data name="lblLoadingUsage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 24</value>
+  </data>
+  <data name="lblLoadingUsage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 14</value>
+  </data>
+  <data name="lblLoadingUsage.Text" xml:space="preserve">
+    <value>讀取中...</value>
+  </data>
+  <data name="lblPrimaryStation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>174, 135</value>
+  </data>
+  <data name="lblOriginDesc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 14</value>
+  </data>
+  <data name="lblOriginDesc.Text" xml:space="preserve">
+    <value>你所有的檔案會被自動儲存在:</value>
+  </data>
+  <data name="btnUnlink.Text" xml:space="preserve">
+    <value>移除連結</value>
+  </data>
+  <data name="btnChangeLoc.Text" xml:space="preserve">
+    <value>改變儲存位置</value>
+  </data>
+  <data name="lblStorageUsageValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>78, 75</value>
+  </data>
+  <data name="lblLastSyncValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>66, 55</value>
+  </data>
+  <data name="lblLastSyncValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 14</value>
+  </data>
+  <data name="lblLastSyncValue.Text" xml:space="preserve">
+    <value>5 分鐘前</value>
+  </data>
+  <data name="lblStorageUsage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 14</value>
+  </data>
+  <data name="lblStorageUsage.Text" xml:space="preserve">
+    <value>已使用空間:</value>
+  </data>
+  <data name="lblLastSync.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 14</value>
+  </data>
+  <data name="lblLastSync.Text" xml:space="preserve">
+    <value>上次同步:</value>
+  </data>
+  <data name="lblLoadingStations.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 14</value>
+  </data>
+  <data name="lblLoadingStations.Text" xml:space="preserve">
+    <value>讀取中...</value>
+  </data>
+  <data name="lblVersionTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 30</value>
+  </data>
+  <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 14</value>
+  </data>
+  <data name="lblVersionTitle.Text" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>39, 30</value>
+  </data>
+  <data name="btnUpdate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 26</value>
+  </data>
+  <data name="btnUpdate.Text" xml:space="preserve">
+    <value>檢查更新</value>
+  </data>
+  <data name="linkLegalNotice.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 14</value>
+  </data>
+  <data name="linkLegalNotice.Text" xml:space="preserve">
+    <value>隱私權政策</value>
   </data>
 </root>
