@@ -14,7 +14,7 @@ namespace Wammer.PerfMonitor
 		{
 			avgTime = PerfCounter.GetCounter(PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD);
 			avgTimeBase = PerfCounter.GetCounter(PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE);
-			thumbnailUpstreamRate = PerfCounter.GetCounter(PerfCounter.THUMBNAIL_UPSTREAM_RATE);
+			thumbnailUpstreamRate = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
 		}
 
 		public void OnProcessSucceeded(object sender, Wammer.Station.HttpHandlerEventArgs evt)
@@ -38,7 +38,7 @@ namespace Wammer.PerfMonitor
 			}
 			catch (Exception e)
 			{
-				Logger.Warn("Unable to write performance data: " + PerfCounter.THUMBNAIL_UPSTREAM_RATE, e);
+				Logger.Warn("Unable to write performance data: " + PerfCounter.UPSTREAM_RATE, e);
 			}
 		}
 

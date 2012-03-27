@@ -44,27 +44,27 @@ namespace Waveface
 	{
 		public static Encoding encoding = Encoding.UTF8;
 
-        public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType, Stream dataStream)
+		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType, Stream dataStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
         {
             string formDataBoundary = "--ABCDEFG";
             string contentType = "multipart/form-data; boundary=" + formDataBoundary;
 
             byte[] formData = GetMultipartFormData(postParameters, formDataBoundary, fileName, mimeType, dataStream);
 
-            return PostForm(postUrl, userAgent, contentType, formData);
+			return PostForm(postUrl, userAgent, contentType, formData, bufferSize, progressChangedCallBack);
         }
 
 		// Post the data as a multipart form
 		// postParameters with a value of type byte[] will be passed in the form as a file, and value of type string will be
 		// passed as a name/value pair.
-		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType, ArraySegment<byte> fileData)
+		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType, ArraySegment<byte> fileData, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			string formDataBoundary = "--ABCDEFG";
 			string contentType = "multipart/form-data; boundary=" + formDataBoundary;
 
 			byte[] formData = GetMultipartFormData(postParameters, formDataBoundary, fileName, mimeType, fileData);
 
-			return PostForm(postUrl, userAgent, contentType, formData);
+			return PostForm(postUrl, userAgent, contentType, formData, bufferSize, progressChangedCallBack);
 		}
 
 
@@ -79,7 +79,7 @@ namespace Waveface
 		}
 
 		// Post a form
-		private static HttpWebResponse PostForm(string postUrl, string userAgent, string contentType, byte[] formData)
+		private static HttpWebResponse PostForm(string postUrl, string userAgent, string contentType, byte[] formData, int bufferSize = 1024 , Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			HttpWebRequest request = WebRequest.Create(postUrl) as HttpWebRequest;
 
@@ -107,8 +107,7 @@ namespace Waveface
 			using (Stream requestStream = request.GetRequestStream())
 			{
 				// Push it out there
-				requestStream.Write(formData, 0, formData.Length);
-				requestStream.Close();
+				requestStream.Write(formData, bufferSize, progressChangedCallBack);
 			}
 
 			return request.GetResponse() as HttpWebResponse;

@@ -11,22 +11,45 @@ public static class StreamExtension
         targetStream.Write(buffer, 0, buffer.Length);
     }
 
-    public static void Write(this Stream targetStream, Stream sourceStream, int bufferSize = 1024)
-    {
-        if (!targetStream.CanWrite)
-            throw new ArgumentException("targetStream", "Unwritable stream");
 
-        if (sourceStream == null)
-            throw new ArgumentNullException("sourceStream");
+	public static void Write(this Stream targetStream, byte[] buffer, int bufferBatchSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	{
+		if (buffer == null)
+			throw new ArgumentNullException("buffer");
 
-        if (!sourceStream.CanRead)
-            throw new ArgumentException("sourceStream", "Unreadable stream");
+		if (!targetStream.CanWrite)
+			throw new ArgumentException("targetStream", "Unwritable stream");
 
-        targetStream.Write(sourceStream, bufferSize, null);
-    }
+		if (bufferBatchSize < 1024)
+			throw new ArgumentOutOfRangeException("bufferSize", "Must bigger than 1024");
 
+		if (buffer.Length == 0)
+			return;
 
-    public static void Write(this Stream targetStream, Stream sourceStream, int bufferSize, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack)
+		int offset = 0;
+		int readByteCount = 0;
+		int percent = 0;
+
+		while (offset < buffer.Length)
+		{
+			readByteCount = (offset + bufferBatchSize <= buffer.Length) ? bufferBatchSize : buffer.Length % bufferBatchSize;
+			targetStream.Write(buffer, offset, readByteCount);
+			offset += readByteCount;
+
+			if (progressChangedCallBack != null)
+			{
+				var currentPercent = (int)(((double)offset) / buffer.Length * 100);
+				if (currentPercent == percent)
+					continue;
+
+				percent = currentPercent;
+				progressChangedCallBack(targetStream, new System.ComponentModel.ProgressChangedEventArgs(percent, readByteCount));
+			}
+		}
+	}
+	
+
+    public static void Write(this Stream targetStream, Stream sourceStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
     {
         if (sourceStream == null)
             throw new ArgumentNullException("sourceStream");
@@ -59,7 +82,7 @@ public static class StreamExtension
                     continue;
 
                 percent = currentPercent;
-                progressChangedCallBack(targetStream, new System.ComponentModel.ProgressChangedEventArgs(percent, null));
+				progressChangedCallBack(targetStream, new System.ComponentModel.ProgressChangedEventArgs(percent, readByteCount));
             }
         }
     }

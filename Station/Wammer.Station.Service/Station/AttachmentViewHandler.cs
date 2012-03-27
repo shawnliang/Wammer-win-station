@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using MongoDB.Bson;
@@ -6,16 +6,17 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station
 {
-	public class AttachmentViewHandler: HttpHandler
+	public class AttachmentViewHandler : HttpHandler
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("AttachView");
 		private string AdditionalParam;
 
 		public AttachmentViewHandler(string stationId)
-			:base()
+			: base()
 		{
 			this.AdditionalParam = "station_id=" + stationId;
 		}
@@ -35,7 +36,7 @@ namespace Wammer.Station
 				if (objectId == null)
 					throw new ArgumentException("missing required param: object_id");
 
-				
+
 				if (Parameters["image_meta"] == null)
 					imageMeta = ImageMeta.Origin;
 				else
@@ -47,7 +48,7 @@ namespace Wammer.Station
 				// request to cloud.
 				if (Parameters["target"] != null)
 				{
-					TunnelToCloud(AdditionalParam);                    
+					TunnelToCloud(AdditionalParam);
 					return;
 				}
 
@@ -84,7 +85,7 @@ namespace Wammer.Station
 
 				Wammer.Utility.StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
 					new CopyState(fs, Response, objectId));
-				
+
 			}
 			catch (ArgumentException e)
 			{
@@ -135,7 +136,7 @@ namespace Wammer.Station
 				}
 			}
 
-			Action<HttpWebResponse> errorResponseProcess = (HttpWebResponse response) => 
+			Action<HttpWebResponse> errorResponseProcess = (HttpWebResponse response) =>
 			{
 				Response.StatusCode = (int)response.StatusCode;
 				Response.ContentType = response.GetResponseHeader("content-type");
@@ -146,7 +147,7 @@ namespace Wammer.Station
 			HttpWebResponse resp;
 			try
 			{
-				resp = (HttpWebResponse)req.GetResponse();                
+				resp = (HttpWebResponse)req.GetResponse();
 			}
 			catch (WebException e)
 			{
@@ -155,11 +156,11 @@ namespace Wammer.Station
 			}
 
 			var responseStream = resp.GetResponseStream();
-			
+
 			string responseMsg;
 			using (var sr = new StreamReader(responseStream))
 			{
-				responseMsg = sr.ReadToEnd();                
+				responseMsg = sr.ReadToEnd();
 			}
 
 			Response.StatusCode = (int)resp.StatusCode;
@@ -194,7 +195,19 @@ namespace Wammer.Station
 			string tempFile = System.IO.Path.GetTempFileName();
 			using (WebClientProxy wc = WebClientPool.GetFreeClient())
 			{
-				wc.Agent.DownloadFile(redirectURL, tempFile);
+				try
+				{
+					PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
+					wc.Agent.DownloadFile(redirectURL, tempFile);
+				}
+				finally
+				{
+					var counter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
+
+					if (counter.Sample.RawValue > 0)
+						counter.Decrement();
+				}
+
 				System.IO.File.Move(tempFile, file);
 
 				using (var fs = File.Open(file, FileMode.Open))
@@ -203,7 +216,7 @@ namespace Wammer.Station
 					{
 						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
 							.Set("file_name", attachmentView.file_name)
-							.Set("mime_type", wc.Agent.ResponseHeaders["content-type"])
+								.Set("mime_type", wc.Agent.ResponseHeaders["content-type"])
 							.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
 							.Set("file_size", fs.Length)
 							.Set("modify_time", DateTime.UtcNow)
@@ -237,6 +250,9 @@ namespace Wammer.Station
 			}
 		}
 
+		public override void OnTaskEnqueue(EventArgs e)
+		{
+		}
 
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
@@ -250,7 +266,7 @@ namespace Wammer.Station
 
 			if (uri.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
 				uri = new Uri(uri).AbsolutePath;
-			
+
 			string extension = Path.GetExtension(uri);
 			if (!string.IsNullOrEmpty(extension))
 				fileName += extension;
@@ -266,7 +282,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Wammer.Utility.StreamHelper.EndCopy(ar);	
+				Wammer.Utility.StreamHelper.EndCopy(ar);
 			}
 			catch (Exception e)
 			{
@@ -275,11 +291,12 @@ namespace Wammer.Station
 			}
 			finally
 			{
-				try{
+				try
+				{
 					state.source.Close();
 					state.response.Close();
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					logger.Warn("error closing source and response", e);
 				}

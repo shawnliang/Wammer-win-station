@@ -5,6 +5,7 @@ using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station
 {
@@ -179,6 +180,11 @@ namespace Wammer.Station
 				throw new FormatException("group_id is missing in file upload multipart data");
 
 			return file;
+		}
+
+		public override void OnTaskEnqueue(EventArgs e)
+		{
+			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Increment();
 		}
 	}
 

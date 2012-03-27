@@ -241,6 +241,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="miniupnp.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

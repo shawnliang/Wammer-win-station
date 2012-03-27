@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +14,7 @@ using MongoDB.Driver.Builders;
 using Wammer.Model;
 using Wammer.Cloud;
 using Wammer.Utility;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station
 {
@@ -120,6 +121,8 @@ namespace Wammer.Station
 				imagemeta = meta,
 				filepath = Path.GetTempFileName()
 			};
+
+			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
 			TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 		}
 
@@ -284,6 +287,13 @@ namespace Wammer.Station
 					TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 				}
 			}
+			finally
+			{
+				var counter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
+
+				if (counter.Sample.RawValue > 0)
+					counter.Decrement();
+		}
 		}
 
 		private static bool AttachmentExists(ResourceDownloadEventArgs evtargs)
@@ -318,6 +328,9 @@ namespace Wammer.Station
 				ThumbnailInfo thumbnail;
 				string savedFileName;
 				ArraySegment<byte> rawdata = new ArraySegment<byte>(File.ReadAllBytes(filepath));
+
+				PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(rawdata.Count);
+
 				FileStorage fs = new FileStorage(driver);
 
 				switch (imagemeta)
@@ -353,6 +366,7 @@ namespace Wammer.Station
 								).Set("md5", md5buff.ToString()
 								).Set("image_meta.width", width
 								).Set("image_meta.height", height
+								).Set("file_size", rawdata.Count
 								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)),
 							UpdateFlags.Upsert
 						);
@@ -458,6 +472,7 @@ namespace Wammer.Station
 						logger.WarnFormat("Unknown image meta type {0}", imagemeta);
 						break;
 				}
+
 			}
 			catch (Exception ex)
 			{
