@@ -209,7 +209,8 @@ namespace Wammer.Station
 					counter.Decrement();
 			}			
 
-            System.IO.File.Move(tempFile, file);
+            System.IO.File.Copy(tempFile, file);
+			System.IO.File.Delete(tempFile);
 
             using (var fs = File.Open(file, FileMode.Open))
             {

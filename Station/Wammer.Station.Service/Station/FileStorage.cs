@@ -49,7 +49,9 @@ namespace Wammer.Station
 
             if (System.IO.File.Exists(filePath))
                 System.IO.File.Delete(filePath);
-            System.IO.File.Move(tempFile, filePath);
+
+            System.IO.File.Copy(tempFile, filePath);
+			System.IO.File.Delete(tempFile);
 		}
 
 		public FileStream Load(string filename)
@@ -88,7 +90,9 @@ namespace Wammer.Station
             {
                 if (System.IO.File.Exists(fsAsync.TargetFile))
                     System.IO.File.Delete(fsAsync.TargetFile);
-                System.IO.File.Move(fsAsync.TempFile, fsAsync.TargetFile);
+
+                System.IO.File.Copy(fsAsync.TempFile, fsAsync.TargetFile);
+				System.IO.File.Delete(fsAsync.TempFile);
             }
         }
 
