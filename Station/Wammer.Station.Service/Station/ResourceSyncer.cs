@@ -257,7 +257,10 @@ namespace Wammer.Station
 				}
 
 				AttachmentApi api = new AttachmentApi(evtargs.driver.user_id);
-				api.AttachmentView(new WebClient(), evtargs);
+				using (WebClientProxy client = WebClientPool.GetFreeClient())
+				{
+					api.AttachmentView(client.Agent, evtargs);
+				}
 				DownloadComplete(evtargs);
 			}
 			catch (WammerCloudException ex)
