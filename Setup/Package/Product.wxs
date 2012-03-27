@@ -198,7 +198,6 @@
       <ComponentRef Id="Waveface.Configuration.dll"/>
       <ComponentRef Id="Waveface.Configuration.WindowsForms.dll"/>
       <ComponentRef Id="WebCam_Capture.dll"/>
-      <ComponentRef Id="StationML.xml"/>
       <ComponentRef Id="CommonLibs.dll"/>
       <ComponentRef Id="WavefaceWindowsClient.resources.dll"/>
       <ComponentRef Id="WavefaceML.xml"/>
@@ -304,9 +303,6 @@
       </Component>
       <Component Id="WebCam_Capture.dll" Guid="{6FB4742B-8748-4ED4-AEE5-83EF7CC2BA2F}">
         <File Id="WebCam_Capture.dll" Source="$(var.Wammer.TargetDir)\WebCam_Capture.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="StationML.xml" Guid="{C164BC1B-FF51-48AF-8F0B-E5228DE32A5B}">
-        <File Id="StationML.xML" Source="$(var.StationUI.ProjectDir)\StationML.xml"/>
       </Component>
       <Component Id="WavefaceML.xml" Guid="{509DC419-360D-4A3E-832E-62515E094FD9}">
         <File Id="WavefaceML.xML" Source="$(var.Wammer.ProjectDir)\WavefaceML.xml"/>
