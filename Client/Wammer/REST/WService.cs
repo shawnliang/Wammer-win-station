@@ -1053,6 +1053,46 @@ namespace Waveface.API.V2
             }
         }
 
+        public MR_posts_get posts_fetchByFilter_2(string session_token, string group_id, string post_id_list)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+            post_id_list = HttpUtility.UrlEncode(post_id_list);
+
+            try
+            {
+                string _url = BaseURL + "/posts/fetchByFilter";
+
+                _url += "?" +
+                        "apikey" + "=" + APIKEY + "&" +
+                        "session_token" + "=" + session_token + "&" +
+                        "group_id" + "=" + group_id + "&" +
+                        "post_id_list" + "=" + post_id_list;
+
+                return HttpGetObject<MR_posts_get>(_url);
+            }
+            catch (WebException _e)
+            {
+                NLogUtility.WebException(s_logger, _e, "posts_fetchByFilter", false);
+
+                if (_e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
+
+                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new Station401Exception();
+                }
+
+                throw;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "posts_fetchByFilter");
+
+                throw;
+            }
+        }
+
         public MR_posts_hide_ret posts_hide(string session_token, string group_id, string post_id)
         {
             session_token = HttpUtility.UrlEncode(session_token);
@@ -2066,11 +2106,11 @@ namespace Waveface.API.V2
 
         #region usertracks
 
-        public MR_usertracks_get usertracks_get(string session_token, string group_id, string timestamp)
+        public MR_usertracks_get usertracks_get(string session_token, string group_id, string since)
         {
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
-            timestamp = HttpUtility.UrlEncode(timestamp);
+            since = HttpUtility.UrlEncode(since);
 
             try
             {
@@ -2080,7 +2120,8 @@ namespace Waveface.API.V2
                        "apikey" + "=" + APIKEY + "&" +
                        "session_token" + "=" + session_token + "&" +
                        "group_id" + "=" + group_id + "&" +
-                       "timestamp" + "=" + timestamp;
+                       "since" + "=" + since + "&" +
+                       "include_entities=true";
 
                 return HttpGetObject<MR_usertracks_get>(_url);
             }

@@ -33,9 +33,12 @@
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.panelPost = new System.Windows.Forms.Panel();
+            this.postsArea = new Waveface.PostArea();
             this.splitterLeft = new System.Windows.Forms.Splitter();
             this.panelLeftInfo = new System.Windows.Forms.Panel();
+            this.leftArea = new Waveface.LeftArea();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.detailView = new Waveface.DetailView();
             this.mnuTray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.screenShotMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.regionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,13 +57,11 @@
             this.StatusLabelNetwork = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerShowStatuMessage = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorkerPreloadAllImages = new System.ComponentModel.BackgroundWorker();
-            this.detailView = new Waveface.DetailView();
-            this.postsArea = new Waveface.PostArea();
-            this.leftArea = new Waveface.LeftArea();
             this.panelTop = new Waveface.BgPanel();
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
             this.radioButtonCloud = new System.Windows.Forms.RadioButton();
+            this.timerPolling = new System.Windows.Forms.Timer(this.components);
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -89,6 +90,13 @@
             resources.ApplyResources(this.panelPost, "panelPost");
             this.panelPost.Name = "panelPost";
             // 
+            // postsArea
+            // 
+            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
+            resources.ApplyResources(this.postsArea, "postsArea");
+            this.postsArea.MinimumSize = new System.Drawing.Size(337, 2);
+            this.postsArea.Name = "postsArea";
+            // 
             // splitterLeft
             // 
             resources.ApplyResources(this.splitterLeft, "splitterLeft");
@@ -101,11 +109,28 @@
             resources.ApplyResources(this.panelLeftInfo, "panelLeftInfo");
             this.panelLeftInfo.Name = "panelLeftInfo";
             // 
+            // leftArea
+            // 
+            this.leftArea.AllowDrop = true;
+            this.leftArea.BackColor = System.Drawing.Color.Transparent;
+            this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.leftArea, "leftArea");
+            this.leftArea.Name = "leftArea";
+            this.leftArea.TabStop = false;
+            // 
             // panelMain
             // 
             this.panelMain.Controls.Add(this.detailView);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
+            // 
+            // detailView
+            // 
+            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.detailView, "detailView");
+            this.detailView.Name = "detailView";
+            this.detailView.Post = null;
+            this.detailView.User = null;
             // 
             // mnuTray
             // 
@@ -230,30 +255,6 @@
             // 
             this.backgroundWorkerPreloadAllImages.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerPreloadAllImages_DoWork);
             // 
-            // detailView
-            // 
-            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.detailView, "detailView");
-            this.detailView.Name = "detailView";
-            this.detailView.Post = null;
-            this.detailView.User = null;
-            // 
-            // postsArea
-            // 
-            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
-            resources.ApplyResources(this.postsArea, "postsArea");
-            this.postsArea.MinimumSize = new System.Drawing.Size(337, 2);
-            this.postsArea.Name = "postsArea";
-            // 
-            // leftArea
-            // 
-            this.leftArea.AllowDrop = true;
-            this.leftArea.BackColor = System.Drawing.Color.Transparent;
-            this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.leftArea, "leftArea");
-            this.leftArea.Name = "leftArea";
-            this.leftArea.TabStop = false;
-            // 
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(175)))), ((int)(((byte)(197)))));
@@ -286,6 +287,11 @@
             this.radioButtonCloud.Name = "radioButtonCloud";
             this.radioButtonCloud.UseVisualStyleBackColor = true;
             this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
+            // 
+            // timerPolling
+            // 
+            this.timerPolling.Interval = 10000;
+            this.timerPolling.Tick += new System.EventHandler(this.timerPolling_Tick);
             // 
             // Main
             // 
@@ -354,6 +360,7 @@
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelPost;
         private System.ComponentModel.BackgroundWorker backgroundWorkerPreloadAllImages;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelServiceStatus;
+        private System.Windows.Forms.Timer timerPolling;
 	}
 }
 
