@@ -187,24 +187,30 @@ namespace StationSystemTray
 		private void RefreshUserList()
 		{
 			cmbEmail.Items.Clear();
-			List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
-			ListDriverResponse res = StationController.ListUser();
-			foreach (Driver driver in res.drivers)
+			try
 			{
-				UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
-				if (userlogin != null)
+				List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
+				ListDriverResponse res = StationController.ListUser();
+				foreach (Driver driver in res.drivers)
 				{
-					cmbEmail.Items.Add(userlogin.Email);
-					ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-					menu.Name = userlogin.Email;
-					userlogins.Add(userlogin);
+					UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
+					if (userlogin != null)
+					{
+						cmbEmail.Items.Add(userlogin.Email);
+						ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+						menu.Name = userlogin.Email;
+						userlogins.Add(userlogin);
+					}
+				}
+
+				if (userlogins.Count > 0)
+				{
+					UserLoginSetting lastUserLogin = userloginContainer.GetLastUserLogin();
+					userloginContainer.ResetUserLoginSetting(userlogins, lastUserLogin == null ? "" : lastUserLogin.Email);
 				}
 			}
-
-			if (userlogins.Count > 0)
+			catch (Exception)
 			{
-				UserLoginSetting lastUserLogin = userloginContainer.GetLastUserLogin();
-				userloginContainer.ResetUserLoginSetting(userlogins, lastUserLogin == null ? "" : lastUserLogin.Email);
 			}
 		}
 
@@ -943,18 +949,26 @@ namespace StationSystemTray
 			var upSpeed = ComputeSpeed(_PreUpSpeed, PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample) / 1000;
 			var downloadSpeed = ComputeSpeed(_PreDownloadSpeed, PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample) / 1000;
 
+			var upSpeedUnit = (upSpeed <= 1000) ? "KB/s" : "MB/s";
+			var downloadSpeedUnit = (downloadSpeed <= 1000) ? "KB/s" : "MB/s";
+
+			upSpeed = (upSpeed >= 1000) ? upSpeed / 1000 : upSpeed;
+			downloadSpeed = (downloadSpeed >= 1000) ? downloadSpeed / 1000 : downloadSpeed;
+
 			_PreUpSpeed = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample;
 			_PreDownloadSpeed = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample;
 
 			var iconText = TrayIcon.BalloonTipText;
-			iconText = string.Format("{0}{1}↑ ({2}): {3:0.0} KB/s{4}↓ ({5}): {6:0.0}KB/s",
+			iconText = string.Format("{0}{1}↑ ({2}): {3:0.0} {4}{5}↓ ({6}): {7:0.0}{8}",
 				iconText, 
 				Environment.NewLine,
 				upRemainedCount,
 				upSpeed,
+				upSpeedUnit,
 				Environment.NewLine,
 				downloadRemainedCount,
-				downloadSpeed);
+				downloadSpeed,
+				downloadSpeedUnit);
 
 			this.TrayIcon.Text = iconText;
 		}

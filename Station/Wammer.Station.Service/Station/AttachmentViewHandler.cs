@@ -218,8 +218,6 @@ namespace Wammer.Station
 
 				using (var fs = File.Open(file, FileMode.Open))
 				{
-					//PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(fs.Length);
-
 					if (imageMeta == ImageMeta.Origin)
 					{
 						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
