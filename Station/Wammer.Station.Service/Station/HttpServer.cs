@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
 using Wammer.Utility;
+using log4net;
+using Wammer;
 using Wammer.PerfMonitor;
 
 namespace Wammer.Station
@@ -12,39 +14,179 @@ namespace Wammer.Station
 	{
 		void HandleRequest(HttpListenerRequest request, HttpListenerResponse response);
 		void SetBeginTimestamp(long beginTime);
-		void OnTaskEnqueue(EventArgs e);
 		event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 	}
 
 	public class HttpServer : IDisposable
 	{
-		private int port;
-		private HttpListener listener;
-		private Dictionary<string, IHttpHandler> handlers;
-		private IHttpHandler defaultHandler;
-		private bool started = false;
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpServer");
-		private object cs = new object();
-		private bool authblocked;
-		private HttpRequestMonitor monitor;
 
-		public HttpServer(int port, HttpRequestMonitor monitor = null)
+		#region Var
+		private ILog _logger;
+		private Object _lockSwitchObj;
+		private int _port;
+		private HttpListener _listener;
+		private Dictionary<string, IHttpHandler> _handlers;
+		private IHttpHandler _defaultHandler;
+		private bool _started;
+		private bool _authblocked;
+		private HttpRequestMonitor monitor;
+		#endregion
+
+
+		#region Private Property
+		private ILog m_Logger
 		{
-			this.port = port;
-			this.listener = new HttpListener();
-			this.handlers = new Dictionary<string, IHttpHandler>();
-			this.defaultHandler = null;
-			this.authblocked = false;
-			this.monitor = monitor;
+			get
+			{
+				if (_logger == null)
+					_logger = LogManager.GetLogger("HttpServer");
+				return _logger;
+			}
 		}
 
+		private object m_LockSwitchObj
+		{
+			get
+			{
+				if (_lockSwitchObj == null)
+					_lockSwitchObj = new object();
+				return _lockSwitchObj;
+			}
+		}
+
+		private int m_Port
+		{
+			get { return _port; }
+			set { _port = value; }
+		}
+
+		private HttpListener m_Listener
+		{
+			get
+			{
+				if (_listener == null)
+					_listener = new HttpListener();
+				return _listener;
+			}
+		}
+
+		public Dictionary<string, IHttpHandler> m_Handlers
+		{
+			get
+			{
+				if (_handlers == null)
+					_handlers = new Dictionary<string, IHttpHandler>();
+				return _handlers;
+			}
+		}
+		#endregion
+
+
+		#region Event
+		public event EventHandler<TaskQueueEventArgs> TaskEnqueue;
+		#endregion
+
+
+
+		#region Constructor
+		public HttpServer(int port, HttpRequestMonitor monitor = null)
+		{
+			m_Port = port;
+			this.monitor = monitor;
+		}
+		#endregion
+
+
+		#region Private Method
+		private void respond404NotFound(HttpListenerContext ctx)
+		{
+			try
+			{
+				ctx.Response.StatusCode = (int)HttpStatusCode.NotFound;
+				ctx.Response.Close();
+			}
+			catch (Exception e)
+			{
+				m_Logger.Warn("Unable to respond 404 Not Found", e);
+			}
+		}
+
+		private void respond503Unavailable(HttpListenerContext ctx)
+		{
+			try
+			{
+				ctx.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
+				using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+				{
+					Cloud.CloudResponse json = new Cloud.CloudResponse(
+						ctx.Response.StatusCode,
+						DateTime.UtcNow,
+						(int)StationApiError.ServerOffline,
+						"Server offline");
+					w.Write(json.ToFastJSON());
+				}
+			}
+			catch (Exception e)
+			{
+				m_Logger.Warn("Unable to respond 503 Service Unavailable", e);
+			}
+		}
+
+		private void respond401Unauthorized(HttpListenerContext ctx)
+		{
+			try
+			{
+				ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+				using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+				{
+					Cloud.CloudResponse json = new Cloud.CloudResponse(
+						ctx.Response.StatusCode,
+						DateTime.UtcNow,
+						(int)StationApiError.AlreadyHasStaion,
+						"Driver already registered another station"
+					);
+					w.Write(json.ToFastJSON());
+				}
+			}
+			catch (Exception e)
+			{
+				m_Logger.Warn("Unable to respond 401 Unauthorized", e);
+			}
+		}
+		private IHttpHandler FindBestMatch(string requestAbsPath)
+		{
+			string path = requestAbsPath;
+			if (!path.EndsWith("/"))
+				path += "/";
+
+
+			if (m_Handlers.ContainsKey(path))
+				return m_Handlers[path];
+			else
+				return _defaultHandler;
+		}
+		#endregion
+
+
+		#region Protected Method
+		protected void OnTaskQueue(TaskQueueEventArgs e)
+		{
+			this.RaiseEvent<TaskQueueEventArgs>(TaskEnqueue, e);
+		}
+		#endregion
+
+
+		#region Public Method
 		public void AddHandler(string path, IHttpHandler handler)
 		{
+			if (string.IsNullOrEmpty(path))
+				throw new ArgumentNullException("path");
+
 			if (handler == null)
-				throw new ArgumentNullException();
+				throw new ArgumentNullException("handler");
 
 			string absPath = null;
-			string urlPrefix = "http://+:" + port;
+			string urlPrefix = "http://+:" + m_Port;
 
 			if (path.StartsWith("/"))
 			{
@@ -63,8 +205,8 @@ namespace Wammer.Station
 				absPath += "/";
 			}
 
-			handlers.Add(absPath, handler);
-			listener.Prefixes.Add(urlPrefix);
+			m_Handlers.Add(absPath, handler);
+			m_Listener.Prefixes.Add(urlPrefix);
 
 			if (monitor != null)
 				handler.ProcessSucceeded += monitor.OnProcessSucceeded;
@@ -75,43 +217,43 @@ namespace Wammer.Station
 			if (handler == null)
 				throw new ArgumentNullException();
 
-			defaultHandler = handler;
+			_defaultHandler = handler;
 		}
 
 		public void Start()
 		{
-			lock (cs)
+			lock (m_LockSwitchObj)
 			{
-				if (started)
+				if (_started)
 					return;
 
-				listener.Start();
-				started = true;
-				listener.BeginGetContext(this.ConnectionAccepted, null);
+				m_Listener.Start();
+				_started = true;
+				m_Listener.BeginGetContext(this.ConnectionAccepted, null);
 			}
 		}
 
 		public void Stop()
 		{
-			lock (cs)
+			lock (m_LockSwitchObj)
 			{
-				if (started)
+				if (_started)
 				{
-					listener.Stop();
-					started = false;
+					m_Listener.Stop();
+					_started = false;
 				}
 			}
 		}
 
 		public void BlockAuth(bool blocked)
 		{
-			authblocked = blocked;
+			_authblocked = blocked;
 		}
 
 		public void Close()
 		{
 			Stop();
-			listener.Close();
+			m_Listener.Close();
 		}
 
 		public void Dispose()
@@ -125,14 +267,14 @@ namespace Wammer.Station
 
 			try
 			{
-				context = listener.EndGetContext(result);
+				context = m_Listener.EndGetContext(result);
 				long beginTime = System.Diagnostics.Stopwatch.GetTimestamp();
 
-				listener.BeginGetContext(this.ConnectionAccepted, null);
+				m_Listener.BeginGetContext(this.ConnectionAccepted, null);
 
 				if (context != null)
 				{
-					if (authblocked)
+					if (_authblocked)
 					{
 						respond401Unauthorized(context);
 					}
@@ -142,8 +284,9 @@ namespace Wammer.Station
 
 						if (handler != null)
 						{
-							handler.OnTaskEnqueue(EventArgs.Empty);
-							TaskQueue.Enqueue(new HttpHandlingTask(handler, context, beginTime), TaskPriority.High);
+							var task = new HttpHandlingTask(handler, context, beginTime);
+							OnTaskQueue(new TaskQueueEventArgs(task, handler));
+							TaskQueue.Enqueue(task, TaskPriority.High);
 						}
 						else
 							respond404NotFound(context);
@@ -152,82 +295,16 @@ namespace Wammer.Station
 			}
 			catch (ObjectDisposedException)
 			{
-				logger.Info("Http server disposed. Shutdown server");
+				m_Logger.Info("Http server disposed. Shutdown server");
 			}
 			catch (Exception e)
 			{
-				logger.Info("Shutdown server", e);
+				m_Logger.Info("Shutdown server", e);
 				return;
 			}
 		}
+		#endregion
 
-		private static void respond404NotFound(HttpListenerContext ctx)
-		{
-			try
-			{
-				ctx.Response.StatusCode = (int)HttpStatusCode.NotFound;
-				ctx.Response.Close();
-			}
-			catch (Exception e)
-			{
-				logger.Warn("Unable to respond 404 Not Found", e);
-			}
-		}
-
-		private static void respond503Unavailable(HttpListenerContext ctx)
-		{
-			try
-			{
-				ctx.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
-				using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
-				{
-					Cloud.CloudResponse json = new Cloud.CloudResponse(
-						ctx.Response.StatusCode,
-						DateTime.UtcNow,
-						(int)StationApiError.ServerOffline,
-						"Server offline");
-					w.Write(json.ToFastJSON());
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Warn("Unable to respond 503 Service Unavailable", e);
-			}
-		}
-
-		private static void respond401Unauthorized(HttpListenerContext ctx)
-		{
-			try
-			{
-				ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-				using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
-				{
-					Cloud.CloudResponse json = new Cloud.CloudResponse(
-						ctx.Response.StatusCode,
-						DateTime.UtcNow,
-						(int)StationApiError.AlreadyHasStaion,
-						"Driver already registered another station"
-					);
-					w.Write(json.ToFastJSON());
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Warn("Unable to respond 401 Unauthorized", e);
-			}
-		}
-		private IHttpHandler FindBestMatch(string requestAbsPath)
-		{
-			string path = requestAbsPath;
-			if (!path.EndsWith("/"))
-				path += "/";
-			
-
-			if (handlers.ContainsKey(path))
-				return handlers[path];
-			else
-				return defaultHandler;
-		}
 	}
 
 	class HttpHandlingTask : ITask

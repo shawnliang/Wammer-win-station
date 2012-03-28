@@ -62,6 +62,8 @@ namespace Wammer.Station.Service
 				functionServer = new HttpServer(9981, httpRequestMonitor); // TODO: remove hard code
 				stationTimer = new StationTimer(functionServer);
 
+				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
+
 				logger.Debug("Add cloud forwarders to function server");
 				BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 				cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/auth/");
@@ -141,6 +143,14 @@ namespace Wammer.Station.Service
 				logger.Error("Unknown exception", ex);
 				throw;
 			}
+		}
+
+		void functionServer_TaskEnqueue(object sender, TaskQueueEventArgs e)
+		{
+			if (e.Handler is AttachmentUploadHandler)
+			{
+				PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Increment();
+			}			
 		}
 
 		#region Private Method

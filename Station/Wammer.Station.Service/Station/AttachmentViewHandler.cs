@@ -256,10 +256,6 @@ namespace Wammer.Station
 			}
 		}
 
-		public override void OnTaskEnqueue(EventArgs e)
-		{
-		}
-
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
 		{

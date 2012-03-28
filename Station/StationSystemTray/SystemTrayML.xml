@@ -42,11 +42,13 @@
   </WItem>
   <WItem>
     <ID>ChangeOwnerSuccess</ID>
-    <en-US>User '{0}' is unassociated with Waveface Station successfully.
-Please restart Waveface to continue assign a new Waveface Station user
+    <en-US>
+      User '{0}' is unassociated with Waveface Station successfully.
+      Please restart Waveface to continue assign a new Waveface Station user
     </en-US>
-    <zh-TW>Waveface Station已經成功的和 {0} 分離
-請重新啟動程式後繼續指定Waveface Station使用者
+    <zh-TW>
+      Waveface Station已經成功的和 {0} 分離
+      請重新啟動程式後繼續指定Waveface Station使用者
     </zh-TW>
   </WItem>
   <WItem>
@@ -60,10 +62,14 @@ Please restart Waveface to continue assign a new Waveface Station user
   </WItem>
   <WItem>
     <ID>RegisteredRequired</ID>
-    <en-US>Waveface Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
-Please restart the program to initialize Waveface Station.</en-US>
-    <zh-TW>無法使用Waveface Station, 因為{0}設定了另一個Waveface Station或是該帳號不存在
-請重新啟動程式再次初始化Waveface Station</zh-TW>
+    <en-US>
+      Waveface Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
+      Please restart the program to initialize Waveface Station.
+    </en-US>
+    <zh-TW>
+      無法使用Waveface Station, 因為{0}設定了另一個Waveface Station或是該帳號不存在
+      請重新啟動程式再次初始化Waveface Station
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>ChangeOwnerError</ID>
@@ -116,20 +122,15 @@ Please restart the program to initialize Waveface Station.</en-US>
     <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
   </WItem>
   <WItem>
-    <ID>NetworkDisconnected</ID>
-    <en-US>Network Disconnected.</en-US>
-    <zh-TW>網路連線中斷.</zh-TW>
-  </WItem>
-  <WItem>
     <ID>NetworkConnected</ID>
     <en-US>Network connected</en-US>
     <zh-TW>網路連線</zh-TW>
-  </WItem>  
-   <WItem>
+  </WItem>
+  <WItem>
     <ID>NetworkDisconnected</ID>
     <en-US>Network disconnected</en-US>
     <zh-TW>網路斷線</zh-TW>
-  </WItem> 
+  </WItem>
   <WItem>
     <ID>WFPreference</ID>
     <en-US>Preference...</en-US>

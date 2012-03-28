@@ -253,11 +253,6 @@ namespace Wammer.Station
 			Uri targetUri = url.Uri;
 			return targetUri;
 		}
-		
-
-		public void OnTaskEnqueue(EventArgs e)
-		{
-		}
 	}
 
 	class BypassContext

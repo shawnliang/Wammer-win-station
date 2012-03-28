@@ -40,10 +40,6 @@ namespace Wammer.Station
 		{
 			return this.MemberwiseClone();
 		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
-		}
 	}
 
 	public class DropBoxOAuthHandler : HttpHandler
@@ -76,10 +72,6 @@ namespace Wammer.Station
 		public override object Clone()
 		{
 			return this.MemberwiseClone();
-		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
 		}
 	}
 
@@ -173,10 +165,6 @@ namespace Wammer.Station
 		{
 			return this.MemberwiseClone();
 		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
-		}
 	}
 
 
@@ -200,10 +188,6 @@ namespace Wammer.Station
 		public override object Clone()
 		{
 			return this.MemberwiseClone();
-		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
 		}
 	}
 
@@ -235,10 +219,6 @@ namespace Wammer.Station
 		public override object Clone()
 		{
 			return this.MemberwiseClone();
-		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
 		}
 	}
 

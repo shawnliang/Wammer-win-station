@@ -128,6 +128,8 @@
     <Compile Include="Cloud\UserTracksApi.cs" />
     <Compile Include="Cloud\UserTracksResponse.cs" />
     <Compile Include="Cloud\WammerCloudException.cs" />
+    <Compile Include="Extension\ObjectExtension.cs" />
+    <Compile Include="Event\TaskQueueEventArgs.cs" />
     <Compile Include="Extension\StreamExtension.cs" />
     <Compile Include="Model\Attachments.cs" />
     <Compile Include="Model\CloudStorage.cs" />
