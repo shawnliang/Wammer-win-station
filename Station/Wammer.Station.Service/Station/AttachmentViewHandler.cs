@@ -198,7 +198,13 @@ namespace Wammer.Station
 				try
 				{
 					PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-					wc.Agent.DownloadFile(redirectURL, tempFile);
+					//wc.Agent.DownloadFile(redirectURL, tempFile);
+					var stream = wc.Agent.OpenRead(redirectURL);
+					stream.WriteTo(tempFile, 1024, (sender, e) =>
+					{
+						PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
+					});
+					stream.Close();
 				}
 				finally
 				{
@@ -212,7 +218,7 @@ namespace Wammer.Station
 
 				using (var fs = File.Open(file, FileMode.Open))
 				{
-					PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(fs.Length);
+					//PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(fs.Length);
 
 					if (imageMeta == ImageMeta.Origin)
 					{

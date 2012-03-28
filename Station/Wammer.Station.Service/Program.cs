@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ServiceProcess;
 
 namespace Wammer.Station.Service
@@ -10,16 +11,17 @@ namespace Wammer.Station.Service
 		/// </summary>
 		static void Main(string[] argv)
 		{
-			if (argv.Length == 1 && argv[0].Equals("-c"))
+			if (argv.Any<string>((item)=>{ return item.Equals("-i", StringComparison.CurrentCultureIgnoreCase);}))
+			{
+				Console.WriteLine("Install Waveface station performance counters");
+				Wammer.PerfMonitor.PerfCounterInstaller.Install();
+			}
+
+			if (argv.Any<string>((item) => { return item.Equals("-c", StringComparison.CurrentCultureIgnoreCase); }))
 			{
 				Console.WriteLine("Wammer Station in Console Mode:");
 				StationService svc = new StationService();
 				svc.Run();
-			}
-			else if (argv.Length == 1 && argv[0].Equals("-i"))
-			{
-				Console.WriteLine("Install Waveface station performance counters");
-				Wammer.PerfMonitor.PerfCounterInstaller.Install();
 			}
 			else
 			{

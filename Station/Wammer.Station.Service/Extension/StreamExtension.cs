@@ -47,45 +47,66 @@ public static class StreamExtension
 			}
 		}
 	}
-	
 
-    public static void Write(this Stream targetStream, Stream sourceStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
-    {
-        if (sourceStream == null)
-            throw new ArgumentNullException("sourceStream");
 
-        if (!sourceStream.CanRead)
-            throw new ArgumentException("sourceStream", "Unreadable stream");
 
-        if (!targetStream.CanWrite)
-            throw new ArgumentException("targetStream", "Unwritable stream");
+	public static void Write(this Stream targetStream, string sourceFile, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	{
+		using (var fs = File.Open(sourceFile, FileMode.Open))
+		{
+			targetStream.Write(fs, bufferSize, progressChangedCallBack);
+		}
+	}
 
-        if (bufferSize < 1024)
-            throw new ArgumentOutOfRangeException("bufferSize", "Must bigger than 1024");
+	public static void Write(this Stream targetStream, Stream sourceStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	{
+		if (sourceStream == null)
+			throw new ArgumentNullException("sourceStream");
 
-        byte[] buffer = new byte[bufferSize];
+		if (!sourceStream.CanRead)
+			throw new ArgumentException("sourceStream", "Unreadable stream");
 
-        int offset = 0;
-        int readByteCount = 0;
-        int percent = 0;
+		if (!targetStream.CanWrite)
+			throw new ArgumentException("targetStream", "Unwritable stream");
 
-        while ((readByteCount = sourceStream.Read(buffer, 0, bufferSize)) > 0)
-        {
-            targetStream.Write(buffer, 0, readByteCount);
+		if (bufferSize < 1024)
+			throw new ArgumentOutOfRangeException("bufferSize", "Must bigger than 1024");
 
-            if (progressChangedCallBack != null)
-            {
-                offset += readByteCount;
+		byte[] buffer = new byte[bufferSize];
 
-                var currentPercent = (int)(((double)offset) / sourceStream.Length * 100);
-                if (currentPercent == percent)
-                    continue;
+		int offset = 0;
+		int readByteCount = 0;
+		int percent = 0;
 
-                percent = currentPercent;
+		long length = (sourceStream.CanSeek) ? sourceStream.Length : 0;
+
+		while ((readByteCount = sourceStream.Read(buffer, 0, bufferSize)) > 0)
+		{
+			targetStream.Write(buffer, 0, readByteCount);
+
+			if (progressChangedCallBack != null)
+			{
+				offset += readByteCount;
+
+				if (length > 0)
+				{
+					var currentPercent = (int)(((double)offset) / length * 100);
+					if (currentPercent == percent)
+						continue;
+					percent = currentPercent;
+				}				
 				progressChangedCallBack(targetStream, new System.ComponentModel.ProgressChangedEventArgs(percent, readByteCount));
-            }
-        }
-    }
+			}
+		}
+	}
+
+	public static void WriteTo(this Stream sourceStream, string targetFile, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	{
+		using (var fs = new FileStream(targetFile, FileMode.Create))
+		{
+			fs.Write(sourceStream, bufferSize, progressChangedCallBack);
+		}
+	}
 
 	public static void WriteTo(this Stream sourceStream, Stream targetStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
