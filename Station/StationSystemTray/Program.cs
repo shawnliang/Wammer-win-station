@@ -29,7 +29,7 @@ namespace StationSystemTray
             bool isFirstCreated;
 
             //Create a new mutex using specific mutex name
-            Mutex m = new Mutex(false, "StationSystemTray", out isFirstCreated);
+            Mutex m = new Mutex(true, "StationSystemTray", out isFirstCreated);
 
             if (!isFirstCreated)
             {
