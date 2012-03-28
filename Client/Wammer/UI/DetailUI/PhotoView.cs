@@ -89,7 +89,11 @@ namespace Waveface.DetailUI
             if (!FillImageListView(true))
                 timer.Enabled = true;
 
+            imageListView.Dock = DockStyle.Fill; //Hack
+
             setSelectedItem(m_initSelectedImageIndex);
+
+            SendKeys.Send("{LEFT}"); //Hack
         }
 
         private void setSelectedItem(int selectedIndex)

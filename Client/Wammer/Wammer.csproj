@@ -76,8 +76,7 @@
     <Reference Include="HTML2XHTML">
       <HintPath>..\Libs\HTML2XHTML.dll</HintPath>
     </Reference>
-    <Reference Include="ImageListView, Version=10.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ImageListView">
       <HintPath>..\Libs\ImageListView.dll</HintPath>
     </Reference>
     <Reference Include="Interop.SHDocVw">

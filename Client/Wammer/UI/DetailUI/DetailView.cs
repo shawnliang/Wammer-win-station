@@ -224,6 +224,7 @@ namespace Waveface
 
             btnComment.Visible = true;
             btnRemove.Visible = true;
+            btnEdit.Visible = true;
 
             setupTitle();
             drawFavorite();
@@ -564,7 +565,6 @@ namespace Waveface
         {
             if(m_currentView != null)
             {
-                btnEdit.Visible = true;
                 btnEdit.Enabled = m_currentView.CanEdit();
             }
         }
