@@ -43,7 +43,6 @@ namespace Wammer.Utility
 		private byte[] buffer;
 		private AsyncCallback completeCallback;
 		private AutoResetEvent doneEvent;
-		private bool readComplete;
 
 		public object AsyncState { get; private set; }
 		public bool CompletedSynchronously { get; private set; }

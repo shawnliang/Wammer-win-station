@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -287,6 +287,7 @@ namespace Wammer.Station
 							var task = new HttpHandlingTask(handler, context, beginTime);
 							OnTaskQueue(new TaskQueueEventArgs(task, handler));
 							TaskQueue.Enqueue(task, TaskPriority.High);
+							monitor.Enqueue();
 						}
 						else
 							respond404NotFound(context);
