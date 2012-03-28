@@ -95,7 +95,7 @@ namespace Wammer.PerfMonitor
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return new CounterSample();
 			}
 		}
 	}
