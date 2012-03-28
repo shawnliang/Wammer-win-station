@@ -23,7 +23,6 @@ namespace Wammer.PerfMonitor
 				PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE,
 				PerformanceCounterType.AverageBase));
 
-
 			// 3. upstream bytes/sec
 			counters.Add(new CounterCreationData(
 				PerfCounter.UPSTREAM_RATE,
@@ -59,6 +58,24 @@ namespace Wammer.PerfMonitor
 				PerfCounter.ITEMS_IN_PROGRESS,
 				PerfCounter.ITEMS_IN_PROGRESS,
 				PerformanceCounterType.NumberOfItems32));
+
+			// 9. Average time per http request
+			counters.Add(new CounterCreationData(
+				PerfCounter.AVG_TIME_PER_HTTP_REQUEST,
+				PerfCounter.AVG_TIME_PER_HTTP_REQUEST,
+				PerformanceCounterType.AverageTimer32));
+
+			// 10. Average time per http request base
+			counters.Add(new CounterCreationData(
+				PerfCounter.AVG_TIME_PER_HTTP_REQUEST_BASE,
+				PerfCounter.AVG_TIME_PER_HTTP_REQUEST_BASE,
+				PerformanceCounterType.AverageBase));
+
+			// 11. Http request throughput (reqs/sec)
+			counters.Add(new CounterCreationData(
+				PerfCounter.HTTP_REQUEST_THROUGHPUT,
+				PerfCounter.HTTP_REQUEST_THROUGHPUT,
+				PerformanceCounterType.RateOfCountsPerSecond64));
 
 			// Add new category
 			PerformanceCounterCategory.Create(

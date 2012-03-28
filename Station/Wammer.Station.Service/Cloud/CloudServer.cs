@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using Wammer.Station;
 using System.ComponentModel;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Cloud
 {
@@ -83,9 +84,16 @@ namespace Wammer.Cloud
 				}
 
 				// remove last &
-				buf.Remove(buf.Length - 1, 1);
+				buf.Remove(buf.Length - 1, 1);				
 
-				agent.DownloadFile(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()), filepath);
+				//agent.DownloadFile(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()), filepath);
+
+				var stream = agent.OpenRead(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()));
+				stream.WriteTo(filepath, 1024, (sender, e) =>
+				{
+				    PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
+				});
+				stream.Close();
 			}
 			catch (WebException e)
 			{
