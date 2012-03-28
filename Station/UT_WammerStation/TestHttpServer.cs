@@ -60,10 +60,6 @@ namespace UT_WammerStation
 			SavedParameters = this.Parameters;
 			this.RespondSuccess();
 		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
-		}
 	}
 
 	[TestClass]

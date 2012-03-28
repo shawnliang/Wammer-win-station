@@ -32,11 +32,6 @@ namespace Wammer.Station
 		{
 			return this.MemberwiseClone();
 		}
-
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
-		}
 	}
 
 	class ResouceDirSetHandler: HttpHandler
@@ -56,11 +51,6 @@ namespace Wammer.Station
 		public override object Clone()
 		{
 			return this.MemberwiseClone();
-		}
-
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
 		}
 	}
 

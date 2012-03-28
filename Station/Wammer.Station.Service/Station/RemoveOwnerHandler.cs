@@ -69,9 +69,5 @@ namespace Wammer.Station
 		{
 			return this.MemberwiseClone();
 		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
-		}
 	}
 }

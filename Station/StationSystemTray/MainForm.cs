@@ -999,9 +999,16 @@ namespace StationSystemTray
 		{
 			lock (csStationTimerTick)
 			{
-				StationController.PingForServiceAlive();
-				StationController.ConnectToInternet();
-				StationController.PingForAvailability();
+				//TODO: Remove unnecessary exception handeling
+				try
+				{
+					StationController.PingForServiceAlive();
+					StationController.ConnectToInternet();
+					StationController.PingForAvailability();
+				}
+				catch (Exception)
+				{
+				}
 
 				return null;
 			}
