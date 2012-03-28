@@ -647,9 +647,31 @@ namespace Waveface.API.V2
 
     #region MR_usertracks
 
+    public class UT_Action
+    {
+        public string action { get; set; }
+        public string target_type { get; set; }
+    }
+
+    public class UT_UsertrackList
+    {
+        public string group_id { get; set; }
+        public string user_id { get; set; }
+        public string timestamp { get; set; }
+        public string target_id { get; set; }
+        public string target_type { get; set; }
+        public List<UT_Action> actions { get; set; }
+    }
+
     public class MR_usertracks_get : General_R
     {
+        public int get_count { get; set; }
+        public string group_id { get; set; }
+        public string latest_timestamp { get; set; }
+        public List<string> post_id_list { get; set; }
+        public int remaining_count { get; set; }
 
+        public List<UT_UsertrackList> usertrack_list { get; set; }
     }
 
     #endregion

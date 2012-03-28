@@ -10,6 +10,7 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NLog;
+using Newtonsoft.Json;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Component.PopupControl;
@@ -931,6 +932,8 @@ namespace Waveface
                         timerReloadAllData.Enabled = true;
                     }*/
                 }
+
+                timerPolling.Enabled = true;
             }
         }
 
@@ -974,7 +977,9 @@ namespace Waveface
 
                 postsArea.updateRefreshUI(false);
 
-                if (!bgWorkerGetAllData.IsBusy)
+                if (bgWorkerGetAllData.IsBusy)
+                    Cursor = Cursors.Default;
+                else
                     bgWorkerGetAllData.RunWorkerAsync();
             }
         }
@@ -1292,12 +1297,12 @@ namespace Waveface
             return false;
         }
 
-        private string GetNewestPostID(List<Post> posts)
+        private string GetNewestPostUpdateTime(List<Post> posts)
         {
             DateTime _dtNewest = new DateTime(1, 1, 1);
             DateTime _dt;
 
-            string _postID = "";
+            string _time = "";
 
             try
             {
@@ -1308,7 +1313,7 @@ namespace Waveface
                     if (_dt > _dtNewest)
                     {
                         _dtNewest = _dt;
-                        _postID = posts[i].post_id;
+                        _time = posts[i].update_time;
                     }
                 }
             }
@@ -1317,7 +1322,34 @@ namespace Waveface
                 return "";
             }
 
-            return _postID;
+            return _time;
+        }
+
+        public bool checkNewPosts()
+        {
+            if (!CheckNetworkStatus())
+                return false;
+
+            if (RT.CurrentGroupPosts.Count == 0)
+                return false;
+
+            try
+            {
+                string _datum = RT.CurrentGroupPosts[0].timestamp;
+                _datum = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
+
+                MR_posts_get _postsGet = RT.REST.Posts_get("100", _datum, "");
+
+                if (_postsGet != null)
+                {
+                    return (_postsGet.posts.Count > 0);
+                }
+            }
+            catch
+            {
+            }
+
+            return false;
         }
 
         #endregion
@@ -1455,6 +1487,69 @@ namespace Waveface
         #endregion
 
         #region Misc
+
+        private void timerPolling_Tick(object sender, EventArgs e)
+        {
+            if (!CheckNetworkStatus())
+                return;
+
+            timerPolling.Enabled = false;
+
+            if (checkNewPosts())
+            {            
+                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+
+                return;
+            }
+
+            string _newestUpdateTime = GetNewestPostUpdateTime(RT.CurrentGroupPosts);
+
+            if (_newestUpdateTime != string.Empty)
+            {
+                _newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
+
+                MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
+
+                if (_usertracks != null)
+                {
+                    if (_usertracks.get_count == 0)
+                    {
+                        timerPolling.Enabled = true;
+
+                        return;
+                    }
+
+                    foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
+                    {
+                        foreach (UT_Action _action in _usertrack.actions)
+                        {
+                            if(_action.action == "hide")
+                            {
+                                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+                                
+                                return;
+                            }
+                        }
+                    }
+
+                    string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
+
+                    MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+
+                    if (_postsGet != null)
+                    {
+                        foreach (Post _p in _postsGet.posts)
+                        {
+                            ReplacePostInList(_p, RT.CurrentGroupPosts);
+                        }
+
+                        ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                    }
+                }
+            }
+
+            timerPolling.Enabled = true;
+        }
 
         private void showTaskbarNotifier(Post post)
         {
