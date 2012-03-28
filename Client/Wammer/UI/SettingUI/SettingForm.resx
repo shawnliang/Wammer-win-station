@@ -580,13 +580,13 @@
     <value>251, 135</value>
   </data>
   <data name="lblPrimaryStation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 14</value>
+    <value>31, 14</value>
   </data>
   <data name="lblPrimaryStation.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
   <data name="lblPrimaryStation.Text" xml:space="preserve">
-    <value>Jonathan-PC (this PC)</value>
+    <value>N/A</value>
   </data>
   <data name="lblPrimaryStation.Visible" type="System.Boolean, mscorlib">
     <value>False</value>

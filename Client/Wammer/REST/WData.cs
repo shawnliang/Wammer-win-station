@@ -200,6 +200,7 @@ namespace Waveface.API.V2
         public string version { get; set; }
         public string computer_name { get; set; }
         public bool upnp { get; set; }
+        public string type { get; set; }
     }
 
     public class CloudStorage
