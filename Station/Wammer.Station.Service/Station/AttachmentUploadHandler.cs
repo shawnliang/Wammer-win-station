@@ -181,11 +181,6 @@ namespace Wammer.Station
 
 			return file;
 		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
-			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Increment();
-		}
 	}
 
 	public class ImageAttachmentEventArgs : AttachmentEventArgs

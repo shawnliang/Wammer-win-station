@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 using MongoDB.Bson;
@@ -192,13 +192,19 @@ namespace Wammer.Station
 				Directory.CreateDirectory(driver.folder);
 
 
-			string tempFile = System.IO.Path.GetTempFileName();
+			string tempFile = file + @".tmp";
 			using (WebClientProxy wc = WebClientPool.GetFreeClient())
 			{
 				try
 				{
 					PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-					wc.Agent.DownloadFile(redirectURL, tempFile);
+					//wc.Agent.DownloadFile(redirectURL, tempFile);
+					var stream = wc.Agent.OpenRead(redirectURL);
+					stream.WriteTo(tempFile, 1024, (sender, e) =>
+					{
+						PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
+					});
+					stream.Close();
 				}
 				finally
 				{
@@ -216,7 +222,7 @@ namespace Wammer.Station
 					{
 						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
 							.Set("file_name", attachmentView.file_name)
-								.Set("mime_type", wc.Agent.ResponseHeaders["content-type"])
+									.Set("mime_type", wc.Agent.ResponseHeaders["content-type"])
 							.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
 							.Set("file_size", fs.Length)
 							.Set("modify_time", DateTime.UtcNow)
@@ -248,10 +254,6 @@ namespace Wammer.Station
 					Response.OutputStream.Close();
 				}
 			}
-		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
 		}
 
 

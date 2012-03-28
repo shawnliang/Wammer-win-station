@@ -61,10 +61,6 @@ namespace UT_WammerStation
 		{
 			return MemberwiseClone();
 		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
-		}
 	}
 
 	class DummyRequestCompletedHandler

@@ -17,6 +17,8 @@ namespace UT_WammerStation
 		int status;
 		string msg;
 
+		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
+
 		public ErrorHttpHandler(int status, string msg)
 		{
 			this.status = status;
@@ -58,6 +60,8 @@ namespace UT_WammerStation
 		public static long recvContentLength;
 		public static string recvMethod;
 		public static string recvPath;
+
+		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{

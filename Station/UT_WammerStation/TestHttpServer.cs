@@ -14,6 +14,7 @@ namespace UT_WammerStation
 	class MyHandler : IHttpHandler
 	{
 		byte[] response;
+		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
 		public MyHandler(string response)
 		{
@@ -59,10 +60,6 @@ namespace UT_WammerStation
 		{
 			SavedParameters = this.Parameters;
 			this.RespondSuccess();
-		}
-
-		public override void OnTaskEnqueue(EventArgs e)
-		{
 		}
 	}
 
