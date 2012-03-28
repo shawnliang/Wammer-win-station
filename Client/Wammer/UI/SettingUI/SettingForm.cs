@@ -138,7 +138,6 @@ namespace Waveface.SettingUI
             {
                 lblLoadingStations.Visible = false;
                 StationInfo thisPC = null;
-                bool firstStation = true;
                 foreach (Station station in mystations)
                 {
                     StationInfo stationInfo;
@@ -155,10 +154,9 @@ namespace Waveface.SettingUI
 
                     stationList.Add(stationInfo);
 
-                    if (firstStation)
+                    if (station.type == "primary")
                     {
                         lblPrimaryStation.Text = stationInfo.Display;
-                        firstStation = false;
                     }
                 }
                 cmbStations.DataSource = stationList;

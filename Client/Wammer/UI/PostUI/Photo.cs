@@ -439,7 +439,7 @@ namespace Waveface.PostUI
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                AddPhotos(openFileDialog.FileNames);
+                AddPhotos(openFileDialog.FileNames, -1);
             }
             else
             {
@@ -447,14 +447,17 @@ namespace Waveface.PostUI
                 {
                     if (!MyParent.EditMode)
                         MyParent.toPureText_Mode();
-                    
+
                     return;
                 }
             }
         }
 
-        private void AddPhotos(string[] files)
+        private void AddPhotos(string[] files, int index)
         {
+            if (index > 0)
+                Array.Reverse(files);
+
             foreach (string _pic in files)
             {
                 ImageListViewItem _item = new ImageListViewItem(_pic);
@@ -468,7 +471,10 @@ namespace Waveface.PostUI
 
                 _item.Tag = _tag;
 
-                imageListView.Items.Add(_item);
+                if (index < 0)
+                    imageListView.Items.Add(_item);
+                else
+                    imageListView.Items.Insert(index, _item);
             }
         }
 
@@ -623,7 +629,7 @@ namespace Waveface.PostUI
                 List<string> _pics = new List<string>();
 
                 string[] _dropFils = e.FileNames;
-            
+
                 foreach (string _file in _dropFils)
                 {
                     if (Directory.Exists(_file))
@@ -657,7 +663,7 @@ namespace Waveface.PostUI
 
                 if (_pics.Count > 0)
                 {
-                    AddPhotos(_pics.ToArray());
+                    AddPhotos(_pics.ToArray(), e.Index);
                 }
             }
             catch
