@@ -28,6 +28,7 @@ namespace Wammer.PerfMonitor
 		public const string AVG_TIME_PER_HTTP_REQUEST = "Average time per http request";
 		public const string AVG_TIME_PER_HTTP_REQUEST_BASE = "Average time per http request base";
 		public const string HTTP_REQUEST_THROUGHPUT = "Http request throughput (reqs/sec)";
+		public const string HTTP_REQUESTS_IN_QUEUE = "Http requests in queue";
 		private static bool CategoryExists;
 		private static ILog Logger = LogManager.GetLogger("PerfCounter");
 		#endregion

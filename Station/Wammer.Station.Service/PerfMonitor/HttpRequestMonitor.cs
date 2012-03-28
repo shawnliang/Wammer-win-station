@@ -11,6 +11,7 @@ namespace Wammer.PerfMonitor
 		private IPerfCounter avgTime;
 		private IPerfCounter avgTimeBase;
 		private IPerfCounter throughput;
+		private IPerfCounter inQueue;
 
 		private static ILog logger = LogManager.GetLogger("HttpRequestMonitor");
 
@@ -19,15 +20,29 @@ namespace Wammer.PerfMonitor
 			avgTime = PerfCounter.GetCounter(PerfCounter.AVG_TIME_PER_HTTP_REQUEST);
 			avgTimeBase = PerfCounter.GetCounter(PerfCounter.AVG_TIME_PER_HTTP_REQUEST_BASE);
 			throughput = PerfCounter.GetCounter(PerfCounter.HTTP_REQUEST_THROUGHPUT);
+			inQueue = PerfCounter.GetCounter(PerfCounter.HTTP_REQUESTS_IN_QUEUE);
 		}
 
 		public void OnProcessSucceeded(object sender, Wammer.Station.HttpHandlerEventArgs evt)
 		{
 			try
 			{
+				inQueue.Decrement();
 				avgTime.IncrementBy(evt.DurationInTicks);
 				avgTimeBase.Increment();
 				throughput.Increment();
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unable to write performance data.", e);
+			}
+		}
+
+		public void Enqueue()
+		{
+			try
+			{
+				inQueue.Increment();
 			}
 			catch (Exception e)
 			{
