@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -406,7 +407,7 @@ namespace Waveface
 
                 if (_a.image == string.Empty)
                 {
-                    g.FillRectangle(new SolidBrush(SystemColors.Info), thumbnailRect);
+                    g.FillRectangle(m_bgSelectedBrush, thumbnailRect);
                     g.DrawRectangle(new Pen(Color.Black), thumbnailRect);
                 }
                 else
@@ -529,11 +530,14 @@ namespace Waveface
 
                 Main.Current.PhotoDownloader.Add(_item, false);
 
-
                 _img = new Bitmap(PicWidth, PicHeight);
                 Graphics _g = Graphics.FromImage(_img);
-                _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, PicWidth, PicHeight));
-                _g.DrawRectangle(new Pen(Color.Black), new Rectangle(0, 0, PicWidth - 1, PicHeight - 1));
+
+                using(Pen _p = new Pen(m_selectedTextColor))
+                {
+                    _p.DashStyle = DashStyle.DashDot;
+                    _g.DrawRectangle(_p, new Rectangle(0, 0, PicWidth - 1, PicHeight - 1));
+                }
             }
 
             return _img;

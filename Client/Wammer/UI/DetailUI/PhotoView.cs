@@ -29,6 +29,7 @@ namespace Waveface.DetailUI
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
         private int m_selectedImageIndex;
+        private int m_initSelectedImageIndex;
         private MyImageListViewRenderer m_imageListViewRenderer;
         private string m_selectedImageType;
         private Post m_post;
@@ -78,18 +79,29 @@ namespace Waveface.DetailUI
 
             imageListView.SetRenderer(m_imageListViewRenderer);
 
+            m_initSelectedImageIndex = selectedIndex;
+        }
+
+        private void PhotoView_Load(object sender, EventArgs e)
+        {
             timer.Interval = ((m_imageAttachments.Count / 200) + 2) * 1000;
 
             if (!FillImageListView(true))
                 timer.Enabled = true;
 
-            setSelectedItem(selectedIndex);
+            imageListView.Dock = DockStyle.Fill; //Hack
+
+            setSelectedItem(m_initSelectedImageIndex);
+
+            SendKeys.Send("{LEFT}"); //Hack
         }
 
         private void setSelectedItem(int selectedIndex)
         {
-            imageListView.Items[selectedIndex].Selected = true;
+            imageListView.ClearSelection();
+
             imageListView.Items[selectedIndex].Focused = true;
+            imageListView.Items[selectedIndex].Selected = true;
 
             imageListView.EnsureVisible(selectedIndex);
         }
@@ -197,14 +209,11 @@ namespace Waveface.DetailUI
             imageListView.ResumeLayout();
 
             if (!firstTime)
-                UpdateMainImage();
-        }
-
-        private void UpdateMainImage()
-        {
-            if (m_selectedImage != null)
             {
-                setSelectedItem(m_selectedImageIndex);
+                if (m_selectedImage != null)
+                {
+                    setSelectedItem(m_selectedImageIndex);
+                }
             }
         }
 
@@ -267,18 +276,6 @@ namespace Waveface.DetailUI
                     btnSave.Visible = true;
                     miSave.Visible = true;
                 }
-
-                /*
-                if (m_post.cover_attach != null)
-                {
-                    if (!m_onlyOnePhoto)
-                    {
-                        string _cover_attach = m_imageAttachments[m_selectedImageIndex].object_id;
-
-                        btnCoverImage.Visible = miSetAsCoverImage.Visible = (_cover_attach != m_post.cover_attach);
-                    }
-                }
-                */
             }
         }
 
@@ -424,7 +421,7 @@ namespace Waveface.DetailUI
 
             if (_cover_attach == m_post.cover_attach)
             {
-
+                //ToDo
             }
             else
             {
@@ -437,7 +434,8 @@ namespace Waveface.DetailUI
                 {
                     m_post = _retPost;
 
-                    //@ Close();
+                    // ToDo
+                    // Close();
                 }
             }
         }

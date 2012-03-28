@@ -10,6 +10,12 @@ namespace Waveface
 {
     internal class DateTimeHelp
     {
+        public static DateTime ConvertUnixTimestampToDateTime(long timestamp)
+        {
+            DateTime begin1970 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return begin1970.AddSeconds(timestamp);
+        }
+
         public static string ToISO8601(DateTime dt)
         {
             return dt.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'", DateTimeFormatInfo.InvariantInfo);

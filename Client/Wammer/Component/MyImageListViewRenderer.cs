@@ -202,7 +202,7 @@ namespace Waveface.Component
 
                     if (item.Tag is EditModeImageListViewItemTag)
                     {
-                        EditModePhotoType _type = ((EditModeImageListViewItemTag) item.Tag).AddPhotoType;
+                        EditModePhotoType _type = ((EditModeImageListViewItemTag)item.Tag).AddPhotoType;
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
                         {
@@ -270,11 +270,12 @@ namespace Waveface.Component
                 //}
                 //else
                 {
-                    g.DrawImage(image, _pos);
+                    if(image.Width > 120)
+                        g.DrawImage(image, _pos);
                 }
 
                 // Draw image border
-                if (Math.Min(_pos.Width, _pos.Height) > 32)
+                if (Math.Min(_pos.Width, _pos.Height) > 120)
                 {
                     using (Pen _pOuterBorder = new Pen(ImageListView.Colors.ImageOuterBorderColor))
                     using (Pen _pInnerBorder = new Pen(ImageListView.Colors.ImageInnerBorderColor))
@@ -290,13 +291,13 @@ namespace Waveface.Component
 
         internal static Size GetSizedImageBounds(Image image, Size fit)
         {
-            float _f = Math.Max(image.Width/(float) fit.Width, image.Height/(float) fit.Height);
+            float _f = Math.Max(image.Width / (float)fit.Width, image.Height / (float)fit.Height);
 
             if (_f < 1.0f)
                 _f = 1.0f; // Do not upsize small images
 
-            int _width = (int) Math.Round(image.Width/_f);
-            int _height = (int) Math.Round(image.Height/_f);
+            int _width = (int)Math.Round(image.Width / _f);
+            int _height = (int)Math.Round(image.Height / _f);
             return new Size(_width, _height);
         }
 
@@ -309,8 +310,8 @@ namespace Waveface.Component
                 throw new ArgumentException("vAlign must be between 0.0 and 100.0 (inclusive).", "vAlign");
 
             Size _scaled = GetSizedImageBounds(image, fit.Size);
-            int _x = fit.Left + (int) (hAlign/100.0f*(fit.Width - _scaled.Width));
-            int _y = fit.Top + (int) (vAlign/100.0f*(fit.Height - _scaled.Height));
+            int _x = fit.Left + (int)(hAlign / 100.0f * (fit.Width - _scaled.Width));
+            int _y = fit.Top + (int)(vAlign / 100.0f * (fit.Height - _scaled.Height));
 
             return new Rectangle(_x, _y, _scaled.Width, _scaled.Height);
         }

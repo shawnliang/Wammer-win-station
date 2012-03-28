@@ -1,6 +1,16 @@
 <?xml version="1.0" standalone="yes"?>
 <WItems>
   <WItem>
+    <ID>Update</ID>
+    <en-US>Update</en-US>
+    <zh-TW>更改</zh-TW>
+  </WItem>  
+  <WItem>
+    <ID>EditPost</ID>
+    <en-US>Edit Post</en-US>
+    <zh-TW>編輯貼文</zh-TW>
+  </WItem>   
+  <WItem>
     <ID>Continue</ID>
     <en-US>Continue</en-US>
     <zh-TW>繼續</zh-TW>
