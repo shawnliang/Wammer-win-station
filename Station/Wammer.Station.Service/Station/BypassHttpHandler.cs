@@ -14,6 +14,9 @@ namespace Wammer.Station
 		private readonly string scheme;
 		private readonly List<string> exceptPrefixes = new List<string>();
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("BypassTraffic");
+		private long beginTime;
+
+		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
 		public BypassHttpHandler(string baseUrl)
 		{
@@ -30,6 +33,7 @@ namespace Wammer.Station
 
 		public void SetBeginTimestamp(long beginTime)
 		{
+			this.beginTime = beginTime;
 		}
 
 		public void HandleRequest(HttpListenerRequest origReq, HttpListenerResponse response)
@@ -68,6 +72,25 @@ namespace Wammer.Station
 			{
 				logger.Error("Forward to cloud error", e);
 				HttpHelper.RespondFailure(response, e, 400);
+			}
+
+
+			long end = System.Diagnostics.Stopwatch.GetTimestamp();
+
+			long duration = end - beginTime;
+			if (duration < 0)
+				duration += long.MaxValue;
+
+			OnProcessSucceeded(new HttpHandlerEventArgs(duration));
+		}
+
+		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)
+		{
+			EventHandler<HttpHandlerEventArgs> handler = this.ProcessSucceeded;
+
+			if (handler != null)
+			{
+				handler(this, evt);
 			}
 		}
 

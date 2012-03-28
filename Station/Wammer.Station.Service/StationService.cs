@@ -58,7 +58,8 @@ namespace Wammer.Station.Service
 
 				fastJSON.JSON.Instance.UseUTCDateTime = true;
 
-				functionServer = new HttpServer(9981); // TODO: remove hard code
+				HttpRequestMonitor httpRequestMonitor = new HttpRequestMonitor();
+				functionServer = new HttpServer(9981, httpRequestMonitor); // TODO: remove hard code
 				stationTimer = new StationTimer(functionServer);
 
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
@@ -116,7 +117,7 @@ namespace Wammer.Station.Service
 				stationTimer.Start();
 
 				logger.Debug("Add handlers to management server");
-				managementServer = new HttpServer(9989);
+				managementServer = new HttpServer(9989, httpRequestMonitor);
 				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer, stationTimer));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer, stationTimer));
@@ -249,6 +250,8 @@ namespace Wammer.Station.Service
 
 	class DummyHandler : IHttpHandler
 	{
+		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
+
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
 			//Debug.Fail("should not reach this code");

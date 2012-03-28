@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -6,6 +6,7 @@ using System.Net;
 using Wammer.Utility;
 using log4net;
 using Wammer;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station
 {
@@ -13,10 +14,12 @@ namespace Wammer.Station
 	{
 		void HandleRequest(HttpListenerRequest request, HttpListenerResponse response);
 		void SetBeginTimestamp(long beginTime);
+		event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 	}
 
 	public class HttpServer : IDisposable
 	{
+
 		#region Var
 		private ILog _logger;
 		private Object _lockSwitchObj;
@@ -26,6 +29,7 @@ namespace Wammer.Station
 		private IHttpHandler _defaultHandler;
 		private bool _started;
 		private bool _authblocked;
+		private HttpRequestMonitor monitor;
 		#endregion
 
 
@@ -83,10 +87,12 @@ namespace Wammer.Station
 		#endregion
 
 
+
 		#region Constructor
-		public HttpServer(int port)
+		public HttpServer(int port, HttpRequestMonitor monitor = null)
 		{
 			m_Port = port;
+			this.monitor = monitor;
 		}
 		#endregion
 
@@ -201,6 +207,9 @@ namespace Wammer.Station
 
 			m_Handlers.Add(absPath, handler);
 			m_Listener.Prefixes.Add(urlPrefix);
+
+			if (monitor != null)
+				handler.ProcessSucceeded += monitor.OnProcessSucceeded;
 		}
 
 		public void AddDefaultHandler(IHttpHandler handler)
@@ -295,7 +304,7 @@ namespace Wammer.Station
 			}
 		}
 		#endregion
-		
+
 	}
 
 	class HttpHandlingTask : ITask

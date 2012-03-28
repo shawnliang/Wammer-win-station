@@ -138,6 +138,7 @@
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\StationInfo.cs" />
     <Compile Include="PerfMonitor\AttachmentUploadMonitor.cs" />
+    <Compile Include="PerfMonitor\HttpRequestMonitor.cs" />
     <Compile Include="PerfMonitor\PerfCounter.cs" />
     <Compile Include="PerfMonitor\PerfCounterInstaller.cs" />
     <Compile Include="Queue\Queue.cs" />

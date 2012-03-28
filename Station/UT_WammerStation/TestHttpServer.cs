@@ -14,6 +14,7 @@ namespace UT_WammerStation
 	class MyHandler : IHttpHandler
 	{
 		byte[] response;
+		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
 		public MyHandler(string response)
 		{
