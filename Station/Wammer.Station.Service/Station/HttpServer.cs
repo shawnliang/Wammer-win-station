@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 
 using Wammer.Utility;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station
 {
@@ -12,6 +13,7 @@ namespace Wammer.Station
 		void HandleRequest(HttpListenerRequest request, HttpListenerResponse response);
 		void SetBeginTimestamp(long beginTime);
 		void OnTaskEnqueue(EventArgs e);
+		event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 	}
 
 	public class HttpServer : IDisposable
@@ -24,14 +26,16 @@ namespace Wammer.Station
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpServer");
 		private object cs = new object();
 		private bool authblocked;
+		private HttpRequestMonitor monitor;
 
-		public HttpServer(int port)
+		public HttpServer(int port, HttpRequestMonitor monitor = null)
 		{
 			this.port = port;
 			this.listener = new HttpListener();
 			this.handlers = new Dictionary<string, IHttpHandler>();
 			this.defaultHandler = null;
 			this.authblocked = false;
+			this.monitor = monitor;
 		}
 
 		public void AddHandler(string path, IHttpHandler handler)
@@ -61,6 +65,9 @@ namespace Wammer.Station
 
 			handlers.Add(absPath, handler);
 			listener.Prefixes.Add(urlPrefix);
+
+			if (monitor != null)
+				handler.ProcessSucceeded += monitor.OnProcessSucceeded;
 		}
 
 		public void AddDefaultHandler(IHttpHandler handler)
