@@ -16,8 +16,8 @@ namespace Wammer.Station
 
 		private TimelineChangeHistory timelineChangeHistory;
 
-		public ChangeHistorySyncer(long interval, ProviderConsumerTaskQueue queue)
-			:base(interval, queue)
+		public ChangeHistorySyncer(long interval, ITaskStore bodySyncQueue)
+			: base(interval, bodySyncQueue)
 		{
 			timelineChangeHistory = new TimelineChangeHistory(
 				new PostInfoProvider(),

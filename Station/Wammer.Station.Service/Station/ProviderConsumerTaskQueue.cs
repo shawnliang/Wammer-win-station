@@ -6,33 +6,72 @@ using System.Threading;
 
 namespace Wammer.Station
 {
+	interface ITaskStore
+	{
+		void Enqueue(WaitCallback cb, object state);
+	}
 
-	class ProviderConsumerTaskQueue
+	interface ITaskSource
+	{
+		ITask Dequeue();
+	}
+
+	class BodySyncTaskQueue: ITaskSource, ITaskStore
 	{
 		private Semaphore hasItem = new Semaphore(0, int.MaxValue);
-		Queue<SimpleTask> callbacks = new Queue<SimpleTask>();
+		private Queue<SimpleTask> callbacks = new Queue<SimpleTask>();
+		private HashSet<string> keys = new HashSet<string>();
 
-		public ProviderConsumerTaskQueue()
-		{
-		}
+		public event EventHandler Enqueued;
+
 
 		public void Enqueue(WaitCallback cb, object state)
 		{
-			lock (callbacks)
+			try
 			{
-				callbacks.Enqueue(new SimpleTask(cb, state));
-			}
+				ResourceDownloadEventArgs arg = (ResourceDownloadEventArgs)state;
 
-			hasItem.Release();
+				string key = arg.attachment.object_id + arg.imagemeta;
+
+				bool enqueued = false;
+
+				lock (callbacks)
+				{
+					if (keys.Add(key))
+					{
+						callbacks.Enqueue(new SimpleTask(cb, state));
+						enqueued = true;
+					}
+				}
+
+				if (enqueued)
+				{
+					hasItem.Release();
+					OnEnqueued(EventArgs.Empty);
+				}
+			}
+			catch (InvalidCastException e)
+			{
+				throw new ArgumentException("state is not a ResourceDownloadEventArgs", e);
+			}
 		}
 
-		public SimpleTask Dequeue()
+		public ITask Dequeue()
 		{
 			hasItem.WaitOne();
 
 			lock (callbacks)
 			{
 				return callbacks.Dequeue();
+			}
+		}
+
+		private void OnEnqueued(EventArgs arg)
+		{
+			EventHandler handler = Enqueued;
+			if (handler != null)
+			{
+				handler(this, arg);
 			}
 		}
 	}

@@ -19,7 +19,7 @@ namespace Wammer.Station.Service
 		private StationTimer stationTimer;
 		private string stationId;
 		private string resourceBasePath;
-		private ProviderConsumerTaskQueue bodySyncTaskQueue = new ProviderConsumerTaskQueue();
+		private BodySyncTaskQueue bodySyncTaskQueue = new BodySyncTaskQueue();
 		private TaskRunner[] bodySyncRunners;
 
 
@@ -63,6 +63,11 @@ namespace Wammer.Station.Service
 
 				HttpRequestMonitor httpRequestMonitor = new HttpRequestMonitor();
 				functionServer = new HttpServer(9981, httpRequestMonitor); // TODO: remove hard code
+
+				AttachmentDownloadMonitor downstreamMonitor = new AttachmentDownloadMonitor();
+				bodySyncTaskQueue.Enqueued += downstreamMonitor.OnDownstreamTaskEnqueued;
+
+
 				stationTimer = new StationTimer(functionServer, bodySyncTaskQueue);
 
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
@@ -145,6 +150,7 @@ namespace Wammer.Station.Service
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
 					bodySyncRunners[i] = new TaskRunner(bodySyncTaskQueue);
+					bodySyncRunners[i].TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
 					bodySyncRunners[i].Start();
 				}
 

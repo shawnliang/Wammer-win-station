@@ -14,7 +14,7 @@ namespace Wammer.Station
 {
 	public class AttachmentViewHandler : HttpHandler
 	{
- 		private string AdditionalParam;
+		private string AdditionalParam;
 
 		public AttachmentViewHandler(string stationId)
 			: base()
@@ -199,7 +199,6 @@ namespace Wammer.Station
 				try
 				{
 					PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-					//wc.Agent.DownloadFile(redirectURL, tempFile);
 					var stream = wc.OpenRead(redirectURL);
 					stream.WriteTo(tempFile, 1024, (sender, e) =>
 					{
