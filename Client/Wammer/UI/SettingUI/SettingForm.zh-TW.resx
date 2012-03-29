@@ -125,10 +125,10 @@
     <value>389, 18</value>
   </data>
   <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 45</value>
+    <value>90, 66</value>
   </data>
   <data name="label_UsedCountValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 66</value>
+    <value>54, 45</value>
   </data>
   <data name="label_MonthlyLimitValue.Location" type="System.Drawing.Point, System.Drawing">
     <value>78, 24</value>
