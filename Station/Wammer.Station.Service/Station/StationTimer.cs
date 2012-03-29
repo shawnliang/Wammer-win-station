@@ -27,7 +27,7 @@ namespace Wammer.Station
 
 		private List<IStationTimer> timers;
 
-		public StationTimer(HttpServer functionServer, ProviderConsumerTaskQueue bodySyncQueue)
+		public StationTimer(HttpServer functionServer, ITaskStore bodySyncQueue)
 		{
 			timers = new List<IStationTimer> {
 				new StatusChecker(STATUS_CHECK_PERIOD, functionServer),

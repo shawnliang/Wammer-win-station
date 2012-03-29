@@ -138,6 +138,7 @@
     <Compile Include="Model\Posts.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\StationInfo.cs" />
+    <Compile Include="PerfMonitor\AttachmentDownloadMonitor.cs" />
     <Compile Include="PerfMonitor\AttachmentUploadMonitor.cs" />
     <Compile Include="PerfMonitor\HttpRequestMonitor.cs" />
     <Compile Include="PerfMonitor\PerfCounter.cs" />
@@ -161,7 +162,6 @@
     <Compile Include="Station\RemoveOwnerHandler.cs" />
     <Compile Include="Station\ResouceDirHandler.cs" />
     <Compile Include="Station\ResourceSyncer.cs" />
-    <Compile Include="Station\ResourceSyncThread.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
     <Compile Include="Station\ServiceUnavailableException.cs" />
     <Compile Include="Station\StationOfflineHandler.cs" />
