@@ -2,9 +2,28 @@ using System;
 using System.Reflection;
 using System.Linq;
 using System.ComponentModel;
+using System.Collections.Generic;
+using log4net;
 
 public static class ObjectExtension
 {
+	#region Var
+	private static Dictionary<object, ILog> _loggerPool;
+	#endregion
+	
+	#region Private Property
+	private static Dictionary<object, ILog> m_LoggerPool
+	{
+		get
+		{
+			if (_loggerPool == null)
+				_loggerPool = new Dictionary<object, ILog>();
+			return _loggerPool;
+		}
+	}
+	#endregion
+
+	#region Public Method
 	public static Boolean IsNull(this object obj)
 	{
 		return obj == null;
@@ -44,4 +63,62 @@ public static class ObjectExtension
 			p.SetValue(obj, (defaultValue == null) ? (p.PropertyType.IsValueType ? Activator.CreateInstance(p.PropertyType) : null) : defaultValue.Value, null);
 		}
 	}
+
+	public static void LogDebugMsg(this object obj, string msg)
+	{
+		if (string.IsNullOrEmpty(msg))
+			return;
+		
+		if (!m_LoggerPool.ContainsKey(obj))
+			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
+
+		m_LoggerPool[obj].Debug(msg);
+	}
+
+
+	public static void LogWarnMsg(this object obj, string msg)
+	{
+		if(string.IsNullOrEmpty(msg))
+			return;
+
+		if(!m_LoggerPool.ContainsKey(obj))
+			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
+
+		m_LoggerPool[obj].Warn(msg);
+	}
+
+
+	public static void LogWarnMsg(this object obj, string msg, Exception e)
+	{
+		if (string.IsNullOrEmpty(msg))
+			return;
+
+		if (!m_LoggerPool.ContainsKey(obj))
+			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
+
+		m_LoggerPool[obj].Warn(msg, e);
+	}
+
+	public static void LogErrorMsg(this object obj, string msg)
+	{
+		if (string.IsNullOrEmpty(msg))
+			return;
+
+		if (!m_LoggerPool.ContainsKey(obj))
+			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
+
+		m_LoggerPool[obj].Error(msg);
+	}
+
+	public static void LogFatalMsg(this object obj, string msg)
+	{
+		if (string.IsNullOrEmpty(msg))
+			return;
+
+		if (!m_LoggerPool.ContainsKey(obj))
+			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
+
+		m_LoggerPool[obj].Fatal(msg);
+	}
+	#endregion
 }
