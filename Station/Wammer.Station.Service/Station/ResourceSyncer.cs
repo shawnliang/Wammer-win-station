@@ -391,7 +391,8 @@ namespace Wammer.Station
 						};
 						AttachmentCollection.Instance.Update(
 							Query.EQ("_id", attachment.object_id),
-							Update.Set("image_meta.small", thumbnail.ToBsonDocument()),
+							Update.Set("group_id", attachment.group_id
+								).Set("image_meta.small", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 						);
 						break;
@@ -415,7 +416,8 @@ namespace Wammer.Station
 						};
 						AttachmentCollection.Instance.Update(
 							Query.EQ("_id", attachment.object_id),
-							Update.Set("image_meta.medium", thumbnail.ToBsonDocument()),
+							Update.Set("group_id", attachment.group_id
+								).Set("image_meta.medium", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 						);
 						break;
@@ -439,7 +441,8 @@ namespace Wammer.Station
 						};
 						AttachmentCollection.Instance.Update(
 							Query.EQ("_id", attachment.object_id),
-							Update.Set("image_meta.large", thumbnail.ToBsonDocument()),
+							Update.Set("group_id", attachment.group_id
+								).Set("image_meta.large", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 						);
 						break;
@@ -463,7 +466,8 @@ namespace Wammer.Station
 						};
 						AttachmentCollection.Instance.Update(
 							Query.EQ("_id", attachment.object_id),
-							Update.Set("image_meta.square", thumbnail.ToBsonDocument()),
+							Update.Set("group_id", attachment.group_id
+								).Set("image_meta.square", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 						);
 						break;
