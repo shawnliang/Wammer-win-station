@@ -21,8 +21,8 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private const int PicHeight = 102; //115
-        private const int PicWidth = 102; //115
+        private const int PicHeight = 102;
+        private const int PicWidth = 102;
         private const int FavoriteIconSize = 24;
 
         private IContainer components;
@@ -269,7 +269,6 @@ namespace Waveface
                 return;
             }
 
-            // Let them know we handled it
             e.Handled = true;
         }
 
@@ -536,7 +535,8 @@ namespace Waveface
                 using(Pen _p = new Pen(m_selectedTextColor))
                 {
                     _p.DashStyle = DashStyle.DashDot;
-                    _g.DrawRectangle(_p, new Rectangle(0, 0, PicWidth - 1, PicHeight - 1));
+
+                    _g.DrawRectangle(_p, new Rectangle(0 + 8, 0 + 8, PicWidth - 1 - 16, PicHeight - 1 - 16));
                 }
             }
 
@@ -621,7 +621,7 @@ namespace Waveface
 
             if (m_clickIndex == (m_postBS.Count - 1))
             {
-                //@ Main.Current.FilterReadMorePost();
+                //@ Main.Current.FilterReadMorePost(); 
             }
         }
 
@@ -659,7 +659,7 @@ namespace Waveface
             {
                 Font = m_font;
 
-                dataGridView.RowTemplate.Height = 120; //140
+                dataGridView.RowTemplate.Height = 120;
             }
         }
 

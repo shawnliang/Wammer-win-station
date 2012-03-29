@@ -545,7 +545,7 @@ namespace Waveface
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            DialogResult _dr = MessageBox.Show("Do you really want to remove this post?", "Waveface", MessageBoxButtons.YesNo); //@i18n
+            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Waveface", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (_dr != DialogResult.Yes)
                 return;

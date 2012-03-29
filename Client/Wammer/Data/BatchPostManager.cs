@@ -167,14 +167,13 @@ namespace Waveface
                                 if (_editMode)
                                 {
                                     if (EditUpdateDone != null)
-                                        EditUpdateDone(I18n.L.T("PostForm.PostSuccess")); //@
+                                        EditUpdateDone(I18n.L.T("PostForm.EditPostSuccess")); //@
                                 }
                                 else
                                 {
                                     if (UploadDone != null)
                                         UploadDone(I18n.L.T("PostForm.PostSuccess"));
                                 }
-
                             }
                         }
                         else
@@ -188,7 +187,7 @@ namespace Waveface
                                 if (_editMode)
                                 {
                                     if (EditUpdateDone != null)
-                                        EditUpdateDone(I18n.L.T("PostForm.PostError")); //@
+                                        EditUpdateDone(I18n.L.T("PostForm.EditPostError")); //@
 
                                     s_logger.Error("Remove EditUpdate Post");
                                 }
@@ -483,8 +482,7 @@ namespace Waveface
 
                 if (_storagesUsage != null)
                 {
-                    long m_avail_month_total_objects =
-                        _storagesUsage.storages.waveface.available.avail_month_total_objects;
+                    long m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
                     long m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
 
                     //Hack
