@@ -236,9 +236,9 @@ namespace Wammer.Station
 
 				logger.Debug("Notify cloud about station info changed: " + detail.ToFastJSON());
 
-				using (WebClientProxy client = WebClientPool.GetFreeClient())
+				using (WebClient client = new WebClient())
 				{
-					api.Heartbeat(client.Agent, detail);
+					api.Heartbeat(client, detail);
 				}
 			}
 			catch (Exception e)

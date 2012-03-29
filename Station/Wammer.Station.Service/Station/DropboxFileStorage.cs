@@ -47,10 +47,10 @@ namespace Wammer.Station
 				logger.DebugFormat("call setloc for file {0}", Path.GetFileName(SavedFilePath));
 				AttachmentApi api = new AttachmentApi(driver.user_id);
 
-				using (WebClientProxy client = WebClientPool.GetFreeClient())
+				using (WebClient client = new WebClient())
 				{
 					api.AttachmentSetLoc(
-						client.Agent,
+						client,
 						(int)AttachmentApi.Location.Dropbox,
 						attachment.object_id,
 						Path.Combine(driver.folder, Path.GetFileName(SavedFilePath))

@@ -193,13 +193,13 @@ namespace Wammer.Station
 
 
 			string tempFile = file + @".tmp";
-			using (WebClientProxy wc = WebClientPool.GetFreeClient())
+			using (WebClient wc = new WebClient())
 			{
 				try
 				{
 					PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
 					//wc.Agent.DownloadFile(redirectURL, tempFile);
-					var stream = wc.Agent.OpenRead(redirectURL);
+					var stream = wc.OpenRead(redirectURL);
 					stream.WriteTo(tempFile, 1024, (sender, e) =>
 					{
 						PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
@@ -222,7 +222,7 @@ namespace Wammer.Station
 					{
 						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
 							.Set("file_name", attachmentView.file_name)
-									.Set("mime_type", wc.Agent.ResponseHeaders["content-type"])
+									.Set("mime_type", wc.ResponseHeaders["content-type"])
 							.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
 							.Set("file_size", fs.Length)
 							.Set("modify_time", DateTime.UtcNow)
@@ -237,7 +237,7 @@ namespace Wammer.Station
 					{
 						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update.Set("image_meta." + imageMeta.ToString().ToLower(), new ThumbnailInfo()
 						{
-							mime_type = wc.Agent.ResponseHeaders["content-type"],
+							mime_type = wc.ResponseHeaders["content-type"],
 							modify_time = DateTime.UtcNow,
 							url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + imageMeta.ToString().ToLower(),
 							file_size = fs.Length,
@@ -249,7 +249,7 @@ namespace Wammer.Station
 					}
 
 					fs.Seek(0, SeekOrigin.Begin);
-					Response.ContentType = wc.Agent.ResponseHeaders["content-type"];
+					Response.ContentType = wc.ResponseHeaders["content-type"];
 					Response.OutputStream.Write(fs, 1024);
 					Response.OutputStream.Close();
 				}
