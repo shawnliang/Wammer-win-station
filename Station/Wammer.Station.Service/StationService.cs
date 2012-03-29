@@ -21,7 +21,7 @@ namespace Wammer.Station.Service
 		private string resourceBasePath;
 
 		public StationService()
-		{
+		{			
 			log4net.Config.XmlConfigurator.Configure();
 			InitializeComponent();
 			this.ServiceName = SERVICE_NAME;
