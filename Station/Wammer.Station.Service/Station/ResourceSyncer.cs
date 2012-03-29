@@ -130,14 +130,14 @@ namespace Wammer.Station
 		private void PullTimeline(Object obj)
 		{
 
-			using (WebClientProxy client = WebClientPool.GetFreeClient())
+			using (WebClient client = new WebClient())
 			{
 				foreach (Driver driver in DriverCollection.Instance.FindAll())
 				{
 					PostApi api = new PostApi(driver);
 					if (driver.sync_range == null)
 					{
-						PostGetLatestResponse res = api.PostGetLatest(client.Agent, 20);
+						PostGetLatestResponse res = api.PostGetLatest(client, 20);
 						SavePosts(res.posts);
 						DownloadMissedResource(res.posts);
 						driver.sync_range = new SyncRange
@@ -152,7 +152,7 @@ namespace Wammer.Station
 					}
 					else
 					{
-						PostFetchByFilterResponse newerRes = api.PostFetchByFilter(client.Agent,
+						PostFetchByFilterResponse newerRes = api.PostFetchByFilter(client,
 							new FilterEntity
 							{
 								limit = 20,
@@ -170,7 +170,7 @@ namespace Wammer.Station
 
 						if (driver.sync_range.start_time != driver.sync_range.first_post_time)
 						{
-							PostFetchByFilterResponse olderRes = api.PostFetchByFilter(client.Agent,
+							PostFetchByFilterResponse olderRes = api.PostFetchByFilter(client,
 								new FilterEntity
 								{
 									limit = -20,
@@ -266,9 +266,9 @@ namespace Wammer.Station
 				}
 
 				AttachmentApi api = new AttachmentApi(evtargs.driver.user_id);
-				using (WebClientProxy client = WebClientPool.GetFreeClient())
+				using (WebClient client = new WebClient())
 				{
-					api.AttachmentView(client.Agent, evtargs);
+					api.AttachmentView(client, evtargs);
 				}
 				DownloadComplete(evtargs);
 			}

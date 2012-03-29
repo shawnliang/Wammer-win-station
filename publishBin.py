@@ -23,7 +23,7 @@ if __name__ == "__main__":
     shutil.copy2('{0}/staging-WavefaceSetup-{1}.exe'.format(os.path.dirname(solution_dir), version), version)
     shutil.copy2('{0}/versioninfo.xml'.format(os.path.dirname(solution_dir)), version)
     shutil.copy2('{0}/versioninfo_dev.xml'.format(os.path.dirname(solution_dir)), version)
-    ftp = FTP("WF-NAS", "admin", "waveface")
+    ftp = FTP("WF-NAS", "admin", "13579246801")
     ftp.mkd("Users/WavefaceStation/Builds/{0}".format(version))
     ftp.cwd("Users/WavefaceStation/Builds/{0}".format(version))
     os.chdir(version)
