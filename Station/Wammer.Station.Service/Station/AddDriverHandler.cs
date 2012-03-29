@@ -36,7 +36,7 @@ namespace Wammer.Station
 			if (email == null || password == null)
 				throw new FormatException("Parameter email or password is missing");
 
-			using (WebClientProxy client = WebClientPool.GetFreeClient())
+			using (WebClient client = new WebClient())
 			{
 				try
 				{
@@ -56,8 +56,8 @@ namespace Wammer.Station
 						return;
 					}
 
-					string stationToken = SignUpStation(email, password, client.Agent);
-					User user = User.LogIn(client.Agent, email, password);				
+					string stationToken = SignUpStation(email, password, client);
+					User user = User.LogIn(client, email, password);				
 								
 					Driver driver = new Driver
 					{

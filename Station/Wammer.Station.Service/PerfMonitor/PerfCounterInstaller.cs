@@ -77,6 +77,12 @@ namespace Wammer.PerfMonitor
 				PerfCounter.HTTP_REQUEST_THROUGHPUT,
 				PerformanceCounterType.RateOfCountsPerSecond64));
 
+			// 12. Http reqeuests in queue
+			counters.Add(new CounterCreationData(
+				PerfCounter.HTTP_REQUESTS_IN_QUEUE,
+				PerfCounter.HTTP_REQUESTS_IN_QUEUE,
+				PerformanceCounterType.NumberOfItems32));
+
 			// Add new category
 			PerformanceCounterCategory.Create(
 				PerfCounter.CATEGORY_NAME,

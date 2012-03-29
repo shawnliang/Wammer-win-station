@@ -7,7 +7,7 @@ using Wammer.Model;
 
 namespace Wammer.Station
 {
-	public class StationOnlineHandler : HttpHandler
+	class StationOnlineHandler : HttpHandler
 	{
 		private static ILog logger = LogManager.GetLogger("StationOnlineHandler");
 		private readonly HttpServer functionServer;
@@ -34,7 +34,7 @@ namespace Wammer.Station
 					StationLogOnResponse logonRes;
 					if (email != null && password != null)
 					{
-						using (WebClientProxy client = WebClientPool.GetFreeClient())
+						using (WebClient client = new WebClient())
 						{
 							Driver driver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
 							if (driver == null)
@@ -43,9 +43,9 @@ namespace Wammer.Station
 							}
 
 							// station.logon must be called before user.login to handle non-existing driver case
-							logonRes = StationApi.LogOn(client.Agent, stationInfo.Id, email, password, StatusChecker.GetDetail());
+							logonRes = StationApi.LogOn(client, stationInfo.Id, email, password, StatusChecker.GetDetail());
 
-							User user = User.LogIn(client.Agent, email, password);
+							User user = User.LogIn(client, email, password);
 
 							// update user's session token
 							driver.session_token = user.Token;
@@ -54,10 +54,10 @@ namespace Wammer.Station
 					}
 					else
 					{
-						using (WebClientProxy client = WebClientPool.GetFreeClient())
+						using (WebClient client = new WebClient())
 						{
 							StationApi api = new StationApi(stationInfo.Id, stationInfo.SessionToken);
-							logonRes = api.LogOn(client.Agent, StatusChecker.GetDetail());
+							logonRes = api.LogOn(client, StatusChecker.GetDetail());
 						}
 					}
 

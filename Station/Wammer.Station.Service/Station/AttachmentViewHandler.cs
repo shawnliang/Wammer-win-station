@@ -7,13 +7,14 @@ using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PerfMonitor;
+using System.ComponentModel;
+using log4net;
 
 namespace Wammer.Station
 {
 	public class AttachmentViewHandler : HttpHandler
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("AttachView");
-		private string AdditionalParam;
+ 		private string AdditionalParam;
 
 		public AttachmentViewHandler(string stationId)
 			: base()
@@ -53,19 +54,19 @@ namespace Wammer.Station
 				}
 
 				string namePart = objectId;
-				string metaStr = "";
+				string metaStr = imageMeta.GetCustomAttribute<DescriptionAttribute>().Description;
+
 				if (imageMeta != ImageMeta.Origin)
 				{
-					metaStr = imageMeta.ToString().ToLower();
 					namePart += "_" + metaStr;
 				}
 
 				Attachment doc = null;
 
 				if (imageMeta == ImageMeta.Origin)
-					doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", objectId));
+					doc = AttachmentCollection.Instance.FindOne(Query.And(Query.EQ("_id", objectId), Query.Exists("saved_file_name", true)));
 				else
-					doc = AttachmentCollection.Instance.FindOne(Query.And(Query.EQ("_id", objectId), Query.Exists("image_meta." + imageMeta.ToString().ToLower(), true)));
+					doc = AttachmentCollection.Instance.FindOne(Query.And(Query.EQ("_id", objectId), Query.Exists("image_meta." + metaStr, true)));
 
 				if (doc == null)
 				{
@@ -89,7 +90,7 @@ namespace Wammer.Station
 			}
 			catch (ArgumentException e)
 			{
-				logger.Warn("Bad request: " + e.Message);
+				this.LogWarnMsg("Bad request: " + e.Message);
 				HttpHelper.RespondFailure(Response, e, (int)HttpStatusCode.BadRequest);
 			}
 		}
@@ -100,7 +101,7 @@ namespace Wammer.Station
 			if (additionalParam == null || additionalParam.Length == 0)
 				throw new ArgumentException("param cannot be null or empty. If you really need it blank, change the code.");
 
-			logger.Debug("Forward to cloud");
+			this.LogDebugMsg("Forward to cloud");
 
 			Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
 
@@ -193,13 +194,13 @@ namespace Wammer.Station
 
 
 			string tempFile = file + @".tmp";
-			using (WebClientProxy wc = WebClientPool.GetFreeClient())
+			using (WebClient wc = new WebClient())
 			{
 				try
 				{
 					PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
 					//wc.Agent.DownloadFile(redirectURL, tempFile);
-					var stream = wc.Agent.OpenRead(redirectURL);
+					var stream = wc.OpenRead(redirectURL);
 					stream.WriteTo(tempFile, 1024, (sender, e) =>
 					{
 						PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
@@ -222,7 +223,7 @@ namespace Wammer.Station
 					{
 						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
 							.Set("file_name", attachmentView.file_name)
-									.Set("mime_type", wc.Agent.ResponseHeaders["content-type"])
+									.Set("mime_type", wc.ResponseHeaders["content-type"])
 							.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
 							.Set("file_size", fs.Length)
 							.Set("modify_time", DateTime.UtcNow)
@@ -235,11 +236,12 @@ namespace Wammer.Station
 					}
 					else
 					{
-						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update.Set("image_meta." + imageMeta.ToString().ToLower(), new ThumbnailInfo()
+						var metaStr = imageMeta.GetCustomAttribute<DescriptionAttribute>().Description;
+						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update.Set("image_meta." + metaStr, new ThumbnailInfo()
 						{
-							mime_type = wc.Agent.ResponseHeaders["content-type"],
+							mime_type = wc.ResponseHeaders["content-type"],
 							modify_time = DateTime.UtcNow,
-							url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + imageMeta.ToString().ToLower(),
+							url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + metaStr,
 							file_size = fs.Length,
 							file_name = attachmentView.file_name,
 							width = attachmentView.image_meta.GetThumbnail(imageMeta).width,
@@ -249,7 +251,7 @@ namespace Wammer.Station
 					}
 
 					fs.Seek(0, SeekOrigin.Begin);
-					Response.ContentType = wc.Agent.ResponseHeaders["content-type"];
+					Response.ContentType = wc.ResponseHeaders["content-type"];
 					Response.OutputStream.Write(fs, 1024);
 					Response.OutputStream.Close();
 				}
@@ -259,11 +261,12 @@ namespace Wammer.Station
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
 		{
-			string fileName = objectID;
+			string fileName = objectID;			
 
 			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 			{
-				fileName += "_" + meta.ToString().ToLower();
+				var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
+				fileName += "_" + metaStr;
 			}
 
 			if (uri.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
@@ -278,7 +281,7 @@ namespace Wammer.Station
 
 
 
-		private static void CopyComplete(IAsyncResult ar)
+		private void CopyComplete(IAsyncResult ar)
 		{
 			CopyState state = (CopyState)ar.AsyncState;
 
@@ -288,7 +291,7 @@ namespace Wammer.Station
 			}
 			catch (Exception e)
 			{
-				logger.Warn("Error responding attachment/view : " + state.attachmentId, e);
+				this.LogWarnMsg("Error responding attachment/view : " + state.attachmentId, e);
 				HttpHelper.RespondFailure(state.response, new CloudResponse(400, -1, e.Message));
 			}
 			finally
@@ -300,7 +303,7 @@ namespace Wammer.Station
 				}
 				catch (Exception e)
 				{
-					logger.Warn("error closing source and response", e);
+					this.LogWarnMsg("error closing source and response", e);
 				}
 			}
 		}

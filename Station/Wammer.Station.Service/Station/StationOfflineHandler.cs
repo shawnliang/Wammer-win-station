@@ -4,7 +4,7 @@ using log4net;
 
 namespace Wammer.Station
 {
-	public class StationOfflineHandler : HttpHandler
+	class StationOfflineHandler : HttpHandler
 	{
 		private static ILog logger = LogManager.GetLogger("StationOfflineHandler");
 		private readonly HttpServer functionServer;

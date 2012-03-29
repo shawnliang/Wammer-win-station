@@ -19,9 +19,12 @@ namespace Wammer.Station.Service
 		private StationTimer stationTimer;
 		private string stationId;
 		private string resourceBasePath;
+		private ProviderConsumerTaskQueue bodySyncTaskQueue = new ProviderConsumerTaskQueue();
+		private TaskRunner[] bodySyncRunners;
+
 
 		public StationService()
-		{
+		{			
 			log4net.Config.XmlConfigurator.Configure();
 			InitializeComponent();
 			this.ServiceName = SERVICE_NAME;
@@ -60,7 +63,7 @@ namespace Wammer.Station.Service
 
 				HttpRequestMonitor httpRequestMonitor = new HttpRequestMonitor();
 				functionServer = new HttpServer(9981, httpRequestMonitor); // TODO: remove hard code
-				stationTimer = new StationTimer(functionServer);
+				stationTimer = new StationTimer(functionServer, bodySyncTaskQueue);
 
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
 
@@ -136,6 +139,15 @@ namespace Wammer.Station.Service
 				logger.Debug("Start management server");
 				managementServer.Start();
 
+
+				int bodySyncThreadNum = 1;
+				bodySyncRunners = new TaskRunner[bodySyncThreadNum];
+				for (int i = 0; i < bodySyncThreadNum; i++)
+				{
+					bodySyncRunners[i] = new TaskRunner(bodySyncTaskQueue);
+					bodySyncRunners[i].Start();
+				}
+
 				logger.Info("Waveface station is started");
 			}
 			catch (Exception ex)
@@ -189,6 +201,13 @@ namespace Wammer.Station.Service
 
 		protected override void OnStop()
 		{
+			int bodySyncThreadNum = 1;
+
+			for (int i = 0; i < bodySyncThreadNum; i++)
+			{
+				bodySyncRunners[i].Stop();
+			}
+
 			functionServer.Stop();
 			functionServer.Close();
 

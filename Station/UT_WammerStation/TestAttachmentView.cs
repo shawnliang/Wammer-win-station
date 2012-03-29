@@ -22,53 +22,53 @@ namespace UT_WammerStation
 		Guid object_id1;
 		Guid object_id2;
 
-        #region Private Method
-        private static void TestTunnelToCloud(string argument, string requestMethod)
-        {
-            CloudServer.BaseUrl = "http://localhost/v2/";
+		#region Private Method
+		private static void TestTunnelToCloud(string argument, string requestMethod)
+		{
+			CloudServer.BaseUrl = "http://localhost/v2/";
 
-            using (HttpServer cloud = new HttpServer(80))
-            using (HttpServer server = new HttpServer(8080))
-            {
-                cloud.AddHandler("/v1/objects/view", new FakeCloudRemoteHandler());
-                cloud.AddHandler("/v1/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
-                cloud.Start();
+			using (HttpServer cloud = new HttpServer(80))
+			using (HttpServer server = new HttpServer(8080))
+			{
+				cloud.AddHandler("/v1/objects/view", new FakeCloudRemoteHandler());
+				cloud.AddHandler("/v1/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
+				cloud.Start();
 
-                server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
-                server.Start();
+				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
+				server.Start();
 
-                Boolean isGetRequest = requestMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
+				Boolean isGetRequest = requestMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
 
-                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-                    "http://localhost:8080/v1/objects/view" + ((isGetRequest) ? argument : string.Empty));
-                req.ContentType = "application/x-www-form-urlencoded";
-                req.Method = requestMethod.ToLower();
+				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
+					"http://localhost:8080/v1/objects/view" + ((isGetRequest) ? argument : string.Empty));
+				req.ContentType = "application/x-www-form-urlencoded";
+				req.Method = requestMethod.ToLower();
 
-                if (!isGetRequest)
-                    using (StreamWriter fs = new StreamWriter(req.GetRequestStream()))
-                    {
-                        fs.Write(argument);
-                    }
+				if (!isGetRequest)
+					using (StreamWriter fs = new StreamWriter(req.GetRequestStream()))
+					{
+						fs.Write(argument);
+					}
 
-                HttpWebResponse response = (HttpWebResponse)req.GetResponse();
-                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-                Assert.AreEqual("image/jpeg", response.ContentType);
+				HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+				Assert.AreEqual("image/jpeg", response.ContentType);
 
-                using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
-                {
-                    byte[] readData = reader.ReadBytes(1000);
-                    Assert.AreEqual(10, readData.Length);
+				using (BinaryReader reader = new BinaryReader(response.GetResponseStream()))
+				{
+					byte[] readData = reader.ReadBytes(1000);
+					Assert.AreEqual(10, readData.Length);
 
-                    for (int i = 0; i < readData.Length; i++)
-                        Assert.AreEqual((byte)i + 1, readData[i]);
-                }
+					for (int i = 0; i < readData.Length; i++)
+						Assert.AreEqual((byte)i + 1, readData[i]);
+				}
 
-                Assert.AreEqual("sid", FakeCloudRemoteHandler.SavedParams["station_id"]);
-            }
-        }
-        #endregion
+				Assert.AreEqual("sid", FakeCloudRemoteHandler.SavedParams["station_id"]);
+			}
+		}
+		#endregion
 
-        [ClassInitialize()]
+		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
 		{
 			mongodb = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
@@ -109,6 +109,7 @@ namespace UT_WammerStation
 				group_id = "group1",
 				mime_type = "image/png",
 				file_size = 10,
+				saved_file_name = object_id1 + ".png",
 				image_meta = new ImageProperty
 				{
 					medium = new ThumbnailInfo
@@ -155,8 +156,8 @@ namespace UT_WammerStation
 		[TestCleanup]
 		public void tearDown()
 		{
-            System.Threading.Thread.Sleep(200);
-            Directory.Delete("resource", true);
+			System.Threading.Thread.Sleep(200);
+			Directory.Delete("resource", true);
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 		}
@@ -307,27 +308,27 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestView_FileNotFound_ForwardToCloud()
 		{
-            TestTunnelToCloud("?object_id=abc&apikey=123&session_token=token123&image_meta=medium", "GET");
+			TestTunnelToCloud("?object_id=abc&apikey=123&session_token=token123&image_meta=medium", "GET");
 		}
 
 		[TestMethod]
 		public void TestView_FileNotFound_ForwardToCloud_ByPost()
 		{
-            TestTunnelToCloud("object_id=abc&apikey=123&session_token=token123&image_meta=medium", "POST");
+			TestTunnelToCloud("object_id=abc&apikey=123&session_token=token123&image_meta=medium", "POST");
 		}
 
 		[TestMethod]
 		public void TestView_AlsoForwardBodyRequestToCloud_ByPost()
 		{
-            TestTunnelToCloud("object_id=abc&apikey=123&session_token=token123", "POST");
+			TestTunnelToCloud("object_id=abc&apikey=123&session_token=token123", "POST");
 		}
 
-       
+	   
 
 		[TestMethod]
 		public void TestView_AlsoForwardBodyRequestToCloud_ByGet()
 		{
-            TestTunnelToCloud("?object_id=abc&apikey=123&session_token=token123", "GET");
+			TestTunnelToCloud("?object_id=abc&apikey=123&session_token=token123", "GET");
 		}
 	}
 

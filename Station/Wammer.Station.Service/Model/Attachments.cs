@@ -8,31 +8,46 @@ using MongoDB.Bson.Serialization.Attributes;
 using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.PerfMonitor;
+using System.ComponentModel;
 
 namespace Wammer.Model
 {
 	public enum ImageMeta
 	{
+		/// <summary>
+		/// 
+		/// </summary>
+		[Description("none")]
 		None = 0,
+
 		/// <summary>
 		/// 128x128 pixels
 		/// </summary>
+		[Description("square")]
 		Square = 128,
+
 		/// <summary>
 		/// 120 pixels
 		/// </summary>
+		[Description("small")]
 		Small = 120,
+
 		/// <summary>
 		/// 720 pixels
 		/// </summary>
+		[Description("medium")]
 		Medium = 512,
+
 		/// <summary>
 		/// 1024 pixels
 		/// </summary>
+		[Description("large")]
 		Large = 1024,
+
 		/// <summary>
 		/// Original image size
 		/// </summary>
+		[Description("origin")]
 		Origin = 50 * 1024 * 1024
 	}
 

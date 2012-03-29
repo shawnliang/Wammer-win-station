@@ -73,13 +73,13 @@ namespace Wammer.Station
 						locChange = true;
 					}
 
-					using (WebClientProxy client = WebClientPool.GetFreeClient())
+					using (WebClient client = new WebClient())
 					{
 						Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
 						if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
 						{
 							logger.Debug("cloud logon start");
-							api.LogOn(client.Agent, detail);
+							api.LogOn(client, detail);
 							logon = true;
 
 							// update station info in database
@@ -94,7 +94,7 @@ namespace Wammer.Station
 							logger.Debug("update station information");
 							Model.StationCollection.Instance.Save(sinfo);
 						}
-						api.Heartbeat(client.Agent, detail);
+						api.Heartbeat(client, detail);
 					}
 				}
 				catch (WammerCloudException ex)
@@ -132,7 +132,7 @@ namespace Wammer.Station
 		public void Stop()
 		{
 			timer.Change(Timeout.Infinite, Timeout.Infinite);
-			using (WebClientProxy client = WebClientPool.GetFreeClient())
+			using (WebClient client = new WebClient())
 			{
 				Model.StationInfo sinfo = Model.StationCollection.Instance.FindOne();
 				if (sinfo != null)
@@ -140,7 +140,7 @@ namespace Wammer.Station
 					try
 					{
 						Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
-						api.Offline(client.Agent);
+						api.Offline(client);
 					}
 					catch (Exception ex)
 					{

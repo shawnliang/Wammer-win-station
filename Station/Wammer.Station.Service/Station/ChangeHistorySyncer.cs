@@ -10,14 +10,14 @@ using Wammer.Cloud;
 
 namespace Wammer.Station
 {
-	class ChangeHistorySyncer: NonReentrantTimer
+	class ChangeHistorySyncer: AbstractResourceSyncer
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ChangeHistorySyncer));
 
 		private TimelineChangeHistory timelineChangeHistory;
 
-		public ChangeHistorySyncer(long interval)
-			:base(interval)
+		public ChangeHistorySyncer(long interval, ProviderConsumerTaskQueue queue)
+			:base(interval, queue)
 		{
 			timelineChangeHistory = new TimelineChangeHistory(
 				new PostInfoProvider(),
@@ -30,7 +30,7 @@ namespace Wammer.Station
 			foreach (Driver user in users)
 			{
 				List<PostInfo> changedPosts = timelineChangeHistory.GetChangedPosts(user);
-				ResourceSyncer.DownloadMissedResource(changedPosts);
+				DownloadMissedResource(changedPosts);
 			}
 		}
 	}

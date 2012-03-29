@@ -11,7 +11,7 @@ namespace Wammer.Station
 		void Close();
 	}
 
-	public class StationTimer
+	class StationTimer
 	{
 #if DEBUG
 		private const long STATUS_CHECK_PERIOD = 30 * 1000; // run heartbeat frequently in debug mode
@@ -27,14 +27,14 @@ namespace Wammer.Station
 
 		private List<IStationTimer> timers;
 
-		public StationTimer(HttpServer functionServer)
+		public StationTimer(HttpServer functionServer, ProviderConsumerTaskQueue bodySyncQueue)
 		{
 			timers = new List<IStationTimer> {
 				new StatusChecker(STATUS_CHECK_PERIOD, functionServer),
-				new ResourceSyncer(RESOURCE_SYNC_PEROID),
+				new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue),
 				// Use a strange value to make ResourceSyncer and ChangeHistorySyncer not running at the same time.
 				// (The two syncers is OK to run concurrently but just could get same data and waste resource)
-				new ChangeHistorySyncer(RESOURCE_SYNC_PEROID * 2 - 10 * 1000)
+				new ChangeHistorySyncer(RESOURCE_SYNC_PEROID * 2 - 10 * 1000, bodySyncQueue)
 			};
 		}
 

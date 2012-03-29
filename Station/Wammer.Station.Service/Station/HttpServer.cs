@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -98,6 +98,10 @@ namespace Wammer.Station
 
 
 		#region Private Method
+		/// <summary>
+		/// Responds 404 not found.
+		/// </summary>
+		/// <param name="ctx">The CTX.</param>
 		private void respond404NotFound(HttpListenerContext ctx)
 		{
 			try
@@ -111,6 +115,10 @@ namespace Wammer.Station
 			}
 		}
 
+		/// <summary>
+		/// Responds 503 unavailable.
+		/// </summary>
+		/// <param name="ctx">The CTX.</param>
 		private void respond503Unavailable(HttpListenerContext ctx)
 		{
 			try
@@ -132,6 +140,10 @@ namespace Wammer.Station
 			}
 		}
 
+		/// <summary>
+		/// Responds 401 unauthorized.
+		/// </summary>
+		/// <param name="ctx">The CTX.</param>
 		private void respond401Unauthorized(HttpListenerContext ctx)
 		{
 			try
@@ -153,12 +165,17 @@ namespace Wammer.Station
 				m_Logger.Warn("Unable to respond 401 Unauthorized", e);
 			}
 		}
+
+		/// <summary>
+		/// Finds the best match.
+		/// </summary>
+		/// <param name="requestAbsPath">The request abs path.</param>
+		/// <returns></returns>
 		private IHttpHandler FindBestMatch(string requestAbsPath)
 		{
 			string path = requestAbsPath;
 			if (!path.EndsWith("/"))
 				path += "/";
-
 
 			if (m_Handlers.ContainsKey(path))
 				return m_Handlers[path];
@@ -169,6 +186,10 @@ namespace Wammer.Station
 
 
 		#region Protected Method
+		/// <summary>
+		/// Raises the <see cref="E:TaskQueue"/> event.
+		/// </summary>
+		/// <param name="e">The <see cref="Wammer.TaskQueueEventArgs"/> instance containing the event data.</param>
 		protected void OnTaskQueue(TaskQueueEventArgs e)
 		{
 			this.RaiseEvent<TaskQueueEventArgs>(TaskEnqueue, e);
@@ -177,6 +198,11 @@ namespace Wammer.Station
 
 
 		#region Public Method
+		/// <summary>
+		/// Adds the handler.
+		/// </summary>
+		/// <param name="path">The path.</param>
+		/// <param name="handler">The handler.</param>
 		public void AddHandler(string path, IHttpHandler handler)
 		{
 			if (string.IsNullOrEmpty(path))
@@ -212,6 +238,10 @@ namespace Wammer.Station
 				handler.ProcessSucceeded += monitor.OnProcessSucceeded;
 		}
 
+		/// <summary>
+		/// Adds the default handler.
+		/// </summary>
+		/// <param name="handler">The handler.</param>
 		public void AddDefaultHandler(IHttpHandler handler)
 		{
 			if (handler == null)
@@ -220,6 +250,9 @@ namespace Wammer.Station
 			_defaultHandler = handler;
 		}
 
+		/// <summary>
+		/// Starts this instance.
+		/// </summary>
 		public void Start()
 		{
 			lock (m_LockSwitchObj)
@@ -233,6 +266,9 @@ namespace Wammer.Station
 			}
 		}
 
+		/// <summary>
+		/// Stops this instance.
+		/// </summary>
 		public void Stop()
 		{
 			lock (m_LockSwitchObj)
@@ -245,22 +281,36 @@ namespace Wammer.Station
 			}
 		}
 
+		/// <summary>
+		/// Blocks the auth.
+		/// </summary>
+		/// <param name="blocked">if set to <c>true</c> [blocked].</param>
 		public void BlockAuth(bool blocked)
 		{
 			_authblocked = blocked;
 		}
 
+		/// <summary>
+		/// Closes this instance.
+		/// </summary>
 		public void Close()
 		{
 			Stop();
 			m_Listener.Close();
 		}
 
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
 		public void Dispose()
 		{
 			Close();
 		}
 
+		/// <summary>
+		/// Connections the accepted.
+		/// </summary>
+		/// <param name="result">The result.</param>
 		private void ConnectionAccepted(IAsyncResult result)
 		{
 			HttpListenerContext context = null;
@@ -287,6 +337,7 @@ namespace Wammer.Station
 							var task = new HttpHandlingTask(handler, context, beginTime);
 							OnTaskQueue(new TaskQueueEventArgs(task, handler));
 							TaskQueue.Enqueue(task, TaskPriority.High);
+							monitor.Enqueue();
 						}
 						else
 							respond404NotFound(context);
