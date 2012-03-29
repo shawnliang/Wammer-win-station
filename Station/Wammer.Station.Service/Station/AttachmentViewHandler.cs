@@ -237,17 +237,19 @@ namespace Wammer.Station
 					else
 					{
 						var metaStr = imageMeta.GetCustomAttribute<DescriptionAttribute>().Description;
-						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update.Set("image_meta." + metaStr, new ThumbnailInfo()
-						{
-							mime_type = wc.ResponseHeaders["content-type"],
-							modify_time = DateTime.UtcNow,
-							url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + metaStr,
-							file_size = fs.Length,
-							file_name = attachmentView.file_name,
-							width = attachmentView.image_meta.GetThumbnail(imageMeta).width,
-							height = attachmentView.image_meta.GetThumbnail(imageMeta).height,
-							saved_file_name = fileName
-						}.ToBsonDocument()), UpdateFlags.Upsert);
+						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
+							.Set("group_id", attachmentView.group_id)
+							.Set("image_meta." + metaStr, new ThumbnailInfo()
+								{
+									mime_type = wc.ResponseHeaders["content-type"],
+									modify_time = DateTime.UtcNow,
+									url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + metaStr,
+									file_size = fs.Length,
+									file_name = attachmentView.file_name,
+									width = attachmentView.image_meta.GetThumbnail(imageMeta).width,
+									height = attachmentView.image_meta.GetThumbnail(imageMeta).height,
+									saved_file_name = fileName
+								}.ToBsonDocument()), UpdateFlags.Upsert);
 					}
 
 					fs.Seek(0, SeekOrigin.Begin);
