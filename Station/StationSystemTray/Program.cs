@@ -18,6 +18,11 @@ namespace StationSystemTray
         const string CLIENT_TITLE = "Waveface ";        
         #endregion
 
+
+		#region Private Static Property
+		private static Mutex m_Mutex { get; set; }
+		#endregion
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -29,7 +34,7 @@ namespace StationSystemTray
             bool isFirstCreated;
 
             //Create a new mutex using specific mutex name
-            Mutex m = new Mutex(true, "StationSystemTray", out isFirstCreated);
+			m_Mutex = new Mutex(true, "StationSystemTray", out isFirstCreated);
 
             if (!isFirstCreated)
             {
