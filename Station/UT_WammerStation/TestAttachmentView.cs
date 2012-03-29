@@ -109,6 +109,7 @@ namespace UT_WammerStation
 				group_id = "group1",
 				mime_type = "image/png",
 				file_size = 10,
+				saved_file_name = object_id1 + ".png",
 				image_meta = new ImageProperty
 				{
 					medium = new ThumbnailInfo

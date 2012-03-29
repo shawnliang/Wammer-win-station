@@ -63,7 +63,7 @@ namespace Wammer.Station
 				Attachment doc = null;
 
 				if (imageMeta == ImageMeta.Origin)
-					doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", objectId));
+					doc = AttachmentCollection.Instance.FindOne(Query.And(Query.EQ("_id", objectId), Query.Exists("saved_file_name", true)));
 				else
 					doc = AttachmentCollection.Instance.FindOne(Query.And(Query.EQ("_id", objectId), Query.Exists("image_meta." + imageMeta.ToString().ToLower(), true)));
 
