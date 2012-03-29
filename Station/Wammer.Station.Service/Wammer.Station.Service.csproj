@@ -161,6 +161,7 @@
     <Compile Include="Station\RemoveOwnerHandler.cs" />
     <Compile Include="Station\ResouceDirHandler.cs" />
     <Compile Include="Station\ResourceSyncer.cs" />
+    <Compile Include="Station\ResourceSyncThread.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
     <Compile Include="Station\ServiceUnavailableException.cs" />
     <Compile Include="Station\StationOfflineHandler.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Station\StatusGetHandler.cs" />
     <Compile Include="Station\TaskQueue.cs" />
+    <Compile Include="Station\TaskRunner.cs" />
     <Compile Include="Station\TimelineChange\PostInfoProvider.cs" />
     <Compile Include="Station\TimelineChange\TimelineChangeHistory.cs" />
     <Compile Include="Station\TimelineChange\UserInfoUpdator.cs" />
@@ -180,6 +182,7 @@
     <Compile Include="Utility\FileStorageHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
+    <Compile Include="Station\ProviderConsumerTaskQueue.cs" />
     <Compile Include="Utility\ServiceHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />
     <Compile Include="MultiPart\Disposition.cs" />

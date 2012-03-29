@@ -7,7 +7,7 @@ using Wammer.Model;
 
 namespace Wammer.Station
 {
-	public class StationOnlineHandler : HttpHandler
+	class StationOnlineHandler : HttpHandler
 	{
 		private static ILog logger = LogManager.GetLogger("StationOnlineHandler");
 		private readonly HttpServer functionServer;

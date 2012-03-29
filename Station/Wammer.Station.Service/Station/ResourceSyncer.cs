@@ -32,87 +32,19 @@ namespace Wammer.Station
 		}
 	}
 
-	public class ResourceSyncer : NonReentrantTimer
+
+	abstract class AbstractResourceSyncer : NonReentrantTimer
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceSyncer));
-		private bool isFirstRun = true;
+		private static log4net.ILog logger = log4net.LogManager.GetLogger("ResourceSyncer");
+		private ProviderConsumerTaskQueue downloadTaskQueue;
 
-		public ResourceSyncer(long timerPeriod)
-			:base(timerPeriod)
+		protected AbstractResourceSyncer(long timerInterval, ProviderConsumerTaskQueue downloadTaskQueue)
+			:base(timerInterval)
 		{
+			this.downloadTaskQueue = downloadTaskQueue;
 		}
 
-		protected override void ExecuteOnTimedUp(object state)
-		{
-			if (isFirstRun)
-			{
-				ResumeUnfinishedDownstreamTasks();
-				isFirstRun = false;
-			}
-
-			PullTimeline(state);
-		}
-
-		private void ResumeUnfinishedDownstreamTasks()
-		{
-			MongoCursor<PostInfo> posts = PostCollection.Instance.Find(
-				Query.Exists("attachments", true));
-
-			foreach (PostInfo post in posts)
-			{
-				foreach (AttachmentInfo attachment in post.attachments)
-				{
-					Attachment savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
-					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
-
-					// driver might be removed before download tasks completed
-					if (driver == null)
-						break;
-
-					// origin
-					if (driver.isPrimaryStation && 
-						attachment.url != null && 
-						(savedDoc == null || savedDoc.saved_file_name == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
-					}
-
-					if (attachment.image_meta == null)
-						break;
-
-					// small
-					if (attachment.image_meta.small != null && 
-						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.small == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
-					}
-
-					// medium
-					if (attachment.image_meta.medium != null &&
-						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
-					}
-
-					// large
-					if (attachment.image_meta.large != null &&
-						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.large == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
-					}
-
-					// square
-					if (attachment.image_meta.square != null &&
-						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.square == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
-					}
-
-				}
-			}
-		}
-
-		private static void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
+		protected void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
 			ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
 			{
@@ -123,88 +55,10 @@ namespace Wammer.Station
 			};
 
 			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-			TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+			downloadTaskQueue.Enqueue(DownstreamResource, evtargs);
 		}
 
-
-		private void PullTimeline(Object obj)
-		{
-
-			using (WebClient client = new WebClient())
-			{
-				foreach (Driver driver in DriverCollection.Instance.FindAll())
-				{
-					PostApi api = new PostApi(driver);
-					if (driver.sync_range == null)
-					{
-						PostGetLatestResponse res = api.PostGetLatest(client, 20);
-						SavePosts(res.posts);
-						DownloadMissedResource(res.posts);
-						driver.sync_range = new SyncRange
-						{
-							start_time = res.posts.Last().timestamp,
-							end_time = res.posts.First().timestamp
-						};
-						if (res.total_count == res.get_count)
-						{
-							driver.sync_range.first_post_time = driver.sync_range.start_time;
-						}
-					}
-					else
-					{
-						PostFetchByFilterResponse newerRes = api.PostFetchByFilter(client,
-							new FilterEntity
-							{
-								limit = 20,
-								timestamp = driver.sync_range.end_time
-							}
-						);
-
-						if (newerRes.posts.Count > 0 &&
-							newerRes.posts.First().timestamp != driver.sync_range.end_time)
-						{
-							SavePosts(newerRes.posts);
-							DownloadMissedResource(newerRes.posts);
-							driver.sync_range.end_time = newerRes.posts.First().timestamp;
-						}
-
-						if (driver.sync_range.start_time != driver.sync_range.first_post_time)
-						{
-							PostFetchByFilterResponse olderRes = api.PostFetchByFilter(client,
-								new FilterEntity
-								{
-									limit = -20,
-									timestamp = driver.sync_range.start_time
-								}
-							);
-							SavePosts(olderRes.posts);
-							DownloadMissedResource(olderRes.posts);
-							driver.sync_range.start_time = olderRes.posts.Last().timestamp;
-
-							if (olderRes.remaining_count == 0)
-							{
-								driver.sync_range.first_post_time = driver.sync_range.start_time;
-							}
-						}
-					}
-
-					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
-						Update.Set("sync_range", driver.sync_range.ToBsonDocument()));
-				}
-			}
-		}
-
-
-		private void SavePosts(List<PostInfo> posts)
-		{
-			if (posts == null)
-				return;
-
-			foreach (PostInfo post in posts)
-				PostCollection.Instance.Save(post);
-		}
-
-		public static void DownloadMissedResource(List<PostInfo> posts)
+		protected void DownloadMissedResource(List<PostInfo> posts)
 		{
 			foreach (PostInfo post in posts)
 			{
@@ -293,7 +147,7 @@ namespace Wammer.Station
 
 				if (counter.Sample.RawValue > 0)
 					counter.Decrement();
-		}
+			}
 		}
 
 		private static bool AttachmentExists(ResourceDownloadEventArgs evtargs)
@@ -483,5 +337,228 @@ namespace Wammer.Station
 				logger.Warn("Unable to save attachment, ignore it.", ex);
 			}
 		}
+	}
+
+	class ResourceSyncer : AbstractResourceSyncer
+	{
+		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceSyncer));
+		private bool isFirstRun = true;
+
+		public ResourceSyncer(long timerPeriod, ProviderConsumerTaskQueue queue)
+			:base(timerPeriod, queue)
+		{
+		}
+
+		protected override void ExecuteOnTimedUp(object state)
+		{
+			if (isFirstRun)
+			{
+				ResumeUnfinishedDownstreamTasks();
+				isFirstRun = false;
+			}
+
+			PullTimeline(state);
+		}
+
+		private void ResumeUnfinishedDownstreamTasks()
+		{
+			MongoCursor<PostInfo> posts = PostCollection.Instance.Find(
+				Query.Exists("attachments", true));
+
+			foreach (PostInfo post in posts)
+			{
+				foreach (AttachmentInfo attachment in post.attachments)
+				{
+					Attachment savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
+					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
+
+					// driver might be removed before download tasks completed
+					if (driver == null)
+						break;
+
+					// origin
+					if (driver.isPrimaryStation && 
+						attachment.url != null && 
+						(savedDoc == null || savedDoc.saved_file_name == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
+					}
+
+					if (attachment.image_meta == null)
+						break;
+
+					// small
+					if (attachment.image_meta.small != null && 
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.small == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
+					}
+
+					// medium
+					if (attachment.image_meta.medium != null &&
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
+					}
+
+					// large
+					if (attachment.image_meta.large != null &&
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.large == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
+					}
+
+					// square
+					if (attachment.image_meta.square != null &&
+						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.square == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+					}
+
+				}
+			}
+		}
+
+		//private static void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
+		//{
+		//    ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
+		//    {
+		//        driver = driver,
+		//        attachment = attachment,
+		//        imagemeta = meta,
+		//        filepath = Path.GetTempFileName()
+		//    };
+
+		//    PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
+		//    TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+		//}
+
+
+		private void PullTimeline(Object obj)
+		{
+
+			using (WebClient client = new WebClient())
+			{
+				foreach (Driver driver in DriverCollection.Instance.FindAll())
+				{
+					PostApi api = new PostApi(driver);
+					if (driver.sync_range == null)
+					{
+						PostGetLatestResponse res = api.PostGetLatest(client, 20);
+						SavePosts(res.posts);
+						DownloadMissedResource(res.posts);
+						driver.sync_range = new SyncRange
+						{
+							start_time = res.posts.Last().timestamp,
+							end_time = res.posts.First().timestamp
+						};
+						if (res.total_count == res.get_count)
+						{
+							driver.sync_range.first_post_time = driver.sync_range.start_time;
+						}
+					}
+					else
+					{
+						PostFetchByFilterResponse newerRes = api.PostFetchByFilter(client,
+							new FilterEntity
+							{
+								limit = 20,
+								timestamp = driver.sync_range.end_time
+							}
+						);
+
+						if (newerRes.posts.Count > 0 &&
+							newerRes.posts.First().timestamp != driver.sync_range.end_time)
+						{
+							SavePosts(newerRes.posts);
+							DownloadMissedResource(newerRes.posts);
+							driver.sync_range.end_time = newerRes.posts.First().timestamp;
+						}
+
+						if (driver.sync_range.start_time != driver.sync_range.first_post_time)
+						{
+							PostFetchByFilterResponse olderRes = api.PostFetchByFilter(client,
+								new FilterEntity
+								{
+									limit = -20,
+									timestamp = driver.sync_range.start_time
+								}
+							);
+							SavePosts(olderRes.posts);
+							DownloadMissedResource(olderRes.posts);
+							driver.sync_range.start_time = olderRes.posts.Last().timestamp;
+
+							if (olderRes.remaining_count == 0)
+							{
+								driver.sync_range.first_post_time = driver.sync_range.start_time;
+							}
+						}
+					}
+
+					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
+						Update.Set("sync_range", driver.sync_range.ToBsonDocument()));
+				}
+			}
+		}
+
+
+		private void SavePosts(List<PostInfo> posts)
+		{
+			if (posts == null)
+				return;
+
+			foreach (PostInfo post in posts)
+				PostCollection.Instance.Save(post);
+		}
+
+		//public static void DownloadMissedResource(List<PostInfo> posts)
+		//{
+		//    foreach (PostInfo post in posts)
+		//    {
+		//        foreach (AttachmentInfo attachment in post.attachments)
+		//        {
+		//            Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
+
+		//            // driver might be removed before running download tasks
+		//            if (driver == null)
+		//                break;
+
+		//            // original
+		//            if (!string.IsNullOrEmpty(attachment.url) && driver.isPrimaryStation)
+		//            {
+		//                EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
+		//            }
+
+		//            if (attachment.image_meta == null)
+		//                break;
+
+		//            // small
+		//            if (attachment.image_meta.small != null)
+		//            {
+		//                EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
+		//            }
+
+		//            // medium
+		//            if (attachment.image_meta.medium != null)
+		//            {
+		//                EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
+		//            }
+
+		//            // large
+		//            if (attachment.image_meta.large != null)
+		//            {
+		//                EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
+		//            }
+
+		//            // square
+		//            if (attachment.image_meta.square != null)
+		//            {
+		//                EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+		//            }
+		//        }
+		//    }
+		//}
+
+		
 	}
 }
