@@ -1191,7 +1191,12 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                NLogUtility.Exception(s_logger, _e, "PostUpdate");
+
+                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                ReloadAllData();
+
                 return null;
             }
 
@@ -1228,7 +1233,12 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                NLogUtility.Exception(s_logger, _e, "PostUpdate");
+
+                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                ReloadAllData();
+
                 return false;
             }
 
@@ -1244,9 +1254,9 @@ namespace Waveface
 
             if (_ret != null)
             {
-                MessageBox.Show("Remove Post Success!"); //@ I18n
+                ReloadAllData(); //- ToDo 
 
-                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+                MessageBox.Show(I18n.L.T("PostRemoved"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 return true;
             }
@@ -1496,8 +1506,8 @@ namespace Waveface
             timerPolling.Enabled = false;
 
             if (checkNewPosts())
-            {            
-                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+            {
+                ReloadAllData();
 
                 return;
             }
@@ -1523,10 +1533,10 @@ namespace Waveface
                     {
                         foreach (UT_Action _action in _usertrack.actions)
                         {
-                            if(_action.action == "hide")
+                            if (_action.action == "hide")
                             {
-                                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
-                                
+                                ReloadAllData();
+
                                 return;
                             }
                         }
@@ -1642,6 +1652,11 @@ namespace Waveface
         #endregion
 
         #region GetAllData
+
+        public void ReloadAllData()
+        {
+            GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+        }
 
         private void bgWorkerGetAllData_DoWork(object sender, DoWorkEventArgs e)
         {

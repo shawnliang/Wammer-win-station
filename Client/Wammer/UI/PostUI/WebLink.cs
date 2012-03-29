@@ -151,7 +151,7 @@ namespace Waveface.PostUI
                 }
 
                 Main.Current.ShowStatuMessage(I18n.L.T("PostForm.PostSuccess"), true);
-                Main.Current.GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+                Main.Current.ReloadAllData();
 
                 return true;
             }

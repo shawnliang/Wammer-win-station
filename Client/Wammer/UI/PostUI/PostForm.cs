@@ -30,9 +30,9 @@ namespace Waveface
         private FormSettings m_formSettings;
         private bool m_getPreviewNow;
         private string m_lastPreviewURL = string.Empty;
-
         private Dictionary<string, string> m_oldImageFiles;
         private Dictionary<string, string> m_fileNameMapping;
+        private bool m_closeOK;
 
         public Post Post { get; set; }
         public BatchPostItem BatchPostItem { get; set; }
@@ -194,12 +194,16 @@ namespace Waveface
 
         public void SetDialogResult_Yes_AndClose()
         {
+            m_closeOK = true;
+
             DialogResult = DialogResult.Yes;
             Close();
         }
 
         public void SetDialogResult_OK_AndClose()
         {
+            m_closeOK = true;
+
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -207,6 +211,15 @@ namespace Waveface
         private void PostForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             //document_UI.UnloadPreviewHandler();
+
+            if (!m_closeOK)
+            {
+                DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), "Waveface", MessageBoxButtons.YesNo,
+                                                   MessageBoxIcon.Question);
+
+                if (_dr != DialogResult.Yes)
+                    e.Cancel = true;
+            }
         }
 
         private void PostForm_SizeChanged(object sender, EventArgs e)
@@ -394,7 +407,7 @@ namespace Waveface
                     }
 
                     Main.Current.ShowStatuMessage(I18n.L.T("PostForm.PostSuccess"), true);
-                    Main.Current.GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+                    Main.Current.ReloadAllData();
 
                     SetDialogResult_Yes_AndClose();
                 }

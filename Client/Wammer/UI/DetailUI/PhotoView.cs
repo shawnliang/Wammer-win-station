@@ -419,25 +419,22 @@ namespace Waveface.DetailUI
         {
             string _cover_attach = m_imageAttachments[m_selectedImageIndex].object_id;
 
-            if (_cover_attach == m_post.cover_attach)
-            {
-                //ToDo
-            }
-            else
+            if (_cover_attach != m_post.cover_attach)
             {
                 Dictionary<string, string> _params = new Dictionary<string, string>();
                 _params.Add("cover_attach", _cover_attach);
 
                 Post _retPost = Main.Current.PostUpdate(m_post, _params);
 
-                if (_retPost != null)
+                if (_retPost == null)
                 {
-                    m_post = _retPost;
-
-                    // ToDo
-                    // Close();
+                    return;
                 }
+
+                m_post = _retPost;
             }
+
+            MessageBox.Show("更改照片封面成功", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information); //Todo
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)

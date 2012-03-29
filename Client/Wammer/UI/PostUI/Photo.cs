@@ -416,7 +416,6 @@ namespace Waveface.PostUI
                     m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
                     m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
 
-                    //Hack
                     if (m_month_total_objects == -1)
                     {
                         return long.MaxValue;
@@ -431,6 +430,27 @@ namespace Waveface.PostUI
             }
 
             return long.MinValue;
+        }
+
+        public void ShowMessage(int went)
+        {
+            long _storagesUsage = CheckStoragesUsage(went);
+
+            if (_storagesUsage == long.MinValue)
+            {
+                MessageBox.Show(I18n.L.T("SystemError"), "Waveface", MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
+
+                return;
+            }
+
+            if (_storagesUsage < 0)
+            {
+                MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
+                                "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
         }
 
         #endregion
