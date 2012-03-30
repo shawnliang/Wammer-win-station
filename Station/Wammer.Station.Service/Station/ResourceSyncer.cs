@@ -36,12 +36,12 @@ namespace Wammer.Station
 	abstract class AbstractResourceSyncer : NonReentrantTimer
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("ResourceSyncer");
-		private ProviderConsumerTaskQueue downloadTaskQueue;
+		private ITaskStore bodySyncQueue;
 
-		protected AbstractResourceSyncer(long timerInterval, ProviderConsumerTaskQueue downloadTaskQueue)
+		protected AbstractResourceSyncer(long timerInterval, ITaskStore bodySyncQueue)
 			:base(timerInterval)
 		{
-			this.downloadTaskQueue = downloadTaskQueue;
+			this.bodySyncQueue = bodySyncQueue;
 		}
 
 		protected void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
@@ -53,9 +53,7 @@ namespace Wammer.Station
 				imagemeta = meta,
 				filepath = Path.GetTempFileName()
 			};
-
-			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-			downloadTaskQueue.Enqueue(DownstreamResource, evtargs);
+			bodySyncQueue.Enqueue(DownstreamResource, evtargs);
 		}
 
 		protected void DownloadMissedResource(List<PostInfo> posts)
@@ -140,13 +138,6 @@ namespace Wammer.Station
 					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
 					TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 				}
-			}
-			finally
-			{
-				var counter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
-
-				if (counter.Sample.RawValue > 0)
-					counter.Decrement();
 			}
 		}
 
@@ -342,8 +333,8 @@ namespace Wammer.Station
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceSyncer));
 		private bool isFirstRun = true;
 
-		public ResourceSyncer(long timerPeriod, ProviderConsumerTaskQueue queue)
-			:base(timerPeriod, queue)
+		public ResourceSyncer(long timerPeriod, ITaskStore bodySyncQueue)
+			: base(timerPeriod, bodySyncQueue)
 		{
 		}
 

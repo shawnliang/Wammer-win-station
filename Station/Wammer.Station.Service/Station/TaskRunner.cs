@@ -11,11 +11,12 @@ namespace Wammer.Station
 	{
 		private static ILog logger = LogManager.GetLogger("TaskRunner");
 		private Thread thread;
-
-		private ProviderConsumerTaskQueue queue;
+		private BodySyncTaskQueue queue;
 		private volatile bool exit;
 
-		public TaskRunner(ProviderConsumerTaskQueue queue)
+		public event EventHandler TaskExecuted;
+
+		public TaskRunner(BodySyncTaskQueue queue)
 		{
 			this.queue = queue;
 			this.thread = new Thread(Do);
@@ -40,14 +41,25 @@ namespace Wammer.Station
 			{
 				try
 				{
-					SimpleTask task = queue.Dequeue();
+					ITask task = queue.Dequeue();
 					task.Execute();
 				}
 				catch (Exception e)
 				{
 					logger.Warn(e);
 				}
+				finally
+				{
+					OnTaskExecuted(EventArgs.Empty);
+				}
 			}
+		}
+
+		private void OnTaskExecuted(EventArgs arg)
+		{
+			EventHandler handler = TaskExecuted;
+			if (handler != null)
+				handler(this, arg);
 		}
 	}
 }
