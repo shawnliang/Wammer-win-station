@@ -183,8 +183,6 @@ namespace Wammer.Station
 				string savedFileName;
 				ArraySegment<byte> rawdata = new ArraySegment<byte>(File.ReadAllBytes(filepath));
 
-				PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(rawdata.Count);
-
 				FileStorage fs = new FileStorage(driver);
 
 				switch (imagemeta)

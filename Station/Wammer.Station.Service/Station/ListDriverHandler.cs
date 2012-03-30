@@ -7,8 +7,6 @@ namespace Wammer.Station
 {
 	public class ListDriverHandler: HttpHandler
 	{
-		private static ILog logger = LogManager.GetLogger("ListDriverHandler");
-
 		protected override void HandleRequest()
 		{
 			List<Driver> drivers = new List<Driver>(DriverCollection.Instance.FindAll());

@@ -196,9 +196,9 @@ namespace Wammer.Cloud
 				throw new WammerCloudException("Wammer cloud error", parameters, response, e);
 			}
 
-			if (resObj is CloudResponse)
+			CloudResponse cres = resObj as CloudResponse;
+			if (cres != null)
 			{
-				CloudResponse cres = resObj as CloudResponse;
 				if (cres.status != 200 || cres.api_ret_code != 0)
 					throw new WammerCloudException("Wammer cloud error", parameters, response,
 						cres.api_ret_code);
@@ -248,9 +248,9 @@ namespace Wammer.Cloud
 				throw new WammerCloudException("Wammer cloud error", postData, response, e);
 			}
 
-			if (resObj is CloudResponse)
+			CloudResponse cres = resObj as CloudResponse;
+			if (cres != null)
 			{
-				CloudResponse cres = resObj as CloudResponse;
 				if (cres.status != 200 || cres.api_ret_code != 0)
 					throw new WammerCloudException("Wammer cloud error", postData, response,
 						cres.api_ret_code);

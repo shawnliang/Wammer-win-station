@@ -8,7 +8,7 @@ namespace Wammer.Station
 {
 	public class PublicPortMapping
 	{
-		private static PortMapper portMapper = TCMPortMapper.PortMapper.SharedInstance;
+		//private static PortMapper portMapper = TCMPortMapper.PortMapper.SharedInstance;
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("UPnP");
 
 		private bool hasDriver = false;

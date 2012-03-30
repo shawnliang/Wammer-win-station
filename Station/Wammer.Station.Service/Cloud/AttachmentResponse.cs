@@ -28,44 +28,44 @@ namespace Wammer.Cloud
 		}
 	}
 
-	public class AttachmentGetResponse : AttachmentResponse
-	{
-		private AttachmentInfo attachmentInfo;
+	//public class AttachmentGetResponse : AttachmentResponse
+	//{
+	//    private AttachmentInfo attachmentInfo;
 
-		public AttachmentGetResponse()
-			: base()
-		{
-		}
+	//    public AttachmentGetResponse()
+	//        : base()
+	//    {
+	//    }
 
-		public AttachmentGetResponse(int status, DateTime timestamp, 
-			int loc, string group_id, long meta_time, string description, 
-			string title, string file_name, string meta_status, string object_id,
-			string creator_id, AttachmentInfo.ImageMeta image_meta, bool default_post, 
-			long modify_time, string code_name, string hidden, string type,
-			string device_id)
-			: base(status, timestamp)
-		{
-			this.attachmentInfo = new AttachmentInfo
-			{
-				loc = loc,
-				group_id = group_id,
-				meta_time = meta_time,
-				description = description,
-				title = title,
-				file_name = file_name,
-				meta_status = meta_status,
-				object_id = object_id,
-				creator_id = creator_id,
-				image_meta = image_meta,
-				default_post = default_post,
-				modify_time = modify_time,
-				code_name = code_name,
-				hidden = hidden,
-				type = type,
-				device_id = device_id
-			};
-		}
-	}
+	//    public AttachmentGetResponse(int status, DateTime timestamp, 
+	//        int loc, string group_id, long meta_time, string description, 
+	//        string title, string file_name, string meta_status, string object_id,
+	//        string creator_id, AttachmentInfo.ImageMeta image_meta, bool default_post, 
+	//        long modify_time, string code_name, string hidden, string type,
+	//        string device_id)
+	//        : base(status, timestamp)
+	//    {
+	//        this.attachmentInfo = new AttachmentInfo
+	//        {
+	//            loc = loc,
+	//            group_id = group_id,
+	//            meta_time = meta_time,
+	//            description = description,
+	//            title = title,
+	//            file_name = file_name,
+	//            meta_status = meta_status,
+	//            object_id = object_id,
+	//            creator_id = creator_id,
+	//            image_meta = image_meta,
+	//            default_post = default_post,
+	//            modify_time = modify_time,
+	//            code_name = code_name,
+	//            hidden = hidden,
+	//            type = type,
+	//            device_id = device_id
+	//        };
+	//    }
+	//}
 
 	public class AttachmentInfo
 	{

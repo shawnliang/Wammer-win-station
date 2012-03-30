@@ -12,8 +12,6 @@ namespace Wammer.Station
 {
 	public class ListCloudStorageHandler : HttpHandler
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
-
 		protected override void HandleRequest()
 		{
 			List<CloudStorageStatus> cloudstorages = new List<CloudStorageStatus>();
@@ -170,8 +168,6 @@ namespace Wammer.Station
 
 	public class DropBoxUpdateHandler : HttpHandler
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
-
 		protected override void HandleRequest()
 		{
 			long quota = Convert.ToInt64(Parameters["quota"]);

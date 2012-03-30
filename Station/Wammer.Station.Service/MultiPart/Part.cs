@@ -11,7 +11,7 @@ namespace Wammer.MultiPart
 		public static byte[] CRLF = Encoding.UTF8.GetBytes("\r\n");
 
 		ArraySegment<byte> data;
-		private static char[] CRLFtail = { '\r', '\n' };
+		//private static char[] CRLFtail = { '\r', '\n' };
 
 		private string text;
 		private ArraySegment<byte> bytes;

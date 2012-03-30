@@ -90,8 +90,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_DETAIL, detail.ToFastJSON() }
 			};
 
-			StationHeartbeatResponse res =
-				CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
+			CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
 		}
 
 		public static void SignOff(WebClient agent, string stationId, string sessionToken, string userID)
@@ -128,8 +127,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
 			};
 
-			StationHeartbeatResponse res =
-				CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/offline", parameters);		
+			CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/offline", parameters);		
 		}
 
 		public string Id { get; private set;}

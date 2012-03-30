@@ -28,7 +28,7 @@ namespace Wammer.Station
 		private static void CreateFolder(string basePath)
 		{
 			
-			if (basePath != "" && !Directory.Exists(basePath))
+			if (!string.IsNullOrEmpty(basePath) && !Directory.Exists(basePath))
 				Directory.CreateDirectory(basePath);
 		}
 
@@ -117,19 +117,20 @@ namespace Wammer.Station
 
 	class FileStorageAsyncResult : IAsyncResult
     {
+		//TODO: userObject not use => remove argument
         public string TempFile { get; set; }
         public string TargetFile { get; set; }
 
 		private IAsyncResult fileStreamAsyncResult;
 		private FileStream fs;
-		private object userObject;
+		//private object userObject;
 
 		public FileStorageAsyncResult(IAsyncResult innerObject, FileStream fs,
 			object userObject)
 		{
 			this.fileStreamAsyncResult = innerObject;
 			this.fs = fs;
-			this.userObject = userObject;
+			//this.userObject = userObject;
 		}
 
 		public object AsyncState
