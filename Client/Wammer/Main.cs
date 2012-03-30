@@ -1535,7 +1535,7 @@ namespace Waveface
                         {
                             if (_action.action == "hide")
                             {
-                                ReloadAllData();
+                                ReloadAllData(); //
 
                                 return;
                             }
