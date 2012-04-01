@@ -15,7 +15,7 @@ namespace Wammer.PerfMonitor
 
 	public class PerfCounter : IPerfCounter
 	{
-		#region class variables
+		#region Const
 		public const string CATEGORY_NAME = "Waveface Station";
 		public const string AVG_TIME_PER_ATTACHMENT_UPLOAD = "Average time per attachment upload";
 		public const string AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE = "Average time per attachment upload base";
@@ -29,12 +29,27 @@ namespace Wammer.PerfMonitor
 		public const string AVG_TIME_PER_HTTP_REQUEST_BASE = "Average time per http request base";
 		public const string HTTP_REQUEST_THROUGHPUT = "Http request throughput (reqs/sec)";
 		public const string HTTP_REQUESTS_IN_QUEUE = "Http requests in queue";
-		private static bool CategoryExists;
-		private static ILog Logger = LogManager.GetLogger("PerfCounter");
 		#endregion
 
-		#region instance variables
+		#region Static Var
+		//private static bool CategoryExists = PerformanceCounterCategory.Exists(CATEGORY_NAME);
+		private static ILog _logger;
+		#endregion
+
+		#region Var
 		PerformanceCounter Counter;		
+		#endregion
+
+		#region Private Static Property
+		private static ILog m_Logger
+		{
+			get
+			{
+ 				if(_logger == null)
+					_logger = LogManager.GetLogger("PerfCounter");
+				return _logger;
+			}
+		}
 		#endregion
 
 		public CounterSample Sample
@@ -47,7 +62,6 @@ namespace Wammer.PerfMonitor
 
 		static PerfCounter()
 		{
-			CategoryExists = PerformanceCounterCategory.Exists(CATEGORY_NAME);
 		}
 
 		private PerfCounter(PerformanceCounter counter)
@@ -68,7 +82,7 @@ namespace Wammer.PerfMonitor
 			}
 			catch (Exception e)
 			{
-				Logger.Warn("Unable to create counter: " + counterName, e);
+				m_Logger.Warn("Unable to create counter: " + counterName, e);
 				return new NullPerfCounter();
 			}
 		}

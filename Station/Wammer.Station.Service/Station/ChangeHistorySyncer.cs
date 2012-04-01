@@ -12,8 +12,6 @@ namespace Wammer.Station
 {
 	class ChangeHistorySyncer: AbstractResourceSyncer
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ChangeHistorySyncer));
-
 		private TimelineChangeHistory timelineChangeHistory;
 
 		public ChangeHistorySyncer(long interval, ITaskStore bodySyncQueue)

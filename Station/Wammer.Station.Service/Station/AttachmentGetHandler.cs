@@ -10,8 +10,8 @@ namespace Wammer.Station
 		protected override void HandleRequest()
 		{
 			string object_id = Parameters["object_id"];
-			string session_token = Parameters["session_token"];
-			string apikey = Parameters["apikey"];
+			//string session_token = Parameters["session_token"];
+			//string apikey = Parameters["apikey"];
 
 			if (object_id == null)
 				throw new FormatException("missing parameter: object_id");

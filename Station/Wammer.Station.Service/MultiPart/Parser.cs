@@ -15,14 +15,14 @@ namespace Wammer.MultiPart
 		private byte[] head_boundry;
 		private int[] head_boundry_next;
 
-		private byte[] close_boundry;
+		//private byte[] close_boundry;
 
 		public Parser(string boundry)
 		{
 			head_boundry = Encoding.UTF8.GetBytes("--" + boundry);
 			head_boundry_next = Next(head_boundry);
 
-			close_boundry = Encoding.UTF8.GetBytes("--" + boundry + "--");
+			//close_boundry = Encoding.UTF8.GetBytes("--" + boundry + "--");
 		}
 
 		public Part[] Parse(byte[] content)
@@ -109,13 +109,13 @@ namespace Wammer.MultiPart
 			}
 		}
 
-		private static byte[] ToByteArray(Stream stream)
-		{
-			long buff_len = stream.Length;
-			byte[] buff = new byte[buff_len];
-			stream.Read(buff, 0, (int)buff_len);
-			return buff;
-		}
+		//private static byte[] ToByteArray(Stream stream)
+		//{
+		//    long buff_len = stream.Length;
+		//    byte[] buff = new byte[buff_len];
+		//    stream.Read(buff, 0, (int)buff_len);
+		//    return buff;
+		//}
 
 		// KMP algorithm reference: http://www.cnblogs.com/zhy2002/archive/2008/03/31/1131794.html
 		public static int[] Next(byte[] pattern)

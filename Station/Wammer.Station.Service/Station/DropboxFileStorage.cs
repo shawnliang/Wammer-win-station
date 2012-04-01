@@ -9,15 +9,16 @@ namespace Wammer.Station
 {
 	public class DropboxFileStorage : IFileStorage
 	{
+		//TODO: cloudstorage not use => remove argument
 		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxFileStorage));
 		private Driver driver;
-		private CloudStorage cloudstorage;
+		//private CloudStorage cloudstorage;
 		private string basePath;
 
 		public DropboxFileStorage(Driver driver, CloudStorage cloudstorage)
 		{
 			this.driver = driver;
-			this.cloudstorage = cloudstorage;
+			//this.cloudstorage = cloudstorage;
 			this.basePath = Path.Combine(cloudstorage.Folder, driver.folder);
 			if (!Directory.Exists(basePath))
 			{
@@ -37,7 +38,7 @@ namespace Wammer.Station
 
 			if (AllocateSpace(attachment))
 			{
-				string file = Path.Combine(driver.folder, attachment.saved_file_name);
+				//string file = Path.Combine(driver.folder, attachment.saved_file_name);
 				string SavedFilePath = GetDropboxFilePath(attachment.file_name);
 
 				File.Copy(
