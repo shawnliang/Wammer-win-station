@@ -8,10 +8,12 @@ namespace Wammer.PerfMonitor
 	class AttachmentDownloadMonitor
 	{
 		private IPerfCounter DownstreamNumCounter;
+		private IPerfCounter DownstreamRateCounter;
 
 		public AttachmentDownloadMonitor()
 		{
 			DownstreamNumCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
+			DownstreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE);
 		}
 
 		public void OnDownstreamTaskEnqueued(object sender, EventArgs arg)
@@ -22,6 +24,11 @@ namespace Wammer.PerfMonitor
 		public void OnDownstreamTaskDone(object sender, EventArgs arg)
 		{
 			DownstreamNumCounter.Decrement();
+		}
+
+		public void OnDownstreamTaskInProgress(object sender, System.ComponentModel.ProgressChangedEventArgs arg)
+		{
+			DownstreamRateCounter.IncrementBy(Convert.ToInt64(arg.UserState));
 		}
 	}
 }

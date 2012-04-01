@@ -10,7 +10,7 @@ namespace Wammer.Station.JSONClass
 		public string md5 { get; set; }
 		public string type { get; set; }
 		public string group_id { get; set; }
-
+		public string redirect_to { get; set; }
 		public ImageProperty image_meta { get; set; }
 	}
 
@@ -46,6 +46,7 @@ namespace Wammer.Station.JSONClass
 	{
 		public int width { get; set; }
 		public int height { get; set; }
+
 	}
 
 }
