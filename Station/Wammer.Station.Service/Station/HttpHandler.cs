@@ -79,7 +79,7 @@ namespace Wammer.Station
 					}
 				}
 				foreach (UploadedFile file in Files)
-					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count);
+					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
 			}
 
 

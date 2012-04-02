@@ -250,22 +250,21 @@ namespace Wammer.Station.Service
 
 		private void ConfigThreadPool()
 		{
-			int minWorker;
-			int minIO;
+			int minWorker,minIO;
 
 			System.Threading.ThreadPool.GetMinThreads(out minWorker, out minIO);
 
-			minWorker = (int)StationRegistry.GetValue("MinWorkerThreads", minWorker);
-			minIO = (int)StationRegistry.GetValue("MinIOThreads", minIO);
+			minWorker = int.Parse(StationRegistry.GetValue("MinWorkerThreads", minWorker.ToString()).ToString());
+			minIO = int.Parse(StationRegistry.GetValue("MinIOThreads", minIO.ToString()).ToString());
 
 			if (minWorker > 0 && minIO > 0)
 			{
 				System.Threading.ThreadPool.SetMinThreads(minWorker, minIO);
 				logger.InfoFormat("Min worker threads {0}, min IO completion threads {1}",
-					minWorker, minIO);
+					minWorker.ToString(), minIO.ToString());
 			}
 
-			int maxConcurrentTaskCount = (int)StationRegistry.GetValue("MaxConcurrentTaskCount", 6);
+			int maxConcurrentTaskCount = int.Parse(StationRegistry.GetValue("MaxConcurrentTaskCount", "6").ToString());
 			if (maxConcurrentTaskCount > 0)
 				TaskQueue.MaxCurrentTaskCount = maxConcurrentTaskCount;
 		}

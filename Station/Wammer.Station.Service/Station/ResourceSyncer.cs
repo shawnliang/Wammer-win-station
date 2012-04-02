@@ -113,7 +113,7 @@ namespace Wammer.Station
 
 				if (alreadyExist)
 				{
-					logger.DebugFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id, evtargs.imagemeta);
+					logger.DebugFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
 					return;
 				}
 
