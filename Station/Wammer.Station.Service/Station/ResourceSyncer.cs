@@ -107,13 +107,14 @@ namespace Wammer.Station
 		private static void DownstreamResource(object state)
 		{
 			ResourceDownloadEventArgs evtargs = (ResourceDownloadEventArgs)state;
+			var meta = EnumExtension.GetCustomAttribute<DescriptionAttribute>(evtargs.imagemeta).Description;
 			try
 			{
 				bool alreadyExist = AttachmentExists(evtargs);
 
 				if (alreadyExist)
 				{
-					logger.DebugFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
+					logger.DebugFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id, meta);
 					return;
 				}
 
@@ -130,12 +131,12 @@ namespace Wammer.Station
 
 				if (evtargs.failureCount >= 3)
 				{
-					logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
+					logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
 					logger.Warn("Detail exception:", ex);
 				}
 				else
 				{
-					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, evtargs.imagemeta.ToString());
+					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
 					TaskQueue.EnqueueLow(DownstreamResource, evtargs);
 				}
 			}
