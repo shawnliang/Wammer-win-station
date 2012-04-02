@@ -14,12 +14,27 @@ namespace Wammer.Station
 {
 	public class AttachmentViewHandler : HttpHandler
 	{
-		private string AdditionalParam;
+		private string station_id;
+
+		/// <summary>
+		/// File download is started.
+		/// </summary>
+		public event EventHandler FileDownloadStarted;
+
+		/// <summary>
+		/// File download is in progress.
+		/// </summary>
+		public event ProgressChangedEventHandler FileDownloadInProgress;
+
+		/// <summary>
+		/// File download is finished. Result could be either successful or unsuccessful.
+		/// </summary>
+		public event EventHandler FileDownloadFinished;
 
 		public AttachmentViewHandler(string stationId)
 			: base()
 		{
-			this.AdditionalParam = "station_id=" + stationId;
+			this.station_id = stationId;
 		}
 
 		public override object Clone()
@@ -49,7 +64,7 @@ namespace Wammer.Station
 				// request to cloud.
 				if (Parameters["target"] != null)
 				{
-					TunnelToCloud(AdditionalParam);
+					TunnelToCloud(station_id, imageMeta);
 					return;
 				}
 
@@ -70,11 +85,14 @@ namespace Wammer.Station
 
 				if (doc == null)
 				{
-					TunnelToCloud(AdditionalParam);
+					TunnelToCloud(station_id, imageMeta);
 					return;
 				}
 
 				Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", doc.group_id)));
+				if (driver == null)
+					throw new WammerStationException("Cannot find user with group_id: " + doc.group_id, (int)StationApiError.InvalidDriver);
+
 				FileStorage storage = new FileStorage(driver);
 				FileStream fs = storage.LoadByNameWithNoSuffix(namePart);
 				Response.StatusCode = 200;
@@ -96,166 +114,80 @@ namespace Wammer.Station
 		}
 
 
-		protected void TunnelToCloud(string additionalParam)
+		protected void TunnelToCloud(string station_id, ImageMeta meta)
 		{
-			if (additionalParam == null || additionalParam.Length == 0)
+			if (station_id == null || station_id.Length == 0)
 				throw new ArgumentException("param cannot be null or empty. If you really need it blank, change the code.");
 
 			this.LogDebugMsg("Forward to cloud");
 
-			Uri baseUri = new Uri(Cloud.CloudServer.BaseUrl);
-
-			string queryString = Request.Url.Query;
-			Boolean IsGetRequest = Request.HttpMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
-
-			if (IsGetRequest)
-				if (queryString == null || queryString.Length == 0)
-					queryString = additionalParam + "&return_meta=true";
-				else
-					queryString += "&" + additionalParam + "&return_meta=true";
-
-			UriBuilder uri = new UriBuilder(baseUri.Scheme, baseUri.Host, baseUri.Port,
-				Request.Url.AbsolutePath, queryString);
-
-			HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri.Uri);
-			req.Method = Request.HttpMethod;
-			req.ContentType = Request.ContentType;
-			req.AllowAutoRedirect = false;
-
-			if (!IsGetRequest)
-			{
-				using (Stream reqStream = req.GetRequestStream())
-				{
-					Wammer.Utility.StreamHelper.Copy(
-						new MemoryStream(this.RawPostData),
-						reqStream);
-
-					StreamWriter w = new StreamWriter(reqStream);
-					w.Write("&" + additionalParam);
-					w.Write("&return_meta=true");
-					w.Flush();
-				}
-			}
-
-			Action<HttpWebResponse> errorResponseProcess = (HttpWebResponse response) =>
-			{
-				Response.StatusCode = (int)response.StatusCode;
-				Response.ContentType = response.GetResponseHeader("content-type");
-				Response.OutputStream.Write(response.GetResponseStream(), 1024);
-				Response.Close();
-			};
-
-			HttpWebResponse resp;
 			try
 			{
-				resp = (HttpWebResponse)req.GetResponse();
+				OnFileDownloadStarted();
+
+				DownloadResult downloadResult = AttachmentApi.DownloadImageWithMetadata(
+					Parameters["object_id"], Parameters["session_token"], Parameters["apikey"], meta, station_id, (sender, e) =>
+					{
+						OnFileDownloadInProgress(e);
+					});
+
+				Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", downloadResult.Metadata.creator_id));
+
+				if (driver == null)
+					throw new WammerStationException("driver does not exist: " + downloadResult.Metadata.creator_id, (int)StationApiError.InvalidDriver);
+
+				FileStorage storage = new FileStorage(driver);
+				var fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);
+				storage.SaveFile(fileName, new ArraySegment<byte>(downloadResult.Image));
+
+				if (meta == ImageMeta.Origin)
+				{
+					AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
+						.Set("file_name", downloadResult.Metadata.file_name)
+						.Set("mime_type", downloadResult.ContentType)
+						.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
+						.Set("file_size", downloadResult.Image.Length)
+						.Set("modify_time", DateTime.UtcNow)
+						.Set("image_meta.width", downloadResult.Metadata.image_meta.width)
+						.Set("image_meta.height", downloadResult.Metadata.image_meta.height)
+						.Set("md5", downloadResult.Metadata.md5)
+						.Set("type", downloadResult.Metadata.type)
+						.Set("group_id", downloadResult.Metadata.group_id)
+						.Set("saved_file_name", fileName), UpdateFlags.Upsert);
+				}
+				else
+				{
+					var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
+					AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
+						.Set("group_id", downloadResult.Metadata.group_id)
+						.Set("image_meta." + metaStr, new ThumbnailInfo()
+						{
+							mime_type = downloadResult.ContentType,
+							modify_time = DateTime.UtcNow,
+							url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + metaStr,
+							file_size = downloadResult.Image.Length,
+							file_name = downloadResult.Metadata.file_name,
+							width = downloadResult.Metadata.image_meta.GetThumbnail(meta).width,
+							height = downloadResult.Metadata.image_meta.GetThumbnail(meta).height,
+							saved_file_name = fileName
+						}.ToBsonDocument()), UpdateFlags.Upsert);
+				}
+
+				Response.ContentType = downloadResult.ContentType;
+
+				MemoryStream m = new MemoryStream(downloadResult.Image);
+
+				Wammer.Utility.StreamHelper.BeginCopy(m, Response.OutputStream, CopyComplete,
+					new CopyState(m, Response, Parameters["object_id"]));
+
 			}
 			catch (WebException e)
 			{
-				errorResponseProcess((HttpWebResponse)e.Response);
-				return;
+				throw new WammerCloudException("AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta, e);
 			}
-
-			var responseStream = resp.GetResponseStream();
-
-			string responseMsg;
-			using (var sr = new StreamReader(responseStream))
+			finally
 			{
-				responseMsg = sr.ReadToEnd();
-			}
-
-			Response.StatusCode = (int)resp.StatusCode;
-
-			string redirectURL = resp.GetResponseHeader("location");
-			//var attachmentView = new Wammer.Station.JSONClass.AttachmentView(responseMsg);
-			var attachmentView = fastJSON.JSON.Instance.ToObject<Wammer.Station.JSONClass.AttachmentView>(responseMsg);
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachmentView.creator_id));
-
-			if (driver == null)
-			{
-				errorResponseProcess(resp);
-				return;
-			}
-
-
-			resp.Close();
-
-			ImageMeta imageMeta = ImageMeta.None;
-			if (Parameters["image_meta"] == null)
-				imageMeta = ImageMeta.Origin;
-			else
-				imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta), Parameters["image_meta"], true);
-
-			var fileName = GetSavedFile(Parameters["object_id"], redirectURL, imageMeta);
-			var file = Path.Combine(driver.folder, fileName);
-
-			if (!Directory.Exists(driver.folder))
-				Directory.CreateDirectory(driver.folder);
-
-
-			string tempFile = file + @".tmp";
-			using (WebClient wc = new WebClient())
-			{
-				try
-				{
-					PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-					var stream = wc.OpenRead(redirectURL);
-					stream.WriteTo(tempFile, 1024, (sender, e) =>
-					{
-						PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
-					});
-					stream.Close();
-				}
-				finally
-				{
-					var counter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
-
-					if (counter.Sample.RawValue > 0)
-						counter.Decrement();
-				}
-
-				System.IO.File.Move(tempFile, file);
-
-				using (var fs = File.Open(file, FileMode.Open))
-				{
-					if (imageMeta == ImageMeta.Origin)
-					{
-						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
-							.Set("file_name", attachmentView.file_name)
-									.Set("mime_type", wc.ResponseHeaders["content-type"])
-							.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
-							.Set("file_size", fs.Length)
-							.Set("modify_time", DateTime.UtcNow)
-							.Set("image_meta.width", attachmentView.image_meta.width)
-							.Set("image_meta.height", attachmentView.image_meta.height)
-							.Set("md5", attachmentView.md5)
-							.Set("type", attachmentView.type)
-							.Set("group_id", attachmentView.group_id)
-							.Set("saved_file_name", fileName), UpdateFlags.Upsert);
-					}
-					else
-					{
-						var metaStr = imageMeta.GetCustomAttribute<DescriptionAttribute>().Description;
-						AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
-							.Set("group_id", attachmentView.group_id)
-							.Set("image_meta." + metaStr, new ThumbnailInfo()
-								{
-									mime_type = wc.ResponseHeaders["content-type"],
-									modify_time = DateTime.UtcNow,
-									url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + metaStr,
-									file_size = fs.Length,
-									file_name = attachmentView.file_name,
-									width = attachmentView.image_meta.GetThumbnail(imageMeta).width,
-									height = attachmentView.image_meta.GetThumbnail(imageMeta).height,
-									saved_file_name = fileName
-								}.ToBsonDocument()), UpdateFlags.Upsert);
-					}
-
-					fs.Seek(0, SeekOrigin.Begin);
-					Response.ContentType = wc.ResponseHeaders["content-type"];
-					Response.OutputStream.Write(fs, 1024);
-					Response.OutputStream.Close();
-				}
+				OnFileDownloadFinished();
 			}
 		}
 
@@ -307,6 +239,30 @@ namespace Wammer.Station
 					this.LogWarnMsg("error closing source and response", e);
 				}
 			}
+		}
+
+		private void OnFileDownloadStarted()
+		{
+			EventHandler handler = FileDownloadStarted;
+
+			if (handler != null)
+				handler(this, EventArgs.Empty);
+		}
+
+		private void OnFileDownloadFinished()
+		{
+			EventHandler handler = FileDownloadFinished;
+
+			if (handler != null)
+				handler(this, EventArgs.Empty);
+		}
+
+		private void OnFileDownloadInProgress(ProgressChangedEventArgs evt)
+		{
+			ProgressChangedEventHandler handler = FileDownloadInProgress;
+
+			if (handler != null)
+				handler(this, evt);
 		}
 	}
 

@@ -30,17 +30,17 @@ namespace UT_WammerStation
 			using (HttpServer cloud = new HttpServer(80))
 			using (HttpServer server = new HttpServer(8080))
 			{
-				cloud.AddHandler("/v1/objects/view", new FakeCloudRemoteHandler());
-				cloud.AddHandler("/v1/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
+				cloud.AddHandler("/v2/attachments/view", new FakeCloudRemoteHandler());
+				cloud.AddHandler("/v2/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
 				cloud.Start();
 
-				server.AddHandler("/v1/objects/view", new AttachmentViewHandler("sid"));
+				server.AddHandler("/v2/objects/view", new AttachmentViewHandler("sid"));
 				server.Start();
 
 				Boolean isGetRequest = requestMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-					"http://localhost:8080/v1/objects/view" + ((isGetRequest) ? argument : string.Empty));
+					"http://localhost:8080/v2/objects/view" + ((isGetRequest) ? argument : string.Empty));
 				req.ContentType = "application/x-www-form-urlencoded";
 				req.Method = requestMethod.ToLower();
 
@@ -312,20 +312,6 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestView_FileNotFound_ForwardToCloud_ByPost()
-		{
-			TestTunnelToCloud("object_id=abc&apikey=123&session_token=token123&image_meta=medium", "POST");
-		}
-
-		[TestMethod]
-		public void TestView_AlsoForwardBodyRequestToCloud_ByPost()
-		{
-			TestTunnelToCloud("object_id=abc&apikey=123&session_token=token123", "POST");
-		}
-
-	   
-
-		[TestMethod]
 		public void TestView_AlsoForwardBodyRequestToCloud_ByGet()
 		{
 			TestTunnelToCloud("?object_id=abc&apikey=123&session_token=token123", "GET");
@@ -336,20 +322,11 @@ namespace UT_WammerStation
 	{
 		public static System.Collections.Specialized.NameValueCollection SavedParams;
 
-		protected override void HandleRequest()
-		{
-			SavedParams = this.Parameters;
-
-			Response.RedirectLocation = "http://localhost:80/v1/objects/view/DownloadAttachment";
-
-			Response.StatusCode = 200;
-			Response.ContentType = "application/json";
-
-			var jsonString = @"{
+		public const string jsonString = @"{
 	""status"": 302,
 	""session_token"": ""IPiyl7s8H85V0VBaI5PJTuAQ.KER6e9YNVYs8ypjsZ6+C8UFcVey375SytfvOH9X9SLA"",
 	""session_expires"": ""2012-05-19T02:44:36Z"",
-	""redirect_to"": ""https://wammer-file.s3.amazonaws.com/98d5cac5-4387-48cc-b974-414a921a6144_medium.jpg?Signature=QKJyH6Dkui0n6yCCbX3qfn6Oe90%3D&Expires=1332212078&AWSAccessKeyId=AKIAIVNI655G7NQZGN3A"",
+	""redirect_to"": ""http://localhost:80/v2/objects/view/DownloadAttachment"",
 	""api_ret_code"": 0,
 	""api_ret_message"": ""success"",
 	""debug"": {
@@ -392,6 +369,15 @@ namespace UT_WammerStation
 	""type"": ""image"",
 	""device_id"": ""7c80239a-b9a9-460a-9da8-d8001896f0f0""
 }";
+
+		protected override void HandleRequest()
+		{
+			SavedParams = this.Parameters;
+
+			Response.RedirectLocation = "http://localhost:80/v2/objects/view/DownloadAttachment";
+
+			Response.StatusCode = 200;
+			Response.ContentType = "application/json";
 
 			using (StreamWriter w = new StreamWriter(Response.OutputStream))
 			{

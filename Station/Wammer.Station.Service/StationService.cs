@@ -82,8 +82,14 @@ namespace Wammer.Station.Service
 
 				logger.Debug("Add handlers to function server");
 				functionServer.AddHandler("/", new DummyHandler());
+
+				AttachmentViewHandler viewHandler = new AttachmentViewHandler(stationId);
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
-								new AttachmentViewHandler(stationId));
+								viewHandler);
+
+				viewHandler.FileDownloadStarted += downstreamMonitor.OnDownstreamTaskEnqueued;
+				viewHandler.FileDownloadInProgress += downstreamMonitor.OnDownstreamTaskInProgress;
+				viewHandler.FileDownloadFinished += downstreamMonitor.OnDownstreamTaskDone;
 
 				AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
 				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();

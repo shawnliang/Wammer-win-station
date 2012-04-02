@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventTest.cs" />
+    <Compile Include="TestAttachmentViewApi.cs" />
     <Compile Include="TestSQLitePersistentStorage.cs" />
     <Compile Include="TestRemoveDriver.cs" />
     <Compile Include="TestAddDriver.cs" />

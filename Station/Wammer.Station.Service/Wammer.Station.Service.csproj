@@ -183,6 +183,9 @@
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
     <Compile Include="Station\ProviderConsumerTaskQueue.cs" />
+    <Compile Include="Utility\NoRedirectWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Utility\ServiceHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />
     <Compile Include="MultiPart\Disposition.cs" />
