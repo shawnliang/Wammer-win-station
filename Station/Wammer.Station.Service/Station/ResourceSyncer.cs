@@ -107,7 +107,7 @@ namespace Wammer.Station
 		private static void DownstreamResource(object state)
 		{
 			ResourceDownloadEventArgs evtargs = (ResourceDownloadEventArgs)state;
-			var meta = EnumExtension.GetCustomAttribute<DescriptionAttribute>(evtargs.imagemeta).Description;
+			var meta = evtargs.imagemeta.ToString();
 			try
 			{
 				bool alreadyExist = AttachmentExists(evtargs);
