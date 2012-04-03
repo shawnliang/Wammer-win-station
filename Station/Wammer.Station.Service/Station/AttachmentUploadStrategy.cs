@@ -61,10 +61,10 @@ namespace Wammer.Station
 			if (existDoc != null)
 			{
 				existDoc.DeepMerge(dbDoc);
-				AttachmentCollection.Instance.Save(existDoc);
+				dbDoc = existDoc;
 			}
-			else
-				AttachmentCollection.Instance.Save(dbDoc);
+
+			AttachmentCollection.Instance.Save(dbDoc);
 		}
 
 		abstract protected BsonDocument CreateDbDocument(Attachment file, ImageMeta meta, string savedName);
@@ -189,10 +189,10 @@ namespace Wammer.Station
 			if (existDoc != null)
 			{
 				existDoc.DeepMerge(dbDoc);
-				AttachmentCollection.Instance.Save(existDoc);
+				dbDoc = existDoc;
 			}
-			else
-				AttachmentCollection.Instance.Save(dbDoc);
+			
+			AttachmentCollection.Instance.Save(dbDoc);
 
 			AttachmentEventArgs aEvtArgs = new AttachmentEventArgs(
 				file.object_id, driver.user_id, Parameters["apikey"], Parameters["session_token"]);

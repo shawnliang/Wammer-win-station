@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 
 public static class StreamExtension
 {
@@ -48,6 +49,11 @@ public static class StreamExtension
 		}
 	}
 
+
+	public static void Write(this Stream targetStream, string message, Encoding encoder)
+	{
+		targetStream.Write(encoder.GetBytes(message));
+	}
 
 
 	public static void Write(this Stream targetStream, string sourceFile, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
