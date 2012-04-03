@@ -434,7 +434,7 @@ namespace Waveface.DetailUI
                 m_post = _retPost;
             }
 
-            MessageBox.Show("更改照片封面成功", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information); //Todo
+            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)
