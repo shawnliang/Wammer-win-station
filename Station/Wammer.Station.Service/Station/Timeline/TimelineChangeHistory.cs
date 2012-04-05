@@ -5,7 +5,7 @@ using System.Text;
 using Wammer.Cloud;
 using Wammer.Model;
 
-namespace Wammer.Station.TimelineChange
+namespace Wammer.Station.Timeline
 {
 	public interface IUserInfoUpdator
 	{

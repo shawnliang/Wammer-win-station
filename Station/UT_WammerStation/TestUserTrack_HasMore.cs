@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station;
-using Wammer.Station.TimelineChange;
+using Wammer.Station.Timeline;
 using System.Net;
 
 namespace UT_WammerStation

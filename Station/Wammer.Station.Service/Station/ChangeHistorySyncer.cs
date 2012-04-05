@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Wammer.Station.TimelineChange;
+using Wammer.Station.Timeline;
 using MongoDB.Driver;
 using Wammer.Model;
 using Wammer.Cloud;

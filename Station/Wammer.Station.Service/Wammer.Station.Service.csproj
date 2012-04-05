@@ -171,9 +171,9 @@
     <Compile Include="Station\StatusGetHandler.cs" />
     <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\TaskRunner.cs" />
-    <Compile Include="Station\TimelineChange\PostInfoProvider.cs" />
-    <Compile Include="Station\TimelineChange\TimelineChangeHistory.cs" />
-    <Compile Include="Station\TimelineChange\UserInfoUpdator.cs" />
+    <Compile Include="Station\Timeline\PostInfoProvider.cs" />
+    <Compile Include="Station\Timeline\TimelineChangeHistory.cs" />
+    <Compile Include="Station\Timeline\UserInfoUpdator.cs" />
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BsonHelper.cs" />

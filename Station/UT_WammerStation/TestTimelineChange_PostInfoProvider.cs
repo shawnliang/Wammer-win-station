@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Station.TimelineChange;
+using Wammer.Station.Timeline;
 using Wammer.Cloud;
 using System.Net;
 

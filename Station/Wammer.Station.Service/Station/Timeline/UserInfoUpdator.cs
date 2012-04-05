@@ -5,7 +5,7 @@ using System.Text;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver;
 
-namespace Wammer.Station.TimelineChange
+namespace Wammer.Station.Timeline
 {
 	public class UserInfoUpdator: IUserInfoUpdator
 	{

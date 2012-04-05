@@ -6,7 +6,7 @@ using Wammer.Cloud;
 using System.Net;
 using Wammer.Model;
 
-namespace Wammer.Station.TimelineChange
+namespace Wammer.Station.Timeline
 {
 	public class PostInfoProvider : IPostInfoProvider
 	{
