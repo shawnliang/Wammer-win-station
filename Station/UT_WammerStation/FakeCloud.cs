@@ -175,6 +175,7 @@ namespace UT_WammerStation
 			}
 
 			context.Response.OutputStream.Close();
+			context.Response.Close();
 
 			try
 			{

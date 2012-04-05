@@ -36,7 +36,7 @@ namespace UT_WammerStation
 			server = new HttpServer(8080);
 			handler = new AddDriverHandler("stationId", "resource");
 			server.AddHandler("/v2/station/drivers/add/", handler);
-            server.Start();
+			server.Start();
 
 			CloudServer.BaseUrl = "http://localhost/v2/";
 
@@ -90,8 +90,8 @@ namespace UT_WammerStation
 			StationLogOnResponse res3 = new StationLogOnResponse(200, DateTime.UtcNow, "token3");
 			res3.api_ret_code = 0;
 
-		    using (FakeCloud cloud = new FakeCloud(res1))
-		    {
+			using (FakeCloud cloud = new FakeCloud(res1))
+			{
 				cloud.addJsonResponse(res3);
 				cloud.addJsonResponse(res2);
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/add",
@@ -100,18 +100,18 @@ namespace UT_WammerStation
 					{ "password", "12345"} });
 
 
-		        // verify db
-		        Driver driver = mongodb.GetDatabase("wammer").
-		            GetCollection<Driver>("drivers").FindOne(
-		            Query.EQ("email", "user1@gmail.com"));
+				// verify db
+				Driver driver = mongodb.GetDatabase("wammer").
+					GetCollection<Driver>("drivers").FindOne(
+					Query.EQ("email", "user1@gmail.com"));
 
-		        Assert.AreEqual("user1@gmail.com", driver.email);
-		        Assert.AreEqual(@"resource\user_uid1", driver.folder);
-		        Assert.AreEqual(res2.user.user_id, driver.user_id);
+				Assert.AreEqual("user1@gmail.com", driver.email);
+				Assert.AreEqual(@"resource\user_uid1", driver.folder);
+				Assert.AreEqual(res2.user.user_id, driver.user_id);
 				Assert.IsTrue(driver.isPrimaryStation);
-		        Assert.AreEqual(1, driver.groups.Count);
+				Assert.AreEqual(1, driver.groups.Count);
 				Assert.AreEqual(res2.session_token, driver.session_token);
-		        Assert.AreEqual(res2.groups[0].group_id, driver.groups[0].group_id);
+				Assert.AreEqual(res2.groups[0].group_id, driver.groups[0].group_id);
 				Assert.AreEqual(res2.groups[0].name, driver.groups[0].name);
 				Assert.AreEqual(res2.groups[0].description, driver.groups[0].description);
 
@@ -119,7 +119,7 @@ namespace UT_WammerStation
 				Wammer.Model.StationInfo s = Wammer.Model.StationCollection.Instance.FindOne();
 				Assert.IsNotNull(s);
 				Assert.AreEqual("token3", s.SessionToken);
-		    }
+			}
 		}
 
 		[TestMethod]
@@ -318,7 +318,7 @@ namespace UT_WammerStation
 				api_ret_message = "station res msg",
 				api_ret_code = 4097, // cloud retuns 4097 for invalid user name or password
 				session_token = "token1",
-				status = (int)HttpStatusCode.Forbidden,
+				status = (int)HttpStatusCode.BadRequest,
 				timestamp = DateTime.UtcNow,
 				groups = new List<UserGroup>(),
 				user = new UserInfo { user_id = "uid1" }

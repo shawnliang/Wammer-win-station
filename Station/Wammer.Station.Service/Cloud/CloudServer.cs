@@ -189,7 +189,7 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error", parameters, e);
+				throw new WammerCloudException("Wammer cloud error", e);
 			}
 			catch (Exception e)
 			{
@@ -241,7 +241,7 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error", postData, e);
+				throw new WammerCloudException("Wammer cloud error", e);
 			}
 			catch (Exception e)
 			{
