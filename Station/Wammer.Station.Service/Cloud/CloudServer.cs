@@ -86,8 +86,6 @@ namespace Wammer.Cloud
 				// remove last &
 				buf.Remove(buf.Length - 1, 1);				
 
-				//agent.DownloadFile(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()), filepath);
-
 				var stream = agent.OpenRead(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()));
 				stream.WriteTo(filepath, 1024, (sender, e) =>
 				{
@@ -97,7 +95,7 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error",  buf.ToString(), e);
+				throw new WammerCloudException("Wammer cloud error", e);
 			}
 			catch (Exception e)
 			{
@@ -189,7 +187,7 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error", parameters, e);
+				throw new WammerCloudException("Wammer cloud error", e);
 			}
 			catch (Exception e)
 			{
@@ -241,7 +239,7 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error", postData, e);
+				throw new WammerCloudException("Wammer cloud error", e);
 			}
 			catch (Exception e)
 			{

@@ -345,8 +345,5 @@ namespace UT_WammerStation
 				Assert.Fail("Expected exception is not thrown");
 			}
 		}
-
-
-		
 	}
 }
