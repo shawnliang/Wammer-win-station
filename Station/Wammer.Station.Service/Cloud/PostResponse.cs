@@ -33,8 +33,7 @@ namespace Wammer.Cloud
 		{
 		}
 
-		public PostFetchByFilterResponse(int status, DateTime timestamp, 
-			string group_id, int get_count, int remaining_count, 
+		public PostFetchByFilterResponse(string group_id, int get_count, int remaining_count, 
 			List<PostInfo> posts, List<UserInfo> users)
 			: base()
 		{
@@ -55,8 +54,7 @@ namespace Wammer.Cloud
 		{
 		}
 
-		public PostGetLatestResponse(int status, DateTime timestamp, 
-			string group_id, int get_count, int total_count, 
+		public PostGetLatestResponse(string group_id, int get_count, int total_count, 
 			List<PostInfo> posts, List<UserInfo> users)
 			: base()
 		{

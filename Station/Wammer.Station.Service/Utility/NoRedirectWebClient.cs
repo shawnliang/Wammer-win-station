@@ -17,8 +17,10 @@ namespace Wammer.Utility
 		{
 			WebRequest request = base.GetWebRequest(address);
 
-			if (request is HttpWebRequest)
-				((HttpWebRequest)request).AllowAutoRedirect = false;
+			var httpWebRequest = request as HttpWebRequest;
+
+			if (httpWebRequest != null)
+				httpWebRequest.AllowAutoRedirect = false;
 
 			return request;
 		}

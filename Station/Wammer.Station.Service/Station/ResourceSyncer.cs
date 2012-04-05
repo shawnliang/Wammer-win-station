@@ -347,7 +347,7 @@ namespace Wammer.Station
 				isFirstRun = false;
 			}
 
-			PullTimeline(state);
+			PullTimeline();
 		}
 
 		private void ResumeUnfinishedDownstreamTasks()
@@ -424,7 +424,7 @@ namespace Wammer.Station
 		//}
 
 
-		private void PullTimeline(Object obj)
+		private void PullTimeline()
 		{
 
 			using (WebClient client = new WebClient())
