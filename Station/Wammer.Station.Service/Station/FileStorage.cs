@@ -70,7 +70,7 @@ namespace Wammer.Station
 
             return new FileStorageAsyncResult(
                 fs.BeginWrite(data, 0, data.Length, callback, userObject),
-                fs, userObject) { TempFile = tempFile, TargetFile = filePath };
+                fs) { TempFile = tempFile, TargetFile = filePath };
 		}
 
 		public void EndSave(IAsyncResult async)
@@ -117,20 +117,16 @@ namespace Wammer.Station
 
 	class FileStorageAsyncResult : IAsyncResult
     {
-		//TODO: userObject not use => remove argument
         public string TempFile { get; set; }
         public string TargetFile { get; set; }
 
 		private IAsyncResult fileStreamAsyncResult;
 		private FileStream fs;
-		//private object userObject;
 
-		public FileStorageAsyncResult(IAsyncResult innerObject, FileStream fs,
-			object userObject)
+		public FileStorageAsyncResult(IAsyncResult innerObject, FileStream fs)
 		{
 			this.fileStreamAsyncResult = innerObject;
 			this.fs = fs;
-			//this.userObject = userObject;
 		}
 
 		public object AsyncState

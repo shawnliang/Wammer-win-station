@@ -41,7 +41,7 @@ namespace Wammer.Queue
 		public WMSBroker(IPersistentStore persistentStore)
 		{
 			if (persistentStore == null)
-				throw new ArgumentNullException();
+				throw new ArgumentNullException("persistentStore");
 
 			this.persistentStore = persistentStore;
 		}

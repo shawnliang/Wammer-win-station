@@ -20,8 +20,11 @@ namespace Wammer.MultiPart
 
 		public Part(ArraySegment<byte> data, NameValueCollection headers)
 		{
-			if (data == null || headers == null)
-				throw new ArgumentNullException();
+			if (data == null)
+				throw new ArgumentNullException("data");
+
+			if (headers == null)
+				throw new ArgumentNullException("headers");
 
 			this.data = data;
 			this.bytes = data;

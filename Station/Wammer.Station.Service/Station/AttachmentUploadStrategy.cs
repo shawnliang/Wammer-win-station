@@ -183,7 +183,7 @@ namespace Wammer.Station
 			file.Upload(meta, Parameters["apikey"], Parameters["session_token"]);
 			storage.SaveAttachment(file);
 
-			BsonDocument dbDoc = CreateDbDocument(file, meta, savedName);
+			BsonDocument dbDoc = CreateDbDocument(file);
 			BsonDocument existDoc = AttachmentCollection.Instance.FindOneAs<BsonDocument>(
 													new QueryDocument("_id", file.object_id));
 			if (existDoc != null)
@@ -201,7 +201,7 @@ namespace Wammer.Station
 			HttpHelper.RespondSuccess(handler.Response, ObjectUploadResponse.CreateSuccess(file.object_id));
 		}
 
-		private static BsonDocument CreateDbDocument(Attachment file, ImageMeta meta, string savedName)
+		private static BsonDocument CreateDbDocument(Attachment file)
 		{
 			return file.ToBsonDocument();
 		}

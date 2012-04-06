@@ -22,10 +22,10 @@ namespace Wammer.Cloud
 			attachment = att;
 		}
 
-		public AttachmentResponse(int status, DateTime timestamp)
-			: base()
-		{
-		}
+		//public AttachmentResponse(int status, DateTime timestamp)
+		//    : base()
+		//{
+		//}
 	}
 
 	//public class AttachmentGetResponse : AttachmentResponse

@@ -115,30 +115,30 @@ namespace Wammer.Station
 			}
 		}
 
-		/// <summary>
-		/// Responds 503 unavailable.
-		/// </summary>
-		/// <param name="ctx">The CTX.</param>
-		private void respond503Unavailable(HttpListenerContext ctx)
-		{
-			try
-			{
-				ctx.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
-				using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
-				{
-					Cloud.CloudResponse json = new Cloud.CloudResponse(
-						ctx.Response.StatusCode,
-						DateTime.UtcNow,
-						(int)StationApiError.ServerOffline,
-						"Server offline");
-					w.Write(json.ToFastJSON());
-				}
-			}
-			catch (Exception e)
-			{
-				m_Logger.Warn("Unable to respond 503 Service Unavailable", e);
-			}
-		}
+		///// <summary>
+		///// Responds 503 unavailable.
+		///// </summary>
+		///// <param name="ctx">The CTX.</param>
+		//private void respond503Unavailable(HttpListenerContext ctx)
+		//{
+		//    try
+		//    {
+		//        ctx.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
+		//        using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+		//        {
+		//            Cloud.CloudResponse json = new Cloud.CloudResponse(
+		//                ctx.Response.StatusCode,
+		//                DateTime.UtcNow,
+		//                (int)StationApiError.ServerOffline,
+		//                "Server offline");
+		//            w.Write(json.ToFastJSON());
+		//        }
+		//    }
+		//    catch (Exception e)
+		//    {
+		//        m_Logger.Warn("Unable to respond 503 Service Unavailable", e);
+		//    }
+		//}
 
 		/// <summary>
 		/// Responds 401 unauthorized.
