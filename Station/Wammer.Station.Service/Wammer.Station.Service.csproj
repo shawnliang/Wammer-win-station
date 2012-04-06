@@ -97,6 +97,9 @@
     <Reference Include="MongoDB.Driver">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.1\lib\net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
@@ -134,7 +137,9 @@
     <Compile Include="Extension\StreamExtension.cs" />
     <Compile Include="Model\Attachments.cs" />
     <Compile Include="Model\CloudStorage.cs" />
+    <Compile Include="Model\Collection\LoginedSessionCollection.cs" />
     <Compile Include="Model\Drivers.cs" />
+    <Compile Include="Model\LoginedSession.cs" />
     <Compile Include="Model\Posts.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\StationInfo.cs" />
@@ -176,6 +181,8 @@
     <Compile Include="Station\TimelineChange\PostInfoProvider.cs" />
     <Compile Include="Station\TimelineChange\TimelineChangeHistory.cs" />
     <Compile Include="Station\TimelineChange\UserInfoUpdator.cs" />
+    <Compile Include="Station\UserLoginHandler.cs" />
+    <Compile Include="Station\UserLogoutHandler.cs" />
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
@@ -225,6 +232,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
@@ -259,6 +267,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>

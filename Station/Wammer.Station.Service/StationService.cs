@@ -128,6 +128,8 @@ namespace Wammer.Station.Service
 
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/getLatest/",
 								new WinClientOnlyHttpHandler(new PostGetLatestHandler()));
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/login/", new UserLoginHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/logout/", new UserLogoutHandler());
 
 				logger.Debug("Start function server");
 				functionServer.Start();
@@ -141,7 +143,8 @@ namespace Wammer.Station.Service
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/list/", new ListDriverHandler());
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/remove/", new RemoveOwnerHandler(stationId));
-				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/", new StatusGetHandler());
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/", new StatusGetHandler());			
+
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/list", new ListCloudStorageHandler());
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/", new DropBoxOAuthHandler());
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/connect/", new DropBoxConnectHandler());
