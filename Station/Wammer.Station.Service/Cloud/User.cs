@@ -30,7 +30,7 @@ namespace Wammer.Cloud
 
 			var json = CloudServer.requestPath(agent, "auth/login", parameters);
 
-			LoginedSessionCollection.Instance.Save(new LoginedSession(json));
+			LoginedSessionCollection.Instance.Save(fastJSON.JSON.Instance.ToObject<LoginedSession>(json));
 
 			UserLogInResponse res = CloudServer.ConvertFromJson<UserLogInResponse>(json);
 
