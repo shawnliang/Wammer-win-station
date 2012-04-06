@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using Wammer.Model;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Cloud
 {
@@ -26,8 +28,11 @@ namespace Wammer.Cloud
 			parameters.Add(CloudServer.PARAM_PASSWORD, passwd);
 			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
 
-			UserLogInResponse res = CloudServer.requestPath<UserLogInResponse>(
-				agent, "auth/login", parameters);
+			var json = CloudServer.requestPath(agent, "auth/login", parameters);
+
+			LoginedSessionCollection.Instance.Save(new LoginedSession(json));
+
+			UserLogInResponse res = CloudServer.ConvertFromJson<UserLogInResponse>(json);
 
 			User user = new User(username, passwd);
 			user.Token = res.session_token;
@@ -40,6 +45,22 @@ namespace Wammer.Cloud
 		public static User LogIn(WebClient agent, string username, string passwd)
 		{
 			return LogIn(agent, username, passwd, CloudServer.APIKey);
+		}
+
+		public static void LogOut(WebClient agent, string sessionToken, string apiKey)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>();
+			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, sessionToken);
+			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
+
+			var json = CloudServer.requestPath(agent, "auth/logout", parameters);
+
+			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", sessionToken));
+		}
+
+		public static void LogOut(WebClient agent, string sessionToken)
+		{
+			LogIn(agent, sessionToken,CloudServer.APIKey);
 		}
 	}
 }
