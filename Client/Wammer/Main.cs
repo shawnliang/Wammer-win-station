@@ -579,6 +579,8 @@ namespace Waveface
 
             m_forceLogout = false;
 
+			WService.StationIP = "";
+
             postsArea.ShowTypeUI(false);
             postsArea.showRefreshUI(false);
 
@@ -594,6 +596,18 @@ namespace Waveface
             errorMessage = string.Empty;
 
             UpdateNetworkStatus();
+
+			Reset(true);
+
+			if (Environment.GetCommandLineArgs().Length > 1)
+			{
+				m_stationIP = "http://127.0.0.1:9981";
+				WService.StationIP = m_stationIP;
+				StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
+				UploadOriginPhotosToStationManager.Start();
+				PhotoDownloader.Start();
+				BatchPostManager.Start();
+			}
 
             MR_auth_login _login = RT.REST.Auth_Login(email, password);
 
@@ -612,9 +626,7 @@ namespace Waveface
                 return false;
             }
 
-            s_logger.Trace("Login.Auth_Login: OK");
-
-            Reset(true);
+            s_logger.Trace("Login.Auth_Login: OK");            
 
             RT.Login = _login;
 
@@ -626,13 +638,7 @@ namespace Waveface
             RT.LoadGroupLocalRead();
 
 			if (Environment.GetCommandLineArgs().Length == 1)
-				StartBgThreads();
-			else
-			{
-				m_stationIP = "http://127.0.0.1:9981";
-				WService.StationIP = m_stationIP;
-				StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
-			}
+				StartBgThreads();	
 
             leftArea.SetNewPostManager();
 
