@@ -172,7 +172,10 @@
     <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\TaskRunner.cs" />
     <Compile Include="Station\Timeline\PostInfoProvider.cs" />
+    <Compile Include="Station\Timeline\PostProvider.cs" />
     <Compile Include="Station\Timeline\TimelineChangeHistory.cs" />
+    <Compile Include="Station\Timeline\TimelineSyncer.cs" />
+    <Compile Include="Station\Timeline\TimelineSyncerDB.cs" />
     <Compile Include="Station\Timeline\UserInfoUpdator.cs" />
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />

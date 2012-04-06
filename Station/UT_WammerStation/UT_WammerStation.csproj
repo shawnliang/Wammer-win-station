@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventTest.cs" />
+    <Compile Include="pullTimeLine\TestPullTimeline.cs" />
     <Compile Include="TestAttachmentViewApi.cs" />
     <Compile Include="TestSQLitePersistentStorage.cs" />
     <Compile Include="TestRemoveDriver.cs" />
@@ -110,15 +111,15 @@
     <Compile Include="TestPersistentQueue.cs" />
     <Compile Include="TestServiceHelper.cs" />
     <Compile Include="TestStreamHelper.cs" />
-    <Compile Include="TestTimelineChange_PostInfoProvider.cs" />
-    <Compile Include="TestTimelineChange_UserUpdator.cs" />
-    <Compile Include="TestTimelineChange_PostInfoProvider2.cs" />
+    <Compile Include="pullTimeLine\TestTimelineChange_PostInfoProvider.cs" />
+    <Compile Include="pullTimeLine\TestTimelineChange_UserUpdator.cs" />
+    <Compile Include="pullTimeLine\TestTimelineChange_PostInfoProvider2.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
     <Compile Include="TestUserTrack.cs" />
-    <Compile Include="TestUserTrack_HasMore.cs" />
-    <Compile Include="TestUserTrack_LotsOfPosts.cs" />
-    <Compile Include="TestUserTrack_MergePostId.cs" />
+    <Compile Include="pullTimeLine\TestUserTrack_HasMore.cs" />
+    <Compile Include="pullTimeLine\TestUserTrack_LotsOfPosts.cs" />
+    <Compile Include="pullTimeLine\TestUserTrack_MergePostId.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt">

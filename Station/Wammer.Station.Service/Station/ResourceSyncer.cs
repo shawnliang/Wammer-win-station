@@ -409,21 +409,6 @@ namespace Wammer.Station
 			}
 		}
 
-		//private static void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
-		//{
-		//    ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-		//    {
-		//        driver = driver,
-		//        attachment = attachment,
-		//        imagemeta = meta,
-		//        filepath = Path.GetTempFileName()
-		//    };
-
-		//    PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Increment();
-		//    TaskQueue.EnqueueLow(DownstreamResource, evtargs);
-		//}
-
-
 		private void PullTimeline()
 		{
 
@@ -499,56 +484,6 @@ namespace Wammer.Station
 
 			foreach (PostInfo post in posts)
 				PostCollection.Instance.Save(post);
-		}
-
-		//public static void DownloadMissedResource(List<PostInfo> posts)
-		//{
-		//    foreach (PostInfo post in posts)
-		//    {
-		//        foreach (AttachmentInfo attachment in post.attachments)
-		//        {
-		//            Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
-
-		//            // driver might be removed before running download tasks
-		//            if (driver == null)
-		//                break;
-
-		//            // original
-		//            if (!string.IsNullOrEmpty(attachment.url) && driver.isPrimaryStation)
-		//            {
-		//                EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
-		//            }
-
-		//            if (attachment.image_meta == null)
-		//                break;
-
-		//            // small
-		//            if (attachment.image_meta.small != null)
-		//            {
-		//                EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
-		//            }
-
-		//            // medium
-		//            if (attachment.image_meta.medium != null)
-		//            {
-		//                EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
-		//            }
-
-		//            // large
-		//            if (attachment.image_meta.large != null)
-		//            {
-		//                EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
-		//            }
-
-		//            // square
-		//            if (attachment.image_meta.square != null)
-		//            {
-		//                EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
-		//            }
-		//        }
-		//    }
-		//}
-
-		
+		}		
 	}
 }
