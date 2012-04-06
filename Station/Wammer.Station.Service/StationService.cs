@@ -130,6 +130,11 @@ namespace Wammer.Station.Service
 								new WinClientOnlyHttpHandler(new PostGetLatestHandler()));
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/get/",
 								new WinClientOnlyHttpHandler(new PostGetHandler()));
+
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/footprints/setLastScan/",
+								new WinClientOnlyHttpHandler(new FootprintSetLastScanHandler()));
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/footprints/getLastScan/",
+								new WinClientOnlyHttpHandler(new FootprintGetLastScanHandler()));
 				
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/login/", new UserLoginHandler());
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/logout/", new UserLogoutHandler());

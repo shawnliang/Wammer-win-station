@@ -116,6 +116,7 @@
     <Compile Include="Cloud\AttachmentResponse.cs" />
     <Compile Include="Cloud\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
+    <Compile Include="Cloud\FootprintResponse.cs" />
     <Compile Include="Cloud\ObjectUploadResponse.cs" />
     <Compile Include="Cloud\PostApi.cs" />
     <Compile Include="Cloud\PostResponse.cs" />
@@ -153,6 +154,8 @@
     <Compile Include="Model\Database.cs" />
     <Compile Include="Station\AttachmentUploadStrategy.cs" />
     <Compile Include="JSON Class\AttachmentView.cs" />
+    <Compile Include="Station\FootprintGetLastScanHandler.cs" />
+    <Compile Include="Station\FootprintSetLastScanHandler.cs" />
     <Compile Include="Station\PostGetHandler.cs" />
     <Compile Include="Station\WinClientOnlyHttpHandler.cs" />
     <Compile Include="Station\ChangeHistorySyncer.cs" />
