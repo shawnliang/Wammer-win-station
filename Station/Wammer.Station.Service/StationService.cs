@@ -128,6 +128,9 @@ namespace Wammer.Station.Service
 
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/getLatest/",
 								new WinClientOnlyHttpHandler(new PostGetLatestHandler()));
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/get/",
+								new WinClientOnlyHttpHandler(new PostGetHandler()));
+				
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/login/", new UserLoginHandler());
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/logout/", new UserLogoutHandler());
 

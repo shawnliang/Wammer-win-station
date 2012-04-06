@@ -153,6 +153,7 @@
     <Compile Include="Model\Database.cs" />
     <Compile Include="Station\AttachmentUploadStrategy.cs" />
     <Compile Include="JSON Class\AttachmentView.cs" />
+    <Compile Include="Station\PostGetHandler.cs" />
     <Compile Include="Station\WinClientOnlyHttpHandler.cs" />
     <Compile Include="Station\ChangeHistorySyncer.cs" />
     <Compile Include="Station\CloudStorageHandler.cs" />

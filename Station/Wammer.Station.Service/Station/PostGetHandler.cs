@@ -9,23 +9,22 @@ using MongoDB.Driver;
 
 namespace Wammer.Station
 {
-	public class PostGetLatestHandler : HttpHandler
+	public class PostGetHandler : HttpHandler
 	{
 		#region Private Property
 		private string m_StationID { get; set; }
 		private string m_ResourceBasePath { get; set; }
 		#endregion
 
-		private const int DEFAULT_LIMIT = 50;
 		private const int MAX_LIMIT = 200;
 
 		#region Constructor
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PostGetLatestHandler"/> class.
+		/// Initializes a new instance of the <see cref="PostGetHandler"/> class.
 		/// </summary>
 		/// <param name="stationId">The station id.</param>
 		/// <param name="resourceBasePath">The resource base path.</param>
-		public PostGetLatestHandler(string stationId = null, string resourceBasePath = null)
+		public PostGetHandler(string stationId = null, string resourceBasePath = null)
 		{
 			this.m_StationID = stationId;
 			this.m_ResourceBasePath = resourceBasePath;
@@ -62,26 +61,49 @@ namespace Wammer.Station
 		/// </summary>
 		protected override void HandleRequest()
 		{
-			CheckParameter("group_id");
+			CheckParameter("group_id", "datum", "limit");
 
 			string groupId = Parameters["group_id"];
-			int limit = (Parameters["limit"] == null ? DEFAULT_LIMIT : int.Parse(Parameters["limit"]));
+			string datum = Parameters["datum"];
+			int limit = int.Parse(Parameters["limit"]);
 			if (limit > MAX_LIMIT)
 			{
 				limit = MAX_LIMIT;
 			}
-			else if (limit < 1)
+			else if (limit < -MAX_LIMIT)
+			{
+				limit = -MAX_LIMIT;
+			}
+			else if (limit == 0)
 			{
 				throw new WammerStationException(
-					PostApiError.InvalidParameterLimit.ToString(), 
+					PostApiError.InvalidParameterLimit.ToString(),
 					(int)PostApiError.InvalidParameterLimit
 				);
 			}
 
-			MongoCursor<PostInfo> posts = PostCollection.Instance
-				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false")))
-				.SetLimit(limit)
-				.SetSortOrder(SortBy.Descending("timestamp"));
+			MongoCursor<PostInfo> posts = null;
+			long totalCount = 0;
+			if (limit < 0)
+			{
+				posts = PostCollection.Instance
+					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.LTE("timestamp", datum)))
+					.SetLimit(Math.Abs(limit))
+					.SetSortOrder(SortBy.Descending("timestamp"));
+				totalCount = PostCollection.Instance
+					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.LTE("timestamp", datum)))
+					.Count();
+			}
+			else
+			{
+				posts = PostCollection.Instance
+					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.GTE("timestamp", datum)))
+					.SetLimit(Math.Abs(limit))
+					.SetSortOrder(SortBy.Ascending("timestamp"));
+				totalCount = PostCollection.Instance
+					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.GTE("timestamp", datum)))
+					.Count();
+			}
 
 			List<PostInfo> postList = new List<PostInfo>();
 			foreach (PostInfo post in posts)
@@ -91,22 +113,23 @@ namespace Wammer.Station
 
 			LoginedSession session = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", Parameters["session_token"]));
 			List<UserInfo> userList = new List<UserInfo>();
-			userList.Add(new UserInfo{
-				user_id=session.user.user_id, nickname=session.user.nickname, avatar_url=session.user.avatar_url});
-
-			long totalCount = PostCollection.Instance
-				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"))).Count();
+			userList.Add(new UserInfo
+			{
+				user_id = session.user.user_id,
+				nickname = session.user.nickname,
+				avatar_url = session.user.avatar_url
+			});
 
 			RespondSuccess(
-				new PostGetLatestResponse { 
-					total_count = totalCount, 
-					get_count = postList.Count, 
-					group_id = groupId, 
-					posts = postList, 
+				new PostGetResponse { 
+					remaining_count = totalCount - postList.Count,
+					get_count = postList.Count,
+					group_id = groupId,
+					posts = postList,
 					users = userList
 				}
 			);
-		}		
+		}
 		#endregion
 
 		#region Public Method
