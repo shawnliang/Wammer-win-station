@@ -48,7 +48,7 @@ namespace Wammer.Cloud
 
 	public class PostGetLatestResponse : PostResponse
 	{
-		public int total_count { get; set; }
+		public long total_count { get; set; }
 
 		public PostGetLatestResponse()
 			: base()

@@ -126,6 +126,9 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/reachability/ping/",
 								new PingHandler());
 
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/getLatest/",
+								new WinClientOnlyHttpHandler(new PostGetLatestHandler()));
+
 				logger.Debug("Start function server");
 				functionServer.Start();
 				stationTimer.Start();

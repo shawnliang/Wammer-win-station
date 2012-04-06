@@ -24,4 +24,22 @@ namespace Wammer.Station
 		ConnectDropboxFailed = Base + 5,
 		LinkWrongAccount = Base + 6
 	}
+
+	public enum PostApiError
+	{
+		Base = 0x3000,
+		PostNotExist = Base + 1,
+		InvalidPreview = Base + 2,
+		PermissionDenied = Base + 3,
+		CreateEmptyPost = Base + 4,
+		InvalidComponentOption = Base + 5,
+		InvalidPostIdList = Base + 6,
+		InvalidParameterLimit = Base + 7,
+		PostNotFound = Base + 8,
+		InvalidAttachmentIdArray = Base + 9,
+		NothingToUpdate = Base + 10,
+		InvalidFavorite = Base + 11,
+		InvalidCoverAttach = Base + 12,
+		NeedMerge = Base + 13
+	}
 }
