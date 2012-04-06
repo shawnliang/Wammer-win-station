@@ -81,7 +81,7 @@ namespace Wammer.Station
 			}
 
 			MongoCursor<PostInfo> posts = PostCollection.Instance
-				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", false)))
+				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false")))
 				.SetLimit(limit)
 				.SetSortOrder(SortBy.Descending("timestamp"));
 
@@ -91,11 +91,13 @@ namespace Wammer.Station
 				postList.Add(post);
 			}
 
+			LoginedSession session = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", Parameters["session_token"]));
 			List<UserInfo> userList = new List<UserInfo>();
-			userList.Add(new UserInfo{user_id="", nickname="", avatar_url=""}); // read from session store
+			userList.Add(new UserInfo{
+				user_id=session.user.user_id, nickname=session.user.nickname, avatar_url=session.user.avatar_url});
 
 			long totalCount = PostCollection.Instance
-				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", false))).Count();
+				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"))).Count();
 
 			RespondSuccess(
 				new PostGetLatestResponse { 

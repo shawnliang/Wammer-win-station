@@ -6,9 +6,11 @@ using System.Net;
 using System.IO;
 using System.Web;
 using System.Collections.Specialized;
+using MongoDB.Driver.Builders;
 
 using Wammer.Cloud;
 using Wammer.MultiPart;
+using Wammer.Model;
 
 
 namespace Wammer.Station
@@ -48,13 +50,13 @@ namespace Wammer.Station
 				ParseMultiPartData(request);
 			}
 
-			if (IsWindowsClient(this.Parameters["session_token"]))
+			if (IsWindowsClient())
 			{
-				bypass.HandleRequest(request, response);
+				handler.HandleRequest(request, response);
 			}
 			else
 			{
-				handler.HandleRequest(request, response);
+				bypass.HandleRequest(request, response);
 			}
 		}
 
@@ -66,14 +68,23 @@ namespace Wammer.Station
 
 		public object Clone()
 		{
-			//this.bypass = (IHttpHandler)this.bypass.Clone();
-			//this.handler = (IHttpHandler)this.handler.Clone();
+			this.bypass = (IHttpHandler)this.bypass.Clone();
+			this.handler = (IHttpHandler)this.handler.Clone();
 			return this.MemberwiseClone();
 		}
 
-		public bool IsWindowsClient(string token)
+		public bool IsWindowsClient()
 		{
-			return true;
+			if (Parameters["session_token"] != null && Parameters["apikey"] != null)
+			{
+				LoginedSession session = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", Parameters["session_token"]));
+				if (session != null && session.apikey.apikey == Parameters["apikey"])
+				{
+					// currently station only saves windows client's session
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private void ParseMultiPartData(HttpListenerRequest request)
