@@ -1,4 +1,7 @@
 ﻿using System.IO;
+using System;
+using System.Runtime.InteropServices;
+using System.Reflection;
 
 namespace Wammer.Utility
 {
@@ -18,21 +21,13 @@ namespace Wammer.Utility
 		}
 
 		private static long DirSize(DirectoryInfo d)
-		{
-			long size = 0;
-			// add file sizes
-			FileInfo[] fis = d.GetFiles();
-			foreach (FileInfo fi in fis)
-			{
-				size += fi.Length;
-			}
-			// add subdirectory sizes
-			DirectoryInfo[] dis = d.GetDirectories();
-			foreach (DirectoryInfo di in dis)
-			{
-				size += DirSize(di);
-			}
-			return size;
+		{			
+			Type tp = Type.GetTypeFromProgID("Scripting.FileSystemObject");
+			object fso = Activator.CreateInstance(tp);
+			object fd = tp.InvokeMember("GetFolder", BindingFlags.InvokeMethod, null, fso, new object[] { d.FullName });
+			long ret = Convert.ToInt64(tp.InvokeMember("Size", BindingFlags.GetProperty, null, fd, null));
+			Marshal.ReleaseComObject(fso);
+			return ret;
 		}
 	}
 }
