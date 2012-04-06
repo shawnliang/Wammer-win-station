@@ -134,7 +134,9 @@
     <Compile Include="Extension\StreamExtension.cs" />
     <Compile Include="Model\Attachments.cs" />
     <Compile Include="Model\CloudStorage.cs" />
+    <Compile Include="Model\Collection\LoginedSessionCollection.cs" />
     <Compile Include="Model\Drivers.cs" />
+    <Compile Include="Model\LoginedSession.cs" />
     <Compile Include="Model\Posts.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\StationInfo.cs" />
@@ -151,10 +153,12 @@
     <Compile Include="Model\Database.cs" />
     <Compile Include="Station\AttachmentUploadStrategy.cs" />
     <Compile Include="JSON Class\AttachmentView.cs" />
+    <Compile Include="Station\WinClientOnlyHttpHandler.cs" />
     <Compile Include="Station\ChangeHistorySyncer.cs" />
     <Compile Include="Station\CloudStorageHandler.cs" />
     <Compile Include="Station\CloudStorageSync.cs" />
     <Compile Include="Station\DropboxFileStorage.cs" />
+    <Compile Include="Station\PostGetLatestHandler.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\ListDriverHandler.cs" />
     <Compile Include="Station\PingHandler.cs" />
@@ -174,6 +178,8 @@
     <Compile Include="Station\TimelineChange\PostInfoProvider.cs" />
     <Compile Include="Station\TimelineChange\TimelineChangeHistory.cs" />
     <Compile Include="Station\TimelineChange\UserInfoUpdator.cs" />
+    <Compile Include="Station\UserLoginHandler.cs" />
+    <Compile Include="Station\UserLogoutHandler.cs" />
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
@@ -257,6 +263,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
