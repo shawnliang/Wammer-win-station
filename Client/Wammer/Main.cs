@@ -334,6 +334,7 @@ namespace Waveface
                 MessageBox.Show(I18n.L.T("ForceLogout"), "Waveface", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
+				RT.REST.Auth_Logout(RT.Login.session_token);
                 m_forceLogout = true;
                 QuitOption = QuitOption.Logout;
 
@@ -361,6 +362,7 @@ namespace Waveface
 
         public void Logout()
         {
+			RT.REST.Auth_Logout(RT.Login.session_token);
             Program.ShowCrashReporter = false;
 
             QuitOption = QuitOption.Logout;
@@ -577,8 +579,6 @@ namespace Waveface
 
             m_forceLogout = false;
 
-            WService.StationIP = "";
-
             postsArea.ShowTypeUI(false);
             postsArea.showRefreshUI(false);
 
@@ -625,7 +625,14 @@ namespace Waveface
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
             RT.LoadGroupLocalRead();
 
-            StartBgThreads();
+			if (Environment.GetCommandLineArgs().Length == 1)
+				StartBgThreads();
+			else
+			{
+				m_stationIP = "http://127.0.0.1:9981";
+				WService.StationIP = m_stationIP;
+				StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
+			}
 
             leftArea.SetNewPostManager();
 
@@ -1401,18 +1408,18 @@ namespace Waveface
 
         private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonCloud.Checked)
-            {
-                WService.StationIP = WService.CloudIP;
-                RT.StationMode = false;
-            }
-            else
-            {
+			if (radioButtonCloud.Checked)
+			{
+			    WService.StationIP = WService.CloudIP;
+			    RT.StationMode = false;
+			}
+			else
+			{
                 WService.StationIP = m_stationIP;
                 RT.StationMode = true;
 
                 backgroundWorkerPreloadAllImages_DoWork(null, null);
-            }
+			}
         }
 
         public void ShowStatuMessage(string message, bool timeout)

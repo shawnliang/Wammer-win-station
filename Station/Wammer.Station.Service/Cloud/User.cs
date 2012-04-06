@@ -60,7 +60,7 @@ namespace Wammer.Cloud
 
 		public static void LogOut(WebClient agent, string sessionToken)
 		{
-			LogIn(agent, sessionToken,CloudServer.APIKey);
+			LogOut(agent, sessionToken, CloudServer.APIKey);
 		}
 	}
 }

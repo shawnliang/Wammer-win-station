@@ -32,7 +32,7 @@ namespace Waveface
         private CultureManager cultureManager;
 
         private FormSettings m_formSettings;
-        private string m_savePassword = "";
+        private string m_savePassword = "";		
 
         #region Properties
 

@@ -47,6 +47,8 @@ namespace Wammer.Station
 			{
 				User.LogOut(client, sessionToken);
 			}
+
+			RespondSuccess();
 		}
 		#endregion
 
