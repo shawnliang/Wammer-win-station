@@ -62,7 +62,6 @@ namespace Wammer.Station
 
 			string groupId = Parameters["group_id"];
 			string postId = Parameters["post_id"];
-			LoginedSession session = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", Parameters["session_token"]));
 
 			RespondSuccess(
 				new FootprintSetLastScanResponse
@@ -70,7 +69,7 @@ namespace Wammer.Station
 					last_scan = new LastScanInfo
 					{
 						timestamp = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddThh:mm:ssZ"),
-						user_id = session.user.user_id,
+						user_id = Session.user.user_id,
 						group_id = groupId,
 						post_id = postId
 					}

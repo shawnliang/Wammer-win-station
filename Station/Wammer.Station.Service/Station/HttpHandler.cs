@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using Wammer.MultiPart;
+using Wammer.Model;
 
 namespace Wammer.Station
 {
@@ -30,6 +31,7 @@ namespace Wammer.Station
 		public HttpListenerResponse Response { get; private set; }
 		public NameValueCollection Parameters { get; private set; }
 		public List<UploadedFile> Files { get; private set; }
+		public LoginedSession Session { get; set; }
 		public byte[] RawPostData { get; private set; }
 		private long beginTime;
 
@@ -81,7 +83,6 @@ namespace Wammer.Station
 				foreach (UploadedFile file in Files)
 					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
 			}
-
 
 			HandleRequest();
 

@@ -89,10 +89,9 @@ namespace Wammer.Station
 				postList.Add(post);
 			}
 
-			LoginedSession session = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", Parameters["session_token"]));
 			List<UserInfo> userList = new List<UserInfo>();
 			userList.Add(new UserInfo{
-				user_id=session.user.user_id, nickname=session.user.nickname, avatar_url=session.user.avatar_url});
+				user_id=Session.user.user_id, nickname=Session.user.nickname, avatar_url=Session.user.avatar_url});
 
 			long totalCount = PostCollection.Instance
 				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"))).Count();

@@ -62,25 +62,28 @@ namespace Wammer.Station
 			CheckParameter("group_id");
 
 			string groupId = Parameters["group_id"];
-			LoginedSession session = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", Parameters["session_token"]));
 
-			PostInfo post = PostCollection.Instance
+			MongoCursor<PostInfo> posts = PostCollection.Instance
 				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false")))
-				.SetSortOrder(SortBy.Descending("timestamp"))
-				.First();
+				.SetSortOrder(SortBy.Descending("timestamp"));
 
-			RespondSuccess(
-				new FootprintSetLastScanResponse
-				{
-					last_scan = new LastScanInfo
+			LastScanInfo lastScan;
+			if (posts.Count() > 0)
+			{
+				lastScan = new LastScanInfo
 					{
-						timestamp = post.timestamp,
-						user_id = session.user.user_id,
+						timestamp = posts.First().timestamp,
+						user_id = Session.user.user_id,
 						group_id = groupId,
-						post_id = post.post_id
-					}
-				}
-			);
+						post_id = posts.First().post_id
+					};
+			}
+			else
+			{
+				lastScan = new LastScanInfo();
+			}
+
+			RespondSuccess(new FootprintSetLastScanResponse { last_scan = lastScan });
 		}
 		#endregion
 

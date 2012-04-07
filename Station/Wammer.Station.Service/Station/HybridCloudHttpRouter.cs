@@ -15,7 +15,7 @@ using Wammer.Model;
 
 namespace Wammer.Station
 {
-	public class WinClientOnlyHttpHandler : IHttpHandler
+	public class HybridCloudHttpRouter : IHttpHandler
 	{
 		public HttpListenerRequest Request { get; private set; }
 		public HttpListenerResponse Response { get; private set; }
@@ -29,10 +29,10 @@ namespace Wammer.Station
 
 		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
-		private IHttpHandler bypass = new BypassHttpHandler(CloudServer.BaseUrl);
-		private IHttpHandler handler;
+		private BypassHttpHandler bypass = new BypassHttpHandler(CloudServer.BaseUrl);
+		private HttpHandler handler;
 
-		public WinClientOnlyHttpHandler(IHttpHandler handler)
+		public HybridCloudHttpRouter(HttpHandler handler)
 		{
 			this.handler = handler;
 		}
@@ -50,8 +50,11 @@ namespace Wammer.Station
 				ParseMultiPartData(request);
 			}
 
-			if (IsWindowsClient())
+			// handle request locally if has valid session, otherwise bypass to cloud
+			LoginedSession session = GetSessionFromCache();
+			if (session != null)
 			{
+				handler.Session = session;
 				handler.HandleRequest(request, response);
 			}
 			else
@@ -68,12 +71,23 @@ namespace Wammer.Station
 
 		public object Clone()
 		{
-			this.bypass = (IHttpHandler)this.bypass.Clone();
-			this.handler = (IHttpHandler)this.handler.Clone();
-			return this.MemberwiseClone();
+			HybridCloudHttpRouter router = (HybridCloudHttpRouter)this.MemberwiseClone();
+			router.bypass = (BypassHttpHandler)this.bypass.Clone();
+			router.handler = (HttpHandler)this.handler.Clone();
+			return router;
 		}
 
-		public bool IsWindowsClient()
+		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)
+		{
+			EventHandler<HttpHandlerEventArgs> handler = this.ProcessSucceeded;
+
+			if (handler != null)
+			{
+				handler(this, evt);
+			}
+		}
+
+		public LoginedSession GetSessionFromCache()
 		{
 			if (Parameters["session_token"] != null && Parameters["apikey"] != null)
 			{
@@ -81,10 +95,10 @@ namespace Wammer.Station
 				if (session != null && session.apikey.apikey == Parameters["apikey"])
 				{
 					// currently station only saves windows client's session
-					return true;
+					return session;
 				}
 			}
-			return false;
+			return null;
 		}
 
 		private void ParseMultiPartData(HttpListenerRequest request)
