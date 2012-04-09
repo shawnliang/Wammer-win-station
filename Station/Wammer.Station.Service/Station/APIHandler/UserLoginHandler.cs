@@ -53,6 +53,15 @@ namespace Wammer.Station
 			if (!isDriverExists)
 				throw new WammerStationException("Cannot find the user with email: " + email, (int)StationApiError.AuthFailed);
 
+			var loginInfo = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", email));
+
+			if (loginInfo != null)
+			{
+				RespondSuccess(loginInfo);
+				return;
+			}
+
+
 			string password = Parameters["password"];
 			string apikey = Parameters["apikey"];
 			User user = null;
@@ -64,12 +73,9 @@ namespace Wammer.Station
 			if(user == null)
 				throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);
 
-			LoginedSessionCollection.Instance.Save(user.LoginedInfo);
+			loginInfo = user.LoginedInfo;
 
-			var loginInfo = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", user.Token));
-
-			if (loginInfo == null)
-				throw new WammerStationException("Cannot find logininfo with session: " + user.Token, (int)StationApiError.AuthFailed);
+			LoginedSessionCollection.Instance.Save(loginInfo);
 
 			RespondSuccess(loginInfo);
 		}
