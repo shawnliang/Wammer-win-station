@@ -87,7 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventTest.cs" />
-    <Compile Include="pullTimeLine\TestPullTimeline.cs" />
+    <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />
+    <Compile Include="pullTimeLine\TestPullTimeline_forward.cs" />
     <Compile Include="TestAttachmentViewApi.cs" />
     <Compile Include="TestSQLitePersistentStorage.cs" />
     <Compile Include="TestRemoveDriver.cs" />
@@ -116,7 +117,7 @@
     <Compile Include="pullTimeLine\TestTimelineChange_PostInfoProvider2.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
-    <Compile Include="TestUserTrack.cs" />
+    <Compile Include="pullTimeLine\TestUserTrack.cs" />
     <Compile Include="pullTimeLine\TestUserTrack_HasMore.cs" />
     <Compile Include="pullTimeLine\TestUserTrack_LotsOfPosts.cs" />
     <Compile Include="pullTimeLine\TestUserTrack_MergePostId.cs" />

@@ -25,5 +25,10 @@ namespace Wammer.Station.Timeline
 				Query.EQ("_id", userId),
 				Update.Set("sync_range", syncRange.ToBsonDocument()));
 		}
+
+		public void UpdateChangeLogSyncTime(string userId, string time)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

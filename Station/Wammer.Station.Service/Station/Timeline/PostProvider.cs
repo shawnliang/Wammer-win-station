@@ -23,5 +23,11 @@ namespace Wammer.Station.Timeline
 			PostApi api = new PostApi(user);
 			return api.PostFetchByFilter(agent, new FilterEntity { limit = limit, timestamp = before });
 		}
+
+		public List<PostInfo> RetrievePosts(System.Net.WebClient agent, Driver user, List<string> posts)
+		{
+			PostApi api = new PostApi(user);
+			return api.PostFetchByPostId(agent, posts).posts;
+		}
 	}
 }

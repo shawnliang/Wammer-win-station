@@ -24,6 +24,10 @@ namespace UT_WammerStation.pullTimeLine
 		public int GetPostsBefore_limit { get; private set; }
 		public PostResponse GetPostsBefore_return { get; set; }
 
+		// RetrievePosts
+		public Driver RetrievePosts_user { get; private set; }
+		public List<string> RetrievePosts_posts { get; private set; }
+		public List<PostInfo> RetrievePosts_return { get; set; }
 		public PostResponse GetLastestPosts(System.Net.WebClient agent, Driver user, int limit)
 		{
 			GetLastestPosts_user = user;
@@ -41,13 +45,29 @@ namespace UT_WammerStation.pullTimeLine
 
 			return this.GetPostsBefore_return;
 		}
+
+		public List<PostInfo> RetrievePosts(System.Net.WebClient agent, Driver user, List<string> posts)
+		{
+			this.RetrievePosts_user = user;
+			this.RetrievePosts_posts = posts;
+
+			return this.RetrievePosts_return;
+		}
 	}
 
 	class DummyTimelineSyncerDB : ITimelineSyncerDB
 	{
 		public List<PostInfo> SavedPosts { get; private set; }
+
+		// UpdateChangeLogSyncTime
+		public string UpdateChangeLogSyncTime_userId { get; set; }
+		public string UpdateChangeLogSyncTime_time { get; set; }
+
+		// UpdateSyncRange
 		public string UpdateSyncRange_userId { get; set; }
 		public SyncRange UpdateSyncRange_syncRange { get; set; }
+
+
 
 		public DummyTimelineSyncerDB()
 		{
@@ -64,10 +84,16 @@ namespace UT_WammerStation.pullTimeLine
 			UpdateSyncRange_userId = userId;
 			UpdateSyncRange_syncRange = syncRange;
 		}
+
+		public void UpdateChangeLogSyncTime(string userId, string time)
+		{
+			UpdateChangeLogSyncTime_time = time;
+			UpdateChangeLogSyncTime_userId = userId;
+		}
 	}
 
 	[TestClass]
-	public class TestPullTimeline
+	public class TestPullTimeline_backward
 	{
 		ICollection<PostInfo> RetrievedPosts;
 		[TestInitialize]
@@ -101,7 +127,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db);
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
 			timelineSyncer.PullBackward(user);
 			
 			// verify posts/getLatest cloud API is queried
@@ -144,7 +170,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db);
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
 			timelineSyncer.PullBackward(user);
 
 			// verify driver's sync range is updated
@@ -179,7 +205,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db);
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
 			timelineSyncer.PullBackward(user);
 
 			//verify call get posts from prev's timestamp
@@ -225,7 +251,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db);
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
 			timelineSyncer.PullBackward(user);
 
 			// verify new start_timestamp is updated
@@ -261,7 +287,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db);
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
 			timelineSyncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(timelineSyncer_PostsRetrieved);
 			timelineSyncer.PullBackward(user);
 
@@ -294,7 +320,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db);
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
 			timelineSyncer.PullBackward(user);
 		}
 	}
