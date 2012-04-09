@@ -81,6 +81,15 @@ namespace Wammer.Model
 		public SyncRange sync_range { get; set; }
 
 		/// <summary>
+		/// Total count of posts. The value is valid until timeline is pulled to the first post.
+		/// </summary>
+		/// <value>
+		/// Total count of posts.
+		/// </value>
+		[BsonIgnoreIfNull]
+		public long temp_total_count { get; set; }
+
+		/// <summary>
 		/// Gets or sets the ref_count.
 		/// </summary>
 		/// <value>The ref_count.</value>

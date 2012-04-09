@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Wammer.Station;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.Utility;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver;
 
@@ -65,6 +66,15 @@ namespace Wammer.Station
 			CheckParameter("group_id");
 
 			string groupId = Parameters["group_id"];
+
+			if (!PermissionHelper.IsGroupPermissionOK(groupId, this.Session))
+			{
+				throw new WammerStationException(
+					PostApiError.PermissionDenied.ToString(),
+					(int)PostApiError.PermissionDenied
+				);
+			}
+
 			int limit = (Parameters["limit"] == null ? DEFAULT_LIMIT : int.Parse(Parameters["limit"]));
 			if (limit > MAX_LIMIT)
 			{
@@ -93,8 +103,17 @@ namespace Wammer.Station
 			userList.Add(new UserInfo{
 				user_id=Session.user.user_id, nickname=Session.user.nickname, avatar_url=Session.user.avatar_url});
 
-			long totalCount = PostCollection.Instance
-				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"))).Count();
+			long totalCount = 0;
+			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", Session.user.user_id));
+			if (driver.sync_range != null && !string.IsNullOrEmpty(driver.sync_range.first_post_time))
+			{
+				totalCount = PostCollection.Instance
+					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"))).Count();
+			}
+			else
+			{
+				totalCount = driver.temp_total_count;
+			}
 
 			RespondSuccess(
 				new PostGetLatestResponse { 

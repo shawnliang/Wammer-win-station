@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using Wammer.Station;
-using Wammer.Model;
 using Wammer.Cloud;
+using Wammer.Model;
 using Wammer.Utility;
 using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
-	public class FootprintSetLastScanHandler : HttpHandler
+	public class PostGetSingleHandler : HttpHandler
 	{
 		#region Private Property
 		private string m_StationID { get; set; }
@@ -18,11 +19,11 @@ namespace Wammer.Station
 
 		#region Constructor
 		/// <summary>
-		/// Initializes a new instance of the <see cref="FootprintSetLastScanHandler"/> class.
+		/// Initializes a new instance of the <see cref="PostGetSingleHandler"/> class.
 		/// </summary>
 		/// <param name="stationId">The station id.</param>
 		/// <param name="resourceBasePath">The resource base path.</param>
-		public FootprintSetLastScanHandler(string stationId = null, string resourceBasePath = null)
+		public PostGetSingleHandler(string stationId = null, string resourceBasePath = null)
 		{
 			this.m_StationID = stationId;
 			this.m_ResourceBasePath = resourceBasePath;
@@ -72,16 +73,30 @@ namespace Wammer.Station
 				);
 			}
 
+			PostInfo singlePost = PostCollection.Instance.FindOne(
+				Query.And(Query.EQ("group_id", groupId), Query.EQ("_id", postId)));
+
+			if (singlePost == null)
+			{
+				throw new WammerStationException(
+					PostApiError.PostNotExist.ToString(),
+					(int)PostApiError.PostNotExist
+				);
+			}
+
+			List<UserInfo> userList = new List<UserInfo>();
+			userList.Add(new UserInfo
+			{
+				user_id = Session.user.user_id,
+				nickname = Session.user.nickname,
+				avatar_url = Session.user.avatar_url
+			});
+
 			RespondSuccess(
-				new FootprintSetLastScanResponse
+				new PostGetSingleResponse
 				{
-					last_scan = new LastScanInfo
-					{
-						timestamp = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddThh:mm:ssZ"),
-						user_id = Session.user.user_id,
-						group_id = groupId,
-						post_id = postId
-					}
+					post = singlePost,
+					users = userList
 				}
 			);
 		}

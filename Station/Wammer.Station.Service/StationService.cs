@@ -130,6 +130,8 @@ namespace Wammer.Station.Service
 								new HybridCloudHttpRouter(new PostGetLatestHandler()));
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/get/",
 								new HybridCloudHttpRouter(new PostGetHandler()));
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/getSingle/",
+								new HybridCloudHttpRouter(new PostGetSingleHandler()));
 
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/footprints/setLastScan/",
 								new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
@@ -204,15 +206,6 @@ namespace Wammer.Station.Service
 		void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
 			PublicPortMapping.Instance.DriverAdded(sender, e);
-
-			//TODO: get lastest post count here so that user can know total post count before
-			//      timeline is pulled.
-			//PostApi api = new PostApi(e.Driver);
-			//using (WebClient agent = new WebClient())
-			//{
-			//    PostGetLatestResponse res = api.PostGetLatest(agent, 1);
-			//    //Save res.total_count somewhere
-			//}
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
