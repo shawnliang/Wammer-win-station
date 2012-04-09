@@ -42,7 +42,7 @@ namespace Waveface
         {
             get
             {
-                panelCalendar.Visible = true;
+                //panelCalendar.Visible = true;
 
                 return monthCalendar;
             }

@@ -90,6 +90,7 @@ namespace Waveface.DetailUI
 
             MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer();
             _imageListViewRenderer.Clip = false;
+            _imageListViewRenderer.ItemBorderless = true;
 
             imageListView.SetRenderer(_imageListViewRenderer);
 

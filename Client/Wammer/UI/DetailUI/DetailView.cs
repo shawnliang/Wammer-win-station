@@ -34,14 +34,15 @@ namespace Waveface
         private Label labelWho;
         private Label labelTime;
         private Timer timerGC;
-        private XPButton btnComment;
+        private ImageButton btnComment;
         private Panel panelMain;
         private Localization.CultureManager cultureManager;
 
         private Popup m_commentPopup;
-        private XPButton btnRemove;
-        private XPButton btnEdit;
+        private ImageButton btnRemove;
+        private ImageButton btnEdit;
         private Timer timerCanEdit;
+        private ImageButton btnFavorite;
         private CommentPopupPanel m_commentPopupPanel;
 
         public Post Post
@@ -94,21 +95,23 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnFavorite = new Waveface.Component.ImageButton();
+            this.btnRemove = new Waveface.Component.ImageButton();
+            this.btnEdit = new Waveface.Component.ImageButton();
+            this.btnComment = new Waveface.Component.ImageButton();
             this.labelWho = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.timerCanEdit = new System.Windows.Forms.Timer(this.components);
-            this.btnRemove = new Waveface.Component.XPButton();
-            this.btnEdit = new Waveface.Component.XPButton();
-            this.btnComment = new Waveface.Component.XPButton();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
+            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelTop.Controls.Add(this.btnFavorite);
             this.panelTop.Controls.Add(this.btnRemove);
             this.panelTop.Controls.Add(this.btnEdit);
             this.panelTop.Controls.Add(this.btnComment);
@@ -116,9 +119,53 @@ namespace Waveface
             this.panelTop.Controls.Add(this.labelTime);
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
-            this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
-            this.panelTop.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseClick);
-            this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseMove);
+            // 
+            // btnFavorite
+            // 
+            resources.ApplyResources(this.btnFavorite, "btnFavorite");
+            this.btnFavorite.BackColor = System.Drawing.SystemColors.Control;
+            this.btnFavorite.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFavorite.Image = global::Waveface.Properties.Resources.FB_fav;
+            this.btnFavorite.ImageDisable = global::Waveface.Properties.Resources.FB_fav_hl;
+            this.btnFavorite.ImageHover = global::Waveface.Properties.Resources.FB_fav_hl;
+            this.btnFavorite.Name = "btnFavorite";
+            this.btnFavorite.TabStop = false;
+            this.btnFavorite.Click += new System.EventHandler(this.btnFavorite_Click);
+            // 
+            // btnRemove
+            // 
+            resources.ApplyResources(this.btnRemove, "btnRemove");
+            this.btnRemove.BackColor = System.Drawing.SystemColors.Control;
+            this.btnRemove.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRemove.Image = global::Waveface.Properties.Resources.FB_remove;
+            this.btnRemove.ImageDisable = global::Waveface.Properties.Resources.FB_remove_hl;
+            this.btnRemove.ImageHover = global::Waveface.Properties.Resources.FB_remove_hl;
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.TabStop = false;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // btnEdit
+            // 
+            resources.ApplyResources(this.btnEdit, "btnEdit");
+            this.btnEdit.BackColor = System.Drawing.SystemColors.Control;
+            this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEdit.Image = global::Waveface.Properties.Resources.FB_edit;
+            this.btnEdit.ImageDisable = global::Waveface.Properties.Resources.FB_edit_hl;
+            this.btnEdit.ImageHover = global::Waveface.Properties.Resources.FB_edit_hl;
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.TabStop = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // btnComment
+            // 
+            resources.ApplyResources(this.btnComment, "btnComment");
+            this.btnComment.BackColor = System.Drawing.SystemColors.Control;
+            this.btnComment.Image = null;
+            this.btnComment.ImageDisable = null;
+            this.btnComment.ImageHover = null;
+            this.btnComment.Name = "btnComment";
+            this.btnComment.TabStop = false;
+            this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
             // labelWho
             // 
@@ -134,6 +181,7 @@ namespace Waveface
             // 
             // panelMain
             // 
+            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
             // 
@@ -151,42 +199,6 @@ namespace Waveface
             this.timerCanEdit.Enabled = true;
             this.timerCanEdit.Interval = 666;
             this.timerCanEdit.Tick += new System.EventHandler(this.timerCanEdit_Tick);
-            // 
-            // btnRemove
-            // 
-            this.btnRemove.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnRemove, "btnRemove");
-            this.btnRemove.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnRemove.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnRemove.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnRemove.Image = global::Waveface.Properties.Resources.trash;
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.UseVisualStyleBackColor = true;
-            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnEdit, "btnEdit");
-            this.btnEdit.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnEdit.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnEdit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnEdit.Image = global::Waveface.Properties.Resources.page;
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
-            // btnComment
-            // 
-            this.btnComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnComment, "btnComment");
-            this.btnComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnComment.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
-            this.btnComment.Image = global::Waveface.Properties.Resources.white_edit;
-            this.btnComment.Name = "btnComment";
-            this.btnComment.UseVisualStyleBackColor = true;
-            this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
             // DetailView
             // 
@@ -222,12 +234,14 @@ namespace Waveface
             if (m_post == null)
                 return;
 
-            btnComment.Visible = true;
+            //btnComment.Visible = true;
             btnRemove.Visible = true;
             btnEdit.Visible = true;
+            btnFavorite.Visible = true;
 
             setupTitle();
-            drawFavorite();
+
+            setFavoriteButton();
 
             panelTop.Enabled = !Main.Current.BatchPostManager.CheckPostInQueue(m_post.post_id);
 
@@ -267,56 +281,21 @@ namespace Waveface
             labelWho.Left = labelTime.Right + 8;
         }
 
-        private void drawFavorite()
+        private void setFavoriteButton()
         {
-            panelTop.Refresh();
-        }
-
-        private void panelTop_Paint(object sender, PaintEventArgs e)
-        {
-            if (m_post == null)
-                return;
-
-            if (m_post.favorite == null)
-                return;
-
             int _value = int.Parse(m_post.favorite);
 
-            int _x = 6;
-
             if (_value == 0)
-                e.Graphics.DrawImage(Properties.Resources.Heart_empty, _x, 8, FavoriteIconSize, FavoriteIconSize);
-            else
-                e.Graphics.DrawImage(Properties.Resources.Heart, _x, 8, FavoriteIconSize, FavoriteIconSize);
-        }
-
-        private void panelTop_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (m_post == null)
-                return;
-
-            if (m_post.favorite == null)
-                return;
-
-            int _x = 6;
-
-            if ((e.X > (_x - 2)) && (e.X < (_x + FavoriteIconSize + 2)))
             {
-                Main.Current.ChangePostFavorite(m_post);
-            }
-        }
-
-        private void panelTop_MouseMove(object sender, MouseEventArgs e)
-        {
-            int _x = 6;
-
-            if ((e.X > _x) && (e.X < (_x + FavoriteIconSize)))
-            {
-                Cursor = Cursors.Hand;
+                btnFavorite.Image = Properties.Resources.FB_unfav;
+                btnFavorite.ImageDisable = Properties.Resources.FB_unfav_hl;
+                btnFavorite.ImageHover = Properties.Resources.FB_unfav_hl;
             }
             else
             {
-                Cursor = Cursors.Default;
+                btnFavorite.Image = Properties.Resources.FB_fav;
+                btnFavorite.ImageDisable = Properties.Resources.FB_fav_hl;
+                btnFavorite.ImageHover = Properties.Resources.FB_fav_hl;
             }
         }
 
@@ -563,10 +542,15 @@ namespace Waveface
 
         private void timerCanEdit_Tick(object sender, EventArgs e)
         {
-            if(m_currentView != null)
+            if (m_currentView != null)
             {
                 btnEdit.Enabled = m_currentView.CanEdit();
             }
+        }
+
+        private void btnFavorite_Click(object sender, EventArgs e)
+        {
+            Main.Current.ChangePostFavorite(m_post);
         }
     }
 }
