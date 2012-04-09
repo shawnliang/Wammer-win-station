@@ -1,30 +1,21 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Net;
+using System.Linq;
 using System.Text;
+using System.Net;
+using System.IO;
 using System.Web;
+using System.Collections.Specialized;
+using MongoDB.Driver.Builders;
+
+using Wammer.Cloud;
 using Wammer.MultiPart;
+using Wammer.Model;
+
 
 namespace Wammer.Station
 {
-	public class UploadedFile
-	{
-		public UploadedFile(string name, ArraySegment<byte> data, string contentType)
-		{
-			this.Name = name;
-			this.Data = data;
-			this.ContentType = contentType;
-		}
-
-		public string Name { get; private set; }
-		public ArraySegment<byte> Data { get; private set; }
-		public string ContentType { get; private set; }
-	}
-
-
-	public abstract class HttpHandler : IHttpHandler
+	public class HybridCloudHttpRouter : IHttpHandler
 	{
 		public HttpListenerRequest Request { get; private set; }
 		public HttpListenerResponse Response { get; private set; }
@@ -37,17 +28,14 @@ namespace Wammer.Station
 		private const string URL_ENCODED_FORM = "application/x-www-form-urlencoded";
 		private const string MULTIPART_FORM = "multipart/form-data";
 
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
-
 		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
-		
-		protected HttpHandler()
-		{
-		}
 
-		public void SetBeginTimestamp(long beginTime)
+		private BypassHttpHandler bypass = new BypassHttpHandler(CloudServer.BaseUrl);
+		private HttpHandler handler;
+
+		public HybridCloudHttpRouter(HttpHandler handler)
 		{
-			this.beginTime = beginTime;
+			this.handler = handler;
 		}
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
@@ -63,27 +51,17 @@ namespace Wammer.Station
 				ParseMultiPartData(request);
 			}
 
-			if (logger.IsDebugEnabled)
+			// handle request locally if has valid session, otherwise bypass to cloud
+			LoginedSession session = GetSessionFromCache();
+			if (session != null)
 			{
-				logger.Debug("====== Request " + Request.Url.AbsolutePath + 
-								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
-				foreach (string key in Parameters.AllKeys)
-				{
-					if (key == "password")
-					{
-						logger.DebugFormat("{0} : *", key);
-					}
-					else
-					{
-						logger.DebugFormat("{0} : {1}", key, Parameters[key]);
-					}
-				}
-				foreach (UploadedFile file in Files)
-					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
+				handler.Session = session;
+				handler.HandleRequest(request, response);
 			}
-
-
-			HandleRequest();
+			else
+			{
+				bypass.HandleRequest(request, response);
+			}
 
 			long end = System.Diagnostics.Stopwatch.GetTimestamp();
 
@@ -94,14 +72,43 @@ namespace Wammer.Station
 			OnProcessSucceeded(new HttpHandlerEventArgs(duration));
 		}
 
+		public void SetBeginTimestamp(long beginTime)
+		{
+			this.beginTime = beginTime;
+			bypass.SetBeginTimestamp(beginTime);
+			handler.SetBeginTimestamp(beginTime);
+		}
+
+		public object Clone()
+		{
+			HybridCloudHttpRouter router = (HybridCloudHttpRouter)this.MemberwiseClone();
+			router.bypass = (BypassHttpHandler)this.bypass.Clone();
+			router.handler = (HttpHandler)this.handler.Clone();
+			return router;
+		}
+
 		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)
 		{
 			EventHandler<HttpHandlerEventArgs> handler = this.ProcessSucceeded;
-			
+
 			if (handler != null)
 			{
 				handler(this, evt);
 			}
+		}
+
+		public LoginedSession GetSessionFromCache()
+		{
+			if (Parameters["session_token"] != null && Parameters["apikey"] != null)
+			{
+				LoginedSession session = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", Parameters["session_token"]));
+				if (session != null && session.apikey.apikey == Parameters["apikey"])
+				{
+					// currently station only saves windows client's session
+					return session;
+				}
+			}
+			return null;
 		}
 
 		private void ParseMultiPartData(HttpListenerRequest request)
@@ -127,7 +134,7 @@ namespace Wammer.Station
 				{
 					w.Write(this.RawPostData);
 				}
-				logger.Warn("Parsing multipart data error. Post data written to log\\" + filename);
+				this.LogWarnMsg("Parsing multipart data error. Post data written to log\\" + filename);
 				throw;
 			}
 		}
@@ -158,7 +165,7 @@ namespace Wammer.Station
 				throw new ArgumentException("incorrect use of this function: " +
 														"input part.ContentDisposition is null");
 
-			if (disp.Value.Equals("form-data",StringComparison.CurrentCultureIgnoreCase))
+			if (disp.Value.Equals("form-data", StringComparison.CurrentCultureIgnoreCase))
 			{
 				string filename = disp.Parameters["filename"];
 
@@ -176,13 +183,10 @@ namespace Wammer.Station
 			}
 		}
 
-		protected abstract void HandleRequest();
-		public abstract object Clone();
-
 		private static bool HasMultiPartFormData(HttpListenerRequest request)
 		{
 			return request.ContentType != null &&
-							request.ContentType.StartsWith(MULTIPART_FORM,StringComparison.CurrentCultureIgnoreCase);
+							request.ContentType.StartsWith(MULTIPART_FORM, StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		private static string GetMultipartBoundary(string contentType)
@@ -190,9 +194,10 @@ namespace Wammer.Station
 			if (contentType == null)
 				throw new ArgumentNullException();
 
-			try {
+			try
+			{
 				string[] parts = contentType.Split(';');
-				foreach(string part in parts)
+				foreach (string part in parts)
 				{
 					int idx = part.IndexOf(BOUNDARY);
 					if (idx < 0)
@@ -224,37 +229,6 @@ namespace Wammer.Station
 			}
 
 			return new NameValueCollection();
-		}
-
-		protected void RespondSuccess()
-		{
-			HttpHelper.RespondSuccess(Response, new Cloud.CloudResponse(200, DateTime.UtcNow));
-		}
-
-		protected void RespondSuccess(object json)
-		{
-			HttpHelper.RespondSuccess(Response, json);
-		}
-
-		protected void RespondSuccess(string contentType, byte[] data)
-		{
-			Response.StatusCode = 200;
-			Response.ContentType = contentType;
-
-			using (BinaryWriter w = new BinaryWriter(Response.OutputStream))
-			{
-				w.Write(data);
-			}
-		}
-	}
-
-
-	public class HttpHandlerEventArgs : EventArgs
-	{
-		public long DurationInTicks { get; private set; }
-		public HttpHandlerEventArgs(long durationInTicks)
-		{
-			this.DurationInTicks = durationInTicks;
 		}
 	}
 }

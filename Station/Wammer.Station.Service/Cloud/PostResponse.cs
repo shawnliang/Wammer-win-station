@@ -52,9 +52,35 @@ namespace Wammer.Cloud
 		}
 	}
 
+	public class PostGetResponse : PostResponse
+	{
+		public long remaining_count { get; set; }
+
+		public PostGetResponse()
+			: base()
+		{
+		}
+
+		public PostGetResponse(string group_id, int get_count, int remaining_count,
+			List<PostInfo> posts, List<UserInfo> users)
+			: base()
+		{
+			this.group_id = group_id;
+			this.get_count = get_count;
+			this.remaining_count = remaining_count;
+			this.posts = posts;
+			this.users = users;
+		}
+
+		public override bool HasMoreData
+		{
+			get { return remaining_count > 0; }
+		}
+	}
+
 	public class PostGetLatestResponse : PostResponse
 	{
-		public int total_count { get; set; }
+		public long total_count { get; set; }
 
 		public PostGetLatestResponse()
 			: base()

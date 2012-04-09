@@ -195,7 +195,7 @@ namespace Waveface.API.V2
 
             try
             {
-                string _url = BaseURLForGroupUserAuth + "/auth/login";
+				string _url = BaseURL + "/auth/login";
 
                 string _parms = "apikey" + "=" + APIKEY + "&" +
                                 "email" + "=" + email + "&" +
@@ -241,7 +241,7 @@ namespace Waveface.API.V2
 
             try
             {
-                string _url = BaseURLForGroupUserAuth + "/auth/logout";
+				string _url = BaseURL + "/auth/logout";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
