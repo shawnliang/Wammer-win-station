@@ -79,6 +79,10 @@ namespace UT_WammerStation.pullTimeLine
 			SavedPosts.Add(post);
 		}
 
+		public void SaveUserTracks(UserTracks ut)
+		{
+		}
+
 		public void UpdateDriverSyncRange(string userId, SyncRange syncRange)
 		{
 			UpdateSyncRange_userId = userId;

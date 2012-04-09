@@ -54,13 +54,13 @@ namespace Wammer.Model
 			return collection.FindOneAs<K>(query);
 		}
 
-		public void Save(T driver)
+		public void Save(T doc)
 		{
-			collection.Save(driver);
+			collection.Save(doc);
 		}
-		public void Save(BsonDocument driver)
+		public void Save(BsonDocument doc)
 		{
-			collection.Save(driver);
+			collection.Save(doc);
 		}
 
 		public void RemoveAll()

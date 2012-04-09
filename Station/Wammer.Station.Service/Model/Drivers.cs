@@ -80,6 +80,9 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public SyncRange sync_range { get; set; }
 
+		[BsonIgnoreIfNull]
+		public string change_log_sync_time { get; set; }
+
 		/// <summary>
 		/// Gets or sets the ref_count.
 		/// </summary>
@@ -119,5 +122,10 @@ namespace Wammer.Model
 		public string end_time { get; set; }
 		[BsonIgnoreIfNull]
 		public string first_post_time { get; set; }
+
+		public SyncRange Clone()
+		{
+			return (SyncRange)this.MemberwiseClone();
+		}
 	}
 }
