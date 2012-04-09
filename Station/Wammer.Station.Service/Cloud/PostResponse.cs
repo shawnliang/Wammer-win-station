@@ -8,6 +8,7 @@ namespace Wammer.Cloud
 {
 	abstract public class PostResponse : CloudResponse
 	{
+		public List<PostInfo> posts { get; set; }
 		public List<UserInfo> users { get; set; }
 
 		public PostResponse()
@@ -28,7 +29,6 @@ namespace Wammer.Cloud
 		public string group_id { get; set; }
 		public int get_count { get; set; }
 		public int remaining_count { get; set; }
-		public List<PostInfo> posts { get; set; }
 
 		public PostFetchByFilterResponse()
 			: base()
@@ -57,7 +57,6 @@ namespace Wammer.Cloud
 		public string group_id { get; set; }
 		public int get_count { get; set; }
 		public long remaining_count { get; set; }
-		public List<PostInfo> posts { get; set; }
 
 		public PostGetResponse()
 			: base()
@@ -96,6 +95,11 @@ namespace Wammer.Cloud
 			this.post = post;
 			this.users = users;
 		}
+
+		public override bool HasMoreData
+		{
+			get { return false; }
+		}
 	}
 
 	public class PostGetLatestResponse : PostResponse
@@ -103,7 +107,6 @@ namespace Wammer.Cloud
 		public string group_id { get; set; }
 		public int get_count { get; set; }
 		public long total_count { get; set; }
-		public List<PostInfo> posts { get; set; }
 
 		public PostGetLatestResponse()
 			: base()
