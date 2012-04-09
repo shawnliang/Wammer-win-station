@@ -7,18 +7,41 @@ namespace Wammer.Cloud
 {
 	public class User
 	{
-
+		#region Public Property
 		public string Name { get; private set; }
 		public string Password { get; private set; }
-		public string Token { get; private set; }
+		public string Token
+		{
+			get 
+			{
+				return LoginedInfo.session_token;
+			}
+		}
+
 		public List<UserGroup> Groups { get; private set; }
 		public List<UserStation> Stations { get; private set; }
-		public string Id { get; private set; }
 
-		private User(string username, string passwd)
+		public string Id
+		{
+			get
+			{
+				return LoginedInfo.user.user_id;
+			}
+		}
+
+		public LoginedSession LoginedInfo { get; set; }
+		#endregion
+
+
+		private User(string username, string passwd, string json)
 		{
 			this.Name = username;
 			this.Password = passwd;
+			this.LoginedInfo = fastJSON.JSON.Instance.ToObject<LoginedSession>(json);
+
+			var response = CloudServer.ConvertFromJson<UserLogInResponse>(json);
+			this.Groups = response.groups;
+			this.Stations = response.stations;
 		}
 
 		public static User LogIn(WebClient agent, string username, string passwd, string apiKey)
@@ -30,16 +53,7 @@ namespace Wammer.Cloud
 
 			var json = CloudServer.requestPath(agent, "auth/login", parameters);
 
-			LoginedSessionCollection.Instance.Save(fastJSON.JSON.Instance.ToObject<LoginedSession>(json));
-
-			UserLogInResponse res = CloudServer.ConvertFromJson<UserLogInResponse>(json);
-
-			User user = new User(username, passwd);
-			user.Token = res.session_token;
-			user.Groups = res.groups;
-			user.Id = res.user.user_id;
-			user.Stations = res.stations;
-			return user;
+			return new User(username, passwd, json);
 		}
 
 		public static User LogIn(WebClient agent, string username, string passwd)
@@ -53,9 +67,7 @@ namespace Wammer.Cloud
 			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, sessionToken);
 			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
 
-			var json = CloudServer.requestPath(agent, "auth/logout", parameters);
-
-			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", sessionToken));
+			CloudServer.requestPath(agent, "auth/logout", parameters);
 		}
 
 		public static void LogOut(WebClient agent, string sessionToken)

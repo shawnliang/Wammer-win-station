@@ -6,6 +6,8 @@ using System.Linq;
 using Wammer.Station;
 using System.Net;
 using Wammer.Cloud;
+using MongoDB.Driver.Builders;
+using Wammer.Model;
 
 namespace Wammer.Station
 {
@@ -48,6 +50,8 @@ namespace Wammer.Station
 			{
 				User.LogOut(client, sessionToken, apiKey);
 			}
+
+			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", sessionToken));
 
 			RespondSuccess();
 		}
