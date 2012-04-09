@@ -3,6 +3,7 @@ using System.Linq;
 using Wammer.Station;
 using Wammer.Model;
 using Wammer.Cloud;
+using Wammer.Utility;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 
@@ -62,6 +63,14 @@ namespace Wammer.Station
 			CheckParameter("group_id");
 
 			string groupId = Parameters["group_id"];
+
+			if (!PermissionHelper.IsGroupPermissionOK(groupId, this.Session))
+			{
+				throw new WammerStationException(
+					PostApiError.PermissionDenied.ToString(),
+					(int)PostApiError.PermissionDenied
+				);
+			}
 
 			MongoCursor<PostInfo> posts = PostCollection.Instance
 				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false")))

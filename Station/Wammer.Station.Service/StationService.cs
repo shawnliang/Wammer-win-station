@@ -130,6 +130,8 @@ namespace Wammer.Station.Service
 								new HybridCloudHttpRouter(new PostGetLatestHandler()));
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/get/",
 								new HybridCloudHttpRouter(new PostGetHandler()));
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/getSingle/",
+								new HybridCloudHttpRouter(new PostGetSingleHandler()));
 
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/footprints/setLastScan/",
 								new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));

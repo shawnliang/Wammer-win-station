@@ -8,9 +8,6 @@ namespace Wammer.Cloud
 {
 	abstract public class PostResponse : CloudResponse
 	{
-		public string group_id { get; set; }
-		public int get_count { get; set; }
-		public List<PostInfo> posts { get; set; }
 		public List<UserInfo> users { get; set; }
 
 		public PostResponse()
@@ -28,7 +25,10 @@ namespace Wammer.Cloud
 
 	public class PostFetchByFilterResponse : PostResponse
 	{
+		public string group_id { get; set; }
+		public int get_count { get; set; }
 		public int remaining_count { get; set; }
+		public List<PostInfo> posts { get; set; }
 
 		public PostFetchByFilterResponse()
 			: base()
@@ -54,7 +54,10 @@ namespace Wammer.Cloud
 
 	public class PostGetResponse : PostResponse
 	{
+		public string group_id { get; set; }
+		public int get_count { get; set; }
 		public long remaining_count { get; set; }
+		public List<PostInfo> posts { get; set; }
 
 		public PostGetResponse()
 			: base()
@@ -78,9 +81,29 @@ namespace Wammer.Cloud
 		}
 	}
 
+	public class PostGetSingleResponse : PostResponse
+	{
+		public PostInfo post { get; set; }
+
+		public PostGetSingleResponse()
+			: base()
+		{
+		}
+
+		public PostGetSingleResponse(PostInfo post, List<UserInfo> users)
+			: base()
+		{
+			this.post = post;
+			this.users = users;
+		}
+	}
+
 	public class PostGetLatestResponse : PostResponse
 	{
+		public string group_id { get; set; }
+		public int get_count { get; set; }
 		public long total_count { get; set; }
+		public List<PostInfo> posts { get; set; }
 
 		public PostGetLatestResponse()
 			: base()

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Wammer.Station;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.Utility;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver;
 
@@ -65,6 +66,15 @@ namespace Wammer.Station
 
 			string groupId = Parameters["group_id"];
 			string datum = Parameters["datum"];
+
+			if (!PermissionHelper.IsGroupPermissionOK(groupId, this.Session))
+			{
+				throw new WammerStationException(
+					PostApiError.PermissionDenied.ToString(),
+					(int)PostApiError.PermissionDenied
+				);
+			}
+
 			int limit = int.Parse(Parameters["limit"]);
 			if (limit > MAX_LIMIT)
 			{
