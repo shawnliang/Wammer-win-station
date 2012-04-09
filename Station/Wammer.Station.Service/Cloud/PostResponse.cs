@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Cloud
 {
-	public class PostResponse : CloudResponse
+	abstract public class PostResponse : CloudResponse
 	{
 		public string group_id { get; set; }
 		public int get_count { get; set; }
@@ -22,6 +22,8 @@ namespace Wammer.Cloud
 			: base(status, timestamp)
 		{
 		}
+
+		abstract public bool HasMoreData { get; }
 	}
 
 	public class PostFetchByFilterResponse : PostResponse
@@ -42,6 +44,11 @@ namespace Wammer.Cloud
 			this.remaining_count = remaining_count;
 			this.posts = posts;
 			this.users = users;
+		}
+
+		public override bool HasMoreData
+		{
+			get { return remaining_count > 0; }
 		}
 	}
 
@@ -64,6 +71,11 @@ namespace Wammer.Cloud
 			this.posts = posts;
 			this.users = users;
 		}
+
+		public override bool HasMoreData
+		{
+			get { return remaining_count > 0; }
+		}
 	}
 
 	public class PostGetLatestResponse : PostResponse
@@ -84,6 +96,11 @@ namespace Wammer.Cloud
 			this.total_count = total_count;
 			this.posts = posts;
 			this.users = users;
+		}
+
+		public override bool HasMoreData
+		{
+			get { return total_count > get_count; }
 		}
 	}
 
