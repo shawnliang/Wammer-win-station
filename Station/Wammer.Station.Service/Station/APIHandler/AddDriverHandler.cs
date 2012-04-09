@@ -92,6 +92,10 @@ namespace Wammer.Station
 						ref_count = 1
 					};
 
+					PostApi api = new PostApi(driver);
+					PostGetLatestResponse res = api.PostGetLatest(client, 1);
+					driver.temp_total_count = res.total_count;
+
 					DriverCollection.Instance.Save(driver);
 
 					StationCollection.Instance.Save(
