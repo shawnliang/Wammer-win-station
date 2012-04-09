@@ -159,7 +159,6 @@
     <Compile Include="Station\APIHandler\FootprintSetLastScanHandler.cs" />
     <Compile Include="Station\APIHandler\PostGetHandler.cs" />
     <Compile Include="Station\HybridCloudHttpRouter.cs" />
-    <Compile Include="Station\ChangeHistorySyncer.cs" />
     <Compile Include="Station\APIHandler\CloudStorageHandler.cs" />
     <Compile Include="Station\CloudStorageSync.cs" />
     <Compile Include="Station\DropboxFileStorage.cs" />
