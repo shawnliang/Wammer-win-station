@@ -81,12 +81,6 @@ namespace Wammer.Model
 		public SyncRange sync_range { get; set; }
 
 		/// <summary>
-		/// last post's timestamp returned by UserTrack API
-		/// </summary>
-		[BsonIgnoreIfNull]
-		public string change_log_sync_time { get; set; }
-
-		/// <summary>
 		/// Gets or sets the ref_count.
 		/// </summary>
 		/// <value>The ref_count.</value>

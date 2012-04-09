@@ -84,12 +84,12 @@ namespace Wammer.Cloud
 				}
 
 				// remove last &
-				buf.Remove(buf.Length - 1, 1);
+				buf.Remove(buf.Length - 1, 1);				
 
 				var stream = agent.OpenRead(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()));
 				stream.WriteTo(filepath, 1024, (sender, e) =>
 				{
-					PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
+				    PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
 				});
 				stream.Close();
 			}
@@ -103,7 +103,7 @@ namespace Wammer.Cloud
 			}
 		}
 
-		public static void requestAsyncDownload(WebClient agent, string path, Dictionary<object, object> parameters,
+		public static void requestAsyncDownload(WebClient agent, string path, Dictionary<object, object> parameters, 
 			string filepath, AsyncCompletedEventHandler handler, object evtargs)
 		{
 			StringBuilder buf = new StringBuilder();
