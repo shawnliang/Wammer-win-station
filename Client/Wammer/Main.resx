@@ -376,7 +376,7 @@
     <value>Desktop</value>
   </data>
   <data name="screenShotMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="screenShotMenu.Text" xml:space="preserve">
     <value>Screen Shot</value>
@@ -385,13 +385,13 @@
     <value>False</value>
   </data>
   <data name="logoutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="logoutMenuItem.Text" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="mnuTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 48</value>
+    <value>144, 48</value>
   </data>
   <data name="&gt;&gt;mnuTray.Name" xml:space="preserve">
     <value>mnuTray</value>
@@ -436,13 +436,13 @@
     <value>802, 21</value>
   </metadata>
   <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>272, 60</value>
+    <value>1089, 21</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>56</value>
+    <value>76</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 15</value>
@@ -2031,6 +2031,12 @@
   <data name="&gt;&gt;backgroundWorkerPreloadAllImages.Type" xml:space="preserve">
     <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;timerPolling.Name" xml:space="preserve">
+    <value>timerPolling</value>
+  </data>
+  <data name="&gt;&gt;timerPolling.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>
   </data>
@@ -2038,9 +2044,12 @@
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="timerShowStatuMessage.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>416, 60</value>
+    <value>1233, 21</value>
   </metadata>
   <metadata name="backgroundWorkerPreloadAllImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>537, 17</value>
+  </metadata>
+  <metadata name="timerPolling.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>967, 21</value>
   </metadata>
 </root>

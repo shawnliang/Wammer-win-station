@@ -10,6 +10,7 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NLog;
+using Newtonsoft.Json;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Component.PopupControl;
@@ -201,6 +202,25 @@ namespace Waveface
             CreateLoadingImage();
 
             s_logger.Trace("Form_Load: OK");
+        }
+
+        protected override bool ProcessCmdKey(ref Message message, Keys keys)
+        {
+            switch (keys)
+            {
+                case (Keys.Control | Keys.N):
+                    if (RT.Login != null)
+                    {
+                        if (CheckNetworkStatus())
+                        {
+                            Post();
+                        }
+                    }
+
+                    return true;
+            }
+
+            return false;
         }
 
         private void CreateLoadingImage()
@@ -405,7 +425,11 @@ namespace Waveface
 
             m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
-
+            if (m_setting.isUnlink)
+            {
+                QuitOption = QuitOption.Unlink;
+                Close();
+            }
             m_setting = null;
         }
 
@@ -627,7 +651,6 @@ namespace Waveface
             s_logger.Trace("Login.Auth_Login: OK");            
 
             RT.Login = _login;
-
 
             getGroupAndUser();
             fillUserInformation();
@@ -908,17 +931,20 @@ namespace Waveface
 
                     RT.SetCurrentGroupLastRead(_lastRead);
 
-                    if (IsLastReadPostInCacheData(_lastRead.post_id))
+                    //@
+                    //if (IsLastReadPostInCacheData(_lastRead.post_id))
                     {
                         ShowAllTimeline(m_showTimelineIndexType);
                     }
-                    else
+                    /*else
                     {
                         s_logger.Trace("GetLastReadAndShow: Get more posts");
 
                         timerReloadAllData.Enabled = true;
-                    }
+                    }*/
                 }
+
+                timerPolling.Enabled = true;
             }
         }
 
@@ -962,7 +988,9 @@ namespace Waveface
 
                 postsArea.updateRefreshUI(false);
 
-                if (!bgWorkerGetAllData.IsBusy)
+                if (bgWorkerGetAllData.IsBusy)
+                    Cursor = Cursors.Default;
+                else
                     bgWorkerGetAllData.RunWorkerAsync();
             }
         }
@@ -1040,7 +1068,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Waveface");
+                MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
                 return;
             }
 
@@ -1058,6 +1086,12 @@ namespace Waveface
 
                     case DialogResult.OK:
                         BatchPostManager.Add(m_postForm.BatchPostItem);
+
+                        if (m_postForm.BatchPostItem.Post != null)
+                        {
+                            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                        }
+
                         break;
                 }
             }
@@ -1083,7 +1117,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Waveface");
+                MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
                 return;
             }
 
@@ -1120,36 +1154,64 @@ namespace Waveface
 
         #region PostUpdate
 
-        public bool PostUpdate(Post post, Dictionary<string, string> optionalParams)
+        public string GetPostUpdateTime(Post post)
         {
+            string _time = post.timestamp;
+
             if (!CheckNetworkStatus())
-                return false;
+                return _time;
 
             try
             {
-                string _time = post.timestamp;
+                MR_posts_getSingle _singlePost = RT.REST.Posts_GetSingle(post.post_id);
 
-                if (post.update_time != null)
+                if ((_singlePost != null) && (_singlePost.post != null))
                 {
-                    _time = post.update_time;
+                    if (_singlePost.post.update_time != null)
+                    {
+                        _time = _singlePost.post.update_time;
+                    }
                 }
+            }
+            catch
+            {
+            }
 
-                MR_posts_update _update = RT.REST.Posts_update(post.post_id, _time, optionalParams);
+            return _time;
+        }
+
+        public Post PostUpdate(Post post, Dictionary<string, string> optionalParams)
+        {
+            if (!CheckNetworkStatus())
+                return null;
+
+            MR_posts_update _update = null;
+
+            try
+            {
+                string _time = GetPostUpdateTime(post);
+
+                _update = RT.REST.Posts_update(post.post_id, _time, optionalParams);
 
                 if (_update == null)
                 {
-                    return false;
+                    return null;
                 }
 
                 RefreshSinglePost(_update.post);
             }
             catch (Exception _e)
             {
-                MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                NLogUtility.Exception(s_logger, _e, "PostUpdate");
+
+                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                ReloadAllData();
+
+                return null;
             }
 
-            return true;
+            return _update.post;
         }
 
         public bool ChangePostFavorite(Post post)
@@ -1166,12 +1228,7 @@ namespace Waveface
 
                 _value = (_value == 0) ? 1 : 0;
 
-                string _time = post.timestamp;
-
-                if (post.update_time != null)
-                {
-                    _time = post.update_time;
-                }
+                string _time = GetPostUpdateTime(post);
 
                 Dictionary<string, string> _params = new Dictionary<string, string>();
                 _params.Add("favorite", _value.ToString());
@@ -1187,7 +1244,12 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                NLogUtility.Exception(s_logger, _e, "PostUpdate");
+
+                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                ReloadAllData();
+
                 return false;
             }
 
@@ -1203,9 +1265,9 @@ namespace Waveface
 
             if (_ret != null)
             {
-                MessageBox.Show("Remove Post Success!"); //@ I18n
+                ReloadAllData(); //- ToDo 
 
-                GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+                MessageBox.Show(I18n.L.T("PostRemoved"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 return true;
             }
@@ -1251,6 +1313,61 @@ namespace Waveface
                 posts[k] = post;
 
                 return true;
+            }
+
+            return false;
+        }
+
+        private string GetNewestPostUpdateTime(List<Post> posts)
+        {
+            DateTime _dtNewest = new DateTime(1, 1, 1);
+            DateTime _dt;
+
+            string _time = "";
+
+            try
+            {
+                for (int i = 0; i < posts.Count; i++)
+                {
+                    _dt = DateTimeHelp.ISO8601ToDateTime(posts[i].update_time);
+
+                    if (_dt > _dtNewest)
+                    {
+                        _dtNewest = _dt;
+                        _time = posts[i].update_time;
+                    }
+                }
+            }
+            catch
+            {
+                return "";
+            }
+
+            return _time;
+        }
+
+        public bool checkNewPosts()
+        {
+            if (!CheckNetworkStatus())
+                return false;
+
+            if (RT.CurrentGroupPosts.Count == 0)
+                return false;
+
+            try
+            {
+                string _datum = RT.CurrentGroupPosts[0].timestamp;
+                _datum = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
+
+                MR_posts_get _postsGet = RT.REST.Posts_get("100", _datum, "");
+
+                if (_postsGet != null)
+                {
+                    return (_postsGet.posts.Count > 0);
+                }
+            }
+            catch
+            {
             }
 
             return false;
@@ -1392,6 +1509,69 @@ namespace Waveface
 
         #region Misc
 
+        private void timerPolling_Tick(object sender, EventArgs e)
+        {
+            if (!CheckNetworkStatus())
+                return;
+
+            timerPolling.Enabled = false;
+
+            if (checkNewPosts())
+            {
+                ReloadAllData();
+
+                return;
+            }
+
+            string _newestUpdateTime = GetNewestPostUpdateTime(RT.CurrentGroupPosts);
+
+            if (_newestUpdateTime != string.Empty)
+            {
+                _newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
+
+                MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
+
+                if (_usertracks != null)
+                {
+                    if (_usertracks.get_count == 0)
+                    {
+                        timerPolling.Enabled = true;
+
+                        return;
+                    }
+
+                    foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
+                    {
+                        foreach (UT_Action _action in _usertrack.actions)
+                        {
+                            if (_action.action == "hide")
+                            {
+                                ReloadAllData(); //
+
+                                return;
+                            }
+                        }
+                    }
+
+                    string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
+
+                    MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+
+                    if (_postsGet != null)
+                    {
+                        foreach (Post _p in _postsGet.posts)
+                        {
+                            ReplacePostInList(_p, RT.CurrentGroupPosts);
+                        }
+
+                        ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                    }
+                }
+            }
+
+            timerPolling.Enabled = true;
+        }
+
         private void showTaskbarNotifier(Post post)
         {
             string _url = string.Empty;
@@ -1483,6 +1663,11 @@ namespace Waveface
         #endregion
 
         #region GetAllData
+
+        public void ReloadAllData()
+        {
+            GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+        }
 
         private void bgWorkerGetAllData_DoWork(object sender, DoWorkEventArgs e)
         {

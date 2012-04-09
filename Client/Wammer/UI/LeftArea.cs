@@ -70,6 +70,7 @@ namespace Waveface
             Main.Current.BatchPostManager.ShowMessage += ShowDragDropMessage;
             Main.Current.BatchPostManager.UpdateUI += UpdateDragAndDropUI;
             Main.Current.BatchPostManager.UploadDone += UploadDone;
+            Main.Current.BatchPostManager.EditUpdateDone += EditUpdateDone;
 
             Main.Current.BatchPostManager.ShowFileMissDialog += ShowFileMissDialog;
             Main.Current.BatchPostManager.OverQuotaMissDialog += OverQuotaMissDialog;
@@ -390,7 +391,22 @@ namespace Waveface
             {
                 Main.Current.ShowStatuMessage(text, true);
 
-                Main.Current.GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+                Main.Current.ReloadAllData();
+            }
+        }
+
+        private void EditUpdateDone(string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { EditUpdateDone(text); }
+                           ));
+            }
+            else
+            {
+                Main.Current.ShowStatuMessage(text, true);
+                Main.Current.ReloadAllData();
             }
         }
 

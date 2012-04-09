@@ -134,7 +134,7 @@
     <value>148, 22</value>
   </data>
   <data name="miSetAsCoverImage.Text" xml:space="preserve">
-    <value>設為封面照片</value>
+    <value>設為封面</value>
   </data>
   <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 70</value>
@@ -149,10 +149,10 @@
     <value />
   </data>
   <data name="btnCoverImage.ToolTip" xml:space="preserve">
-    <value />
+    <value>設為封面</value>
   </data>
   <data name="btnSlideShow.ToolTip" xml:space="preserve">
-    <value />
+    <value>播放投影片</value>
   </data>
   <data name="btnSave.ToolTip" xml:space="preserve">
     <value>儲存圖片</value>

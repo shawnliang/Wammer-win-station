@@ -152,7 +152,7 @@
             // panelToolbar
             // 
             resources.ApplyResources(this.panelToolbar, "panelToolbar");
-            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(197)))), ((int)(((byte)(186)))));
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.panelToolbar.Controls.Add(this.labelSummary);
             this.panelToolbar.Controls.Add(this.buttonRemovePreview);
             this.panelToolbar.Name = "panelToolbar";
@@ -161,7 +161,7 @@
             // 
             resources.ApplyResources(this.labelSummary, "labelSummary");
             this.labelSummary.AutoEllipsis = true;
-            this.labelSummary.ForeColor = System.Drawing.Color.DimGray;
+            this.labelSummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
             this.labelSummary.Name = "labelSummary";
             // 
             // buttonRemovePreview

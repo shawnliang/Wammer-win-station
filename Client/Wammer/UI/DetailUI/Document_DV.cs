@@ -17,7 +17,7 @@ using Waveface.Component;
 
 namespace Waveface.DetailUI
 {
-    public class Document_DV : UserControl
+    public class Document_DV : UserControl, IDetailView
     {
         private Panel panelMain;
         private Panel panelRight;
@@ -239,6 +239,11 @@ namespace Waveface.DetailUI
         }
 
         #endregion
+
+        public bool CanEdit()
+        {
+            return false;
+        }
 
         private void RefreshUI()
         {

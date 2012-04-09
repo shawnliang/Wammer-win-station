@@ -479,6 +479,31 @@ namespace Waveface
             return null;
         }
 
+        public MR_posts_get Posts_FetchByFilter_2(string post_id_list)
+        {
+            if (!IsNetworkAvailable)
+                return null;
+
+            MR_posts_get _ret = null;
+
+            try
+            {
+                _ret = m_service.posts_fetchByFilter_2(SessionToken, m_rt.CurrentGroupID, post_id_list);
+            }
+            catch (Station401Exception _e)
+            {
+                Main.Current.Station401ExceptionHandler(_e.Message);
+            }
+
+            if (_ret != null)
+            {
+                if (_ret.status == "200")
+                    return _ret;
+            }
+
+            return null;
+        }
+
         public MR_posts_getLatest Posts_getLatest(string limit)
         {
             if (!IsNetworkAvailable)
@@ -629,6 +654,29 @@ namespace Waveface
             return null;
         }
 
+        public MR_usertracks_get usertracks_get(string since)
+        {
+            if (!IsNetworkAvailable)
+                return null;
 
+            MR_usertracks_get _ret = null;
+
+            try
+            {
+                _ret = m_service.usertracks_get(SessionToken, m_rt.CurrentGroupID, since);
+            }
+            catch (Station401Exception _e)
+            {
+                Main.Current.Station401ExceptionHandler(_e.Message);
+            }
+
+            if (_ret != null)
+            {
+                if (_ret.status == "200")
+                    return _ret;
+            }
+
+            return null;
+        }
     }
 }

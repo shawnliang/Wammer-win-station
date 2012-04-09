@@ -11,7 +11,7 @@ using Waveface.API.V2;
 
 namespace Waveface.DetailUI
 {
-    public class RichText_DV : UserControl
+    public class RichText_DV : UserControl, IDetailView
     {
         private IContainer components;
         private Panel panelMain;
@@ -138,6 +138,11 @@ namespace Waveface.DetailUI
         }
 
         #endregion
+
+        public bool CanEdit()
+        {
+            return false;
+        }
 
         private void RefreshUI()
         {

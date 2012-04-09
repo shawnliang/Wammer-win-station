@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -20,9 +21,9 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private const int PicHeight = 102; //115
-        private const int PicWidth = 102; //115
-        private const int FavoriteIconSize = 18;
+        private const int PicHeight = 102;
+        private const int PicWidth = 102;
+        private const int FavoriteIconSize = 24;
 
         private IContainer components;
         private DataGridView dataGridView;
@@ -48,7 +49,13 @@ namespace Waveface
         public DetailView DetailView
         {
             get { return m_detailView; }
-            set { m_detailView = value; }
+            set
+            {
+                m_detailView = value;
+
+                if (value != null)
+                    Main.Current.PhotoDownloader.ThumbnailEvent += Thumbnail_EventHandler;
+            }
         }
 
         #endregion
@@ -85,11 +92,6 @@ namespace Waveface
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
 
             MouseWheelRedirector.Attach(dataGridView);
-
-            if (!DesignMode) //Hack
-            {
-                Main.Current.PhotoDownloader.ThumbnailEvent += Thumbnail_EventHandler;
-            }
         }
 
         public void Thumbnail_EventHandler(ImageItem item)
@@ -174,11 +176,12 @@ namespace Waveface
 
         #region DataGridView
 
-        private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(224, 208, 170));
+        private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(201, 227, 231));
         private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225));
         private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(217, 217, 217));
-        private Color m_inforColor1 = Color.White;
-        private Color m_inforColor2 = Color.FromArgb(63, 63, 63);
+        private Color m_inforColor = Color.FromArgb(95, 121, 143);
+        private Color m_textColor = Color.FromArgb(114, 114, 118);
+        private Color m_selectedTextColor = Color.FromArgb(85, 154, 174);
         private Font m_fontPostTime = new Font("Arial", 9);
         private Font m_fontPhotoInfo = new Font("Arial", 8, FontStyle.Bold);
         private Font m_fontText = new Font("Arial", 10);
@@ -229,18 +232,18 @@ namespace Waveface
 
                 Rectangle _timeRect = DrawPostTime(_g, m_fontPostTime, _cellRect, _post);
 
-                DrawFavoriteIcon(_g, _post, e.CellBounds);
-
                 Rectangle _thumbnailRect = new Rectangle(_X + 4, _Y + 8, PicWidth, PicHeight);
 
                 _isDrawThumbnail = DrawThumbnail(_g, _thumbnailRect, _post);
+
+                DrawFavoriteIcon(_g, _post, e.CellBounds);
 
                 int _offsetThumbnail_W = (_isDrawThumbnail ? _thumbnailRect.Width : 0);
 
                 switch (_post.type)
                 {
                     case "text":
-                        Draw_Text_Post(_g, _post, _cellRect, _timeRect.Height, m_fontText);
+                        Draw_Text_Post(_g, _post, _cellRect, _timeRect.Height, m_fontText, _selected);
                         break;
 
                     case "rtf":
@@ -253,7 +256,7 @@ namespace Waveface
                         break;
 
                     case "link":
-                        Draw_Link(_g, _post, _cellRect, _timeRect.Height, m_fontPhotoInfo, _thumbnailRect.Width, _selected);
+                        Draw_Link(_g, _post, _cellRect, _timeRect.Height, m_fontPhotoInfo, m_fontText, _thumbnailRect.Width, _selected);
                         break;
                 }
             }
@@ -266,7 +269,6 @@ namespace Waveface
                 return;
             }
 
-            // Let them know we handled it
             e.Handled = true;
         }
 
@@ -279,23 +281,18 @@ namespace Waveface
                 switch (_value)
                 {
                     case 0:
-                        //g.DrawRectangle(Pens.Red, r.X + r.Width - FavoriteIconSize - 6,
-                        //                r.Y + r.Height - FavoriteIconSize - 3, FavoriteIconSize, FavoriteIconSize);
-
-                        g.DrawImage(Properties.Resources.star_empty, r.X + r.Width - FavoriteIconSize - 6, r.Y + r.Height - FavoriteIconSize - 6, FavoriteIconSize, FavoriteIconSize);
+                        g.DrawImage(Properties.Resources.unfav, r.X, r.Y, FavoriteIconSize, FavoriteIconSize);
 
                         break;
                     case 1:
-                        //g.FillRectangle(Brushes.Red, r.X + r.Width - FavoriteIconSize - 6,
-                        //                r.Y + r.Height - FavoriteIconSize - 3, FavoriteIconSize, FavoriteIconSize);
+                        g.DrawImage(Properties.Resources.fav, r.X, r.Y, FavoriteIconSize, FavoriteIconSize);
 
-                        g.DrawImage(Properties.Resources.star, r.X + r.Width - FavoriteIconSize - 6, r.Y + r.Height - FavoriteIconSize - 6, FavoriteIconSize, FavoriteIconSize);
                         break;
                 }
             }
         }
 
-        private void Draw_Link(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, int thumbnailRectWidth, bool selected)
+        private void Draw_Link(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontPhotoInfo, Font fontText, int thumbnailRectWidth, bool selected)
         {
             if (post.preview.thumbnail_url == null)
                 thumbnailRectWidth = 0;
@@ -305,7 +302,7 @@ namespace Waveface
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 12, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 20);
 
             if (!string.IsNullOrEmpty(post.preview.title))
-                TextRenderer.DrawText(g, post.preview.title.Trim(), new Font("Arial", 10, FontStyle.Bold), _rectAll, Color.FromArgb(23, 53, 93),
+                TextRenderer.DrawText(g, post.preview.title.Trim(), fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
                     TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
@@ -315,7 +312,7 @@ namespace Waveface
 
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + _infoRect.Height + 14, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - _infoRect.Height - 20);
 
-            TextRenderer.DrawText(g, post.content, fontText, _rectAll, Color.Black,
+            TextRenderer.DrawText(g, post.content, fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
                       TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
@@ -323,15 +320,15 @@ namespace Waveface
         {
             Rectangle _rectAll = new Rectangle(rect.X + 8 + thumbnailRectWidth, rect.Y + 8, rect.Width - thumbnailRectWidth - 8, rect.Height - timeRectHeight - 16);
 
-            TextRenderer.DrawText(g, post.content, fontText, _rectAll, Color.Black,
+            TextRenderer.DrawText(g, post.content, fontText, _rectAll, m_textColor,
                       TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
-        private void Draw_Text_Post(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontText)
+        private void Draw_Text_Post(Graphics g, Post post, Rectangle rect, int timeRectHeight, Font fontText, bool selected)
         {
             Rectangle _rectAll = new Rectangle(rect.X + 8, rect.Y + 8, rect.Width - 8, rect.Height - timeRectHeight - 18);
 
-            TextRenderer.DrawText(g, post.content, fontText, _rectAll, Color.Black,
+            TextRenderer.DrawText(g, post.content, fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
                       TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
@@ -358,7 +355,7 @@ namespace Waveface
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, font);
             Rectangle _rect = new Rectangle(cellRect.X + thumbnailOffset_X + 8, cellRect.Y + 7, cellRect.Width - thumbnailOffset_X - 4, _sizeInfo.Height);
 
-            TextRenderer.DrawText(g, _info, font, _rect, (selected ? m_inforColor1 : m_inforColor2),
+            TextRenderer.DrawText(g, _info, font, _rect, m_inforColor,
                                   TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
 
             return _rect;
@@ -371,7 +368,7 @@ namespace Waveface
             _postTime = DateTimeHelp.PrettyDate(_postTime);
 
             Size _sizeTime = TextRenderer.MeasureText(g, _postTime, font) + new Size(2, 2);
-            Rectangle _timeRect = new Rectangle(cellRect.X + cellRect.Width - _sizeTime.Width - 2 - ((post.favorite != null) ? FavoriteIconSize : 0), cellRect.Y + cellRect.Height - _sizeTime.Height - 4, _sizeTime.Width, _sizeTime.Height);
+            Rectangle _timeRect = new Rectangle(cellRect.X + cellRect.Width - _sizeTime.Width - 2, cellRect.Y + cellRect.Height - _sizeTime.Height - 4, _sizeTime.Width, _sizeTime.Height);
 
             TextRenderer.DrawText(g, _postTime, font, _timeRect, Color.FromArgb(127, 127, 127),
                                   TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
@@ -409,7 +406,7 @@ namespace Waveface
 
                 if (_a.image == string.Empty)
                 {
-                    g.FillRectangle(new SolidBrush(SystemColors.Info), thumbnailRect);
+                    g.FillRectangle(m_bgSelectedBrush, thumbnailRect);
                     g.DrawRectangle(new Pen(Color.Black), thumbnailRect);
                 }
                 else
@@ -490,14 +487,14 @@ namespace Waveface
             try
             {
                 Attachment _attachment = post.attachments[0];
-                
+
                 if (post.cover_attach != null)
                 {
                     string _cover_attach = post.cover_attach;
 
                     foreach (Attachment _a in post.attachments)
                     {
-                        if(_cover_attach == _a.object_id)
+                        if (_cover_attach == _a.object_id)
                         {
                             _attachment = _a;
                             break;
@@ -532,11 +529,15 @@ namespace Waveface
 
                 Main.Current.PhotoDownloader.Add(_item, false);
 
-
                 _img = new Bitmap(PicWidth, PicHeight);
                 Graphics _g = Graphics.FromImage(_img);
-                _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, PicWidth, PicHeight));
-                _g.DrawRectangle(new Pen(Color.Black), new Rectangle(0, 0, PicWidth - 1, PicHeight - 1));
+
+                using(Pen _p = new Pen(m_selectedTextColor))
+                {
+                    _p.DashStyle = DashStyle.DashDot;
+
+                    _g.DrawRectangle(_p, new Rectangle(0 + 8, 0 + 8, PicWidth - 1 - 16, PicHeight - 1 - 16));
+                }
             }
 
             return _img;
@@ -620,7 +621,7 @@ namespace Waveface
 
             if (m_clickIndex == (m_postBS.Count - 1))
             {
-                //@ Main.Current.FilterReadMorePost();
+                //@ Main.Current.FilterReadMorePost(); 
             }
         }
 
@@ -658,7 +659,7 @@ namespace Waveface
             {
                 Font = m_font;
 
-                dataGridView.RowTemplate.Height = 120; //140
+                dataGridView.RowTemplate.Height = 120;
             }
         }
 
@@ -855,15 +856,13 @@ namespace Waveface
         {
             Post _post = m_postBS[e.RowIndex] as Post;
 
+            if (Main.Current.BatchPostManager.CheckPostInQueue(_post.post_id))
+                return;
+
             if (_post.favorite == null)
                 return;
 
-            Size _sizeCell = dataGridView[e.ColumnIndex, e.RowIndex].Size;
-
-            int _x = _sizeCell.Width - FavoriteIconSize - 8;
-            int _y = _sizeCell.Height - FavoriteIconSize - 8;
-
-            if ((e.X > _x) && (e.Y > _y))
+            if ((e.X < FavoriteIconSize) && (e.Y < FavoriteIconSize))
             {
                 Main.Current.ChangePostFavorite(_post);
             }
@@ -873,12 +872,10 @@ namespace Waveface
         {
             Post _post = m_postBS[e.RowIndex] as Post;
 
-            Size _sizeCell = dataGridView[e.ColumnIndex, e.RowIndex].Size;
+            if (Main.Current.BatchPostManager.CheckPostInQueue(_post.post_id))
+                return;
 
-            int _x = _sizeCell.Width - FavoriteIconSize - 8;
-            int _y = _sizeCell.Height - FavoriteIconSize - 8;
-
-            if ((e.X > _x) && (e.Y > _y))
+            if ((e.X < FavoriteIconSize) && (e.Y < FavoriteIconSize))
             {
                 Cursor = Cursors.Hand;
             }

@@ -18,7 +18,7 @@ namespace Waveface.API.V2
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
-        public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; //https://api.waveface.com/v2/
+        public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; // https://api.waveface.com/v2/
 
         #region Properties
 
@@ -186,8 +186,7 @@ namespace Waveface.API.V2
         }
 
         public MR_auth_login auth_login(string email, string password)
-        {                             
-            //email = email.Replace("@", "%40");
+        {
             email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
@@ -964,47 +963,6 @@ namespace Waveface.API.V2
             }
         }
 
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-        //
-
         public MR_posts_update posts_update(string session_token, string group_id, string post_id, string last_update_time, Dictionary<string, string> OptionalParams)
         {
             session_token = HttpUtility.UrlEncode(session_token);
@@ -1069,6 +1027,46 @@ namespace Waveface.API.V2
                         "session_token" + "=" + session_token + "&" +
                         "group_id" + "=" + group_id + "&" +
                         "filter_entity" + "=" + filter_entity;
+
+                return HttpGetObject<MR_posts_get>(_url);
+            }
+            catch (WebException _e)
+            {
+                NLogUtility.WebException(s_logger, _e, "posts_fetchByFilter", false);
+
+                if (_e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
+
+                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new Station401Exception();
+                }
+
+                throw;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "posts_fetchByFilter");
+
+                throw;
+            }
+        }
+
+        public MR_posts_get posts_fetchByFilter_2(string session_token, string group_id, string post_id_list)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+            post_id_list = HttpUtility.UrlEncode(post_id_list);
+
+            try
+            {
+                string _url = BaseURL + "/posts/fetchByFilter";
+
+                _url += "?" +
+                        "apikey" + "=" + APIKEY + "&" +
+                        "session_token" + "=" + session_token + "&" +
+                        "group_id" + "=" + group_id + "&" +
+                        "post_id_list" + "=" + post_id_list;
 
                 return HttpGetObject<MR_posts_get>(_url);
             }
@@ -2104,6 +2102,51 @@ namespace Waveface.API.V2
         }
 
         #endregion
+
+        #region usertracks
+
+        public MR_usertracks_get usertracks_get(string session_token, string group_id, string since)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+            since = HttpUtility.UrlEncode(since);
+
+            try
+            {
+                string _url = BaseURL + "/usertracks/get";
+
+                _url += "?" +
+                       "apikey" + "=" + APIKEY + "&" +
+                       "session_token" + "=" + session_token + "&" +
+                       "group_id" + "=" + group_id + "&" +
+                       "since" + "=" + since + "&" +
+                       "include_entities=true";
+
+                return HttpGetObject<MR_usertracks_get>(_url);
+            }
+            catch (WebException _e)
+            {
+                NLogUtility.WebException(s_logger, _e, "usertracks_get", false);
+
+                if (_e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
+
+                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new Station401Exception();
+                }
+
+                throw;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "usertracks_get");
+
+                throw;
+            }
+        }
+
+        #endregion
     }
 
     #region ServiceUnavailableException
@@ -2118,7 +2161,7 @@ namespace Waveface.API.V2
 
     #endregion
 
-    #region
+    #region Station Exception
 
     public class StationServiceDownException : Exception
     {

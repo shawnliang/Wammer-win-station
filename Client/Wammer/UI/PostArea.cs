@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace Waveface
 {
     public partial class PostArea : UserControl
-    {      
+    {
         //private bool m_init;
 
         public PostsList PostsList
@@ -72,10 +72,13 @@ namespace Waveface
 
         private void btnRefresh_Click(object sender, System.EventArgs e)
         {
+            //Test - ToDo
+            Main.Current.checkNewPosts();
+
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            Main.Current.GetAllDataAsync(ShowTimelineIndexType.LocalLastRead, true);
+            Main.Current.ReloadAllData();
         }
 
         public void updateRefreshUI(bool flag)
