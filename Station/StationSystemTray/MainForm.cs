@@ -477,7 +477,9 @@ namespace StationSystemTray
 
 		private void checkStationTimer_Tick(object sender, EventArgs e)
 		{
+#if !DEBUG
 			uictrlStationStatus.PerformAction();
+#endif
 		}
 
 		void ClickBallonFor401Exception(object sender, EventArgs e)
@@ -1010,16 +1012,9 @@ namespace StationSystemTray
 		{
 			lock (csStationTimerTick)
 			{
-				//TODO: Remove unnecessary exception handeling
-				try
-				{
-					StationController.PingForServiceAlive();
-					StationController.ConnectToInternet();
-					StationController.PingForAvailability();
-				}
-				catch (Exception)
-				{
-				}
+				StationController.PingForServiceAlive();
+				StationController.ConnectToInternet();
+				StationController.PingForAvailability();
 
 				return null;
 			}
