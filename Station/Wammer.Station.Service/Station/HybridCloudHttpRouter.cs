@@ -218,7 +218,7 @@ namespace Wammer.Station
 		private NameValueCollection InitParameters(HttpListenerRequest req)
 		{
 			if (this.RawPostData != null &&
-				String.Compare(req.ContentType, URL_ENCODED_FORM, true) == 0)
+				req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
 			{
 				string postData = Encoding.UTF8.GetString(this.RawPostData);
 				return HttpUtility.ParseQueryString(postData);

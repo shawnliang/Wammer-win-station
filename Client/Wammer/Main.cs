@@ -334,7 +334,6 @@ namespace Waveface
                 MessageBox.Show(I18n.L.T("ForceLogout"), "Waveface", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
-				RT.REST.Auth_Logout(RT.Login.session_token);
                 m_forceLogout = true;
                 QuitOption = QuitOption.Logout;
 
@@ -361,8 +360,7 @@ namespace Waveface
         }
 
         public void Logout()
-        {
-			RT.REST.Auth_Logout(RT.Login.session_token);
+        {			
             Program.ShowCrashReporter = false;
 
             QuitOption = QuitOption.Logout;

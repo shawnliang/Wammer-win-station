@@ -137,7 +137,7 @@ namespace Wammer.Station.Service
 								new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
 				
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/login/", new UserLoginHandler());
-				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/logout/", new UserLogoutHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/logout/", new HybridCloudHttpRouter(new UserLogoutHandler()));
 
 				logger.Debug("Start function server");
 				functionServer.Start();

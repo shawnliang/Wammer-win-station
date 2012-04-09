@@ -299,6 +299,11 @@ namespace Waveface
 
                 _main.ShowDialog(this);
                 _quit = _main.QuitOption;
+
+				if (_quit == QuitOption.Logout)
+				{
+					_main.RT.REST.Auth_Logout(_main.RT.Login.session_token);
+				}
                 _main.Dispose();
                 _main = null;
             }
