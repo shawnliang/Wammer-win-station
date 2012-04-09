@@ -19,11 +19,12 @@ namespace Waveface
 {
     public class DetailView : UserControl
     {
-        private const int FavoriteIconSize = 20;
+        private const int FavoriteIconSize = 18;
 
         private IContainer components;
         private Post m_post;
 
+        private IDetailView m_currentView;
         private WebLink_DV m_webLinkDv;
         private Photo_DV m_photoDv;
         private Document_DV m_documentDv;
@@ -40,12 +41,8 @@ namespace Waveface
         private Popup m_commentPopup;
         private XPButton btnRemove;
         private XPButton btnEdit;
+        private Timer timerCanEdit;
         private CommentPopupPanel m_commentPopupPanel;
-
-        public bool CanEdit
-        {
-            set { btnEdit.Visible = value; }
-        }
 
         public Post Post
         {
@@ -53,8 +50,6 @@ namespace Waveface
             set
             {
                 m_post = value;
-
-                CanEdit = false;
 
                 ShowContent(false);
             }
@@ -99,20 +94,21 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelTop = new System.Windows.Forms.Panel();
-            this.btnRemove = new Waveface.Component.XPButton();
-            this.btnEdit = new Waveface.Component.XPButton();
-            this.btnComment = new Waveface.Component.XPButton();
             this.labelWho = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.timerCanEdit = new System.Windows.Forms.Timer(this.components);
+            this.btnRemove = new Waveface.Component.XPButton();
+            this.btnEdit = new Waveface.Component.XPButton();
+            this.btnComment = new Waveface.Component.XPButton();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(84)))), ((int)(((byte)(95)))), ((int)(((byte)(98)))));
+            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.panelTop.Controls.Add(this.btnRemove);
             this.panelTop.Controls.Add(this.btnEdit);
             this.panelTop.Controls.Add(this.btnComment);
@@ -123,6 +119,38 @@ namespace Waveface
             this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
             this.panelTop.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseClick);
             this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseMove);
+            // 
+            // labelWho
+            // 
+            resources.ApplyResources(this.labelWho, "labelWho");
+            this.labelWho.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
+            this.labelWho.Name = "labelWho";
+            // 
+            // labelTime
+            // 
+            resources.ApplyResources(this.labelTime, "labelTime");
+            this.labelTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
+            this.labelTime.Name = "labelTime";
+            // 
+            // panelMain
+            // 
+            resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.Name = "panelMain";
+            // 
+            // timerGC
+            // 
+            this.timerGC.Interval = 60000;
+            this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // timerCanEdit
+            // 
+            this.timerCanEdit.Enabled = true;
+            this.timerCanEdit.Interval = 666;
+            this.timerCanEdit.Tick += new System.EventHandler(this.timerCanEdit_Tick);
             // 
             // btnRemove
             // 
@@ -160,32 +188,6 @@ namespace Waveface
             this.btnComment.UseVisualStyleBackColor = true;
             this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
-            // labelWho
-            // 
-            resources.ApplyResources(this.labelWho, "labelWho");
-            this.labelWho.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.labelWho.Name = "labelWho";
-            // 
-            // labelTime
-            // 
-            resources.ApplyResources(this.labelTime, "labelTime");
-            this.labelTime.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.labelTime.Name = "labelTime";
-            // 
-            // panelMain
-            // 
-            resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.Name = "panelMain";
-            // 
-            // timerGC
-            // 
-            this.timerGC.Interval = 60000;
-            this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
             // DetailView
             // 
             this.Controls.Add(this.panelMain);
@@ -215,11 +217,6 @@ namespace Waveface
 
         #endregion
 
-        public void ReShow()
-        {
-            ShowContent(true);
-        }
-
         private void ShowContent(bool force)
         {
             if (m_post == null)
@@ -227,9 +224,12 @@ namespace Waveface
 
             btnComment.Visible = true;
             btnRemove.Visible = true;
+            btnEdit.Visible = true;
 
             setupTitle();
             drawFavorite();
+
+            panelTop.Enabled = !Main.Current.BatchPostManager.CheckPostInQueue(m_post.post_id);
 
             PostType _postType = getPostType();
 
@@ -285,9 +285,9 @@ namespace Waveface
             int _x = 6;
 
             if (_value == 0)
-                e.Graphics.DrawImage(Properties.Resources.star_empty, _x, 6, FavoriteIconSize, FavoriteIconSize);
+                e.Graphics.DrawImage(Properties.Resources.Heart_empty, _x, 8, FavoriteIconSize, FavoriteIconSize);
             else
-                e.Graphics.DrawImage(Properties.Resources.star, _x, 6, FavoriteIconSize, FavoriteIconSize);
+                e.Graphics.DrawImage(Properties.Resources.Heart, _x, 8, FavoriteIconSize, FavoriteIconSize);
         }
 
         private void panelTop_MouseClick(object sender, MouseEventArgs e)
@@ -300,7 +300,7 @@ namespace Waveface
 
             int _x = 6;
 
-            if((e.X > (_x - 2)) && (e.X < (_x + FavoriteIconSize + 2)))
+            if ((e.X > (_x - 2)) && (e.X < (_x + FavoriteIconSize + 2)))
             {
                 Main.Current.ChangePostFavorite(m_post);
             }
@@ -310,7 +310,7 @@ namespace Waveface
         {
             int _x = 6;
 
-            if((e.X > _x) && (e.X < (_x + FavoriteIconSize)))
+            if ((e.X > _x) && (e.X < (_x + FavoriteIconSize)))
             {
                 Cursor = Cursors.Hand;
             }
@@ -365,6 +365,8 @@ namespace Waveface
             m_webLinkDv.Dock = DockStyle.Fill;
             m_webLinkDv.Post = m_post; // ︽璶程
 
+            m_currentView = m_webLinkDv;
+
             panelMain.Controls.Add(m_webLinkDv);
         }
 
@@ -386,6 +388,8 @@ namespace Waveface
             m_photoDv.Dock = DockStyle.Fill;
             m_photoDv.Post = m_post; // ︽璶程
 
+            m_currentView = m_photoDv;
+
             panelMain.Controls.Add(m_photoDv);
         }
 
@@ -404,6 +408,8 @@ namespace Waveface
             m_documentDv.Dock = DockStyle.Fill;
             m_documentDv.Post = m_post; // ︽璶程
 
+            m_currentView = m_documentDv;
+
             panelMain.Controls.Add(m_documentDv);
         }
 
@@ -421,6 +427,8 @@ namespace Waveface
             m_richTextDv.User = User;
             m_richTextDv.Dock = DockStyle.Fill;
             m_richTextDv.Post = m_post; // ︽璶程
+
+            m_currentView = m_richTextDv;
 
             panelMain.Controls.Add(m_richTextDv);
         }
@@ -465,7 +473,6 @@ namespace Waveface
 
                 _s.Append("	<table border=\"0\">");
                 _s.Append("    	   <tr>");
-                //_s.Append("      	     <td>&nbsp;&nbsp;&nbsp;</td>");
                 _s.Append("      	     <td>");
                 _s.Append(" 		<table border=\"0\">");
                 _s.Append("    			<tr>");
@@ -538,7 +545,7 @@ namespace Waveface
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            DialogResult _dr = MessageBox.Show("Do you really want to remove this post?", "Waveface", MessageBoxButtons.YesNo);
+            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Waveface", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (_dr != DialogResult.Yes)
                 return;
@@ -552,6 +559,14 @@ namespace Waveface
                 return;
 
             Main.Current.EditPost(Post);
+        }
+
+        private void timerCanEdit_Tick(object sender, EventArgs e)
+        {
+            if(m_currentView != null)
+            {
+                btnEdit.Enabled = m_currentView.CanEdit();
+            }
         }
     }
 }

@@ -25,5 +25,17 @@ namespace Wammer.Station.Timeline
 				Query.EQ("_id", userId),
 				Update.Set("sync_range", syncRange.ToBsonDocument()));
 		}
+
+		public void UpdateChangeLogSyncTime(string userId, string syncTime)
+		{
+			DriverCollection.Instance.Update(
+				Query.EQ("_id", userId),
+				Update.Set("change_log_sync_time", syncTime));
+		}
+
+		public void SaveUserTracks(UserTracks userTracks)
+		{
+			UserTrackCollection.Instance.Save(userTracks);
+		}
 	}
 }

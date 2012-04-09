@@ -36,11 +36,7 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = "更改"; //@ I18n
-
-            //btnAddPhoto.Visible = false;
-            //btnDeletePhoto.Visible = false;
-            //labelSummary.Location = new Point(4, labelSummary.Location.Y);
+            btnSend.Text = I18n.L.T("Update");
         }
 
         #region ImageListView
@@ -53,9 +49,9 @@ namespace Waveface.PostUI
 
             imageListView.SetRenderer(m_imageListViewRenderer);
 
-            imageListView.BackColor = Color.FromArgb(243, 242, 238);
-            imageListView.Colors.BackColor = Color.FromArgb(243, 242, 238);
-            imageListView.Colors.PaneBackColor = Color.FromArgb(243, 242, 238);
+            imageListView.BackColor = Color.FromArgb(240, 240, 240);
+            imageListView.Colors.BackColor = Color.FromArgb(240, 240, 240);
+            imageListView.Colors.PaneBackColor = Color.FromArgb(240, 240, 240);
         }
 
         private void Application_Idle(object sender, EventArgs e)
@@ -420,7 +416,6 @@ namespace Waveface.PostUI
                     m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
                     m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
 
-                    //Hack
                     if (m_month_total_objects == -1)
                     {
                         return long.MaxValue;
@@ -437,27 +432,34 @@ namespace Waveface.PostUI
             return long.MinValue;
         }
 
+        public void ShowMessage(int went)
+        {
+            long _storagesUsage = CheckStoragesUsage(went);
+
+            if (_storagesUsage == long.MinValue)
+            {
+                MessageBox.Show(I18n.L.T("SystemError"), "Waveface", MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
+
+                return;
+            }
+
+            if (_storagesUsage < 0)
+            {
+                MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
+                                "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+        }
+
         #endregion
 
         public void AddPhoto()
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                foreach (string _pic in openFileDialog.FileNames)
-                {
-                    ImageListViewItem _item = new ImageListViewItem(_pic);
-
-                    EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-
-                    if (MyParent.EditMode)
-                        _tag.AddPhotoType = EditModePhotoType.EditModeNewAdd;
-                    else
-                        _tag.AddPhotoType = EditModePhotoType.NewPostNewAdd;
-
-                    _item.Tag = _tag;
-
-                    imageListView.Items.Add(_item);
-                }
+                AddPhotos(openFileDialog.FileNames, -1);
             }
             else
             {
@@ -465,9 +467,34 @@ namespace Waveface.PostUI
                 {
                     if (!MyParent.EditMode)
                         MyParent.toPureText_Mode();
-                    
+
                     return;
                 }
+            }
+        }
+
+        private void AddPhotos(string[] files, int index)
+        {
+            if (index > 0)
+                Array.Reverse(files);
+
+            foreach (string _pic in files)
+            {
+                ImageListViewItem _item = new ImageListViewItem(_pic);
+
+                EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
+
+                if (MyParent.EditMode)
+                    _tag.AddPhotoType = EditModePhotoType.EditModeNewAdd;
+                else
+                    _tag.AddPhotoType = EditModePhotoType.NewPostNewAdd;
+
+                _item.Tag = _tag;
+
+                if (index < 0)
+                    imageListView.Items.Add(_item);
+                else
+                    imageListView.Items.Insert(index, _item);
             }
         }
 
@@ -549,19 +576,19 @@ namespace Waveface.PostUI
 
             foreach (ImageListView.ImageListViewColumnHeader col in imageListView.Columns)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem(col.Text);
-                item.Checked = (imageListView.SortColumn == i);
-                item.Tag = i;
-                item.Click += sortColumnMenuItem_Click;
-                sortByToolStripMenuItem.DropDownItems.Insert(i, item);
+                ToolStripMenuItem _item = new ToolStripMenuItem(col.Text);
+                _item.Checked = (imageListView.SortColumn == i);
+                _item.Tag = i;
+                _item.Click += sortColumnMenuItem_Click;
+                sortByToolStripMenuItem.DropDownItems.Insert(i, _item);
                 i++;
             }
 
             if (i == 0)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem("None");
-                item.Enabled = false;
-                sortByToolStripMenuItem.DropDownItems.Insert(0, item);
+                ToolStripMenuItem _item = new ToolStripMenuItem("None");
+                _item.Enabled = false;
+                sortByToolStripMenuItem.DropDownItems.Insert(0, _item);
             }
         }
 
@@ -590,7 +617,7 @@ namespace Waveface.PostUI
 
         private void Photo_Resize(object sender, EventArgs e)
         {
-            BackColor = Color.FromArgb(243, 242, 238); //Hack
+            BackColor = Color.FromArgb(240, 240, 240); //Hack
         }
 
         private void imageListView_ItemHover(object sender, ItemHoverEventArgs e)
@@ -613,6 +640,57 @@ namespace Waveface.PostUI
 
                 labelSummary.Text = _filePath;
             }
+        }
+
+        private void imageListView_DropFiles(object sender, DropFileEventArgs e)
+        {
+            try
+            {
+                List<string> _pics = new List<string>();
+
+                string[] _dropFils = e.FileNames;
+
+                foreach (string _file in _dropFils)
+                {
+                    if (Directory.Exists(_file))
+                    {
+                        DirectoryInfo _d = new DirectoryInfo(_file);
+
+                        FileInfo[] _fileInfos = _d.GetFiles();
+
+                        foreach (FileInfo _f in _fileInfos)
+                        {
+                            FileAttributes _attributes = File.GetAttributes(_f.FullName);
+
+                            // 過濾隱藏檔
+                            if ((_attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+                                continue;
+
+                            string _mime = FileUtility.GetMimeType(_f).ToLower();
+
+                            if (_mime.IndexOf("image") >= 0)
+                                _pics.Add(_f.FullName);
+                        }
+                    }
+                    else
+                    {
+                        string _mime = FileUtility.GetMimeType(new FileInfo(_file)).ToLower();
+
+                        if (_mime.IndexOf("image") >= 0)
+                            _pics.Add(_file);
+                    }
+                }
+
+                if (_pics.Count > 0)
+                {
+                    AddPhotos(_pics.ToArray(), e.Index);
+                }
+            }
+            catch
+            {
+            }
+
+            e.Cancel = true;
         }
     }
 }

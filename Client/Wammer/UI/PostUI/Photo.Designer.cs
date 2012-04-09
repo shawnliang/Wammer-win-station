@@ -91,6 +91,7 @@
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
             this.imageListView.ThumbnailSize = new System.Drawing.Size(120, 120);
+            this.imageListView.DropFiles += new Manina.Windows.Forms.DropFilesEventHandler(this.imageListView_DropFiles);
             this.imageListView.ItemHover += new Manina.Windows.Forms.ItemHoverEventHandler(this.imageListView_ItemHover);
             this.imageListView.ItemCollectionChanged += new Manina.Windows.Forms.ItemCollectionChangedEventHandler(this.imageListView_ItemCollectionChanged);
             // 
@@ -132,7 +133,7 @@
             // panelToolbar
             // 
             resources.ApplyResources(this.panelToolbar, "panelToolbar");
-            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(197)))), ((int)(((byte)(186)))));
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.panelToolbar.Controls.Add(this.labelSummary);
             this.panelToolbar.Controls.Add(this.btnDeletePhoto);
             this.panelToolbar.Controls.Add(this.btnAddPhoto);
@@ -142,16 +143,16 @@
             // 
             resources.ApplyResources(this.labelSummary, "labelSummary");
             this.labelSummary.AutoEllipsis = true;
-            this.labelSummary.ForeColor = System.Drawing.Color.DimGray;
+            this.labelSummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
             this.labelSummary.Name = "labelSummary";
             // 
             // btnDeletePhoto
             // 
             this.btnDeletePhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnDeletePhoto, "btnDeletePhoto");
             this.btnDeletePhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnDeletePhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnDeletePhoto.Image = global::Waveface.Properties.Resources.trash;
+            resources.ApplyResources(this.btnDeletePhoto, "btnDeletePhoto");
             this.btnDeletePhoto.Name = "btnDeletePhoto";
             this.toolTip.SetToolTip(this.btnDeletePhoto, resources.GetString("btnDeletePhoto.ToolTip"));
             this.btnDeletePhoto.UseVisualStyleBackColor = true;

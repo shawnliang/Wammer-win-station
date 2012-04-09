@@ -240,6 +240,9 @@
   <data name="txtPassword.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
+  <data name="txtPassword.Text" xml:space="preserve">
+    <value>123456</value>
+  </data>
   <data name="&gt;&gt;txtPassword.Name" xml:space="preserve">
     <value>txtPassword</value>
   </data>
@@ -266,6 +269,9 @@
   </data>
   <data name="txtUserName.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
+  </data>
+  <data name="txtUserName.Text" xml:space="preserve">
+    <value>dev1@wf.com</value>
   </data>
   <data name="&gt;&gt;txtUserName.Name" xml:space="preserve">
     <value>txtUserName</value>

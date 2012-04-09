@@ -59,7 +59,7 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = "更改";
+            btnSend.Text = I18n.L.T("Update");
         }
 
         private void htmlEditorControl_HtmlException(object sender, HtmlExceptionEventArgs args)

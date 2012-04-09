@@ -91,7 +91,9 @@
     <ResourceOverride Include="en-US\SharpSetup.UI.Forms.WizardBase.resx" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceOverride Include="zh-TW\SharpSetup.UI.Controls.DestinationPath.resx" />
+    <ResourceOverride Include="zh-TW\SharpSetup.UI.Controls.DestinationPath.resx">
+      <SubType>Designer</SubType>
+    </ResourceOverride>
   </ItemGroup>
   <ItemGroup>
     <ResourceOverride Include="zh-TW\SharpSetup.UI.Controls.DiskCostList.resx" />

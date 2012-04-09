@@ -16,10 +16,11 @@ namespace Wammer.Cloud
 		public static UserTrackResponse GetChangeHistory(WebClient agent, string session_token,
 			string apikey, string group_id, string since)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object,object>{
+			Dictionary<object, object> parameters = new Dictionary<object, object>{
 						 {"apikey", apikey},
 						 {"session_token", session_token},
-						 {"group_id", group_id}
+						 {"group_id", group_id},
+						 {"include_entities", "true"}
 			};
 
 			if (since == null)

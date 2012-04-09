@@ -80,6 +80,9 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public SyncRange sync_range { get; set; }
 
+		[BsonIgnoreIfNull]
+		public string change_log_sync_time { get; set; }
+
 		/// <summary>
 		/// Total count of posts. The value is valid until timeline is pulled to the first post.
 		/// </summary>
@@ -128,5 +131,10 @@ namespace Wammer.Model
 		public string end_time { get; set; }
 		[BsonIgnoreIfNull]
 		public string first_post_time { get; set; }
+
+		public SyncRange Clone()
+		{
+			return (SyncRange)this.MemberwiseClone();
+		}
 	}
 }

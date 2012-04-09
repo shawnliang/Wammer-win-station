@@ -41,6 +41,8 @@ namespace Waveface.DetailUI
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnCoverImage = new Waveface.Component.XPButton();
+            this.btnSlideShow = new Waveface.Component.XPButton();
             this.btnSave = new Waveface.Component.XPButton();
             this.btnSaveAll = new Waveface.Component.XPButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -48,8 +50,6 @@ namespace Waveface.DetailUI
             this.StatusLabelCurrentSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelMain = new System.Windows.Forms.Panel();
-            this.btnCoverImage = new Waveface.Component.XPButton();
-            this.btnSlideShow = new Waveface.Component.XPButton();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -59,10 +59,11 @@ namespace Waveface.DetailUI
             // imageListView
             // 
             this.imageListView.AllowDuplicateFileNames = true;
+            this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStrip;
-            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.Name = "imageListView";
             this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
             // 
@@ -99,6 +100,30 @@ namespace Waveface.DetailUI
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
+            // 
+            // btnCoverImage
+            // 
+            this.btnCoverImage.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnCoverImage, "btnCoverImage");
+            this.btnCoverImage.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnCoverImage.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnCoverImage.Image = global::Waveface.Properties.Resources.CoverImage;
+            this.btnCoverImage.Name = "btnCoverImage";
+            this.toolTip.SetToolTip(this.btnCoverImage, resources.GetString("btnCoverImage.ToolTip"));
+            this.btnCoverImage.UseVisualStyleBackColor = true;
+            this.btnCoverImage.Click += new System.EventHandler(this.btnCoverImage_Click);
+            // 
+            // btnSlideShow
+            // 
+            this.btnSlideShow.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.btnSlideShow, "btnSlideShow");
+            this.btnSlideShow.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
+            this.btnSlideShow.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnSlideShow.Image = global::Waveface.Properties.Resources.SlideShow;
+            this.btnSlideShow.Name = "btnSlideShow";
+            this.toolTip.SetToolTip(this.btnSlideShow, resources.GetString("btnSlideShow.ToolTip"));
+            this.btnSlideShow.UseVisualStyleBackColor = true;
+            this.btnSlideShow.Click += new System.EventHandler(this.btnSlideShow_Click);
             // 
             // btnSave
             // 
@@ -168,28 +193,6 @@ namespace Waveface.DetailUI
             this.panelMain.Controls.Add(this.imageListView);
             this.panelMain.Name = "panelMain";
             // 
-            // btnCoverImage
-            // 
-            this.btnCoverImage.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnCoverImage, "btnCoverImage");
-            this.btnCoverImage.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnCoverImage.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnCoverImage.Image = global::Waveface.Properties.Resources.CoverImage;
-            this.btnCoverImage.Name = "btnCoverImage";
-            this.btnCoverImage.UseVisualStyleBackColor = true;
-            this.btnCoverImage.Click += new System.EventHandler(this.btnCoverImage_Click);
-            // 
-            // btnSlideShow
-            // 
-            this.btnSlideShow.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            resources.ApplyResources(this.btnSlideShow, "btnSlideShow");
-            this.btnSlideShow.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnSlideShow.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSlideShow.Image = global::Waveface.Properties.Resources.SlideShow;
-            this.btnSlideShow.Name = "btnSlideShow";
-            this.btnSlideShow.UseVisualStyleBackColor = true;
-            this.btnSlideShow.Click += new System.EventHandler(this.btnSlideShow_Click);
-            // 
             // timer
             // 
             this.timer.Interval = 3000;
@@ -204,7 +207,7 @@ namespace Waveface.DetailUI
             this.MinimizeBox = false;
             this.Name = "PhotoView";
             this.ShowInTaskbar = false;
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.PhotoView_Load);
             this.contextMenuStrip.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
