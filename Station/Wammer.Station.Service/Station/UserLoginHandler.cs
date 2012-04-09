@@ -42,22 +42,31 @@ namespace Wammer.Station
 		/// </summary>
 		protected override void HandleRequest()
 		{
-			CheckParameter("email", "password");
+			CheckParameter("email", "password", "apikey");
 
 			string email = Parameters["email"];
-			
+						
 			Driver existingDriver = Model.DriverCollection.Instance.FindOne(Query.EQ("email", email));
 			Boolean isDriverExists = existingDriver != null;
 
-			//Driver not exists => can't user login => return
+			//Driver not exists => can't user login => exception
 			if (!isDriverExists)
-				return;
+				throw new WammerStationException("Cannot find the user with email: " + email, (int)StationApiError.AuthFailed);
 
 			string password = Parameters["password"];
+			string apikey = Parameters["apikey"];
+			User user = null;
 			using (WebClient client = new WebClient())
-			{
-				User.LogIn(client, email, password);
+			{			
+				user = User.LogIn(client, email, password, apikey);
 			}
+
+			var loginInfo = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", user.Token));
+
+			if (loginInfo == null)
+				throw new WammerStationException("Cannot find logininfo with session: " + user.Token, (int)StationApiError.AuthFailed);
+
+			RespondSuccess(loginInfo);
 		}
 		#endregion
 

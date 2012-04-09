@@ -40,13 +40,16 @@ namespace Wammer.Station
 		/// </summary>
 		protected override void HandleRequest()
 		{
-			CheckParameter("session_token");
+			CheckParameter("session_token", "apikey");
 
 			string sessionToken = Parameters["session_token"];
+			string apiKey = Parameters["apikey"];
 			using (WebClient client = new WebClient())
 			{
-				User.LogOut(client, sessionToken);
+				User.LogOut(client, sessionToken, apiKey);
 			}
+
+			RespondSuccess();
 		}
 		#endregion
 
