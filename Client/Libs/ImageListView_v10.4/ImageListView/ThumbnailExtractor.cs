@@ -40,12 +40,12 @@ namespace Manina.Windows.Forms
         private const int TagOrientation = 0x0112;
         #endregion
 
-#if USEWIC		
+#if USEWIC
         #region WIC Metadata Paths
         private static readonly string[] WICPathOrientation = new string[] { "/app1/ifd/{ushort=274}", "/xmp/tiff:Orientation" };
         #endregion
 #endif
-		
+
         #region Public Methods
         /// <summary>
         /// Creates a thumbnail from the given image.
@@ -60,6 +60,9 @@ namespace Manina.Windows.Forms
         {
             if (size.Width <= 0 || size.Height <= 0)
                 throw new ArgumentException();
+
+            size.Width = size.Width * 2;
+            size.Height = size.Height * 2;
 
             if (useWIC)
             {
@@ -142,6 +145,9 @@ namespace Manina.Windows.Forms
 
             if (size.Width <= 0 || size.Height <= 0)
                 throw new ArgumentException("Thumbnail size cannot be empty.", "size");
+
+            size.Width = size.Width * 2;
+            size.Height = size.Height * 2;
 
             if (useWIC)
             {

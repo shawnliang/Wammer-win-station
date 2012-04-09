@@ -262,7 +262,6 @@
     <en-US>Edit post error!</en-US>
     <zh-TW>編輯貼文失敗!</zh-TW>
   </WItem>  
-  
   <WItem>
     <ID>PostForm.TextBoxDescription</ID>
     <en-US>Write down the description here...</en-US>
@@ -397,5 +396,11 @@
     <en-US>Unable to retrieve data</en-US>
     <zh-TW>無法取得資料</zh-TW>
   </WItem>
+  
+  <WItem>
+    <ID>ChangedCoverImageOK</ID>
+    <en-US>Cover image changed successfully.</en-US>
+    <zh-TW>更改封面照片成功.</zh-TW>
+  </WItem>  
   
 </WItems>

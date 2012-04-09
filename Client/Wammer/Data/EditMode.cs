@@ -13,5 +13,6 @@ namespace Waveface
     {
         public EditModePhotoType AddPhotoType { get; set; }
         public string ObjectID { get; set; }
+        public bool IsCoverImage { get; set; }
     }
 }

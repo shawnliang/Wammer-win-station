@@ -18,7 +18,7 @@ namespace Waveface.API.V2
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         public static string APIKEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
-        public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; //https://api.waveface.com/v2/
+        public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; // https://api.waveface.com/v2/
 
         #region Properties
 
@@ -187,7 +187,6 @@ namespace Waveface.API.V2
 
         public MR_auth_login auth_login(string email, string password)
         {
-            //email = email.Replace("@", "%40");
             email = HttpUtility.UrlEncode(email);
             password = HttpUtility.UrlEncode(password);
 
@@ -2116,7 +2115,7 @@ namespace Waveface.API.V2
             {
                 string _url = BaseURL + "/usertracks/get";
 
-                _url += "?" + 
+                _url += "?" +
                        "apikey" + "=" + APIKEY + "&" +
                        "session_token" + "=" + session_token + "&" +
                        "group_id" + "=" + group_id + "&" +
@@ -2162,7 +2161,7 @@ namespace Waveface.API.V2
 
     #endregion
 
-    #region
+    #region Station Exception
 
     public class StationServiceDownException : Exception
     {

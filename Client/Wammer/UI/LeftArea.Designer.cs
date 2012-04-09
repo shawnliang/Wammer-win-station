@@ -48,7 +48,6 @@ namespace Waveface
             this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.panelBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
             this.panelFilter.SuspendLayout();
@@ -60,7 +59,6 @@ namespace Waveface
             // panelBottom
             // 
             this.panelBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.panelBottom.Controls.Add(this.pbDropArea);
             resources.ApplyResources(this.panelBottom, "panelBottom");
             this.panelBottom.Name = "panelBottom";
             // 
@@ -85,6 +83,7 @@ namespace Waveface
             this.panelMain.Controls.Add(this.panelFilter);
             this.panelMain.Controls.Add(this.panelCalendar);
             this.panelMain.Controls.Add(this.vsNetListBarGroups);
+            this.panelMain.Controls.Add(this.pbDropArea);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
             // 
@@ -203,7 +202,6 @@ namespace Waveface
             this.Controls.Add(this.panelBottom);
             this.Name = "LeftArea";
             this.Resize += new System.EventHandler(this.LeftArea_Resize);
-            this.panelBottom.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).EndInit();
             this.panelMain.ResumeLayout(false);
             this.panelFilter.ResumeLayout(false);

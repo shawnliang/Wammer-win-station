@@ -200,23 +200,58 @@ namespace Waveface.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap fav {
+        internal static System.Drawing.Bitmap FB_edit {
             get {
-                object obj = ResourceManager.GetObject("fav", resourceCulture);
+                object obj = ResourceManager.GetObject("FB_edit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Heart {
+        internal static System.Drawing.Bitmap FB_edit_hl {
             get {
-                object obj = ResourceManager.GetObject("Heart", resourceCulture);
+                object obj = ResourceManager.GetObject("FB_edit_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Heart_empty {
+        internal static System.Drawing.Bitmap FB_fav {
             get {
-                object obj = ResourceManager.GetObject("Heart_empty", resourceCulture);
+                object obj = ResourceManager.GetObject("FB_fav", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_fav_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_fav_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_remove {
+            get {
+                object obj = ResourceManager.GetObject("FB_remove", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_remove_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_remove_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_unfav {
+            get {
+                object obj = ResourceManager.GetObject("FB_unfav", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_unfav_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_unfav_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -397,13 +432,6 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap trash {
             get {
                 object obj = ResourceManager.GetObject("trash", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap unfav {
-            get {
-                object obj = ResourceManager.GetObject("unfav", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -9,6 +9,16 @@ namespace Waveface.API.V2
 {
     #region Entities
 
+    public class General_R
+    {
+        public string status { get; set; }
+        public string session_token { get; set; }
+        public string session_expires { get; set; }
+        public string timestamp { get; set; }
+        public string api_ret_code { get; set; }
+        public string api_ret_message { get; set; }
+    }
+
     public class Post
     {
         public string post_id { get; set; }
@@ -33,11 +43,10 @@ namespace Waveface.API.V2
         public Preview_OpenGraph preview { get; set; }
         public string soul { get; set; }
 
-        // 2012.3
         public string update_time { get; set; }
         public string event_time { get; set; }
         public string cover_attach { get; set; }
-        public string favorite { get; set; } //int
+        public string favorite { get; set; }
     }
 
     public class Attachment
@@ -59,7 +68,6 @@ namespace Waveface.API.V2
         public string md5 { get; set; }
 
         public ImageMeta image_meta { get; set; }
-        //@ public string doc_meta{ get; set; }
     }
 
     public class ImageMeta
@@ -258,7 +266,6 @@ namespace Waveface.API.V2
     public class Preview_AdvancedOpenGraph
     {
         public string provider_url { get; set; }
-        //public OGS_Object @object { get; set; }
         public string description { get; set; }
         public string original_url { get; set; }
         public string url { get; set; }
@@ -268,14 +275,19 @@ namespace Waveface.API.V2
         public string author_name { get; set; }
         public string content { get; set; }
         public string favicon_url { get; set; }
-        //public List<object> place { get; set; }
+
         public string author_url { get; set; }
-        //public List<object> embeds { get; set; }
         public string title { get; set; }
         public string provider_name { get; set; }
         public int cache_age { get; set; }
         public string type { get; set; }
-        //public List<object> @event { get; set; }
+
+        /*
+        public OGS_Object @object { get; set; }
+        public List<object> place { get; set; }
+        public List<object> embeds { get; set; }
+        public List<object> @event { get; set; }
+        */
     }
 
     public class OGS_Image
@@ -353,16 +365,6 @@ namespace Waveface.API.V2
     }
 
     #endregion
-
-    public class General_R
-    {
-        public string status { get; set; }
-        public string session_token { get; set; }
-        public string session_expires { get; set; }
-        public string timestamp { get; set; }
-        public string api_ret_code { get; set; }
-        public string api_ret_message { get; set; }
-    }
 
     #region MR_auth
 
