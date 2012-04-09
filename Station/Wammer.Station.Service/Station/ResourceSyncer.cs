@@ -15,6 +15,7 @@ using Wammer.Model;
 using Wammer.Cloud;
 using Wammer.Utility;
 using Wammer.PerfMonitor;
+using Wammer.Station.Timeline;
 
 namespace Wammer.Station
 {
@@ -56,7 +57,7 @@ namespace Wammer.Station
 			bodySyncQueue.Enqueue(DownstreamResource, evtargs);
 		}
 
-		protected void DownloadMissedResource(List<PostInfo> posts)
+		protected void DownloadMissedResource(ICollection<PostInfo> posts)
 		{
 			foreach (PostInfo post in posts)
 			{
@@ -333,10 +334,17 @@ namespace Wammer.Station
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceSyncer));
 		private bool isFirstRun = true;
+		private TimelineSyncer syncer = new TimelineSyncer(new PostProvider(), new TimelineSyncerDB(), new UserTracksApi());
 
 		public ResourceSyncer(long timerPeriod, ITaskStore bodySyncQueue)
 			: base(timerPeriod, bodySyncQueue)
 		{
+			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
+		}
+
+		void syncer_PostsRetrieved(object sender, TimelineSyncEventArgs e)
+		{
+			this.DownloadMissedResource(e.Posts);
 		}
 
 		protected override void ExecuteOnTimedUp(object state)
@@ -411,79 +419,19 @@ namespace Wammer.Station
 
 		private void PullTimeline()
 		{
+			MongoCursor<Driver> users = DriverCollection.Instance.FindAll();
 
-			using (WebClient client = new WebClient())
+			foreach (Driver user in users)
 			{
-				foreach (Driver driver in DriverCollection.Instance.FindAll())
+				try
 				{
-					PostApi api = new PostApi(driver);
-					if (driver.sync_range == null)
-					{
-						PostGetLatestResponse res = api.PostGetLatest(client, 20);
-						SavePosts(res.posts);
-						DownloadMissedResource(res.posts);
-						driver.sync_range = new SyncRange
-						{
-							start_time = res.posts.Last().timestamp,
-							end_time = res.posts.First().timestamp
-						};
-						if (res.total_count == res.get_count)
-						{
-							driver.sync_range.first_post_time = driver.sync_range.start_time;
-						}
-					}
-					else
-					{
-						PostFetchByFilterResponse newerRes = api.PostFetchByFilter(client,
-							new FilterEntity
-							{
-								limit = 20,
-								timestamp = driver.sync_range.end_time
-							}
-						);
-
-						if (newerRes.posts.Count > 0 &&
-							newerRes.posts.First().timestamp != driver.sync_range.end_time)
-						{
-							SavePosts(newerRes.posts);
-							DownloadMissedResource(newerRes.posts);
-							driver.sync_range.end_time = newerRes.posts.First().timestamp;
-						}
-
-						if (driver.sync_range.start_time != driver.sync_range.first_post_time)
-						{
-							PostFetchByFilterResponse olderRes = api.PostFetchByFilter(client,
-								new FilterEntity
-								{
-									limit = -20,
-									timestamp = driver.sync_range.start_time
-								}
-							);
-							SavePosts(olderRes.posts);
-							DownloadMissedResource(olderRes.posts);
-							driver.sync_range.start_time = olderRes.posts.Last().timestamp;
-
-							if (olderRes.remaining_count == 0)
-							{
-								driver.sync_range.first_post_time = driver.sync_range.start_time;
-							}
-						}
-					}
-
-					DriverCollection.Instance.Update(Query.EQ("_id", driver.user_id),
-						Update.Set("sync_range", driver.sync_range.ToBsonDocument()));
+					syncer.PullTimeline(user);
+				}
+				catch (Exception e)
+				{
+					this.LogWarnMsg("Unable to sync timeline of user " + user.email, e);
 				}
 			}
 		}
-
-
-		private void SavePosts(List<PostInfo> posts)
-		{
-			if (posts == null)
-				return;
-
-			foreach (PostInfo post in posts)
-				PostCollection.Instance.Save(post);
-		}		
 	}
 }

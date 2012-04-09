@@ -112,15 +112,8 @@
     <Compile Include="TestPersistentQueue.cs" />
     <Compile Include="TestServiceHelper.cs" />
     <Compile Include="TestStreamHelper.cs" />
-    <Compile Include="pullTimeLine\TestTimelineChange_PostInfoProvider.cs" />
-    <Compile Include="pullTimeLine\TestTimelineChange_UserUpdator.cs" />
-    <Compile Include="pullTimeLine\TestTimelineChange_PostInfoProvider2.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
-    <Compile Include="pullTimeLine\TestUserTrack.cs" />
-    <Compile Include="pullTimeLine\TestUserTrack_HasMore.cs" />
-    <Compile Include="pullTimeLine\TestUserTrack_LotsOfPosts.cs" />
-    <Compile Include="pullTimeLine\TestUserTrack_MergePostId.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt">

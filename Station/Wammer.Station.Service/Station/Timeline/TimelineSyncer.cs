@@ -19,7 +19,6 @@ namespace Wammer.Station.Timeline
 	{
 		void SavePost(PostInfo post);
 		void UpdateDriverSyncRange(string userId, SyncRange syncRange);
-		void UpdateChangeLogSyncTime(string userId, string time);
 	}
 
 	public class TimelineSyncer
@@ -38,6 +37,7 @@ namespace Wammer.Station.Timeline
 		}
 
 		/// <summary>
+		/// Use PullTimeline() instead.
 		/// Pull user's timeline base on his sync_range and save timeline posts to db
 		/// </summary>
 		/// <param name="user"></param>
@@ -73,7 +73,11 @@ namespace Wammer.Station.Timeline
 					});
 			}
 		}
-
+		/// <summary>
+		/// Use PullTimeline() instead.
+		/// Calls user track api to get changed posts and saves to db
+		/// </summary>
+		/// <param name="user"></param>
 		public void PullForward(Driver user)
 		{
 			if (user == null)

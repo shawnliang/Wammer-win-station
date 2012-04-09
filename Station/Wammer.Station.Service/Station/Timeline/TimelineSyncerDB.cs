@@ -12,7 +12,7 @@ using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.Timeline
 {
-	class TimelineSyncerDB : ITimelineSyncerDB
+	public class TimelineSyncerDB : ITimelineSyncerDB
 	{
 		public void SavePost(PostInfo post)
 		{
@@ -24,11 +24,6 @@ namespace Wammer.Station.Timeline
 			DriverCollection.Instance.Update(
 				Query.EQ("_id", userId),
 				Update.Set("sync_range", syncRange.ToBsonDocument()));
-		}
-
-		public void UpdateChangeLogSyncTime(string userId, string time)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }
