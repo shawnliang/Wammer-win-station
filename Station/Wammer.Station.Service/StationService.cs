@@ -209,6 +209,9 @@ namespace Wammer.Station.Service
 		void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
 			PublicPortMapping.Instance.DriverAdded(sender, e);
+
+			// immediately start pulling timeline after driver added
+			stationTimer.ForceTick();
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
