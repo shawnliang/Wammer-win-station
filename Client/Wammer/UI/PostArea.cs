@@ -32,7 +32,7 @@ namespace Waveface
             labelDisplay.Visible = flag;
             comboBoxType.Visible = flag;
 
-            panelTop.Height = 36;
+            panelTop.Height = 34;
             btnRefresh.Top = 5;
         }
 

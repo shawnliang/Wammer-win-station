@@ -12,7 +12,15 @@ namespace Waveface.Component
 {
     public class MyImageListViewRenderer : ImageListView.ImageListViewRenderer
     {
+        private bool m_showHovered = true;
+
         public bool ItemBorderless { get; set; }
+
+        public bool ShowHovered
+        {
+            get { return m_showHovered; }
+            set { m_showHovered = value; }
+        }
 
         public override void InitializeGraphics(Graphics g)
         {
@@ -110,12 +118,15 @@ namespace Waveface.Component
 
                     if (((state & ItemState.Hovered) != ItemState.None))
                     {
-                        using (
-                            Brush _bHovered = new LinearGradientBrush(bounds, ImageListView.Colors.HoverColor1,
-                                                                      ImageListView.Colors.HoverColor2,
-                                                                      LinearGradientMode.Vertical))
+                        if (ShowHovered)
                         {
-                            Utility.FillRoundedRectangle(g, _bHovered, bounds, 5);
+                            using (
+                                Brush _bHovered = new LinearGradientBrush(bounds, ImageListView.Colors.HoverColor1,
+                                                                          ImageListView.Colors.HoverColor2,
+                                                                          LinearGradientMode.Vertical))
+                            {
+                                Utility.FillRoundedRectangle(g, _bHovered, bounds, 5);
+                            }
                         }
                     }
 
@@ -207,6 +218,20 @@ namespace Waveface.Component
 
                 if (item.Tag != null)
                 {
+                    if (item.Tag is DetailViewImageListViewItemTag)
+                    {
+                        bool _isCoverImage = (item.Tag as DetailViewImageListViewItemTag).IsCoverImage;
+
+                        if (_isCoverImage)
+                        {
+                            using (Pen _pen = new Pen(Color.Pink))
+                            {
+                                Utility.DrawRoundedRectangle(g, _pen, bounds.Left, bounds.Top, bounds.Width - 1,
+                                                             bounds.Height - 1, 4);
+                            }
+                        }
+                    }
+
                     if (item.Tag is ImageViewItemTAG)
                     {
                         string _type = (item.Tag as ImageViewItemTAG).Type;

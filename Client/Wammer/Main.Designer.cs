@@ -92,7 +92,7 @@
             // 
             // splitterLeft
             // 
-            this.splitterLeft.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.splitterLeft.BackColor = System.Drawing.Color.LightGray;
             this.splitterLeft.Cursor = System.Windows.Forms.Cursors.Default;
             resources.ApplyResources(this.splitterLeft, "splitterLeft");
             this.splitterLeft.Name = "splitterLeft";
@@ -158,7 +158,7 @@
             // 
             // splitterRight
             // 
-            this.splitterRight.BackColor = System.Drawing.SystemColors.Control;
+            this.splitterRight.BackColor = System.Drawing.Color.LightGray;
             resources.ApplyResources(this.splitterRight, "splitterRight");
             this.splitterRight.Name = "splitterRight";
             this.splitterRight.TabStop = false;
@@ -257,7 +257,6 @@
             // 
             this.leftArea.AllowDrop = true;
             this.leftArea.BackColor = System.Drawing.Color.Transparent;
-            this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.leftArea, "leftArea");
             this.leftArea.Name = "leftArea";
             this.leftArea.TabStop = false;

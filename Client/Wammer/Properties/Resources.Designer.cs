@@ -137,6 +137,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap divider {
+            get {
+                object obj = ResourceManager.GetObject("divider", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap dragdrop_tutorial {
             get {
                 object obj = ResourceManager.GetObject("dragdrop_tutorial", resourceCulture);

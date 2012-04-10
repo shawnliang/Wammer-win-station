@@ -19,8 +19,6 @@ namespace Waveface
 {
     public class DetailView : UserControl
     {
-        private const int FavoriteIconSize = 18;
-
         private IContainer components;
         private Post m_post;
 
@@ -43,6 +41,8 @@ namespace Waveface
         private Timer timerCanEdit;
         private ImageButton btnFavorite;
         private CommentPopupPanel m_commentPopupPanel;
+
+        private bool m_loadOK;
 
         public Post Post
         {
@@ -94,55 +94,30 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnFavorite = new Waveface.Component.ImageButton();
+            this.btnRemove = new Waveface.Component.ImageButton();
+            this.btnEdit = new Waveface.Component.ImageButton();
+            this.btnComment = new Waveface.Component.ImageButton();
             this.labelTitle = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.timerCanEdit = new System.Windows.Forms.Timer(this.components);
-            this.btnFavorite = new Waveface.Component.ImageButton();
-            this.btnRemove = new Waveface.Component.ImageButton();
-            this.btnEdit = new Waveface.Component.ImageButton();
-            this.btnComment = new Waveface.Component.ImageButton();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
             // 
+            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panelTop.Controls.Add(this.btnFavorite);
             this.panelTop.Controls.Add(this.btnRemove);
             this.panelTop.Controls.Add(this.btnEdit);
             this.panelTop.Controls.Add(this.btnComment);
             this.panelTop.Controls.Add(this.labelTitle);
-            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
-            // 
-            // labelTitle
-            // 
-            resources.ApplyResources(this.labelTitle, "labelTitle");
-            this.labelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(121)))), ((int)(((byte)(143)))));
-            this.labelTitle.Name = "labelTitle";
-            // 
-            // panelMain
-            // 
-            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.Name = "panelMain";
-            // 
-            // timerGC
-            // 
-            this.timerGC.Interval = 60000;
-            this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // timerCanEdit
-            // 
-            this.timerCanEdit.Enabled = true;
-            this.timerCanEdit.Interval = 666;
-            this.timerCanEdit.Tick += new System.EventHandler(this.timerCanEdit_Tick);
+            this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
+            this.panelTop.Resize += new System.EventHandler(this.panelTop_Resize);
             // 
             // btnFavorite
             // 
@@ -191,11 +166,38 @@ namespace Waveface
             this.btnComment.TabStop = false;
             this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
+            // labelTitle
+            // 
+            resources.ApplyResources(this.labelTitle, "labelTitle");
+            this.labelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(121)))), ((int)(((byte)(143)))));
+            this.labelTitle.Name = "labelTitle";
+            // 
+            // panelMain
+            // 
+            resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelMain.Name = "panelMain";
+            // 
+            // timerGC
+            // 
+            this.timerGC.Interval = 60000;
+            this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // timerCanEdit
+            // 
+            this.timerCanEdit.Enabled = true;
+            this.timerCanEdit.Interval = 666;
+            this.timerCanEdit.Tick += new System.EventHandler(this.timerCanEdit_Tick);
+            // 
             // DetailView
             // 
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelTop);
-            resources.ApplyResources(this, "$this");
             this.Name = "DetailView";
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
@@ -210,8 +212,11 @@ namespace Waveface
             if (m_post == null)
                 return;
 
+            m_loadOK = true;
+            panelTop.Refresh();
+
             // btnComment.Visible = true;
-            btnRemove.Visible = true;
+            // btnRemove.Visible = true;
             btnEdit.Visible = true;
             btnFavorite.Visible = true;
 
@@ -251,13 +256,18 @@ namespace Waveface
 
         private void setupTitle()
         {
-            string _postTime = Post.timestamp;
-            _postTime = DateTimeHelp.ISO8601ToDotNet(_postTime, false);
-            _postTime = DateTimeHelp.PrettyDate(_postTime);
+            var _postTime = GetTime(Post.timestamp);
 
             string _s = _postTime + " " + I18n.L.T("DetailView.Via") + " " + Post.code_name;
 
             labelTitle.Text = _s;
+        }
+
+        private string GetTime(string iso8601Time)
+        {
+            iso8601Time = DateTimeHelp.ISO8601ToDotNet(iso8601Time, false);
+            iso8601Time = DateTimeHelp.PrettyDate(iso8601Time, true);
+            return iso8601Time;
         }
 
         private void setFavoriteButton()
@@ -423,8 +433,6 @@ namespace Waveface
         {
             string _html = "<div style='border-left:2px solid #559aae; padding-left:4px'><font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif' color='#eef'>";
 
-            int k = 1;
-
             foreach (Comment _c in post.comments)
             {
                 StringBuilder _s = new StringBuilder();
@@ -448,11 +456,6 @@ namespace Waveface
                 _s.Append("    	  </tr>");
                 _s.Append("	</table>");
 
-                //if (post.comment_count != k)
-                //    _s.Append("<p></p>");
-
-                k++;
-
                 string _content = HttpUtility.HtmlEncode(_c.content);
                 _content = _content.Replace(Environment.NewLine, "<BR>");
                 _content = _content.Replace("\n", "<BR>");
@@ -460,7 +463,7 @@ namespace Waveface
 
                 _html += _s.ToString();
                 _html = _html.Replace("[Comment]", _content);
-                _html = _html.Replace("[CommentTime]", DateTimeHelp.ISO8601ToDotNet(_c.timestamp, true));
+                _html = _html.Replace("[CommentTime]", GetTime(_c.timestamp));
                 _html = _html.Replace("[code_name]", _c.code_name);
 
                 foreach (User _user in Main.Current.RT.AllUsers)
@@ -475,7 +478,7 @@ namespace Waveface
 
             _html += "</font></div>";
 
-            if(endHR)
+            if (endHR)
                 _html += "<HR>";
 
             return _html;
@@ -530,7 +533,23 @@ namespace Waveface
 
         private void btnFavorite_Click(object sender, EventArgs e)
         {
-            Main.Current.ChangePostFavorite(m_post);
+            Main.Current.ChangePostFavorite(m_post, true);
+        }
+
+        private void panelTop_Paint(object sender, PaintEventArgs e)
+        {
+            if (m_loadOK)
+            {
+                using (Brush _brush = new TextureBrush(Properties.Resources.divider, WrapMode.Tile))
+                {
+                    e.Graphics.FillRectangle(_brush, 6, panelTop.Height - 4, panelTop.Width - 32, 4);
+                }
+            }
+        }
+
+        private void panelTop_Resize(object sender, EventArgs e)
+        {
+            panelTop.Refresh();
         }
     }
 }

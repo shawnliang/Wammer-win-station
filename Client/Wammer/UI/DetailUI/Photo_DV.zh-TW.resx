@@ -118,18 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="buttonAddComment.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
+  <data name="miSetCoverImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 22</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="buttonAddComment.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="miSetCoverImage.Text" xml:space="preserve">
+    <value>設為封面</value>
   </data>
-  <data name="buttonAddComment.Text" xml:space="preserve">
-    <value>留言</value>
-  </data>
-  <data name="labelPictureInfo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="contextMenuStripImageList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 26</value>
   </data>
   <data name="imageListView.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -162,8 +158,23 @@
         GkChymYAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="pictureBoxRemote.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="imageListView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>517, 153</value>
+  </data>
+  <data name="labelPictureInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>390, 1</value>
+  </data>
+  <data name="panelPictureInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>517, 24</value>
+  </data>
+  <data name="webBrowserTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>517, 97</value>
+  </data>
+  <data name="panelRight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>525, 491</value>
+  </data>
+  <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>533, 491</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>533, 491</value>
