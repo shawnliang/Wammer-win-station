@@ -15,4 +15,10 @@ namespace Waveface
         public string ObjectID { get; set; }
         public bool IsCoverImage { get; set; }
     }
+
+    public class DetailViewImageListViewItemTag
+    {
+        public string Index { get; set; }
+        public bool IsCoverImage { get; set; }
+    }
 }

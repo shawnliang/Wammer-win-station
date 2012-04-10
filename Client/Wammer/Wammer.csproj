@@ -919,6 +919,7 @@
     <None Include="Resources\Heart_empty.png" />
     <None Include="Resources\fav.png" />
     <None Include="Resources\unfav.png" />
+    <None Include="Resources\divider.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
     <Content Include="Resources\FlatButton\FB_edit_hl.png" />
     <Content Include="Resources\FlatButton\FB_fav.png" />
