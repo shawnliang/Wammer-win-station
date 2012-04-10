@@ -65,7 +65,7 @@ namespace Wammer.Station
 			CheckParameter("group_id", "datum", "limit");
 
 			string groupId = Parameters["group_id"];
-			string datum = Parameters["datum"];
+			DateTime datum = TimeHelper.ParseCloudTimeString(Parameters["datum"]);
 
 			if (!PermissionHelper.IsGroupPermissionOK(groupId, this.Session))
 			{
