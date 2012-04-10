@@ -138,7 +138,7 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/footprints/getLastScan/",
 								new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/usertracks/get/",
-								new HybridCloudHttpRouter(new UserTrackHandler()));
+								new HybridCloudHttpRouter(new APIHandler.UserTrackHandler()));
 
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/login/", new UserLoginHandler());
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/logout/", new UserLogoutHandler());
@@ -213,6 +213,9 @@ namespace Wammer.Station.Service
 		void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
 			PublicPortMapping.Instance.DriverAdded(sender, e);
+
+			// immediately start pulling timeline after driver added
+			stationTimer.ForceTick();
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

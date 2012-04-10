@@ -4,18 +4,21 @@ using System.Linq;
 using System.Text;
 using Wammer.Cloud;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace Wammer.Model
 {
 	[BsonIgnoreExtraElements]
 	public class UserTracks
 	{
+		[BsonId]
+		public BsonObjectId id { get; set; }
 		[BsonIgnoreIfNull]
 		public List<string> post_id_list { get; set; }
 		[BsonIgnoreIfNull]
 		public string group_id { get; set; }
 		[BsonIgnoreIfNull]
-		public string latest_timestamp { get; set; }
+		public DateTime latest_timestamp { get; set; }
 		[BsonIgnoreIfNull]
 		public List<UserTrackDetail> usertrack_list { get; set; }
 

@@ -60,6 +60,9 @@
     <Reference Include="MongoDB.Driver">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\3rd_party\Moq.4.0.10827\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -112,8 +115,11 @@
     <Compile Include="TestPersistentQueue.cs" />
     <Compile Include="TestServiceHelper.cs" />
     <Compile Include="TestStreamHelper.cs" />
+    <Compile Include="TestTimeHelper.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
+    <Compile Include="TestUserTrackApiHandler.cs" />
+    <Compile Include="TestUserTrackCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt">

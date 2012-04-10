@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
+using Wammer.Utility;
 
 namespace Wammer.Cloud
 {
 	public interface IUserTrackApi
 	{
-		UserTrackResponse GetChangeHistory(WebClient agent, Wammer.Model.Driver user, string since);
+		UserTrackResponse GetChangeHistory(WebClient agent, Wammer.Model.Driver user, DateTime since);
 	}
 
 	public class UserTracksApi : IUserTrackApi
@@ -31,13 +32,13 @@ namespace Wammer.Cloud
 			return CloudServer.request<UserTrackResponse>(agent, CloudServer.BaseUrl + "usertracks/get", parameters);
 		}
 
-		public UserTrackResponse GetChangeHistory(WebClient agent, Wammer.Model.Driver user, string since)
+		public UserTrackResponse GetChangeHistory(WebClient agent, Wammer.Model.Driver user, DateTime since)
 		{
 			if (user == null || user.session_token == null || user.groups == null ||
 				user.groups.Count == 0 || user.groups[0].group_id == null)
 				throw new ArgumentException("user, session token or group_id is null");
 
-			return GetChangeHistory(agent, user.session_token, CloudServer.APIKey, user.groups[0].group_id, since);
+			return GetChangeHistory(agent, user.session_token, CloudServer.APIKey, user.groups[0].group_id, since.ToCloudTimeString());
 		}
 	}
 }

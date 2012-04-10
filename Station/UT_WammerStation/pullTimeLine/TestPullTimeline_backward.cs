@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wammer.Model;
 using Wammer.Station.Timeline;
 using Wammer.Cloud;
+using Wammer.Utility;
 
 namespace UT_WammerStation.pullTimeLine
 {
@@ -20,7 +21,7 @@ namespace UT_WammerStation.pullTimeLine
 		// saved params and return values of GetPostsBefore
 		public System.Net.WebClient GetPostsBefore_agent { get; private set; }
 		public Driver GetPostsBefore_user { get; private set; }
-		public string GetPostsBefore_before { get; private set; }
+		public DateTime GetPostsBefore_before { get; private set; }
 		public int GetPostsBefore_limit { get; private set; }
 		public PostResponse GetPostsBefore_return { get; set; }
 
@@ -36,7 +37,7 @@ namespace UT_WammerStation.pullTimeLine
 			return GetLastestPosts_return;
 		}
 
-		public PostResponse GetPostsBefore(System.Net.WebClient agent, Driver user, string before, int limit)
+		public PostResponse GetPostsBefore(System.Net.WebClient agent, Driver user, DateTime before, int limit)
 		{
 			this.GetPostsBefore_agent = agent;
 			this.GetPostsBefore_user = user;
@@ -61,7 +62,7 @@ namespace UT_WammerStation.pullTimeLine
 
 		// UpdateChangeLogSyncTime
 		public string UpdateChangeLogSyncTime_userId { get; set; }
-		public string UpdateChangeLogSyncTime_time { get; set; }
+		public bool UpdateChangeLogSyncTime_synced { get; set; }
 
 		// UpdateSyncRange
 		public string UpdateSyncRange_userId { get; set; }
@@ -89,9 +90,9 @@ namespace UT_WammerStation.pullTimeLine
 			UpdateSyncRange_syncRange = syncRange;
 		}
 
-		public void UpdateChangeLogSyncTime(string userId, string time)
+		public void UpdateDriverChangeHistorySynced(string userId, bool synced)
 		{
-			UpdateChangeLogSyncTime_time = time;
+			UpdateChangeLogSyncTime_synced = synced;
 			UpdateChangeLogSyncTime_userId = userId;
 		}
 	}
@@ -116,7 +117,7 @@ namespace UT_WammerStation.pullTimeLine
 				total_count = 1,
 				group_id = "group1",
 				posts = new List<PostInfo> {
-							new PostInfo { timestamp = "2012-01-02T03:04:05Z", post_id = "post1" }
+							new PostInfo { timestamp =  new DateTime(2012,1,2,3,4,5, DateTimeKind.Utc), post_id = "post1" }
 				}
 			};
 
@@ -159,7 +160,7 @@ namespace UT_WammerStation.pullTimeLine
 				total_count = 10, // there are more data
 				group_id = "group1",
 				posts = new List<PostInfo> {
-							new PostInfo { timestamp = "2012-01-02T03:04:05Z", post_id = "post1" }
+							new PostInfo { timestamp = new DateTime(2012,1,2,3,4,5, DateTimeKind.Utc), post_id = "post1" }
 				}
 			};
 
@@ -180,7 +181,7 @@ namespace UT_WammerStation.pullTimeLine
 			// verify driver's sync range is updated
 			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.end_time);
 			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.start_time);
-			Assert.AreEqual(null, db.UpdateSyncRange_syncRange.first_post_time);
+			Assert.AreEqual(DateTime.MinValue, db.UpdateSyncRange_syncRange.first_post_time);
 		}
 
 		[TestMethod]
@@ -188,7 +189,7 @@ namespace UT_WammerStation.pullTimeLine
 		{
 			DummyPostInfoProvider postInfoProvider = new DummyPostInfoProvider();
 
-			PostInfo oldestPost = new PostInfo { timestamp = "2012-02-03T03:04:05Z", post_id = "post1" };
+			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012,2,3,3,4,5, DateTimeKind.Utc), post_id = "post1" };
 
 			postInfoProvider.GetPostsBefore_return = new PostFetchByFilterResponse
 			{
@@ -201,7 +202,11 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				session_token = "session1",
-				sync_range = new SyncRange{ start_time = "2012-02-01T00:00:00Z", end_time = "2012-02-01T01:01:01Z"},
+				sync_range = new SyncRange
+				{
+					end_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+					start_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc),
+				},
 				groups = new List<UserGroup> {
 						 					   new UserGroup { group_id = "group1" }
 						 },
@@ -226,7 +231,7 @@ namespace UT_WammerStation.pullTimeLine
 			Assert.AreEqual(user.user_id, db.UpdateSyncRange_userId);
 			Assert.AreEqual(oldestPost.timestamp, db.UpdateSyncRange_syncRange.start_time);
 			Assert.AreEqual(user.sync_range.end_time, db.UpdateSyncRange_syncRange.end_time);
-			Assert.IsNull(db.UpdateSyncRange_syncRange.first_post_time);
+			Assert.AreEqual(DateTime.MinValue, db.UpdateSyncRange_syncRange.first_post_time);
 		}
 
 		[TestMethod]
@@ -234,7 +239,7 @@ namespace UT_WammerStation.pullTimeLine
 		{
 			DummyPostInfoProvider postInfoProvider = new DummyPostInfoProvider();
 
-			PostInfo oldestPost = new PostInfo { timestamp = "2012-02-03T03:04:05Z", post_id = "post1" };
+			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012,2,3, 3, 4, 5, DateTimeKind.Utc), post_id = "post1" };
 
 			postInfoProvider.GetPostsBefore_return = new PostFetchByFilterResponse
 			{
@@ -247,7 +252,12 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				session_token = "session1",
-				sync_range = new SyncRange { start_time = "2012-02-01T00:00:00Z", end_time = "2012-02-01T01:01:01Z" },
+				sync_range = new SyncRange
+				{
+					end_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc),
+					start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+
+				},
 				groups = new List<UserGroup> {
 						 					   new UserGroup { group_id = "group1" }
 						 },
@@ -270,7 +280,7 @@ namespace UT_WammerStation.pullTimeLine
 		{
 			DummyPostInfoProvider postInfoProvider = new DummyPostInfoProvider();
 
-			PostInfo oldestPost = new PostInfo { timestamp = "2012-02-03T03:04:05Z", post_id = "post1" };
+			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012,2,3,3,4,5, DateTimeKind.Utc), post_id = "post1" };
 
 			postInfoProvider.GetPostsBefore_return = new PostFetchByFilterResponse
 			{
@@ -283,7 +293,11 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				session_token = "session1",
-				sync_range = new SyncRange { start_time = "2012-02-01T00:00:00Z", end_time = "2012-02-01T01:01:01Z" },
+				sync_range = new SyncRange
+				{
+					end_time = new DateTime(2012, 2, 1, 1, 1, 1, DateTimeKind.Utc),
+					start_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc)
+				},
 				groups = new List<UserGroup> {
 						 					   new UserGroup { group_id = "group1" }
 						 },
@@ -313,13 +327,13 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				session_token = "session1",
-				sync_range = new SyncRange { 
-					start_time = "2012-02-01T00:00:00Z",
-					end_time = "2012-02-01T01:01:01Z",
-				first_post_time = "2012-02-01T00:00:00Z"},
-				groups = new List<UserGroup> {
-						 					   new UserGroup { group_id = "group1" }
-						 },
+				sync_range = new SyncRange
+				{
+					start_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc),
+					end_time = new DateTime(2012, 2, 1, 1, 1, 1, DateTimeKind.Utc),
+					first_post_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc)
+				},
+				groups = new List<UserGroup> { new UserGroup { group_id = "group1" } },
 				user_id = "user1"
 			};
 

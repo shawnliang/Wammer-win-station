@@ -105,7 +105,7 @@ namespace Wammer.Station
 
 			long totalCount = 0;
 			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", Session.user.user_id));
-			if (driver.sync_range != null && !string.IsNullOrEmpty(driver.sync_range.first_post_time))
+			if (driver.sync_range != null && driver.sync_range.first_post_time != DateTime.MinValue)
 			{
 				totalCount = PostCollection.Instance
 					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"))).Count();
