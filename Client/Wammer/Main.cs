@@ -601,7 +601,7 @@ namespace Waveface
 
             m_forceLogout = false;
 
-			WService.StationIP = "";
+            WService.StationIP = "";
 
             postsArea.ShowTypeUI(false);
             postsArea.showRefreshUI(false);
@@ -619,17 +619,17 @@ namespace Waveface
 
             UpdateNetworkStatus();
 
-			Reset(true);
+            Reset(true);
 
-			if (Environment.GetCommandLineArgs().Length > 1)
-			{
-				m_stationIP = "http://127.0.0.1:9981";
-				WService.StationIP = m_stationIP;
-				StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
-				UploadOriginPhotosToStationManager.Start();
-				PhotoDownloader.Start();
-				BatchPostManager.Start();
-			}
+            if (Environment.GetCommandLineArgs().Length > 1)
+            {
+                m_stationIP = "http://127.0.0.1:9981";
+                WService.StationIP = m_stationIP;
+                StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
+                UploadOriginPhotosToStationManager.Start();
+                PhotoDownloader.Start();
+                BatchPostManager.Start();
+            }
 
             MR_auth_login _login = RT.REST.Auth_Login(email, password);
 
@@ -658,8 +658,8 @@ namespace Waveface
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
             RT.LoadGroupLocalRead();
 
-			if (Environment.GetCommandLineArgs().Length == 1)
-				StartBgThreads();	
+            if (Environment.GetCommandLineArgs().Length == 1)
+                StartBgThreads();	
 
             leftArea.SetNewPostManager();
 
@@ -1592,18 +1592,18 @@ namespace Waveface
 
         private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
         {
-			if (radioButtonCloud.Checked)
-			{
-			    WService.StationIP = WService.CloudIP;
-			    RT.StationMode = false;
-			}
-			else
-			{
+            if (radioButtonCloud.Checked)
+            {
+                WService.StationIP = WService.CloudIP;
+                RT.StationMode = false;
+            }
+            else
+            {
                 WService.StationIP = m_stationIP;
                 RT.StationMode = true;
 
                 backgroundWorkerPreloadAllImages_DoWork(null, null);
-			}
+            }
         }
 
         public void ShowStatuMessage(string message, bool timeout)
@@ -1680,7 +1680,13 @@ namespace Waveface
 
             try
             {
-                _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+                // station might return no posts if it hasn't prefetch any timeline from cloud,
+                // but we can know the actual post count by total_count
+                do
+                {
+                    _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+                }
+                while (_getLatest.get_count == 0 && _getLatest.total_count > 0);
             }
             catch
             {
@@ -1701,9 +1707,9 @@ namespace Waveface
 
                 if (_getLatest.get_count < _getLatest.total_count)
                 {
-                    int _remainingCount = int.MaxValue;
+                    int _fetchedCount = _getLatest.get_count;
 
-                    while (_remainingCount > 0)
+                    while (_getLatest.total_count > _fetchedCount)
                     {
                         _datum =
                             DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
@@ -1718,10 +1724,9 @@ namespace Waveface
                                 {
                                     _allPosts.Add(_p.post_id, _p);
                                     _datum = _p.timestamp;
+                                    _fetchedCount++;
                                 }
                             }
-
-                            _remainingCount = _postsGet.remaining_count;
                         }
                     }
                 }
