@@ -29,7 +29,7 @@ namespace Waveface
     public partial class Main : Form
     {
         public static Main Current;
-        public static GCONST GCONST = new GCONST();
+        public static GCONST GCONST;
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
@@ -657,6 +657,7 @@ namespace Waveface
             s_logger.Trace("Login.Auth_Login: OK");            
 
             RT.Login = _login;
+			GCONST = new GCONST(RT);
 
             getGroupAndUser();
             fillUserInformation();
