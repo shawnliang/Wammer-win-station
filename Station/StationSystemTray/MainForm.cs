@@ -545,8 +545,6 @@ namespace StationSystemTray
 				menuServiceAction.Text = I18n.L.T("ResumeWFService");
 
 				menuServiceAction.Enabled = true;
-
-				StationController.StationOffline();
 			}
 		}
 
