@@ -77,7 +77,7 @@ namespace Wammer.Station
 				{
 					last_scan = new LastScanInfo
 					{
-						timestamp = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddThh:mm:ssZ"),
+						timestamp = DateTime.UtcNow,
 						user_id = Session.user.user_id,
 						group_id = groupId,
 						post_id = postId

@@ -167,10 +167,9 @@ namespace UT_WammerStation.pullTimeLine
 
 	class FakeUserTracksApi: IUserTrackApi
 	{
-		public UserTrackResponse GetChangeHistory(WebClient agent, Wammer.Model.Driver user, string since)
+		public UserTrackResponse GetChangeHistory(WebClient agent, Wammer.Model.Driver user, DateTime since)
 		{
 			Assert.AreEqual("token", user.session_token);
-			//Assert.AreEqual("2012-01-02T13:23:42Z", since);
 			Assert.IsNotNull(agent);
 
 			return new UserTrackResponse()

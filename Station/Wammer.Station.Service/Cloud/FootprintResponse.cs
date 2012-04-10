@@ -48,7 +48,7 @@ namespace Wammer.Cloud
 
 	public class LastScanInfo
 	{
-		public string timestamp { get; set; }
+		public DateTime timestamp { get; set; }
 		public string user_id { get; set; }
 		public string group_id { get; set; }
 		public string post_id { get; set; }

@@ -70,9 +70,9 @@ namespace Wammer.Station.Timeline
 
 				db.UpdateDriverSyncRange(user.user_id, new SyncRange
 					{
-						start_time = TimeHelper.ParseCloudTimeString(res.posts.Last().timestamp),
-						end_time = (user.sync_range == null) ? TimeHelper.ParseCloudTimeString(res.posts.First().timestamp) : user.sync_range.end_time,
-						first_post_time = res.HasMoreData ? DateTime.MinValue : TimeHelper.ParseCloudTimeString(res.posts.Last().timestamp)
+						start_time = res.posts.Last().timestamp,
+						end_time = (user.sync_range == null) ? res.posts.First().timestamp : user.sync_range.end_time,
+						first_post_time = res.HasMoreData ? DateTime.MinValue : res.posts.Last().timestamp
 					});
 			}
 		}
@@ -91,7 +91,7 @@ namespace Wammer.Station.Timeline
 
 			using (WebClient agent = new WebClient())
 			{
-				UserTrackResponse res = userTrack.GetChangeHistory(agent, user, user.sync_range.end_time.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"));
+				UserTrackResponse res = userTrack.GetChangeHistory(agent, user, user.sync_range.end_time);
 
 				
 				// the sync end time is not changed, do nothing
@@ -142,7 +142,7 @@ namespace Wammer.Station.Timeline
 
 				do
 				{
-					res = api.GetChangeHistory(agent, user, since.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"));
+					res = api.GetChangeHistory(agent, user, since);
 
 					db.SaveUserTracks(new UserTracks(res));
 					since = res.latest_timestamp;

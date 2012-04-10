@@ -183,9 +183,9 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public string type { get; set; }
 		[BsonIgnoreIfNull]
-		public string update_time { get; set; }
+		public DateTime update_time { get; set; }
 		[BsonIgnoreIfNull]
-		public string timestamp { get; set; }
+		public DateTime timestamp { get; set; }
 
 		[BsonId]
 		public string post_id { get; set; }

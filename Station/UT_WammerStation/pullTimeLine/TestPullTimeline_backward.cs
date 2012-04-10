@@ -117,7 +117,7 @@ namespace UT_WammerStation.pullTimeLine
 				total_count = 1,
 				group_id = "group1",
 				posts = new List<PostInfo> {
-							new PostInfo { timestamp = "2012-01-02T03:04:05Z", post_id = "post1" }
+							new PostInfo { timestamp =  new DateTime(2012,1,2,3,4,5, DateTimeKind.Utc), post_id = "post1" }
 				}
 			};
 
@@ -145,9 +145,9 @@ namespace UT_WammerStation.pullTimeLine
 			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First(), db.SavedPosts[0]);
 
 			// verify driver's sync range is updated
-			Assert.AreEqual(TimeHelper.ParseCloudTimeString(postInfoProvider.GetLastestPosts_return.posts.First().timestamp), db.UpdateSyncRange_syncRange.end_time);
-			Assert.AreEqual(TimeHelper.ParseCloudTimeString(postInfoProvider.GetLastestPosts_return.posts.First().timestamp), db.UpdateSyncRange_syncRange.start_time);
-			Assert.AreEqual(TimeHelper.ParseCloudTimeString(postInfoProvider.GetLastestPosts_return.posts.First().timestamp), db.UpdateSyncRange_syncRange.first_post_time);
+			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.end_time);
+			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.start_time);
+			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.first_post_time);
 		}
 
 		[TestMethod]
@@ -160,7 +160,7 @@ namespace UT_WammerStation.pullTimeLine
 				total_count = 10, // there are more data
 				group_id = "group1",
 				posts = new List<PostInfo> {
-							new PostInfo { timestamp = "2012-01-02T03:04:05Z", post_id = "post1" }
+							new PostInfo { timestamp = new DateTime(2012,1,2,3,4,5, DateTimeKind.Utc), post_id = "post1" }
 				}
 			};
 
@@ -179,8 +179,8 @@ namespace UT_WammerStation.pullTimeLine
 			timelineSyncer.PullBackward(user);
 
 			// verify driver's sync range is updated
-			Assert.AreEqual(TimeHelper.ParseCloudTimeString(postInfoProvider.GetLastestPosts_return.posts.First().timestamp), db.UpdateSyncRange_syncRange.end_time);
-			Assert.AreEqual(TimeHelper.ParseCloudTimeString(postInfoProvider.GetLastestPosts_return.posts.First().timestamp), db.UpdateSyncRange_syncRange.start_time);
+			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.end_time);
+			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.start_time);
 			Assert.AreEqual(DateTime.MinValue, db.UpdateSyncRange_syncRange.first_post_time);
 		}
 
@@ -189,7 +189,7 @@ namespace UT_WammerStation.pullTimeLine
 		{
 			DummyPostInfoProvider postInfoProvider = new DummyPostInfoProvider();
 
-			PostInfo oldestPost = new PostInfo { timestamp = "2012-02-03T03:04:05Z", post_id = "post1" };
+			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012,2,3,3,4,5, DateTimeKind.Utc), post_id = "post1" };
 
 			postInfoProvider.GetPostsBefore_return = new PostFetchByFilterResponse
 			{
@@ -229,7 +229,7 @@ namespace UT_WammerStation.pullTimeLine
 
 			// verify new start_timestamp is updated
 			Assert.AreEqual(user.user_id, db.UpdateSyncRange_userId);
-			Assert.AreEqual(TimeHelper.ParseCloudTimeString(oldestPost.timestamp), db.UpdateSyncRange_syncRange.start_time);
+			Assert.AreEqual(oldestPost.timestamp, db.UpdateSyncRange_syncRange.start_time);
 			Assert.AreEqual(user.sync_range.end_time, db.UpdateSyncRange_syncRange.end_time);
 			Assert.AreEqual(DateTime.MinValue, db.UpdateSyncRange_syncRange.first_post_time);
 		}
@@ -239,7 +239,7 @@ namespace UT_WammerStation.pullTimeLine
 		{
 			DummyPostInfoProvider postInfoProvider = new DummyPostInfoProvider();
 
-			PostInfo oldestPost = new PostInfo { timestamp = "2012-02-03T03:04:05Z", post_id = "post1" };
+			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012,2,3, 3, 4, 5, DateTimeKind.Utc), post_id = "post1" };
 
 			postInfoProvider.GetPostsBefore_return = new PostFetchByFilterResponse
 			{
@@ -270,9 +270,9 @@ namespace UT_WammerStation.pullTimeLine
 
 			// verify new start_timestamp is updated
 			Assert.AreEqual(user.user_id, db.UpdateSyncRange_userId);
-			Assert.AreEqual(TimeHelper.ParseCloudTimeString(oldestPost.timestamp), db.UpdateSyncRange_syncRange.start_time);
+			Assert.AreEqual(oldestPost.timestamp, db.UpdateSyncRange_syncRange.start_time);
 			Assert.AreEqual(user.sync_range.end_time, db.UpdateSyncRange_syncRange.end_time);
-			Assert.AreEqual(TimeHelper.ParseCloudTimeString(oldestPost.timestamp), db.UpdateSyncRange_syncRange.first_post_time);
+			Assert.AreEqual(oldestPost.timestamp, db.UpdateSyncRange_syncRange.first_post_time);
 		}
 
 		[TestMethod]
@@ -280,7 +280,7 @@ namespace UT_WammerStation.pullTimeLine
 		{
 			DummyPostInfoProvider postInfoProvider = new DummyPostInfoProvider();
 
-			PostInfo oldestPost = new PostInfo { timestamp = "2012-02-03T03:04:05Z", post_id = "post1" };
+			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012,2,3,3,4,5, DateTimeKind.Utc), post_id = "post1" };
 
 			postInfoProvider.GetPostsBefore_return = new PostFetchByFilterResponse
 			{
