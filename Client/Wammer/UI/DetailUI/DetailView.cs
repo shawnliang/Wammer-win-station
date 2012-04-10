@@ -31,8 +31,7 @@ namespace Waveface
         private RichText_DV m_richTextDv;
 
         private Panel panelTop;
-        private Label labelWho;
-        private Label labelTime;
+        private Label labelTitle;
         private Timer timerGC;
         private ImageButton btnComment;
         private Panel panelMain;
@@ -95,16 +94,15 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelTop = new System.Windows.Forms.Panel();
-            this.btnFavorite = new Waveface.Component.ImageButton();
-            this.btnRemove = new Waveface.Component.ImageButton();
-            this.btnEdit = new Waveface.Component.ImageButton();
-            this.btnComment = new Waveface.Component.ImageButton();
-            this.labelWho = new System.Windows.Forms.Label();
-            this.labelTime = new System.Windows.Forms.Label();
+            this.labelTitle = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.timerCanEdit = new System.Windows.Forms.Timer(this.components);
+            this.btnFavorite = new Waveface.Component.ImageButton();
+            this.btnRemove = new Waveface.Component.ImageButton();
+            this.btnEdit = new Waveface.Component.ImageButton();
+            this.btnComment = new Waveface.Component.ImageButton();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -115,10 +113,36 @@ namespace Waveface
             this.panelTop.Controls.Add(this.btnRemove);
             this.panelTop.Controls.Add(this.btnEdit);
             this.panelTop.Controls.Add(this.btnComment);
-            this.panelTop.Controls.Add(this.labelWho);
-            this.panelTop.Controls.Add(this.labelTime);
+            this.panelTop.Controls.Add(this.labelTitle);
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
+            // 
+            // labelTitle
+            // 
+            resources.ApplyResources(this.labelTitle, "labelTitle");
+            this.labelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(121)))), ((int)(((byte)(143)))));
+            this.labelTitle.Name = "labelTitle";
+            // 
+            // panelMain
+            // 
+            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.Name = "panelMain";
+            // 
+            // timerGC
+            // 
+            this.timerGC.Interval = 60000;
+            this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // timerCanEdit
+            // 
+            this.timerCanEdit.Enabled = true;
+            this.timerCanEdit.Interval = 666;
+            this.timerCanEdit.Tick += new System.EventHandler(this.timerCanEdit_Tick);
             // 
             // btnFavorite
             // 
@@ -167,39 +191,6 @@ namespace Waveface
             this.btnComment.TabStop = false;
             this.btnComment.Click += new System.EventHandler(this.btnComment_Click);
             // 
-            // labelWho
-            // 
-            resources.ApplyResources(this.labelWho, "labelWho");
-            this.labelWho.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
-            this.labelWho.Name = "labelWho";
-            // 
-            // labelTime
-            // 
-            resources.ApplyResources(this.labelTime, "labelTime");
-            this.labelTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
-            this.labelTime.Name = "labelTime";
-            // 
-            // panelMain
-            // 
-            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.Name = "panelMain";
-            // 
-            // timerGC
-            // 
-            this.timerGC.Interval = 60000;
-            this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // timerCanEdit
-            // 
-            this.timerCanEdit.Enabled = true;
-            this.timerCanEdit.Interval = 666;
-            this.timerCanEdit.Tick += new System.EventHandler(this.timerCanEdit_Tick);
-            // 
             // DetailView
             // 
             this.Controls.Add(this.panelMain);
@@ -214,27 +205,12 @@ namespace Waveface
 
         #endregion
 
-        #region Event Handlers
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            LinearGradientBrush _brush = new LinearGradientBrush(ClientRectangle, Color.FromArgb(106, 112, 128),
-                                                                 Color.FromArgb(138, 146, 166),
-                                                                 LinearGradientMode.ForwardDiagonal);
-
-            e.Graphics.FillRectangle(_brush, ClientRectangle);
-
-            base.OnPaint(e);
-        }
-
-        #endregion
-
         private void ShowContent(bool force)
         {
             if (m_post == null)
                 return;
 
-            //btnComment.Visible = true;
+            // btnComment.Visible = true;
             btnRemove.Visible = true;
             btnEdit.Visible = true;
             btnFavorite.Visible = true;
@@ -275,10 +251,13 @@ namespace Waveface
 
         private void setupTitle()
         {
-            labelTime.Text = DateTimeHelp.ISO8601ToDotNet(Post.timestamp, true);
-            labelWho.Text = I18n.L.T("DetailView.Via") + " " + Post.code_name;
+            string _postTime = Post.timestamp;
+            _postTime = DateTimeHelp.ISO8601ToDotNet(_postTime, false);
+            _postTime = DateTimeHelp.PrettyDate(_postTime);
 
-            labelWho.Left = labelTime.Right + 8;
+            string _s = _postTime + " " + I18n.L.T("DetailView.Via") + " " + Post.code_name;
+
+            labelTitle.Text = _s;
         }
 
         private void setFavoriteButton()
@@ -440,9 +419,9 @@ namespace Waveface
             return true;
         }
 
-        public string GenCommentHTML(Post post)
+        public string GenCommentHTML(Post post, bool endHR)
         {
-            string _html = "<blockquote><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif' color='#eef'>";
+            string _html = "<div style='border-left:2px solid #559aae; padding-left:4px'><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif' color='#eef'>";
 
             int k = 1;
 
@@ -456,21 +435,21 @@ namespace Waveface
                 _s.Append(" 		<table border=\"0\">");
                 _s.Append("    			<tr>");
 
-                string _t = "      				<td><font size='2pt' color='gray'>[CommentTime] " + I18n.L.T("DetailView.Via") +
+                string _t = "      				<td><font size='1.75pt' color=#68b0c5>[CommentTime] " + I18n.L.T("DetailView.Via") +
                             " [code_name]</font></td>";
 
                 _s.Append(_t);
                 _s.Append("    			</tr>");
                 _s.Append("    			<tr>");
-                _s.Append("      				<td><font size='2.75pt'>[Comment]</font></td>");
+                _s.Append("      				<td><font size='2pt'>[Comment]</font></td>");
                 _s.Append("    			</tr>");
                 _s.Append("		</table>");
                 _s.Append("      	     </td>");
                 _s.Append("    	  </tr>");
                 _s.Append("	</table>");
 
-                if (post.comment_count != k)
-                    _s.Append("<p></p>");
+                //if (post.comment_count != k)
+                //    _s.Append("<p></p>");
 
                 k++;
 
@@ -494,9 +473,10 @@ namespace Waveface
                 }
             }
 
-            _html += "</font></blockquote>";
+            _html += "</font></div>";
 
-            _html += "<HR>";
+            if(endHR)
+                _html += "<HR>";
 
             return _html;
         }

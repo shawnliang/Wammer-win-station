@@ -163,13 +163,13 @@
     <value>Fill</value>
   </data>
   <data name="panelPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 0</value>
+    <value>181, 0</value>
   </data>
   <data name="panelPost.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 488</value>
+    <value>329, 488</value>
   </data>
   <data name="panelPost.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -199,7 +199,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="splitterLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 488</value>
+    <value>1, 488</value>
   </data>
   <data name="splitterLeft.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>

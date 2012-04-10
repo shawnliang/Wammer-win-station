@@ -286,7 +286,7 @@ namespace Waveface.DetailUI
 
             _html = _html.Replace("[Text]", _content);
 
-            _html += MyParent.GenCommentHTML(Post);
+            _html += MyParent.GenCommentHTML(Post, false);
 
             _html = HtmlUtility.MakeLink(_html, m_clickableURL);
 
