@@ -76,5 +76,28 @@ namespace UT_WammerStation
 			string json = obj.ToFastJSON();
 			Assert.AreEqual("{\"Array\":[{\"Data\":\"123\"},{\"Data\":\"456\"}]}", json);
 		}
+
+		public class A1
+		{
+			public DateTime date { get; set; }
+		}
+
+		[TestMethod]
+		public void testDateTimeLocal()
+		{
+			fastJSON.JSON.Instance.UseUTCDateTime = true;
+			A1 a = new A1 { date = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Local) };
+			string json = a.ToFastJSON();
+			Assert.AreEqual("{\"date\":\"" + a.date.ToCloudTimeString() + "\"}", json);
+		}
+
+		[TestMethod]
+		public void testDateTimeUtc()
+		{
+			fastJSON.JSON.Instance.UseUTCDateTime = true;
+			A1 a = new A1 { date = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc) };
+			string json = a.ToFastJSON();
+			Assert.AreEqual("{\"date\":\"" + a.date.ToCloudTimeString() + "\"}", json);
+		}
 	}
 }
