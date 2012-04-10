@@ -56,8 +56,6 @@ namespace Waveface
 
         private string m_stationIP;
 
-        private bool m_firstTimeShowBalloonTipTitle;
-
         private PostType m_delayPostType;
 
         private FormSettings m_formSettings;
@@ -611,8 +609,6 @@ namespace Waveface
 
             postsArea.ShowTypeUI(false);
             postsArea.showRefreshUI(false);
-
-            m_firstTimeShowBalloonTipTitle = true;
 
             s_logger.Trace("Reset.Online" + online.ToString());
         }

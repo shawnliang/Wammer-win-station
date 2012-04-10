@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Linq;
-
-using System;
-using System.Linq;
 using Wammer.Station;
 using System.Net;
 using Wammer.Cloud;
