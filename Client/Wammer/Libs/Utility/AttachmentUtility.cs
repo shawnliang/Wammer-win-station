@@ -69,6 +69,7 @@ namespace Waveface
             return _url;
         }
 
+
         public static string GetRedirectURL_Image(string session_token, Attachment a, string imageType, out string url, out string fileName, bool forceCloud)
         {
             const string SMALL = "small";
@@ -77,6 +78,7 @@ namespace Waveface
 
             string object_id = a.object_id;
             string _imageType = imageType;
+		
 
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
@@ -108,7 +110,7 @@ namespace Waveface
                     _imageType = ORIGIN;
 
                     url = _url;
-                    fileName = a.object_id +"_" + a.image_meta.medium.file_name;
+					fileName = a.object_id + Path.GetExtension(a.file_name);
 
                     return _imageType;
                 }
@@ -119,7 +121,7 @@ namespace Waveface
             else
                 url = _url; //@  +"&" + "image_meta=" + _imageType;
 
-            fileName = a.object_id + "_" + _imageType +"_" + a.image_meta.medium.file_name;
+			fileName = a.object_id + "_" + _imageType + Path.GetExtension(a.file_name);
             return _imageType;
         }
 

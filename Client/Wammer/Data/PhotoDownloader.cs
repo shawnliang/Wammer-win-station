@@ -239,12 +239,12 @@ namespace Waveface
 
                     WebResponse _wRep = _wReq.GetResponse();
 
-                    Image _img = Image.FromStream(_wRep.GetResponseStream());
+					//Image _img = Image.FromStream(_wRep.GetResponseStream());
 
-                    if (!File.Exists(_localPath))
-                        _img.Save(_localPath);
+					//if (!File.Exists(_localPath))
+					//    _img.Save(_localPath);
 
-                    _img = null;
+					//_img = null;
 
                     s_logger.Trace("GetFile:" + _localPath);
 
