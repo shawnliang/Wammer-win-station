@@ -115,11 +115,11 @@ namespace Wammer.Station
 							}
 						}
 					}
-					logger.Warn("cloud send heartbeat error", ex);
+					logger.Debug("cloud send heartbeat error", ex);
 				}
 				catch (Exception ex)
 				{
-					logger.Warn("cloud send heartbeat error", ex);
+					logger.Debug("cloud send heartbeat error", ex);
 				}
 			}
 		}
