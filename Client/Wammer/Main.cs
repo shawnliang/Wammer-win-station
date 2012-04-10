@@ -1685,10 +1685,16 @@ namespace Waveface
             MR_posts_getLatest _getLatest = null;
 
             try
-            {
-                _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
-            }
-            catch
+			{
+				// station might return no posts if it hasn't prefetch any timeline from cloud,
+				// but we can know the actual post count by total_count
+				do
+				{
+					_getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+				}
+				while (_getLatest.get_count == 0 && _getLatest.total_count > 0);
+			}
+			catch
             {
                 //Hack: Cloud ¦R¥X¿ù»~¸ê®Æ
 
@@ -1707,9 +1713,9 @@ namespace Waveface
 
                 if (_getLatest.get_count < _getLatest.total_count)
                 {
-                    int _remainingCount = int.MaxValue;
+                    int _fetchedCount = _getLatest.get_count;
 
-					while (_remainingCount > 0)
+                    while (_getLatest.total_count > _fetchedCount)
                     {
 						if (bgWorkerGetAllData.CancellationPending)
 						{
@@ -1729,10 +1735,9 @@ namespace Waveface
                                 {
                                     _allPosts.Add(_p.post_id, _p);
                                     _datum = _p.timestamp;
+                                    _fetchedCount++;
                                 }
                             }
-
-                            _remainingCount = _postsGet.remaining_count;
                         }
                     }
                 }
