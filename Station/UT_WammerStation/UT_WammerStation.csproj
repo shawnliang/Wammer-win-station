@@ -115,6 +115,7 @@
     <Compile Include="TestPersistentQueue.cs" />
     <Compile Include="TestServiceHelper.cs" />
     <Compile Include="TestStreamHelper.cs" />
+    <Compile Include="TestTimeHelper.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
     <Compile Include="TestUserTrackApiHandler.cs" />

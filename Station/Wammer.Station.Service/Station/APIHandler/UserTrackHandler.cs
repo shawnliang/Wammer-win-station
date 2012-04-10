@@ -115,7 +115,7 @@ namespace Wammer.Station.APIHandler
 			if (!user.is_change_history_synced)
 				throw new WammerStationException("usertracks API is not ready. Syncing still in progress.", (int)StationApiError.NotReady);
 
-			DateTime sinceDateTime = DateTime.ParseExact(since, "yyyy-MM-dd'T'HH:mm:ss'Z'", CultureInfo.InvariantCulture);
+			DateTime sinceDateTime = Wammer.Utility.TimeHelper.ParseCloudTimeString(since);
 			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, sinceDateTime);
 
 			UserTrackResponse response = new UserTrackResponse();
