@@ -233,10 +233,12 @@ namespace StationSystemTray
 				}
 			}
 
-			if (userlogin != null && userlogin.RememberPassword)
+			var loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+
+			if (loginedSession != null || (userlogin != null && userlogin.RememberPassword))
 			{
 				userloginContainer.UpsertUserLoginSetting(userlogin);
-				RefreshUserList();
+				//RefreshUserList();
 
 				LaunchWavefaceClient(userlogin);
 
@@ -918,7 +920,8 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
+			var loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne();
+			menuSignIn.Text = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited)) ? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
 		}
 
 		private void cmbEmail_TextChanged(object sender, EventArgs e)
