@@ -163,7 +163,7 @@ namespace Waveface.DetailUI
             {
                 if (_a.mime_type == "text/html")
                 {
-                    m_htmlFile = Main.GCONST.CachePath + _a.object_id + ".html";
+                    m_htmlFile = Path.Combine(Main.GCONST.CachePath, _a.object_id + ".html");
 
                     if (File.Exists(m_htmlFile))
                     {

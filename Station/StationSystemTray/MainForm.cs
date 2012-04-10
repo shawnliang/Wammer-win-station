@@ -234,7 +234,10 @@ namespace StationSystemTray
 				}
 			}
 
-			var loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+			LoginedSession loginedSession = null;
+
+			if (userlogin != null)
+				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
 
 			if (loginedSession != null || (userlogin != null && userlogin.RememberPassword))
 			{

@@ -78,7 +78,7 @@ namespace Waveface
         {
             get
             {
-                return GCONST.CachePath + "LoadingImage.jpg";
+                return Path.Combine(GCONST.CachePath, "LoadingImage.jpg");
             }
         }
 
@@ -632,9 +632,6 @@ namespace Waveface
 				m_stationIP = "http://127.0.0.1:9981";
 				WService.StationIP = m_stationIP;
 				StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
-				UploadOriginPhotosToStationManager.Start();
-				PhotoDownloader.Start();
-				BatchPostManager.Start();
 			}
 
             MR_auth_login _login = RT.REST.Auth_Login(email, password);
@@ -666,7 +663,13 @@ namespace Waveface
             RT.LoadGroupLocalRead();
 
 			if (Environment.GetCommandLineArgs().Length == 1)
-				StartBgThreads();	
+				StartBgThreads();
+			else
+			{
+				UploadOriginPhotosToStationManager.Start();
+				PhotoDownloader.Start();
+				BatchPostManager.Start();
+			}
 
             leftArea.SetNewPostManager();
 
@@ -1489,7 +1492,7 @@ namespace Waveface
 
                 _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-                Post(new List<string> { GCONST.CachePath + _filename }, PostType.Photo);
+                Post(new List<string> { Path.Combine(GCONST.CachePath, _filename) }, PostType.Photo);
             }
             catch (Exception _e)
             {
@@ -1814,7 +1817,7 @@ namespace Waveface
                             string _fileName = string.Empty;
                             Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url, out _fileName, false);
 
-                            string _localPic = GCONST.CachePath + _fileName;
+                            string _localPic =Path.Combine(GCONST.CachePath, _fileName);
 
                             PreloadThumbnail(_url, _localPic);
 
@@ -1828,7 +1831,7 @@ namespace Waveface
                             {
                                 string _url = post.preview.thumbnail_url;
 
-                                string _localPic = GCONST.CachePath + post.post_id + "_previewthumbnail_" + ".jpg";
+								string _localPic = Path.Combine(GCONST.CachePath, post.post_id + "_previewthumbnail_" + ".jpg");
 
                                 PreloadThumbnail(_url, _localPic);
                             }
@@ -1856,7 +1859,7 @@ namespace Waveface
                                 Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url,
                                                                                  out _fileName, false);
 
-                                string _localPic = GCONST.CachePath + _fileName;
+								string _localPic = Path.Combine(GCONST.CachePath, _fileName);
 
                                 PreloadThumbnail(_url, _localPic);
                             }
@@ -1870,7 +1873,7 @@ namespace Waveface
 
                             if (_a.image != string.Empty)
                             {
-                                string _localPic = GCONST.CachePath + _a.object_id + "_thumbnail" + ".jpg";
+                                string _localPic =  Path.Combine(GCONST.CachePath, _a.object_id + "_thumbnail" + ".jpg");
 
                                 string _url = _a.image;
 

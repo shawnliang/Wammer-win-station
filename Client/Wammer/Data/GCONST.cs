@@ -57,6 +57,9 @@ namespace Waveface
 
 			CachePath = Path.Combine(CachePath, "user_" + user.user_id);
 
+			if (!CachePath.EndsWith(@"\"))
+				CachePath += @"\";
+
             Directory.CreateDirectory(CachePath);
 
             string[] _filePaths = Directory.GetFiles(CachePath);

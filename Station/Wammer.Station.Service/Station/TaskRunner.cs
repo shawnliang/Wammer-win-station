@@ -45,7 +45,7 @@ namespace Wammer.Station
 		{
 			exit = false;
 
-			if (m_Thread.ThreadState != ThreadState.Running)
+			if (m_Thread.ThreadState == ThreadState.Unstarted)
 				m_Thread.Start();
 		}
 

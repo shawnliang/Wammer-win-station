@@ -333,7 +333,7 @@ namespace Waveface.DetailUI
                 string _fileNameO = string.Empty;
                 Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, false);
 
-                string _localFileO = Main.GCONST.CachePath + _fileNameO;
+                string _localFileO = Path.Combine( Main.GCONST.CachePath , _fileNameO);
 
                 m_filePathOrigins.Add(_localFileO);
 
@@ -347,7 +347,7 @@ namespace Waveface.DetailUI
                 string _fileNameM = string.Empty;
                 Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM, false);
 
-                string _localFileM = Main.GCONST.CachePath + _fileNameM;
+                string _localFileM = Path.Combine(Main.GCONST.CachePath ,_fileNameM);
 
                 m_filePathMediums.Add(_localFileM);
 

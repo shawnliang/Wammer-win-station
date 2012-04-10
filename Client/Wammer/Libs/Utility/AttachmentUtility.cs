@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Web;
 using Waveface.API.V2;
+using System.IO;
 
 namespace Waveface
 {
@@ -25,7 +26,7 @@ namespace Waveface
                 string _fileNameM = string.Empty;
                 Main.Current.RT.REST.attachments_getRedirectURL_Image(_a, "medium", out _urlM, out _fileNameM, false);
 
-                string _localFileM = Main.GCONST.CachePath + _fileNameM;
+                string _localFileM = Path.Combine( Main.GCONST.CachePath , _fileNameM);
 
                 files.Add(_a.object_id, _localFileM);
 
