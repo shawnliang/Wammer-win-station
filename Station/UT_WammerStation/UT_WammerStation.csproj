@@ -119,6 +119,7 @@
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
     <Compile Include="TestUserTrackApiHandler.cs" />
+    <Compile Include="TestUserTrackCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt">
