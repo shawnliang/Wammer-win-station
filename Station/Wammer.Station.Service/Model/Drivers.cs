@@ -80,8 +80,11 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public SyncRange sync_range { get; set; }
 
+		/// <summary>
+		/// Is UserTracks synced with timeline ?
+		/// </summary>
 		[BsonIgnoreIfNull]
-		public string change_log_sync_time { get; set; }
+		public bool is_change_history_synced { get; set; }
 
 		/// <summary>
 		/// Total count of posts. The value is valid until timeline is pulled to the first post.

@@ -20,7 +20,7 @@ namespace Wammer.Station.Timeline
 		void SavePost(PostInfo post);
 		void SaveUserTracks(UserTracks userTracks);
 		void UpdateDriverSyncRange(string userId, SyncRange syncRange);
-		void UpdateChangeLogSyncTime(string userId, string syncTime);
+		void UpdateDriverChangeHistorySynced(string userId, bool isSynced);
 	}
 
 	public class TimelineSyncer
@@ -124,15 +124,10 @@ namespace Wammer.Station.Timeline
 				PullBackward(user);
 			else if (HasUnsyncedOldPosts(user))
 				PullBackward(user);
-			else if (HasUnsyncedOldChangeLog(user))
+			else if (!user.is_change_history_synced)
 				PullOldChangeLog(user);
 			else
 				PullForward(user);
-		}
-
-		private static bool HasUnsyncedOldChangeLog(Driver user)
-		{
-			return string.IsNullOrEmpty(user.change_log_sync_time) || user.change_log_sync_time.CompareTo(user.sync_range.end_time) < 0;
 		}
 
 		private void PullOldChangeLog(Driver user)
@@ -140,7 +135,7 @@ namespace Wammer.Station.Timeline
 			using (WebClient agent = new WebClient())
 			{
 				UserTracksApi api = new UserTracksApi();
-				string since = user.change_log_sync_time;
+				string since = "";
 
 				UserTrackResponse res;
 
@@ -163,7 +158,7 @@ namespace Wammer.Station.Timeline
 				SyncRange newSyncRange = user.sync_range.Clone();
 				newSyncRange.end_time = since;
 				db.UpdateDriverSyncRange(user.user_id, newSyncRange);
-				db.UpdateChangeLogSyncTime(user.user_id, since);
+				db.UpdateDriverChangeHistorySynced(user.user_id, true);
 			}
 		}
 

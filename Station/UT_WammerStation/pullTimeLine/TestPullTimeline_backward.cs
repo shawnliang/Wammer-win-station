@@ -61,7 +61,7 @@ namespace UT_WammerStation.pullTimeLine
 
 		// UpdateChangeLogSyncTime
 		public string UpdateChangeLogSyncTime_userId { get; set; }
-		public string UpdateChangeLogSyncTime_time { get; set; }
+		public bool UpdateChangeLogSyncTime_synced { get; set; }
 
 		// UpdateSyncRange
 		public string UpdateSyncRange_userId { get; set; }
@@ -89,9 +89,9 @@ namespace UT_WammerStation.pullTimeLine
 			UpdateSyncRange_syncRange = syncRange;
 		}
 
-		public void UpdateChangeLogSyncTime(string userId, string time)
+		public void UpdateDriverChangeHistorySynced(string userId, bool synced)
 		{
-			UpdateChangeLogSyncTime_time = time;
+			UpdateChangeLogSyncTime_synced = synced;
 			UpdateChangeLogSyncTime_userId = userId;
 		}
 	}

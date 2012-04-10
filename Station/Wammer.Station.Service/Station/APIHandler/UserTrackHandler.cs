@@ -7,7 +7,7 @@ using MongoDB.Driver.Builders;
 using MongoDB.Driver;
 using Wammer.Cloud;
 
-namespace Wammer.Station
+namespace Wammer.Station.APIHandler
 {
 	public class UserTrackHandler : HttpHandler
 	{
@@ -57,60 +57,7 @@ namespace Wammer.Station
 		{
 			CheckParameter("group_id", "since");
 
-			if ("true" == Parameters["include_entities"])
-				throw new WammerStationException("Station does not support include_entities=true", (int)StationApiError.Error);
-
-
-			string since = Parameters["since"];
-			string group_id = Parameters["group_id"];
-
-			IMongoQuery queryCriteria;
-
-			if (string.IsNullOrEmpty(since))
-				queryCriteria = Query.And(
-					Query.EQ("group_id", group_id),
-					Query.EQ("hidden", "false"));
-			else
-				queryCriteria = Query.And(
-					Query.EQ("group_id", group_id),
-					Query.EQ("hidden", "false"),
-					Query.GTE("update_time", since));
-
-			MongoCursor<PostInfo> posts = PostCollection.Instance.Find(
-				queryCriteria).SetSortOrder(SortBy.Ascending("update_time"));
-
-			long total_count = posts.Count();
-
-			posts = posts.SetLimit(LIMIT);
-
-			List<string> idList = getIdList(posts);
-
-			RespondSuccess(new UserTrackResponse
-			{
-				api_ret_code = 0,
-				api_ret_message = "success",
-				get_count = (int)total_count,
-				group_id = group_id,
-				latest_timestamp = posts.Last().update_time,
-				status = 200,
-				timestamp = DateTime.UtcNow,
-				remaining_count = (int)(total_count - idList.Count),
-				post_id_list = idList
-			});
-		}
-
-		protected List<string> getIdList(MongoCursor<PostInfo> posts)
-		{
-			List<string> idList = new List<string>();
-
-			foreach (PostInfo post in posts)
-			{
-				idList.Add(post.post_id);
-				if (idList.Count == LIMIT)
-					return idList;
-			}
-
-			return idList;
+		
 		}
 		#endregion
 
@@ -120,5 +67,76 @@ namespace Wammer.Station
 			return this.MemberwiseClone();
 		}
 		#endregion
+	}
+
+	public interface IUserTrackHandlerDB
+	{
+		Driver GetUserByGroupId(string group_id);
+		IEnumerable<UserTracks> GetUserTracksSince(string group_id, string since);
+	}
+
+	public class UserTrackHandlerImp
+	{
+		private IUserTrackHandlerDB db;
+
+		public UserTrackHandlerImp(IUserTrackHandlerDB db)
+		{
+			this.db = db;
+		}
+
+		public UserTrackResponse GetUserTrack(string group_id, string since, bool include_entities)
+		{
+			Driver user = db.GetUserByGroupId(group_id);
+
+			if (user == null)
+				throw new WammerStationException("user of group " + group_id + " not found", (int)StationApiError.InvalidDriver);
+
+			if (!user.is_change_history_synced)
+				throw new WammerStationException("usertracks API is not ready. Syncing still in progress.", (int)StationApiError.NotReady);
+
+
+			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, since);
+
+			UserTrackResponse response = new UserTrackResponse();
+			response.post_id_list = mergePostIdLists(userTracks);
+			response.usertrack_list = mergeDetails(userTracks);
+			response.get_count = response.usertrack_list.Count;
+			response.group_id = group_id;
+			response.latest_timestamp = userTracks.Last().latest_timestamp;
+			response.remaining_count = 0;
+
+			return response;
+		}
+
+		private List<UserTrackDetail> mergeDetails(IEnumerable<UserTracks> tracks)
+		{
+			List<UserTrackDetail> details = new List<UserTrackDetail>();
+
+			foreach (UserTracks ut in tracks)
+			{
+				if (ut.usertrack_list == null)
+					continue;
+
+				details.AddRange(ut.usertrack_list);
+			}
+
+			return details;
+		}
+
+		private List<string> mergePostIdLists(IEnumerable<UserTracks> tracks)
+		{
+			HashSet<string> posts = new HashSet<string>();
+
+			foreach (UserTracks ut in tracks)
+			{
+				if (ut.post_id_list == null)
+					continue;
+
+				foreach (string post_id in ut.post_id_list)
+					posts.Add(post_id);
+
+			}
+			return posts.ToList();
+		}
 	}
 }

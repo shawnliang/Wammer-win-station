@@ -42,5 +42,10 @@ namespace Wammer.Cloud
 		public string latest_timestamp { get; set; }
 		public int remaining_count { get; set; }
 		public List<UserTrackDetail> usertrack_list { get; set; }
+
+		public UserTrackResponse()
+			:base()
+		{
+		}
 	}
 }

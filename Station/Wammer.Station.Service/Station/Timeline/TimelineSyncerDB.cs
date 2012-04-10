@@ -26,11 +26,11 @@ namespace Wammer.Station.Timeline
 				Update.Set("sync_range", syncRange.ToBsonDocument()));
 		}
 
-		public void UpdateChangeLogSyncTime(string userId, string syncTime)
+		public void UpdateDriverChangeHistorySynced(string userId, bool synced)
 		{
 			DriverCollection.Instance.Update(
 				Query.EQ("_id", userId),
-				Update.Set("change_log_sync_time", syncTime));
+				Update.Set("is_change_history_synced", synced));
 		}
 
 		public void SaveUserTracks(UserTracks userTracks)
