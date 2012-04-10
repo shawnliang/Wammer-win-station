@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using Wammer.Cloud;
+using System;
 
 namespace Wammer.Model
 {
@@ -129,11 +130,11 @@ namespace Wammer.Model
 	public class SyncRange
 	{
 		[BsonIgnoreIfNull]
-		public string start_time { get; set; }
+		public DateTime start_time { get; set; }
 		[BsonIgnoreIfNull]
-		public string end_time { get; set; }
+		public DateTime end_time { get; set; }
 		[BsonIgnoreIfNull]
-		public string first_post_time { get; set; }
+		public DateTime first_post_time { get; set; }
 
 		public SyncRange Clone()
 		{

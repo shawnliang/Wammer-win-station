@@ -73,7 +73,7 @@ namespace UT_WammerStation.pullTimeLine
 			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, new FakeUserTracksApi());
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
 
-			string since = "2012-01-02T13:23:42Z";
+			DateTime since = new DateTime(2012, 1, 2, 13, 23, 42, DateTimeKind.Utc);
 
 			Driver user = new Driver
 			{
@@ -100,7 +100,7 @@ namespace UT_WammerStation.pullTimeLine
 
 			// verify driver's sync.end_time is updated.
 			// "2012-02-02T13:23:42Z" is from the return value of FakeUserTracksApi.GetChangeHistory
-			Assert.AreEqual("2012-02-02T13:23:42Z", db.UpdateSyncRange_syncRange.end_time); 
+			Assert.AreEqual(new DateTime(2012,2,2,13,23,42, DateTimeKind.Utc), db.UpdateSyncRange_syncRange.end_time); 
 		}
 
 
@@ -118,7 +118,7 @@ namespace UT_WammerStation.pullTimeLine
 			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, new FakeUserTracksApi());
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
 
-			string since = "2012-01-02T13:23:42Z";
+			DateTime since = new DateTime(2012, 1, 2, 13, 23, 42, DateTimeKind.Utc);
 
 			Driver user = new Driver
 			{
@@ -143,7 +143,7 @@ namespace UT_WammerStation.pullTimeLine
 			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, new FakeUserTracksApi());
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
 
-			string since = "2012-02-02T13:23:42Z";
+			DateTime since = new DateTime(2012, 2, 2, 13, 23, 42, DateTimeKind.Utc);
 
 			Driver user = new Driver
 			{
@@ -177,7 +177,7 @@ namespace UT_WammerStation.pullTimeLine
 			{
 				get_count = 3,
 				group_id = "group1",
-				latest_timestamp = "2012-02-02T13:23:42Z",
+				latest_timestamp = new DateTime(2012, 2, 2, 13, 23, 42, DateTimeKind.Utc),
 				post_id_list = new List<string> { "post1", "post2", "post3" }
 			};
 		}

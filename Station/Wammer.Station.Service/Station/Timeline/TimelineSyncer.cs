@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Wammer.Model;
 using Wammer.Cloud;
+using Wammer.Utility;
 using System.Net;
 
 namespace Wammer.Station.Timeline
@@ -11,7 +12,7 @@ namespace Wammer.Station.Timeline
 	public interface IPostProvider
 	{
 		PostResponse GetLastestPosts(System.Net.WebClient agent, Driver user, int limit);
-		PostResponse GetPostsBefore(System.Net.WebClient agent, Driver user, string before, int limit);
+		PostResponse GetPostsBefore(System.Net.WebClient agent, Driver user, DateTime before, int limit);
 		List<PostInfo> RetrievePosts(System.Net.WebClient agent, Driver user, List<string> posts);
 	}
 
@@ -48,7 +49,7 @@ namespace Wammer.Station.Timeline
 			if (user == null)
 				throw new ArgumentNullException("user");
 
-			if (user.sync_range != null && !string.IsNullOrEmpty(user.sync_range.first_post_time))
+			if (user.sync_range != null && user.sync_range.first_post_time != DateTime.MinValue)
 				throw new InvalidOperationException("Has already pulled the oldest post");
 
 			using (WebClient agent = new WebClient())
@@ -69,9 +70,9 @@ namespace Wammer.Station.Timeline
 
 				db.UpdateDriverSyncRange(user.user_id, new SyncRange
 					{
-						start_time = res.posts.Last().timestamp,
-						end_time = (user.sync_range == null) ? res.posts.First().timestamp : user.sync_range.end_time,
-						first_post_time = res.HasMoreData ? null : res.posts.Last().timestamp
+						start_time = TimeHelper.ParseCloudTimeString(res.posts.Last().timestamp),
+						end_time = (user.sync_range == null) ? TimeHelper.ParseCloudTimeString(res.posts.First().timestamp) : user.sync_range.end_time,
+						first_post_time = res.HasMoreData ? DateTime.MinValue : TimeHelper.ParseCloudTimeString(res.posts.Last().timestamp)
 					});
 			}
 		}
@@ -85,12 +86,12 @@ namespace Wammer.Station.Timeline
 			if (user == null)
 				throw new ArgumentNullException("user");
 
-			if (user.sync_range == null || string.IsNullOrEmpty(user.sync_range.end_time))
+			if (user.sync_range == null || user.sync_range.end_time == DateTime.MinValue)
 				throw new InvalidOperationException("Should call PullBackward() first");
 
 			using (WebClient agent = new WebClient())
 			{
-				UserTrackResponse res = userTrack.GetChangeHistory(agent, user, user.sync_range.end_time);
+				UserTrackResponse res = userTrack.GetChangeHistory(agent, user, user.sync_range.end_time.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"));
 
 				
 				// the sync end time is not changed, do nothing
@@ -135,13 +136,13 @@ namespace Wammer.Station.Timeline
 			using (WebClient agent = new WebClient())
 			{
 				UserTracksApi api = new UserTracksApi();
-				string since = "";
+				DateTime since = DateTime.MinValue;
 
 				UserTrackResponse res;
 
 				do
 				{
-					res = api.GetChangeHistory(agent, user, since);
+					res = api.GetChangeHistory(agent, user, since.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'"));
 
 					db.SaveUserTracks(new UserTracks(res));
 					since = res.latest_timestamp;
@@ -164,12 +165,12 @@ namespace Wammer.Station.Timeline
 
 		private static bool HasUnsyncedOldPosts(Driver user)
 		{
-			return string.IsNullOrEmpty(user.sync_range.first_post_time);
+			return user.sync_range.first_post_time == DateTime.MinValue;
 		}
 
 		private static bool HasNeverSynced(Driver user)
 		{
-			return user.sync_range == null || string.IsNullOrEmpty(user.sync_range.end_time);
+			return user.sync_range == null || user.sync_range.end_time == DateTime.MinValue;
 		}
 
 		private void OnPostsRetrieved(List<PostInfo> posts)

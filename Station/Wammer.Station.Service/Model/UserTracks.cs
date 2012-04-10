@@ -15,7 +15,7 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public string group_id { get; set; }
 		[BsonIgnoreIfNull]
-		public string latest_timestamp { get; set; }
+		public DateTime latest_timestamp { get; set; }
 		[BsonIgnoreIfNull]
 		public List<UserTrackDetail> usertrack_list { get; set; }
 

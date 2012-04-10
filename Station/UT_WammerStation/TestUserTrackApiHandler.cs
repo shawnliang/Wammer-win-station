@@ -49,13 +49,18 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 				new Driver
 				{
 					user_id = "user1",
-					sync_range = new SyncRange { end_time = "2012-04-01T00:00:00Z", start_time = "2012-01-01T00:00:00Z", first_post_time = "2012-01-01T00:00:00Z"},
+					sync_range = new SyncRange
+					{
+						end_time = new DateTime(2012, 4, 1, 0, 0, 0, DateTimeKind.Utc),
+						start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+						first_post_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+					},
 					is_change_history_synced = true,
 				});
 
 			UserTracks ut1 = new UserTracks
 			{
-				latest_timestamp = "2012-04-10T00:00:00Z",
+				latest_timestamp = new DateTime(2012, 4, 10, 0, 0, 0, DateTimeKind.Utc),
 				post_id_list = new List<string> { "post1", "post2" },
 				usertrack_list = new List<UserTrackDetail> { 
 							new UserTrackDetail { target_type = "target_type1"}}
@@ -91,13 +96,18 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 				new Driver
 				{
 					user_id = "user1",
-					sync_range = new SyncRange { end_time = "2012-04-01T00:00:00Z", start_time = "2012-01-01T00:00:00Z", first_post_time = "2012-01-01T00:00:00Z" },
+					sync_range = new SyncRange
+					{
+						end_time = new DateTime(2012, 4, 1, 0, 0, 0, DateTimeKind.Utc),
+						start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+						first_post_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+					},
 					is_change_history_synced = true,
 				});
 
 			UserTracks ut1 = new UserTracks
 			{
-				latest_timestamp = "2012-04-10T00:00:00Z",
+				latest_timestamp = new DateTime(2012, 4, 10, 0,0,0, DateTimeKind.Utc),
 				post_id_list = new List<string> { "post1", "post2" },
 				usertrack_list = new List<UserTrackDetail> { 
 							new UserTrackDetail { target_type = "target_type1"}}
@@ -105,7 +115,7 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 
 			UserTracks ut2 = new UserTracks
 			{
-				latest_timestamp = "2012-04-11T00:00:00Z",
+				latest_timestamp = new DateTime(2012, 4, 11, 0, 0, 0, DateTimeKind.Utc),
 				post_id_list = new List<string> { "post1", "post3" },
 				usertrack_list = new List<UserTrackDetail> { 
 							new UserTrackDetail { target_type = "target_type2"}}
