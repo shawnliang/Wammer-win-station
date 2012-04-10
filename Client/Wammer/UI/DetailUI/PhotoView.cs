@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
+using Waveface.Configuration;
 using View = Manina.Windows.Forms.View;
 
 #endregion
@@ -28,9 +29,11 @@ namespace Waveface.DetailUI
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
         private int m_selectedImageIndex;
+        private int m_initSelectedImageIndex;
         private MyImageListViewRenderer m_imageListViewRenderer;
         private string m_selectedImageType;
         private Post m_post;
+        private FormSettings m_formSettings;
 
         public PhotoView()
         {
@@ -38,8 +41,14 @@ namespace Waveface.DetailUI
         }
 
         public PhotoView(Post post, List<Attachment> imageAttachments, List<string> filePathOrigins, List<string> filePathMediums, Dictionary<string, string> filesMapping, int selectedIndex)
+            : this()
         {
-            InitializeComponent();
+            m_formSettings = new FormSettings(this);
+            m_formSettings.UseLocation = true;
+            m_formSettings.UseSize = true;
+            m_formSettings.UseWindowState = true;
+            m_formSettings.AllowMinimized = false;
+            m_formSettings.SaveOnClose = true;
 
             m_post = post;
 
@@ -70,18 +79,29 @@ namespace Waveface.DetailUI
 
             imageListView.SetRenderer(m_imageListViewRenderer);
 
+            m_initSelectedImageIndex = selectedIndex;
+        }
+
+        private void PhotoView_Load(object sender, EventArgs e)
+        {
             timer.Interval = ((m_imageAttachments.Count / 200) + 2) * 1000;
 
             if (!FillImageListView(true))
                 timer.Enabled = true;
 
-            setSelectedItem(selectedIndex);
+            imageListView.Dock = DockStyle.Fill; //Hack
+
+            setSelectedItem(m_initSelectedImageIndex);
+
+            SendKeys.Send("{LEFT}"); //Hack
         }
 
         private void setSelectedItem(int selectedIndex)
         {
-            imageListView.Items[selectedIndex].Selected = true;
+            imageListView.ClearSelection();
+
             imageListView.Items[selectedIndex].Focused = true;
+            imageListView.Items[selectedIndex].Selected = true;
 
             imageListView.EnsureVisible(selectedIndex);
         }
@@ -189,14 +209,11 @@ namespace Waveface.DetailUI
             imageListView.ResumeLayout();
 
             if (!firstTime)
-                UpdateMainImage();
-        }
-
-        private void UpdateMainImage()
-        {
-            if (m_selectedImage != null)
             {
-                setSelectedItem(m_selectedImageIndex);
+                if (m_selectedImage != null)
+                {
+                    setSelectedItem(m_selectedImageIndex);
+                }
             }
         }
 
@@ -258,16 +275,6 @@ namespace Waveface.DetailUI
 
                     btnSave.Visible = true;
                     miSave.Visible = true;
-                }
-
-                if (m_post.cover_attach != null)
-                {
-                    if (!m_onlyOnePhoto)
-                    {
-                        string _cover_attach = m_imageAttachments[m_selectedImageIndex].object_id;
-
-                        btnCoverImage.Visible = miSetAsCoverImage.Visible = (_cover_attach != m_post.cover_attach);
-                    }
                 }
             }
         }
@@ -412,11 +419,22 @@ namespace Waveface.DetailUI
         {
             string _cover_attach = m_imageAttachments[m_selectedImageIndex].object_id;
 
-            Dictionary<string, string> _params = new Dictionary<string, string>();
-            _params.Add("cover_attach", _cover_attach);
+            if (_cover_attach != m_post.cover_attach)
+            {
+                Dictionary<string, string> _params = new Dictionary<string, string>();
+                _params.Add("cover_attach", _cover_attach);
 
-            if (Main.Current.PostUpdate(m_post, _params))
-                Close();
+                Post _retPost = Main.Current.PostUpdate(m_post, _params);
+
+                if (_retPost == null)
+                {
+                    return;
+                }
+
+                m_post = _retPost;
+            }
+
+            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)

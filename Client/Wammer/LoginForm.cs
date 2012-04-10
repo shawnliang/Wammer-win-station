@@ -253,6 +253,10 @@ namespace Waveface
                 {
                     Environment.Exit(-2);
                 }
+                else if (quit == QuitOption.Unlink)
+                {
+                    Environment.Exit(-3);
+                }
                 else
                 {
                     Environment.Exit(-1);

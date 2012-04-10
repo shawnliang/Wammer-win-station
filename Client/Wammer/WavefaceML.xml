@@ -1,6 +1,40 @@
 <?xml version="1.0" standalone="yes"?>
 <WItems>
   <WItem>
+    <ID>ErrorAndTry</ID>
+    <en-US>An error occurred, please try again.</en-US>
+    <zh-TW>系統發生錯誤, 請稍後再試.</zh-TW>
+  </WItem>  
+  
+  <WItem>
+    <ID>PostRemoved</ID>
+    <en-US>Post removed.</en-US>
+    <zh-TW>移除貼文成功.</zh-TW>
+  </WItem>  
+  
+  <WItem>
+    <ID>AskRemovePost</ID>
+    <en-US>Remove this post?</en-US>
+    <zh-TW>您是否確定要移除本貼文?</zh-TW>
+  </WItem>    
+  
+  <WItem>
+    <ID>DiscardEditPost</ID>
+    <en-US>Discard this post?</en-US>
+    <zh-TW>您確定要放棄編輯本貼文嗎?</zh-TW>
+  </WItem>
+
+  <WItem>
+    <ID>Update</ID>
+    <en-US>Update</en-US>
+    <zh-TW>更改</zh-TW>
+  </WItem>  
+  <WItem>
+    <ID>EditPost</ID>
+    <en-US>Edit Post</en-US>
+    <zh-TW>編輯貼文</zh-TW>
+  </WItem>   
+  <WItem>
     <ID>Continue</ID>
     <en-US>Continue</en-US>
     <zh-TW>繼續</zh-TW>
@@ -202,20 +236,32 @@
     <zh-TW>內容不能為空白!</zh-TW>
   </WItem>
   <WItem>
-    <ID>PostForm.PostError</ID>
-    <en-US>Post Error!</en-US>
-    <zh-TW>貼文失敗!</zh-TW>
-  </WItem>
-  <WItem>
     <ID>PostForm.PuretextWaterMark</ID>
     <en-US>Write down the description here...</en-US>
     <zh-TW>在此寫下您的隻字片語...</zh-TW>
   </WItem>
+  
   <WItem>
     <ID>PostForm.PostSuccess</ID>
     <en-US>Post success!</en-US>
     <zh-TW>貼文成功!</zh-TW>
   </WItem>
+  <WItem>
+    <ID>PostForm.PostError</ID>
+    <en-US>Post Error!</en-US>
+    <zh-TW>貼文失敗!</zh-TW>
+  </WItem>
+  
+  <WItem>
+    <ID>PostForm.EditPostSuccess</ID>
+    <en-US>Edit post success!</en-US>
+    <zh-TW>編輯貼文成功!</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>PostForm.EditPostError</ID>
+    <en-US>Edit post error!</en-US>
+    <zh-TW>編輯貼文失敗!</zh-TW>
+  </WItem>  
   <WItem>
     <ID>PostForm.TextBoxDescription</ID>
     <en-US>Write down the description here...</en-US>
@@ -334,4 +380,27 @@
     <en-US>Your Waveface has been updated to the latest version.</en-US>
     <zh-TW>您的Waveface已經更新到最新版了</zh-TW>
   </WItem>
+
+  <WItem>
+    <ID>UnlinkButton</ID>
+    <en-US>Unlink...</en-US>
+    <zh-TW>移除連結...</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>ThisPC</ID>
+    <en-US>(this PC)</en-US>
+    <zh-TW>(這台電腦)</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>LoadDataFailed</ID>
+    <en-US>Unable to retrieve data</en-US>
+    <zh-TW>無法取得資料</zh-TW>
+  </WItem>
+  
+  <WItem>
+    <ID>ChangedCoverImageOK</ID>
+    <en-US>Cover image changed successfully.</en-US>
+    <zh-TW>更改封面照片成功.</zh-TW>
+  </WItem>  
+  
 </WItems>

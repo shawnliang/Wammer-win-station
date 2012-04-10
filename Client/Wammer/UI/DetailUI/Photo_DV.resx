@@ -177,7 +177,7 @@
     <value>378, 1</value>
   </data>
   <data name="labelPictureInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 20</value>
+    <value>122, 20</value>
   </data>
   <data name="labelPictureInfo.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

@@ -76,8 +76,7 @@
     <Reference Include="HTML2XHTML">
       <HintPath>..\Libs\HTML2XHTML.dll</HintPath>
     </Reference>
-    <Reference Include="ImageListView, Version=10.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ImageListView">
       <HintPath>..\Libs\ImageListView.dll</HintPath>
     </Reference>
     <Reference Include="Interop.SHDocVw">
@@ -217,6 +216,7 @@
     <Compile Include="UI\DetailUI\CommentPopupPanel.designer.cs">
       <DependentUpon>CommentPopupPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\DetailUI\IDetailView.cs" />
     <Compile Include="UI\DetailUI\ImageViewItemTAG.cs" />
     <Compile Include="UI\DetailUI\SlideShowForm.cs">
       <SubType>Form</SubType>
@@ -238,35 +238,9 @@
     </Compile>
     <Compile Include="Data\UploadOriginPhotosToStationManager.cs" />
     <Compile Include="Component\FileIconLib.cs" />
-    <Compile Include="Component\FirefoxDialog\EtchedLine.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Component\FirefoxDialog\FirefoxDialog.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Component\FirefoxDialog\FirefoxDialog.designer.cs">
-      <DependentUpon>FirefoxDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Component\FirefoxDialog\PageProp.cs" />
-    <Compile Include="Component\FirefoxDialog\PropertyPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Component\IconHelper\IconHelper.cs" />
     <Compile Include="Component\IconHelper\IconListManager.cs" />
     <Compile Include="Component\MouseWheelRedirector.cs" />
-    <Compile Include="Component\MozBar\ImageListPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component\MozBar\ImageMapEditor.cs" />
-    <Compile Include="Component\MozBar\MozItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component\MozBar\MozPane.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component\MozBar\ScrollableControlWithScrollEvents.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Component\MyImageListViewRenderer.cs" />
     <Compile Include="Component\PopupControl\ComboBox.cs">
       <SubType>Component</SubType>
@@ -523,6 +497,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="app.config" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -546,6 +521,12 @@
     <Compile Include="UI\SettingUI\SettingForm.Designer.cs">
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\SettingUI\UnlinkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SettingUI\UnlinkForm.Designer.cs">
+      <DependentUpon>UnlinkForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\TrayIconPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -567,15 +548,6 @@
     <EmbeddedResource Include="Component\CollapsibleSplitter.resx">
       <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\FirefoxDialog\EtchedLine.resx">
-      <DependentUpon>EtchedLine.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\FirefoxDialog\FirefoxDialog.resx">
-      <DependentUpon>FirefoxDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\FirefoxDialog\PropertyPage.resx">
-      <DependentUpon>PropertyPage.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Component\ImageViewer\ImageViewerForm.resx">
       <DependentUpon>ImageViewerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -590,18 +562,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Component\ListBarControl\VSNetListBar.resx">
       <DependentUpon>VSNetListBar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\MozBar\ImageListPanel.resx">
-      <DependentUpon>ImageListPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\MozBar\MozItem.resx">
-      <DependentUpon>MozItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\MozBar\MozPane.resx">
-      <DependentUpon>MozPane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\MozBar\ScrollableControlWithScrollEvents.resx">
-      <DependentUpon>ScrollableControlWithScrollEvents.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Component\MsgBox.resx">
       <DependentUpon>MsgBox.cs</DependentUpon>
@@ -758,6 +718,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\PhotoView.resx">
       <DependentUpon>PhotoView.cs</DependentUpon>
@@ -785,6 +746,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\SettingForm.zh-TW.resx">
       <DependentUpon>SettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\UnlinkForm.resx">
+      <DependentUpon>UnlinkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\UnlinkForm.zh-TW.resx">
+      <DependentUpon>UnlinkForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\TrayIconPanel.resx">
       <DependentUpon>TrayIconPanel.cs</DependentUpon>
@@ -946,6 +913,10 @@
     <None Include="Resources\star.png" />
     <None Include="Resources\star_empty.png" />
     <None Include="Resources\CoverImage.png" />
+    <None Include="Resources\Heart.png" />
+    <None Include="Resources\Heart_empty.png" />
+    <None Include="Resources\fav.png" />
+    <None Include="Resources\unfav.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

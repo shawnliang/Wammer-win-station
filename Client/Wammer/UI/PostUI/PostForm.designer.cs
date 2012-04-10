@@ -216,7 +216,7 @@ namespace Waveface
             // 
             // weblink_UI
             // 
-            this.weblink_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.weblink_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             resources.ApplyResources(this.weblink_UI, "weblink_UI");
             this.weblink_UI.MinimumSize = new System.Drawing.Size(500, 130);
             this.weblink_UI.MyParent = null;
@@ -231,7 +231,7 @@ namespace Waveface
             // photo_UI
             // 
             resources.ApplyResources(this.photo_UI, "photo_UI");
-            this.photo_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.photo_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.photo_UI.FileNameMapping = ((System.Collections.Generic.Dictionary<string, string>)(resources.GetObject("photo_UI.FileNameMapping")));
             this.photo_UI.MinimumSize = new System.Drawing.Size(500, 78);
             this.photo_UI.MyParent = null;
@@ -271,7 +271,7 @@ namespace Waveface
             // panelToolbar
             // 
             resources.ApplyResources(this.panelToolbar, "panelToolbar");
-            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(197)))), ((int)(((byte)(186)))));
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.panelToolbar.Controls.Add(this.btnAddPhoto);
             this.panelToolbar.Controls.Add(this.btnAddDoc);
             this.panelToolbar.Name = "panelToolbar";
@@ -359,8 +359,8 @@ namespace Waveface
             // PostForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.multiPanel);
             this.MaximizeBox = false;
             this.MinimizeBox = false;

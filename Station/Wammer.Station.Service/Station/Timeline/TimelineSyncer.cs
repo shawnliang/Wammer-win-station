@@ -18,7 +18,9 @@ namespace Wammer.Station.Timeline
 	public interface ITimelineSyncerDB
 	{
 		void SavePost(PostInfo post);
+		void SaveUserTracks(UserTracks userTracks);
 		void UpdateDriverSyncRange(string userId, SyncRange syncRange);
+		void UpdateChangeLogSyncTime(string userId, string syncTime);
 	}
 
 	public class TimelineSyncer
@@ -95,9 +97,11 @@ namespace Wammer.Station.Timeline
 				if (res.latest_timestamp == user.sync_range.end_time)
 					return;
 
+				db.SaveUserTracks(new UserTracks(res));
+
 				List<PostInfo> changedPost = postProvider.RetrievePosts(agent, user, res.post_id_list);
-				foreach(PostInfo post in changedPost)
-				db.SavePost(post);
+				foreach (PostInfo post in changedPost)
+					db.SavePost(post);
 
 				OnPostsRetrieved(changedPost);
 
@@ -116,12 +120,61 @@ namespace Wammer.Station.Timeline
 			if (user == null)
 				throw new ArgumentNullException("user");
 
-			if (user.sync_range == null || string.IsNullOrEmpty(user.sync_range.end_time))
+			if (HasNeverSynced(user))
 				PullBackward(user);
-			else if (string.IsNullOrEmpty(user.sync_range.first_post_time))
+			else if (HasUnsyncedOldPosts(user))
 				PullBackward(user);
+			else if (HasUnsyncedOldChangeLog(user))
+				PullOldChangeLog(user);
 			else
 				PullForward(user);
+		}
+
+		private static bool HasUnsyncedOldChangeLog(Driver user)
+		{
+			return string.IsNullOrEmpty(user.change_log_sync_time) || user.change_log_sync_time.CompareTo(user.sync_range.end_time) < 0;
+		}
+
+		private void PullOldChangeLog(Driver user)
+		{
+			using (WebClient agent = new WebClient())
+			{
+				UserTracksApi api = new UserTracksApi();
+				string since = user.change_log_sync_time;
+
+				UserTrackResponse res;
+
+				do
+				{
+					res = api.GetChangeHistory(agent, user, since);
+
+					db.SaveUserTracks(new UserTracks(res));
+					since = res.latest_timestamp;
+				}
+				while (since.CompareTo(user.sync_range.end_time) <= 0);
+
+				// Last user track response could contain unsynced posts.
+				List<PostInfo> newPosts = postProvider.RetrievePosts(agent, user, res.post_id_list);
+				foreach (PostInfo post in newPosts)
+					db.SavePost(post);
+
+				OnPostsRetrieved(newPosts);
+
+				SyncRange newSyncRange = user.sync_range.Clone();
+				newSyncRange.end_time = since;
+				db.UpdateDriverSyncRange(user.user_id, newSyncRange);
+				db.UpdateChangeLogSyncTime(user.user_id, since);
+			}
+		}
+
+		private static bool HasUnsyncedOldPosts(Driver user)
+		{
+			return string.IsNullOrEmpty(user.sync_range.first_post_time);
+		}
+
+		private static bool HasNeverSynced(Driver user)
+		{
+			return user.sync_range == null || string.IsNullOrEmpty(user.sync_range.end_time);
 		}
 
 		private void OnPostsRetrieved(List<PostInfo> posts)
