@@ -6,12 +6,13 @@ using Wammer.Model;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver;
 using Wammer.Cloud;
+using System.Globalization;
 
 namespace Wammer.Station.APIHandler
 {
 	public class UserTrackHandler : HttpHandler
 	{
-		const int LIMIT = 200;
+		private UserTrackHandlerImp impl = new UserTrackHandlerImp(new UserTrackHandlerDB());
 
 		#region Private Property
 		private string m_StationID { get; set; }
@@ -57,7 +58,11 @@ namespace Wammer.Station.APIHandler
 		{
 			CheckParameter("group_id", "since");
 
-		
+			bool include_entities = false;
+			if ("true" == Parameters["include_entities"])
+				include_entities = true;
+
+			impl.GetUserTrack(Parameters["group_id"], Parameters["since"], include_entities);
 		}
 		#endregion
 
@@ -72,7 +77,23 @@ namespace Wammer.Station.APIHandler
 	public interface IUserTrackHandlerDB
 	{
 		Driver GetUserByGroupId(string group_id);
-		IEnumerable<UserTracks> GetUserTracksSince(string group_id, string since);
+		IEnumerable<UserTracks> GetUserTracksSince(string group_id, DateTime since);
+	}
+
+	class UserTrackHandlerDB : IUserTrackHandlerDB
+	{
+		public Driver GetUserByGroupId(string group_id)
+		{
+			return DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", group_id)));
+		}
+
+		public IEnumerable<UserTracks> GetUserTracksSince(string group_id, DateTime since)
+		{
+			return UserTrackCollection.Instance.Find(
+				Query.And(
+					Query.EQ("group_id", group_id),
+					Query.GTE("latest_timestamp", since))).SetSortOrder(SortBy.Ascending("latest_timestamp"));
+		}
 	}
 
 	public class UserTrackHandlerImp
@@ -94,13 +115,23 @@ namespace Wammer.Station.APIHandler
 			if (!user.is_change_history_synced)
 				throw new WammerStationException("usertracks API is not ready. Syncing still in progress.", (int)StationApiError.NotReady);
 
-
-			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, since);
+			DateTime sinceDateTime = DateTime.ParseExact(since, "yyyy-MM-dd'T'HH:mm:ss'Z'", CultureInfo.InvariantCulture);
+			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, sinceDateTime);
 
 			UserTrackResponse response = new UserTrackResponse();
-			response.post_id_list = mergePostIdLists(userTracks);
-			response.usertrack_list = mergeDetails(userTracks);
-			response.get_count = response.usertrack_list.Count;
+
+			if (include_entities)
+			{
+				response.post_id_list = mergePostIdLists(userTracks);
+				response.usertrack_list = mergeDetails(userTracks);
+				response.get_count = response.usertrack_list.Count;
+			}
+			else
+			{
+				response.post_id_list = mergePostIdLists(userTracks);
+				response.get_count = response.post_id_list.Count;
+			}
+				
 			response.group_id = group_id;
 			response.latest_timestamp = userTracks.Last().latest_timestamp;
 			response.remaining_count = 0;

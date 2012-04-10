@@ -61,7 +61,7 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 							new UserTrackDetail { target_type = "target_type1"}}
 			};
 
-			mockDB.Setup(x => x.GetUserTracksSince("groupId", "2012-01-01T00:00:00Z")).Returns(
+			mockDB.Setup(x => x.GetUserTracksSince("groupId", new DateTime(2012, 1, 1, 0,0,0, DateTimeKind.Utc))).Returns(
 				new List<UserTracks> { ut1 });
 
 
@@ -110,7 +110,7 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 				usertrack_list = new List<UserTrackDetail> { 
 							new UserTrackDetail { target_type = "target_type2"}}
 			};
-			mockDB.Setup(x => x.GetUserTracksSince("groupId", "2012-01-01T00:00:00Z")).Returns(
+			mockDB.Setup(x => x.GetUserTracksSince("groupId", new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc))).Returns(
 				new List<UserTracks> { ut1, ut2 });
 
 
