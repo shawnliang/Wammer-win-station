@@ -95,7 +95,7 @@ namespace Wammer.Station.Timeline
 
 				
 				// the sync end time is not changed, do nothing
-				if (res.latest_timestamp == user.sync_range.end_time)
+				if (res.latest_timestamp.ToUniversalTime() == user.sync_range.end_time.ToUniversalTime())
 					return;
 
 				db.SaveUserTracks(new UserTracks(res));
