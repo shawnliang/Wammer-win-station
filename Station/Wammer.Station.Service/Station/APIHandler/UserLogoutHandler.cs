@@ -8,6 +8,7 @@ using System.Net;
 using Wammer.Cloud;
 using MongoDB.Driver.Builders;
 using Wammer.Model;
+using System.Net.NetworkInformation;
 
 namespace Wammer.Station
 {
@@ -45,10 +46,18 @@ namespace Wammer.Station
 			CheckParameter("session_token", "apikey");
 
 			string sessionToken = Parameters["session_token"];
-			string apiKey = Parameters["apikey"];
-			using (WebClient client = new WebClient())
+
+
+			try
 			{
-				User.LogOut(client, sessionToken, apiKey);
+				string apiKey = Parameters["apikey"];
+				using (WebClient client = new WebClient())
+				{
+					User.LogOut(client, sessionToken, apiKey);
+				}
+			}
+			catch (System.Exception)
+			{
 			}
 
 			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", sessionToken));

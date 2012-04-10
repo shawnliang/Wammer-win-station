@@ -179,6 +179,8 @@ namespace Waveface
             m_autoUpdator = new AppLimit.NetSparkle.Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
             m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
 
+			bgWorkerGetAllData.WorkerSupportsCancellation = true;
+
             s_logger.Trace("Constructor: OK");
         }
 
@@ -384,6 +386,10 @@ namespace Waveface
             Program.ShowCrashReporter = false;
 
             QuitOption = QuitOption.Logout;
+
+			timerPolling.Enabled = false;
+
+			bgWorkerGetAllData.CancelAsync();
 
             try
             {
@@ -1703,8 +1709,13 @@ namespace Waveface
                 {
                     int _remainingCount = int.MaxValue;
 
-                    while (_remainingCount > 0)
+					while (_remainingCount > 0)
                     {
+						if (bgWorkerGetAllData.CancellationPending)
+						{
+							e.Cancel = true;
+							return;
+						}
                         _datum =
                             DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
 

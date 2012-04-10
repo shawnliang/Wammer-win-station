@@ -920,7 +920,8 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
+			var loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne();
+			menuSignIn.Text = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited)) ? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
 		}
 
 		private void cmbEmail_TextChanged(object sender, EventArgs e)
