@@ -758,6 +758,13 @@ namespace StationSystemTray
 
 		private void btnSignIn_Click(object sender, EventArgs e)
 		{
+			if (this.TrayIcon.Icon != iconRunning)
+			{
+				//TODO: multi-languange support
+				MessageBox.Show("Please start service first", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
 			if ((cmbEmail.Text == string.Empty) || (txtPassword.Text == string.Empty))
 			{
 				MessageBox.Show(I18n.L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -804,8 +811,6 @@ namespace StationSystemTray
 					bool userAlreadyInDB = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", cmbEmail.Text.ToLower())) != null;
 					if (!userAlreadyInDB)
 						StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
-
-					StationController.StationOnline(userlogin.Email, txtPassword.Text);
 
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;

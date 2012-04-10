@@ -44,7 +44,9 @@ namespace Wammer.Station
 		public void Start()
 		{
 			exit = false;
-			m_Thread.Start();
+
+			if (m_Thread.ThreadState != ThreadState.Running)
+				m_Thread.Start();
 		}
 
 		public void Stop()
