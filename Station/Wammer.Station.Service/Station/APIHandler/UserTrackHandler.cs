@@ -62,7 +62,8 @@ namespace Wammer.Station.APIHandler
 			if ("true" == Parameters["include_entities"])
 				include_entities = true;
 
-			impl.GetUserTrack(Parameters["group_id"], Parameters["since"], include_entities);
+			this.RespondSuccess(
+				impl.GetUserTrack(Parameters["group_id"], Parameters["since"], include_entities));
 		}
 		#endregion
 
@@ -133,7 +134,7 @@ namespace Wammer.Station.APIHandler
 			}
 				
 			response.group_id = group_id;
-			response.latest_timestamp = userTracks.Last().latest_timestamp;
+			response.latest_timestamp = userTracks.Count() > 0 ? userTracks.Last().latest_timestamp : DateTime.UtcNow;
 			response.remaining_count = 0;
 
 			return response;

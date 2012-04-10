@@ -1517,65 +1517,76 @@ namespace Waveface
 
         private void timerPolling_Tick(object sender, EventArgs e)
         {
-            if (!CheckNetworkStatus())
-                return;
+			timerPolling.Enabled = false;
 
-            timerPolling.Enabled = false;
+			try
+			{
+				if (!CheckNetworkStatus())
+					return;
 
-            if (checkNewPosts())
-            {
-                ReloadAllData();
 
-                return;
-            }
 
-            string _newestUpdateTime = GetNewestPostUpdateTime(RT.CurrentGroupPosts);
+				if (checkNewPosts())
+				{
+					ReloadAllData();
 
-            if (_newestUpdateTime != string.Empty)
-            {
-                _newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
+					return;
+				}
 
-                MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
+				string _newestUpdateTime = GetNewestPostUpdateTime(RT.CurrentGroupPosts);
 
-                if (_usertracks != null)
-                {
-                    if (_usertracks.get_count == 0)
-                    {
-                        timerPolling.Enabled = true;
+				if (_newestUpdateTime != string.Empty)
+				{
+					_newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
 
-                        return;
-                    }
+					MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
 
-                    foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
-                    {
-                        foreach (UT_Action _action in _usertrack.actions)
-                        {
-                            if (_action.action == "hide")
-                            {
-                                ReloadAllData(); //
+					if (_usertracks != null)
+					{
+						if (_usertracks.get_count == 0)
+						{
+							timerPolling.Enabled = true;
 
-                                return;
-                            }
-                        }
-                    }
+							return;
+						}
 
-                    string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
+						foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
+						{
+							foreach (UT_Action _action in _usertrack.actions)
+							{
+								if (_action.action == "hide")
+								{
+									ReloadAllData(); //
 
-                    MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+									return;
+								}
+							}
+						}
 
-                    if (_postsGet != null)
-                    {
-                        foreach (Post _p in _postsGet.posts)
-                        {
-                            ReplacePostInList(_p, RT.CurrentGroupPosts);
-                        }
+						string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
 
-                        ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
-                    }
-                }
-            }
+						MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
 
-            timerPolling.Enabled = true;
+						if (_postsGet != null)
+						{
+							foreach (Post _p in _postsGet.posts)
+							{
+								ReplacePostInList(_p, RT.CurrentGroupPosts);
+							}
+
+							ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				s_logger.WarnException("user track failed", ex);
+			}
+			finally
+			{
+				timerPolling.Enabled = true;
+			}
         }
 
         private void showTaskbarNotifier(Post post)

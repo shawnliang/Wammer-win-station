@@ -15,6 +15,7 @@ namespace UT_WammerStation
 		{
 			DateTime result = TimeHelper.ParseCloudTimeString("2010-10-01T01:02:30Z");
 			Assert.AreEqual(new DateTime(2010, 10, 1, 1, 2, 30, DateTimeKind.Utc), result);
+			Assert.AreEqual(DateTimeKind.Utc, result.Kind);
 		}
 	}
 }

@@ -20,7 +20,9 @@ namespace Wammer.Utility
 
 		public static DateTime ParseCloudTimeString(string cloudTimeString)
 		{
-			return DateTime.ParseExact(cloudTimeString, CLOUD_TIME_FORMAT, CultureInfo.InvariantCulture);
+			DateTime dt = DateTime.ParseExact(cloudTimeString, CLOUD_TIME_FORMAT, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+			
+			return dt.ToUniversalTime();
 		}
 
 		public static string ToCloudTimeString(this DateTime datetime)
