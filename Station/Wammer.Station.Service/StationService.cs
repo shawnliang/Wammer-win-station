@@ -148,11 +148,22 @@ namespace Wammer.Station.Service
 				functionServer.Start();
 				stationTimer.Start();
 
+				int bodySyncThreadNum = 1;
+				bodySyncRunners = new TaskRunner[bodySyncThreadNum];
+				for (int i = 0; i < bodySyncThreadNum; i++)
+				{
+					var bodySyncRunner = new TaskRunner(bodySyncTaskQueue);
+					bodySyncRunners[i] = bodySyncRunner;
+
+					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
+					bodySyncRunner.Start();
+				}
+
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989, httpRequestMonitor);
 				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
-				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer, stationTimer));
-				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer, stationTimer));
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer, stationTimer, bodySyncRunners));
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer, stationTimer, bodySyncRunners));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/list/", new ListDriverHandler());
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/remove/", new RemoveOwnerHandler(stationId));
@@ -170,14 +181,7 @@ namespace Wammer.Station.Service
 				managementServer.Start();
 
 
-				int bodySyncThreadNum = 1;
-				bodySyncRunners = new TaskRunner[bodySyncThreadNum];
-				for (int i = 0; i < bodySyncThreadNum; i++)
-				{
-					bodySyncRunners[i] = new TaskRunner(bodySyncTaskQueue);
-					bodySyncRunners[i].TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
-					bodySyncRunners[i].Start();
-				}
+
 
 				logger.Info("Waveface station is started");
 			}

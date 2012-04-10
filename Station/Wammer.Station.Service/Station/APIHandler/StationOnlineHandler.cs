@@ -4,6 +4,7 @@ using log4net;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
+using System.Linq;
 
 namespace Wammer.Station
 {
@@ -12,11 +13,13 @@ namespace Wammer.Station
 		private static ILog logger = LogManager.GetLogger("StationOnlineHandler");
 		private readonly HttpServer functionServer;
 		private readonly StationTimer stationTimer;
+		private readonly TaskRunner[] bodySyncRunners;
 
-		public StationOnlineHandler(HttpServer functionServer, StationTimer stationTimer)
+		public StationOnlineHandler(HttpServer functionServer, StationTimer stationTimer,TaskRunner[] bodySyncRunners)
 		{
 			this.functionServer = functionServer;
 			this.stationTimer = stationTimer;
+			this.bodySyncRunners = bodySyncRunners;
 		}
 
 		protected override void HandleRequest()
@@ -72,6 +75,7 @@ namespace Wammer.Station
 				logger.Debug("Start function server");
 				functionServer.Start();
 				stationTimer.Start();
+				Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Start());
 				logger.Debug("Start function server successfully");
 
 				RespondSuccess();
@@ -89,6 +93,7 @@ namespace Wammer.Station
 					logger.Debug("Try to stop function server");
 					functionServer.Stop();
 					stationTimer.Stop();
+					Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Stop());
 
 					throw new ServiceUnavailableException("Driver already registered another station", (int)StationApiError.AlreadyHasStaion);
 				}
@@ -103,6 +108,7 @@ namespace Wammer.Station
 					logger.Debug("Try to stop function server");
 					functionServer.Stop();
 					stationTimer.Stop();
+					Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Stop());
 
 					throw;
 				}

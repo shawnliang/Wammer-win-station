@@ -25,6 +25,10 @@ namespace Wammer.Station
 
 		public void Start()
 		{
+			exit = false;
+			if (thread == null)
+				this.thread = new Thread(Do);
+
 			thread.Start();
 		}
 
@@ -32,7 +36,17 @@ namespace Wammer.Station
 		{
 			exit = true;
 			if (!thread.Join(5000))
-				thread.Abort();
+			{
+				try
+				{
+					thread.Abort();
+				}
+				catch 
+				{
+				}				
+			}
+			thread = null;
+			exit = false;
 		}
 
 		private void Do()
