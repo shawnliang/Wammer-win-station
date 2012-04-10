@@ -233,7 +233,9 @@ namespace StationSystemTray
 				}
 			}
 
-			if (userlogin != null && userlogin.RememberPassword)
+			var loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+
+			if (loginedSession != null || (userlogin != null && userlogin.RememberPassword))
 			{
 				userloginContainer.UpsertUserLoginSetting(userlogin);
 				RefreshUserList();
