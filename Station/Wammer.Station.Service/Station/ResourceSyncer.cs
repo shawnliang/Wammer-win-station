@@ -429,7 +429,7 @@ namespace Wammer.Station
 				}
 				catch (Exception e)
 				{
-					this.LogWarnMsg("Unable to sync timeline of user " + user.email, e);
+					this.LogDebugMsg("Unable to sync timeline of user " + user.email, e);
 				}
 			}
 		}
