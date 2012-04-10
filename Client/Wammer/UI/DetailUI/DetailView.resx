@@ -255,65 +255,35 @@
   <data name="&gt;&gt;btnComment.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="labelWho.AutoSize" type="System.Boolean, mscorlib">
+  <data name="labelTitle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="labelWho.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="labelTitle.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9.75pt, style=Bold</value>
   </data>
-  <data name="labelWho.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="labelTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="labelWho.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 8</value>
+  <data name="labelTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 10</value>
   </data>
-  <data name="labelWho.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="labelTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>0, 16</value>
   </data>
-  <data name="labelWho.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;labelWho.Name" xml:space="preserve">
-    <value>labelWho</value>
-  </data>
-  <data name="&gt;&gt;labelWho.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;labelWho.Parent" xml:space="preserve">
-    <value>panelTop</value>
-  </data>
-  <data name="&gt;&gt;labelWho.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="labelTime.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="labelTime.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9.75pt, style=Bold</value>
-  </data>
-  <data name="labelTime.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="labelTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 8</value>
-  </data>
-  <data name="labelTime.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 16</value>
-  </data>
-  <data name="labelTime.TabIndex" type="System.Int32, mscorlib">
+  <data name="labelTitle.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;labelTime.Name" xml:space="preserve">
-    <value>labelTime</value>
+  <data name="&gt;&gt;labelTitle.Name" xml:space="preserve">
+    <value>labelTitle</value>
   </data>
-  <data name="&gt;&gt;labelTime.Type" xml:space="preserve">
+  <data name="&gt;&gt;labelTitle.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;labelTime.Parent" xml:space="preserve">
+  <data name="&gt;&gt;labelTitle.Parent" xml:space="preserve">
     <value>panelTop</value>
   </data>
-  <data name="&gt;&gt;labelTime.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;labelTitle.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="panelTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>

@@ -177,7 +177,7 @@ namespace Waveface
 
         private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(240, 240, 240));
         private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225));
-        private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(217, 217, 217));
+        private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225)); // 217, 217, 217
         private Color m_inforColor = Color.FromArgb(95, 121, 143);
         private Color m_textColor = Color.FromArgb(33, 69, 99);
         private Color m_selectedTextColor = Color.FromArgb(89, 154, 174);
@@ -319,21 +319,6 @@ namespace Waveface
 
             TextRenderer.DrawText(g, post.content, fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
                       TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
-        }
-
-        private Rectangle DrawPostTime(Graphics g, Font font, Rectangle cellRect, Post post)
-        {
-            string _postTime = post.timestamp;
-            _postTime = DateTimeHelp.ISO8601ToDotNet(_postTime, false);
-            _postTime = DateTimeHelp.PrettyDate(_postTime);
-
-            Size _sizeTime = TextRenderer.MeasureText(g, _postTime, font) + new Size(2, 2);
-            Rectangle _timeRect = new Rectangle(cellRect.X + cellRect.Width - _sizeTime.Width - 2, cellRect.Y + cellRect.Height - _sizeTime.Height - 4, _sizeTime.Width, _sizeTime.Height);
-
-            TextRenderer.DrawText(g, _postTime, font, _timeRect, Color.FromArgb(127, 127, 127),
-                                  TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
-
-            return _timeRect;
         }
 
         #region Draw Thumbnail
@@ -697,11 +682,11 @@ namespace Waveface
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.creatoridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.m_postBS = new System.Windows.Forms.BindingSource(this.components);
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.timerDisplayedScrolling = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.creatoridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.m_postBS = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_postBS)).BeginInit();
             this.SuspendLayout();
@@ -746,6 +731,21 @@ namespace Waveface
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
             this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
             // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Interval = 30000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // timerDisplayedScrolling
+            // 
+            this.timerDisplayedScrolling.Interval = 500;
+            this.timerDisplayedScrolling.Tick += new System.EventHandler(this.timerDisplayedScrolling_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
             // creatoridDataGridViewTextBoxColumn
             // 
             this.creatoridDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -761,21 +761,6 @@ namespace Waveface
             // 
             this.m_postBS.DataSource = typeof(Waveface.API.V2.Post);
             this.m_postBS.PositionChanged += new System.EventHandler(this.postBS_PositionChanged);
-            // 
-            // timer
-            // 
-            this.timer.Enabled = true;
-            this.timer.Interval = 30000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // timerDisplayedScrolling
-            // 
-            this.timerDisplayedScrolling.Interval = 500;
-            this.timerDisplayedScrolling.Tick += new System.EventHandler(this.timerDisplayedScrolling_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // PostsList
             // 

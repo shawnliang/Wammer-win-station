@@ -31,6 +31,9 @@ namespace Waveface
         {
             labelDisplay.Visible = flag;
             comboBoxType.Visible = flag;
+
+            panelTop.Height = 36;
+            btnRefresh.Top = 5;
         }
 
         public string GetPostTypeText()

@@ -165,7 +165,7 @@ namespace Waveface.DetailUI
 
             _htmlMainAndComment = _htmlMainAndComment.Replace("[Text]", _content);
 
-            _htmlMainAndComment += MyParent.GenCommentHTML(Post);
+            _htmlMainAndComment += MyParent.GenCommentHTML(Post, true);
 
             _htmlMainAndComment = HtmlUtility.MakeLink(_htmlMainAndComment, m_clickableURL);
 

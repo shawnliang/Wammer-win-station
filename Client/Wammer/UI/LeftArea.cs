@@ -24,7 +24,7 @@ namespace Waveface
         private Button m_buttonAddNewFilter;
         private string m_dropAreaMessage;
         private Image m_dropAreaImage;
-        private Font m_font = new Font("Arial", 10, FontStyle.Bold);
+        private Font m_font = new Font("Arial", 9, FontStyle.Regular);
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         #region Properties
@@ -439,7 +439,7 @@ namespace Waveface
                 _g.DrawImage(bmp, 0, 0);
 
                 Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(0, 100, 170)), (bmp.Width - _size.Width) / 2, (bmp.Height - _size.Height) / 2);
+                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), (bmp.Width - _size.Width) / 2, (bmp.Height - _size.Height) / 2);
             }
 
             pbDropArea.Image = m_dropAreaImage;
