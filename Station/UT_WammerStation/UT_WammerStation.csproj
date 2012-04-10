@@ -60,6 +60,9 @@
     <Reference Include="MongoDB.Driver">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\3rd_party\Moq.4.0.10827\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -87,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventTest.cs" />
+    <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />
+    <Compile Include="pullTimeLine\TestPullTimeline_forward.cs" />
+    <Compile Include="TestAttachmentViewApi.cs" />
     <Compile Include="TestSQLitePersistentStorage.cs" />
     <Compile Include="TestRemoveDriver.cs" />
     <Compile Include="TestAddDriver.cs" />
@@ -109,15 +115,11 @@
     <Compile Include="TestPersistentQueue.cs" />
     <Compile Include="TestServiceHelper.cs" />
     <Compile Include="TestStreamHelper.cs" />
-    <Compile Include="TestTimelineChange_PostInfoProvider.cs" />
-    <Compile Include="TestTimelineChange_UserUpdator.cs" />
-    <Compile Include="TestTimelineChange_PostInfoProvider2.cs" />
+    <Compile Include="TestTimeHelper.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
-    <Compile Include="TestUserTrack.cs" />
-    <Compile Include="TestUserTrack_HasMore.cs" />
-    <Compile Include="TestUserTrack_LotsOfPosts.cs" />
-    <Compile Include="TestUserTrack_MergePostId.cs" />
+    <Compile Include="TestUserTrackApiHandler.cs" />
+    <Compile Include="TestUserTrackCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt">

@@ -194,7 +194,7 @@ namespace Waveface.API.V2
 
             try
             {
-                string _url = BaseURLForGroupUserAuth + "/auth/login";
+				string _url = BaseURL + "/auth/login";
 
                 string _parms = "apikey" + "=" + APIKEY + "&" +
                                 "email" + "=" + email + "&" +
@@ -240,7 +240,7 @@ namespace Waveface.API.V2
 
             try
             {
-                string _url = BaseURLForGroupUserAuth + "/auth/logout";
+				string _url = BaseURL + "/auth/logout";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
@@ -1665,41 +1665,41 @@ namespace Waveface.API.V2
             }
         }
 
-        public MR_fetchfilters_list fetchfilters_list(string session_token)
-        {
-            session_token = HttpUtility.UrlEncode(session_token);
+		//public MR_fetchfilters_list fetchfilters_list(string session_token)
+		//{
+		//    session_token = HttpUtility.UrlEncode(session_token);
 
-            try
-            {
-                string _url = BaseURL + "/fetchfilters/list";
+		//    try
+		//    {
+		//        string _url = BaseURL + "/fetchfilters/list";
 
-                _url += "?" +
-                        "apikey" + "=" + APIKEY + "&" +
-                        "session_token" + "=" + session_token;
+		//        _url += "?" +
+		//                "apikey" + "=" + APIKEY + "&" +
+		//                "session_token" + "=" + session_token;
 
-                return HttpGetObject<MR_fetchfilters_list>(_url);
-            }
-            catch (WebException _e)
-            {
-                NLogUtility.WebException(s_logger, _e, "fetchfilters_list", false);
+		//        return HttpGetObject<MR_fetchfilters_list>(_url);
+		//    }
+		//    catch (WebException _e)
+		//    {
+		//        NLogUtility.WebException(s_logger, _e, "fetchfilters_list", false);
 
-                if (_e.Status == WebExceptionStatus.ProtocolError)
-                {
-                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
+		//        if (_e.Status == WebExceptionStatus.ProtocolError)
+		//        {
+		//            HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
-                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
-                        throw new Station401Exception();
-                }
+		//            if (_res.StatusCode == HttpStatusCode.Unauthorized)
+		//                throw new Station401Exception();
+		//        }
 
-                throw;
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "fetchfilters_list");
+		//        throw;
+		//    }
+		//    catch (Exception _e)
+		//    {
+		//        NLogUtility.Exception(s_logger, _e, "fetchfilters_list");
 
-                throw;
-            }
-        }
+		//        throw;
+		//    }
+		//}
 
         #endregion
 

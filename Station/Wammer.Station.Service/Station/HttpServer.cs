@@ -115,30 +115,30 @@ namespace Wammer.Station
 			}
 		}
 
-		/// <summary>
-		/// Responds 503 unavailable.
-		/// </summary>
-		/// <param name="ctx">The CTX.</param>
-		private void respond503Unavailable(HttpListenerContext ctx)
-		{
-			try
-			{
-				ctx.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
-				using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
-				{
-					Cloud.CloudResponse json = new Cloud.CloudResponse(
-						ctx.Response.StatusCode,
-						DateTime.UtcNow,
-						(int)StationApiError.ServerOffline,
-						"Server offline");
-					w.Write(json.ToFastJSON());
-				}
-			}
-			catch (Exception e)
-			{
-				m_Logger.Warn("Unable to respond 503 Service Unavailable", e);
-			}
-		}
+		///// <summary>
+		///// Responds 503 unavailable.
+		///// </summary>
+		///// <param name="ctx">The CTX.</param>
+		//private void respond503Unavailable(HttpListenerContext ctx)
+		//{
+		//    try
+		//    {
+		//        ctx.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
+		//        using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+		//        {
+		//            Cloud.CloudResponse json = new Cloud.CloudResponse(
+		//                ctx.Response.StatusCode,
+		//                DateTime.UtcNow,
+		//                (int)StationApiError.ServerOffline,
+		//                "Server offline");
+		//            w.Write(json.ToFastJSON());
+		//        }
+		//    }
+		//    catch (Exception e)
+		//    {
+		//        m_Logger.Warn("Unable to respond 503 Service Unavailable", e);
+		//    }
+		//}
 
 		/// <summary>
 		/// Responds 401 unauthorized.
@@ -385,7 +385,7 @@ namespace Wammer.Station
 				if (e.HttpError != WebExceptionStatus.ProtocolError)
 				{
 					HttpHelper.RespondFailure(context.Response, new WammerStationException(e.InnerException.Message, (int)StationApiError.ConnectToCloudError), (int)HttpStatusCode.BadRequest);
-					logger.Warn("Connection to cloud error", e);
+					logger.Debug("Connection to cloud error", e);
 					return;
 				}
 
@@ -400,41 +400,41 @@ namespace Wammer.Station
 						{
 							Cloud.CloudResponse cloudres = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(e.response);
 							HttpHelper.RespondFailure(context.Response, cloudres);
-							logger.Warn("Connection to cloud error", e);
+							logger.Debug("Connection to cloud error", e);
 							return;
 						}
 
 						HttpHelper.RespondFailure(context.Response,
 							new WammerStationException(e.InnerException.Message, e.WammerError), (int)webres.StatusCode);
-						logger.Warn("Connecting to cloud error", e);
+						logger.Debug("Connecting to cloud error", e);
 						return;
 					}
 				}
 
 				HttpHelper.RespondFailure(context.Response,
 					new WammerStationException(e.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
-				logger.Warn("Connecting to cloud error", e);
+				logger.Debug("Connecting to cloud error", e);
 			}
 			catch (ServiceUnavailableException e)
 			{
 				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.ServiceUnavailable);
-				logger.Warn("Service unavailable", e);
+				logger.Debug("Service unavailable", e);
 			}
 			catch (WammerStationException e)
 			{
 				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.BadRequest);
-				logger.Warn("Http handler error", e);
+				logger.Debug("Http handler error", e);
 			}
 			catch (FormatException e)
 			{
 				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.BadRequest);
-				logger.Warn("Request format is incorrect", e);
+				logger.Debug("Request format is incorrect", e);
 			}
 			catch (WebException webex)
 			{
 				Wammer.Cloud.WammerCloudException ex = new Cloud.WammerCloudException("Request to cloud failed", webex);
 				HttpHelper.RespondFailure(context.Response, webex, (int)HttpStatusCode.InternalServerError);
-				logger.Warn("Connecting to cloud error", ex);
+				logger.Debug("Connecting to cloud error", ex);
 			}
 			catch (Exception e)
 			{

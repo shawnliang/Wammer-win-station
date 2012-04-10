@@ -291,7 +291,7 @@ namespace Waveface
                 if (!GCONST.DEBUG)
                     _json = StringUtility.Compress(_json);
 
-                string _filePath = Main.GCONST.CachePath + Login.user.user_id + "_RT.dat";
+                string _filePath = Path.Combine(Main.GCONST.CachePath, Login.user.user_id + "_RT.dat");
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
                 {
@@ -317,7 +317,7 @@ namespace Waveface
             try
             {
                 string _json = string.Empty;
-                string _filePath = Main.GCONST.CachePath + Login.user.user_id + "_RT.dat";
+                string _filePath = Path.Combine(Main.GCONST.CachePath, Login.user.user_id + "_RT.dat");
 
                 StreamReader _sr = File.OpenText(_filePath);
                 _json = _sr.ReadToEnd();
@@ -363,7 +363,7 @@ namespace Waveface
                 if (!GCONST.DEBUG)
                     _json = StringUtility.Compress(_json);
 
-                string _filePath = Main.GCONST.CachePath + Login.user.user_id + "_LR.dat";
+                string _filePath = Path.Combine(Main.GCONST.CachePath, Login.user.user_id + "_LR.dat");
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
                 {
@@ -387,7 +387,10 @@ namespace Waveface
             try
             {
                 string _json = string.Empty;
-                string _filePath = Main.GCONST.CachePath + Login.user.user_id + "_LR.dat";
+                string _filePath = Path.Combine(Main.GCONST.CachePath, Login.user.user_id + "_LR.dat");
+
+				if (!File.Exists(_filePath))
+					return;
 
                 StreamReader _sr = File.OpenText(_filePath);
                 _json = _sr.ReadToEnd();

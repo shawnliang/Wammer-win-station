@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using Wammer.Cloud;
+using System;
 
 namespace Wammer.Model
 {
@@ -81,10 +82,19 @@ namespace Wammer.Model
 		public SyncRange sync_range { get; set; }
 
 		/// <summary>
-		/// last post's timestamp returned by UserTrack API
+		/// Is UserTracks synced with timeline ?
 		/// </summary>
 		[BsonIgnoreIfNull]
-		public string change_log_sync_time { get; set; }
+		public bool is_change_history_synced { get; set; }
+
+		/// <summary>
+		/// Total count of posts. The value is valid until timeline is pulled to the first post.
+		/// </summary>
+		/// <value>
+		/// Total count of posts.
+		/// </value>
+		[BsonIgnoreIfNull]
+		public long temp_total_count { get; set; }
 
 		/// <summary>
 		/// Gets or sets the ref_count.
@@ -120,10 +130,15 @@ namespace Wammer.Model
 	public class SyncRange
 	{
 		[BsonIgnoreIfNull]
-		public string start_time { get; set; }
+		public DateTime start_time { get; set; }
 		[BsonIgnoreIfNull]
-		public string end_time { get; set; }
+		public DateTime end_time { get; set; }
 		[BsonIgnoreIfNull]
-		public string first_post_time { get; set; }
+		public DateTime first_post_time { get; set; }
+
+		public SyncRange Clone()
+		{
+			return (SyncRange)this.MemberwiseClone();
+		}
 	}
 }

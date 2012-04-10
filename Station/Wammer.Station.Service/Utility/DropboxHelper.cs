@@ -34,7 +34,7 @@ namespace Wammer.Utility
 			{
 				using (StreamReader reader = new StreamReader(fs))
 				{
-					var ignore = reader.ReadLine();
+					reader.ReadLine();
 					string line = reader.ReadLine().Trim();
 					byte[] data = Convert.FromBase64String(line);
 

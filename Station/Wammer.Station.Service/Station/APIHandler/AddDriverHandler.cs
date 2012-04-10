@@ -7,6 +7,7 @@ using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using System.Linq;
 
 namespace Wammer.Station
 {
@@ -28,13 +29,34 @@ namespace Wammer.Station
 		}
 
 
+		#region Private Method
+		/// <summary>
+		/// Checks the parameter.
+		/// </summary>
+		/// <param name="arguementNames">The arguement names.</param>
+		private void CheckParameter(params string[] arguementNames)
+		{
+			if (arguementNames == null)
+				throw new ArgumentNullException("arguementNames");
+
+			var nullArgumentNames = from arguementName in arguementNames
+									where Parameters[arguementName] == null
+									select arguementName;
+
+			var IsAllParameterReady = !nullArgumentNames.Any();
+			if (!IsAllParameterReady)
+			{
+				throw new FormatException(string.Format("Parameter {0} is null.", string.Join("、", nullArgumentNames.ToArray())));
+			}
+		}
+		#endregion
+
 		protected override void HandleRequest()
 		{
+			CheckParameter("email", "password");
+
 			string email = Parameters["email"];
 			string password = Parameters["password"];
-
-			if (email == null || password == null)
-				throw new FormatException("Parameter email or password is missing");
 
 			using (WebClient client = new WebClient())
 			{
@@ -69,6 +91,10 @@ namespace Wammer.Station
 						isPrimaryStation = IsThisPrimaryStation(user.Stations),
 						ref_count = 1
 					};
+
+					PostApi api = new PostApi(driver);
+					PostGetLatestResponse res = api.PostGetLatest(client, 1);
+					driver.temp_total_count = res.total_count;
 
 					DriverCollection.Instance.Save(driver);
 

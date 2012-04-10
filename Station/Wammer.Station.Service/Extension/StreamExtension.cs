@@ -1,12 +1,13 @@
 using System;
 using System.IO;
+using System.Text;
 
 public static class StreamExtension
 {
     public static void Write(this Stream targetStream, byte[] buffer)
     {
         if (!targetStream.CanWrite)
-            throw new ArgumentException("targetStream", "Unwritable stream");
+			throw new ArgumentException("Unwritable stream", "targetStream");
 
         targetStream.Write(buffer, 0, buffer.Length);
     }
@@ -18,10 +19,10 @@ public static class StreamExtension
 			throw new ArgumentNullException("buffer");
 
 		if (!targetStream.CanWrite)
-			throw new ArgumentException("targetStream", "Unwritable stream");
+			throw new ArgumentException("Unwritable stream", "targetStream");
 
 		if (bufferBatchSize < 1024)
-			throw new ArgumentOutOfRangeException("bufferSize", "Must bigger than 1024");
+			throw new ArgumentOutOfRangeException("bufferBatchSize", "Must bigger than 1024");
 
 		if (buffer.Length == 0)
 			return;
@@ -48,6 +49,11 @@ public static class StreamExtension
 		}
 	}
 
+
+	public static void Write(this Stream targetStream, string message, Encoding encoder)
+	{
+		targetStream.Write(encoder.GetBytes(message));
+	}
 
 
 	public static void Write(this Stream targetStream, string sourceFile, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)

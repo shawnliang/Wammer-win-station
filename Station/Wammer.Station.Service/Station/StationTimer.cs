@@ -9,6 +9,7 @@ namespace Wammer.Station
 		void Start();
 		void Stop();
 		void Close();
+		void ForceTick();
 	}
 
 	class StationTimer
@@ -19,11 +20,7 @@ namespace Wammer.Station
 		private const long STATUS_CHECK_PERIOD = 10 * 60 * 1000; // TODO: remove hardcode
 #endif
 
-#if DEBUG
 		private const long RESOURCE_SYNC_PEROID = 10 * 1000;
-#else
-		private const long RESOURCE_SYNC_PEROID = 60 * 1000;
-#endif
 
 		private List<IStationTimer> timers;
 
@@ -31,10 +28,7 @@ namespace Wammer.Station
 		{
 			timers = new List<IStationTimer> {
 				new StatusChecker(STATUS_CHECK_PERIOD, functionServer),
-				new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue),
-				// Use a strange value to make ResourceSyncer and ChangeHistorySyncer not running at the same time.
-				// (The two syncers is OK to run concurrently but just could get same data and waste resource)
-				new ChangeHistorySyncer(RESOURCE_SYNC_PEROID * 2 - 10 * 1000, bodySyncQueue)
+				new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue)
 			};
 		}
 
@@ -59,6 +53,14 @@ namespace Wammer.Station
 			foreach (IStationTimer timer in timers)
 			{
 				timer.Close();
+			}
+		}
+
+		public void ForceTick()
+		{
+			foreach (IStationTimer timer in timers)
+			{
+				timer.ForceTick();
 			}
 		}
 	}
@@ -87,6 +89,11 @@ namespace Wammer.Station
 		public void Close()
 		{
 			timer.Dispose();
+		}
+
+		public void ForceTick()
+		{
+			timer.Change(0, Timeout.Infinite);
 		}
 
 		private void OnTimedUp(object state)

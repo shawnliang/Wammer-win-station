@@ -41,7 +41,16 @@ namespace Wammer.Utility
 		private const uint SC_MANAGER_CONNECT = 0x00000001;
 		private const uint SC_MANAGER_ENUMERATE_SERVICE = 0x00000004;
 
-		public static void ChangeStartMode(ServiceController svc, ServiceStartMode mode)
+
+		#region Private Method
+		private static void throwWin32Exception(string msg)
+		{
+			int nError = Marshal.GetLastWin32Error();
+			var win32Exception = new Win32Exception(nError);
+			throw new ExternalException(msg + win32Exception.Message);
+		}
+
+		private static IntPtr GetServiceHandle(ServiceController svc, uint dwDesiredAccess)
 		{
 			var scManagerHandle = OpenSCManager(null, null, SC_MANAGER_CONNECT | SC_MANAGER_ENUMERATE_SERVICE);
 			if (scManagerHandle == IntPtr.Zero)
@@ -52,12 +61,21 @@ namespace Wammer.Utility
 			var serviceHandle = OpenService(
 				scManagerHandle,
 				svc.ServiceName,
-				SERVICE_QUERY_CONFIG | SERVICE_CHANGE_CONFIG);
+				dwDesiredAccess);
 
 			if (serviceHandle == IntPtr.Zero)
 			{
 				throwWin32Exception("OpenService: ");
 			}
+
+			return serviceHandle;
+		}
+		#endregion
+
+
+		public static void ChangeStartMode(ServiceController svc, ServiceStartMode mode)
+		{
+			var serviceHandle = GetServiceHandle(svc, SERVICE_QUERY_CONFIG | SERVICE_CHANGE_CONFIG);
 
 			var result = ChangeServiceConfig(
 				serviceHandle,
@@ -78,30 +96,9 @@ namespace Wammer.Utility
 			}
 		}
 
-		private static void throwWin32Exception(string msg)
-		{
-			int nError = Marshal.GetLastWin32Error();
-			var win32Exception = new Win32Exception(nError);
-			throw new ExternalException(msg + win32Exception.Message);
-		}
-
 		public static bool IsServiceAutoStart(ServiceController svc)
 		{
-			var scManagerHandle = OpenSCManager(null, null, SC_MANAGER_CONNECT | SC_MANAGER_ENUMERATE_SERVICE);
-			if (scManagerHandle == IntPtr.Zero)
-			{
-				throwWin32Exception("OpenSCManager: ");
-			}
-
-			var serviceHandle = OpenService(
-				scManagerHandle,
-				svc.ServiceName,
-				SERVICE_QUERY_CONFIG);
-
-			if (serviceHandle == IntPtr.Zero)
-			{
-				throwWin32Exception("OpenService: ");
-			}
+			var serviceHandle = GetServiceHandle(svc, SERVICE_QUERY_CONFIG);
 
 			// Allocate memory for struct.
 			uint bytesNeeded = 0;
@@ -129,9 +126,7 @@ namespace Wammer.Utility
 				if (ptr!=IntPtr.Zero)
 					Marshal.FreeHGlobal(ptr);
 			}
-
 		}
-
 	}
 
 

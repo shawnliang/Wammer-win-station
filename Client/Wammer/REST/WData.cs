@@ -484,7 +484,7 @@ namespace Waveface.API.V2
         public int total_count { get; set; }
 
         public List<Post> posts { get; set; }
-        public List<User> users { get; set; }
+        //public List<User> users { get; set; }
     }
 
     public class MR_posts_new : General_R

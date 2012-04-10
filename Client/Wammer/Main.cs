@@ -29,7 +29,7 @@ namespace Waveface
     public partial class Main : Form
     {
         public static Main Current;
-        public static GCONST GCONST = new GCONST();
+        public static GCONST GCONST;
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
@@ -78,7 +78,7 @@ namespace Waveface
         {
             get
             {
-                return GCONST.CachePath + "LoadingImage.jpg";
+                return Path.Combine(GCONST.CachePath, "LoadingImage.jpg");
             }
         }
 
@@ -178,6 +178,8 @@ namespace Waveface
 
             m_autoUpdator = new AppLimit.NetSparkle.Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
             m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
+
+			bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
             s_logger.Trace("Constructor: OK");
         }
@@ -380,10 +382,14 @@ namespace Waveface
         }
 
         public void Logout()
-        {
+        {			
             Program.ShowCrashReporter = false;
 
             QuitOption = QuitOption.Logout;
+
+			timerPolling.Enabled = false;
+
+			bgWorkerGetAllData.CancelAsync();
 
             try
             {
@@ -601,7 +607,7 @@ namespace Waveface
 
             m_forceLogout = false;
 
-            WService.StationIP = "";
+			WService.StationIP = "";
 
             postsArea.ShowTypeUI(false);
             postsArea.showRefreshUI(false);
@@ -618,6 +624,15 @@ namespace Waveface
             errorMessage = string.Empty;
 
             UpdateNetworkStatus();
+
+			Reset(true);
+
+			if (Environment.GetCommandLineArgs().Length > 1)
+			{
+				m_stationIP = "http://127.0.0.1:9981";
+				WService.StationIP = m_stationIP;
+				StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
+			}
 
             MR_auth_login _login = RT.REST.Auth_Login(email, password);
 
@@ -636,11 +651,10 @@ namespace Waveface
                 return false;
             }
 
-            s_logger.Trace("Login.Auth_Login: OK");
-
-            Reset(true);
+            s_logger.Trace("Login.Auth_Login: OK");            
 
             RT.Login = _login;
+			GCONST = new GCONST(RT);
 
             getGroupAndUser();
             fillUserInformation();
@@ -648,7 +662,14 @@ namespace Waveface
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
             RT.LoadGroupLocalRead();
 
-            StartBgThreads();
+			if (Environment.GetCommandLineArgs().Length == 1)
+				StartBgThreads();
+			else
+			{
+				UploadOriginPhotosToStationManager.Start();
+				PhotoDownloader.Start();
+				BatchPostManager.Start();
+			}
 
             leftArea.SetNewPostManager();
 
@@ -1472,7 +1493,7 @@ namespace Waveface
 
                 _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-                Post(new List<string> { GCONST.CachePath + _filename }, PostType.Photo);
+                Post(new List<string> { Path.Combine(GCONST.CachePath, _filename) }, PostType.Photo);
             }
             catch (Exception _e)
             {
@@ -1501,65 +1522,76 @@ namespace Waveface
 
         private void timerPolling_Tick(object sender, EventArgs e)
         {
-            if (!CheckNetworkStatus())
-                return;
+			timerPolling.Enabled = false;
 
-            timerPolling.Enabled = false;
+			try
+			{
+				if (!CheckNetworkStatus())
+					return;
 
-            if (checkNewPosts())
-            {
-                ReloadAllData();
 
-                return;
-            }
 
-            string _newestUpdateTime = GetNewestPostUpdateTime(RT.CurrentGroupPosts);
+				if (checkNewPosts())
+				{
+					ReloadAllData();
 
-            if (_newestUpdateTime != string.Empty)
-            {
-                _newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
+					return;
+				}
 
-                MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
+				string _newestUpdateTime = GetNewestPostUpdateTime(RT.CurrentGroupPosts);
 
-                if (_usertracks != null)
-                {
-                    if (_usertracks.get_count == 0)
-                    {
-                        timerPolling.Enabled = true;
+				if (_newestUpdateTime != string.Empty)
+				{
+					_newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
 
-                        return;
-                    }
+					MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
 
-                    foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
-                    {
-                        foreach (UT_Action _action in _usertrack.actions)
-                        {
-                            if (_action.action == "hide")
-                            {
-                                ReloadAllData(); //
+					if (_usertracks != null)
+					{
+						if (_usertracks.get_count == 0)
+						{
+							timerPolling.Enabled = true;
 
-                                return;
-                            }
-                        }
-                    }
+							return;
+						}
 
-                    string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
+						foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
+						{
+							foreach (UT_Action _action in _usertrack.actions)
+							{
+								if (_action.action == "hide")
+								{
+									ReloadAllData(); //
 
-                    MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+									return;
+								}
+							}
+						}
 
-                    if (_postsGet != null)
-                    {
-                        foreach (Post _p in _postsGet.posts)
-                        {
-                            ReplacePostInList(_p, RT.CurrentGroupPosts);
-                        }
+						string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
 
-                        ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
-                    }
-                }
-            }
+						MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
 
-            timerPolling.Enabled = true;
+						if (_postsGet != null)
+						{
+							foreach (Post _p in _postsGet.posts)
+							{
+								ReplacePostInList(_p, RT.CurrentGroupPosts);
+							}
+
+							ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				s_logger.WarnException("user track failed", ex);
+			}
+			finally
+			{
+				timerPolling.Enabled = true;
+			}
         }
 
         private void showTaskbarNotifier(Post post)
@@ -1582,18 +1614,18 @@ namespace Waveface
 
         private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonCloud.Checked)
-            {
-                WService.StationIP = WService.CloudIP;
-                RT.StationMode = false;
-            }
-            else
-            {
+			if (radioButtonCloud.Checked)
+			{
+			    WService.StationIP = WService.CloudIP;
+			    RT.StationMode = false;
+			}
+			else
+			{
                 WService.StationIP = m_stationIP;
                 RT.StationMode = true;
 
                 backgroundWorkerPreloadAllImages_DoWork(null, null);
-            }
+			}
         }
 
         public void ShowStatuMessage(string message, bool timeout)
@@ -1669,10 +1701,16 @@ namespace Waveface
             MR_posts_getLatest _getLatest = null;
 
             try
-            {
-                _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
-            }
-            catch
+			{
+				// station might return no posts if it hasn't prefetch any timeline from cloud,
+				// but we can know the actual post count by total_count
+				do
+				{
+					_getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+				}
+				while (_getLatest.get_count == 0 && _getLatest.total_count > 0);
+			}
+			catch
             {
                 //Hack: Cloud ¦R¥X¿ù»~¸ê®Æ
 
@@ -1691,10 +1729,15 @@ namespace Waveface
 
                 if (_getLatest.get_count < _getLatest.total_count)
                 {
-                    int _remainingCount = int.MaxValue;
+                    int _fetchedCount = _getLatest.get_count;
 
-                    while (_remainingCount > 0)
+                    while (_getLatest.total_count > _fetchedCount)
                     {
+						if (bgWorkerGetAllData.CancellationPending)
+						{
+							e.Cancel = true;
+							return;
+						}
                         _datum =
                             DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
 
@@ -1708,10 +1751,9 @@ namespace Waveface
                                 {
                                     _allPosts.Add(_p.post_id, _p);
                                     _datum = _p.timestamp;
+                                    _fetchedCount++;
                                 }
                             }
-
-                            _remainingCount = _postsGet.remaining_count;
                         }
                     }
                 }
@@ -1776,7 +1818,7 @@ namespace Waveface
                             string _fileName = string.Empty;
                             Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url, out _fileName, false);
 
-                            string _localPic = GCONST.CachePath + _fileName;
+                            string _localPic =Path.Combine(GCONST.CachePath, _fileName);
 
                             PreloadThumbnail(_url, _localPic);
 
@@ -1790,7 +1832,7 @@ namespace Waveface
                             {
                                 string _url = post.preview.thumbnail_url;
 
-                                string _localPic = GCONST.CachePath + post.post_id + "_previewthumbnail_" + ".jpg";
+								string _localPic = Path.Combine(GCONST.CachePath, post.post_id + "_previewthumbnail_" + ".jpg");
 
                                 PreloadThumbnail(_url, _localPic);
                             }
@@ -1818,7 +1860,7 @@ namespace Waveface
                                 Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url,
                                                                                  out _fileName, false);
 
-                                string _localPic = GCONST.CachePath + _fileName;
+								string _localPic = Path.Combine(GCONST.CachePath, _fileName);
 
                                 PreloadThumbnail(_url, _localPic);
                             }
@@ -1832,7 +1874,7 @@ namespace Waveface
 
                             if (_a.image != string.Empty)
                             {
-                                string _localPic = GCONST.CachePath + _a.object_id + "_thumbnail" + ".jpg";
+                                string _localPic =  Path.Combine(GCONST.CachePath, _a.object_id + "_thumbnail" + ".jpg");
 
                                 string _url = _a.image;
 

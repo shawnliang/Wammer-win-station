@@ -1,6 +1,6 @@
 ﻿using System;
 using log4net;
-
+using System.Linq;
 
 namespace Wammer.Station
 {
@@ -9,11 +9,13 @@ namespace Wammer.Station
 		private static ILog logger = LogManager.GetLogger("StationOfflineHandler");
 		private readonly HttpServer functionServer;
 		private readonly StationTimer stationTimer;
+		private readonly TaskRunner[] bodySyncRunners;
 
-		public StationOfflineHandler(HttpServer functionServer, StationTimer stationTimer)
+		public StationOfflineHandler(HttpServer functionServer, StationTimer stationTimer, TaskRunner[] bodySyncRunners)
 		{
 			this.functionServer = functionServer;
 			this.stationTimer = stationTimer;
+			this.bodySyncRunners = bodySyncRunners;
 		}
 
 		protected override void HandleRequest()
@@ -26,6 +28,7 @@ namespace Wammer.Station
 
 			functionServer.Stop();
 			stationTimer.Stop();
+			Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Stop());
 
 			logger.Debug("Stop function server successfully");
 			RespondSuccess();

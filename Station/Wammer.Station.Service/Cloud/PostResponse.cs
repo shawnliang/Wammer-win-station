@@ -6,10 +6,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Cloud
 {
-	public class PostResponse : CloudResponse
+	abstract public class PostResponse : CloudResponse
 	{
-		public string group_id { get; set; }
-		public int get_count { get; set; }
 		public List<PostInfo> posts { get; set; }
 		public List<UserInfo> users { get; set; }
 
@@ -22,10 +20,14 @@ namespace Wammer.Cloud
 			: base(status, timestamp)
 		{
 		}
+
+		abstract public bool HasMoreData { get; }
 	}
 
 	public class PostFetchByFilterResponse : PostResponse
 	{
+		public string group_id { get; set; }
+		public int get_count { get; set; }
 		public int remaining_count { get; set; }
 
 		public PostFetchByFilterResponse()
@@ -33,8 +35,7 @@ namespace Wammer.Cloud
 		{
 		}
 
-		public PostFetchByFilterResponse(int status, DateTime timestamp, 
-			string group_id, int get_count, int remaining_count, 
+		public PostFetchByFilterResponse(string group_id, int get_count, int remaining_count, 
 			List<PostInfo> posts, List<UserInfo> users)
 			: base()
 		{
@@ -44,19 +45,75 @@ namespace Wammer.Cloud
 			this.posts = posts;
 			this.users = users;
 		}
+
+		public override bool HasMoreData
+		{
+			get { return remaining_count > 0; }
+		}
+	}
+
+	public class PostGetResponse : PostResponse
+	{
+		public string group_id { get; set; }
+		public int get_count { get; set; }
+		public long remaining_count { get; set; }
+
+		public PostGetResponse()
+			: base()
+		{
+		}
+
+		public PostGetResponse(string group_id, int get_count, int remaining_count,
+			List<PostInfo> posts, List<UserInfo> users)
+			: base()
+		{
+			this.group_id = group_id;
+			this.get_count = get_count;
+			this.remaining_count = remaining_count;
+			this.posts = posts;
+			this.users = users;
+		}
+
+		public override bool HasMoreData
+		{
+			get { return remaining_count > 0; }
+		}
+	}
+
+	public class PostGetSingleResponse : PostResponse
+	{
+		public PostInfo post { get; set; }
+
+		public PostGetSingleResponse()
+			: base()
+		{
+		}
+
+		public PostGetSingleResponse(PostInfo post, List<UserInfo> users)
+			: base()
+		{
+			this.post = post;
+			this.users = users;
+		}
+
+		public override bool HasMoreData
+		{
+			get { return false; }
+		}
 	}
 
 	public class PostGetLatestResponse : PostResponse
 	{
-		public int total_count { get; set; }
+		public string group_id { get; set; }
+		public int get_count { get; set; }
+		public long total_count { get; set; }
 
 		public PostGetLatestResponse()
 			: base()
 		{
 		}
 
-		public PostGetLatestResponse(int status, DateTime timestamp, 
-			string group_id, int get_count, int total_count, 
+		public PostGetLatestResponse(string group_id, int get_count, int total_count, 
 			List<PostInfo> posts, List<UserInfo> users)
 			: base()
 		{
@@ -65,6 +122,11 @@ namespace Wammer.Cloud
 			this.total_count = total_count;
 			this.posts = posts;
 			this.users = users;
+		}
+
+		public override bool HasMoreData
+		{
+			get { return total_count > get_count; }
 		}
 	}
 
@@ -121,9 +183,9 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public string type { get; set; }
 		[BsonIgnoreIfNull]
-		public string update_time { get; set; }
+		public DateTime update_time { get; set; }
 		[BsonIgnoreIfNull]
-		public string timestamp { get; set; }
+		public DateTime timestamp { get; set; }
 
 		[BsonId]
 		public string post_id { get; set; }

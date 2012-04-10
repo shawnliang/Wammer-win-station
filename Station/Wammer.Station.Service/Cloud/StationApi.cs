@@ -16,14 +16,20 @@ namespace Wammer.Cloud
 
 		public static StationApi SignUp(WebClient agent, string stationId, string email, string passwd)
 		{
+			return SignUp(agent, stationId, email, passwd, CloudServer.APIKey);
+		}
+
+
+		public static StationApi SignUp(WebClient agent, string stationId, string email, string passwd, string apiKey)
+		{
 			Dictionary<object, object> param = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_EMAIL, email},
 				{CloudServer.PARAM_PASSWORD, passwd},
 				{CloudServer.PARAM_STATION_ID, stationId},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+				{CloudServer.PARAM_API_KEY, apiKey}
 			};
-			
+
 			StationSignUpResponse res =
 				CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param);
 
@@ -52,11 +58,16 @@ namespace Wammer.Cloud
 		
 		public StationLogOnResponse LogOn(WebClient agent, StationDetail detail)
 		{
+			return LogOn(agent, detail, CloudServer.APIKey);
+		}
+
+		public StationLogOnResponse LogOn(WebClient agent, StationDetail detail,string apiKey)
+		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_SESSION_TOKEN, this.Token },
 				{ CloudServer.PARAM_STATION_ID, this.Id },
-				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey },
+				{ CloudServer.PARAM_API_KEY, apiKey },
 				{ CloudServer.PARAM_DETAIL, detail.ToFastJSON() }
 			};
 
@@ -90,8 +101,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_DETAIL, detail.ToFastJSON() }
 			};
 
-			StationHeartbeatResponse res =
-				CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
+			CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
 		}
 
 		public static void SignOff(WebClient agent, string stationId, string sessionToken, string userID)
@@ -128,8 +138,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
 			};
 
-			StationHeartbeatResponse res =
-				CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/offline", parameters);		
+			CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/offline", parameters);		
 		}
 
 		public string Id { get; private set;}
