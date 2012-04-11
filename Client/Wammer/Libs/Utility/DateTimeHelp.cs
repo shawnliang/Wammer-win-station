@@ -77,21 +77,26 @@ namespace Waveface
             return _dt1.CompareTo(_dt2) > 0;
         }
 
-        public static string PrettyDate(String TimeSubmitted)
+        public static string PrettyDate(String timeSubmitted, bool shortFormat)
         {
             // accepts standard DateTime: 5/12/2011 2:36:00 PM 
             // returns: "# month(s)/week(s)/day(s)/hour(s)/minute(s)/second(s)) ago"
-            string _ret = TimeSubmitted;
+            string _ret;
 
-            DateTime _submittedDate = DateTime.Parse(TimeSubmitted);
+            DateTime _submittedDate = DateTime.Parse(timeSubmitted);
             DateTime _now = DateTime.Now;
             TimeSpan _diff = _now - _submittedDate;
+
+            if(shortFormat)
+            {
+                timeSubmitted = _submittedDate.ToString("yyyy-MM-dd");
+            }
 
             if (CultureManager.ApplicationUICulture.Name == "zh-TW")
             {
                 if (_diff.Seconds <= 0)
                 {
-                    _ret = TimeSubmitted;
+                    _ret = timeSubmitted;
                 }
                 /*
                 else if (_diff.Days > 30)
@@ -106,28 +111,28 @@ namespace Waveface
                 else if (_diff.Days >= 1)
                 {
                     if (_diff.Days < 7)
-                        _ret = _diff.Days + " 天前";
+                        _ret = _diff.Days + "天前";
                     else
-                        _ret = TimeSubmitted;
+                        _ret = timeSubmitted;
                 }
                 else if (_diff.Hours >= 1)
                 {
-                    _ret = _diff.Hours + " 小時前";
+                    _ret = _diff.Hours + "小時前";
                 }
                 else if (_diff.Minutes >= 1)
                 {
-                    _ret = _diff.Minutes + " 分鐘前";
+                    _ret = _diff.Minutes + "分鐘前";
                 }
                 else
                 {
-                    _ret = _diff.Seconds + " 秒前";
+                    _ret = _diff.Seconds + "秒前";
                 }
             }
             else
             {
                 if (_diff.Seconds <= 0)
                 {
-                    _ret = TimeSubmitted;
+                    _ret = timeSubmitted;
                 }
                 /*
                 else if (_diff.Days > 30)
@@ -142,21 +147,21 @@ namespace Waveface
                 else if (_diff.Days >= 1)
                 {
                     if (_diff.Days < 7)
-                        _ret = _diff.Days + " day" + (_diff.Days >= 2 ? "s " : " ") + "ago";
+                        _ret = _diff.Days + "day" + (_diff.Days >= 2 ? "s " : " ") + "ago";
                     else
-                        _ret = TimeSubmitted;
+                        _ret = timeSubmitted;
                 }
                 else if (_diff.Hours >= 1)
                 {
-                    _ret = _diff.Hours + " hour" + (_diff.Hours >= 2 ? "s " : " ") + "ago";
+                    _ret = _diff.Hours + "hour" + (_diff.Hours >= 2 ? "s " : " ") + "ago";
                 }
                 else if (_diff.Minutes >= 1)
                 {
-                    _ret = _diff.Minutes + " minute" + (_diff.Minutes >= 2 ? "s " : " ") + "ago";
+                    _ret = _diff.Minutes + "minute" + (_diff.Minutes >= 2 ? "s " : " ") + "ago";
                 }
                 else
                 {
-                    _ret = _diff.Seconds + " second" + (_diff.Seconds >= 2 ? "s " : " ") + "ago";
+                    _ret = _diff.Seconds + "second" + (_diff.Seconds >= 2 ? "s " : " ") + "ago";
                 }
             }
 

@@ -46,7 +46,6 @@ namespace Waveface
         private TrayIconPanel m_trayIconPanel;
 
         private bool m_forceLogout;
-        private bool m_canAutoFetchNewestPosts = true;
         private bool m_manualRefresh;
         private ShowTimelineIndexType m_showTimelineIndexType;
 
@@ -67,6 +66,7 @@ namespace Waveface
         private StationState m_stationState;
         private AppLimit.NetSparkle.Sparkle m_autoUpdator;
         private bool m_getAllDataError;
+        private string m_newestUpdateTime;
 
         #endregion
 
@@ -157,7 +157,7 @@ namespace Waveface
 
             InitializeComponent();
 
-            this.Text = "Waveface ";
+            Text = "Waveface ";
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
@@ -840,20 +840,6 @@ namespace Waveface
 
         #region Newest Post (NOT USED NOW)
 
-        /*
-        private void timerGetNewestPost_Tick(object sender, EventArgs e)
-        {
-            timerGetNewestPost.Enabled = false;
-
-            if (m_canAutoFetchNewestPosts)
-            {
-                //RefreshNewestPosts();
-            }
-
-            timerGetNewestPost.Enabled = true;
-        }
-        */
-
         public bool RefreshNewestPosts()
         {
             if (RT.LoginOK)
@@ -904,11 +890,6 @@ namespace Waveface
 
         public void AfterBatchPostDone()
         {
-            m_canAutoFetchNewestPosts = false;
-
-            // --------------------------   OLD_showAllPosts();
-
-            m_canAutoFetchNewestPosts = true;
         }
 
         #endregion
@@ -1080,8 +1061,6 @@ namespace Waveface
                 return;
             }
 
-            m_canAutoFetchNewestPosts = false;
-
             try
             {
                 m_postForm = new PostForm(new List<string>(), PostType.All, post, true);
@@ -1111,8 +1090,6 @@ namespace Waveface
             }
 
             m_postForm = null;
-
-            m_canAutoFetchNewestPosts = true;
         }
 
         public void Post(List<string> pics, PostType postType)
@@ -1128,8 +1105,6 @@ namespace Waveface
                 MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
                 return;
             }
-
-            m_canAutoFetchNewestPosts = false;
 
             try
             {
@@ -1154,8 +1129,6 @@ namespace Waveface
             }
 
             m_postForm = null;
-
-            m_canAutoFetchNewestPosts = true;
         }
 
         #endregion
@@ -1188,7 +1161,7 @@ namespace Waveface
             return _time;
         }
 
-        public Post PostUpdate(Post post, Dictionary<string, string> optionalParams)
+        public Post PostUpdate(Post post, Dictionary<string, string> optionalParams, bool refreshUI)
         {
             if (!CheckNetworkStatus())
                 return null;
@@ -1206,7 +1179,7 @@ namespace Waveface
                     return null;
                 }
 
-                RefreshSinglePost(_update.post);
+                RefreshSinglePost(_update.post, refreshUI);
             }
             catch (Exception _e)
             {
@@ -1222,7 +1195,7 @@ namespace Waveface
             return _update.post;
         }
 
-        public bool ChangePostFavorite(Post post)
+        public bool ChangePostFavorite(Post post, bool refreshUI)
         {
             if (!CheckNetworkStatus())
                 return false;
@@ -1248,7 +1221,7 @@ namespace Waveface
                     return false;
                 }
 
-                RefreshSinglePost(_update.post);
+                RefreshSinglePost(_update.post, refreshUI);
             }
             catch (Exception _e)
             {
@@ -1296,11 +1269,12 @@ namespace Waveface
             }
         }
 
-        public void RefreshSinglePost(Post post)
+        public void RefreshSinglePost(Post post, bool refreshUI)
         {
             ReplacePostInList(post, RT.CurrentGroupPosts);
 
-            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+            if (refreshUI)
+                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
         }
 
         private bool ReplacePostInList(Post post, List<Post> posts)
@@ -1326,7 +1300,7 @@ namespace Waveface
             return false;
         }
 
-        private string GetNewestPostUpdateTime(List<Post> posts)
+        private string GetNewestUpdateTimeInPosts(List<Post> posts)
         {
             DateTime _dtNewest = new DateTime(1, 1, 1);
             DateTime _dt;
@@ -1535,10 +1509,17 @@ namespace Waveface
 					return;
 				}
 
-				string _newestUpdateTime = GetNewestPostUpdateTime(RT.CurrentGroupPosts);
+            string _newestUpdateTime;
 
-				if (_newestUpdateTime != string.Empty)
+            if (string.IsNullOrEmpty(m_newestUpdateTime))
+            {
+                _newestUpdateTime = GetNewestUpdateTimeInPosts(RT.CurrentGroupPosts);
+            }
+            else
 				{
+                _newestUpdateTime = m_newestUpdateTime;
+            }
+
 					_newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
 
 					MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
@@ -1551,6 +1532,8 @@ namespace Waveface
 
 							return;
 						}
+
+                m_newestUpdateTime = _usertracks.latest_timestamp;
 
 						foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
 						{
@@ -1579,7 +1562,7 @@ namespace Waveface
 							ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
 						}
 					}
-				}
+
 			}
 			catch (Exception ex)
 			{
@@ -1699,8 +1682,8 @@ namespace Waveface
 
             try
 			{
-				_getLatest = RT.REST.Posts_getLatest(_firstGetCount);
-			}
+					_getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+				}
 			catch
             {
                 //Hack: Cloud ¦R¥X¿ù»~¸ê®Æ

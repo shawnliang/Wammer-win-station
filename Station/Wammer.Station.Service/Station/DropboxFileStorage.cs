@@ -46,7 +46,7 @@ namespace Wammer.Station
 					SavedFilePath, true);
 
 				logger.DebugFormat("call setloc for file {0}", Path.GetFileName(SavedFilePath));
-				AttachmentApi api = new AttachmentApi(driver.user_id);
+				AttachmentApi api = new AttachmentApi(driver);
 
 				using (WebClient client = new DefaultWebClient())
 				{

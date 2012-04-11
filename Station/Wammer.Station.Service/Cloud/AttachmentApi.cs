@@ -22,9 +22,8 @@ namespace Wammer.Cloud
 			Dropbox = 2
 		}
 
-		public AttachmentApi(string user_id)
+		public AttachmentApi(Driver driver)
 		{
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", user_id));
 			this.userToken = driver.session_token;
 		}
 

@@ -19,7 +19,8 @@ namespace Wammer.Station
 	class BodySyncTaskQueue: ITaskSource, ITaskStore
 	{
 		private Semaphore hasItem = new Semaphore(0, int.MaxValue);
-		private Queue<SimpleTask> callbacks = new Queue<SimpleTask>();
+		private Queue<SimpleTask> highPriorityCallbacks = new Queue<SimpleTask>();
+		private Queue<SimpleTask> lowPriorityCallbacks = new Queue<SimpleTask>();
 		private HashSet<string> keys = new HashSet<string>();
 
 		public event EventHandler Enqueued;
@@ -35,12 +36,26 @@ namespace Wammer.Station
 
 				bool enqueued = false;
 
-				lock (callbacks)
+				if (arg.imagemeta == Model.ImageMeta.Small || arg.imagemeta == Model.ImageMeta.Medium)
 				{
-					if (keys.Add(key))
+					lock (highPriorityCallbacks)
 					{
-						callbacks.Enqueue(new SimpleTask(cb, state));
-						enqueued = true;
+						if (keys.Add(key))
+						{
+							highPriorityCallbacks.Enqueue(new SimpleTask(cb, state));
+							enqueued = true;
+						}
+					}
+				}
+				else
+				{
+					lock (lowPriorityCallbacks)
+					{
+						if (keys.Add(key))
+						{
+							lowPriorityCallbacks.Enqueue(new SimpleTask(cb, state));
+							enqueued = true;
+						}
 					}
 				}
 
@@ -60,10 +75,23 @@ namespace Wammer.Station
 		{
 			hasItem.WaitOne();
 
-			lock (callbacks)
+			SimpleTask task;
+			lock (highPriorityCallbacks)
 			{
-				return callbacks.Dequeue();
+				if (highPriorityCallbacks.Count > 0)
+				{
+					task = highPriorityCallbacks.Dequeue();
+				}
+				else
+				{
+					lock (lowPriorityCallbacks)
+					{
+						task = lowPriorityCallbacks.Dequeue();
+					}
+				}
 			}
+
+			return task;
 		}
 
 		private void OnEnqueued(EventArgs arg)

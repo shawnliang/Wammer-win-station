@@ -175,7 +175,7 @@ namespace Wammer.Station
 					return;
 				}
 
-				AttachmentApi api = new AttachmentApi(evtargs.driver.user_id);
+				AttachmentApi api = new AttachmentApi(evtargs.driver);
 				using (WebClient client = new DefaultWebClient())
 				{
 					api.AttachmentView(client, evtargs);

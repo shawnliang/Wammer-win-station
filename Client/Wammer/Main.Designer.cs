@@ -1,4 +1,4 @@
-﻿namespace Waveface
+namespace Waveface
 {
 	partial class Main
 	{
@@ -57,11 +57,11 @@
             this.StatusLabelNetwork = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerShowStatuMessage = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorkerPreloadAllImages = new System.ComponentModel.BackgroundWorker();
+            this.timerPolling = new System.Windows.Forms.Timer(this.components);
             this.panelTop = new Waveface.BgPanel();
             this.panelStation = new System.Windows.Forms.Panel();
             this.radioButtonStation = new System.Windows.Forms.RadioButton();
             this.radioButtonCloud = new System.Windows.Forms.RadioButton();
-            this.timerPolling = new System.Windows.Forms.Timer(this.components);
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -94,10 +94,13 @@
             // 
             this.postsArea.BackColor = System.Drawing.SystemColors.Window;
             resources.ApplyResources(this.postsArea, "postsArea");
+            this.postsArea.MinimumSize = new System.Drawing.Size(337, 2);
             this.postsArea.Name = "postsArea";
             // 
             // splitterLeft
             // 
+            this.splitterLeft.BackColor = System.Drawing.Color.LightGray;
+            this.splitterLeft.Cursor = System.Windows.Forms.Cursors.Default;
             resources.ApplyResources(this.splitterLeft, "splitterLeft");
             this.splitterLeft.Name = "splitterLeft";
             this.splitterLeft.TabStop = false;
@@ -112,24 +115,22 @@
             // 
             this.leftArea.AllowDrop = true;
             this.leftArea.BackColor = System.Drawing.Color.Transparent;
-            this.leftArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.leftArea, "leftArea");
             this.leftArea.Name = "leftArea";
             this.leftArea.TabStop = false;
             // 
-			// panelMain
-			// 
-			this.panelMain.Controls.Add(this.detailView);
-			resources.ApplyResources(this.panelMain, "panelMain");
-			this.panelMain.Name = "panelMain";
-			// 
+            // panelMain
+            // 
+            this.panelMain.Controls.Add(this.detailView);
+            resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.Name = "panelMain";
+            // 
             // detailView
             // 
-            this.detailView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.detailView, "detailView");
             this.detailView.Name = "detailView";
-			this.detailView.Post = null;
-			this.detailView.User = null;
+            this.detailView.Post = null;
+            this.detailView.User = null;
             // 
             // mnuTray
             // 
@@ -179,6 +180,7 @@
             // 
             // splitterRight
             // 
+            this.splitterRight.BackColor = System.Drawing.Color.LightGray;
             resources.ApplyResources(this.splitterRight, "splitterRight");
             this.splitterRight.Name = "splitterRight";
             this.splitterRight.TabStop = false;
@@ -254,6 +256,11 @@
             // 
             this.backgroundWorkerPreloadAllImages.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerPreloadAllImages_DoWork);
             // 
+            // timerPolling
+            // 
+            this.timerPolling.Interval = 10000;
+            this.timerPolling.Tick += new System.EventHandler(this.timerPolling_Tick);
+            // 
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(175)))), ((int)(((byte)(197)))));
@@ -286,11 +293,6 @@
             this.radioButtonCloud.Name = "radioButtonCloud";
             this.radioButtonCloud.UseVisualStyleBackColor = true;
             this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
-            // 
-            // timerPolling
-            // 
-            this.timerPolling.Interval = 10000;
-            this.timerPolling.Tick += new System.EventHandler(this.timerPolling_Tick);
             // 
             // Main
             // 

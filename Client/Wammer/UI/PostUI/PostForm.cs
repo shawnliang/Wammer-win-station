@@ -386,7 +386,7 @@ namespace Waveface
                     Dictionary<string, string> _params = new Dictionary<string, string>();
                     _params.Add("content", pureTextBox.Text.Trim());
 
-                    Main.Current.PostUpdate(Post, _params);
+                    Main.Current.PostUpdate(Post, _params, true);
                 }
 
                 SetDialogResult_Yes_AndClose();

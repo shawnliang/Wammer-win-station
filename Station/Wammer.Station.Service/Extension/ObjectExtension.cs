@@ -23,6 +23,8 @@ public static class ObjectExtension
 	}
 	#endregion
 
+
+
 	#region Public Method
 	public static Boolean IsNull(this object obj)
 	{
@@ -64,15 +66,23 @@ public static class ObjectExtension
 		}
 	}
 
+	public static ILog GetLogger(this object obj)
+	{
+		lock (obj)
+		{
+			if (!m_LoggerPool.ContainsKey(obj))
+				m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
+
+			return m_LoggerPool[obj];
+		}
+	}
+
 	public static void LogDebugMsg(this object obj, string msg)
 	{
 		if (string.IsNullOrEmpty(msg))
 			return;
-		
-		if (!m_LoggerPool.ContainsKey(obj))
-			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
 
-		m_LoggerPool[obj].Debug(msg);
+			obj.GetLogger().Debug(msg);
 	}
 
 	public static void LogDebugMsg(this object obj, string msg, Exception e)
@@ -80,10 +90,7 @@ public static class ObjectExtension
 		if (string.IsNullOrEmpty(msg))
 			return;
 
-		if (!m_LoggerPool.ContainsKey(obj))
-			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
-
-		m_LoggerPool[obj].Debug(msg, e);
+		obj.GetLogger().Debug(msg, e);
 	}
 
 	public static void LogWarnMsg(this object obj, string msg)
@@ -91,10 +98,7 @@ public static class ObjectExtension
 		if(string.IsNullOrEmpty(msg))
 			return;
 
-		if(!m_LoggerPool.ContainsKey(obj))
-			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
-
-		m_LoggerPool[obj].Warn(msg);
+		obj.GetLogger().Warn(msg);
 	}
 
 
@@ -103,10 +107,7 @@ public static class ObjectExtension
 		if (string.IsNullOrEmpty(msg))
 			return;
 
-		if (!m_LoggerPool.ContainsKey(obj))
-			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
-
-		m_LoggerPool[obj].Warn(msg, e);
+		obj.GetLogger().Warn(msg, e);
 	}
 
 	public static void LogErrorMsg(this object obj, string msg)
@@ -114,10 +115,7 @@ public static class ObjectExtension
 		if (string.IsNullOrEmpty(msg))
 			return;
 
-		if (!m_LoggerPool.ContainsKey(obj))
-			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
-
-		m_LoggerPool[obj].Error(msg);
+		obj.GetLogger().Error(msg);
 	}
 
 	public static void LogFatalMsg(this object obj, string msg)
@@ -125,10 +123,7 @@ public static class ObjectExtension
 		if (string.IsNullOrEmpty(msg))
 			return;
 
-		if (!m_LoggerPool.ContainsKey(obj))
-			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
-
-		m_LoggerPool[obj].Fatal(msg);
+		obj.GetLogger().Fatal(msg);
 	}
 	#endregion
 }

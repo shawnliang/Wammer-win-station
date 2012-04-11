@@ -14,6 +14,65 @@ namespace Waveface
 {
     public class ImageUtility
     {
+        public static Image GenerateSquareImage(Image image, int size)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+
+            try
+            {
+                if ((image.Width >= size) || (image.Height >= size))
+                {
+                    double _prop = image.Width / (double)image.Height;
+
+                    int _x;
+                    int _y;
+
+                    if (image.Width > image.Height)
+                    {
+                        _x = (int)Math.Round(size * _prop, 0);
+                        _y = size;
+                    }
+                    else
+                    {
+                        _x = size;
+                        _y = (int)Math.Round(size / _prop, 0);
+                    }
+
+                    using (Image _img = new Bitmap(image, new Size(_x, _y)))
+                    {
+                        Image _crapped = new Bitmap(size, size);
+                        Graphics _g = Graphics.FromImage(_crapped);
+
+                        if (image.Width > image.Height)
+                        {
+                            _g.DrawImage(_img,
+                                         new Rectangle(0, 0, size, size),
+                                         new Rectangle((image.Width - image.Height) / 2, 0, size, size),
+                                         GraphicsUnit.Pixel
+                                );
+                        }
+                        else
+                        {
+                            _g.DrawImage(_img,
+                                         new Rectangle(0, 0, size, size),
+                                         new Rectangle(0, (image.Height - image.Width) / 2, size, size),
+                                         GraphicsUnit.Pixel
+                                );
+                        }
+
+                        return _crapped;
+                    }
+                }
+
+                return image;
+            }
+            catch
+            {
+                return image;
+            }
+        }
+
         public static Image GetAvatarImage(string creatorId, string avatarUrl)
         {
             Image _img;
@@ -260,7 +319,7 @@ namespace Waveface
                 return orgImageFilePath;
             }
 
-            using (Bitmap _img = (Bitmap) Image.FromFile(orgImageFilePath))
+            using (Bitmap _img = (Bitmap)Image.FromFile(orgImageFilePath))
             {
                 ExifOrientations _exifOrientations = ImageOrientation(_img);
 

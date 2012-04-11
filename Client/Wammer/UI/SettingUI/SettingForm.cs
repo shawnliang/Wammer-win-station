@@ -273,7 +273,7 @@ namespace Waveface.SettingUI
                 if (id == station.Id)
                 {
                     DateTime lastSync = DateTimeHelp.ConvertUnixTimestampToDateTime(long.Parse(station.info.last_seen));
-                    string lastSyncString = DateTimeHelp.PrettyDate(lastSync.ToString());
+                    string lastSyncString = DateTimeHelp.PrettyDate(lastSync.ToString(), false);
                     if (lastSyncString == lastSync.ToString())
                         lblLastSyncValue.Text = lastSync.ToString("MM/dd tt hh:mm:ss");
                     else

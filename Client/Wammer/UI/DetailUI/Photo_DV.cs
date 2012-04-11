@@ -13,7 +13,6 @@ using Manina.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
-using Waveface.Component;
 
 #endregion
 
@@ -22,6 +21,8 @@ namespace Waveface.DetailUI
     public class Photo_DV : UserControl, IDetailView
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
+
+        private Color BG_COLOR = Color.FromArgb(240, 240, 240);
 
         #region Fields
 
@@ -49,8 +50,11 @@ namespace Waveface.DetailUI
         private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
 
         private List<string> m_clickableURL;
+        private ContextMenuStrip contextMenuStripImageList;
+        private ToolStripMenuItem miSetCoverImage;
 
         private bool m_canEdit;
+        private ImageListViewItem m_selectedItem;
 
         #endregion
 
@@ -88,14 +92,18 @@ namespace Waveface.DetailUI
         {
             InitializeComponent();
 
-            MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer();
-            _imageListViewRenderer.Clip = false;
+            MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer
+                                                                 {
+                                                                     Clip = false,
+                                                                     ItemBorderless = true,
+                                                                     ShowHovered = false
+                                                                 };
 
             imageListView.SetRenderer(_imageListViewRenderer);
 
-            imageListView.BackColor = Color.FromArgb(240,240, 240);
-            imageListView.Colors.BackColor = Color.FromArgb(240, 240, 240);
-            imageListView.Colors.DisabledBackColor = Color.FromArgb(240, 240, 240);
+            imageListView.BackColor = BG_COLOR;
+            imageListView.Colors.BackColor = BG_COLOR;
+            imageListView.Colors.DisabledBackColor = BG_COLOR;
             imageListView.ThumbnailSize = new Size(128, 128);
             imageListView.CacheMode = CacheMode.Continuous;
 
@@ -104,6 +112,8 @@ namespace Waveface.DetailUI
 
             m_filesMapping = new Dictionary<string, string>();
             m_clickableURL = new List<string>();
+
+            Visible = false;
         }
 
         #region Component Designer generated code
@@ -119,6 +129,8 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new Waveface.Component.AutoScrollPanel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
+            this.contextMenuStripImageList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miSetCoverImage = new System.Windows.Forms.ToolStripMenuItem();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
@@ -128,21 +140,22 @@ namespace Waveface.DetailUI
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
+            this.contextMenuStripImageList.SuspendLayout();
             this.panelPictureInfo.SuspendLayout();
             this.contextMenuStripTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
             // 
-            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
-            this.panelMain.Controls.Add(this.panelRight);
             resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelMain.Controls.Add(this.panelRight);
             this.panelMain.Name = "panelMain";
             // 
             // panelRight
             // 
             resources.ApplyResources(this.panelRight, "panelRight");
-            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panelRight.Controls.Add(this.imageListView);
             this.panelRight.Controls.Add(this.panelPictureInfo);
             this.panelRight.Controls.Add(this.webBrowserTop);
@@ -150,12 +163,15 @@ namespace Waveface.DetailUI
             // 
             // imageListView
             // 
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.AllowDuplicateFileNames = true;
+            this.imageListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.CacheLimit = "0";
+            this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.imageListView.DefaultImage = global::Waveface.Properties.Resources.LoadingImage;
-            resources.ApplyResources(this.imageListView, "imageListView");
+            this.imageListView.ContextMenuStrip = this.contextMenuStripImageList;
+            this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
@@ -165,11 +181,25 @@ namespace Waveface.DetailUI
             this.imageListView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imageListView_MouseMove);
             this.imageListView.Resize += new System.EventHandler(this.imageListView_Resize);
             // 
+            // contextMenuStripImageList
+            // 
+            resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
+            this.contextMenuStripImageList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miSetCoverImage});
+            this.contextMenuStripImageList.Name = "contextMenuStripImageList";
+            this.contextMenuStripImageList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripImageList_Opening);
+            // 
+            // miSetCoverImage
+            // 
+            resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
+            this.miSetCoverImage.Name = "miSetCoverImage";
+            this.miSetCoverImage.Click += new System.EventHandler(this.miSetCoverImage_Click);
+            // 
             // panelPictureInfo
             // 
+            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
             this.panelPictureInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
             this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
-            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
             this.panelPictureInfo.Name = "panelPictureInfo";
             // 
             // labelPictureInfo
@@ -180,8 +210,8 @@ namespace Waveface.DetailUI
             // 
             // webBrowserTop
             // 
-            this.webBrowserTop.AllowWebBrowserDrop = false;
             resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
+            this.webBrowserTop.AllowWebBrowserDrop = false;
             this.webBrowserTop.Name = "webBrowserTop";
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
@@ -197,25 +227,26 @@ namespace Waveface.DetailUI
             // 
             // contextMenuStripTop
             // 
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
             this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopyTop});
             this.contextMenuStripTop.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
             // 
             // miCopyTop
             // 
-            this.miCopyTop.Name = "miCopyTop";
             resources.ApplyResources(this.miCopyTop, "miCopyTop");
+            this.miCopyTop.Name = "miCopyTop";
             // 
             // Photo_DV
             // 
+            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.panelMain);
-            resources.ApplyResources(this, "$this");
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
             this.panelRight.ResumeLayout(false);
+            this.contextMenuStripImageList.ResumeLayout(false);
             this.panelPictureInfo.ResumeLayout(false);
             this.contextMenuStripTop.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -247,6 +278,7 @@ namespace Waveface.DetailUI
         private void RefreshUI()
         {
             Set_MainContent_Part();
+
             Set_Pictures();
 
             ReLayout();
@@ -266,12 +298,6 @@ namespace Waveface.DetailUI
 
         private void Set_MainContent_Part()
         {
-            if (Post.content == string.Empty)
-            {
-                webBrowserTop.Visible = false;
-                return;
-            }
-
             StringBuilder _sb = new StringBuilder();
 
             _sb.Append("<font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'><p>[Text]</p></font>");
@@ -285,7 +311,7 @@ namespace Waveface.DetailUI
 
             _html = _html.Replace("[Text]", _content);
 
-            _html += MyParent.GenCommentHTML(Post);
+            _html += MyParent.GenCommentHTML(Post, false);
 
             _html = HtmlUtility.MakeLink(_html, m_clickableURL);
 
@@ -296,6 +322,8 @@ namespace Waveface.DetailUI
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            Visible = true;
+
             int _h = webBrowserTop.Document.Body.ScrollRectangle.Height;
             webBrowserTop.Height = _h;
 
@@ -411,8 +439,17 @@ namespace Waveface.DetailUI
 
             imageListView.SuspendLayout();
 
+            string _cover_attach = m_post.cover_attach;
+
+            if(string.IsNullOrEmpty(m_post.cover_attach))
+                _cover_attach = m_imageAttachments[0].object_id;
+
             for (int i = 0; i < m_imageAttachments.Count; i++)
             {
+                DetailViewImageListViewItemTag _tag = new DetailViewImageListViewItemTag();
+                _tag.Index = i.ToString();
+                _tag.IsCoverImage = (_cover_attach == m_imageAttachments[i].object_id);
+
                 if (File.Exists(m_filePathMediums[i]))
                 {
                     if (firstTime)
@@ -420,7 +457,7 @@ namespace Waveface.DetailUI
                     else
                         imageListView.Items[i].FileName = m_filePathMediums[i];
 
-                    imageListView.Items[i].Tag = i.ToString();
+                    imageListView.Items[i].Tag = _tag;
 
                     k++;
 
@@ -432,7 +469,7 @@ namespace Waveface.DetailUI
                 else
                     imageListView.Items[i].FileName = Main.Current.LoadingImagePath;
 
-                imageListView.Items[i].Tag = i.ToString();
+                imageListView.Items[i].Tag = _tag;
             }
 
             imageListView.ResumeLayout();
@@ -452,11 +489,6 @@ namespace Waveface.DetailUI
             return _flag;
         }
 
-        private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            //ShowPhotoView(e);
-        }
-
         private void ShowPhotoView(ItemClickEventArgs e)
         {
             PhotoDownloader.PreloadPictures(m_post, true);
@@ -470,7 +502,7 @@ namespace Waveface.DetailUI
 
             using (
                 PhotoView _photoView = new PhotoView(m_post, m_imageAttachments, m_filePathOrigins, m_filePathMediums,
-                                                     m_filesMapping, int.Parse(e.Item.Tag.ToString())))
+                                                     m_filesMapping, int.Parse(((DetailViewImageListViewItemTag)(e.Item.Tag)).Index)))
             {
                 _photoView.ShowDialog();
             }
@@ -536,6 +568,56 @@ namespace Waveface.DetailUI
         private void imageListView_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
             ShowPhotoView(e);
+        }
+
+        private void miSetCoverImage_Click(object sender, EventArgs e)
+        {
+            if (m_selectedItem != null)
+            {
+                Cursor = Cursors.WaitCursor;
+
+                try
+                {
+                    string _cover_attach = Post.attachments[int.Parse(((DetailViewImageListViewItemTag)(m_selectedItem.Tag)).Index)].object_id;
+
+                    if (_cover_attach != m_post.cover_attach)
+                    {
+                        Dictionary<string, string> _params = new Dictionary<string, string>();
+                        _params.Add("cover_attach", _cover_attach);
+
+                        Post _retPost = Main.Current.PostUpdate(m_post, _params, true);
+
+                        if (_retPost == null)
+                        {
+                            return;
+                        }
+
+                        m_post = _retPost;
+                    }
+
+                    MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch
+                {
+                }
+
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void contextMenuStripImageList_Opening(object sender, CancelEventArgs e)
+        {
+            e.Cancel = !m_canEdit;
+        }
+
+        private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            m_selectedItem = e.Item;
+        }
+
+        public List<ToolStripMenuItem> GetMoreMenuItems()
+        {
+            return null;
         }
     }
 }

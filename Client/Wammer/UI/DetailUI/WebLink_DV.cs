@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -28,6 +30,8 @@ namespace Waveface.DetailUI
         private bool m_addedLinkClickEventHandler;
         private List<string> m_clickableURL;
         private bool m_canOpenNewWindow;
+        private ContextMenuStrip contextMenuStripMore;
+        private ToolStripMenuItem miOpenInWebBrowser;
         private bool m_canEdit;
 
         public Post Post
@@ -56,6 +60,8 @@ namespace Waveface.DetailUI
         public WebLink_DV()
         {
             InitializeComponent();
+
+            Visible = false;
 
             m_clickableURL = new List<string>();
         }
@@ -90,8 +96,11 @@ namespace Waveface.DetailUI
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopySoul = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripMore = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miOpenInWebBrowser = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
+            this.contextMenuStripMore.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -103,9 +112,9 @@ namespace Waveface.DetailUI
             // 
             // webBrowser
             // 
+            resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.AllowWebBrowserDrop = false;
             this.webBrowser.CausesValidation = false;
-            resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 18);
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.ScriptErrorsSuppressed = true;
@@ -113,6 +122,7 @@ namespace Waveface.DetailUI
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
             this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating);
             this.webBrowser.NewWindow += new System.ComponentModel.CancelEventHandler(this.webBrowser_NewWindow);
+            this.webBrowser.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.webBrowser_ProgressChanged);
             // 
             // cultureManager
             // 
@@ -120,23 +130,38 @@ namespace Waveface.DetailUI
             // 
             // contextMenuStrip
             // 
+            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopySoul});
             this.contextMenuStrip.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
             // miCopySoul
             // 
-            this.miCopySoul.Name = "miCopySoul";
             resources.ApplyResources(this.miCopySoul, "miCopySoul");
+            this.miCopySoul.Name = "miCopySoul";
+            // 
+            // contextMenuStripMore
+            // 
+            resources.ApplyResources(this.contextMenuStripMore, "contextMenuStripMore");
+            this.contextMenuStripMore.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miOpenInWebBrowser});
+            this.contextMenuStripMore.Name = "contextMenuStripTop";
+            // 
+            // miOpenInWebBrowser
+            // 
+            resources.ApplyResources(this.miOpenInWebBrowser, "miOpenInWebBrowser");
+            this.miOpenInWebBrowser.Image = global::Waveface.Properties.Resources.FB_openin;
+            this.miOpenInWebBrowser.Name = "miOpenInWebBrowser";
+            this.miOpenInWebBrowser.Click += new System.EventHandler(this.miOpenInWebBrowser_Click);
             // 
             // WebLink_DV
             // 
-            this.Controls.Add(this.panelMain);
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.panelMain);
             this.Name = "WebLink_DV";
             this.panelMain.ResumeLayout(false);
             this.contextMenuStrip.ResumeLayout(false);
+            this.contextMenuStripMore.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -165,7 +190,7 @@ namespace Waveface.DetailUI
 
             _htmlMainAndComment = _htmlMainAndComment.Replace("[Text]", _content);
 
-            _htmlMainAndComment += MyParent.GenCommentHTML(Post);
+            _htmlMainAndComment += MyParent.GenCommentHTML(Post, (Post.preview.url != null));
 
             _htmlMainAndComment = HtmlUtility.MakeLink(_htmlMainAndComment, m_clickableURL);
 
@@ -213,6 +238,11 @@ namespace Waveface.DetailUI
                                           "</font></body></html>";
         }
 
+        private void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
+        {
+            Visible = true;
+        }
+
         private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             if (!m_addedLinkClickEventHandler)
@@ -228,7 +258,7 @@ namespace Waveface.DetailUI
             m_soulBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowser, miCopySoul);
             contextMenuStrip.Opening += contextMenuStrip_Opening;
             miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
-            webBrowser.Document.ContextMenuShowing += webBrowser_ContextMenuShowing;            
+            webBrowser.Document.ContextMenuShowing += webBrowser_ContextMenuShowing;
         }
 
         private void LinkClick(object sender, EventArgs e)
@@ -283,6 +313,28 @@ namespace Waveface.DetailUI
             contextMenuStrip.Show(webBrowser.PointToScreen(e.MousePosition));
 
             e.ReturnValue = false;
+        }
+
+        public List<ToolStripMenuItem> GetMoreMenuItems()
+        {
+            List<ToolStripMenuItem> _items = new List<ToolStripMenuItem>();
+            _items.Add(miOpenInWebBrowser);
+
+            return _items;
+        }
+
+        private void miOpenInWebBrowser_Click(object sender, EventArgs e)
+        {
+            string _browser = WebBrowserUtility.GetSystemDefaultBrowser();
+
+            Process _p = new Process();
+
+            if (!string.IsNullOrEmpty(_browser))
+                _p.StartInfo.FileName = _browser;
+
+            _p.StartInfo.Arguments = Post.preview.url;
+
+            _p.Start();
         }
     }
 }

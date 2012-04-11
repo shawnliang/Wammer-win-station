@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
@@ -209,6 +210,11 @@ namespace Waveface.DetailUI
             webBrowserComment.Height = _h;
 
             Application.DoEvents();
+        }
+
+        public List<ToolStripMenuItem> GetMoreMenuItems()
+        {
+            return null;
         }
     }
 }
