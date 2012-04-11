@@ -1,0 +1,76 @@
+﻿using System;
+using System.Linq;
+
+using System;
+using System.Linq;
+using Wammer.Station;
+using System.Net;
+using Wammer.Cloud;
+using MongoDB.Driver.Builders;
+using Wammer.Model;
+using System.Net.NetworkInformation;
+
+namespace Wammer.Station
+{
+	public class UserLogoutHandler : HttpHandler
+	{
+		#region Private Method
+		/// <summary>
+		/// Checks the parameter.
+		/// </summary>
+		/// <param name="arguementNames">The arguement names.</param>
+		private void CheckParameter(params string[] arguementNames)
+		{
+			if (arguementNames == null)
+				throw new ArgumentNullException("arguementNames");
+
+			var nullArgumentNames = from arguementName in arguementNames
+									where Parameters[arguementName] == null
+									select arguementName;
+
+			var IsAllParameterReady = !nullArgumentNames.Any();
+			if (!IsAllParameterReady)
+			{
+				throw new FormatException(string.Format("Parameter {0} is null.", string.Join("、", nullArgumentNames.ToArray())));
+			}
+		}
+		#endregion
+
+
+		#region Protected Method
+		/// <summary>
+		/// Handles the request.
+		/// </summary>
+		protected override void HandleRequest()
+		{
+			CheckParameter("session_token", "apikey");
+
+			string sessionToken = Parameters["session_token"];
+
+
+			try
+			{
+				string apiKey = Parameters["apikey"];
+				using (WebClient client = new WebClient())
+				{
+					User.LogOut(client, sessionToken, apiKey);
+				}
+			}
+			catch (System.Exception)
+			{
+			}
+
+			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", sessionToken));
+
+			RespondSuccess();
+		}
+		#endregion
+
+		#region Public Method
+		public override object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+		#endregion
+	}
+}

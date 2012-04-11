@@ -6,6 +6,7 @@ namespace Waveface
 {
     public class GCONST
     {
+		private const string KEY_PATH = @"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation";
         public static int GetPostOffset = 10;
         
         public static int OriginFileReDownloadDelayTime = 3;
@@ -16,9 +17,11 @@ namespace Waveface
         public string TempPath;
         public string CachePath;
         public string ImageUploadCachePath;
+		private RunTime _runTime;
 
-        public GCONST()
+        public GCONST(RunTime runTime)
         {
+			this._runTime = runTime;
             InitAppDataPath();
             InitTempDir();
             InitCacheDir();
@@ -44,9 +47,19 @@ namespace Waveface
                 File.Delete(_filePath);
         }
 
+
+
         private void InitCacheDir()
         {
-            CachePath = AppDataPath + "Cache\\";
+			var user = _runTime.Login.user;
+
+			CachePath = ((string)Microsoft.Win32.Registry.GetValue(KEY_PATH,"resourceBasePath", null)) ?? "resource";
+
+			CachePath = Path.Combine(CachePath, "user_" + user.user_id);
+
+			if (!CachePath.EndsWith(@"\"))
+				CachePath += @"\";
+
             Directory.CreateDirectory(CachePath);
 
             string[] _filePaths = Directory.GetFiles(CachePath);

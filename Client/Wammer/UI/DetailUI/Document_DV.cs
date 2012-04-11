@@ -305,7 +305,7 @@ namespace Waveface.DetailUI
 
         private void downloadFile(Attachment attachment)
         {
-            string _file = Main.GCONST.CachePath + attachment.object_id + attachment.file_name; //HttpUtility.UrlDecode(attachment.file_name)
+            string _file = Path.Combine(Main.GCONST.CachePath, attachment.object_id + attachment.file_name); //HttpUtility.UrlDecode(attachment.file_name)
 
             m_currentAttachment = attachment;
 
@@ -353,7 +353,7 @@ namespace Waveface.DetailUI
                 {
                     Cursor = Cursors.WaitCursor;
 
-                    string _file = Main.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+                    string _file = Path.Combine(Main.GCONST.CachePath , m_currentAttachment.object_id + m_currentAttachment.file_name); //HttpUtility.UrlDecode(m_currentAttachment.file_name)
                     string _destFile = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
 
                     File.Copy(_file, _destFile);
@@ -393,7 +393,7 @@ namespace Waveface.DetailUI
             {
                 try
                 {
-                    string _file = Main.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+                    string _file = Path.Combine(Main.GCONST.CachePath, m_currentAttachment.object_id + m_currentAttachment.file_name); //HttpUtility.UrlDecode(m_currentAttachment.file_name)
                     string _destFile = saveFileDialog.FileName;
 
                     File.Copy(_file, _destFile);
@@ -411,7 +411,7 @@ namespace Waveface.DetailUI
         {
             try
             {
-                string _file = Main.GCONST.CachePath + m_currentAttachment.object_id + m_currentAttachment.file_name; // HttpUtility.UrlDecode(m_currentAttachment.file_name)
+                string _file = Path.Combine(Main.GCONST.CachePath , m_currentAttachment.object_id + m_currentAttachment.file_name); // HttpUtility.UrlDecode(m_currentAttachment.file_name)
                 string _destFile = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
 
                 File.Copy(_file, _destFile);

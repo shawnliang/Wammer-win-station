@@ -13,7 +13,7 @@ namespace Wammer.Utility
 		public static ImageCodecInfo GifCodec;
 
 		static ImageHelper()
-		{
+		{			
 			ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
 			foreach (ImageCodecInfo codec in codecs)
 			{

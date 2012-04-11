@@ -1,4 +1,4 @@
-﻿namespace Waveface
+namespace Waveface
 {
 	partial class Main
 	{

@@ -9,7 +9,6 @@ namespace Wammer.Cloud
 	{
 		private WebExceptionStatus httpError = WebExceptionStatus.Success;
 		private int wammerError;
-		private string request = null;
 		public string response { get; private set; }
 		public WammerCloudException()
 			: base()
@@ -21,24 +20,22 @@ namespace Wammer.Cloud
 		{
 		}
 
-		public WammerCloudException(string msg, string request, string response, int wammerError)
+		public WammerCloudException(string msg, string response, int wammerError)
 			: base(msg)
 		{
-			this.request = request;
 			this.response = response;
 			this.wammerError = wammerError;
 		}
 
-		public WammerCloudException(string msg, string request, string response, Exception innerException)
+		public WammerCloudException(string msg, string response, Exception innerException)
 			: base(msg, innerException)
 		{
-			if (innerException is WebException)
+			var webException = innerException as WebException;
+			if (webException != null)
 			{
-				this.httpError = ((WebException)innerException).Status;
+				this.httpError = webException.Status;
 			}
 
-
-			this.request = request;
 			this.response = response;
 			this.wammerError = TryParseWammerError(this.response);
 		}
@@ -47,15 +44,6 @@ namespace Wammer.Cloud
 			:base(msg, innerException)
 		{
 			this.response = GetErrResponseText(innerException);
-			this.wammerError = TryParseWammerError(this.response);
-			this.httpError = innerException.Status;
-		}
-
-		public WammerCloudException(string msg, string postData, WebException innerException)
-			: base(msg, innerException)
-		{
-			this.response = GetErrResponseText(innerException);
-			this.request = postData;
 			this.wammerError = TryParseWammerError(this.response);
 			this.httpError = innerException.Status;
 		}

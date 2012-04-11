@@ -12,6 +12,7 @@ using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 using Timer = System.Windows.Forms.Timer;
+using System.IO;
 
 #endregion
 
@@ -356,7 +357,7 @@ namespace Waveface
                 }
                 else
                 {
-                    string _localPic = Main.GCONST.CachePath + _a.object_id + "_thumbnail" + ".jpg";
+                    string _localPic = Path.Combine(Main.GCONST.CachePath , _a.object_id + "_thumbnail" + ".jpg");
 
                     string _url = _a.image;
 
@@ -412,7 +413,7 @@ namespace Waveface
                 {
                     string _url = post.preview.thumbnail_url;
 
-                    string _localPic = Main.GCONST.CachePath + post.post_id + "_previewthumbnail_" + ".jpg";
+                    string _localPic = Path.Combine( Main.GCONST.CachePath , post.post_id + "_previewthumbnail_" + ".jpg");
 
                     Bitmap _img = LoadThumbnail(_url, _localPic);
 
@@ -494,7 +495,7 @@ namespace Waveface
             string _fileName = string.Empty;
             Main.Current.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName, false);
 
-            string _localPic = Main.GCONST.CachePath + _fileName;
+            string _localPic = Path.Combine(Main.GCONST.CachePath , _fileName);
 
             Bitmap _img = LoadThumbnail(_url, _localPic);
 

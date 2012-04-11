@@ -103,6 +103,18 @@ namespace Waveface
             return null;
         }
 
+		public void Auth_Logout(string session)
+		{
+			try
+			{
+				m_service.auth_logout(session);
+			}
+			catch (Station401Exception _e)
+			{
+				Main.Current.Station401ExceptionHandler(_e.Message);
+			}
+		}
+
         public MR_groups_get Groups_Get(string group_id)
         {
             if (!IsNetworkAvailable)
@@ -324,14 +336,14 @@ namespace Waveface
 
             MR_fetchfilters_list _ret = null;
 
-            try
-            {
-                _ret = m_service.fetchfilters_list(SessionToken);
-            }
-            catch (Station401Exception _e)
-            {
-                Main.Current.Station401ExceptionHandler(_e.Message);
-            }
+			//try
+			//{
+			//    _ret = m_service.fetchfilters_list(SessionToken);
+			//}
+			//catch (Station401Exception _e)
+			//{
+			//    Main.Current.Station401ExceptionHandler(_e.Message);
+			//}
 
             if (_ret != null)
             {

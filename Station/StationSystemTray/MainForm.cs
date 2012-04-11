@@ -29,6 +29,7 @@ namespace StationSystemTray
 	public partial class MainForm : Form, StationStateContext
 	{
 		#region Const
+		const string STATION_SERVICE_NAME = "WavefaceStation";
 		const string CLIENT_TITLE = "Waveface ";
 		const int STATION_TIMER_LONG_INTERVAL = 60000;
 		const int STATION_TIMER_SHORT_INTERVAL = 3000;
@@ -233,10 +234,15 @@ namespace StationSystemTray
 				}
 			}
 
-			if (userlogin != null && userlogin.RememberPassword)
+			LoginedSession loginedSession = null;
+
+			if (userlogin != null)
+				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+
+			if (loginedSession != null || (userlogin != null && userlogin.RememberPassword))
 			{
 				userloginContainer.UpsertUserLoginSetting(userlogin);
-				RefreshUserList();
+				//RefreshUserList();
 
 				LaunchWavefaceClient(userlogin);
 
@@ -477,7 +483,9 @@ namespace StationSystemTray
 
 		private void checkStationTimer_Tick(object sender, EventArgs e)
 		{
+#if !DEBUG
 			uictrlStationStatus.PerformAction();
+#endif
 		}
 
 		void ClickBallonFor401Exception(object sender, EventArgs e)
@@ -497,7 +505,7 @@ namespace StationSystemTray
 			else
 			{
 				TrayIcon.Icon = iconPaused;
-				TrayIconText = I18n.L.T("StartingWFService") ;
+				TrayIconText = I18n.L.T("StartingWFService");
 
 				menuServiceAction.Enabled = false;
 			}
@@ -519,6 +527,8 @@ namespace StationSystemTray
 				menuServiceAction.Text = I18n.L.T("PauseWFService");
 
 				menuServiceAction.Enabled = true;
+
+				StationController.StationOnline();
 			}
 		}
 
@@ -751,6 +761,13 @@ namespace StationSystemTray
 
 		private void btnSignIn_Click(object sender, EventArgs e)
 		{
+			if (this.TrayIcon.Icon != iconRunning)
+			{
+				//TODO: multi-languange support
+				MessageBox.Show("Please start service first", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
 			if ((cmbEmail.Text == string.Empty) || (txtPassword.Text == string.Empty))
 			{
 				MessageBox.Show(I18n.L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -797,8 +814,6 @@ namespace StationSystemTray
 					bool userAlreadyInDB = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", cmbEmail.Text.ToLower())) != null;
 					if (!userAlreadyInDB)
 						StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
-
-					StationController.StationOnline(userlogin.Email, txtPassword.Text);
 
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
@@ -916,7 +931,8 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-		   menuSignIn.Text = (clientProcess != null && !clientProcess.HasExited)? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
+			var loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne();
+			menuSignIn.Text = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited)) ? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
 		}
 
 		private void cmbEmail_TextChanged(object sender, EventArgs e)
@@ -944,32 +960,35 @@ namespace StationSystemTray
 		
 		private void AdjustIconText()
 		{
-			var upRemainedCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Sample.RawValue;
-			var downloadRemainedCount = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Sample.RawValue;
-			var upSpeed = ComputeSpeed(_PreUpSpeed, PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample) / 1000;
-			var downloadSpeed = ComputeSpeed(_PreDownloadSpeed, PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample) / 1000;
-
-			var upSpeedUnit = (upSpeed <= 1000) ? "KB/s" : "MB/s";
-			var downloadSpeedUnit = (downloadSpeed <= 1000) ? "KB/s" : "MB/s";
-
-			upSpeed = (upSpeed >= 1000) ? upSpeed / 1000 : upSpeed;
-			downloadSpeed = (downloadSpeed >= 1000) ? downloadSpeed / 1000 : downloadSpeed;
-
-			_PreUpSpeed = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample;
-			_PreDownloadSpeed = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample;
-
 			var iconText = TrayIcon.BalloonTipText;
-			iconText = string.Format("{0}{1}↑ ({2}): {3:0.0} {4}{5}↓ ({6}): {7:0.0}{8}",
-				iconText, 
-				Environment.NewLine,
-				upRemainedCount,
-				upSpeed,
-				upSpeedUnit,
-				Environment.NewLine,
-				downloadRemainedCount,
-				downloadSpeed,
-				downloadSpeedUnit);
 
+			if (iconPaused != this.TrayIcon.Icon)
+			{
+				var upRemainedCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Sample.RawValue;
+				var downloadRemainedCount = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Sample.RawValue;
+				var upSpeed = ComputeSpeed(_PreUpSpeed, PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample) / 1000;
+				var downloadSpeed = ComputeSpeed(_PreDownloadSpeed, PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample) / 1000;
+
+				var upSpeedUnit = (upSpeed <= 1000) ? "KB/s" : "MB/s";
+				var downloadSpeedUnit = (downloadSpeed <= 1000) ? "KB/s" : "MB/s";
+
+				upSpeed = (upSpeed >= 1000) ? upSpeed / 1000 : upSpeed;
+				downloadSpeed = (downloadSpeed >= 1000) ? downloadSpeed / 1000 : downloadSpeed;
+
+				_PreUpSpeed = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample;
+				_PreDownloadSpeed = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample;
+
+				iconText = string.Format("{0}{1}↑ ({2}): {3:0.0} {4}{5}↓ ({6}): {7:0.0}{8}",
+					iconText,
+					Environment.NewLine,
+					upRemainedCount,
+					upSpeed,
+					upSpeedUnit,
+					Environment.NewLine,
+					downloadRemainedCount,
+					downloadSpeed,
+					downloadSpeedUnit);
+			}
 			SetNotifyIconText(this.TrayIcon, iconText);
 		}
 
@@ -1010,16 +1029,9 @@ namespace StationSystemTray
 		{
 			lock (csStationTimerTick)
 			{
-				//TODO: Remove unnecessary exception handeling
-				try
-				{
-					StationController.PingForServiceAlive();
-					StationController.ConnectToInternet();
-					StationController.PingForAvailability();
-				}
-				catch (Exception)
-				{
-				}
+				StationController.PingForServiceAlive();
+				StationController.ConnectToInternet();
+				StationController.PingForAvailability();
 
 				return null;
 			}

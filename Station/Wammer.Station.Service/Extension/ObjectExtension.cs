@@ -75,6 +75,16 @@ public static class ObjectExtension
 		m_LoggerPool[obj].Debug(msg);
 	}
 
+	public static void LogDebugMsg(this object obj, string msg, Exception e)
+	{
+		if (string.IsNullOrEmpty(msg))
+			return;
+
+		if (!m_LoggerPool.ContainsKey(obj))
+			m_LoggerPool[obj] = LogManager.GetLogger(obj.GetType().Name);
+
+		m_LoggerPool[obj].Debug(msg, e);
+	}
 
 	public static void LogWarnMsg(this object obj, string msg)
 	{

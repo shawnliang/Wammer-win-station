@@ -9,8 +9,27 @@ namespace Wammer.Station
 {
 	class TaskRunner
 	{
-		private static ILog logger = LogManager.GetLogger("TaskRunner");
-		private Thread thread;
+		#region Var
+		private Thread _thread; 
+		#endregion
+
+		#region Private Property
+		private Thread m_Thread
+		{
+			get
+			{
+				if (_thread == null)
+					_thread = new Thread(Do);
+				return _thread;
+			}
+			set
+			{
+				_thread = value;
+			}
+		}
+		#endregion
+
+		private static ILog logger = LogManager.GetLogger("TaskRunner");		
 		private BodySyncTaskQueue queue;
 		private volatile bool exit;
 
@@ -19,20 +38,32 @@ namespace Wammer.Station
 		public TaskRunner(BodySyncTaskQueue queue)
 		{
 			this.queue = queue;
-			this.thread = new Thread(Do);
 			this.exit = false;
 		}
 
 		public void Start()
 		{
-			thread.Start();
+			exit = false;
+
+			if (m_Thread.ThreadState == ThreadState.Unstarted)
+				m_Thread.Start();
 		}
 
 		public void Stop()
 		{
 			exit = true;
-			if (!thread.Join(5000))
-				thread.Abort();
+			if (!m_Thread.Join(5000))
+			{
+				try
+				{
+					m_Thread.Abort();
+				}
+				catch 
+				{
+				}				
+			}
+			m_Thread = null;
+			exit = false;
 		}
 
 		private void Do()

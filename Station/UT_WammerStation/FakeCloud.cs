@@ -134,7 +134,7 @@ namespace UT_WammerStation
 					this.resWriters.Add(new JsonResponseWriter((string)response));
 				else
 					this.resWriters.Add(
-						new JsonResponseWriter(fastJSON.JSON.Instance.ToJSON(response)));
+						new JsonResponseWriter(response.ToFastJSON()));
 			}
 		}
 
@@ -175,6 +175,7 @@ namespace UT_WammerStation
 			}
 
 			context.Response.OutputStream.Close();
+			context.Response.Close();
 
 			try
 			{

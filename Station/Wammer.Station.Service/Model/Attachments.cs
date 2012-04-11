@@ -195,6 +195,23 @@ namespace Wammer.Model
 	[BsonIgnoreExtraElements]
 	public class Attachment : IImageAttachmentInfo
 	{
+		#region Private Method
+		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta, AttachmentType type, string apiKey, string token)
+		{
+			Dictionary<string, object> pars = new Dictionary<string, object>();
+			pars["type"] = type.ToString();
+			if (meta != ImageMeta.None)
+				pars["image_meta"] = meta.ToString().ToLower();
+			pars["session_token"] = token;
+			pars["apikey"] = apiKey;
+			if (objectId != null)
+				pars["object_id"] = objectId;
+			pars["group_id"] = groupId;
+			return pars;
+		}
+		#endregion
+
+
 		#region Upload utility functions
 		public static ObjectUploadResponse Upload(Stream dataStream, string groupId,
 									string objectId, string fileName, string contentType,
@@ -212,15 +229,7 @@ namespace Wammer.Model
 		{
 			try
 			{
-				Dictionary<string, object> pars = new Dictionary<string, object>();
-				pars["type"] = type.ToString();
-				if (meta != ImageMeta.None)
-					pars["image_meta"] = meta.ToString().ToLower();
-				pars["session_token"] = token;
-				pars["apikey"] = apiKey;
-				if (objectId != null)
-					pars["object_id"] = objectId;
-				pars["group_id"] = groupId;
+				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token);
 
 				HttpWebResponse _webResponse = null;
 				try 
@@ -260,15 +269,7 @@ namespace Wammer.Model
 		{
 			try
 			{
-				Dictionary<string, object> pars = new Dictionary<string, object>();
-				pars["type"] = type.ToString();
-				if (meta != ImageMeta.None)
-					pars["image_meta"] = meta.ToString().ToLower();
-				pars["session_token"] = token;
-				pars["apikey"] = apiKey;
-				if (objectId != null)
-					pars["object_id"] = objectId;
-				pars["group_id"] = groupId;
+				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token);
 
 				HttpWebResponse _webResponse = null;
 				try
@@ -301,6 +302,8 @@ namespace Wammer.Model
 				throw new WammerCloudException("Wammer cloud error", e);
 			}
 		}
+
+
 
 		public static ObjectUploadResponse UploadImage(string url, ArraySegment<byte> imageData, string groupId,
 											string objectId, string fileName, string contentType,

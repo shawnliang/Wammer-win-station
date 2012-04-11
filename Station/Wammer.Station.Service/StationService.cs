@@ -82,8 +82,14 @@ namespace Wammer.Station.Service
 
 				logger.Debug("Add handlers to function server");
 				functionServer.AddHandler("/", new DummyHandler());
+
+				AttachmentViewHandler viewHandler = new AttachmentViewHandler(stationId);
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
-								new AttachmentViewHandler(stationId));
+								viewHandler);
+
+				viewHandler.FileDownloadStarted += downstreamMonitor.OnDownstreamTaskEnqueued;
+				viewHandler.FileDownloadInProgress += downstreamMonitor.OnDownstreamTaskInProgress;
+				viewHandler.FileDownloadFinished += downstreamMonitor.OnDownstreamTaskDone;
 
 				AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
 				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();
@@ -120,19 +126,49 @@ namespace Wammer.Station.Service
 				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/reachability/ping/",
 								new PingHandler());
 
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/getLatest/",
+								new HybridCloudHttpRouter(new PostGetLatestHandler()));
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/get/",
+								new HybridCloudHttpRouter(new PostGetHandler()));
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/getSingle/",
+								new HybridCloudHttpRouter(new PostGetSingleHandler()));
+
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/footprints/setLastScan/",
+								new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/footprints/getLastScan/",
+								new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/usertracks/get/",
+								new HybridCloudHttpRouter(new APIHandler.UserTrackHandler()));
+
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/login/", new UserLoginHandler());
+				functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/logout/", new UserLogoutHandler());
+				
+
 				logger.Debug("Start function server");
 				functionServer.Start();
 				stationTimer.Start();
 
+				int bodySyncThreadNum = 1;
+				bodySyncRunners = new TaskRunner[bodySyncThreadNum];
+				for (int i = 0; i < bodySyncThreadNum; i++)
+				{
+					var bodySyncRunner = new TaskRunner(bodySyncTaskQueue);
+					bodySyncRunners[i] = bodySyncRunner;
+
+					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
+					bodySyncRunner.Start();
+				}
+
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989, httpRequestMonitor);
 				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
-				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer, stationTimer));
-				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer, stationTimer));
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer, stationTimer, bodySyncRunners));
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer, stationTimer, bodySyncRunners));
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/list/", new ListDriverHandler());
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/remove/", new RemoveOwnerHandler(stationId));
-				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/", new StatusGetHandler());
+				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/", new StatusGetHandler());			
+
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/list", new ListCloudStorageHandler());
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/", new DropBoxOAuthHandler());
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/connect/", new DropBoxConnectHandler());
@@ -145,14 +181,7 @@ namespace Wammer.Station.Service
 				managementServer.Start();
 
 
-				int bodySyncThreadNum = 1;
-				bodySyncRunners = new TaskRunner[bodySyncThreadNum];
-				for (int i = 0; i < bodySyncThreadNum; i++)
-				{
-					bodySyncRunners[i] = new TaskRunner(bodySyncTaskQueue);
-					bodySyncRunners[i].TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
-					bodySyncRunners[i].Start();
-				}
+
 
 				logger.Info("Waveface station is started");
 			}
@@ -183,13 +212,10 @@ namespace Wammer.Station.Service
 
 		void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
-#if !DEBUG
-			// client login page refers this value as default account
-			StationRegistry.SetValue("driver", e.Driver.email);
-#endif
-
-
 			PublicPortMapping.Instance.DriverAdded(sender, e);
+
+			// immediately start pulling timeline after driver added
+			stationTimer.ForceTick();
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -250,22 +276,21 @@ namespace Wammer.Station.Service
 
 		private void ConfigThreadPool()
 		{
-			int minWorker;
-			int minIO;
+			int minWorker,minIO;
 
 			System.Threading.ThreadPool.GetMinThreads(out minWorker, out minIO);
 
-			minWorker = (int)StationRegistry.GetValue("MinWorkerThreads", minWorker);
-			minIO = (int)StationRegistry.GetValue("MinIOThreads", minIO);
+			minWorker = int.Parse(StationRegistry.GetValue("MinWorkerThreads", minWorker.ToString()).ToString());
+			minIO = int.Parse(StationRegistry.GetValue("MinIOThreads", minIO.ToString()).ToString());
 
 			if (minWorker > 0 && minIO > 0)
 			{
 				System.Threading.ThreadPool.SetMinThreads(minWorker, minIO);
 				logger.InfoFormat("Min worker threads {0}, min IO completion threads {1}",
-					minWorker, minIO);
+					minWorker.ToString(), minIO.ToString());
 			}
 
-			int maxConcurrentTaskCount = (int)StationRegistry.GetValue("MaxConcurrentTaskCount", 6);
+			int maxConcurrentTaskCount = int.Parse(StationRegistry.GetValue("MaxConcurrentTaskCount", "6").ToString());
 			if (maxConcurrentTaskCount > 0)
 				TaskQueue.MaxCurrentTaskCount = maxConcurrentTaskCount;
 		}
@@ -288,11 +313,6 @@ namespace Wammer.Station.Service
 		}
 
 		public void SetBeginTimestamp(long beginTime)
-		{
-		}
-
-
-		public void OnTaskEnqueue(EventArgs e)
 		{
 		}
 	}

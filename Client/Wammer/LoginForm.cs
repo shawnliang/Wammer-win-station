@@ -32,7 +32,7 @@ namespace Waveface
         private CultureManager cultureManager;
 
         private FormSettings m_formSettings;
-        private string m_savePassword = "";
+        private string m_savePassword = "";		
 
         #region Properties
 
@@ -303,6 +303,11 @@ namespace Waveface
 
                 _main.ShowDialog(this);
                 _quit = _main.QuitOption;
+
+				if (_quit == QuitOption.Logout)
+				{
+					_main.RT.REST.Auth_Logout(_main.RT.Login.session_token);
+				}
                 _main.Dispose();
                 _main = null;
             }

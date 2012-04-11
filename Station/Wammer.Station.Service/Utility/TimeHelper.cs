@@ -1,25 +1,33 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Wammer.Utility
 {
-	static class TimeHelper
+	public static class TimeHelper
 	{
 		private static DateTime JAN_1_1970 = new DateTime(1970, 1, 1);
-
-		public static long GetMillisecondsSince1970()
-		{
-			TimeSpan span = DateTime.Now - JAN_1_1970;
-			return (long)span.TotalMilliseconds;
-		}
+		private const string CLOUD_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 		public static DateTime ConvertToDateTime(long unixTimeStamp)
 		{
-			return JAN_1_1970.AddMilliseconds(unixTimeStamp);
+			return JAN_1_1970.AddSeconds(unixTimeStamp);
 		}
 
 		public static long ConvertToUnixTimeStamp(DateTime datetime)
 		{
-			return (long)(datetime - JAN_1_1970).TotalMilliseconds;
+			return (long)(datetime - JAN_1_1970).TotalSeconds;
+		}
+
+		public static DateTime ParseCloudTimeString(string cloudTimeString)
+		{
+			DateTime dt = DateTime.ParseExact(cloudTimeString, CLOUD_TIME_FORMAT, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+			
+			return dt.ToUniversalTime();
+		}
+
+		public static string ToCloudTimeString(this DateTime datetime)
+		{
+			return datetime.ToUniversalTime().ToString(CLOUD_TIME_FORMAT);
 		}
 	}
 }

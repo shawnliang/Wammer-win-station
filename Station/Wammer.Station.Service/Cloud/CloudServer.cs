@@ -86,8 +86,6 @@ namespace Wammer.Cloud
 				// remove last &
 				buf.Remove(buf.Length - 1, 1);				
 
-				//agent.DownloadFile(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()), filepath);
-
 				var stream = agent.OpenRead(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()));
 				stream.WriteTo(filepath, 1024, (sender, e) =>
 				{
@@ -97,7 +95,7 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error",  buf.ToString(), e);
+				throw new WammerCloudException("Wammer cloud error", e);
 			}
 			catch (Exception e)
 			{
@@ -133,11 +131,25 @@ namespace Wammer.Cloud
 		/// <param name="parms">request parameter names and values.
 		///	They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <returns>Response value</returns>
-		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms)
+		public static string requestPath(WebClient agent, string path, Dictionary<object, object> parms)
 		{
 			string url = CloudServer.BaseUrl + path;
 
-			return request<T>(agent, url, parms);
+			return request(agent, url, parms);
+		}
+
+		/// <summary>
+		/// Requests Wammer cloud via http post
+		/// </summary>
+		/// <typeparam name="T">response type</typeparam>
+		/// <param name="agent">web client agent</param>
+		/// <param name="path">partial path of cloud url, http://host:port/base/partial_path</param>
+		/// <param name="parms">request parameter names and values.
+		///	They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
+		/// <returns>Response value</returns>
+		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms)
+		{
+			return ConvertFromJson<T>(requestPath(agent, path, parms));
 		}
 
 		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param, bool isGet)
@@ -189,28 +201,29 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error", parameters, e);
+				throw new WammerCloudException("Wammer cloud error", e);
 			}
 			catch (Exception e)
 			{
-				throw new WammerCloudException("Wammer cloud error", parameters, response, e);
+				throw new WammerCloudException("Wammer cloud error", response, e);
 			}
 
-			if (resObj is CloudResponse)
+			CloudResponse cres = resObj as CloudResponse;
+			if (cres != null)
 			{
-				CloudResponse cres = resObj as CloudResponse;
 				if (cres.status != 200 || cres.api_ret_code != 0)
-					throw new WammerCloudException("Wammer cloud error", parameters, response,
+					throw new WammerCloudException("Wammer cloud error", response,
 						cres.api_ret_code);
 			}
 
 
 			return resObj;
 		}
-		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param)
+
+		public static string request(WebClient agent, string url, Dictionary<object, object> param)
 		{
 			if (param.Count == 0)
-				return request<T>(agent, url, "");
+				return request(agent, url);
 
 			StringBuilder buf = new StringBuilder();
 			foreach (KeyValuePair<object, object> pair in param)
@@ -224,38 +237,56 @@ namespace Wammer.Cloud
 			// remove last &
 			buf.Remove(buf.Length - 1, 1);
 
-			return request<T>(agent, url, buf.ToString());
+			return request(agent, url, buf.ToString());
 		}
 
-		private static T request<T>(WebClient agent, string url, string postData)
+		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param)
 		{
-			string response = "";
-			T resObj;
+			return ConvertFromJson<T>(request(agent, url, param));
+		}
 
+		private static string request(WebClient agent, string url, string postData = "")
+		{
 			try
 			{
 				agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 				byte[] rawResponse = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(postData));
-				response = Encoding.UTF8.GetString(rawResponse);
-				resObj = fastJSON.JSON.Instance.ToObject<T>(response);
+				return Encoding.UTF8.GetString(rawResponse);
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error", postData, e);
+				throw new WammerCloudException("Wammer cloud error", e);
+			}
+		}
+
+		private static T request<T>(WebClient agent, string url, string postData)
+		{
+			string response = string.Empty;
+
+			response = request(agent, url, postData);
+
+			return ConvertFromJson<T>(response);
+		}
+
+		public static T ConvertFromJson<T>(string json)
+		{
+			T resObj;
+			try
+			{
+				resObj = fastJSON.JSON.Instance.ToObject<T>(json);
 			}
 			catch (Exception e)
 			{
-				throw new WammerCloudException("Wammer cloud error", postData, response, e);
+				throw new WammerCloudException("Wammer cloud error", json, e);
 			}
 
-			if (resObj is CloudResponse)
+			CloudResponse cres = resObj as CloudResponse;
+			if (cres != null)
 			{
-				CloudResponse cres = resObj as CloudResponse;
 				if (cres.status != 200 || cres.api_ret_code != 0)
-					throw new WammerCloudException("Wammer cloud error", postData, response,
+					throw new WammerCloudException("Wammer cloud error", json,
 						cres.api_ret_code);
 			}
-
 
 			return resObj;
 		}

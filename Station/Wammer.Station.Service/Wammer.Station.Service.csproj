@@ -116,6 +116,7 @@
     <Compile Include="Cloud\AttachmentResponse.cs" />
     <Compile Include="Cloud\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
+    <Compile Include="Cloud\FootprintResponse.cs" />
     <Compile Include="Cloud\ObjectUploadResponse.cs" />
     <Compile Include="Cloud\PostApi.cs" />
     <Compile Include="Cloud\PostResponse.cs" />
@@ -134,10 +135,13 @@
     <Compile Include="Extension\StreamExtension.cs" />
     <Compile Include="Model\Attachments.cs" />
     <Compile Include="Model\CloudStorage.cs" />
+    <Compile Include="Model\Collection\LoginedSessionCollection.cs" />
     <Compile Include="Model\Drivers.cs" />
+    <Compile Include="Model\LoginedSession.cs" />
     <Compile Include="Model\Posts.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\StationInfo.cs" />
+    <Compile Include="Model\UserTracks.cs" />
     <Compile Include="PerfMonitor\AttachmentDownloadMonitor.cs" />
     <Compile Include="PerfMonitor\AttachmentUploadMonitor.cs" />
     <Compile Include="PerfMonitor\HttpRequestMonitor.cs" />
@@ -146,17 +150,23 @@
     <Compile Include="Queue\Queue.cs" />
     <Compile Include="Queue\QueueManager.cs" />
     <Compile Include="Queue\SQLitePersistentStorage.cs" />
-    <Compile Include="Station\AddDriverHandler.cs" />
-    <Compile Include="Station\AttachmentGetHandler.cs" />
+    <Compile Include="Station\APIHandler\AddDriverHandler.cs" />
+    <Compile Include="Station\APIHandler\AttachmentGetHandler.cs" />
     <Compile Include="Model\Database.cs" />
+    <Compile Include="Station\APIHandler\UserTrackHandler.cs" />
+    <Compile Include="Station\APIHandler\PostGetSingleHandler.cs" />
     <Compile Include="Station\AttachmentUploadStrategy.cs" />
     <Compile Include="JSON Class\AttachmentView.cs" />
-    <Compile Include="Station\ChangeHistorySyncer.cs" />
-    <Compile Include="Station\CloudStorageHandler.cs" />
+    <Compile Include="Station\APIHandler\FootprintGetLastScanHandler.cs" />
+    <Compile Include="Station\APIHandler\FootprintSetLastScanHandler.cs" />
+    <Compile Include="Station\APIHandler\PostGetHandler.cs" />
+    <Compile Include="Station\HybridCloudHttpRouter.cs" />
+    <Compile Include="Station\APIHandler\CloudStorageHandler.cs" />
     <Compile Include="Station\CloudStorageSync.cs" />
     <Compile Include="Station\DropboxFileStorage.cs" />
+    <Compile Include="Station\APIHandler\PostGetLatestHandler.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
-    <Compile Include="Station\ListDriverHandler.cs" />
+    <Compile Include="Station\APIHandler\ListDriverHandler.cs" />
     <Compile Include="Station\PingHandler.cs" />
     <Compile Include="Station\PublicPortMapping.cs" />
     <Compile Include="Station\RemoveOwnerHandler.cs" />
@@ -164,16 +174,18 @@
     <Compile Include="Station\ResourceSyncer.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
     <Compile Include="Station\ServiceUnavailableException.cs" />
-    <Compile Include="Station\StationOfflineHandler.cs" />
-    <Compile Include="Station\StationOnlineHandler.cs" />
+    <Compile Include="Station\APIHandler\StationOfflineHandler.cs" />
+    <Compile Include="Station\APIHandler\StationOnlineHandler.cs" />
     <Compile Include="Station\StationTimer.cs" />
     <Compile Include="Station\StatusChecker.cs" />
-    <Compile Include="Station\StatusGetHandler.cs" />
+    <Compile Include="Station\APIHandler\StatusGetHandler.cs" />
     <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\TaskRunner.cs" />
-    <Compile Include="Station\TimelineChange\PostInfoProvider.cs" />
-    <Compile Include="Station\TimelineChange\TimelineChangeHistory.cs" />
-    <Compile Include="Station\TimelineChange\UserInfoUpdator.cs" />
+    <Compile Include="Station\Timeline\PostProvider.cs" />
+    <Compile Include="Station\Timeline\TimelineSyncer.cs" />
+    <Compile Include="Station\Timeline\TimelineSyncerDB.cs" />
+    <Compile Include="Station\APIHandler\UserLoginHandler.cs" />
+    <Compile Include="Station\APIHandler\UserLogoutHandler.cs" />
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
@@ -183,6 +195,10 @@
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
     <Compile Include="Station\ProviderConsumerTaskQueue.cs" />
+    <Compile Include="Utility\NoRedirectWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utility\PermissionHelper.cs" />
     <Compile Include="Utility\ServiceHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />
     <Compile Include="MultiPart\Disposition.cs" />
@@ -203,14 +219,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Station\BypassHttpHandler.cs" />
+    <Compile Include="Station\APIHandler\BypassHttpHandler.cs" />
     <Compile Include="Station\FileStorage.cs" />
-    <Compile Include="Station\HttpHandler.cs" />
+    <Compile Include="Station\APIHandler\HttpHandler.cs" />
     <Compile Include="Station\HttpHelper.cs" />
     <Compile Include="Station\HttpServer.cs" />
-    <Compile Include="Station\AttachmentUploadHandler.cs" />
+    <Compile Include="Station\APIHandler\AttachmentUploadHandler.cs" />
     <Compile Include="Station\StationRegistry.cs" />
-    <Compile Include="Station\AttachmentViewHandler.cs" />
+    <Compile Include="Station\APIHandler\AttachmentViewHandler.cs" />
     <Compile Include="Utility\TimeHelper.cs" />
     <Compile Include="Utility\WebHelper.cs">
       <SubType>Component</SubType>
@@ -254,6 +270,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
