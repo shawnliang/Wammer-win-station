@@ -154,10 +154,5 @@ namespace Wammer.Station
 		{
 			timer.Dispose();
 		}
-
-		public void ForceTick()
-		{
-			timer.Change(0, timerPeriod);
-		}
 	}
 }

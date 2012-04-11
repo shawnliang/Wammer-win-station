@@ -9,7 +9,6 @@ namespace Wammer.Station
 		void Start();
 		void Stop();
 		void Close();
-		void ForceTick();
 	}
 
 	class StationTimer
@@ -55,14 +54,6 @@ namespace Wammer.Station
 				timer.Close();
 			}
 		}
-
-		public void ForceTick()
-		{
-			foreach (IStationTimer timer in timers)
-			{
-				timer.ForceTick();
-			}
-		}
 	}
 
 	abstract public class NonReentrantTimer: IStationTimer
@@ -89,11 +80,6 @@ namespace Wammer.Station
 		public void Close()
 		{
 			timer.Dispose();
-		}
-
-		public void ForceTick()
-		{
-			timer.Change(0, Timeout.Infinite);
 		}
 
 		private void OnTimedUp(object state)
