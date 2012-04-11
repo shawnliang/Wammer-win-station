@@ -49,7 +49,7 @@ namespace Waveface
             if (!DesignMode)
             {
                 Size _logoutSize = TextRenderer.MeasureText(_g, I18n.L.T("Main.Logout"), m_fontLink) + new Size(2, 2);
-                m_logoutRect = new Rectangle(Width - _logoutSize.Width - 6, Height - _logoutSize.Height - 6,
+                m_logoutRect = new Rectangle(Width - _logoutSize.Width - 6, Height - _logoutSize.Height - 4,
                                              _logoutSize.Width, _logoutSize.Height);
 
                 TextRenderer.DrawText(_g, I18n.L.T("Main.Logout"), m_fontLink, m_logoutRect, Color.WhiteSmoke);
@@ -58,7 +58,7 @@ namespace Waveface
                 Size _preferenceSize = TextRenderer.MeasureText(_g, I18n.L.T("MainBgPanel.AccountStatus"), m_fontLink) +
                                        new Size(2, 2);
                 m_preferenceRect = new Rectangle(Width - _preferenceSize.Width - _logoutSize.Width - 8,
-                                                 Height - _preferenceSize.Height - 6, _preferenceSize.Width,
+                                                 Height - _preferenceSize.Height - 4, _preferenceSize.Width,
                                                  _preferenceSize.Height);
 
                 TextRenderer.DrawText(_g, I18n.L.T("MainBgPanel.AccountStatus"), m_fontLink, m_preferenceRect, Color.WhiteSmoke);
