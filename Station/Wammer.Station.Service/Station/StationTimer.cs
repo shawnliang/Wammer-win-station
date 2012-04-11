@@ -81,7 +81,7 @@ namespace Wammer.Station
 			timer.Change(0, Timeout.Infinite);
 		}
 
-		public void Stop()
+		public virtual void Stop()
 		{
 			timer.Change(Timeout.Infinite, Timeout.Infinite);
 		}
