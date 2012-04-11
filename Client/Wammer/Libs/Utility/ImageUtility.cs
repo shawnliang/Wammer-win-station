@@ -18,7 +18,7 @@ namespace Waveface
         {
             Image _img;
 
-            string _localAvatarPath = Path.Combine(Main.GCONST.CachePath, creatorId + ".jpg");
+            string _localAvatarPath = Path.Combine(Main.GCONST.ImageCachePath, creatorId + ".jpg");
 
             if (File.Exists(_localAvatarPath))
             {

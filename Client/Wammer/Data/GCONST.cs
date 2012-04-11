@@ -7,7 +7,28 @@ namespace Waveface
     public class GCONST
     {
 		private const string KEY_PATH = @"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation";
-        public static int GetPostOffset = 10;
+
+		#region Var
+		private String _runTimeDataPath;
+		#endregion
+
+		#region Property
+		public String RunTimeDataPath
+		{
+			get
+			{
+				if (_runTimeDataPath == null)
+					InitRunTimeDataPath();
+				return _runTimeDataPath;
+			}
+			private set
+			{
+				_runTimeDataPath = value;
+			}
+		}
+		#endregion
+
+		public static int GetPostOffset = 10;
         
         public static int OriginFileReDownloadDelayTime = 3;
 
@@ -15,7 +36,7 @@ namespace Waveface
 
         public string AppDataPath;
         public string TempPath;
-        public string CachePath;
+        public string ImageCachePath;
         public string ImageUploadCachePath;
 		private RunTime _runTime;
 
@@ -28,7 +49,15 @@ namespace Waveface
             InitImageUploadCacheDir();
         }
 
-        private void InitAppDataPath()
+		#region Private Method
+		private void InitRunTimeDataPath()
+		{
+			RunTimeDataPath = AppDataPath + "Cache\\";
+			Directory.CreateDirectory(RunTimeDataPath);
+		}
+		#endregion
+
+		private void InitAppDataPath()
         {
             AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Waveface\\";
 
@@ -46,23 +75,25 @@ namespace Waveface
             foreach (string _filePath in _filePaths)
                 File.Delete(_filePath);
         }
-
-
+		
 
         private void InitCacheDir()
         {
+			if (Environment.GetCommandLineArgs().Length == 1)
+			{
+				ImageCachePath = RunTimeDataPath;
+				return;
+			}
+
 			var user = _runTime.Login.user;
 
-			CachePath = ((string)Microsoft.Win32.Registry.GetValue(KEY_PATH,"resourceBasePath", null)) ?? "resource";
+			ImageCachePath = ((string)Microsoft.Win32.Registry.GetValue(KEY_PATH,"resourceBasePath", null)) ?? "resource";
 
-			CachePath = Path.Combine(CachePath, "user_" + user.user_id);
+			ImageCachePath = Path.Combine(ImageCachePath, "user_" + user.user_id);
 
-			if (!CachePath.EndsWith(@"\"))
-				CachePath += @"\";
+            Directory.CreateDirectory(ImageCachePath);
 
-            Directory.CreateDirectory(CachePath);
-
-            string[] _filePaths = Directory.GetFiles(CachePath);
+			//string[] _filePaths = Directory.GetFiles(ImageCachePath);
 
             //foreach (string _filePath in _filePaths)
             //    File.Delete(_filePath);      
@@ -73,7 +104,7 @@ namespace Waveface
             ImageUploadCachePath = AppDataPath + "ImageUploadCache\\";
             Directory.CreateDirectory(ImageUploadCachePath);
 
-            string[] _filePaths = Directory.GetFiles(ImageUploadCachePath);
+			//string[] _filePaths = Directory.GetFiles(ImageUploadCachePath);
 
             //foreach (string _filePath in _filePaths)
             //    File.Delete(_filePath);
