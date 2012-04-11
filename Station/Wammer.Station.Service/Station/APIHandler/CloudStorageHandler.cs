@@ -49,7 +49,7 @@ namespace Wammer.Station
 			// currently only support one driver
 			Driver driver = DriverCollection.Instance.FindOne();
 			StorageApi api = new StorageApi(driver.user_id);
-			using (WebClient client = new WebClient())
+			using (WebClient client = new DefaultWebClient())
 			{
 				StorageAuthResponse res = api.StorageAuthorize(client, CloudStorageType.DROPBOX);
 
@@ -95,7 +95,7 @@ namespace Wammer.Station
 				// try connecting Dropbox if cloudstorage has no Dropbox info
 				if (storageDoc == null)
 				{
-					using (WebClient client = new WebClient())
+					using (WebClient client = new DefaultWebClient())
 					{
 						StorageLinkResponse linkRes;
 						linkRes = api.StorageLink(client, CloudStorageType.DROPBOX);
@@ -128,7 +128,7 @@ namespace Wammer.Station
 			catch (Exception)
 			{
 				if (linked)
-					using (WebClient client = new WebClient())
+					using (WebClient client = new DefaultWebClient())
 					{
 						api.StorageUnlink(client, CloudStorageType.DROPBOX);
 					}
@@ -202,7 +202,7 @@ namespace Wammer.Station
 			{
 				logger.Debug("Unlink Dropbox account");
 
-				using (WebClient client = new WebClient())
+				using (WebClient client = new DefaultWebClient())
 				{
 					api.StorageUnlink(client, CloudStorageType.DROPBOX);
 				}

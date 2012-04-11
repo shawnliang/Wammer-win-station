@@ -46,7 +46,7 @@ namespace Wammer.Station
 			}
 	  
 			//Notify cloud server that the user signoff
-			using (WebClient client = new WebClient())
+			using (WebClient client = new Wammer.Utility.DefaultWebClient())
 			{
 				StationApi.SignOff(client, stationId, stationToken, userID);
 			}

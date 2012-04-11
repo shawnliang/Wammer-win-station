@@ -59,7 +59,7 @@ namespace Wammer.Station
 			string email = Parameters["email"];
 			string password = Parameters["password"];
 
-			using (WebClient client = new WebClient())
+			using (WebClient client = new DefaultWebClient())
 			{
 				try
 				{

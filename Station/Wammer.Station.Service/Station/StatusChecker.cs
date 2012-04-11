@@ -76,7 +76,7 @@ namespace Wammer.Station
 						locChange = true;
 					}
 
-					using (WebClient client = new WebClient())
+					using (WebClient client = new DefaultWebClient())
 					{
 						Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
 						if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
@@ -130,7 +130,7 @@ namespace Wammer.Station
 		public override void Stop()
 		{
 			base.Stop();
-			using (WebClient client = new WebClient())
+			using (WebClient client = new DefaultWebClient())
 			{
 				Model.StationInfo sinfo = Model.StationCollection.Instance.FindOne();
 				if (sinfo != null)

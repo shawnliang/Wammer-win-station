@@ -5,6 +5,7 @@ using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using System.Linq;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -37,7 +38,7 @@ namespace Wammer.Station
 					StationLogOnResponse logonRes;
 					if (email != null && password != null)
 					{
-						using (WebClient client = new WebClient())
+						using (WebClient client = new DefaultWebClient())
 						{
 							Driver driver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
 							if (driver == null)
@@ -57,7 +58,7 @@ namespace Wammer.Station
 					}
 					else
 					{
-						using (WebClient client = new WebClient())
+						using (WebClient client = new DefaultWebClient())
 						{
 							StationApi api = new StationApi(stationInfo.Id, stationInfo.SessionToken);
 							logonRes = api.LogOn(client, StatusChecker.GetDetail());

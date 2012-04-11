@@ -190,6 +190,9 @@
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
+    <Compile Include="Utility\DefaultWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Utility\DropboxHelper.cs" />
     <Compile Include="Utility\FastJSONHelper.cs" />
     <Compile Include="Utility\FileStorageHelper.cs" />

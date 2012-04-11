@@ -5,6 +5,7 @@ using Wammer.Cloud;
 using System.Net;
 using MongoDB.Driver.Builders;
 using Wammer.Model;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -62,7 +63,7 @@ namespace Wammer.Station
 			string password = Parameters["password"];
 			string apikey = Parameters["apikey"];
 			User user = null;
-			using (WebClient client = new WebClient())
+			using (WebClient client = new DefaultWebClient())
 			{			
 				user = User.LogIn(client, email, password, apikey);
 			}

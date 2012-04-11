@@ -6,6 +6,7 @@ using Wammer.Cloud;
 using MongoDB.Driver.Builders;
 using Wammer.Model;
 using System.Net.NetworkInformation;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -48,7 +49,7 @@ namespace Wammer.Station
 			try
 			{
 				string apiKey = Parameters["apikey"];
-				using (WebClient client = new WebClient())
+				using (WebClient client = new DefaultWebClient())
 				{
 					User.LogOut(client, sessionToken, apiKey);
 				}

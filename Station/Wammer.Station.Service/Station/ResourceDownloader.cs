@@ -161,7 +161,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private static void DownstreamResource(object state)
+		private void DownstreamResource(object state)
 		{
 			ResourceDownloadEventArgs evtargs = (ResourceDownloadEventArgs)state;
 			var meta = evtargs.imagemeta.ToString();
@@ -176,7 +176,7 @@ namespace Wammer.Station
 				}
 
 				AttachmentApi api = new AttachmentApi(evtargs.driver.user_id);
-				using (WebClient client = new WebClient())
+				using (WebClient client = new DefaultWebClient())
 				{
 					api.AttachmentView(client, evtargs);
 				}
@@ -194,7 +194,7 @@ namespace Wammer.Station
 				else
 				{
 					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
-					TaskQueue.EnqueueLow(DownstreamResource, evtargs);
+					bodySyncQueue.Enqueue(DownstreamResource, evtargs);
 				}
 			}
 		}
