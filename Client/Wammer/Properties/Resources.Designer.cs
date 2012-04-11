@@ -235,6 +235,34 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_moreoption {
+            get {
+                object obj = ResourceManager.GetObject("FB_moreoption", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_moreoption_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_moreoption_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_openin {
+            get {
+                object obj = ResourceManager.GetObject("FB_openin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_openin_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_openin_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_remove {
             get {
                 object obj = ResourceManager.GetObject("FB_remove", resourceCulture);

@@ -298,12 +298,6 @@ namespace Waveface.DetailUI
 
         private void Set_MainContent_Part()
         {
-            if (Post.content == string.Empty)
-            {
-                webBrowserTop.Visible = false;
-                return;
-            }
-
             StringBuilder _sb = new StringBuilder();
 
             _sb.Append("<font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'><p>[Text]</p></font>");
@@ -619,6 +613,11 @@ namespace Waveface.DetailUI
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             m_selectedItem = e.Item;
+        }
+
+        public List<ToolStripMenuItem> GetMoreMenuItems()
+        {
+            return null;
         }
     }
 }

@@ -46,7 +46,6 @@ namespace Waveface
         private TrayIconPanel m_trayIconPanel;
 
         private bool m_forceLogout;
-        private bool m_canAutoFetchNewestPosts = true;
         private bool m_manualRefresh;
         private ShowTimelineIndexType m_showTimelineIndexType;
 
@@ -69,6 +68,7 @@ namespace Waveface
         private StationState m_stationState;
         private AppLimit.NetSparkle.Sparkle m_autoUpdator;
         private bool m_getAllDataError;
+        private string m_newestUpdateTime;
 
         #endregion
 
@@ -159,7 +159,7 @@ namespace Waveface
 
             InitializeComponent();
 
-            this.Text = "Waveface ";
+            Text = "Waveface ";
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
@@ -821,20 +821,6 @@ namespace Waveface
 
         #region Newest Post (NOT USED NOW)
 
-        /*
-        private void timerGetNewestPost_Tick(object sender, EventArgs e)
-        {
-            timerGetNewestPost.Enabled = false;
-
-            if (m_canAutoFetchNewestPosts)
-            {
-                //RefreshNewestPosts();
-            }
-
-            timerGetNewestPost.Enabled = true;
-        }
-        */
-
         public bool RefreshNewestPosts()
         {
             if (RT.LoginOK)
@@ -885,11 +871,6 @@ namespace Waveface
 
         public void AfterBatchPostDone()
         {
-            m_canAutoFetchNewestPosts = false;
-
-            // --------------------------   OLD_showAllPosts();
-
-            m_canAutoFetchNewestPosts = true;
         }
 
         #endregion
@@ -1061,8 +1042,6 @@ namespace Waveface
                 return;
             }
 
-            m_canAutoFetchNewestPosts = false;
-
             try
             {
                 m_postForm = new PostForm(new List<string>(), PostType.All, post, true);
@@ -1092,8 +1071,6 @@ namespace Waveface
             }
 
             m_postForm = null;
-
-            m_canAutoFetchNewestPosts = true;
         }
 
         public void Post(List<string> pics, PostType postType)
@@ -1109,8 +1086,6 @@ namespace Waveface
                 MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
                 return;
             }
-
-            m_canAutoFetchNewestPosts = false;
 
             try
             {
@@ -1135,8 +1110,6 @@ namespace Waveface
             }
 
             m_postForm = null;
-
-            m_canAutoFetchNewestPosts = true;
         }
 
         #endregion
@@ -1308,7 +1281,7 @@ namespace Waveface
             return false;
         }
 
-        private string GetNewestPostUpdateTime(List<Post> posts)
+        private string GetNewestUpdateTimeInPosts(List<Post> posts)
         {
             DateTime _dtNewest = new DateTime(1, 1, 1);
             DateTime _dt;
@@ -1513,51 +1486,60 @@ namespace Waveface
                 return;
             }
 
-            string _newestUpdateTime = GetNewestPostUpdateTime(RT.CurrentGroupPosts);
+            string _newestUpdateTime;
 
-            if (_newestUpdateTime != string.Empty)
+            if (string.IsNullOrEmpty(m_newestUpdateTime))
             {
-                _newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
+                _newestUpdateTime = GetNewestUpdateTimeInPosts(RT.CurrentGroupPosts);
+            }
+            else
+            {
+                _newestUpdateTime = m_newestUpdateTime;
+            }
 
-                MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
+            _newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
 
-                if (_usertracks != null)
+            MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
+
+            if (_usertracks != null)
+            {
+                if (_usertracks.get_count == 0)
                 {
-                    if (_usertracks.get_count == 0)
-                    {
-                        timerPolling.Enabled = true;
+                    timerPolling.Enabled = true;
 
-                        return;
-                    }
+                    return;
+                }
 
-                    foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
+                m_newestUpdateTime = _usertracks.latest_timestamp;
+
+                foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
+                {
+                    foreach (UT_Action _action in _usertrack.actions)
                     {
-                        foreach (UT_Action _action in _usertrack.actions)
+                        if (_action.action == "hide")
                         {
-                            if (_action.action == "hide")
-                            {
-                                ReloadAllData(); //
+                            ReloadAllData(); //
 
-                                return;
-                            }
+                            return;
                         }
-                    }
-
-                    string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
-
-                    MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
-
-                    if (_postsGet != null)
-                    {
-                        foreach (Post _p in _postsGet.posts)
-                        {
-                            ReplacePostInList(_p, RT.CurrentGroupPosts);
-                        }
-
-                        ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
                     }
                 }
+
+                string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
+
+                MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+
+                if (_postsGet != null)
+                {
+                    foreach (Post _p in _postsGet.posts)
+                    {
+                        ReplacePostInList(_p, RT.CurrentGroupPosts);
+                    }
+
+                    ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                }
             }
+
 
             timerPolling.Enabled = true;
         }
