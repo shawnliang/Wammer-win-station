@@ -177,6 +177,7 @@ namespace Wammer.Station.Service
 				managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/", new PingHandler());
 
 				addDriverHandler.DriverAdded += new EventHandler<DriverAddedEvtArgs>(addDriverHandler_DriverAdded);
+				addDriverHandler.BeforeDriverSaved += new EventHandler<BeforeDriverSavedEvtArgs>(addDriverHandler_BeforeDriverSaved);
 				logger.Debug("Start management server");
 				managementServer.Start();
 
@@ -214,8 +215,19 @@ namespace Wammer.Station.Service
 		{
 			PublicPortMapping.Instance.DriverAdded(sender, e);
 
-			// immediately start pulling timeline after driver added
-			stationTimer.ForceTick();
+		}
+
+		void addDriverHandler_BeforeDriverSaved(object sender, BeforeDriverSavedEvtArgs e)
+		{
+			Timeline.TimelineSyncer syncer = new Timeline.TimelineSyncer(
+				new Timeline.PostProvider(),
+				new Timeline.TimelineSyncerDBWithDriverCached(e.Driver),
+				new UserTracksApi()
+			);
+
+			ResourceDownloader downloader = new ResourceDownloader(bodySyncTaskQueue);
+			syncer.PostsRetrieved += new EventHandler<Timeline.TimelineSyncEventArgs>(downloader.PostRetrieved);
+			syncer.PullTimeline(e.Driver);
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

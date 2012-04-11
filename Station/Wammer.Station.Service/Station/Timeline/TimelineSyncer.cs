@@ -66,7 +66,7 @@ namespace Wammer.Station.Timeline
 				foreach (PostInfo post in res.posts)
 					db.SavePost(post);
 
-				OnPostsRetrieved(res.posts);
+				OnPostsRetrieved(user, res.posts);
 
 				db.UpdateDriverSyncRange(user.user_id, new SyncRange
 					{
@@ -118,7 +118,7 @@ namespace Wammer.Station.Timeline
 				foreach (PostInfo post in changedPost)
 					db.SavePost(post);
 
-				OnPostsRetrieved(changedPost);
+				OnPostsRetrieved(user, changedPost);
 
 				db.UpdateDriverSyncRange(user.user_id,
 					new SyncRange
@@ -168,7 +168,7 @@ namespace Wammer.Station.Timeline
 				foreach (PostInfo post in newPosts)
 					db.SavePost(post);
 
-				OnPostsRetrieved(newPosts);
+				OnPostsRetrieved(user, newPosts);
 
 				SyncRange newSyncRange = user.sync_range.Clone();
 				newSyncRange.end_time = since;
@@ -187,12 +187,12 @@ namespace Wammer.Station.Timeline
 			return user.sync_range == null || user.sync_range.end_time == DateTime.MinValue;
 		}
 
-		private void OnPostsRetrieved(List<PostInfo> posts)
+		private void OnPostsRetrieved(Driver driver, List<PostInfo> posts)
 		{
 			EventHandler<TimelineSyncEventArgs> handler = this.PostsRetrieved;
 			if (handler != null)
 			{
-				handler(this, new TimelineSyncEventArgs(posts));
+				handler(this, new TimelineSyncEventArgs(driver, posts));
 			}
 		}
 
@@ -201,10 +201,12 @@ namespace Wammer.Station.Timeline
 
 	public class TimelineSyncEventArgs : EventArgs
 	{
+		public Driver Driver { get; private set; }
 		public ICollection<PostInfo> Posts {get; private set;}
 		
-		public TimelineSyncEventArgs(ICollection<PostInfo> posts)
+		public TimelineSyncEventArgs(Driver driver, ICollection<PostInfo> posts)
 		{
+			this.Driver = driver;
 			this.Posts = posts;
 		}
 	}

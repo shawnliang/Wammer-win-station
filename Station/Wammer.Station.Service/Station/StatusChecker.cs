@@ -9,19 +9,17 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
-	public class StatusChecker : IStationTimer
+	public class StatusChecker : NonReentrantTimer
 	{
-		private Timer timer;
-		private long timerPeriod;
+		//private Timer timer;
+		//private long timerPeriod;
 		private bool logon = false;  // logOn is needed for every time service start
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
 		private readonly HttpServer functionServer;
 
 		public StatusChecker(long timerPeriod, HttpServer functionServer)
+			:base(timerPeriod)
 		{
-			TimerCallback tcb = SendHeartbeat;
-			this.timer = new Timer(tcb);
-			this.timerPeriod = timerPeriod;
 			this.functionServer = functionServer;
 		}
 
@@ -52,6 +50,11 @@ namespace Wammer.Station
 			}
 
 			return status;
+		}
+
+		protected override void ExecuteOnTimedUp(object state)
+		{
+			SendHeartbeat(state);
 		}
 
 		private void SendHeartbeat(Object obj)
@@ -124,14 +127,9 @@ namespace Wammer.Station
 			}
 		}
 
-		public void Start()
+		public override void Stop()
 		{
-			timer.Change(0, timerPeriod);
-		}
-
-		public void Stop()
-		{
-			timer.Change(Timeout.Infinite, Timeout.Infinite);
+			base.Stop();
 			using (WebClient client = new WebClient())
 			{
 				Model.StationInfo sinfo = Model.StationCollection.Instance.FindOne();
@@ -148,16 +146,6 @@ namespace Wammer.Station
 					}
 				}
 			}
-		}
-
-		public void Close()
-		{
-			timer.Dispose();
-		}
-
-		public void ForceTick()
-		{
-			timer.Change(0, timerPeriod);
 		}
 	}
 }

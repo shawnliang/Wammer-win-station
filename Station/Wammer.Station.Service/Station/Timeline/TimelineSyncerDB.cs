@@ -38,4 +38,35 @@ namespace Wammer.Station.Timeline
 			UserTrackCollection.Instance.Save(userTracks);
 		}
 	}
+
+	// update driver in memory instead of in database
+	public class TimelineSyncerDBWithDriverCached : ITimelineSyncerDB
+	{
+		private Driver driver;
+
+		public TimelineSyncerDBWithDriverCached(Driver driver)
+		{
+			this.driver = driver;
+		}
+
+		public void SavePost(PostInfo post)
+		{
+			PostCollection.Instance.Save(post);
+		}
+
+		public void UpdateDriverSyncRange(string userId, SyncRange syncRange)
+		{
+			driver.sync_range = syncRange;
+		}
+
+		public void UpdateDriverChangeHistorySynced(string userId, bool synced)
+		{
+			driver.is_change_history_synced = synced;
+		}
+
+		public void SaveUserTracks(UserTracks userTracks)
+		{
+			UserTrackCollection.Instance.Save(userTracks);
+		}
+	}
 }

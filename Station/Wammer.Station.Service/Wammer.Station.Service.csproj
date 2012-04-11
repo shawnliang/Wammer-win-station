@@ -182,6 +182,7 @@
     <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\TaskRunner.cs" />
     <Compile Include="Station\Timeline\PostProvider.cs" />
+    <Compile Include="Station\ResourceDownloader.cs" />
     <Compile Include="Station\Timeline\TimelineSyncer.cs" />
     <Compile Include="Station\Timeline\TimelineSyncerDB.cs" />
     <Compile Include="Station\APIHandler\UserLoginHandler.cs" />
