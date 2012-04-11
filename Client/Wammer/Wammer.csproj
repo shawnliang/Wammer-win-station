@@ -116,6 +116,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\ImageButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Component\Panel\AutoScrollPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -899,7 +902,6 @@
     <None Include="Resources\network-receive.png" />
     <None Include="Resources\waveface_icon32.png" />
     <None Include="Resources\waveface_icon128.png" />
-    <None Include="Resources\waveface_icon128.ico" />
     <EmbeddedResource Include="Component\PSTaskDialog\green_arrow1.png" />
     <EmbeddedResource Include="Component\PSTaskDialog\green_arrow2.png" />
     <Content Include="Icon.ico" />
@@ -917,6 +919,15 @@
     <None Include="Resources\Heart_empty.png" />
     <None Include="Resources\fav.png" />
     <None Include="Resources\unfav.png" />
+    <None Include="Resources\divider.png" />
+    <Content Include="Resources\FlatButton\FB_edit.png" />
+    <Content Include="Resources\FlatButton\FB_edit_hl.png" />
+    <Content Include="Resources\FlatButton\FB_fav.png" />
+    <Content Include="Resources\FlatButton\FB_fav_hl.png" />
+    <Content Include="Resources\FlatButton\FB_remove.png" />
+    <Content Include="Resources\FlatButton\FB_remove_hl.png" />
+    <Content Include="Resources\FlatButton\FB_unfav.png" />
+    <Content Include="Resources\FlatButton\FB_unfav_hl.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

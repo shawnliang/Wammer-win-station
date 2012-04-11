@@ -242,7 +242,7 @@ namespace Waveface.PostUI
 
                 if (_params.Count != 0)
                 {
-                    Main.Current.PostUpdate(MyParent.Post, _params);
+                    Main.Current.PostUpdate(MyParent.Post, _params, true);
                 }
 
                 MyParent.SetDialogResult_Yes_AndClose();

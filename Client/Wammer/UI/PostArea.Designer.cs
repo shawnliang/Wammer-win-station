@@ -53,7 +53,7 @@ namespace Waveface
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
+            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(121)))), ((int)(((byte)(143)))));
             this.panelTop.Controls.Add(this.labelStatus);
             this.panelTop.Controls.Add(this.btnCreatePost);
             this.panelTop.Controls.Add(this.btnRefresh);

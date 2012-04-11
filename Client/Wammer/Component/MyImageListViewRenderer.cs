@@ -12,6 +12,16 @@ namespace Waveface.Component
 {
     public class MyImageListViewRenderer : ImageListView.ImageListViewRenderer
     {
+        private bool m_showHovered = true;
+
+        public bool ItemBorderless { get; set; }
+
+        public bool ShowHovered
+        {
+            get { return m_showHovered; }
+            set { m_showHovered = value; }
+        }
+
         public override void InitializeGraphics(Graphics g)
         {
             base.InitializeGraphics(g);
@@ -50,8 +60,18 @@ namespace Waveface.Component
 
                 if (_img != null)
                 {
+                    if ((_img.Width >= ImageListView.ThumbnailSize.Width) ||
+                        (_img.Height >= ImageListView.ThumbnailSize.Height))
+                    {
+                        _img = ImageUtility.GenerateSquareImage(_img, ImageListView.ThumbnailSize.Width);
+                    }
+                    else
+                    {
+                        return;
+                    }
+
                     // Calculate image bounds
-                    Rectangle _pos = Utility.GetSizedImageBounds(_img, Rectangle.Inflate(bounds, -4, -4));
+                    Rectangle _pos = GetSizedImageBounds(_img, Rectangle.Inflate(bounds, -4, -4));
                     int _imageWidth = _pos.Width;
                     int _imageHeight = _pos.Height;
                     int _imageX = _pos.X;
@@ -98,12 +118,15 @@ namespace Waveface.Component
 
                     if (((state & ItemState.Hovered) != ItemState.None))
                     {
-                        using (
-                            Brush _bHovered = new LinearGradientBrush(bounds, ImageListView.Colors.HoverColor1,
-                                                                      ImageListView.Colors.HoverColor2,
-                                                                      LinearGradientMode.Vertical))
+                        if (ShowHovered)
                         {
-                            Utility.FillRoundedRectangle(g, _bHovered, bounds, 5);
+                            using (
+                                Brush _bHovered = new LinearGradientBrush(bounds, ImageListView.Colors.HoverColor1,
+                                                                          ImageListView.Colors.HoverColor2,
+                                                                          LinearGradientMode.Vertical))
+                            {
+                                Utility.FillRoundedRectangle(g, _bHovered, bounds, 5);
+                            }
                         }
                     }
 
@@ -111,19 +134,22 @@ namespace Waveface.Component
                     g.DrawImage(_img, _imageX, _imageY, _imageWidth, _imageHeight);
 
                     // Draw image border
-                    if (Math.Min(_imageWidth, _imageHeight) > 32)
+                    if (!ItemBorderless)
                     {
-                        using (Pen _pOuterBorder = new Pen(ImageListView.Colors.ImageOuterBorderColor))
-                        {
-                            g.DrawRectangle(_pOuterBorder, _imageX, _imageY, _imageWidth, _imageHeight);
-                        }
-
                         if (Math.Min(_imageWidth, _imageHeight) > 32)
                         {
-                            using (Pen _pInnerBorder = new Pen(ImageListView.Colors.ImageInnerBorderColor))
+                            using (Pen _pOuterBorder = new Pen(ImageListView.Colors.ImageOuterBorderColor))
                             {
-                                g.DrawRectangle(_pInnerBorder, _imageX + 1, _imageY + 1, _imageWidth - 2,
-                                                _imageHeight - 2);
+                                g.DrawRectangle(_pOuterBorder, _imageX, _imageY, _imageWidth, _imageHeight);
+                            }
+
+                            if (Math.Min(_imageWidth, _imageHeight) > 32)
+                            {
+                                using (Pen _pInnerBorder = new Pen(ImageListView.Colors.ImageInnerBorderColor))
+                                {
+                                    g.DrawRectangle(_pInnerBorder, _imageX + 1, _imageY + 1, _imageWidth - 2,
+                                                    _imageHeight - 2);
+                                }
                             }
                         }
                     }
@@ -148,6 +174,7 @@ namespace Waveface.Component
                 }
 
                 // Item border
+                /*
                 using (Pen _pWhite128 = new Pen(Color.FromArgb(128, ImageListView.Colors.ControlBackColor)))
                 {
                     Utility.DrawRoundedRectangle(g, _pWhite128, bounds.Left + 1, bounds.Top + 1, bounds.Width - 3,
@@ -178,6 +205,7 @@ namespace Waveface.Component
                                                      bounds.Height - 1, 4);
                     }
                 }
+                */
 
                 if (ImageListView.Focused && ((state & ItemState.Hovered) != ItemState.None))
                 {
@@ -190,6 +218,20 @@ namespace Waveface.Component
 
                 if (item.Tag != null)
                 {
+                    if (item.Tag is DetailViewImageListViewItemTag)
+                    {
+                        bool _isCoverImage = (item.Tag as DetailViewImageListViewItemTag).IsCoverImage;
+
+                        if (_isCoverImage)
+                        {
+                            using (Pen _pen = new Pen(Color.Pink))
+                            {
+                                Utility.DrawRoundedRectangle(g, _pen, bounds.Left, bounds.Top, bounds.Width - 1,
+                                                             bounds.Height - 1, 4);
+                            }
+                        }
+                    }
+
                     if (item.Tag is ImageViewItemTAG)
                     {
                         string _type = (item.Tag as ImageViewItemTAG).Type;
@@ -202,7 +244,7 @@ namespace Waveface.Component
 
                     if (item.Tag is EditModeImageListViewItemTag)
                     {
-                        EditModePhotoType _type = ((EditModeImageListViewItemTag)item.Tag).AddPhotoType;
+                        EditModePhotoType _type = ((EditModeImageListViewItemTag) item.Tag).AddPhotoType;
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
                         {
@@ -270,7 +312,7 @@ namespace Waveface.Component
                 //}
                 //else
                 {
-                    if(image.Width > 120)
+                    if (image.Width > 120)
                         g.DrawImage(image, _pos);
                 }
 
@@ -291,13 +333,13 @@ namespace Waveface.Component
 
         internal static Size GetSizedImageBounds(Image image, Size fit)
         {
-            float _f = Math.Max(image.Width / (float)fit.Width, image.Height / (float)fit.Height);
+            float _f = Math.Max(image.Width/(float) fit.Width, image.Height/(float) fit.Height);
 
             if (_f < 1.0f)
                 _f = 1.0f; // Do not upsize small images
 
-            int _width = (int)Math.Round(image.Width / _f);
-            int _height = (int)Math.Round(image.Height / _f);
+            int _width = (int) Math.Round(image.Width/_f);
+            int _height = (int) Math.Round(image.Height/_f);
             return new Size(_width, _height);
         }
 
@@ -310,8 +352,8 @@ namespace Waveface.Component
                 throw new ArgumentException("vAlign must be between 0.0 and 100.0 (inclusive).", "vAlign");
 
             Size _scaled = GetSizedImageBounds(image, fit.Size);
-            int _x = fit.Left + (int)(hAlign / 100.0f * (fit.Width - _scaled.Width));
-            int _y = fit.Top + (int)(vAlign / 100.0f * (fit.Height - _scaled.Height));
+            int _x = fit.Left + (int) (hAlign/100.0f*(fit.Width - _scaled.Width));
+            int _y = fit.Top + (int) (vAlign/100.0f*(fit.Height - _scaled.Height));
 
             return new Rectangle(_x, _y, _scaled.Width, _scaled.Height);
         }

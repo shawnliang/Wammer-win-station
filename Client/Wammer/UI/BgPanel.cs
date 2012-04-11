@@ -41,10 +41,10 @@ namespace Waveface
             Graphics _g = e.Graphics;
 
             _g.FillRectangle(m_backgroundBrush, e.ClipRectangle);
-            _g.DrawImage(Properties.Resources.desktop_logo, 0, 4);
+            _g.DrawImage(Properties.Resources.desktop_logo, 0, -4);
 
             Size _sizeName = TextRenderer.MeasureText(_g, UserName, m_fontName);
-            _g.DrawString(UserName, m_fontName, Brushes.DarkSlateGray, Width - _sizeName.Width - 8, 14);
+            _g.DrawString(UserName, m_fontName, Brushes.DarkSlateGray, Width - _sizeName.Width - 8, 8);
 
             if (!DesignMode)
             {

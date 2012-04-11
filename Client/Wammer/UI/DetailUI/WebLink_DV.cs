@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -56,6 +57,8 @@ namespace Waveface.DetailUI
         public WebLink_DV()
         {
             InitializeComponent();
+
+            Visible = false;
 
             m_clickableURL = new List<string>();
         }
@@ -113,6 +116,7 @@ namespace Waveface.DetailUI
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
             this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating);
             this.webBrowser.NewWindow += new System.ComponentModel.CancelEventHandler(this.webBrowser_NewWindow);
+            this.webBrowser.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.webBrowser_ProgressChanged);
             // 
             // cultureManager
             // 
@@ -165,7 +169,7 @@ namespace Waveface.DetailUI
 
             _htmlMainAndComment = _htmlMainAndComment.Replace("[Text]", _content);
 
-            _htmlMainAndComment += MyParent.GenCommentHTML(Post);
+            _htmlMainAndComment += MyParent.GenCommentHTML(Post, (Post.preview.url != null));
 
             _htmlMainAndComment = HtmlUtility.MakeLink(_htmlMainAndComment, m_clickableURL);
 
@@ -213,6 +217,11 @@ namespace Waveface.DetailUI
                                           "</font></body></html>";
         }
 
+        private void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
+        {
+            Visible = true;
+        }
+
         private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             if (!m_addedLinkClickEventHandler)
@@ -228,7 +237,7 @@ namespace Waveface.DetailUI
             m_soulBrowserContextMenuHandler = new WebBrowserContextMenuHandler(webBrowser, miCopySoul);
             contextMenuStrip.Opening += contextMenuStrip_Opening;
             miCopySoul.Click += m_soulBrowserContextMenuHandler.CopyCtxMenuClickHandler;
-            webBrowser.Document.ContextMenuShowing += webBrowser_ContextMenuShowing;            
+            webBrowser.Document.ContextMenuShowing += webBrowser_ContextMenuShowing;
         }
 
         private void LinkClick(object sender, EventArgs e)

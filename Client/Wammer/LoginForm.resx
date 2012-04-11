@@ -271,7 +271,7 @@
     <value>1</value>
   </data>
   <data name="txtUserName.Text" xml:space="preserve">
-    <value>dev1@wf.com</value>
+    <value>dev@wf.com</value>
   </data>
   <data name="&gt;&gt;txtUserName.Name" xml:space="preserve">
     <value>txtUserName</value>

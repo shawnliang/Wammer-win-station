@@ -1188,7 +1188,7 @@ namespace Waveface
             return _time;
         }
 
-        public Post PostUpdate(Post post, Dictionary<string, string> optionalParams)
+        public Post PostUpdate(Post post, Dictionary<string, string> optionalParams, bool refreshUI)
         {
             if (!CheckNetworkStatus())
                 return null;
@@ -1206,7 +1206,7 @@ namespace Waveface
                     return null;
                 }
 
-                RefreshSinglePost(_update.post);
+                RefreshSinglePost(_update.post, refreshUI);
             }
             catch (Exception _e)
             {
@@ -1222,7 +1222,7 @@ namespace Waveface
             return _update.post;
         }
 
-        public bool ChangePostFavorite(Post post)
+        public bool ChangePostFavorite(Post post, bool refreshUI)
         {
             if (!CheckNetworkStatus())
                 return false;
@@ -1248,7 +1248,7 @@ namespace Waveface
                     return false;
                 }
 
-                RefreshSinglePost(_update.post);
+                RefreshSinglePost(_update.post, refreshUI);
             }
             catch (Exception _e)
             {
@@ -1296,11 +1296,12 @@ namespace Waveface
             }
         }
 
-        public void RefreshSinglePost(Post post)
+        public void RefreshSinglePost(Post post, bool refreshUI)
         {
             ReplacePostInList(post, RT.CurrentGroupPosts);
 
-            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+            if (refreshUI)
+                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
         }
 
         private bool ReplacePostInList(Post post, List<Post> posts)
