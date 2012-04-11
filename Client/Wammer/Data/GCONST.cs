@@ -1,6 +1,7 @@
 ﻿
 using System.IO;
 using System;
+using System.Reflection;
 
 namespace Waveface
 {
@@ -9,10 +10,23 @@ namespace Waveface
 		private const string KEY_PATH = @"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation";
 
 		#region Var
+		private string _assemblyPath;
 		private String _runTimeDataPath;
 		#endregion
 
-		#region Property
+		#region Private Property
+		private string AssemblyPath
+		{
+			get
+			{
+				if (_assemblyPath == null)
+					_assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+				return _assemblyPath;
+			}
+		}
+		#endregion
+
+		#region Public Property
 		public String RunTimeDataPath
 		{
 			get
@@ -89,6 +103,7 @@ namespace Waveface
 
 			ImageCachePath = ((string)Microsoft.Win32.Registry.GetValue(KEY_PATH,"resourceBasePath", null)) ?? "resource";
 
+			ImageCachePath = Path.Combine(AssemblyPath, ImageCachePath);
 			ImageCachePath = Path.Combine(ImageCachePath, "user_" + user.user_id);
 
             Directory.CreateDirectory(ImageCachePath);
