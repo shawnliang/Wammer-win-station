@@ -121,10 +121,61 @@
   <data name="btnRemove.Location" type="System.Drawing.Point, System.Drawing">
     <value>333, 8</value>
   </data>
+  <data name="btnEdit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAJMSURBVDhPY/j//z8DqVjFM4vfOKz4vEVU+X8d//x4ZP0kG6bqmc3vmFh7KaFuwv/Mtmn/A/Lb
+        /hsEF8INJdlA/9y2yKSGSf+b5yz/37lw9f/yifP/Bxa0ww0l2kBlj0whXf/8+Q+evYo8deUW2LC+Zev/
+        dy1aAzYU5FKg9+WJMlDdO0fKPqHms39e6/+AvLZLL968zzh3/Q7YMJChIMPb5q4CBuV/wgaqeefIuqc3
+        XAeFV+WUhf/TW6b+Dy7qgBsKMmz2+u3/v3z7fgkUOXhdqOGTq+WWVv89s236/9Z5K//3LFkHDruM1mlw
+        Qy/dvg8zjB+vgUDDZD0yGv7mds4EG9a7dB3YeyAaZCjYpYUdS4GG+AMx2DCcBgLDjN89o+F7fves/x0L
+        IIGPjEEurZ+x5P+j569AAYfiSwwvg9KZa2r9peyOGf/bF6zCMAxkcAcw3J6+evsDaJgsXgNBhjkBE21a
+        81SwN9FdBvLu3A27/r969+Ef0CBdbDkMxYXIiRYWZjBDQXyk2FTHlV3hBqp5ZduDAvjUZUSixWEYPAJw
+        ulDbL0/eOqbiv1Ny7XygonjkRIvmMryGwWM5qKBjblL9pP8xVX3/PTMb4YaiJVqChsENTG2c+rF+xtL/
+        tdOX/I+vnQA3FD3RElPMMVjFVPiDkkgnMF92L1kLNhTkUqD3wWGKnGiJMjC5fvKJqimLwNlqxrpt/3cc
+        O/v/7ftPQL3/QQYSVXggq2OIq+n/v2z7gf/X7j8CGXIfiPuBWJ4cw2BhCDJoPdR7JLsI3WIAdlFubFyL
+        uIwAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="btnEdit.ImageDisable" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAEASURBVDhPrZOxDQIxDEWzARIlEroSCelmYARGYCRGoKdhEkRxJQU7UNBB8EfxybFi4gsUli45
+        5+X72wnH8zU0xIzOXCgixU6e/xUGYAZtAW4ThGEZdApwTqADBcpFmRqIdecFLij5niDwrgTFfvAAl5Q4
+        KEUayusqcE2gh1EeQ+ApFH/EfVMIZU8Dxv7B04xhAXGjpYxh+I9Lq0A5tKVOYu9F0ZcehFbogcG7VQlW
+        8tAaWlY6dtMD3KQka2irMKmwS93krmmoCyaBezEeGuqGSeBNzRtDs6G1fJP76LLVCPbU8zzHHHychDoo
+        RfnwdBJIPj2MBKBQ2gTJSo4xhn/GG5RhI6q0rkG7AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="btnEdit.ImageHover" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAEASURBVDhPrZOxDQIxDEWzARIlEroSCelmYARGYCRGoKdhEkRxJQU7UNBB8EfxybFi4gsUli45
+        5+X72wnH8zU0xIzOXCgixU6e/xUGYAZtAW4ThGEZdApwTqADBcpFmRqIdecFLij5niDwrgTFfvAAl5Q4
+        KEUayusqcE2gh1EeQ+ApFH/EfVMIZU8Dxv7B04xhAXGjpYxh+I9Lq0A5tKVOYu9F0ZcehFbogcG7VQlW
+        8tAaWlY6dtMD3KQka2irMKmwS93krmmoCyaBezEeGuqGSeBNzRtDs6G1fJP76LLVCPbU8zzHHHychDoo
+        RfnwdBJIPj2MBKBQ2gTJSo4xhn/GG5RhI6q0rkG7AAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="btnEdit.Text" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="btnComment.Location" type="System.Drawing.Point, System.Drawing">
     <value>307, 8</value>
+  </data>
+  <data name="miRemovePost.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 22</value>
+  </data>
+  <data name="miRemovePost.Text" xml:space="preserve">
+    <value>移除貼文</value>
+  </data>
+  <data name="miAddFootnote.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 22</value>
+  </data>
+  <data name="miAddFootnote.Text" xml:space="preserve">
+    <value>新增注腳</value>
+  </data>
+  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 48</value>
   </data>
 </root>

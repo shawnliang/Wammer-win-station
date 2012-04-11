@@ -224,10 +224,10 @@ namespace Waveface.Component
 
                         if (_isCoverImage)
                         {
-                            using (Pen _pen = new Pen(Color.Pink))
+                            using (Pen _pen = new Pen(Color.DeepPink, 2))
                             {
-                                Utility.DrawRoundedRectangle(g, _pen, bounds.Left, bounds.Top, bounds.Width - 1,
-                                                             bounds.Height - 1, 4);
+                                Utility.DrawRoundedRectangle(g, _pen, bounds.Left + 1, bounds.Top + 1, bounds.Width - 2,
+                                                             bounds.Height - 2, 4);
                             }
                         }
                     }

@@ -117,224 +117,110 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
-    <value>cultureManager</value>
+  <data name="&gt;&gt;btnMoreOptions.Name" xml:space="preserve">
+    <value>btnMoreOptions</value>
   </data>
-  <data name="&gt;&gt;panelTop.Name" xml:space="preserve">
-    <value>panelTop</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnFavorite.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnComment.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnRemove.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="btnComment.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="panelTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="btnRemove.Location" type="System.Drawing.Point, System.Drawing">
-    <value>346, 8</value>
-  </data>
-  <data name="btnRemove.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;panelMain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>DetailView</value>
-  </data>
-  <data name="btnEdit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;btnComment.Type" xml:space="preserve">
+  <data name="&gt;&gt;btnMoreOptions.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="labelTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;btnMoreOptions.Parent" xml:space="preserve">
+    <value>panelTop</value>
   </data>
-  <data name="&gt;&gt;panelTop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnRemove.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnComment.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="&gt;&gt;labelTitle.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;timerCanEdit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnComment.Location" type="System.Drawing.Point, System.Drawing">
-    <value>320, 8</value>
-  </data>
-  <data name="labelTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 14</value>
-  </data>
-  <data name="labelTitle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="btnComment.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;labelTitle.Name" xml:space="preserve">
-    <value>labelTitle</value>
-  </data>
-  <data name="btnEdit.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="panelMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="btnComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>531, 453</value>
-  </data>
-  <data name="labelTitle.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;btnMoreOptions.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="panelTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>531, 36</value>
-  </data>
-  <data name="btnEdit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>480, 8</value>
-  </data>
-  <data name="btnComment.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="btnEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="btnRemove.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="&gt;&gt;btnRemove.Name" xml:space="preserve">
-    <value>btnRemove</value>
-  </data>
-  <data name="btnEdit.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnFavorite.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
   </data>
   <data name="&gt;&gt;btnFavorite.Name" xml:space="preserve">
     <value>btnFavorite</value>
   </data>
-  <data name="&gt;&gt;btnComment.Parent" xml:space="preserve">
-    <value>panelTop</value>
-  </data>
-  <data name="&gt;&gt;btnEdit.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="&gt;&gt;btnComment.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;btnEdit.Parent" xml:space="preserve">
-    <value>panelTop</value>
-  </data>
-  <data name="&gt;&gt;btnRemove.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnEdit.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;btnFavorite.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelTop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;btnRemove.Parent" xml:space="preserve">
-    <value>panelTop</value>
-  </data>
-  <data name="btnFavorite.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="btnRemove.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;panelMain.Name" xml:space="preserve">
-    <value>panelMain</value>
-  </data>
-  <data name="&gt;&gt;btnEdit.Type" xml:space="preserve">
+  <data name="&gt;&gt;btnFavorite.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnFavorite.Parent" xml:space="preserve">
     <value>panelTop</value>
   </data>
-  <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;timerGC.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelTop.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btnFavorite.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="labelTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt, style=Bold</value>
+  <data name="&gt;&gt;btnEdit.Name" xml:space="preserve">
+    <value>btnEdit</value>
   </data>
-  <data name="btnEdit.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+  <data name="&gt;&gt;btnEdit.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;btnComment.Name" xml:space="preserve">
-    <value>btnComment</value>
+  <data name="&gt;&gt;btnEdit.Parent" xml:space="preserve">
+    <value>panelTop</value>
   </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>531, 489</value>
+  <data name="&gt;&gt;btnEdit.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="labelTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 10</value>
+  <data name="&gt;&gt;labelTitle.Name" xml:space="preserve">
+    <value>labelTitle</value>
   </data>
-  <data name="btnFavorite.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="btnFavorite.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="&gt;&gt;timerCanEdit.Name" xml:space="preserve">
-    <value>timerCanEdit</value>
-  </data>
-  <data name="btnRemove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="&gt;&gt;timerGC.Name" xml:space="preserve">
-    <value>timerGC</value>
+  <data name="&gt;&gt;labelTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;labelTitle.Parent" xml:space="preserve">
     <value>panelTop</value>
   </data>
-  <data name="&gt;&gt;btnFavorite.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;labelTitle.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
-  <data name="btnEdit.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="panelTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
-  <data name="btnFavorite.Location" type="System.Drawing.Point, System.Drawing">
-    <value>440, 8</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="panelTop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panelTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>531, 36</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="panelTop.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelTop.Name" xml:space="preserve">
+    <value>panelTop</value>
+  </data>
+  <data name="&gt;&gt;panelTop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelTop.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelTop.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="labelTitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt, style=Bold</value>
+  </data>
+  <data name="labelTitle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 10</value>
+  </data>
+  <data name="labelTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 14</value>
+  </data>
+  <data name="labelTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;labelTitle.Name" xml:space="preserve">
+    <value>labelTitle</value>
+  </data>
+  <data name="&gt;&gt;labelTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelTitle.Parent" xml:space="preserve">
+    <value>panelTop</value>
+  </data>
+  <data name="&gt;&gt;labelTitle.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="panelMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -342,32 +228,32 @@
   <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 36</value>
   </data>
-  <data name="panelTop.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="panelMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>531, 453</value>
+  </data>
+  <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panelMain.Name" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;panelMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;panelMain.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;btnRemove.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelTop.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="btnFavorite.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;labelTitle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnEdit.Name" xml:space="preserve">
-    <value>btnEdit</value>
-  </data>
-  <metadata name="timerCanEdit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>266, 17</value>
+  <metadata name="timerGC.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>122, 17</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -375,10 +261,211 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>41</value>
   </metadata>
-  <metadata name="timerGC.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>531, 489</value>
+  </data>
+  <data name="&gt;&gt;timerGC.Name" xml:space="preserve">
+    <value>timerGC</value>
+  </data>
+  <data name="&gt;&gt;timerGC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
+    <value>cultureManager</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
+    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;timerCanEdit.Name" xml:space="preserve">
+    <value>timerCanEdit</value>
+  </data>
+  <data name="&gt;&gt;timerCanEdit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;miRemovePost.Name" xml:space="preserve">
+    <value>miRemovePost</value>
+  </data>
+  <data name="&gt;&gt;miRemovePost.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;miAddFootnote.Name" xml:space="preserve">
+    <value>miAddFootnote</value>
+  </data>
+  <data name="&gt;&gt;miAddFootnote.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>DetailView</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="timerCanEdit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>266, 17</value>
   </metadata>
-  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>122, 17</value>
+  <metadata name="contextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>390, 16</value>
   </metadata>
+  <data name="miRemovePost.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 22</value>
+  </data>
+  <data name="miRemovePost.Text" xml:space="preserve">
+    <value>Remove Post</value>
+  </data>
+  <data name="miAddFootnote.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 22</value>
+  </data>
+  <data name="miAddFootnote.Text" xml:space="preserve">
+    <value>Add Footnote</value>
+  </data>
+  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 70</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
+    <value>contextMenuStrip</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnMoreOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnMoreOptions.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="btnMoreOptions.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnMoreOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>480, 8</value>
+  </data>
+  <data name="btnMoreOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="btnMoreOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="btnMoreOptions.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnMoreOptions.Name" xml:space="preserve">
+    <value>btnMoreOptions</value>
+  </data>
+  <data name="&gt;&gt;btnMoreOptions.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnMoreOptions.Parent" xml:space="preserve">
+    <value>panelTop</value>
+  </data>
+  <data name="&gt;&gt;btnMoreOptions.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnFavorite.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnFavorite.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="btnFavorite.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnFavorite.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 8</value>
+  </data>
+  <data name="btnFavorite.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="btnFavorite.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="btnFavorite.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnFavorite.Name" xml:space="preserve">
+    <value>btnFavorite</value>
+  </data>
+  <data name="&gt;&gt;btnFavorite.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnFavorite.Parent" xml:space="preserve">
+    <value>panelTop</value>
+  </data>
+  <data name="&gt;&gt;btnFavorite.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnEdit.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnEdit.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnEdit.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="btnEdit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAJMSURBVDhPY/j//z8DqVjFM4vfOKz4vEVU+X8d//x4ZP0kG6bqmc3vmFh7KaFuwv/Mtmn/A/Lb
+        /hsEF8INJdlA/9y2yKSGSf+b5yz/37lw9f/yifP/Bxa0ww0l2kBlj0whXf/8+Q+evYo8deUW2LC+Zev/
+        dy1aAzYU5FKg9+WJMlDdO0fKPqHms39e6/+AvLZLL968zzh3/Q7YMJChIMPb5q4CBuV/wgaqeefIuqc3
+        XAeFV+WUhf/TW6b+Dy7qgBsKMmz2+u3/v3z7fgkUOXhdqOGTq+WWVv89s236/9Z5K//3LFkHDruM1mlw
+        Qy/dvg8zjB+vgUDDZD0yGv7mds4EG9a7dB3YeyAaZCjYpYUdS4GG+AMx2DCcBgLDjN89o+F7fves/x0L
+        IIGPjEEurZ+x5P+j569AAYfiSwwvg9KZa2r9peyOGf/bF6zCMAxkcAcw3J6+evsDaJgsXgNBhjkBE21a
+        81SwN9FdBvLu3A27/r969+Ef0CBdbDkMxYXIiRYWZjBDQXyk2FTHlV3hBqp5ZduDAvjUZUSixWEYPAJw
+        ulDbL0/eOqbiv1Ny7XygonjkRIvmMryGwWM5qKBjblL9pP8xVX3/PTMb4YaiJVqChsENTG2c+rF+xtL/
+        tdOX/I+vnQA3FD3RElPMMVjFVPiDkkgnMF92L1kLNhTkUqD3wWGKnGiJMjC5fvKJqimLwNlqxrpt/3cc
+        O/v/7ftPQL3/QQYSVXggq2OIq+n/v2z7gf/X7j8CGXIfiPuBWJ4cw2BhCDJoPdR7JLsI3WIAdlFubFyL
+        uIwAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="btnEdit.ImageDisable" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAEASURBVDhPrZOxDQIxDEWzARIlEroSCelmYARGYCRGoKdhEkRxJQU7UNBB8EfxybFi4gsUli45
+        5+X72wnH8zU0xIzOXCgixU6e/xUGYAZtAW4ThGEZdApwTqADBcpFmRqIdecFLij5niDwrgTFfvAAl5Q4
+        KEUayusqcE2gh1EeQ+ApFH/EfVMIZU8Dxv7B04xhAXGjpYxh+I9Lq0A5tKVOYu9F0ZcehFbogcG7VQlW
+        8tAaWlY6dtMD3KQka2irMKmwS93krmmoCyaBezEeGuqGSeBNzRtDs6G1fJP76LLVCPbU8zzHHHychDoo
+        RfnwdBJIPj2MBKBQ2gTJSo4xhn/GG5RhI6q0rkG7AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="btnEdit.ImageHover" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAEASURBVDhPrZOxDQIxDEWzARIlEroSCelmYARGYCRGoKdhEkRxJQU7UNBB8EfxybFi4gsUli45
+        5+X72wnH8zU0xIzOXCgixU6e/xUGYAZtAW4ThGEZdApwTqADBcpFmRqIdecFLij5niDwrgTFfvAAl5Q4
+        KEUayusqcE2gh1EeQ+ApFH/EfVMIZU8Dxv7B04xhAXGjpYxh+I9Lq0A5tKVOYu9F0ZcehFbogcG7VQlW
+        8tAaWlY6dtMD3KQka2irMKmwS93krmmoCyaBezEeGuqGSeBNzRtDs6G1fJP76LLVCPbU8zzHHHychDoo
+        RfnwdBJIPj2MBKBQ2gTJSo4xhn/GG5RhI6q0rkG7AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="btnEdit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnEdit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>440, 8</value>
+  </data>
+  <data name="btnEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="btnEdit.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="btnEdit.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnEdit.Name" xml:space="preserve">
+    <value>btnEdit</value>
+  </data>
+  <data name="&gt;&gt;btnEdit.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnEdit.Parent" xml:space="preserve">
+    <value>panelTop</value>
+  </data>
+  <data name="&gt;&gt;btnEdit.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
 </root>

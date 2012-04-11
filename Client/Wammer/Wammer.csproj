@@ -116,6 +116,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\CustomDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Component\ImageButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -204,6 +207,7 @@
     <Compile Include="Libs\Utility\ApplicationInformation.cs" />
     <Compile Include="Libs\Utility\ControlUtility.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />
+    <Compile Include="Libs\Utility\WebBrowser.cs" />
     <Compile Include="UI\BgPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -681,6 +685,9 @@
     <EmbeddedResource Include="UI\PostArea.zh-TW.resx">
       <DependentUpon>PostArea.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\PostsList.zh-TW.resx">
+      <DependentUpon>PostsList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\PostUI\OldImagesPopupPanel.resx">
       <DependentUpon>OldImagesPopupPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -924,6 +931,10 @@
     <Content Include="Resources\FlatButton\FB_edit_hl.png" />
     <Content Include="Resources\FlatButton\FB_fav.png" />
     <Content Include="Resources\FlatButton\FB_fav_hl.png" />
+    <None Include="Resources\FlatButton\FB_moreoption.png" />
+    <None Include="Resources\FlatButton\FB_moreoption_hl.png" />
+    <None Include="Resources\FlatButton\FB_openin.png" />
+    <None Include="Resources\FlatButton\FB_openin_hl.png" />
     <Content Include="Resources\FlatButton\FB_remove.png" />
     <Content Include="Resources\FlatButton\FB_remove_hl.png" />
     <Content Include="Resources\FlatButton\FB_unfav.png" />

@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -419,6 +420,11 @@ namespace Waveface.DetailUI
             }
             catch
             {}
+        }
+
+        public List<ToolStripMenuItem> GetMoreMenuItems()
+        {
+            return null;
         }
     }
 }
