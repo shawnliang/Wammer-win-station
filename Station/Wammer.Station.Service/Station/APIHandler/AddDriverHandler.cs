@@ -21,6 +21,7 @@ namespace Wammer.Station
 		private const int ERR_BAD_NAME_PASSWORD = 4097;
 
 		public event EventHandler<DriverAddedEvtArgs> DriverAdded;
+		public event EventHandler<BeforeDriverSavedEvtArgs> BeforeDriverSaved;
 
 		public AddDriverHandler(string stationId, string resourceBasePath)
 		{
@@ -92,9 +93,7 @@ namespace Wammer.Station
 						ref_count = 1
 					};
 
-					PostApi api = new PostApi(driver);
-					PostGetLatestResponse res = api.PostGetLatest(client, 1);
-					driver.temp_total_count = res.total_count;
+					OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
 
 					DriverCollection.Instance.Save(driver);
 
@@ -168,6 +167,14 @@ namespace Wammer.Station
 				handler(this, args);
 		}
 
+		private void OnBeforeDriverSaved(BeforeDriverSavedEvtArgs args)
+		{
+			EventHandler<BeforeDriverSavedEvtArgs> handler = this.BeforeDriverSaved;
+
+			if (handler != null)
+				handler(this, args);
+		}
+
 		public override object Clone()
 		{
 			return this.MemberwiseClone();
@@ -191,6 +198,17 @@ namespace Wammer.Station
 		public Driver Driver { get; private set; }
 
 		public DriverAddedEvtArgs(Driver driver)
+			: base()
+		{
+			this.Driver = driver;
+		}
+	}
+
+	public class BeforeDriverSavedEvtArgs : EventArgs
+	{
+		public Driver Driver { get; private set; }
+
+		public BeforeDriverSavedEvtArgs(Driver driver)
 			: base()
 		{
 			this.Driver = driver;

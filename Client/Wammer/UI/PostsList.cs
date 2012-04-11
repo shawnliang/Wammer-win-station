@@ -412,7 +412,7 @@ namespace Waveface
                 }
                 else
                 {
-                    string _localPic = Path.Combine(Main.GCONST.CachePath , _a.object_id + "_thumbnail" + ".jpg");
+                    string _localPic = Path.Combine(Main.GCONST.ImageCachePath , _a.object_id + "_thumbnail" + ".jpg");
 
                     string _url = _a.image;
 
@@ -468,7 +468,7 @@ namespace Waveface
                 {
                     string _url = post.preview.thumbnail_url;
 
-                    string _localPic = Path.Combine( Main.GCONST.CachePath , post.post_id + "_previewthumbnail_" + ".jpg");
+                    string _localPic = Path.Combine( Main.GCONST.ImageCachePath , post.post_id + "_previewthumbnail_" + ".jpg");
 
                     Bitmap _img = LoadThumbnail(_url, _localPic);
 
@@ -550,7 +550,7 @@ namespace Waveface
             string _fileName = string.Empty;
             Main.Current.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName, false);
 
-            string _localPic = Path.Combine(Main.GCONST.CachePath , _fileName);
+            string _localPic = Path.Combine(Main.GCONST.ImageCachePath , _fileName);
 
             Bitmap _img = LoadThumbnail(_url, _localPic);
 

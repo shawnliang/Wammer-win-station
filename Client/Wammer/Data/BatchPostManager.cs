@@ -331,18 +331,18 @@ namespace Waveface
                             s_logger.Trace("[" + _tmpStamp + "]" + "Batch Upload Photo [" + _count + "]" + _file);
 
                             // Cache Origin
-                            string _localFileOrigin = Path.Combine( Main.GCONST.CachePath, _uf.object_id + "_" + _text);
+                            string _localFileOrigin = Path.Combine( Main.GCONST.ImageCachePath, _uf.object_id + "_" + _text);
                             File.Copy(_file, _localFileOrigin);
 
                             // Cache Medium
-                            string _localFileMedium = Path.Combine(Main.GCONST.CachePath , _uf.object_id + "_medium_" + _text);
+                            string _localFileMedium = Path.Combine(Main.GCONST.ImageCachePath , _uf.object_id + "_medium_" + _text);
                             string _resizedMediumImageFilePath = ImageUtility.ResizeImage(_file, _text, "512", 100);
                             File.Copy(_resizedMediumImageFilePath, _localFileMedium);
 
                             // Small
                             if (_count == 0)
                             {
-                                string _localFileSmall = Path.Combine(Main.GCONST.CachePath , _uf.object_id + "_small_" + _text);
+                                string _localFileSmall = Path.Combine(Main.GCONST.ImageCachePath , _uf.object_id + "_small_" + _text);
                                 string _resizedSmallImageFilePath = ImageUtility.ResizeImage(_file, _text, "120", 100);
                                 File.Copy(_resizedSmallImageFilePath, _localFileSmall);
                             }
@@ -513,7 +513,7 @@ namespace Waveface
                 if (!GCONST.DEBUG)
                     _json = StringUtility.Compress(_json);
 
-                string _filePath = Path.Combine(Main.GCONST.CachePath, Main.Current.RT.Login.user.user_id + "_NP.dat");
+				string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_NP.dat");
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
                 {
@@ -537,7 +537,7 @@ namespace Waveface
             try
             {
                 string _json = string.Empty;
-                string _filePath = Path.Combine( Main.GCONST.CachePath ,Main.Current.RT.Login.user.user_id + "_NP.dat");
+				string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_NP.dat");
 
                 StreamReader _sr = File.OpenText(_filePath);
                 _json = _sr.ReadToEnd();

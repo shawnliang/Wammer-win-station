@@ -122,7 +122,7 @@ namespace Waveface
             try
             {
                 string _json = string.Empty;
-                string _filePath = Path.Combine(Main.GCONST.CachePath, Main.Current.RT.Login.user.user_id + "_UO.dat");
+                string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_UO.dat");
 
 				//TODO: Check 狗哥
 				if (!File.Exists(_filePath))
@@ -158,7 +158,7 @@ namespace Waveface
                 if (!GCONST.DEBUG)
                     _json = StringUtility.Compress(_json);
 
-                string _filePath = Path.Combine(Main.GCONST.CachePath, Main.Current.RT.Login.user.user_id + "_UO.dat");
+				string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_UO.dat");
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
                 {

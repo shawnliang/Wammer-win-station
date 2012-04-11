@@ -239,12 +239,14 @@ namespace Waveface
 
                     WebResponse _wRep = _wReq.GetResponse();
 
-					//Image _img = Image.FromStream(_wRep.GetResponseStream());
+					Image _img = Image.FromStream(_wRep.GetResponseStream());
 
-					//if (!File.Exists(_localPath))
-					//    _img.Save(_localPath);
+					if (!File.Exists(_localPath))
+					{
+						_img.Save(_localPath);
+					}
 
-					//_img = null;
+					_img = null;
 
                     s_logger.Trace("GetFile:" + _localPath);
 
@@ -398,7 +400,7 @@ namespace Waveface
                 Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO,
                                                                       false);
 
-                string _localFileO = Path.Combine(Main.GCONST.CachePath, _fileNameO);
+                string _localFileO = Path.Combine(Main.GCONST.ImageCachePath, _fileNameO);
 
                 _filePathOrigins.Add(_localFileO);
                 _urlOrigins.Add(_urlO);
@@ -412,7 +414,7 @@ namespace Waveface
                 Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM,
                                                                       false);
 
-                string _localFileM = Path.Combine(Main.GCONST.CachePath , _fileNameM);
+                string _localFileM = Path.Combine(Main.GCONST.ImageCachePath , _fileNameM);
 
                 _filePathMediums.Add(_localFileM);
                 _urlMediums.Add(_urlM);
