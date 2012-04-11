@@ -91,12 +91,26 @@ namespace Wammer.Station.Timeline
 
 			using (WebClient agent = new WebClient())
 			{
-				UserTrackResponse res = userTrack.GetChangeHistory(agent, user, user.sync_range.end_time);
-
+				DateTime since = user.sync_range.end_time.AddSeconds(1.0);
 				
-				// the sync end time is not changed, do nothing
-				if (res.latest_timestamp.ToUniversalTime() == user.sync_range.end_time.ToUniversalTime())
-					return;
+				UserTrackResponse res;
+
+				try
+				{
+					res = userTrack.GetChangeHistory(agent, user, since);
+				}
+				catch (WammerCloudException e)
+				{
+					// when no more data, cloud returns a empty last_timestamp which makes
+					// deserializing to json object parses error and a ArgumentOutOfRangeException
+					// is thrown.
+					//
+					// Use this exception as the exit criteria
+					if (e.InnerException is ArgumentOutOfRangeException)
+						return; 
+					else
+						throw;
+				}
 
 				db.SaveUserTracks(new UserTracks(res));
 
@@ -145,9 +159,9 @@ namespace Wammer.Station.Timeline
 					res = api.GetChangeHistory(agent, user, since);
 
 					db.SaveUserTracks(new UserTracks(res));
-					since = res.latest_timestamp;
+					since = res.latest_timestamp.AddSeconds(1.0);
 				}
-				while (since.CompareTo(user.sync_range.end_time) <= 0);
+				while (since <= user.sync_range.end_time);
 
 				// Last user track response could contain unsynced posts.
 				List<PostInfo> newPosts = postProvider.RetrievePosts(agent, user, res.post_id_list);

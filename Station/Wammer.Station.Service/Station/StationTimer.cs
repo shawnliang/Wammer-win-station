@@ -20,11 +20,7 @@ namespace Wammer.Station
 		private const long STATUS_CHECK_PERIOD = 10 * 60 * 1000; // TODO: remove hardcode
 #endif
 
-#if DEBUG
 		private const long RESOURCE_SYNC_PEROID = 10 * 1000;
-#else
-		private const long RESOURCE_SYNC_PEROID = 60 * 1000;
-#endif
 
 		private List<IStationTimer> timers;
 

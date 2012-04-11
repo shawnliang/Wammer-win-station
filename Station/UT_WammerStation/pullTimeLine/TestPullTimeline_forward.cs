@@ -7,6 +7,8 @@ using Wammer.Model;
 using Wammer.Station.Timeline;
 using Wammer.Cloud;
 using System.Net;
+using Moq;
+using Wammer.Station;
 
 namespace UT_WammerStation.pullTimeLine
 {
@@ -138,12 +140,17 @@ namespace UT_WammerStation.pullTimeLine
 		[TestMethod]
 		public void DoNothingIfNoUpdate()
 		{
+			DateTime since = new DateTime(2012, 2, 2, 13, 23, 42, DateTimeKind.Utc);
+
 			DummyPostInfoProvider postInfo = new DummyPostInfoProvider();
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, new FakeUserTracksApi());
+			Mock<IUserTrackApi> api = new Mock<IUserTrackApi>();
+			api.Setup(x => x.GetChangeHistory(It.IsAny<WebClient>(), It.IsAny<Driver>(), since.AddSeconds(1.0))).Throws(new WammerCloudException("123", new ArgumentOutOfRangeException()));
+
+			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, api.Object);
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
 
-			DateTime since = new DateTime(2012, 2, 2, 13, 23, 42, DateTimeKind.Utc);
+			
 
 			Driver user = new Driver
 			{
