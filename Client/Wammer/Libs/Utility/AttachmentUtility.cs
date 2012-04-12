@@ -119,7 +119,8 @@ namespace Waveface
             if ((imageType == SMALL) || (imageType == MEDIUM))
                 url = "[IP]" + _urlX + "&" + "image_meta=" + _imageType;
             else
-                url = _url; //@  +"&" + "image_meta=" + _imageType;
+                url = _url; //@  +"&" + "image_meta=" + _imageType;			
+
 
 			fileName = a.object_id + "_" + _imageType + Path.GetExtension(a.file_name);
             return _imageType;

@@ -8,7 +8,7 @@ using System.Net;
 using System.Threading;
 using NLog;
 using Waveface.API.V2;
-
+using System.Linq;
 #endregion
 
 namespace Waveface
@@ -241,10 +241,13 @@ namespace Waveface
 
 					Image _img = Image.FromStream(_wRep.GetResponseStream());
 
-					if (!File.Exists(_localPath))
+					if (Environment.GetCommandLineArgs().Length == 1)
 					{
-						_img.Save(_localPath);
-					}
+						if (!File.Exists(_localPath))
+						{
+							_img.Save(_localPath);
+						}
+					}			
 
 					_img = null;
 
