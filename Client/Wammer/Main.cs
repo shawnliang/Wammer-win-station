@@ -188,11 +188,14 @@ namespace Waveface
         {
             postsArea.PostsList.DetailView = detailView;
 
-            //NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+			if (Environment.GetCommandLineArgs().Length == 1)
+			{
+				NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 
-            //UpdateNetworkStatus();
+				UpdateNetworkStatus();
+			}
 
-            // InitDropableNotifyIcon();
+            //InitDropableNotifyIcon();
 
             m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
 
