@@ -34,35 +34,26 @@ namespace Wammer.Station
 
 				string key = arg.attachment.object_id + arg.imagemeta;
 
-				bool enqueued = false;
-
-				if (arg.imagemeta == Model.ImageMeta.Small || arg.imagemeta == Model.ImageMeta.Medium)
+				if (keys.Add(key))
 				{
-					lock (highPriorityCallbacks)
+					if (arg.imagemeta == Model.ImageMeta.Small || arg.imagemeta == Model.ImageMeta.Medium)
 					{
-						if (keys.Add(key))
+						lock (highPriorityCallbacks)
 						{
 							highPriorityCallbacks.Enqueue(new SimpleTask(cb, state));
-							enqueued = true;
+							OnEnqueued(EventArgs.Empty);
+							hasItem.Release();
 						}
 					}
-				}
-				else
-				{
-					lock (lowPriorityCallbacks)
+					else
 					{
-						if (keys.Add(key))
+						lock (lowPriorityCallbacks)
 						{
 							lowPriorityCallbacks.Enqueue(new SimpleTask(cb, state));
-							enqueued = true;
+							OnEnqueued(EventArgs.Empty);
+							hasItem.Release();
 						}
 					}
-				}
-
-				if (enqueued)
-				{
-					hasItem.Release();
-					OnEnqueued(EventArgs.Empty);
 				}
 			}
 			catch (InvalidCastException e)
@@ -75,23 +66,18 @@ namespace Wammer.Station
 		{
 			hasItem.WaitOne();
 
-			SimpleTask task;
 			lock (highPriorityCallbacks)
 			{
 				if (highPriorityCallbacks.Count > 0)
 				{
-					task = highPriorityCallbacks.Dequeue();
-				}
-				else
-				{
-					lock (lowPriorityCallbacks)
-					{
-						task = lowPriorityCallbacks.Dequeue();
-					}
+					return highPriorityCallbacks.Dequeue();
 				}
 			}
 
-			return task;
+			lock (lowPriorityCallbacks)
+			{
+				return lowPriorityCallbacks.Dequeue();
+			}
 		}
 
 		private void OnEnqueued(EventArgs arg)

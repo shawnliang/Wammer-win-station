@@ -49,7 +49,7 @@ namespace Wammer.Station.Timeline
 			if (user == null)
 				throw new ArgumentNullException("user");
 
-			if (user.sync_range != null && user.sync_range.first_post_time != DateTime.MinValue)
+			if (user.sync_range != null && user.sync_range.first_post_time.HasValue)
 				throw new InvalidOperationException("Has already pulled the oldest post");
 
 			using (WebClient agent = new DefaultWebClient())
@@ -72,7 +72,7 @@ namespace Wammer.Station.Timeline
 					{
 						start_time = res.posts.Last().timestamp,
 						end_time = (user.sync_range == null) ? res.posts.First().timestamp : user.sync_range.end_time,
-						first_post_time = res.HasMoreData ? DateTime.MinValue : res.posts.Last().timestamp
+						first_post_time = (res.HasMoreData) ? null as Nullable<DateTime> : res.posts.Last().timestamp
 					});
 			}
 		}
@@ -179,7 +179,7 @@ namespace Wammer.Station.Timeline
 
 		private static bool HasUnsyncedOldPosts(Driver user)
 		{
-			return user.sync_range.first_post_time == DateTime.MinValue;
+			return !user.sync_range.first_post_time.HasValue;
 		}
 
 		private static bool HasNeverSynced(Driver user)

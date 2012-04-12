@@ -80,8 +80,8 @@ namespace Waveface
             //Test - ToDo
             Main.Current.checkNewPosts();
 
-            if (!Main.Current.CheckNetworkStatus())
-                return;
+			//if (!Main.Current.CheckNetworkStatus())
+			//    return;
 
             Main.Current.ReloadAllData();
         }

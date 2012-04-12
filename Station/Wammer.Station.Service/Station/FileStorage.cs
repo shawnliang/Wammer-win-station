@@ -53,6 +53,14 @@ namespace Wammer.Station
             System.IO.File.Move(tempFile, filePath);
 		}
 
+		public static string GetTempFile(Driver user)
+		{
+			if (user == null || user.folder == null)
+				throw new ArgumentNullException("user or user.folder is null");
+
+			return Path.Combine(user.folder, "temp_" + Guid.NewGuid().ToString());
+		}
+
 		public FileStream Load(string filename)
 		{
 			string filePath = Path.Combine(basePath, filename);

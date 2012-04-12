@@ -35,6 +35,8 @@ namespace Wammer.Cloud
 
 		public static string SessionToken { get; set; }
 
+		private static bool isOffline = false;
+
 		/// <summary>
 		/// Gets or sets wammer cloud base url
 		/// </summary>
@@ -147,13 +149,42 @@ namespace Wammer.Cloud
 		/// <param name="parms">request parameter names and values.
 		///	They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <returns>Response value</returns>
-		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms)
+		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms, bool checkOffline = true)
 		{
-			return ConvertFromJson<T>(requestPath(agent, path, parms));
+			if (checkOffline)
+			{
+				if (isOffline)
+				{
+					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+				}
+			}
+
+			try
+			{
+				T res = ConvertFromJson<T>(requestPath(agent, path, parms));
+				isOffline = false;
+				return res;
+			}
+			catch (WammerCloudException e)
+			{
+				if (e.InnerException != null && e.InnerException is WebException && e.HttpError != WebExceptionStatus.ProtocolError)
+				{
+					isOffline = true;
+				}
+				throw e;
+			}
 		}
 
-		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param, bool isGet)
+		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param, bool isGet, bool checkOffline = true)
 		{
+			if (checkOffline)
+			{
+				if (isOffline)
+				{
+					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+				}
+			}
+
 			if (param.Count == 0)
 				return request<T>(agent, url, "", isGet);
 
@@ -169,7 +200,20 @@ namespace Wammer.Cloud
 			// remove last &
 			buf.Remove(buf.Length - 1, 1);
 
-			return request<T>(agent, url, buf.ToString(), isGet);
+			try
+			{
+				T res = request<T>(agent, url, buf.ToString(), isGet);
+				isOffline = false;
+				return res;
+			}
+			catch (WammerCloudException e)
+			{
+				if (e.InnerException != null && e.InnerException is WebException && e.HttpError != WebExceptionStatus.ProtocolError)
+				{
+					isOffline = true;
+				}
+				throw e;
+			}
 		}
 
 		private static T request<T>(WebClient agent, string url, string parameters, bool isGet)
@@ -240,9 +284,39 @@ namespace Wammer.Cloud
 			return request(agent, url, buf.ToString());
 		}
 
-		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param)
+		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param, bool checkOffline = true)
 		{
-			return ConvertFromJson<T>(request(agent, url, param));
+			if (checkOffline)
+			{
+				if (isOffline)
+				{
+					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+				}
+			}
+
+			try
+			{
+				T res = ConvertFromJson<T>(request(agent, url, param));
+				isOffline = false;
+				return res;
+			}
+			catch (WammerCloudException e)
+			{
+				// UserTrack API always throws ArgumentOutOfRangeException exception... Orz
+				if (typeof(T) == typeof(UserTrackResponse))
+				{
+					if (e.InnerException != null && e.InnerException is ArgumentOutOfRangeException)
+					{
+						isOffline = false;
+					}
+				}
+
+				if (e.InnerException != null && e.InnerException is WebException && e.HttpError != WebExceptionStatus.ProtocolError)
+				{
+					isOffline = true;
+				}
+				throw e;
+			}
 		}
 
 		private static string request(WebClient agent, string url, string postData = "")

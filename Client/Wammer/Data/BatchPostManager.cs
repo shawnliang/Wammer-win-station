@@ -330,22 +330,25 @@ namespace Waveface
 
                             s_logger.Trace("[" + _tmpStamp + "]" + "Batch Upload Photo [" + _count + "]" + _file);
 
-                            // Cache Origin
-                            string _localFileOrigin = Path.Combine( Main.GCONST.ImageCachePath, _uf.object_id + "_" + _text);
-                            File.Copy(_file, _localFileOrigin);
+							if (Environment.GetCommandLineArgs().Length == 1)
+							{
+								// Cache Origin
+								string _localFileOrigin = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_" + _text);
+								File.Copy(_file, _localFileOrigin);
 
-                            // Cache Medium
-                            string _localFileMedium = Path.Combine(Main.GCONST.ImageCachePath , _uf.object_id + "_medium_" + _text);
-                            string _resizedMediumImageFilePath = ImageUtility.ResizeImage(_file, _text, "512", 100);
-                            File.Copy(_resizedMediumImageFilePath, _localFileMedium);
+								// Cache Medium
+								string _localFileMedium = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_medium_" + _text);
+								string _resizedMediumImageFilePath = ImageUtility.ResizeImage(_file, _text, "512", 100);
+								File.Copy(_resizedMediumImageFilePath, _localFileMedium);
 
-                            // Small
-                            if (_count == 0)
-                            {
-                                string _localFileSmall = Path.Combine(Main.GCONST.ImageCachePath , _uf.object_id + "_small_" + _text);
-                                string _resizedSmallImageFilePath = ImageUtility.ResizeImage(_file, _text, "120", 100);
-                                File.Copy(_resizedSmallImageFilePath, _localFileSmall);
-                            }
+								// Small
+								if (_count == 0)
+								{
+									string _localFileSmall = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_small_" + _text);
+									string _resizedSmallImageFilePath = ImageUtility.ResizeImage(_file, _text, "120", 100);
+									File.Copy(_resizedSmallImageFilePath, _localFileSmall);
+								}
+							}
 
                             Uploading = false;
                         }

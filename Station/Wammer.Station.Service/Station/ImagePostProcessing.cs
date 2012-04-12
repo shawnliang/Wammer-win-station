@@ -342,7 +342,7 @@ namespace Wammer.Station
 				SavedResult savedResult = new SavedResult 
 				{ 
 					SavedRawData = m.ToArray(),
-					FileName = string.Format("{0}_{1}.jpeg", attchId, meta.ToString().ToLower()),
+					FileName = string.Format("{0}_{1}.jpg", attchId, meta.ToString().ToLower()),
 					MimeType = "image/jpeg"
 				};
 
