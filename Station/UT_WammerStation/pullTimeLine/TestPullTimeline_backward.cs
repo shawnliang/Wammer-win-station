@@ -181,7 +181,7 @@ namespace UT_WammerStation.pullTimeLine
 			// verify driver's sync range is updated
 			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.end_time);
 			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.start_time);
-			Assert.AreEqual(DateTime.MinValue, db.UpdateSyncRange_syncRange.first_post_time);
+			Assert.IsFalse(db.UpdateSyncRange_syncRange.first_post_time.HasValue);
 		}
 
 		[TestMethod]
@@ -231,7 +231,7 @@ namespace UT_WammerStation.pullTimeLine
 			Assert.AreEqual(user.user_id, db.UpdateSyncRange_userId);
 			Assert.AreEqual(oldestPost.timestamp, db.UpdateSyncRange_syncRange.start_time);
 			Assert.AreEqual(user.sync_range.end_time, db.UpdateSyncRange_syncRange.end_time);
-			Assert.AreEqual(DateTime.MinValue, db.UpdateSyncRange_syncRange.first_post_time);
+			Assert.IsFalse(db.UpdateSyncRange_syncRange.first_post_time.HasValue);
 		}
 
 		[TestMethod]
