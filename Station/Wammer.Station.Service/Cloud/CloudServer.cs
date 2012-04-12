@@ -133,11 +133,32 @@ namespace Wammer.Cloud
 		/// <param name="parms">request parameter names and values.
 		///	They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <returns>Response value</returns>
-		public static string requestPath(WebClient agent, string path, Dictionary<object, object> parms)
+		public static string requestPath(WebClient agent, string path, Dictionary<object, object> parms, bool checkOffline = true)
 		{
+			if (checkOffline)
+			{
+				if (isOffline)
+				{
+					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+				}
+			}
+
 			string url = CloudServer.BaseUrl + path;
 
-			return request(agent, url, parms);
+			try
+			{
+				string res = request(agent, url, parms);
+				isOffline = false;
+				return res;
+			}
+			catch (WammerCloudException e)
+			{
+				if (e.InnerException != null && e.InnerException is WebException && e.HttpError != WebExceptionStatus.ProtocolError)
+				{
+					isOffline = true;
+				}
+				throw e;
+			}
 		}
 
 		/// <summary>
@@ -161,7 +182,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				T res = ConvertFromJson<T>(requestPath(agent, path, parms));
+				T res = ConvertFromJson<T>(requestPath(agent, path, parms, false));
 				isOffline = false;
 				return res;
 			}

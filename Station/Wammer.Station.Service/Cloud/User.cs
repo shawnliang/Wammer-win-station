@@ -51,7 +51,7 @@ namespace Wammer.Cloud
 			parameters.Add(CloudServer.PARAM_PASSWORD, passwd);
 			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
 
-			var json = CloudServer.requestPath(agent, "auth/login", parameters);
+			var json = CloudServer.requestPath(agent, "auth/login", parameters, false);
 
 			return new User(username, passwd, json);
 		}
