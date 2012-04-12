@@ -224,10 +224,9 @@ namespace Waveface.Component
 
                         if (_isCoverImage)
                         {
-                            using (Pen _pen = new Pen(Color.DeepPink, 2))
+                            using (Pen _pen = new Pen(Color.HotPink, 2))
                             {
-                                Utility.DrawRoundedRectangle(g, _pen, bounds.Left + 1, bounds.Top + 1, bounds.Width - 2,
-                                                             bounds.Height - 2, 4);
+                                g.DrawRectangle(_pen, bounds.Left + 3, bounds.Top + 3, bounds.Width - 6, bounds.Height - 6);
                             }
                         }
                     }
@@ -244,15 +243,15 @@ namespace Waveface.Component
 
                     if (item.Tag is EditModeImageListViewItemTag)
                     {
-                        EditModePhotoType _type = ((EditModeImageListViewItemTag) item.Tag).AddPhotoType;
+                        EditModePhotoType _type = ((EditModeImageListViewItemTag)item.Tag).AddPhotoType;
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
                         {
-                            FillRoundedCorner(g, new SolidBrush(Color.FromArgb(222, 222, 214)), bounds.Left, bounds.Top,
+                            FillRoundedCorner(g, new SolidBrush(Color.Violet), bounds.Left, bounds.Top,
                                               16, 16, 4);
 
                             g.DrawString("+", new Font("Tahoma", 10, FontStyle.Bold),
-                                         new SolidBrush(Color.FromArgb(104, 176, 197)), bounds.Left, bounds.Top);
+                                         new SolidBrush(Color.White), bounds.Left - 1, bounds.Top - 1);
                         }
                     }
                 }
@@ -333,13 +332,13 @@ namespace Waveface.Component
 
         internal static Size GetSizedImageBounds(Image image, Size fit)
         {
-            float _f = Math.Max(image.Width/(float) fit.Width, image.Height/(float) fit.Height);
+            float _f = Math.Max(image.Width / (float)fit.Width, image.Height / (float)fit.Height);
 
             if (_f < 1.0f)
                 _f = 1.0f; // Do not upsize small images
 
-            int _width = (int) Math.Round(image.Width/_f);
-            int _height = (int) Math.Round(image.Height/_f);
+            int _width = (int)Math.Round(image.Width / _f);
+            int _height = (int)Math.Round(image.Height / _f);
             return new Size(_width, _height);
         }
 
@@ -352,8 +351,8 @@ namespace Waveface.Component
                 throw new ArgumentException("vAlign must be between 0.0 and 100.0 (inclusive).", "vAlign");
 
             Size _scaled = GetSizedImageBounds(image, fit.Size);
-            int _x = fit.Left + (int) (hAlign/100.0f*(fit.Width - _scaled.Width));
-            int _y = fit.Top + (int) (vAlign/100.0f*(fit.Height - _scaled.Height));
+            int _x = fit.Left + (int)(hAlign / 100.0f * (fit.Width - _scaled.Width));
+            int _y = fit.Top + (int)(vAlign / 100.0f * (fit.Height - _scaled.Height));
 
             return new Rectangle(_x, _y, _scaled.Width, _scaled.Height);
         }

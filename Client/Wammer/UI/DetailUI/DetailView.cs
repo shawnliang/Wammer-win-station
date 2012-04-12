@@ -97,6 +97,9 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelTop = new System.Windows.Forms.Panel();
+            this.btnMoreOptions = new Waveface.Component.ImageButton();
+            this.btnFavorite = new Waveface.Component.ImageButton();
+            this.btnEdit = new Waveface.Component.ImageButton();
             this.labelTitle = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
@@ -105,9 +108,6 @@ namespace Waveface
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemovePost = new System.Windows.Forms.ToolStripMenuItem();
             this.miAddFootnote = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnMoreOptions = new Waveface.Component.ImageButton();
-            this.btnFavorite = new Waveface.Component.ImageButton();
-            this.btnEdit = new Waveface.Component.ImageButton();
             this.panelTop.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -123,6 +123,41 @@ namespace Waveface
             this.panelTop.Name = "panelTop";
             this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
             this.panelTop.Resize += new System.EventHandler(this.panelTop_Resize);
+            // 
+            // btnMoreOptions
+            // 
+            resources.ApplyResources(this.btnMoreOptions, "btnMoreOptions");
+            this.btnMoreOptions.BackColor = System.Drawing.SystemColors.Control;
+            this.btnMoreOptions.Image = global::Waveface.Properties.Resources.FB_moreoption;
+            this.btnMoreOptions.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
+            this.btnMoreOptions.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
+            this.btnMoreOptions.Name = "btnMoreOptions";
+            this.btnMoreOptions.TabStop = false;
+            this.btnMoreOptions.Click += new System.EventHandler(this.btnMoreOptions_Click);
+            // 
+            // btnFavorite
+            // 
+            resources.ApplyResources(this.btnFavorite, "btnFavorite");
+            this.btnFavorite.BackColor = System.Drawing.SystemColors.Control;
+            this.btnFavorite.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFavorite.Image = global::Waveface.Properties.Resources.FB_fav;
+            this.btnFavorite.ImageDisable = global::Waveface.Properties.Resources.FB_fav_hl;
+            this.btnFavorite.ImageHover = global::Waveface.Properties.Resources.FB_fav_hl;
+            this.btnFavorite.Name = "btnFavorite";
+            this.btnFavorite.TabStop = false;
+            this.btnFavorite.Click += new System.EventHandler(this.btnFavorite_Click);
+            // 
+            // btnEdit
+            // 
+            resources.ApplyResources(this.btnEdit, "btnEdit");
+            this.btnEdit.BackColor = System.Drawing.SystemColors.Control;
+            this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEdit.Image = ((System.Drawing.Image)(resources.GetObject("btnEdit.Image")));
+            this.btnEdit.ImageDisable = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageDisable")));
+            this.btnEdit.ImageHover = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageHover")));
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.TabStop = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // labelTitle
             // 
@@ -170,44 +205,10 @@ namespace Waveface
             // 
             // miAddFootnote
             // 
+            this.miAddFootnote.Image = global::Waveface.Properties.Resources.FB_edit_footnote;
             this.miAddFootnote.Name = "miAddFootnote";
             resources.ApplyResources(this.miAddFootnote, "miAddFootnote");
             this.miAddFootnote.Click += new System.EventHandler(this.miAddFootnote_Click);
-            // 
-            // btnMoreOptions
-            // 
-            resources.ApplyResources(this.btnMoreOptions, "btnMoreOptions");
-            this.btnMoreOptions.BackColor = System.Drawing.SystemColors.Control;
-            this.btnMoreOptions.Image = global::Waveface.Properties.Resources.FB_moreoption;
-            this.btnMoreOptions.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
-            this.btnMoreOptions.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
-            this.btnMoreOptions.Name = "btnMoreOptions";
-            this.btnMoreOptions.TabStop = false;
-            this.btnMoreOptions.Click += new System.EventHandler(this.btnMoreOptions_Click);
-            // 
-            // btnFavorite
-            // 
-            resources.ApplyResources(this.btnFavorite, "btnFavorite");
-            this.btnFavorite.BackColor = System.Drawing.SystemColors.Control;
-            this.btnFavorite.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnFavorite.Image = global::Waveface.Properties.Resources.FB_fav;
-            this.btnFavorite.ImageDisable = global::Waveface.Properties.Resources.FB_fav_hl;
-            this.btnFavorite.ImageHover = global::Waveface.Properties.Resources.FB_fav_hl;
-            this.btnFavorite.Name = "btnFavorite";
-            this.btnFavorite.TabStop = false;
-            this.btnFavorite.Click += new System.EventHandler(this.btnFavorite_Click);
-            // 
-            // btnEdit
-            // 
-            resources.ApplyResources(this.btnEdit, "btnEdit");
-            this.btnEdit.BackColor = System.Drawing.SystemColors.Control;
-            this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEdit.Image = ((System.Drawing.Image)(resources.GetObject("btnEdit.Image")));
-            this.btnEdit.ImageDisable = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageDisable")));
-            this.btnEdit.ImageHover = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageHover")));
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.TabStop = false;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // DetailView
             // 

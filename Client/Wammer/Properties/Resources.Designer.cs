@@ -214,6 +214,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_edit_footnote {
+            get {
+                object obj = ResourceManager.GetObject("FB_edit_footnote", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_edit_footnote_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_edit_footnote_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_edit_hl {
             get {
                 object obj = ResourceManager.GetObject("FB_edit_hl", resourceCulture);
@@ -273,6 +287,20 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap FB_remove_hl {
             get {
                 object obj = ResourceManager.GetObject("FB_remove_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_slide {
+            get {
+                object obj = ResourceManager.GetObject("FB_slide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_slide_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_slide_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

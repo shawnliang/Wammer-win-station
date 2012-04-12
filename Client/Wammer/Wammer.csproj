@@ -928,6 +928,8 @@
     <None Include="Resources\unfav.png" />
     <None Include="Resources\divider.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
+    <None Include="Resources\FlatButton\FB_edit_footnote.png" />
+    <None Include="Resources\FlatButton\FB_edit_footnote_hl.png" />
     <Content Include="Resources\FlatButton\FB_edit_hl.png" />
     <Content Include="Resources\FlatButton\FB_fav.png" />
     <Content Include="Resources\FlatButton\FB_fav_hl.png" />
@@ -937,6 +939,8 @@
     <None Include="Resources\FlatButton\FB_openin_hl.png" />
     <Content Include="Resources\FlatButton\FB_remove.png" />
     <Content Include="Resources\FlatButton\FB_remove_hl.png" />
+    <None Include="Resources\FlatButton\FB_slide.png" />
+    <None Include="Resources\FlatButton\FB_slide_hl.png" />
     <Content Include="Resources\FlatButton\FB_unfav.png" />
     <Content Include="Resources\FlatButton\FB_unfav_hl.png" />
     <Content Include="WavefaceML.xml">

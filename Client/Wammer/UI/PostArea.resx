@@ -343,7 +343,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="postList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>376, 424</value>
+    <value>378, 426</value>
   </data>
   <data name="postList.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>

@@ -595,7 +595,7 @@ namespace Waveface.DetailUI
                         m_post = _retPost;
                     }
 
-                    MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Main.Current.ShowStatuMessage(I18n.L.T("ChangedCoverImageOK"), true);
                 }
                 catch
                 {

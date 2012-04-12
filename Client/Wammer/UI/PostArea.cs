@@ -25,6 +25,8 @@ namespace Waveface
             //m_init = true;
 
             show_labelStatus(false);
+
+            postList.BorderStyle = BorderStyle.None;
         }
 
         public void ShowTypeUI(bool flag)

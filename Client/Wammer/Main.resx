@@ -140,9 +140,6 @@
   <data name="postsArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="postsArea.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>337, 2</value>
-  </data>
   <data name="postsArea.Size" type="System.Drawing.Size, System.Drawing">
     <value>337, 488</value>
   </data>
@@ -358,19 +355,19 @@
     <value>283, 21</value>
   </metadata>
   <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="regionMenuItem.Text" xml:space="preserve">
     <value>Region</value>
   </data>
   <data name="windowsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="windowsMenuItem.Text" xml:space="preserve">
     <value>Windows</value>
   </data>
   <data name="screenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="screenMenuItem.Text" xml:space="preserve">
     <value>Desktop</value>
