@@ -51,7 +51,7 @@ namespace Wammer.Station
 				driver = driver,
 				attachment = attachment,
 				imagemeta = meta,
-				filepath = Path.GetTempFileName()
+				filepath = FileStorage.GetTempFile(driver)
 			};
 			bodySyncQueue.Enqueue(DownstreamResource, evtargs);
 		}
@@ -196,7 +196,7 @@ namespace Wammer.Station
 				else
 				{
 					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
-					evtargs.filepath = Path.GetTempFileName();
+					evtargs.filepath = FileStorage.GetTempFile(evtargs.driver);
 					bodySyncQueue.Enqueue(DownstreamResource, evtargs);
 				}
 			}
