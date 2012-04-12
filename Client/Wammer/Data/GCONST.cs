@@ -106,7 +106,7 @@ namespace Waveface
 			ImageCachePath = Path.Combine(AssemblyPath, ImageCachePath);
 			ImageCachePath = Path.Combine(ImageCachePath, "user_" + user.user_id);
 
-            Directory.CreateDirectory(ImageCachePath);
+            //Directory.CreateDirectory(ImageCachePath);
 
 			//string[] _filePaths = Directory.GetFiles(ImageCachePath);
 
