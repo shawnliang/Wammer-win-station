@@ -155,7 +155,7 @@ namespace Wammer.Cloud
 			{
 				if (isOffline)
 				{
-					throw new WammerCloudException("Station is in offline mode");
+					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -181,7 +181,7 @@ namespace Wammer.Cloud
 			{
 				if (isOffline)
 				{
-					throw new WammerCloudException("Station is in offline mode");
+					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -290,7 +290,7 @@ namespace Wammer.Cloud
 			{
 				if (isOffline)
 				{
-					throw new WammerCloudException("station is in offline mode");
+					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
