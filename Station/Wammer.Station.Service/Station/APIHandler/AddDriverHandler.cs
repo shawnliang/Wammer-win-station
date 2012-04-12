@@ -93,6 +93,9 @@ namespace Wammer.Station
 						ref_count = 1
 					};
 
+					if (!Directory.Exists(driver.folder))
+						Directory.CreateDirectory(driver.folder);
+
 					OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
 
 					DriverCollection.Instance.Save(driver);
