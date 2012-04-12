@@ -29,7 +29,7 @@ namespace Wammer.Cloud
 			else
 				parameters.Add("since", since);
 
-			return CloudServer.request<UserTrackResponse>(agent, CloudServer.BaseUrl + "usertracks/get", parameters);
+			return CloudServer.request<UserTrackResponse>(agent, CloudServer.BaseUrl + "usertracks/get", parameters, false);
 		}
 
 		public UserTrackResponse GetChangeHistory(WebClient agent, Wammer.Model.Driver user, DateTime since)
