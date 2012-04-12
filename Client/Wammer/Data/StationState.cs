@@ -58,8 +58,6 @@ namespace Waveface
 
                             NotifyState(ConnectServiceStateType.Cloud);
 
-                            //RefreshDownloadPhotosCache();
-
                             s_logger.Info("Station Disappear");
                         }
                     }
@@ -89,8 +87,6 @@ namespace Waveface
 
                                         NotifyState(ConnectServiceStateType.Station_LocalIP);
 
-                                        //RefreshDownloadPhotosCache();
-
                                         s_logger.Info("Station IP:" + _ip);
 
                                         Delay(5);
@@ -112,8 +108,6 @@ namespace Waveface
 
                                         NotifyState(ConnectServiceStateType.Station_UPnP);
 
-                                        //RefreshDownloadPhotosCache();
-
                                         s_logger.Info("Station IP(UPnP):" + _ip);
 
                                         Delay(10);
@@ -131,12 +125,6 @@ namespace Waveface
                     NLogUtility.Exception_Warn(s_logger, _e, "ThreadMethod", "");
                 }
             }
-        }
-
-        private static void RefreshDownloadPhotosCache()
-        {
-            Main.Current.PhotoDownloader.RemoveAll();
-            Main.Current.PrefetchImages();
         }
 
         private void NotifyState(ConnectServiceStateType type)
@@ -177,9 +165,16 @@ namespace Waveface
                     if (_station.status == "connected")
                     {
                         if (UPnP)
-                            _ip = _station.public_location;
+                        {
+                            if (string.IsNullOrEmpty(_station.public_location))
+                                return string.Empty;
+                            else
+                                _ip = _station.public_location;
+                        }
                         else
+                        {
                             _ip = _station.location;
+                        }
 
                         if (_ip.EndsWith("/"))
                             _ip = _ip.Substring(0, _ip.Length - 1);
