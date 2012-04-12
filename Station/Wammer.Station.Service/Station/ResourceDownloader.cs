@@ -165,6 +165,8 @@ namespace Wammer.Station
 		{
 			ResourceDownloadEventArgs evtargs = (ResourceDownloadEventArgs)state;
 			var meta = evtargs.imagemeta.ToString();
+			var oldFile = evtargs.filepath;
+
 			try
 			{
 				bool alreadyExist = AttachmentExists(evtargs);
@@ -194,8 +196,13 @@ namespace Wammer.Station
 				else
 				{
 					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
+					evtargs.filepath = Path.GetTempFileName();
 					bodySyncQueue.Enqueue(DownstreamResource, evtargs);
 				}
+			}
+			finally
+			{
+				File.Delete(oldFile);
 			}
 		}
 
