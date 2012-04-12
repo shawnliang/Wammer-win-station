@@ -125,7 +125,7 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public DateTime end_time { get; set; }
 		[BsonIgnoreIfNull]
-		public DateTime first_post_time { get; set; }
+		public Nullable<DateTime> first_post_time { get; set; }
 
 		public SyncRange Clone()
 		{

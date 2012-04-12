@@ -38,7 +38,7 @@ namespace Wammer.Cloud
 			};
 
 			PostFetchByFilterResponse res = 
-				CloudServer.requestPath<PostFetchByFilterResponse>(agent, "posts/fetchByFilter", parameters);
+				CloudServer.requestPath<PostFetchByFilterResponse>(agent, "posts/fetchByFilter", parameters, false);
 			return res;
 		}
 
@@ -56,7 +56,7 @@ namespace Wammer.Cloud
 			};
 
 			PostFetchByFilterResponse res =
-				CloudServer.requestPath<PostFetchByFilterResponse>(agent, "posts/fetchByFilter", parameters);
+				CloudServer.requestPath<PostFetchByFilterResponse>(agent, "posts/fetchByFilter", parameters, false);
 			return res;
 		}
 
@@ -71,7 +71,7 @@ namespace Wammer.Cloud
 			};
 
 			PostGetLatestResponse res = 
-				CloudServer.requestPath<PostGetLatestResponse>(agent, "posts/getLatest", parameters);
+				CloudServer.requestPath<PostGetLatestResponse>(agent, "posts/getLatest", parameters, false);
 			return res;
 		}
 

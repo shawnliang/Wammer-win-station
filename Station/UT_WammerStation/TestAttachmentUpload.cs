@@ -201,7 +201,7 @@ namespace UT_WammerStation
 					}
 
 
-					using (Bitmap mediumImg = new Bitmap(Path.Combine(@"resource\group1", res.object_id + "_medium.jpeg")))
+					using (Bitmap mediumImg = new Bitmap(Path.Combine(@"resource\group1", res.object_id + "_medium.jpg")))
 					{
 						Assert.AreEqual(512, mediumImg.Width);
 						Assert.AreEqual(384, mediumImg.Height);
