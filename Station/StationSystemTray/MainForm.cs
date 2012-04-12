@@ -527,8 +527,6 @@ namespace StationSystemTray
 				menuServiceAction.Text = I18n.L.T("PauseWFService");
 
 				menuServiceAction.Enabled = true;
-
-				StationController.StationOnline();
 			}
 		}
 
@@ -1132,7 +1130,7 @@ namespace StationSystemTray
 
 		protected override object Action(object obj)
 		{
-			//StationController.StationOnline();
+			StationController.StationOnline();
 			return null;
 		}
 
