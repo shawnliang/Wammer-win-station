@@ -457,6 +457,7 @@ namespace Waveface.PostUI
 
         public void AddPhoto()
         {
+			openFileDialog.RestoreDirectory = true;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 AddPhotos(openFileDialog.FileNames, -1);
