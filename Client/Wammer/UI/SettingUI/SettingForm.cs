@@ -75,14 +75,18 @@ namespace Waveface.SettingUI
             else
             {
                 if (storage.quota < 0)
+                {
                     label_MonthlyLimitValue.Text = I18n.L.T("MonthlyUsage_Unlimited");
+                    barCloudUsage.Value = (int)(storage.usage * 100 / int.MaxValue);
+                }
                 else
+                {
                     label_MonthlyLimitValue.Text = storage.quota.ToString();
+                    barCloudUsage.Value = (int)(storage.usage * 100 / storage.quota);
+                }
 
                 label_DaysLeftValue.Text = storage.daysLeft.ToString();
                 label_UsedCountValue.Text = storage.usage.ToString();
-
-                barCloudUsage.Value = (int) (storage.usage*100/storage.quota);
 
                 lblLoadingUsage.Visible = false;
                 label_MonthlyLimit.Visible = true;
