@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventTest.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />
     <Compile Include="pullTimeLine\TestPullTimeline_forward.cs" />
     <Compile Include="TestAttachmentViewApi.cs" />

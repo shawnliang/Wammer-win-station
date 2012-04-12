@@ -80,8 +80,8 @@ namespace Waveface
 
         public MR_auth_login Auth_Login(string email, string password)
         {
-            if (!IsNetworkAvailable)
-                return null;
+			//if (!IsNetworkAvailable)
+			//    return null;
 
             MR_auth_login _ret = null;
 

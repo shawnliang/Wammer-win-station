@@ -188,9 +188,9 @@ namespace Waveface
         {
             postsArea.PostsList.DetailView = detailView;
 
-            NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+            //NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 
-            UpdateNetworkStatus();
+            //UpdateNetworkStatus();
 
             // InitDropableNotifyIcon();
 
@@ -211,10 +211,10 @@ namespace Waveface
                 case (Keys.Control | Keys.N):
                     if (RT.Login != null)
                     {
-                        if (CheckNetworkStatus())
-                        {
+						//if (CheckNetworkStatus())
+						//{
                             Post();
-                        }
+						//}
                     }
 
                     return true;
@@ -424,8 +424,8 @@ namespace Waveface
 
         public void Setting()
         {
-            if (!Current.CheckNetworkStatus())
-                return;
+			//if (!Current.CheckNetworkStatus())
+			//    return;
 
             m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
@@ -539,46 +539,46 @@ namespace Waveface
 
         public void UpdateNetworkStatus()
         {
-            if (NetworkInterface.GetIsNetworkAvailable())
-            {
-                RT.REST.IsNetworkAvailable = true;
+			//if (NetworkInterface.GetIsNetworkAvailable())
+			//{
+			    RT.REST.IsNetworkAvailable = true;
 
-                StatusLabelNetwork.Text = I18n.L.T("NetworkConnected");
-                StatusLabelNetwork.Image = Resources.network_receive;
+			StatusLabelNetwork.Text = I18n.L.T("NetworkConnected");
+			StatusLabelNetwork.Image = Resources.network_receive;
 
-                StatusLabelServiceStatus.Visible = true;
+			StatusLabelServiceStatus.Visible = true;
 
-                s_logger.Info("UpdateNetworkStatus: Connected");
-            }
-            else
-            {
-                RT.REST.IsNetworkAvailable = false;
+			//    s_logger.Info("UpdateNetworkStatus: Connected");
+			//}
+			//else
+			//{
+			//    RT.REST.IsNetworkAvailable = false;
 
-                StatusLabelNetwork.Text = I18n.L.T("NetworkDisconnected");
-                StatusLabelNetwork.Image = Resources.network_error;
+			//    StatusLabelNetwork.Text = I18n.L.T("NetworkDisconnected");
+			//    StatusLabelNetwork.Image = Resources.network_error;
 
-                StatusLabelServiceStatus.Visible = false;
+			//    StatusLabelServiceStatus.Visible = false;
 
-                s_logger.Info("UpdateNetworkStatus: Disconnected");
-            }
+			//    s_logger.Info("UpdateNetworkStatus: Disconnected");
+			//}
         }
 
         public bool CheckNetworkStatus()
         {
-            if (RT.REST.IsNetworkAvailable)
-            {
+			//if (RT.REST.IsNetworkAvailable)
+			//{
                 return true;
-            }
-            else
-            {
-                Invoke(new MethodInvoker(() =>
-                {
-                    MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-                }));
+			//}
+			//else
+			//{
+			//    Invoke(new MethodInvoker(() =>
+			//    {
+			//        MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK,
+			//                    MessageBoxIcon.Warning);
+			//    }));
 
-                return false;
-            }
+			//    return false;
+			//}
         }
 
         private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
@@ -1139,8 +1139,8 @@ namespace Waveface
         {
             string _time = post.timestamp;
 
-            if (!CheckNetworkStatus())
-                return _time;
+			//if (!CheckNetworkStatus())
+			//    return _time;
 
             try
             {
@@ -1163,8 +1163,8 @@ namespace Waveface
 
         public Post PostUpdate(Post post, Dictionary<string, string> optionalParams, bool refreshUI)
         {
-            if (!CheckNetworkStatus())
-                return null;
+			//if (!CheckNetworkStatus())
+			//    return null;
 
             MR_posts_update _update = null;
 
@@ -1197,8 +1197,8 @@ namespace Waveface
 
         public bool ChangePostFavorite(Post post, bool refreshUI)
         {
-            if (!CheckNetworkStatus())
-                return false;
+			//if (!CheckNetworkStatus())
+			//    return false;
 
             try
             {
@@ -1239,8 +1239,8 @@ namespace Waveface
 
         public bool HidePost(string postId)
         {
-            if (!CheckNetworkStatus())
-                return false;
+			//if (!CheckNetworkStatus())
+			//    return false;
 
             MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
 
@@ -1330,8 +1330,8 @@ namespace Waveface
 
         public bool checkNewPosts()
         {
-            if (!CheckNetworkStatus())
-                return false;
+			//if (!CheckNetworkStatus())
+			//    return false;
 
             if (RT.CurrentGroupPosts.Count == 0)
                 return false;
@@ -1497,8 +1497,8 @@ namespace Waveface
 
 			try
 			{
-				if (!CheckNetworkStatus())
-					return;
+				//if (!CheckNetworkStatus())
+				//    return;
 
 
 
