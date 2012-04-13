@@ -13,7 +13,7 @@ namespace Wammer.MultiPart
 		public Serializer(Stream output)
 		{
 			if (output == null)
-				throw new ArgumentNullException();
+				throw new ArgumentNullException("output");
 
 			this.output = output;
 			boundary = Guid.NewGuid().ToString("N");
@@ -23,7 +23,7 @@ namespace Wammer.MultiPart
 		public Serializer(Stream output, string boundary)
 		{
 			if (output == null)
-				throw new ArgumentNullException();
+				throw new ArgumentNullException("output");
 
 			this.output = output;
 			this.boundary = boundary;

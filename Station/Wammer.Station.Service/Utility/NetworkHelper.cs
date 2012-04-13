@@ -7,13 +7,27 @@ using System.Net.NetworkInformation;
 
 namespace Wammer.Utility
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	public class NetworkHelper
 	{
+		#region Const
+		const string BASE_URL_PATTERN = "http://{0}:9981";
+		const string STATIC_IP_KEY = "staticIP";
+		#endregion
+
+
 		#region Private Static Var
 		private static IEnumerable<String> _localIPAddresses;
 		#endregion
 
+
 		#region Private Static Property
+		/// <summary>
+		/// Gets or sets the m_localIP addresses.
+		/// </summary>
+		/// <value>The m_localIP addresses.</value>
 		private static IEnumerable<String> m_LocalIPAddresses
 		{
 			get
@@ -29,10 +43,19 @@ namespace Wammer.Utility
 				_localIPAddresses = value;
 			}
 		}
+
+		/// <summary>
+		/// Gets or sets the m_baseURL.
+		/// </summary>
+		/// <value>The m_baseURL.</value>
+		private static String m_BaseURL { get; set; }
 		#endregion
 
 
 		#region Static Constructor
+		/// <summary>
+		/// Initializes the <see cref="NetworkHelper"/> class.
+		/// </summary>
 		static NetworkHelper()
 		{
 			NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(NetworkChange_NetworkAddressChanged);
@@ -42,6 +65,19 @@ namespace Wammer.Utility
 
 
 		#region Private Static Method
+		/// <summary>
+		/// Resets this instance.
+		/// </summary>
+		private static void Reset()
+		{
+			m_LocalIPAddresses = null;
+			m_BaseURL = null;
+		}
+
+		/// <summary>
+		/// Gets the local IP addresses.
+		/// </summary>
+		/// <returns></returns>
 		private static IEnumerable<String> GetLocalIPAddresses()
 		{
 			return (from adapter in NetworkInterface.GetAllNetworkInterfaces()
@@ -54,39 +90,62 @@ namespace Wammer.Utility
 		} 
 		#endregion
 
+
 		#region Public Static Method
+		/// <summary>
+		/// Gets the base URL.
+		/// </summary>
+		/// <returns></returns>
 		public static string GetBaseURL()
 		{
-			const string BASE_URL_PATTERN = "http://{0}:9981";
-			const string STATIC_IP_KEY = "staticIP";
+			if (m_BaseURL != null)
+				return m_BaseURL;
+
+			// set local lambda function to get final ip address
+			Func<string, String> getBaseIPAddress = (ip) => 
+			{
+				m_BaseURL = string.Format(BASE_URL_PATTERN, ip);
+				return m_BaseURL;
+			};
 
 			// fix IP for testing
 			string staticIP = (string)StationRegistry.GetValue(STATIC_IP_KEY, string.Empty);
 			if (staticIP.Length > 0)
 			{
-				return string.Format(BASE_URL_PATTERN, staticIP);
+				return getBaseIPAddress(staticIP);
 			}
 
 			IEnumerable<String> addresses = m_LocalIPAddresses;
+			
+			string address = addresses.FirstOrDefault();
 
-			if (!addresses.Any())
-				return string.Empty;
+			if (String.IsNullOrEmpty(address))
+				return String.Empty;
 
-			string address = addresses.First();
-			return string.Format(BASE_URL_PATTERN, address);
+			return getBaseIPAddress(address);
 		} 
 		#endregion
 
 
 		#region Event Process
+		/// <summary>
+		/// Handles the NetworkAvailabilityChanged event of the NetworkChange control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.Net.NetworkInformation.NetworkAvailabilityEventArgs"/> instance containing the event data.</param>
 		static void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
 		{
-			m_LocalIPAddresses = null;
+			Reset();
 		}
 
+		/// <summary>
+		/// Handles the NetworkAddressChanged event of the NetworkChange control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		static void NetworkChange_NetworkAddressChanged(object sender, EventArgs e)
 		{
-			m_LocalIPAddresses = null;
+			Reset();
 		}
 		#endregion
 	}
