@@ -193,7 +193,6 @@ namespace Waveface
             this.miAddFootnote});
             this.contextMenuStrip.Name = "contextMenuStrip";
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
-            this.contextMenuStrip.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip_Closing);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // miRemovePost
@@ -593,6 +592,11 @@ namespace Waveface
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
+            while(contextMenuStrip.Items.Count > 2)
+            {
+                contextMenuStrip.Items.RemoveAt(contextMenuStrip.Items.Count - 1);
+            }
+
             List<ToolStripMenuItem> _items = m_currentView.GetMoreMenuItems();
 
             if (_items != null)
@@ -600,19 +604,6 @@ namespace Waveface
                 foreach (ToolStripMenuItem _item in _items)
                 {
                     contextMenuStrip.Items.Add(_item);
-                }
-            }
-        }
-
-        private void contextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
-        {
-            List<ToolStripMenuItem> _items = m_currentView.GetMoreMenuItems();
-
-            if (_items != null)
-            {
-                foreach (ToolStripMenuItem _item in _items)
-                {
-                    contextMenuStrip.Items.Remove(_item);
                 }
             }
         }
