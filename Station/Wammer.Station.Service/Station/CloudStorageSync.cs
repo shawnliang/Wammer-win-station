@@ -1,6 +1,6 @@
-﻿
-using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver.Builders;
 using Wammer.Model;
+using System;
 
 namespace Wammer.Station
 {
@@ -11,19 +11,26 @@ namespace Wammer.Station
 
 		public void HandleAttachmentSaved(object sender, AttachmentEventArgs evt)
 		{
-			// just for avoiding race condition, might cause bad performance
-			lock (cs)
+			try
 			{
-				CloudStorage cloudstorage = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
-				if (cloudstorage != null)
+				// just for avoiding race condition, might cause bad performance
+				lock (cs)
 				{
-					logger.DebugFormat("Trying to backup file {0} to Dropbox", evt.AttachmentId);
-					Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", evt.UserId));
-					Attachment file = AttachmentCollection.Instance.FindOne(Query.EQ("_id", evt.AttachmentId));
+					CloudStorage cloudstorage = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
+					if (cloudstorage != null)
+					{
+						logger.DebugFormat("Trying to backup file {0} to Dropbox", evt.AttachmentId);
+						Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", evt.UserId));
+						Attachment file = AttachmentCollection.Instance.FindOne(Query.EQ("_id", evt.AttachmentId));
 
-					if (user == null || file == null)
-						new DropboxFileStorage(user, cloudstorage).SaveAttachment(file);
+						if (user == null || file == null)
+							new DropboxFileStorage(user, cloudstorage).SaveAttachment(file);
+					}
 				}
+			}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Unable to save attachment to dropbox", e);
 			}
 		}
 	}
