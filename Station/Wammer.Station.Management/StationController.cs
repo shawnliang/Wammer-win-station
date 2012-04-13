@@ -266,9 +266,7 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -302,9 +300,7 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -334,9 +330,7 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -356,9 +350,7 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -381,9 +373,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -405,9 +395,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -426,9 +414,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -455,9 +441,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -481,9 +465,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -501,9 +483,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -515,9 +495,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -539,9 +517,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -563,9 +539,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}			
 		}
 
@@ -586,9 +560,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -609,9 +581,7 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -632,23 +602,21 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
-				ExtractApiRetMsg(e);
-
-				throw;
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
-		private static void ExtractApiRetMsg(Cloud.WammerCloudException e)
+		private static Exception ExtractApiRetMsg(Cloud.WammerCloudException e)
 		{
 			if (e.HttpError != WebExceptionStatus.ProtocolError)
 			{
 				if (e.InnerException != null)
 				{
-					throw new ConnectToCloudException(e.InnerException.Message);
+					return new ConnectToCloudException(e.InnerException.Message);
 				}
 				else
 				{
-					throw new ConnectToCloudException(e.Message);
+					return new ConnectToCloudException(e.Message);
 				}
 			}
 
@@ -670,33 +638,35 @@ namespace Wammer.Station.Management
 						switch (e.WammerError)
 						{
 							case ERR_BAD_NAME_PASSWORD:
-								throw new AuthenticationException(r.api_ret_message);
+								return new AuthenticationException(r.api_ret_message);
 							case ERR_USER_HAS_ANOTHER_STATION:
-								throw new UserAlreadyHasStationException(r.api_ret_message);
+								return new UserAlreadyHasStationException(r.api_ret_message);
 							case ERR_USER_DOES_NOT_EXIST:
-								throw new UserDoesNotExistException(r.api_ret_message);
+								return new UserDoesNotExistException(r.api_ret_message);
 							case (int)StationApiError.InvalidDriver:
-								throw new InvalidDriverException(r.api_ret_message);
+								return new InvalidDriverException(r.api_ret_message);
 							case (int)StationApiError.ConnectToCloudError:
-								throw new ConnectToCloudException(r.api_ret_message);
+								return new ConnectToCloudException(r.api_ret_message);
 							default:
-								throw new Exception(r.api_ret_message);
+								return new Exception(r.api_ret_message);
 						}
 					}
 					else if (webres.StatusCode == HttpStatusCode.Unauthorized)
 					{
-						throw new AuthenticationException("Authentication failure");
+						return new AuthenticationException("Authentication failure");
 					}
 					else if (webres.StatusCode == HttpStatusCode.ServiceUnavailable)
 					{
-						throw new UserAlreadyHasStationException("Driver already registered another station");
+						return new UserAlreadyHasStationException("Driver already registered another station");
 					}
 				}
 				else
 				{
-					throw new Exception(webex.Message);
+					return new Exception(webex.Message);
 				}
 			}
+
+			return e;
 		}
 		#region private accessors
 

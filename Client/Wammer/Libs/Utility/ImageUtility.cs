@@ -77,7 +77,7 @@ namespace Waveface
         {
             Image _img;
 
-            string _localAvatarPath = Path.Combine(Main.GCONST.ImageCachePath, creatorId + ".jpg");
+            string _localAvatarPath = Path.Combine(Main.GCONST.RunTimeDataPath, creatorId + ".jpg");
 
             if (File.Exists(_localAvatarPath))
             {
@@ -88,14 +88,14 @@ namespace Waveface
                 if (string.IsNullOrEmpty(avatarUrl))
                 {
                     return null;
-                }
-                else
-                {
-                    WebRequest _wReq = WebRequest.Create(avatarUrl);
-                    WebResponse _wRep = _wReq.GetResponse();
-                    _img = Image.FromStream(_wRep.GetResponseStream());
-                    _img.Save(_localAvatarPath);
-                }
+				}
+				else
+				{
+					WebRequest _wReq = WebRequest.Create(avatarUrl);
+					WebResponse _wRep = _wReq.GetResponse();
+					_img = Image.FromStream(_wRep.GetResponseStream());
+					_img.Save(_localAvatarPath);
+				}
             }
 
             return _img;

@@ -1476,11 +1476,11 @@ namespace Waveface
 
                 Image _img = _captureForm.Image;
 
-                string _pathToSave = Path.Combine(GCONST.ImageCachePath, _filename);
+                string _pathToSave = Path.Combine(GCONST.TempPath, _filename);
 
                 _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-                Post(new List<string> { Path.Combine(GCONST.ImageCachePath, _filename) }, PostType.Photo);
+				Post(new List<string> { _pathToSave }, PostType.Photo);
             }
             catch (Exception _e)
             {
