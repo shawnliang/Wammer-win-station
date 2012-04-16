@@ -91,6 +91,8 @@ namespace Wammer.Station.Service
 				InitCloudForwarder(cloudForwarder);
 
 				AttachmentDownloadMonitor downstreamMonitor = new AttachmentDownloadMonitor();
+				bodySyncTaskQueue.Enqueued += downstreamMonitor.OnDownstreamTaskEnqueued;
+
 				InitFunctionServerHandlers(attachmentHandler,cloudForwarder, downstreamMonitor);
 				
 
@@ -203,8 +205,6 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
 							viewHandler);
 			
-			bodySyncTaskQueue.Enqueued += downstreamMonitor.OnDownstreamTaskEnqueued;
-
 			viewHandler.FileDownloadStarted += downstreamMonitor.OnDownstreamTaskEnqueued;
 			viewHandler.FileDownloadInProgress += downstreamMonitor.OnDownstreamTaskInProgress;
 			viewHandler.FileDownloadFinished += downstreamMonitor.OnDownstreamTaskDone;

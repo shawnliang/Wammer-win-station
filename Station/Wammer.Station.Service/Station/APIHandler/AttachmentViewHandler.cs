@@ -111,6 +111,10 @@ namespace Wammer.Station
 				this.LogWarnMsg("Bad request: " + e.Message);
 				HttpHelper.RespondFailure(Response, e, (int)HttpStatusCode.BadRequest);
 			}
+			catch (FileNotFoundException)
+			{
+				TunnelToCloud(station_id, imageMeta);
+			}
 		}
 
 
