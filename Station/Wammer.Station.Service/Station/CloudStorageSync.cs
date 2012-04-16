@@ -13,24 +13,11 @@ namespace Wammer.Station
 		{
 			try
 			{
-				// just for avoiding race condition, might cause bad performance
-				lock (cs)
-				{
-					CloudStorage cloudstorage = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
-					if (cloudstorage != null)
-					{
-						logger.DebugFormat("Trying to backup file {0} to Dropbox", evt.AttachmentId);
-						Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", evt.UserId));
-						Attachment file = AttachmentCollection.Instance.FindOne(Query.EQ("_id", evt.AttachmentId));
-
-						if (user == null || file == null)
-							new DropboxFileStorage(user, cloudstorage).SaveAttachment(file);
-					}
-				}
+				TaskQueue.Enqueue(new SyncBodyToDropboxTask(evt), TaskPriority.Low, true);
 			}
 			catch (Exception e)
 			{
-				this.LogWarnMsg("Unable to save attachment to dropbox", e);
+				this.LogWarnMsg("Unable to enqueue SyncBodyToDropboxTask object", e);
 			}
 		}
 	}
@@ -64,11 +51,8 @@ namespace Wammer.Station
 					return;
 
 
-				if (cloudstorage != null)
-				{
-					logger.DebugFormat("Trying to backup file {0} to Dropbox", body.saved_file_name);
-					new DropboxFileStorage(user, cloudstorage).SaveAttachment(body);
-				}
+				logger.DebugFormat("Trying to backup file {0} to Dropbox", body.saved_file_name);
+				new DropboxFileStorage(user, cloudstorage).SaveAttachment(body);
 			}
 		}
 	}
