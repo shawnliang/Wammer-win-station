@@ -12,27 +12,9 @@ namespace Wammer.Station
 {
 	public class PostGetLatestHandler : HttpHandler
 	{
-		#region Private Property
-		private string m_StationID { get; set; }
-		private string m_ResourceBasePath { get; set; }
-		#endregion
-
 		private const int DEFAULT_LIMIT = 50;
 		private const int MAX_LIMIT = 200;
-
-		#region Constructor
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PostGetLatestHandler"/> class.
-		/// </summary>
-		/// <param name="stationId">The station id.</param>
-		/// <param name="resourceBasePath">The resource base path.</param>
-		public PostGetLatestHandler(string stationId = null, string resourceBasePath = null)
-		{
-			this.m_StationID = stationId;
-			this.m_ResourceBasePath = resourceBasePath;
-		}
-		#endregion
-		
+			
 
 		#region Protected Method
 		/// <summary>

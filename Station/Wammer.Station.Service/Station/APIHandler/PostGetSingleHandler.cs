@@ -11,26 +11,6 @@ namespace Wammer.Station
 {
 	public class PostGetSingleHandler : HttpHandler
 	{
-		#region Private Property
-		private string m_StationID { get; set; }
-		private string m_ResourceBasePath { get; set; }
-		#endregion
-
-
-		#region Constructor
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PostGetSingleHandler"/> class.
-		/// </summary>
-		/// <param name="stationId">The station id.</param>
-		/// <param name="resourceBasePath">The resource base path.</param>
-		public PostGetSingleHandler(string stationId = null, string resourceBasePath = null)
-		{
-			this.m_StationID = stationId;
-			this.m_ResourceBasePath = resourceBasePath;
-		}
-		#endregion
-		
-
 		#region Protected Method
 		/// <summary>
 		/// Handles the request.
