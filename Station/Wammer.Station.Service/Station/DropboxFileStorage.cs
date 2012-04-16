@@ -9,20 +9,17 @@ namespace Wammer.Station
 {
 	public class DropboxFileStorage : IFileStorage
 	{
-		//TODO: cloudstorage not use => remove argument
-		private log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxFileStorage));
 		private Driver driver;
-		//private CloudStorage cloudstorage;
 		private string basePath;
 
 		public DropboxFileStorage(Driver driver, CloudStorage cloudstorage)
 		{
 			this.driver = driver;
-			//this.cloudstorage = cloudstorage;
 			this.basePath = Path.Combine(cloudstorage.Folder, driver.folder);
+
 			if (!Directory.Exists(basePath))
 			{
-				logger.DebugFormat("Folder does not exist, create folder {0}", basePath);
+				this.LogDebugMsg("Folder does not exist, create folder " + basePath);
 				Directory.CreateDirectory(basePath);
 			}
 		}
@@ -45,7 +42,7 @@ namespace Wammer.Station
 					Path.Combine(driver.folder, attachment.saved_file_name),
 					SavedFilePath, true);
 
-				logger.DebugFormat("call setloc for file {0}", Path.GetFileName(SavedFilePath));
+				this.LogDebugMsg("call setloc for file " + Path.GetFileName(SavedFilePath));
 				AttachmentApi api = new AttachmentApi(driver);
 
 				using (WebClient client = new DefaultWebClient())
