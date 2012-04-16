@@ -30,29 +30,6 @@ namespace Wammer.Station
 		#endregion
 
 
-		#region Private Method
-		/// <summary>
-		/// Checks the parameter.
-		/// </summary>
-		/// <param name="arguementNames">The arguement names.</param>
-		private void CheckParameter(params string[] arguementNames)
-		{
-			if (arguementNames == null)
-				throw new ArgumentNullException("arguementNames");
-
-			var nullArgumentNames = from arguementName in arguementNames
-									where Parameters[arguementName] == null
-									select arguementName;
-
-			var IsAllParameterReady = !nullArgumentNames.Any();
-			if (!IsAllParameterReady)
-			{
-				throw new FormatException(string.Format("Parameter {0} is null.", string.Join("、", nullArgumentNames.ToArray())));
-			}
-		}
-		#endregion
-
-
 		#region Protected Method
 		/// <summary>
 		/// Handles the request.

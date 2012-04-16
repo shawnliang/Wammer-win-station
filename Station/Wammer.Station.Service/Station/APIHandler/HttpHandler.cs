@@ -7,6 +7,7 @@ using System.Text;
 using System.Web;
 using Wammer.MultiPart;
 using Wammer.Model;
+using System.Linq;
 
 namespace Wammer.Station
 {
@@ -46,6 +47,28 @@ namespace Wammer.Station
 		protected HttpHandler()
 		{
 		}
+
+		#region Protected Method
+		/// <summary>
+		/// Checks the parameter.
+		/// </summary>
+		/// <param name="arguementNames">The arguement names.</param>
+		protected void CheckParameter(params string[] arguementNames)
+		{
+			if (arguementNames == null)
+				throw new ArgumentNullException("arguementNames");
+
+			var nullArgumentNames = from arguementName in arguementNames
+									where Parameters[arguementName] == null
+									select arguementName;
+
+			var IsAllParameterReady = !nullArgumentNames.Any();
+			if (!IsAllParameterReady)
+			{
+				throw new FormatException(string.Format("Parameter {0} is null.", string.Join("¡B", nullArgumentNames.ToArray())));
+			}
+		}
+		#endregion
 
 		public void SetBeginTimestamp(long beginTime)
 		{
