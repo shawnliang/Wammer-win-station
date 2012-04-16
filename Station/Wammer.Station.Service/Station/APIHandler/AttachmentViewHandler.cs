@@ -210,7 +210,10 @@ namespace Wammer.Station
 				uri = new Uri(uri).AbsolutePath;
 
 			string extension = Path.GetExtension(uri);
-			if (!string.IsNullOrEmpty(extension))
+
+			if (meta == ImageMeta.Small || meta == ImageMeta.Medium || meta == ImageMeta.Large || meta == ImageMeta.Square)
+				fileName += ".dat";
+			else if (!string.IsNullOrEmpty(extension))
 				fileName += extension;
 
 			return fileName;

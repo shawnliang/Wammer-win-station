@@ -281,7 +281,7 @@ namespace Wammer.Station
 						break;
 
 					case ImageMeta.Small:
-						savedFileName = attachment.object_id + "_small" + Path.GetExtension(attachment.file_name);
+						savedFileName = attachment.object_id + "_small.dat";
 						fs.SaveFile(savedFileName, rawdata);
 						File.Delete(filepath);
 
@@ -306,7 +306,7 @@ namespace Wammer.Station
 						break;
 
 					case ImageMeta.Medium:
-						savedFileName = attachment.object_id + "_medium" + Path.GetExtension(attachment.file_name);
+						savedFileName = attachment.object_id + "_medium.dat";
 						fs.SaveFile(savedFileName, rawdata);
 						File.Delete(filepath);
 
@@ -331,7 +331,7 @@ namespace Wammer.Station
 						break;
 
 					case ImageMeta.Large:
-						savedFileName = attachment.object_id + "_large" + Path.GetExtension(attachment.file_name);
+						savedFileName = attachment.object_id + "_large.dat";
 						fs.SaveFile(savedFileName, rawdata);
 						File.Delete(filepath);
 
@@ -356,7 +356,7 @@ namespace Wammer.Station
 						break;
 
 					case ImageMeta.Square:
-						savedFileName = attachment.object_id + "_square" + Path.GetExtension(attachment.file_name);
+						savedFileName = attachment.object_id + "_square.dat";
 						fs.SaveFile(savedFileName, rawdata);
 						File.Delete(filepath);
 

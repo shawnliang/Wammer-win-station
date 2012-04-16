@@ -342,7 +342,7 @@ namespace Wammer.Station
 				SavedResult savedResult = new SavedResult 
 				{ 
 					SavedRawData = m.ToArray(),
-					FileName = string.Format("{0}_{1}.jpg", attchId, meta.ToString().ToLower()),
+					FileName = string.Format("{0}_{1}.dat", attchId, meta.ToString().ToLower()),
 					MimeType = "image/jpeg"
 				};
 
@@ -389,14 +389,14 @@ namespace Wammer.Station
 	class GifImageSaveStrategy : CommonImageSaveStrategy
 	{
 		public GifImageSaveStrategy()
-			:base(ImageFormat.Gif, "gif", "image/gif")
+			:base(ImageFormat.Gif, "dat", "image/gif")
 		{}
 	}
 
 	class PngImageSaveStrategy : CommonImageSaveStrategy
 	{
 		public PngImageSaveStrategy()
-			:base(ImageFormat.Png, "png", "image/png")
+			:base(ImageFormat.Png, "dat", "image/png")
 		{}
 	}
 
