@@ -11,7 +11,6 @@ namespace Wammer.Station
 {
 	public class UserLoginHandler : HttpHandler
 	{		
-
 		#region Protected Method
 		/// <summary>
 		/// Handles the request.

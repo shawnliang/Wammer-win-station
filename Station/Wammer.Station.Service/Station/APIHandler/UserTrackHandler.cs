@@ -13,19 +13,7 @@ namespace Wammer.Station.APIHandler
 	public class UserTrackHandler : HttpHandler
 	{
 		private UserTrackHandlerImp impl = new UserTrackHandlerImp(new UserTrackHandlerDB());
-
-		#region Private Property
-		private string m_StationID { get; set; }
-		private string m_ResourceBasePath { get; set; }
-		#endregion
-
-
-		#region Constructor
-		public UserTrackHandler()
-		{
-		}
-		#endregion
-
+		
 		#region Protected Method
 		/// <summary>
 		/// Handles the request.
