@@ -22,7 +22,7 @@ namespace Waveface.DetailUI
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private Color BG_COLOR = Color.FromArgb(240, 240, 240);
+        private Color BG_COLOR = Color.FromArgb(255, 255, 255);
 
         #region Fields
 
@@ -147,15 +147,15 @@ namespace Waveface.DetailUI
             // 
             // panelMain
             // 
-            resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelMain.BackColor = System.Drawing.Color.White;
             this.panelMain.Controls.Add(this.panelRight);
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
             // 
             // panelRight
             // 
             resources.ApplyResources(this.panelRight, "panelRight");
-            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelRight.BackColor = System.Drawing.Color.White;
             this.panelRight.Controls.Add(this.imageListView);
             this.panelRight.Controls.Add(this.panelPictureInfo);
             this.panelRight.Controls.Add(this.webBrowserTop);
@@ -163,7 +163,6 @@ namespace Waveface.DetailUI
             // 
             // imageListView
             // 
-            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -172,6 +171,7 @@ namespace Waveface.DetailUI
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStripImageList;
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
@@ -183,23 +183,23 @@ namespace Waveface.DetailUI
             // 
             // contextMenuStripImageList
             // 
-            resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
             this.contextMenuStripImageList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miSetCoverImage});
             this.contextMenuStripImageList.Name = "contextMenuStripImageList";
+            resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
             this.contextMenuStripImageList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripImageList_Opening);
             // 
             // miSetCoverImage
             // 
-            resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
             this.miSetCoverImage.Name = "miSetCoverImage";
+            resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
             this.miSetCoverImage.Click += new System.EventHandler(this.miSetCoverImage_Click);
             // 
             // panelPictureInfo
             // 
-            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
-            this.panelPictureInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.panelPictureInfo.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
+            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
             this.panelPictureInfo.Name = "panelPictureInfo";
             // 
             // labelPictureInfo
@@ -210,8 +210,8 @@ namespace Waveface.DetailUI
             // 
             // webBrowserTop
             // 
-            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
             this.webBrowserTop.AllowWebBrowserDrop = false;
+            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
             this.webBrowserTop.Name = "webBrowserTop";
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
@@ -227,21 +227,21 @@ namespace Waveface.DetailUI
             // 
             // contextMenuStripTop
             // 
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
             this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopyTop});
             this.contextMenuStripTop.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
             // 
             // miCopyTop
             // 
-            resources.ApplyResources(this.miCopyTop, "miCopyTop");
             this.miCopyTop.Name = "miCopyTop";
+            resources.ApplyResources(this.miCopyTop, "miCopyTop");
             // 
             // Photo_DV
             // 
-            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.panelMain);
+            resources.ApplyResources(this, "$this");
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
@@ -315,7 +315,7 @@ namespace Waveface.DetailUI
 
             _html = HtmlUtility.MakeLink(_html, m_clickableURL);
 
-            _html = "<body bgcolor=\"rgb(240,240, 240)\">" + _html + "</body>";
+            _html = "<body bgcolor=\"rgb(255, 255, 255)\">" + _html + "</body>";
 
             webBrowserTop.DocumentText = HtmlUtility.TrimScript(_html);
         }

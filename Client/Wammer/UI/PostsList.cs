@@ -178,7 +178,7 @@ namespace Waveface
 
         #region DataGridView
 
-        private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(240, 240, 240));
+        private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
         private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225));
         private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225)); // 217, 217, 217
         private Color m_inforColor = Color.FromArgb(95, 121, 143);

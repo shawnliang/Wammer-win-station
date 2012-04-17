@@ -112,9 +112,9 @@ namespace Waveface.DetailUI
             // 
             // webBrowser
             // 
-            resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.AllowWebBrowserDrop = false;
             this.webBrowser.CausesValidation = false;
+            resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 18);
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.ScriptErrorsSuppressed = true;
@@ -130,34 +130,35 @@ namespace Waveface.DetailUI
             // 
             // contextMenuStrip
             // 
-            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopySoul});
             this.contextMenuStrip.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
             // miCopySoul
             // 
-            resources.ApplyResources(this.miCopySoul, "miCopySoul");
             this.miCopySoul.Name = "miCopySoul";
+            resources.ApplyResources(this.miCopySoul, "miCopySoul");
             // 
             // contextMenuStripMore
             // 
-            resources.ApplyResources(this.contextMenuStripMore, "contextMenuStripMore");
             this.contextMenuStripMore.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miOpenInWebBrowser});
             this.contextMenuStripMore.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripMore, "contextMenuStripMore");
             // 
             // miOpenInWebBrowser
             // 
-            resources.ApplyResources(this.miOpenInWebBrowser, "miOpenInWebBrowser");
             this.miOpenInWebBrowser.Image = global::Waveface.Properties.Resources.FB_openin;
             this.miOpenInWebBrowser.Name = "miOpenInWebBrowser";
+            resources.ApplyResources(this.miOpenInWebBrowser, "miOpenInWebBrowser");
             this.miOpenInWebBrowser.Click += new System.EventHandler(this.miOpenInWebBrowser_Click);
             // 
             // WebLink_DV
             // 
-            resources.ApplyResources(this, "$this");
+            this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panelMain);
+            resources.ApplyResources(this, "$this");
             this.Name = "WebLink_DV";
             this.panelMain.ResumeLayout(false);
             this.contextMenuStrip.ResumeLayout(false);
@@ -233,7 +234,7 @@ namespace Waveface.DetailUI
 
             webBrowser.DocumentText = "<html>" + _minimaxJS +
                                           "<style type=\"text/css\">img {height: auto; max-width: 95%;}</style>" +
-                                          "<body bgcolor=\"rgb(240, 240, 240)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" +
+                                          "<body bgcolor=\"rgb(255, 255, 255)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'>" +
                                           HtmlUtility.TrimScript(_htmlMainAndComment + m_post.soul) +
                                           "</font></body></html>";
         }

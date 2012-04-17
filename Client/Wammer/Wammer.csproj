@@ -217,6 +217,12 @@
     <Compile Include="Libs\Utility\NLogUtility.cs" />
     <Compile Include="ProgramSetting.cs" />
     <Compile Include="Exception\Station401Exception.cs" />
+    <Compile Include="UI\DVTopPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\TitlePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\DetailUI\CommentPopupPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -624,6 +630,12 @@
     <EmbeddedResource Include="UI\BgPanel.resx">
       <DependentUpon>BgPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\DVTopPanel.resx">
+      <DependentUpon>DVTopPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\TitlePanel.resx">
+      <DependentUpon>TitlePanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\CommentPopupPanel.resx">
       <DependentUpon>CommentPopupPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -937,12 +949,22 @@
     <None Include="Resources\FlatButton\FB_moreoption_hl.png" />
     <None Include="Resources\FlatButton\FB_openin.png" />
     <None Include="Resources\FlatButton\FB_openin_hl.png" />
+    <None Include="Resources\FlatButton\FB_newpost.png" />
+    <None Include="Resources\FlatButton\FB_refresh.png" />
+    <None Include="Resources\FlatButton\FB_newpost_hl.png" />
+    <None Include="Resources\FlatButton\FB_refresh_hl.png" />
     <Content Include="Resources\FlatButton\FB_remove.png" />
     <Content Include="Resources\FlatButton\FB_remove_hl.png" />
     <None Include="Resources\FlatButton\FB_slide.png" />
     <None Include="Resources\FlatButton\FB_slide_hl.png" />
     <Content Include="Resources\FlatButton\FB_unfav.png" />
     <Content Include="Resources\FlatButton\FB_unfav_hl.png" />
+    <None Include="Resources\Title\Title1.png" />
+    <None Include="Resources\Title\Title2.png" />
+    <None Include="Resources\Title\Title3.png" />
+    <None Include="Resources\Title\Title4.png" />
+    <None Include="Resources\FlatButton\newpost.png" />
+    <None Include="Resources\FlatButton\refresh.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

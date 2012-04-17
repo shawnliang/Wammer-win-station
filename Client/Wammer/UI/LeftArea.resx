@@ -123,10 +123,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="panelBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 481</value>
+    <value>0, 616</value>
   </data>
   <data name="panelBottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 171</value>
+    <value>193, 36</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="panelBottom.TabIndex" type="System.Int32, mscorlib">
@@ -194,7 +194,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAA0
-        CAAAAk1TRnQBSQFMAgEBAgEAAQwBAwEMAQMBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAVQBAwFUAQMBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -263,7 +263,7 @@
     <value>0, 145</value>
   </data>
   <data name="panelCustomFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 0</value>
+    <value>193, 92</value>
   </data>
   <data name="panelCustomFilter.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -338,7 +338,7 @@
     <value>0, 379</value>
   </data>
   <data name="panelFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 102</value>
+    <value>193, 237</value>
   </data>
   <data name="panelFilter.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -417,7 +417,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADy
-        FwAAAk1TRnQBSQFMAwEBAAHsAQUB7AEFASABAAEgAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABgAMA
+        FwAAAk1TRnQBSQFMAwEBAAE0AQYBNAEGASABAAEgAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABgAMA
         ASADAAEBAQABIAYAAUD/AP8A/wD/ABoAAxkBIwMtAUUDNAFUAzoBYgM/AW0DQwF4A0MBeANDAXgDQwF4
         A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4
         A0MBeANDAXgDOgFgAy4BSAMaAST/AI0AAy0BRQNKAYoCUgFRAacCWwFZAcMCYQFeAdoCXQFOAfACXQFO
@@ -536,7 +536,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACM
-        BgAAAk1TRnQBSQFMAwEBAAH0AQUB9AEFARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
+        BgAAAk1TRnQBSQFMAwEBAAE8AQYBPAEGARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
         ARADAAEBAQABIAYAARD/ABcAA0oBigJbAVkBwwJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJd
         AU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8ANMAZDIAAJhAVsB4QHuAewB6gH/AfcB8gHw
         Af8B+AHzAfAB/wH4AfMB7wH/AfcB8wHvAf8B9wHyAe8B/wH3AfIB7gH/AfcB8gHuAf8B9wHyAe4B/wH3
@@ -595,7 +595,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 481</value>
+    <value>193, 616</value>
   </data>
   <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -620,7 +620,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADo
-        CAAAAk1TRnQBSQFMAgEBAgEAASwBAwEsAQMBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAXQBAwF0AQMBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
