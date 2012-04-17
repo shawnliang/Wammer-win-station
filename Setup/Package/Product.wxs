@@ -45,7 +45,12 @@
     <CustomAction Id='RemovePerfCounters' BinaryKey='InstallHelperDll' DllEntry='RemovePerfCounters' />
     <!-- Restore backup data -->
     <CustomAction Id='RestoreBackupData' BinaryKey='InstallHelperDll' DllEntry='RestoreBackupData' />
+    <!-- MigrateThumbnailsExtension -->
+    <CustomAction Id='MigrateThumbnailsExtension' BinaryKey='InstallHelperDll' DllEntry='MigrateThumbnailsExtension' />
+    <!-- WriteProductInfo -->
+    <CustomAction Id='WriteProductInfo' BinaryKey='InstallHelperDll' DllEntry='WriteProductInfo' />
     
+
     <InstallExecuteSequence>
       <!-- while uninstall -->
       <Custom Action="KillClientProcess" Before="InstallValidate">
@@ -71,12 +76,18 @@
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
       <Custom Action="StartAndWaitMongoDbReady" After="InstallFinalize">
-        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
+        (&amp;MainFeature = 3)
       </Custom>
       <Custom Action="RestoreBackupData" After="StartAndWaitMongoDbReady">
         ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
       </Custom>
-      <Custom Action="StartWavefaceService" After="RestoreBackupData">
+      <Custom Action="MigrateThumbnailsExtension" After="RestoreBackupData">
+        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
+      </Custom>
+      <Custom Action="StartWavefaceService" After="MigrateThumbnailsExtension">
+        (&amp;MainFeature = 3)
+      </Custom>
+      <Custom Action="WriteProductInfo" After="StartWavefaceService">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
     </InstallExecuteSequence>
@@ -89,6 +100,8 @@
       <ProgressText Action="StartAndWaitMongoDbReady">!(loc.WaitMongoDbReady)</ProgressText>
       <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
       <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
+      <ProgressText Action="MigrateThumbnailsExtension">!(loc.MigrateThumbnailsExtension)</ProgressText>
+      <ProgressText Action="WriteProductInfo">!(loc.WriteProductInfo)</ProgressText>
     </UI>
     <!-- Program Menu-->
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
