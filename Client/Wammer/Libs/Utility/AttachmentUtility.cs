@@ -121,8 +121,7 @@ namespace Waveface
             else
                 url = _url; //@  +"&" + "image_meta=" + _imageType;			
 
-
-			fileName = a.object_id + "_" + _imageType + Path.GetExtension(a.file_name);
+			fileName = a.object_id + "_" + _imageType + ".dat";
             return _imageType;
         }
 
