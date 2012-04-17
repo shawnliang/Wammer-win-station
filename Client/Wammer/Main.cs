@@ -1809,7 +1809,7 @@ namespace Waveface
                             {
                                 string _url = post.preview.thumbnail_url;
 
-								string _localPic = Path.Combine(GCONST.ImageCachePath, post.post_id + "_previewthumbnail_" + ".jpg");
+								string _localPic = Path.Combine(GCONST.RunTimeDataPath, post.post_id + "_previewthumbnail_" + ".jpg");
 
                                 PreloadThumbnail(_url, _localPic);
                             }
