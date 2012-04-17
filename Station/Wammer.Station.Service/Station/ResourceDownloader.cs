@@ -33,10 +33,12 @@ namespace Wammer.Station
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceDownloader));
 		private ITaskStore bodySyncQueue;
+		private string stationId;
 
-		public ResourceDownloader(ITaskStore bodySyncQueue)
+		public ResourceDownloader(ITaskStore bodySyncQueue, string stationId)
 		{
 			this.bodySyncQueue = bodySyncQueue;
+			this.stationId = stationId;
 		}
 
 		public void PostRetrieved(object sender, Timeline.TimelineSyncEventArgs e)
@@ -180,7 +182,7 @@ namespace Wammer.Station
 				AttachmentApi api = new AttachmentApi(evtargs.driver);
 				using (WebClient client = new DefaultWebClient())
 				{
-					api.AttachmentView(client, evtargs);
+					api.AttachmentView(client, evtargs, stationId);
 				}
 				DownloadComplete(evtargs);
 			}

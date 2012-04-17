@@ -66,13 +66,14 @@ namespace Wammer.Cloud
 		//    return CloudServer.requestPath<AttachmentGetResponse>(agent, "attachments/get", parameters);
 		//}
 
-		public void AttachmentView(WebClient agent, ResourceDownloadEventArgs evtargs)
+		public void AttachmentView(WebClient agent, ResourceDownloadEventArgs evtargs, string stationId)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object> 
 			{ 
 				{CloudServer.PARAM_OBJECT_ID, evtargs.attachment.object_id},
 				{CloudServer.PARAM_SESSION_TOKEN, this.userToken},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+				{CloudServer.PARAM_STATION_ID, stationId}
 			};
 
 			if (evtargs.imagemeta != ImageMeta.Origin)
