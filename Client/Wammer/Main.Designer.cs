@@ -37,6 +37,7 @@ namespace Waveface
             this.splitterLeft = new System.Windows.Forms.Splitter();
             this.panelLeftInfo = new System.Windows.Forms.Panel();
             this.leftArea = new Waveface.LeftArea();
+            this.panelTitle = new Waveface.TitlePanel();
             this.panelMain = new System.Windows.Forms.Panel();
             this.detailView = new Waveface.DetailView();
             this.mnuTray = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -81,6 +82,7 @@ namespace Waveface
             this.panelLeft.Controls.Add(this.panelPost);
             this.panelLeft.Controls.Add(this.splitterLeft);
             this.panelLeft.Controls.Add(this.panelLeftInfo);
+            this.panelLeft.Controls.Add(this.panelTitle);
             resources.ApplyResources(this.panelLeft, "panelLeft");
             this.panelLeft.Name = "panelLeft";
             // 
@@ -118,6 +120,11 @@ namespace Waveface
             resources.ApplyResources(this.leftArea, "leftArea");
             this.leftArea.Name = "leftArea";
             this.leftArea.TabStop = false;
+            // 
+            // panelTitle
+            // 
+            resources.ApplyResources(this.panelTitle, "panelTitle");
+            this.panelTitle.Name = "panelTitle";
             // 
             // panelMain
             // 
@@ -362,6 +369,7 @@ namespace Waveface
         private System.ComponentModel.BackgroundWorker backgroundWorkerPreloadAllImages;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelServiceStatus;
         private System.Windows.Forms.Timer timerPolling;
+        private TitlePanel panelTitle;
 	}
 }
 

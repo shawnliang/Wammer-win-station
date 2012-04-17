@@ -43,11 +43,11 @@ namespace Waveface
             this.tvTimeline = new System.Windows.Forms.TreeView();
             this.panelCalendar = new System.Windows.Forms.Panel();
             this.monthCalendar = new CustomControls.MonthCalendar();
-            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             this.imageListLarge = new System.Windows.Forms.ImageList(this.components);
             this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
             this.panelFilter.SuspendLayout();
@@ -58,13 +58,13 @@ namespace Waveface
             // 
             // panelBottom
             // 
-            this.panelBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             resources.ApplyResources(this.panelBottom, "panelBottom");
             this.panelBottom.Name = "panelBottom";
             // 
             // pbDropArea
             // 
-            this.pbDropArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.pbDropArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.pbDropArea.BackgroundImage = global::Waveface.Properties.Resources.dragNdrop_area1;
             resources.ApplyResources(this.pbDropArea, "pbDropArea");
             this.pbDropArea.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -79,7 +79,7 @@ namespace Waveface
             // 
             // panelMain
             // 
-            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.panelMain.Controls.Add(this.panelFilter);
             this.panelMain.Controls.Add(this.panelCalendar);
             this.panelMain.Controls.Add(this.vsNetListBarGroups);
@@ -97,6 +97,7 @@ namespace Waveface
             // 
             // panelCustomFilter
             // 
+            this.panelCustomFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.panelCustomFilter.Controls.Add(this.tvCustomFilter);
             resources.ApplyResources(this.panelCustomFilter, "panelCustomFilter");
             this.panelCustomFilter.Name = "panelCustomFilter";
@@ -117,7 +118,7 @@ namespace Waveface
             // 
             // panelTimeline
             // 
-            this.panelTimeline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelTimeline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.panelTimeline.Controls.Add(this.tvTimeline);
             resources.ApplyResources(this.panelTimeline, "panelTimeline");
             this.panelTimeline.Name = "panelTimeline";
@@ -131,7 +132,7 @@ namespace Waveface
             // 
             // panelCalendar
             // 
-            this.panelCalendar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelCalendar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.panelCalendar.Controls.Add(this.monthCalendar);
             resources.ApplyResources(this.panelCalendar, "panelCalendar");
             this.panelCalendar.Name = "panelCalendar";
@@ -156,19 +157,6 @@ namespace Waveface
             this.monthCalendar.UseShortestDayNames = true;
             this.monthCalendar.DateClicked += new System.EventHandler<CustomControls.DateEventArgs>(this.monthCalendar_DateClicked);
             // 
-            // vsNetListBarGroups
-            // 
-            this.vsNetListBarGroups.AllowDragGroups = true;
-            this.vsNetListBarGroups.AllowDragItems = true;
-            this.vsNetListBarGroups.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            resources.ApplyResources(this.vsNetListBarGroups, "vsNetListBarGroups");
-            this.vsNetListBarGroups.DrawStyle = Waveface.Component.ListBarControl.ListBarDrawStyle.ListBarDrawStyleNormal;
-            this.vsNetListBarGroups.LargeImageList = this.imageListLarge;
-            this.vsNetListBarGroups.Name = "vsNetListBarGroups";
-            this.vsNetListBarGroups.SelectOnMouseDown = true;
-            this.vsNetListBarGroups.SmallImageList = this.imageListSmall;
-            this.vsNetListBarGroups.ToolTip = null;
-            // 
             // imageListLarge
             // 
             this.imageListLarge.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListLarge.ImageStream")));
@@ -191,6 +179,20 @@ namespace Waveface
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
+            // 
+            // vsNetListBarGroups
+            // 
+            this.vsNetListBarGroups.AllowDragGroups = true;
+            this.vsNetListBarGroups.AllowDragItems = true;
+            this.vsNetListBarGroups.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.vsNetListBarGroups.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            resources.ApplyResources(this.vsNetListBarGroups, "vsNetListBarGroups");
+            this.vsNetListBarGroups.DrawStyle = Waveface.Component.ListBarControl.ListBarDrawStyle.ListBarDrawStyleNormal;
+            this.vsNetListBarGroups.LargeImageList = this.imageListLarge;
+            this.vsNetListBarGroups.Name = "vsNetListBarGroups";
+            this.vsNetListBarGroups.SelectOnMouseDown = true;
+            this.vsNetListBarGroups.SmallImageList = this.imageListSmall;
+            this.vsNetListBarGroups.ToolTip = null;
             // 
             // LeftArea
             // 

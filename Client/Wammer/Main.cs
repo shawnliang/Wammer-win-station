@@ -238,7 +238,7 @@ namespace Waveface
 
                 using (Pen _p = new Pen(Color.FromArgb(89, 154, 174)))
                 {
-                    _p.DashStyle = DashStyle.DashDot;
+                    _p.DashStyle = DashStyle.Dash;
 
                     _g.DrawRectangle(_p, new Rectangle(k, k, s - (2 * k), s - (2 * k)));
                 }
@@ -294,10 +294,8 @@ namespace Waveface
                 RT = _rt;
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         private void SaveRunTime()
@@ -1504,6 +1502,11 @@ namespace Waveface
 
         #region Misc
 
+        public int GetLeftAreaWidth()
+        {
+            return leftArea.Width;
+        }
+
         private void timerPolling_Tick(object sender, EventArgs e)
         {
             timerPolling.Enabled = false;
@@ -1512,8 +1515,6 @@ namespace Waveface
             {
                 if (!CheckNetworkStatus())
                     return;
-
-
 
                 if (checkNewPosts())
                 {

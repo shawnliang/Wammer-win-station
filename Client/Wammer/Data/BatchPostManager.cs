@@ -28,11 +28,11 @@ namespace Waveface
         private bool m_startUpload;
         private bool m_uploading;
 
-        private WorkItem m_workItem;
+        private WorkItem m_photoWorkItem;
 
         #region Properties
 
-        public List<BatchPostItem> Items { get; set; }
+        private List<BatchPostItem> PhotoItems { get; set; }
 
         public bool StartUpload
         {
@@ -50,38 +50,38 @@ namespace Waveface
 
         public BatchPostManager()
         {
-            Items = new List<BatchPostItem>();
+            PhotoItems = new List<BatchPostItem>();
         }
 
         public void Start()
         {
-            m_workItem = AbortableThreadPool.QueueUserWorkItem(ThreadMethod, 0);
+            m_photoWorkItem = AbortableThreadPool.QueueUserWorkItem(ThreadMethod, 0);
         }
 
         public WorkItemStatus AbortThread()
         {
             Save();
 
-            return AbortableThreadPool.Cancel(m_workItem, true);
+            return AbortableThreadPool.Cancel(m_photoWorkItem, true);
         }
 
         public void Add(BatchPostItem item)
         {
-            Items.Add(item);
+            PhotoItems.Add(item);
 
             Save();
         }
 
         public void Remove(BatchPostItem item)
         {
-            Items.Remove(item);
+            PhotoItems.Remove(item);
 
             Save();
         }
 
         public bool CheckPostInQueue(string postID)
         {
-            foreach (BatchPostItem _item in Items)
+            foreach (BatchPostItem _item in PhotoItems)
             {
                 if (_item.Post != null)
                 {
@@ -99,7 +99,7 @@ namespace Waveface
         {
             int _ret = 0;
 
-            foreach (BatchPostItem _item in Items)
+            foreach (BatchPostItem _item in PhotoItems)
             {
                 _ret += (_item.Files.Count - _item.UploadedFiles.Count);
             }
@@ -135,9 +135,9 @@ namespace Waveface
 
                 lock (this)
                 {
-                    if (Items.Count > 0)
+                    if (PhotoItems.Count > 0)
                     {
-                        _postItem = Items[0];
+                        _postItem = PhotoItems[0];
                         _editMode = _postItem.EditMode;
                     }
                     else
@@ -367,14 +367,14 @@ namespace Waveface
                     {
                         string _msg;
 
-                        if (Items.Count == 1)
+                        if (PhotoItems.Count == 1)
                         {
                             _msg = string.Format(I18n.L.T("OnePostUpload"), _count, _counts - _count);
                         }
                         else
                         {
                             _msg = string.Format(I18n.L.T("MultiplePostUpload"), _count, _counts - _count,
-                                                 Items.Count - 1);
+                                                 PhotoItems.Count - 1);
                         }
 
                         UpdateUI(_count * 100 / _counts, _msg);

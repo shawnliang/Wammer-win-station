@@ -318,6 +318,9 @@
   <data name="panelTop.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="panelTop.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;panelTop.Name" xml:space="preserve">
     <value>panelTop</value>
   </data>

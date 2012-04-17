@@ -263,6 +263,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_newpost {
+            get {
+                object obj = ResourceManager.GetObject("FB_newpost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_newpost_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_newpost_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_openin {
             get {
                 object obj = ResourceManager.GetObject("FB_openin", resourceCulture);
@@ -273,6 +287,20 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap FB_openin_hl {
             get {
                 object obj = ResourceManager.GetObject("FB_openin_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_refresh {
+            get {
+                object obj = ResourceManager.GetObject("FB_refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_refresh_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_refresh_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -481,6 +509,34 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap Station {
             get {
                 object obj = ResourceManager.GetObject("Station", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Title1 {
+            get {
+                object obj = ResourceManager.GetObject("Title1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Title2 {
+            get {
+                object obj = ResourceManager.GetObject("Title2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Title3 {
+            get {
+                object obj = ResourceManager.GetObject("Title3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Title4 {
+            get {
+                object obj = ResourceManager.GetObject("Title4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
