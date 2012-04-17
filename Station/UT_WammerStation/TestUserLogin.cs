@@ -160,11 +160,18 @@ namespace UT_WammerStation
 
 			using (FakeCloud cloud = new FakeCloud(loginedJson))
 			{
-				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/auth/login",
+				var response = CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/auth/login",
 					new Dictionary<object, object>{ 
 					{ "email", "exist@gmail.com"}, 
 					{ "password", "12345"} ,
 					{"apikey", "!@#!$%@^$%&*%)(%#$"}});
+
+				Assert.AreEqual(200, response.status);
+				Assert.AreEqual("success",response.api_ret_message);
+
+				var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", "cV91P1HmYm5PqR9Z75DxAd0t.H5MOppJa3gpk26o6bjc3RDyAmOMNGMc4Xj8znaAMRvY"));
+
+				Assert.IsNotNull(loginedSession);
 			}
 		} 
 		#endregion
