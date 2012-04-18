@@ -6,11 +6,11 @@ namespace Wammer.PerfMonitor
 {
 	public interface IPerfCounter
 	{
-		CounterSample Sample { get; }
-
 		void Increment();
 		void IncrementBy(long value);
 		void Decrement();
+		CounterSample NextSample();
+		float NextValue();
 	}
 
 	public class PerfCounter : IPerfCounter
@@ -51,14 +51,6 @@ namespace Wammer.PerfMonitor
 			}
 		}
 		#endregion
-
-		public CounterSample Sample
-		{
-			get 
-			{
-				return Counter.NextSample(); 
-			}
-		}
 
 		static PerfCounter()
 		{
@@ -101,6 +93,16 @@ namespace Wammer.PerfMonitor
 		{
 			Counter.Decrement();
 		}
+
+		public CounterSample NextSample()
+		{
+			return Counter.NextSample();
+		}
+
+		public float NextValue()
+		{
+			return Counter.NextValue();
+		}
 	}
 
 	class NullPerfCounter : IPerfCounter
@@ -108,13 +110,7 @@ namespace Wammer.PerfMonitor
 		public void Increment() { }
 		public void IncrementBy(long value) { }
 		public void Decrement() { }
-
-		public CounterSample Sample
-		{
-			get
-			{
-				return new CounterSample();
-			}
-		}
+		public CounterSample NextSample() { return new CounterSample(); }
+		public float NextValue() { return 0; }
 	}
 }
