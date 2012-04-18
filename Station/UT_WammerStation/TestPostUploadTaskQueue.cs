@@ -17,7 +17,7 @@ namespace UT_WammerStation
 		private string POST_ID1 = Guid.NewGuid().ToString();
 		private string POST_ID2 = Guid.NewGuid().ToString();
 		private DateTime TIMESTAMP = DateTime.UtcNow;
-		private Driver DRIVER = new Driver { email = "big", user_id = Guid.NewGuid().ToString() };
+		private string USER_ID1 = Guid.NewGuid().ToString();
 		private NameValueCollection PARAM = new NameValueCollection { { "apikey", Guid.NewGuid().ToString() } };
 
 		[TestInitialize]
@@ -29,17 +29,17 @@ namespace UT_WammerStation
 		[TestCleanup]
 		public void tearDown()
 		{
-			//PostUploadTasksCollection.Instance.RemoveAll();
+			PostUploadTasksCollection.Instance.RemoveAll();
 		}
 
 		[TestMethod]
 		public void TestInitFromDB()
 		{
 			LinkedList<PostUploadTask> tasks = new LinkedList<PostUploadTask>();
-			tasks.AddLast(new NewPostTask{postId=POST_ID1, timestamp=TIMESTAMP, driver=DRIVER, parameters=PARAM});
-			tasks.AddLast(new UpdatePostTask{postId=POST_ID1, timestamp=TIMESTAMP, driver=DRIVER, parameters=PARAM});
-			tasks.AddLast(new NewPostTask{postId=POST_ID1, timestamp=TIMESTAMP, driver=DRIVER, parameters=PARAM});
-			tasks.AddLast(new UpdatePostTask{postId=POST_ID1, timestamp=TIMESTAMP, driver=DRIVER, parameters=PARAM});
+			tasks.AddLast(new NewPostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			tasks.AddLast(new UpdatePostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			tasks.AddLast(new NewPostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			tasks.AddLast(new UpdatePostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
 			PostUploadTasks doc = new PostUploadTasks { post_id = POST_ID1, tasks = tasks };
 			PostUploadTasksCollection.Instance.Save(doc);
 
@@ -47,11 +47,11 @@ namespace UT_WammerStation
 			queue.InitFromDB();
 
 			// only 4 tasks and the sequence is [NEW, UPDATE, NEW, UPDATE]
-			//Assert.IsTrue(queue.Dequeue() is NewPostTask);
-			//Assert.IsTrue(queue.Dequeue() is UpdatePostTask);
-			//Assert.IsTrue(queue.Dequeue() is NewPostTask);
-			//Assert.IsTrue(queue.Dequeue() is UpdatePostTask);
-			//Assert.IsTrue(queue.Dequeue() is NullPostUploadTask);
+			Assert.IsTrue(queue.Dequeue() is NewPostTask);
+			Assert.IsTrue(queue.Dequeue() is UpdatePostTask);
+			Assert.IsTrue(queue.Dequeue() is NewPostTask);
+			Assert.IsTrue(queue.Dequeue() is UpdatePostTask);
+			Assert.IsTrue(queue.Dequeue() is NullPostUploadTask);
 		}
 
 		[TestMethod]
@@ -68,9 +68,9 @@ namespace UT_WammerStation
 		{
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
-			
-			queue.Enqueue(new NewPostTask { postId = POST_ID1, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { postId = POST_ID1, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
+
+			queue.Enqueue(new NewPostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			queue.Enqueue(new UpdatePostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
 
 			PostUploadTasks doc = PostUploadTasksCollection.Instance.FindOne();
 			Assert.IsTrue(doc.tasks.ElementAt(0) is NewPostTask);
@@ -95,8 +95,8 @@ namespace UT_WammerStation
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
 
-			queue.Enqueue(new NewPostTask { postId = POST_ID1, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { postId = POST_ID1, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
+			queue.Enqueue(new NewPostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			queue.Enqueue(new UpdatePostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
 
 			PostUploadTask task = queue.Dequeue();
 			Assert.IsTrue(task is NewPostTask);
@@ -111,10 +111,10 @@ namespace UT_WammerStation
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
 
-			queue.Enqueue(new NewPostTask { postId = POST_ID1, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { postId = POST_ID1, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
-			queue.Enqueue(new NewPostTask { postId = POST_ID2, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { postId = POST_ID2, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
+			queue.Enqueue(new NewPostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			queue.Enqueue(new UpdatePostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			queue.Enqueue(new NewPostTask { postId = POST_ID2, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			queue.Enqueue(new UpdatePostTask { postId = POST_ID2, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
 
 			Assert.AreEqual(queue.Dequeue().postId, POST_ID1);
 			Assert.AreEqual(queue.Dequeue().postId, POST_ID2);
@@ -128,10 +128,10 @@ namespace UT_WammerStation
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
 
-			queue.Enqueue(new NewPostTask { postId = POST_ID1, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { postId = POST_ID1, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
-			queue.Enqueue(new NewPostTask { postId = POST_ID2, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { postId = POST_ID2, timestamp = TIMESTAMP, driver = DRIVER, parameters = PARAM });
+			queue.Enqueue(new NewPostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			queue.Enqueue(new UpdatePostTask { postId = POST_ID1, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			queue.Enqueue(new NewPostTask { postId = POST_ID2, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
+			queue.Enqueue(new UpdatePostTask { postId = POST_ID2, timestamp = TIMESTAMP, userId = USER_ID1, parameters = PARAM });
 
 			PostUploadTask task = queue.Dequeue();
 			Assert.AreEqual(task.postId, POST_ID1);

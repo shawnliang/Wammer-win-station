@@ -14,7 +14,7 @@ namespace Wammer.PostUpload
 	{
 		public string postId { get; set; }
 		public DateTime timestamp { get; set; }
-		public Driver driver { get; set; }
+		public string userId { get; set; }
 		public NameValueCollection parameters { get; set; }
 
 		public abstract void Execute();
