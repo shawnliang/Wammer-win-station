@@ -8,9 +8,27 @@ namespace Wammer
 {
 	public class PostUploadTaskController : IPostUploadSupportable
 	{
+		#region Var
+		private PostUploadTaskQueue _queue;
+		#endregion
+
+		#region Private Property
+		public PostUploadTaskQueue m_Queue 
+		{
+			get
+			{
+				if (_queue == null)
+					_queue = new PostUploadTaskQueue();
+				return _queue;
+			}
+		}
+		#endregion
+
+		#region Public Method
 		public void AddPostUploadAction(PostUploadActionType actionType, NameValueCollection parameters)
 		{
 			throw new NotImplementedException();
-		}
+		} 
+		#endregion
 	}
 }
