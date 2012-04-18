@@ -24,10 +24,10 @@ namespace Wammer.Station
 		private Timeline.TimelineSyncer syncer;
 		private ResourceDownloader downloader;
 
-		public ResourceSyncer(long timerPeriod, ITaskStore bodySyncQueue)
+		public ResourceSyncer(long timerPeriod, ITaskStore bodySyncQueue, string stationId)
 			: base(timerPeriod)
 		{
-			this.downloader = new ResourceDownloader(bodySyncQueue);
+			this.downloader = new ResourceDownloader(bodySyncQueue, stationId);
 			this.syncer = new Timeline.TimelineSyncer(new Timeline.PostProvider(), new Timeline.TimelineSyncerDB(), new UserTracksApi());
 			syncer.PostsRetrieved += new EventHandler<Timeline.TimelineSyncEventArgs>(downloader.PostRetrieved);
 		}

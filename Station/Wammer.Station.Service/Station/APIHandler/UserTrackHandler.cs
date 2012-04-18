@@ -49,7 +49,7 @@ namespace Wammer.Station.APIHandler
 	{
 		public Driver GetUserByGroupId(string group_id)
 		{
-			return DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", group_id)));
+			return DriverCollection.Instance.FindDriverByGroupId(group_id);
 		}
 
 		public IEnumerable<UserTracks> GetUserTracksSince(string group_id, DateTime since)

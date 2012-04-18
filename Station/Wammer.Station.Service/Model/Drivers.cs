@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using Wammer.Cloud;
 using System;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Model
 {
@@ -114,6 +115,14 @@ namespace Wammer.Model
 		public static DriverCollection Instance
 		{
 			get { return instance; }
+		}
+
+		public Driver FindDriverByGroupId(string group_id)
+		{
+			if (group_id == null)
+				throw new ArgumentNullException("group_id");
+
+			return instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", group_id)));
 		}
 	}
 

@@ -89,7 +89,7 @@ namespace Wammer.Station
 					return;
 				}
 
-				Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", doc.group_id)));
+				Driver driver = DriverCollection.Instance.FindDriverByGroupId(doc.group_id);
 				if (driver == null)
 					throw new WammerStationException("Cannot find user with group_id: " + doc.group_id, (int)StationApiError.InvalidDriver);
 

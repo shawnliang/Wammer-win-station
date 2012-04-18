@@ -20,6 +20,7 @@ namespace Wammer.Station
 	{
 		private Semaphore hasItem = new Semaphore(0, int.MaxValue);
 		private Queue<SimpleTask> highPriorityCallbacks = new Queue<SimpleTask>();
+		private Queue<SimpleTask> mediumPriorityCallbacks = new Queue<SimpleTask>();
 		private Queue<SimpleTask> lowPriorityCallbacks = new Queue<SimpleTask>();
 		private HashSet<string> keys = new HashSet<string>();
 
@@ -41,6 +42,15 @@ namespace Wammer.Station
 						lock (highPriorityCallbacks)
 						{
 							highPriorityCallbacks.Enqueue(new SimpleTask(cb, state));
+							OnEnqueued(EventArgs.Empty);
+							hasItem.Release();
+						}
+					}
+					if (arg.imagemeta == Model.ImageMeta.Large || arg.imagemeta == Model.ImageMeta.Square)
+					{
+						lock (mediumPriorityCallbacks)
+						{
+							mediumPriorityCallbacks.Enqueue(new SimpleTask(cb, state));
 							OnEnqueued(EventArgs.Empty);
 							hasItem.Release();
 						}
@@ -71,6 +81,14 @@ namespace Wammer.Station
 				if (highPriorityCallbacks.Count > 0)
 				{
 					return highPriorityCallbacks.Dequeue();
+				}
+			}
+
+			lock (mediumPriorityCallbacks)
+			{
+				if (mediumPriorityCallbacks.Count > 0)
+				{
+					return mediumPriorityCallbacks.Dequeue();
 				}
 			}
 

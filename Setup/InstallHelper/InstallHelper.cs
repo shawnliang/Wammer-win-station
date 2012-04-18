@@ -53,7 +53,7 @@ namespace Wammer.Station
 					return ActionResult.Success;
 				}
 
-                //TODO: no user id can get
+				//TODO: no user id can get
 				Wammer.Cloud.StationApi.SignOff(new WebClient(), station.Id, station.SessionToken);
 				Logger.Info("Sign off station success");
 				return ActionResult.Success;
@@ -607,6 +607,100 @@ namespace Wammer.Station
 						throw new InstallerException("Unable to stop " + svcName, e);
 				}
 			}
+		}
+
+		[CustomAction]
+		public static ActionResult WriteProductInfo(Session session)
+		{
+			ProductInfo oldProduct = ProductInfoCollection.Instance.FindOne();
+			ProductInfo newProduct = ProductInfo.GetCurrentVersion();
+
+			if (oldProduct != null)
+				newProduct.id = oldProduct.id;
+
+			ProductInfoCollection.Instance.Save(newProduct);
+
+			return ActionResult.Success;
+		}
+
+		[CustomAction]
+		// Since v1.0.3, thumbnail extension always uses ".dat" regardless its image format.
+		// This change is because windows client is using thumbnails saved in station resource folder
+		// and windows client is not able to know the exact extension of a thumbnail file based on
+		// current timeline meta data.
+		//
+		// Saved thumbnails in previous waveface station need to be migrated to ".dat".
+		public static ActionResult MigrateThumbnailsExtension(Session session)
+		{
+			ProductInfo product = ProductInfoCollection.Instance.FindOne();
+			if (product != null && product.ThumbnailExtensionIsDat)
+				return ActionResult.Success;
+
+
+			MongoCursor<Attachment> attachments = AttachmentCollection.Instance.FindAll();
+			foreach (Attachment attachment in attachments)
+			{
+				if (attachment.image_meta == null)
+						continue;
+
+				string resourceFolder = GetResourceDir(session, attachment);
+				bool modified = RenameThumbnailExtensions(attachment, resourceFolder);
+
+				try
+				{
+					if (modified)
+						AttachmentCollection.Instance.Save(attachment);
+				}
+				catch (Exception e)
+				{
+					Logger.Warn("Unable to update migrated file name of attachment: " + attachment.object_id, e);
+				}
+			}
+
+			return ActionResult.Success;
+		}
+
+		private static bool RenameThumbnailExtensions(Attachment attachment, string resourceFolder)
+		{
+			bool modified = false;
+
+			foreach (ImageMeta thumbnail in Enum.GetValues(typeof(ImageMeta)))
+			{
+				if (thumbnail == ImageMeta.Origin || thumbnail == ImageMeta.None)
+					continue;
+				
+				try
+				{
+					ThumbnailInfo thumbnailInfo = attachment.image_meta.GetThumbnailInfo(thumbnail);
+					if (thumbnailInfo != null && thumbnailInfo.saved_file_name != null &&
+						Path.GetExtension(thumbnailInfo.saved_file_name) != ".dat")
+					{
+						string newFileName = Path.GetFileNameWithoutExtension(thumbnailInfo.saved_file_name) + ".dat";
+						File.Move(
+							Path.Combine(resourceFolder, thumbnailInfo.saved_file_name),
+							Path.Combine(resourceFolder, newFileName));
+
+						thumbnailInfo.saved_file_name = newFileName;
+						modified = true;
+					}
+				}
+				catch (Exception e)
+				{
+					Logger.WarnFormat("Failed to rename file: {0} {1}", attachment.object_id, thumbnail);
+					Logger.Warn(e);
+				}
+			}
+
+			return modified;
+		}
+
+		private static string GetResourceDir(Session session, Attachment attachment)
+		{
+			Driver user = DriverCollection.Instance.FindDriverByGroupId(attachment.group_id);
+			if (Path.IsPathRooted(user.folder))
+				return user.folder;
+			else
+				return Path.Combine(session["INSTALLLOCATION"], user.folder);
 		}
 	}
 }

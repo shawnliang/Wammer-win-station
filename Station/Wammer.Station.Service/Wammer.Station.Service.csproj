@@ -139,6 +139,7 @@
     <Compile Include="Model\Drivers.cs" />
     <Compile Include="Model\LoginedSession.cs" />
     <Compile Include="Model\Posts.cs" />
+    <Compile Include="Model\ProductInfo.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\StationInfo.cs" />
     <Compile Include="Model\UserTracks.cs" />

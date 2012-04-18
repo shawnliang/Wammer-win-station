@@ -23,11 +23,11 @@ namespace Wammer.Station
 
 		private List<IStationTimer> timers;
 
-		public StationTimer(HttpServer functionServer, ITaskStore bodySyncQueue)
+		public StationTimer(HttpServer functionServer, ITaskStore bodySyncQueue, string stationId)
 		{
 			timers = new List<IStationTimer> {
 				new StatusChecker(STATUS_CHECK_PERIOD, functionServer),
-				new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue)
+				new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue, stationId)
 			};
 		}
 

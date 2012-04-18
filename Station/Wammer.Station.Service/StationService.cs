@@ -65,7 +65,7 @@ namespace Wammer.Station.Service
 				functionServer = new HttpServer(9981, httpRequestMonitor); // TODO: remove hard code
 
 
-				stationTimer = new StationTimer(functionServer, bodySyncTaskQueue);
+				stationTimer = new StationTimer(functionServer, bodySyncTaskQueue, stationId);
 
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
 
@@ -242,7 +242,7 @@ namespace Wammer.Station.Service
 				new UserTracksApi()
 			);
 
-			ResourceDownloader downloader = new ResourceDownloader(bodySyncTaskQueue);
+			ResourceDownloader downloader = new ResourceDownloader(bodySyncTaskQueue, stationId);
 			syncer.PostsRetrieved += new EventHandler<Timeline.TimelineSyncEventArgs>(downloader.PostRetrieved);
 			syncer.PullTimeline(e.Driver);
 		}
