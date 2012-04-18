@@ -140,6 +140,7 @@
     <Compile Include="Model\Drivers.cs" />
     <Compile Include="Model\LoginedSession.cs" />
     <Compile Include="Model\Posts.cs" />
+    <Compile Include="Model\PostUploadTasks.cs" />
     <Compile Include="Model\ProductInfo.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\StationInfo.cs" />
@@ -150,6 +151,8 @@
     <Compile Include="PerfMonitor\PerfCounter.cs" />
     <Compile Include="PerfMonitor\PerfCounterInstaller.cs" />
     <Compile Include="Enum\PostUploadActionType.cs" />
+    <Compile Include="PostUpload\PostUploadTask.cs" />
+    <Compile Include="PostUpload\PostUploadTaskQueue.cs" />
     <Compile Include="Station\PostUploadTaskController.cs" />
     <Compile Include="Queue\PostUploadTaskQueue.cs" />
     <Compile Include="Queue\Queue.cs" />
