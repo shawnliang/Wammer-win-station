@@ -8,14 +8,14 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Model
 {
-	class PostUploadTasks
+	public class PostUploadTasks
 	{
 		[BsonId]
 		public string post_id { get; set; }
 		public LinkedList<PostUploadTask> tasks { get; set; }
 	}
 
-	class PostUploadTasksCollection : Collection<PostUploadTasks>
+	public class PostUploadTasksCollection : Collection<PostUploadTasks>
 	{
 		private static PostUploadTasksCollection instance;
 

@@ -11,14 +11,14 @@ using MongoDB.Driver.Builders;
 
 namespace Wammer.PostUpload
 {
-	interface IUndoablePostUploadTaskQueue
+	public interface IUndoablePostUploadTaskQueue
 	{
 		void Enqueue(PostUploadTask task);
 		PostUploadTask Dequeue();
 		void Undo(PostUploadTask task);
 	}
 
-	class PostUploadTaskQueue : IUndoablePostUploadTaskQueue
+	public class PostUploadTaskQueue : IUndoablePostUploadTaskQueue
 	{
 		private Queue<string> postIdQueue;
 		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;

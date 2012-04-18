@@ -89,6 +89,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestPostUploadTaskQueue.cs" />
     <Compile Include="TestUserLogin.cs" />
     <Compile Include="EventTest.cs" />
     <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />
