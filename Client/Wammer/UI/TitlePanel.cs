@@ -8,14 +8,18 @@ namespace Waveface
     public class TitlePanel : UserControl
     {
         private TextureBrush m_brush1;
-        private Component.ImageButton btnNewPost;
+        private Component.ImageButton btnCreatePost;
         private Component.ImageButton btnRefresh;
+        private Label labelStatus;
         private TextureBrush m_brush3;
+
+        private Bitmap m_bmpOffscreen;
 
         public TitlePanel()
         {
             InitializeComponent();
 
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.UserPaint, true);
@@ -24,12 +28,14 @@ namespace Waveface
             m_brush3 = new TextureBrush(Properties.Resources.Title3, WrapMode.Tile);
 
             ArrangeButtons();
+
+            show_labelStatus(false);
         }
 
         private void ArrangeButtons()
         {
-            btnNewPost.Top = 6;
-            btnNewPost.Left = Main.Current.GetLeftAreaWidth() + 24;
+            btnCreatePost.Top = 6;
+            btnCreatePost.Left = Main.Current.GetLeftAreaWidth() + 24;
 
             btnRefresh.Top = 6;
             btnRefresh.Left = Width - 48;
@@ -46,49 +52,100 @@ namespace Waveface
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            if (m_bmpOffscreen == null)
+                m_bmpOffscreen = new Bitmap(ClientSize.Width, ClientSize.Height);
+
+            using (Graphics _g = Graphics.FromImage(m_bmpOffscreen))
+            {
+                _g.FillRectangle(m_brush1, 0, 0, Width - 8, Height);
+
+                int _leftAreaWidth = Main.Current.GetLeftAreaWidth();
+
+                _g.DrawImage(Properties.Resources.Title2, _leftAreaWidth, 0);
+
+                int _offset = _leftAreaWidth + Properties.Resources.Title2.Width;
+
+                int _offsetEnd = 16;
+
+                _g.FillRectangle(m_brush3, _offset, 0, Width - _offset - _offsetEnd, Height);
+
+                _g.DrawImage(Properties.Resources.Title4, Width - _offsetEnd, 0);
+
+                e.Graphics.DrawImage(m_bmpOffscreen, 0, 0);
+            }
+
             base.OnPaint(e);
+        }
 
-            Graphics _g = e.Graphics;
+        private void btnRefresh_Click(object sender, System.EventArgs e)
+        {
+            //Test - ToDo
+            Main.Current.checkNewPosts();
 
-            _g.FillRectangle(m_brush1, 0, 0, Width - 8 , Height);
+            //if (!Main.Current.CheckNetworkStatus())
+            //    return;
 
-            int _leftAreaWidth = Main.Current.GetLeftAreaWidth();
+            Main.Current.ReloadAllData();
+        }
 
-            _g.DrawImage(Properties.Resources.Title2, _leftAreaWidth, 0);
+        public void updateRefreshUI(bool flag)
+        {
+            btnRefresh.Enabled = flag;
+        }
 
-            int _offset = _leftAreaWidth + Properties.Resources.Title2.Width;
+        public void ShowStatusText(string msg)
+        {
+            labelStatus.Text = msg;
 
-            int _offsetEnd = 16;
+            show_labelStatus(msg != "");
+        }
 
-            _g.FillRectangle(m_brush3, _offset, 0, Width - _offset - _offsetEnd, Height);
+        private void show_labelStatus(bool flag)
+        {
+            btnCreatePost.Enabled = !flag;
 
-            _g.DrawImage(Properties.Resources.Title4, Width - _offsetEnd, 0);
+            btnRefresh.Enabled = !flag;
+        }
 
-            _g.Dispose();
+        public void showRefreshUI(bool flag)
+        {
+            btnCreatePost.Visible = true;
+
+            btnRefresh.Visible = flag;
+        }
+
+        private void btnCreatePost_Click(object sender, System.EventArgs e)
+        {
+            if (!Main.Current.CheckNetworkStatus())
+                return;
+
+            Main.Current.Post();
         }
 
         #region Windows Form Designer generated code
 
         private void InitializeComponent()
         {
-            this.btnNewPost = new Waveface.Component.ImageButton();
+            this.btnCreatePost = new Waveface.Component.ImageButton();
             this.btnRefresh = new Waveface.Component.ImageButton();
+            this.labelStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // btnNewPost
+            // btnCreatePost
             // 
-            this.btnNewPost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
-            this.btnNewPost.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNewPost.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnNewPost.Image = global::Waveface.Properties.Resources.FB_newpost;
-            this.btnNewPost.ImageDisable = global::Waveface.Properties.Resources.FB_newpost_hl;
-            this.btnNewPost.ImageHover = global::Waveface.Properties.Resources.FB_newpost_hl;
-            this.btnNewPost.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnNewPost.Location = new System.Drawing.Point(225, 3);
-            this.btnNewPost.Name = "btnNewPost";
-            this.btnNewPost.Size = new System.Drawing.Size(20, 20);
-            this.btnNewPost.TabIndex = 11;
-            this.btnNewPost.TabStop = false;
+            this.btnCreatePost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
+            this.btnCreatePost.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCreatePost.Font = new System.Drawing.Font("Arial", 9F);
+            this.btnCreatePost.Image = global::Waveface.Properties.Resources.FB_newpost;
+            this.btnCreatePost.ImageDisable = global::Waveface.Properties.Resources.FB_newpost_hl;
+            this.btnCreatePost.ImageHover = global::Waveface.Properties.Resources.FB_newpost_hl;
+            this.btnCreatePost.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnCreatePost.Location = new System.Drawing.Point(225, 3);
+            this.btnCreatePost.Name = "btnCreatePost";
+            this.btnCreatePost.Size = new System.Drawing.Size(20, 20);
+            this.btnCreatePost.TabIndex = 11;
+            this.btnCreatePost.TabStop = false;
+            this.btnCreatePost.Click += new System.EventHandler(this.btnCreatePost_Click);
             // 
             // btnRefresh
             // 
@@ -104,15 +161,28 @@ namespace Waveface
             this.btnRefresh.Size = new System.Drawing.Size(20, 20);
             this.btnRefresh.TabIndex = 12;
             this.btnRefresh.TabStop = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // labelStatus
+            // 
+            this.labelStatus.AutoSize = true;
+            this.labelStatus.Location = new System.Drawing.Point(15, 11);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(54, 12);
+            this.labelStatus.TabIndex = 13;
+            this.labelStatus.Text = "labelStatus";
+            this.labelStatus.Visible = false;
             // 
             // TitlePanel
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(175)))), ((int)(((byte)(198)))));
+            this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.btnNewPost);
+            this.Controls.Add(this.btnCreatePost);
             this.Name = "TitlePanel";
             this.Size = new System.Drawing.Size(651, 39);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

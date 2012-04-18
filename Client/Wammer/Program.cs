@@ -18,7 +18,6 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-
         #region DllImport
 
         [DllImport("user32.dll")]

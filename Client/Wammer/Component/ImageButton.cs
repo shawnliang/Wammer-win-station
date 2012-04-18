@@ -15,6 +15,8 @@ namespace Waveface.Component
         private bool m_hover;
         private bool m_down;
 
+        #region Properties
+
         public Image Image
         {
             get { return m_image; }
@@ -48,6 +50,14 @@ namespace Waveface.Component
             }
         }
 
+        #endregion
+
+        public ImageButton()
+        {
+            SetStyle(ControlStyles.DoubleBuffer, true);
+            SetStyle(ControlStyles.UserPaint, true);
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             if (m_bmpOffscreen == null)
@@ -55,7 +65,7 @@ namespace Waveface.Component
 
             Graphics _gOff = Graphics.FromImage(m_bmpOffscreen);
 
-            _gOff.Clear(BackColor);
+            _gOff.Clear(Color.Transparent);
 
             if (DesignMode)
             {
@@ -102,8 +112,10 @@ namespace Waveface.Component
 
         private Color BackgroundImageColor(Image img)
         {
-            Bitmap _bmp = new Bitmap(img);
-            return _bmp.GetPixel(0, 0);
+            //Bitmap _bmp = new Bitmap(img);
+            //return _bmp.GetPixel(0, 0);
+
+            return Color.Transparent;
         }
 
         protected override void OnMouseMove(MouseEventArgs e)

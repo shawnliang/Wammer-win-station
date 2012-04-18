@@ -140,7 +140,6 @@ namespace Waveface
             this.panelTop.Controls.Add(this.labelTitle);
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
-            this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
             // 
             // btnMoreOptions
             // 
@@ -566,22 +565,11 @@ namespace Waveface
 
         private void btnFavorite_Click(object sender, EventArgs e)
         {
+            Cursor = Cursors.WaitCursor;
+
             Main.Current.ChangePostFavorite(m_post, true);
-        }
 
-        private void panelTop_Paint(object sender, PaintEventArgs e)
-        {
-            /*
-            Graphics _g = e.Graphics;
-
-            if (m_loadOK)
-            {
-                using (Brush _brush = new TextureBrush(Properties.Resources.divider, WrapMode.Tile))
-                {
-                    _g.FillRectangle(_brush, 12, panelTop.Height - 4, panelTop.Width - 40, 4);
-                }
-            }
-            */
+            Cursor = Cursors.Default;
         }
 
         private void btnMoreOptions_Click(object sender, EventArgs e)

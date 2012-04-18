@@ -124,8 +124,14 @@
   <data name="miSetCoverImage.Text" xml:space="preserve">
     <value>設為封面</value>
   </data>
+  <data name="miOpen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 22</value>
+  </data>
+  <data name="miOpen.Text" xml:space="preserve">
+    <value>開啟</value>
+  </data>
   <data name="contextMenuStripImageList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 26</value>
+    <value>125, 48</value>
   </data>
   <data name="imageListView.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

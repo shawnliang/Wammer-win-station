@@ -1,6 +1,12 @@
 <?xml version="1.0" standalone="yes"?>
 <WItems>
   <WItem>
+    <ID>CoverImage</ID>
+    <en-US>Cover Image</en-US>
+    <zh-TW>封面照片</zh-TW>
+  </WItem>    
+  
+  <WItem>
     <ID>ErrorAndTry</ID>
     <en-US>An error occurred, please try again.</en-US>
     <zh-TW>系統發生錯誤, 請稍後再試.</zh-TW>

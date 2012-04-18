@@ -3,6 +3,7 @@ namespace Waveface
 {
     public enum ShowTimelineIndexType
     {
+        Manual,
         Newest,
         LocalLastRead,
         GlobalLastRead,

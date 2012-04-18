@@ -25,18 +25,17 @@ namespace Waveface
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
-
-            Graphics _g = e.Graphics;
-
-            _g.DrawImage(Properties.Resources.Title4, -16, 0);
-
-            using (Brush _brush = new TextureBrush(Properties.Resources.divider, WrapMode.Tile))
+            using (Graphics _g = e.Graphics)
             {
-                _g.FillRectangle(_brush, 12, Height - 4, Width - 40, 4);
+                _g.DrawImage(Properties.Resources.Title4, -16, 0);
+
+                using (Brush _brush = new TextureBrush(Properties.Resources.divider, WrapMode.Tile))
+                {
+                    _g.FillRectangle(_brush, 12, Height - 4, Width - 40, 4);
+                }
             }
 
-            _g.Dispose();
+            base.OnPaint(e);
         }
 
         #region Windows Form Designer generated code

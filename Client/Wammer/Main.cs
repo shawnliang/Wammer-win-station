@@ -189,12 +189,12 @@ namespace Waveface
         {
             postsArea.PostsList.DetailView = detailView;
 
-			if (Environment.GetCommandLineArgs().Length == 1)
-			{
-            NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+            if (Environment.GetCommandLineArgs().Length == 1)
+            {
+                NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 
-            UpdateNetworkStatus();
-			}
+                UpdateNetworkStatus();
+            }
 
             // InitDropableNotifyIcon();
 
@@ -215,10 +215,10 @@ namespace Waveface
                 case (Keys.Control | Keys.N):
                     if (RT.Login != null)
                     {
-						//if (CheckNetworkStatus())
-						//{
-                            Post();
-						//}
+                        //if (CheckNetworkStatus())
+                        //{
+                        Post();
+                        //}
                     }
 
                     return true;
@@ -231,13 +231,13 @@ namespace Waveface
         {
             int s = 256;
             int k = 8;
-            
+
             try
             {
                 Bitmap _img = new Bitmap(s, s);
                 Graphics _g = Graphics.FromImage(_img);
 
-                _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, s, s));
+                _g.FillRectangle(new SolidBrush(Color.White), new Rectangle(0, 0, s, s));
 
                 using (Pen _p = new Pen(Color.FromArgb(89, 154, 174)))
                 {
@@ -298,8 +298,8 @@ namespace Waveface
                 return true;
             }
 
-                return false;
-            }
+            return false;
+        }
 
         private void SaveRunTime()
         {
@@ -438,8 +438,8 @@ namespace Waveface
 
         public void Setting()
         {
-			//if (!Current.CheckNetworkStatus())
-			//    return;
+            //if (!Current.CheckNetworkStatus())
+            //    return;
 
             m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
@@ -553,46 +553,46 @@ namespace Waveface
 
         public void UpdateNetworkStatus()
         {
-			//if (NetworkInterface.GetIsNetworkAvailable())
-			//{
-                RT.REST.IsNetworkAvailable = true;
+            //if (NetworkInterface.GetIsNetworkAvailable())
+            //{
+            RT.REST.IsNetworkAvailable = true;
 
-                StatusLabelNetwork.Text = I18n.L.T("NetworkConnected");
-                StatusLabelNetwork.Image = Resources.network_receive;
+            StatusLabelNetwork.Text = I18n.L.T("NetworkConnected");
+            StatusLabelNetwork.Image = Resources.network_receive;
 
-                StatusLabelServiceStatus.Visible = true;
+            StatusLabelServiceStatus.Visible = true;
 
-			//    s_logger.Info("UpdateNetworkStatus: Connected");
-			//}
-			//else
-			//{
-			//    RT.REST.IsNetworkAvailable = false;
+            //    s_logger.Info("UpdateNetworkStatus: Connected");
+            //}
+            //else
+            //{
+            //    RT.REST.IsNetworkAvailable = false;
 
-			//    StatusLabelNetwork.Text = I18n.L.T("NetworkDisconnected");
-			//    StatusLabelNetwork.Image = Resources.network_error;
+            //    StatusLabelNetwork.Text = I18n.L.T("NetworkDisconnected");
+            //    StatusLabelNetwork.Image = Resources.network_error;
 
-			//    StatusLabelServiceStatus.Visible = false;
+            //    StatusLabelServiceStatus.Visible = false;
 
-			//    s_logger.Info("UpdateNetworkStatus: Disconnected");
-			//}
+            //    s_logger.Info("UpdateNetworkStatus: Disconnected");
+            //}
         }
 
         public bool CheckNetworkStatus()
         {
-			//if (RT.REST.IsNetworkAvailable)
-			//{
-                return true;
-			//}
-			//else
-			//{
-			//    Invoke(new MethodInvoker(() =>
-			//    {
-			//        MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK,
-			//                    MessageBoxIcon.Warning);
-			//    }));
+            //if (RT.REST.IsNetworkAvailable)
+            //{
+            return true;
+            //}
+            //else
+            //{
+            //    Invoke(new MethodInvoker(() =>
+            //    {
+            //        MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK,
+            //                    MessageBoxIcon.Warning);
+            //    }));
 
-			//    return false;
-			//}
+            //    return false;
+            //}
         }
 
         private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
@@ -621,8 +621,7 @@ namespace Waveface
 
             WService.StationIP = "";
 
-            postsArea.ShowTypeUI(false);
-            postsArea.showRefreshUI(false);
+            panelTitle.showRefreshUI(false);
 
             s_logger.Trace("Reset.Online" + online.ToString());
         }
@@ -685,7 +684,7 @@ namespace Waveface
 
             leftArea.SetNewPostManager();
 
-            postsArea.showRefreshUI(true);
+            panelTitle.showRefreshUI(true);
 
             Cursor = Cursors.Default;
 
@@ -790,7 +789,6 @@ namespace Waveface
             RT.FilterPosts = new List<Post>(); //Reset
 
             RT.FilterTimelineMode = isFilterTimelineMode;
-            postsArea.ShowTypeUI(RT.FilterTimelineMode);
 
             FilterFetchPostsAndShow(true);
         }
@@ -926,7 +924,7 @@ namespace Waveface
                 {
                     s_logger.Trace("GetLastReadAndShow.getLastScan: null");
 
-                    ShowAllTimeline(m_showTimelineIndexType);
+                    ShowAllTimeline(m_showTimelineIndexType, -1);
                 }
                 else
                 {
@@ -937,7 +935,7 @@ namespace Waveface
                     //@
                     //if (IsLastReadPostInCacheData(_lastRead.post_id))
                     {
-                        ShowAllTimeline(m_showTimelineIndexType);
+                        ShowAllTimeline(m_showTimelineIndexType, -1);
                     }
                     /*else
                     {
@@ -989,7 +987,7 @@ namespace Waveface
 
                 Cursor = Cursors.WaitCursor;
 
-                postsArea.updateRefreshUI(false);
+                panelTitle.updateRefreshUI(false);
 
                 if (bgWorkerGetAllData.IsBusy)
                     Cursor = Cursors.Default;
@@ -998,12 +996,12 @@ namespace Waveface
             }
         }
 
-        private void ShowAllTimeline(ShowTimelineIndexType showTimelineIndexType)
+        private void ShowAllTimeline(ShowTimelineIndexType showTimelineIndexType, int index)
         {
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                           delegate { ShowAllTimeline(showTimelineIndexType); }
+                           delegate { ShowAllTimeline(showTimelineIndexType, index); }
                            ));
             }
             else
@@ -1018,7 +1016,21 @@ namespace Waveface
                 postsArea.ShowPostInforPanel(false);
                 leftArea.SetUI(true);
 
-                int _index = RT.GetMyTimelinePosition(showTimelineIndexType);
+                int _index;
+
+                if (index < 0)
+                {
+                    _index = RT.GetMyTimelinePosition(showTimelineIndexType);
+                }
+                else
+                {
+                    if (index < RT.CurrentGroupPosts.Count)
+                        _index = index;
+                    else
+                        _index = RT.CurrentGroupPosts.Count - 1;
+
+                    RT.SetCurrentGroupLocalLastRead(RT.CurrentGroupPosts[_index]);
+                }
 
                 s_logger.Info("ShowAllTimeline: showTimelineIndexType=" + showTimelineIndexType + ", TimelineIndex=" +
                               _index);
@@ -1090,7 +1102,7 @@ namespace Waveface
 
                         if (m_postForm.BatchPostItem.Post != null)
                         {
-                            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
                         }
 
                         break;
@@ -1153,8 +1165,8 @@ namespace Waveface
         {
             string _time = post.timestamp;
 
-			//if (!CheckNetworkStatus())
-			//    return _time;
+            //if (!CheckNetworkStatus())
+            //    return _time;
 
             try
             {
@@ -1177,8 +1189,8 @@ namespace Waveface
 
         public Post PostUpdate(Post post, Dictionary<string, string> optionalParams, bool refreshUI)
         {
-			//if (!CheckNetworkStatus())
-			//    return null;
+            //if (!CheckNetworkStatus())
+            //    return null;
 
             MR_posts_update _update = null;
 
@@ -1211,8 +1223,8 @@ namespace Waveface
 
         public bool ChangePostFavorite(Post post, bool refreshUI)
         {
-			//if (!CheckNetworkStatus())
-			//    return false;
+            //if (!CheckNetworkStatus())
+            //    return false;
 
             try
             {
@@ -1253,21 +1265,51 @@ namespace Waveface
 
         public bool HidePost(string postId)
         {
-			//if (!CheckNetworkStatus())
-			//    return false;
+            //if (!CheckNetworkStatus())
+            //    return false;
+
+            Cursor = Cursors.WaitCursor;
 
             MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
 
             if (_ret != null)
             {
-                ReloadAllData(); //- ToDo 
+                RemovePostLocalAndRefresh(postId, true);
 
                 MessageBox.Show(I18n.L.T("PostRemoved"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                Cursor = Cursors.Default;
                 return true;
             }
 
+            Cursor = Cursors.Default;
             return false;
+        }
+
+        private void RemovePostLocalAndRefresh(string postId, bool changeUI)
+        {
+            int _index = 0;
+
+            foreach (Post _p in RT.CurrentGroupPosts)
+            {
+                if (_p.post_id == postId)
+                {
+                    RT.CurrentGroupPosts.Remove(_p);
+
+                    if (changeUI)
+                    {
+                        ShowAllTimeline(ShowTimelineIndexType.Manual, _index);
+                    }
+                    else
+                    {
+                        ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
+                    }
+
+                    break;
+                }
+
+                _index++;
+            }
         }
 
         public void RefreshSinglePost_ByID(string post_id)
@@ -1279,7 +1321,7 @@ namespace Waveface
                 ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
                 //ReplacePostInList(_singlePost.post, RT.FilterPosts);
 
-                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
             }
         }
 
@@ -1288,7 +1330,7 @@ namespace Waveface
             ReplacePostInList(post, RT.CurrentGroupPosts);
 
             if (refreshUI)
-                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
         }
 
         private bool ReplacePostInList(Post post, List<Post> posts)
@@ -1344,8 +1386,8 @@ namespace Waveface
 
         public bool checkNewPosts()
         {
-			//if (!CheckNetworkStatus())
-			//    return false;
+            //if (!CheckNetworkStatus())
+            //    return false;
 
             if (RT.CurrentGroupPosts.Count == 0)
                 return false;
@@ -1478,7 +1520,7 @@ namespace Waveface
 
                 _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-				Post(new List<string> { _pathToSave }, PostType.Photo);
+                Post(new List<string> { _pathToSave }, PostType.Photo);
             }
             catch (Exception _e)
             {
@@ -1516,8 +1558,8 @@ namespace Waveface
 
             try
             {
-				//if (!CheckNetworkStatus())
-				//    return;
+                //if (!CheckNetworkStatus())
+                //    return;
 
                 if (checkNewPosts())
                 {
@@ -1558,9 +1600,7 @@ namespace Waveface
                         {
                             if (_action.action == "hide")
                             {
-                                ReloadAllData(); //
-
-                                return;
+                                RemovePostLocalAndRefresh(_usertrack.target_id, false);
                             }
                         }
                     }
@@ -1571,12 +1611,15 @@ namespace Waveface
 
                     if (_postsGet != null)
                     {
+                        bool _changed = false;
+
                         foreach (Post _p in _postsGet.posts)
                         {
-                            ReplacePostInList(_p, RT.CurrentGroupPosts);
+                            _changed = ReplacePostInList(_p, RT.CurrentGroupPosts);
                         }
 
-                        ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                        if(_changed)
+                            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
                     }
                 }
 
@@ -1640,7 +1683,7 @@ namespace Waveface
                     timerShowStatuMessage.Enabled = true;
 
                     StatusLabelPost.Text = message;
-                    postsArea.ShowStatusText(message);
+                    panelTitle.ShowStatusText(message);
                 }
                 else
                 {
@@ -1654,7 +1697,7 @@ namespace Waveface
             timerShowStatuMessage.Enabled = false;
 
             StatusLabelPost.Text = "";
-            postsArea.ShowStatusText("");
+            panelTitle.ShowStatusText("");
         }
 
         public void ShowFileMissDialog(string text)
@@ -1782,7 +1825,7 @@ namespace Waveface
             {
                 Cursor = Cursors.Default;
 
-                postsArea.updateRefreshUI(true);
+                panelTitle.updateRefreshUI(true);
 
                 GetLastReadAndShow();
             }
