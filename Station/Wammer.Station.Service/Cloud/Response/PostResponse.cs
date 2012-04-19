@@ -24,6 +24,29 @@ namespace Wammer.Cloud
 		abstract public bool HasMoreData { get; }
 	}
 
+	public class NewPostResponse : CloudResponse
+	{
+		#region Var
+		private List<PostInfo> _posts;
+		#endregion
+
+		#region Public Property
+		public List<PostInfo> posts 
+		{
+			get
+			{
+				if (_posts == null)
+					_posts = new List<PostInfo>();
+				return _posts;
+			}
+			set 
+			{
+				_posts = value;
+			}
+		} 
+		#endregion
+	}
+
 	public class PostFetchByFilterResponse : PostResponse
 	{
 		public string group_id { get; set; }

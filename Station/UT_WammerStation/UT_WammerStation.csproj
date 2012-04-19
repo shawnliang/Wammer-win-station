@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestPostUploadTaskQueue.cs" />
+    <Compile Include="TestNewPostHandler.cs" />
     <Compile Include="TestUserLogin.cs" />
     <Compile Include="EventTest.cs" />
     <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />

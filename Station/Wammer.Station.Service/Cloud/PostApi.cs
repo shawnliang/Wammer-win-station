@@ -27,6 +27,22 @@ namespace Wammer.Cloud
 			this.driver = driver;
 		}
 
+		public static PostResponse NewPost(WebClient agent, string apiKey, string sessionToken, string groupID, string content = "", string type = "", string attachmentIDs = "", string preview = "")
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
+				{CloudServer.PARAM_GROUP_ID, groupID},
+				{CloudServer.PARAM_CONTENT, content},
+				{CloudServer.PARAM_TYPE, type},
+				{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, attachmentIDs},
+				{CloudServer.PARAM_PREVIEW, preview},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			};
+
+			return CloudServer.requestPath<PostResponse>(agent, "posts/new", parameters, false);
+		}
+
 		public PostFetchByFilterResponse PostFetchByFilter(WebClient agent, FilterEntity filter)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>

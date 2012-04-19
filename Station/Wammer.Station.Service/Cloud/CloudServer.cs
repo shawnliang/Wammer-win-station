@@ -30,7 +30,11 @@ namespace Wammer.Cloud
 		public const string PARAM_FILTER_ENTITY = "filter_entity";
 		public const string PARAM_POST_ID_LIST = "post_id_list";
 		public const string PARAM_GROUP_ID = "group_id";
+		public const string PARAM_CONTENT = "content";
 		public const string PARAM_OBJECT_ID = "object_id";
+		public const string PARAM_TYPE = "type";
+		public const string PARAM_ATTACHMENT_ID_ARRAY = "attachment_id_array";
+		public const string PARAM_PREVIEW = "preview";
 		public const string PARAM_IMAGE_META = "image_meta";
 
 		public static string SessionToken { get; set; }
