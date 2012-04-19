@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
-using Timer = System.Windows.Forms.Timer;
-using System.IO;
+using Waveface.Localization;
 
 #endregion
 
@@ -36,7 +36,7 @@ namespace Waveface
         private List<Post> m_posts;
         private Timer timerDisplayedScrolling;
         private int m_lastRead;
-        private Localization.CultureManager cultureManager;
+        private CultureManager cultureManager;
         private ContextMenuStrip contextMenuStrip;
         private ToolStripMenuItem miRemovePost;
         private bool m_manualRefresh;
@@ -146,6 +146,12 @@ namespace Waveface
         {
             try
             {
+                if (lastRead >= posts.Count)
+                    lastRead = posts.Count - 1;
+
+                if (lastRead < 0)
+                    lastRead = 0;
+
                 m_manualRefresh = manualRefresh;
 
                 dataGridView.Enabled = false;
@@ -181,10 +187,15 @@ namespace Waveface
         private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
         private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225));
         private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225)); // 217, 217, 217
+
         private Color m_inforColor = Color.FromArgb(95, 121, 143);
-        private Color m_textColor = Color.FromArgb(33, 69, 99);
+        private Color m_textColor = Color.FromArgb(57, 80, 85);
         private Color m_selectedTextColor = Color.FromArgb(89, 154, 174);
-        private Font m_fontPhotoInfo = new Font("Arial", 8, FontStyle.Bold);
+        private Color m_linkURLColor = Color.FromArgb(95, 121, 143);
+
+        private Font m_fontInfo = new Font("Arial", 8, FontStyle.Bold);
+        private Font m_fontLinkURL = new Font("Arial", 8, FontStyle.Italic | FontStyle.Bold);
+        private Font m_fontLinkTitle = new Font("Arial", 10, FontStyle.Bold);
         private Font m_fontText = new Font("Arial", 10);
 
         private void dataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -251,11 +262,11 @@ namespace Waveface
 
                     case "image":
                     case "doc":
-                        Draw_Photo_Doc_Post(_g, _post, _cellRect, _underThumbnailHeight, m_fontPhotoInfo, m_fontText, _thumbnailRect.Width, _selected);
+                        Draw_Photo_Doc_Post(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected);
                         break;
 
                     case "link":
-                        Draw_Link(_g, _post, _cellRect, _underThumbnailHeight, m_fontPhotoInfo, m_fontText, _thumbnailRect.Width, _selected);
+                        Draw_Link(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected);
                         break;
                 }
             }
@@ -271,55 +282,75 @@ namespace Waveface
             e.Handled = true;
         }
 
-        private void Draw_Link(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, Font fontPhotoInfo, Font fontText, int thumbnailRectWidth, bool selected)
+        private void Draw_Link(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, int thumbnailRectWidth,
+                               bool selected)
         {
-            if (post.preview.thumbnail_url == null)
+            if (string.IsNullOrEmpty(post.preview.thumbnail_url))
                 thumbnailRectWidth = 0;
 
-            string _info = StringUtility.ExtractDomainNameFromURL(post.preview.url);
-            Size _sizeInfo = TextRenderer.MeasureText(g, _info, fontPhotoInfo);
-            Rectangle _rect = new Rectangle(rect.X + 4, rect.Y + rect.Height - underThumbnailHeight - 8, rect.Width - 8, _sizeInfo.Height);
-
-            TextRenderer.DrawText(g, _info, fontPhotoInfo, _rect, m_inforColor,
-                                  TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
-
-            Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8, rect.Height - underThumbnailHeight - 18);
+            Size _sizeTitle = TextRenderer.MeasureText(g, "-- Tg --", m_fontLinkTitle);
+            Rectangle _rTitle = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8,
+                                              _sizeTitle.Height);
 
             if (!string.IsNullOrEmpty(post.preview.title))
-                TextRenderer.DrawText(g, post.preview.title.Trim(), fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
-                    TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+            {
+                TextRenderer.DrawText(g, post.preview.title.Trim(), m_fontLinkTitle, _rTitle, m_textColor,
+                                      TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+            }
+
+            string _url = StringUtility.ExtractDomainNameFromURL(post.preview.url);
+            Size _sizeURL = TextRenderer.MeasureText(g, _url, m_fontLinkURL);
+            Rectangle _rURL = new Rectangle(rect.X + 4, _rTitle.Bottom + 2, rect.Width - thumbnailRectWidth - 8,
+                                            _sizeURL.Height);
+
+            TextRenderer.DrawText(g, _url, m_fontLinkURL, _rURL, m_linkURLColor, TextFormatFlags.EndEllipsis);
+
+            Rectangle _rText = new Rectangle(rect.X + 4, _rURL.Bottom + 2, rect.Width - thumbnailRectWidth - 8,
+                                             rect.Height - _rTitle.Height - _rURL.Height - 20);
+
+            if (!string.IsNullOrEmpty(post.preview.description))
+            {
+                TextRenderer.DrawText(g, post.preview.description.Trim(), m_fontText, _rText, m_selectedTextColor,
+                                      TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+            }
         }
 
-        private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, Font fontPhotoInfo, Font fontText, int thumbnailRectWidth, bool selected)
+        private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight,
+                                         int thumbnailRectWidth, bool selected)
         {
-            string _info = post.attachment_count + " " + ((post.attachment_count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
-            Size _sizeInfo = TextRenderer.MeasureText(g, _info, fontPhotoInfo);
-            Rectangle _rect = new Rectangle(rect.X + rect.Width - PicWidth - 8, rect.Y + rect.Height - underThumbnailHeight - 8, PicWidth, _sizeInfo.Height);
+            string _info = post.attachment_count + " " +
+                           ((post.attachment_count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
+            Size _sizeInfo = TextRenderer.MeasureText(g, _info, m_fontInfo);
+            Rectangle _rect = new Rectangle(rect.X + rect.Width - PicWidth - 8,
+                                            rect.Y + rect.Height - underThumbnailHeight - 8, PicWidth, _sizeInfo.Height);
 
-            TextRenderer.DrawText(g, _info, fontPhotoInfo, _rect, m_inforColor,
-                                  TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis);
+            TextRenderer.DrawText(g, _info, m_fontInfo, _rect, m_inforColor, TextFormatFlags.Right);
 
+            Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8,
+                                               rect.Height - underThumbnailHeight - 18);
 
-            Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8, rect.Height - underThumbnailHeight - 18);
-
-            TextRenderer.DrawText(g, post.content, fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
-                      TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+            TextRenderer.DrawText(g, post.content, m_fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
+                                  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
-        private void Draw_RichText_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, Font fontText, int thumbnailRectWidth)
+        private void Draw_RichText_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, Font fontText,
+                                        int thumbnailRectWidth)
         {
-            Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8, rect.Height - underThumbnailHeight - 16);
+            Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8,
+                                               rect.Height - underThumbnailHeight - 16);
 
             TextRenderer.DrawText(g, post.content, fontText, _rectAll, m_textColor,
-                      TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+                                  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
-        private void Draw_Text_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, Font fontText, bool selected)
+        private void Draw_Text_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, Font fontText,
+                                    bool selected)
         {
-            Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - 8, rect.Height - underThumbnailHeight - 18);
+            Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - 8,
+                                               rect.Height - 18);
 
             TextRenderer.DrawText(g, post.content, fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
-                      TextFormatFlags.WordBreak | TextFormatFlags.PreserveGraphicsClipping | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+                                  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
         }
 
         #region Draw Thumbnail
@@ -357,7 +388,7 @@ namespace Waveface
                 }
                 else
                 {
-                    string _localPic = Path.Combine(Main.GCONST.ImageCachePath , _a.object_id + "_thumbnail" + ".jpg");
+                    string _localPic = Path.Combine(Main.GCONST.ImageCachePath, _a.object_id + "_thumbnail" + ".jpg");
 
                     string _url = _a.image;
 
@@ -413,7 +444,8 @@ namespace Waveface
                 {
                     string _url = post.preview.thumbnail_url;
 
-                    string _localPic = Path.Combine( Main.GCONST.ImageCachePath , post.post_id + "_previewthumbnail_" + ".jpg");
+                    string _localPic = Path.Combine(Main.GCONST.ImageCachePath,
+                                                    post.post_id + "_previewthumbnail_" + ".jpg");
 
                     Bitmap _img = LoadThumbnail(_url, _localPic);
 
@@ -462,7 +494,7 @@ namespace Waveface
         {
             Bitmap _img;
 
-            if (System.IO.File.Exists(localPicPath))
+            if (File.Exists(localPicPath))
             {
                 _img = new Bitmap(localPicPath);
             }
@@ -495,7 +527,7 @@ namespace Waveface
             string _fileName = string.Empty;
             Main.Current.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName, false);
 
-            string _localPic = Path.Combine(Main.GCONST.ImageCachePath , _fileName);
+            string _localPic = Path.Combine(Main.GCONST.ImageCachePath, _fileName);
 
             Bitmap _img = LoadThumbnail(_url, _localPic);
 
@@ -609,10 +641,7 @@ namespace Waveface
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                           delegate
-                           {
-                               RefreshUI();
-                           }
+                           delegate { RefreshUI(); }
                            ));
             }
             else
@@ -652,6 +681,9 @@ namespace Waveface
         {
             if (lastRead >= m_postBS.Count)
                 lastRead = m_postBS.Count - 1;
+
+            if (lastRead < 0)
+                lastRead = 0;
 
             m_lastRead = lastRead;
             m_postBS.Position = m_lastRead;
@@ -734,7 +766,7 @@ namespace Waveface
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoGenerateColumns = false;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -767,6 +799,7 @@ namespace Waveface
             this.dataGridView.ContextMenuStripNeeded += new System.EventHandler<System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs>(this.dataGridView_ContextMenuStripNeeded);
             this.dataGridView.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.dataGridView_CellContextMenuStripNeeded);
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
+            this.dataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView_DataError);
             this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
             // 
             // creatoridDataGridViewTextBoxColumn
@@ -801,12 +834,13 @@ namespace Waveface
 
         #endregion
 
-        private void dataGridView_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
+        private void dataGridView_CellContextMenuStripNeeded(object sender,
+                                                             DataGridViewCellContextMenuStripNeededEventArgs e)
         {
-
         }
 
-        private void dataGridView_ContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
+        private void dataGridView_ContextMenuStripNeeded(object sender,
+                                                         DataGridViewCellContextMenuStripNeededEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
@@ -819,12 +853,17 @@ namespace Waveface
         {
             Post _post = m_postBS[m_postBS.Position] as Post;
 
-            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Waveface", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Waveface", MessageBoxButtons.YesNo,
+                                               MessageBoxIcon.Question);
 
             if (_dr != DialogResult.Yes)
                 return;
 
             Main.Current.HidePost(_post.post_id);
+        }
+
+        private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
         }
     }
 }

@@ -115,11 +115,6 @@ namespace Waveface
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
-            this.panelTop = new Waveface.DVTopPanel();
-            this.btnMoreOptions = new Waveface.Component.ImageButton();
-            this.btnFavorite = new Waveface.Component.ImageButton();
-            this.btnEdit = new Waveface.Component.ImageButton();
-            this.labelTitle = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.timerGC = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
@@ -127,9 +122,58 @@ namespace Waveface
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemovePost = new System.Windows.Forms.ToolStripMenuItem();
             this.miAddFootnote = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelTop.SuspendLayout();
+            this.panelTop = new Waveface.DVTopPanel();
+            this.btnMoreOptions = new Waveface.Component.ImageButton();
+            this.btnFavorite = new Waveface.Component.ImageButton();
+            this.btnEdit = new Waveface.Component.ImageButton();
+            this.labelTitle = new System.Windows.Forms.Label();
             this.contextMenuStrip.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // panelMain
+            // 
+            this.panelMain.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.Name = "panelMain";
+            // 
+            // timerGC
+            // 
+            this.timerGC.Interval = 60000;
+            this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // timerCanEdit
+            // 
+            this.timerCanEdit.Enabled = true;
+            this.timerCanEdit.Interval = 666;
+            this.timerCanEdit.Tick += new System.EventHandler(this.timerCanEdit_Tick);
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miRemovePost,
+            this.miAddFootnote});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
+            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
+            // 
+            // miRemovePost
+            // 
+            this.miRemovePost.Image = global::Waveface.Properties.Resources.FB_remove;
+            this.miRemovePost.Name = "miRemovePost";
+            resources.ApplyResources(this.miRemovePost, "miRemovePost");
+            this.miRemovePost.Click += new System.EventHandler(this.miRemovePost_Click);
+            // 
+            // miAddFootnote
+            // 
+            this.miAddFootnote.Image = global::Waveface.Properties.Resources.FB_edit_footnote;
+            this.miAddFootnote.Name = "miAddFootnote";
+            resources.ApplyResources(this.miAddFootnote, "miAddFootnote");
+            this.miAddFootnote.Click += new System.EventHandler(this.miAddFootnote_Click);
             // 
             // panelTop
             // 
@@ -182,59 +226,15 @@ namespace Waveface
             this.labelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(121)))), ((int)(((byte)(143)))));
             this.labelTitle.Name = "labelTitle";
             // 
-            // panelMain
-            // 
-            this.panelMain.BackColor = System.Drawing.Color.White;
-            resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.Name = "panelMain";
-            // 
-            // timerGC
-            // 
-            this.timerGC.Interval = 60000;
-            this.timerGC.Tick += new System.EventHandler(this.timerGC_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // timerCanEdit
-            // 
-            this.timerCanEdit.Enabled = true;
-            this.timerCanEdit.Interval = 666;
-            this.timerCanEdit.Tick += new System.EventHandler(this.timerCanEdit_Tick);
-            // 
-            // contextMenuStrip
-            // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miRemovePost,
-            this.miAddFootnote});
-            this.contextMenuStrip.Name = "contextMenuStrip";
-            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
-            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
-            // 
-            // miRemovePost
-            // 
-            this.miRemovePost.Image = global::Waveface.Properties.Resources.FB_remove;
-            this.miRemovePost.Name = "miRemovePost";
-            resources.ApplyResources(this.miRemovePost, "miRemovePost");
-            this.miRemovePost.Click += new System.EventHandler(this.miRemovePost_Click);
-            // 
-            // miAddFootnote
-            // 
-            this.miAddFootnote.Image = global::Waveface.Properties.Resources.FB_edit_footnote;
-            this.miAddFootnote.Name = "miAddFootnote";
-            resources.ApplyResources(this.miAddFootnote, "miAddFootnote");
-            this.miAddFootnote.Click += new System.EventHandler(this.miAddFootnote_Click);
-            // 
             // DetailView
             // 
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelTop);
             resources.ApplyResources(this, "$this");
             this.Name = "DetailView";
+            this.contextMenuStrip.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
-            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

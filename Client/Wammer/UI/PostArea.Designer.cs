@@ -33,12 +33,12 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostArea));
             this.panelList = new System.Windows.Forms.Panel();
+            this.postList = new Waveface.PostsList();
             this.panelButtom = new System.Windows.Forms.Panel();
             this.linkLabelReadMore = new System.Windows.Forms.LinkLabel();
             this.labelPostInfo = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.postList = new Waveface.PostsList();
             this.panelList.SuspendLayout();
             this.panelButtom.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -49,6 +49,13 @@ namespace Waveface
             this.panelList.Controls.Add(this.postList);
             resources.ApplyResources(this.panelList, "panelList");
             this.panelList.Name = "panelList";
+            // 
+            // postList
+            // 
+            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.postList.DetailView = null;
+            resources.ApplyResources(this.postList, "postList");
+            this.postList.Name = "postList";
             // 
             // panelButtom
             // 
@@ -82,13 +89,6 @@ namespace Waveface
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
-            // 
-            // postList
-            // 
-            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.postList.DetailView = null;
-            resources.ApplyResources(this.postList, "postList");
-            this.postList.Name = "postList";
             // 
             // PostArea
             // 

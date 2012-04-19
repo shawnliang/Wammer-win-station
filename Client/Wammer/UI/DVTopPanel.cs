@@ -31,7 +31,7 @@ namespace Waveface
 
                 using (Brush _brush = new TextureBrush(Properties.Resources.divider, WrapMode.Tile))
                 {
-                    _g.FillRectangle(_brush, 12, Height - 4, Width - 40, 4);
+                    _g.FillRectangle(_brush, 8, Height - 4, Width - 16, 4);
                 }
             }
 

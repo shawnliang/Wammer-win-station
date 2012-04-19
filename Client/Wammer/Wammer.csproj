@@ -630,6 +630,9 @@
     <EmbeddedResource Include="UI\BgPanel.resx">
       <DependentUpon>BgPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\BgPanel.zh-TW.resx">
+      <DependentUpon>BgPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DVTopPanel.resx">
       <DependentUpon>DVTopPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -957,6 +960,8 @@
     <Content Include="Resources\FlatButton\FB_remove_hl.png" />
     <None Include="Resources\FlatButton\FB_slide.png" />
     <None Include="Resources\FlatButton\FB_slide_hl.png" />
+    <None Include="Resources\FlatButton\FB_setting.png" />
+    <None Include="Resources\FlatButton\FB_setting_hl.png" />
     <Content Include="Resources\FlatButton\FB_unfav.png" />
     <Content Include="Resources\FlatButton\FB_unfav_hl.png" />
     <None Include="Resources\Title\Title1.png" />

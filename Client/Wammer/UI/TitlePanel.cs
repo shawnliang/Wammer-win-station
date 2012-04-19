@@ -26,7 +26,10 @@ namespace Waveface
 
             m_brush1 = new TextureBrush(Properties.Resources.Title1, WrapMode.Tile);
             m_brush3 = new TextureBrush(Properties.Resources.Title3, WrapMode.Tile);
+        }
 
+        private void TitlePanel_Load(object sender, System.EventArgs e)
+        {
             ArrangeButtons();
 
             show_labelStatus(false);
@@ -34,44 +37,57 @@ namespace Waveface
 
         private void ArrangeButtons()
         {
-            btnCreatePost.Top = 6;
-            btnCreatePost.Left = Main.Current.GetLeftAreaWidth() + 24;
+            if (DesignMode)
+                return;
 
-            btnRefresh.Top = 6;
-            btnRefresh.Left = Width - 48;
+            int _d = (Width - Main.Current.GetLeftAreaWidth()) / 3;
+
+            btnCreatePost.Top = 7;
+            btnCreatePost.Left = Main.Current.GetLeftAreaWidth() + _d;
+
+            btnRefresh.Top = 7;
+            btnRefresh.Left = Width - _d;
         }
 
+        /*
         protected override void OnResize(System.EventArgs eventargs)
         {
-            base.OnResize(eventargs);
-
             ArrangeButtons();
 
             Refresh();
+
+            base.OnResize(eventargs);
         }
+        */
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (m_bmpOffscreen == null)
-                m_bmpOffscreen = new Bitmap(ClientSize.Width, ClientSize.Height);
-
-            using (Graphics _g = Graphics.FromImage(m_bmpOffscreen))
+            if (!DesignMode)
             {
-                _g.FillRectangle(m_brush1, 0, 0, Width - 8, Height);
 
-                int _leftAreaWidth = Main.Current.GetLeftAreaWidth();
+                if (m_bmpOffscreen == null)
+                    m_bmpOffscreen = new Bitmap(ClientSize.Width, ClientSize.Height);
 
-                _g.DrawImage(Properties.Resources.Title2, _leftAreaWidth, 0);
+                using (Graphics _g = Graphics.FromImage(m_bmpOffscreen))
+                {
+                    _g.FillRectangle(m_brush1, 0, 0, Width - 8, Height);
 
-                int _offset = _leftAreaWidth + Properties.Resources.Title2.Width;
+                    _g.DrawImage(Properties.Resources.desktop_logo, 4, -25);
 
-                int _offsetEnd = 16;
+                    int _leftAreaWidth = Main.Current.GetLeftAreaWidth();
 
-                _g.FillRectangle(m_brush3, _offset, 0, Width - _offset - _offsetEnd, Height);
+                    _g.DrawImage(Properties.Resources.Title2, _leftAreaWidth, 0);
 
-                _g.DrawImage(Properties.Resources.Title4, Width - _offsetEnd, 0);
+                    int _offset = _leftAreaWidth + Properties.Resources.Title2.Width;
 
-                e.Graphics.DrawImage(m_bmpOffscreen, 0, 0);
+                    int _offsetEnd = 16;
+
+                    _g.FillRectangle(m_brush3, _offset, 0, Width - _offset - _offsetEnd, Height);
+
+                    _g.DrawImage(Properties.Resources.Title4, Width - _offsetEnd, 0);
+
+                    e.Graphics.DrawImage(m_bmpOffscreen, 0, 0);
+                }
             }
 
             base.OnPaint(e);
@@ -86,6 +102,11 @@ namespace Waveface
             //    return;
 
             Main.Current.ReloadAllData();
+        }
+
+        private void btnSetting_Click(object sender, System.EventArgs e)
+        {
+            Main.Current.Setting();
         }
 
         public void updateRefreshUI(bool flag)
@@ -126,10 +147,36 @@ namespace Waveface
 
         private void InitializeComponent()
         {
-            this.btnCreatePost = new Waveface.Component.ImageButton();
-            this.btnRefresh = new Waveface.Component.ImageButton();
             this.labelStatus = new System.Windows.Forms.Label();
+            this.btnRefresh = new Waveface.Component.ImageButton();
+            this.btnCreatePost = new Waveface.Component.ImageButton();
             this.SuspendLayout();
+            // 
+            // labelStatus
+            // 
+            this.labelStatus.AutoSize = true;
+            this.labelStatus.Location = new System.Drawing.Point(15, 11);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(54, 12);
+            this.labelStatus.TabIndex = 13;
+            this.labelStatus.Text = "labelStatus";
+            this.labelStatus.Visible = false;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
+            this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRefresh.Font = new System.Drawing.Font("Arial", 9F);
+            this.btnRefresh.Image = global::Waveface.Properties.Resources.FB_refresh;
+            this.btnRefresh.ImageDisable = global::Waveface.Properties.Resources.FB_refresh_hl;
+            this.btnRefresh.ImageHover = global::Waveface.Properties.Resources.FB_refresh_hl;
+            this.btnRefresh.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnRefresh.Location = new System.Drawing.Point(351, 3);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(20, 20);
+            this.btnRefresh.TabIndex = 12;
+            this.btnRefresh.TabStop = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnCreatePost
             // 
@@ -147,32 +194,6 @@ namespace Waveface
             this.btnCreatePost.TabStop = false;
             this.btnCreatePost.Click += new System.EventHandler(this.btnCreatePost_Click);
             // 
-            // btnRefresh
-            // 
-            this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
-            this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRefresh.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnRefresh.Image = global::Waveface.Properties.Resources.FB_refresh;
-            this.btnRefresh.ImageDisable = global::Waveface.Properties.Resources.FB_refresh_hl;
-            this.btnRefresh.ImageHover = global::Waveface.Properties.Resources.FB_refresh_hl;
-            this.btnRefresh.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnRefresh.Location = new System.Drawing.Point(251, 3);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(20, 20);
-            this.btnRefresh.TabIndex = 12;
-            this.btnRefresh.TabStop = false;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // labelStatus
-            // 
-            this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(15, 11);
-            this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(54, 12);
-            this.labelStatus.TabIndex = 13;
-            this.labelStatus.Text = "labelStatus";
-            this.labelStatus.Visible = false;
-            // 
             // TitlePanel
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(175)))), ((int)(((byte)(198)))));
@@ -181,6 +202,7 @@ namespace Waveface
             this.Controls.Add(this.btnCreatePost);
             this.Name = "TitlePanel";
             this.Size = new System.Drawing.Size(651, 39);
+            this.Load += new System.EventHandler(this.TitlePanel_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

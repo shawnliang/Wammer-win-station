@@ -123,6 +123,7 @@ namespace Waveface
             // 
             // panelTitle
             // 
+            this.panelTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(175)))), ((int)(((byte)(198)))));
             resources.ApplyResources(this.panelTitle, "panelTitle");
             this.panelTitle.Name = "panelTitle";
             // 
