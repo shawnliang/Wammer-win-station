@@ -5,6 +5,7 @@ using System.Reflection;
 using System.ServiceProcess;
 using Wammer.Cloud;
 using Wammer.PerfMonitor;
+using Wammer.Station.APIHandler;
 
 namespace Wammer.Station.Service
 {
@@ -70,18 +71,8 @@ namespace Wammer.Station.Service
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
 
 
-				APIHandler.AttachmentUploadHandler2 attachmentHandler = new APIHandler.AttachmentUploadHandler2();
+				APIHandler.AttachmentUploadHandler attachmentHandler = new APIHandler.AttachmentUploadHandler();
 				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();
-				//ImagePostProcessing imgProc = new ImagePostProcessing(new UpstreamThumbnailTaskFactory());
-				
-				
-				//attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
-				//attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
-				//attachmentHandler.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
-				UpstreamThumbnailTask.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
-
-
-				CloudStorageSync cloudSync = new CloudStorageSync();
 
 				attachmentHandler.AttachmentProcessed += 
 					new AttachmentUpload.AttachmentProcessedHandler(
@@ -160,7 +151,7 @@ namespace Wammer.Station.Service
 			managementServer.AddHandler(GetDefaultBathPath("/availability/ping/"), new PingHandler());
 		}
 
-		private void InitFunctionServerHandlers(APIHandler.AttachmentUploadHandler2 attachmentHandler, BypassHttpHandler cloudForwarder, AttachmentDownloadMonitor downstreamMonitor)
+		private void InitFunctionServerHandlers(APIHandler.AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder, AttachmentDownloadMonitor downstreamMonitor)
 		{
 			logger.Debug("Add cloud forwarders to function server");
 			functionServer.AddDefaultHandler(cloudForwarder);

@@ -166,13 +166,12 @@
     <Compile Include="Station\APIHandler\AddDriverHandler.cs" />
     <Compile Include="Station\APIHandler\AttachmentGetHandler.cs" />
     <Compile Include="Model\Database.cs" />
-    <Compile Include="Station\APIHandler\AttachmentUploadHandler2.cs" />
+    <Compile Include="Station\APIHandler\AttachmentUploadHandler.cs" />
     <Compile Include="Station\APIHandler\UserTrackHandler.cs" />
     <Compile Include="Station\APIHandler\PostGetSingleHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentProcessedHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadHandlerDB.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadHandlerImp.cs" />
-    <Compile Include="Station\AttachmentUpload\AttachmentUploadStrategy.cs" />
     <Compile Include="JSON Class\AttachmentView.cs" />
     <Compile Include="Station\APIHandler\FootprintGetLastScanHandler.cs" />
     <Compile Include="Station\APIHandler\FootprintSetLastScanHandler.cs" />
@@ -248,7 +247,6 @@
     <Compile Include="Station\APIHandler\HttpHandler.cs" />
     <Compile Include="Station\HttpHelper.cs" />
     <Compile Include="Station\HttpServer.cs" />
-    <Compile Include="Station\APIHandler\AttachmentUploadHandler.cs" />
     <Compile Include="Station\StationRegistry.cs" />
     <Compile Include="Station\APIHandler\AttachmentViewHandler.cs" />
     <Compile Include="Utility\TimeHelper.cs" />
