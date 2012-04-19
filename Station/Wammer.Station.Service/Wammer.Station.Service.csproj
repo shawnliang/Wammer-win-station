@@ -161,6 +161,7 @@
     <Compile Include="PostUpload\UpdatePostTask.cs" />
     <Compile Include="Station\PostUploadTaskController.cs" />
     <Compile Include="Station\APIHandler\NewPostHandler.cs" />
+    <Compile Include="Station\APIHandler\UpdatePostHandler.cs" />
     <Compile Include="Queue\Queue.cs" />
     <Compile Include="Queue\QueueManager.cs" />
     <Compile Include="Queue\SQLitePersistentStorage.cs" />

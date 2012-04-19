@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using System;
@@ -14,8 +14,15 @@ namespace Wammer.Station
 {
 	public class NewPostHandler : HttpHandler
 	{
-		#region Public Property
-		public IPostUploadSupportable postUploader;
+		#region Private Property
+		private IPostUploadSupportable m_PostUploader { get; set; }
+		#endregion
+
+		#region Constructor
+		public NewPostHandler(IPostUploadSupportable postUploader)
+		{
+			m_PostUploader = postUploader;
+		}
 		#endregion
 
 		#region Private Method
@@ -102,19 +109,19 @@ namespace Wammer.Station
 			var creatorID = userGroup.creator_id;
 			var codeName = loginedSession.apikey.name;
 
-			var attachments = from attachmentID in attachmentIDs
+			var attachmentInfos = (from attachmentID in attachmentIDs
 							  let attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID))
 							  where attachment != null
-							  select GetAttachmentnfo(attachment, codeName);
+							  select GetAttachmentnfo(attachment, codeName)).ToList();
 						
 
-			if(attachments.Count() != attachmentCount)
+			if(attachmentInfos.Count() != attachmentCount)
 				throw new WammerStationException(
 						"Attachement not found!", (int)StationApiError.NotFound);
 					
 			var post = new PostInfo()
 			{
-				attachments = attachments.ToList(),
+				attachments = attachmentInfos,
 				post_id = postID,
 				timestamp = timeStamp,
 				update_time = timeStamp,
@@ -131,7 +138,8 @@ namespace Wammer.Station
 			var response = new NewPostResponse();
 			response.posts.Add(post);
 
-			postUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters);
+			if (m_PostUploader != null)
+				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters);
 
 			RespondSuccess(response);
 		}
