@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Specialized;
+using Wammer.Station;
+using Wammer.Model;
+using MongoDB.Driver.Builders;
+
+using Wammer.PostUpload;
 
 namespace Wammer
 {
@@ -12,12 +17,8 @@ namespace Wammer
 		private static PostUploadTaskController _instance;
 		#endregion
 
-		#region Var
-		private PostUploadTaskQueue _queue;
-		#endregion
-
 		#region Public Static Property
-		public static PostUploadTaskController Instance 
+		public static PostUploadTaskController Instance
 		{
 			get
 			{
@@ -28,22 +29,74 @@ namespace Wammer
 		}
 		#endregion
 
-		#region Private Property
-		public PostUploadTaskQueue m_Queue 
+		#region Public Method
+		public void AddPostUploadAction(string postId, PostUploadActionType actionType, NameValueCollection parameters)
 		{
-			get
+			string userId = FindUserId(parameters["group_id"]);
+			switch (actionType)
 			{
-				if (_queue == null)
-					_queue = new PostUploadTaskQueue();
-				return _queue;
+				case PostUploadActionType.NewPost:
+					PostUploadTaskQueue.Instance.Enqueue(new NewPostTask
+					{
+						PostId = postId,
+						UserId = userId,
+						Timestamp = DateTime.UtcNow,
+						Parameters = parameters
+					});
+					break;
+				case PostUploadActionType.UpdatePost:
+					PostUploadTaskQueue.Instance.Enqueue(new UpdatePostTask
+					{
+						PostId = postId,
+						UserId = userId,
+						Timestamp = DateTime.UtcNow,
+						Parameters = parameters
+					});
+					break;
+				case PostUploadActionType.Comment:
+					PostUploadTaskQueue.Instance.Enqueue(new CommentTask
+					{
+						PostId = postId,
+						UserId = userId,
+						Timestamp = DateTime.UtcNow,
+						Parameters = parameters
+					});
+					break;
+				case PostUploadActionType.Hide:
+					PostUploadTaskQueue.Instance.Enqueue(new HidePostTask
+					{
+						PostId = postId,
+						UserId = userId,
+						Timestamp = DateTime.UtcNow,
+						Parameters = parameters
+					});
+					break;
+				case PostUploadActionType.UnHide:
+					PostUploadTaskQueue.Instance.Enqueue(new UnhidePostTask
+					{
+						PostId = postId,
+						UserId = userId,
+						Timestamp = DateTime.UtcNow,
+						Parameters = parameters
+					});
+					break;
+				default:
+					this.LogWarnMsg("Post upload action type " + actionType.ToString() + " is not supported.");
+					break;
 			}
-		}
+		} 
 		#endregion
 
-		#region Public Method
-		public void AddPostUploadAction(PostUploadActionType actionType, NameValueCollection parameters)
+		#region Private Method
+		private string FindUserId(string groupId)
 		{
-		} 
+			Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", groupId)));
+			if (driver == null)
+			{
+				throw new WammerStationException("Unable to find driver of group " + groupId, (int)StationApiError.InvalidGroup);
+			}
+			return driver.user_id;
+		}
 		#endregion
 	}
 }

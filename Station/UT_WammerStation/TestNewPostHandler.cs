@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using Wammer;
 using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;

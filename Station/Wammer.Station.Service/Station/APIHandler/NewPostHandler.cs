@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using System;
@@ -139,7 +139,7 @@ namespace Wammer.Station
 			response.posts.Add(post);
 
 			if (m_PostUploader != null)
-				m_PostUploader.AddPostUploadAction(PostUploadActionType.NewPost, Parameters);
+				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters);
 
 			RespondSuccess(response);
 		}
