@@ -151,12 +151,14 @@
     <Compile Include="PerfMonitor\PerfCounter.cs" />
     <Compile Include="PerfMonitor\PerfCounterInstaller.cs" />
     <Compile Include="Enum\PostUploadActionType.cs" />
+    <Compile Include="PostUpload\CommentTask.cs" />
+    <Compile Include="PostUpload\HidePostTask.cs" />
     <Compile Include="PostUpload\NewPostTask.cs" />
     <Compile Include="PostUpload\PostUploadTask.cs" />
     <Compile Include="PostUpload\PostUploadTaskQueue.cs" />
+    <Compile Include="PostUpload\UnhidePostTask.cs" />
     <Compile Include="PostUpload\UpdatePostTask.cs" />
-    <Compile Include="Station\PostUploadTaskController.cs" />
-    <Compile Include="Queue\PostUploadTaskQueue.cs" />
+    <Compile Include="PostUpload\PostUploadTaskController.cs" />
     <Compile Include="Queue\Queue.cs" />
     <Compile Include="Queue\QueueManager.cs" />
     <Compile Include="Queue\SQLitePersistentStorage.cs" />

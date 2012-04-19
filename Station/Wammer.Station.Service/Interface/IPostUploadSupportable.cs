@@ -8,6 +8,6 @@ namespace Wammer
 {
 	public interface IPostUploadSupportable
 	{
-		void AddPostUploadAction(PostUploadActionType actionType, NameValueCollection parameters);
+		void AddPostUploadAction(string postId, PostUploadActionType actionType, NameValueCollection parameters);
 	}
 }

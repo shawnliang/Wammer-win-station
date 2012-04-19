@@ -12,10 +12,10 @@ namespace Wammer.PostUpload
 	[BsonKnownTypes(typeof(NewPostTask), typeof(UpdatePostTask))]
 	public abstract class PostUploadTask : ITask
 	{
-		public string postId { get; set; }
-		public DateTime timestamp { get; set; }
-		public string userId { get; set; }
-		public NameValueCollection parameters { get; set; }
+		public string PostId { get; set; }
+		public DateTime Timestamp { get; set; }
+		public string UserId { get; set; }
+		public NameValueCollection Parameters { get; set; }
 
 		public abstract void Execute();
 	}

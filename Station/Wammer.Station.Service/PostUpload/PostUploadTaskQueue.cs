@@ -40,7 +40,7 @@ namespace Wammer.PostUpload
 			lock (cs)
 			{
 				LinkedList<PostUploadTask> queue;
-				if (postQueue.TryGetValue(task.postId, out queue))
+				if (postQueue.TryGetValue(task.PostId, out queue))
 				{
 					queue.AddLast(task);
 				}
@@ -48,11 +48,11 @@ namespace Wammer.PostUpload
 				{
 					queue = new LinkedList<PostUploadTask>();
 					queue.AddLast(task);
-					postQueue.Add(task.postId, queue);
-					postIdQueue.Enqueue(task.postId);
+					postQueue.Add(task.PostId, queue);
+					postIdQueue.Enqueue(task.PostId);
 				}
 				PostUploadTasksCollection.Instance.Save(
-					new PostUploadTasks { post_id = task.postId, tasks = queue });
+					new PostUploadTasks { post_id = task.PostId, tasks = queue });
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace Wammer.PostUpload
 					{
 						postIdQueue.Enqueue(targetPostId);
 						PostUploadTasksCollection.Instance.Save(
-							new PostUploadTasks { post_id = task.postId, tasks = postQueue[targetPostId] });
+							new PostUploadTasks { post_id = task.PostId, tasks = postQueue[targetPostId] });
 					}
 					else
 					{
@@ -92,19 +92,19 @@ namespace Wammer.PostUpload
 			lock (cs)
 			{
 				LinkedList<PostUploadTask> queue;
-				if (postQueue.TryGetValue(task.postId, out queue))
+				if (postQueue.TryGetValue(task.PostId, out queue))
 				{
-					postQueue[task.postId].AddFirst(task);
+					postQueue[task.PostId].AddFirst(task);
 				}
 				else
 				{
 					queue = new LinkedList<PostUploadTask>();
 					queue.AddLast(task);
-					postQueue.Add(task.postId, queue);
-					postIdQueue.Enqueue(task.postId);
+					postQueue.Add(task.PostId, queue);
+					postIdQueue.Enqueue(task.PostId);
 				}
 				PostUploadTasksCollection.Instance.Save(
-					new PostUploadTasks { post_id = task.postId, tasks = queue });
+					new PostUploadTasks { post_id = task.PostId, tasks = queue });
 			}
 		}
 	}
