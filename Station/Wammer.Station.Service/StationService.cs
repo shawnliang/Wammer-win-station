@@ -70,19 +70,22 @@ namespace Wammer.Station.Service
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
 
 
-				AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
+				APIHandler.AttachmentUploadHandler2 attachmentHandler = new APIHandler.AttachmentUploadHandler2();
 				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();
-				ImagePostProcessing imgProc = new ImagePostProcessing(new UpstreamThumbnailTaskFactory());
+				//ImagePostProcessing imgProc = new ImagePostProcessing(new UpstreamThumbnailTaskFactory());
 				
 				
-				attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
-				attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
-				attachmentHandler.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
+				//attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
+				//attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
+				//attachmentHandler.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
 				UpstreamThumbnailTask.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
 
 
 				CloudStorageSync cloudSync = new CloudStorageSync();
-				attachmentHandler.BodyAttachmentSaved += cloudSync.HandleAttachmentSaved;
+
+				attachmentHandler.AttachmentProcessed += 
+					new AttachmentUpload.AttachmentProcessedHandler(
+						new AttachmentUpload.AttachmentUtility()).OnProcessed;
 				attachmentHandler.ProcessSucceeded += attachmentMonitor.OnProcessSucceeded;
 
 
@@ -158,7 +161,7 @@ namespace Wammer.Station.Service
 			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/", new PingHandler());
 		}
 
-		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder, AttachmentDownloadMonitor downstreamMonitor)
+		private void InitFunctionServerHandlers(APIHandler.AttachmentUploadHandler2 attachmentHandler, BypassHttpHandler cloudForwarder, AttachmentDownloadMonitor downstreamMonitor)
 		{
 			logger.Debug("Add cloud forwarders to function server");
 			functionServer.AddDefaultHandler(cloudForwarder);

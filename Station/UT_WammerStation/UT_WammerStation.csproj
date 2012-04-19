@@ -93,6 +93,7 @@
     <Compile Include="AttachmentUpload\TestHandleUpload_NewOriginalImage.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_OriginalImageWithObjectId.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_Thumbnails.cs" />
+    <Compile Include="AttachmentUpload\TestPostProcess.cs" />
     <Compile Include="TestUserLogin.cs" />
     <Compile Include="EventTest.cs" />
     <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />

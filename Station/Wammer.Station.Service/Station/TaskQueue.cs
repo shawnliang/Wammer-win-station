@@ -7,7 +7,7 @@ using Wammer.Queue;
 namespace Wammer.Station
 {
 
-	enum TaskPriority
+	public enum TaskPriority
 	{
 		Low,
 		Medium,

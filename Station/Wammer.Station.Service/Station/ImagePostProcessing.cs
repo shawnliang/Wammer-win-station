@@ -278,7 +278,7 @@ namespace Wammer.Station
 				if (user == null)
 					return;
 
-				IImageAttachmentInfo info = file.GetImgInfo(meta);
+				IAttachmentInfo info = file.GetInfoByMeta(meta);
 				if (info == null)
 					return;
 
