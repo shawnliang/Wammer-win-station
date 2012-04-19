@@ -36,12 +36,17 @@ namespace StationSystemTray
 		#endregion
 
 		#region Var
-		private CounterSample _PreUpSpeed;
-		private CounterSample _PreDownloadSpeed;
+		//private CounterSample _PreUpSpeedSample;
+		//private CounterSample _PreDownloadSpeedSample;
 		private Messenger _messenger;
 		private SignUpDialog _SignUpDialog;
 		private System.Windows.Forms.Timer _timer;
 		#endregion
+
+		private IPerfCounter m_UpRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
+		private IPerfCounter m_DownRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
+		private IPerfCounter m_UpStreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
+		private IPerfCounter m_DownStreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false);
 
 
 
@@ -122,7 +127,7 @@ namespace StationSystemTray
 			InitializeComponent();
 			this.initMinimized = initMinimized;
 
-			m_Timer.Interval = 100;
+			m_Timer.Interval = 1000;
 			m_Timer.Tick += (sender, e) => { AdjustIconText(); };
 			m_Timer.Start();
 		}
@@ -955,26 +960,30 @@ namespace StationSystemTray
 			}
 		}
 
-		
+
 		private void AdjustIconText()
 		{
+			m_Timer.Stop();
+
 			var iconText = TrayIcon.BalloonTipText;
 
 			if (iconPaused != this.TrayIcon.Icon)
 			{
-				var upRemainedCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Sample.RawValue;
-				var downloadRemainedCount = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).Sample.RawValue;
-				var upSpeed = ComputeSpeed(_PreUpSpeed, PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample) / 1000;
-				var downloadSpeed = ComputeSpeed(_PreDownloadSpeed, PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample) / 1000;
+				var upRemainedCount = m_UpRemainedCountCounter.NextSample().RawValue;
+				var downloadRemainedCount = m_DownRemainedCountCounter.NextSample().RawValue;
+				//var upSpeedSample = m_UpStreamRateCounter.NextSample();
+				var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;//CounterSample.Calculate(_PreUpSpeedSample, upSpeedSample) / 1024;
+				//var downloadSpeedSample = m_DownStreamRateCounter.NextSample();
+				var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;//CounterSample.Calculate(_PreDownloadSpeedSample, downloadSpeedSample) / 1024;
 
-				var upSpeedUnit = (upSpeed <= 1000) ? "KB/s" : "MB/s";
-				var downloadSpeedUnit = (downloadSpeed <= 1000) ? "KB/s" : "MB/s";
+				var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
+				var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
 
-				upSpeed = (upSpeed >= 1000) ? upSpeed / 1000 : upSpeed;
-				downloadSpeed = (downloadSpeed >= 1000) ? downloadSpeed / 1000 : downloadSpeed;
+				upSpeed = (upSpeed >= 1024) ? upSpeed / 1024 : upSpeed;
+				downloadSpeed = (downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed;
 
-				_PreUpSpeed = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false).Sample;
-				_PreDownloadSpeed = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).Sample;
+				//_PreUpSpeedSample = upSpeedSample;
+				//_PreDownloadSpeedSample = downloadSpeedSample;
 
 				iconText = string.Format("{0}{1}↑ ({2}): {3:0.0} {4}{5}↓ ({6}): {7:0.0}{8}",
 					iconText,
@@ -988,6 +997,7 @@ namespace StationSystemTray
 					downloadSpeedUnit);
 			}
 			SetNotifyIconText(this.TrayIcon, iconText);
+			m_Timer.Start();
 		}
 
 		public static void SetNotifyIconText(NotifyIcon ni, string text)
@@ -999,16 +1009,7 @@ namespace StationSystemTray
 			if ((bool)t.GetField("added", hidden).GetValue(ni))
 				t.GetMethod("UpdateIcon", hidden).Invoke(ni, new object[] { true });
 		}
-
-
-		Single ComputeSpeed(CounterSample s0, CounterSample s1)
-		{
-			Single numerator = (Single)(s1.RawValue - s0.RawValue);
-			Single denomenator = (Single)(s1.TimeStamp - s0.TimeStamp) / (Single)s1.SystemFrequency;
-			Single counterValue = numerator / denomenator;
-			return (counterValue);
-		}
-
+		
 	}
 
 	#region StationStatusUIController

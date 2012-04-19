@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.ComponentModel;
 
 public static class StreamExtension
 {
@@ -40,11 +41,11 @@ public static class StreamExtension
 			if (progressChangedCallBack != null)
 			{
 				var currentPercent = (int)(((double)offset) / buffer.Length * 100);
-				if (currentPercent == percent)
-					continue;
+				//if (currentPercent == percent)
+				//    continue;
 
 				percent = currentPercent;
-				progressChangedCallBack(targetStream, new System.ComponentModel.ProgressChangedEventArgs(percent, readByteCount));
+				progressChangedCallBack(targetStream, new ProgressChangedEventArgs(percent, readByteCount));
 			}
 		}
 	}
@@ -97,11 +98,11 @@ public static class StreamExtension
 				if (length > 0)
 				{
 					var currentPercent = (int)(((double)offset) / length * 100);
-					if (currentPercent == percent)
-						continue;
+					//if (currentPercent == percent)
+					//    continue;
 					percent = currentPercent;
 				}				
-				progressChangedCallBack(targetStream, new System.ComponentModel.ProgressChangedEventArgs(percent, readByteCount));
+				progressChangedCallBack(targetStream, new ProgressChangedEventArgs(percent, readByteCount));
 			}
 		}
 	}

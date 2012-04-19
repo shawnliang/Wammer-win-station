@@ -247,7 +247,7 @@ namespace Wammer.Model
 				{
 					var counter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
 
-					if (counter.Sample.RawValue > 0)
+					if (counter.NextSample().RawValue > 0)
 						counter.Decrement();
 				}
 
@@ -287,7 +287,7 @@ namespace Wammer.Model
 				{
 					var counter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
 
-					if (counter.Sample.RawValue > 0)
+					if (counter.NextSample().RawValue > 0)
 						counter.Decrement();
 				}
 				

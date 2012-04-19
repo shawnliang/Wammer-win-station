@@ -144,38 +144,7 @@ namespace Wammer.Station
 				var fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);
 				storage.SaveFile(fileName, new ArraySegment<byte>(downloadResult.Image));
 
-				if (meta == ImageMeta.Origin)
-				{
-					AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
-						.Set("file_name", downloadResult.Metadata.file_name)
-						.Set("mime_type", downloadResult.ContentType)
-						.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
-						.Set("file_size", downloadResult.Image.Length)
-						.Set("modify_time", DateTime.UtcNow)
-						.Set("image_meta.width", downloadResult.Metadata.image_meta.width)
-						.Set("image_meta.height", downloadResult.Metadata.image_meta.height)
-						.Set("md5", downloadResult.Metadata.md5)
-						.Set("type", downloadResult.Metadata.type)
-						.Set("group_id", downloadResult.Metadata.group_id)
-						.Set("saved_file_name", fileName), UpdateFlags.Upsert);
-				}
-				else
-				{
-					var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
-					AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
-						.Set("group_id", downloadResult.Metadata.group_id)
-						.Set("image_meta." + metaStr, new ThumbnailInfo()
-						{
-							mime_type = downloadResult.ContentType,
-							modify_time = DateTime.UtcNow,
-							url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + metaStr,
-							file_size = downloadResult.Image.Length,
-							file_name = downloadResult.Metadata.file_name,
-							width = downloadResult.Metadata.image_meta.GetThumbnail(meta).width,
-							height = downloadResult.Metadata.image_meta.GetThumbnail(meta).height,
-							saved_file_name = fileName
-						}.ToBsonDocument()), UpdateFlags.Upsert);
-				}
+				SetAttachementToDB(meta, downloadResult, fileName);
 
 				Response.ContentType = downloadResult.ContentType;
 
@@ -196,6 +165,42 @@ namespace Wammer.Station
 			finally
 			{
 				OnFileDownloadFinished();
+			}
+		}
+
+		private void SetAttachementToDB(ImageMeta meta, DownloadResult downloadResult, string fileName)
+		{
+			if (meta == ImageMeta.Origin)
+			{
+				AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
+					.Set("file_name", downloadResult.Metadata.file_name)
+					.Set("mime_type", downloadResult.ContentType)
+					.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
+					.Set("file_size", downloadResult.Image.Length)
+					.Set("modify_time", DateTime.UtcNow)
+					.Set("image_meta.width", downloadResult.Metadata.image_meta.width)
+					.Set("image_meta.height", downloadResult.Metadata.image_meta.height)
+					.Set("md5", downloadResult.Metadata.md5)
+					.Set("type", downloadResult.Metadata.type)
+					.Set("group_id", downloadResult.Metadata.group_id)
+					.Set("saved_file_name", fileName), UpdateFlags.Upsert);
+			}
+			else
+			{
+				var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
+				AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
+					.Set("group_id", downloadResult.Metadata.group_id)
+					.Set("image_meta." + metaStr, new ThumbnailInfo()
+					{
+						mime_type = downloadResult.ContentType,
+						modify_time = DateTime.UtcNow,
+						url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + metaStr,
+						file_size = downloadResult.Image.Length,
+						file_name = downloadResult.Metadata.file_name,
+						width = downloadResult.Metadata.image_meta.GetThumbnail(meta).width,
+						height = downloadResult.Metadata.image_meta.GetThumbnail(meta).height,
+						saved_file_name = fileName
+					}.ToBsonDocument()), UpdateFlags.Upsert);
 			}
 		}
 
