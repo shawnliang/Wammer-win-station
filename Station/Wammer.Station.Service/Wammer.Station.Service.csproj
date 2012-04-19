@@ -113,21 +113,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cloud\AttachmentApi.cs" />
-    <Compile Include="Cloud\AttachmentResponse.cs" />
-    <Compile Include="Cloud\CloudResponse.cs" />
+    <Compile Include="Cloud\Response\AttachmentResponse.cs" />
+    <Compile Include="Cloud\Response\CloudResponse.cs" />
     <Compile Include="Cloud\CloudServer.cs" />
-    <Compile Include="Cloud\FootprintResponse.cs" />
-    <Compile Include="Cloud\ObjectUploadResponse.cs" />
+    <Compile Include="Cloud\Response\FootprintResponse.cs" />
+    <Compile Include="Cloud\Response\ObjectUploadResponse.cs" />
     <Compile Include="Cloud\PostApi.cs" />
-    <Compile Include="Cloud\PostResponse.cs" />
+    <Compile Include="Cloud\Response\PostResponse.cs" />
     <Compile Include="Cloud\StationApi.cs" />
-    <Compile Include="Cloud\StationSignUpResponse.cs" />
+    <Compile Include="Cloud\Response\StationSignUpResponse.cs" />
     <Compile Include="Cloud\StorageApi.cs" />
-    <Compile Include="Cloud\StorageResponse.cs" />
+    <Compile Include="Cloud\Response\StorageResponse.cs" />
     <Compile Include="Cloud\User.cs" />
-    <Compile Include="Cloud\UserLogInResponse.cs" />
+    <Compile Include="Cloud\Response\UserLogInResponse.cs" />
     <Compile Include="Cloud\UserTracksApi.cs" />
-    <Compile Include="Cloud\UserTracksResponse.cs" />
+    <Compile Include="Cloud\Response\UserTracksResponse.cs" />
     <Compile Include="Cloud\WammerCloudException.cs" />
     <Compile Include="Extension\EnumExtension.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
@@ -150,6 +150,7 @@
     <Compile Include="PerfMonitor\PerfCounter.cs" />
     <Compile Include="PerfMonitor\PerfCounterInstaller.cs" />
     <Compile Include="Enum\PostUploadActionType.cs" />
+    <Compile Include="Station\APIHandler\NewPostHandler.cs" />
     <Compile Include="Station\PostUploadTaskController.cs" />
     <Compile Include="Queue\PostUploadTaskQueue.cs" />
     <Compile Include="Queue\Queue.cs" />

@@ -8,8 +8,24 @@ namespace Wammer
 {
 	public class PostUploadTaskController : IPostUploadSupportable
 	{
+		#region Static Var
+		private static PostUploadTaskController _instance;
+		#endregion
+
 		#region Var
 		private PostUploadTaskQueue _queue;
+		#endregion
+
+		#region Public Static Property
+		public static PostUploadTaskController Instance 
+		{
+			get
+			{
+				if (_instance == null)
+					_instance = new PostUploadTaskController();
+				return _instance;
+			}
+		}
 		#endregion
 
 		#region Private Property

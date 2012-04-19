@@ -188,6 +188,7 @@ namespace Wammer.Station.Service
 							new HybridCloudHttpRouter(new PostGetHandler()));
 			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/getSingle/",
 							new HybridCloudHttpRouter(new PostGetSingleHandler()));
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/new/", new NewPostHandler());
 
 			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/footprints/setLastScan/",
 							new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
@@ -197,7 +198,8 @@ namespace Wammer.Station.Service
 							new HybridCloudHttpRouter(new APIHandler.UserTrackHandler()));
 
 			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/login/", new UserLoginHandler());
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/logout/", new UserLogoutHandler());
+			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/logout/", new UserLogoutHandler());		
+			
 
 			functionServer.AddHandler("/", new DummyHandler());
 
