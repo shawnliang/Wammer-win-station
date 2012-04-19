@@ -156,7 +156,9 @@
     <Compile Include="Model\Database.cs" />
     <Compile Include="Station\APIHandler\UserTrackHandler.cs" />
     <Compile Include="Station\APIHandler\PostGetSingleHandler.cs" />
-    <Compile Include="Station\AttachmentUploadStrategy.cs" />
+    <Compile Include="Station\AttachmentUpload\AttachmentUploadHandlerDB.cs" />
+    <Compile Include="Station\AttachmentUpload\AttachmentUploadHandlerImp.cs" />
+    <Compile Include="Station\AttachmentUpload\AttachmentUploadStrategy.cs" />
     <Compile Include="JSON Class\AttachmentView.cs" />
     <Compile Include="Station\APIHandler\FootprintGetLastScanHandler.cs" />
     <Compile Include="Station\APIHandler\FootprintSetLastScanHandler.cs" />

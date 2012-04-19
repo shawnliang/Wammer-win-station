@@ -89,6 +89,10 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachmentUpload\TestAttachmentUploadHandlerDB.cs" />
+    <Compile Include="AttachmentUpload\TestHandleUpload_NewOriginalImage.cs" />
+    <Compile Include="AttachmentUpload\TestHandleUpload_OriginalImageWithObjectId.cs" />
+    <Compile Include="AttachmentUpload\TestHandleUpload_Thumbnails.cs" />
     <Compile Include="TestUserLogin.cs" />
     <Compile Include="EventTest.cs" />
     <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />

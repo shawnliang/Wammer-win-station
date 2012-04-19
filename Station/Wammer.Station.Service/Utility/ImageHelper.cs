@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace Wammer.Utility
 {
@@ -141,6 +142,15 @@ namespace Wammer.Utility
 			catch
 			{
 
+			}
+		}
+
+		public static Size GetImageSize(ArraySegment<byte> imageRawData)
+		{
+			using (MemoryStream m = new MemoryStream(imageRawData.Array, imageRawData.Offset, imageRawData.Count))
+			using (Bitmap image = new Bitmap(m))
+			{
+				return image.Size;
 			}
 		}
 	}
