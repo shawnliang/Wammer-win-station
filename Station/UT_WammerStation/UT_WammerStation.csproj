@@ -89,6 +89,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestUpdatePostHandler.cs" />
     <Compile Include="TestNewPostHandler.cs" />
     <Compile Include="TestUserLogin.cs" />
     <Compile Include="EventTest.cs" />

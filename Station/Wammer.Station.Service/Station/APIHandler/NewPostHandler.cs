@@ -109,19 +109,19 @@ namespace Wammer.Station
 			var creatorID = userGroup.creator_id;
 			var codeName = loginedSession.apikey.name;
 
-			var attachments = from attachmentID in attachmentIDs
+			var attachmentInfos = (from attachmentID in attachmentIDs
 							  let attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID))
 							  where attachment != null
-							  select GetAttachmentnfo(attachment, codeName);
+							  select GetAttachmentnfo(attachment, codeName)).ToList();
 						
 
-			if(attachments.Count() != attachmentCount)
+			if(attachmentInfos.Count() != attachmentCount)
 				throw new WammerStationException(
 						"Attachement not found!", (int)StationApiError.NotFound);
 					
 			var post = new PostInfo()
 			{
-				attachments = attachments.ToList(),
+				attachments = attachmentInfos,
 				post_id = postID,
 				timestamp = timeStamp,
 				update_time = timeStamp,

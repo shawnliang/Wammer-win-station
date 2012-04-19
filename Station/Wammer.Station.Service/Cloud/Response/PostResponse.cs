@@ -47,6 +47,10 @@ namespace Wammer.Cloud
 		#endregion
 	}
 
+	public class UpdatePostResponse : CloudResponse
+	{
+	}
+
 	public class PostFetchByFilterResponse : PostResponse
 	{
 		public string group_id { get; set; }
