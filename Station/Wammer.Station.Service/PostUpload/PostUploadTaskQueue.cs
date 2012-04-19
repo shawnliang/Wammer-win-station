@@ -24,6 +24,21 @@ namespace Wammer.PostUpload
 		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
 		private object cs = new object();
 
+		private static PostUploadTaskQueue _instance;
+
+		public static PostUploadTaskQueue Instance
+		{
+			get
+			{
+				if (_instance == null)
+				{
+					_instance = new PostUploadTaskQueue();
+					_instance.InitFromDB();
+				}
+				return _instance;
+			}
+		}
+
 		public void InitFromDB()
 		{
 			postIdQueue = new Queue<string>();

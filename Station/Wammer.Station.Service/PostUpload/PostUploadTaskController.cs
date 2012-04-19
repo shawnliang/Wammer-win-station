@@ -7,27 +7,36 @@ using Wammer.Station;
 using Wammer.Model;
 using MongoDB.Driver.Builders;
 
-namespace Wammer.PostUpload
+using Wammer.PostUpload;
+
+namespace Wammer
 {
 	public class PostUploadTaskController : IPostUploadSupportable
 	{
-		#region Var
-		private IUndoablePostUploadTaskQueue taskQueue;
+		#region Static Var
+		private static PostUploadTaskController _instance;
+		#endregion
+
+		#region Public Static Property
+		public static PostUploadTaskController Instance
+		{
+			get
+			{
+				if (_instance == null)
+					_instance = new PostUploadTaskController();
+				return _instance;
+			}
+		}
 		#endregion
 
 		#region Public Method
-		public PostUploadTaskController(IUndoablePostUploadTaskQueue queue)
-		{
-			this.taskQueue = queue;
-		}
-
 		public void AddPostUploadAction(string postId, PostUploadActionType actionType, NameValueCollection parameters)
 		{
 			string userId = FindUserId(parameters["group_id"]);
 			switch (actionType)
 			{
 				case PostUploadActionType.NewPost:
-					taskQueue.Enqueue(new NewPostTask
+					PostUploadTaskQueue.Instance.Enqueue(new NewPostTask
 					{
 						PostId = postId,
 						UserId = userId,
@@ -36,7 +45,7 @@ namespace Wammer.PostUpload
 					});
 					break;
 				case PostUploadActionType.UpdatePost:
-					taskQueue.Enqueue(new UpdatePostTask
+					PostUploadTaskQueue.Instance.Enqueue(new UpdatePostTask
 					{
 						PostId = postId,
 						UserId = userId,
@@ -45,7 +54,7 @@ namespace Wammer.PostUpload
 					});
 					break;
 				case PostUploadActionType.Comment:
-					taskQueue.Enqueue(new CommentTask
+					PostUploadTaskQueue.Instance.Enqueue(new CommentTask
 					{
 						PostId = postId,
 						UserId = userId,
@@ -54,7 +63,7 @@ namespace Wammer.PostUpload
 					});
 					break;
 				case PostUploadActionType.Hide:
-					taskQueue.Enqueue(new HidePostTask
+					PostUploadTaskQueue.Instance.Enqueue(new HidePostTask
 					{
 						PostId = postId,
 						UserId = userId,
@@ -63,7 +72,7 @@ namespace Wammer.PostUpload
 					});
 					break;
 				case PostUploadActionType.UnHide:
-					taskQueue.Enqueue(new UnhidePostTask
+					PostUploadTaskQueue.Instance.Enqueue(new UnhidePostTask
 					{
 						PostId = postId,
 						UserId = userId,

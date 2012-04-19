@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Wammer;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PostUpload;
@@ -64,7 +65,6 @@ namespace UT_WammerStation
 		{
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
-
 			Assert.IsTrue(queue.Dequeue() is NullPostUploadTask);
 		}
 
@@ -73,7 +73,6 @@ namespace UT_WammerStation
 		{
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
-
 			queue.Enqueue(new NewPostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
 			queue.Enqueue(new UpdatePostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
 
@@ -99,7 +98,6 @@ namespace UT_WammerStation
 		{
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
-
 			queue.Enqueue(new NewPostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
 			queue.Enqueue(new UpdatePostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
 
@@ -115,7 +113,6 @@ namespace UT_WammerStation
 		{
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
-
 			queue.Enqueue(new NewPostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
 			queue.Enqueue(new UpdatePostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
 			queue.Enqueue(new NewPostTask { PostId = POST_ID2, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
@@ -132,7 +129,6 @@ namespace UT_WammerStation
 		{
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
-
 			queue.Enqueue(new NewPostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
 			queue.Enqueue(new UpdatePostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
 			queue.Enqueue(new NewPostTask { PostId = POST_ID2, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
@@ -155,14 +151,11 @@ namespace UT_WammerStation
 			groups.Add(new UserGroup { name = "big group", creator_id = USER_ID1, group_id = GROUP_ID1, description = "none" });
 			DriverCollection.Instance.Save(new Driver { user_id = USER_ID1, groups = groups });
 
-			PostUploadTaskQueue queue = new PostUploadTaskQueue();
-			queue.InitFromDB();
-			PostUploadTaskController controller = new PostUploadTaskController(queue);
-			controller.AddPostUploadAction(POST_ID1, Wammer.PostUploadActionType.NewPost, PARAM);
-			controller.AddPostUploadAction(POST_ID1, Wammer.PostUploadActionType.UpdatePost, PARAM);
+			PostUploadTaskController.Instance.AddPostUploadAction(POST_ID1, PostUploadActionType.NewPost, PARAM);
+			PostUploadTaskController.Instance.AddPostUploadAction(POST_ID1, PostUploadActionType.UpdatePost, PARAM);
 
-			Assert.IsTrue(queue.Dequeue() is NewPostTask);
-			Assert.IsTrue(queue.Dequeue() is UpdatePostTask);
+			Assert.IsTrue(PostUploadTaskQueue.Instance.Dequeue() is NewPostTask);
+			Assert.IsTrue(PostUploadTaskQueue.Instance.Dequeue() is UpdatePostTask);
 		}
 	}
 }

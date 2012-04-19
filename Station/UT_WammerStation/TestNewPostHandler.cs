@@ -10,6 +10,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using Wammer;
 using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;
@@ -64,7 +65,7 @@ namespace UT_WammerStation
 			Reset();
 
 			server = new HttpServer(8080);
-			handler = new NewPostHandler();
+			handler = new NewPostHandler { postUploader = PostUploadTaskController.Instance };
 			server.AddHandler("/v2/posts/new", handler);
 			server.Start();
 
