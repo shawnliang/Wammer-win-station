@@ -106,7 +106,7 @@ namespace Waveface.DetailUI
             // panelMain
             // 
             resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.panelMain.BackColor = System.Drawing.Color.White;
             this.panelMain.Controls.Add(this.webBrowser);
             this.panelMain.Name = "panelMain";
             // 
