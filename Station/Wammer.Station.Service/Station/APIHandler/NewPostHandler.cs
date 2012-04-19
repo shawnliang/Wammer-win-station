@@ -14,6 +14,17 @@ namespace Wammer.Station
 {
 	public class NewPostHandler : HttpHandler
 	{
+		#region Private Property
+		private IPostUploadSupportable m_PostUploader { get; set; }
+		#endregion
+
+		#region Constructor
+		public NewPostHandler(IPostUploadSupportable postUploader)
+		{
+			m_PostUploader = postUploader;
+		}
+		#endregion
+
 		#region Private Method
 		private AttachmentInfo GetAttachmentnfo(Attachment attachment, string codeName)
 		{ 
@@ -127,8 +138,8 @@ namespace Wammer.Station
 			var response = new NewPostResponse();
 			response.posts.Add(post);
 
-			IPostUploadSupportable postUploader = PostUploadTaskController.Instance;
-			postUploader.AddPostUploadAction(PostUploadActionType.NewPost, Parameters);
+			if (m_PostUploader != null)
+				m_PostUploader.AddPostUploadAction(PostUploadActionType.NewPost, Parameters);
 
 			RespondSuccess(response);
 		}

@@ -64,7 +64,7 @@ namespace UT_WammerStation
 			Reset();
 
 			server = new HttpServer(8080);
-			handler = new NewPostHandler();
+			handler = new NewPostHandler(null);
 			server.AddHandler("/v2/posts/new", handler);
 			server.Start();
 
@@ -100,8 +100,8 @@ namespace UT_WammerStation
 		{
 			var db = mongodb.GetDatabase("wammer");
 			db.GetCollection("Post").RemoveAll();
-			db.GetCollection<LoginedSession>("attachments").RemoveAll();
-			db.GetCollection<LoginedSession>("attachments").Insert(
+			db.GetCollection("attachments").RemoveAll();
+			db.GetCollection("attachments").Insert(
 				new Attachment()
 				{
 					object_id = "12345",
