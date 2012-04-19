@@ -43,7 +43,6 @@ namespace Wammer
 		#region Public Method
 		public void AddPostUploadAction(PostUploadActionType actionType, NameValueCollection parameters)
 		{
-			throw new NotImplementedException();
 		} 
 		#endregion
 	}

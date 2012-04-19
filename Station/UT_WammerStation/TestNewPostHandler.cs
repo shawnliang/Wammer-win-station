@@ -99,6 +99,7 @@ namespace UT_WammerStation
 		public void NewPost_PostNewPost_Success()
 		{
 			var db = mongodb.GetDatabase("wammer");
+			db.GetCollection("Post").RemoveAll();
 			db.GetCollection<LoginedSession>("attachments").RemoveAll();
 			db.GetCollection<LoginedSession>("attachments").Insert(
 				new Attachment()

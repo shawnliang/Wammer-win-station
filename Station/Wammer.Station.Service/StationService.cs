@@ -135,27 +135,26 @@ namespace Wammer.Station.Service
 
 		private static void InitCloudForwarder(BypassHttpHandler cloudForwarder)
 		{
-			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/auth/");
-			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/users/");
-			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/groups/");
-			cloudForwarder.AddExceptPrefix("/" + CloudServer.DEF_BASE_PATH + "/stations/");
+			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/auth/"));
+			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/users/"));
+			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/groups/"));
+			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/stations/"));
 		}
 
 		private void InitManagementServerHandler(AddDriverHandler addDriverHandler)
 		{
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/online/", new StationOnlineHandler(functionServer, stationTimer, bodySyncRunners));
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/offline/", new StationOfflineHandler(functionServer, stationTimer, bodySyncRunners));
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/add/", addDriverHandler);
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/list/", new ListDriverHandler());
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/drivers/remove/", new RemoveOwnerHandler(stationId));
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/status/get/", new StatusGetHandler());
-
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/list", new ListCloudStorageHandler());
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/oauth/", new DropBoxOAuthHandler());
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/connect/", new DropBoxConnectHandler());
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/update/", new DropBoxUpdateHandler());
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/cloudstorage/dropbox/disconnect/", new DropboxDisconnectHandler());
-			managementServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/", new PingHandler());
+			managementServer.AddHandler(GetDefaultBathPath("/station/online/"), new StationOnlineHandler(functionServer, stationTimer, bodySyncRunners));
+			managementServer.AddHandler(GetDefaultBathPath("/station/offline/"), new StationOfflineHandler(functionServer, stationTimer, bodySyncRunners));
+			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/add/"), addDriverHandler);
+			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/list/"), new ListDriverHandler());
+			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), new RemoveOwnerHandler(stationId));
+			managementServer.AddHandler(GetDefaultBathPath("/station/status/get/"), new StatusGetHandler());
+			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/list"), new ListCloudStorageHandler());
+			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/oauth/"), new DropBoxOAuthHandler());
+			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/connect/"), new DropBoxConnectHandler());
+			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/update/"), new DropBoxUpdateHandler());
+			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/disconnect/"), new DropboxDisconnectHandler());
+			managementServer.AddHandler(GetDefaultBathPath("/availability/ping/"), new PingHandler());
 		}
 
 		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder, AttachmentDownloadMonitor downstreamMonitor)
@@ -164,52 +163,66 @@ namespace Wammer.Station.Service
 			functionServer.AddDefaultHandler(cloudForwarder);
 
 			logger.Debug("Add handlers to function server");
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/upload/",
-							attachmentHandler);
-
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/get/",
-							new ResouceDirGetHandler(resourceBasePath));
-
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/station/resourceDir/set/",
-							new ResouceDirSetHandler());
-
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/get/",
-							new AttachmentGetHandler());
-
-
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/availability/ping/",
-							new PingHandler());
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/reachability/ping/",
-							new PingHandler());
-
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/getLatest/",
-							new HybridCloudHttpRouter(new PostGetLatestHandler()));
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/get/",
-							new HybridCloudHttpRouter(new PostGetHandler()));
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/getSingle/",
-							new HybridCloudHttpRouter(new PostGetSingleHandler()));
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/posts/new/", new NewPostHandler());
-
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/footprints/setLastScan/",
-							new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/footprints/getLastScan/",
-							new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/usertracks/get/",
-							new HybridCloudHttpRouter(new APIHandler.UserTrackHandler()));
-
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/login/", new UserLoginHandler());
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/auth/logout/", new UserLogoutHandler());		
-			
 
 			functionServer.AddHandler("/", new DummyHandler());
 
+			functionServer.AddHandler(GetDefaultBathPath("/attachments/upload/"), 
+				attachmentHandler);
+
+			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/get/"),
+				new ResouceDirGetHandler(resourceBasePath));
+
+			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/set/"),
+				new ResouceDirSetHandler());
+
+			functionServer.AddHandler(GetDefaultBathPath("/attachments/get/"),
+				new AttachmentGetHandler());
+
+			functionServer.AddHandler(GetDefaultBathPath("/availability/ping/"),
+				new PingHandler());
+
+			functionServer.AddHandler(GetDefaultBathPath("/reachability/ping/"),
+				new PingHandler());
+
+			functionServer.AddHandler(GetDefaultBathPath("/posts/getLatest/"),
+				new HybridCloudHttpRouter(new PostGetLatestHandler()));
+
+			functionServer.AddHandler(GetDefaultBathPath("/posts/get/"),
+				new HybridCloudHttpRouter(new PostGetHandler()));
+
+			functionServer.AddHandler(GetDefaultBathPath("/posts/getSingle/"),
+				new HybridCloudHttpRouter(new PostGetSingleHandler()));
+
+			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
+				new NewPostHandler());
+
+			functionServer.AddHandler(GetDefaultBathPath("/footprints/setLastScan/"),
+				new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
+
+			functionServer.AddHandler(GetDefaultBathPath("/footprints/getLastScan/"),
+				new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
+
+			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
+				new HybridCloudHttpRouter(new APIHandler.UserTrackHandler()));
+
+			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
+				new UserLoginHandler());
+
+			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"), 
+				new UserLogoutHandler());			
+
 			AttachmentViewHandler viewHandler = new AttachmentViewHandler(stationId);
-			functionServer.AddHandler("/" + CloudServer.DEF_BASE_PATH + "/attachments/view/",
+			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"),
 							viewHandler);
 			
 			viewHandler.FileDownloadStarted += downstreamMonitor.OnDownstreamTaskEnqueued;
 			viewHandler.FileDownloadInProgress += downstreamMonitor.OnDownstreamTaskInProgress;
 			viewHandler.FileDownloadFinished += downstreamMonitor.OnDownstreamTaskDone;
+		}
+
+		private static string GetDefaultBathPath(string relativedPath)
+		{
+			return "/" + CloudServer.DEF_BASE_PATH + relativedPath;
 		}
 
 		void functionServer_TaskEnqueue(object sender, TaskQueueEventArgs e)
