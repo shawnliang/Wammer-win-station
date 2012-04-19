@@ -156,6 +156,7 @@
     <Compile Include="PostUpload\NewPostTask.cs" />
     <Compile Include="PostUpload\PostUploadTask.cs" />
     <Compile Include="PostUpload\PostUploadTaskQueue.cs" />
+    <Compile Include="PostUpload\PostUploadTaskRunner.cs" />
     <Compile Include="PostUpload\UnhidePostTask.cs" />
     <Compile Include="PostUpload\UpdatePostTask.cs" />
     <Compile Include="Station\PostUploadTaskController.cs" />

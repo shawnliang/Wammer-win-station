@@ -157,5 +157,16 @@ namespace UT_WammerStation
 			Assert.IsTrue(PostUploadTaskQueue.Instance.Dequeue() is NewPostTask);
 			Assert.IsTrue(PostUploadTaskQueue.Instance.Dequeue() is UpdatePostTask);
 		}
+
+		[TestMethod]
+		public void TestPostUploadTaskRunner()
+		{
+			PostUploadTaskQueue queue = new PostUploadTaskQueue();
+			queue.InitFromDB();
+			PostUploadTaskRunner runner = new PostUploadTaskRunner(queue);
+			runner.Start();
+			queue.Enqueue(new NewPostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
+			queue.Enqueue(new UpdatePostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
+		}
 	}
 }

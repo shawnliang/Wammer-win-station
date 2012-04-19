@@ -16,7 +16,7 @@ namespace Wammer.Station
 		ITask Dequeue();
 	}
 
-	class BodySyncTaskQueue: ITaskSource, ITaskStore
+	public class BodySyncTaskQueue: ITaskSource, ITaskStore
 	{
 		private Semaphore hasItem = new Semaphore(0, int.MaxValue);
 		private Queue<SimpleTask> highPriorityCallbacks = new Queue<SimpleTask>();

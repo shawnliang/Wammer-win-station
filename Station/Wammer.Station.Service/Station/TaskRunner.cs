@@ -7,7 +7,7 @@ using log4net;
 
 namespace Wammer.Station
 {
-	class TaskRunner
+	public class TaskRunner
 	{
 		#region Var
 		private Thread _thread; 
@@ -31,9 +31,14 @@ namespace Wammer.Station
 
 		private static ILog logger = LogManager.GetLogger("TaskRunner");		
 		private BodySyncTaskQueue queue;
-		private volatile bool exit;
+		protected volatile bool exit;
 
 		public event EventHandler TaskExecuted;
+
+		public TaskRunner()
+		{
+			this.exit = false;
+		}
 
 		public TaskRunner(BodySyncTaskQueue queue)
 		{
@@ -66,7 +71,7 @@ namespace Wammer.Station
 			exit = false;
 		}
 
-		private void Do()
+		protected virtual void Do()
 		{
 			while (!exit)
 			{
@@ -86,7 +91,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private void OnTaskExecuted(EventArgs arg)
+		protected void OnTaskExecuted(EventArgs arg)
 		{
 			EventHandler handler = TaskExecuted;
 			if (handler != null)

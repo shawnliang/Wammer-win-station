@@ -9,7 +9,6 @@ namespace Wammer.PostUpload
 	{
 		public override void Execute()
 		{
-			throw new NotImplementedException();
 		}
 	}
 }
