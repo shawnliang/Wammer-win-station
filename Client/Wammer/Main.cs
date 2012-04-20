@@ -69,6 +69,8 @@ namespace Waveface
         private bool m_getAllDataError;
         private string m_newestUpdateTime;
 
+        BorderlessFormTheme m_borderlessFormTheme = new BorderlessFormTheme();
+
         #endregion
 
         #region Properties
@@ -156,7 +158,7 @@ namespace Waveface
 
             File.Delete(m_shellContentMenuFilePath);
 
-            InitializeComponent();
+            InitializeComponent();      
 
             Text = "Waveface ";
 
@@ -204,6 +206,8 @@ namespace Waveface
             CreateFileWatcher();
 
             CreateLoadingImage();
+
+            m_borderlessFormTheme.ApplyFormThemeSizable(this);
 
             s_logger.Trace("Form_Load: OK");
         }
@@ -436,18 +440,20 @@ namespace Waveface
             Close();
         }
 
-        public void Setting()
+        public void AccountInformation()
         {
             //if (!Current.CheckNetworkStatus())
             //    return;
 
             m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
+
             if (m_setting.isUnlink)
             {
                 QuitOption = QuitOption.Unlink;
                 Close();
             }
+
             m_setting = null;
         }
 
@@ -641,7 +647,7 @@ namespace Waveface
                 m_stationIP = "http://127.0.0.1:9981";
                 WService.StationIP = m_stationIP;
                 StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
-                radioButtonStation.Checked = true;
+                // radioButtonStation.Checked = true;
                 RT.StationMode = true;
             }
 
@@ -734,7 +740,7 @@ namespace Waveface
 
         private void fillUserInformation()
         {
-            panelTop.UserName = RT.Login.user.nickname;
+            //panelTop.UserName = RT.Login.user.nickname;
 
             /*
             if (RT.Login.user.avatar_url == string.Empty)
@@ -1652,6 +1658,7 @@ namespace Waveface
             m_taskbarNotifier.Show(_name, post.content, 333, 2000, 333);
         }
 
+        /*
         private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonCloud.Checked)
@@ -1667,6 +1674,7 @@ namespace Waveface
                 backgroundWorkerPreloadAllImages_DoWork(null, null);
             }
         }
+        */
 
         public void ShowStatuMessage(string message, bool timeout)
         {
@@ -1941,6 +1949,32 @@ namespace Waveface
             if (RT.CurrentGroupPosts != null)
             {
                 PrefetchImages(RT.CurrentGroupPosts, false); //@
+            }
+        }
+
+        #endregion
+
+        #region BorderlessForm
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, uint Msg, long lParam, long wParam);
+
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void panelTitle_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (WindowState != FormWindowState.Maximized)
+            {
+                if (MouseButtons.ToString() == "Left")
+                {
+                   ReleaseCapture();
+
+                    uint WM_NCLBUTTONDOWN = 161;
+                    int HT_CAPTION = 0x2;
+
+                    SendMessage(Parent.Parent.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+                }
             }
         }
 

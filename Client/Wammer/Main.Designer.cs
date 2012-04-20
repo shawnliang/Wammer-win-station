@@ -33,13 +33,9 @@ namespace Waveface
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.panelPost = new System.Windows.Forms.Panel();
-            this.postsArea = new Waveface.PostArea();
             this.splitterLeft = new System.Windows.Forms.Splitter();
             this.panelLeftInfo = new System.Windows.Forms.Panel();
-            this.leftArea = new Waveface.LeftArea();
-            this.panelTitle = new Waveface.TitlePanel();
             this.panelMain = new System.Windows.Forms.Panel();
-            this.detailView = new Waveface.DetailView();
             this.mnuTray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.screenShotMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.regionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,18 +55,16 @@ namespace Waveface
             this.timerShowStatuMessage = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorkerPreloadAllImages = new System.ComponentModel.BackgroundWorker();
             this.timerPolling = new System.Windows.Forms.Timer(this.components);
-            this.panelTop = new Waveface.BgPanel();
-            this.panelStation = new System.Windows.Forms.Panel();
-            this.radioButtonStation = new System.Windows.Forms.RadioButton();
-            this.radioButtonCloud = new System.Windows.Forms.RadioButton();
+            this.detailView = new Waveface.DetailView();
+            this.postsArea = new Waveface.PostArea();
+            this.leftArea = new Waveface.LeftArea();
+            this.panelTitle = new Waveface.TitlePanel();
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.mnuTray.SuspendLayout();
             this.statusStrip.SuspendLayout();
-            this.panelTop.SuspendLayout();
-            this.panelStation.SuspendLayout();
             this.SuspendLayout();
             // 
             // ContentPanel
@@ -92,13 +86,6 @@ namespace Waveface
             resources.ApplyResources(this.panelPost, "panelPost");
             this.panelPost.Name = "panelPost";
             // 
-            // postsArea
-            // 
-            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
-            resources.ApplyResources(this.postsArea, "postsArea");
-            this.postsArea.MinimumSize = new System.Drawing.Size(337, 2);
-            this.postsArea.Name = "postsArea";
-            // 
             // splitterLeft
             // 
             this.splitterLeft.BackColor = System.Drawing.Color.LightGray;
@@ -113,32 +100,11 @@ namespace Waveface
             resources.ApplyResources(this.panelLeftInfo, "panelLeftInfo");
             this.panelLeftInfo.Name = "panelLeftInfo";
             // 
-            // leftArea
-            // 
-            this.leftArea.AllowDrop = true;
-            this.leftArea.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.leftArea, "leftArea");
-            this.leftArea.Name = "leftArea";
-            this.leftArea.TabStop = false;
-            // 
-            // panelTitle
-            // 
-            this.panelTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(175)))), ((int)(((byte)(198)))));
-            resources.ApplyResources(this.panelTitle, "panelTitle");
-            this.panelTitle.Name = "panelTitle";
-            // 
             // panelMain
             // 
             this.panelMain.Controls.Add(this.detailView);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            // 
-            // detailView
-            // 
-            resources.ApplyResources(this.detailView, "detailView");
-            this.detailView.Name = "detailView";
-            this.detailView.Post = null;
-            this.detailView.User = null;
             // 
             // mnuTray
             // 
@@ -269,38 +235,34 @@ namespace Waveface
             this.timerPolling.Interval = 10000;
             this.timerPolling.Tick += new System.EventHandler(this.timerPolling_Tick);
             // 
-            // panelTop
+            // detailView
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(175)))), ((int)(((byte)(197)))));
-            this.panelTop.Controls.Add(this.panelStation);
-            resources.ApplyResources(this.panelTop, "panelTop");
-            this.panelTop.Name = "panelTop";
-            this.panelTop.UserName = "";
+            resources.ApplyResources(this.detailView, "detailView");
+            this.detailView.Name = "detailView";
+            this.detailView.Post = null;
+            this.detailView.User = null;
             // 
-            // panelStation
+            // postsArea
             // 
-            this.panelStation.BackColor = System.Drawing.SystemColors.Control;
-            this.panelStation.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panelStation.Controls.Add(this.radioButtonStation);
-            this.panelStation.Controls.Add(this.radioButtonCloud);
-            resources.ApplyResources(this.panelStation, "panelStation");
-            this.panelStation.Name = "panelStation";
+            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
+            resources.ApplyResources(this.postsArea, "postsArea");
+            this.postsArea.MinimumSize = new System.Drawing.Size(337, 2);
+            this.postsArea.Name = "postsArea";
             // 
-            // radioButtonStation
+            // leftArea
             // 
-            resources.ApplyResources(this.radioButtonStation, "radioButtonStation");
-            this.radioButtonStation.Checked = true;
-            this.radioButtonStation.Name = "radioButtonStation";
-            this.radioButtonStation.TabStop = true;
-            this.radioButtonStation.UseVisualStyleBackColor = true;
-            this.radioButtonStation.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
+            this.leftArea.AllowDrop = true;
+            this.leftArea.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.leftArea, "leftArea");
+            this.leftArea.Name = "leftArea";
+            this.leftArea.TabStop = false;
             // 
-            // radioButtonCloud
+            // panelTitle
             // 
-            resources.ApplyResources(this.radioButtonCloud, "radioButtonCloud");
-            this.radioButtonCloud.Name = "radioButtonCloud";
-            this.radioButtonCloud.UseVisualStyleBackColor = true;
-            this.radioButtonCloud.CheckedChanged += new System.EventHandler(this.radioButtonStation_CheckedChanged);
+            this.panelTitle.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.panelTitle, "panelTitle");
+            this.panelTitle.Name = "panelTitle";
+            this.panelTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTitle_MouseMove);
             // 
             // Main
             // 
@@ -310,7 +272,6 @@ namespace Waveface
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.splitterRight);
             this.Controls.Add(this.panelLeft);
-            this.Controls.Add(this.panelTop);
             this.Controls.Add(this.statusStrip);
             this.Name = "Main";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -329,16 +290,12 @@ namespace Waveface
             this.mnuTray.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            this.panelTop.ResumeLayout(false);
-            this.panelStation.ResumeLayout(false);
-            this.panelStation.PerformLayout();
             this.ResumeLayout(false);
 
 		}
 
 		#endregion
-        
-        private System.Windows.Forms.ToolStripContentPanel ContentPanel;
+
         private DetailView detailView;
         private System.Windows.Forms.Panel panelLeft;
         private System.Windows.Forms.Splitter splitterLeft;
@@ -353,11 +310,7 @@ namespace Waveface
         private System.Windows.Forms.ToolStripMenuItem windowsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem screenMenuItem;
         private System.Windows.Forms.Timer timerDelayPost;
-        private BgPanel panelTop;
         private LeftArea leftArea;
-        private System.Windows.Forms.Panel panelStation;
-        private System.Windows.Forms.RadioButton radioButtonStation;
-        private System.Windows.Forms.RadioButton radioButtonCloud;
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
         private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
         private System.Windows.Forms.Timer timerReloadAllData;
@@ -371,6 +324,7 @@ namespace Waveface
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelServiceStatus;
         private System.Windows.Forms.Timer timerPolling;
         private TitlePanel panelTitle;
+        private System.Windows.Forms.ToolStripContentPanel ContentPanel;
 	}
 }
 

@@ -1,6 +1,7 @@
 ﻿
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Windows.Forms;
 
 namespace Waveface
@@ -8,10 +9,11 @@ namespace Waveface
     public class TitlePanel : UserControl
     {
         private TextureBrush m_brush1;
-        private Component.ImageButton btnCreatePost;
         private Component.ImageButton btnRefresh;
         private Label labelStatus;
-        private TextureBrush m_brush3;
+        private Component.ImageButton btnDeletePost;
+        private Component.ImageButton btnAccount;
+        private Component.ImageButton btnSetting;
 
         private Bitmap m_bmpOffscreen;
 
@@ -21,32 +23,15 @@ namespace Waveface
 
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
-            SetStyle(ControlStyles.ResizeRedraw, true);
+            // SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.UserPaint, true);
 
-            m_brush1 = new TextureBrush(Properties.Resources.Title1, WrapMode.Tile);
-            m_brush3 = new TextureBrush(Properties.Resources.Title3, WrapMode.Tile);
+            m_brush1 = new TextureBrush(Properties.Resources.titlebar_1, WrapMode.Tile);
         }
 
         private void TitlePanel_Load(object sender, System.EventArgs e)
         {
-            ArrangeButtons();
-
             show_labelStatus(false);
-        }
-
-        private void ArrangeButtons()
-        {
-            if (DesignMode)
-                return;
-
-            int _d = (Width - Main.Current.GetLeftAreaWidth()) / 3;
-
-            btnCreatePost.Top = 7;
-            btnCreatePost.Left = Main.Current.GetLeftAreaWidth() + _d;
-
-            btnRefresh.Top = 7;
-            btnRefresh.Left = Width - _d;
         }
 
         /*
@@ -64,27 +49,20 @@ namespace Waveface
         {
             if (!DesignMode)
             {
-
                 if (m_bmpOffscreen == null)
                     m_bmpOffscreen = new Bitmap(ClientSize.Width, ClientSize.Height);
 
                 using (Graphics _g = Graphics.FromImage(m_bmpOffscreen))
                 {
-                    _g.FillRectangle(m_brush1, 0, 0, Width - 8, Height);
+                    _g.TextRenderingHint = TextRenderingHint.AntiAlias;
+                    _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                    _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    _g.SmoothingMode = SmoothingMode.HighQuality;
 
-                    _g.DrawImage(Properties.Resources.desktop_logo, 4, -25);
+                    _g.FillRectangle(m_brush1, 0, 0, Width - 16, Height);
+                    _g.DrawImage(Properties.Resources.titlebar_3, Width - 16, 0);
 
-                    int _leftAreaWidth = Main.Current.GetLeftAreaWidth();
-
-                    _g.DrawImage(Properties.Resources.Title2, _leftAreaWidth, 0);
-
-                    int _offset = _leftAreaWidth + Properties.Resources.Title2.Width;
-
-                    int _offsetEnd = 16;
-
-                    _g.FillRectangle(m_brush3, _offset, 0, Width - _offset - _offsetEnd, Height);
-
-                    _g.DrawImage(Properties.Resources.Title4, Width - _offsetEnd, 0);
+                    _g.DrawImage(Properties.Resources.desktop_logo, 4, -2);
 
                     e.Graphics.DrawImage(m_bmpOffscreen, 0, 0);
                 }
@@ -104,14 +82,12 @@ namespace Waveface
             Main.Current.ReloadAllData();
         }
 
-        private void btnSetting_Click(object sender, System.EventArgs e)
-        {
-            Main.Current.Setting();
-        }
-
         public void updateRefreshUI(bool flag)
         {
             btnRefresh.Enabled = flag;
+            btnDeletePost.Enabled = flag;
+            btnAccount.Enabled = flag;
+            btnSetting.Enabled = flag;
         }
 
         public void ShowStatusText(string msg)
@@ -123,24 +99,18 @@ namespace Waveface
 
         private void show_labelStatus(bool flag)
         {
-            btnCreatePost.Enabled = !flag;
+            //btnCreatePost.Enabled = !flag;
 
             btnRefresh.Enabled = !flag;
         }
 
         public void showRefreshUI(bool flag)
         {
-            btnCreatePost.Visible = true;
-
             btnRefresh.Visible = flag;
-        }
 
-        private void btnCreatePost_Click(object sender, System.EventArgs e)
-        {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
-            Main.Current.Post();
+            btnDeletePost.Visible = true;
+            btnAccount.Visible = true;
+            btnSetting.Visible = true;
         }
 
         #region Windows Form Designer generated code
@@ -149,7 +119,9 @@ namespace Waveface
         {
             this.labelStatus = new System.Windows.Forms.Label();
             this.btnRefresh = new Waveface.Component.ImageButton();
-            this.btnCreatePost = new Waveface.Component.ImageButton();
+            this.btnDeletePost = new Waveface.Component.ImageButton();
+            this.btnAccount = new Waveface.Component.ImageButton();
+            this.btnSetting = new Waveface.Component.ImageButton();
             this.SuspendLayout();
             // 
             // labelStatus
@@ -167,41 +139,73 @@ namespace Waveface
             this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
             this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRefresh.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnRefresh.Image = global::Waveface.Properties.Resources.FB_refresh;
-            this.btnRefresh.ImageDisable = global::Waveface.Properties.Resources.FB_refresh_hl;
-            this.btnRefresh.ImageHover = global::Waveface.Properties.Resources.FB_refresh_hl;
+            this.btnRefresh.Image = global::Waveface.Properties.Resources.FBT_refresh;
+            this.btnRefresh.ImageDisable = global::Waveface.Properties.Resources.FBT_refresh;
+            this.btnRefresh.ImageHover = global::Waveface.Properties.Resources.FBT_refresh_hl;
             this.btnRefresh.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnRefresh.Location = new System.Drawing.Point(351, 3);
+            this.btnRefresh.Location = new System.Drawing.Point(230, 15);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(20, 20);
+            this.btnRefresh.Size = new System.Drawing.Size(37, 37);
             this.btnRefresh.TabIndex = 12;
-            this.btnRefresh.TabStop = false;
+            this.btnRefresh.Visible = false;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
-            // btnCreatePost
+            // btnDeletePost
             // 
-            this.btnCreatePost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
-            this.btnCreatePost.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCreatePost.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnCreatePost.Image = global::Waveface.Properties.Resources.FB_newpost;
-            this.btnCreatePost.ImageDisable = global::Waveface.Properties.Resources.FB_newpost_hl;
-            this.btnCreatePost.ImageHover = global::Waveface.Properties.Resources.FB_newpost_hl;
-            this.btnCreatePost.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnCreatePost.Location = new System.Drawing.Point(225, 3);
-            this.btnCreatePost.Name = "btnCreatePost";
-            this.btnCreatePost.Size = new System.Drawing.Size(20, 20);
-            this.btnCreatePost.TabIndex = 11;
-            this.btnCreatePost.TabStop = false;
-            this.btnCreatePost.Click += new System.EventHandler(this.btnCreatePost_Click);
+            this.btnDeletePost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
+            this.btnDeletePost.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDeletePost.Font = new System.Drawing.Font("Arial", 9F);
+            this.btnDeletePost.Image = global::Waveface.Properties.Resources.FBT_remove;
+            this.btnDeletePost.ImageDisable = global::Waveface.Properties.Resources.FBT_remove;
+            this.btnDeletePost.ImageHover = global::Waveface.Properties.Resources.FBT_remove_hl;
+            this.btnDeletePost.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnDeletePost.Location = new System.Drawing.Point(290, 15);
+            this.btnDeletePost.Name = "btnDeletePost";
+            this.btnDeletePost.Size = new System.Drawing.Size(37, 37);
+            this.btnDeletePost.TabIndex = 14;
+            this.btnDeletePost.Visible = false;
+            // 
+            // btnAccount
+            // 
+            this.btnAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
+            this.btnAccount.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAccount.Font = new System.Drawing.Font("Arial", 9F);
+            this.btnAccount.Image = global::Waveface.Properties.Resources.FBT_account;
+            this.btnAccount.ImageDisable = global::Waveface.Properties.Resources.FBT_account;
+            this.btnAccount.ImageHover = global::Waveface.Properties.Resources.FBT_account_hl;
+            this.btnAccount.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnAccount.Location = new System.Drawing.Point(350, 15);
+            this.btnAccount.Name = "btnAccount";
+            this.btnAccount.Size = new System.Drawing.Size(37, 37);
+            this.btnAccount.TabIndex = 15;
+            this.btnAccount.Visible = false;
+            this.btnAccount.Click += new System.EventHandler(this.btnAccount_Click);
+            // 
+            // btnSetting
+            // 
+            this.btnSetting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
+            this.btnSetting.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSetting.Font = new System.Drawing.Font("Arial", 9F);
+            this.btnSetting.Image = global::Waveface.Properties.Resources.FBT_setting;
+            this.btnSetting.ImageDisable = global::Waveface.Properties.Resources.FBT_setting;
+            this.btnSetting.ImageHover = global::Waveface.Properties.Resources.FBT_setting_hl;
+            this.btnSetting.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnSetting.Location = new System.Drawing.Point(410, 15);
+            this.btnSetting.Name = "btnSetting";
+            this.btnSetting.Size = new System.Drawing.Size(37, 37);
+            this.btnSetting.TabIndex = 16;
+            this.btnSetting.Visible = false;
             // 
             // TitlePanel
             // 
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(175)))), ((int)(((byte)(198)))));
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.btnSetting);
+            this.Controls.Add(this.btnAccount);
+            this.Controls.Add(this.btnDeletePost);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.btnCreatePost);
             this.Name = "TitlePanel";
-            this.Size = new System.Drawing.Size(651, 39);
+            this.Size = new System.Drawing.Size(651, 64);
             this.Load += new System.EventHandler(this.TitlePanel_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -209,5 +213,10 @@ namespace Waveface
         }
 
         #endregion
+
+        private void btnAccount_Click(object sender, System.EventArgs e)
+        {
+            Main.Current.AccountInformation();
+        }
     }
 }

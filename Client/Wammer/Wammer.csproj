@@ -116,6 +116,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\BorderlessForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Component\CustomDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -208,9 +211,6 @@
     <Compile Include="Libs\Utility\ControlUtility.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />
     <Compile Include="Libs\Utility\WebBrowser.cs" />
-    <Compile Include="UI\BgPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Data\ShowTimelineIndexType.cs" />
     <Compile Include="Libs\Utility\AttachmentUtility.cs" />
     <Compile Include="Data\RT_REST.cs" />
@@ -558,6 +558,9 @@
     <Compile Include="UI\VirtualFolderForm.designer.cs">
       <DependentUpon>VirtualFolderForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Component\BorderlessForm.resx">
+      <DependentUpon>BorderlessForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Component\CollapsibleSplitter.resx">
       <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
     </EmbeddedResource>
@@ -626,12 +629,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subs\ImageCapture\CaptureForm.resx">
       <DependentUpon>CaptureForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\BgPanel.resx">
-      <DependentUpon>BgPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\BgPanel.zh-TW.resx">
-      <DependentUpon>BgPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DVTopPanel.resx">
       <DependentUpon>DVTopPanel.cs</DependentUpon>
@@ -922,8 +919,6 @@
     <None Include="Resources\LoadingImage.jpg" />
     <None Include="Resources\network-error.png" />
     <None Include="Resources\network-receive.png" />
-    <None Include="Resources\waveface_icon32.png" />
-    <None Include="Resources\waveface_icon128.png" />
     <EmbeddedResource Include="Component\PSTaskDialog\green_arrow1.png" />
     <EmbeddedResource Include="Component\PSTaskDialog\green_arrow2.png" />
     <Content Include="Icon.ico" />
@@ -942,6 +937,14 @@
     <None Include="Resources\fav.png" />
     <None Include="Resources\unfav.png" />
     <None Include="Resources\divider.png" />
+    <None Include="Resources\FlatButton\FBT_account.png" />
+    <None Include="Resources\FlatButton\FBT_account_hl.png" />
+    <None Include="Resources\FlatButton\FBT_refresh.png" />
+    <None Include="Resources\FlatButton\FBT_refresh_hl.png" />
+    <None Include="Resources\FlatButton\FBT_remove.png" />
+    <None Include="Resources\FlatButton\FBT_remove_hl.png" />
+    <None Include="Resources\FlatButton\FBT_setting.png" />
+    <None Include="Resources\FlatButton\FBT_setting_hl.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote_hl.png" />
@@ -970,6 +973,12 @@
     <None Include="Resources\Title\Title4.png" />
     <None Include="Resources\FlatButton\newpost.png" />
     <None Include="Resources\FlatButton\refresh.png" />
+    <None Include="Resources\Title\desktop_logo.png" />
+    <None Include="Resources\Title\divider.png" />
+    <None Include="Resources\Title\titlebar_1.png" />
+    <None Include="Resources\Title\titlebar_2.png" />
+    <None Include="Resources\Title\titlebar_3.png" />
+    <None Include="Resources\Title\titlebar_4.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
