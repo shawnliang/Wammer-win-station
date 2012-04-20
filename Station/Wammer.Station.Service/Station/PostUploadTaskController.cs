@@ -41,7 +41,7 @@ namespace Wammer
 						PostId = postId,
 						UserId = userId,
 						Timestamp = DateTime.Now,
-						Parameters = parameters
+						Parameters = ConvertToDictionary(parameters)
 					});
 					break;
 				case PostUploadActionType.UpdatePost:
@@ -50,7 +50,7 @@ namespace Wammer
 						PostId = postId,
 						UserId = userId,
 						Timestamp = DateTime.Now,
-						Parameters = parameters
+						Parameters = ConvertToDictionary(parameters)
 					});
 					break;
 				case PostUploadActionType.Comment:
@@ -59,7 +59,7 @@ namespace Wammer
 						PostId = postId,
 						UserId = userId,
 						Timestamp = DateTime.Now,
-						Parameters = parameters
+						Parameters = ConvertToDictionary(parameters)
 					});
 					break;
 				case PostUploadActionType.Hide:
@@ -68,7 +68,7 @@ namespace Wammer
 						PostId = postId,
 						UserId = userId,
 						Timestamp = DateTime.Now,
-						Parameters = parameters
+						Parameters = ConvertToDictionary(parameters)
 					});
 					break;
 				case PostUploadActionType.UnHide:
@@ -77,7 +77,7 @@ namespace Wammer
 						PostId = postId,
 						UserId = userId,
 						Timestamp = DateTime.Now,
-						Parameters = parameters
+						Parameters = ConvertToDictionary(parameters)
 					});
 					break;
 				default:
@@ -96,6 +96,16 @@ namespace Wammer
 				throw new WammerStationException("Unable to find driver of group " + groupId, (int)StationApiError.InvalidGroup);
 			}
 			return driver.user_id;
+		}
+
+		private Dictionary<string, string> ConvertToDictionary(NameValueCollection collection)
+		{
+			Dictionary<string, string> dic = new Dictionary<string, string>();
+			foreach (String key in collection.AllKeys)
+			{
+				dic.Add(key, collection[key]);
+			}
+			return dic;
 		}
 		#endregion
 	}

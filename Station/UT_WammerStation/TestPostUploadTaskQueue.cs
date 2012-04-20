@@ -22,7 +22,8 @@ namespace UT_WammerStation
 		private static string USER_ID1 = Guid.NewGuid().ToString();
 		private static string GROUP_ID1 = Guid.NewGuid().ToString();
 		private static string APIKEY_1 = Guid.NewGuid().ToString();
-		private NameValueCollection PARAM = new NameValueCollection { { "apikey", APIKEY_1 }, { "group_id", GROUP_ID1 } };
+		private Dictionary<string, string> PARAM = new Dictionary<string, string> { { "apikey", APIKEY_1 }, { "group_id", GROUP_ID1 } };
+		private NameValueCollection NPARAM = new NameValueCollection { { "apikey", APIKEY_1 }, { "group_id", GROUP_ID1 } };
 
 		[TestInitialize]
 		public void setUp()
@@ -182,8 +183,8 @@ namespace UT_WammerStation
 			groups.Add(new UserGroup { name = "big group", creator_id = USER_ID1, group_id = GROUP_ID1, description = "none" });
 			DriverCollection.Instance.Save(new Driver { user_id = USER_ID1, groups = groups });
 
-			PostUploadTaskController.Instance.AddPostUploadAction(POST_ID1, PostUploadActionType.NewPost, PARAM);
-			PostUploadTaskController.Instance.AddPostUploadAction(POST_ID1, PostUploadActionType.UpdatePost, PARAM);
+			PostUploadTaskController.Instance.AddPostUploadAction(POST_ID1, PostUploadActionType.NewPost, NPARAM);
+			PostUploadTaskController.Instance.AddPostUploadAction(POST_ID1, PostUploadActionType.UpdatePost, NPARAM);
 
 			PostUploadTask task = PostUploadTaskQueue.Instance.Dequeue();
 			Assert.IsTrue(task is NewPostTask);

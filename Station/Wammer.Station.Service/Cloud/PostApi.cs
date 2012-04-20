@@ -28,7 +28,7 @@ namespace Wammer.Cloud
 			this.driver = driver;
 		}
 
-		public PostResponse NewPost(WebClient agent, string postId, DateTime timestamp, NameValueCollection param)
+		public NewPostResponse NewPost(WebClient agent, string postId, DateTime timestamp, Dictionary<string, string> param)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
@@ -38,7 +38,7 @@ namespace Wammer.Cloud
 				{CloudServer.PARAM_TIMESTAMP, timestamp.ToCloudTimeString()}
 			};
 
-			foreach (String key in param.AllKeys)
+			foreach (String key in param.Keys)
 			{
 				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
 				{
@@ -46,7 +46,7 @@ namespace Wammer.Cloud
 				}
 			}
 
-			return CloudServer.requestPath<PostResponse>(agent, "posts/new", parameters);
+			return CloudServer.requestPath<NewPostResponse>(agent, "posts/new", parameters);
 		}
 
 		public PostFetchByFilterResponse PostFetchByFilter(WebClient agent, FilterEntity filter)
@@ -94,6 +94,21 @@ namespace Wammer.Cloud
 
 			PostGetLatestResponse res = 
 				CloudServer.requestPath<PostGetLatestResponse>(agent, "posts/getLatest", parameters, false);
+			return res;
+		}
+
+		public PostGetSingleResponse PostGetSingle(WebClient agent, string groupId, string postId)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_POST_ID, postId},
+				{CloudServer.PARAM_GROUP_ID, groupId},
+				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			};
+
+			PostGetSingleResponse res =
+				CloudServer.requestPath<PostGetSingleResponse>(agent, "posts/getSingle", parameters);
 			return res;
 		}
 
