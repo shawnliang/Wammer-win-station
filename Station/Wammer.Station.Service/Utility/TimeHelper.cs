@@ -5,7 +5,7 @@ namespace Wammer.Utility
 {
 	public static class TimeHelper
 	{
-		private static DateTime JAN_1_1970 = new DateTime(1970, 1, 1);
+		private static DateTime JAN_1_1970 = new DateTime(1970, 1, 1, 0 ,0, 0, DateTimeKind.Utc);
 		private const string CLOUD_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 		public static DateTime ConvertToDateTime(long unixTimeStamp)

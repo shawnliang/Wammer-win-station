@@ -7,6 +7,8 @@ using MongoDB.Driver.Builders;
 using System.IO;
 using Wammer.PerfMonitor;
 using System.ComponentModel;
+using Wammer.Cloud;
+
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -33,6 +35,20 @@ namespace Wammer.Station.AttachmentUpload
 			Driver user = DriverCollection.Instance.FindDriverByGroupId(attachment.group_id);
 			if (user == null)
 				return;
+
+			if (this.meta == ImageMeta.Origin)
+			{
+				GetUserResponse userInfo = User.GetInfo(user.user_id, Cloud.CloudServer.APIKey, user.session_token);
+				if (userInfo.storages.waveface.over_quota)
+				{
+					failQueue.Enqueue(new Retry.PostponedTask(
+						userInfo.storages.waveface.interval.GetIntervalEndTime(),
+						this.priority, this));
+
+					return;
+				}
+			}
+
 
 			IAttachmentInfo info = attachment.GetInfoByMeta(meta);
 			if (info == null)

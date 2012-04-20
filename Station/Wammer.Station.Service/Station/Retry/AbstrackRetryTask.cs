@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wammer.Station.Utility;
+using Wammer.Utility;
 
 namespace Wammer.Station.Retry
 {
@@ -69,13 +69,13 @@ namespace Wammer.Station.Retry
 		protected abstract void Run();
 	}
 
-	public class PostponsedTask: IRetryTask
+	public class PostponedTask: IRetryTask
 	{
 		private ITask taskToRun;
 		public TaskPriority Priority { get; private set; }
 		public DateTime NextRetryTime { get; private set; }
-		
-		protected PostponsedTask(DateTime nextRetryTime, TaskPriority priority, ITask taskToRun)
+
+		public PostponedTask(DateTime nextRetryTime, TaskPriority priority, ITask taskToRun)
 		{
 			this.taskToRun = taskToRun;
 			this.Priority = priority;
