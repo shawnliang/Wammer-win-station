@@ -42,6 +42,10 @@ namespace Wammer.Station
 		NothingToUpdate = Base + 10,
 		InvalidFavorite = Base + 11,
 		InvalidCoverAttach = Base + 12,
-		NeedMerge = Base + 13
+		NeedMerge = Base + 13,
+		InvalidTimeStamp = Base + 14,
+		InvalidLastUpdateTime = Base + 15,
+		InvalidUpdateTime = Base + 16,
+		InvalidPostId = Base + 17
 	}
 }

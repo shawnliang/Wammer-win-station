@@ -102,21 +102,13 @@ namespace Wammer.Station
 				}
 				catch (WammerCloudException ex)
 				{
-					WebException webex = (WebException)ex.InnerException;
-					if (webex != null)
+					if (CloudServer.IsSessionError(ex))
 					{
-						HttpWebResponse response = (HttpWebResponse)webex.Response;
-						if (response != null)
-						{
-							if (response.StatusCode == HttpStatusCode.Unauthorized)
-							{
-								// station's session token expired, it might be caused by:
-								// 1. server maintenance
-								// 2. driver registered another station
-								// in this situation, client has to re-login/re-register the station
-								functionServer.BlockAuth(true);
-							}
-						}
+						// station's session token expired, it might be caused by:
+						// 1. server maintenance
+						// 2. driver registered another station
+						// in this situation, client has to re-login/re-register the station
+						functionServer.BlockAuth(true);						
 					}
 					logger.Debug("cloud send heartbeat error", ex);
 				}

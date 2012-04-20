@@ -40,7 +40,7 @@ namespace Wammer
 					{
 						PostId = postId,
 						UserId = userId,
-						Timestamp = DateTime.UtcNow,
+						Timestamp = DateTime.Now,
 						Parameters = parameters
 					});
 					break;
@@ -49,7 +49,7 @@ namespace Wammer
 					{
 						PostId = postId,
 						UserId = userId,
-						Timestamp = DateTime.UtcNow,
+						Timestamp = DateTime.Now,
 						Parameters = parameters
 					});
 					break;
@@ -58,7 +58,7 @@ namespace Wammer
 					{
 						PostId = postId,
 						UserId = userId,
-						Timestamp = DateTime.UtcNow,
+						Timestamp = DateTime.Now,
 						Parameters = parameters
 					});
 					break;
@@ -67,7 +67,7 @@ namespace Wammer
 					{
 						PostId = postId,
 						UserId = userId,
-						Timestamp = DateTime.UtcNow,
+						Timestamp = DateTime.Now,
 						Parameters = parameters
 					});
 					break;
@@ -76,7 +76,7 @@ namespace Wammer
 					{
 						PostId = postId,
 						UserId = userId,
-						Timestamp = DateTime.UtcNow,
+						Timestamp = DateTime.Now,
 						Parameters = parameters
 					});
 					break;

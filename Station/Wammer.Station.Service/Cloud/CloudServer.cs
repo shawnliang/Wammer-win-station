@@ -38,6 +38,7 @@ namespace Wammer.Cloud
 		public const string PARAM_IMAGE_META = "image_meta";
 		public const string PARAM_POST_ID = "post_id";
 		public const string PARAM_LAST_UPDATE_TIME = "last_update_time";
+		public const string PARAM_TIMESTAMP = "timestamp";
 
 		public static string SessionToken { get; set; }
 
@@ -160,10 +161,7 @@ namespace Wammer.Cloud
 			}
 			catch (WammerCloudException e)
 			{
-				if (e.InnerException != null && e.InnerException is WebException && e.HttpError != WebExceptionStatus.ProtocolError)
-				{
-					isOffline = true;
-				}
+				isOffline = IsNetworkError(e);
 				throw e;
 			}
 		}
@@ -195,10 +193,7 @@ namespace Wammer.Cloud
 			}
 			catch (WammerCloudException e)
 			{
-				if (e.InnerException != null && e.InnerException is WebException && e.HttpError != WebExceptionStatus.ProtocolError)
-				{
-					isOffline = true;
-				}
+				isOffline = IsNetworkError(e);
 				throw e;
 			}
 		}
@@ -236,10 +231,7 @@ namespace Wammer.Cloud
 			}
 			catch (WammerCloudException e)
 			{
-				if (e.InnerException != null && e.InnerException is WebException && e.HttpError != WebExceptionStatus.ProtocolError)
-				{
-					isOffline = true;
-				}
+				isOffline = IsNetworkError(e);
 				throw e;
 			}
 		}
@@ -330,19 +322,7 @@ namespace Wammer.Cloud
 			}
 			catch (WammerCloudException e)
 			{
-				// UserTrack API always throws ArgumentOutOfRangeException exception... Orz
-				if (typeof(T) == typeof(UserTrackResponse))
-				{
-					if (e.InnerException != null && e.InnerException is ArgumentOutOfRangeException)
-					{
-						isOffline = false;
-					}
-				}
-
-				if (e.InnerException != null && e.InnerException is WebException && e.HttpError != WebExceptionStatus.ProtocolError)
-				{
-					isOffline = true;
-				}
+				isOffline = IsNetworkError(e);
 				throw e;
 			}
 		}
@@ -391,6 +371,28 @@ namespace Wammer.Cloud
 			}
 
 			return resObj;
+		}
+
+		public static bool IsNetworkError(WammerCloudException e)
+		{
+			return (e.InnerException != null && e.InnerException is WebException && e.HttpError != WebExceptionStatus.ProtocolError);
+		}
+
+		public static bool IsSessionError(WammerCloudException e)
+		{
+			WebException webex = (WebException)e.InnerException;
+			if (webex != null)
+			{
+				HttpWebResponse response = (HttpWebResponse)webex.Response;
+				if (response != null)
+				{
+					if (response.StatusCode == HttpStatusCode.Unauthorized)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 	}
 }

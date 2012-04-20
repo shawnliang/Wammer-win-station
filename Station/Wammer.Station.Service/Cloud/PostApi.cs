@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Net;
@@ -27,20 +28,25 @@ namespace Wammer.Cloud
 			this.driver = driver;
 		}
 
-		public static PostResponse NewPost(WebClient agent, string apiKey, string sessionToken, string groupID, string content = "", string type = "", string attachmentIDs = "", string preview = "")
+		public PostResponse NewPost(WebClient agent, string postId, DateTime timestamp, NameValueCollection param)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
-				{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
-				{CloudServer.PARAM_GROUP_ID, groupID},
-				{CloudServer.PARAM_CONTENT, content},
-				{CloudServer.PARAM_TYPE, type},
-				{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, attachmentIDs},
-				{CloudServer.PARAM_PREVIEW, preview},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+				{CloudServer.PARAM_POST_ID, postId},
+				{CloudServer.PARAM_TIMESTAMP, timestamp.ToCloudTimeString()}
 			};
 
-			return CloudServer.requestPath<PostResponse>(agent, "posts/new", parameters, false);
+			foreach (String key in param.AllKeys)
+			{
+				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
+				{
+					parameters.Add(key, param[key]);
+				}
+			}
+
+			return CloudServer.requestPath<PostResponse>(agent, "posts/new", parameters);
 		}
 
 		public PostFetchByFilterResponse PostFetchByFilter(WebClient agent, FilterEntity filter)
