@@ -288,6 +288,8 @@ namespace Wammer.Station.Service
 				bodySyncRunners[i].Stop();
 			}
 
+			postUploadRunner.Stop();
+
 			functionServer.Stop();
 			functionServer.Close();
 
