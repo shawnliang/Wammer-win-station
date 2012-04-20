@@ -11,12 +11,7 @@ namespace Wammer.Station
 		void Enqueue(WaitCallback cb, object state);
 	}
 
-	interface ITaskSource
-	{
-		ITask Dequeue();
-	}
-
-	public class BodySyncTaskQueue: ITaskSource, ITaskStore
+	public class BodySyncTaskQueue: ITaskStore
 	{
 		private Semaphore hasItem = new Semaphore(0, int.MaxValue);
 		private Queue<SimpleTask> highPriorityCallbacks = new Queue<SimpleTask>();
@@ -72,7 +67,7 @@ namespace Wammer.Station
 			}
 		}
 
-		public ITask Dequeue()
+		public SimpleTask Dequeue()
 		{
 			hasItem.WaitOne();
 

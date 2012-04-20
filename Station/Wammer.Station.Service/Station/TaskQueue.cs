@@ -193,7 +193,7 @@ namespace Wammer.Station
 		void Execute();
 	}
 
-	class SimpleTask : ITask
+	public class SimpleTask : ITask
 	{
 		private WaitCallback cb;
 		private object state;

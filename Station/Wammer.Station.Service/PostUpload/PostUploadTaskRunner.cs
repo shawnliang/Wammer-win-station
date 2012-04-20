@@ -9,9 +9,9 @@ namespace Wammer.PostUpload
 {
 	public class PostUploadTaskRunner: TaskRunner
 	{
-		private IUndoablePostUploadTaskQueue queue;
+		private PostUploadTaskQueue queue;
 
-		public PostUploadTaskRunner(IUndoablePostUploadTaskQueue queue)
+		public PostUploadTaskRunner(PostUploadTaskQueue queue)
 		{
 			this.queue = queue;
 		}
@@ -34,10 +34,6 @@ namespace Wammer.PostUpload
 					{
 						queue.Undo(task);
 					}
-				}
-				finally
-				{
-					OnTaskExecuted(EventArgs.Empty);
 				}
 			}
 		} 

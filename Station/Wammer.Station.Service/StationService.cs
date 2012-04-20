@@ -21,7 +21,7 @@ namespace Wammer.Station.Service
 		private string stationId;
 		private string resourceBasePath;
 		private BodySyncTaskQueue bodySyncTaskQueue = new BodySyncTaskQueue();
-		private TaskRunner[] bodySyncRunners;
+		private BodySyncTaskRunner[] bodySyncRunners;
 		private PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
 
 
@@ -103,10 +103,10 @@ namespace Wammer.Station.Service
 				stationTimer.Start();
 
 				int bodySyncThreadNum = 1;
-				bodySyncRunners = new TaskRunner[bodySyncThreadNum];
+				bodySyncRunners = new BodySyncTaskRunner[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
-					var bodySyncRunner = new TaskRunner(bodySyncTaskQueue);
+					var bodySyncRunner = new BodySyncTaskRunner(bodySyncTaskQueue);
 					bodySyncRunners[i] = bodySyncRunner;
 
 					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
