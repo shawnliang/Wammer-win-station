@@ -73,7 +73,7 @@ namespace Wammer.Station
 			if(attachmentInfos.Count() != attachmentCount)
 				throw new WammerStationException(
 						"Attachement not found!", (int)StationApiError.NotFound);
-					
+
 			var post = new PostInfo()
 			{
 				attachments = attachmentInfos,
@@ -86,8 +86,13 @@ namespace Wammer.Station
 				creator_id = creatorID,
 				code_name = codeName,
 				content = content,
-				hidden = "false"
+				hidden = "false",
+				comment_count = 0,
+				comments = new List<Comment>(),
+				preview = new Preview()
 			};
+
+			//TODO: Set event time
 
 			post.type = Parameters[CloudServer.PARAM_TYPE];
 
