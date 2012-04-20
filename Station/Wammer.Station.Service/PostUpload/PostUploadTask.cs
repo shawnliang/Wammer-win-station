@@ -9,6 +9,12 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.PostUpload
 {
+	public enum PostUploadTaskStatus
+	{
+		Wait,
+		InProgress
+	}
+
 	[BsonKnownTypes(typeof(NewPostTask), typeof(UpdatePostTask))]
 	public abstract class PostUploadTask : ITask
 	{
@@ -16,6 +22,7 @@ namespace Wammer.PostUpload
 		public DateTime Timestamp { get; set; }
 		public string UserId { get; set; }
 		public NameValueCollection Parameters { get; set; }
+		public PostUploadTaskStatus Status { get; set; }
 
 		public abstract void Execute();
 	}

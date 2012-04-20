@@ -151,6 +151,7 @@
     <Compile Include="PerfMonitor\PerfCounter.cs" />
     <Compile Include="PerfMonitor\PerfCounterInstaller.cs" />
     <Compile Include="Enum\PostUploadActionType.cs" />
+    <Compile Include="PerfMonitor\PostUploadMonitor.cs" />
     <Compile Include="PostUpload\CommentTask.cs" />
     <Compile Include="PostUpload\HidePostTask.cs" />
     <Compile Include="PostUpload\NewPostTask.cs" />

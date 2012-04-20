@@ -25,6 +25,7 @@ namespace Wammer.PostUpload
 				{
 					task = queue.Dequeue();
 					task.Execute();
+					queue.Done(task);
 				}
 				catch (Exception e)
 				{

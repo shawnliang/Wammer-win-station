@@ -29,6 +29,7 @@ namespace Wammer.PerfMonitor
 		public const string AVG_TIME_PER_HTTP_REQUEST_BASE = "Average time per http request base";
 		public const string HTTP_REQUEST_THROUGHPUT = "Http request throughput (reqs/sec)";
 		public const string HTTP_REQUESTS_IN_QUEUE = "Http requests in queue";
+		public const string POST_IN_QUEUE = "Post upload tasks in queue";
 		#endregion
 
 		#region Static Var
