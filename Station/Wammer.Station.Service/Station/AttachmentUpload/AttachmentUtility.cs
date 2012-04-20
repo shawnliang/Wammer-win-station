@@ -10,6 +10,7 @@ using System.Drawing;
 using System.ComponentModel;
 using Wammer.Cloud;
 using Wammer.PerfMonitor;
+using Wammer.Utility;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -35,7 +36,7 @@ namespace Wammer.Station.AttachmentUpload
 			using (FileStream f = fileStorage.Load(imageFilename))
 			using (Bitmap image = new Bitmap(f))
 			{
-				return ImagePostProcessing.MakeThumbnail(image, thumbnailType, Utility.ExifOrientations.Unknown, object_id, user, origin_filename);
+				return ImagePostProcessing.MakeThumbnail(image, thumbnailType, ExifOrientations.Unknown, object_id, user, origin_filename);
 			}
 		}
 
@@ -57,9 +58,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		public void UpstreamAttachmentAsync(string object_id, ImageMeta meta)
 		{
-			//TODO: use very low priority
 			uploadTaskCounter.Increment();
-			TaskQueue.Enqueue(new UpstreamTask(object_id, meta), TaskPriority.Low, true);
+			TaskQueue.Enqueue(new UpstreamTask(object_id, meta, TaskPriority.VeryLow), TaskPriority.VeryLow, true);
 		}
 
 		public void GenerateThumbnailAsync(string object_id, ImageMeta thumbnailType, TaskPriority priority)

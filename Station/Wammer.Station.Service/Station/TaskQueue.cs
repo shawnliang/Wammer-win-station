@@ -9,6 +9,7 @@ namespace Wammer.Station
 
 	public enum TaskPriority
 	{
+		VeryLow,
 		Low,
 		Medium,
 		High
@@ -26,6 +27,7 @@ namespace Wammer.Station
 		private static WMSQueue mqHighPriority;
 		private static WMSQueue mqMediumPriority;
 		private static WMSQueue mqLowPriority;
+		private static WMSQueue mqVeryLowPriority;
 
 
 		public static int MaxCurrentTaskCount { get; set; }
@@ -40,6 +42,7 @@ namespace Wammer.Station
 			mqHighPriority = mqBroker.GetQueue("high");
 			mqMediumPriority = mqBroker.GetQueue("medium");
 			mqLowPriority = mqBroker.GetQueue("low");
+			mqVeryLowPriority = mqBroker.GetQueue("verylow");
 
 			MaxCurrentTaskCount = 6;
 			runningTaskCount = 0;
@@ -72,40 +75,12 @@ namespace Wammer.Station
 				queue = mqMediumPriority;
 			else if (priority == TaskPriority.Low)
 				queue = mqLowPriority;
+			else if (priority == TaskPriority.VeryLow)
+				queue = mqVeryLowPriority;
 			else
 				throw new ArgumentOutOfRangeException("unknown priority: " + priority.ToString());
 
 			Enqueue(queue, task, persistent);
-		}
-
-		/// <summary>
-		/// Enqueues a non persistent task to low priority queue
-		/// </summary>
-		/// <param name="cb"></param>
-		/// <param name="state"></param>
-		public static void EnqueueLow(WaitCallback cb, object state)
-		{
-			Enqueue(new SimpleTask(cb, state), TaskPriority.Low, false);
-		}
-
-		/// <summary>
-		/// Enqueues a non persistent task to medium priority queue
-		/// </summary>
-		/// <param name="cb"></param>
-		/// <param name="state"></param>
-		public static void EnqueueMedium(WaitCallback cb, object state)
-		{
-			Enqueue(new SimpleTask(cb, state), TaskPriority.Medium, false);
-		}
-
-		/// <summary>
-		/// Enqueues a non persistent task to high priority queue
-		/// </summary>
-		/// <param name="cb"></param>
-		/// <param name="state"></param>
-		public static void EnqueueHigh(WaitCallback cb, object state)
-		{
-			Enqueue(new SimpleTask(cb, state), TaskPriority.High, false);
 		}
 
 		private static void Enqueue(WMSQueue queue, ITask task, bool persistent)

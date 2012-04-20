@@ -79,7 +79,6 @@ namespace Wammer.Station.Service
 						new AttachmentUpload.AttachmentUtility()).OnProcessed;
 				attachmentHandler.ProcessSucceeded += attachmentMonitor.OnProcessSucceeded;
 
-
 				
 				BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 				InitCloudForwarder(cloudForwarder);
