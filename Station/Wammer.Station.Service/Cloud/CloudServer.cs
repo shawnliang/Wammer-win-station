@@ -38,10 +38,14 @@ namespace Wammer.Cloud
 		public const string PARAM_IMAGE_META = "image_meta";
 		public const string PARAM_POST_ID = "post_id";
 		public const string PARAM_LAST_UPDATE_TIME = "last_update_time";
+		public const string PARAM_COVER_ATTACH = "cover_attach";
+		public const string PARAM_FAVORITE = "favorite";
 
 		public static string SessionToken { get; set; }
 
 		private static bool isOffline = false;
+		
+		
 		
 
 		/// <summary>

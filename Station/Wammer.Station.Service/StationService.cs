@@ -196,6 +196,9 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
 				new NewPostHandler(PostUploadTaskController.Instance));
 
+			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),
+				new UpdatePostHandler(PostUploadTaskController.Instance));
+
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/setLastScan/"),
 				new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
 

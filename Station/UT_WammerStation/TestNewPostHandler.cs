@@ -41,7 +41,7 @@ namespace UT_WammerStation
 			db.GetCollection<Driver>("drivers").RemoveAll();
 			db.GetCollection("station").RemoveAll();
 			db.GetCollection("Post").RemoveAll();
-			db.GetCollection<LoginedSession>("attachments").RemoveAll();
+			db.GetCollection("attachments").RemoveAll();
 
 			if (server != null)
 			{
@@ -71,7 +71,7 @@ namespace UT_WammerStation
 
 			CloudServer.BaseUrl = "http://localhost/v2/";			
 
-			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").Insert(
+			mongodb.GetDatabase("wammer").GetCollection("drivers").Insert(
 				new Driver
 				{
 					user_id = "exist_uid",
@@ -81,7 +81,7 @@ namespace UT_WammerStation
 					groups = new List<UserGroup> { new UserGroup { group_id = "123" } }
 				});
 
-			mongodb.GetDatabase("wammer").GetCollection<LoginedSession>("LoginedSession").Insert(
+			mongodb.GetDatabase("wammer").GetCollection("LoginedSession").Insert(
 				new LoginedSession()
 				{
 					session_token = "exist session token",

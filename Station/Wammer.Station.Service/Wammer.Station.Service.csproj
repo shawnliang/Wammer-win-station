@@ -202,6 +202,7 @@
     <Compile Include="Station\APIHandler\UserLoginHandler.cs" />
     <Compile Include="Station\APIHandler\UserLogoutHandler.cs" />
     <Compile Include="Station\WammerStationException.cs" />
+    <Compile Include="Utility\AttachmentHelper.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\DefaultWebClient.cs">
