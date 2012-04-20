@@ -130,17 +130,19 @@ namespace Wammer.Station
 				group_id = groupID,
 				creator_id = creatorID,
 				code_name = codeName,
-				content = content				
+				content = content,
+				hidden = "false"
 			};
 
+			post.type = Parameters[CloudServer.PARAM_TYPE];
+
 			PostCollection.Instance.Save(post);
-
-			var response = new NewPostResponse();
-			response.posts.Add(post);
-
+	
 			if (m_PostUploader != null)
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters);
 
+			var response = new NewPostResponse();
+			response.posts.Add(post);
 			RespondSuccess(response);
 		}
 		#endregion
