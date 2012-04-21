@@ -94,42 +94,6 @@ namespace UT_WammerStation
 			Reset();
 		}
 
-		//[TestMethod]
-		//public void UpdatePost_UpdateContent_Success()
-		//{
-		//    var db = mongodb.GetDatabase("wammer");
-		//    db.GetCollection("Post").RemoveAll();
-		//    db.GetCollection<LoginedSession>("attachments").RemoveAll();
-		//    db.GetCollection<LoginedSession>("attachments").Insert(
-		//        new Attachment()
-		//        {
-		//            object_id = "12345",
-		//            url = "http://unittest.com"
-		//        });
-
-		//    var response = CloudServer.request<NewPostResponse>(new WebClient(), API_URL,
-		//        new Dictionary<object, object>{ 
-		//        {CloudServer.PARAM_API_KEY, "!@##%$&"},
-		//        {CloudServer.PARAM_SESSION_TOKEN, "exist session token"},
-		//        {CloudServer.PARAM_GROUP_ID, "123"},
-		//        {CloudServer.PARAM_CONTENT, "Unit Test's content"},
-		//        {CloudServer.PARAM_ATTACHMENT_ID_ARRAY,"[12345]"}});
-
-		//    Assert.IsNotNull(response);
-
-		//    var post = response.posts.FirstOrDefault();
-
-		//    Assert.IsNotNull(post);
-		//    Assert.AreEqual("Unit Test's content", post.content);
-
-		//    Assert.IsNotNull(post.attachments);
-		//    Assert.IsTrue(post.attachments.Count > 0);
-		//    Assert.AreEqual("http://unittest.com", post.attachments[0].url);
-
-		//    var postInDB = PostCollection.Instance.FindOne(Query.EQ("_id", post.post_id));
-		//    Assert.IsNotNull(postInDB);
-		//    Assert.AreEqual("Unit Test's content", postInDB.content);
-		//}
 
 		[TestMethod]
 		public void UpdatePost_UpdateContent_Success()

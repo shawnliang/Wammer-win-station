@@ -38,6 +38,10 @@ namespace Wammer.Station
 				CloudServer.PARAM_POST_ID,
 				CloudServer.PARAM_LAST_UPDATE_TIME);
 
+			if(Parameters.Count <= 5)
+				throw new WammerStationException(
+						"Without any optional parameter!", (int)StationApiError.Error);
+
 			var postID = Parameters[CloudServer.PARAM_POST_ID];
 
 			var post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));

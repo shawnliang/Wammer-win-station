@@ -201,7 +201,10 @@ namespace Wammer.Station
 		}
 
 		protected abstract void HandleRequest();
-		public abstract object Clone();
+		public virtual object Clone()
+		{
+ 			return this.MemberwiseClone();
+		}
 
 		private static bool HasMultiPartFormData(HttpListenerRequest request)
 		{

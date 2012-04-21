@@ -158,6 +158,7 @@
     <Compile Include="PostUpload\PostUploadTaskQueue.cs" />
     <Compile Include="PostUpload\UnhidePostTask.cs" />
     <Compile Include="PostUpload\UpdatePostTask.cs" />
+    <Compile Include="Station\APIHandler\HidePostHandler.cs" />
     <Compile Include="Station\PostUploadTaskController.cs" />
     <Compile Include="Station\APIHandler\NewPostHandler.cs" />
     <Compile Include="Station\APIHandler\UpdatePostHandler.cs" />

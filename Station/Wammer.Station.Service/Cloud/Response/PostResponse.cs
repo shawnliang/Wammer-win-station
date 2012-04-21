@@ -85,6 +85,13 @@ namespace Wammer.Cloud
 		#endregion
 	}
 
+	public class HidePostResponse : CloudResponse
+	{
+		#region Property
+		public String post_id { get; set; }
+		#endregion
+	}
+
 	public class PostFetchByFilterResponse : PostResponse
 	{
 		public string group_id { get; set; }
