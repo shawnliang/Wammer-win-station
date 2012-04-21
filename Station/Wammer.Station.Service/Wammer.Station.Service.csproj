@@ -158,8 +158,10 @@
     <Compile Include="PostUpload\PostUploadTaskQueue.cs" />
     <Compile Include="PostUpload\UnhidePostTask.cs" />
     <Compile Include="PostUpload\UpdatePostTask.cs" />
+    <Compile Include="Station\APIHandler\HidePostHandler.cs" />
     <Compile Include="Station\PostUploadTaskController.cs" />
     <Compile Include="Station\APIHandler\NewPostHandler.cs" />
+    <Compile Include="Station\APIHandler\UpdatePostHandler.cs" />
     <Compile Include="Queue\Queue.cs" />
     <Compile Include="Queue\QueueManager.cs" />
     <Compile Include="Queue\SQLitePersistentStorage.cs" />
@@ -212,6 +214,7 @@
     <Compile Include="Station\APIHandler\UserLoginHandler.cs" />
     <Compile Include="Station\APIHandler\UserLogoutHandler.cs" />
     <Compile Include="Station\WammerStationException.cs" />
+    <Compile Include="Utility\AttachmentHelper.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BackOff.cs" />
     <Compile Include="Utility\BsonHelper.cs" />

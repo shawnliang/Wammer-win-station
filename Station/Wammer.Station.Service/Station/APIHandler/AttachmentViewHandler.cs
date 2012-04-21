@@ -190,13 +190,13 @@ namespace Wammer.Station
 				var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
 				AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
 					.Set("group_id", downloadResult.Metadata.group_id)
+					.Set("file_name", downloadResult.Metadata.file_name)
 					.Set("image_meta." + metaStr, new ThumbnailInfo()
 					{
 						mime_type = downloadResult.ContentType,
 						modify_time = DateTime.UtcNow,
 						url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + metaStr,
 						file_size = downloadResult.Image.Length,
-						file_name = downloadResult.Metadata.file_name,
 						width = downloadResult.Metadata.image_meta.GetThumbnail(meta).width,
 						height = downloadResult.Metadata.image_meta.GetThumbnail(meta).height,
 						saved_file_name = fileName

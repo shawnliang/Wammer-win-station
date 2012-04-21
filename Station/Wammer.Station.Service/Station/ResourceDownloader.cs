@@ -300,9 +300,10 @@ namespace Wammer.Station
 							saved_file_name = savedFileName
 						};
 						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id),
-							Update.Set("group_id", attachment.group_id
-								).Set("image_meta.small", thumbnail.ToBsonDocument()),
+							Query.EQ("_id", attachment.object_id),Update
+							.Set("group_id", attachment.group_id)
+							.Set("file_name", attachment.file_name)
+							.Set("image_meta.small", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 						);
 						break;
@@ -325,9 +326,10 @@ namespace Wammer.Station
 							saved_file_name = savedFileName
 						};
 						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id),
-							Update.Set("group_id", attachment.group_id
-								).Set("image_meta.medium", thumbnail.ToBsonDocument()),
+							Query.EQ("_id", attachment.object_id),Update
+							.Set("group_id", attachment.group_id)
+							.Set("file_name", attachment.file_name)
+							.Set("image_meta.medium", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 						);
 						break;
@@ -350,9 +352,10 @@ namespace Wammer.Station
 							saved_file_name = savedFileName
 						};
 						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id),
-							Update.Set("group_id", attachment.group_id
-								).Set("image_meta.large", thumbnail.ToBsonDocument()),
+							Query.EQ("_id", attachment.object_id),Update
+							.Set("group_id", attachment.group_id)
+							.Set("file_name", attachment.file_name)
+							.Set("image_meta.large", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 						);
 						break;
@@ -375,9 +378,10 @@ namespace Wammer.Station
 							saved_file_name = savedFileName
 						};
 						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id),
-							Update.Set("group_id", attachment.group_id
-								).Set("image_meta.square", thumbnail.ToBsonDocument()),
+							Query.EQ("_id", attachment.object_id),Update
+							.Set("group_id", attachment.group_id)
+							.Set("file_name", attachment.file_name)
+							.Set("image_meta.square", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 						);
 						break;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Wammer.Station;
 using Wammer.Cloud;
@@ -6,60 +6,22 @@ using System.Net;
 using Wammer.Model;
 using MongoDB.Driver.Builders;
 using System.Collections.Generic;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
 	public class NewPostHandler : HttpHandler
 	{
-		#region Public Property
-		public IPostUploadSupportable postUploader;
+		#region Private Property
+		private IPostUploadSupportable m_PostUploader { get; set; }
 		#endregion
 
-		#region Private Method
-		private AttachmentInfo GetAttachmentnfo(Attachment attachment, string codeName)
-		{ 
-			var attachmentInfo = new AttachmentInfo()
-			{
-				group_id = attachment.group_id,
-				file_name = attachment.file_name,
-				meta_status = "OK",
-				object_id = attachment.object_id,
-				creator_id = attachment.creator_id,
-				modify_time = DateTime.Now.Ticks,
-				code_name = codeName,
-				type = attachment.type.ToString(),
-				url = attachment.url,
-				title = attachment.title,
-				description = attachment.description,
-				hidden = attachment.group_id
-			};
-
-			if (attachment.image_meta != null)
-			{
-				attachmentInfo.image_meta = new AttachmentInfo.ImageMeta();
-
-				SetAttachmentInfoImageMeta(attachment.image_meta.small, attachmentInfo.image_meta.small);
-				SetAttachmentInfoImageMeta(attachment.image_meta.medium, attachmentInfo.image_meta.medium);
-				SetAttachmentInfoImageMeta(attachment.image_meta.large, attachmentInfo.image_meta.large);
-			}
-
-			return attachmentInfo;
-		}
-
-		private static void SetAttachmentInfoImageMeta(ThumbnailInfo attachmentThumbnailInfo, AttachmentInfo.ImageMetaDetail attachmentInfoThumbnailInfo)
+		#region Constructor
+		public NewPostHandler(IPostUploadSupportable postUploader)
 		{
-			if (attachmentThumbnailInfo != null)
-			{
-				attachmentInfoThumbnailInfo.url = attachmentThumbnailInfo.url;
-				attachmentInfoThumbnailInfo.height = attachmentThumbnailInfo.height;
-				attachmentInfoThumbnailInfo.width = attachmentThumbnailInfo.width;
-				attachmentInfoThumbnailInfo.modify_time = attachmentThumbnailInfo.modify_time.Ticks;
-				attachmentInfoThumbnailInfo.file_size = attachmentThumbnailInfo.file_size;
-				attachmentInfoThumbnailInfo.mime_type = attachmentThumbnailInfo.mime_type;
-				attachmentInfoThumbnailInfo.md5 = attachmentThumbnailInfo.md5;
-			}
+			m_PostUploader = postUploader;
 		}
-		#endregion
+		#endregion	
 
 		#region Protected Method
 		/// <summary>
@@ -99,19 +61,19 @@ namespace Wammer.Station
 			var creatorID = userGroup.creator_id;
 			var codeName = loginedSession.apikey.name;
 
-			var attachments = from attachmentID in attachmentIDs
-							  let attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID))
+			var attachmentInfos = (from attachmentID in attachmentIDs
+							  let attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID.Trim('"')))
 							  where attachment != null
-							  select GetAttachmentnfo(attachment, codeName);
+								   select AttachmentHelper.GetAttachmentnfo(attachment, codeName)).ToList();
 						
 
-			if(attachments.Count() != attachmentCount)
+			if(attachmentInfos.Count() != attachmentCount)
 				throw new WammerStationException(
 						"Attachement not found!", (int)StationApiError.NotFound);
-					
+
 			var post = new PostInfo()
 			{
-				attachments = attachments.ToList(),
+				attachments = attachmentInfos,
 				post_id = postID,
 				timestamp = timeStamp,
 				update_time = timeStamp,
@@ -120,16 +82,24 @@ namespace Wammer.Station
 				group_id = groupID,
 				creator_id = creatorID,
 				code_name = codeName,
-				content = content				
+				content = content,
+				hidden = "false",
+				comment_count = 0,
+				comments = new List<Comment>(),
+				preview = new Preview()
 			};
 
+			//TODO: Set event time
+
+			post.type = Parameters[CloudServer.PARAM_TYPE];
+
 			PostCollection.Instance.Save(post);
+	
+			if (m_PostUploader != null)
+				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters);
 
 			var response = new NewPostResponse();
 			response.posts.Add(post);
-
-			postUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters);
-
 			RespondSuccess(response);
 		}
 		#endregion
