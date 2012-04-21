@@ -36,7 +36,7 @@ namespace Wammer.Station.AttachmentUpload
 			if (user == null)
 				return;
 
-			if (this.meta == ImageMeta.Origin)
+			if (this.meta == ImageMeta.Origin || this.meta == ImageMeta.None)
 			{
 				GetUserResponse userInfo = User.GetInfo(user.user_id, Cloud.CloudServer.APIKey, user.session_token);
 				if (userInfo.storages.waveface.over_quota)
