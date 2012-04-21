@@ -83,6 +83,12 @@ namespace Wammer.PerfMonitor
 				PerfCounter.HTTP_REQUESTS_IN_QUEUE,
 				PerformanceCounterType.NumberOfItems32));
 
+			// 13. Post upload tasks in queue
+			counters.Add(new CounterCreationData(
+				PerfCounter.POST_IN_QUEUE,
+				PerfCounter.POST_IN_QUEUE,
+				PerformanceCounterType.NumberOfItems32));
+
 			// Add new category
 			PerformanceCounterCategory.Create(
 				PerfCounter.CATEGORY_NAME,

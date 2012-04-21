@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Net;
@@ -27,20 +28,25 @@ namespace Wammer.Cloud
 			this.driver = driver;
 		}
 
-		public static PostResponse NewPost(WebClient agent, string apiKey, string sessionToken, string groupID, string content = "", string type = "", string attachmentIDs = "", string preview = "")
+		public NewPostResponse NewPost(WebClient agent, string postId, DateTime timestamp, Dictionary<string, string> param)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
-				{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
-				{CloudServer.PARAM_GROUP_ID, groupID},
-				{CloudServer.PARAM_CONTENT, content},
-				{CloudServer.PARAM_TYPE, type},
-				{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, attachmentIDs},
-				{CloudServer.PARAM_PREVIEW, preview},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+				{CloudServer.PARAM_POST_ID, postId},
+				{CloudServer.PARAM_TIMESTAMP, timestamp.ToCloudTimeString()}
 			};
 
-			return CloudServer.requestPath<PostResponse>(agent, "posts/new", parameters, false);
+			foreach (String key in param.Keys)
+			{
+				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
+				{
+					parameters.Add(key, param[key]);
+				}
+			}
+
+			return CloudServer.requestPath<NewPostResponse>(agent, "posts/new", parameters);
 		}
 
 		public PostFetchByFilterResponse PostFetchByFilter(WebClient agent, FilterEntity filter)
@@ -88,6 +94,21 @@ namespace Wammer.Cloud
 
 			PostGetLatestResponse res = 
 				CloudServer.requestPath<PostGetLatestResponse>(agent, "posts/getLatest", parameters, false);
+			return res;
+		}
+
+		public PostGetSingleResponse PostGetSingle(WebClient agent, string groupId, string postId)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_POST_ID, postId},
+				{CloudServer.PARAM_GROUP_ID, groupId},
+				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			};
+
+			PostGetSingleResponse res =
+				CloudServer.requestPath<PostGetSingleResponse>(agent, "posts/getSingle", parameters);
 			return res;
 		}
 

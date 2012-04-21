@@ -42,6 +42,28 @@ namespace Wammer.Station
 		NothingToUpdate = Base + 10,
 		InvalidFavorite = Base + 11,
 		InvalidCoverAttach = Base + 12,
-		NeedMerge = Base + 13
+		NeedMerge = Base + 13,
+		InvalidTimeStamp = Base + 14,
+		InvalidLastUpdateTime = Base + 15,
+		InvalidUpdateTime = Base + 16,
+		InvalidPostId = Base + 17
+	}
+
+	public enum AttachmentApiError
+	{
+		Base = 0x6000,
+		AttachmentNotExist = Base + 1,
+		NotSupportedType = Base + 2,
+		NotSupportedDocument = Base + 3,
+		ErrorOnS3Upload = Base + 4,
+		ErrorOnS3GetFile = Base + 5,
+		ErrorOnConvertOfficeFile = Base + 6,
+		InvalidValue = Base + 7,
+		InternalError = Base + 8,
+		InvalidLocation = Base + 9,
+		InvalidImage = Base + 10,
+		OverQuota = Base + 11,
+		PermissionDenied = Base + 12,
+		InvalidMetaType = Base + 13
 	}
 }

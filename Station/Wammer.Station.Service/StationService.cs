@@ -6,6 +6,7 @@ using System.ServiceProcess;
 using Wammer.Cloud;
 using Wammer.PerfMonitor;
 using Wammer.Station.APIHandler;
+using Wammer.PostUpload;
 
 namespace Wammer.Station.Service
 {
@@ -21,7 +22,8 @@ namespace Wammer.Station.Service
 		private string stationId;
 		private string resourceBasePath;
 		private BodySyncTaskQueue bodySyncTaskQueue = new BodySyncTaskQueue();
-		private TaskRunner[] bodySyncRunners;
+		private BodySyncTaskRunner[] bodySyncRunners;
+		private PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
 
 
 		public StationService()
@@ -94,15 +96,17 @@ namespace Wammer.Station.Service
 				stationTimer.Start();
 
 				int bodySyncThreadNum = 1;
-				bodySyncRunners = new TaskRunner[bodySyncThreadNum];
+				bodySyncRunners = new BodySyncTaskRunner[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
-					var bodySyncRunner = new TaskRunner(bodySyncTaskQueue);
+					var bodySyncRunner = new BodySyncTaskRunner(bodySyncTaskQueue);
 					bodySyncRunners[i] = bodySyncRunner;
 
 					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
 					bodySyncRunner.Start();
 				}
+
+				postUploadRunner.Start();
 
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989, httpRequestMonitor);
@@ -282,6 +286,8 @@ namespace Wammer.Station.Service
 			{
 				bodySyncRunners[i].Stop();
 			}
+
+			postUploadRunner.Stop();
 
 			functionServer.Stop();
 			functionServer.Close();

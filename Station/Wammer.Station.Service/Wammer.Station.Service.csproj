@@ -112,6 +112,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Station\BodySyncTaskRunner.cs" />
     <Compile Include="Cloud\AttachmentApi.cs" />
     <Compile Include="Cloud\Response\AttachmentResponse.cs" />
     <Compile Include="Cloud\Response\CloudResponse.cs" />
@@ -151,11 +152,13 @@
     <Compile Include="PerfMonitor\PerfCounter.cs" />
     <Compile Include="PerfMonitor\PerfCounterInstaller.cs" />
     <Compile Include="Enum\PostUploadActionType.cs" />
+    <Compile Include="PerfMonitor\PostUploadMonitor.cs" />
     <Compile Include="PostUpload\CommentTask.cs" />
     <Compile Include="PostUpload\HidePostTask.cs" />
     <Compile Include="PostUpload\NewPostTask.cs" />
     <Compile Include="PostUpload\PostUploadTask.cs" />
     <Compile Include="PostUpload\PostUploadTaskQueue.cs" />
+    <Compile Include="PostUpload\PostUploadTaskRunner.cs" />
     <Compile Include="PostUpload\UnhidePostTask.cs" />
     <Compile Include="PostUpload\UpdatePostTask.cs" />
     <Compile Include="Station\APIHandler\HidePostHandler.cs" />

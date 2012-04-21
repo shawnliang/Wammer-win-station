@@ -6,23 +6,18 @@ using System.Diagnostics;
 
 using Wammer.Station;
 using Wammer.Model;
+using Wammer.PerfMonitor;
 
 using MongoDB.Driver.Builders;
 
 namespace Wammer.PostUpload
 {
-	public interface IUndoablePostUploadTaskQueue
-	{
-		void Enqueue(PostUploadTask task);
-		PostUploadTask Dequeue();
-		void Undo(PostUploadTask task);
-	}
-
-	public class PostUploadTaskQueue : IUndoablePostUploadTaskQueue
+	public class PostUploadTaskQueue
 	{
 		private Queue<string> postIdQueue;
 		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
 		private object cs = new object();
+		private PostUploadMonitor monitor = new PostUploadMonitor();
 
 		private static PostUploadTaskQueue _instance;
 
@@ -45,6 +40,11 @@ namespace Wammer.PostUpload
 			postQueue = new Dictionary<string, LinkedList<PostUploadTask>>();
 			foreach (PostUploadTasks ptasks in PostUploadTasksCollection.Instance.FindAll())
 			{
+				foreach (PostUploadTask task in ptasks.tasks)
+				{
+					task.Status = PostUploadTaskStatus.Wait;
+					monitor.PostUploadTaskEnqueued();
+				}
 				postQueue.Add(ptasks.post_id, ptasks.tasks);
 				postIdQueue.Enqueue(ptasks.post_id);
 			}
@@ -68,6 +68,8 @@ namespace Wammer.PostUpload
 				}
 				PostUploadTasksCollection.Instance.Save(
 					new PostUploadTasks { post_id = task.PostId, tasks = queue });
+				
+				monitor.PostUploadTaskEnqueued();
 			}
 		}
 
@@ -77,28 +79,62 @@ namespace Wammer.PostUpload
 			{
 				try
 				{
+					if (postIdQueue.Count == 0 || postQueue.Count == 0)
+					{
+						return new NullPostUploadTask();
+					}
+
 					string targetPostId = postIdQueue.Dequeue();
 					PostUploadTask task = postQueue[targetPostId].First();
-					postQueue[targetPostId].RemoveFirst();
-					if (postQueue[targetPostId].Count > 0)
+
+					if (task.Status == PostUploadTaskStatus.InProgress)
 					{
-						postIdQueue.Enqueue(targetPostId);
-						PostUploadTasksCollection.Instance.Save(
-							new PostUploadTasks { post_id = task.PostId, tasks = postQueue[targetPostId] });
+						return new NullPostUploadTask();
 					}
-					else
+					else if (task.Status == PostUploadTaskStatus.Wait)
 					{
-						postQueue.Remove(targetPostId);
-						PostUploadTasksCollection.Instance.Remove(
-							Query.EQ("_id", targetPostId));
+						task.Status = PostUploadTaskStatus.InProgress;
 					}
+
+					postIdQueue.Enqueue(targetPostId);
+
 					return task;
 				}
-				catch (InvalidOperationException e)
+				catch (Exception e)
 				{
-					this.LogDebugMsg("Queue is empty", e);
+					this.LogDebugMsg("Error while dequeueing post upload task.", e);
 					return new NullPostUploadTask();
 				}
+			}
+		}
+
+		public void Done(PostUploadTask task)
+		{
+			lock (cs)
+			{
+				if (task is NullPostUploadTask)
+				{
+					return;
+				}
+
+				PostUploadTask headTask = postQueue[task.PostId].First();
+				Debug.Assert(task.Timestamp == headTask.Timestamp);
+				postQueue[task.PostId].RemoveFirst();
+
+				if (postQueue[task.PostId].Count > 0)
+				{
+					PostUploadTasksCollection.Instance.Save(
+						new PostUploadTasks {
+							post_id = task.PostId, tasks = postQueue[task.PostId] });
+				}
+				else
+				{
+					postQueue.Remove(task.PostId);
+					PostUploadTasksCollection.Instance.Remove(
+						Query.EQ("_id", task.PostId));
+				}
+
+				monitor.PostUploadTaskDone();
 			}
 		}
 
@@ -106,20 +142,9 @@ namespace Wammer.PostUpload
 		{
 			lock (cs)
 			{
-				LinkedList<PostUploadTask> queue;
-				if (postQueue.TryGetValue(task.PostId, out queue))
-				{
-					postQueue[task.PostId].AddFirst(task);
-				}
-				else
-				{
-					queue = new LinkedList<PostUploadTask>();
-					queue.AddLast(task);
-					postQueue.Add(task.PostId, queue);
-					postIdQueue.Enqueue(task.PostId);
-				}
-				PostUploadTasksCollection.Instance.Save(
-					new PostUploadTasks { post_id = task.PostId, tasks = queue });
+				PostUploadTask headTask = postQueue[task.PostId].First();
+				Debug.Assert(task.Timestamp == headTask.Timestamp);
+				headTask.Status = PostUploadTaskStatus.Wait;
 			}
 		}
 	}
