@@ -6,7 +6,7 @@ using Wammer.Queue;
 
 namespace Wammer.Station
 {
-
+	[Serializable]
 	public enum TaskPriority
 	{
 		VeryLow,

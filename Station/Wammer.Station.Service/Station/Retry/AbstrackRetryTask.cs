@@ -6,9 +6,14 @@ using Wammer.Utility;
 
 namespace Wammer.Station.Retry
 {
+	[Serializable]
 	public abstract class AbstrackRetryTask : IRetryTask
 	{
+		// see Execute() for why this field is not serializable
+		[NonSerialized]
 		protected IRetryQueue failQueue;
+
+
 		protected TaskPriority priority;
 
 		protected AbstrackRetryTask(IRetryQueue failQueue, TaskPriority priority)
@@ -25,6 +30,17 @@ namespace Wammer.Station.Retry
 			}
 			catch (Exception e)
 			{
+				// failQueue should not not be serialized because 
+				// this queue (RetryQueue) in fact is a single instance. 
+				// If multiple instances of failQueue is created because of deserialization,
+				// failed task will be added into those instance of failQueue but not one will
+				// add the tasks in those failQueues back to TaskQueue.
+				//
+				// In case the failQueue is null after deserializartion, point failQueue to 
+				// RetryQueue.Instance.
+				if (failQueue == null)
+					failQueue = RetryQueue.Instance;
+
 				failQueue.Enqueue(this);
 			}
 		}
@@ -34,6 +50,7 @@ namespace Wammer.Station.Retry
 		public TaskPriority Priority { get { return priority; } }
 	}
 
+	[Serializable]
 	public abstract class DelayedRetryTask : AbstrackRetryTask
 	{
 		private BackOff backoff = new BackOff(10, 20, 30, 50, 80, 130, 210, 340, 550, 890, 1440, 2330);
@@ -68,7 +85,8 @@ namespace Wammer.Station.Retry
 
 		protected abstract void Run();
 	}
-
+	
+	[Serializable]
 	public class PostponedTask: IRetryTask
 	{
 		private ITask taskToRun;

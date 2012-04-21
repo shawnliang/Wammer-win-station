@@ -9,12 +9,32 @@ namespace Wammer.Station.Retry
 	{
 		private static RetryQueue instance;
 		SortedList<DateTime, IRetryTask> retryTasks = new SortedList<DateTime, IRetryTask>();
-
+		IRetryQueuePersistentStorage storage;
 
 		private RetryQueue()
 		{
+			storage = new RetryQueuePersistentStorage();
 
+			foreach (var item in storage.LoadSavedTasks())
+			{
+				retryTasks.Add(item.NextRunTime, item.Task);
+			}
 		}
+
+		/// <summary>
+		/// For unit test only.
+		/// </summary>
+		/// <param name="storage"></param>
+		public RetryQueue(IRetryQueuePersistentStorage storage)
+		{
+			this.storage = storage;
+
+			foreach (var item in storage.LoadSavedTasks())
+			{
+				retryTasks.Add(item.NextRunTime, item.Task);
+			}
+		}
+
 		public static RetryQueue Instance
 		{
 			get
@@ -38,6 +58,7 @@ namespace Wammer.Station.Retry
 					retryTime = retryTime.AddMilliseconds(1.0);
 				}
 				retryTasks.Add(retryTime, task);
+				storage.Add(retryTime, task);
 			}
 		}
 
@@ -49,7 +70,10 @@ namespace Wammer.Station.Retry
 				var selectedKeys = new List<DateTime>(retryTasks.Where(x=>x.Key <= now).Select(x => x.Key));
 
 				foreach (DateTime key in selectedKeys)
+				{
 					retryTasks.Remove(key);
+					storage.Remove(key);
+				}
 
 				return selected;
 			}

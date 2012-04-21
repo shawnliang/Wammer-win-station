@@ -12,7 +12,8 @@ using Wammer.Cloud;
 
 namespace Wammer.Station.AttachmentUpload
 {
-	class UpstreamTask: Retry.DelayedRetryTask
+	[Serializable]
+	public class UpstreamTask: Retry.DelayedRetryTask
 	{
 		private static IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
 

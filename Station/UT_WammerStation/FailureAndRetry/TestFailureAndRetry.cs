@@ -42,7 +42,7 @@ namespace UT_WammerStation.FailureAndRetry
 		[TestMethod]
 		public void FailedTaskIsDequeuedAfterNextRunTime()
 		{
-			RetryQueue queue = RetryQueue.Instance;
+			RetryQueue queue = new RetryQueue(new NullRetryQueuePersistentStorage());
 
 			Mock<IRetryTask> task1 = new Mock<IRetryTask>();
 			Mock<IRetryTask> task2 = new Mock<IRetryTask>();

@@ -12,6 +12,7 @@ using System.ComponentModel;
 
 namespace Wammer.Model
 {
+	[Serializable]
 	public enum ImageMeta
 	{
 		/// <summary>

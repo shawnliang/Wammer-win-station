@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace Wammer.Utility
 {
+	[Serializable]
 	public class BackOff
 	{
 		#region Var

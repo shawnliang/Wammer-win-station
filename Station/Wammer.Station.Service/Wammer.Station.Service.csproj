@@ -112,6 +112,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Collection\RetryQueueCollection.cs" />
+    <Compile Include="Model\GenericData.cs" />
     <Compile Include="Station\BodySyncTaskRunner.cs" />
     <Compile Include="Cloud\AttachmentApi.cs" />
     <Compile Include="Cloud\Response\AttachmentResponse.cs" />
@@ -198,9 +200,11 @@
     <Compile Include="Station\ResourceSyncer.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
     <Compile Include="Station\Retry\AbstrackRetryTask.cs" />
+    <Compile Include="Station\Retry\IRetryQueuePersistentStorage.cs" />
     <Compile Include="Station\Retry\IRetryQueue.cs" />
     <Compile Include="Station\Retry\IRetryTask.cs" />
     <Compile Include="Station\Retry\RetryQueue.cs" />
+    <Compile Include="Station\Retry\RetryQueuePersistentStorage.cs" />
     <Compile Include="Station\ServiceUnavailableException.cs" />
     <Compile Include="Station\APIHandler\StationOfflineHandler.cs" />
     <Compile Include="Station\APIHandler\StationOnlineHandler.cs" />
