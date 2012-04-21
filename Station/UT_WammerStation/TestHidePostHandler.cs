@@ -64,7 +64,7 @@ namespace UT_WammerStation
 			Reset();
 
 			server = new HttpServer(8080);
-			handler = new HidePostHandler();
+			handler = new HidePostHandler(null);
 			server.AddHandler("/v2/posts/hide", handler);
 			server.Start();
 
