@@ -64,24 +64,8 @@ namespace Wammer.Cloud
 
 	public class UpdatePostResponse : CloudResponse
 	{
-		#region Var
-		private PostInfo _post;
-		#endregion
-
 		#region Public Property
-		public PostInfo post
-		{
-			get
-			{
-				if (_post == null)
-					_post = new PostInfo();
-				return _post;
-			}
-			set
-			{
-				_post = value;
-			}
-		}
+		public PostInfo post{get;set;}
 		#endregion
 	}
 
@@ -89,6 +73,31 @@ namespace Wammer.Cloud
 	{
 		#region Property
 		public String post_id { get; set; }
+		#endregion
+	}
+
+	public class NewPostCommentResponse : CloudResponse
+	{
+		#region Var
+		private List<UserInfo> _users;
+		#endregion
+
+		#region Public Property
+		public PostInfo post{get;set;}
+
+		public List<UserInfo> users
+		{
+			get
+			{
+				if (_users == null)
+					_users = new List<UserInfo>();
+				return _users;
+			}
+			set
+			{
+				_users = value;
+			}
+		} 
 		#endregion
 	}
 
