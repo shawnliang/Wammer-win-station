@@ -20,8 +20,8 @@ namespace Wammer.Station
 			foreach (IRetryTask task in tasks)
 			{
 				TaskQueue.Enqueue(task, task.Priority);
+				Retry.RetryQueue.Instance.AckDequeue(task.NextRetryTime);
 			}
-			
 		}
 	}
 }

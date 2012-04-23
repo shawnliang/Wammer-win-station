@@ -72,13 +72,15 @@ namespace Wammer.Station.Retry
 				foreach (DateTime key in selectedKeys)
 				{
 					retryTasks.Remove(key);
-					storage.Remove(key);
 				}
 
 				return selected;
 			}
 		}
 
-
+		public void AckDequeue(DateTime key)
+		{
+			storage.Remove(key);
+		}
 	}
 }
