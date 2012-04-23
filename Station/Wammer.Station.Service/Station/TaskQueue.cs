@@ -40,7 +40,7 @@ namespace Wammer.Station
 			set
 			{
 				maxConcurrentTaskCount = value;
-				maxRunningNonHighTaskCount = maxRunningNonHighTaskCount / 2;
+				maxRunningNonHighTaskCount = maxConcurrentTaskCount / 2;
 
 				if (maxRunningNonHighTaskCount == 0)
 					maxRunningNonHighTaskCount = 1;

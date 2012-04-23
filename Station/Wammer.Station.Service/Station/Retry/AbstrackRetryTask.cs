@@ -67,10 +67,13 @@ namespace Wammer.Station.Retry
 			{
 				Run();
 			}
-			catch
+			catch(Exception e)
 			{
 				nextRetryTime = DateTime.Now.AddSeconds(backoff.NextValue());
+
+				this.LogWarnMsg(this.GetType().ToString() + " failed and will be rescheduled at " + NextRetryTime.ToString("u"), e);
 				backoff.IncreaseLevel();
+
 				throw;
 			}
 		}

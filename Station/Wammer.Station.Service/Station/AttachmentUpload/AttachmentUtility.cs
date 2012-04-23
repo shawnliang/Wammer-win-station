@@ -51,7 +51,7 @@ namespace Wammer.Station.AttachmentUpload
 			AttachmentCollection.Instance.Update(
 				Query.EQ("_id", object_id),
 				Update.Set(
-					"image_meta." + thumbnailType.GetCustomAttribute<DescriptionAttribute>(),
+					"image_meta." + thumbnailType.ToString().ToLower(),
 					Info.ToBsonDocument()));
 		}
 
