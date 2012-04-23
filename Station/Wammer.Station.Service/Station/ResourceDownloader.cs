@@ -269,7 +269,7 @@ namespace Wammer.Station
 								).Set("file_name", attachment.file_name
 								).Set("title", attachment.title
 								).Set("description", attachment.description
-								).Set("type", (AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type)
+								).Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type)
 								).Set("url", "/v2/attachments/view?object_id=" + attachment.object_id
 								).Set("mime_type", "application/octet-stream"
 								).Set("saved_file_name", savedFileName
@@ -305,6 +305,7 @@ namespace Wammer.Station
 							Query.EQ("_id", attachment.object_id),Update
 							.Set("group_id", attachment.group_id)
 							.Set("file_name", attachment.file_name)
+							.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type))
 							.Set("image_meta.small", thumbnail.ToBsonDocument())
 							.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
@@ -332,6 +333,7 @@ namespace Wammer.Station
 							Query.EQ("_id", attachment.object_id),Update
 							.Set("group_id", attachment.group_id)
 							.Set("file_name", attachment.file_name)
+							.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type))
 							.Set("image_meta.medium", thumbnail.ToBsonDocument())
 							.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
@@ -359,6 +361,7 @@ namespace Wammer.Station
 							Query.EQ("_id", attachment.object_id),Update
 							.Set("group_id", attachment.group_id)
 							.Set("file_name", attachment.file_name)
+							.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type))
 							.Set("image_meta.large", thumbnail.ToBsonDocument())
 							.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
@@ -386,6 +389,7 @@ namespace Wammer.Station
 							Query.EQ("_id", attachment.object_id),Update
 							.Set("group_id", attachment.group_id)
 							.Set("file_name", attachment.file_name)
+							.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type))
 							.Set("image_meta.square", thumbnail.ToBsonDocument())
 							.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
