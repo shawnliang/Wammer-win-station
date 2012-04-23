@@ -28,6 +28,7 @@ namespace Wammer.Cloud
 	{
 		#region Var
 		private List<PostInfo> _posts;
+		private List<UserInfo> _users;
 		#endregion
 
 		#region Public Property
@@ -43,12 +44,52 @@ namespace Wammer.Cloud
 			{
 				_posts = value;
 			}
+		}
+
+		public List<UserInfo> users
+		{
+			get
+			{
+				if (_users == null)
+					_users = new List<UserInfo>();
+				return _users;
+			}
+			set
+			{
+				_users = value;
+			}
 		} 
 		#endregion
 	}
 
 	public class UpdatePostResponse : CloudResponse
 	{
+		#region Var
+		private PostInfo _post;
+		#endregion
+
+		#region Public Property
+		public PostInfo post
+		{
+			get
+			{
+				if (_post == null)
+					_post = new PostInfo();
+				return _post;
+			}
+			set
+			{
+				_post = value;
+			}
+		}
+		#endregion
+	}
+
+	public class HidePostResponse : CloudResponse
+	{
+		#region Property
+		public String post_id { get; set; }
+		#endregion
 	}
 
 	public class PostFetchByFilterResponse : PostResponse
