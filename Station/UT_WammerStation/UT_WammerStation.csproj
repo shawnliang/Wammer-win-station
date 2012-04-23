@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -89,8 +89,16 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachmentUpload\TestAttachmentUploadHandlerDB.cs" />
+    <Compile Include="AttachmentUpload\TestHandleUpload_NewOriginalImage.cs" />
+    <Compile Include="AttachmentUpload\TestHandleUpload_OriginalImageWithObjectId.cs" />
+    <Compile Include="AttachmentUpload\TestHandleUpload_Thumbnails.cs" />
+    <Compile Include="AttachmentUpload\TestPostProcess.cs" />
+    <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
+    <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
     <Compile Include="TestHidePostHandler.cs" />
     <Compile Include="TestNewPostCommandHandler.cs" />
+    <Compile Include="TestSerializable.cs" />
     <Compile Include="TestUpdatePostHandler.cs" />
     <Compile Include="TestPostUploadTaskQueue.cs" />
     <Compile Include="TestNewPostHandler.cs" />
@@ -113,10 +121,8 @@
     <Compile Include="TestMQPersistence.cs" />
     <Compile Include="TestGenerateMultipart.cs" />
     <Compile Include="TestHttpServer.cs" />
-    <Compile Include="TestImagePostProcessing.cs" />
     <Compile Include="TestMQ.cs" />
     <Compile Include="TestMultiPart.cs" />
-    <Compile Include="TestAttachmentUpload.cs" />
     <Compile Include="TestNetworkHelper.cs" />
     <Compile Include="TestPersistentQueue.cs" />
     <Compile Include="TestServiceHelper.cs" />

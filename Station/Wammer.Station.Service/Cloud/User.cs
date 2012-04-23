@@ -2,6 +2,7 @@
 using System.Net;
 using Wammer.Model;
 using MongoDB.Driver.Builders;
+using Wammer.Utility;
 
 namespace Wammer.Cloud
 {
@@ -42,6 +43,19 @@ namespace Wammer.Cloud
 			var response = CloudServer.ConvertFromJson<UserLogInResponse>(json);
 			this.Groups = response.groups;
 			this.Stations = response.stations;
+		}
+
+		public static GetUserResponse GetInfo(string user_id, string apikey, string session_token)
+		{
+			using (WebClient agent = new DefaultWebClient())
+			{
+				return CloudServer.requestPath<GetUserResponse>(agent, "users/get",
+					new Dictionary<object, object>{
+									   {"user_id", user_id},
+									   {"apikey", apikey},
+									   {"session_token", session_token}
+					});
+			}
 		}
 
 		public static User LogIn(WebClient agent, string username, string passwd, string apiKey)

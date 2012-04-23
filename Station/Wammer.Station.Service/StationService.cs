@@ -5,6 +5,7 @@ using System.Reflection;
 using System.ServiceProcess;
 using Wammer.Cloud;
 using Wammer.PerfMonitor;
+using Wammer.Station.APIHandler;
 using Wammer.PostUpload;
 
 namespace Wammer.Station.Service
@@ -72,21 +73,13 @@ namespace Wammer.Station.Service
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
 
 
-				AttachmentUploadHandler attachmentHandler = new AttachmentUploadHandler();
+				APIHandler.AttachmentUploadHandler attachmentHandler = new APIHandler.AttachmentUploadHandler();
 				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();
-				ImagePostProcessing imgProc = new ImagePostProcessing(new UpstreamThumbnailTaskFactory());
-				
-				
-				attachmentHandler.ImageAttachmentSaved += imgProc.HandleImageAttachmentSaved;
-				attachmentHandler.ImageAttachmentCompleted += imgProc.HandleImageAttachmentCompleted;
-				attachmentHandler.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
-				UpstreamThumbnailTask.ThumbnailUpstreamed += attachmentMonitor.OnThumbnailUpstreamed;
 
-
-				CloudStorageSync cloudSync = new CloudStorageSync();
-				attachmentHandler.BodyAttachmentSaved += cloudSync.HandleAttachmentSaved;
+				attachmentHandler.AttachmentProcessed += 
+					new AttachmentUpload.AttachmentProcessedHandler(
+						new AttachmentUpload.AttachmentUtility()).OnProcessed;
 				attachmentHandler.ProcessSucceeded += attachmentMonitor.OnProcessSucceeded;
-
 
 				
 				BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
@@ -161,7 +154,7 @@ namespace Wammer.Station.Service
 			managementServer.AddHandler(GetDefaultBathPath("/availability/ping/"), new PingHandler());
 		}
 
-		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder, AttachmentDownloadMonitor downstreamMonitor)
+		private void InitFunctionServerHandlers(APIHandler.AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder, AttachmentDownloadMonitor downstreamMonitor)
 		{
 			logger.Debug("Add cloud forwarders to function server");
 			functionServer.AddDefaultHandler(cloudForwarder);
@@ -351,7 +344,7 @@ namespace Wammer.Station.Service
 
 			int maxConcurrentTaskCount = int.Parse(StationRegistry.GetValue("MaxConcurrentTaskCount", "6").ToString());
 			if (maxConcurrentTaskCount > 0)
-				TaskQueue.MaxCurrentTaskCount = maxConcurrentTaskCount;
+				TaskQueue.MaxConcurrentTaskCount = maxConcurrentTaskCount;
 		}
 
 	}

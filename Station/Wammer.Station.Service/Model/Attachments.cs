@@ -12,6 +12,7 @@ using System.ComponentModel;
 
 namespace Wammer.Model
 {
+	[Serializable]
 	public enum ImageMeta
 	{
 		/// <summary>
@@ -57,14 +58,14 @@ namespace Wammer.Model
 		doc
 	}
 
-	public interface IImageAttachmentInfo
+	public interface IAttachmentInfo
 	{
 		string mime_type { get; }
 		string saved_file_name { get; }
 	}
 
 	[BsonIgnoreExtraElements]
-	public class ThumbnailInfo : IImageAttachmentInfo
+	public class ThumbnailInfo : IAttachmentInfo
 	{
 		[BsonIgnoreIfNull]
 		public string url { get; set; }
@@ -193,7 +194,7 @@ namespace Wammer.Model
 	}
 
 	[BsonIgnoreExtraElements]
-	public class Attachment : IImageAttachmentInfo
+	public class Attachment : IAttachmentInfo
 	{
 		#region Private Method
 		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta, AttachmentType type, string apiKey, string token)
@@ -307,20 +308,20 @@ namespace Wammer.Model
 
 		public static ObjectUploadResponse UploadImage(string url, ArraySegment<byte> imageData, string groupId,
 											string objectId, string fileName, string contentType,
-											ImageMeta meta, string apiKey, string token)
+											ImageMeta meta, string apiKey, string token, int bufSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> callback = null)
 		{
 			return Upload(url, imageData, groupId, objectId, fileName, contentType, meta,
-				AttachmentType.image, apiKey, token);
+				AttachmentType.image, apiKey, token, bufSize, callback);
 		}
 
 		public static ObjectUploadResponse UploadImage(ArraySegment<byte> imageData, string group_id,
 			string objectId, string fileName, string contentType, ImageMeta meta,
-			string apikey, string token)
+			string apikey, string token, int buffSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> callback = null)
 		{
 			string url = CloudServer.BaseUrl + "attachments/upload/";
 
 			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta,
-				apikey, token);
+				apikey, token, buffSize, callback);
 		}
 
 		public ObjectUploadResponse Upload(ImageMeta meta, string apiKey, string sessionToken, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
@@ -460,12 +461,9 @@ namespace Wammer.Model
 			}
 		}
 
-		public IImageAttachmentInfo GetImgInfo(ImageMeta meta)
+		public IAttachmentInfo GetInfoByMeta(ImageMeta meta)
 		{
-			if (meta == ImageMeta.None)
-				throw new ArgumentException("argument meta cannot be " + meta);
-
-			if (meta == ImageMeta.Origin)
+			if (meta == ImageMeta.None || meta == ImageMeta.Origin)
 				return this;
 			else
 				return this.image_meta.GetThumbnailInfo(meta);

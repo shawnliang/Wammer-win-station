@@ -21,6 +21,9 @@ namespace Wammer.Station
 
 		public FileStorage(Driver driver)
 		{
+			if (driver == null)
+				throw new ArgumentNullException("driver");
+
 			this.basePath = driver.folder;
 			CreateFolder(basePath);
 		}
