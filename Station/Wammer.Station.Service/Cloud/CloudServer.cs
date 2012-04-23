@@ -41,6 +41,7 @@ namespace Wammer.Cloud
 		public const string PARAM_TIMESTAMP = "timestamp";
 		public const string PARAM_COVER_ATTACH = "cover_attach";
 		public const string PARAM_FAVORITE = "favorite";
+		public const string PARAM_UPDATE_TIME = "update_time";
 
 		public static string SessionToken { get; set; }
 
