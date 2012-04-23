@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.Threading;
 
 using Wammer.Station;
 using Wammer.Model;
@@ -18,6 +19,7 @@ namespace Wammer.PostUpload
 		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
 		private object cs = new object();
 		private PostUploadMonitor monitor = new PostUploadMonitor();
+		private Semaphore headTasks = new Semaphore(0, int.MaxValue);
 
 		private static PostUploadTaskQueue _instance;
 
@@ -65,6 +67,8 @@ namespace Wammer.PostUpload
 					queue.AddLast(task);
 					postQueue.Add(task.PostId, queue);
 					postIdQueue.Enqueue(task.PostId);
+
+					AddAvailableHeadTask();
 				}
 				PostUploadTasksCollection.Instance.Save(
 					new PostUploadTasks { post_id = task.PostId, tasks = queue });
@@ -75,36 +79,21 @@ namespace Wammer.PostUpload
 
 		public PostUploadTask Dequeue()
 		{
+			IsAvailableHeadTaskExist();
 			lock (cs)
 			{
-				try
+				PostUploadTask task;
+				do
 				{
-					if (postIdQueue.Count == 0 || postQueue.Count == 0)
-					{
-						return new NullPostUploadTask();
-					}
-
 					string targetPostId = postIdQueue.Dequeue();
-					PostUploadTask task = postQueue[targetPostId].First();
-
-					if (task.Status == PostUploadTaskStatus.InProgress)
-					{
-						return new NullPostUploadTask();
-					}
-					else if (task.Status == PostUploadTaskStatus.Wait)
-					{
-						task.Status = PostUploadTaskStatus.InProgress;
-					}
-
 					postIdQueue.Enqueue(targetPostId);
-
-					return task;
-				}
-				catch (Exception e)
-				{
-					this.LogDebugMsg("Error while dequeueing post upload task.", e);
-					return new NullPostUploadTask();
-				}
+					LinkedList<PostUploadTask> targetUploadTaskQueue = new LinkedList<PostUploadTask>();
+					Debug.Assert(postQueue.TryGetValue(targetPostId, out targetUploadTaskQueue));
+					task = targetUploadTaskQueue.First();
+				} while (task.Status != PostUploadTaskStatus.Wait);
+				
+				task.Status = PostUploadTaskStatus.InProgress;
+				return task;
 			}
 		}
 
@@ -112,11 +101,6 @@ namespace Wammer.PostUpload
 		{
 			lock (cs)
 			{
-				if (task is NullPostUploadTask)
-				{
-					return;
-				}
-
 				PostUploadTask headTask = postQueue[task.PostId].First();
 				Debug.Assert(task.Timestamp == headTask.Timestamp);
 				postQueue[task.PostId].RemoveFirst();
@@ -126,6 +110,7 @@ namespace Wammer.PostUpload
 					PostUploadTasksCollection.Instance.Save(
 						new PostUploadTasks {
 							post_id = task.PostId, tasks = postQueue[task.PostId] });
+					AddAvailableHeadTask();
 				}
 				else
 				{
@@ -145,7 +130,18 @@ namespace Wammer.PostUpload
 				PostUploadTask headTask = postQueue[task.PostId].First();
 				Debug.Assert(task.Timestamp == headTask.Timestamp);
 				headTask.Status = PostUploadTaskStatus.Wait;
+				AddAvailableHeadTask();
 			}
+		}
+
+		private void IsAvailableHeadTaskExist()
+		{
+			headTasks.WaitOne();
+		}
+
+		private void AddAvailableHeadTask()
+		{
+			headTasks.Release();
 		}
 	}
 }
