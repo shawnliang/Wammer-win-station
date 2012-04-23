@@ -49,7 +49,7 @@ namespace Wammer.Cloud
 		{
 			using (WebClient agent = new DefaultWebClient())
 			{
-				return CloudServer.requestPath<GetUserResponse>(agent, "/v2/users/get",
+				return CloudServer.requestPath<GetUserResponse>(agent, "users/get",
 					new Dictionary<object, object>{
 									   {"user_id", user_id},
 									   {"apikey", apikey},
