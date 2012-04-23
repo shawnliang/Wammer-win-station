@@ -56,10 +56,10 @@ namespace Wammer.Station.AttachmentUpload
 		}
 
 
-		public void UpstreamAttachmentAsync(string object_id, ImageMeta meta)
+		public void UpstreamAttachmentAsync(string object_id, ImageMeta meta, TaskPriority priority)
 		{
 			uploadTaskCounter.Increment();
-			TaskQueue.Enqueue(new UpstreamTask(object_id, meta, TaskPriority.VeryLow), TaskPriority.VeryLow, true);
+			TaskQueue.Enqueue(new UpstreamTask(object_id, meta, priority), priority, true);
 		}
 
 		public void GenerateThumbnailAsync(string object_id, ImageMeta thumbnailType, TaskPriority priority)

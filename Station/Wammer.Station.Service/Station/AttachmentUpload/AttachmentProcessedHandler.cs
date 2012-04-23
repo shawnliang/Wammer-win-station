@@ -23,7 +23,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		void UpstreamImageNow(byte[] imageRaw, string group_id, string object_id, string file_name, string mime_type, ImageMeta meta, string apikey, string session_token);
 		void UpstreamAttachmentNow(string filename, Driver user, string object_id, string file_name, string mime_type, ImageMeta meta, AttachmentType type);
-		void UpstreamAttachmentAsync(string object_id, ImageMeta meta);
+		void UpstreamAttachmentAsync(string object_id, ImageMeta meta, TaskPriority priority);
 	}
 
 	public class AttachmentProcessedHandler
@@ -54,7 +54,7 @@ namespace Wammer.Station.AttachmentUpload
 
 					if (args.IsFromThisWindows)
 					{
-						util.UpstreamAttachmentAsync(attachment.object_id, ImageMeta.Medium);
+						util.UpstreamAttachmentAsync(attachment.object_id, ImageMeta.Medium, TaskPriority.Medium);
 					}
 					else
 					{
@@ -70,13 +70,13 @@ namespace Wammer.Station.AttachmentUpload
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Small, TaskPriority.Medium);
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Large, TaskPriority.Low);
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Square, TaskPriority.Low);
-				util.UpstreamAttachmentAsync(attachment.object_id, ImageMeta.Origin);
+				util.UpstreamAttachmentAsync(attachment.object_id, ImageMeta.Origin, TaskPriority.VeryLow);
 			}
 			else if (args.ImgMeta == ImageMeta.None)
 			{
 				if (args.IsFromThisWindows)
 				{
-					util.UpstreamAttachmentAsync(attachment.object_id, args.ImgMeta);
+					util.UpstreamAttachmentAsync(attachment.object_id, args.ImgMeta, TaskPriority.Low);
 				}
 				else
 				{
@@ -87,7 +87,7 @@ namespace Wammer.Station.AttachmentUpload
 			{
 				if (args.IsFromThisWindows)
 				{
-					util.UpstreamAttachmentAsync(args.AttachmentId, args.ImgMeta);
+					util.UpstreamAttachmentAsync(args.AttachmentId, args.ImgMeta, TaskPriority.Low);
 				}
 				else
 				{
