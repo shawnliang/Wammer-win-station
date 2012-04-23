@@ -49,6 +49,26 @@ namespace Wammer.Cloud
 			return CloudServer.requestPath<NewPostResponse>(agent, "posts/new", parameters);
 		}
 
+		public UpdatePostResponse UpdatePost(WebClient agent, DateTime updateTime, Dictionary<string, string> param)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+				{CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString()}
+			};
+
+			foreach (String key in param.Keys)
+			{
+				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
+				{
+					parameters.Add(key, param[key]);
+				}
+			}
+
+			return CloudServer.requestPath<UpdatePostResponse>(agent, "posts/update", parameters);
+		}
+
 		public PostFetchByFilterResponse PostFetchByFilter(WebClient agent, FilterEntity filter)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>

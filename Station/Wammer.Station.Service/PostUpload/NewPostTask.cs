@@ -27,7 +27,7 @@ namespace Wammer.PostUpload
 							AttachmentApi attachApi = new AttachmentApi(driver);
 							foreach (String id in attachmentIDs)
 							{
-								if (!IsAttachmentExist(attachApi, agent, id))
+								if (!IsAttachmentExist(attachApi, agent, id.Trim('"', '"')))
 								{
 									throw new WammerStationException("Attachment " + id + " does not exist", (int)StationApiError.NotReady);
 								}
@@ -40,11 +40,11 @@ namespace Wammer.PostUpload
 							// give up the task if the post id is already used by another post
 							return;
 						}
-						postApi.NewPost(new WebClient(), this.PostId, this.Timestamp, this.Parameters);
+						postApi.NewPost(agent, this.PostId, this.Timestamp, this.Parameters);
 					}
 					catch (WammerCloudException e)
 					{
-						this.LogDebugMsg("Error while calling new post api.", e);
+						this.LogDebugMsg("Error while executing new post task.", e);
 
 						if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
 						{
@@ -56,7 +56,6 @@ namespace Wammer.PostUpload
 					} 
 				}
 			}
-
 		}
 	}
 }
