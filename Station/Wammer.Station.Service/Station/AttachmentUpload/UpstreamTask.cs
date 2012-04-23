@@ -69,6 +69,11 @@ namespace Wammer.Station.AttachmentUpload
 					info.mime_type, this.meta, attachment.type, Cloud.CloudServer.APIKey,
 					user.session_token, 1024, UpstreamProgressChanged);
 			}
+
+			AttachmentCollection.Instance.Update(
+				Query.EQ("_id", this.object_id),
+				(this.meta == ImageMeta.Origin || this.meta == ImageMeta.Origin) ?
+					Update.Set("is_body_upstreamed", true) : Update.Set("is_thumb_upstreamed", true));
 		}
 
 

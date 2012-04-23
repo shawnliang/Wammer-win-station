@@ -360,6 +360,10 @@ namespace Wammer.Model
 		public ImageProperty image_meta { get; set; }
 		[BsonIgnoreIfNull]
 		public string saved_file_name { get; set; }
+		[BsonDefaultValue(true)]
+		public bool is_thumb_upstreamed { get; set; }
+		[BsonDefaultValue(false)]
+		public bool is_body_upstreamed { get; set; }
 
 		[BsonIgnore]
 		public Wammer.Utility.ExifOrientations Orientation { get; set; }
@@ -467,6 +471,11 @@ namespace Wammer.Model
 				return this;
 			else
 				return this.image_meta.GetThumbnailInfo(meta);
+		}
+
+		public bool IsThumbnailOrBodyUpstreamed()
+		{
+			return is_body_upstreamed || is_thumb_upstreamed;
 		}
 	}
 

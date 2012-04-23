@@ -277,7 +277,9 @@ namespace Wammer.Station
 								).Set("image_meta.width", width
 								).Set("image_meta.height", height
 								).Set("file_size", rawdata.Count
-								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)),
+								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)
+								).Set("is_body_upstreamed", true
+								).Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
 						);
 						break;
@@ -303,7 +305,8 @@ namespace Wammer.Station
 							Query.EQ("_id", attachment.object_id),Update
 							.Set("group_id", attachment.group_id)
 							.Set("file_name", attachment.file_name)
-							.Set("image_meta.small", thumbnail.ToBsonDocument()),
+							.Set("image_meta.small", thumbnail.ToBsonDocument())
+							.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
 						);
 						break;
@@ -329,7 +332,8 @@ namespace Wammer.Station
 							Query.EQ("_id", attachment.object_id),Update
 							.Set("group_id", attachment.group_id)
 							.Set("file_name", attachment.file_name)
-							.Set("image_meta.medium", thumbnail.ToBsonDocument()),
+							.Set("image_meta.medium", thumbnail.ToBsonDocument())
+							.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
 						);
 						break;
@@ -355,7 +359,8 @@ namespace Wammer.Station
 							Query.EQ("_id", attachment.object_id),Update
 							.Set("group_id", attachment.group_id)
 							.Set("file_name", attachment.file_name)
-							.Set("image_meta.large", thumbnail.ToBsonDocument()),
+							.Set("image_meta.large", thumbnail.ToBsonDocument())
+							.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
 						);
 						break;
@@ -381,7 +386,8 @@ namespace Wammer.Station
 							Query.EQ("_id", attachment.object_id),Update
 							.Set("group_id", attachment.group_id)
 							.Set("file_name", attachment.file_name)
-							.Set("image_meta.square", thumbnail.ToBsonDocument()),
+							.Set("image_meta.square", thumbnail.ToBsonDocument())
+							.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
 						);
 						break;

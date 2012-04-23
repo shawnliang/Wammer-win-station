@@ -24,10 +24,9 @@ namespace Wammer.PostUpload
 						if (Parameters.ContainsKey(CloudServer.PARAM_ATTACHMENT_ID_ARRAY))
 						{
 							List<string> attachmentIDs = Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList();
-							AttachmentApi attachApi = new AttachmentApi(driver);
 							foreach (String id in attachmentIDs)
 							{
-								if (!IsAttachmentExist(attachApi, agent, id.Trim('"', '"')))
+								if (!IsAttachmentExist(id.Trim('"', '"')))
 								{
 									throw new WammerStationException("Attachment " + id + " does not exist", (int)StationApiError.NotReady);
 								}

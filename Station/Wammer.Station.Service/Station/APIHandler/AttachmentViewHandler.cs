@@ -183,7 +183,8 @@ namespace Wammer.Station
 					.Set("md5", downloadResult.Metadata.md5)
 					.Set("type", downloadResult.Metadata.type)
 					.Set("group_id", downloadResult.Metadata.group_id)
-					.Set("saved_file_name", fileName), UpdateFlags.Upsert);
+					.Set("saved_file_name", fileName)
+					.Set("is_body_upstreamed", true), UpdateFlags.Upsert);
 			}
 			else
 			{
@@ -191,6 +192,7 @@ namespace Wammer.Station
 				AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
 					.Set("group_id", downloadResult.Metadata.group_id)
 					.Set("file_name", downloadResult.Metadata.file_name)
+					.Set("is_thumb_upstreamed", true)
 					.Set("image_meta." + metaStr, new ThumbnailInfo()
 					{
 						mime_type = downloadResult.ContentType,

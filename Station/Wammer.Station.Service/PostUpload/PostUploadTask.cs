@@ -8,6 +8,7 @@ using Wammer.Station;
 using Wammer.Model;
 using Wammer.Cloud;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.PostUpload
 {
@@ -48,24 +49,10 @@ namespace Wammer.PostUpload
 			}
 		}
 
-		protected bool IsAttachmentExist(AttachmentApi api, WebClient agent, string objectId)
+		protected bool IsAttachmentExist(string objectId)
 		{
-			try
-			{
-				api.AttachmentGet(agent, objectId);
-				return true;
-			}
-			catch (WammerCloudException e)
-			{
-				if (!CloudServer.IsNetworkError(e)
-					&& !CloudServer.IsSessionError(e)
-					&& Enum.IsDefined(typeof(AttachmentApiError), e.WammerError)
-					&& e.WammerError == (int)AttachmentApiError.AttachmentNotExist)
-				{
-					return false;
-				}
-				throw e;
-			}
+			Attachment att = AttachmentCollection.Instance.FindOne(Query.EQ("_id", objectId));
+			return att != null && att.IsThumbnailOrBodyUpstreamed();
 		}
 	}
 
