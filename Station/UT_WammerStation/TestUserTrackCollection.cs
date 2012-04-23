@@ -14,6 +14,7 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestSaveAndLoad()
 		{
+			UserTrackCollection.Instance.RemoveAll();
 			UserTrackCollection.Instance.Save(new UserTracks { group_id = "123" });
 			UserTrackCollection.Instance.Save(new UserTracks { group_id = "456" });
 
