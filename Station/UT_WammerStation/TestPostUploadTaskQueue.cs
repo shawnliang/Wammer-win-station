@@ -66,9 +66,6 @@ namespace UT_WammerStation
 			task = queue.Dequeue();
 			Assert.IsTrue(task is UpdatePostTask);
 			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.IsTrue(task is NullPostUploadTask);
-			queue.Done(task);
 		}
 
 		[TestMethod]
@@ -76,7 +73,6 @@ namespace UT_WammerStation
 		{
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
-			Assert.IsTrue(queue.Dequeue() is NullPostUploadTask);
 		}
 
 		[TestMethod]
@@ -104,10 +100,6 @@ namespace UT_WammerStation
 
 			doc = PostUploadTasksCollection.Instance.FindOne();
 			Assert.AreEqual(doc, null);
-
-			task = queue.Dequeue();
-			Assert.IsTrue(queue.Dequeue() is NullPostUploadTask);
-			queue.Done(task);
 		}
 
 		[TestMethod]

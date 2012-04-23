@@ -46,9 +46,8 @@ namespace Wammer.PostUpload
 				{
 					task.Status = PostUploadTaskStatus.Wait;
 					monitor.PostUploadTaskEnqueued();
+					Enqueue(task);
 				}
-				postQueue.Add(ptasks.post_id, ptasks.tasks);
-				postIdQueue.Enqueue(ptasks.post_id);
 			}
 		}
 
