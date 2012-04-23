@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestHidePostHandler.cs" />
+    <Compile Include="TestNewPostCommandHandler.cs" />
     <Compile Include="TestUpdatePostHandler.cs" />
     <Compile Include="TestPostUploadTaskQueue.cs" />
     <Compile Include="TestNewPostHandler.cs" />
