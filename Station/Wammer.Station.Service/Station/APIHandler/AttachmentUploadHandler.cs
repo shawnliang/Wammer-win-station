@@ -41,7 +41,7 @@ namespace Wammer.Station.APIHandler
 
 			UploadData data = GetUploadData();
 
-			RespondSuccess(imp.Process(data).ToFastJSON());
+			RespondSuccess(imp.Process(data));
 		}
 		
 		private UploadData GetUploadData()
