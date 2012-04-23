@@ -12,7 +12,23 @@ namespace Wammer.Station
 {
 	public class NewPostHandler : HttpHandler
 	{
+		//#region Var
+		//private BypassHttpHandler _byPassHandler; 
+		//#endregion
+
 		#region Private Property
+		//private BypassHttpHandler m_byPassHandler 
+		//{ 
+		//    get
+		//    {
+		//        if (_byPassHandler == null)
+		//        {
+		//            _byPassHandler = new BypassHttpHandler(CloudServer.BaseUrl);
+		//            _byPassHandler.ProcessSucceeded += new EventHandler<HttpHandlerEventArgs>(_byPassHandler_ProcessSucceeded);
+		//        }
+		//        return _byPassHandler;
+		//    }
+		//}
 		private IPostUploadSupportable m_PostUploader { get; set; }
 		#endregion
 
@@ -33,6 +49,18 @@ namespace Wammer.Station
 				CloudServer.PARAM_API_KEY, 
 				CloudServer.PARAM_SESSION_TOKEN, 
 				CloudServer.PARAM_GROUP_ID);
+
+			var type = Parameters[CloudServer.PARAM_TYPE];
+			if (type == "link")
+			{
+				var byPassParams = new Dictionary<object, object>();
+				foreach (string key in Parameters.AllKeys)
+				{
+					byPassParams.Add(key, Parameters[key]);
+				}
+				RespondSuccess(CloudServer.requestPath<NewPostResponse>(new WebClient(), "posts/new", byPassParams, false));
+				return;
+			}
 
 			var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
 			var driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
@@ -91,7 +119,7 @@ namespace Wammer.Station
 
 			post.event_time = timeStamp.ToString("u");
 
-			post.type = Parameters[CloudServer.PARAM_TYPE];
+			post.type = type;
 
 			PostCollection.Instance.Save(post);
 	
@@ -111,5 +139,12 @@ namespace Wammer.Station
 			return this.MemberwiseClone();
 		}
 		#endregion
+
+		//#region Event Process
+		//void _byPassHandler_ProcessSucceeded(object sender, HttpHandlerEventArgs e)
+		//{
+		//    OnProcessSucceeded(e);
+		//}
+		//#endregion
 	}
 }
