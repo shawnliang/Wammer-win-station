@@ -111,6 +111,9 @@
     <Reference Include="Waveface.Configuration.WindowsForms">
       <HintPath>..\Libs\Waveface.Configuration.WindowsForms.dll</HintPath>
     </Reference>
+    <Reference Include="WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="WebCam_Capture">
       <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
     </Reference>
@@ -829,9 +832,6 @@
     <None Include="Resources\Help.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Outlook.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Paste.bmp" />
   </ItemGroup>
   <ItemGroup>
@@ -884,15 +884,6 @@
     <None Include="Resources\white_edit.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\desktop_logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\dragNdrop-area.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\waveface_icon64.png" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="MSHTML">
       <Guid>{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}</Guid>
       <VersionMajor>4</VersionMajor>
@@ -908,7 +899,6 @@
     <None Include="Resources\refresh.png" />
     <None Include="Resources\trash.png" />
     <None Include="Resources\write_comment.png" />
-    <None Include="Resources\titlebar.png" />
     <None Include="Resources\DropArea\dragNdrop-area.png" />
     <None Include="Resources\DropArea\dragNdrop-loading0.png" />
     <None Include="Resources\DropArea\dragNdrop-loading1.png" />
@@ -929,14 +919,7 @@
     <None Include="Resources\minmax.js" />
     <None Include="Resources\WFPreviewWin.css" />
     <None Include="Resources\loader.gif" />
-    <None Include="Resources\star.png" />
-    <None Include="Resources\star_empty.png" />
     <None Include="Resources\CoverImage.png" />
-    <None Include="Resources\Heart.png" />
-    <None Include="Resources\Heart_empty.png" />
-    <None Include="Resources\fav.png" />
-    <None Include="Resources\unfav.png" />
-    <None Include="Resources\divider.png" />
     <None Include="Resources\FlatButton\FBT_account.png" />
     <None Include="Resources\FlatButton\FBT_account_hl.png" />
     <None Include="Resources\FlatButton\FBT_refresh.png" />
@@ -979,6 +962,14 @@
     <None Include="Resources\Title\titlebar_2.png" />
     <None Include="Resources\Title\titlebar_3.png" />
     <None Include="Resources\Title\titlebar_4.png" />
+    <None Include="Resources\MaxMinClose\MMC_Close.png" />
+    <None Include="Resources\MaxMinClose\MMC_Close_hl.png" />
+    <None Include="Resources\MaxMinClose\MMC_Max.png" />
+    <None Include="Resources\MaxMinClose\MMC_Max_hl.png" />
+    <None Include="Resources\MaxMinClose\MMC_Min.png" />
+    <None Include="Resources\MaxMinClose\MMC_Min_hl.png" />
+    <None Include="Resources\MaxMinClose\MMC_Restore.png" />
+    <None Include="Resources\MaxMinClose\MMC_Restore_hl.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

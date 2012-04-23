@@ -42,11 +42,11 @@ namespace Waveface
             this.panelTimeline = new System.Windows.Forms.Panel();
             this.tvTimeline = new System.Windows.Forms.TreeView();
             this.panelCalendar = new System.Windows.Forms.Panel();
-            this.monthCalendar = new CustomControls.MonthCalendar();
             this.imageListLarge = new System.Windows.Forms.ImageList(this.components);
             this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.monthCalendar = new CustomControls.MonthCalendar();
             this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
@@ -137,26 +137,6 @@ namespace Waveface
             resources.ApplyResources(this.panelCalendar, "panelCalendar");
             this.panelCalendar.Name = "panelCalendar";
             // 
-            // monthCalendar
-            // 
-            this.monthCalendar.ColorTable.BackgroundGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(214)))));
-            this.monthCalendar.ColorTable.BackgroundGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(214)))));
-            this.monthCalendar.ColorTable.Border = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(214)))));
-            this.monthCalendar.ColorTable.DayActiveGradientBegin = System.Drawing.Color.NavajoWhite;
-            this.monthCalendar.ColorTable.DaySelectedGradientBegin = System.Drawing.Color.NavajoWhite;
-            this.monthCalendar.ColorTable.DayText = System.Drawing.Color.DarkGray;
-            this.monthCalendar.ColorTable.HeaderActiveGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.monthCalendar.ColorTable.HeaderArrow = System.Drawing.Color.Silver;
-            this.monthCalendar.ColorTable.HeaderGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.monthCalendar.ColorTable.MonthSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            resources.ApplyResources(this.monthCalendar, "monthCalendar");
-            this.monthCalendar.HeaderFont = new System.Drawing.Font("Segoe UI", 10F);
-            this.monthCalendar.Name = "monthCalendar";
-            this.monthCalendar.SelectionMode = CustomControls.MonthCalendarSelectionMode.Day;
-            this.monthCalendar.ShowWeekHeader = false;
-            this.monthCalendar.UseShortestDayNames = true;
-            this.monthCalendar.DateClicked += new System.EventHandler<CustomControls.DateEventArgs>(this.monthCalendar_DateClicked);
-            // 
             // imageListLarge
             // 
             this.imageListLarge.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListLarge.ImageStream")));
@@ -179,6 +159,35 @@ namespace Waveface
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
+            // 
+            // monthCalendar
+            // 
+            this.monthCalendar.CellDimensions = new System.Drawing.Size(16, 18);
+            this.monthCalendar.ColorTable.BackgroundGradientBegin = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.BackgroundGradientEnd = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.Border = System.Drawing.Color.Silver;
+            this.monthCalendar.ColorTable.DayActiveGradientBegin = System.Drawing.Color.NavajoWhite;
+            this.monthCalendar.ColorTable.DayActiveTodayCircleBorder = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.DaySelectedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
+            this.monthCalendar.ColorTable.DaySelectedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
+            this.monthCalendar.ColorTable.DaySelectedText = System.Drawing.Color.White;
+            this.monthCalendar.ColorTable.DaySelectedTodayCircleBorder = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.DayText = System.Drawing.Color.DarkGray;
+            this.monthCalendar.ColorTable.DayTodayCircleBorder = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.DayTrailingText = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.HeaderActiveGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar.ColorTable.HeaderArrow = System.Drawing.Color.Silver;
+            this.monthCalendar.ColorTable.HeaderGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar.ColorTable.MonthSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            resources.ApplyResources(this.monthCalendar, "monthCalendar");
+            this.monthCalendar.HeaderFont = new System.Drawing.Font("Segoe UI", 10F);
+            this.monthCalendar.IsWaveface = true;
+            this.monthCalendar.Name = "monthCalendar";
+            this.monthCalendar.SelectionMode = CustomControls.MonthCalendarSelectionMode.Day;
+            this.monthCalendar.ShowFooter = false;
+            this.monthCalendar.ShowWeekHeader = false;
+            this.monthCalendar.UseShortestDayNames = true;
+            this.monthCalendar.DateClicked += new System.EventHandler<CustomControls.DateEventArgs>(this.monthCalendar_DateClicked);
             // 
             // vsNetListBarGroups
             // 

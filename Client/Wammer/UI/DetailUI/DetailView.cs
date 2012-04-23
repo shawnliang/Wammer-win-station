@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Web;
 using System.Windows.Forms;
@@ -13,6 +14,7 @@ using Waveface.Component.PopupControl;
 using Waveface.Component;
 using Waveface.Component.RichEdit;
 using Waveface.DetailUI;
+using Waveface.ImageCapture.States;
 
 #endregion
 
@@ -184,6 +186,7 @@ namespace Waveface
             this.panelTop.Controls.Add(this.labelTitle);
             resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
+            this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseMove);
             // 
             // btnMoreOptions
             // 
@@ -193,7 +196,6 @@ namespace Waveface
             this.btnMoreOptions.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
             this.btnMoreOptions.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
             this.btnMoreOptions.Name = "btnMoreOptions";
-            this.btnMoreOptions.TabStop = false;
             this.btnMoreOptions.Click += new System.EventHandler(this.btnMoreOptions_Click);
             // 
             // btnFavorite
@@ -205,7 +207,6 @@ namespace Waveface
             this.btnFavorite.ImageDisable = global::Waveface.Properties.Resources.FB_fav_hl;
             this.btnFavorite.ImageHover = global::Waveface.Properties.Resources.FB_fav_hl;
             this.btnFavorite.Name = "btnFavorite";
-            this.btnFavorite.TabStop = false;
             this.btnFavorite.Click += new System.EventHandler(this.btnFavorite_Click);
             // 
             // btnEdit
@@ -217,7 +218,6 @@ namespace Waveface
             this.btnEdit.ImageDisable = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageDisable")));
             this.btnEdit.ImageHover = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageHover")));
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.TabStop = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // labelTitle
@@ -607,5 +607,31 @@ namespace Waveface
                 }
             }
         }
+
+        #region BorderlessForm
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, uint Msg, long lParam, long wParam);
+
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void panelTop_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Main.Current.WindowState != FormWindowState.Maximized)
+            {
+                if (MouseButtons.ToString() == "Left")
+                {
+                    ReleaseCapture();
+
+                    uint WM_NCLBUTTONDOWN = 161;
+                    int HT_CAPTION = 0x2;
+
+                    SendMessage(Parent.Parent.Parent.Parent.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+                }
+            }
+        }
+
+        #endregion
     }
 }

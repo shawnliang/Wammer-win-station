@@ -337,7 +337,6 @@
   <data name="titlebar_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Title\titlebar_4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="FBT_account" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlatButton\FBT_account.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -361,5 +360,30 @@
   </data>
   <data name="FBT_setting_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlatButton\FBT_setting_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MMC_Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Close.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Close_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Close_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Max" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Max.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Max_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Max_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Min" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Min.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Min_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Min_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Restore.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Restore_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Restore_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

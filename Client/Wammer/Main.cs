@@ -69,11 +69,16 @@ namespace Waveface
         private bool m_getAllDataError;
         private string m_newestUpdateTime;
 
-        BorderlessFormTheme m_borderlessFormTheme = new BorderlessFormTheme();
+        private BorderlessFormTheme m_borderlessFormTheme = new BorderlessFormTheme();
 
         #endregion
 
         #region Properties
+
+        public BorderlessFormTheme BorderlessFormTheme
+        {
+            get { return m_borderlessFormTheme; }
+        }
 
         public string LoadingImagePath
         {
@@ -207,7 +212,7 @@ namespace Waveface
 
             CreateLoadingImage();
 
-            m_borderlessFormTheme.ApplyFormThemeSizable(this);
+            BorderlessFormTheme.ApplyFormThemeSizable(this, false);
 
             s_logger.Trace("Form_Load: OK");
         }
@@ -487,7 +492,7 @@ namespace Waveface
         {
             try
             {
-                panelLeftInfo.Width = leftArea.MyWidth + 8;
+                panelLeftInfo.Width = leftArea.MyWidth;
 
                 if (WindowState == FormWindowState.Minimized)
                 {

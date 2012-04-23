@@ -478,6 +478,62 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap MMC_Close {
+            get {
+                object obj = ResourceManager.GetObject("MMC_Close", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap MMC_Close_hl {
+            get {
+                object obj = ResourceManager.GetObject("MMC_Close_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap MMC_Max {
+            get {
+                object obj = ResourceManager.GetObject("MMC_Max", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap MMC_Max_hl {
+            get {
+                object obj = ResourceManager.GetObject("MMC_Max_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap MMC_Min {
+            get {
+                object obj = ResourceManager.GetObject("MMC_Min", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap MMC_Min_hl {
+            get {
+                object obj = ResourceManager.GetObject("MMC_Min_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap MMC_Restore {
+            get {
+                object obj = ResourceManager.GetObject("MMC_Restore", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap MMC_Restore_hl {
+            get {
+                object obj = ResourceManager.GetObject("MMC_Restore_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Month {
             get {
                 object obj = ResourceManager.GetObject("Month", resourceCulture);

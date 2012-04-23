@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{19BBA547-3515-4E3E-ADB7-E9895171A43E}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{85C1E1B5-0E63-4E32-A3D6-82D4B62028AC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonthCalendarControl</RootNamespace>
-    <AssemblyName>MonthCalendarControl</AssemblyName>
+    <RootNamespace>MonthCalendarDemo</RootNamespace>
+    <AssemblyName>MonthCalendarDemo</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -40,8 +40,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -59,75 +57,44 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoldedDate.cs" />
-    <Compile Include="BoldedDatesCollection.cs" />
-    <Compile Include="BoldedDateCategory.cs" />
-    <Compile Include="BoldedDateCategoryCollection.cs" />
-    <Compile Include="Design\MonthCalendarCalendarTypeConverter.cs" />
-    <Compile Include="Design\MonthCalendarCalendarUIEditor.cs" />
-    <Compile Include="Design\MonthCalendarNamesProviderTypeConverter.cs" />
-    <Compile Include="EventClasses\ActiveDateEventArgs.cs" />
-    <Compile Include="EventClasses\CheckDateEventArgs.cs" />
-    <Compile Include="EventClasses\DateEventArgs.cs" />
-    <Compile Include="DatePicker\DatePicker.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Helper\ExtensionMethods.cs" />
-    <Compile Include="Interfaces\ICustomFormatProvider.cs" />
-    <Compile Include="MonthCalendarDate.cs" />
-    <Compile Include="DatePicker\DatePickerDateTextBox.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Design\DatePickerControlDesigner.cs" />
-    <Compile Include="Design\CultureInfoCustomTypeConverter.cs" />
-    <Compile Include="Design\MonthCalendarColorTableTypeConverter.cs" />
-    <Compile Include="Helper\DateMethods.cs" />
-    <Compile Include="CalendarDayOfWeek.cs" />
-    <Compile Include="Design\FlagCheckedListBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Design\FlagEnumUIEditor.cs" />
-    <Compile Include="MonthCalendarEraRange.cs" />
-    <Compile Include="MonthCalendarHitTest.cs" />
-    <Compile Include="MonthCalendarHitType.cs" />
-    <Compile Include="MonthCalendar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Design\MonthCalendarControlDesigner.cs" />
-    <Compile Include="MonthCalendarDay.cs" />
-    <Compile Include="MonthCalendarMonth.cs" />
-    <Compile Include="MonthCalendarFormatProvider.cs" />
-    <Compile Include="Properties\MonthCalendarResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MonthCalendarResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="MonthCalendarSelectionMode.cs" />
-    <Compile Include="Renderer\MonthCalendarAbstractRenderer.cs" />
-    <Compile Include="Renderer\MonthCalendarColorTable.cs" />
-    <Compile Include="Renderer\MonthCalendarHeaderState.cs" />
-    <Compile Include="Renderer\MonthCalendarRenderer.cs" />
-    <Compile Include="MonthCalendarWeek.cs" />
-    <Compile Include="MonthCalendarMouseMoveFlags.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="MonthCalendar.resx">
-      <DependentUpon>MonthCalendar.cs</DependentUpon>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\MonthCalendarResources.resx">
+    <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MonthCalendarResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ComboArrowDown.png" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -145,6 +112,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonthCalendarControl.csproj">
+      <Project>{19BBA547-3515-4E3E-ADB7-E9895171A43E}</Project>
+      <Name>MonthCalendarControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
