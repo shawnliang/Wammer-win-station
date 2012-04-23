@@ -27,7 +27,7 @@ namespace Wammer.PostUpload
 							AttachmentApi attachApi = new AttachmentApi(driver);
 							foreach (String id in attachmentIDs)
 							{
-								if (!IsAttachmentExist(attachApi, agent, id))
+								if (!IsAttachmentExist(attachApi, agent, id.Trim('"', '"')))
 								{
 									throw new WammerStationException("Attachment " + id + " does not exist", (int)StationApiError.NotReady);
 								}
