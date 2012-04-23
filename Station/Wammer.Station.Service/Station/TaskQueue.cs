@@ -58,7 +58,7 @@ namespace Wammer.Station
 
 		static TaskQueue()
 		{
-			mqBroker = new WMSBroker(new SQLitePersistentStorage("taskQueue.db"));
+			mqBroker = new WMSBroker(new MongoPersistentStorage());
 			mqSession = mqBroker.CreateSession();
 			mqHighPriority = mqBroker.GetQueue("high");
 			mqMediumPriority = mqBroker.GetQueue("medium");

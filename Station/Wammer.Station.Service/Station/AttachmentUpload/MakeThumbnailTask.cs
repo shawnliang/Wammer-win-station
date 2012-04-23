@@ -7,6 +7,7 @@ using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.AttachmentUpload
 {
+	[Serializable]
 	class MakeThumbnailTask : ITask
 	{
 		private string object_id;

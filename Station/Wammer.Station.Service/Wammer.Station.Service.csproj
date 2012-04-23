@@ -114,6 +114,8 @@
   <ItemGroup>
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
     <Compile Include="Model\GenericData.cs" />
+    <Compile Include="Model\QueuedTasks.cs" />
+    <Compile Include="Queue\MongoPersistentStorage.cs" />
     <Compile Include="Station\BodySyncTaskRunner.cs" />
     <Compile Include="Cloud\AttachmentApi.cs" />
     <Compile Include="Cloud\Response\AttachmentResponse.cs" />
