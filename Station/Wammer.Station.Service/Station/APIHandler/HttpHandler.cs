@@ -247,7 +247,7 @@ namespace Wammer.Station
 			}
 			else if (req.HttpMethod.ToUpper().Equals("GET"))
 			{
-				return req.QueryString;
+				return HttpUtility.ParseQueryString(Request.Url.Query);//req.QueryString;
 			}
 
 			return new NameValueCollection();
