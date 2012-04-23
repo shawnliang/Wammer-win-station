@@ -30,9 +30,30 @@ namespace Wammer.Station
 		private static WMSQueue mqVeryLowPriority;
 
 
-		public static int MaxCurrentTaskCount { get; set; }
+		public static int MaxConcurrentTaskCount
+		{
+			get
+			{
+				return maxConcurrentTaskCount;
+			}
+
+			set
+			{
+				maxConcurrentTaskCount = value;
+				maxRunningNonHighTaskCount = maxRunningNonHighTaskCount / 2;
+
+				if (maxRunningNonHighTaskCount == 0)
+					maxRunningNonHighTaskCount = 1;
+			}
+		}
+
+		private static int maxConcurrentTaskCount;
 		private static int runningTaskCount;
 		private static int totalTaskCount;
+		private static int waitingHighTaskCount;
+		private static int maxRunningNonHighTaskCount;
+		private static int runningNonHighTaskCount;
+
 		private static object lockObj = new object();
 
 		static TaskQueue()
@@ -44,9 +65,7 @@ namespace Wammer.Station
 			mqLowPriority = mqBroker.GetQueue("low");
 			mqVeryLowPriority = mqBroker.GetQueue("verylow");
 
-			MaxCurrentTaskCount = 6;
-			runningTaskCount = 0;
-			totalTaskCount = 0;
+			MaxConcurrentTaskCount = 6;
 		}
 
 		/// <summary>
@@ -80,10 +99,10 @@ namespace Wammer.Station
 			else
 				throw new ArgumentOutOfRangeException("unknown priority: " + priority.ToString());
 
-			Enqueue(queue, task, persistent);
+			Enqueue(priority, queue, task, persistent);
 		}
 
-		private static void Enqueue(WMSQueue queue, ITask task, bool persistent)
+		private static void Enqueue(TaskPriority priority, WMSQueue queue, ITask task, bool persistent)
 		{
 			itemsInQueue.Increment();
 
@@ -92,15 +111,48 @@ namespace Wammer.Station
 			lock (lockObj)
 			{
 				++totalTaskCount;
-				if (runningTaskCount < MaxCurrentTaskCount)
+				if (priority == TaskPriority.High)
+					++waitingHighTaskCount;
+
+				_scheduleNextTaskToRun();
+			}
+		}
+
+		private static void _scheduleNextTaskToRun()
+		{
+			if (!reachConcurrentTaskLimit())
+			{
+				if (IsAHighPriorityTaskWaiting())
 				{
-					ThreadPool.QueueUserWorkItem(RunPriorityQueue);
 					++runningTaskCount;
+					--waitingHighTaskCount;
+					ThreadPool.QueueUserWorkItem(RunPriorityQueue);
+				}
+				else if (!reachNonHighPriorityTaskLimit())
+				{
+					++runningTaskCount;
+					++runningNonHighTaskCount;
+					ThreadPool.QueueUserWorkItem(RunPriorityQueue);
 				}
 			}
 		}
 
-		private static WMSMessage Dequeue()
+		private static bool reachNonHighPriorityTaskLimit()
+		{
+			return runningNonHighTaskCount >= maxRunningNonHighTaskCount;
+		}
+
+		private static bool IsAHighPriorityTaskWaiting()
+		{
+			return waitingHighTaskCount > 0;
+		}
+
+		private static bool reachConcurrentTaskLimit()
+		{
+			return runningTaskCount >= MaxConcurrentTaskCount;
+		}
+
+		private static DequeuedItem Dequeue()
 		{
 
 			WMSMessage item = null;
@@ -109,15 +161,19 @@ namespace Wammer.Station
 			{
 				item = mqSession.Pop(mqHighPriority);
 				if (item != null)
-					return item;
+					return new DequeuedItem(item, TaskPriority.High);
 
 				item = mqSession.Pop(mqMediumPriority);
 				if (item != null)
-					return item;
+					return new DequeuedItem(item, TaskPriority.Medium);
 
 				item = mqSession.Pop(mqLowPriority);
 				if (item != null)
-					return item;
+					return new DequeuedItem(item, TaskPriority.Low);
+
+				item = mqSession.Pop(mqVeryLowPriority);
+				if (item != null)
+					return new DequeuedItem(item, TaskPriority.VeryLow);
 			}
 			finally
 			{
@@ -130,13 +186,13 @@ namespace Wammer.Station
 
 		public static void RunPriorityQueue(object nil)
 		{
-			WMSMessage queueItem = null;
+			DequeuedItem dequeuedItem = null;
 			
 			try
 			{
 				itemsInProgress.Increment();
-				queueItem = Dequeue();
-				((ITask)queueItem.Data).Execute();
+				dequeuedItem = Dequeue();
+				((ITask)dequeuedItem.Item.Data).Execute();
 			}
 			catch (Exception e)
 			{
@@ -145,21 +201,34 @@ namespace Wammer.Station
 			finally
 			{
 				itemsInProgress.Decrement();
-				queueItem.Acknowledge();
+				dequeuedItem.Item.Acknowledge();
 
 				lock (lockObj)
 				{
 					--runningTaskCount;
 					--totalTaskCount;
 
-					if (totalTaskCount > runningTaskCount &&
-						runningTaskCount < MaxCurrentTaskCount)
-					{
-						System.Threading.ThreadPool.QueueUserWorkItem(RunPriorityQueue);
-						++runningTaskCount;
-					}
+					if (dequeuedItem.Priority != TaskPriority.High)
+						--runningNonHighTaskCount;
+
+					_scheduleNextTaskToRun();
 				}
 			}
+		}
+	}
+
+	class DequeuedItem
+	{
+		public WMSMessage Item { get; private set; }
+		public TaskPriority Priority { get; private set; }
+
+		public DequeuedItem(WMSMessage item, TaskPriority priority)
+		{
+			if (item == null)
+				throw new ArgumentNullException("item");
+
+			this.Item = item;
+			this.Priority = priority;
 		}
 	}
 
