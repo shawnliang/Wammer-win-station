@@ -89,7 +89,7 @@ namespace Wammer.Station
 				preview = new Preview()
 			};
 
-			//TODO: Set event time
+			post.event_time = timeStamp.ToString("u");
 
 			post.type = Parameters[CloudServer.PARAM_TYPE];
 
