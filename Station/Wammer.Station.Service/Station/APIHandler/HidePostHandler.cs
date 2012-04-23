@@ -43,7 +43,7 @@ namespace Wammer.Station
 			PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("hidden", "true"));
 
 			if (m_PostUploader != null)
-				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters);
+				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.Hide, Parameters);
 
 			RespondSuccess(new HidePostResponse() 
 			{
