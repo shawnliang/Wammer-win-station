@@ -120,9 +120,9 @@ namespace Wammer.Station
 
 		private static void _scheduleNextTaskToRun()
 		{
-			if (!reachConcurrentTaskLimit())
+			if (isATaskWaiting() && !reachConcurrentTaskLimit())
 			{
-				if (IsAHighPriorityTaskWaiting())
+				if (isAHighPriorityTaskWaiting())
 				{
 					++runningTaskCount;
 					--waitingHighTaskCount;
@@ -137,12 +137,17 @@ namespace Wammer.Station
 			}
 		}
 
+		private static bool isATaskWaiting()
+		{
+			return totalTaskCount > runningTaskCount;
+		}
+
 		private static bool reachNonHighPriorityTaskLimit()
 		{
 			return runningNonHighTaskCount >= maxRunningNonHighTaskCount;
 		}
 
-		private static bool IsAHighPriorityTaskWaiting()
+		private static bool isAHighPriorityTaskWaiting()
 		{
 			return waitingHighTaskCount > 0;
 		}
