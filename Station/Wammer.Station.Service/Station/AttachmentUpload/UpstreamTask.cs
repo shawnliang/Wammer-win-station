@@ -35,7 +35,10 @@ namespace Wammer.Station.AttachmentUpload
 
 			Driver user = DriverCollection.Instance.FindDriverByGroupId(attachment.group_id);
 			if (user == null)
+			{
+				this.LogDebugMsg("User of group id " + attachment.group_id + " is removed? Abort upstream attachment " + object_id);
 				return;
+			}
 
 			if (this.meta == ImageMeta.Origin || this.meta == ImageMeta.None)
 			{
@@ -46,14 +49,17 @@ namespace Wammer.Station.AttachmentUpload
 						userInfo.storages.waveface.interval.GetIntervalEndTime(),
 						this.priority, this));
 
+					this.LogWarnMsg("Postpone upstream attachment " + object_id + " to " + userInfo.storages.waveface.interval.GetIntervalEndTime() + "due to over quota");
 					return;
 				}
 			}
 
-
 			IAttachmentInfo info = attachment.GetInfoByMeta(meta);
 			if (info == null)
+			{
+				this.LogErrorMsg("Abort upstream attachment " + object_id + " due to attachment info of " + meta + " is empty. Logic Error?");
 				return;
+			}
 
 			FileStorage fileStorage = new FileStorage(user);
 
