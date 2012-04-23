@@ -66,9 +66,6 @@ namespace UT_WammerStation
 			task = queue.Dequeue();
 			Assert.IsTrue(task is UpdatePostTask);
 			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.IsTrue(task is NullPostUploadTask);
-			queue.Done(task);
 		}
 
 		[TestMethod]
@@ -76,7 +73,6 @@ namespace UT_WammerStation
 		{
 			PostUploadTaskQueue queue = new PostUploadTaskQueue();
 			queue.InitFromDB();
-			Assert.IsTrue(queue.Dequeue() is NullPostUploadTask);
 		}
 
 		[TestMethod]
@@ -104,10 +100,6 @@ namespace UT_WammerStation
 
 			doc = PostUploadTasksCollection.Instance.FindOne();
 			Assert.AreEqual(doc, null);
-
-			task = queue.Dequeue();
-			Assert.IsTrue(queue.Dequeue() is NullPostUploadTask);
-			queue.Done(task);
 		}
 
 		[TestMethod]
@@ -123,56 +115,6 @@ namespace UT_WammerStation
 
 			queue.Undo(task);
 			Assert.IsTrue(queue.Dequeue() is NewPostTask);
-			queue.Done(task);
-		}
-
-		[TestMethod]
-		public void TestRoundRobin()
-		{
-			PostUploadTaskQueue queue = new PostUploadTaskQueue();
-			queue.InitFromDB();
-			queue.Enqueue(new NewPostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new NewPostTask { PostId = POST_ID2, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { PostId = POST_ID2, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-
-			PostUploadTask task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID1);
-			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID2);
-			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID1);
-			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID2);
-			queue.Done(task);
-		}
-
-		[TestMethod]
-		public void TestUndoRoundRobin()
-		{
-			PostUploadTaskQueue queue = new PostUploadTaskQueue();
-			queue.InitFromDB();
-			queue.Enqueue(new NewPostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new NewPostTask { PostId = POST_ID2, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { PostId = POST_ID2, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-
-			PostUploadTask task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID1);
-
-			queue.Undo(task);
-
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID2);
-			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID1);
-			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID2);
 			queue.Done(task);
 		}
 

@@ -15,7 +15,7 @@ namespace Wammer.PostUpload
 {
 	public class PostUploadTaskQueue
 	{
-		private Queue<string> postIdQueue;
+		private HashSet<string> postIdSet;
 		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
 		private object cs = new object();
 		private PostUploadMonitor monitor = new PostUploadMonitor();
@@ -38,7 +38,7 @@ namespace Wammer.PostUpload
 
 		public void InitFromDB()
 		{
-			postIdQueue = new Queue<string>();
+			postIdSet = new HashSet<string>();
 			postQueue = new Dictionary<string, LinkedList<PostUploadTask>>();
 			foreach (PostUploadTasks ptasks in PostUploadTasksCollection.Instance.FindAll())
 			{
@@ -46,9 +46,8 @@ namespace Wammer.PostUpload
 				{
 					task.Status = PostUploadTaskStatus.Wait;
 					monitor.PostUploadTaskEnqueued();
+					Enqueue(task);
 				}
-				postQueue.Add(ptasks.post_id, ptasks.tasks);
-				postIdQueue.Enqueue(ptasks.post_id);
 			}
 		}
 
@@ -66,7 +65,7 @@ namespace Wammer.PostUpload
 					queue = new LinkedList<PostUploadTask>();
 					queue.AddLast(task);
 					postQueue.Add(task.PostId, queue);
-					postIdQueue.Enqueue(task.PostId);
+					postIdSet.Add(task.PostId);
 
 					AddAvailableHeadTask();
 				}
@@ -82,18 +81,18 @@ namespace Wammer.PostUpload
 			IsAvailableHeadTaskExist();
 			lock (cs)
 			{
-				PostUploadTask task;
-				do
+				foreach (string targetPostId in postIdSet)
 				{
-					string targetPostId = postIdQueue.Dequeue();
-					postIdQueue.Enqueue(targetPostId);
-					LinkedList<PostUploadTask> targetUploadTaskQueue = new LinkedList<PostUploadTask>();
+					LinkedList<PostUploadTask> targetUploadTaskQueue;
 					Debug.Assert(postQueue.TryGetValue(targetPostId, out targetUploadTaskQueue));
-					task = targetUploadTaskQueue.First();
-				} while (task.Status != PostUploadTaskStatus.Wait);
-				
-				task.Status = PostUploadTaskStatus.InProgress;
-				return task;
+					PostUploadTask task = targetUploadTaskQueue.First();
+					if (task.Status == PostUploadTaskStatus.Wait)
+					{
+						task.Status = PostUploadTaskStatus.InProgress;
+						return task;
+					}
+				}
+				throw new InvalidOperationException("No available head tasks in queue");
 			}
 		}
 
@@ -114,6 +113,7 @@ namespace Wammer.PostUpload
 				}
 				else
 				{
+					postIdSet.Remove(task.PostId);
 					postQueue.Remove(task.PostId);
 					PostUploadTasksCollection.Instance.Remove(
 						Query.EQ("_id", task.PostId));

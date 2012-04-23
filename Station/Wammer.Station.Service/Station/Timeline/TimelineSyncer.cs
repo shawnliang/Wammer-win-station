@@ -68,12 +68,15 @@ namespace Wammer.Station.Timeline
 
 				OnPostsRetrieved(user, res.posts);
 
-				db.UpdateDriverSyncRange(user.user_id, new SyncRange
-					{
-						start_time = res.posts.Last().timestamp,
-						end_time = (user.sync_range == null) ? res.posts.First().timestamp : user.sync_range.end_time,
-						first_post_time = (res.HasMoreData) ? null as Nullable<DateTime> : res.posts.Last().timestamp
-					});
+				if (res.posts.Count > 0)
+				{
+					db.UpdateDriverSyncRange(user.user_id, new SyncRange
+						{
+							start_time = res.posts.Last().timestamp,
+							end_time = (user.sync_range == null) ? res.posts.First().timestamp : user.sync_range.end_time,
+							first_post_time = (res.HasMoreData) ? null as Nullable<DateTime> : res.posts.Last().timestamp
+						});
+				}
 			}
 		}
 		/// <summary>
