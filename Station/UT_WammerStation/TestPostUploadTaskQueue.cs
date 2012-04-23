@@ -119,56 +119,6 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestRoundRobin()
-		{
-			PostUploadTaskQueue queue = new PostUploadTaskQueue();
-			queue.InitFromDB();
-			queue.Enqueue(new NewPostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new NewPostTask { PostId = POST_ID2, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { PostId = POST_ID2, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-
-			PostUploadTask task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID1);
-			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID2);
-			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID1);
-			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID2);
-			queue.Done(task);
-		}
-
-		[TestMethod]
-		public void TestUndoRoundRobin()
-		{
-			PostUploadTaskQueue queue = new PostUploadTaskQueue();
-			queue.InitFromDB();
-			queue.Enqueue(new NewPostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { PostId = POST_ID1, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new NewPostTask { PostId = POST_ID2, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-			queue.Enqueue(new UpdatePostTask { PostId = POST_ID2, Timestamp = TIMESTAMP, UserId = USER_ID1, Parameters = PARAM });
-
-			PostUploadTask task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID1);
-
-			queue.Undo(task);
-
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID2);
-			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID1);
-			queue.Done(task);
-			task = queue.Dequeue();
-			Assert.AreEqual(task.PostId, POST_ID2);
-			queue.Done(task);
-		}
-
-		[TestMethod]
 		public void TestPostUploadTaskController()
 		{
 			List<UserGroup> groups = new List<UserGroup>();
