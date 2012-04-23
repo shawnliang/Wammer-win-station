@@ -37,7 +37,7 @@ namespace Wammer.Station.APIHandler
 
 		protected override void HandleRequest()
 		{
-			CheckParameter("session_token", "apikey", "group_id", "type", "file_name");
+			CheckParameter("session_token", "apikey", "group_id", "type");
 
 			UploadData data = GetUploadData();
 
@@ -58,8 +58,10 @@ namespace Wammer.Station.APIHandler
 			data.title = Parameters["title"];
 			data.description = Parameters["description"];
 			data.group_id = Parameters["group_id"];
-			
-			
+
+			data.api_key = Parameters["apikey"];
+			data.session_token = Parameters["session_token"];
+
 			try
 			{
 				data.type = (AttachmentType)Enum.Parse(typeof(AttachmentType),
@@ -79,6 +81,9 @@ namespace Wammer.Station.APIHandler
 
 			if (data.raw_data.Array == null)
 				throw new FormatException("file is missing in file upload multipart data");
+
+			if (string.IsNullOrEmpty(data.file_name))
+				throw new FormatException("file_name is null or empty");
 
 			return data;
 		}
