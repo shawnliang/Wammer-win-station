@@ -181,7 +181,7 @@ namespace Wammer.Station
 					.Set("image_meta.width", downloadResult.Metadata.image_meta.width)
 					.Set("image_meta.height", downloadResult.Metadata.image_meta.height)
 					.Set("md5", downloadResult.Metadata.md5)
-					.Set("type", (int)(ImageMeta)Enum.Parse(typeof(ImageMeta), downloadResult.Metadata.type, true))
+					.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), downloadResult.Metadata.type, true))
 					.Set("group_id", downloadResult.Metadata.group_id)
 					.Set("saved_file_name", fileName)
 					.Set("is_body_upstreamed", true), UpdateFlags.Upsert);
@@ -193,7 +193,7 @@ namespace Wammer.Station
 					.Set("group_id", downloadResult.Metadata.group_id)
 					.Set("file_name", downloadResult.Metadata.file_name)
 					.Set("is_thumb_upstreamed", true)
-					.Set("type", (int)(ImageMeta)Enum.Parse(typeof(ImageMeta), downloadResult.Metadata.type, true))
+					.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), downloadResult.Metadata.type, true))
 					.Set("image_meta." + metaStr, new ThumbnailInfo()
 					{
 						mime_type = downloadResult.ContentType,
