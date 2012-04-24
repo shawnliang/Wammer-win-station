@@ -971,19 +971,14 @@ namespace StationSystemTray
 			{
 				var upRemainedCount = m_UpRemainedCountCounter.NextSample().RawValue;
 				var downloadRemainedCount = m_DownRemainedCountCounter.NextSample().RawValue;
-				//var upSpeedSample = m_UpStreamRateCounter.NextSample();
-				var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;//CounterSample.Calculate(_PreUpSpeedSample, upSpeedSample) / 1024;
-				//var downloadSpeedSample = m_DownStreamRateCounter.NextSample();
-				var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;//CounterSample.Calculate(_PreDownloadSpeedSample, downloadSpeedSample) / 1024;
+				var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
+				var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
 
 				var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
 				var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
 
-				upSpeed = (upSpeed >= 1024) ? upSpeed / 1024 : upSpeed;
-				downloadSpeed = (downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed;
-
-				//_PreUpSpeedSample = upSpeedSample;
-				//_PreDownloadSpeedSample = downloadSpeedSample;
+				upSpeed = upRemainedCount == 0? 0: ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
+				downloadSpeed = downloadSpeed == 0? 0: ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
 
 				iconText = string.Format("{0}{1}↑ ({2}): {3:0.0} {4}{5}↓ ({6}): {7:0.0}{8}",
 					iconText,

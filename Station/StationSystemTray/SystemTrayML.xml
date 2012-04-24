@@ -138,13 +138,13 @@
   </WItem>
   <WItem>
     <ID>PauseWFService</ID>
-    <en-US>Pause Service</en-US>
-    <zh-TW>暫停服務</zh-TW>
+    <en-US>Pause sync</en-US>
+    <zh-TW>暫停同步</zh-TW>
   </WItem>
   <WItem>
     <ID>ResumeWFService</ID>
-    <en-US>Resume Service</en-US>
-    <zh-TW>重啟服務</zh-TW>
+    <en-US>Resume sync</en-US>
+    <zh-TW>重啟同步</zh-TW>
   </WItem>
   <WItem>
     <ID>QuitWFService</ID>
@@ -153,33 +153,33 @@
   </WItem>
   <WItem>
     <ID>StartingWFService</ID>
-    <en-US>Starting Waveface Station...</en-US>
-    <zh-TW>正在啟動 Waveface Station...</zh-TW>
+    <en-US>Starting sync...</en-US>
+    <zh-TW>正在啟動同步...</zh-TW>
   </WItem>
   <WItem>
     <ID>PausingWFService</ID>
-    <en-US>Pausing Service...</en-US>
-    <zh-TW>正在暫停服務...</zh-TW>
+    <en-US>Pausing sync...</en-US>
+    <zh-TW>正在暫停同步...</zh-TW>
   </WItem>
   <WItem>
     <ID>ResumingWFService</ID>
-    <en-US>Resuming Service...</en-US>
-    <zh-TW>正在重啟服務...</zh-TW>
+    <en-US>Resuming Sync...</en-US>
+    <zh-TW>正在重啟同步...</zh-TW>
   </WItem>
   <WItem>
     <ID>WFServiceRunning</ID>
-    <en-US>Waveface Station is running</en-US>
-    <zh-TW>Waveface Station 執行中</zh-TW>
+    <en-US>Waveface Station is syncing</en-US>
+    <zh-TW>Waveface Station 同步中</zh-TW>
   </WItem>
   <WItem>
     <ID>WFServiceStopped</ID>
-    <en-US>Waveface Station is stopped</en-US>
-    <zh-TW>Waveface Station 已停止</zh-TW>
+    <en-US>Waveface Station is stop syncing</en-US>
+    <zh-TW>Waveface Station 中斷同步</zh-TW>
   </WItem>
   <WItem>
     <ID>WFServiceStartFail</ID>
-    <en-US>Unable to start Waveface Station</en-US>
-    <zh-TW>無法啟動 Waveface Station</zh-TW>
+    <en-US>Unable to start syncing</en-US>
+    <zh-TW>無法啟動同步</zh-TW>
   </WItem>
   <WItem>
     <ID>ConnectCloudStorageFail</ID>
