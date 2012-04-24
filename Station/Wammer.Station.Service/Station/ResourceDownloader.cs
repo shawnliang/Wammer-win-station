@@ -62,6 +62,10 @@ namespace Wammer.Station
 		{
 			foreach (PostInfo post in posts)
 			{
+
+				if (string.Compare(post.hidden, "true", true) == 0)
+					return;
+
 				foreach (AttachmentInfo attachment in post.attachments)
 				{
 					// driver might be removed before running download tasks
