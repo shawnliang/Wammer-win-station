@@ -370,7 +370,7 @@ namespace Waveface.DetailUI
                 string _fileNameO = string.Empty;
                 Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, false);
 
-                string _localFileO = Path.Combine( Main.GCONST.ImageCachePath , _fileNameO);
+                string _localFileO = Path.Combine(Main.GCONST.ImageCachePath, _fileNameO);
 
                 m_filePathOrigins.Add(_localFileO);
 
@@ -384,7 +384,7 @@ namespace Waveface.DetailUI
                 string _fileNameM = string.Empty;
                 Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM, false);
 
-                string _localFileM = Path.Combine(Main.GCONST.ImageCachePath ,_fileNameM);
+                string _localFileM = Path.Combine(Main.GCONST.ImageCachePath, _fileNameM);
 
                 m_filePathMediums.Add(_localFileM);
 
@@ -450,7 +450,7 @@ namespace Waveface.DetailUI
 
             string _cover_attach = m_post.cover_attach;
 
-            if(string.IsNullOrEmpty(m_post.cover_attach))
+            if (string.IsNullOrEmpty(m_post.cover_attach))
                 _cover_attach = m_imageAttachments[0].object_id;
 
             for (int i = 0; i < m_imageAttachments.Count; i++)

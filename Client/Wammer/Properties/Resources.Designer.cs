@@ -165,34 +165,6 @@ namespace Waveface.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap dragNdrop_loading1 {
-            get {
-                object obj = ResourceManager.GetObject("dragNdrop_loading1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap dragNdrop_loading2 {
-            get {
-                object obj = ResourceManager.GetObject("dragNdrop_loading2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap dragNdrop_loading3 {
-            get {
-                object obj = ResourceManager.GetObject("dragNdrop_loading3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap dragNdrop_loading4 {
-            get {
-                object obj = ResourceManager.GetObject("dragNdrop_loading4", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap Error {
             get {
                 object obj = ResourceManager.GetObject("Error", resourceCulture);
@@ -266,6 +238,20 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap FB_newpost {
             get {
                 object obj = ResourceManager.GetObject("FB_newpost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_newpost_btn {
+            get {
+                object obj = ResourceManager.GetObject("FB_newpost_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_newpost_btn_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_newpost_btn_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -663,6 +649,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap titlebar_4 {
             get {
                 object obj = ResourceManager.GetObject("titlebar_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ToLeft {
+            get {
+                object obj = ResourceManager.GetObject("ToLeft", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

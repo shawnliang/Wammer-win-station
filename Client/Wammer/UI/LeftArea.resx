@@ -117,84 +117,186 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="panelBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="panelBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 616</value>
+  <data name="monthCalendar.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
   </data>
-  <data name="panelBottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 36</value>
+  <data name="&gt;&gt;vsNetListBarGroups.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="panelBottom.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.Name" xml:space="preserve">
-    <value>panelBottom</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;panelCustomFilter.Name" xml:space="preserve">
+    <value>panelCustomFilter</value>
   </data>
   <data name="&gt;&gt;panelBottom.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="pbDropArea.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
+  <data name="pbDropArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 155</value>
   </data>
-  <data name="pbDropArea.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="&gt;&gt;tvTimeline.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tvCustomFilter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 6</value>
+  </data>
+  <data name="monthCalendar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="&gt;&gt;panelTimeline.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="vsNetListBarGroups.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 26</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="panelTimeline.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
-  <data name="pbDropArea.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11.25pt</value>
+  <data name="&gt;&gt;panelCalendar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="pbDropArea.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;panelFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="pbDropArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 616</value>
   </data>
-  <data name="pbDropArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 171</value>
+  <data name="&gt;&gt;panelMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="pbDropArea.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>CenterImage</value>
-  </data>
-  <data name="pbDropArea.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="pbDropArea.Text" xml:space="preserve">
-    <value>Drag &amp;&amp; drop the file to start the sharing</value>
-  </data>
-  <data name="&gt;&gt;pbDropArea.Name" xml:space="preserve">
-    <value>pbDropArea</value>
-  </data>
-  <data name="&gt;&gt;pbDropArea.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>LeftArea</value>
   </data>
   <data name="&gt;&gt;pbDropArea.Parent" xml:space="preserve">
     <value>panelMain</value>
   </data>
-  <data name="&gt;&gt;pbDropArea.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="tvCustomFilter.ImageIndex" type="System.Int32, mscorlib">
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="pbDropArea.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <metadata name="imageListCustomFilter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>440, 17</value>
-  </metadata>
+  <data name="&gt;&gt;pbDropArea.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pbDropArea.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="vsNetListBarGroups.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 155</value>
+  </data>
+  <data name="btnNewPost.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 29</value>
+  </data>
+  <data name="panelFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;panelCalendar.Parent" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;pbDropArea.Name" xml:space="preserve">
+    <value>pbDropArea</value>
+  </data>
+  <data name="tvTimeline.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 4</value>
+  </data>
+  <data name="&gt;&gt;panelCalendar.Name" xml:space="preserve">
+    <value>panelCalendar</value>
+  </data>
+  <data name="panelBottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 36</value>
+  </data>
+  <data name="pbDropArea.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;btnNewPost.Parent" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="panelFilter.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="panelMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tvCustomFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 80</value>
+  </data>
+  <data name="panelFilter.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnNewPost.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panelTimeline.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;panelTimeline.Parent" xml:space="preserve">
+    <value>panelFilter</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
+    <value>cultureManager</value>
+  </data>
+  <data name="&gt;&gt;tvCustomFilter.Parent" xml:space="preserve">
+    <value>panelCustomFilter</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;vsNetListBarGroups.Type" xml:space="preserve">
+    <value>Waveface.Component.ListBarControl.VSNetListBar, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tvTimeline.Name" xml:space="preserve">
+    <value>tvTimeline</value>
+  </data>
+  <data name="&gt;&gt;panelCustomFilter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnNewPost.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tvCustomFilter.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="panelBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="panelTimeline.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 145</value>
+  </data>
+  <data name="panelCustomFilter.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="pbDropArea.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>CenterImage</value>
+  </data>
+  <data name="panelCalendar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 182</value>
+  </data>
+  <data name="panelFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 253</value>
+  </data>
+  <data name="tvTimeline.ImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;monthCalendar.Parent" xml:space="preserve">
+    <value>panelCalendar</value>
+  </data>
+  <data name="panelCustomFilter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 145</value>
+  </data>
   <data name="imageListCustomFilter.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAA0
-        CAAAAk1TRnQBSQFMAgEBAgEAASQBBAEkAQQBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAASwBBQE8AQUBEAEAARABAAT/AQkBEAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -229,395 +331,51 @@
         AgcB8DkAAf8B7wHyAfABBzwAAfIB7wGSAfC0AAFCAU0BPgcAAT4DAAEoAwABQAMAARADAAEBAQABAQUA
         AYAXAAP/AQAE/wQABP8EAAT/BAAB4QP/BAAB4AP/BAAB4AF/AfgBHwQAAeABfwH4AR8EAAHwAQcB+AEf
         BAAB+AEDAfgBHwQAAfwBAwH4AR8EAAH+AQMB+AEfBAAB/gEDAv8EAAH+AQ8C/wQAAf8BDwL/BAAE/wQA
-        BP8EAAs=
+        BP8aAAs=
 </value>
   </data>
-  <data name="tvCustomFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 26</value>
-  </data>
-  <data name="tvCustomFilter.SelectedImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tvCustomFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 116</value>
-  </data>
-  <data name="tvCustomFilter.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tvCustomFilter.Name" xml:space="preserve">
-    <value>tvCustomFilter</value>
-  </data>
-  <data name="&gt;&gt;tvCustomFilter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tvCustomFilter.Parent" xml:space="preserve">
-    <value>panelCustomFilter</value>
-  </data>
-  <data name="&gt;&gt;tvCustomFilter.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelCustomFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelCustomFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 145</value>
-  </data>
   <data name="panelCustomFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 92</value>
-  </data>
-  <data name="panelCustomFilter.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;panelCustomFilter.Name" xml:space="preserve">
-    <value>panelCustomFilter</value>
-  </data>
-  <data name="&gt;&gt;panelCustomFilter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelCustomFilter.Parent" xml:space="preserve">
-    <value>panelFilter</value>
-  </data>
-  <data name="&gt;&gt;panelCustomFilter.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tvTimeline.ImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tvTimeline.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 4</value>
-  </data>
-  <data name="tvTimeline.SelectedImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tvTimeline.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 135</value>
+    <value>176, 108</value>
   </data>
   <data name="tvTimeline.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;tvTimeline.Name" xml:space="preserve">
-    <value>tvTimeline</value>
-  </data>
-  <data name="&gt;&gt;tvTimeline.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tvTimeline.Parent" xml:space="preserve">
-    <value>panelTimeline</value>
-  </data>
-  <data name="&gt;&gt;tvTimeline.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelTimeline.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelTimeline.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panelTimeline.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 145</value>
-  </data>
-  <data name="panelTimeline.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;panelTimeline.Name" xml:space="preserve">
-    <value>panelTimeline</value>
-  </data>
-  <data name="&gt;&gt;panelTimeline.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelTimeline.Parent" xml:space="preserve">
-    <value>panelFilter</value>
-  </data>
-  <data name="&gt;&gt;panelTimeline.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 379</value>
-  </data>
-  <data name="panelFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 237</value>
-  </data>
-  <data name="panelFilter.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="panelFilter.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;panelFilter.Name" xml:space="preserve">
-    <value>panelFilter</value>
-  </data>
-  <data name="&gt;&gt;panelFilter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelFilter.Parent" xml:space="preserve">
-    <value>panelMain</value>
-  </data>
-  <data name="&gt;&gt;panelFilter.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="monthCalendar.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="monthCalendar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="monthCalendar.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;monthCalendar.Name" xml:space="preserve">
-    <value>monthCalendar</value>
-  </data>
-  <data name="&gt;&gt;monthCalendar.Type" xml:space="preserve">
-    <value>CustomControls.MonthCalendar, MonthCalendarControl, Version=1.0.4496.27845, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;monthCalendar.Parent" xml:space="preserve">
-    <value>panelCalendar</value>
-  </data>
-  <data name="&gt;&gt;monthCalendar.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelCalendar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelCalendar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 197</value>
-  </data>
-  <data name="panelCalendar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 182</value>
-  </data>
   <data name="panelCalendar.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;panelCalendar.Name" xml:space="preserve">
-    <value>panelCalendar</value>
-  </data>
-  <data name="&gt;&gt;panelCalendar.Type" xml:space="preserve">
+  <data name="&gt;&gt;panelCustomFilter.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelCalendar.Parent" xml:space="preserve">
-    <value>panelMain</value>
-  </data>
-  <data name="&gt;&gt;panelCalendar.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="vsNetListBarGroups.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <metadata name="imageListLarge.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>300, 17</value>
-  </metadata>
-  <data name="imageListLarge.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADy
-        FwAAAk1TRnQBSQFMAwEBAAEEAQcBBAEHASABAAEgAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABgAMA
-        ASADAAEBAQABIAYAAUD/AP8A/wD/ABoAAxkBIwMtAUUDNAFUAzoBYgM/AW0DQwF4A0MBeANDAXgDQwF4
-        A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4
-        A0MBeANDAXgDOgFgAy4BSAMaAST/AI0AAy0BRQNKAYoCUgFRAacCWwFZAcMCYQFeAdoCXQFOAfACXQFO
-        AfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFO
-        AfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACWgFY
-        AcADTAGQAy4BSP8AjQADNwFbA1YBtgNcAcwDYQHhA10B7QNcAfgDXAH4A1wB+ANcAfgDXAH4A1wB+ANc
-        AfgDXAH4A1wB+ANcAfgDXAH4A1wB+ANcAfgDXAH4A1wB+ANcAfgDXAH4A1wB+ANcAfgDXAH4A1wB+ANh
-        AdwCWgFYAcADOgFg/wCNAANAAXECYQFbAeEDXQHwAe4B7AHqAf8B8wHvAe0B/wH3AfIB8AH/AfgB8wHw
-        Af8B+AHzAfAB/wH4AfMB8AH/AfgB8wHvAf8B+AHzAe8B/wH3AfMB7wH/AfcB8wHvAf8B9wHyAe8B/wH3
-        AfIB7wH/AfcB8gHuAf8B9wHyAe4B/wH3AfIB7gH/AfcB8gHuAf8B9wHyAe4B/wH3AfIB7gH/AfcB8gHu
-        Af8B+AHyAe4B/wH4AfIB7gH/AfUB8AHsAf8B8QHuAeoB/wNtAfcCYgFYAe8DQwF4/wCNAANCAXUCYgFY
-        AekDZQH0AfIB7gHrAf8B9wHuAegB/wH6Ae0B5AH/AfsB7gHkAf8B+wHuAeQB/wH7Ae4B5AH/AfsB7gHj
-        Af8B+wHuAeMB/wH7Ae4B4wH/AfsB7gHjAf8B+wHtAeMB/wH7Ae0B4wH/AfsB7QHjAf8B+wHtAeMB/wH7
-        Ae0B4wH/AfsB7QHjAf8B+wHtAeMB/wH7Ae0B4wH/AfsB7QHjAf8B+wHtAeMB/wH7Ae0B4wH/AfgB7QHl
-        Af8B9AHtAegB/wNcAfgCXQFOAfADQwF4/wCNAANDAXgCXQFOAfADXAH4AfYB8AHsAf8B+gHsAeIB/wH9
-        AegB1wH/Af4B6AHXAf8B/gHoAdcB/wH+AegB1wH/Af4B6AHXAf8B/gHoAdcB/wH+AegB1wH/Af4B6AHX
-        Af8B/gHoAdcB/wH+AegB1wH/Af4B6AHXAf8B/gHoAdcB/wH+AegB1wH/Af4B6AHXAf8B/gHoAdcB/wH+
-        AegB1wH/Af4B6AHXAf8B/gHoAdcB/wH9AegB1wH/AfoB6gHeAf8B9wHsAeUB/wNcAfgCXQFOAfADQwF4
-        /wCNAANDAXgCXQFOAfADXAH4AfcB8AHsAf8B2wHLAb0B/wG/AaUBjQH/AcsBrQGSAf8B1QG1AZgB/wHV
-        AbUBmAH/AdUBtQGYAf8B1QG1AZgB/wHVAbUBmAH/AdUBtQGYAf8B1QG1AZgB/wHVAbUBmAH/AdUBtQGY
-        Af8B1QG1AZgB/wHVAbUBmAH/AdUBtQGYAf8B1QG1AZgB/wHVAbUBmAH/AdUBtQGYAf8BywGtAZIB/wG/
-        AaUBjQH/AdsByQG5Af8B9wHsAeUB/wNcAfgCXQFOAfADQwF4/wCNAANDAXgCXQFOAfADXAH4AfcB8AHs
-        Af8BvAGpAZcB/wGBAgAB/wGXAgAB/wGsAYIBAAH/AawBggEAAf8BrAGCAQAB/wGsAYIBAAH/AawBggEA
-        Af8BrAGCAQAB/wGsAYIBAAH/AawBggEAAf8BrAGCAQAB/wGsAYIBAAH/AawBggEAAf8BrAGCAQAB/wGs
-        AYIBAAH/AawBggEAAf8BrAGCAQAB/wGXAgAB/wGBAgAB/wG8AacBlAH/AfYB7AHlAf8DXAH4Al0BTgHw
-        A0MBeP8AjQADQwF4Al0BTgHwA1wB+AH3AfAB7AH/AccBsQGdAf8BlwIAAf8BsAGFAQAB/wHJAZgBAAH/
-        AckBmAEAAf8ByQGYAQAB/wHJAZgBAAH/AckBmAEAAf8ByQGYAQAB/wHJAZgBAAH/AckBmAEAAf8ByQGY
-        AQAB/wHJAZgBAAH/AckBmAEAAf8ByQGYAQAB/wHJAZgBAAH/AckBmAEAAf8ByQGYAQAB/wGwAYUBAAH/
-        AZcCAAH/AccBsAGaAf8B9gHtAeUB/wNcAfgCXQFOAfADQwF4/wCNAANDAXgCXQFOAfADXAH4AfcB8AHr
-        Af8B0gG5AaIB/wGsAYIBAAH/AckBmAEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHl
-        Aa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEA
-        Af8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8ByQGYAQAB/wGsAYIBAAH/AdEBuAGfAf8B9gHtAeUB/wNc
-        AfgCXQFOAfADQwF4/wCNAANDAXgCXQFOAfADXAH4AfcB8QHsAf8B0gG6AaIB/wGsAYIBAAH/AckBmAEA
-        Af8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHl
-        Aa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEA
-        Af8ByQGYAQAB/wGsAYIBAAH/AdEBuAGfAf8B9gHtAeUB/wNcAfgCXQFOAfADQwF4/wCNAANDAXgCXQFO
-        AfADXAH4AfcB8QHsAf8B0gG6AaIB/wGsAYIBAAH/AckBmAEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEA
-        Af8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHl
-        Aa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8ByQGYAQAB/wGsAYIBAAH/AdEBuAGf
-        Af8B9gHtAeUB/wNcAfgCXQFOAfADQwF4/wCNAANDAXgCXQFOAfADXAH4AfcB8gHtAf8B0QG6AaIB/wGp
-        AYEBAAH/AcYBlwEAAf8B4gGsAQAB/wHiAawBAAH/AeIBrAEAAf8B4gGsAQAB/wHhAasBAAH/AeEBqwEA
-        Af8B4QGrAQAB/wHhAasBAAH/AeEBqgEAAf8B4QGqAQAB/wHhAaoBAAH/AeEBqgEAAf8B4QGqAQAB/wHh
-        AaoBAAH/AeEBqgEAAf8BxQGVAQAB/wGoAYABAAH/Ac8BtwGfAf8B9gHtAeYB/wNcAfgCXQFOAfADQwF4
-        /wCNAANDAXgCXQFOAfADXAH4AfcB8gHtAf8BzwG5AaIB/wGmAgAB/wHCAZUBAAH/Ad4BqgEAAf8B3gGq
-        AQAB/wHeAaoBAAH/Ad4BqgEAAf8B3QGpAQAB/wHdAakBAAH/Ad0BqAEAAf8B3QGoAQAB/wHcAacBAAH/
-        AdwBpwEAAf8B3AGnAQAB/wHcAacBAAH/AdwBpwEAAf8B3AGnAQAB/wHcAacBAAH/AcABkgEAAf8BpAIA
-        Af8BzQG1AZ4B/wH2Ae0B5gH/A1wB+AJdAU4B8ANDAXj/AI0AA0MBeAJdAU4B8ANcAfgB9wHzAe4B/wHN
-        Ab8BqAH/AaEBiwEAAf8BwgGiAQAB/wHiAbkBiAH/AeEBuAGHAf8B4AG4AYYB/wHgAbgBhQH/Ad4BtwGF
-        Af8B2QG1AYEB/wHTAbMBAAH/AdoBsgEAAf8B4AGxAQAB/wHgAbEBAAH/AeABsQEAAf8B4AGxAQAB/wHg
-        AbEBAAH/AdwBswGAAf8B2AG0AYYB/wG+AaABAAH/AaUBjAEAAf8BzgG9AagB/wH2Ae0B5gH/A1wB+AJd
-        AU4B8ANDAXj/AI0AA0MBeAJdAU4B8ANcAfgB9wHzAe4B/wHKAcUBrgH/AZwBlgEAAf8BwQGvAYYB/wHm
-        AccBnQH/AeQBxgGbAf8B4gHFAZgB/wHhAcUBlwH/Ad8BxAGWAf8B1AHBAY8B/wHIAb0BiAH/AdYBvAGF
-        Af8B5AG6AYIB/wHkAboBgwH/AeQBugGDAf8B5AG6AYMB/wHkAboBgwH/AdwBvgGOAf8B0wHBAZkB/wG8
-        Aa4BigH/AaUBmgEAAf8BzgHEAbEB/wH2Ae0B5gH/A1wB+AJdAU4B8ANDAXj/AI0AA0MBeAJdAU4B8ANc
-        AfgB9wH0Ae8B/wHRAckBtAH/AakBngEAAf8BzAG4AZAB/wHuAdIBpwH/Ae0B0gGmAf8B7AHSAaQB/wHr
-        AdIBpAH/AeoB0QGjAf8B5AHPAZ8B/wHdAc0BmwH/AeQBzAGZAf8B7AHKAZcB/wHsAcoBmAH/AewBygGY
-        Af8B7AHKAZgB/wHrAcoBlwH/AecBzAGeAf8B4QHOAaQB/wHHAbcBkgH/Aa0BoAGAAf8B0QHHAbMB/wH1
-        Ae4B5gH/A1wB+AJdAU4B8ANDAXj/AI0AA0MBeAJdAU4B8ANcAfgB9wH0Ae8B/wHXAc0BuQH/AbYBpQGD
-        Af8B1gHBAZoB/wH1Ad0BsAH/AfYB3gGwAf8B9gHeAbAB/wH1Ad4BsAH/AfQB3QGvAf8B8wHdAa4B/wHx
-        AdwBrQH/AfIB2wGsAf8B8wHaAasB/wHzAdoBrAH/AfMB2gGsAf8B8wHaAawB/wHyAdkBqwH/AfEB2gGt
-        Af8B7wHaAa4B/wHSAcABmQH/AbQBpQGEAf8B1AHKAbUB/wH0Ae4B5gH/A1wB+AJdAU4B8ANDAXj/AI0A
-        A0MBeAJdAU4B8ANcAfgB9wH0AfAB/wHZAc8BuwH/AboBqAGGAf8B2gHFAZ0B/wH6AeEBswH/AfoB4gGz
-        Af8B+gHhAbMB/wH5AeEBswH/AfkB4QGyAf8B+AHhAbIB/wH3AeABsQH/AfgB4AGxAf8B+AHfAbAB/wH4
-        Ad8BsQH/AfgB3wGxAf8B+AHfAbEB/wH4Ad8BsAH/AfcB3wGxAf8B9gHfAbIB/wHYAcQBnAH/AbkBqAGG
-        Af8B1wHMAbcB/wH1Ae8B5wH/A1wB+AJdAU4B8ANDAXj/AI0AA0MBeAJdAU4B8ANcAfgB9wH0AfEB/wHb
-        AdABvQH/Ab4BqwGIAf8B3gHIAZ8B/wH+AeUBtQH/Af4B5QG1Af8B/QHkAbUB/wH9AeQBtQH/Af0B5AG1
-        Af8B/QHkAbUB/wH9AeQBtQH/Af0B5AG1Af8B/QHkAbUB/wH9AeQBtQH/Af0B5AG1Af8B/QHkAbUB/wH9
-        AeQBtQH/Af0B5AG1Af8B/QHkAbUB/wHeAcgBnwH/Ab4BqwGIAf8B2gHNAbgB/wH2Ae8B5wH/A1wB+AJd
-        AU4B8ANDAXj/AI0AA0MBeAJdAU4B8ANcAfgB9wH0AfIB/wHZAc4BvAH/AboBqAGFAf8B2QHEAZsB/wH4
-        AeEBsQH/AfkB4QGyAf8B+QHhAbMB/wH5AeEBswH/AfgB4QGyAf8B+QHhAbIB/wH6AeEBsgH/AfoB4gGy
-        Af8B+gHiAbIB/wH7AeIBswH/AfsB4gGzAf8B+wHjAbQB/wH8AeMBtAH/AfwB4wG0Af8B/QHkAbUB/wHe
-        AcgBnwH/Ab4BqwGIAf8B2wHNAbgB/wH3Ae8B6AH/A1wB+AJdAU4B8ANDAXj/AI0AA0MBeAJdAU4B8ANc
-        AfgB9wH0AfMB/wHXAcwBugH/AbYBpAGBAf8B1AHAAZcB/wHyAdwBrQH/AfQB3QGvAf8B9QHeAbAB/wH0
-        Ad4BsAH/AfIB3QGvAf8B9AHeAa8B/wH2Ad4BrwH/AfcB3wGvAf8B9wHfAa8B/wH4AeABsAH/AfgB4AGx
-        Af8B+QHhAbIB/wH6AeEBsgH/AfsB4gGzAf8B/AHjAbQB/wHdAccBngH/Ab4BqwGIAf8B2wHNAbgB/wH3
-        Ae8B6AH/A1wB+AJdAU4B8ANDAXj/AI0AA0MBeAJdAU4B8ANcAfgB9QHzAfIB/wHOAcMBsQH/AaYBkwEA
-        Af8BuQGoAYAB/wHMAb0BkgH/Ac0BvwGVAf8BzQHAAZcB/wHOAcABlgH/Ac8BvwGVAf8B1AHAAZUB/wHY
-        AcABlQH/AdkBwQGVAf8B2QHBAZYB/wHZAcIBlwH/AdkBwgGYAf8B2gHDAZkB/wHbAcQBmQH/AdwBxQGb
-        Af8B3AHGAZwB/wHCAa4BiQH/AacBlgEAAf8BzwHDAbAB/wH3AfAB6QH/A1wB+AJdAU4B8ANDAXj/AI0A
-        A0MBeAJdAU4B8ANcAfgB8wHyAfEB/wHFAboBpwH/AZYBgQEAAf8BngGQAQAB/wGmAZ4BAAH/AaUBoAEA
-        Af8BpAGhAQAB/wGoAaEBAAH/AasBoAEAAf8BswGhAQAB/wG6AaIBAAH/AboBowEAAf8BugGjAQAB/wG6
-        AaQBAAH/AboBpAEAAf8BuwGlAQAB/wG7AaYBgAH/AbwBpwGCAf8BvAGoAYMB/wGmAZQBAAH/AY8BgAEA
-        Af8BwwG5AagB/wH3AfEB6gH/A1wB+AJdAU4B8ANDAXj/AI0AA0MBdwNdAe0DYgH2AugB5gH/AdcB0QHH
-        Af8BxQG6AacB/wHKAcIBrgH/Ac8ByQG1Af8BzgHKAbcB/wHOAcsBuAH/AdABywG3Af8B0QHKAbYB/wHV
-        AcsBtQH/AdkBywG1Af8B2QHMAbUB/wHZAcwBtgH/AdkBzAG2Af8B2QHMAbYB/wHaAcwBtwH/AdoBzAG3
-        Af8B2gHNAbcB/wHaAc0BtwH/Ac8BwwGwAf8BwwG5AagB/wHcAdUByQH/AfQB8AHpAf8DXAH4Al0BTgHw
-        A0MBeP8AjQADQgF1AmIBWAHpA2UB9AN/Af4C6AHnAf8C8wHyAf8B9QH0AfMB/wH3AfQB8wH/AfcB9AHz
-        Af8B9wH0AfIB/wH3AfQB8gH/AfcB9AHxAf8B9wH0AfAB/wH3AfQB7wH/AfgB9AHvAf8B+AH0Ae8B/wH4
-        AfQB7wH/AfgB8wHuAf8B+AHzAe4B/wH4AfIB7QH/AfgB8gHsAf8B+AHyAesB/wH4AfIB6wH/AfcB8gHr
-        Af8B9AHwAeoB/wHxAe4B6AH/A20B9wJiAVgB7wNDAXj/AI0AAzgBXgNYAbsDXgHYA18B8wNiAfYDXAH4
-        A1wB+ANcAfgDXAH4A1wB+ANcAfgDXAH4A1wB+ANcAfgDXAH4A1wB+ANcAfgDXAH4A1wB+ANcAfgDXAH4
-        A1wB+ANcAfgDXAH4A1wB+ANcAfgDYQHcAlkBVwG/AzoBYP8AjQADLgFHA0oBjQNYAbsCXwFYAegCZAFZ
-        AewCXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFO
-        AfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFOAfACXQFO
-        AfACXQFOAfACWgFYAcADTAGPAy4BSP8AjQADGgEkAy4BRwM4AV4DQgF0A0IBdgNDAXgDQwF4A0MBeAND
-        AXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeANDAXgDQwF4A0MBeAND
-        AXgDQwF4A0MBeAM6AWADLgFIAxoBJP8A/wD/AIsAAUIBTQE+BwABPgMAASgDAAGAAwABIAMAAQEBAAEB
-        BgABAhYAA/8BAAT/DAAE/wwAAYACAAEDDAABgAIAAQMMAAGAAgABAwwAAYACAAEDDAABgAIAAQMMAAGA
-        AgABAwwAAYACAAEDDAABgAIAAQMMAAGAAgABAwwAAYACAAEDDAABgAIAAQMMAAGAAgABAwwAAYACAAED
-        DAABgAIAAQMMAAGAAgABAwwAAYACAAEDDAABgAIAAQMMAAGAAgABAwwAAYACAAEDDAABgAIAAQMMAAGA
-        AgABAwwAAYACAAEDDAABgAIAAQMMAAGAAgABAwwAAYACAAEDDAABgAIAAQMMAAGAAgABAwwAAYACAAED
-        DAABgAIAAQMMAAT/DAAL
-</value>
-  </data>
-  <data name="vsNetListBarGroups.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 171</value>
-  </data>
-  <data name="vsNetListBarGroups.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 26</value>
-  </data>
-  <metadata name="imageListSmall.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>161, 17</value>
-  </metadata>
-  <data name="imageListSmall.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACM
-        BgAAAk1TRnQBSQFMAwEBAAEMAQcBDAEHARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
-        ARADAAEBAQABIAYAARD/ABcAA0oBigJbAVkBwwJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJd
-        AU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8ANMAZDIAAJhAVsB4QHuAewB6gH/AfcB8gHw
-        Af8B+AHzAfAB/wH4AfMB7wH/AfcB8wHvAf8B9wHyAe8B/wH3AfIB7gH/AfcB8gHuAf8B9wHyAe4B/wH3
-        AfIB7gH/AfgB8gHuAf8B8QHuAeoB/wJiAVgB78gAAl0BTgHwAfYB8AHsAf8B/QHoAdcB/wH+AegB1wH/
-        Af4B6AHXAf8B/gHoAdcB/wH+AegB1wH/Af4B6AHXAf8B/gHoAdcB/wH+AegB1wH/Af4B6AHXAf8B/QHo
-        AdcB/wH3AewB5QH/Al0BTgHwyAACXQFOAfAB9wHwAewB/wGBAgAB/wGsAYIBAAH/AawBggEAAf8BrAGC
-        AQAB/wGsAYIBAAH/AawBggEAAf8BrAGCAQAB/wGsAYIBAAH/AawBggEAAf8BgQIAAf8B9gHsAeUB/wJd
-        AU4B8MgAAl0BTgHwAfcB8AHrAf8BrAGCAQAB/wHlAa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHlAa0BAAH/
-        AeUBrQEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8BrAGCAQAB/wH2Ae0B5QH/Al0BTgHwyAACXQFO
-        AfAB9wHxAewB/wGsAYIBAAH/AeUBrQEAAf8B5QGtAQAB/wHlAa0BAAH/AeUBrQEAAf8B5QGtAQAB/wHl
-        Aa0BAAH/AeUBrQEAAf8B5QGtAQAB/wGsAYIBAAH/AfYB7QHlAf8CXQFOAfDIAAJdAU4B8AH3AfIB7QH/
-        AaYCAAH/Ad4BqgEAAf8B3gGqAQAB/wHdAakBAAH/Ad0BqAEAAf8B3AGnAQAB/wHcAacBAAH/AdwBpwEA
-        Af8B3AGnAQAB/wGkAgAB/wH2Ae0B5gH/Al0BTgHwyAACXQFOAfAB9wHzAe4B/wGcAZYBAAH/AeYBxwGd
-        Af8B4gHFAZgB/wHfAcQBlgH/AcgBvQGIAf8B5AG6AYIB/wHkAboBgwH/AeQBugGDAf8B0wHBAZkB/wGl
-        AZoBAAH/AfYB7QHmAf8CXQFOAfDIAAJdAU4B8AH3AfQB7wH/AbYBpQGDAf8B9QHdAbAB/wH2Ad4BsAH/
-        AfQB3QGvAf8B8QHcAa0B/wHzAdoBqwH/AfMB2gGsAf8B8gHZAasB/wHvAdoBrgH/AbQBpQGEAf8B9AHu
-        AeYB/wJdAU4B8MgAAl0BTgHwAfcB9AHxAf8BvgGrAYgB/wH+AeUBtQH/Af0B5AG1Af8B/QHkAbUB/wH9
-        AeQBtQH/Af0B5AG1Af8B/QHkAbUB/wH9AeQBtQH/Af0B5AG1Af8BvgGrAYgB/wH2Ae8B5wH/Al0BTgHw
-        yAACXQFOAfAB9wH0AfMB/wG2AaQBgQH/AfIB3AGtAf8B9QHeAbAB/wHyAd0BrwH/AfYB3gGvAf8B9wHf
-        Aa8B/wH4AeABsQH/AfoB4QGyAf8B/AHjAbQB/wG+AasBiAH/AfcB7wHoAf8CXQFOAfDIAAJdAU4B8AHz
-        AfIB8QH/AZYBgQEAAf8BpgGeAQAB/wGkAaEBAAH/AasBoAEAAf8BugGiAQAB/wG6AaMBAAH/AboBpAEA
-        Af8BuwGmAYAB/wG8AagBgwH/AY8BgAEAAf8B9wHxAeoB/wJdAU4B8MgAAmIBWQHpA38B/gLzAfIB/wH3
-        AfQB8wH/AfcB9AHyAf8B9wH0AfEB/wH3AfQB7wH/AfgB9AHvAf8B+AHzAe4B/wH4AfIB7QH/AfgB8gHr
-        Af8B9wHyAesB/wHxAe4B6AH/AmIBWAHvyAADSgGNA18B6AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJd
-        AU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8AJdAU4B8ANMAY//AMUAAUIBTQE+BwABPgMA
-        ASgDAAFAAwABEAMAAQEBAAEBBQABgBcAA/8BAAL/BgABgAEBBgABgAEBBgABgAEBBgABgAEBBgABgAEB
-        BgABgAEBBgABgAEBBgABgAEBBgABgAEBBgABgAEBBgABgAEBBgABgAEBBgABgAEBBgABgAEBBgAC/wYA
-        Cw==
-</value>
-  </data>
-  <data name="vsNetListBarGroups.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="vsNetListBarGroups.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;vsNetListBarGroups.Name" xml:space="preserve">
     <value>vsNetListBarGroups</value>
   </data>
-  <data name="&gt;&gt;vsNetListBarGroups.Type" xml:space="preserve">
-    <value>Waveface.Component.ListBarControl.VSNetListBar, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="pbDropArea.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
   </data>
-  <data name="&gt;&gt;vsNetListBarGroups.Parent" xml:space="preserve">
-    <value>panelMain</value>
+  <data name="&gt;&gt;panelCustomFilter.Parent" xml:space="preserve">
+    <value>panelFilter</value>
   </data>
-  <data name="&gt;&gt;vsNetListBarGroups.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="btnNewPost.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9.75pt, style=Bold</value>
   </data>
-  <data name="panelMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="btnNewPost.Text" xml:space="preserve">
+    <value>Create New Post</value>
   </data>
-  <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panelMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 616</value>
-  </data>
-  <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;panelMain.Name" xml:space="preserve">
-    <value>panelMain</value>
-  </data>
-  <data name="&gt;&gt;panelMain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelMain.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;tvTimeline.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="imageListTimeline.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>621, 17</value>
-  </metadata>
+  <data name="tvCustomFilter.SelectedImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="pbDropArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
   <data name="imageListTimeline.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADo
-        CAAAAk1TRnQBSQFMAgEBAgEAAUQBBAFEAQQBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAUwBBQFcAQUBEAEAARABAAT/AQkBEAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -655,61 +413,166 @@
         AbQhAAHxAbsLtAG1AfEBAAHxAbsLtAG1AfFhAAFCAU0BPgcAAT4DAAEoAwABQAMAARADAAEBAQABAQUA
         AYAXAAP/AQAE/wQABP8FAAEBAQABAQUAAQEBAAEBBQABAQEAAQEFAAEBAQABAQUAAQEBAAEBBQABAQEA
         AQEFAAEBAQABAQUAAQEBAAEBBQABAQEAAQEFAAEBAQABAQUAAQEBAAEBBQABAQEAAQEFAAEBAQABAQQA
-        BP8EAAs=
+        BP8aAAs=
 </value>
   </data>
+  <data name="panelBottom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 616</value>
+  </data>
+  <data name="tvCustomFilter.ImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tvCustomFilter.Name" xml:space="preserve">
+    <value>tvCustomFilter</value>
+  </data>
+  <data name="&gt;&gt;panelFilter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tvCustomFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelMain.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pbDropArea.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;panelFilter.Name" xml:space="preserve">
+    <value>panelFilter</value>
+  </data>
+  <data name="&gt;&gt;imageListTimeline.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;imageListTimeline.Name" xml:space="preserve">
+    <value>imageListTimeline</value>
+  </data>
+  <data name="panelCalendar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="&gt;&gt;btnNewPost.Name" xml:space="preserve">
+    <value>btnNewPost</value>
+  </data>
+  <data name="&gt;&gt;panelFilter.Parent" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;monthCalendar.Type" xml:space="preserve">
+    <value>CustomControls.MonthCalendar, MonthCalendarControl, Version=1.0.4496.27845, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="panelCalendar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 181</value>
+  </data>
+  <data name="panelTimeline.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="pbDropArea.Text" xml:space="preserve">
+    <value>Drag &amp;&amp; drop the file to start the sharing</value>
+  </data>
+  <data name="&gt;&gt;panelTimeline.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="vsNetListBarGroups.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 652</value>
+  </data>
+  <data name="&gt;&gt;tvTimeline.Parent" xml:space="preserve">
+    <value>panelTimeline</value>
+  </data>
+  <data name="pbDropArea.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11.25pt</value>
+  </data>
+  <data name="panelBottom.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;vsNetListBarGroups.Parent" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
+    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;panelMain.Name" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="tvTimeline.SelectedImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="monthCalendar.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btnNewPost.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="panelMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;tvCustomFilter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panelFilter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 363</value>
+  </data>
+  <data name="&gt;&gt;imageListCustomFilter.Name" xml:space="preserve">
+    <value>imageListCustomFilter</value>
+  </data>
+  <data name="vsNetListBarGroups.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="panelCustomFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="vsNetListBarGroups.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="&gt;&gt;panelTimeline.Name" xml:space="preserve">
+    <value>panelTimeline</value>
+  </data>
+  <data name="tvTimeline.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 135</value>
+  </data>
+  <data name="&gt;&gt;imageListCustomFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelCalendar.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;monthCalendar.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;monthCalendar.Name" xml:space="preserve">
+    <value>monthCalendar</value>
+  </data>
+  <data name="btnNewPost.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 6</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.Name" xml:space="preserve">
+    <value>panelBottom</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="imageListTimeline.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>621, 17</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-TW</value>
+  </metadata>
   <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="imageListCustomFilter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>440, 17</value>
+  </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>57</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
-  </data>
-  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 652</value>
-  </data>
-  <data name="&gt;&gt;imageListCustomFilter.Name" xml:space="preserve">
-    <value>imageListCustomFilter</value>
-  </data>
-  <data name="&gt;&gt;imageListCustomFilter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;imageListLarge.Name" xml:space="preserve">
-    <value>imageListLarge</value>
-  </data>
-  <data name="&gt;&gt;imageListLarge.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;imageListSmall.Name" xml:space="preserve">
-    <value>imageListSmall</value>
-  </data>
-  <data name="&gt;&gt;imageListSmall.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;imageListTimeline.Name" xml:space="preserve">
-    <value>imageListTimeline</value>
-  </data>
-  <data name="&gt;&gt;imageListTimeline.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
-    <value>cultureManager</value>
-  </data>
-  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>LeftArea</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
 </root>

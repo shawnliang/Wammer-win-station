@@ -119,6 +119,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\Analogclock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Component\BorderlessForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -220,6 +223,12 @@
     <Compile Include="Libs\Utility\NLogUtility.cs" />
     <Compile Include="ProgramSetting.cs" />
     <Compile Include="Exception\Station401Exception.cs" />
+    <Compile Include="UI\DateTimePopupPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DateTimePopupPanel.designer.cs">
+      <DependentUpon>DateTimePopupPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\DVTopPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -561,6 +570,9 @@
     <Compile Include="UI\VirtualFolderForm.designer.cs">
       <DependentUpon>VirtualFolderForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Component\Analogclock.resx">
+      <DependentUpon>Analogclock.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Component\BorderlessForm.resx">
       <DependentUpon>BorderlessForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -633,6 +645,12 @@
     <EmbeddedResource Include="Subs\ImageCapture\CaptureForm.resx">
       <DependentUpon>CaptureForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\DateTimePopupPanel.resx">
+      <DependentUpon>DateTimePopupPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DateTimePopupPanel.zh-TW.resx">
+      <DependentUpon>DateTimePopupPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DVTopPanel.resx">
       <DependentUpon>DVTopPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -647,6 +665,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\DetailView.zh-TW.resx">
       <DependentUpon>DetailView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\Photo_DV.zh-TW.resx">
       <DependentUpon>Photo_DV.cs</DependentUpon>
@@ -942,6 +961,8 @@
     <None Include="Resources\FlatButton\FB_refresh.png" />
     <None Include="Resources\FlatButton\FB_newpost_hl.png" />
     <None Include="Resources\FlatButton\FB_refresh_hl.png" />
+    <None Include="Resources\FlatButton\FB_newpost_btn.png" />
+    <None Include="Resources\FlatButton\FB_newpost_btn_hl.png" />
     <Content Include="Resources\FlatButton\FB_remove.png" />
     <Content Include="Resources\FlatButton\FB_remove_hl.png" />
     <None Include="Resources\FlatButton\FB_slide.png" />
@@ -970,6 +991,7 @@
     <None Include="Resources\MaxMinClose\MMC_Min_hl.png" />
     <None Include="Resources\MaxMinClose\MMC_Restore.png" />
     <None Include="Resources\MaxMinClose\MMC_Restore_hl.png" />
+    <None Include="Resources\ToLeft.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

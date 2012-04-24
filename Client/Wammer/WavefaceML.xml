@@ -188,8 +188,8 @@
   </WItem>
   <WItem>
     <ID>BatchPostManager.DragDropHere</ID>
-    <en-US>Drag &amp; Drop Photos here</en-US>
-    <zh-TW>將上傳照片拖拉到此處</zh-TW>
+    <en-US>Drop Photos here</en-US>
+    <zh-TW>拖拉照片至此處</zh-TW>
   </WItem>
 
   <WItem>
