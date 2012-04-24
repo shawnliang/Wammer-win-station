@@ -41,7 +41,7 @@ namespace StationSystemTray
 
 			try
 			{
-				StationController.StationOnline(this.txtEmail.Text, this.txtPassword.Text);
+				StationController.ResumeSync(this.txtEmail.Text, this.txtPassword.Text);
 				mainform.CurrentState.Onlined();
 			}
 			catch (AuthenticationException)

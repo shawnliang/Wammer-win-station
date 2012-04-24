@@ -6,19 +6,19 @@ using Wammer.Cloud;
 using Wammer.Model;
 using System.Linq;
 using Wammer.Utility;
+using Wammer.PostUpload;
 
 namespace Wammer.Station
 {
-	class StationOnlineHandler : HttpHandler
+	class ResumeSyncHandler : HttpHandler
 	{
-		private static ILog logger = LogManager.GetLogger("StationOnlineHandler");
-		private readonly HttpServer functionServer;
+		private readonly PostUploadTaskRunner postUploadRunner;
 		private readonly StationTimer stationTimer;
 		private readonly TaskRunner[] bodySyncRunners;
 
-		public StationOnlineHandler(HttpServer functionServer, StationTimer stationTimer,TaskRunner[] bodySyncRunners)
+		public ResumeSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer, TaskRunner[] bodySyncRunners)
 		{
-			this.functionServer = functionServer;
+			this.postUploadRunner = postUploadRunner;
 			this.stationTimer = stationTimer;
 			this.bodySyncRunners = bodySyncRunners;
 		}
@@ -33,7 +33,7 @@ namespace Wammer.Station
 				StationInfo stationInfo = StationCollection.Instance.FindOne();
 				if (stationInfo != null)
 				{
-					logger.DebugFormat("Station logon with stationId = {0}", stationInfo.Id);
+					this.LogDebugMsg(string.Format("Station logon with stationId = {0}", stationInfo.Id));
 
 					StationLogOnResponse logonRes;
 					if (email != null && password != null)
@@ -69,15 +69,13 @@ namespace Wammer.Station
 					stationInfo.SessionToken = logonRes.session_token;
 					StationCollection.Instance.Save(stationInfo);
 
-					logger.Debug("Station logon successfully, disable block auth of function server");
-					functionServer.BlockAuth(false);
+					this.LogDebugMsg("Station logon successfully, disable block auth of function server");
 				}
 
-				logger.Debug("Start function server");
-				functionServer.Start();
+				postUploadRunner.Start();
 				stationTimer.Start();
 				Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Start());
-				logger.Debug("Start function server successfully");
+				this.LogDebugMsg("Start function server successfully");
 
 				RespondSuccess();
 			}
@@ -85,14 +83,12 @@ namespace Wammer.Station
 			{
 				if (e.WammerError == 0x4000 + 3) // driver already registered another station
 				{
-					logger.Error("Driver already registered another station");
+					this.LogErrorMsg("Driver already registered another station");
 
 					// force user re-register the station on next startup
 					CleanDB();
 
-					// function server should be stopped if driver's info is removed
-					logger.Debug("Try to stop function server");
-					functionServer.Stop();
+					postUploadRunner.Stop();
 					stationTimer.Stop();
 					Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Stop());
 
@@ -100,14 +96,12 @@ namespace Wammer.Station
 				}
 				else if (e.WammerError == 0x4000 + 4) // user does not exist
 				{
-					logger.Error("Driver account does not exist");
+					this.LogErrorMsg("Driver account does not exist");
 
 					// force user re-register the station on next startup
 					CleanDB();
 
-					// function server should be stopped if driver's info is removed
-					logger.Debug("Try to stop function server");
-					functionServer.Stop();
+					postUploadRunner.Stop();
 					stationTimer.Stop();
 					Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Stop());
 
@@ -123,11 +117,6 @@ namespace Wammer.Station
 			DriverCollection.Instance.RemoveAll();
 			CloudStorageCollection.Instance.RemoveAll();
 			StationCollection.Instance.RemoveAll();
-		}
-
-		public override object Clone()
-		{
-			return this.MemberwiseClone();
 		}
 	}
 
