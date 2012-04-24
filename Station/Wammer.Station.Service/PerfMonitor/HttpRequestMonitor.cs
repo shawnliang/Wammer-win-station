@@ -15,6 +15,20 @@ namespace Wammer.PerfMonitor
 
 		private static ILog logger = LogManager.GetLogger("HttpRequestMonitor");
 
+		private static HttpRequestMonitor _instance;
+
+		public static HttpRequestMonitor Instance
+		{
+			get
+			{
+				if (_instance == null)
+				{
+					_instance = new HttpRequestMonitor();
+				}
+				return _instance;
+			}
+		}
+
 		public HttpRequestMonitor()
 		{
 			avgTime = PerfCounter.GetCounter(PerfCounter.AVG_TIME_PER_HTTP_REQUEST);

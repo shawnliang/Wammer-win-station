@@ -15,7 +15,6 @@ namespace Wammer.PostUpload
 {
 	public class PostUploadTaskQueue
 	{
-		private HashSet<string> postIdSet;
 		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
 		private object cs = new object();
 		private PostUploadMonitor monitor = new PostUploadMonitor();
@@ -38,14 +37,12 @@ namespace Wammer.PostUpload
 
 		public void InitFromDB()
 		{
-			postIdSet = new HashSet<string>();
 			postQueue = new Dictionary<string, LinkedList<PostUploadTask>>();
 			foreach (PostUploadTasks ptasks in PostUploadTasksCollection.Instance.FindAll())
 			{
 				foreach (PostUploadTask task in ptasks.tasks)
 				{
 					task.Status = PostUploadTaskStatus.Wait;
-					monitor.PostUploadTaskEnqueued();
 					Enqueue(task);
 				}
 			}
@@ -65,7 +62,6 @@ namespace Wammer.PostUpload
 					queue = new LinkedList<PostUploadTask>();
 					queue.AddLast(task);
 					postQueue.Add(task.PostId, queue);
-					postIdSet.Add(task.PostId);
 
 					AddAvailableHeadTask();
 				}
@@ -81,11 +77,9 @@ namespace Wammer.PostUpload
 			IsAvailableHeadTaskExist();
 			lock (cs)
 			{
-				foreach (string targetPostId in postIdSet)
+				foreach (KeyValuePair<string, LinkedList<PostUploadTask>> pair in postQueue)
 				{
-					LinkedList<PostUploadTask> targetUploadTaskQueue;
-					postQueue.TryGetValue(targetPostId, out targetUploadTaskQueue);
-					PostUploadTask task = targetUploadTaskQueue.First();
+					PostUploadTask task = pair.Value.First();
 					if (task.Status == PostUploadTaskStatus.Wait)
 					{
 						task.Status = PostUploadTaskStatus.InProgress;
@@ -113,7 +107,6 @@ namespace Wammer.PostUpload
 				}
 				else
 				{
-					postIdSet.Remove(task.PostId);
 					postQueue.Remove(task.PostId);
 					PostUploadTasksCollection.Instance.Remove(
 						Query.EQ("_id", task.PostId));

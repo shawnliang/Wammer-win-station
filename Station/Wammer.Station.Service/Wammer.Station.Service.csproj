@@ -209,8 +209,8 @@
     <Compile Include="Station\Retry\RetryQueue.cs" />
     <Compile Include="Station\Retry\RetryQueuePersistentStorage.cs" />
     <Compile Include="Station\ServiceUnavailableException.cs" />
-    <Compile Include="Station\APIHandler\StationOfflineHandler.cs" />
-    <Compile Include="Station\APIHandler\StationOnlineHandler.cs" />
+    <Compile Include="Station\APIHandler\SuspendSyncHandler.cs" />
+    <Compile Include="Station\APIHandler\ResumeSyncHandler.cs" />
     <Compile Include="Station\StationTimer.cs" />
     <Compile Include="Station\StatusChecker.cs" />
     <Compile Include="Station\APIHandler\StatusGetHandler.cs" />

@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using Wammer.Cloud;
 using Wammer.Utility;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station
 {
@@ -24,6 +25,7 @@ namespace Wammer.Station
 			this.host = url.Host;
 			this.port = url.Port;
 			this.scheme = url.Scheme;
+			this.ProcessSucceeded += HttpRequestMonitor.Instance.OnProcessSucceeded;
 		}
 
 		public object Clone()
