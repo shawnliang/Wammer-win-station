@@ -297,7 +297,7 @@ namespace Waveface
 
                 if (percent == int.MinValue)
                 {
-                    DrawDropArea(Resources.dragNdrop_area1);
+                    DrawDropArea(Resources.dragNdrop_area1, percent);
                     Main.Current.ShowStatuMessage(text, false);
 
                     return;
@@ -305,46 +305,14 @@ namespace Waveface
 
                 if ((percent == 0) || (percent == 100))
                 {
-                    DrawDropArea(Resources.dragNdrop_area1);
+                    DrawDropArea(Resources.dragNdrop_area1, percent);
 
                     return;
                 }
 
-                if ((percent > 0) && (percent <= 20))
+                if ((percent > 0) && (percent < 100))
                 {
-                    DrawDropArea(Resources.dragNdrop_loading0);
-                    Main.Current.ShowStatuMessage(text, false);
-
-                    return;
-                }
-
-                if ((percent > 20) && (percent <= 40))
-                {
-                    DrawDropArea(Resources.dragNdrop_loading1);
-                    Main.Current.ShowStatuMessage(text, false);
-
-                    return;
-                }
-
-                if ((percent > 40) && (percent <= 60))
-                {
-                    DrawDropArea(Resources.dragNdrop_loading2);
-                    Main.Current.ShowStatuMessage(text, false);
-
-                    return;
-                }
-
-                if ((percent > 60) && (percent <= 80))
-                {
-                    DrawDropArea(Resources.dragNdrop_loading3);
-                    Main.Current.ShowStatuMessage(text, false);
-
-                    return;
-                }
-
-                if ((percent > 80) && (percent < 100))
-                {
-                    DrawDropArea(Resources.dragNdrop_loading4);
+                    DrawDropArea(Resources.dragNdrop_loading0, percent);
                     Main.Current.ShowStatuMessage(text, false);
 
                     return;
@@ -428,19 +396,31 @@ namespace Waveface
             else
             {
                 m_dropAreaMessage = text;
-                DrawDropArea(Resources.dragNdrop_area1);
+                DrawDropArea(Resources.dragNdrop_area1, -1);
             }
         }
 
-        private void DrawDropArea(Image bmp)
+        private void DrawDropArea(Image bmp, int percent)
         {
             using (Graphics _g = Graphics.FromImage(m_dropAreaImage))
             {
                 _g.Clear(Color.Transparent);
                 _g.DrawImage(bmp, 0, 0);
 
+                if ((percent > 0) && (percent < 100))
+                {
+                    int _y = 128;
+                    int _dy = 9;
+                    int _sx = 20;
+                    int _ex = 140;
+
+                    int _dx = ((_ex - _sx) * percent) / 100;
+
+                    _g.FillRectangle(Brushes.PaleTurquoise, _sx, _y, _dx, _dy);
+                }
+
                 Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), (bmp.Width - _size.Width) / 2, (bmp.Height - _size.Height) / 2);
+                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), (bmp.Width - _size.Width) / 2, bmp.Height - _size.Height - 12);
             }
 
             pbDropArea.Image = m_dropAreaImage;
@@ -505,6 +485,11 @@ namespace Waveface
 
                 Main.Current.DoTimelineFilter(_item, false);
             }
+        }
+
+        private void btnNewPost_Click(object sender, EventArgs e)
+        {
+            Main.Current.Post();
         }
     }
 }

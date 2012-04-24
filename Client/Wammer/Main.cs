@@ -1558,6 +1558,16 @@ namespace Waveface
 
         #region Misc
 
+        public void RemovePost()
+        {
+            postsArea.RemovePost();
+        }
+
+        public void SetClock(bool visible, DateTime dateTime)
+        {
+            detailView.SetClock(visible, dateTime);
+        }
+
         public int GetLeftAreaWidth()
         {
             return leftArea.Width;

@@ -137,6 +137,7 @@ namespace Waveface
             // btnRefresh
             // 
             this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
+            this.btnRefresh.CenterAlignImage = false;
             this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRefresh.Font = new System.Drawing.Font("Arial", 9F);
             this.btnRefresh.Image = global::Waveface.Properties.Resources.FBT_refresh;
@@ -153,6 +154,7 @@ namespace Waveface
             // btnDeletePost
             // 
             this.btnDeletePost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
+            this.btnDeletePost.CenterAlignImage = false;
             this.btnDeletePost.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDeletePost.Font = new System.Drawing.Font("Arial", 9F);
             this.btnDeletePost.Image = global::Waveface.Properties.Resources.FBT_remove;
@@ -164,10 +166,12 @@ namespace Waveface
             this.btnDeletePost.Size = new System.Drawing.Size(37, 37);
             this.btnDeletePost.TabIndex = 14;
             this.btnDeletePost.Visible = false;
+            this.btnDeletePost.Click += new System.EventHandler(this.btnDeletePost_Click);
             // 
             // btnAccount
             // 
             this.btnAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
+            this.btnAccount.CenterAlignImage = false;
             this.btnAccount.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAccount.Font = new System.Drawing.Font("Arial", 9F);
             this.btnAccount.Image = global::Waveface.Properties.Resources.FBT_account;
@@ -184,6 +188,7 @@ namespace Waveface
             // btnSetting
             // 
             this.btnSetting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
+            this.btnSetting.CenterAlignImage = false;
             this.btnSetting.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSetting.Font = new System.Drawing.Font("Arial", 9F);
             this.btnSetting.Image = global::Waveface.Properties.Resources.FBT_setting;
@@ -217,6 +222,11 @@ namespace Waveface
         private void btnAccount_Click(object sender, System.EventArgs e)
         {
             Main.Current.AccountInformation();
+        }
+
+        private void btnDeletePost_Click(object sender, System.EventArgs e)
+        {
+            Main.Current.RemovePost();
         }
     }
 }

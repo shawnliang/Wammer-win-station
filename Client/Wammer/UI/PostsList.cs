@@ -41,6 +41,8 @@ namespace Waveface
         private ToolStripMenuItem miRemovePost;
         private bool m_manualRefresh;
 
+        private bool doScrollAction;
+
         #region Properties
 
         public int SelectedRow
@@ -144,6 +146,8 @@ namespace Waveface
 
         public void SetPosts(List<Post> posts, int lastRead, bool manualRefresh)
         {
+            doScrollAction = false;
+
             try
             {
                 if (lastRead >= posts.Count)
@@ -180,13 +184,15 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "SetPosts-2");
             }
+
+            doScrollAction = true;
         }
 
         #region DataGridView
 
         private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
-        private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225));
-        private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(225, 225, 225)); // 217, 217, 217
+        private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(234, 234,234));
+        private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(234, 234, 234)); // 217, 217, 217
 
         private Color m_inforColor = Color.FromArgb(95, 121, 143);
         private Color m_textColor = Color.FromArgb(57, 80, 85);
@@ -693,6 +699,8 @@ namespace Waveface
 
         private void timerDisplayedScrolling_Tick(object sender, EventArgs e)
         {
+            doScrollAction = false;
+
             timerDisplayedScrolling.Enabled = false;
 
             try
@@ -708,6 +716,8 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "timerDisplayedScrolling_Tick");
             }
+
+            doScrollAction = true;
         }
 
         #region Component Designer generated code
@@ -766,7 +776,7 @@ namespace Waveface
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoGenerateColumns = false;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -801,6 +811,7 @@ namespace Waveface
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
             this.dataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView_DataError);
             this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
+            this.dataGridView.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dataGridView_Scroll);
             // 
             // creatoridDataGridViewTextBoxColumn
             // 
@@ -851,6 +862,11 @@ namespace Waveface
 
         private void miRemovePost_Click(object sender, EventArgs e)
         {
+            RemovePost();
+        }
+
+        public void RemovePost()
+        {
             Post _post = m_postBS[m_postBS.Position] as Post;
 
             DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Waveface", MessageBoxButtons.YesNo,
@@ -864,6 +880,23 @@ namespace Waveface
 
         private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
+            //½Ð¤Å§R°£¦¹Mathod
+        }
+
+        private void dataGridView_Scroll(object sender, ScrollEventArgs e)
+        {
+            if (!doScrollAction)
+                return;
+
+            if (m_postBS.Count > 0)
+            {
+                Post _post = m_postBS[dataGridView.FirstDisplayedScrollingRowIndex] as Post;
+
+                DateTime _dateTime = DateTimeHelp.ISO8601ToDateTime(_post.timestamp); //Todo Event Time
+
+                if (_dateTime != null)
+                    Main.Current.SetClock(true, _dateTime);
+            }
         }
     }
 }

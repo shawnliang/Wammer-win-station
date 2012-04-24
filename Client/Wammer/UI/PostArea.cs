@@ -18,6 +18,11 @@ namespace Waveface
             InitializeComponent();
         }
 
+        public void RemovePost()
+        {
+            postList.RemovePost();
+        }
+
         public void ShowPostInforPanel(bool flag)
         {
             panelButtom.Visible = flag;

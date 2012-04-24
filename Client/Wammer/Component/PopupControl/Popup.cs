@@ -18,8 +18,6 @@ namespace Waveface.Component.PopupControl
     [CLSCompliant(true), ToolboxItem(false)]
     public partial class Popup : ToolStripDropDown
     {
-        #region " Fields & Properties "
-
         private Popup m_childPopup;
         private ToolStripControlHost m_host;
         private bool m_isChildPopupOpened;
@@ -29,6 +27,8 @@ namespace Waveface.Component.PopupControl
         private bool m_resizable;
         private bool m_resizableLeft;
         private bool m_resizableTop;
+
+        #region Properties
 
         public Control Content { get; private set; }
 
@@ -411,9 +411,9 @@ namespace Waveface.Component.PopupControl
 
         #endregion
 
-        #region " Resizing Support "
+        #region Resizing Support
 
-        private VisualStyleRenderer _sizeGripRenderer;
+        private VisualStyleRenderer m_sizeGripRenderer;
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
@@ -559,12 +559,12 @@ namespace Waveface.Component.PopupControl
                 {
                     if (Application.RenderWithVisualStyles)
                     {
-                        if (_sizeGripRenderer == null)
+                        if (m_sizeGripRenderer == null)
                         {
-                            _sizeGripRenderer = new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
+                            m_sizeGripRenderer = new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
                         }
 
-                        _sizeGripRenderer.DrawBackground(g, new Rectangle(0, 0, 0x10, 0x10));
+                        m_sizeGripRenderer.DrawBackground(g, new Rectangle(0, 0, 0x10, 0x10));
                     }
                     else
                     {

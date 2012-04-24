@@ -147,12 +147,12 @@ namespace Waveface.Component
             // 
             // rightpnl
             // 
-            this.rightpnl.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.rightpnl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(164)))), ((int)(((byte)(186)))));
             this.rightpnl.Cursor = System.Windows.Forms.Cursors.SizeWE;
             this.rightpnl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.rightpnl.Location = new System.Drawing.Point(649, 22);
+            this.rightpnl.Location = new System.Drawing.Point(648, 22);
             this.rightpnl.Name = "rightpnl";
-            this.rightpnl.Size = new System.Drawing.Size(2, 377);
+            this.rightpnl.Size = new System.Drawing.Size(3, 377);
             this.rightpnl.TabIndex = 1;
             this.rightpnl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titlebar_MouseDown);
             this.rightpnl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.rightpnl_MouseMove);
@@ -160,7 +160,7 @@ namespace Waveface.Component
             // 
             // bottompnl
             // 
-            this.bottompnl.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.bottompnl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(164)))), ((int)(((byte)(186)))));
             this.bottompnl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.bottompnl.Cursor = System.Windows.Forms.Cursors.SizeNS;
             this.bottompnl.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -175,11 +175,11 @@ namespace Waveface.Component
             // nwsize
             // 
             this.nwsize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.nwsize.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.nwsize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(164)))), ((int)(((byte)(186)))));
             this.nwsize.Cursor = System.Windows.Forms.Cursors.SizeNESW;
             this.nwsize.Location = new System.Drawing.Point(1, 398);
             this.nwsize.Name = "nwsize";
-            this.nwsize.Size = new System.Drawing.Size(3, 3);
+            this.nwsize.Size = new System.Drawing.Size(2, 2);
             this.nwsize.TabIndex = 3;
             this.nwsize.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titlebar_MouseDown);
             this.nwsize.MouseMove += new System.Windows.Forms.MouseEventHandler(this.nwsize_MouseMove);
@@ -188,11 +188,11 @@ namespace Waveface.Component
             // swresize
             // 
             this.swresize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.swresize.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.swresize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(164)))), ((int)(((byte)(186)))));
             this.swresize.Cursor = System.Windows.Forms.Cursors.SizeNWSE;
             this.swresize.Location = new System.Drawing.Point(648, 398);
             this.swresize.Name = "swresize";
-            this.swresize.Size = new System.Drawing.Size(3, 3);
+            this.swresize.Size = new System.Drawing.Size(4, 4);
             this.swresize.TabIndex = 4;
             this.swresize.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titlebar_MouseDown);
             this.swresize.MouseMove += new System.Windows.Forms.MouseEventHandler(this.swresize_MouseMove);
@@ -239,12 +239,12 @@ namespace Waveface.Component
             // 
             // leftpnl
             // 
-            this.leftpnl.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.leftpnl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(164)))), ((int)(((byte)(186)))));
             this.leftpnl.Cursor = System.Windows.Forms.Cursors.SizeWE;
             this.leftpnl.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftpnl.Location = new System.Drawing.Point(0, 22);
             this.leftpnl.Name = "leftpnl";
-            this.leftpnl.Size = new System.Drawing.Size(2, 377);
+            this.leftpnl.Size = new System.Drawing.Size(3, 377);
             this.leftpnl.TabIndex = 0;
             this.leftpnl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titlebar_MouseDown);
             this.leftpnl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.leftpnl_MouseMove);
@@ -270,9 +270,9 @@ namespace Waveface.Component
             this.bottompnl2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.bottompnl2.Cursor = System.Windows.Forms.Cursors.SizeNS;
             this.bottompnl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.bottompnl2.Location = new System.Drawing.Point(2, 374);
+            this.bottompnl2.Location = new System.Drawing.Point(1, 375);
             this.bottompnl2.Name = "bottompnl2";
-            this.bottompnl2.Size = new System.Drawing.Size(645, 2);
+            this.bottompnl2.Size = new System.Drawing.Size(647, 1);
             this.bottompnl2.TabIndex = 11;
             this.bottompnl2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titlebar_MouseDown);
             this.bottompnl2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.bottompnl_MouseMove);
@@ -284,9 +284,9 @@ namespace Waveface.Component
             this.rightpnl2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.rightpnl2.Cursor = System.Windows.Forms.Cursors.SizeWE;
             this.rightpnl2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.rightpnl2.Location = new System.Drawing.Point(647, 0);
+            this.rightpnl2.Location = new System.Drawing.Point(648, 0);
             this.rightpnl2.Name = "rightpnl2";
-            this.rightpnl2.Size = new System.Drawing.Size(2, 376);
+            this.rightpnl2.Size = new System.Drawing.Size(1, 376);
             this.rightpnl2.TabIndex = 10;
             this.rightpnl2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titlebar_MouseDown);
             this.rightpnl2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.rightpnl_MouseMove);
@@ -300,7 +300,7 @@ namespace Waveface.Component
             this.leftpnl2.Dock = System.Windows.Forms.DockStyle.Left;
             this.leftpnl2.Location = new System.Drawing.Point(0, 0);
             this.leftpnl2.Name = "leftpnl2";
-            this.leftpnl2.Size = new System.Drawing.Size(2, 376);
+            this.leftpnl2.Size = new System.Drawing.Size(1, 376);
             this.leftpnl2.TabIndex = 9;
             this.leftpnl2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titlebar_MouseDown);
             this.leftpnl2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.leftpnl_MouseMove);
@@ -332,7 +332,7 @@ namespace Waveface.Component
             this.topPanel.Location = new System.Drawing.Point(0, 0);
             this.topPanel.Margin = new System.Windows.Forms.Padding(0);
             this.topPanel.Name = "topPanel";
-            this.topPanel.Size = new System.Drawing.Size(651, 2);
+            this.topPanel.Size = new System.Drawing.Size(651, 0);
             this.topPanel.TabIndex = 9;
             this.topPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titlebar_MouseDown);
             this.topPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.toppnl_MouseMove);

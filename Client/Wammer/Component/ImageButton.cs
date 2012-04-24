@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Waveface.Component
 {
-    public class ImageButton : Panel
+    public class ImageButton : Control
     {
         private Image m_image;
         private Bitmap m_bmpOffscreen;
@@ -18,6 +18,8 @@ namespace Waveface.Component
         private bool m_down;
 
         #region Properties
+
+        public bool CenterAlignImage { get; set; }
 
         public Image Image
         {
@@ -76,19 +78,24 @@ namespace Waveface.Component
 
             _g.Clear(Color.Transparent);
 
-            if (DesignMode)
-            {
-                _g.FillRectangle(new SolidBrush(Color.Red), ClientRectangle);
-            }
-
             if (m_image != null)
             {
                 //Center the image relativelly to the control
                 int _imageLeft = (Width - m_image.Width) / 2;
                 int _imageTop = (Height - m_image.Height) / 2;
 
-                Rectangle _imgRect = new Rectangle(_imageLeft, _imageTop, m_image.Width, m_image.Height);
+                Rectangle _imgRect;
 
+
+                if (CenterAlignImage)
+                {
+                    _imgRect = new Rectangle(_imageLeft, _imageTop, m_image.Width, m_image.Height);
+                }
+                else
+                {
+                    _imgRect = new Rectangle(0, 0, m_image.Width, m_image.Height);
+                }
+                
                 //Set transparent key
                 ImageAttributes _imageAttr = new ImageAttributes();
                 _imageAttr.SetColorKey(BackgroundImageColor(m_image), BackgroundImageColor(m_image));
@@ -111,6 +118,12 @@ namespace Waveface.Component
 
                 //Draw image
                 _g.DrawImage(_img, _imgRect, 0, 0, _img.Width, _img.Height, GraphicsUnit.Pixel, _imageAttr);
+            }
+
+            if (!string.IsNullOrEmpty(Text))
+            {
+                Size _size = TextRenderer.MeasureText(Text, Font, Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                _g.DrawString(Text, Font, new SolidBrush(ForeColor), (Width - _size.Width) / 2, (Height - _size.Height) / 2);
             }
 
             //Draw from the memory bitmap

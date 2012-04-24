@@ -39,10 +39,12 @@ namespace Waveface
         private Timer timerGC;
         private Panel panelMain;
         private Popup m_commentPopup;
+        private Popup m_dateTimePopup;
         private ImageButton btnEdit;
         private Timer timerCanEdit;
         private ImageButton btnFavorite;
         private CommentPopupPanel m_commentPopupPanel;
+        private DateTimePopupPanel m_dateTimePopupPanel;
         private ImageButton btnMoreOptions;
         private ContextMenuStrip contextMenuStrip;
         private ToolStripMenuItem miRemovePost;
@@ -90,6 +92,9 @@ namespace Waveface
                                  };
 
             m_commentPopupPanel.buttonAddComment.Click += buttonAddComment_Click;
+
+            m_dateTimePopup = new Popup(m_dateTimePopupPanel = new DateTimePopupPanel());
+            m_dateTimePopupPanel.MyParent = m_dateTimePopup;
         }
 
         protected override void Dispose(bool disposing)
@@ -212,7 +217,7 @@ namespace Waveface
             // btnEdit
             // 
             resources.ApplyResources(this.btnEdit, "btnEdit");
-            this.btnEdit.BackColor = System.Drawing.SystemColors.Control;
+            this.btnEdit.BackColor = System.Drawing.Color.White;
             this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEdit.Image = ((System.Drawing.Image)(resources.GetObject("btnEdit.Image")));
             this.btnEdit.ImageDisable = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageDisable")));
@@ -633,5 +638,12 @@ namespace Waveface
         }
 
         #endregion
+
+        public void SetClock(bool visible, DateTime dateTime)
+        {
+            m_dateTimePopupPanel.DateTime = dateTime;
+
+            m_dateTimePopup.Show(this, 4, 44);
+        }
     }
 }

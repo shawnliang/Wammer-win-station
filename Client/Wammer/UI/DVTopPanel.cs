@@ -59,7 +59,7 @@ namespace Waveface
             _left -= btnMin.Width;
             btnMin.Left = _left;
 
-            if (Main.Current.BorderlessFormTheme.HostWindow != null)
+            if ((Main.Current != null) && (Main.Current.BorderlessFormTheme != null) && (Main.Current.BorderlessFormTheme.HostWindow != null))
             {
                 if (Main.Current.BorderlessFormTheme.HostWindow.WinMaxed)
                 {
@@ -157,6 +157,7 @@ namespace Waveface
             this.Controls.Add(this.btnClose);
             this.Name = "DVTopPanel";
             this.Size = new System.Drawing.Size(407, 85);
+            this.DoubleClick += new System.EventHandler(this.DVTopPanel_DoubleClick);
             this.ResumeLayout(false);
 
         }
@@ -170,14 +171,24 @@ namespace Waveface
 
         private void btnMax_Click(object sender, EventArgs e)
         {
+            DoMax();
+        }
+
+        private void DoMax()
+        {
             Main.Current.BorderlessFormTheme.DoMax();
-         
+
             SetWinButtonProperties();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             Main.Current.BorderlessFormTheme.DoClose();
+        }
+
+        private void DVTopPanel_DoubleClick(object sender, EventArgs e)
+        {
+            DoMax();
         }
     }
 }
