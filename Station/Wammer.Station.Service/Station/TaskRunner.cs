@@ -7,7 +7,7 @@ using log4net;
 
 namespace Wammer.Station
 {
-	public abstract class TaskRunner
+	public abstract class AbstrackTaskRunner
 	{
 		#region Var
 		private Thread _thread; 

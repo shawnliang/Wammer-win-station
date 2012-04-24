@@ -9,9 +9,9 @@ namespace Wammer.Station
 		private static ILog logger = LogManager.GetLogger("StationOfflineHandler");
 		private readonly HttpServer functionServer;
 		private readonly StationTimer stationTimer;
-		private readonly TaskRunner[] bodySyncRunners;
+		private readonly AbstrackTaskRunner[] bodySyncRunners;
 
-		public StationOfflineHandler(HttpServer functionServer, StationTimer stationTimer, TaskRunner[] bodySyncRunners)
+		public StationOfflineHandler(HttpServer functionServer, StationTimer stationTimer, AbstrackTaskRunner[] bodySyncRunners)
 		{
 			this.functionServer = functionServer;
 			this.stationTimer = stationTimer;

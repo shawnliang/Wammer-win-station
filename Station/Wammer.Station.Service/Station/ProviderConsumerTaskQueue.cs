@@ -6,91 +6,114 @@ using System.Threading;
 
 namespace Wammer.Station
 {
-	interface ITaskStore
+
+	interface INamedTask : ITask
 	{
-		void Enqueue(WaitCallback cb, object state);
+		string Name { get; }
 	}
 
-	public class BodySyncTaskQueue: ITaskStore
+	class NamedTask: SimpleTask, INamedTask
+	{
+		public NamedTask(WaitCallback cb, object state, string name)
+			:base(cb, state)
+		{
+			if (cb == null)
+				throw new ArgumentNullException("cb");
+
+			if (name == null)
+				throw new ArgumentNullException("name");
+
+			this.Name = name;
+		}
+
+		public string Name { get; set; }
+	}
+
+	public interface ITaskEnqueuable
+	{
+		void Enqueue(ITask task, TaskPriority priority);
+	}
+
+	public interface ITaskDequeuable
+	{
+		ITask Dequeue();
+		void AckDequeue(ITask task);
+	}
+
+	public class DedupTaskQueue: ITaskEnqueuable, ITaskDequeuable
 	{
 		private Semaphore hasItem = new Semaphore(0, int.MaxValue);
-		private Queue<SimpleTask> highPriorityCallbacks = new Queue<SimpleTask>();
-		private Queue<SimpleTask> mediumPriorityCallbacks = new Queue<SimpleTask>();
-		private Queue<SimpleTask> lowPriorityCallbacks = new Queue<SimpleTask>();
+		private Queue<INamedTask> highPriorityCallbacks = new Queue<INamedTask>();
+		private Queue<INamedTask> mediumPriorityCallbacks = new Queue<INamedTask>();
+		private Queue<INamedTask> lowPriorityCallbacks = new Queue<INamedTask>();
 		private HashSet<string> keys = new HashSet<string>();
 
 		public event EventHandler Enqueued;
 
-
-		public void Enqueue(WaitCallback cb, object state)
+		public void Enqueue(ITask task, TaskPriority priority)
 		{
 			try
 			{
-				ResourceDownloadEventArgs arg = (ResourceDownloadEventArgs)state;
-
-				string key = arg.attachment.object_id + arg.imagemeta;
-
-				if (keys.Add(key))
+				string taskName = ((INamedTask)task).Name;
+				lock (keys)
 				{
-					if (arg.imagemeta == Model.ImageMeta.Small || arg.imagemeta == Model.ImageMeta.Medium)
+					if (keys.Add(taskName))
 					{
-						lock (highPriorityCallbacks)
+						Queue<INamedTask> queue = null;
+
+						switch (priority)
 						{
-							highPriorityCallbacks.Enqueue(new SimpleTask(cb, state));
-							OnEnqueued(EventArgs.Empty);
-							hasItem.Release();
+							case TaskPriority.High:
+								queue = highPriorityCallbacks;
+								break;
+							case TaskPriority.Medium:
+								queue = mediumPriorityCallbacks;
+								break;
+							default:
+								queue = lowPriorityCallbacks;
+								break;
 						}
-					}
-					if (arg.imagemeta == Model.ImageMeta.Large || arg.imagemeta == Model.ImageMeta.Square)
-					{
-						lock (mediumPriorityCallbacks)
-						{
-							mediumPriorityCallbacks.Enqueue(new SimpleTask(cb, state));
-							OnEnqueued(EventArgs.Empty);
-							hasItem.Release();
-						}
-					}
-					else
-					{
-						lock (lowPriorityCallbacks)
-						{
-							lowPriorityCallbacks.Enqueue(new SimpleTask(cb, state));
-							OnEnqueued(EventArgs.Empty);
-							hasItem.Release();
-						}
+
+						queue.Enqueue((INamedTask)task);
+						OnEnqueued(EventArgs.Empty);
+						hasItem.Release();
 					}
 				}
 			}
 			catch (InvalidCastException e)
 			{
-				throw new ArgumentException("state is not a ResourceDownloadEventArgs", e);
+				throw new ArgumentException("task is not an INamedTask", e);
 			}
 		}
 
-		public SimpleTask Dequeue()
+		public ITask Dequeue()
 		{
 			hasItem.WaitOne();
 
-			lock (highPriorityCallbacks)
+			lock (keys)
 			{
+				INamedTask dequeued = null;
+
 				if (highPriorityCallbacks.Count > 0)
 				{
-					return highPriorityCallbacks.Dequeue();
+					dequeued = highPriorityCallbacks.Dequeue();
 				}
-			}
-
-			lock (mediumPriorityCallbacks)
-			{
-				if (mediumPriorityCallbacks.Count > 0)
+				else if (mediumPriorityCallbacks.Count > 0)
 				{
-					return mediumPriorityCallbacks.Dequeue();
+					dequeued = mediumPriorityCallbacks.Dequeue();
 				}
-			}
+				else
+					dequeued = lowPriorityCallbacks.Dequeue();
 
-			lock (lowPriorityCallbacks)
-			{
-				return lowPriorityCallbacks.Dequeue();
+				if (dequeued != null)
+					keys.Remove(dequeued.Name);
+
+				return dequeued;
 			}
+		}
+
+		public void AckDequeue(ITask task)
+		{
 		}
 
 		private void OnEnqueued(EventArgs arg)

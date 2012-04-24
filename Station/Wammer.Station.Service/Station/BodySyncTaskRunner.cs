@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Wammer.Station
 {
-	public class BodySyncTaskRunner : TaskRunner
+	public class TaskRunner : AbstrackTaskRunner
 	{
-		private BodySyncTaskQueue queue;
+		private ITaskDequeuable queue;
 
 		public event EventHandler TaskExecuted;
 
-		public BodySyncTaskRunner(BodySyncTaskQueue queue)
+		public TaskRunner(ITaskDequeuable queue)
 		{
 			this.queue = queue;
 		}
@@ -22,8 +22,9 @@ namespace Wammer.Station
 			{
 				try
 				{
-					SimpleTask task = queue.Dequeue();
+					ITask task = queue.Dequeue();
 					task.Execute();
+					queue.AckDequeue(task);
 				}
 				catch (Exception e)
 				{
