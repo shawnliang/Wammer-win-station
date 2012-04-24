@@ -84,7 +84,7 @@ namespace Wammer.PostUpload
 				foreach (string targetPostId in postIdSet)
 				{
 					LinkedList<PostUploadTask> targetUploadTaskQueue;
-					Debug.Assert(postQueue.TryGetValue(targetPostId, out targetUploadTaskQueue));
+					postQueue.TryGetValue(targetPostId, out targetUploadTaskQueue);
 					PostUploadTask task = targetUploadTaskQueue.First();
 					if (task.Status == PostUploadTaskStatus.Wait)
 					{
