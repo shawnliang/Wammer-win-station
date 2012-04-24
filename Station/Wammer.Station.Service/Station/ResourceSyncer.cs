@@ -24,7 +24,7 @@ namespace Wammer.Station
 		private Timeline.TimelineSyncer syncer;
 		private ResourceDownloader downloader;
 
-		public ResourceSyncer(long timerPeriod, ITaskStore bodySyncQueue, string stationId)
+		public ResourceSyncer(long timerPeriod, ITaskEnqueuable bodySyncQueue, string stationId)
 			: base(timerPeriod)
 		{
 			this.downloader = new ResourceDownloader(bodySyncQueue, stationId);

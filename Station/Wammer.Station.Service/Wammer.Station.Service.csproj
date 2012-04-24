@@ -116,7 +116,7 @@
     <Compile Include="Model\GenericData.cs" />
     <Compile Include="Model\QueuedTasks.cs" />
     <Compile Include="Queue\MongoPersistentStorage.cs" />
-    <Compile Include="Station\BodySyncTaskRunner.cs" />
+    <Compile Include="Station\TaskRunner.cs" />
     <Compile Include="Cloud\AttachmentApi.cs" />
     <Compile Include="Cloud\Response\AttachmentResponse.cs" />
     <Compile Include="Cloud\Response\CloudResponse.cs" />
@@ -216,7 +216,7 @@
     <Compile Include="Station\APIHandler\StatusGetHandler.cs" />
     <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\TaskRetryTimer.cs" />
-    <Compile Include="Station\TaskRunner.cs" />
+    <Compile Include="Station\AbstrackTaskRunner.cs" />
     <Compile Include="Station\Timeline\PostProvider.cs" />
     <Compile Include="Station\ResourceDownloader.cs" />
     <Compile Include="Station\Timeline\TimelineSyncer.cs" />
@@ -236,7 +236,7 @@
     <Compile Include="Utility\FileStorageHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
-    <Compile Include="Station\ProviderConsumerTaskQueue.cs" />
+    <Compile Include="Station\DedupTaskQueue.cs" />
     <Compile Include="Utility\NoRedirectWebClient.cs">
       <SubType>Component</SubType>
     </Compile>

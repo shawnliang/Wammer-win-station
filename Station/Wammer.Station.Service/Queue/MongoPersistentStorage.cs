@@ -17,7 +17,7 @@ namespace Wammer.Queue
 			MongoCursor<QueuedTask> tasks = QueuedTaskCollection.Instance.Find(Query.EQ("queue", qname));
 			foreach (var task in tasks)
 			{
-				msgs.Add(new WMSMessage(task.id, task.Data));
+				msgs.Add(new WMSMessage(task.id, task.Data) { IsPersistent = true });
 			}
 
 			return new WMSQueue(qname, this, msgs);

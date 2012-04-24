@@ -7,7 +7,7 @@ using Wammer.Station;
 
 namespace Wammer.PostUpload
 {
-	public class PostUploadTaskRunner: TaskRunner
+	public class PostUploadTaskRunner: AbstrackTaskRunner
 	{
 		private PostUploadTaskQueue queue;
 

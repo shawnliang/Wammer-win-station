@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using log4net;
 using MongoDB.Driver.Builders;
@@ -14,9 +14,9 @@ namespace Wammer.Station
 	{
 		private readonly PostUploadTaskRunner postUploadRunner;
 		private readonly StationTimer stationTimer;
-		private readonly TaskRunner[] bodySyncRunners;
+		private readonly AbstrackTaskRunner[] bodySyncRunners;
 
-		public ResumeSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer, TaskRunner[] bodySyncRunners)
+		public ResumeSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer, AbstrackTaskRunner[] bodySyncRunners)
 		{
 			this.postUploadRunner = postUploadRunner;
 			this.stationTimer = stationTimer;

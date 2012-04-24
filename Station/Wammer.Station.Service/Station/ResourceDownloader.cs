@@ -32,10 +32,10 @@ namespace Wammer.Station
 	class ResourceDownloader
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceDownloader));
-		private ITaskStore bodySyncQueue;
+		private ITaskEnqueuable bodySyncQueue;
 		private string stationId;
 
-		public ResourceDownloader(ITaskStore bodySyncQueue, string stationId)
+		public ResourceDownloader(ITaskEnqueuable bodySyncQueue, string stationId)
 		{
 			this.bodySyncQueue = bodySyncQueue;
 			this.stationId = stationId;
@@ -55,7 +55,21 @@ namespace Wammer.Station
 				imagemeta = meta,
 				filepath = FileStorage.GetTempFile(driver)
 			};
-			bodySyncQueue.Enqueue(DownstreamResource, evtargs);
+
+			EnqueueDownstreamTask(meta, evtargs);
+		}
+
+		private void EnqueueDownstreamTask(ImageMeta meta, ResourceDownloadEventArgs evtargs)
+		{
+			TaskPriority pri;
+			if (meta == ImageMeta.Medium || meta == ImageMeta.Small)
+				pri = TaskPriority.High;
+			else if (meta == ImageMeta.Large || meta == ImageMeta.Square)
+				pri = TaskPriority.Medium;
+			else
+				pri = TaskPriority.Low;
+
+			bodySyncQueue.Enqueue(new NamedTask(DownstreamResource, evtargs, evtargs.attachment.object_id + evtargs.imagemeta), pri);
 		}
 
 		private void DownloadMissedResource(Driver driver, ICollection<PostInfo> posts)
@@ -203,7 +217,7 @@ namespace Wammer.Station
 				{
 					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
 					evtargs.filepath = FileStorage.GetTempFile(evtargs.driver);
-					bodySyncQueue.Enqueue(DownstreamResource, evtargs);
+					EnqueueDownstreamTask(evtargs.imagemeta, evtargs);
 				}
 			}
 			finally
