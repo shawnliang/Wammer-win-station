@@ -66,6 +66,17 @@ namespace Wammer.Station
 			mqVeryLowPriority = mqBroker.GetQueue("verylow");
 
 			MaxConcurrentTaskCount = 6;
+
+			totalTaskCount = mqHighPriority.Count + mqMediumPriority.Count + mqLowPriority.Count + mqVeryLowPriority.Count;
+			waitingHighTaskCount = mqHighPriority.Count;
+
+			for (int i = 0; i < MaxConcurrentTaskCount; i++)
+			{
+				lock (lockObj)
+				{
+					_scheduleNextTaskToRun();
+				}
+			}
 		}
 
 		/// <summary>
