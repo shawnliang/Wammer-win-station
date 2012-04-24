@@ -2,60 +2,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using log4net;
 
 namespace Wammer.Station
 {
-	public abstract class AbstrackTaskRunner
+	public class TaskRunner : AbstrackTaskRunner
 	{
-		#region Var
-		private Thread _thread; 
-		#endregion
+		private ITaskDequeuable queue;
 
-		#region Private Property
-		private Thread m_Thread
+		public event EventHandler TaskExecuted;
+
+		public TaskRunner(ITaskDequeuable queue)
 		{
-			get
-			{
-				if (_thread == null)
-					_thread = new Thread(Do);
-				return _thread;
-			}
-			set
-			{
-				_thread = value;
-			}
-		}
-		#endregion
-
-		protected volatile bool exit = false;
-
-		public void Start()
-		{
-			exit = false;
-
-			if (m_Thread.ThreadState == ThreadState.Unstarted)
-				m_Thread.Start();
+			this.queue = queue;
 		}
 
-		public void Stop()
+		protected override void Do()
 		{
-			exit = true;
-			if (!m_Thread.Join(5000))
+			while (!exit)
 			{
 				try
 				{
-					m_Thread.Abort();
+					ITask task = queue.Dequeue();
+					task.Execute();
+					queue.AckDequeue(task);
 				}
-				catch 
+				catch (Exception e)
 				{
-				}				
+					this.LogWarnMsg("Error while executing task.", e);
+				}
+				finally
+				{
+					OnTaskExecuted(EventArgs.Empty);
+				}
 			}
-			m_Thread = null;
-			exit = false;
 		}
 
-		protected abstract void Do();
+		private void OnTaskExecuted(EventArgs arg)
+		{
+			EventHandler handler = TaskExecuted;
+			if (handler != null)
+				handler(this, arg);
+		}
 	}
 }
