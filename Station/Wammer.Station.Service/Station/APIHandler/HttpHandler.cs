@@ -8,6 +8,7 @@ using System.Web;
 using Wammer.MultiPart;
 using Wammer.Model;
 using System.Linq;
+using Wammer.Cloud;
 
 namespace Wammer.Station
 {
@@ -67,6 +68,16 @@ namespace Wammer.Station
 			{
 				throw new FormatException(string.Format("Parameter {0} is null.", string.Join("¡B", nullArgumentNames.ToArray())));
 			}
+		}
+
+		protected void TunnelToCloud<T>(string apiPath)
+		{
+			var forwardParams = new Dictionary<object, object>();
+			foreach (string key in Parameters.AllKeys)
+			{
+				forwardParams.Add(key, Parameters[key]);
+			}
+			RespondSuccess(CloudServer.requestPath<T>(new WebClient(), apiPath, forwardParams, false));
 		}
 		#endregion
 

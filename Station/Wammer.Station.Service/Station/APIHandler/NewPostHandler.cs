@@ -34,6 +34,13 @@ namespace Wammer.Station
 				CloudServer.PARAM_SESSION_TOKEN, 
 				CloudServer.PARAM_GROUP_ID);
 
+			var type = Parameters[CloudServer.PARAM_TYPE];
+			if (type == "link")
+			{
+				TunnelToCloud<NewPostResponse>("posts/new");
+				return;
+			}
+
 			var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
 			var driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
 			if (driver == null)
@@ -89,9 +96,9 @@ namespace Wammer.Station
 				preview = new Preview()
 			};
 
-			//TODO: Set event time
+			post.event_time = timeStamp.ToString("u");
 
-			post.type = Parameters[CloudServer.PARAM_TYPE];
+			post.type = type;
 
 			PostCollection.Instance.Save(post);
 	
