@@ -286,30 +286,35 @@ namespace Waveface
                                 }
                             }
 
-                            if (CheckStoragesUsage() <= 0)
+
+                            if (Environment.GetCommandLineArgs().Length == 1)
                             {
-                                if (CheckStoragesUsage() <= 0) //Hack 
+								// only check quota in cloud mode, because station will handle over quota
+                                if (CheckStoragesUsage() <= 0)
                                 {
-                                    // 雲端個人儲存空間不足. 作錯誤處裡 
-                                    s_logger.Error("(CheckStoragesUsage() <= 0)");
-
-                                    if (OverQuotaMissDialog != null)
-                                        OverQuotaMissDialog("");
-
-                                    while (Main.Current.NewPostThreadErrorDialogResult == DialogResult.None)
-                                        Thread.Sleep(500);
-
-                                    switch (Main.Current.NewPostThreadErrorDialogResult)
+                                    if (CheckStoragesUsage() <= 0) //Hack 
                                     {
-                                        case DialogResult.Cancel: // Delete Post
-                                            postItem.ErrorAndDeletePost = true;
-                                            postItem.PostOK = false;
-                                            return postItem;
+                                        // 雲端個人儲存空間不足. 作錯誤處裡 
+                                        s_logger.Error("(CheckStoragesUsage() <= 0)");
 
-                                        case DialogResult.Retry: // DoNothing
+                                        if (OverQuotaMissDialog != null)
+                                            OverQuotaMissDialog("");
 
-                                            postItem.PostOK = false;
-                                            return postItem;
+                                        while (Main.Current.NewPostThreadErrorDialogResult == DialogResult.None)
+                                            Thread.Sleep(500);
+
+                                        switch (Main.Current.NewPostThreadErrorDialogResult)
+                                        {
+                                            case DialogResult.Cancel: // Delete Post
+                                                postItem.ErrorAndDeletePost = true;
+                                                postItem.PostOK = false;
+                                                return postItem;
+
+                                            case DialogResult.Retry: // DoNothing
+
+                                                postItem.PostOK = false;
+                                                return postItem;
+                                        }
                                     }
                                 }
                             }
@@ -330,25 +335,25 @@ namespace Waveface
 
                             s_logger.Trace("[" + _tmpStamp + "]" + "Batch Upload Photo [" + _count + "]" + _file);
 
-							if (Environment.GetCommandLineArgs().Length == 1)
-							{
-								// Cache Origin
-								string _localFileOrigin = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_" + _text);
-								File.Copy(_file, _localFileOrigin);
+                            if (Environment.GetCommandLineArgs().Length == 1)
+                            {
+                                // Cache Origin
+                                string _localFileOrigin = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_" + _text);
+                                File.Copy(_file, _localFileOrigin);
 
-								// Cache Medium
-								string _localFileMedium = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_medium_" + _text);
-								string _resizedMediumImageFilePath = ImageUtility.ResizeImage(_file, _text, "512", 100);
-								File.Copy(_resizedMediumImageFilePath, _localFileMedium);
+                                // Cache Medium
+                                string _localFileMedium = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_medium_" + _text);
+                                string _resizedMediumImageFilePath = ImageUtility.ResizeImage(_file, _text, "512", 100);
+                                File.Copy(_resizedMediumImageFilePath, _localFileMedium);
 
-								// Small
-								if (_count == 0)
-								{
-									string _localFileSmall = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_small_" + _text);
-									string _resizedSmallImageFilePath = ImageUtility.ResizeImage(_file, _text, "120", 100);
-									File.Copy(_resizedSmallImageFilePath, _localFileSmall);
-								}
-							}
+                                // Small
+                                if (_count == 0)
+                                {
+                                    string _localFileSmall = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_small_" + _text);
+                                    string _resizedSmallImageFilePath = ImageUtility.ResizeImage(_file, _text, "120", 100);
+                                    File.Copy(_resizedSmallImageFilePath, _localFileSmall);
+                                }
+                            }
 
                             Uploading = false;
                         }
@@ -516,7 +521,7 @@ namespace Waveface
                 if (!GCONST.DEBUG)
                     _json = StringUtility.Compress(_json);
 
-				string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_NP.dat");
+                string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_NP.dat");
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
                 {
@@ -540,7 +545,7 @@ namespace Waveface
             try
             {
                 string _json = string.Empty;
-				string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_NP.dat");
+                string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_NP.dat");
 
                 StreamReader _sr = File.OpenText(_filePath);
                 _json = _sr.ReadToEnd();

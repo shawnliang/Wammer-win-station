@@ -249,22 +249,26 @@ namespace Waveface.PostUI
             }
             else
             {
-                long _storagesUsage = CheckStoragesUsage(_newAdd);
-
-                if (_storagesUsage == long.MinValue)
+                if (Environment.GetCommandLineArgs().Length == 1)
                 {
-                    MessageBox.Show(I18n.L.T("SystemError"), "Waveface", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Exclamation);
+                    // check quota only in cloud mode because station will handle over quota
+                    long _storagesUsage = CheckStoragesUsage(_newAdd);
 
-                    return;
-                }
+                    if (_storagesUsage == long.MinValue)
+                    {
+                        MessageBox.Show(I18n.L.T("SystemError"), "Waveface", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Exclamation);
 
-                if (_storagesUsage < 0)
-                {
-                    MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
-                                    "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
-                    return;
+                    if (_storagesUsage < 0)
+                    {
+                        MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
+                                        "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        return;
+                    }
                 }
 
                 string _text = string.Empty;
@@ -373,20 +377,24 @@ namespace Waveface.PostUI
                 return;
             }
 
-            long _storagesUsage = CheckStoragesUsage(imageListView.Items.Count);
-
-            if (_storagesUsage == long.MinValue)
+            if (Environment.GetCommandLineArgs().Length == 1)
             {
-                MessageBox.Show(I18n.L.T("SystemError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                // check quota only in cloud mode because station will handle over quota
+                long _storagesUsage = CheckStoragesUsage(imageListView.Items.Count);
 
-                return;
-            }
+                if (_storagesUsage == long.MinValue)
+                {
+                    MessageBox.Show(I18n.L.T("SystemError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-            if (_storagesUsage < 0)
-            {
-                MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                return;
+                if (_storagesUsage < 0)
+                {
+                    MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    return;
+                }
             }
 
             BatchPostItem _batchPostItem = new BatchPostItem();
@@ -434,22 +442,26 @@ namespace Waveface.PostUI
 
         public void ShowMessage(int went)
         {
-            long _storagesUsage = CheckStoragesUsage(went);
-
-            if (_storagesUsage == long.MinValue)
+            if (Environment.GetCommandLineArgs().Length == 1)
             {
-                MessageBox.Show(I18n.L.T("SystemError"), "Waveface", MessageBoxButtons.OK,
-                                MessageBoxIcon.Exclamation);
+                // check quota only in cloud mode because station will handle over quota
+                long _storagesUsage = CheckStoragesUsage(went);
 
-                return;
-            }
+                if (_storagesUsage == long.MinValue)
+                {
+                    MessageBox.Show(I18n.L.T("SystemError"), "Waveface", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Exclamation);
 
-            if (_storagesUsage < 0)
-            {
-                MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
-                                "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
+                if (_storagesUsage < 0)
+                {
+                    MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
+                                    "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                return;
+                    return;
+                }
             }
         }
 
@@ -457,7 +469,7 @@ namespace Waveface.PostUI
 
         public void AddPhoto()
         {
-			openFileDialog.RestoreDirectory = true;
+            openFileDialog.RestoreDirectory = true;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 AddPhotos(openFileDialog.FileNames, -1);
