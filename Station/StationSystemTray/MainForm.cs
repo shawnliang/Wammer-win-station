@@ -400,7 +400,7 @@ namespace StationSystemTray
 			try
 			{
 				uictrlWavefaceClient.Terminate();
-				StationController.StationOffline();
+				StationController.SuspendSync();
 			}
 			catch (Exception ex)
 			{
@@ -1106,7 +1106,7 @@ namespace StationSystemTray
 
 		protected override object Action(object obj)
 		{
-			StationController.StationOffline();
+			StationController.SuspendSync();
 			return null;
 		}
 
@@ -1131,7 +1131,7 @@ namespace StationSystemTray
 
 		protected override object Action(object obj)
 		{
-			StationController.StationOnline();
+			StationController.ResumeSync();
 			return null;
 		}
 

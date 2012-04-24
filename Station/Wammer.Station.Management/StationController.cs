@@ -357,13 +357,13 @@ namespace Wammer.Station.Management
 		public static string StationMgmtURL { get; set; }
 		public static string StationFuncURL { get; set; }
 
-		public static void StationOnline()
+		public static void ResumeSync()
 		{
 			try
 			{
 				CloudServer.request<CloudResponse>(
 					new WebClient(),
-					StationMgmtURL + "station/online",
+					StationMgmtURL + "station/resumeSync",
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
@@ -377,13 +377,13 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		public static void StationOnline(string email, string password)
+		public static void ResumeSync(string email, string password)
 		{
 			try
 			{
 				CloudServer.request<CloudResponse>(
 					new WebClient(),
-					StationMgmtURL + "station/online",
+					StationMgmtURL + "station/resumeSync",
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
@@ -399,13 +399,13 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		public static void StationOffline()
+		public static void SuspendSync()
 		{
 			try
 			{
 				CloudServer.request<CloudResponse>(
 					new WebClient(),
-					StationMgmtURL + "station/offline",
+					StationMgmtURL + "station/suspendSync",
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
