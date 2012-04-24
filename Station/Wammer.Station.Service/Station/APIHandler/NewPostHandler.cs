@@ -12,23 +12,7 @@ namespace Wammer.Station
 {
 	public class NewPostHandler : HttpHandler
 	{
-		//#region Var
-		//private BypassHttpHandler _byPassHandler; 
-		//#endregion
-
 		#region Private Property
-		//private BypassHttpHandler m_byPassHandler 
-		//{ 
-		//    get
-		//    {
-		//        if (_byPassHandler == null)
-		//        {
-		//            _byPassHandler = new BypassHttpHandler(CloudServer.BaseUrl);
-		//            _byPassHandler.ProcessSucceeded += new EventHandler<HttpHandlerEventArgs>(_byPassHandler_ProcessSucceeded);
-		//        }
-		//        return _byPassHandler;
-		//    }
-		//}
 		private IPostUploadSupportable m_PostUploader { get; set; }
 		#endregion
 
@@ -53,12 +37,7 @@ namespace Wammer.Station
 			var type = Parameters[CloudServer.PARAM_TYPE];
 			if (type == "link")
 			{
-				var byPassParams = new Dictionary<object, object>();
-				foreach (string key in Parameters.AllKeys)
-				{
-					byPassParams.Add(key, Parameters[key]);
-				}
-				RespondSuccess(CloudServer.requestPath<NewPostResponse>(new WebClient(), "posts/new", byPassParams, false));
+				TunnelToCloud<NewPostResponse>("posts/new");
 				return;
 			}
 
@@ -139,12 +118,5 @@ namespace Wammer.Station
 			return this.MemberwiseClone();
 		}
 		#endregion
-
-		//#region Event Process
-		//void _byPassHandler_ProcessSucceeded(object sender, HttpHandlerEventArgs e)
-		//{
-		//    OnProcessSucceeded(e);
-		//}
-		//#endregion
 	}
 }
