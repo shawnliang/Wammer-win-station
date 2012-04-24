@@ -29,7 +29,6 @@ namespace Wammer.Station
 		private IHttpHandler _defaultHandler;
 		private bool _started;
 		private bool _authblocked;
-		private HttpRequestMonitor monitor;
 		#endregion
 
 
@@ -89,10 +88,9 @@ namespace Wammer.Station
 
 
 		#region Constructor
-		public HttpServer(int port, HttpRequestMonitor monitor = null)
+		public HttpServer(int port)
 		{
 			m_Port = port;
-			this.monitor = monitor;
 		}
 		#endregion
 
@@ -233,9 +231,6 @@ namespace Wammer.Station
 
 			m_Handlers.Add(absPath, handler);
 			m_Listener.Prefixes.Add(urlPrefix);
-
-			if (monitor != null)
-				handler.ProcessSucceeded += monitor.OnProcessSucceeded;
 		}
 
 		/// <summary>
@@ -337,7 +332,6 @@ namespace Wammer.Station
 							var task = new HttpHandlingTask(handler, context, beginTime);
 							OnTaskQueue(new TaskQueueEventArgs(task, handler));
 							TaskQueue.Enqueue(task, TaskPriority.High);
-							monitor.Enqueue();
 						}
 						else
 							respond404NotFound(context);

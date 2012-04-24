@@ -7,6 +7,7 @@ using System.Text;
 using System.Web;
 using Wammer.MultiPart;
 using Wammer.Model;
+using Wammer.PerfMonitor;
 using System.Linq;
 using Wammer.Cloud;
 
@@ -47,6 +48,7 @@ namespace Wammer.Station
 		
 		protected HttpHandler()
 		{
+			this.ProcessSucceeded += HttpRequestMonitor.Instance.OnProcessSucceeded;
 		}
 
 		#region Protected Method

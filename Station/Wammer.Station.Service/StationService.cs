@@ -64,8 +64,7 @@ namespace Wammer.Station.Service
 
 				fastJSON.JSON.Instance.UseUTCDateTime = true;
 
-				HttpRequestMonitor httpRequestMonitor = new HttpRequestMonitor();
-				functionServer = new HttpServer(9981, httpRequestMonitor); // TODO: remove hard code
+				functionServer = new HttpServer(9981); // TODO: remove hard code
 
 
 				stationTimer = new StationTimer(functionServer, bodySyncTaskQueue, stationId);
@@ -109,7 +108,9 @@ namespace Wammer.Station.Service
 				postUploadRunner.Start();
 
 				logger.Debug("Add handlers to management server");
-				managementServer = new HttpServer(9989, httpRequestMonitor);
+				managementServer = new HttpServer(9989);
+				managementServer.TaskEnqueue += managementServer_TaskEnqueue;
+
 				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
 				InitManagementServerHandler(addDriverHandler);
 
@@ -233,10 +234,12 @@ namespace Wammer.Station.Service
 
 		void functionServer_TaskEnqueue(object sender, TaskQueueEventArgs e)
 		{
-			if (e.Handler is AttachmentUploadHandler)
-			{
-				PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Increment();
-			}			
+			HttpRequestMonitor.Instance.Enqueue();
+		}
+
+		void managementServer_TaskEnqueue(object sender, TaskQueueEventArgs e)
+		{
+			HttpRequestMonitor.Instance.Enqueue();
 		}
 
 		#region Private Method
