@@ -1,9 +1,10 @@
-#region
+ï»¿#region
 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net.NetworkInformation;
@@ -68,9 +69,16 @@ namespace Waveface
         private bool m_getAllDataError;
         private string m_newestUpdateTime;
 
+        private BorderlessFormTheme m_borderlessFormTheme = new BorderlessFormTheme();
+
         #endregion
 
         #region Properties
+
+        public BorderlessFormTheme BorderlessFormTheme
+        {
+            get { return m_borderlessFormTheme; }
+        }
 
         public string LoadingImagePath
         {
@@ -195,7 +203,7 @@ namespace Waveface
 				UpdateNetworkStatus();
 			}
 
-            //InitDropableNotifyIcon();
+            // InitDropableNotifyIcon();
 
             m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
 
@@ -203,6 +211,8 @@ namespace Waveface
             CreateFileWatcher();
 
             CreateLoadingImage();
+
+            BorderlessFormTheme.ApplyFormThemeSizable(this, false);
 
             s_logger.Trace("Form_Load: OK");
         }
@@ -228,11 +238,23 @@ namespace Waveface
 
         private void CreateLoadingImage()
         {
+            int s = 256;
+            int k = 8;
+
             try
             {
-                Bitmap _img = new Bitmap(256, 256);
+                Bitmap _img = new Bitmap(s, s);
                 Graphics _g = Graphics.FromImage(_img);
-                _g.FillRectangle(new SolidBrush(Color.WhiteSmoke), new Rectangle(0, 0, 256, 256));
+
+                _g.FillRectangle(new SolidBrush(Color.White), new Rectangle(0, 0, s, s));
+
+                using (Pen _p = new Pen(Color.FromArgb(89, 154, 174)))
+                {
+                    _p.DashStyle = DashStyle.Dash;
+
+                    _g.DrawRectangle(_p, new Rectangle(k, k, s - (2 * k), s - (2 * k)));
+                }
+
                 _img.Save(LoadingImagePath);
             }
             catch (Exception _e)
@@ -284,11 +306,9 @@ namespace Waveface
                 RT = _rt;
                 return true;
             }
-            else
-            {
+
                 return false;
             }
-        }
 
         private void SaveRunTime()
         {
@@ -425,18 +445,20 @@ namespace Waveface
             Close();
         }
 
-        public void Setting()
+        public void AccountInformation()
         {
 			//if (!Current.CheckNetworkStatus())
 			//    return;
 
             m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
+
             if (m_setting.isUnlink)
             {
                 QuitOption = QuitOption.Unlink;
                 Close();
             }
+
             m_setting = null;
         }
 
@@ -470,7 +492,7 @@ namespace Waveface
         {
             try
             {
-                panelLeftInfo.Width = leftArea.MyWidth + 8;
+                panelLeftInfo.Width = leftArea.MyWidth;
 
                 if (WindowState == FormWindowState.Minimized)
                 {
@@ -610,8 +632,7 @@ namespace Waveface
 
 			WService.StationIP = "";
 
-            postsArea.ShowTypeUI(false);
-            postsArea.showRefreshUI(false);
+            panelTitle.showRefreshUI(false);
 
             s_logger.Trace("Reset.Online" + online.ToString());
         }
@@ -631,7 +652,7 @@ namespace Waveface
 				m_stationIP = "http://127.0.0.1:9981";
 				WService.StationIP = m_stationIP;
 				StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
-				radioButtonStation.Checked = true;
+                // radioButtonStation.Checked = true;
 				RT.StationMode = true;
 			}
 
@@ -674,7 +695,7 @@ namespace Waveface
 
             leftArea.SetNewPostManager();
 
-            postsArea.showRefreshUI(true);
+            panelTitle.showRefreshUI(true);
 
             Cursor = Cursors.Default;
 
@@ -724,7 +745,7 @@ namespace Waveface
 
         private void fillUserInformation()
         {
-            panelTop.UserName = RT.Login.user.nickname;
+            //panelTop.UserName = RT.Login.user.nickname;
 
             /*
             if (RT.Login.user.avatar_url == string.Empty)
@@ -779,7 +800,6 @@ namespace Waveface
             RT.FilterPosts = new List<Post>(); //Reset
 
             RT.FilterTimelineMode = isFilterTimelineMode;
-            postsArea.ShowTypeUI(RT.FilterTimelineMode);
 
             FilterFetchPostsAndShow(true);
         }
@@ -915,7 +935,7 @@ namespace Waveface
                 {
                     s_logger.Trace("GetLastReadAndShow.getLastScan: null");
 
-                    ShowAllTimeline(m_showTimelineIndexType);
+                    ShowAllTimeline(m_showTimelineIndexType, -1);
                 }
                 else
                 {
@@ -926,7 +946,7 @@ namespace Waveface
                     //@
                     //if (IsLastReadPostInCacheData(_lastRead.post_id))
                     {
-                        ShowAllTimeline(m_showTimelineIndexType);
+                        ShowAllTimeline(m_showTimelineIndexType, -1);
                     }
                     /*else
                     {
@@ -978,7 +998,7 @@ namespace Waveface
 
                 Cursor = Cursors.WaitCursor;
 
-                postsArea.updateRefreshUI(false);
+                panelTitle.updateRefreshUI(false);
 
                 if (bgWorkerGetAllData.IsBusy)
                     Cursor = Cursors.Default;
@@ -987,12 +1007,12 @@ namespace Waveface
             }
         }
 
-        private void ShowAllTimeline(ShowTimelineIndexType showTimelineIndexType)
+        private void ShowAllTimeline(ShowTimelineIndexType showTimelineIndexType, int index)
         {
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                           delegate { ShowAllTimeline(showTimelineIndexType); }
+                           delegate { ShowAllTimeline(showTimelineIndexType, index); }
                            ));
             }
             else
@@ -1007,7 +1027,21 @@ namespace Waveface
                 postsArea.ShowPostInforPanel(false);
                 leftArea.SetUI(true);
 
-                int _index = RT.GetMyTimelinePosition(showTimelineIndexType);
+                int _index;
+
+                if (index < 0)
+                {
+                    _index = RT.GetMyTimelinePosition(showTimelineIndexType);
+                }
+                else
+                {
+                    if (index < RT.CurrentGroupPosts.Count)
+                        _index = index;
+                    else
+                        _index = RT.CurrentGroupPosts.Count - 1;
+
+                    RT.SetCurrentGroupLocalLastRead(RT.CurrentGroupPosts[_index]);
+                }
 
                 s_logger.Info("ShowAllTimeline: showTimelineIndexType=" + showTimelineIndexType + ", TimelineIndex=" +
                               _index);
@@ -1079,7 +1113,7 @@ namespace Waveface
 
                         if (m_postForm.BatchPostItem.Post != null)
                         {
-                            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
                         }
 
                         break;
@@ -1245,18 +1279,48 @@ namespace Waveface
 			//if (!CheckNetworkStatus())
 			//    return false;
 
+            Cursor = Cursors.WaitCursor;
+
             MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
 
             if (_ret != null)
             {
-                ReloadAllData(); //- ToDo 
+                RemovePostLocalAndRefresh(postId, true);
 
                 MessageBox.Show(I18n.L.T("PostRemoved"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                Cursor = Cursors.Default;
                 return true;
             }
 
+            Cursor = Cursors.Default;
             return false;
+        }
+
+        private void RemovePostLocalAndRefresh(string postId, bool changeUI)
+        {
+            int _index = 0;
+
+            foreach (Post _p in RT.CurrentGroupPosts)
+            {
+                if (_p.post_id == postId)
+                {
+                    RT.CurrentGroupPosts.Remove(_p);
+
+                    if (changeUI)
+                    {
+                        ShowAllTimeline(ShowTimelineIndexType.Manual, _index);
+                    }
+                    else
+                    {
+                        ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
+                    }
+
+                    break;
+                }
+
+                _index++;
+            }
         }
 
         public void RefreshSinglePost_ByID(string post_id)
@@ -1268,7 +1332,7 @@ namespace Waveface
                 ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
                 //ReplacePostInList(_singlePost.post, RT.FilterPosts);
 
-                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
             }
         }
 
@@ -1277,7 +1341,7 @@ namespace Waveface
             ReplacePostInList(post, RT.CurrentGroupPosts);
 
             if (refreshUI)
-                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
         }
 
         private bool ReplacePostInList(Post post, List<Post> posts)
@@ -1494,6 +1558,11 @@ namespace Waveface
 
         #region Misc
 
+        public int GetLeftAreaWidth()
+        {
+            return leftArea.Width;
+        }
+
         private void timerPolling_Tick(object sender, EventArgs e)
         {
 			timerPolling.Enabled = false;
@@ -1502,8 +1571,6 @@ namespace Waveface
 			{
 				//if (!CheckNetworkStatus())
 				//    return;
-
-
 
 				if (checkNewPosts())
 				{
@@ -1544,9 +1611,7 @@ namespace Waveface
 							{
 								if (_action.action == "hide")
 								{
-									ReloadAllData(); //
-
-									return;
+                                RemovePostLocalAndRefresh(_usertrack.target_id, false);
 								}
 							}
 						}
@@ -1557,12 +1622,15 @@ namespace Waveface
 
 						if (_postsGet != null)
 						{
+                        bool _changed = false;
+
 							foreach (Post _p in _postsGet.posts)
 							{
-								ReplacePostInList(_p, RT.CurrentGroupPosts);
+                            _changed = ReplacePostInList(_p, RT.CurrentGroupPosts);
 							}
 
-							ShowAllTimeline(ShowTimelineIndexType.LocalLastRead);
+                        if(_changed)
+                            ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
 						}
 					}
 
@@ -1595,6 +1663,7 @@ namespace Waveface
             m_taskbarNotifier.Show(_name, post.content, 333, 2000, 333);
         }
 
+        /*
         private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
         {
 			if (radioButtonCloud.Checked)
@@ -1610,6 +1679,7 @@ namespace Waveface
                 backgroundWorkerPreloadAllImages_DoWork(null, null);
 			}
         }
+        */
 
         public void ShowStatuMessage(string message, bool timeout)
         {
@@ -1626,7 +1696,7 @@ namespace Waveface
                     timerShowStatuMessage.Enabled = true;
 
                     StatusLabelPost.Text = message;
-                    postsArea.ShowStatusText(message);
+                    panelTitle.ShowStatusText(message);
                 }
                 else
                 {
@@ -1640,7 +1710,7 @@ namespace Waveface
             timerShowStatuMessage.Enabled = false;
 
             StatusLabelPost.Text = "";
-            postsArea.ShowStatusText("");
+            panelTitle.ShowStatusText("");
         }
 
         public void ShowFileMissDialog(string text)
@@ -1689,7 +1759,7 @@ namespace Waveface
 				}
 			catch
             {
-                //Hack: Cloud ¦R¥X¿ù»~¸ê®Æ
+                //Hack: Cloud ï¿½Rï¿½Xï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½ï¿½
 
                 ForceLogout();
                 m_getAllDataError = true;
@@ -1768,7 +1838,7 @@ namespace Waveface
             {
                 Cursor = Cursors.Default;
 
-                postsArea.updateRefreshUI(true);
+                panelTitle.updateRefreshUI(true);
 
                 GetLastReadAndShow();
             }
@@ -1795,7 +1865,7 @@ namespace Waveface
                             string _fileName = string.Empty;
                             Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url, out _fileName, false);
 
-                            string _localPic =Path.Combine(GCONST.ImageCachePath, _fileName);
+                            string _localPic = Path.Combine(GCONST.ImageCachePath, _fileName);
 
                             PreloadThumbnail(_url, _localPic);
 
@@ -1884,6 +1954,32 @@ namespace Waveface
             if (RT.CurrentGroupPosts != null)
             {
                 PrefetchImages(RT.CurrentGroupPosts, false); //@
+            }
+        }
+
+        #endregion
+
+        #region BorderlessForm
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, uint Msg, long lParam, long wParam);
+
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void panelTitle_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (WindowState != FormWindowState.Maximized)
+            {
+                if (MouseButtons.ToString() == "Left")
+                {
+                   ReleaseCapture();
+
+                    uint WM_NCLBUTTONDOWN = 161;
+                    int HT_CAPTION = 0x2;
+
+                    SendMessage(Parent.Parent.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+                }
             }
         }
 

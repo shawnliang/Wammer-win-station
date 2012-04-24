@@ -3,8 +3,10 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.DetailUI;
+using View = Manina.Windows.Forms.View;
 
 #endregion
 
@@ -224,10 +226,20 @@ namespace Waveface.Component
 
                         if (_isCoverImage)
                         {
-                            using (Pen _pen = new Pen(Color.DeepPink, 2))
+                            using (Brush _brush = new SolidBrush(Color.FromArgb(127, 0, 0, 0)))
                             {
-                                Utility.DrawRoundedRectangle(g, _pen, bounds.Left + 1, bounds.Top + 1, bounds.Width - 2,
-                                                             bounds.Height - 2, 4);
+                                Rectangle _r = new Rectangle(bounds.Location, bounds.Size);
+                                _r.Inflate(-4, -4);
+                                int _h1 = (int)(_r.Height * 0.8);
+                                int _h2 = _r.Height - _h1;
+
+                                Rectangle _rect = new Rectangle(_r.Left, _r.Top + _h1, _r.Width, _h2);
+
+                                g.FillRectangle(_brush, _rect);
+
+                                Font _font = new Font("Arial", _h2 * (1- 0.7f), FontStyle.Bold);
+
+                                TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
                             }
                         }
                     }
@@ -244,15 +256,15 @@ namespace Waveface.Component
 
                     if (item.Tag is EditModeImageListViewItemTag)
                     {
-                        EditModePhotoType _type = ((EditModeImageListViewItemTag) item.Tag).AddPhotoType;
+                        EditModePhotoType _type = ((EditModeImageListViewItemTag)item.Tag).AddPhotoType;
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
                         {
-                            FillRoundedCorner(g, new SolidBrush(Color.FromArgb(222, 222, 214)), bounds.Left, bounds.Top,
+                            FillRoundedCorner(g, new SolidBrush(Color.Violet), bounds.Left, bounds.Top,
                                               16, 16, 4);
 
                             g.DrawString("+", new Font("Tahoma", 10, FontStyle.Bold),
-                                         new SolidBrush(Color.FromArgb(104, 176, 197)), bounds.Left, bounds.Top);
+                                         new SolidBrush(Color.White), bounds.Left - 1, bounds.Top - 1);
                         }
                     }
                 }
@@ -333,13 +345,13 @@ namespace Waveface.Component
 
         internal static Size GetSizedImageBounds(Image image, Size fit)
         {
-            float _f = Math.Max(image.Width/(float) fit.Width, image.Height/(float) fit.Height);
+            float _f = Math.Max(image.Width / (float)fit.Width, image.Height / (float)fit.Height);
 
             if (_f < 1.0f)
                 _f = 1.0f; // Do not upsize small images
 
-            int _width = (int) Math.Round(image.Width/_f);
-            int _height = (int) Math.Round(image.Height/_f);
+            int _width = (int)Math.Round(image.Width / _f);
+            int _height = (int)Math.Round(image.Height / _f);
             return new Size(_width, _height);
         }
 
@@ -352,8 +364,8 @@ namespace Waveface.Component
                 throw new ArgumentException("vAlign must be between 0.0 and 100.0 (inclusive).", "vAlign");
 
             Size _scaled = GetSizedImageBounds(image, fit.Size);
-            int _x = fit.Left + (int) (hAlign/100.0f*(fit.Width - _scaled.Width));
-            int _y = fit.Top + (int) (vAlign/100.0f*(fit.Height - _scaled.Height));
+            int _x = fit.Left + (int)(hAlign / 100.0f * (fit.Width - _scaled.Width));
+            int _y = fit.Top + (int)(vAlign / 100.0f * (fit.Height - _scaled.Height));
 
             return new Rectangle(_x, _y, _scaled.Width, _scaled.Height);
         }

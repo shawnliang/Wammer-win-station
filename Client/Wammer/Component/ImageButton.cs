@@ -1,11 +1,13 @@
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.Windows.Forms;
 
 namespace Waveface.Component
 {
-    public class ImageButton : Control
+    public class ImageButton : Panel
     {
         private Image m_image;
         private Bitmap m_bmpOffscreen;
@@ -14,6 +16,8 @@ namespace Waveface.Component
 
         private bool m_hover;
         private bool m_down;
+
+        #region Properties
 
         public Image Image
         {
@@ -48,18 +52,33 @@ namespace Waveface.Component
             }
         }
 
+        #endregion
+
+        public ImageButton()
+        {
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.DoubleBuffer, true);
+            // SetStyle(ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.UserPaint, true);
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             if (m_bmpOffscreen == null)
-                m_bmpOffscreen = new Bitmap(ClientSize.Width, ClientSize.Height);
+                m_bmpOffscreen = new Bitmap(Width, Height);
 
-            Graphics _gOff = Graphics.FromImage(m_bmpOffscreen);
+            Graphics _g = Graphics.FromImage(m_bmpOffscreen);
 
-            _gOff.Clear(BackColor);
+            _g.TextRenderingHint = TextRenderingHint.AntiAlias;
+            _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            _g.SmoothingMode = SmoothingMode.HighQuality;
+
+            _g.Clear(Color.Transparent);
 
             if (DesignMode)
             {
-                _gOff.FillRectangle(new SolidBrush(Color.Red), ClientRectangle);
+                _g.FillRectangle(new SolidBrush(Color.Red), ClientRectangle);
             }
 
             if (m_image != null)
@@ -91,19 +110,21 @@ namespace Waveface.Component
                 }
 
                 //Draw image
-                _gOff.DrawImage(_img, _imgRect, 0, 0, _img.Width, _img.Height, GraphicsUnit.Pixel); //, _imageAttr);
+                _g.DrawImage(_img, _imgRect, 0, 0, _img.Width, _img.Height, GraphicsUnit.Pixel, _imageAttr);
             }
 
             //Draw from the memory bitmap
             e.Graphics.DrawImage(m_bmpOffscreen, 0, 0);
 
-            base.OnPaint(e);
+            //base.OnPaint(e);
         }
 
         private Color BackgroundImageColor(Image img)
         {
-            Bitmap _bmp = new Bitmap(img);
-            return _bmp.GetPixel(0, 0);
+            // Bitmap _bmp = new Bitmap(img);
+            // return _bmp.GetPixel(0, 0);
+
+            return BackColor;
         }
 
         protected override void OnMouseMove(MouseEventArgs e)

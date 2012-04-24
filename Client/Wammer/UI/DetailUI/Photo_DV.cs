@@ -22,7 +22,7 @@ namespace Waveface.DetailUI
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private Color BG_COLOR = Color.FromArgb(240, 240, 240);
+        private Color BG_COLOR = Color.FromArgb(255, 255, 255);
 
         #region Fields
 
@@ -54,6 +54,7 @@ namespace Waveface.DetailUI
         private ToolStripMenuItem miSetCoverImage;
 
         private bool m_canEdit;
+        private ToolStripMenuItem miOpen;
         private ImageListViewItem m_selectedItem;
 
         #endregion
@@ -131,6 +132,7 @@ namespace Waveface.DetailUI
             this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.contextMenuStripImageList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miSetCoverImage = new System.Windows.Forms.ToolStripMenuItem();
+            this.miOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.panelPictureInfo = new System.Windows.Forms.Panel();
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
@@ -148,14 +150,14 @@ namespace Waveface.DetailUI
             // panelMain
             // 
             resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelMain.BackColor = System.Drawing.Color.White;
             this.panelMain.Controls.Add(this.panelRight);
             this.panelMain.Name = "panelMain";
             // 
             // panelRight
             // 
             resources.ApplyResources(this.panelRight, "panelRight");
-            this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.panelRight.BackColor = System.Drawing.Color.White;
             this.panelRight.Controls.Add(this.imageListView);
             this.panelRight.Controls.Add(this.panelPictureInfo);
             this.panelRight.Controls.Add(this.webBrowserTop);
@@ -185,7 +187,8 @@ namespace Waveface.DetailUI
             // 
             resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
             this.contextMenuStripImageList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miSetCoverImage});
+            this.miSetCoverImage,
+            this.miOpen});
             this.contextMenuStripImageList.Name = "contextMenuStripImageList";
             this.contextMenuStripImageList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripImageList_Opening);
             // 
@@ -195,10 +198,16 @@ namespace Waveface.DetailUI
             this.miSetCoverImage.Name = "miSetCoverImage";
             this.miSetCoverImage.Click += new System.EventHandler(this.miSetCoverImage_Click);
             // 
+            // miOpen
+            // 
+            resources.ApplyResources(this.miOpen, "miOpen");
+            this.miOpen.Name = "miOpen";
+            this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
+            // 
             // panelPictureInfo
             // 
             resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
-            this.panelPictureInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.panelPictureInfo.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
             this.panelPictureInfo.Name = "panelPictureInfo";
             // 
@@ -315,7 +324,7 @@ namespace Waveface.DetailUI
 
             _html = HtmlUtility.MakeLink(_html, m_clickableURL);
 
-            _html = "<body bgcolor=\"rgb(240,240, 240)\">" + _html + "</body>";
+            _html = "<body bgcolor=\"rgb(255, 255, 255)\">" + _html + "</body>";
 
             webBrowserTop.DocumentText = HtmlUtility.TrimScript(_html);
         }
@@ -489,7 +498,7 @@ namespace Waveface.DetailUI
             return _flag;
         }
 
-        private void ShowPhotoView(ItemClickEventArgs e)
+        private void ShowPhotoView(int index)
         {
             PhotoDownloader.PreloadPictures(m_post, true);
 
@@ -500,9 +509,7 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            using (
-                PhotoView _photoView = new PhotoView(m_post, m_imageAttachments, m_filePathOrigins, m_filePathMediums,
-                                                     m_filesMapping, int.Parse(((DetailViewImageListViewItemTag)(e.Item.Tag)).Index)))
+            using (PhotoView _photoView = new PhotoView(m_post, m_imageAttachments, m_filePathOrigins, m_filePathMediums, m_filesMapping, index))
             {
                 _photoView.ShowDialog();
             }
@@ -567,7 +574,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
-            ShowPhotoView(e);
+            ShowPhotoView(int.Parse(((DetailViewImageListViewItemTag)(e.Item.Tag)).Index));
         }
 
         private void miSetCoverImage_Click(object sender, EventArgs e)
@@ -595,7 +602,7 @@ namespace Waveface.DetailUI
                         m_post = _retPost;
                     }
 
-                    MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Main.Current.ShowStatuMessage(I18n.L.T("ChangedCoverImageOK"), true);
                 }
                 catch
                 {
@@ -618,6 +625,11 @@ namespace Waveface.DetailUI
         public List<ToolStripMenuItem> GetMoreMenuItems()
         {
             return null;
+        }
+
+        private void miOpen_Click(object sender, EventArgs e)
+        {
+            ShowPhotoView(int.Parse(((DetailViewImageListViewItemTag)(m_selectedItem.Tag)).Index));
         }
     }
 }

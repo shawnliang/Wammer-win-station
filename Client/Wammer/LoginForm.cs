@@ -298,7 +298,6 @@ namespace Waveface
             {
                 Cursor = Cursors.Default;
 
-
                 Hide();
 
                 _main.ShowDialog(this);

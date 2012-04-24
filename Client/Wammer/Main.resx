@@ -140,11 +140,8 @@
   <data name="postsArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="postsArea.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>337, 2</value>
-  </data>
   <data name="postsArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>337, 488</value>
+    <value>337, 518</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="postsArea.TabIndex" type="System.Int32, mscorlib">
@@ -166,13 +163,13 @@
     <value>Fill</value>
   </data>
   <data name="panelPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 0</value>
+    <value>182, 64</value>
   </data>
   <data name="panelPost.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 488</value>
+    <value>328, 518</value>
   </data>
   <data name="panelPost.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -196,13 +193,13 @@
     <value>NoControl</value>
   </data>
   <data name="splitterLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 0</value>
+    <value>180, 64</value>
   </data>
   <data name="splitterLeft.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="splitterLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 488</value>
+    <value>2, 518</value>
   </data>
   <data name="splitterLeft.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -229,7 +226,7 @@
     <value>0, 0</value>
   </data>
   <data name="leftArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 488</value>
+    <value>180, 518</value>
   </data>
   <data name="leftArea.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -250,13 +247,13 @@
     <value>Left</value>
   </data>
   <data name="panelLeftInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 64</value>
   </data>
   <data name="panelLeftInfo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelLeftInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 488</value>
+    <value>180, 518</value>
   </data>
   <data name="panelLeftInfo.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -273,17 +270,41 @@
   <data name="&gt;&gt;panelLeftInfo.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="panelTitle.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="panelTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panelTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 64</value>
+  </data>
+  <data name="panelTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;panelTitle.Name" xml:space="preserve">
+    <value>panelTitle</value>
+  </data>
+  <data name="&gt;&gt;panelTitle.Type" xml:space="preserve">
+    <value>Waveface.TitlePanel, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;panelTitle.Parent" xml:space="preserve">
+    <value>panelLeft</value>
+  </data>
+  <data name="&gt;&gt;panelTitle.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="panelLeft.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Left</value>
   </data>
   <data name="panelLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 52</value>
+    <value>0, 0</value>
   </data>
   <data name="panelLeft.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>510, 488</value>
+    <value>510, 582</value>
   </data>
   <data name="panelLeft.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -310,7 +331,7 @@
     <value>0, 0</value>
   </data>
   <data name="detailView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>472, 488</value>
+    <value>488, 582</value>
   </data>
   <data name="detailView.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -331,13 +352,13 @@
     <value>Fill</value>
   </data>
   <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>512, 52</value>
+    <value>512, 0</value>
   </data>
   <data name="panelMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>472, 488</value>
+    <value>488, 582</value>
   </data>
   <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -358,25 +379,25 @@
     <value>283, 21</value>
   </metadata>
   <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="regionMenuItem.Text" xml:space="preserve">
     <value>Region</value>
   </data>
   <data name="windowsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="windowsMenuItem.Text" xml:space="preserve">
     <value>Windows</value>
   </data>
   <data name="screenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="screenMenuItem.Text" xml:space="preserve">
     <value>Desktop</value>
   </data>
   <data name="screenShotMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="screenShotMenu.Text" xml:space="preserve">
     <value>Screen Shot</value>
@@ -385,13 +406,13 @@
     <value>False</value>
   </data>
   <data name="logoutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="logoutMenuItem.Text" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="mnuTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 48</value>
+    <value>144, 48</value>
   </data>
   <data name="&gt;&gt;mnuTray.Name" xml:space="preserve">
     <value>mnuTray</value>
@@ -402,20 +423,26 @@
   <metadata name="timerDelayPost.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>378, 25</value>
   </metadata>
+  <data name="splitterRight.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="splitterRight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="splitterRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>510, 52</value>
+    <value>510, 0</value>
   </data>
   <data name="splitterRight.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="splitterRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 488</value>
+    <value>2, 582</value>
   </data>
   <data name="splitterRight.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
+  </data>
+  <data name="splitterRight.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;splitterRight.Name" xml:space="preserve">
     <value>splitterRight</value>
@@ -448,118 +475,7 @@
     <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>984, 568</value>
-  </data>
-  <data name="radioButtonStation.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="radioButtonStation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="radioButtonStation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 24</value>
-  </data>
-  <data name="radioButtonStation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 19</value>
-  </data>
-  <data name="radioButtonStation.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="radioButtonStation.Text" xml:space="preserve">
-    <value>Station</value>
-  </data>
-  <data name="&gt;&gt;radioButtonStation.Name" xml:space="preserve">
-    <value>radioButtonStation</value>
-  </data>
-  <data name="&gt;&gt;radioButtonStation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButtonStation.Parent" xml:space="preserve">
-    <value>panelStation</value>
-  </data>
-  <data name="&gt;&gt;radioButtonStation.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="radioButtonCloud.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="radioButtonCloud.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="radioButtonCloud.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 3</value>
-  </data>
-  <data name="radioButtonCloud.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
-  </data>
-  <data name="radioButtonCloud.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="radioButtonCloud.Text" xml:space="preserve">
-    <value>Cloud</value>
-  </data>
-  <data name="&gt;&gt;radioButtonCloud.Name" xml:space="preserve">
-    <value>radioButtonCloud</value>
-  </data>
-  <data name="&gt;&gt;radioButtonCloud.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButtonCloud.Parent" xml:space="preserve">
-    <value>panelStation</value>
-  </data>
-  <data name="&gt;&gt;radioButtonCloud.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelStation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>275, 13</value>
-  </data>
-  <data name="panelStation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 50</value>
-  </data>
-  <data name="panelStation.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="panelStation.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;panelStation.Name" xml:space="preserve">
-    <value>panelStation</value>
-  </data>
-  <data name="&gt;&gt;panelStation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelStation.Parent" xml:space="preserve">
-    <value>panelTop</value>
-  </data>
-  <data name="&gt;&gt;panelStation.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelTop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panelTop.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="panelTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>984, 52</value>
-  </data>
-  <data name="panelTop.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;panelTop.Name" xml:space="preserve">
-    <value>panelTop</value>
-  </data>
-  <data name="&gt;&gt;panelTop.Type" xml:space="preserve">
-    <value>Waveface.BgPanel, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;panelTop.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panelTop.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>1000, 606</value>
   </data>
   <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>179, 21</value>
@@ -571,34 +487,34 @@
     <value>Arial, 9pt</value>
   </data>
   <data name="StatusLabelPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 23</value>
+    <value>0, 19</value>
   </data>
   <data name="StatusLabelPost.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
   <data name="StatusLabelUpload.Size" type="System.Drawing.Size, System.Drawing">
-    <value>937, 23</value>
+    <value>953, 19</value>
   </data>
   <data name="StatusLabelUpload.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
   <data name="StatusLabelServiceStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 23</value>
+    <value>16, 19</value>
   </data>
   <data name="StatusLabelServiceStatus.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
   <data name="StatusLabelNetwork.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 23</value>
+    <value>16, 19</value>
   </data>
   <data name="StatusLabelNetwork.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
   <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 540</value>
+    <value>0, 582</value>
   </data>
   <data name="statusStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>984, 28</value>
+    <value>1000, 24</value>
   </data>
   <data name="statusStrip.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -616,7 +532,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;statusStrip.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>

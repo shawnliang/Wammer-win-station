@@ -33,8 +33,9 @@ namespace Waveface
         {
             get
             {
-                panelCalendar.Height = monthCalendar.Height + 6;
-                return monthCalendar.Width;
+                panelCalendar.Height = monthCalendar.Height + 4;
+
+                return monthCalendar.Width + 4;
             }
         }
 
@@ -42,7 +43,7 @@ namespace Waveface
         {
             get
             {
-                //panelCalendar.Visible = true;
+                panelCalendar.Visible = true;
 
                 return monthCalendar;
             }

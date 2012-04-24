@@ -181,9 +181,6 @@
   <data name="white_edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\white_edit.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="desktop_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\desktop_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Save.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -195,9 +192,6 @@
   </data>
   <data name="write_comment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\write_comment.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="titlebar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\titlebar.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="dragNdrop_area1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DropArea\dragNdrop-area.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -231,15 +225,6 @@
   </data>
   <data name="trash" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\trash.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="waveface_icon128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\waveface_icon128.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="waveface_icon32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\waveface_icon32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="waveface_icon64" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\waveface_icon64.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Cloud" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cloud.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -283,9 +268,6 @@
   <data name="FB_unfav_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlatButton\FB_unfav_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="divider" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\divider.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="FB_edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlatButton\FB_edit.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -304,8 +286,104 @@
   <data name="FB_openin_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlatButton\FB_openin_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icon.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_edit_footnote" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_edit_footnote.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_edit_footnote_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_edit_footnote_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_slide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_slide.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_slide_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_slide_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_newpost" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_newpost.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_newpost_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_newpost_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_refresh.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_refresh_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_refresh_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_setting" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_setting.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_setting_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_setting_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="desktop_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Title\desktop_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="divider" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Title\divider.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="titlebar_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Title\titlebar_1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="titlebar_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Title\titlebar_2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="titlebar_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Title\titlebar_3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="titlebar_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Title\titlebar_4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FBT_account" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FBT_account.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FBT_account_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FBT_account_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FBT_refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FBT_refresh.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FBT_refresh_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FBT_refresh_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FBT_remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FBT_remove.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FBT_remove_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FBT_remove_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FBT_setting" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FBT_setting.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FBT_setting_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FBT_setting_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MMC_Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Close.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Close_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Close_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Max" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Max.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Max_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Max_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Min" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Min.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Min_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Min_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Restore.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MMC_Restore_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaxMinClose\MMC_Restore_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

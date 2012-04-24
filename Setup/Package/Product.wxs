@@ -203,7 +203,6 @@
       <ComponentRef Id="HTMLEditor.dll"/>
       <ComponentRef Id="ImageListView.dll"/>
       <ComponentRef Id="Interop.SHDocVw.dll"/>
-      <ComponentRef Id="LinqBridge.dll"/>
       <ComponentRef Id="MonthCalendarControl.dll"/>
       <ComponentRef Id="Newtonsoft.Json.Net20.dll"/>
       <ComponentRef Id="WavefaceWindowsClientHelper.exe"/>
@@ -292,9 +291,6 @@
       </Component>
       <Component Id="Interop.SHDocVw.dll" Guid="{2D2F5819-C702-4D65-9349-D2B818BAE5DD}">
         <File Id="Interop.SHDocVw.dll" Source="$(var.Wammer.TargetDir)\Interop.SHDocVw.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="LinqBridge.dll" Guid="{B36EB6EC-9188-4493-BC78-3A666CAC713F}">
-        <File Id="LinqBridge.dll" Source="$(var.Wammer.TargetDir)\LinqBridge.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="MonthCalendarControl.dll" Guid="{811AB789-99DE-45DE-BCBB-D7FBAE8B4148}">
         <File Id="MonthCalendarControl.dll" Source="$(var.Wammer.TargetDir)\MonthCalendarControl.dll" KeyPath="yes" Checksum="yes"/>
