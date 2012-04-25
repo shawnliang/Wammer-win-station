@@ -78,7 +78,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public override void ScheduleToRun()
 		{
-			TaskQueue.Enqueue(this, this.Priority);
+			AttachmentUploadQueue.Instance.Enqueue(this, this.Priority);
 		}
 
 		private void UpstreamProgressChanged(object sender, ProgressChangedEventArgs arg)
