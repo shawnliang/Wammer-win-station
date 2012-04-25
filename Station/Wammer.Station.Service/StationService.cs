@@ -201,16 +201,16 @@ namespace Wammer.Station.Service
 				new HybridCloudHttpRouter(new PostGetSingleHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
-				new NewPostHandler(PostUploadTaskController.Instance));
+				new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance)));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),
-				new UpdatePostHandler(PostUploadTaskController.Instance));
+				new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance))));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/hide/"),
-				new HidePostHandler(PostUploadTaskController.Instance));
+				new HybridCloudHttpRouter((new HidePostHandler(PostUploadTaskController.Instance))));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/newComment/"),
-			new NewPostCommentHandler(PostUploadTaskController.Instance));
+				new HybridCloudHttpRouter((new NewPostCommentHandler(PostUploadTaskController.Instance))));
 
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/setLastScan/"),
 				new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
