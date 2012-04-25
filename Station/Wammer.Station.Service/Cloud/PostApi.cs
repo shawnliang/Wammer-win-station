@@ -54,9 +54,13 @@ namespace Wammer.Cloud
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-				{CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString()}
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
+
+			if (!param.ContainsKey(CloudServer.PARAM_UPDATE_TIME))
+			{
+				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString());
+			}
 
 			foreach (String key in param.Keys)
 			{
@@ -74,9 +78,13 @@ namespace Wammer.Cloud
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-				{CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString()}
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
+
+			if (!param.ContainsKey(CloudServer.PARAM_UPDATE_TIME))
+			{
+				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString());
+			}
 
 			foreach (String key in param.Keys)
 			{
@@ -94,9 +102,13 @@ namespace Wammer.Cloud
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-				{CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString()}
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
+
+			if (!param.ContainsKey(CloudServer.PARAM_UPDATE_TIME))
+			{
+				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString());
+			}
 
 			foreach (String key in param.Keys)
 			{
