@@ -17,6 +17,7 @@ using Wammer.Station.Service;
 using ICSharpCode.SharpZipLib.Tar;
 using ICSharpCode.SharpZipLib.GZip;
 using System.Runtime.InteropServices;
+using MongoDB.Driver.Builders;
 
 
 namespace Wammer.Station
@@ -632,32 +633,42 @@ namespace Wammer.Station
 		// Saved thumbnails in previous waveface station need to be migrated to ".dat".
 		public static ActionResult MigrateThumbnailsExtension(Session session)
 		{
-			ProductInfo product = ProductInfoCollection.Instance.FindOne();
-			if (product != null && product.ThumbnailExtensionIsDat)
-				return ActionResult.Success;
-
-
-			MongoCursor<Attachment> attachments = AttachmentCollection.Instance.FindAll();
-			foreach (Attachment attachment in attachments)
+			try
 			{
-				if (attachment.image_meta == null)
+				ProductInfo product = ProductInfoCollection.Instance.FindOne();
+				if (product != null && product.ThumbnailExtensionIsDat)
+					return ActionResult.Success;
+
+
+				MongoCursor<Attachment> attachments = AttachmentCollection.Instance.FindAll();
+				foreach (Attachment attachment in attachments)
+				{
+					if (attachment.image_meta == null)
 						continue;
 
-				string resourceFolder = GetResourceDir(session, attachment);
-				bool modified = RenameThumbnailExtensions(attachment, resourceFolder);
+					try
+					{
+						string resourceFolder = GetResourceDir(session, attachment);
+						bool modified = RenameThumbnailExtensions(attachment, resourceFolder);
 
-				try
-				{
-					if (modified)
-						AttachmentCollection.Instance.Save(attachment);
+						if (modified)
+							AttachmentCollection.Instance.Save(attachment);
+					}
+					catch (Exception e)
+					{
+						Logger.Warn("Unable to update migrated file name of attachment: " + attachment.object_id, e);
+						// delete this db record to force re-downloading this attachments
+						AttachmentCollection.Instance.Remove(Query.EQ("_id", attachment.object_id));
+					}
 				}
-				catch (Exception e)
-				{
-					Logger.Warn("Unable to update migrated file name of attachment: " + attachment.object_id, e);
-				}
+
+				return ActionResult.Success;
 			}
-
-			return ActionResult.Success;
+			catch (Exception e)
+			{
+				Logger.Error("MigrateThumbnailsExtension failed", e);
+				return ActionResult.Failure;
+			}
 		}
 
 		private static bool RenameThumbnailExtensions(Attachment attachment, string resourceFolder)
@@ -668,26 +679,18 @@ namespace Wammer.Station
 			{
 				if (thumbnail == ImageMeta.Origin || thumbnail == ImageMeta.None)
 					continue;
-				
-				try
-				{
-					ThumbnailInfo thumbnailInfo = attachment.image_meta.GetThumbnailInfo(thumbnail);
-					if (thumbnailInfo != null && thumbnailInfo.saved_file_name != null &&
-						Path.GetExtension(thumbnailInfo.saved_file_name) != ".dat")
-					{
-						string newFileName = Path.GetFileNameWithoutExtension(thumbnailInfo.saved_file_name) + ".dat";
-						File.Move(
-							Path.Combine(resourceFolder, thumbnailInfo.saved_file_name),
-							Path.Combine(resourceFolder, newFileName));
 
-						thumbnailInfo.saved_file_name = newFileName;
-						modified = true;
-					}
-				}
-				catch (Exception e)
+				ThumbnailInfo thumbnailInfo = attachment.image_meta.GetThumbnailInfo(thumbnail);
+				if (thumbnailInfo != null && thumbnailInfo.saved_file_name != null &&
+					Path.GetExtension(thumbnailInfo.saved_file_name) != ".dat")
 				{
-					Logger.WarnFormat("Failed to rename file: {0} {1}", attachment.object_id, thumbnail);
-					Logger.Warn(e);
+					string newFileName = Path.GetFileNameWithoutExtension(thumbnailInfo.saved_file_name) + ".dat";
+					File.Move(
+						Path.Combine(resourceFolder, thumbnailInfo.saved_file_name),
+						Path.Combine(resourceFolder, newFileName));
+
+					thumbnailInfo.saved_file_name = newFileName;
+					modified = true;
 				}
 			}
 
@@ -697,6 +700,9 @@ namespace Wammer.Station
 		private static string GetResourceDir(Session session, Attachment attachment)
 		{
 			Driver user = DriverCollection.Instance.FindDriverByGroupId(attachment.group_id);
+			if (user == null)
+				throw new Exception("user has been removed.");
+
 			if (Path.IsPathRooted(user.folder))
 				return user.folder;
 			else
