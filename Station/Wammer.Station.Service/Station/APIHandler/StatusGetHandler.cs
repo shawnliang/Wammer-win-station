@@ -9,7 +9,7 @@ namespace Wammer.Station
 	{
 		private static ILog logger = LogManager.GetLogger("StationManagement");
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			logger.Debug("GetStatus is called");
 			StationDetail res = StatusChecker.GetDetail();

@@ -255,6 +255,12 @@ namespace Wammer.Station
 			Uri targetUri = url.Uri;
 			return targetUri;
 		}
+
+
+		public void HandleRequest()
+		{
+			throw new NotImplementedException();
+		}
 	}
 
 	class BypassContext

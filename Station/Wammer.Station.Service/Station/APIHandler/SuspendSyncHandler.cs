@@ -20,7 +20,7 @@ namespace Wammer.Station
 			this.upstreamRunners = upstreamRunners;
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			postUploadRunner.Stop();
 			stationTimer.Stop();

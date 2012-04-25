@@ -13,6 +13,7 @@ namespace Wammer.Station
 	public interface IHttpHandler : ICloneable
 	{
 		void HandleRequest(HttpListenerRequest request, HttpListenerResponse response);
+		void HandleRequest();
 		void SetBeginTimestamp(long beginTime);
 		event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 	}

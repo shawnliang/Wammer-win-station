@@ -30,7 +30,7 @@ namespace Wammer.Station
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			CheckParameter(CloudServer.PARAM_API_KEY,
 				CloudServer.PARAM_SESSION_TOKEN,

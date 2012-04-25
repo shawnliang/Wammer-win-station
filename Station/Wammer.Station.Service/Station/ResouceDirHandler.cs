@@ -14,7 +14,7 @@ namespace Wammer.Station
 			this.resourceBasePath = ResouceDirGetHandler;
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			RespondSuccess(
 				new GetResourceDirResponse
@@ -36,7 +36,7 @@ namespace Wammer.Station
 
 	class ResouceDirSetHandler: HttpHandler
 	{
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			string path = Parameters["path"];
 

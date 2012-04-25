@@ -29,7 +29,7 @@ namespace Wammer.Station
 			this.resourceBasePath = resourceBasePath;
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			CheckParameter(
 				CloudServer.PARAM_EMAIL,

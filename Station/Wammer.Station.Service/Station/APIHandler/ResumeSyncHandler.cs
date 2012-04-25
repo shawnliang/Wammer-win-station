@@ -25,7 +25,7 @@ namespace Wammer.Station
 			this.upstreamRunners = upstreamRunners;
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			string email = Parameters["email"];
 			string password = Parameters["password"];

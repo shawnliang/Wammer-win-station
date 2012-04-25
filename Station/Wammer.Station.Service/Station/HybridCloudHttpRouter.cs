@@ -56,7 +56,11 @@ namespace Wammer.Station
 			if (session != null)
 			{
 				handler.Session = session;
-				handler.HandleRequest(request, response);
+				handler.Request = request;
+				handler.Response = response;
+				handler.Parameters = this.Parameters;
+				handler.RawPostData = this.RawPostData;
+				(handler as IHttpHandler).HandleRequest();
 			}
 			else
 			{
@@ -225,10 +229,16 @@ namespace Wammer.Station
 			}
 			else if (req.HttpMethod.ToUpper().Equals("GET"))
 			{
-				return req.QueryString;
+				return HttpUtility.ParseQueryString(Request.Url.Query);
 			}
 
 			return new NameValueCollection();
+		}
+
+
+		public void HandleRequest()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

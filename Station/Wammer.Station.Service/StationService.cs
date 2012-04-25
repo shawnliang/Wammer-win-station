@@ -203,6 +203,9 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
 				new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance)));
 
+			//functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
+				//new NewPostHandler(PostUploadTaskController.Instance));
+
 			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),
 				new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance))));
 
@@ -378,6 +381,12 @@ namespace Wammer.Station.Service
 
 		public void SetBeginTimestamp(long beginTime)
 		{
+		}
+
+
+		public void HandleRequest()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

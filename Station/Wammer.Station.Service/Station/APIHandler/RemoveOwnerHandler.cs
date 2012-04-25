@@ -16,7 +16,7 @@ namespace Wammer.Station
 			this.stationId = stationId;
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			string sessionToken = Parameters["session_token"];
 			string userID = Parameters["user_ID"];

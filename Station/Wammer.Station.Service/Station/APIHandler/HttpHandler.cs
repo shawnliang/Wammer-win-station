@@ -30,12 +30,12 @@ namespace Wammer.Station
 
 	public abstract class HttpHandler : IHttpHandler
 	{
-		public HttpListenerRequest Request { get; private set; }
-		public HttpListenerResponse Response { get; private set; }
-		public NameValueCollection Parameters { get; private set; }
+		public HttpListenerRequest Request { get; internal set; }
+		public HttpListenerResponse Response { get; internal set; }
+		public NameValueCollection Parameters { get; internal set; }
 		public List<UploadedFile> Files { get; private set; }
 		public LoginedSession Session { get; set; }
-		public byte[] RawPostData { get; private set; }
+		public byte[] RawPostData { get; internal set; }
 		private long beginTime;
 
 		private const string BOUNDARY = "boundary=";
@@ -213,7 +213,7 @@ namespace Wammer.Station
 			}
 		}
 
-		protected abstract void HandleRequest();
+		public abstract void HandleRequest();
 		public virtual object Clone()
 		{
  			return this.MemberwiseClone();

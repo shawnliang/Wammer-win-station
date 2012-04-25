@@ -42,7 +42,7 @@ namespace Wammer.Station
 			return this.MemberwiseClone();
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			ImageMeta imageMeta = ImageMeta.None;
 

@@ -7,7 +7,7 @@ namespace Wammer.Station
 {
 	public class AttachmentGetHandler: HttpHandler
 	{
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			string object_id = Parameters["object_id"];
 			//string session_token = Parameters["session_token"];
