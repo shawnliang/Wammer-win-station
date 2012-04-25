@@ -48,7 +48,19 @@ namespace Wammer.Station
 			//Notify cloud server that the user signoff
 			using (WebClient client = new Wammer.Utility.DefaultWebClient())
 			{
-				StationApi.SignOff(client, stationId, stationToken, userID);
+				try
+				{
+					StationApi.SignOff(client, stationId, stationToken, userID);
+				}
+				catch (WammerCloudException e)
+				{
+					if (e.WammerError == -1)
+					{
+						RespondSuccess();
+						return;
+					}
+					throw;
+				}
 			}
 
 			//Remove the user from db, and stop service this user

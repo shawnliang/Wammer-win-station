@@ -198,7 +198,7 @@
     <Compile Include="Station\APIHandler\ListDriverHandler.cs" />
     <Compile Include="Station\PingHandler.cs" />
     <Compile Include="Station\PublicPortMapping.cs" />
-    <Compile Include="Station\RemoveOwnerHandler.cs" />
+    <Compile Include="Station\APIHandler\RemoveOwnerHandler.cs" />
     <Compile Include="Station\ResouceDirHandler.cs" />
     <Compile Include="Station\ResourceSyncer.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
