@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Wammer.Model
 {
-	class RetryQueueCollection: Collection<GenericData>
+	public class RetryQueueCollection: Collection<GenericData>
 	{
 		private static RetryQueueCollection instance;
 

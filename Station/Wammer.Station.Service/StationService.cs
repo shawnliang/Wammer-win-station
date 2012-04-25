@@ -24,7 +24,7 @@ namespace Wammer.Station.Service
 		private DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
 		private TaskRunner[] bodySyncRunners;
 		private PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
-
+		private TaskRunner[] upstreamTaskRunner;
 
 		public StationService()
 		{			
@@ -107,6 +107,15 @@ namespace Wammer.Station.Service
 
 				postUploadRunner.Start();
 
+				const int upstreamThreads = 3;
+				upstreamTaskRunner = new TaskRunner[upstreamThreads];
+				for (int i = 0; i < upstreamThreads; i++)
+				{
+					upstreamTaskRunner[i] = new TaskRunner(AttachmentUpload.AttachmentUploadQueue.Instance);
+					upstreamTaskRunner[i].Start();
+				}
+
+
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989);
 				managementServer.TaskEnqueue += managementServer_TaskEnqueue;
@@ -141,8 +150,8 @@ namespace Wammer.Station.Service
 
 		private void InitManagementServerHandler(AddDriverHandler addDriverHandler)
 		{
-			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"), new ResumeSyncHandler(postUploadRunner, stationTimer, bodySyncRunners));
-			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"), new SuspendSyncHandler(postUploadRunner, stationTimer, bodySyncRunners));
+			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"), new ResumeSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner));
+			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"), new SuspendSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner));
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/add/"), addDriverHandler);
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/list/"), new ListDriverHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), new RemoveOwnerHandler(stationId));

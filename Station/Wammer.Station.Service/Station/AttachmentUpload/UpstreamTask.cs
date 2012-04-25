@@ -16,6 +16,7 @@ namespace Wammer.Station.AttachmentUpload
 	public class UpstreamTask: Retry.DelayedRetryTask
 	{
 		private static IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
+		private static IPerfCounter upstreamCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
 
 		public string object_id { get; private set; }
 		public ImageMeta meta { get; private set; }
@@ -74,8 +75,14 @@ namespace Wammer.Station.AttachmentUpload
 				Query.EQ("_id", this.object_id),
 				(this.meta == ImageMeta.Origin || this.meta == ImageMeta.Origin) ?
 					Update.Set("is_body_upstreamed", true) : Update.Set("is_thumb_upstreamed", true));
+
+			upstreamCount.Decrement();
 		}
 
+		public override void ScheduleToRun()
+		{
+			AttachmentUploadQueue.Instance.Enqueue(this, this.Priority);
+		}
 
 		private void UpstreamProgressChanged(object sender, ProgressChangedEventArgs arg)
 		{
