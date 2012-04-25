@@ -150,8 +150,8 @@ namespace Wammer.Station.Service
 
 		private void InitManagementServerHandler(AddDriverHandler addDriverHandler)
 		{
-			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"), new ResumeSyncHandler(postUploadRunner, stationTimer, bodySyncRunners));
-			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"), new SuspendSyncHandler(postUploadRunner, stationTimer, bodySyncRunners));
+			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"), new ResumeSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner));
+			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"), new SuspendSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner));
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/add/"), addDriverHandler);
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/list/"), new ListDriverHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), new RemoveOwnerHandler(stationId));
