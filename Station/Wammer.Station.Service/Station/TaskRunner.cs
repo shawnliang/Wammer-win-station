@@ -22,9 +22,9 @@ namespace Wammer.Station
 			{
 				try
 				{
-					ITask task = queue.Dequeue();
-					task.Execute();
-					queue.AckDequeue(task);
+					DequeuedTask item = queue.Dequeue();
+					item.Task.Execute();
+					queue.AckDequeue(item);
 				}
 				catch (Exception e)
 				{

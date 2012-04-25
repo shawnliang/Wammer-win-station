@@ -7,7 +7,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace Wammer.Model
 {
 	[BsonIgnoreExtraElements]
-	class GenericData
+	public class GenericData
 	{
 		[BsonId]
 		public string Id { get; set; }

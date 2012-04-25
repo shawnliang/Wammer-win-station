@@ -233,7 +233,7 @@ namespace Wammer.Station
 		}
 	}
 
-	class DequeuedItem
+	public class DequeuedItem
 	{
 		public WMSMessage Item { get; private set; }
 		public TaskPriority Priority { get; private set; }

@@ -46,6 +46,9 @@ namespace Wammer.Station.Retry
 		}
 
 		protected abstract void Do();
+		public abstract void ScheduleToRun();
+
+
 		public abstract DateTime NextRetryTime { get; }
 		public TaskPriority Priority { get { return priority; } }
 	}
@@ -103,9 +106,16 @@ namespace Wammer.Station.Retry
 			this.NextRetryTime = nextRetryTime;
 		}
 
+		public void ScheduleToRun()
+		{
+			TaskQueue.Enqueue(taskToRun, Priority);
+		}
+
 		public void Execute()
 		{
-			taskToRun.Execute();
+			// Becuase PostponedTask is a placeholder for another task, 
+			// its Execute() is not expected to be executed.
+			System.Diagnostics.Trace.Fail("This method should not be called.");
 		}
 	}
 

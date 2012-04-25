@@ -63,6 +63,11 @@ namespace UT_WammerStation
 			{
 				throw new NotFiniteNumberException();
 			}
+
+			public override void ScheduleToRun()
+			{
+				throw new NotImplementedException();
+			}
 		}
 
 		[TestMethod]

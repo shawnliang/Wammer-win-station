@@ -59,7 +59,7 @@ namespace Wammer.Station.AttachmentUpload
 		public void UpstreamAttachmentAsync(string object_id, ImageMeta meta, TaskPriority priority)
 		{
 			uploadTaskCounter.Increment();
-			TaskQueue.Enqueue(new UpstreamTask(object_id, meta, priority), priority, true);
+			AttachmentUploadQueue.Instance.Enqueue(new UpstreamTask(object_id, meta, priority), priority);
 		}
 
 		public void GenerateThumbnailAsync(string object_id, ImageMeta thumbnailType, TaskPriority priority)
@@ -74,7 +74,15 @@ namespace Wammer.Station.AttachmentUpload
 
 			using (FileStream f = fileStorage.Load(filename))
 			{
-				Attachment.Upload(f, user.groups[0].group_id, object_id, filename, mime_type, meta, type, CloudServer.APIKey, user.session_token, 1024, UpstreamProgressChanged);
+				try
+				{
+					uploadTaskCounter.Increment();
+					Attachment.Upload(f, user.groups[0].group_id, object_id, filename, mime_type, meta, type, CloudServer.APIKey, user.session_token, 1024, UpstreamProgressChanged);
+				}
+				finally
+				{
+					uploadTaskCounter.Decrement();
+				}
 			}
 		}
 

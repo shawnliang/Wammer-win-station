@@ -9,5 +9,6 @@ namespace Wammer.Station.Retry
 	{
 		DateTime NextRetryTime { get; }
 		TaskPriority Priority { get; }
+		void ScheduleToRun();
 	}
 }
