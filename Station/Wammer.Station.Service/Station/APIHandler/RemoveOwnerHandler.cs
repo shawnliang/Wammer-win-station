@@ -18,11 +18,11 @@ namespace Wammer.Station
 
 		protected override void HandleRequest()
 		{
-			string stationToken = Parameters["session_token"];
+			string sessionToken = Parameters["session_token"];
 			string userID = Parameters["user_ID"];
 			bool removeResource = bool.Parse(Parameters["remove_resource"]);
 
-			if (stationToken == null || userID == null)
+			if (sessionToken == null || userID == null)
 				throw new FormatException("One of parameters is missing: email/password/session_token/userID");
 
 			//Try to find existing driver
@@ -50,7 +50,7 @@ namespace Wammer.Station
 			{
 				try
 				{
-					StationApi.SignOff(client, stationId, stationToken, userID);
+					StationApi.SignOff(client, stationId, sessionToken, userID);
 				}
 				catch (WammerCloudException e)
 				{
@@ -64,7 +64,10 @@ namespace Wammer.Station
 			}
 
 			//Remove the user from db, and stop service this user
-			Model.DriverCollection.Instance.Remove(Query.EQ("_id", userID));
+			DriverCollection.Instance.Remove(Query.EQ("_id", userID));
+
+			//Remove login session if existed
+			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", sessionToken));
 
 			//Remove all user data
 			if (removeResource)
