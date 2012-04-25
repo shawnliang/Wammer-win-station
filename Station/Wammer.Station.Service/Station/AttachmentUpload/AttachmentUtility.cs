@@ -64,7 +64,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public void GenerateThumbnailAsync(string object_id, ImageMeta thumbnailType, TaskPriority priority)
 		{
-			TaskQueue.Enqueue(new MakeThumbnailTask(object_id, thumbnailType), priority, true);
+			TaskQueue.Enqueue(new MakeThumbnailTask(object_id, thumbnailType, priority), priority, true);
 		}
 
 
