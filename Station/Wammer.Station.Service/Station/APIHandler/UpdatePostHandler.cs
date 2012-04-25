@@ -45,7 +45,7 @@ namespace Wammer.Station
 			var type = Parameters[CloudServer.PARAM_TYPE];
 			if (type == "link")
 			{
-				TunnelToCloud<NewPostResponse>("posts/update");
+				TunnelToCloud<UpdatePostResponse>("posts/update");
 				return;
 			}
 
