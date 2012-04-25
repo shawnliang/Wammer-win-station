@@ -26,6 +26,11 @@ namespace UT_WammerStation.FailureAndRetry
 			{
 				get { return DateTime.Now; }
 			}
+
+			public override void ScheduleToRun()
+			{
+				throw new NotImplementedException();
+			}
 		}
 
 		[TestMethod]
@@ -78,6 +83,11 @@ namespace UT_WammerStation.FailureAndRetry
 			}
 
 			protected override void Run()
+			{
+				throw new NotImplementedException();
+			}
+
+			public override void ScheduleToRun()
 			{
 				throw new NotImplementedException();
 			}

@@ -31,6 +31,12 @@ namespace UT_WammerStation.FailureAndRetry
 		{
 			throw new NotImplementedException();
 		}
+
+
+		public void ScheduleToRun()
+		{
+			throw new NotImplementedException();
+		}
 	}
 
 
@@ -47,6 +53,12 @@ namespace UT_WammerStation.FailureAndRetry
 		}
 
 		public void Execute()
+		{
+			throw new NotImplementedException();
+		}
+
+
+		public void ScheduleToRun()
 		{
 			throw new NotImplementedException();
 		}

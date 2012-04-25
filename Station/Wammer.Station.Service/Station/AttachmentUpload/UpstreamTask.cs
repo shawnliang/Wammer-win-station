@@ -76,6 +76,10 @@ namespace Wammer.Station.AttachmentUpload
 					Update.Set("is_body_upstreamed", true) : Update.Set("is_thumb_upstreamed", true));
 		}
 
+		public override void ScheduleToRun()
+		{
+			TaskQueue.Enqueue(this, this.Priority);
+		}
 
 		private void UpstreamProgressChanged(object sender, ProgressChangedEventArgs arg)
 		{
