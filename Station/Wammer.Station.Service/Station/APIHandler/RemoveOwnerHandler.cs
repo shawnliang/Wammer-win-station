@@ -66,8 +66,22 @@ namespace Wammer.Station
 			//Remove the user from db, and stop service this user
 			Model.DriverCollection.Instance.Remove(Query.EQ("_id", userID));
 
-			if (removeResource && Directory.Exists(existingDriver.folder))
-				Directory.Delete(existingDriver.folder, true);
+			//Remove all user data
+			if (removeResource)
+			{
+				if (Directory.Exists(existingDriver.folder))
+				{
+					Directory.Delete(existingDriver.folder, true);
+				}
+				foreach (PostInfo post in PostCollection.Instance.Find(Query.EQ("creator_id", userID)))
+				{
+					foreach (String attachmentId in post.attachment_id_array)
+					{
+						AttachmentCollection.Instance.Remove(Query.EQ("_id", attachmentId));
+					}
+				}
+				PostCollection.Instance.Remove(Query.EQ("creator_id", userID));
+			}
 
 			//All driver removed => Remove station from db
 			Driver driver = Model.DriverCollection.Instance.FindOne();
