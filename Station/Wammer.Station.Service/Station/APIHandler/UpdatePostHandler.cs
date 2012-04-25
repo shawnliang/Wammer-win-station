@@ -42,6 +42,13 @@ namespace Wammer.Station
 				throw new WammerStationException(
 						"Without any optional parameter!", (int)StationApiError.Error);
 
+			var type = Parameters[CloudServer.PARAM_TYPE];
+			if (type == "link")
+			{
+				TunnelToCloud<NewPostResponse>("posts/update");
+				return;
+			}
+
 			var postID = Parameters[CloudServer.PARAM_POST_ID];
 
 			var post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));

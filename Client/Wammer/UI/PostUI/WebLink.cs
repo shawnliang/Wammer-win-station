@@ -72,6 +72,8 @@ namespace Waveface.PostUI
                 {
                     Dictionary<string, string> _params = new Dictionary<string, string>();
                     _params.Add("content", MyParent.pureTextBox.Text.Trim());
+					_params.Add("type", MyParent.m_postType.ToString().ToLower());
+					
 
                     Main.Current.PostUpdate(MyParent.Post, _params, true);
                 }
