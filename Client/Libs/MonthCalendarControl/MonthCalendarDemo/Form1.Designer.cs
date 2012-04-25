@@ -125,16 +125,24 @@
             // monthCalendar1
             // 
             this.monthCalendar1.CellDimensions = new System.Drawing.Size(18, 18);
-            this.monthCalendar1.ColorTable.DayActiveGradientBegin = System.Drawing.Color.Bisque;
-            this.monthCalendar1.ColorTable.DayActiveGradientEnd = System.Drawing.Color.Gold;
-            this.monthCalendar1.ColorTable.DayHeaderText = System.Drawing.Color.MediumBlue;
-            this.monthCalendar1.ColorTable.DayTextBold = System.Drawing.Color.DarkBlue;
-            this.monthCalendar1.ColorTable.FooterActiveGradientBegin = System.Drawing.Color.Transparent;
-            this.monthCalendar1.ColorTable.FooterActiveGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.monthCalendar1.ColorTable.FooterActiveText = System.Drawing.Color.DarkRed;
-            this.monthCalendar1.ColorTable.HeaderActiveArrow = System.Drawing.Color.MidnightBlue;
-            this.monthCalendar1.ColorTable.HeaderActiveGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(149)))), ((int)(((byte)(255)))));
-            this.monthCalendar1.ColorTable.HeaderGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(115)))), ((int)(((byte)(177)))), ((int)(((byte)(255)))));
+            this.monthCalendar1.ColorTable.BackgroundGradientBegin = System.Drawing.Color.Gainsboro;
+            this.monthCalendar1.ColorTable.BackgroundGradientEnd = System.Drawing.Color.Gainsboro;
+            this.monthCalendar1.ColorTable.Border = System.Drawing.Color.Silver;
+            this.monthCalendar1.ColorTable.DayActiveGradientBegin = System.Drawing.Color.NavajoWhite;
+            this.monthCalendar1.ColorTable.DayActiveTodayCircleBorder = System.Drawing.Color.Gainsboro;
+            this.monthCalendar1.ColorTable.DayHeaderText = System.Drawing.Color.MidnightBlue;
+            this.monthCalendar1.ColorTable.DaySelectedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
+            this.monthCalendar1.ColorTable.DaySelectedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
+            this.monthCalendar1.ColorTable.DaySelectedText = System.Drawing.Color.White;
+            this.monthCalendar1.ColorTable.DaySelectedTodayCircleBorder = System.Drawing.Color.Gainsboro;
+            this.monthCalendar1.ColorTable.DayText = System.Drawing.Color.DarkGray;
+            this.monthCalendar1.ColorTable.DayTodayCircleBorder = System.Drawing.Color.Gainsboro;
+            this.monthCalendar1.ColorTable.DayTrailingText = System.Drawing.Color.Gainsboro;
+            this.monthCalendar1.ColorTable.HeaderActiveGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar1.ColorTable.HeaderArrow = System.Drawing.Color.Silver;
+            this.monthCalendar1.ColorTable.HeaderGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar1.ColorTable.MonthSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar1.ColorTable.WeekHeaderText = System.Drawing.Color.Navy;
             this.monthCalendar1.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.monthCalendar1.IsWaveface = true;
             this.monthCalendar1.Location = new System.Drawing.Point(206, 8);

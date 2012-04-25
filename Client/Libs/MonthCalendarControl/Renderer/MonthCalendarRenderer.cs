@@ -318,6 +318,10 @@
                    : (day.TrailingDate ? colors.DayTrailingText
                    : colors.DayText)));
 
+                //@ 
+                if (day.Selected)
+                    textColor = colors.DaySelectedText;
+
                 using (SolidBrush brush = new SolidBrush(textColor))
                 {
                     using (Font font = new Font(

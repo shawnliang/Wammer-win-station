@@ -35,7 +35,6 @@ namespace Waveface
             this.panelBottom = new System.Windows.Forms.Panel();
             this.pbDropArea = new System.Windows.Forms.PictureBox();
             this.panelMain = new System.Windows.Forms.Panel();
-            this.btnNewPost = new Waveface.Component.ImageButton();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.panelCustomFilter = new System.Windows.Forms.Panel();
             this.tvCustomFilter = new System.Windows.Forms.TreeView();
@@ -44,9 +43,10 @@ namespace Waveface
             this.tvTimeline = new System.Windows.Forms.TreeView();
             this.panelCalendar = new System.Windows.Forms.Panel();
             this.monthCalendar = new CustomControls.MonthCalendar();
-            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.btnNewPost = new Waveface.Component.ImageButton();
+            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
             this.panelFilter.SuspendLayout();
@@ -86,17 +86,6 @@ namespace Waveface
             this.panelMain.Controls.Add(this.vsNetListBarGroups);
             this.panelMain.Controls.Add(this.pbDropArea);
             this.panelMain.Name = "panelMain";
-            // 
-            // btnNewPost
-            // 
-            resources.ApplyResources(this.btnNewPost, "btnNewPost");
-            this.btnNewPost.CenterAlignImage = false;
-            this.btnNewPost.ForeColor = System.Drawing.Color.White;
-            this.btnNewPost.Image = global::Waveface.Properties.Resources.FB_newpost_btn;
-            this.btnNewPost.ImageDisable = global::Waveface.Properties.Resources.FB_newpost_btn;
-            this.btnNewPost.ImageHover = global::Waveface.Properties.Resources.FB_newpost_btn_hl;
-            this.btnNewPost.Name = "btnNewPost";
-            this.btnNewPost.Click += new System.EventHandler(this.btnNewPost_Click);
             // 
             // panelFilter
             // 
@@ -152,23 +141,25 @@ namespace Waveface
             // 
             resources.ApplyResources(this.monthCalendar, "monthCalendar");
             this.monthCalendar.CellDimensions = new System.Drawing.Size(17, 18);
-            this.monthCalendar.ColorTable.BackgroundGradientBegin = System.Drawing.Color.Gainsboro;
-            this.monthCalendar.ColorTable.BackgroundGradientEnd = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.BackgroundGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.BackgroundGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.monthCalendar.ColorTable.Border = System.Drawing.Color.Silver;
             this.monthCalendar.ColorTable.DayActiveGradientBegin = System.Drawing.Color.NavajoWhite;
-            this.monthCalendar.ColorTable.DayActiveTodayCircleBorder = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.DayActiveTodayCircleBorder = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.DayHeaderText = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(69)))), ((int)(((byte)(99)))));
             this.monthCalendar.ColorTable.DaySelectedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
             this.monthCalendar.ColorTable.DaySelectedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
             this.monthCalendar.ColorTable.DaySelectedText = System.Drawing.Color.White;
-            this.monthCalendar.ColorTable.DaySelectedTodayCircleBorder = System.Drawing.Color.Gainsboro;
-            this.monthCalendar.ColorTable.DayText = System.Drawing.Color.DarkGray;
-            this.monthCalendar.ColorTable.DayTodayCircleBorder = System.Drawing.Color.Gainsboro;
-            this.monthCalendar.ColorTable.DayTrailingText = System.Drawing.Color.Gainsboro;
-            this.monthCalendar.ColorTable.HeaderActiveGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar.ColorTable.DaySelectedTodayCircleBorder = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.DayTextBold = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.monthCalendar.ColorTable.DayTodayCircleBorder = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.DayTrailingText = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.HeaderActiveGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.monthCalendar.ColorTable.HeaderArrow = System.Drawing.Color.Silver;
-            this.monthCalendar.ColorTable.HeaderGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar.ColorTable.HeaderGradientBegin = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.HeaderGradientEnd = System.Drawing.Color.Gainsboro;
             this.monthCalendar.ColorTable.MonthSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.monthCalendar.HeaderFont = new System.Drawing.Font("Segoe UI", 10F);
+            this.monthCalendar.HeaderFont = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.monthCalendar.IsWaveface = true;
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.SelectionMode = CustomControls.MonthCalendarSelectionMode.Day;
@@ -176,6 +167,28 @@ namespace Waveface
             this.monthCalendar.ShowWeekHeader = false;
             this.monthCalendar.UseShortestDayNames = true;
             this.monthCalendar.DateClicked += new System.EventHandler<CustomControls.DateEventArgs>(this.monthCalendar_DateClicked);
+            // 
+            // imageListTimeline
+            // 
+            this.imageListTimeline.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTimeline.ImageStream")));
+            this.imageListTimeline.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTimeline.Images.SetKeyName(0, "AllTime.png");
+            this.imageListTimeline.Images.SetKeyName(1, "Month.png");
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // btnNewPost
+            // 
+            resources.ApplyResources(this.btnNewPost, "btnNewPost");
+            this.btnNewPost.CenterAlignImage = false;
+            this.btnNewPost.ForeColor = System.Drawing.Color.White;
+            this.btnNewPost.Image = global::Waveface.Properties.Resources.FB_newpost_btn;
+            this.btnNewPost.ImageDisable = global::Waveface.Properties.Resources.FB_newpost_btn;
+            this.btnNewPost.ImageHover = global::Waveface.Properties.Resources.FB_newpost_btn_hl;
+            this.btnNewPost.Name = "btnNewPost";
+            this.btnNewPost.Click += new System.EventHandler(this.btnNewPost_Click);
             // 
             // vsNetListBarGroups
             // 
@@ -190,17 +203,6 @@ namespace Waveface
             this.vsNetListBarGroups.SelectOnMouseDown = true;
             this.vsNetListBarGroups.SmallImageList = null;
             this.vsNetListBarGroups.ToolTip = null;
-            // 
-            // imageListTimeline
-            // 
-            this.imageListTimeline.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTimeline.ImageStream")));
-            this.imageListTimeline.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListTimeline.Images.SetKeyName(0, "AllTime.png");
-            this.imageListTimeline.Images.SetKeyName(1, "Month.png");
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // LeftArea
             // 

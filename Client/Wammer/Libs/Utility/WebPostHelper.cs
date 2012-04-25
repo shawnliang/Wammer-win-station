@@ -79,6 +79,10 @@ namespace Waveface
 
                 _dosuccess = true;
             }
+            catch (WebException _e)
+            {
+                NLogUtility.WebException(s_logger, _e, "doPost", false);
+            }
             catch(Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "doPost");

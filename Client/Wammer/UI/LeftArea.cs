@@ -24,7 +24,7 @@ namespace Waveface
         private Button m_buttonAddNewFilter;
         private string m_dropAreaMessage;
         private Image m_dropAreaImage;
-        private Font m_font = new Font("Arial", 9, FontStyle.Regular);
+        private Font m_font = new Font("Arial", 9, FontStyle.Bold);
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         #region Properties
@@ -45,9 +45,10 @@ namespace Waveface
             {
                 panelCalendar.Visible = true;
 
+                monthCalendar.Font = new Font("Tahoma", 8);
+
                 return monthCalendar;
             }
-            set { monthCalendar = value; }
         }
 
         #endregion

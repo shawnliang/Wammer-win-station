@@ -180,8 +180,6 @@ namespace Waveface
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
 
-            //System.Net.ServicePointManager.DefaultConnectionLimit = 64;
-
             m_autoUpdator = new AppLimit.NetSparkle.Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
             m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
 
@@ -647,12 +645,11 @@ namespace Waveface
 
 			Reset(true);
 
-			if (Environment.GetCommandLineArgs().Length > 1)
+			//@ if (Environment.GetCommandLineArgs().Length > 1)
 			{
 				m_stationIP = "http://127.0.0.1:9981";
 				WService.StationIP = m_stationIP;
 				StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
-                // radioButtonStation.Checked = true;
 				RT.StationMode = true;
 			}
 
@@ -1462,6 +1459,7 @@ namespace Waveface
             MonthCalendar _calendar = leftArea.MonthCalendar;
             _calendar.SelectionStart = date;
             _calendar.SelectionEnd = date;
+            _calendar.ViewStart = date;
         }
 
         #endregion

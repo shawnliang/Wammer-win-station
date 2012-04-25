@@ -880,7 +880,7 @@ namespace Waveface
 
         private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            //½Ð¤Å§R°£¦¹Mathod
+            //ï¿½Ð¤Å§Rï¿½ï¿½ï¿½ï¿½Mathod
         }
 
         private void dataGridView_Scroll(object sender, ScrollEventArgs e)
