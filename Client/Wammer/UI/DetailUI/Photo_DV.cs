@@ -549,14 +549,20 @@ namespace Waveface.DetailUI
             {
             }
 
+            int W = 144;
+
             if (imageListView.Width > 768)
             {
-                int _w = (int)(imageListView.Width / 6.5);
+                int _w = (int)(imageListView.Width / 7.55);
+
+                if (_w < W)
+                    _w = W;
+
                 imageListView.ThumbnailSize = new Size(_w, _w);
             }
             else
             {
-                imageListView.ThumbnailSize = new Size(128, 128);
+                imageListView.ThumbnailSize = new Size(W, W);
             }
         }
 
