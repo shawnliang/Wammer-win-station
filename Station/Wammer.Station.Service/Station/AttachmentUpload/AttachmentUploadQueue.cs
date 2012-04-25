@@ -29,7 +29,9 @@ namespace Wammer.Station.AttachmentUpload
 			mediumQueue = storage.Load(QNAME_MED);
 			lowQueue = storage.Load(QNAME_LOW);
 
-			hasItem = new System.Threading.Semaphore(highQueue.Count + mediumQueue.Count + lowQueue.Count, int.MaxValue);
+			int initialTaskCount = highQueue.Count + mediumQueue.Count + lowQueue.Count;
+			PerfMonitor.PerfCounter.GetCounter(PerfMonitor.PerfCounter.UP_REMAINED_COUNT, false).IncrementBy(initialTaskCount);
+			hasItem = new System.Threading.Semaphore(initialTaskCount, int.MaxValue);
 		}
 
 		public static AttachmentUploadQueue Instance
