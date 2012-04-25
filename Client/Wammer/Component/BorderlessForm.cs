@@ -373,7 +373,6 @@ namespace Waveface.Component
             this.Name = "BorderlessForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "WindowsFormApplication";
-            this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(253)))), ((int)(((byte)(252)))));
             this.Activated += new System.EventHandler(this.mactheme_Activated);
             this.Deactivate += new System.EventHandler(this.mactheme_Deactivate);
             this.Resize += new System.EventHandler(this.this_Resize);
