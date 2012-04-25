@@ -56,6 +56,13 @@ namespace Wammer.Station
 				throw new WammerStationException(
 							"Post not found!", (int)StationApiError.NotFound);
 
+			if (type != null)
+			{
+				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("type", type));
+
+				post.type = type;
+			}
+
 			var content = Parameters[CloudServer.PARAM_CONTENT];			
 			if (content != null)
 			{				
