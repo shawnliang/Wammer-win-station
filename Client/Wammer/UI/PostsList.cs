@@ -450,7 +450,7 @@ namespace Waveface
                 {
                     string _url = post.preview.thumbnail_url;
 
-                    string _localPic = Path.Combine(Main.GCONST.ImageCachePath,
+                    string _localPic = Path.Combine(Main.GCONST.AppDataPath,
                                                     post.post_id + "_previewthumbnail_" + ".jpg");
 
                     Bitmap _img = LoadThumbnail(_url, _localPic);

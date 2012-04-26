@@ -52,6 +52,7 @@ namespace Waveface
 
         private Post m_post;
         private bool m_loadOK;
+        private bool m_clockTest;
 
         #endregion
 
@@ -197,16 +198,19 @@ namespace Waveface
             // 
             resources.ApplyResources(this.btnMoreOptions, "btnMoreOptions");
             this.btnMoreOptions.BackColor = System.Drawing.SystemColors.Control;
+            this.btnMoreOptions.CenterAlignImage = false;
             this.btnMoreOptions.Image = global::Waveface.Properties.Resources.FB_moreoption;
             this.btnMoreOptions.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
             this.btnMoreOptions.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
             this.btnMoreOptions.Name = "btnMoreOptions";
             this.btnMoreOptions.Click += new System.EventHandler(this.btnMoreOptions_Click);
+            this.btnMoreOptions.DoubleClick += new System.EventHandler(this.btnMoreOptions_DoubleClick);
             // 
             // btnFavorite
             // 
             resources.ApplyResources(this.btnFavorite, "btnFavorite");
             this.btnFavorite.BackColor = System.Drawing.SystemColors.Control;
+            this.btnFavorite.CenterAlignImage = false;
             this.btnFavorite.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnFavorite.Image = global::Waveface.Properties.Resources.FB_fav;
             this.btnFavorite.ImageDisable = global::Waveface.Properties.Resources.FB_fav_hl;
@@ -218,6 +222,7 @@ namespace Waveface
             // 
             resources.ApplyResources(this.btnEdit, "btnEdit");
             this.btnEdit.BackColor = System.Drawing.Color.White;
+            this.btnEdit.CenterAlignImage = false;
             this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEdit.Image = ((System.Drawing.Image)(resources.GetObject("btnEdit.Image")));
             this.btnEdit.ImageDisable = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageDisable")));
@@ -641,9 +646,17 @@ namespace Waveface
 
         public void SetClock(bool visible, DateTime dateTime)
         {
-            m_dateTimePopupPanel.DateTime = dateTime;
+            if (m_clockTest)
+            {
+                m_dateTimePopupPanel.DateTime = dateTime;
 
-            m_dateTimePopup.Show(this, 4, 44);
+                m_dateTimePopup.Show(this, 4, 44);
+            }
+        }
+
+        private void btnMoreOptions_DoubleClick(object sender, EventArgs e)
+        {
+            m_clockTest = !m_clockTest;
         }
     }
 }
