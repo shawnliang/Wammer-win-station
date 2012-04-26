@@ -74,7 +74,7 @@ namespace Wammer.Station.Retry
 			{
 				nextRetryTime = DateTime.Now.AddSeconds(backoff.NextValue());
 
-				this.LogWarnMsg(this.GetType().ToString() + " failed and will be rescheduled at " + NextRetryTime.ToString("u"), e);
+				this.LogDebugMsg(this.GetType().ToString() + " failed and will be rescheduled at " + NextRetryTime.ToString("u"), e);
 				backoff.IncreaseLevel();
 
 				throw;
