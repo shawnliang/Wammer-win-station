@@ -29,7 +29,6 @@ namespace Wammer.Station
 		private Dictionary<string, IHttpHandler> _handlers;
 		private IHttpHandler _defaultHandler;
 		private bool _started;
-		private bool _authblocked;
 		#endregion
 
 
@@ -278,15 +277,6 @@ namespace Wammer.Station
 		}
 
 		/// <summary>
-		/// Blocks the auth.
-		/// </summary>
-		/// <param name="blocked">if set to <c>true</c> [blocked].</param>
-		public void BlockAuth(bool blocked)
-		{
-			_authblocked = blocked;
-		}
-
-		/// <summary>
 		/// Closes this instance.
 		/// </summary>
 		public void Close()
@@ -320,23 +310,16 @@ namespace Wammer.Station
 
 				if (context != null)
 				{
-					if (_authblocked)
+					IHttpHandler handler = FindBestMatch(context.Request.Url.AbsolutePath);
+
+					if (handler != null)
 					{
-						respond401Unauthorized(context);
+						var task = new HttpHandlingTask(handler, context, beginTime);
+						OnTaskQueue(new TaskQueueEventArgs(task, handler));
+						TaskQueue.Enqueue(task, TaskPriority.High);
 					}
 					else
-					{
-						IHttpHandler handler = FindBestMatch(context.Request.Url.AbsolutePath);
-
-						if (handler != null)
-						{
-							var task = new HttpHandlingTask(handler, context, beginTime);
-							OnTaskQueue(new TaskQueueEventArgs(task, handler));
-							TaskQueue.Enqueue(task, TaskPriority.High);
-						}
-						else
-							respond404NotFound(context);
-					}
+						respond404NotFound(context);
 				}
 			}
 			catch (ObjectDisposedException)

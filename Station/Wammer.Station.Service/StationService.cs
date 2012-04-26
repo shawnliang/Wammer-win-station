@@ -67,7 +67,7 @@ namespace Wammer.Station.Service
 				functionServer = new HttpServer(9981); // TODO: remove hard code
 
 
-				stationTimer = new StationTimer(functionServer, bodySyncTaskQueue, stationId);
+				stationTimer = new StationTimer(bodySyncTaskQueue, stationId);
 
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
 
