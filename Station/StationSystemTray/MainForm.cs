@@ -117,7 +117,7 @@ namespace StationSystemTray
 			{
 				TrayIcon.Text = value;
 				TrayIcon.BalloonTipText = value;
-				TrayIcon.ShowBalloonTip(3, "Waveface", value, ToolTipIcon.None);
+				TrayIcon.ShowBalloonTip(1000, "Waveface", value, ToolTipIcon.None);
 			}
 		}
 
@@ -601,16 +601,12 @@ namespace StationSystemTray
 			}
 			else
 			{
-				menuRelogin.Visible = true;
-				menuRelogin.Text = I18n.L.T("ReLoginMenuItem");
-
 				menuServiceAction.Enabled = false;
 
 				TrayIcon.Icon = this.iconWarning;
 				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
 				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
 				TrayIcon.DoubleClick -= menuPreference_Click;
-				TrayIcon.DoubleClick += menuRelogin_Click;
 				TrayIconText = I18n.L.T("Station401Exception");
 			}
 		}
@@ -629,16 +625,9 @@ namespace StationSystemTray
 				if (signInForm != null)
 					signInForm.Close();
 
-				menuRelogin.Visible = false;
 				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
-				TrayIcon.DoubleClick -= menuRelogin_Click;
 				TrayIcon.DoubleClick += menuPreference_Click;
 			}
-		}
-
-		private void menuRelogin_Click(object sender, EventArgs e)
-		{
-			ShowLoginDialog();
 		}
 
 		void signInForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -938,8 +927,15 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-			var loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne();
-			menuSignIn.Text = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited)) ? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
+			var userlogin = userloginContainer.GetLastUserLogin();
+			LoginedSession loginedSession = null;
+
+			if (userlogin != null)
+				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+
+			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
+			
+			menuSignIn.Text = isUserLogined ? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
 		}
 
 		private void cmbEmail_TextChanged(object sender, EventArgs e)
@@ -1008,7 +1004,24 @@ namespace StationSystemTray
 			if ((bool)t.GetField("added", hidden).GetValue(ni))
 				t.GetMethod("UpdateIcon", hidden).Invoke(ni, new object[] { true });
 		}
-		
+
+		private void tsmiOpenStream_Click(object sender, EventArgs e)
+		{
+			GotoTimeline(userloginContainer.GetLastUserLogin());
+		}
+
+		private void TrayMenu_Opening(object sender, CancelEventArgs e)
+		{
+			var userlogin = userloginContainer.GetLastUserLogin();
+			LoginedSession loginedSession = null;
+
+			if (userlogin != null)
+				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+
+			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
+
+			tsmiOpenStream.Visible = isUserLogined;
+		}
 	}
 
 	#region StationStatusUIController

@@ -124,45 +124,42 @@
     <value>130, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="menuRelogin.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt, style=Bold</value>
-  </data>
-  <data name="menuRelogin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
-  </data>
-  <data name="menuRelogin.Text" xml:space="preserve">
-    <value>Re-Login</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="menuRelogin.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="menuServiceAction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="menuServiceAction.Text" xml:space="preserve">
     <value>Pause Service</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 6</value>
+    <value>149, 6</value>
+  </data>
+  <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="tsmiOpenStream.Text" xml:space="preserve">
+    <value>Open Stream...</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tsmiOpenStream.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="menuSignIn.Text" xml:space="preserve">
     <value>Login...</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="menuQuit.Text" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 104</value>
+    <value>153, 126</value>
   </data>
   <data name="&gt;&gt;TrayMenu.Name" xml:space="preserve">
     <value>TrayMenu</value>
@@ -1917,12 +1914,6 @@
   <data name="&gt;&gt;TrayIcon.Type" xml:space="preserve">
     <value>System.Windows.Forms.NotifyIcon, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;menuRelogin.Name" xml:space="preserve">
-    <value>menuRelogin</value>
-  </data>
-  <data name="&gt;&gt;menuRelogin.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;menuServiceAction.Name" xml:space="preserve">
     <value>menuServiceAction</value>
   </data>
@@ -1934,6 +1925,12 @@
   </data>
   <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tsmiOpenStream.Name" xml:space="preserve">
+    <value>tsmiOpenStream</value>
+  </data>
+  <data name="&gt;&gt;tsmiOpenStream.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;menuSignIn.Name" xml:space="preserve">
     <value>menuSignIn</value>
