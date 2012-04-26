@@ -19,7 +19,7 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private PostType m_postType;
+        public PostType m_postType;
         private bool m_generateWebPreview = true;
         private bool m_isFixHeight;
         private int m_fixHeight;

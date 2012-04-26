@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using Wammer.Station;
+using Wammer.Utility;
 
 namespace Wammer.PostUpload
 {
 	public class PostUploadTaskRunner: AbstrackTaskRunner
 	{
 		private PostUploadTaskQueue queue;
+		private BackOff backoff = new BackOff(10, 20, 30, 50, 80, 130, 210, 340, 550, 890, 1440, 2330);
 
 		public PostUploadTaskRunner(PostUploadTaskQueue queue)
 		{
@@ -26,6 +29,7 @@ namespace Wammer.PostUpload
 					task = queue.Dequeue();
 					task.Execute();
 					queue.Done(task);
+					backoff.ResetLevel();
 				}
 				catch (Exception e)
 				{
@@ -34,8 +38,10 @@ namespace Wammer.PostUpload
 					{
 						queue.Undo(task);
 					}
+					backoff.IncreaseLevel();
+					Thread.Sleep(backoff.NextValue()*1000);
 				}
 			}
-		} 
+		}
 	}
 }

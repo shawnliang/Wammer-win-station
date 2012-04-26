@@ -35,7 +35,7 @@ namespace Wammer.Station.APIHandler
 			imp = new AttachmentUploadHandlerImp(new AttachmentUploadHandlerDB());
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			CheckParameter("session_token", "apikey", "group_id", "type");
 

@@ -231,26 +231,13 @@ namespace Wammer.Model
 			try
 			{
 				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token);
-
-				HttpWebResponse _webResponse = null;
-				try 
-				{	       
-					_webResponse = 
-						Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+				HttpWebResponse _webResponse = Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
 						url,
 						"Mozilla 4.0+",
 						pars,
 						fileName,
 						contentType,
 						dataStream , bufferSize,progressChangedCallBack);
-				}
-				finally
-				{
-					var counter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
-
-					if (counter.NextSample().RawValue > 0)
-						counter.Decrement();
-				}
 
 				using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
 				{
@@ -272,10 +259,7 @@ namespace Wammer.Model
 			{
 				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token);
 
-				HttpWebResponse _webResponse = null;
-				try
-				{
-					_webResponse =
+				HttpWebResponse _webResponse =
 						Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
 						url,
 						"Mozilla 4.0+",
@@ -283,16 +267,7 @@ namespace Wammer.Model
 						fileName,
 						contentType,
 						imageData, bufferSize, progressChangedCallBack);
-				}
-				finally
-				{
-					var counter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
-
-					if (counter.NextSample().RawValue > 0)
-						counter.Decrement();
-				}
 				
-
 				using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
 				{
 					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());

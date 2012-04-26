@@ -370,7 +370,7 @@ namespace UT_WammerStation
 	""device_id"": ""7c80239a-b9a9-460a-9da8-d8001896f0f0""
 }";
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			SavedParams = this.Parameters;
 
@@ -396,7 +396,7 @@ namespace UT_WammerStation
 	{
 		public static System.Collections.Specialized.NameValueCollection SavedParams;
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			SavedParams = this.Parameters;
 

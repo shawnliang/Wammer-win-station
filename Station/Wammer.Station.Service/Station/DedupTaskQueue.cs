@@ -29,6 +29,19 @@ namespace Wammer.Station
 		public string Name { get; set; }
 	}
 
+	public class DequeuedTask
+	{
+		public DequeuedTask(ITask t, object key)
+		{
+			this.Task = t;
+			this.Key = key;
+		}
+
+		public ITask Task { get; private set; }
+		public object Key { get; private set; }
+	}
+
+
 	public interface ITaskEnqueuable
 	{
 		void Enqueue(ITask task, TaskPriority priority);
@@ -36,8 +49,8 @@ namespace Wammer.Station
 
 	public interface ITaskDequeuable
 	{
-		ITask Dequeue();
-		void AckDequeue(ITask task);
+		DequeuedTask Dequeue();
+		void AckDequeue(DequeuedTask task);
 	}
 
 	public class DedupTaskQueue: ITaskEnqueuable, ITaskDequeuable
@@ -86,7 +99,7 @@ namespace Wammer.Station
 			}
 		}
 
-		public ITask Dequeue()
+		public DequeuedTask Dequeue()
 		{
 			hasItem.WaitOne();
 
@@ -105,15 +118,19 @@ namespace Wammer.Station
 				else
 					dequeued = lowPriorityCallbacks.Dequeue();
 
-				if (dequeued != null)
-					keys.Remove(dequeued.Name);
-
-				return dequeued;
+				if (dequeued == null)
+					return null;
+				else
+					return new DequeuedTask(dequeued, dequeued.Name);
 			}
 		}
 
-		public void AckDequeue(ITask task)
+		public void AckDequeue(DequeuedTask task)
 		{
+			lock (keys)
+			{
+				keys.Remove((string)task.Key);
+			}
 		}
 
 		private void OnEnqueued(EventArgs arg)

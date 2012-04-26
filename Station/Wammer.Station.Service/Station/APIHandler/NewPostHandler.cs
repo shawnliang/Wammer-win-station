@@ -27,7 +27,7 @@ namespace Wammer.Station
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			CheckParameter(
 				CloudServer.PARAM_API_KEY, 
@@ -108,14 +108,6 @@ namespace Wammer.Station
 			var response = new NewPostResponse();
 			response.posts.Add(post);
 			RespondSuccess(response);
-		}
-		#endregion
-
-
-		#region Public Method
-		public override object Clone()
-		{
-			return this.MemberwiseClone();
 		}
 		#endregion
 	}

@@ -125,10 +125,13 @@ namespace Wammer.Station
 		public void ResumeUnfinishedDownstreamTasks()
 		{
 			MongoCursor<PostInfo> posts = PostCollection.Instance.Find(
-				Query.Exists("attachments", true));
+				Query.And(
+					Query.Exists("attachments", true),
+					Query.EQ("hidden", "false")));
 
 			foreach (PostInfo post in posts)
 			{
+
 				foreach (AttachmentInfo attachment in post.attachments)
 				{
 					Attachment savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));

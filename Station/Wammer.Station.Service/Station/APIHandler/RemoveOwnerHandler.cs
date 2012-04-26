@@ -16,13 +16,13 @@ namespace Wammer.Station
 			this.stationId = stationId;
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
-			string stationToken = Parameters["session_token"];
+			string sessionToken = Parameters["session_token"];
 			string userID = Parameters["user_ID"];
 			bool removeResource = bool.Parse(Parameters["remove_resource"]);
 
-			if (stationToken == null || userID == null)
+			if (sessionToken == null || userID == null)
 				throw new FormatException("One of parameters is missing: email/password/session_token/userID");
 
 			//Try to find existing driver
@@ -48,14 +48,43 @@ namespace Wammer.Station
 			//Notify cloud server that the user signoff
 			using (WebClient client = new Wammer.Utility.DefaultWebClient())
 			{
-				StationApi.SignOff(client, stationId, stationToken, userID);
+				try
+				{
+					StationApi.SignOff(client, stationId, sessionToken, userID);
+				}
+				catch (WammerCloudException e)
+				{
+					if (e.WammerError == -1)
+					{
+						RespondSuccess();
+						return;
+					}
+					throw;
+				}
 			}
 
 			//Remove the user from db, and stop service this user
-			Model.DriverCollection.Instance.Remove(Query.EQ("_id", userID));
+			DriverCollection.Instance.Remove(Query.EQ("_id", userID));
 
-			if (removeResource && Directory.Exists(existingDriver.folder))
-				Directory.Delete(existingDriver.folder, true);
+			//Remove login session if existed
+			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", sessionToken));
+
+			//Remove all user data
+			if (removeResource)
+			{
+				if (Directory.Exists(existingDriver.folder))
+				{
+					Directory.Delete(existingDriver.folder, true);
+				}
+				foreach (PostInfo post in PostCollection.Instance.Find(Query.EQ("creator_id", userID)))
+				{
+					foreach (String attachmentId in post.attachment_id_array)
+					{
+						AttachmentCollection.Instance.Remove(Query.EQ("_id", attachmentId));
+					}
+				}
+				PostCollection.Instance.Remove(Query.EQ("creator_id", userID));
+			}
 
 			//All driver removed => Remove station from db
 			Driver driver = Model.DriverCollection.Instance.FindOne();

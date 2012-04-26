@@ -70,9 +70,17 @@ namespace Waveface.PostUI
             {
                 if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
                 {
+					Preview_OpenGraph _openGraph = CreateOpenGraph();
+                    string previews = JsonConvert.SerializeObject(_openGraph);
+					string type = (previews != "") ? "link" : "text";
+
                     Dictionary<string, string> _params = new Dictionary<string, string>();
                     _params.Add("content", MyParent.pureTextBox.Text.Trim());
+					_params.Add("type", type);
 
+					if (previews != null)
+						_params.Add("preview", previews);
+					
                     Main.Current.PostUpdate(MyParent.Post, _params, true);
                 }
 

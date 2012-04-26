@@ -42,15 +42,18 @@ namespace Wammer.Station
 		public void Stop()
 		{
 			exit = true;
-			if (!m_Thread.Join(5000))
+			if (m_Thread.ThreadState != ThreadState.Unstarted)
 			{
-				try
+				if (!m_Thread.Join(5000))
 				{
-					m_Thread.Abort();
+					try
+					{
+						m_Thread.Abort();
+					}
+					catch
+					{
+					}
 				}
-				catch 
-				{
-				}				
 			}
 			m_Thread = null;
 			exit = false;

@@ -30,7 +30,7 @@ namespace Wammer.Station
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			CheckParameter(CloudServer.PARAM_API_KEY,
 				CloudServer.PARAM_SESSION_TOKEN,
@@ -42,12 +42,26 @@ namespace Wammer.Station
 				throw new WammerStationException(
 						"Without any optional parameter!", (int)StationApiError.Error);
 
+			var type = Parameters[CloudServer.PARAM_TYPE];
+			if (type == "link")
+			{
+				TunnelToCloud<UpdatePostResponse>("posts/update");
+				return;
+			}
+
 			var postID = Parameters[CloudServer.PARAM_POST_ID];
 
 			var post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
 			if (post == null)
 				throw new WammerStationException(
 							"Post not found!", (int)StationApiError.NotFound);
+
+			if (type != null)
+			{
+				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("type", type));
+
+				post.type = type;
+			}
 
 			var content = Parameters[CloudServer.PARAM_CONTENT];			
 			if (content != null)

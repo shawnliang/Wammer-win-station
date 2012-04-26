@@ -11,20 +11,15 @@ using System.IO;
 namespace UT_WammerStation
 {
 
-	class FackAttViewHandler: HttpHandler
+	public class FackAttViewHandler: HttpHandler
 	{
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			using (BinaryWriter w = new BinaryWriter(Response.OutputStream))
 			{
 				w.Write(Encoding.UTF8.GetBytes("123456"));
 			}
 			Response.Close();
-		}
-
-		public override object Clone()
-		{
-			return this.MemberwiseClone();
 		}
 	}
 

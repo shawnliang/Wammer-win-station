@@ -7,7 +7,7 @@ namespace Wammer.Station
 {
 	public class ListDriverHandler: HttpHandler
 	{
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			List<Driver> drivers = new List<Driver>(DriverCollection.Instance.FindAll());
 

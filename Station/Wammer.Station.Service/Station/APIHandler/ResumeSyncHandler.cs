@@ -15,15 +15,17 @@ namespace Wammer.Station
 		private readonly PostUploadTaskRunner postUploadRunner;
 		private readonly StationTimer stationTimer;
 		private readonly AbstrackTaskRunner[] bodySyncRunners;
+		private readonly AbstrackTaskRunner[] upstreamRunners;
 
-		public ResumeSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer, AbstrackTaskRunner[] bodySyncRunners)
+		public ResumeSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer, AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
 		{
 			this.postUploadRunner = postUploadRunner;
 			this.stationTimer = stationTimer;
 			this.bodySyncRunners = bodySyncRunners;
+			this.upstreamRunners = upstreamRunners;
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			string email = Parameters["email"];
 			string password = Parameters["password"];
@@ -75,6 +77,8 @@ namespace Wammer.Station
 				postUploadRunner.Start();
 				stationTimer.Start();
 				Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Start());
+				Array.ForEach(upstreamRunners, (taskRunner) => taskRunner.Start());
+
 				this.LogDebugMsg("Start function server successfully");
 
 				RespondSuccess();
@@ -91,6 +95,7 @@ namespace Wammer.Station
 					postUploadRunner.Stop();
 					stationTimer.Stop();
 					Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Stop());
+					Array.ForEach(upstreamRunners, (taskRunner) => taskRunner.Stop());
 
 					throw new ServiceUnavailableException("Driver already registered another station", (int)StationApiError.AlreadyHasStaion);
 				}
@@ -104,6 +109,7 @@ namespace Wammer.Station
 					postUploadRunner.Stop();
 					stationTimer.Stop();
 					Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Stop());
+					Array.ForEach(upstreamRunners, (taskRunner) => taskRunner.Stop());
 
 					throw;
 				}

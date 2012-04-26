@@ -328,7 +328,7 @@ namespace Wammer.Cloud
 			catch (WammerCloudException e)
 			{
 				isOffline = IsNetworkError(e);
-				throw e;
+				throw;
 			}
 		}
 

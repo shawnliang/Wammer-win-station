@@ -3,7 +3,7 @@ namespace Wammer.Station
 {
 	class PingHandler: HttpHandler
 	{
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			this.RespondSuccess();
 		}

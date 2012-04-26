@@ -48,6 +48,11 @@ namespace UT_WammerStation
 		public void OnTaskEnqueue(EventArgs e)
 		{
 		}
+
+
+		public void HandleRequest()
+		{
+		}
 	}
 
 
@@ -96,6 +101,11 @@ namespace UT_WammerStation
 
 
 		public void OnTaskEnqueue(EventArgs e)
+		{
+		}
+
+
+		public void HandleRequest()
 		{
 		}
 	}

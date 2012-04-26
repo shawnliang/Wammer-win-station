@@ -29,37 +29,66 @@ namespace Wammer.Station
 			this.resourceBasePath = resourceBasePath;
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
-			CheckParameter("email", "password");
+			CheckParameter(
+				CloudServer.PARAM_EMAIL,
+				CloudServer.PARAM_PASSWORD);
 
-			string email = Parameters["email"];
-			string password = Parameters["password"];
+			string email = Parameters[CloudServer.PARAM_EMAIL];
+			string password = Parameters[CloudServer.PARAM_PASSWORD];
 
 			using (WebClient client = new DefaultWebClient())
 			{
 				try
 				{
-					Driver existingDriver = Model.DriverCollection.Instance.FindOne(Query.EQ("email", email));
-					Boolean isDriverExists = existingDriver != null;                    
+					Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
+					Boolean isDriverExists = existingDriver != null;
 
+					Driver driver = null;
+					User user = null;
+					
 					if (isDriverExists)
 					{
-						existingDriver.ref_count += 1;
-						DriverCollection.Instance.Save(existingDriver);
+						user = User.LogIn(client, email, password);
 
-						RespondSuccess(new AddUserResponse()
+						if (user == null)
+							throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);
+
+						if(user.Id == existingDriver.user_id)
 						{
-							UserId = existingDriver.user_id,
-							IsPrimaryStation = existingDriver.isPrimaryStation
-						});
-						return;
+							existingDriver.ref_count += 1;
+							DriverCollection.Instance.Save(existingDriver);
+
+							RespondSuccess(new AddUserResponse()
+							{
+								UserId = existingDriver.user_id,
+								IsPrimaryStation = existingDriver.isPrimaryStation
+							});
+							return;
+						}
+
+						//Remove the user from db, and stop service this user
+						DriverCollection.Instance.Remove(Query.EQ("_id", existingDriver.user_id));
+
+						if (Directory.Exists(existingDriver.folder))
+							Directory.Delete(existingDriver.folder, true);
+
+						//All driver removed => Remove station from db
+						driver = DriverCollection.Instance.FindOne();
+						if (driver == null)
+							StationCollection.Instance.RemoveAll();
 					}
 
-					string stationToken = SignUpStation(email, password, client);
-					User user = User.LogIn(client, email, password);				
-								
-					Driver driver = new Driver
+					string stationToken = SignUpStation(email, password, client);		
+
+					if(!isDriverExists)
+						user = User.LogIn(client, email, password);
+
+					if (user == null)
+						throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);
+
+					driver = new Driver
 					{
 						email = email,
 						folder = Path.Combine(resourceBasePath, "user_" + user.Id),

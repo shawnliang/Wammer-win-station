@@ -215,7 +215,7 @@ namespace Waveface
 			// 
 			// weblink_UI
 			// 
-			this.weblink_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+			this.weblink_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			resources.ApplyResources(this.weblink_UI, "weblink_UI");
 			this.weblink_UI.MyParent = null;
 			this.weblink_UI.Name = "weblink_UI";

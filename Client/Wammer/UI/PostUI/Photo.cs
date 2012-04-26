@@ -316,7 +316,7 @@ namespace Waveface.PostUI
 
         private string getNewAttachmentIdArray()
         {
-            string _ids = "[";
+            string _ids = string.Empty;
 
             foreach (ImageListViewItem _item in imageListView.Items)
             {
@@ -324,7 +324,7 @@ namespace Waveface.PostUI
             }
 
             _ids = _ids.Substring(0, _ids.Length - 1);
-            _ids += "]";
+			_ids = string.Format("[{0}]", _ids);
 
             return _ids;
         }

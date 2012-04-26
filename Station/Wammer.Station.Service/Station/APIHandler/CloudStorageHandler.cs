@@ -12,7 +12,7 @@ namespace Wammer.Station
 {
 	public class ListCloudStorageHandler : HttpHandler
 	{
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			List<CloudStorageStatus> cloudstorages = new List<CloudStorageStatus>();
 
@@ -44,7 +44,7 @@ namespace Wammer.Station
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			// currently only support one driver
 			Driver driver = DriverCollection.Instance.FindOne();
@@ -78,7 +78,7 @@ namespace Wammer.Station
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			long quota = Convert.ToInt64(Parameters["quota"]);
 			string folder = Parameters["folder"];
@@ -168,7 +168,7 @@ namespace Wammer.Station
 
 	public class DropBoxUpdateHandler : HttpHandler
 	{
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			long quota = Convert.ToInt64(Parameters["quota"]);
 
@@ -191,7 +191,7 @@ namespace Wammer.Station
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			// currently only support one driver
 			Driver driver = DriverCollection.Instance.FindOne();

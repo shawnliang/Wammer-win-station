@@ -16,7 +16,7 @@ namespace Wammer.Station
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			CheckParameter("group_id");
 

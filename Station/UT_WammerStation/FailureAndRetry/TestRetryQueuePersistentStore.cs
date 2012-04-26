@@ -31,6 +31,12 @@ namespace UT_WammerStation.FailureAndRetry
 		{
 			throw new NotImplementedException();
 		}
+
+
+		public void ScheduleToRun()
+		{
+			throw new NotImplementedException();
+		}
 	}
 
 
@@ -50,11 +56,23 @@ namespace UT_WammerStation.FailureAndRetry
 		{
 			throw new NotImplementedException();
 		}
+
+
+		public void ScheduleToRun()
+		{
+			throw new NotImplementedException();
+		}
 	}
 
 	[TestClass]
 	public class TestRetryQueuePersistentStore
 	{
+		[TestInitialize]
+		public void Setup()
+		{
+			Wammer.Model.RetryQueueCollection.Instance.RemoveAll();
+		}
+
 		[TestMethod]
 		public void SavedTasksCanBeLoaded()
 		{

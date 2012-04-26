@@ -46,6 +46,11 @@ namespace UT_WammerStation
 		public void OnTaskEnqueue(EventArgs e)
 		{
 		}
+
+
+		public void HandleRequest()
+		{
+		}
 	}
 
 	class MyHandler2 : HttpHandler
@@ -56,7 +61,7 @@ namespace UT_WammerStation
 			return this.MemberwiseClone();
 		}
 
-		protected override void HandleRequest()
+		public override void HandleRequest()
 		{
 			SavedParameters = this.Parameters;
 			this.RespondSuccess();

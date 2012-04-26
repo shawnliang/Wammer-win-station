@@ -787,7 +787,7 @@ namespace StationSystemTray
 			{
 				Cursor = Cursors.WaitCursor;
 				UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
-				
+
 				if (userlogin == null)
 				{
 					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
@@ -838,6 +838,10 @@ namespace StationSystemTray
 			catch (StationServiceDownException)
 			{
 				MessageBox.Show(I18n.L.T("StationDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (ConnectToCloudException)
+			{
+				MessageBox.Show(I18n.L.T("ConnectCloudError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (Exception)
 			{
