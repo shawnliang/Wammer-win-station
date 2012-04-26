@@ -8,6 +8,9 @@ namespace Wammer.Utility
 {
 	class DefaultWebClient : WebClient
 	{
+		private int timeout = 0;
+		private int readWriteTimeout = 0;
+
 		public DefaultWebClient()
 			:base()
 		{
@@ -27,13 +30,38 @@ namespace Wammer.Utility
 			{
 				HttpWebRequest httpReq = (HttpWebRequest)req;
 
-				httpReq.Timeout = DefaultTimeout;
-				httpReq.ReadWriteTimeout = DefaultReadWriteTimeout;
+				httpReq.Timeout = Timeout;
+				httpReq.ReadWriteTimeout = ReadWriteTimeout;
 			}
 
 			return req;
 		}
 
+		public int Timeout
+		{
+			get
+			{
+				return (timeout == 0) ? DefaultTimeout : timeout;
+			}
+
+			set
+			{
+				timeout = value;
+			}
+		}
+
+		public int ReadWriteTimeout
+		{
+			get
+			{
+				return (readWriteTimeout == 0) ? DefaultReadWriteTimeout : readWriteTimeout;
+			}
+
+			set
+			{
+				readWriteTimeout = value;
+			}
+		}
 		public static int DefaultTimeout { get; set; }
 		public static int DefaultReadWriteTimeout { get; set; }
 	}
