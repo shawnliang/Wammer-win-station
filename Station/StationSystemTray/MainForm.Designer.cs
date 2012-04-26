@@ -33,7 +33,6 @@ namespace StationSystemTray
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.TrayMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.menuRelogin = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuServiceAction = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuSignIn = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +68,6 @@ namespace StationSystemTray
 			// TrayMenu
 			// 
 			this.TrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuRelogin,
             this.menuServiceAction,
             this.toolStripSeparator1,
             this.menuSignIn,
@@ -78,12 +76,6 @@ namespace StationSystemTray
 			this.TrayMenu.Name = "TrayMenu";
 			resources.ApplyResources(this.TrayMenu, "TrayMenu");
 			this.TrayMenu.VisibleChanged += new System.EventHandler(this.TrayMenu_VisibleChanged);
-			// 
-			// menuRelogin
-			// 
-			resources.ApplyResources(this.menuRelogin, "menuRelogin");
-			this.menuRelogin.Name = "menuRelogin";
-			this.menuRelogin.Click += new System.EventHandler(this.menuRelogin_Click);
 			// 
 			// menuServiceAction
 			// 
@@ -250,7 +242,6 @@ namespace StationSystemTray
 		private System.Windows.Forms.ToolStripMenuItem menuQuit;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.Timer checkStationTimer;
-        private System.Windows.Forms.ToolStripMenuItem menuRelogin;
 		private System.Windows.Forms.Label lblSignIn;
 		private System.Windows.Forms.Label lblEmail;
 		private System.Windows.Forms.Label lblPassword;

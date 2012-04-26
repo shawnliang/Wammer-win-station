@@ -185,11 +185,7 @@ namespace StationSystemTray
 			btnDropboxAction.Enabled = true;
 
 			Exception ex = (Exception)evt.param;
-			if (ex is AuthenticationException)
-			{
-				mainform.CurrentState.SessionExpired();
-			}
-			else if (ex is ConnectToCloudException)
+			if (ex is ConnectToCloudException)
 			{
 				mainform.CurrentState.Offlined();
 			}
@@ -228,11 +224,7 @@ namespace StationSystemTray
 			label_UsedCountValue.Text = I18n.L.T("NoData");
 
 			Exception ex = (Exception)evt.param;
-			if (ex is AuthenticationException)
-			{
-				mainform.CurrentState.SessionExpired();
-			}
-			else if (ex is ConnectToCloudException)
+			if (ex is ConnectToCloudException)
 			{
 				mainform.CurrentState.Offlined();
 			}
@@ -268,11 +260,7 @@ namespace StationSystemTray
 			btnDropboxAction.Enabled = true;
 
 			Exception ex = (Exception)evt.param;
-			if (ex is AuthenticationException)
-			{
-				mainform.CurrentState.SessionExpired();
-			}
-			else if (ex is ConnectToCloudException)
+			if (ex is ConnectToCloudException)
 			{
 				mainform.CurrentState.Offlined();
 			}
@@ -290,11 +278,7 @@ namespace StationSystemTray
 			btnTestConnection.Enabled = true;
 
 			Exception ex = (Exception)evt.param;
-			if (ex is AuthenticationException)
-			{
-				mainform.CurrentState.SessionExpired();
-			}
-			else if (ex is ConnectToCloudException)
+			if (ex is ConnectToCloudException)
 			{
 				mainform.CurrentState.Offlined();
 			}

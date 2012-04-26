@@ -101,7 +101,6 @@ namespace StationSystemTray
 		private WavefaceClientController uictrlWavefaceClient;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
-		private ReloginForm signInForm;
 		private bool initMinimized;
 		private object cs = new object();
 		public StationState CurrentState { get; private set; }
@@ -314,16 +313,7 @@ namespace StationSystemTray
 		{
 			Exception ex = (Exception)evt.param;
 
-			if (ex is AuthenticationException)
-			{
-				CurrentState.SessionExpired();
-			}
-			else if (ex is UserAlreadyHasStationException)
-			{
-				messenger.ShowMessage(I18n.L.T("StationExpired"));
-				ReregisterStation();
-			}
-			else if (ex is ConnectToCloudException)
+			if (ex is ConnectToCloudException)
 			{
 				CurrentState.Offlined();
 			}
@@ -340,21 +330,7 @@ namespace StationSystemTray
 
 		private void ResumeServiceUIError(object sender, SimpleEventArgs evt)
 		{
-			Exception ex = (Exception)evt.param;
-
-			if (ex is AuthenticationException)
-			{
-				CurrentState.SessionExpired();
-			}
-			else if (ex is UserAlreadyHasStationException)
-			{
-				messenger.ShowMessage(I18n.L.T("StationExpired"));
-				ReregisterStation();
-			}
-			else
-			{
-				CurrentState.Error();
-			}
+			CurrentState.Error();
 		}
 
 		private void StationStatusUICallback(object sender, SimpleEventArgs evt)
@@ -377,11 +353,6 @@ namespace StationSystemTray
 			{
 				logger.Debug("Unable to connect to Waveface cloud", ex);
 				CurrentState.Offlined();
-			}
-			else if (ex is AuthenticationException)
-			{
-				logger.Debug("Session expired while connecting to Waveface cloud");
-				CurrentState.SessionExpired();
 			}
 			else if (ex is WebException)
 			{
@@ -446,13 +417,6 @@ namespace StationSystemTray
 						st.Entering += this.BecomeStoppedState;
 						return st;
 					}
-				case StationStateEnum.SessionNotExist:
-					{
-						StationStateSessionNotExist st = new StationStateSessionNotExist(this, this.CurrentState);
-						st.Entering += this.BecomeSessionNotExistState;
-						st.Leaving += this.LeaveSessionNotExistState;
-						return st;
-					}
 				default:
 					throw new NotImplementedException();
 			}
@@ -495,7 +459,6 @@ namespace StationSystemTray
 
 		void ClickBallonFor401Exception(object sender, EventArgs e)
 		{
-			ShowLoginDialog();
 		}
 
 		void BecomeInitialState(object sender, EventArgs evt)
@@ -590,82 +553,6 @@ namespace StationSystemTray
 			}
 		}
 
-		void BecomeSessionNotExistState(object sender, EventArgs evt)
-		{
-			if (InvokeRequired)
-			{
-				if (!IsDisposed)
-				{
-					Invoke(new EventHandler(BecomeSessionNotExistState), this, new EventArgs());
-				}
-			}
-			else
-			{
-				menuRelogin.Visible = true;
-				menuRelogin.Text = I18n.L.T("ReLoginMenuItem");
-
-				menuServiceAction.Enabled = false;
-
-				TrayIcon.Icon = this.iconWarning;
-				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
-				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
-				TrayIcon.DoubleClick -= menuPreference_Click;
-				TrayIcon.DoubleClick += menuRelogin_Click;
-				TrayIconText = I18n.L.T("Station401Exception");
-			}
-		}
-
-		void LeaveSessionNotExistState(object sender, EventArgs evt)
-		{
-			if (InvokeRequired)
-			{
-				if (!IsDisposed)
-				{
-					Invoke(new EventHandler(LeaveSessionNotExistState), this, new EventArgs());
-				}
-			}
-			else
-			{
-				if (signInForm != null)
-					signInForm.Close();
-
-				menuRelogin.Visible = false;
-				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
-				TrayIcon.DoubleClick -= menuRelogin_Click;
-				TrayIcon.DoubleClick += menuPreference_Click;
-			}
-		}
-
-		private void menuRelogin_Click(object sender, EventArgs e)
-		{
-			ShowLoginDialog();
-		}
-
-		void signInForm_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			signInForm = null;
-		}
-
-		private void ShowLoginDialog()
-		{
-			if (signInForm != null)
-			{
-				signInForm.Activate();
-				return;
-			}
-
-			signInForm = new ReloginForm(this);
-			signInForm.FormClosed += new FormClosedEventHandler(signInForm_FormClosed);
-			signInForm.Show();
-		}
-
-		public void ReregisterStation()
-		{
-			string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-					   "StationUI.exe");
-			Process.Start(_execPath);
-			Application.Exit();
-		}
 
 		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
 		{
@@ -1040,7 +927,7 @@ namespace StationSystemTray
 		}
 
 		protected override void ActionError(Exception ex)
-		{	
+		{
 		}
 	}
 	#endregion
