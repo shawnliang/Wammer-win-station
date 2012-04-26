@@ -36,31 +36,52 @@ namespace StationSystemTray
             //Create a new mutex using specific mutex name
 			m_Mutex = new Mutex(true, "StationSystemTray", out isFirstCreated);
 
-            if (!isFirstCreated)
-            {
-                var currentProcess = Process.GetCurrentProcess();
-                var processes = Process.GetProcessesByName(Assembly.GetExecutingAssembly().GetName().Name);
+			if (!isFirstCreated)
+			{
+				var currentProcess = Process.GetCurrentProcess();
+				var processes = Process.GetProcessesByName(Assembly.GetExecutingAssembly().GetName().Name);
 
-                foreach (var process in processes)
-                {
-                    if (process.Id == currentProcess.Id)
-                        continue;
+				foreach (var process in processes)
+				{
+					if (process.Id == currentProcess.Id)
+						continue;
 
-                    IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
-                    if (handle == IntPtr.Zero)
-                    {
-                        handle = Win32Helper.FindWindow(null, "Log In - Waveface");
-                    }
+					IntPtr handle = Win32Helper.FindWindow(null, "Log In - Waveface");
 
-                    if (handle == IntPtr.Zero)
-                        return;
-			
-					Win32Helper.SetForegroundWindow(handle);
-                    Win32Helper.ShowWindow(handle, 5);
-                    return;
-                }
-                return;
-            }
+					if (handle == IntPtr.Zero)
+						return;
+
+					Win32Helper.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
+					return;
+				}
+				return;
+			}
+
+			//if (!isFirstCreated)
+			//{
+			//    var currentProcess = Process.GetCurrentProcess();
+			//    var processes = Process.GetProcessesByName(Assembly.GetExecutingAssembly().GetName().Name);
+
+			//    foreach (var process in processes)
+			//    {
+			//        if (process.Id == currentProcess.Id)
+			//            continue;
+
+			//        IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
+			//        if (handle == IntPtr.Zero)
+			//        {
+			//            handle = Win32Helper.FindWindow(null, "Log In - Waveface");
+			//        }
+
+			//        if (handle == IntPtr.Zero)
+			//            return;
+
+			//        Win32Helper.SetForegroundWindow(handle);
+			//        Win32Helper.ShowWindow(handle, 5);
+			//        return;
+			//    }
+			//    return;
+			//}
 
             ApplyInstalledCulture();
 

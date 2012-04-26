@@ -98,7 +98,7 @@ namespace StationSystemTray
 		public Process clientProcess;
 
 		private StationStatusUIController uictrlStationStatus;
-		private WavefaceClientController uictrlWavefaceClient;
+		//private WavefaceClientController uictrlWavefaceClient;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
 		private ReloginForm signInForm;
@@ -132,6 +132,16 @@ namespace StationSystemTray
 			m_Timer.Start();
 		}
 
+		protected override void WndProc(ref Message m)
+		{
+			if (m.Msg == 0x401)
+			{
+				MessageBox.Show("GoTo Timeline");
+				GotoTimeline(userloginContainer.GetLastUserLogin());
+				return;
+			}
+			base.WndProc(ref m);
+		}
 
 		protected override void OnLoad(EventArgs e)
 		{
@@ -153,9 +163,9 @@ namespace StationSystemTray
 			this.uictrlStationStatus.UICallback += this.StationStatusUICallback;
 			this.uictrlStationStatus.UIError += this.StationStatusUIError;
 
-			this.uictrlWavefaceClient = new WavefaceClientController(this);
-			this.uictrlWavefaceClient.UICallback += this.WavefaceClientUICallback;
-			this.uictrlWavefaceClient.UIError += this.WavefaceClientUIError;
+			//this.uictrlWavefaceClient = new WavefaceClientController(this);
+			//this.uictrlWavefaceClient.UICallback += this.WavefaceClientUICallback;
+			//this.uictrlWavefaceClient.UIError += this.WavefaceClientUIError;
 
 			this.uictrlPauseService = new PauseServiceUIController(this);
 			this.uictrlPauseService.UICallback += this.PauseServiceUICallback;
@@ -235,7 +245,9 @@ namespace StationSystemTray
 				}
 				else
 				{
-					uictrlWavefaceClient.Terminate();
+					//uictrlWavefaceClient.Terminate();
+					if (clientProcess != null)
+						clientProcess.Close();
 				}
 			}
 
@@ -264,40 +276,40 @@ namespace StationSystemTray
 			}
 		}
 
-		private void WavefaceClientUICallback(object sender, SimpleEventArgs evt)
-		{
-			int exitCode = (int)evt.param;
+		//private void WavefaceClientUICallback(object sender, SimpleEventArgs evt)
+		//{
+		//    int exitCode = (int)evt.param;
 
-			if (exitCode == -2)  // client logout
-			{
-				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
-			}
-			else if (exitCode == -3)  // client unlink
-			{
-				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
+		//    if (exitCode == -2)  // client logout
+		//    {
+		//        GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+		//    }
+		//    else if (exitCode == -3)  // client unlink
+		//    {
+		//        UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
 
-				bool isCleanResource = false;
-				CleanResourceForm cleanform = new CleanResourceForm(userlogin.Email);
-				DialogResult cleanResult = cleanform.ShowDialog();
-				if (cleanResult == DialogResult.Yes)
-				{
-					isCleanResource = true;
-				}
+		//        bool isCleanResource = false;
+		//        CleanResourceForm cleanform = new CleanResourceForm(userlogin.Email);
+		//        DialogResult cleanResult = cleanform.ShowDialog();
+		//        if (cleanResult == DialogResult.Yes)
+		//        {
+		//            isCleanResource = true;
+		//        }
 
-				ListDriverResponse res = StationController.ListUser();
-				foreach (Driver driver in res.drivers)
-				{
-					if (driver.email == userlogin.Email)
-					{
-						StationController.RemoveOwner(driver.user_id, isCleanResource);
-						userloginContainer.RemoveUserLogin(driver.email);
-						RefreshUserList();
-						break;
-					}
-				}
-				GotoTabPage(tabSignIn, null);
-			}
-		}
+		//        ListDriverResponse res = StationController.ListUser();
+		//        foreach (Driver driver in res.drivers)
+		//        {
+		//            if (driver.email == userlogin.Email)
+		//            {
+		//                StationController.RemoveOwner(driver.user_id, isCleanResource);
+		//                userloginContainer.RemoveUserLogin(driver.email);
+		//                RefreshUserList();
+		//                break;
+		//            }
+		//        }
+		//        GotoTabPage(tabSignIn, null);
+		//    }
+		//}
 
 		private void WavefaceClientUIError(object sender, SimpleEventArgs evt)
 		{
@@ -399,7 +411,9 @@ namespace StationSystemTray
 		{
 			try
 			{
-				uictrlWavefaceClient.Terminate();
+				//uictrlWavefaceClient.Terminate();
+				if (clientProcess != null)
+					clientProcess.Close();
 				StationController.SuspendSync();
 			}
 			catch (Exception ex)
@@ -849,7 +863,51 @@ namespace StationSystemTray
 				userlogin = userloginContainer.GetLastUserLogin();
 			}
 
-			uictrlWavefaceClient.PerformAction(userlogin);
+			//uictrlWavefaceClient.PerformAction(userlogin);
+			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+		   "WavefaceWindowsClient.exe");
+			clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
+
+			clientProcess.Exited -= new EventHandler(clientProcess_Exited);
+			clientProcess.Exited += new EventHandler(clientProcess_Exited);
+		}
+
+		void clientProcess_Exited(object sender, EventArgs e)
+		{
+			int exitCode = clientProcess.ExitCode;
+
+			clientProcess.Exited -= new EventHandler(clientProcess_Exited);
+			clientProcess = null;
+
+			if (exitCode == -2)  // client logout
+			{
+				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+			}
+			else if (exitCode == -3)  // client unlink
+			{
+				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
+
+				bool isCleanResource = false;
+				CleanResourceForm cleanform = new CleanResourceForm(userlogin.Email);
+				DialogResult cleanResult = cleanform.ShowDialog();
+				if (cleanResult == DialogResult.Yes)
+				{
+					isCleanResource = true;
+				}
+
+				ListDriverResponse res = StationController.ListUser();
+				foreach (Driver driver in res.drivers)
+				{
+					if (driver.email == userlogin.Email)
+					{
+						StationController.RemoveOwner(driver.user_id, isCleanResource);
+						userloginContainer.RemoveUserLogin(driver.email);
+						RefreshUserList();
+						break;
+					}
+				}
+				GotoTabPage(tabSignIn, null);
+			}
 		}
 
 		private bool TestEmailFormat(string emailAddress)
@@ -921,7 +979,9 @@ namespace StationSystemTray
 
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
-			uictrlWavefaceClient.Terminate();
+			//uictrlWavefaceClient.Terminate();
+			if (clientProcess != null)
+				clientProcess.Close();
 			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
 		}
 
@@ -1058,55 +1118,63 @@ namespace StationSystemTray
 	}
 	#endregion
 
-	#region WavefaceClientController
-	public class WavefaceClientController : SimpleUIController
-	{
-		private MainForm mainform;
-		private object cs = new object();
+	//#region WavefaceClientController
+	//public class WavefaceClientController : SimpleUIController
+	//{
+	//    private MainForm mainform;
+	//    private object cs = new object();
 
-		public WavefaceClientController(MainForm form)
-			: base(form)
-		{
-			mainform = form;
-		}
+	//    public WavefaceClientController(MainForm form)
+	//        : base(form)
+	//    {
+	//        mainform = form;
+	//    }
 
-		public void Terminate()
-		{
-			if (mainform.clientProcess != null)
-			{
-				mainform.clientProcess.Kill();
-			}
-		}
+	//    public void Terminate()
+	//    {
+	//        if (mainform.clientProcess != null)
+	//        {
+	//            mainform.clientProcess.Kill();
+	//        }
+	//    }
 
-		protected override object Action(object obj)
-		{
-			lock (cs)
-			{
-				UserLoginSetting userlogin = (UserLoginSetting)obj;
-				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-			   "WavefaceWindowsClient.exe");
-				mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
+	//    protected override object Action(object obj)
+	//    {
+	//        lock (cs)
+	//        {
+	//            UserLoginSetting userlogin = (UserLoginSetting)obj;
+	//            string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+	//           "WavefaceWindowsClient.exe");
+	//            mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
 
-				if (mainform.clientProcess != null)
-					mainform.clientProcess.WaitForExit();
+	//            mainform.clientProcess.Exited += new EventHandler(clientProcess_Exited);
 
-				int exitCode = mainform.clientProcess.ExitCode;
-				mainform.clientProcess = null;
+	//            if (mainform.clientProcess != null)
+	//                mainform.clientProcess.WaitForExit();
 
-				return exitCode;
-			}
-		}
+	//            int exitCode = mainform.clientProcess.ExitCode;
+	//            mainform.clientProcess = null;
 
-		protected override void ActionCallback(object obj)
-		{
-		}
+	//            return exitCode;
+	//        }
+	//    }
 
-		protected override void ActionError(Exception ex)
-		{
-			mainform.clientProcess = null;
-		}
-	}
-	#endregion
+	//    void clientProcess_Exited(object sender, EventArgs e)
+	//    {
+	//        var process = sender as Process;
+	//        var exitCode = process.ExitCode;
+	//    }
+
+	//    protected override void ActionCallback(object obj)
+	//    {
+	//    }
+
+	//    protected override void ActionError(Exception ex)
+	//    {
+	//        mainform.clientProcess = null;
+	//    }
+	//}
+	//#endregion
 
 	#region PauseServiceUIController
 	public class PauseServiceUIController : SimpleUIController
