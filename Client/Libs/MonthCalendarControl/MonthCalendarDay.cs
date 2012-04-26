@@ -33,6 +33,8 @@
 
       #region properties
 
+      public bool IsWaveface { get; set; }
+
       /// <summary>
       /// Gets or sets the bounds of the day.
       /// </summary>

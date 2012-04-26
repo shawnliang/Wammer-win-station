@@ -587,6 +587,8 @@ namespace Waveface
             Point _ptLowerLeft = new Point(0, btnMoreOptions.Height);
             _ptLowerLeft = btnMoreOptions.PointToScreen(_ptLowerLeft);
 
+            _ptLowerLeft.X -= contextMenuStrip.Width - btnMoreOptions.Width;
+
             contextMenuStrip.Show(_ptLowerLeft);
         }
 

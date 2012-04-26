@@ -148,7 +148,6 @@
             this.monthCalendar1.Location = new System.Drawing.Point(206, 8);
             this.monthCalendar1.Name = "monthCalendar1";
             this.monthCalendar1.SelectionMode = CustomControls.MonthCalendarSelectionMode.Day;
-            this.monthCalendar1.SelectionRange = new System.Windows.Forms.SelectionRange(new System.DateTime(2012, 4, 22, 0, 0, 0, 0), new System.DateTime(2012, 4, 22, 0, 0, 0, 0));
             this.monthCalendar1.ShowFooter = false;
             this.monthCalendar1.ShowWeekHeader = false;
             this.monthCalendar1.TabIndex = 7;

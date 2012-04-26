@@ -943,10 +943,10 @@
     <None Include="Resources\FlatButton\FBT_account_hl.png" />
     <None Include="Resources\FlatButton\FBT_refresh.png" />
     <None Include="Resources\FlatButton\FBT_refresh_hl.png" />
-    <None Include="Resources\FlatButton\FBT_remove.png" />
-    <None Include="Resources\FlatButton\FBT_remove_hl.png" />
     <None Include="Resources\FlatButton\FBT_setting.png" />
     <None Include="Resources\FlatButton\FBT_setting_hl.png" />
+    <None Include="Resources\FlatButton\FBT_newpost.png" />
+    <None Include="Resources\FlatButton\FBT_newpost_hl_hl.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote_hl.png" />

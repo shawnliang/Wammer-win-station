@@ -361,6 +361,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FBT_newpost {
+            get {
+                object obj = ResourceManager.GetObject("FBT_newpost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FBT_newpost_hl_hl {
+            get {
+                object obj = ResourceManager.GetObject("FBT_newpost_hl_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FBT_refresh {
             get {
                 object obj = ResourceManager.GetObject("FBT_refresh", resourceCulture);
@@ -371,20 +385,6 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap FBT_refresh_hl {
             get {
                 object obj = ResourceManager.GetObject("FBT_refresh_hl", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap FBT_remove {
-            get {
-                object obj = ResourceManager.GetObject("FBT_remove", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap FBT_remove_hl {
-            get {
-                object obj = ResourceManager.GetObject("FBT_remove_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -105,8 +105,7 @@ namespace Waveface.DetailUI
             imageListView.BackColor = BG_COLOR;
             imageListView.Colors.BackColor = BG_COLOR;
             imageListView.Colors.DisabledBackColor = BG_COLOR;
-            imageListView.ThumbnailSize = new Size(128, 128);
-            imageListView.CacheMode = CacheMode.Continuous;
+            imageListView.ThumbnailSize = new Size(144, 144);
 
             //imageListView.AutoRotateThumbnails = false;
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
@@ -551,7 +550,7 @@ namespace Waveface.DetailUI
 
             int W = 144;
 
-            if (imageListView.Width > 768)
+            if (Main.Current.Width > 1280)
             {
                 int _w = (int)(imageListView.Width / 7.55);
 
