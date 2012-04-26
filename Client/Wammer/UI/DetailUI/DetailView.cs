@@ -651,11 +651,19 @@ namespace Waveface
             if (m_clockTest)
             {
                 m_dateTimePopupPanel.DateTime = dateTime;
+<<<<<<< HEAD
 
                 m_dateTimePopup.Show(this, 4, 44);
             }
         }
 
+=======
+
+                m_dateTimePopup.Show(this, 4, 44);
+            }
+        }
+
+>>>>>>> daily_build
         private void btnMoreOptions_DoubleClick(object sender, EventArgs e)
         {
             m_clockTest = !m_clockTest;
