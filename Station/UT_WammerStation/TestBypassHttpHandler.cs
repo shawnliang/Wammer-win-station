@@ -53,27 +53,6 @@ namespace UT_WammerStation
 		public void HandleRequest()
 		{
 		}
-
-		void IHttpHandler.HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
-		{
-			throw new NotImplementedException();
-		}
-
-		void IHttpHandler.SetBeginTimestamp(long beginTime)
-		{
-			throw new NotImplementedException();
-		}
-
-		event EventHandler<HttpHandlerEventArgs> IHttpHandler.ProcessSucceeded
-		{
-			add { throw new NotImplementedException(); }
-			remove { throw new NotImplementedException(); }
-		}
-
-		object ICloneable.Clone()
-		{
-			throw new NotImplementedException();
-		}
 	}
 
 
