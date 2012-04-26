@@ -57,15 +57,15 @@ namespace Waveface
             // 
             // panelBottom
             // 
-            resources.ApplyResources(this.panelBottom, "panelBottom");
             this.panelBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            resources.ApplyResources(this.panelBottom, "panelBottom");
             this.panelBottom.Name = "panelBottom";
             // 
             // pbDropArea
             // 
-            resources.ApplyResources(this.pbDropArea, "pbDropArea");
             this.pbDropArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.pbDropArea.BackgroundImage = global::Waveface.Properties.Resources.dragNdrop_area1;
+            resources.ApplyResources(this.pbDropArea, "pbDropArea");
             this.pbDropArea.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbDropArea.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pbDropArea.Name = "pbDropArea";
@@ -78,28 +78,28 @@ namespace Waveface
             // 
             // panelMain
             // 
-            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.panelMain.Controls.Add(this.btnNewPost);
             this.panelMain.Controls.Add(this.panelFilter);
             this.panelMain.Controls.Add(this.panelCalendar);
             this.panelMain.Controls.Add(this.vsNetListBarGroups);
             this.panelMain.Controls.Add(this.pbDropArea);
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
             // 
             // panelFilter
             // 
-            resources.ApplyResources(this.panelFilter, "panelFilter");
             this.panelFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panelFilter.Controls.Add(this.panelCustomFilter);
             this.panelFilter.Controls.Add(this.panelTimeline);
+            resources.ApplyResources(this.panelFilter, "panelFilter");
             this.panelFilter.Name = "panelFilter";
             // 
             // panelCustomFilter
             // 
-            resources.ApplyResources(this.panelCustomFilter, "panelCustomFilter");
             this.panelCustomFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.panelCustomFilter.Controls.Add(this.tvCustomFilter);
+            resources.ApplyResources(this.panelCustomFilter, "panelCustomFilter");
             this.panelCustomFilter.Name = "panelCustomFilter";
             // 
             // tvCustomFilter
@@ -118,9 +118,9 @@ namespace Waveface
             // 
             // panelTimeline
             // 
-            resources.ApplyResources(this.panelTimeline, "panelTimeline");
             this.panelTimeline.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.panelTimeline.Controls.Add(this.tvTimeline);
+            resources.ApplyResources(this.panelTimeline, "panelTimeline");
             this.panelTimeline.Name = "panelTimeline";
             // 
             // tvTimeline
@@ -132,14 +132,13 @@ namespace Waveface
             // 
             // panelCalendar
             // 
-            resources.ApplyResources(this.panelCalendar, "panelCalendar");
             this.panelCalendar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.panelCalendar.Controls.Add(this.monthCalendar);
+            resources.ApplyResources(this.panelCalendar, "panelCalendar");
             this.panelCalendar.Name = "panelCalendar";
             // 
             // monthCalendar
             // 
-            resources.ApplyResources(this.monthCalendar, "monthCalendar");
             this.monthCalendar.CellDimensions = new System.Drawing.Size(17, 18);
             this.monthCalendar.ColorTable.BackgroundGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.monthCalendar.ColorTable.BackgroundGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
@@ -151,18 +150,20 @@ namespace Waveface
             this.monthCalendar.ColorTable.DaySelectedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
             this.monthCalendar.ColorTable.DaySelectedText = System.Drawing.Color.White;
             this.monthCalendar.ColorTable.DaySelectedTodayCircleBorder = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.monthCalendar.ColorTable.DayTextBold = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.monthCalendar.ColorTable.DayTextBold = System.Drawing.Color.Teal;
             this.monthCalendar.ColorTable.DayTodayCircleBorder = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.monthCalendar.ColorTable.DayTrailingText = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.DayTrailingText = System.Drawing.Color.Gray;
             this.monthCalendar.ColorTable.HeaderActiveGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.monthCalendar.ColorTable.HeaderArrow = System.Drawing.Color.Silver;
             this.monthCalendar.ColorTable.HeaderGradientBegin = System.Drawing.Color.Gainsboro;
             this.monthCalendar.ColorTable.HeaderGradientEnd = System.Drawing.Color.Gainsboro;
             this.monthCalendar.ColorTable.MonthSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            resources.ApplyResources(this.monthCalendar, "monthCalendar");
             this.monthCalendar.HeaderFont = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.monthCalendar.IsWaveface = true;
             this.monthCalendar.Name = "monthCalendar";
             this.monthCalendar.SelectionMode = CustomControls.MonthCalendarSelectionMode.Day;
+            this.monthCalendar.SelectionRange = new System.Windows.Forms.SelectionRange(new System.DateTime(2012, 4, 22, 0, 0, 0, 0), new System.DateTime(2012, 4, 22, 0, 0, 0, 0));
             this.monthCalendar.ShowFooter = false;
             this.monthCalendar.ShowWeekHeader = false;
             this.monthCalendar.UseShortestDayNames = true;
@@ -181,8 +182,8 @@ namespace Waveface
             // 
             // btnNewPost
             // 
-            resources.ApplyResources(this.btnNewPost, "btnNewPost");
             this.btnNewPost.CenterAlignImage = false;
+            resources.ApplyResources(this.btnNewPost, "btnNewPost");
             this.btnNewPost.ForeColor = System.Drawing.Color.White;
             this.btnNewPost.Image = global::Waveface.Properties.Resources.FB_newpost_btn;
             this.btnNewPost.ImageDisable = global::Waveface.Properties.Resources.FB_newpost_btn;
@@ -192,11 +193,11 @@ namespace Waveface
             // 
             // vsNetListBarGroups
             // 
-            resources.ApplyResources(this.vsNetListBarGroups, "vsNetListBarGroups");
             this.vsNetListBarGroups.AllowDragGroups = true;
             this.vsNetListBarGroups.AllowDragItems = true;
             this.vsNetListBarGroups.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.vsNetListBarGroups.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            resources.ApplyResources(this.vsNetListBarGroups, "vsNetListBarGroups");
             this.vsNetListBarGroups.DrawStyle = Waveface.Component.ListBarControl.ListBarDrawStyle.ListBarDrawStyleNormal;
             this.vsNetListBarGroups.LargeImageList = null;
             this.vsNetListBarGroups.Name = "vsNetListBarGroups";
@@ -206,12 +207,12 @@ namespace Waveface
             // 
             // LeftArea
             // 
-            resources.ApplyResources(this, "$this");
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelBottom);
+            resources.ApplyResources(this, "$this");
             this.Name = "LeftArea";
             this.Resize += new System.EventHandler(this.LeftArea_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).EndInit();

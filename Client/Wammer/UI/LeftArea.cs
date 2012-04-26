@@ -45,7 +45,8 @@ namespace Waveface
             {
                 panelCalendar.Visible = true;
 
-                monthCalendar.Font = new Font("Tahoma", 8);
+                if (monthCalendar.Font.Size != 8)
+                    monthCalendar.Font = new Font("Tahoma", 8);
 
                 return monthCalendar;
             }
@@ -405,8 +406,10 @@ namespace Waveface
         {
             using (Graphics _g = Graphics.FromImage(m_dropAreaImage))
             {
+                int _off = -3;
+
                 _g.Clear(Color.Transparent);
-                _g.DrawImage(bmp, 0, 0);
+                _g.DrawImage(bmp, _off, 0);
 
                 if ((percent > 0) && (percent < 100))
                 {
@@ -421,7 +424,7 @@ namespace Waveface
                 }
 
                 Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), (bmp.Width - _size.Width) / 2, bmp.Height - _size.Height - 12);
+                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), ((bmp.Width - _size.Width) / 2) + _off, bmp.Height - _size.Height - 12);
             }
 
             pbDropArea.Image = m_dropAreaImage;
@@ -466,6 +469,8 @@ namespace Waveface
         {
             if (m_buttonAddNewFilter != null)
                 m_buttonAddNewFilter.Width = Width - 8;
+
+            btnNewPost.Left = (Width - btnNewPost.Width) / 2;
         }
 
         private void tvTimeline_AfterSelect(object sender, TreeViewEventArgs e)

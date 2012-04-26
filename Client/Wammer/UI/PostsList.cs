@@ -327,10 +327,10 @@ namespace Waveface
             string _info = post.attachment_count + " " +
                            ((post.attachment_count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, m_fontInfo);
-            Rectangle _rect = new Rectangle(rect.X + rect.Width - PicWidth - 8,
-                                            rect.Y + rect.Height - underThumbnailHeight - 8, PicWidth, _sizeInfo.Height);
+            Rectangle _rect = new Rectangle(rect.X + rect.Width - _sizeInfo.Width - 2,
+                                            rect.Y + rect.Height - underThumbnailHeight - 8, _sizeInfo.Width, _sizeInfo.Height);
 
-            TextRenderer.DrawText(g, _info, m_fontInfo, _rect, m_inforColor, TextFormatFlags.Right);
+            TextRenderer.DrawText(g, _info, m_fontInfo, _rect, m_inforColor);
 
             Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8,
                                                rect.Height - underThumbnailHeight - 18);

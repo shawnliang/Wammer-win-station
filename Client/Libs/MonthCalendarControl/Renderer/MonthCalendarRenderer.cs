@@ -295,13 +295,19 @@
                    boldDate.Category.GradientMode);
             }
             
-            //@ 
+            //@
             if(day.TrailingDate)
             {
                 if(MonthCalendar.IsWaveface)
                 {
                     g.FillRectangle(Brushes.White, rect);
                 }
+            }
+
+            //@
+            if (day.IsWaveface)
+            {
+                g.FillRectangle(Brushes.LemonChiffon, rect);
             }
 
             // get bolded dates
@@ -318,9 +324,11 @@
                    : (day.TrailingDate ? colors.DayTrailingText
                    : colors.DayText)));
 
-                //@ 
-                if (day.Selected)
-                    textColor = colors.DaySelectedText;
+                if (MonthCalendar.IsWaveface)
+                {
+                    if (day.Selected)
+                        textColor = colors.DaySelectedText;
+                }
 
                 using (SolidBrush brush = new SolidBrush(textColor))
                 {

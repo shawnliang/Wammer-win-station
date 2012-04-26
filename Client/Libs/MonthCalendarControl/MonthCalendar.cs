@@ -2012,6 +2012,38 @@
                     }
                 }
 
+
+                if (IsWaveface)
+                {
+                    foreach (MonthCalendarDay day in month.Days)
+                    {
+                        if (!day.Visible)
+                        {
+                            continue;
+                        }
+
+                        if (day.Date == SelectionStart)
+                        {
+                            MonthCalendarDate _dt = new MonthCalendarDate(CultureCalendar, day.Date).GetFirstDayInWeek(formatProvider);
+
+                            for (int k = 0; k < 7; k++)
+                            {
+                                DateTime _dt2 = _dt.Date.AddDays(k);
+
+                                if (day.Date.Day != _dt2.Day)
+                                {
+                                    foreach (MonthCalendarDay day2 in month.Days)
+                                    {
+                                        if (day2.Date == _dt2)
+                                            day2.IsWaveface = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
                 // loop through all days in current month
                 foreach (MonthCalendarDay day in month.Days)
                 {
@@ -2022,7 +2054,15 @@
                     }
 
                     // draw the day
-                    this.renderer.DrawDay(e.Graphics, day);
+                    renderer.DrawDay(e.Graphics, day);
+                }
+
+                if (IsWaveface)
+                {
+                    foreach (MonthCalendarDay day in month.Days)
+                    {
+                        day.IsWaveface = false;
+                    }
                 }
 
                 // draw week header separator line
