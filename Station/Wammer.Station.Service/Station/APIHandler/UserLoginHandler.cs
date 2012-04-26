@@ -28,31 +28,40 @@ namespace Wammer.Station
 			if (!isDriverExists)
 				throw new WammerStationException("Cannot find the user with email: " + email, (int)StationApiError.AuthFailed);
 
-			var loginInfo = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", email));
-
-			if (loginInfo != null)
+			try
 			{
+				string password = Parameters["password"];
+				string apikey = Parameters["apikey"];
+				User user = null;
+				using (DefaultWebClient client = new DefaultWebClient())
+				{
+					client.Timeout = 3000;
+					client.ReadWriteTimeout = 2000;
+					user = User.LogIn(client, email, password, apikey);
+				}
+
+				if (user == null)
+					throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);
+
+				var loginInfo = user.LoginedInfo;
+
+				LoginedSessionCollection.Instance.Save(loginInfo);
+
 				RespondSuccess(loginInfo);
-				return;
 			}
-
-
-			string password = Parameters["password"];
-			string apikey = Parameters["apikey"];
-			User user = null;
-			using (WebClient client = new DefaultWebClient())
-			{			
-				user = User.LogIn(client, email, password, apikey);
+			catch (WammerCloudException e)
+			{
+				if (e.HttpError != WebExceptionStatus.ProtocolError)
+				{
+					var sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", email));
+					if (sessionData != null)
+						RespondSuccess(sessionData);
+					else
+						throw;
+				}
+				else
+					throw;
 			}
-
-			if(user == null)
-				throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);
-
-			loginInfo = user.LoginedInfo;
-
-			LoginedSessionCollection.Instance.Save(loginInfo);
-
-			RespondSuccess(loginInfo);
 		}
 		#endregion
 
