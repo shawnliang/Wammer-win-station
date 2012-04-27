@@ -6,11 +6,14 @@ using System.Net;
 using MongoDB.Driver.Builders;
 using Wammer.Model;
 using Wammer.Utility;
+using Wammer.Station.APIHandler;
 
 namespace Wammer.Station
 {
 	public class UserLoginHandler : HttpHandler
-	{		
+	{
+		public event EventHandler<UserLoginEventArgs> UserLogined;
+
 		#region Protected Method
 		/// <summary>
 		/// Handles the request.
@@ -35,7 +38,7 @@ namespace Wammer.Station
 				User user = null;
 				using (DefaultWebClient client = new DefaultWebClient())
 				{
-					client.Timeout = 3000;
+					client.Timeout = 2500;
 					client.ReadWriteTimeout = 2000;
 					user = User.LogIn(client, email, password, apikey);
 				}
@@ -48,6 +51,8 @@ namespace Wammer.Station
 				LoginedSessionCollection.Instance.Save(loginInfo);
 
 				RespondSuccess(loginInfo);
+
+				OnUserLogined(new UserLoginEventArgs(email, password, apikey, user.Id));
 			}
 			catch (WammerCloudException e)
 			{
@@ -63,6 +68,15 @@ namespace Wammer.Station
 					throw;
 			}
 		}
+
+		protected void OnUserLogined(UserLoginEventArgs arg)
+		{
+			EventHandler<UserLoginEventArgs> handler = UserLogined;
+			if (handler != null)
+			{
+				handler(this, arg);
+			}
+		}
 		#endregion
 
 		#region Public Method
@@ -71,5 +85,22 @@ namespace Wammer.Station
 			return this.MemberwiseClone();
 		}
 		#endregion
+	}
+
+	[Serializable]
+	public class UserLoginEventArgs : EventArgs
+	{
+		public string email { get; private set; }
+		public string password { get; private set; }
+		public string apikey { get; private set; }
+		public string user_id { get; private set; }
+
+		public UserLoginEventArgs(string email, string password, string apikey, string user_id)
+		{
+			this.email = email;
+			this.password = password;
+			this.apikey = apikey;
+			this.user_id = user_id;
+		}
 	}
 }
