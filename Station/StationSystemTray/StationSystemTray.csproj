@@ -158,11 +158,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\station_icon_16.png" />
     <Content Include="Resources\Icon.ico" />
     <Content Include="Resources\station_icon_256andAll.ico" />
-    <None Include="Resources\station_icon_disable_16.png" />
-    <None Include="Resources\station_icon_warn_16.png" />
+    <None Include="Resources\stream_tray_pause.png" />
+    <None Include="Resources\stream_tray_working.png" />
+    <None Include="Resources\stream_tray_warn.png" />
     <Content Include="SystemTrayML.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
