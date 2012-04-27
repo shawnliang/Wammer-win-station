@@ -40,12 +40,5 @@ namespace Wammer.Station
 			RespondSuccess();
 		}
 		#endregion
-
-		#region Public Method
-		public override object Clone()
-		{
-			return this.MemberwiseClone();
-		}
-		#endregion
 	}
 }

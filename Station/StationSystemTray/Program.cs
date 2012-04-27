@@ -54,8 +54,8 @@ namespace StationSystemTray
 
                     if (handle == IntPtr.Zero)
                         return;
-
-                    Win32Helper.SetForegroundWindow(handle);
+			
+					Win32Helper.SetForegroundWindow(handle);
                     Win32Helper.ShowWindow(handle, 5);
                     return;
                 }

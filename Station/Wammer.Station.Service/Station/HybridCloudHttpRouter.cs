@@ -33,6 +33,8 @@ namespace Wammer.Station
 		private BypassHttpHandler bypass = new BypassHttpHandler(CloudServer.BaseUrl);
 		private HttpHandler handler;
 
+		private static log4net.ILog logger = log4net.LogManager.GetLogger("HybridCloudHttpRouter");
+
 		public HybridCloudHttpRouter(HttpHandler handler)
 		{
 			this.handler = handler;
@@ -50,6 +52,8 @@ namespace Wammer.Station
 			{
 				ParseMultiPartData(request);
 			}
+
+			LogRequest();
 
 			// handle request locally if has valid session, otherwise bypass to cloud
 			LoginedSession session = GetSessionFromCache();
@@ -89,6 +93,32 @@ namespace Wammer.Station
 			router.bypass = (BypassHttpHandler)this.bypass.Clone();
 			router.handler = (HttpHandler)this.handler.Clone();
 			return router;
+		}
+
+		private void LogRequest()
+		{
+			if (logger.IsDebugEnabled)
+			{
+				logger.Debug("====== Request " + Request.Url.AbsolutePath +
+								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
+				foreach (string key in Parameters.AllKeys)
+				{
+					if (key == "password")
+					{
+						logger.DebugFormat("{0} : *", key);
+					}
+					else
+					{
+						logger.DebugFormat("{0} : {1}", key, Parameters[key]);
+						if (key == "apikey" && CloudServer.CodeName.ContainsKey(Parameters[key]))
+						{
+							logger.DebugFormat("(code name : {0})", CloudServer.CodeName[Parameters[key]]);
+						}
+					}
+				}
+				foreach (UploadedFile file in Files)
+					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
+			}	
 		}
 
 		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)

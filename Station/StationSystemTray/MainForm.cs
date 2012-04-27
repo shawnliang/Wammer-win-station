@@ -116,7 +116,7 @@ namespace StationSystemTray
 			{
 				TrayIcon.Text = value;
 				TrayIcon.BalloonTipText = value;
-				TrayIcon.ShowBalloonTip(3);
+				TrayIcon.ShowBalloonTip(1000, "Waveface", value, ToolTipIcon.None);
 			}
 		}
 
@@ -825,8 +825,15 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-			var loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne();
-			menuSignIn.Text = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited)) ? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
+			var userlogin = userloginContainer.GetLastUserLogin();
+			LoginedSession loginedSession = null;
+
+			if (userlogin != null)
+				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+
+			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
+			
+			menuSignIn.Text = isUserLogined ? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
 		}
 
 		private void cmbEmail_TextChanged(object sender, EventArgs e)
@@ -871,7 +878,7 @@ namespace StationSystemTray
 				upSpeed = upRemainedCount == 0? 0: ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
 				downloadSpeed = downloadSpeed == 0? 0: ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
 
-				iconText = string.Format("{0}{1}↑ ({2}): {3:0.0} {4}{5}↓ ({6}): {7:0.0}{8}",
+				iconText = string.Format("{0}{1}({2}): {3:0.0} {4}{5}({6}): {7:0.0}{8}",
 					iconText,
 					Environment.NewLine,
 					upRemainedCount,
@@ -895,7 +902,24 @@ namespace StationSystemTray
 			if ((bool)t.GetField("added", hidden).GetValue(ni))
 				t.GetMethod("UpdateIcon", hidden).Invoke(ni, new object[] { true });
 		}
-		
+
+		private void tsmiOpenStream_Click(object sender, EventArgs e)
+		{
+			GotoTimeline(userloginContainer.GetLastUserLogin());
+		}
+
+		private void TrayMenu_Opening(object sender, CancelEventArgs e)
+		{
+			var userlogin = userloginContainer.GetLastUserLogin();
+			LoginedSession loginedSession = null;
+
+			if (userlogin != null)
+				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+
+			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
+
+			tsmiOpenStream.Visible = isUserLogined;
+		}
 	}
 
 	#region StationStatusUIController

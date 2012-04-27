@@ -35,6 +35,7 @@ namespace StationSystemTray
 			this.TrayMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuServiceAction = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsmiOpenStream = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuSignIn = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,11 +71,13 @@ namespace StationSystemTray
 			this.TrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuServiceAction,
             this.toolStripSeparator1,
+            this.tsmiOpenStream,
             this.menuSignIn,
             this.toolStripSeparator3,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
 			resources.ApplyResources(this.TrayMenu, "TrayMenu");
+			this.TrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.TrayMenu_Opening);
 			this.TrayMenu.VisibleChanged += new System.EventHandler(this.TrayMenu_VisibleChanged);
 			// 
 			// menuServiceAction
@@ -87,6 +90,12 @@ namespace StationSystemTray
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+			// 
+			// tsmiOpenStream
+			// 
+			this.tsmiOpenStream.Name = "tsmiOpenStream";
+			resources.ApplyResources(this.tsmiOpenStream, "tsmiOpenStream");
+			this.tsmiOpenStream.Click += new System.EventHandler(this.tsmiOpenStream_Click);
 			// 
 			// menuSignIn
 			// 
@@ -258,6 +267,7 @@ namespace StationSystemTray
         internal System.Windows.Forms.ComboBox cmbEmail;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem menuSignIn;
+		private System.Windows.Forms.ToolStripMenuItem tsmiOpenStream;
 	}
 }
 

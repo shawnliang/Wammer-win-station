@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Specialized;
+using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;
 using MongoDB.Driver.Builders;
@@ -32,7 +33,7 @@ namespace Wammer
 		#region Public Method
 		public void AddPostUploadAction(string postId, PostUploadActionType actionType, NameValueCollection parameters)
 		{
-			string userId = FindUserId(parameters["group_id"]);
+			string userId = FindUserId(parameters[CloudServer.PARAM_GROUP_ID]);
 			switch (actionType)
 			{
 				case PostUploadActionType.NewPost:
@@ -41,7 +42,9 @@ namespace Wammer
 						PostId = postId,
 						UserId = userId,
 						Timestamp = DateTime.Now,
-						Parameters = ConvertToDictionary(parameters)
+						Parameters = ConvertToDictionary(parameters),
+						CodeName = CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY]) ?
+							CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]] : ""
 					});
 					break;
 				case PostUploadActionType.UpdatePost:
@@ -50,7 +53,9 @@ namespace Wammer
 						PostId = postId,
 						UserId = userId,
 						Timestamp = DateTime.Now,
-						Parameters = ConvertToDictionary(parameters)
+						Parameters = ConvertToDictionary(parameters),
+						CodeName = CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY]) ?
+							CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]] : ""
 					});
 					break;
 				case PostUploadActionType.Comment:
@@ -59,7 +64,9 @@ namespace Wammer
 						PostId = postId,
 						UserId = userId,
 						Timestamp = DateTime.Now,
-						Parameters = ConvertToDictionary(parameters)
+						Parameters = ConvertToDictionary(parameters),
+						CodeName = CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY]) ?
+							CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]] : ""
 					});
 					break;
 				case PostUploadActionType.Hide:
@@ -68,7 +75,9 @@ namespace Wammer
 						PostId = postId,
 						UserId = userId,
 						Timestamp = DateTime.Now,
-						Parameters = ConvertToDictionary(parameters)
+						Parameters = ConvertToDictionary(parameters),
+						CodeName = CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY]) ?
+							CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]] : ""
 					});
 					break;
 				case PostUploadActionType.UnHide:
@@ -77,7 +86,9 @@ namespace Wammer
 						PostId = postId,
 						UserId = userId,
 						Timestamp = DateTime.Now,
-						Parameters = ConvertToDictionary(parameters)
+						Parameters = ConvertToDictionary(parameters),
+						CodeName = CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY]) ?
+							CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]] : ""
 					});
 					break;
 				default:
