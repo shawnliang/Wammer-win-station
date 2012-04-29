@@ -143,9 +143,9 @@ namespace StationSystemTray
 
 			this.userloginContainer = new UserLoginSettingContainer(settings);
 
-			this.iconRunning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_16.GetHicon());
-			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_disable_16.GetHicon());
-			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_warn_16.GetHicon());
+			this.iconRunning = Icon.FromHandle(StationSystemTray.Properties.Resources.stream_tray_working.GetHicon());
+			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.stream_tray_pause.GetHicon());
+			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.stream_tray_warn.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);

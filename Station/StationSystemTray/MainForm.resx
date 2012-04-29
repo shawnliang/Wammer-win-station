@@ -170,7 +170,6 @@
   <data name="TrayIcon.Text" xml:space="preserve">
     <value>Waveface Station</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TrayIcon.Visible" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
