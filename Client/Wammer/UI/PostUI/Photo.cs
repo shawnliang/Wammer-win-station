@@ -541,6 +541,12 @@ namespace Waveface.PostUI
                     imageListView.Items.Remove(_item);
 
                 imageListView.ResumeLayout(true);
+
+                if (imageListView.Items.Count == 0)
+                {
+                    MyParent.toPureText_Mode();
+                    return;
+                }
             }
         }
 

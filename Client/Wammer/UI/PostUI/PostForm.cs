@@ -19,7 +19,7 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        public PostType m_postType;
+        private PostType m_postType;
         private bool m_generateWebPreview = true;
         private bool m_isFixHeight;
         private int m_fixHeight;
@@ -38,6 +38,7 @@ namespace Waveface
         public BatchPostItem BatchPostItem { get; set; }
         public bool EditMode { get; set; }
         public string OldText { get; set; }
+        public bool IsBackFromEditMode  { get; set; }
 
         public PostForm(List<string> files, PostType postType, Post post, bool editMode)
         {
@@ -81,8 +82,12 @@ namespace Waveface
             List<string> _pics = new List<string>();
 
             ChangeToEditModeUI();
-            weblink_UI.ChangeToEditModeUI(Post);
-            photo_UI.ChangeToEditModeUI(Post);
+
+            if (Post.type == "link")
+                weblink_UI.ChangeToEditModeUI(Post);
+
+            if (Post.type == "image")
+                photo_UI.ChangeToEditModeUI(Post);
 
             OldText = Post.content;
 
@@ -328,7 +333,7 @@ namespace Waveface
 
             MaximizeBox = true;
 
-            if (EditMode)
+            if (EditMode && !IsBackFromEditMode)
             {
                 photo_UI.AddEditModePhotoFiles(files, Post.attachments);
             }
@@ -437,6 +442,13 @@ namespace Waveface
             }
 
             pureTextBox.BatchFormat(_instructions);
+        }
+
+        public void BackFromEditMode()
+        {
+            IsBackFromEditMode = true;
+
+            btnAddPhoto.Visible = true;
         }
 
         #region richTextBox

@@ -238,13 +238,13 @@
   <data name="$this.Text" xml:space="preserve">
     <value>帳戶資訊</value>
   </data>
-  <data name="lblLoadingUsage.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label_LoadingUsage.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 24</value>
   </data>
-  <data name="lblLoadingUsage.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label_LoadingUsage.Size" type="System.Drawing.Size, System.Drawing">
     <value>55, 14</value>
   </data>
-  <data name="lblLoadingUsage.Text" xml:space="preserve">
+  <data name="label_LoadingUsage.Text" xml:space="preserve">
     <value>讀取中...</value>
   </data>
   <data name="lblPrimaryStation.Location" type="System.Drawing.Point, System.Drawing">

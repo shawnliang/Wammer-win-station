@@ -456,7 +456,7 @@
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>25</value>
+    <value>59</value>
   </metadata>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -900,37 +900,37 @@
   <data name="groupMonthlyUsage.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lblLoadingUsage.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label_LoadingUsage.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lblLoadingUsage.Enabled" type="System.Boolean, mscorlib">
+  <data name="label_LoadingUsage.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="lblLoadingUsage.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label_LoadingUsage.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 23</value>
   </data>
-  <data name="lblLoadingUsage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="label_LoadingUsage.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 9, 3, 0</value>
   </data>
-  <data name="lblLoadingUsage.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label_LoadingUsage.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 14</value>
   </data>
-  <data name="lblLoadingUsage.TabIndex" type="System.Int32, mscorlib">
+  <data name="label_LoadingUsage.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
   </data>
-  <data name="lblLoadingUsage.Text" xml:space="preserve">
+  <data name="label_LoadingUsage.Text" xml:space="preserve">
     <value>Loading...</value>
   </data>
-  <data name="&gt;&gt;lblLoadingUsage.Name" xml:space="preserve">
-    <value>lblLoadingUsage</value>
+  <data name="&gt;&gt;label_LoadingUsage.Name" xml:space="preserve">
+    <value>label_LoadingUsage</value>
   </data>
-  <data name="&gt;&gt;lblLoadingUsage.Type" xml:space="preserve">
+  <data name="&gt;&gt;label_LoadingUsage.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblLoadingUsage.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label_LoadingUsage.Parent" xml:space="preserve">
     <value>groupMonthlyUsage</value>
   </data>
-  <data name="&gt;&gt;lblLoadingUsage.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label_LoadingUsage.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="groupMonthlyUsage.Location" type="System.Drawing.Point, System.Drawing">
