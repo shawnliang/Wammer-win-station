@@ -105,131 +105,20 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
     <value>2.0</value>
   </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="lblUserNameTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 14</value>
-  </data>
-  <data name="lblUserNameTitle.Text" xml:space="preserve">
-    <value>帳戶Email</value>
-  </data>
-  <data name="lblDeviceNameTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 14</value>
-  </data>
-  <data name="lblDeviceNameTitle.Text" xml:space="preserve">
-    <value>裝置名稱</value>
-  </data>
-  <data name="lblDropboxStorageAccountTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 14</value>
-  </data>
-  <data name="lblDropboxStorageAccountTitle.Text" xml:space="preserve">
-    <value>Dropbox 帳號</value>
-  </data>
-  <data name="lblCloudUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 14</value>
-  </data>
-  <data name="lblCloudUsageTitle.Text" xml:space="preserve">
-    <value>本月傳輸使用量</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Waveface Station 狀態</value>
-  </data>
-  <data name="btnTestConnection.Text" xml:space="preserve">
-    <value>測試外部網路存取狀態</value>
-  </data>
-  <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 17</value>
-  </data>
-  <data name="checkBox_autoStartWaveface.Text" xml:space="preserve">
-    <value>開機時自動開啟Waveface</value>
-  </data>
-  <data name="lblLocalStorageUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>93, 27</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lblLocalStorageUsageTitle.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="lblLocalStorageUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 14</value>
-  </data>
-  <data name="lblLocalStorageUsageTitle.Text" xml:space="preserve">
-    <value>硬碟空間使用:</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>帳戶資訊</value>
-  </data>
-  <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>106, 252</value>
-  </data>
-  <data name="label_UsedCountValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 232</value>
-  </data>
-  <data name="label_MonthlyLimitValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 213</value>
-  </data>
-  <data name="lblCloudStorageUsed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>60, 233</value>
-  </data>
-  <data name="label_UsedCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 14</value>
-  </data>
-  <data name="label_UsedCount.Text" xml:space="preserve">
-    <value>已使用:</value>
-  </data>
-  <data name="label_DaysLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 14</value>
-  </data>
-  <data name="label_DaysLeft.Text" xml:space="preserve">
-    <value>週期剩餘天數：</value>
-  </data>
-  <data name="label_MonthlyLimit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 14</value>
-  </data>
-  <data name="label_MonthlyLimit.Text" xml:space="preserve">
-    <value>每月傳輸量:</value>
-  </data>
-  <data name="label_switchAccount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 298</value>
-  </data>
-  <data name="label_switchAccount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 14</value>
-  </data>
-  <data name="label_switchAccount.Text" xml:space="preserve">
-    <value>請點擊此處切換此電腦上的使用者帳號。</value>
-  </data>
-  <data name="lblDayLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 254</value>
-  </data>
-  <data name="lblCloudStorageLimit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>84, 214</value>
-  </data>
-  <data name="btnEditAccount.Text" xml:space="preserve">
-    <value>編輯帳戶資訊</value>
-  </data>
-  <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 14</value>
-  </data>
-  <data name="lblVersionTitle.Text" xml:space="preserve">
-    <value>版本</value>
-  </data>
-  <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>41, 24</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Waveface Station 版本</value>
-  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAgAEBAAAAEACABoBQAAhgAAABAQAAABACAAaAQAAO4FAAAgIAAAAQAIAKgIAABWCgAAICAAAAEA
@@ -1546,5 +1435,116 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Waveface 設定</value>
+  </data>
+  <data name="btnEditAccount.Text" xml:space="preserve">
+    <value>編輯帳戶資訊</value>
+  </data>
+  <data name="btnTestConnection.Text" xml:space="preserve">
+    <value>測試外部網路存取狀態</value>
+  </data>
+  <data name="checkBox_autoStartWaveface.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 17</value>
+  </data>
+  <data name="checkBox_autoStartWaveface.Text" xml:space="preserve">
+    <value>開機時自動開啟Waveface</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Waveface Station 狀態</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>帳戶資訊</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Waveface Station 版本</value>
+  </data>
+  <data name="label_DaysLeft.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 14</value>
+  </data>
+  <data name="label_DaysLeft.Text" xml:space="preserve">
+    <value>週期剩餘天數：</value>
+  </data>
+  <data name="label_DaysLeftValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 252</value>
+  </data>
+  <data name="label_MonthlyLimit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 14</value>
+  </data>
+  <data name="label_MonthlyLimit.Text" xml:space="preserve">
+    <value>每月傳輸量:</value>
+  </data>
+  <data name="label_MonthlyLimitValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 213</value>
+  </data>
+  <data name="label_switchAccount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 298</value>
+  </data>
+  <data name="label_switchAccount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 14</value>
+  </data>
+  <data name="label_switchAccount.Text" xml:space="preserve">
+    <value>請點擊此處切換此電腦上的使用者帳號。</value>
+  </data>
+  <data name="label_UsedCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 14</value>
+  </data>
+  <data name="label_UsedCount.Text" xml:space="preserve">
+    <value>已使用:</value>
+  </data>
+  <data name="label_UsedCountValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>62, 232</value>
+  </data>
+  <data name="lblCloudStorageLimit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>84, 214</value>
+  </data>
+  <data name="lblCloudStorageUsed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 233</value>
+  </data>
+  <data name="lblCloudUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 14</value>
+  </data>
+  <data name="lblCloudUsageTitle.Text" xml:space="preserve">
+    <value>本月傳輸使用量</value>
+  </data>
+  <data name="lblDayLeft.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 254</value>
+  </data>
+  <data name="lblDeviceNameTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 14</value>
+  </data>
+  <data name="lblDeviceNameTitle.Text" xml:space="preserve">
+    <value>裝置名稱</value>
+  </data>
+  <data name="lblDropboxStorageAccountTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 14</value>
+  </data>
+  <data name="lblDropboxStorageAccountTitle.Text" xml:space="preserve">
+    <value>Dropbox 帳號</value>
+  </data>
+  <data name="lblLocalStorageUsage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>93, 27</value>
+  </data>
+  <data name="lblLocalStorageUsageTitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblLocalStorageUsageTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 14</value>
+  </data>
+  <data name="lblLocalStorageUsageTitle.Text" xml:space="preserve">
+    <value>硬碟空間使用:</value>
+  </data>
+  <data name="lblUserNameTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 14</value>
+  </data>
+  <data name="lblUserNameTitle.Text" xml:space="preserve">
+    <value>帳戶Email</value>
+  </data>
+  <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>41, 24</value>
+  </data>
+  <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 14</value>
+  </data>
+  <data name="lblVersionTitle.Text" xml:space="preserve">
+    <value>版本</value>
   </data>
 </root>
