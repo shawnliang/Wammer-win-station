@@ -136,7 +136,6 @@ namespace StationSystemTray
 		{
 			if (m.Msg == 0x401)
 			{
-				MessageBox.Show("GoTo Timeline");
 				GotoTimeline(userloginContainer.GetLastUserLogin());
 				return;
 			}
