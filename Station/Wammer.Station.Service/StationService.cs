@@ -67,7 +67,7 @@ namespace Wammer.Station.Service
 				functionServer = new HttpServer(9981); // TODO: remove hard code
 
 
-				stationTimer = new StationTimer(functionServer, bodySyncTaskQueue, stationId);
+				stationTimer = new StationTimer(bodySyncTaskQueue, stationId);
 
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
 
@@ -224,8 +224,11 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
 				new HybridCloudHttpRouter(new APIHandler.UserTrackHandler()));
 
+			UserLoginHandler loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
-				new UserLoginHandler());
+				loginHandler);
+
+			loginHandler.UserLogined += new EventHandler<UserLoginEventArgs>(loginHandler_UserLogined);
 
 			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"), 
 				new UserLogoutHandler());			
@@ -237,6 +240,11 @@ namespace Wammer.Station.Service
 			viewHandler.FileDownloadStarted += downstreamMonitor.OnDownstreamTaskEnqueued;
 			viewHandler.FileDownloadInProgress += downstreamMonitor.OnDownstreamTaskInProgress;
 			viewHandler.FileDownloadFinished += downstreamMonitor.OnDownstreamTaskDone;
+		}
+
+		void loginHandler_UserLogined(object sender, UserLoginEventArgs e)
+		{
+			TaskQueue.Enqueue(new UpdateDriverDBTask(e), TaskPriority.High);
 		}
 
 		private static string GetDefaultBathPath(string relativedPath)

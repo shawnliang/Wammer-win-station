@@ -42,23 +42,23 @@ namespace Wammer.Station
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			this.Files = new List<UploadedFile>();
-			this.Request = request;
-			this.Response = response;
-			this.RawPostData = InitRawPostData();
-			this.Parameters = InitParameters(request);
-
-			if (HasMultiPartFormData(request))
+			// handle request locally for local client, otherwise bypass to cloud
+			if ("127.0.0.1" == request.RemoteEndPoint.Address.ToString())
 			{
-				ParseMultiPartData(request);
-			}
+				this.Files = new List<UploadedFile>();
+				this.Request = request;
+				this.Response = response;
+				this.RawPostData = InitRawPostData();
+				this.Parameters = InitParameters(request);
 
-			LogRequest();
+				if (HasMultiPartFormData(request))
+				{
+					ParseMultiPartData(request);
+				}
 
-			// handle request locally if has valid session, otherwise bypass to cloud
-			LoginedSession session = GetSessionFromCache();
-			if (session != null)
-			{
+				LogRequest();
+
+				LoginedSession session = GetSessionFromCache();
 				handler.Session = session;
 				handler.Request = request;
 				handler.Response = response;

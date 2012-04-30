@@ -101,7 +101,6 @@ namespace StationSystemTray
 		private WavefaceClientController uictrlWavefaceClient;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
-		private ReloginForm signInForm;
 		private bool initMinimized;
 		private object cs = new object();
 		public StationState CurrentState { get; private set; }
@@ -144,9 +143,9 @@ namespace StationSystemTray
 
 			this.userloginContainer = new UserLoginSettingContainer(settings);
 
-			this.iconRunning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_16.GetHicon());
-			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_disable_16.GetHicon());
-			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.station_icon_warn_16.GetHicon());
+			this.iconRunning = Icon.FromHandle(StationSystemTray.Properties.Resources.stream_tray_working.GetHicon());
+			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.stream_tray_pause.GetHicon());
+			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.stream_tray_warn.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);
@@ -311,16 +310,7 @@ namespace StationSystemTray
 		{
 			Exception ex = (Exception)evt.param;
 
-			if (ex is AuthenticationException)
-			{
-				CurrentState.SessionExpired();
-			}
-			else if (ex is UserAlreadyHasStationException)
-			{
-				messenger.ShowMessage(I18n.L.T("StationExpired"));
-				ReregisterStation();
-			}
-			else if (ex is ConnectToCloudException)
+			if (ex is ConnectToCloudException)
 			{
 				CurrentState.Offlined();
 			}
@@ -337,21 +327,7 @@ namespace StationSystemTray
 
 		private void ResumeServiceUIError(object sender, SimpleEventArgs evt)
 		{
-			Exception ex = (Exception)evt.param;
-
-			if (ex is AuthenticationException)
-			{
-				CurrentState.SessionExpired();
-			}
-			else if (ex is UserAlreadyHasStationException)
-			{
-				messenger.ShowMessage(I18n.L.T("StationExpired"));
-				ReregisterStation();
-			}
-			else
-			{
-				CurrentState.Error();
-			}
+			CurrentState.Error();
 		}
 
 		private void StationStatusUICallback(object sender, SimpleEventArgs evt)
@@ -374,11 +350,6 @@ namespace StationSystemTray
 			{
 				logger.Debug("Unable to connect to Waveface cloud", ex);
 				CurrentState.Offlined();
-			}
-			else if (ex is AuthenticationException)
-			{
-				logger.Debug("Session expired while connecting to Waveface cloud");
-				CurrentState.SessionExpired();
 			}
 			else if (ex is WebException)
 			{
@@ -443,13 +414,6 @@ namespace StationSystemTray
 						st.Entering += this.BecomeStoppedState;
 						return st;
 					}
-				case StationStateEnum.SessionNotExist:
-					{
-						StationStateSessionNotExist st = new StationStateSessionNotExist(this, this.CurrentState);
-						st.Entering += this.BecomeSessionNotExistState;
-						st.Leaving += this.LeaveSessionNotExistState;
-						return st;
-					}
 				default:
 					throw new NotImplementedException();
 			}
@@ -492,7 +456,6 @@ namespace StationSystemTray
 
 		void ClickBallonFor401Exception(object sender, EventArgs e)
 		{
-			ShowLoginDialog();
 		}
 
 		void BecomeInitialState(object sender, EventArgs evt)
@@ -587,71 +550,6 @@ namespace StationSystemTray
 			}
 		}
 
-		void BecomeSessionNotExistState(object sender, EventArgs evt)
-		{
-			if (InvokeRequired)
-			{
-				if (!IsDisposed)
-				{
-					Invoke(new EventHandler(BecomeSessionNotExistState), this, new EventArgs());
-				}
-			}
-			else
-			{
-				menuServiceAction.Enabled = false;
-
-				TrayIcon.Icon = this.iconWarning;
-				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
-				TrayIcon.BalloonTipClicked += ClickBallonFor401Exception;
-				TrayIcon.DoubleClick -= menuPreference_Click;
-				TrayIconText = I18n.L.T("Station401Exception");
-			}
-		}
-
-		void LeaveSessionNotExistState(object sender, EventArgs evt)
-		{
-			if (InvokeRequired)
-			{
-				if (!IsDisposed)
-				{
-					Invoke(new EventHandler(LeaveSessionNotExistState), this, new EventArgs());
-				}
-			}
-			else
-			{
-				if (signInForm != null)
-					signInForm.Close();
-
-				TrayIcon.BalloonTipClicked -= ClickBallonFor401Exception;
-				TrayIcon.DoubleClick += menuPreference_Click;
-			}
-		}
-
-		void signInForm_FormClosed(object sender, FormClosedEventArgs e)
-		{
-			signInForm = null;
-		}
-
-		private void ShowLoginDialog()
-		{
-			if (signInForm != null)
-			{
-				signInForm.Activate();
-				return;
-			}
-
-			signInForm = new ReloginForm(this);
-			signInForm.FormClosed += new FormClosedEventHandler(signInForm_FormClosed);
-			signInForm.Show();
-		}
-
-		public void ReregisterStation()
-		{
-			string _execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-					   "StationUI.exe");
-			Process.Start(_execPath);
-			Application.Exit();
-		}
 
 		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
 		{
@@ -997,7 +895,7 @@ namespace StationSystemTray
 				upSpeed = upRemainedCount == 0? 0: ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
 				downloadSpeed = downloadSpeed == 0? 0: ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
 
-				iconText = string.Format("{0}{1}↑ ({2}): {3:0.0} {4}{5}↓ ({6}): {7:0.0}{8}",
+				iconText = string.Format("{0}{1}({2}): {3:0.0} {4}{5}({6}): {7:0.0}{8}",
 					iconText,
 					Environment.NewLine,
 					upRemainedCount,
@@ -1070,7 +968,7 @@ namespace StationSystemTray
 		}
 
 		protected override void ActionError(Exception ex)
-		{	
+		{
 		}
 	}
 	#endregion

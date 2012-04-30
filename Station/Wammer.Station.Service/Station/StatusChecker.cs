@@ -15,12 +15,10 @@ namespace Wammer.Station
 		//private long timerPeriod;
 		private bool logon = false;  // logOn is needed for every time service start
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
-		private readonly HttpServer functionServer;
 
-		public StatusChecker(long timerPeriod, HttpServer functionServer)
+		public StatusChecker(long timerPeriod)
 			:base(timerPeriod)
 		{
-			this.functionServer = functionServer;
 		}
 
 		public static StationDetail GetDetail()
@@ -108,7 +106,6 @@ namespace Wammer.Station
 						// 1. server maintenance
 						// 2. driver registered another station
 						// in this situation, client has to re-login/re-register the station
-						functionServer.BlockAuth(true);						
 					}
 					logger.Debug("cloud send heartbeat error", ex);
 				}

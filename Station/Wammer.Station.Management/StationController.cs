@@ -384,28 +384,6 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		public static void ResumeSync(string email, string password)
-		{
-			try
-			{
-				CloudServer.request<CloudResponse>(
-					new WebClient(),
-					StationMgmtURL + "station/resumeSync",
-					new Dictionary<object, object>
-					{
-						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-						{"email", email},
-						{"password", password}
-					},
-					false
-				);
-
-			}
-			catch (WammerCloudException e)
-			{
-				throw ExtractApiRetMsg(e);
-			}
-		}
 
 		public static void SuspendSync()
 		{
