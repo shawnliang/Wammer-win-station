@@ -169,6 +169,11 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>FOR /R $(ProjectDir) %25%25G IN (*.resx) DO CALL $(SolutionDir)Tools\SortRESX.exe "%25%25~G" "%25%25~G.tmp"
+FOR /R $(ProjectDir) %25%25G IN (*.resx.tmp)  DO MOVE /Y "%25%25~G" "%25%25~nG"
+</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
