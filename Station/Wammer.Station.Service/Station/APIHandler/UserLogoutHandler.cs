@@ -35,7 +35,10 @@ namespace Wammer.Station
 			{
 			}
 
-			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", sessionToken));
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
+
+			if (loginedSession != null)
+				LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", loginedSession.user.email));
 
 			RespondSuccess();
 		}
