@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -46,21 +46,42 @@ namespace StationSystemTray
                     if (process.Id == currentProcess.Id)
                         continue;
 
-                    IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
-                    if (handle == IntPtr.Zero)
-                    {
-                        handle = Win32Helper.FindWindow(null, "Log In - Waveface");
-                    }
+					IntPtr handle = Win32Helper.FindWindow(null, "Log In - Waveface");
 
                     if (handle == IntPtr.Zero)
                         return;
-
-                    Win32Helper.SetForegroundWindow(handle);
-                    Win32Helper.ShowWindow(handle, 5);
+			
+					Win32Helper.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
                     return;
                 }
                 return;
             }
+
+			//if (!isFirstCreated)
+			//{
+			//    var currentProcess = Process.GetCurrentProcess();
+			//    var processes = Process.GetProcessesByName(Assembly.GetExecutingAssembly().GetName().Name);
+
+			//    foreach (var process in processes)
+			//    {
+			//        if (process.Id == currentProcess.Id)
+			//            continue;
+
+			//        IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
+			//        if (handle == IntPtr.Zero)
+			//        {
+			//            handle = Win32Helper.FindWindow(null, "Log In - Waveface");
+			//        }
+
+			//        if (handle == IntPtr.Zero)
+			//            return;
+
+			//        Win32Helper.SetForegroundWindow(handle);
+			//        Win32Helper.ShowWindow(handle, 5);
+			//        return;
+			//    }
+			//    return;
+			//}
 
             ApplyInstalledCulture();
 

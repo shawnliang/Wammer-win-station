@@ -157,9 +157,11 @@ namespace Wammer.Station.Management
 					new WebClient(),
 					StationMgmtURL + "station/drivers/add",
 					new Dictionary<object, object>{
-					{ "email", email},
-					{ "password", password}
-				});
+						{ "email", email},
+						{ "password", password},
+					},
+					false
+				);
 
 				return new AddUserResult() { UserId = res.UserId, IsPrimaryStation = res.IsPrimaryStation };
 			}
@@ -260,7 +262,8 @@ namespace Wammer.Station.Management
 					new WebClient(),
 					StationMgmtURL + "cloudstorage/dropbox/oauth",
 					new Dictionary<object, object>(),
-					true
+					true,
+					false
 				);
 				return res.oauth_url;
 			}
@@ -295,7 +298,8 @@ namespace Wammer.Station.Management
 					new WebClient(),
 					StationMgmtURL + "cloudstorage/dropbox/connect",
 					new Dictionary<object, object> { { "quota", quota }, { "folder", folder } },
-					true
+					true,
+					false
 				);
 			}
 			catch (Cloud.WammerCloudException e)
@@ -325,7 +329,8 @@ namespace Wammer.Station.Management
 					new WebClient(),
 					StationMgmtURL + "cloudstorage/dropbox/update",
 					new Dictionary<object, object> { { "quota", quota } },
-					true
+					true,
+					false
 				);
 			}
 			catch (Cloud.WammerCloudException e)
@@ -345,7 +350,8 @@ namespace Wammer.Station.Management
 					new WebClient(),
 					StationMgmtURL + "cloudstorage/dropbox/disconnect",
 					new Dictionary<object, object>(),
-					true
+					true,
+					false
 				);
 			}
 			catch (Cloud.WammerCloudException e)
@@ -367,7 +373,8 @@ namespace Wammer.Station.Management
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-					}
+					},
+					false
 				);
 
 			}
@@ -377,27 +384,6 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		public static void ResumeSync(string email, string password)
-		{
-			try
-			{
-				CloudServer.request<CloudResponse>(
-					new WebClient(),
-					StationMgmtURL + "station/resumeSync",
-					new Dictionary<object, object>
-					{
-						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-						{"email", email},
-						{"password", password}
-					}
-				);
-
-			}
-			catch (WammerCloudException e)
-			{
-				throw ExtractApiRetMsg(e);
-			}
-		}
 
 		public static void SuspendSync()
 		{
@@ -409,7 +395,8 @@ namespace Wammer.Station.Management
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-					}
+					},
+					false
 				);
 			}
 			catch (WammerCloudException e)
@@ -436,7 +423,8 @@ namespace Wammer.Station.Management
 						{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 						{CloudServer.PARAM_USER_ID, userId},
 						{"remove_resource", removeResource}
-					}
+					},
+					false
 				);
 			}
 			catch (WammerCloudException e)
@@ -460,7 +448,8 @@ namespace Wammer.Station.Management
 					new Dictionary<object, object> { 
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
 						{CloudServer.PARAM_SESSION_TOKEN, sessionToken}
-					}
+					},
+					false
 				);
 			}
 			catch (WammerCloudException e)
@@ -479,7 +468,7 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), StationFuncURL + "availability/ping/", new Dictionary<object, object>(), true);
+				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), StationFuncURL + "availability/ping/", new Dictionary<object, object>(), true, false);
 			}
 			catch (WammerCloudException e)
 			{
@@ -491,7 +480,7 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), StationMgmtURL + "availability/ping/", new Dictionary<object, object>(), true);
+				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), StationMgmtURL + "availability/ping/", new Dictionary<object, object>(), true, false);
 			}
 			catch (WammerCloudException e)
 			{
@@ -510,7 +499,8 @@ namespace Wammer.Station.Management
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
 						{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
 						{"user_id", userId}
-					}
+					},
+					false
 				);
 
 				return res;
@@ -532,7 +522,8 @@ namespace Wammer.Station.Management
 					new Dictionary<object, object> { 
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
 						{CloudServer.PARAM_SESSION_TOKEN, sessionToken}
-					}
+					},
+					false
 				);
 
 				return res;
@@ -553,7 +544,8 @@ namespace Wammer.Station.Management
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-					}
+					},
+					false
 				);
 
 				return res;
@@ -574,7 +566,8 @@ namespace Wammer.Station.Management
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-					}
+					},
+					false
 				);
 
 				return res;
@@ -595,7 +588,8 @@ namespace Wammer.Station.Management
 					new Dictionary<object, object>
 					{
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-					}
+					},
+					false
 				);
 
 				return res;

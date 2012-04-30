@@ -26,6 +26,7 @@ namespace Wammer.PostUpload
 		public string UserId { get; set; }
 		public Dictionary<string, string> Parameters { get; set; }
 		public PostUploadTaskStatus Status { get; set; }
+		public string CodeName { get; set; }
 
 		public abstract void Execute();
 

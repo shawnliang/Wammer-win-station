@@ -82,12 +82,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReloginForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ReloginForm.Designer.cs">
-      <DependentUpon>ReloginForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="CleanResourceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,12 +121,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ReloginForm.resx">
-      <DependentUpon>ReloginForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ReloginForm.zh-TW.resx">
-      <DependentUpon>ReloginForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CleanResourceForm.resx">
       <DependentUpon>CleanResourceForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -170,17 +158,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\station_icon_16.png" />
     <Content Include="Resources\Icon.ico" />
     <Content Include="Resources\station_icon_256andAll.ico" />
-    <None Include="Resources\station_icon_disable_16.png" />
-    <None Include="Resources\station_icon_warn_16.png" />
+    <None Include="Resources\stream_tray_pause.png" />
+    <None Include="Resources\stream_tray_working.png" />
+    <None Include="Resources\stream_tray_warn.png" />
     <Content Include="SystemTrayML.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>FOR /R $(ProjectDir) %25%25G IN (*.resx) DO CALL $(SolutionDir)Tools\SortRESX.exe "%25%25~G" "%25%25~G.tmp"
+FOR /R $(ProjectDir) %25%25G IN (*.resx.tmp)  DO MOVE /Y "%25%25~G" "%25%25~nG"
+</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

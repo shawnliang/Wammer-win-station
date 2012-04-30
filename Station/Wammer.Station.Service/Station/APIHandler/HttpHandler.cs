@@ -101,24 +101,7 @@ namespace Wammer.Station
 				ParseMultiPartData(request);
 			}
 
-			if (logger.IsDebugEnabled)
-			{
-				logger.Debug("====== Request " + Request.Url.AbsolutePath + 
-								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
-				foreach (string key in Parameters.AllKeys)
-				{
-					if (key == "password")
-					{
-						logger.DebugFormat("{0} : *", key);
-					}
-					else
-					{
-						logger.DebugFormat("{0} : {1}", key, Parameters[key]);
-					}
-				}
-				foreach (UploadedFile file in Files)
-					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
-			}
+			LogRequest();
 
 			HandleRequest();
 
@@ -129,6 +112,32 @@ namespace Wammer.Station
 				duration += long.MaxValue;
 
 			OnProcessSucceeded(new HttpHandlerEventArgs(duration));
+		}
+
+		private void LogRequest()
+		{
+			if (logger.IsDebugEnabled)
+			{
+				logger.Debug("====== Request " + Request.Url.AbsolutePath +
+								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
+				foreach (string key in Parameters.AllKeys)
+				{
+					if (key == "password")
+					{
+						logger.DebugFormat("{0} : *", key);
+					}
+					else
+					{
+						logger.DebugFormat("{0} : {1}", key, Parameters[key]);
+						if (key == "apikey" && CloudServer.CodeName.ContainsKey(Parameters[key]))
+						{
+							logger.DebugFormat("(code name : {0})", CloudServer.CodeName[Parameters[key]]);
+						}
+					}
+				}
+				foreach (UploadedFile file in Files)
+					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
+			}
 		}
 
 		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)

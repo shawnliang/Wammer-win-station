@@ -11,6 +11,18 @@ namespace Wammer.Cloud
 {
 	public class CloudServer
 	{
+		public static Dictionary<string, string> CodeName = new Dictionary<string, string>
+		{
+			{"0ffd0a63-65ef-512b-94c7-ab3b33117363", "Station"},
+			{"e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2", "Android"},
+			{"ca5c3c5c-287d-5805-93c1-a6c2cbf9977c", "iPhone"},
+			{"ba15e628-44e6-51bc-8146-0611fdfa130b", "iPad"},
+			{"a23f9491-ba70-5075-b625-b8fb5d9ecd90", "Windows"},
+			{"fdda2704-dcd5-5b0c-a676-8a46813068d3", "Windows Phone"},
+			{"c0870e40-1416-5d88-9014-bc089832ebd8", "Android Tablet"},
+			{"74ab96e4-06b3-5307-bf05-21ed5b0a2e11", "Automation"}
+		};
+
 		private const string DEF_API_KEY = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
 		public const string DEF_BASE_PATH = "v2";
 		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; //https://api.waveface.com/v2/
@@ -148,6 +160,11 @@ namespace Wammer.Cloud
 		/// <returns>Response value</returns>
 		public static string requestPath(WebClient agent, string path, Dictionary<object, object> parms, bool checkOffline = true)
 		{
+			return requestPath(agent, CloudServer.BaseUrl, path, parms, checkOffline);
+		}
+
+		public static string requestPath(WebClient agent,string baseUrl, string path, Dictionary<object, object> parms, bool checkOffline = true)
+		{
 			if (checkOffline)
 			{
 				if (isOffline)
@@ -156,7 +173,7 @@ namespace Wammer.Cloud
 				}
 			}
 
-			string url = CloudServer.BaseUrl + path;
+			string url = baseUrl + path;
 
 			try
 			{
@@ -167,7 +184,7 @@ namespace Wammer.Cloud
 			catch (WammerCloudException e)
 			{
 				isOffline = IsNetworkError(e);
-				throw e;
+				throw;
 			}
 		}
 
