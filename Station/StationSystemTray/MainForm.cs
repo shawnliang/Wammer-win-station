@@ -233,10 +233,7 @@ namespace StationSystemTray
 					Win32Helper.ShowWindow(handle, 5);
 					return;
 				}
-				else
-				{
-					uictrlWavefaceClient.Terminate();
-				}
+				uictrlWavefaceClient.Terminate();
 			}
 
 			LoginedSession loginedSession = null;
@@ -919,9 +916,29 @@ namespace StationSystemTray
 		}
 		#endregion
 
+		public static void LogOut(WebClient agent, string sessionToken, string apiKey)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>();
+			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, sessionToken);
+			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
+
+			CloudServer.requestPath(agent, "http://127.0.0.1:9981/v2/", "auth/logout", parameters);
+		}
+
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
 			uictrlWavefaceClient.Terminate();
+			if (menuSignIn.Text == I18n.L.T("LogoutMenuItem"))
+			{
+				var userlogin = userloginContainer.GetLastUserLogin();
+				LoginedSession loginedSession = null;
+
+				if (userlogin != null)
+				{
+					loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+					LogOut(new WebClient(), loginedSession.session_token, loginedSession.apikey.apikey);
+				}
+			}
 			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
 		}
 

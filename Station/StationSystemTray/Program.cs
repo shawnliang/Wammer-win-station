@@ -57,6 +57,7 @@ namespace StationSystemTray
 			
 					Win32Helper.SetForegroundWindow(handle);
                     Win32Helper.ShowWindow(handle, 5);
+					MessageBox.Show("Send message");
                     return;
                 }
                 return;

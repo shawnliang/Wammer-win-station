@@ -160,6 +160,11 @@ namespace Wammer.Cloud
 		/// <returns>Response value</returns>
 		public static string requestPath(WebClient agent, string path, Dictionary<object, object> parms, bool checkOffline = true)
 		{
+			return requestPath(agent, CloudServer.BaseUrl, path, parms, checkOffline);
+		}
+
+		public static string requestPath(WebClient agent,string baseUrl, string path, Dictionary<object, object> parms, bool checkOffline = true)
+		{
 			if (checkOffline)
 			{
 				if (isOffline)
@@ -168,7 +173,7 @@ namespace Wammer.Cloud
 				}
 			}
 
-			string url = CloudServer.BaseUrl + path;
+			string url = baseUrl + path;
 
 			try
 			{
@@ -179,7 +184,7 @@ namespace Wammer.Cloud
 			catch (WammerCloudException e)
 			{
 				isOffline = IsNetworkError(e);
-				throw e;
+				throw;
 			}
 		}
 
