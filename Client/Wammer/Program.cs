@@ -78,6 +78,12 @@ namespace Waveface
 
                     _loginForm = new LoginForm(_email, _password);
                 }
+                else if (args.Length == 1)
+                {
+                    Waveface.Main mainUI = new Main(args[0]);
+                    Application.Run(mainUI);
+                    return;
+                }
                 else
                 {
                     _loginForm = new LoginForm();
