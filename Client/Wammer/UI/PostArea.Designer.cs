@@ -33,12 +33,13 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostArea));
             this.panelList = new System.Windows.Forms.Panel();
-            this.postList = new Waveface.PostsList();
+            this.panelR = new System.Windows.Forms.Panel();
             this.panelButtom = new System.Windows.Forms.Panel();
             this.linkLabelReadMore = new System.Windows.Forms.LinkLabel();
             this.labelPostInfo = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.postList = new Waveface.PostsList();
             this.panelList.SuspendLayout();
             this.panelButtom.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -46,16 +47,16 @@ namespace Waveface
             // 
             // panelList
             // 
+            this.panelList.Controls.Add(this.panelR);
             this.panelList.Controls.Add(this.postList);
             resources.ApplyResources(this.panelList, "panelList");
             this.panelList.Name = "panelList";
             // 
-            // postList
+            // panelR
             // 
-            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.postList.DetailView = null;
-            resources.ApplyResources(this.postList, "postList");
-            this.postList.Name = "postList";
+            this.panelR.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            resources.ApplyResources(this.panelR, "panelR");
+            this.panelR.Name = "panelR";
             // 
             // panelButtom
             // 
@@ -90,12 +91,20 @@ namespace Waveface
             // 
             this.cultureManager.ManagedControl = this;
             // 
+            // postList
+            // 
+            resources.ApplyResources(this.postList, "postList");
+            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.postList.DetailView = null;
+            this.postList.Name = "postList";
+            // 
             // PostArea
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panelMain);
             resources.ApplyResources(this, "$this");
-            this.MinimumSize = new System.Drawing.Size(337, 2);
+            this.MinimumSize = new System.Drawing.Size(336, 2);
             this.Name = "PostArea";
             this.panelList.ResumeLayout(false);
             this.panelButtom.ResumeLayout(false);
@@ -114,5 +123,6 @@ namespace Waveface
         private System.Windows.Forms.Label labelPostInfo;
         private System.Windows.Forms.LinkLabel linkLabelReadMore;
         private Localization.CultureManager cultureManager;
+        private System.Windows.Forms.Panel panelR;
     }
 }

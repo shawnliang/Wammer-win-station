@@ -630,9 +630,9 @@ namespace Waveface
 
         private void panelTop_MouseMove(object sender, MouseEventArgs e)
         {
-            if (Main.Current.WindowState != FormWindowState.Maximized)
+            if (!Main.Current.BorderlessFormTheme.HostWindow.WinMaxed)
             {
-                if (MouseButtons.ToString() == "Left")
+                if ((MouseButtons.ToString() == "Left") && (e.Y < 24))
                 {
                     ReleaseCapture();
 

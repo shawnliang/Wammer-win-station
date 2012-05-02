@@ -148,6 +148,8 @@ namespace Waveface
         {
             doScrollAction = false;
 
+            // Test: posts = posts.GetRange(0, 5);
+
             try
             {
                 if (lastRead >= posts.Count)
