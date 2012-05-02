@@ -47,8 +47,8 @@ namespace Waveface
             // 
             // panelList
             // 
-            this.panelList.Controls.Add(this.panelR);
             this.panelList.Controls.Add(this.postList);
+            this.panelList.Controls.Add(this.panelR);
             resources.ApplyResources(this.panelList, "panelList");
             this.panelList.Name = "panelList";
             // 
