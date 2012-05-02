@@ -348,7 +348,7 @@ namespace StationSystemTray
 				//uictrlWavefaceClient.Terminate();
 				if (clientProcess != null)
 					clientProcess.Close();
-				StationController.SuspendSync();
+				StationController.SuspendSync(1000);
 			}
 			catch (Exception ex)
 			{
@@ -1141,7 +1141,7 @@ namespace StationSystemTray
 
 		protected override object Action(object obj)
 		{
-			StationController.SuspendSync();
+			StationController.SuspendSync(60000);
 			return null;
 		}
 
