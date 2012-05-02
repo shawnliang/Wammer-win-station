@@ -600,7 +600,7 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		private static Exception ExtractApiRetMsg(Cloud.WammerCloudException e)
+		public static Exception ExtractApiRetMsg(Cloud.WammerCloudException e)
 		{
 			if (e.HttpError != WebExceptionStatus.ProtocolError)
 			{
