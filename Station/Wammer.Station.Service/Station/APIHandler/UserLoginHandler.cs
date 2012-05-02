@@ -43,11 +43,9 @@ namespace Wammer.Station
 					user = User.LogIn(client, email, password, apikey);
 				}
 
-				if (user == null)
-					throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);
-
 				var loginInfo = user.LoginedInfo;
 
+				LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", email));
 				LoginedSessionCollection.Instance.Save(loginInfo);
 
 				RespondSuccess(loginInfo);
@@ -58,6 +56,7 @@ namespace Wammer.Station
 			{
 				if (e.HttpError != WebExceptionStatus.ProtocolError)
 				{
+					// network error, use existing session
 					var sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", email));
 					if (sessionData != null)
 						RespondSuccess(sessionData);

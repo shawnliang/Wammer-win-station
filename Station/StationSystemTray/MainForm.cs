@@ -727,7 +727,7 @@ namespace StationSystemTray
 					userlogin = userloginContainer.GetLastUserLogin();
 				}
 
-				LoginedSession sessionData = LogInToCloudOrReuseExistingSession(userlogin);
+				LoginedSession sessionData = LoginToStation(userlogin);
 
 				string sessionDataFile = WriteSessionData(sessionData);
 
@@ -764,44 +764,24 @@ namespace StationSystemTray
 			return false;
 		}
 
-		private LoginedSession LogInToCloudOrReuseExistingSession(UserLoginSetting userlogin)
+		private LoginedSession LoginToStation(UserLoginSetting userlogin)
 		{
 			try
 			{
-				return LoginToCloud(userlogin);
+				using (Wammer.Utility.DefaultWebClient agent = new Wammer.Utility.DefaultWebClient())
+				{
+					return User.LogIn(
+						agent, 
+						"http://localhost:9981/v2/",
+						userlogin.Email, 
+						SecurityHelper.DecryptPassword(userlogin.Password),
+						"a23f9491-ba70-5075-b625-b8fb5d9ecd90").LoginedInfo;
+				}
 			}
 			catch (WammerCloudException e)
 			{
 				Exception error = StationController.ExtractApiRetMsg(e);
-
-				if (error is ConnectToCloudException)
-				{
-					// network error, try to use existing valid session
-					LoginedSession existSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
-
-					if (existSession != null)
-						return existSession;
-					else
-						throw error;
-				}
-				else
-				{
-					throw error;
-				}
-			}
-			
-		}
-
-		private static LoginedSession LoginToCloud(UserLoginSetting userlogin)
-		{
-			using (Wammer.Utility.DefaultWebClient agent = new Wammer.Utility.DefaultWebClient())
-			{
-				agent.Timeout = 3000;
-				LoginedSession session = User.LogInResponseObj(agent, userlogin.Email, SecurityHelper.DecryptPassword(userlogin.Password), "a23f9491-ba70-5075-b625-b8fb5d9ecd90");
-				LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", session.user.email));
-				LoginedSessionCollection.Instance.Save(session);
-
-				return session;
+				throw error;
 			}
 		}
 
