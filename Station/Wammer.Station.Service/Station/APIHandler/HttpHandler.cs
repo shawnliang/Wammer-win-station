@@ -78,6 +78,19 @@ namespace Wammer.Station
 			}
 		}
 
+		protected void TunnelToCloud()
+		{
+			Debug.Assert(this.Request != null);
+
+			var apiPath = Regex.Match(this.Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].Value;
+			var forwardParams = new Dictionary<object, object>();
+			foreach (string key in Parameters.AllKeys)
+			{
+				forwardParams.Add(key, Parameters[key]);
+			}
+			RespondSuccess(CloudServer.requestPath(new WebClient(), apiPath, forwardParams, false));
+		}
+
 		protected void TunnelToCloud<T>()
 		{
 			Debug.Assert(this.Request != null);

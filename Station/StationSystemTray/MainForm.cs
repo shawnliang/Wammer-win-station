@@ -913,8 +913,8 @@ namespace StationSystemTray
 
 			if (iconPaused != this.TrayIcon.Icon)
 			{
-				var upRemainedCount = m_UpRemainedCountCounter.NextSample().RawValue;
-				var downloadRemainedCount = m_DownRemainedCountCounter.NextSample().RawValue;
+				var upRemainedCount = m_UpRemainedCountCounter.NextValue();
+				var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
 				var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
 				var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
 

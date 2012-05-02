@@ -30,7 +30,8 @@ namespace Wammer.Station
 		}
 		#endregion
 
-		#region Private Method		private void UpdateType(PostInfo post)
+		#region Private Method
+		private void UpdateType(PostInfo post)
 		{
 			var type = Parameters[CloudServer.PARAM_TYPE];
 			if (type != null)
@@ -50,7 +51,9 @@ namespace Wammer.Station
 		{
 			var postID = Parameters[CloudServer.PARAM_POST_ID];
 			UpdateContent(post, postID);
-		}		/// <summary>
+		}
+
+		/// <summary>
 		/// Updates the content.
 		/// </summary>
 		/// <param name="post">The post.</param>
@@ -106,7 +109,9 @@ namespace Wammer.Station
 		{
 			var postID = Parameters[CloudServer.PARAM_POST_ID];
 			UpdateFavorite(post, postID);
-		}		/// <summary>
+		}
+
+		/// <summary>
 		/// Updates the favorite.
 		/// </summary>
 		/// <param name="post">The post.</param>
@@ -245,7 +250,7 @@ namespace Wammer.Station
 			var type = Parameters[CloudServer.PARAM_TYPE];
 			if (type == "link")
 			{
-				TunnelToCloud<UpdatePostResponse>();
+				TunnelToCloud();
 
 				UpdateLocalPostDataFromCloud();
 				return;

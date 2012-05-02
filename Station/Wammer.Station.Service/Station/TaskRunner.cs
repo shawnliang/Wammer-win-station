@@ -25,14 +25,11 @@ namespace Wammer.Station
 					DequeuedTask item = queue.Dequeue();
 					item.Task.Execute();
 					queue.AckDequeue(item);
+					OnTaskExecuted(EventArgs.Empty);
 				}
 				catch (Exception e)
 				{
 					this.LogWarnMsg("Error while executing task.", e);
-				}
-				finally
-				{
-					OnTaskExecuted(EventArgs.Empty);
 				}
 			}
 		}
