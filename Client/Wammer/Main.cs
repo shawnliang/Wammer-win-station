@@ -1984,7 +1984,7 @@ namespace Waveface
 
         private void panelTitle_MouseMove(object sender, MouseEventArgs e)
         {
-            if (WindowState != FormWindowState.Maximized)
+            if (!BorderlessFormTheme.HostWindow.WinMaxed)
             {
                 if (MouseButtons.ToString() == "Left")
                 {

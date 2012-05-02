@@ -25,7 +25,7 @@ namespace Waveface.PostUI
         {
             btnSend.Text = I18n.L.T("Update");
 
-            buttonRemovePreview.Visible = false;
+            // buttonRemovePreview.Visible = false;
 
             buttonPrev.Visible = false;
             buttonNext.Visible = false;
@@ -36,7 +36,7 @@ namespace Waveface.PostUI
             {
                 if (Main.Current.CheckNetworkStatus())
                 {
-                    if (post.preview.thumbnail_url == null)
+                    if (string.IsNullOrEmpty(post.preview.thumbnail_url))
                     {
                         panelContent.Left = 0;
                         panelContent.Width = panelPreview.Width - 8;
@@ -76,11 +76,13 @@ namespace Waveface.PostUI
 
                     Dictionary<string, string> _params = new Dictionary<string, string>();
                     _params.Add("content", MyParent.pureTextBox.Text.Trim());
-					_params.Add("type", type);
+					
+                    _params.Add("type", type);
+                    _params.Add("attachment_id_array", "[]");
 
 					if (previews != null)
 						_params.Add("preview", previews);
-					
+
                     Main.Current.PostUpdate(MyParent.Post, _params, true);
                 }
 
@@ -262,6 +264,16 @@ namespace Waveface.PostUI
         private void buttonRemovePreview_Click(object sender, EventArgs e)
         {
             m_mrPreviewsGetAdv = null;
+
+            if(MyParent.EditMode)
+            {
+                buttonPrev.Visible = true;
+                buttonNext.Visible = true;
+                labelPictureIndex.Visible = true;
+                cbNoThumbnail.Visible = true;
+
+                MyParent.BackFromEditMode();
+            }
 
             MyParent.toPureText_Mode();
         }

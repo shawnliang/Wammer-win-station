@@ -137,13 +137,6 @@ namespace Waveface.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap divider {
-            get {
-                object obj = ResourceManager.GetObject("divider", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap dragdrop_tutorial {
             get {
                 object obj = ResourceManager.GetObject("dragdrop_tutorial", resourceCulture);
@@ -417,6 +410,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap LD {
+            get {
+                object obj = ResourceManager.GetObject("LD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap lightbulb {
             get {
                 object obj = ResourceManager.GetObject("lightbulb", resourceCulture);
@@ -434,6 +434,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap LoadingImage {
             get {
                 object obj = ResourceManager.GetObject("LoadingImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap MD {
+            get {
+                object obj = ResourceManager.GetObject("MD", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -558,6 +565,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap Post {
             get {
                 object obj = ResourceManager.GetObject("Post", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RD {
+            get {
+                object obj = ResourceManager.GetObject("RD", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

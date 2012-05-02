@@ -28,312 +28,312 @@
         /// </summary>
         private void InitializeComponent()
         {
-			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingForm));
-			this.lblUserName = new System.Windows.Forms.Label();
-			this.barCloudUsage = new System.Windows.Forms.ProgressBar();
-			this.label_DaysLeftValue = new System.Windows.Forms.Label();
-			this.label_UsedCountValue = new System.Windows.Forms.Label();
-			this.label_MonthlyLimitValue = new System.Windows.Forms.Label();
-			this.lblCloudStorageUsed = new System.Windows.Forms.Label();
-			this.label_UsedCount = new System.Windows.Forms.Label();
-			this.label_DaysLeft = new System.Windows.Forms.Label();
-			this.label_MonthlyLimit = new System.Windows.Forms.Label();
-			this.lblDayLeft = new System.Windows.Forms.Label();
-			this.lblCloudStorageLimit = new System.Windows.Forms.Label();
-			this.btnEditAccount = new System.Windows.Forms.Button();
-			this.bgworkerGetAllData = new System.ComponentModel.BackgroundWorker();
-			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-			this.bgworkerUpdate = new System.ComponentModel.BackgroundWorker();
-			this.groupMonthlyUsage = new System.Windows.Forms.GroupBox();
-			this.lblLoadingUsage = new System.Windows.Forms.Label();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.lblCopyRight = new System.Windows.Forms.Label();
-			this.groupStations = new System.Windows.Forms.GroupBox();
-			this.lblPrimaryStation = new System.Windows.Forms.Label();
-			this.lblOriginDesc = new System.Windows.Forms.Label();
-			this.btnUnlink = new System.Windows.Forms.Button();
-			this.btnChangeLoc = new System.Windows.Forms.Button();
-			this.lblStorageUsageValue = new System.Windows.Forms.Label();
-			this.lblLastSyncValue = new System.Windows.Forms.Label();
-			this.lblStorageUsage = new System.Windows.Forms.Label();
-			this.lblLastSync = new System.Windows.Forms.Label();
-			this.lblLoadingStations = new System.Windows.Forms.Label();
-			this.cmbStations = new System.Windows.Forms.ComboBox();
-			this.lblVersionTitle = new System.Windows.Forms.Label();
-			this.lblVersion = new System.Windows.Forms.Label();
-			this.btnUpdate = new System.Windows.Forms.Button();
-			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-			this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
-			this.btnOK = new System.Windows.Forms.Button();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.groupMonthlyUsage.SuspendLayout();
-			this.groupBox2.SuspendLayout();
-			this.groupStations.SuspendLayout();
-			this.tableLayoutPanel2.SuspendLayout();
-			this.groupBox1.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// lblUserName
-			// 
-			resources.ApplyResources(this.lblUserName, "lblUserName");
-			this.lblUserName.Name = "lblUserName";
-			// 
-			// barCloudUsage
-			// 
-			resources.ApplyResources(this.barCloudUsage, "barCloudUsage");
-			this.barCloudUsage.Name = "barCloudUsage";
-			// 
-			// label_DaysLeftValue
-			// 
-			resources.ApplyResources(this.label_DaysLeftValue, "label_DaysLeftValue");
-			this.label_DaysLeftValue.Name = "label_DaysLeftValue";
-			// 
-			// label_UsedCountValue
-			// 
-			resources.ApplyResources(this.label_UsedCountValue, "label_UsedCountValue");
-			this.label_UsedCountValue.Name = "label_UsedCountValue";
-			// 
-			// label_MonthlyLimitValue
-			// 
-			resources.ApplyResources(this.label_MonthlyLimitValue, "label_MonthlyLimitValue");
-			this.label_MonthlyLimitValue.Name = "label_MonthlyLimitValue";
-			// 
-			// lblCloudStorageUsed
-			// 
-			resources.ApplyResources(this.lblCloudStorageUsed, "lblCloudStorageUsed");
-			this.lblCloudStorageUsed.Name = "lblCloudStorageUsed";
-			// 
-			// label_UsedCount
-			// 
-			resources.ApplyResources(this.label_UsedCount, "label_UsedCount");
-			this.label_UsedCount.Name = "label_UsedCount";
-			// 
-			// label_DaysLeft
-			// 
-			resources.ApplyResources(this.label_DaysLeft, "label_DaysLeft");
-			this.label_DaysLeft.Name = "label_DaysLeft";
-			// 
-			// label_MonthlyLimit
-			// 
-			resources.ApplyResources(this.label_MonthlyLimit, "label_MonthlyLimit");
-			this.label_MonthlyLimit.Name = "label_MonthlyLimit";
-			// 
-			// lblDayLeft
-			// 
-			resources.ApplyResources(this.lblDayLeft, "lblDayLeft");
-			this.lblDayLeft.Name = "lblDayLeft";
-			// 
-			// lblCloudStorageLimit
-			// 
-			resources.ApplyResources(this.lblCloudStorageLimit, "lblCloudStorageLimit");
-			this.lblCloudStorageLimit.Name = "lblCloudStorageLimit";
-			// 
-			// btnEditAccount
-			// 
-			resources.ApplyResources(this.btnEditAccount, "btnEditAccount");
-			this.btnEditAccount.Name = "btnEditAccount";
-			this.btnEditAccount.UseVisualStyleBackColor = true;
-			this.btnEditAccount.Click += new System.EventHandler(this.btnEditAccount_Click);
-			// 
-			// bgworkerGetAllData
-			// 
-			this.bgworkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerGetAllData_DoWork);
-			this.bgworkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerGetAllData_RunWorkerCompleted);
-			// 
-			// cultureManager
-			// 
-			this.cultureManager.ManagedControl = this;
-			// 
-			// bgworkerUpdate
-			// 
-			this.bgworkerUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerUpdate_DoWork);
-			this.bgworkerUpdate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerUpdate_RunWorkerCompleted);
-			// 
-			// groupMonthlyUsage
-			// 
-			resources.ApplyResources(this.groupMonthlyUsage, "groupMonthlyUsage");
-			this.groupMonthlyUsage.Controls.Add(this.lblLoadingUsage);
-			this.groupMonthlyUsage.Controls.Add(this.label_MonthlyLimit);
-			this.groupMonthlyUsage.Controls.Add(this.label_DaysLeftValue);
-			this.groupMonthlyUsage.Controls.Add(this.label_MonthlyLimitValue);
-			this.groupMonthlyUsage.Controls.Add(this.label_UsedCountValue);
-			this.groupMonthlyUsage.Controls.Add(this.label_UsedCount);
-			this.groupMonthlyUsage.Controls.Add(this.label_DaysLeft);
-			this.groupMonthlyUsage.Controls.Add(this.barCloudUsage);
-			this.groupMonthlyUsage.Name = "groupMonthlyUsage";
-			this.groupMonthlyUsage.TabStop = false;
-			// 
-			// lblLoadingUsage
-			// 
-			resources.ApplyResources(this.lblLoadingUsage, "lblLoadingUsage");
-			this.lblLoadingUsage.Name = "lblLoadingUsage";
-			// 
-			// groupBox2
-			// 
-			resources.ApplyResources(this.groupBox2, "groupBox2");
-			this.groupBox2.Controls.Add(this.lblUserName);
-			this.groupBox2.Controls.Add(this.btnEditAccount);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.TabStop = false;
-			// 
-			// lblCopyRight
-			// 
-			resources.ApplyResources(this.lblCopyRight, "lblCopyRight");
-			this.lblCopyRight.Name = "lblCopyRight";
-			// 
-			// groupStations
-			// 
-			resources.ApplyResources(this.groupStations, "groupStations");
-			this.groupStations.Controls.Add(this.lblPrimaryStation);
-			this.groupStations.Controls.Add(this.lblOriginDesc);
-			this.groupStations.Controls.Add(this.btnUnlink);
-			this.groupStations.Controls.Add(this.btnChangeLoc);
-			this.groupStations.Controls.Add(this.lblStorageUsageValue);
-			this.groupStations.Controls.Add(this.lblLastSyncValue);
-			this.groupStations.Controls.Add(this.lblStorageUsage);
-			this.groupStations.Controls.Add(this.lblLastSync);
-			this.groupStations.Controls.Add(this.lblLoadingStations);
-			this.groupStations.Controls.Add(this.cmbStations);
-			this.groupStations.Name = "groupStations";
-			this.groupStations.TabStop = false;
-			// 
-			// lblPrimaryStation
-			// 
-			resources.ApplyResources(this.lblPrimaryStation, "lblPrimaryStation");
-			this.lblPrimaryStation.Name = "lblPrimaryStation";
-			// 
-			// lblOriginDesc
-			// 
-			resources.ApplyResources(this.lblOriginDesc, "lblOriginDesc");
-			this.lblOriginDesc.Name = "lblOriginDesc";
-			// 
-			// btnUnlink
-			// 
-			resources.ApplyResources(this.btnUnlink, "btnUnlink");
-			this.btnUnlink.Name = "btnUnlink";
-			this.btnUnlink.UseVisualStyleBackColor = true;
-			this.btnUnlink.Click += new System.EventHandler(this.btnUnlink_Click);
-			// 
-			// btnChangeLoc
-			// 
-			resources.ApplyResources(this.btnChangeLoc, "btnChangeLoc");
-			this.btnChangeLoc.Name = "btnChangeLoc";
-			this.btnChangeLoc.UseVisualStyleBackColor = true;
-			// 
-			// lblStorageUsageValue
-			// 
-			resources.ApplyResources(this.lblStorageUsageValue, "lblStorageUsageValue");
-			this.lblStorageUsageValue.Name = "lblStorageUsageValue";
-			// 
-			// lblLastSyncValue
-			// 
-			resources.ApplyResources(this.lblLastSyncValue, "lblLastSyncValue");
-			this.lblLastSyncValue.Name = "lblLastSyncValue";
-			// 
-			// lblStorageUsage
-			// 
-			resources.ApplyResources(this.lblStorageUsage, "lblStorageUsage");
-			this.lblStorageUsage.Name = "lblStorageUsage";
-			// 
-			// lblLastSync
-			// 
-			resources.ApplyResources(this.lblLastSync, "lblLastSync");
-			this.lblLastSync.Name = "lblLastSync";
-			// 
-			// lblLoadingStations
-			// 
-			resources.ApplyResources(this.lblLoadingStations, "lblLoadingStations");
-			this.lblLoadingStations.Name = "lblLoadingStations";
-			// 
-			// cmbStations
-			// 
-			this.cmbStations.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbStations.FormattingEnabled = true;
-			resources.ApplyResources(this.cmbStations, "cmbStations");
-			this.cmbStations.Name = "cmbStations";
-			this.cmbStations.SelectedValueChanged += new System.EventHandler(this.cmbStations_SelectedValueChanged);
-			// 
-			// lblVersionTitle
-			// 
-			resources.ApplyResources(this.lblVersionTitle, "lblVersionTitle");
-			this.lblVersionTitle.Name = "lblVersionTitle";
-			// 
-			// lblVersion
-			// 
-			resources.ApplyResources(this.lblVersion, "lblVersion");
-			this.lblVersion.Name = "lblVersion";
-			// 
-			// btnUpdate
-			// 
-			resources.ApplyResources(this.btnUpdate, "btnUpdate");
-			this.btnUpdate.Name = "btnUpdate";
-			this.btnUpdate.UseVisualStyleBackColor = true;
-			this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-			// 
-			// tableLayoutPanel2
-			// 
-			resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-			this.tableLayoutPanel2.Controls.Add(this.linkLegalNotice, 0, 0);
-			this.tableLayoutPanel2.Controls.Add(this.btnOK, 1, 0);
-			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-			// 
-			// linkLegalNotice
-			// 
-			resources.ApplyResources(this.linkLegalNotice, "linkLegalNotice");
-			this.linkLegalNotice.Name = "linkLegalNotice";
-			this.linkLegalNotice.TabStop = true;
-			this.linkLegalNotice.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLegalNotice_LinkClicked);
-			// 
-			// btnOK
-			// 
-			resources.ApplyResources(this.btnOK, "btnOK");
-			this.btnOK.Name = "btnOK";
-			this.btnOK.UseVisualStyleBackColor = true;
-			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-			// 
-			// groupBox1
-			// 
-			resources.ApplyResources(this.groupBox1, "groupBox1");
-			this.groupBox1.Controls.Add(this.btnUpdate);
-			this.groupBox1.Controls.Add(this.lblVersion);
-			this.groupBox1.Controls.Add(this.lblVersionTitle);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.TabStop = false;
-			// 
-			// SettingForm
-			// 
-			this.AcceptButton = this.btnOK;
-			resources.ApplyResources(this, "$this");
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.tableLayoutPanel2);
-			this.Controls.Add(this.groupStations);
-			this.Controls.Add(this.groupMonthlyUsage);
-			this.Controls.Add(this.lblCopyRight);
-			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.lblCloudStorageUsed);
-			this.Controls.Add(this.lblDayLeft);
-			this.Controls.Add(this.lblCloudStorageLimit);
-			this.Controls.Add(this.groupBox2);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "SettingForm";
-			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
-			this.Load += new System.EventHandler(this.PreferenceForm_Load);
-			this.groupMonthlyUsage.ResumeLayout(false);
-			this.groupMonthlyUsage.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
-			this.groupStations.ResumeLayout(false);
-			this.groupStations.PerformLayout();
-			this.tableLayoutPanel2.ResumeLayout(false);
-			this.tableLayoutPanel2.PerformLayout();
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingForm));
+            this.lblUserName = new System.Windows.Forms.Label();
+            this.barCloudUsage = new System.Windows.Forms.ProgressBar();
+            this.label_DaysLeftValue = new System.Windows.Forms.Label();
+            this.label_UsedCountValue = new System.Windows.Forms.Label();
+            this.label_MonthlyLimitValue = new System.Windows.Forms.Label();
+            this.lblCloudStorageUsed = new System.Windows.Forms.Label();
+            this.label_UsedCount = new System.Windows.Forms.Label();
+            this.label_DaysLeft = new System.Windows.Forms.Label();
+            this.label_MonthlyLimit = new System.Windows.Forms.Label();
+            this.lblDayLeft = new System.Windows.Forms.Label();
+            this.lblCloudStorageLimit = new System.Windows.Forms.Label();
+            this.btnEditAccount = new System.Windows.Forms.Button();
+            this.bgworkerGetAllData = new System.ComponentModel.BackgroundWorker();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.bgworkerUpdate = new System.ComponentModel.BackgroundWorker();
+            this.groupMonthlyUsage = new System.Windows.Forms.GroupBox();
+            this.label_LoadingUsage = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblCopyRight = new System.Windows.Forms.Label();
+            this.groupStations = new System.Windows.Forms.GroupBox();
+            this.lblPrimaryStation = new System.Windows.Forms.Label();
+            this.lblOriginDesc = new System.Windows.Forms.Label();
+            this.btnUnlink = new System.Windows.Forms.Button();
+            this.btnChangeLoc = new System.Windows.Forms.Button();
+            this.lblStorageUsageValue = new System.Windows.Forms.Label();
+            this.lblLastSyncValue = new System.Windows.Forms.Label();
+            this.lblStorageUsage = new System.Windows.Forms.Label();
+            this.lblLastSync = new System.Windows.Forms.Label();
+            this.lblLoadingStations = new System.Windows.Forms.Label();
+            this.cmbStations = new System.Windows.Forms.ComboBox();
+            this.lblVersionTitle = new System.Windows.Forms.Label();
+            this.lblVersion = new System.Windows.Forms.Label();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
+            this.btnOK = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupMonthlyUsage.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupStations.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // lblUserName
+            // 
+            resources.ApplyResources(this.lblUserName, "lblUserName");
+            this.lblUserName.Name = "lblUserName";
+            // 
+            // barCloudUsage
+            // 
+            resources.ApplyResources(this.barCloudUsage, "barCloudUsage");
+            this.barCloudUsage.Name = "barCloudUsage";
+            // 
+            // label_DaysLeftValue
+            // 
+            resources.ApplyResources(this.label_DaysLeftValue, "label_DaysLeftValue");
+            this.label_DaysLeftValue.Name = "label_DaysLeftValue";
+            // 
+            // label_UsedCountValue
+            // 
+            resources.ApplyResources(this.label_UsedCountValue, "label_UsedCountValue");
+            this.label_UsedCountValue.Name = "label_UsedCountValue";
+            // 
+            // label_MonthlyLimitValue
+            // 
+            resources.ApplyResources(this.label_MonthlyLimitValue, "label_MonthlyLimitValue");
+            this.label_MonthlyLimitValue.Name = "label_MonthlyLimitValue";
+            // 
+            // lblCloudStorageUsed
+            // 
+            resources.ApplyResources(this.lblCloudStorageUsed, "lblCloudStorageUsed");
+            this.lblCloudStorageUsed.Name = "lblCloudStorageUsed";
+            // 
+            // label_UsedCount
+            // 
+            resources.ApplyResources(this.label_UsedCount, "label_UsedCount");
+            this.label_UsedCount.Name = "label_UsedCount";
+            // 
+            // label_DaysLeft
+            // 
+            resources.ApplyResources(this.label_DaysLeft, "label_DaysLeft");
+            this.label_DaysLeft.Name = "label_DaysLeft";
+            // 
+            // label_MonthlyLimit
+            // 
+            resources.ApplyResources(this.label_MonthlyLimit, "label_MonthlyLimit");
+            this.label_MonthlyLimit.Name = "label_MonthlyLimit";
+            // 
+            // lblDayLeft
+            // 
+            resources.ApplyResources(this.lblDayLeft, "lblDayLeft");
+            this.lblDayLeft.Name = "lblDayLeft";
+            // 
+            // lblCloudStorageLimit
+            // 
+            resources.ApplyResources(this.lblCloudStorageLimit, "lblCloudStorageLimit");
+            this.lblCloudStorageLimit.Name = "lblCloudStorageLimit";
+            // 
+            // btnEditAccount
+            // 
+            resources.ApplyResources(this.btnEditAccount, "btnEditAccount");
+            this.btnEditAccount.Name = "btnEditAccount";
+            this.btnEditAccount.UseVisualStyleBackColor = true;
+            this.btnEditAccount.Click += new System.EventHandler(this.btnEditAccount_Click);
+            // 
+            // bgworkerGetAllData
+            // 
+            this.bgworkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerGetAllData_DoWork);
+            this.bgworkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerGetAllData_RunWorkerCompleted);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // bgworkerUpdate
+            // 
+            this.bgworkerUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerUpdate_DoWork);
+            this.bgworkerUpdate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerUpdate_RunWorkerCompleted);
+            // 
+            // groupMonthlyUsage
+            // 
+            resources.ApplyResources(this.groupMonthlyUsage, "groupMonthlyUsage");
+            this.groupMonthlyUsage.Controls.Add(this.label_LoadingUsage);
+            this.groupMonthlyUsage.Controls.Add(this.label_MonthlyLimit);
+            this.groupMonthlyUsage.Controls.Add(this.label_DaysLeftValue);
+            this.groupMonthlyUsage.Controls.Add(this.label_MonthlyLimitValue);
+            this.groupMonthlyUsage.Controls.Add(this.label_UsedCountValue);
+            this.groupMonthlyUsage.Controls.Add(this.label_UsedCount);
+            this.groupMonthlyUsage.Controls.Add(this.label_DaysLeft);
+            this.groupMonthlyUsage.Controls.Add(this.barCloudUsage);
+            this.groupMonthlyUsage.Name = "groupMonthlyUsage";
+            this.groupMonthlyUsage.TabStop = false;
+            // 
+            // lblLoadingUsage
+            // 
+            resources.ApplyResources(this.label_LoadingUsage, "label_LoadingUsage");
+            this.label_LoadingUsage.Name = "label_LoadingUsage";
+            // 
+            // groupBox2
+            // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Controls.Add(this.lblUserName);
+            this.groupBox2.Controls.Add(this.btnEditAccount);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
+            // 
+            // lblCopyRight
+            // 
+            resources.ApplyResources(this.lblCopyRight, "lblCopyRight");
+            this.lblCopyRight.Name = "lblCopyRight";
+            // 
+            // groupStations
+            // 
+            resources.ApplyResources(this.groupStations, "groupStations");
+            this.groupStations.Controls.Add(this.lblPrimaryStation);
+            this.groupStations.Controls.Add(this.lblOriginDesc);
+            this.groupStations.Controls.Add(this.btnUnlink);
+            this.groupStations.Controls.Add(this.btnChangeLoc);
+            this.groupStations.Controls.Add(this.lblStorageUsageValue);
+            this.groupStations.Controls.Add(this.lblLastSyncValue);
+            this.groupStations.Controls.Add(this.lblStorageUsage);
+            this.groupStations.Controls.Add(this.lblLastSync);
+            this.groupStations.Controls.Add(this.lblLoadingStations);
+            this.groupStations.Controls.Add(this.cmbStations);
+            this.groupStations.Name = "groupStations";
+            this.groupStations.TabStop = false;
+            // 
+            // lblPrimaryStation
+            // 
+            resources.ApplyResources(this.lblPrimaryStation, "lblPrimaryStation");
+            this.lblPrimaryStation.Name = "lblPrimaryStation";
+            // 
+            // lblOriginDesc
+            // 
+            resources.ApplyResources(this.lblOriginDesc, "lblOriginDesc");
+            this.lblOriginDesc.Name = "lblOriginDesc";
+            // 
+            // btnUnlink
+            // 
+            resources.ApplyResources(this.btnUnlink, "btnUnlink");
+            this.btnUnlink.Name = "btnUnlink";
+            this.btnUnlink.UseVisualStyleBackColor = true;
+            this.btnUnlink.Click += new System.EventHandler(this.btnUnlink_Click);
+            // 
+            // btnChangeLoc
+            // 
+            resources.ApplyResources(this.btnChangeLoc, "btnChangeLoc");
+            this.btnChangeLoc.Name = "btnChangeLoc";
+            this.btnChangeLoc.UseVisualStyleBackColor = true;
+            // 
+            // lblStorageUsageValue
+            // 
+            resources.ApplyResources(this.lblStorageUsageValue, "lblStorageUsageValue");
+            this.lblStorageUsageValue.Name = "lblStorageUsageValue";
+            // 
+            // lblLastSyncValue
+            // 
+            resources.ApplyResources(this.lblLastSyncValue, "lblLastSyncValue");
+            this.lblLastSyncValue.Name = "lblLastSyncValue";
+            // 
+            // lblStorageUsage
+            // 
+            resources.ApplyResources(this.lblStorageUsage, "lblStorageUsage");
+            this.lblStorageUsage.Name = "lblStorageUsage";
+            // 
+            // lblLastSync
+            // 
+            resources.ApplyResources(this.lblLastSync, "lblLastSync");
+            this.lblLastSync.Name = "lblLastSync";
+            // 
+            // lblLoadingStations
+            // 
+            resources.ApplyResources(this.lblLoadingStations, "lblLoadingStations");
+            this.lblLoadingStations.Name = "lblLoadingStations";
+            // 
+            // cmbStations
+            // 
+            this.cmbStations.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbStations.FormattingEnabled = true;
+            resources.ApplyResources(this.cmbStations, "cmbStations");
+            this.cmbStations.Name = "cmbStations";
+            this.cmbStations.SelectedValueChanged += new System.EventHandler(this.cmbStations_SelectedValueChanged);
+            // 
+            // lblVersionTitle
+            // 
+            resources.ApplyResources(this.lblVersionTitle, "lblVersionTitle");
+            this.lblVersionTitle.Name = "lblVersionTitle";
+            // 
+            // lblVersion
+            // 
+            resources.ApplyResources(this.lblVersion, "lblVersion");
+            this.lblVersion.Name = "lblVersion";
+            // 
+            // btnUpdate
+            // 
+            resources.ApplyResources(this.btnUpdate, "btnUpdate");
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // tableLayoutPanel2
+            // 
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.Controls.Add(this.linkLegalNotice, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnOK, 1, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            // 
+            // linkLegalNotice
+            // 
+            resources.ApplyResources(this.linkLegalNotice, "linkLegalNotice");
+            this.linkLegalNotice.Name = "linkLegalNotice";
+            this.linkLegalNotice.TabStop = true;
+            this.linkLegalNotice.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLegalNotice_LinkClicked);
+            // 
+            // btnOK
+            // 
+            resources.ApplyResources(this.btnOK, "btnOK");
+            this.btnOK.Name = "btnOK";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            // 
+            // groupBox1
+            // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.btnUpdate);
+            this.groupBox1.Controls.Add(this.lblVersion);
+            this.groupBox1.Controls.Add(this.lblVersionTitle);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // SettingForm
+            // 
+            this.AcceptButton = this.btnOK;
+            resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tableLayoutPanel2);
+            this.Controls.Add(this.groupStations);
+            this.Controls.Add(this.groupMonthlyUsage);
+            this.Controls.Add(this.lblCopyRight);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.lblCloudStorageUsed);
+            this.Controls.Add(this.lblDayLeft);
+            this.Controls.Add(this.lblCloudStorageLimit);
+            this.Controls.Add(this.groupBox2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "SettingForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.Load += new System.EventHandler(this.PreferenceForm_Load);
+            this.groupMonthlyUsage.ResumeLayout(false);
+            this.groupMonthlyUsage.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupStations.ResumeLayout(false);
+            this.groupStations.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -356,7 +356,7 @@
 		private System.ComponentModel.BackgroundWorker bgworkerUpdate;
 		private System.Windows.Forms.GroupBox groupMonthlyUsage;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Label lblLoadingUsage;
+		private System.Windows.Forms.Label label_LoadingUsage;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 		private System.Windows.Forms.LinkLabel linkLegalNotice;

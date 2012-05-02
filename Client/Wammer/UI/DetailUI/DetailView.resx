@@ -307,7 +307,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 38</value>
+    <value>26, 38</value>
   </data>
   <data name="labelTitle.Size" type="System.Drawing.Size, System.Drawing">
     <value>0, 14</value>

@@ -59,8 +59,8 @@ namespace Waveface
                     _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                     _g.SmoothingMode = SmoothingMode.HighQuality;
 
-                    _g.FillRectangle(m_brush1, 0, 0, Width - 16, Height);
-                    _g.DrawImage(Properties.Resources.titlebar_3, Width - 16, 0);
+                    _g.FillRectangle(m_brush1, 0, 0, Width, Height);
+                    //_g.DrawImage(Properties.Resources.titlebar_3, Width - 1, 0);
 
                     _g.DrawImage(Properties.Resources.desktop_logo, 4, -2);
 

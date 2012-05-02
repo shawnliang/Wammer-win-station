@@ -1,15 +1,15 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Web;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Drawing;
-using Waveface.API.V2;
 using AppLimit.NetSparkle;
+using Waveface.API.V2;
+
 #endregion
 
 namespace Waveface.SettingUI
@@ -33,14 +33,49 @@ namespace Waveface.SettingUI
 
         #endregion
 
+
+        #region StationInfo
+
+        private class StationInfo
+        {
+            public Station Info;
+            public bool IsThisPC;
+
+            public StationInfo(Station info, bool isThisPC)
+            {
+                Info = info;
+                IsThisPC = isThisPC;
+            }
+
+            public string Display
+            {
+                get
+                {
+                    if (IsThisPC)
+                        return Info.computer_name + " " + I18n.L.T("ThisPC");
+                    else
+                        return Info.computer_name;
+                }
+            }
+
+            public string Id
+            {
+                get { return Info.station_id; }
+            }
+        }
+
+        #endregion
+
         // private static Logger s_logger = LogManager.GetCurrentClassLogger();
-        Sparkle m_autoUpdator;
-        public bool isUnlink = false;
-        List<StationInfo> stationList = new List<StationInfo>();
+
+        public bool isUnlink;
+        private Sparkle m_autoUpdator;
+        private List<StationInfo> m_stationList = new List<StationInfo>();
 
         public SettingForm(Sparkle autoUpdator)
         {
             m_autoUpdator = autoUpdator;
+
             InitializeComponent();
         }
 
@@ -49,18 +84,20 @@ namespace Waveface.SettingUI
             lblUserName.Text = Main.Current.RT.Login.user.email;
 
             string _execPath = Assembly.GetExecutingAssembly().Location;
-            FileVersionInfo version = FileVersionInfo.GetVersionInfo(_execPath);
-            lblVersion.Text = version.FileVersion;
+            FileVersionInfo _version = FileVersionInfo.GetVersionInfo(_execPath);
+            lblVersion.Text = _version.FileVersion;
 
             btnOK.Select();
 
             Cursor = Cursors.WaitCursor;
+
             bgworkerGetAllData.RunWorkerAsync();
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
+
             Close();
         }
 
@@ -88,88 +125,61 @@ namespace Waveface.SettingUI
                 label_DaysLeftValue.Text = storage.daysLeft.ToString();
                 label_UsedCountValue.Text = storage.usage.ToString();
 
-                lblLoadingUsage.Visible = false;
+                label_LoadingUsage.Visible = false;
                 label_MonthlyLimit.Visible = true;
                 label_MonthlyLimitValue.Visible = true;
                 label_UsedCount.Visible = true;
                 label_UsedCountValue.Visible = true;
                 label_DaysLeft.Visible = true;
                 label_DaysLeftValue.Visible = true;
+
                 barCloudUsage.Visible = true;
             }
         }
 
-        private class StationInfo
-        {
-            public Station info;
-            public bool isThisPC;
-
-            public StationInfo(Station info, bool isThisPC)
-            {
-                this.info = info;
-                this.isThisPC = isThisPC;
-            }
-
-            public string Display
-            {
-                get
-                {
-                    if (isThisPC)
-                        return info.computer_name + " " + I18n.L.T("ThisPC");
-                    else
-                        return info.computer_name;
-                }
-            }
-
-            public string Id
-            {
-                get
-                {
-                    return info.station_id;
-                }
-            }
-        }
-
-        private void RefreshLinkedComputers(List<Station> mystations)
+        private void RefreshLinkedComputers(List<Station> myStations)
         {
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                            delegate { RefreshLinkedComputers(mystations); }
-                            ));
+                           delegate { RefreshLinkedComputers(myStations); }
+                           ));
             }
             else
             {
                 lblLoadingStations.Visible = false;
-                StationInfo thisPC = null;
-                foreach (Station station in mystations)
-                {
-                    StationInfo stationInfo;
+                StationInfo _thisPc = null;
 
-                    if (station.station_id == (string)StationRegHelper.GetValue("stationId", ""))
+                foreach (Station _station in myStations)
+                {
+                    StationInfo _stationInfo;
+
+                    if (_station.station_id == (string)StationRegHelper.GetValue("stationId", ""))
                     {
-                        stationInfo = new StationInfo(station, true);
-                        thisPC = stationInfo;
+                        _stationInfo = new StationInfo(_station, true);
+                        _thisPc = _stationInfo;
                     }
                     else
                     {
-                        stationInfo = new StationInfo(station, false);
+                        _stationInfo = new StationInfo(_station, false);
                     }
 
-                    stationList.Add(stationInfo);
+                    m_stationList.Add(_stationInfo);
 
-                    if (station.type == "primary")
+                    if (_station.type == "primary")
                     {
-                        lblPrimaryStation.Text = stationInfo.Display;
+                        lblPrimaryStation.Text = _stationInfo.Display;
                     }
                 }
-                cmbStations.DataSource = stationList;
+
+                cmbStations.DataSource = m_stationList;
                 cmbStations.DisplayMember = "Display";
                 cmbStations.ValueMember = "Id";
-                if (thisPC != null)
-                    cmbStations.SelectedValue = thisPC.Id;
+                
+                if (_thisPc != null)
+                    cmbStations.SelectedValue = _thisPc.Id;
                 else
-                    cmbStations.SelectedValue = stationList[0].Id;
+                    cmbStations.SelectedValue = m_stationList[0].Id;
 
                 cmbStations.Visible = true;
                 lblLastSync.Visible = true;
@@ -187,15 +197,16 @@ namespace Waveface.SettingUI
         {
             if (e.Error == null)
             {
-                AllData alldata = (AllData)e.Result;
-                RefreshCloudStorage(alldata.storageusage);
-                RefreshLinkedComputers(alldata.mystations);
+                AllData _allData = (AllData)e.Result;
+                RefreshCloudStorage(_allData.storageusage);
+                RefreshLinkedComputers(_allData.mystations);
             }
             else
             {
-                lblLoadingUsage.Text = I18n.L.T("LoadDataFailed");
+                label_LoadingUsage.Text = I18n.L.T("LoadDataFailed");
                 lblLoadingStations.Text = I18n.L.T("LoadDataFailed");
             }
+
             Cursor = Cursors.Default;
         }
 
@@ -209,10 +220,11 @@ namespace Waveface.SettingUI
 
             MR_users_findMyStation _myStations = _service.users_findMyStation(Main.Current.RT.Login.session_token);
 
-            e.Result = new AllData {
-                storageusage = new StorageUsage {quota = _quota, usage = _usage, daysLeft = _daysLeft},
-                mystations = _myStations.stations
-            };
+            e.Result = new AllData
+                           {
+                               storageusage = new StorageUsage { quota = _quota, usage = _usage, daysLeft = _daysLeft },
+                               mystations = _myStations.stations
+                           };
         }
 
         private void btnEditAccount_Click(object sender, EventArgs e)
@@ -235,24 +247,26 @@ namespace Waveface.SettingUI
 
         private void bgworkerUpdate_DoWork(object sender, DoWorkEventArgs e)
         {
-            NetSparkleAppCastItem lastVersion;
+            NetSparkleAppCastItem _lastVersion;
 
-            if (m_autoUpdator.IsUpdateRequired(m_autoUpdator.GetApplicationConfig(), out lastVersion))
-                e.Result = lastVersion;
+            if (m_autoUpdator.IsUpdateRequired(m_autoUpdator.GetApplicationConfig(), out _lastVersion))
+                e.Result = _lastVersion;
             else
                 e.Result = null;
         }
 
         private void bgworkerUpdate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            NetSparkleAppCastItem lastVersion = e.Result as NetSparkleAppCastItem;
+            NetSparkleAppCastItem _lastVersion = e.Result as NetSparkleAppCastItem;
 
-            if (lastVersion != null)
+            if (_lastVersion != null)
             {
-                m_autoUpdator.ShowUpdateNeededUI(lastVersion);
+                m_autoUpdator.ShowUpdateNeededUI(_lastVersion);
             }
             else
+            {
                 MessageBox.Show(I18n.L.T("AlreadyUpdated"));
+            }
 
             btnUpdate.Enabled = true;
             btnUpdate.Text = I18n.L.T("CheckForUpdates");
@@ -260,11 +274,13 @@ namespace Waveface.SettingUI
 
         private void btnUnlink_Click(object sender, EventArgs e)
         {
-            UnlinkForm unlinkform = new UnlinkForm();
-            DialogResult res = unlinkform.ShowDialog();
-            if (res == DialogResult.OK)
+            UnlinkForm _form = new UnlinkForm();
+            DialogResult _res = _form.ShowDialog();
+
+            if (_res == DialogResult.OK)
             {
                 isUnlink = true;
+
                 Close();
             }
         }
@@ -272,25 +288,30 @@ namespace Waveface.SettingUI
         private void cmbStations_SelectedValueChanged(object sender, EventArgs e)
         {
             string id = cmbStations.SelectedValue.ToString();
-            foreach (StationInfo station in stationList)
+
+            foreach (StationInfo station in m_stationList)
             {
                 if (id == station.Id)
                 {
-                    DateTime lastSync = DateTimeHelp.ConvertUnixTimestampToDateTime(long.Parse(station.info.last_seen));
-                    string lastSyncString = DateTimeHelp.PrettyDate(lastSync.ToString(), false);
-                    if (lastSyncString == lastSync.ToString())
-                        lblLastSyncValue.Text = lastSync.ToString("MM/dd tt hh:mm:ss");
+                    DateTime _lastSync = DateTimeHelp.ConvertUnixTimestampToDateTime(long.Parse(station.Info.last_seen));
+                    string _lastSyncString = DateTimeHelp.PrettyDate(_lastSync.ToString(), false);
+                    
+                    if (_lastSyncString == _lastSync.ToString())
+                        lblLastSyncValue.Text = _lastSync.ToString("MM/dd tt hh:mm:ss");
                     else
-                        lblLastSyncValue.Text = lastSyncString;
-                    if (station.info.diskusage.Count > 0)
+                        lblLastSyncValue.Text = _lastSyncString;
+
+                    if (station.Info.diskusage.Count > 0)
                     {
-                        float usage = FileUtility.ConvertBytesToMegaBytes(station.info.diskusage[0].used);
-                        lblStorageUsageValue.Text = usage.ToString("F") + " MB";
+                        float _usage = FileUtility.ConvertBytesToMegaBytes(station.Info.diskusage[0].used);
+                        lblStorageUsageValue.Text = _usage.ToString("F") + " MB";
                     }
                     else
+                    {
                         lblStorageUsageValue.Text = "N/A";
+                    }
 
-                    if (station.isThisPC)
+                    if (station.IsThisPC)
                     {
                         btnChangeLoc.Enabled = true;
                         btnUnlink.Enabled = true;
