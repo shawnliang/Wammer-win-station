@@ -42,14 +42,29 @@ namespace Wammer.Station
 				throw new WammerStationException(
 						"Without any optional parameter!", (int)StationApiError.Error);
 
+			var postID = Parameters[CloudServer.PARAM_POST_ID];
 			var type = Parameters[CloudServer.PARAM_TYPE];
 			if (type == "link")
 			{
-				TunnelToCloud<UpdatePostResponse>("posts/update");
-				return;
-			}
+				TunnelToCloud<UpdatePostResponse>();
 
-			var postID = Parameters[CloudServer.PARAM_POST_ID];
+				var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
+				var driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
+				if (driver == null)
+					throw new WammerStationException(
+								"Driver not found!", (int)StationApiError.InvalidDriver);
+
+				var api = new PostApi(driver);
+				var singlePostResponse = api.PostGetSingle(new DefaultWebClient(), groupID, postID);
+
+				var responsePost = singlePostResponse.post;
+				if (responsePost == null)
+					throw new WammerStationException(
+							"Post not found!", (int)StationApiError.NotFound);
+
+				PostCollection.Instance.Save(responsePost);
+				return;
+			}			
 
 			var post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
 			if (post == null)
