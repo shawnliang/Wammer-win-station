@@ -818,6 +818,12 @@ namespace StationSystemTray
 
 		void clientProcess_Exited(object sender, EventArgs e)
 		{
+			if (this.InvokeRequired)
+			{
+				Invoke(new EventHandler(clientProcess_Exited), sender, e);
+				return;
+			}
+
 			int exitCode = clientProcess.ExitCode;
 
 			clientProcess.Exited -= new EventHandler(clientProcess_Exited);

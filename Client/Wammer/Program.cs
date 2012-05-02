@@ -82,6 +82,12 @@ namespace Waveface
                 {
                     Waveface.Main mainUI = new Main(args[0]);
                     Application.Run(mainUI);
+
+                    if (mainUI.QuitOption == QuitOption.Unlink)
+                        Environment.Exit(-3);
+                    else if (mainUI.QuitOption == QuitOption.Logout)
+                        Environment.Exit(-2);
+
                     return;
                 }
                 else
