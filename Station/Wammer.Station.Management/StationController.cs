@@ -385,19 +385,24 @@ namespace Wammer.Station.Management
 		}
 
 
-		public static void SuspendSync()
+		public static void SuspendSync(int timeout)
 		{
 			try
 			{
-				CloudServer.request<CloudResponse>(
-					new WebClient(),
-					StationMgmtURL + "station/suspendSync",
-					new Dictionary<object, object>
-					{
-						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-					},
-					false
-				);
+				using (DefaultWebClient agent = new DefaultWebClient())
+				{
+					agent.Timeout = timeout;
+					agent.ReadWriteTimeout = timeout;
+
+					CloudServer.request<CloudResponse>(
+					   agent,
+					   StationMgmtURL + "station/suspendSync",
+					   new Dictionary<object, object>
+						{
+							{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+						},
+					   false);
+				}
 			}
 			catch (WammerCloudException e)
 			{
@@ -600,7 +605,7 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		private static Exception ExtractApiRetMsg(Cloud.WammerCloudException e)
+		public static Exception ExtractApiRetMsg(Cloud.WammerCloudException e)
 		{
 			if (e.HttpError != WebExceptionStatus.ProtocolError)
 			{
