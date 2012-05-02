@@ -20,72 +20,69 @@ namespace Wammer.Station
 		#endregion
 
 		#region Constructor
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UpdatePostHandler"/> class.
+		/// </summary>
+		/// <param name="postUploader">The post uploader.</param>
 		public UpdatePostHandler(IPostUploadSupportable postUploader)
 		{
 			m_PostUploader = postUploader;
 		}
 		#endregion
 
-		#region Protected Method
-		/// <summary>
-		/// Handles the request.
-		/// </summary>
-		public override void HandleRequest()
+		#region Private Method		private void UpdateType(PostInfo post)
 		{
-			CheckParameter(CloudServer.PARAM_API_KEY,
-				CloudServer.PARAM_SESSION_TOKEN,
-				CloudServer.PARAM_GROUP_ID,
-				CloudServer.PARAM_POST_ID,
-				CloudServer.PARAM_LAST_UPDATE_TIME);
-
-			if(Parameters.Count <= 5)
-				throw new WammerStationException(
-						"Without any optional parameter!", (int)StationApiError.Error);
-
-			var postID = Parameters[CloudServer.PARAM_POST_ID];
 			var type = Parameters[CloudServer.PARAM_TYPE];
-			if (type == "link")
-			{
-				TunnelToCloud<UpdatePostResponse>();
-
-				var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
-				var driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
-				if (driver == null)
-					throw new WammerStationException(
-								"Driver not found!", (int)StationApiError.InvalidDriver);
-
-				var api = new PostApi(driver);
-				var singlePostResponse = api.PostGetSingle(new DefaultWebClient(), groupID, postID);
-
-				var responsePost = singlePostResponse.post;
-				if (responsePost == null)
-					throw new WammerStationException(
-							"Post not found!", (int)StationApiError.NotFound);
-
-				PostCollection.Instance.Save(responsePost);
-				return;
-			}			
-
-			var post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
-			if (post == null)
-				throw new WammerStationException(
-							"Post not found!", (int)StationApiError.NotFound);
-
 			if (type != null)
 			{
+				var postID = Parameters[CloudServer.PARAM_POST_ID];
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("type", type));
 
 				post.type = type;
 			}
+		}
 
-			var content = Parameters[CloudServer.PARAM_CONTENT];			
+		/// <summary>
+		/// Updates the content.
+		/// </summary>
+		/// <param name="post">The post.</param>
+		private void UpdateContent(PostInfo post)
+		{
+			var postID = Parameters[CloudServer.PARAM_POST_ID];
+			UpdateContent(post, postID);
+		}		/// <summary>
+		/// Updates the content.
+		/// </summary>
+		/// <param name="post">The post.</param>
+		/// <param name="postID">The post ID.</param>
+		private void UpdateContent(PostInfo post, string postID)
+		{
+			var content = Parameters[CloudServer.PARAM_CONTENT];
 			if (content != null)
-			{				
+			{
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("content", content));
 
 				post.content = content;
 			}
+		}
+		
+		/// <summary>
+		/// Updates the preview.
+		/// </summary>
+		/// <param name="post">The post.</param>
+		private void UpdatePreview(PostInfo post)
+		{
+			var postID = Parameters[CloudServer.PARAM_POST_ID];
+			UpdatePreview(post, postID);
+		}
 
+		/// <summary>
+		/// Updates the preview.
+		/// </summary>
+		/// <param name="post">The post.</param>
+		/// <param name="postID">The post ID.</param>
+		private void UpdatePreview(PostInfo post, string postID)
+		{
 			var preview = Parameters[CloudServer.PARAM_PREVIEW];
 			if (preview != null)
 			{
@@ -99,15 +96,105 @@ namespace Wammer.Station
 
 				post.preview = previewObj;
 			}
+		}
 
+		/// <summary>
+		/// Updates the favorite.
+		/// </summary>
+		/// <param name="post">The post.</param>
+		private void UpdateFavorite(PostInfo post)
+		{
+			var postID = Parameters[CloudServer.PARAM_POST_ID];
+			UpdateFavorite(post, postID);
+		}		/// <summary>
+		/// Updates the favorite.
+		/// </summary>
+		/// <param name="post">The post.</param>
+		/// <param name="postID">The post ID.</param>
+		private void UpdateFavorite(PostInfo post, string postID)
+		{
+			var favorite = Parameters[CloudServer.PARAM_FAVORITE];
+			if (favorite != null)
+			{
+				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("favorite", favorite));
+
+				post.favorite = int.Parse(favorite);
+			}
+		}
+
+		/// <summary>
+		/// Updates the cover attach.
+		/// </summary>
+		/// <param name="post">The post.</param>
+		private void UpdateCoverAttach(PostInfo post)
+		{
+			var postID = Parameters[CloudServer.PARAM_POST_ID];
+			UpdateCoverAttach(post, postID);
+		}
+
+		/// <summary>
+		/// Updates the cover attach.
+		/// </summary>
+		/// <param name="post">The post.</param>
+		/// <param name="postID">The post ID.</param>
+		private void UpdateCoverAttach(PostInfo post, string postID)
+		{
+			var coverAttach = Parameters[CloudServer.PARAM_COVER_ATTACH];
+			if (coverAttach != null)
+			{
+				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("cover_attach", coverAttach));
+
+				post.cover_attach = coverAttach;
+			}
+		}
+		/// <summary>
+		/// Updates the local post data from cloud.
+		/// </summary>
+		private void UpdateLocalPostDataFromCloud()
+		{
+			var postID = Parameters[CloudServer.PARAM_POST_ID];
+			var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
+			var driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
+			if (driver == null)
+				throw new WammerStationException(
+							"Driver not found!", (int)StationApiError.InvalidDriver);
+
+			var api = new PostApi(driver);
+			var singlePostResponse = api.PostGetSingle(new DefaultWebClient(), groupID, postID);
+
+			var responsePost = singlePostResponse.post;
+			if (responsePost == null)
+				throw new WammerStationException(
+						"Post not found!", (int)StationApiError.NotFound);
+
+			PostCollection.Instance.Save(responsePost);
+		}
+
+		/// <summary>
+		/// Updates the attachement ID array.
+		/// </summary>
+		/// <param name="post">The post.</param>
+		private void UpdateAttachementIDArray(PostInfo post)
+		{
+			var postID = Parameters[CloudServer.PARAM_POST_ID];
+			UpdateAttachementIDArray(post, postID);
+		}
+
+		/// <summary>
+		/// Updates the attachement ID array.
+		/// </summary>
+		/// <param name="post">The post.</param>
+		/// <param name="postID">The post ID.</param>
+		private void UpdateAttachementIDArray(PostInfo post, string postID)
+		{
 			var attachmentIDArray = Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY];
-			
-			if(attachmentIDArray != null)
+
+			if (attachmentIDArray != null)
 				attachmentIDArray = attachmentIDArray.Trim('[', ']');
 
 			var attachmentIDs = attachmentIDArray == null ? new List<string>() : attachmentIDArray.Split(',')
 				.Where((item) => !string.IsNullOrEmpty(item))
-				.Select((item)=> item.Trim('"')).ToList();
+				.Select((item) => item.Trim('"')).ToList();
 
 			if (attachmentIDs.Count > 0)
 			{
@@ -124,33 +211,58 @@ namespace Wammer.Station
 									   let attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID))
 									   where attachment != null
 									   select AttachmentHelper.GetAttachmentnfo(attachment, codeName)).ToList();
-								
+
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update
 					.Set("attachment_count", attachmentIDs.Count)
 					.Set("attachment_id_array", new BsonArray(attachmentIDs))
-					.Set("attachments", new BsonArray(attachmentInfos.ConvertAll((item)=> item.ToBsonDocument()))));
+					.Set("attachments", new BsonArray(attachmentInfos.ConvertAll((item) => item.ToBsonDocument()))));
 
 
 				post.attachment_id_array = attachmentIDs;
 				post.attachment_count = attachmentIDs.Count;
-				post.attachments = attachmentInfos;	
+				post.attachments = attachmentInfos;
 			}
+		}
+		#endregion
 
-			var coverAttach = Parameters[CloudServer.PARAM_COVER_ATTACH];
-			if (coverAttach != null)
+
+		#region Protected Method
+		/// <summary>
+		/// Handles the request.
+		/// </summary>
+		public override void HandleRequest()
+		{
+			CheckParameter(CloudServer.PARAM_API_KEY,
+				CloudServer.PARAM_SESSION_TOKEN,
+				CloudServer.PARAM_GROUP_ID,
+				CloudServer.PARAM_POST_ID,
+				CloudServer.PARAM_LAST_UPDATE_TIME);
+
+			if(Parameters.Count <= 5)
+				throw new WammerStationException(
+						"Without any optional parameter!", (int)StationApiError.Error);
+						
+			var type = Parameters[CloudServer.PARAM_TYPE];
+			if (type == "link")
 			{
-				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("cover_attach", coverAttach));
+				TunnelToCloud<UpdatePostResponse>();
 
-				post.cover_attach = coverAttach;
+				UpdateLocalPostDataFromCloud();
+				return;
 			}
 
-			var favorite = Parameters[CloudServer.PARAM_FAVORITE];
-			if (favorite != null)
-			{
-				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("favorite", favorite));
+			var postID = Parameters[CloudServer.PARAM_POST_ID];
+			var post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
+			if (post == null)
+				throw new WammerStationException(
+							"Post not found!", (int)StationApiError.NotFound);
 
-				post.favorite = int.Parse(favorite);
-			}
+			UpdateType(post);
+			UpdateContent(post);
+			UpdatePreview(post);
+			UpdateAttachementIDArray(post);
+			UpdateCoverAttach(post);
+			UpdateFavorite(post);
 
 			if (m_PostUploader != null)
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.UpdatePost, Parameters);
