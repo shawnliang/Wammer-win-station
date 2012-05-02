@@ -50,7 +50,7 @@ namespace Wammer.Station
 
 				RespondSuccess(loginInfo);
 
-				OnUserLogined(new UserLoginEventArgs(email, password, apikey, user.Id));
+				OnUserLogined(new UserLoginEventArgs(email, loginInfo.session_token, apikey, user.Id));
 			}
 			catch (WammerCloudException e)
 			{
@@ -90,14 +90,14 @@ namespace Wammer.Station
 	public class UserLoginEventArgs : EventArgs
 	{
 		public string email { get; private set; }
-		public string password { get; private set; }
+		public string session_token { get; private set; }
 		public string apikey { get; private set; }
 		public string user_id { get; private set; }
 
-		public UserLoginEventArgs(string email, string password, string apikey, string user_id)
+		public UserLoginEventArgs(string email, string session_token, string apikey, string user_id)
 		{
 			this.email = email;
-			this.password = password;
+			this.session_token = session_token;
 			this.apikey = apikey;
 			this.user_id = user_id;
 		}
