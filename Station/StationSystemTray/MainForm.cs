@@ -241,10 +241,10 @@ namespace StationSystemTray
 					Win32Helper.ShowWindow(handle, 5);
 					return;
 				}
-					//uictrlWavefaceClient.Terminate();
-					if (clientProcess != null)
-						clientProcess.Close();
-				}
+				//uictrlWavefaceClient.Terminate();
+				if (clientProcess != null)
+					clientProcess.Close();
+			}
 
 			LoginedSession loginedSession = null;
 
@@ -729,11 +729,9 @@ namespace StationSystemTray
 
 				LoginedSession sessionData = LoginToStation(userlogin);
 
-				string sessionDataFile = WriteSessionData(sessionData);
-
 				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 					"WavefaceWindowsClient.exe");
-				clientProcess = Process.Start(execPath, "\"" + sessionDataFile + "\"");
+				clientProcess = Process.Start(execPath, "\"" + sessionData.session_token + "\"");
 				clientProcess.EnableRaisingEvents = true;
 
 				clientProcess.Exited -= new EventHandler(clientProcess_Exited);
@@ -785,17 +783,6 @@ namespace StationSystemTray
 			}
 		}
 
-		private static string WriteSessionData(LoginedSession session)
-		{
-			string loginDataFile = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-
-			using (StreamWriter w = new StreamWriter(loginDataFile))
-			{
-				w.Write(session.ToFastJSON());
-			}
-			return loginDataFile;
-		}
-
 		void clientProcess_Exited(object sender, EventArgs e)
 		{
 			if (this.InvokeRequired)
@@ -807,8 +794,6 @@ namespace StationSystemTray
 			int exitCode = clientProcess.ExitCode;
 
 			clientProcess.Exited -= new EventHandler(clientProcess_Exited);
-			File.Delete(clientProcess.StartInfo.Arguments.TrimStart('"').TrimEnd('"'));
-
 			clientProcess = null;
 
 			if (exitCode == -2)  // client logout

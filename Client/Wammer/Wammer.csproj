@@ -83,6 +83,12 @@
       <HintPath>..\Libs\Interop.SHDocVw.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\Station\3rd_party\mongo-driver\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\Station\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="MonthCalendarControl">
       <HintPath>..\Libs\MonthCalendarControl.dll</HintPath>
     </Reference>

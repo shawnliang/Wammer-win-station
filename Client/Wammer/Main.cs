@@ -22,6 +22,8 @@ using Waveface.ImageCapture;
 using Waveface.Properties;
 using Waveface.SettingUI;
 using MonthCalendar = CustomControls.MonthCalendar;
+using MongoDB.Driver.Builders;
+using MongoDB.Bson;
 
 #endregion
 
@@ -68,7 +70,7 @@ namespace Waveface
         private AppLimit.NetSparkle.Sparkle m_autoUpdator;
         private bool m_getAllDataError;
         private string m_newestUpdateTime;
-        private string m_userDataFile;
+        private string m_initSessionToken;
         private BorderlessFormTheme m_borderlessFormTheme = new BorderlessFormTheme();
 
         #endregion
@@ -160,10 +162,10 @@ namespace Waveface
             Init();
         }
 
-        public Main(string userDataFile)
+        public Main(string initSessionToken)
         {
             Init();
-            m_userDataFile = userDataFile;
+            m_initSessionToken = initSessionToken;
         }
 
         private void Init()
@@ -205,8 +207,8 @@ namespace Waveface
 
         private void Form_Load(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(m_userDataFile))
-                Login(m_userDataFile);
+            if (!string.IsNullOrEmpty(m_initSessionToken))
+                LoginWithInitSession();
 
             postsArea.PostsList.DetailView = detailView;
 
@@ -656,7 +658,7 @@ namespace Waveface
             return true;
         }
 
-        public bool Login(string filename)
+        private void LoginWithInitSession()
         {
             UpdateNetworkStatus();
 
@@ -671,13 +673,22 @@ namespace Waveface
                 RT.StationMode = true;
             }
 
-            using (StreamReader reader = new StreamReader(filename))
-            {
-                MR_auth_login _login = JsonConvert.DeserializeObject<MR_auth_login>(reader.ReadToEnd());
-                return procLoginResponse(_login);
-            }
+			try
+			{
+				MongoDB.Driver.MongoServer dbServer = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
+				BsonDocument doc = dbServer.GetDatabase("wammer").GetCollection("LoginedSession").FindOne(Query.EQ("_id", m_initSessionToken));
+				string json = doc.ToJson();
 
-            
+				MR_auth_login _login = JsonConvert.DeserializeObject<MR_auth_login>(json);
+				_login.session_token = m_initSessionToken;
+
+				procLoginResponse(_login);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(I18n.L.T("ForceLogout") + "\r\n" + e.ToString());
+				Close();
+			}
         }
 
         public bool Login(string email, string password, out string errorMessage)
