@@ -243,7 +243,7 @@ namespace StationSystemTray
 				}
 				//uictrlWavefaceClient.Terminate();
 				if (clientProcess != null)
-					clientProcess.Close();
+					clientProcess.CloseMainWindow();
 			}
 
 			LoginedSession loginedSession = null;
@@ -347,7 +347,11 @@ namespace StationSystemTray
 			{
 				//uictrlWavefaceClient.Terminate();
 				if (clientProcess != null)
-					clientProcess.Close();
+				{
+					clientProcess.Exited -= new EventHandler(clientProcess_Exited);
+					clientProcess.CloseMainWindow();
+				}
+
 				StationController.SuspendSync(1000);
 			}
 			catch (Exception ex)
@@ -915,7 +919,6 @@ namespace StationSystemTray
 					if (clientProcess != null)
 					{
 						clientProcess.CloseMainWindow();
-						clientProcess.WaitForExit();
 					}
 
 					loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
