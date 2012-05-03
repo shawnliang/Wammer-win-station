@@ -159,6 +159,8 @@ namespace Wammer.Station.Management
 					new Dictionary<object, object>{
 						{ "email", email},
 						{ "password", password},
+						{ "device_id", StationRegistry.GetValue("stationId", "")},
+						{ "device_name", Environment.MachineName}
 					},
 					false
 				);
@@ -197,6 +199,66 @@ namespace Wammer.Station.Management
 		}
 
 		/// <summary>
+		/// login to station
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="password"></param>
+		/// <param name="deviceId"></param>
+		/// <param name="deviceName"></param>
+		/// <returns>user's login info</returns>
+		public static UserLogInResponse UserLogin(string apikey, string email, string password, string deviceId, string deviceName)
+		{
+			try
+			{
+				return CloudServer.request<UserLogInResponse>(
+					new WebClient(),
+					StationFuncURL + "auth/login",
+					new Dictionary<object, object> { 
+						{CloudServer.PARAM_API_KEY, apikey},
+						{CloudServer.PARAM_EMAIL, email},
+						{CloudServer.PARAM_PASSWORD, password},
+						{CloudServer.PARAM_DEVICE_ID, deviceId},
+						{CloudServer.PARAM_DEVICE_NAME, deviceName}
+					},
+					false
+				);
+			}
+			catch (WammerCloudException e)
+			{
+				throw ExtractApiRetMsg(e);
+			}
+		}
+
+		/// <summary>
+		/// login to station
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="sessionToken"></param>
+		/// <returns>user's login info</returns>
+		public static UserLogInResponse UserLogin(string apikey, string userId, string sessionToken)
+		{
+			try
+			{
+				return CloudServer.request<UserLogInResponse>(
+					new WebClient(),
+					StationFuncURL + "auth/login",
+					new Dictionary<object, object> { 
+						{CloudServer.PARAM_API_KEY, apikey},
+						{CloudServer.PARAM_USER_ID, userId},
+						{CloudServer.PARAM_SESSION_TOKEN, sessionToken}
+					},
+					false
+				);
+			}
+			catch (WammerCloudException e)
+			{
+				throw ExtractApiRetMsg(e);
+			}
+		}
+
+
+
+		/// <summary>
 		/// Sign off a station on behavior of its driver
 		/// </summary>
 		/// <param name="stationId"></param>
@@ -206,7 +268,7 @@ namespace Wammer.Station.Management
 		{
 			using (WebClient agent = new WebClient())
 			{
-				User user = User.LogIn(agent, driverEmail, password);
+				User user = User.LogIn(agent, driverEmail, password, stationId, Environment.MachineName);
 				Cloud.StationApi.SignOff(agent, stationId, user.Token, user.Id);
 			}
 		}

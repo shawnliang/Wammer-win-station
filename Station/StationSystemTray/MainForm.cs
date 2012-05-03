@@ -777,7 +777,9 @@ namespace StationSystemTray
 						"http://localhost:9981/v2/",
 						userlogin.Email, 
 						SecurityHelper.DecryptPassword(userlogin.Password),
-						"a23f9491-ba70-5075-b625-b8fb5d9ecd90").LoginedInfo;
+						"a23f9491-ba70-5075-b625-b8fb5d9ecd9",
+						(string)StationRegistry.GetValue("stationId", ""),
+						Environment.MachineName).LoginedInfo;
 				}
 			}
 			catch (WammerCloudException e)

@@ -14,6 +14,8 @@ using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;
 using Wammer.Station.Management;
+using Wammer;
+using Wammer.PerfMonitor;
 
 namespace UT_WammerStation
 {
@@ -65,6 +67,7 @@ namespace UT_WammerStation
 			handler = new UserLoginHandler();
 			server.AddHandler("/v2/auth/login", handler);
 			server.Start();
+			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 			CloudServer.BaseUrl = "http://localhost/v2/";			
 
@@ -94,7 +97,9 @@ namespace UT_WammerStation
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
 					{ "password", "12345"} ,
-					{"apikey", "!@#!$%@^$%&*%)(%#$"}});
+					{"apikey", "!@#!$%@^$%&*%)(%#$"},
+					{"device_id", "deviceId"},
+					{"device_name", "deviceName"}});
 			}
 		}
 
@@ -164,7 +169,9 @@ namespace UT_WammerStation
 					new Dictionary<object, object>{ 
 					{ "email", "exist@gmail.com"}, 
 					{ "password", "12345"} ,
-					{"apikey", "!@#!$%@^$%&*%)(%#$"}});
+					{"apikey", "!@#!$%@^$%&*%)(%#$"},
+					{"device_id", "deviceId"},
+					{"device_name", "deviceName"}});
 
 				Assert.AreEqual(200, response.status);
 				Assert.AreEqual("success",response.api_ret_message);

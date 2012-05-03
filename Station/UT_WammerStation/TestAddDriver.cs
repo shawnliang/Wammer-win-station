@@ -14,6 +14,8 @@ using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;
 using Wammer.Station.Management;
+using Wammer;
+using Wammer.PerfMonitor;
 
 namespace UT_WammerStation
 {
@@ -37,6 +39,7 @@ namespace UT_WammerStation
 			handler = new AddDriverHandler("stationId", "resource");
 			server.AddHandler("/v2/station/drivers/add/", handler);
 			server.Start();
+			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 			CloudServer.BaseUrl = "http://localhost/v2/";
 
@@ -97,7 +100,9 @@ namespace UT_WammerStation
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/add",
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
-					{ "password", "12345"} });
+					{ "password", "12345"},
+					{ "device_id", "deviceId"},
+					{ "device_name", "deviceName"}});
 
 
 				// verify db
@@ -285,7 +290,9 @@ namespace UT_WammerStation
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/add",
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
-					{ "password", "12345"} });
+					{ "password", "12345"},
+					{ "device_id", "deviceId"},
+					{ "device_name", "deviceName"}});
 
 
 				// verify db
@@ -329,11 +336,13 @@ namespace UT_WammerStation
 				try
 				{
 					CloudServer.request<CloudResponse>(
-						new WebClient(), 
+						new WebClient(),
 						"http://localhost:8080/v2/station/drivers/add",
 						new Dictionary<object, object>{ 
 							{ "email", "user1@gmail.com"}, 
-							{ "password", "12345"} 
+							{ "password", "12345"},
+ 							{ "device_id", "deviceId"},
+							{ "device_name", "deviceName"}
 						});
 				}
 				catch (WammerCloudException e)
