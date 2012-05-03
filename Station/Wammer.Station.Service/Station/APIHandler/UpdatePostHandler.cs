@@ -10,11 +10,16 @@ using MongoDB.Driver.Builders;
 using MongoDB.Bson;
 using System.Collections.Generic;
 using Wammer.Utility;
+using System.Text.RegularExpressions;
 
 namespace Wammer.Station
 {
 	public class UpdatePostHandler : HttpHandler
 	{
+		#region Const
+		private const string URL_MATCH_PATTERN = @"(http://[^\s]*|https://[^\s]*)";
+		#endregion
+
 		#region Private Property
 		private IPostUploadSupportable m_PostUploader { get; set; }
 		#endregion
@@ -63,6 +68,20 @@ namespace Wammer.Station
 			var content = Parameters[CloudServer.PARAM_CONTENT];
 			if (content != null)
 			{
+				var type = Parameters[CloudServer.PARAM_TYPE];
+				if (type == "link")
+				{
+					var preview = Parameters[CloudServer.PARAM_PREVIEW];
+					if (preview == null)
+					{
+						if (!Regex.IsMatch(content, URL_MATCH_PATTERN, RegexOptions.IgnoreCase))
+						{
+							throw new WammerStationException(
+								"content incorrect!", (int)StationApiError.Error);
+						}
+					}
+				}
+
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("content", content));
 
 				post.content = content;
@@ -86,6 +105,14 @@ namespace Wammer.Station
 		/// <param name="postID">The post ID.</param>
 		private void UpdatePreview(PostInfo post, string postID)
 		{
+			var type = Parameters[CloudServer.PARAM_TYPE];
+			if (type != "link")
+			{				
+				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("preview", null));
+				post.preview = null;
+				return;
+			}
+
 			var preview = Parameters[CloudServer.PARAM_PREVIEW];
 			if (preview != null)
 			{
@@ -192,6 +219,20 @@ namespace Wammer.Station
 		/// <param name="postID">The post ID.</param>
 		private void UpdateAttachementIDArray(PostInfo post, string postID)
 		{
+			var type = Parameters[CloudServer.PARAM_TYPE];
+			if (type != "image")
+			{
+				PostCollection.Instance.Update(Query.EQ("_id", postID), Update
+					.Set("attachment_count", 0)
+					.Set("attachment_id_array", null)
+					.Set("attachments", null));
+
+				post.attachment_id_array = null;
+				post.attachment_count = 0;
+				post.attachments = null;
+				return;
+			}
+
 			var attachmentIDArray = Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY];
 
 			if (attachmentIDArray != null)
