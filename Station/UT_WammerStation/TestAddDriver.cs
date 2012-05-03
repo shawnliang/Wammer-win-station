@@ -87,7 +87,7 @@ namespace UT_WammerStation
 				}
 			};
 
-			StationLogOnResponse res3 = new StationLogOnResponse(200, DateTime.UtcNow, "token3");
+			StationLogOnResponse res3 = new StationLogOnResponse(200, DateTime.UtcNow, "station_token");
 			res3.api_ret_code = 0;
 
 			using (FakeCloud cloud = new FakeCloud(res1))
@@ -110,7 +110,7 @@ namespace UT_WammerStation
 				Assert.AreEqual(res2.user.user_id, driver.user_id);
 				Assert.IsTrue(driver.isPrimaryStation);
 				Assert.AreEqual(1, driver.groups.Count);
-				Assert.AreEqual(res2.session_token, driver.session_token);
+				Assert.AreEqual(res3.session_token, driver.session_token);
 				Assert.AreEqual(res2.groups[0].group_id, driver.groups[0].group_id);
 				Assert.AreEqual(res2.groups[0].name, driver.groups[0].name);
 				Assert.AreEqual(res2.groups[0].description, driver.groups[0].description);
@@ -118,7 +118,7 @@ namespace UT_WammerStation
 				//verify station
 				Wammer.Model.StationInfo s = Wammer.Model.StationCollection.Instance.FindOne();
 				Assert.IsNotNull(s);
-				Assert.AreEqual("token3", s.SessionToken);
+				Assert.AreEqual(res3.session_token, s.SessionToken);
 			}
 		}
 
@@ -180,7 +180,7 @@ namespace UT_WammerStation
 				Assert.AreEqual(res2.user.user_id, driver.user_id);
 				Assert.IsTrue(driver.isPrimaryStation);
 				Assert.AreEqual(1, driver.groups.Count);
-				Assert.AreEqual(res2.session_token, driver.session_token);
+				Assert.AreEqual(res3.session_token, driver.session_token);
 				Assert.AreEqual(res2.groups[0].group_id, driver.groups[0].group_id);
 				Assert.AreEqual(res2.groups[0].name, driver.groups[0].name);
 				Assert.AreEqual(res2.groups[0].description, driver.groups[0].description);
@@ -298,7 +298,7 @@ namespace UT_WammerStation
 				Assert.AreEqual(res2.user.user_id, driver.user_id);
 				Assert.IsFalse(driver.isPrimaryStation);
 				Assert.AreEqual(1, driver.groups.Count);
-				Assert.AreEqual(res2.session_token, driver.session_token);
+				Assert.AreEqual(res3.session_token, driver.session_token);
 				Assert.AreEqual(res2.groups[0].group_id, driver.groups[0].group_id);
 				Assert.AreEqual(res2.groups[0].name, driver.groups[0].name);
 				Assert.AreEqual(res2.groups[0].description, driver.groups[0].description);

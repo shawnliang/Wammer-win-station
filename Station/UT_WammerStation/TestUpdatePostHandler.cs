@@ -132,6 +132,7 @@ namespace UT_WammerStation
 			Assert.AreEqual("unit test updated content", post.content);
 		}
 
+		[Ignore]
 		[TestMethod]
 		public void UpdatePost_UpdatePreview_Success()
 		{
@@ -163,6 +164,7 @@ namespace UT_WammerStation
 
 			var response = CloudServer.request<UpdatePostResponse>(new WebClient(), API_URL,
 				new Dictionary<object, object>{ 
+				{CloudServer.PARAM_TYPE, "link"},
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},
@@ -204,7 +206,8 @@ namespace UT_WammerStation
 				});
 
 			var response = CloudServer.request<UpdatePostResponse>(new WebClient(), API_URL,
-				new Dictionary<object, object>{ 
+				new Dictionary<object, object>{
+				{CloudServer.PARAM_TYPE, "image"},
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "exist session token"},
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},

@@ -174,7 +174,7 @@ namespace UT_WammerStation
 				Assert.AreEqual(@"resource\user_uid1", driver.folder);
 				Assert.AreEqual(res2.user.user_id, driver.user_id);
 				Assert.AreEqual(1, driver.groups.Count);
-				Assert.AreEqual(res2.session_token, driver.session_token);
+				Assert.AreEqual(res3.session_token, driver.session_token);
 				Assert.AreEqual(res2.groups[0].group_id, driver.groups[0].group_id);
 				Assert.AreEqual(res2.groups[0].name, driver.groups[0].name);
 				Assert.AreEqual(res2.groups[0].description, driver.groups[0].description);
