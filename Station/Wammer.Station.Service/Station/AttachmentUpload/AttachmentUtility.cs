@@ -67,6 +67,12 @@ namespace Wammer.Station.AttachmentUpload
 			TaskQueue.Enqueue(new MakeThumbnailTask(object_id, thumbnailType, priority), priority, true);
 		}
 
+		public void GenerateThumbnailAsyncAndUpstream(string object_id, ImageMeta thumbnailType, TaskPriority priority)
+		{
+
+			TaskQueue.Enqueue(new MakeThumbnailAndUpstreamTask(object_id, thumbnailType, priority, this), priority, true);
+		}
+
 
 		public void UpstreamAttachmentNow(string filename, Driver user, string object_id, string origFileName, string mime_type, ImageMeta meta, AttachmentType type)
 		{

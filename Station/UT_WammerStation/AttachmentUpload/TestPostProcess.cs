@@ -67,7 +67,7 @@ namespace UT_WammerStation.AttachmentUpload
 			mock.Setup(x => x.UpdateThumbnailInfoToDB(oldAtt.object_id, ImageMeta.Medium, thumb)).Verifiable();
 			mock.Setup(x => x.UpstreamImageNow(thumb.RawData, oldAtt.group_id, oldAtt.object_id, oldAtt.file_name, thumb.mime_type, ImageMeta.Medium, CloudServer.APIKey, user.session_token)).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Small, It.IsAny<TaskPriority>())).Verifiable();
-			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Large, It.IsAny<TaskPriority>())).Verifiable();
+			mock.Setup(x => x.GenerateThumbnailAsyncAndUpstream(oldAtt.object_id, ImageMeta.Large, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Square, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.UpstreamAttachmentAsync(oldAtt.object_id, ImageMeta.Origin, TaskPriority.VeryLow)).Verifiable();
 
@@ -94,7 +94,7 @@ namespace UT_WammerStation.AttachmentUpload
 			mock.Setup(x => x.UpdateThumbnailInfoToDB(oldAtt.object_id, ImageMeta.Medium, thumb)).Verifiable();
 			mock.Setup(x => x.UpstreamAttachmentAsync(oldAtt.object_id, ImageMeta.Medium, TaskPriority.Medium)).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Small, It.IsAny<TaskPriority>())).Verifiable();
-			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Large, It.IsAny<TaskPriority>())).Verifiable();
+			mock.Setup(x => x.GenerateThumbnailAsyncAndUpstream(oldAtt.object_id, ImageMeta.Large, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Square, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.UpstreamAttachmentAsync(oldAtt.object_id, ImageMeta.Origin, TaskPriority.VeryLow)).Verifiable();
 
@@ -119,7 +119,7 @@ namespace UT_WammerStation.AttachmentUpload
 
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Medium, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Small, It.IsAny<TaskPriority>())).Verifiable();
-			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Large, It.IsAny<TaskPriority>())).Verifiable();
+			mock.Setup(x => x.GenerateThumbnailAsyncAndUpstream(oldAtt.object_id, ImageMeta.Large, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Square, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.UpstreamAttachmentAsync(oldAtt.object_id, ImageMeta.Origin, TaskPriority.VeryLow)).Verifiable();
 
