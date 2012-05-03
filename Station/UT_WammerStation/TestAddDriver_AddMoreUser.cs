@@ -110,7 +110,10 @@ namespace UT_WammerStation
 				CloudServer.request<CloudResponse>(new WebClient(), REST_COMMAND_ADD,
 					new Dictionary<object, object>{ 
 					{ "email", "exist@gmail.com"}, 
-					{ "password", "12345"} });
+					{ "password", "12345"},
+					{ "device_id", "deviceId"},
+					{ "device_name", "deviceName"}
+					});
 			}
 
 			driver = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", "exist@gmail.com"));           
@@ -161,7 +164,9 @@ namespace UT_WammerStation
 				CloudServer.request<CloudResponse>(new WebClient(), REST_COMMAND_ADD,
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
-					{ "password", "12345"} });
+					{ "password", "12345"},
+					{ "device_id", "deviceId"},
+					{ "device_name", "deviceName"}});
 
 
 				// verify db

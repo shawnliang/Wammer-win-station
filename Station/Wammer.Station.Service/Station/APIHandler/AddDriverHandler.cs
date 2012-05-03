@@ -33,10 +33,14 @@ namespace Wammer.Station
 		{
 			CheckParameter(
 				CloudServer.PARAM_EMAIL,
-				CloudServer.PARAM_PASSWORD);
+				CloudServer.PARAM_PASSWORD,
+				CloudServer.PARAM_DEVICE_ID,
+				CloudServer.PARAM_DEVICE_NAME);
 
 			string email = Parameters[CloudServer.PARAM_EMAIL];
 			string password = Parameters[CloudServer.PARAM_PASSWORD];
+			string deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
+			string deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
 
 			using (WebClient client = new DefaultWebClient())
 			{
@@ -50,7 +54,7 @@ namespace Wammer.Station
 					
 					if (isDriverExists)
 					{
-						user = User.LogIn(client, email, password);
+						user = User.LogIn(client, email, password, deviceId, deviceName);
 
 						if (user == null)
 							throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);
@@ -83,7 +87,7 @@ namespace Wammer.Station
 					string stationToken = SignUpStation(email, password, client);		
 
 					if(!isDriverExists)
-						user = User.LogIn(client, email, password);
+						user = User.LogIn(client, email, password, "deviceId", "deviceName");
 
 					if (user == null)
 						throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);

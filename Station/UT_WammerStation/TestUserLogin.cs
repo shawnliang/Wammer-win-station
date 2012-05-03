@@ -94,7 +94,9 @@ namespace UT_WammerStation
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
 					{ "password", "12345"} ,
-					{"apikey", "!@#!$%@^$%&*%)(%#$"}});
+					{"apikey", "!@#!$%@^$%&*%)(%#$"},
+					{"device_id", "deviceId"},
+					{"device_name", "deviceName"}});
 			}
 		}
 
@@ -164,7 +166,9 @@ namespace UT_WammerStation
 					new Dictionary<object, object>{ 
 					{ "email", "exist@gmail.com"}, 
 					{ "password", "12345"} ,
-					{"apikey", "!@#!$%@^$%&*%)(%#$"}});
+					{"apikey", "!@#!$%@^$%&*%)(%#$"},
+					{"device_id", "deviceId"},
+					{"device_name", "deviceName"}});
 
 				Assert.AreEqual(200, response.status);
 				Assert.AreEqual("success",response.api_ret_message);

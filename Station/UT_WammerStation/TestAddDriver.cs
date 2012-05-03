@@ -97,7 +97,9 @@ namespace UT_WammerStation
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/add",
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
-					{ "password", "12345"} });
+					{ "password", "12345"},
+					{ "device_id", "deviceId"},
+					{ "device_name", "deviceName"}});
 
 
 				// verify db
@@ -285,7 +287,9 @@ namespace UT_WammerStation
 				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/add",
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
-					{ "password", "12345"} });
+					{ "password", "12345"},
+					{ "device_id", "deviceId"},
+					{ "device_name", "deviceName"}});
 
 
 				// verify db
@@ -329,11 +333,13 @@ namespace UT_WammerStation
 				try
 				{
 					CloudServer.request<CloudResponse>(
-						new WebClient(), 
+						new WebClient(),
 						"http://localhost:8080/v2/station/drivers/add",
 						new Dictionary<object, object>{ 
 							{ "email", "user1@gmail.com"}, 
-							{ "password", "12345"} 
+							{ "password", "12345"},
+ 							{ "device_id", "deviceId"},
+							{ "device_name", "deviceName"}
 						});
 				}
 				catch (WammerCloudException e)
