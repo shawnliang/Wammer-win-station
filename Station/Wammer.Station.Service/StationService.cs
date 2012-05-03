@@ -69,7 +69,7 @@ namespace Wammer.Station.Service
 
 				stationTimer = new StationTimer(bodySyncTaskQueue, stationId);
 
-				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
+				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 
 				APIHandler.AttachmentUploadHandler attachmentHandler = new APIHandler.AttachmentUploadHandler();
@@ -118,7 +118,7 @@ namespace Wammer.Station.Service
 
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989);
-				managementServer.TaskEnqueue += managementServer_TaskEnqueue;
+				managementServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
 				InitManagementServerHandler(addDriverHandler);
@@ -250,16 +250,6 @@ namespace Wammer.Station.Service
 		private static string GetDefaultBathPath(string relativedPath)
 		{
 			return "/" + CloudServer.DEF_BASE_PATH + relativedPath;
-		}
-
-		void functionServer_TaskEnqueue(object sender, TaskQueueEventArgs e)
-		{
-			HttpRequestMonitor.Instance.Enqueue();
-		}
-
-		void managementServer_TaskEnqueue(object sender, TaskQueueEventArgs e)
-		{
-			HttpRequestMonitor.Instance.Enqueue();
 		}
 
 		#region Private Method

@@ -14,6 +14,8 @@ using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;
 using Wammer.Station.Management;
+using Wammer;
+using Wammer.PerfMonitor;
 
 namespace UT_WammerStation
 {
@@ -65,6 +67,7 @@ namespace UT_WammerStation
 			handler = new UserLoginHandler();
 			server.AddHandler("/v2/auth/login", handler);
 			server.Start();
+			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 			CloudServer.BaseUrl = "http://localhost/v2/";			
 

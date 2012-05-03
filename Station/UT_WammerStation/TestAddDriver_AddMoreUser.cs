@@ -13,6 +13,8 @@ using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;
+using Wammer.PerfMonitor;
+using Wammer;
 
 namespace UT_WammerStation
 {
@@ -55,6 +57,7 @@ namespace UT_WammerStation
 			handler = new AddDriverHandler("stationId", "resource");
 			Server.AddHandler("/v2/station/drivers/add/", handler);
 			Server.Start();
+			Server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 			CloudServer.BaseUrl = "http://localhost/v2/";
 
