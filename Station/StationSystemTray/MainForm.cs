@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Net.NetworkInformation;
 using System.Net;
-
+using Wammer.Utility;
 using Wammer.Station.Management;
 using Wammer.Cloud;
 using Wammer.Station;
@@ -256,14 +256,15 @@ namespace StationSystemTray
 				userloginContainer.UpsertUserLoginSetting(userlogin);
 				//RefreshUserList();
 
-				LaunchWavefaceClient(userlogin);
+				if (LaunchWavefaceClient(userlogin))
+				{
+					// if the function is called by OnLoad, Close() won't hide the mainform
+					// so we have to play some tricks here
+					this.WindowState = FormWindowState.Minimized;
+					this.ShowInTaskbar = false;
 
-				// if the function is called by OnLoad, Close() won't hide the mainform
-				// so we have to play some tricks here
-				this.WindowState = FormWindowState.Minimized;
-				this.ShowInTaskbar = false;
-
-				Close();
+					Close();
+				}
 			}
 			else
 			{
@@ -347,7 +348,7 @@ namespace StationSystemTray
 				//uictrlWavefaceClient.Terminate();
 				if (clientProcess != null)
 					clientProcess.Close();
-				StationController.SuspendSync();
+				StationController.SuspendSync(1000);
 			}
 			catch (Exception ex)
 			{
@@ -670,8 +671,8 @@ namespace StationSystemTray
 					}
 					else
 					{
-						LaunchWavefaceClient(userlogin);
-						Close();
+						if (LaunchWavefaceClient(userlogin))
+							Close();
 					}
 				}
 				else
@@ -686,9 +687,8 @@ namespace StationSystemTray
 					userloginContainer.UpsertUserLoginSetting(userlogin);
 					RefreshUserList();
 
-					LaunchWavefaceClient(userlogin);
-
-					Close();
+					if (LaunchWavefaceClient(userlogin))
+						Close();
 				}
 			}
 			catch (AuthenticationException)
@@ -716,28 +716,99 @@ namespace StationSystemTray
 			}
 		}
 
-		private void LaunchWavefaceClient(UserLoginSetting userlogin)
+		private bool LaunchWavefaceClient(UserLoginSetting userlogin)
 		{
-			if (userlogin == null)
+			Cursor.Current = Cursors.WaitCursor;
+
+			try
 			{
-				userlogin = userloginContainer.GetLastUserLogin();
+				if (userlogin == null)
+				{
+					userlogin = userloginContainer.GetLastUserLogin();
+				}
+
+				LoginedSession sessionData = LoginToStation(userlogin);
+
+				string sessionDataFile = WriteSessionData(sessionData);
+
+				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+					"WavefaceWindowsClient.exe");
+				clientProcess = Process.Start(execPath, "\"" + sessionDataFile + "\"");
+				clientProcess.EnableRaisingEvents = true;
+
+				clientProcess.Exited -= new EventHandler(clientProcess_Exited);
+				clientProcess.Exited += new EventHandler(clientProcess_Exited);
+
+				return true;
+			}
+			catch (AuthenticationException)
+			{
+				MessageBox.Show(I18n.L.T("AuthError"));
+				GotoTabPage(tabSignIn, userlogin);
+			}
+			catch (ConnectToCloudException)
+			{
+				MessageBox.Show(I18n.L.T("ConnectCloudError"));
+				GotoTabPage(tabSignIn, userlogin);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(I18n.L.T("LogInError") + "\r\n" + e.Message);
+				GotoTabPage(tabSignIn, userlogin);
+			}
+			finally
+			{
+				Cursor.Current = Cursors.Default;
 			}
 
-			//uictrlWavefaceClient.PerformAction(userlogin);
-			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-		   "WavefaceWindowsClient.exe");
-			clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
-			clientProcess.EnableRaisingEvents = true;
+			return false;
+		}
 
-			clientProcess.Exited -= new EventHandler(clientProcess_Exited);
-			clientProcess.Exited += new EventHandler(clientProcess_Exited);
+		private LoginedSession LoginToStation(UserLoginSetting userlogin)
+		{
+			try
+			{
+				using (Wammer.Utility.DefaultWebClient agent = new Wammer.Utility.DefaultWebClient())
+				{
+					return User.LogIn(
+						agent, 
+						"http://localhost:9981/v2/",
+						userlogin.Email, 
+						SecurityHelper.DecryptPassword(userlogin.Password),
+						"a23f9491-ba70-5075-b625-b8fb5d9ecd90").LoginedInfo;
+				}
+			}
+			catch (WammerCloudException e)
+			{
+				Exception error = StationController.ExtractApiRetMsg(e);
+				throw error;
+			}
+		}
+
+		private static string WriteSessionData(LoginedSession session)
+		{
+			string loginDataFile = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+
+			using (StreamWriter w = new StreamWriter(loginDataFile))
+			{
+				w.Write(session.ToFastJSON());
+			}
+			return loginDataFile;
 		}
 
 		void clientProcess_Exited(object sender, EventArgs e)
 		{
+			if (this.InvokeRequired)
+			{
+				Invoke(new EventHandler(clientProcess_Exited), sender, e);
+				return;
+			}
+
 			int exitCode = clientProcess.ExitCode;
 
 			clientProcess.Exited -= new EventHandler(clientProcess_Exited);
+			File.Delete(clientProcess.StartInfo.Arguments.TrimStart('"').TrimEnd('"'));
+
 			clientProcess = null;
 
 			if (exitCode == -2)  // client logout
@@ -787,8 +858,8 @@ namespace StationSystemTray
 		{
 			Button btn = (Button)sender;
 
-			LaunchWavefaceClient((UserLoginSetting)btn.Tag);
-			Close();
+			if (LaunchWavefaceClient((UserLoginSetting)btn.Tag))
+				Close();
 		}
 
 		private void ExitProgram()
@@ -844,7 +915,7 @@ namespace StationSystemTray
 			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, sessionToken);
 			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
 
-			CloudServer.requestPath(agent, "http://127.0.0.1:9981/v2/", "auth/logout", parameters);
+			CloudServer.requestPath(agent, "http://127.0.0.1:9981/v2/", "auth/logout", parameters, false);
 		}
 
 		private void menuSignIn_Click(object sender, EventArgs e)
@@ -859,7 +930,7 @@ namespace StationSystemTray
 					if (clientProcess != null)
 					{
 						clientProcess.CloseMainWindow();
-						clientProcess = null;
+						clientProcess.WaitForExit();
 					}
 
 					loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
@@ -1070,7 +1141,7 @@ namespace StationSystemTray
 
 		protected override object Action(object obj)
 		{
-			StationController.SuspendSync();
+			StationController.SuspendSync(60000);
 			return null;
 		}
 

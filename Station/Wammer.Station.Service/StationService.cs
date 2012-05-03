@@ -244,7 +244,7 @@ namespace Wammer.Station.Service
 
 		void loginHandler_UserLogined(object sender, UserLoginEventArgs e)
 		{
-			TaskQueue.Enqueue(new UpdateDriverDBTask(e), TaskPriority.High);
+			TaskQueue.Enqueue(new UpdateDriverDBTask(e, this.stationId), TaskPriority.High);
 		}
 
 		private static string GetDefaultBathPath(string relativedPath)

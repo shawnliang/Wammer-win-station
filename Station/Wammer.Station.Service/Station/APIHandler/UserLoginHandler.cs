@@ -43,21 +43,20 @@ namespace Wammer.Station
 					user = User.LogIn(client, email, password, apikey);
 				}
 
-				if (user == null)
-					throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);
-
 				var loginInfo = user.LoginedInfo;
 
+				LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", email));
 				LoginedSessionCollection.Instance.Save(loginInfo);
 
 				RespondSuccess(loginInfo);
 
-				OnUserLogined(new UserLoginEventArgs(email, password, apikey, user.Id));
+				OnUserLogined(new UserLoginEventArgs(email, loginInfo.session_token, apikey, user.Id));
 			}
 			catch (WammerCloudException e)
 			{
 				if (e.HttpError != WebExceptionStatus.ProtocolError)
 				{
+					// network error, use existing session
 					var sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", email));
 					if (sessionData != null)
 						RespondSuccess(sessionData);
@@ -91,14 +90,14 @@ namespace Wammer.Station
 	public class UserLoginEventArgs : EventArgs
 	{
 		public string email { get; private set; }
-		public string password { get; private set; }
+		public string session_token { get; private set; }
 		public string apikey { get; private set; }
 		public string user_id { get; private set; }
 
-		public UserLoginEventArgs(string email, string password, string apikey, string user_id)
+		public UserLoginEventArgs(string email, string session_token, string apikey, string user_id)
 		{
 			this.email = email;
-			this.password = password;
+			this.session_token = session_token;
 			this.apikey = apikey;
 			this.user_id = user_id;
 		}

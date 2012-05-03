@@ -58,21 +58,31 @@ namespace Wammer.Cloud
 			}
 		}
 
+		public static User LogIn(WebClient agent, string username, string passwd)
+		{
+			return LogIn(agent, username, passwd, CloudServer.APIKey);
+		}
+
 		public static User LogIn(WebClient agent, string username, string passwd, string apiKey)
+		{
+			var json = LogInResponse(agent, CloudServer.BaseUrl, username, passwd, apiKey);
+			return new User(username, passwd, json);
+		}
+
+		public static User LogIn(WebClient agent, string baseURL, string username, string passwd, string apiKey)
+		{
+			var json = LogInResponse(agent, baseURL, username, passwd, apiKey);
+			return new User(username, passwd, json);
+		}
+
+		public static string LogInResponse(WebClient agent, string serverBase, string username, string passwd, string apiKey)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>();
 			parameters.Add(CloudServer.PARAM_EMAIL, username);
 			parameters.Add(CloudServer.PARAM_PASSWORD, passwd);
 			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
 
-			var json = CloudServer.requestPath(agent, "auth/login", parameters, false);
-
-			return new User(username, passwd, json);
-		}
-
-		public static User LogIn(WebClient agent, string username, string passwd)
-		{
-			return LogIn(agent, username, passwd, CloudServer.APIKey);
+			return CloudServer.requestPath(agent, serverBase, "auth/login", parameters, false);
 		}
 
 		public static void LogOut(WebClient agent, string sessionToken, string apiKey)

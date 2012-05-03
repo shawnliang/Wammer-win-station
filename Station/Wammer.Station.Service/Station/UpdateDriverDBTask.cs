@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Wammer.Model;
 using MongoDB.Driver.Builders;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -11,12 +12,14 @@ namespace Wammer.Station
 	class UpdateDriverDBTask : Retry.DelayedRetryTask
 	{
 		private int retry_count;
-		private UserLoginEventArgs args { get; set; }
+		private UserLoginEventArgs args;
+		private string station_id;
 
-		public UpdateDriverDBTask(UserLoginEventArgs args)
+		public UpdateDriverDBTask(UserLoginEventArgs args, string station_id)
 			:base(Retry.RetryQueue.Instance, TaskPriority.High)
 		{
 			this.args = args;
+			this.station_id = station_id;
 		}
 
 		protected override void Run()
@@ -26,14 +29,16 @@ namespace Wammer.Station
 				this.LogErrorMsg("Failed to update drvier session token: " + args.email);
 				return;
 			}
-			Cloud.User user = Cloud.User.LogIn(new System.Net.WebClient(), args.email, args.password);
 
-			Driver userDoc = DriverCollection.Instance.FindOne(Query.EQ("_id", args.user_id));
-			if (userDoc == null)
-				return;
+			using (DefaultWebClient agent = new DefaultWebClient())
+			{
+				Cloud.StationApi api = new Cloud.StationApi(this.station_id, args.session_token);
+				api.LogOn(agent, StatusChecker.GetDetail());
 
-			userDoc.session_token = user.Token;
-			DriverCollection.Instance.Save(userDoc);
+				DriverCollection.Instance.Update(
+					Query.EQ("_id", args.user_id),
+					Update.Set("session_token", api.Token));
+			}
 		}
 
 		public override void ScheduleToRun()
