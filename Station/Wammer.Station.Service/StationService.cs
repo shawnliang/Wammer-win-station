@@ -107,7 +107,7 @@ namespace Wammer.Station.Service
 
 				postUploadRunner.Start();
 
-				const int upstreamThreads = 3;
+				const int upstreamThreads = 1;
 				upstreamTaskRunner = new TaskRunner[upstreamThreads];
 				for (int i = 0; i < upstreamThreads; i++)
 				{

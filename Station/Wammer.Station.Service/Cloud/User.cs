@@ -54,7 +54,7 @@ namespace Wammer.Cloud
 									   {"user_id", user_id},
 									   {"apikey", apikey},
 									   {"session_token", session_token}
-					});
+					}, false);
 			}
 		}
 
