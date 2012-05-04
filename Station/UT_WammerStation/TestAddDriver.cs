@@ -148,7 +148,7 @@ namespace UT_WammerStation
 			{
 				StationController.StationMgmtURL = "http://127.0.0.1:8080/v2/";
 
-				AddUserResult result = StationController.AddUser("user1@gmail.com", "123456");
+				AddUserResult result = StationController.AddUser("user1@gmail.com", "123456", "deviceId", "deviceName");
 				Assert.AreEqual("uid1", result.UserId);
 				Assert.IsTrue(result.IsPrimaryStation);
 
@@ -202,7 +202,7 @@ namespace UT_WammerStation
 			using (FakeCloud cloud = new FakeCloud(res1))
 			{
 				StationController.StationMgmtURL = "http://127.0.0.1:8080/v2/";
-				AddUserResult result = StationController.AddUser("user1@gmail.com", "123456");
+				AddUserResult result = StationController.AddUser("user1@gmail.com", "123456", "deviceId", "deviceName");
 				Assert.AreEqual("uid1", result.UserId);
 				Assert.IsFalse(result.IsPrimaryStation);
 			}
