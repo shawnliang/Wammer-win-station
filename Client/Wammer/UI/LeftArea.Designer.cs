@@ -47,6 +47,7 @@ namespace Waveface
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.btnNewPost = new Waveface.Component.ImageButton();
             this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
+            this.btnToday = new Waveface.Component.ImageButton();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
             this.panelFilter.SuspendLayout();
@@ -133,6 +134,7 @@ namespace Waveface
             // panelCalendar
             // 
             this.panelCalendar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.panelCalendar.Controls.Add(this.btnToday);
             this.panelCalendar.Controls.Add(this.monthCalendar);
             resources.ApplyResources(this.panelCalendar, "panelCalendar");
             this.panelCalendar.Name = "panelCalendar";
@@ -205,6 +207,17 @@ namespace Waveface
             this.vsNetListBarGroups.SmallImageList = null;
             this.vsNetListBarGroups.ToolTip = null;
             // 
+            // btnToday
+            // 
+            this.btnToday.CenterAlignImage = false;
+            resources.ApplyResources(this.btnToday, "btnToday");
+            this.btnToday.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(87)))), ((int)(((byte)(155)))), ((int)(((byte)(178)))));
+            this.btnToday.Image = global::Waveface.Properties.Resources.FB_today_btn;
+            this.btnToday.ImageDisable = global::Waveface.Properties.Resources.FB_today_btn_hl;
+            this.btnToday.ImageHover = global::Waveface.Properties.Resources.FB_today_btn_hl;
+            this.btnToday.Name = "btnToday";
+            this.btnToday.Click += new System.EventHandler(this.btnToday_Click);
+            // 
             // LeftArea
             // 
             this.AllowDrop = true;
@@ -242,6 +255,7 @@ namespace Waveface
         private System.Windows.Forms.TreeView tvCustomFilter;
         private System.Windows.Forms.TreeView tvTimeline;
         private ImageButton btnNewPost;
+        private ImageButton btnToday;
 
     }
 }

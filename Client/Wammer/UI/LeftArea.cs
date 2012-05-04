@@ -33,7 +33,7 @@ namespace Waveface
         {
             get
             {
-                panelCalendar.Height = monthCalendar.Height + 4;
+                //panelCalendar.Height = monthCalendar.Height + 4;
 
                 return monthCalendar.Width + 4;
             }
@@ -496,6 +496,11 @@ namespace Waveface
         private void btnNewPost_Click(object sender, EventArgs e)
         {
             Main.Current.Post();
+        }
+
+        private void btnToday_Click(object sender, EventArgs e)
+        {
+            Main.Current.ClickCalendar(DateTime.Now.Date);
         }
     }
 }

@@ -407,7 +407,7 @@ namespace Waveface.DetailUI
                         }
                     }
 
-                    MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Waveface", MessageBoxButtons.OK,
+                    MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Stream", MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
                 }
             }
@@ -434,7 +434,7 @@ namespace Waveface.DetailUI
                 m_post = _retPost;
             }
 
-            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)

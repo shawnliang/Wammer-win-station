@@ -797,6 +797,9 @@
     <EmbeddedResource Include="UI\SettingUI\UnlinkForm.zh-TW.resx">
       <DependentUpon>UnlinkForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\TitlePanel.zh-TW.resx">
+      <DependentUpon>TitlePanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\TrayIconPanel.resx">
       <DependentUpon>TrayIconPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -969,6 +972,8 @@
     <None Include="Resources\FlatButton\FB_slide_hl.png" />
     <None Include="Resources\FlatButton\FB_setting.png" />
     <None Include="Resources\FlatButton\FB_setting_hl.png" />
+    <None Include="Resources\FlatButton\FB_today_btn.png" />
+    <None Include="Resources\FlatButton\FB_today_btn_hl.png" />
     <Content Include="Resources\FlatButton\FB_unfav.png" />
     <Content Include="Resources\FlatButton\FB_unfav_hl.png" />
     <None Include="Resources\Title\Title1.png" />

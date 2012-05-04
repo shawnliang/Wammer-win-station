@@ -60,6 +60,7 @@ namespace Waveface
             _left -= btnMin.Width;
             btnMin.Left = _left;
 
+            /*
             if ((Main.Current != null) && (Main.Current.BorderlessFormTheme != null) && (Main.Current.BorderlessFormTheme.HostWindow != null))
             {
                 if (Main.Current.BorderlessFormTheme.HostWindow.WinMaxed)
@@ -75,6 +76,7 @@ namespace Waveface
                     btnMax.ImageHover = Resources.MMC_Restore_hl;
                 }
             }
+            */
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -124,6 +126,7 @@ namespace Waveface
             this.btnMin.Name = "btnMin";
             this.btnMin.Size = new System.Drawing.Size(29, 16);
             this.btnMin.TabIndex = 2;
+            this.btnMin.Visible = false;
             this.btnMin.Click += new System.EventHandler(this.btnMin_Click);
             // 
             // btnMax
@@ -138,6 +141,7 @@ namespace Waveface
             this.btnMax.Name = "btnMax";
             this.btnMax.Size = new System.Drawing.Size(29, 16);
             this.btnMax.TabIndex = 1;
+            this.btnMax.Visible = false;
             this.btnMax.Click += new System.EventHandler(this.btnMax_Click);
             // 
             // btnClose
@@ -152,6 +156,7 @@ namespace Waveface
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(28, 16);
             this.btnClose.TabIndex = 0;
+            this.btnClose.Visible = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // DVTopPanel
@@ -170,7 +175,7 @@ namespace Waveface
 
         private void btnMin_Click(object sender, EventArgs e)
         {
-            Main.Current.BorderlessFormTheme.DoMin();
+            //Main.Current.BorderlessFormTheme.DoMin();
         }
 
         private void btnMax_Click(object sender, EventArgs e)
@@ -180,14 +185,14 @@ namespace Waveface
 
         private void DoMax()
         {
-            Main.Current.BorderlessFormTheme.DoMax();
+            //Main.Current.BorderlessFormTheme.DoMax();
 
             SetWinButtonProperties();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            Main.Current.BorderlessFormTheme.DoClose();
+            //Main.Current.BorderlessFormTheme.DoClose();
         }
 
         private void DVTopPanel_DoubleClick(object sender, EventArgs e)

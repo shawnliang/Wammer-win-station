@@ -69,16 +69,18 @@ namespace Waveface
         private bool m_getAllDataError;
         private string m_newestUpdateTime;
 
-        private BorderlessFormTheme m_borderlessFormTheme = new BorderlessFormTheme();
+        // private BorderlessFormTheme m_borderlessFormTheme = new BorderlessFormTheme();
 
         #endregion
 
         #region Properties
 
+        /*
         public BorderlessFormTheme BorderlessFormTheme
         {
             get { return m_borderlessFormTheme; }
         }
+        */
 
         public string LoadingImagePath
         {
@@ -210,7 +212,7 @@ namespace Waveface
 
             CreateLoadingImage();
 
-            BorderlessFormTheme.ApplyFormThemeSizable(this, false);
+            //@ BorderlessFormTheme.ApplyFormThemeSizable(this, false);
 
             s_logger.Trace("Form_Load: OK");
         }
@@ -352,7 +354,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("Station401Exception"), "Waveface", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("Station401Exception"), "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 m_forceLogout = true;
@@ -372,7 +374,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("ForceLogout"), "Waveface", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("ForceLogout"), "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 m_forceLogout = true;
@@ -596,7 +598,7 @@ namespace Waveface
             //{
             //    Invoke(new MethodInvoker(() =>
             //    {
-            //        MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK,
+            //        MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Stream", MessageBoxButtons.OK,
             //                    MessageBoxIcon.Warning);
             //    }));
 
@@ -1091,7 +1093,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
+                MessageBox.Show("Please Login first.", "Stream"); //@! i18n
                 return;
             }
 
@@ -1118,7 +1120,7 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                //MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface");
+                //MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Stream");
 
                 NLogUtility.Exception(s_logger, _e, "Edit Post");
             }
@@ -1136,7 +1138,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
+                MessageBox.Show("Please Login first.", "Stream"); //@! i18n
                 return;
             }
 
@@ -1157,7 +1159,7 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface");
+                MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Stream");
 
                 NLogUtility.Exception(s_logger, _e, "Post");
             }
@@ -1219,7 +1221,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "PostUpdate");
 
-                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ReloadAllData();
 
@@ -1261,7 +1263,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "PostUpdate");
 
-                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ReloadAllData();
 
@@ -1284,7 +1286,7 @@ namespace Waveface
             {
                 RemovePostLocalAndRefresh(postId, true);
 
-                MessageBox.Show(I18n.L.T("PostRemoved"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(I18n.L.T("PostRemoved"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Cursor = Cursors.Default;
                 return true;
@@ -1446,6 +1448,13 @@ namespace Waveface
 
         public void ClickCalendar(DateTime date)
         {
+            if (date == DateTime.Now.Date)
+            {
+                setCalendarDay(date);
+                postsArea.PostsList.ScrollTo(0);
+                return;
+            }
+
             MonthCalendar _calendar = leftArea.MonthCalendar;
 
             if (!_calendar.BoldedDates.Contains(date.Date))
@@ -1732,7 +1741,7 @@ namespace Waveface
         {
             NewPostThreadErrorDialogResult = DialogResult.None;
 
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.FileMiss"), text), "Waveface", MessageBoxIcon.Warning);
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.FileMiss"), text), "Stream", MessageBoxIcon.Warning);
             _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
             DialogResult _dr = _msgBox.ShowDialog();
 
@@ -1743,7 +1752,7 @@ namespace Waveface
         {
             NewPostThreadErrorDialogResult = DialogResult.None;
 
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.OverQuota"), text), "Waveface", MessageBoxIcon.Warning);
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.OverQuota"), text), "Stream", MessageBoxIcon.Warning);
             _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
             DialogResult _dr = _msgBox.ShowDialog();
 
@@ -1984,6 +1993,7 @@ namespace Waveface
 
         private void panelTitle_MouseMove(object sender, MouseEventArgs e)
         {
+            /*
             if (!BorderlessFormTheme.HostWindow.WinMaxed)
             {
                 if (MouseButtons.ToString() == "Left")
@@ -1996,6 +2006,7 @@ namespace Waveface
                     SendMessage(Parent.Parent.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
                 }
             }
+            */
         }
 
         #endregion

@@ -426,6 +426,7 @@ namespace Waveface
                     }
 
                     _params.Add("attachment_id_array", _ids);
+                    _params.Add("type", "image");
 
                     string _time = Main.Current.GetPostUpdateTime(postItem.Post);
 
