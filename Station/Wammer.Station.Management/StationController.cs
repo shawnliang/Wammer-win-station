@@ -180,16 +180,6 @@ namespace Wammer.Station.Management
 						throw new AuthenticationException(e.Message);
 					case (int)StationLocalApiError.DriverExist:
 						throw new StationAlreadyHasDriverException(e.Message);
-					case (int)StationLocalApiError.AlreadyHasStaion:
-						StationSignUpResponse resp = fastJSON.JSON.Instance.
-												ToObject<Cloud.StationSignUpResponse>(e.response);
-						throw new UserAlreadyHasStationException
-						{
-							Id = resp.station.station_id,
-							Location = resp.station.location,
-							LastSyncTime = resp.station.LastSeen,
-							ComputerName = resp.station.computer_name
-						};
 					case (int)AuthApiError.InvalidEmailPassword:
 						throw new AuthenticationException(e.Message);
 					case (int)StationApiError.UserNotExist:

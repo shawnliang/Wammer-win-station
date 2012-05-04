@@ -50,7 +50,7 @@ namespace Wammer.Station
 				}
 				else
 				{
-					StationLogOnResponse res = StationApi.LogOnBySession(new WebClient(), sessionToken, stationId);
+					StationSignUpResponse res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId);
 					StationCollection.Instance.Update(
 						Query.EQ("_id", stationId),
 						Update.Set("SessionToken", res.session_token)
@@ -133,7 +133,7 @@ namespace Wammer.Station
 							StationCollection.Instance.RemoveAll();
 					}
 
-					StationLogOnResponse res = StationApi.LogOnByEmailPassword(agent, stationId, email, password, deviceId, deviceName);
+					StationSignUpResponse res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceId, deviceName);
 					StationCollection.Instance.Update(
 						Query.EQ("_id", stationId),
 						Update.Set("SessionToken", res.session_token)
