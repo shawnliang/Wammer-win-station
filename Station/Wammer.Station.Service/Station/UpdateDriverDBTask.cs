@@ -30,15 +30,19 @@ namespace Wammer.Station
 				return;
 			}
 
-			using (DefaultWebClient agent = new DefaultWebClient())
-			{
-				Cloud.StationApi api = new Cloud.StationApi(this.station_id, args.session_token);
-				api.LogOn(agent, StatusChecker.GetDetail());
+			//
+			// Temporary comment out this because cloud ruins the original user's session
+			// 
 
-				DriverCollection.Instance.Update(
-					Query.EQ("_id", args.user_id),
-					Update.Set("session_token", api.Token));
-			}
+			//using (DefaultWebClient agent = new DefaultWebClient())
+			//{
+			//    Cloud.StationApi api = new Cloud.StationApi(this.station_id, args.session_token);
+			//    api.LogOn(agent, StatusChecker.GetDetail());
+
+			//    DriverCollection.Instance.Update(
+			//        Query.EQ("_id", args.user_id),
+			//        Update.Set("session_token", api.Token));
+			//}
 		}
 
 		public override void ScheduleToRun()
