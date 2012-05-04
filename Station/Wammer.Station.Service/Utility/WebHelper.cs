@@ -195,7 +195,7 @@ namespace Waveface
 
 			// We need to count how many bytes we're sending. 
 			//request.ContentLength = formData.Length;
-
+			request.SendChunked = true;
 			using (Stream requestStream = request.GetRequestStream())
 			{
 				requestStream.Write(formData, bufferSize, progressChangedCallBack);
