@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 using System.IO;
 using System.Web;
+using Wammer.Cloud;
 
 namespace UT_WammerStation
 {
@@ -91,7 +92,28 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestStationLogOn()
 		{
-			using (FakeCloud fakeCloud = new FakeCloud(new Wammer.Cloud.StationLogOnResponse(200, DateTime.Now.ToUniversalTime(), "newToken1")))
+			using (FakeCloud fakeCloud = new FakeCloud(new StationLogOnResponse
+			{
+				api_ret_message = "success",
+				api_ret_code = 0,
+				status = 200,
+				timestamp = DateTime.UtcNow.ToUniversalTime(),
+				session_token = "newToken1",
+				groups = new List<UserGroup>{
+					new UserGroup {
+						creator_id = "creator1",
+						description = "gdesc1",
+						group_id = "group_id1",
+						name = "group1"				
+					}
+				},
+				user = new UserInfo { user_id = "uid1" },
+				stations = new List<UserStation>()
+				{
+					new UserStation() { station_id = "aabbcc" },
+				}
+			}))
+
 			using (WebClient agent = new WebClient())
 			{
 				Wammer.Cloud.StationApi api = new Wammer.Cloud.StationApi("sid1", "token1");
@@ -110,7 +132,28 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestStationLogOnParams()
 		{
-			using (FakeCloud fakeCloud = new FakeCloud(new Wammer.Cloud.StationLogOnResponse(200, DateTime.Now.ToUniversalTime(), "newToken1")))
+			using (FakeCloud fakeCloud = new FakeCloud(new StationLogOnResponse
+			{
+				api_ret_message = "success",
+				api_ret_code = 0,
+				status = 200,
+				timestamp = DateTime.UtcNow.ToUniversalTime(),
+				session_token = "newToken1",
+				groups = new List<UserGroup>{
+					new UserGroup {
+						creator_id = "creator1",
+						description = "gdesc1",
+						group_id = "group_id1",
+						name = "group1"				
+					}
+				},
+				user = new UserInfo { user_id = "uid1" },
+				stations = new List<UserStation>()
+				{
+					new UserStation() { station_id = "aabbcc" },
+				}
+			}))
+
 			using (WebClient agent = new WebClient())
 			{
 				Wammer.Cloud.StationApi api = new Wammer.Cloud.StationApi("sid1", "token1");
@@ -138,7 +181,27 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void TestStationLogOnParams_Encoding()
 		{
-			using (FakeCloud fakeCloud = new FakeCloud(new Wammer.Cloud.StationLogOnResponse(200, DateTime.Now.ToUniversalTime(), "newToken1")))
+			using (FakeCloud fakeCloud = new FakeCloud(new StationLogOnResponse
+			{
+				api_ret_message = "success",
+				api_ret_code = 0,
+				status = 200,
+				timestamp = DateTime.UtcNow.ToUniversalTime(),
+				session_token = "newToken1",
+				groups = new List<UserGroup>{
+					new UserGroup {
+						creator_id = "creator1",
+						description = "gdesc1",
+						group_id = "group_id1",
+						name = "group1"				
+					}
+				},
+				user = new UserInfo { user_id = "uid1" },
+				stations = new List<UserStation>()
+				{
+					new UserStation() { station_id = "aabbcc" },
+				}
+			}))
 			using (WebClient agent = new WebClient())
 			{
 				Wammer.Cloud.StationApi api = new Wammer.Cloud.StationApi("sid1", "token1");

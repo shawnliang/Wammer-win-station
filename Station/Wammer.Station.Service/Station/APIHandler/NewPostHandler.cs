@@ -45,20 +45,20 @@ namespace Wammer.Station
 			var driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
 			if (driver == null)
 				throw new WammerStationException(
-							"Driver not found!", (int)StationApiError.InvalidDriver);
+							"Driver not found!", (int)StationLocalApiError.InvalidDriver);
 
 			var userGroup = driver.groups.Where((group) => group.group_id == groupID).FirstOrDefault();
 
 			if (userGroup == null)
 				throw new WammerStationException(
-							"Group not found!", (int)StationApiError.NotFound);
+							"Group not found!", (int)StationLocalApiError.NotFound);
 
 			var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];		
 			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
 			if (loginedSession == null)
 				throw new WammerStationException(
-							"Logined session not found!", (int)StationApiError.NotFound);
+							"Logined session not found!", (int)StationLocalApiError.NotFound);
 
 			var attachmentIDs = Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY] == null ? new List<string>() : Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList();
 			var content = Parameters[CloudServer.PARAM_CONTENT];
@@ -76,7 +76,7 @@ namespace Wammer.Station
 
 			if(attachmentInfos.Count() != attachmentCount)
 				throw new WammerStationException(
-						"Attachement not found!", (int)StationApiError.NotFound);
+						"Attachement not found!", (int)StationLocalApiError.NotFound);
 
 			var post = new PostInfo()
 			{

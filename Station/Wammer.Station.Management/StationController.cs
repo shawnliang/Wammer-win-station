@@ -174,13 +174,13 @@ namespace Wammer.Station.Management
 
 				switch (e.WammerError)
 				{
-					case (int)StationApiError.ConnectToCloudError:
+					case (int)StationLocalApiError.ConnectToCloudError:
 						throw new ConnectToCloudException(e.Message);
-					case (int)StationApiError.AuthFailed:
+					case (int)StationLocalApiError.AuthFailed:
 						throw new AuthenticationException(e.Message);
-					case (int)StationApiError.DriverExist:
+					case (int)StationLocalApiError.DriverExist:
 						throw new StationAlreadyHasDriverException(e.Message);
-					case (int)StationApiError.AlreadyHasStaion:
+					case (int)StationLocalApiError.AlreadyHasStaion:
 						StationSignUpResponse resp = fastJSON.JSON.Instance.
 												ToObject<Cloud.StationSignUpResponse>(e.response);
 						throw new UserAlreadyHasStationException
@@ -190,7 +190,9 @@ namespace Wammer.Station.Management
 							LastSyncTime = resp.station.LastSeen,
 							ComputerName = resp.station.computer_name
 						};
-					case 0x4000 + 4: // user not exist
+					case (int)AuthApiError.InvalidEmailPassword:
+						throw new AuthenticationException(e.Message);
+					case (int)StationApiError.UserNotExist:
 						throw new AuthenticationException(e.Message);
 					default:
 						throw;
@@ -689,24 +691,20 @@ namespace Wammer.Station.Management
 				{
 					if (webres.StatusCode == HttpStatusCode.BadRequest)
 					{
-						const int ERR_USER_HAS_ANOTHER_STATION = 0x4000 + 3;
-						const int ERR_USER_DOES_NOT_EXIST = 0x4000 + 4;
-						const int ERR_BAD_NAME_PASSWORD = 0x1000 + 1;
-
 						string resText = e.response;
 						Cloud.CloudResponse r = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(resText);
 
 						switch (e.WammerError)
 						{
-							case ERR_BAD_NAME_PASSWORD:
+							case (int)AuthApiError.InvalidEmailPassword:
 								return new AuthenticationException(r.api_ret_message);
-							case ERR_USER_HAS_ANOTHER_STATION:
+							case (int)StationApiError.AlreadyRegisteredAnotherStation:
 								return new UserAlreadyHasStationException(r.api_ret_message);
-							case ERR_USER_DOES_NOT_EXIST:
+							case (int)StationApiError.UserNotExist:
 								return new UserDoesNotExistException(r.api_ret_message);
-							case (int)StationApiError.InvalidDriver:
+							case (int)StationLocalApiError.InvalidDriver:
 								return new InvalidDriverException(r.api_ret_message);
-							case (int)StationApiError.ConnectToCloudError:
+							case (int)StationLocalApiError.ConnectToCloudError:
 								return new ConnectToCloudException(r.api_ret_message);
 							default:
 								return new Exception(r.api_ret_message);

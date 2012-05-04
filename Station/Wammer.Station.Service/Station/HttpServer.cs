@@ -152,7 +152,7 @@ namespace Wammer.Station
 					Cloud.CloudResponse json = new Cloud.CloudResponse(
 						ctx.Response.StatusCode,
 						DateTime.UtcNow,
-						(int)StationApiError.AlreadyHasStaion,
+						(int)StationLocalApiError.AlreadyHasStaion,
 						"Driver already registered another station"
 					);
 					w.Write(json.ToFastJSON());
@@ -362,7 +362,7 @@ namespace Wammer.Station
 				// cannot connect to Waveface cloud
 				if (e.HttpError != WebExceptionStatus.ProtocolError)
 				{
-					HttpHelper.RespondFailure(context.Response, new WammerStationException(e.InnerException.Message, (int)StationApiError.ConnectToCloudError), (int)HttpStatusCode.BadRequest);
+					HttpHelper.RespondFailure(context.Response, new WammerStationException(e.InnerException.Message, (int)StationLocalApiError.ConnectToCloudError), (int)HttpStatusCode.BadRequest);
 					logger.Debug("Connection to cloud error", e);
 					return;
 				}
