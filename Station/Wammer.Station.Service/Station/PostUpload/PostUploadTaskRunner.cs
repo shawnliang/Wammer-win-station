@@ -12,7 +12,7 @@ namespace Wammer.PostUpload
 	public class PostUploadTaskRunner: AbstrackTaskRunner
 	{
 		private PostUploadTaskQueue queue;
-		private BackOff backoff = new BackOff(10, 20, 30, 50, 80, 130, 210, 340, 550, 890, 1440, 2330);
+		private BackOff backoff = new BackOff(1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233);
 
 		public PostUploadTaskRunner(PostUploadTaskQueue queue)
 		{
