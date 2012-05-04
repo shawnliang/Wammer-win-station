@@ -52,6 +52,7 @@ namespace Waveface
 
         private Post m_post;
         private bool m_loadOK;
+        private ToolTip toolTip;
         private bool m_clockTest;
 
         #endregion
@@ -130,6 +131,7 @@ namespace Waveface
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemovePost = new System.Windows.Forms.ToolStripMenuItem();
             this.miAddFootnote = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelTop = new Waveface.DVTopPanel();
             this.btnMoreOptions = new Waveface.Component.ImageButton();
             this.btnFavorite = new Waveface.Component.ImageButton();
@@ -141,9 +143,10 @@ namespace Waveface
             // 
             // panelMain
             // 
-            this.panelMain.BackColor = System.Drawing.Color.White;
             resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.BackColor = System.Drawing.Color.White;
             this.panelMain.Name = "panelMain";
+            this.toolTip.SetToolTip(this.panelMain, resources.GetString("panelMain.ToolTip"));
             // 
             // timerGC
             // 
@@ -162,36 +165,38 @@ namespace Waveface
             // 
             // contextMenuStrip
             // 
+            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miRemovePost,
             this.miAddFootnote});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
+            this.toolTip.SetToolTip(this.contextMenuStrip, resources.GetString("contextMenuStrip.ToolTip"));
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // miRemovePost
             // 
+            resources.ApplyResources(this.miRemovePost, "miRemovePost");
             this.miRemovePost.Image = global::Waveface.Properties.Resources.FB_remove;
             this.miRemovePost.Name = "miRemovePost";
-            resources.ApplyResources(this.miRemovePost, "miRemovePost");
             this.miRemovePost.Click += new System.EventHandler(this.miRemovePost_Click);
             // 
             // miAddFootnote
             // 
+            resources.ApplyResources(this.miAddFootnote, "miAddFootnote");
             this.miAddFootnote.Image = global::Waveface.Properties.Resources.FB_edit_footnote;
             this.miAddFootnote.Name = "miAddFootnote";
-            resources.ApplyResources(this.miAddFootnote, "miAddFootnote");
             this.miAddFootnote.Click += new System.EventHandler(this.miAddFootnote_Click);
             // 
             // panelTop
             // 
+            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.BackColor = System.Drawing.Color.White;
             this.panelTop.Controls.Add(this.btnMoreOptions);
             this.panelTop.Controls.Add(this.btnFavorite);
             this.panelTop.Controls.Add(this.btnEdit);
             this.panelTop.Controls.Add(this.labelTitle);
-            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
+            this.toolTip.SetToolTip(this.panelTop, resources.GetString("panelTop.ToolTip"));
             this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseMove);
             // 
             // btnMoreOptions
@@ -203,6 +208,7 @@ namespace Waveface
             this.btnMoreOptions.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
             this.btnMoreOptions.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
             this.btnMoreOptions.Name = "btnMoreOptions";
+            this.toolTip.SetToolTip(this.btnMoreOptions, resources.GetString("btnMoreOptions.ToolTip"));
             this.btnMoreOptions.Click += new System.EventHandler(this.btnMoreOptions_Click);
             this.btnMoreOptions.DoubleClick += new System.EventHandler(this.btnMoreOptions_DoubleClick);
             // 
@@ -216,6 +222,7 @@ namespace Waveface
             this.btnFavorite.ImageDisable = global::Waveface.Properties.Resources.FB_fav_hl;
             this.btnFavorite.ImageHover = global::Waveface.Properties.Resources.FB_fav_hl;
             this.btnFavorite.Name = "btnFavorite";
+            this.toolTip.SetToolTip(this.btnFavorite, resources.GetString("btnFavorite.ToolTip"));
             this.btnFavorite.Click += new System.EventHandler(this.btnFavorite_Click);
             // 
             // btnEdit
@@ -228,6 +235,7 @@ namespace Waveface
             this.btnEdit.ImageDisable = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageDisable")));
             this.btnEdit.ImageHover = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageHover")));
             this.btnEdit.Name = "btnEdit";
+            this.toolTip.SetToolTip(this.btnEdit, resources.GetString("btnEdit.ToolTip"));
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // labelTitle
@@ -235,13 +243,15 @@ namespace Waveface
             resources.ApplyResources(this.labelTitle, "labelTitle");
             this.labelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(121)))), ((int)(((byte)(143)))));
             this.labelTitle.Name = "labelTitle";
+            this.toolTip.SetToolTip(this.labelTitle, resources.GetString("labelTitle.ToolTip"));
             // 
             // DetailView
             // 
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelTop);
-            resources.ApplyResources(this, "$this");
             this.Name = "DetailView";
+            this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.contextMenuStrip.ResumeLayout(false);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
@@ -453,7 +463,7 @@ namespace Waveface
 
             if (textBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -547,7 +557,7 @@ namespace Waveface
 
         private void RemovePost()
         {
-            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Waveface", MessageBoxButtons.YesNo,
+            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Stream", MessageBoxButtons.YesNo,
                                                MessageBoxIcon.Question);
 
             if (_dr != DialogResult.Yes)
@@ -630,6 +640,7 @@ namespace Waveface
 
         private void panelTop_MouseMove(object sender, MouseEventArgs e)
         {
+            /*
             if (!Main.Current.BorderlessFormTheme.HostWindow.WinMaxed)
             {
                 if ((MouseButtons.ToString() == "Left") && (e.Y < 24))
@@ -642,6 +653,7 @@ namespace Waveface
                     SendMessage(Parent.Parent.Parent.Parent.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
                 }
             }
+            */
         }
 
         #endregion

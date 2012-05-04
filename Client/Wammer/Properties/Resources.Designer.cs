@@ -326,6 +326,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_today_btn {
+            get {
+                object obj = ResourceManager.GetObject("FB_today_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_today_btn_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_today_btn_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_unfav {
             get {
                 object obj = ResourceManager.GetObject("FB_unfav", resourceCulture);

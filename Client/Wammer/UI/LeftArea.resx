@@ -221,7 +221,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAA0
-        CAAAAk1TRnQBSQFMAgEBAgEAAUgBBgFIAQYBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAaABBgGgAQYBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -290,7 +290,7 @@
     <value>0, 145</value>
   </data>
   <data name="panelCustomFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 108</value>
+    <value>176, 91</value>
   </data>
   <data name="panelCustomFilter.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -362,10 +362,10 @@
     <value>Fill</value>
   </data>
   <data name="panelFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 363</value>
+    <value>0, 380</value>
   </data>
   <data name="panelFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 253</value>
+    <value>176, 236</value>
   </data>
   <data name="panelFilter.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -385,11 +385,38 @@
   <data name="&gt;&gt;panelFilter.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="btnToday.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9.75pt, style=Bold</value>
+  </data>
+  <data name="btnToday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="btnToday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 25</value>
+  </data>
+  <data name="btnToday.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="btnToday.Text" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="&gt;&gt;btnToday.Name" xml:space="preserve">
+    <value>btnToday</value>
+  </data>
+  <data name="&gt;&gt;btnToday.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnToday.Parent" xml:space="preserve">
+    <value>panelCalendar</value>
+  </data>
+  <data name="&gt;&gt;btnToday.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="monthCalendar.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt</value>
   </data>
   <data name="monthCalendar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>3, 25</value>
   </data>
   <data name="monthCalendar.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -404,7 +431,7 @@
     <value>panelCalendar</value>
   </data>
   <data name="&gt;&gt;monthCalendar.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="panelCalendar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -413,7 +440,7 @@
     <value>0, 181</value>
   </data>
   <data name="panelCalendar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 182</value>
+    <value>176, 199</value>
   </data>
   <data name="panelCalendar.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -492,7 +519,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADo
-        CAAAAk1TRnQBSQFMAgEBAgEAAWgBBgFoAQYBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAcABBgHAAQYBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA

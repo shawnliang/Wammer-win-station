@@ -38,7 +38,7 @@ namespace Waveface
         public BatchPostItem BatchPostItem { get; set; }
         public bool EditMode { get; set; }
         public string OldText { get; set; }
-        public bool IsBackFromEditMode  { get; set; }
+        public bool IsBackFromEditMode { get; set; }
 
         public PostForm(List<string> files, PostType postType, Post post, bool editMode)
         {
@@ -127,7 +127,7 @@ namespace Waveface
 
             btnSend.Text = I18n.L.T("Update");
 
-            btnAddPhoto.Visible = false;
+            //btnAddPhoto.Visible = false;
         }
 
         private void InitNewMode(List<string> files, PostType postType)
@@ -219,7 +219,7 @@ namespace Waveface
 
             if (!m_closeOK)
             {
-                DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), "Waveface", MessageBoxButtons.YesNo,
+                DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), "Stream", MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question);
 
                 if (_dr != DialogResult.Yes)
@@ -335,7 +335,14 @@ namespace Waveface
 
             if (EditMode && !IsBackFromEditMode)
             {
-                photo_UI.AddEditModePhotoFiles(files, Post.attachments);
+                if (files == null)
+                {
+                    photo_UI.AddPhoto();
+                }
+                else
+                {
+                    photo_UI.AddEditModePhotoFiles(files, Post.attachments);
+                }
             }
             else
             {
@@ -380,16 +387,17 @@ namespace Waveface
 
             if (pureTextBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("TextEmpty"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (EditMode)
             {
-                if (!pureTextBox.Text.Trim().Equals(OldText))
+                if (!pureTextBox.Text.Trim().Equals(OldText) || (Post.type != "text"))
                 {
                     Dictionary<string, string> _params = new Dictionary<string, string>();
                     _params.Add("content", pureTextBox.Text.Trim());
+                    _params.Add("type", "text");
 
                     Main.Current.PostUpdate(Post, _params, true);
                 }
@@ -406,7 +414,7 @@ namespace Waveface
 
                     if (_np == null)
                     {
-                        MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface", MessageBoxButtons.OK,
+                        MessageBox.Show(I18n.L.T("PostForm.PostError"), "Stream", MessageBoxButtons.OK,
                                         MessageBoxIcon.Error);
                         return;
                     }
@@ -418,7 +426,7 @@ namespace Waveface
                 }
                 catch (Exception _e)
                 {
-                    MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(_e.Message, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

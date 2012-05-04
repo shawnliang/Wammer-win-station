@@ -60,28 +60,31 @@ namespace Waveface.PostUI
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            if (MyParent.pureTextBox.Text.Trim().Equals(string.Empty))
-            {
-                MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             if (MyParent.EditMode)
             {
-                if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
+                if (m_mrPreviewsGetAdv == null)
                 {
-					Preview_OpenGraph _openGraph = CreateOpenGraph();
+                    if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
+                    {
+                        Dictionary<string, string> _params = new Dictionary<string, string>();
+                        _params.Add("content", MyParent.pureTextBox.Text.Trim());
+
+                        Main.Current.PostUpdate(MyParent.Post, _params, true);
+                    }
+                }
+                else
+                {
+                    Preview_OpenGraph _openGraph = CreateOpenGraph();
                     string previews = JsonConvert.SerializeObject(_openGraph);
-					string type = (previews != "") ? "link" : "text";
+                    string type = (previews != "") ? "link" : "text";
 
                     Dictionary<string, string> _params = new Dictionary<string, string>();
                     _params.Add("content", MyParent.pureTextBox.Text.Trim());
-					
-                    _params.Add("type", type);
-                    _params.Add("attachment_id_array", "[]");
 
-					if (previews != null)
-						_params.Add("preview", previews);
+                    _params.Add("type", type);
+
+                    if (previews != null)
+                        _params.Add("preview", previews);
 
                     Main.Current.PostUpdate(MyParent.Post, _params, true);
                 }
@@ -156,7 +159,7 @@ namespace Waveface.PostUI
 
                 if (_np == null)
                 {
-                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
@@ -265,7 +268,7 @@ namespace Waveface.PostUI
         {
             m_mrPreviewsGetAdv = null;
 
-            if(MyParent.EditMode)
+            if (MyParent.EditMode)
             {
                 buttonPrev.Visible = true;
                 buttonNext.Visible = true;

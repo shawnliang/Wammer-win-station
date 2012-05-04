@@ -294,11 +294,11 @@
                    boldDate.Category.BackColorEnd.IsEmpty || boldDate.Category.BackColorEnd == Color.Transparent ? boldDate.Category.BackColorStart : boldDate.Category.BackColorEnd,
                    boldDate.Category.GradientMode);
             }
-            
+
             //@
-            if(day.TrailingDate)
+            if (day.TrailingDate)
             {
-                if(MonthCalendar.IsWaveface)
+                if (MonthCalendar.IsWaveface)
                 {
                     g.FillRectangle(Brushes.White, rect);
                 }
@@ -339,7 +339,13 @@
                     {
                         // adjust width
                         Rectangle textRect = day.Bounds;
-                        textRect.Width -= 2;
+                        //@ textRect.Width -= 2;
+
+                        if (MonthCalendar.IsWaveface)
+                        {
+                            textRect.Width += 2;
+                            textRect.Height += 3;
+                        }
 
                         // determine if to use bold font
                         bool useBoldFont = day.Date == DateTime.Today || bold;
@@ -370,27 +376,43 @@
                 }
             }
 
+            if (MonthCalendar.IsWaveface)
+            {
+                g.DrawRectangle(Pens.LightGray, rect);
+            }
+
             // if today, draw border
             if (day.Date == DateTime.Today)
             {
                 rect.Height -= 1;
                 rect.Width -= 2;
+
                 Color borderColor = day.Selected ? colors.DaySelectedTodayCircleBorder
                    : (day.MouseOver ? colors.DayActiveTodayCircleBorder : colors.DayTodayCircleBorder);
 
+                if (MonthCalendar.IsWaveface)
+                {
+                    borderColor = Color.DarkCyan;
+                }
+
                 using (Pen p = new Pen(borderColor))
                 {
-                    g.DrawRectangle(p, rect);
+                    if (MonthCalendar.IsWaveface)
+                    {
+                        rect = new Rectangle(rect.Left + 1, rect.Top, rect.Width, rect.Height);
 
-                    rect.Offset(1, 0);
+                        g.DrawRectangle(p, rect);
+                    }
+                    else
+                    {
+                        g.DrawRectangle(p, rect);
 
-                    g.DrawRectangle(p, rect);
+                        rect.Offset(1, 0);
+
+                        g.DrawRectangle(p, rect);
+                    }
                 }
             }
-
-            //@
-            if (MonthCalendar.IsWaveface)
-                g.DrawRectangle(Pens.LightGray, rect);
         }
 
         /// <summary>

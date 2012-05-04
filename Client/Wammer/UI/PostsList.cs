@@ -193,7 +193,7 @@ namespace Waveface
         #region DataGridView
 
         private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
-        private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(234, 234,234));
+        private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(234, 234, 234));
         private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(234, 234, 234)); // 217, 217, 217
 
         private Color m_inforColor = Color.FromArgb(95, 121, 143);
@@ -665,6 +665,12 @@ namespace Waveface
             }
         }
 
+        public void ScrollTo(int index)
+        {
+            dataGridView.FirstDisplayedScrollingRowIndex = index;
+            m_postBS.Position = index;
+        }
+
         public void ScrollToDay(DateTime date)
         {
             int k = -1;
@@ -873,7 +879,7 @@ namespace Waveface
         {
             Post _post = m_postBS[m_postBS.Position] as Post;
 
-            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Waveface", MessageBoxButtons.YesNo,
+            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Stream", MessageBoxButtons.YesNo,
                                                MessageBoxIcon.Question);
 
             if (_dr != DialogResult.Yes)

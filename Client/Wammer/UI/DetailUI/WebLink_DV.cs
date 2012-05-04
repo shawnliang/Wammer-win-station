@@ -285,7 +285,7 @@ namespace Waveface.DetailUI
 
             m_showCancelledNavigationMessage = true;
 
-            // MessageBox.Show("Link Was Clicked Navigation was Cancelled", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            // MessageBox.Show("Link Was Clicked Navigation was Cancelled", "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void webBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
@@ -318,10 +318,17 @@ namespace Waveface.DetailUI
 
         public List<ToolStripMenuItem> GetMoreMenuItems()
         {
-            List<ToolStripMenuItem> _items = new List<ToolStripMenuItem>();
-            _items.Add(miOpenInWebBrowser);
+            if (Post.type == "text")
+            {
+                return new List<ToolStripMenuItem>();
+            }
+            else
+            {
+                List<ToolStripMenuItem> _items = new List<ToolStripMenuItem>();
+                _items.Add(miOpenInWebBrowser);
 
-            return _items;
+                return _items;
+            }
         }
 
         private void miOpenInWebBrowser_Click(object sender, EventArgs e)
