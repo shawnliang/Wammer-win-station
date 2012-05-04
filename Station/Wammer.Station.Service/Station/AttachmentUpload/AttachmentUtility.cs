@@ -14,6 +14,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station.AttachmentUpload
 {
+	[Serializable]
 	class AttachmentUtility : IAttachmentUtil
 	{
 		private static IPerfCounter uploadTaskCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);

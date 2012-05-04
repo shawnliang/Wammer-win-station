@@ -6,6 +6,7 @@ using Wammer.Model;
 
 namespace Wammer.Station.AttachmentUpload
 {
+	[Serializable]
 	class MakeThumbnailAndUpstreamTask: Retry.DelayedRetryTask
 	{
 		private string object_id;
