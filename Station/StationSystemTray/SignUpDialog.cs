@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using Waveface.Localization;
+using StationSystemTray.Properties;
 
 namespace StationSystemTray
 {
@@ -87,6 +88,7 @@ namespace StationSystemTray
         public SignUpDialog()
         {
             InitializeComponent();
+			this.Icon = Resources.Icon;
             webBrowser1.ObjectForScripting = this;
         } 
         #endregion

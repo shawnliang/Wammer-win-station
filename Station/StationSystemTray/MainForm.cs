@@ -23,6 +23,7 @@ using System.Security.Permissions;
 using Waveface.Localization;
 using MongoDB.Driver.Builders;
 using Wammer.PerfMonitor;
+using StationSystemTray.Properties;
 
 namespace StationSystemTray
 {
@@ -125,6 +126,7 @@ namespace StationSystemTray
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
 			this.initMinimized = initMinimized;
+			this.Icon = Resources.Icon;
 
 			m_Timer.Interval = 1000;
 			m_Timer.Tick += (sender, e) => { AdjustIconText(); };

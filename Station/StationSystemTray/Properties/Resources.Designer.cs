@@ -60,6 +60,13 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Icon Icon {
+            get {
+                object obj = ResourceManager.GetObject("Icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap stream_tray_pause {
             get {
                 object obj = ResourceManager.GetObject("stream_tray_pause", resourceCulture);
