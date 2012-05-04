@@ -147,7 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Icon.ico" />
-    <Content Include="Resources\station_icon_256andAll.ico" />
     <None Include="Resources\stream_tray_pause.png" />
     <None Include="Resources\stream_tray_working.png" />
     <None Include="Resources\stream_tray_warn.png" />

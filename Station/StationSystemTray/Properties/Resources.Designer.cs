@@ -60,13 +60,6 @@ namespace StationSystemTray.Properties {
             }
         }
         
-        public static System.Drawing.Icon station_icon_256andAll {
-            get {
-                object obj = ResourceManager.GetObject("station_icon_256andAll", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
         public static System.Drawing.Bitmap stream_tray_pause {
             get {
                 object obj = ResourceManager.GetObject("stream_tray_pause", resourceCulture);
