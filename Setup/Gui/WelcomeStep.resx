@@ -148,7 +148,7 @@
     <value>$this</value>
   </data>
   <data name="lblMode.Text" xml:space="preserve">
-    <value>The wizard will install the Waveface Station and Waveface Desktop on your computer.</value>
+    <value>(see resource.resx)</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>SharpSetup.UI.Forms.Modern.ModernInfoStep, SharpSetup, Version=1.4.1.158, Culture=neutral, PublicKeyToken=null</value>
@@ -172,7 +172,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
-    <value>Welcome to the Waveface installer</value>
+    <value>Welcome to the Stream installer</value>
   </data>
   <data name="lblCopyright.Size" type="System.Drawing.Size, System.Drawing">
     <value>309, 33</value>
@@ -264,10 +264,10 @@
   <data name="&gt;&gt;lblWelcome.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
-  <data name="$this.Language" type="System.Globalization.CultureInfo, mscorlib">
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>zh-TW</value>
-  </data>
+  </metadata>
 </root>

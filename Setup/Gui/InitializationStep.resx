@@ -138,6 +138,9 @@
   <data name="&gt;&gt;pbLeft.Name" xml:space="preserve">
     <value>pbLeft</value>
   </data>
+  <data name="lblInitializing.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
   <data name="lblInitializing.Text" xml:space="preserve">
     <value>Please wait...</value>
   </data>
@@ -180,14 +183,11 @@
   <data name="&gt;&gt;pbLeft.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="lblInitializing.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 10pt, style=Bold</value>
-  </data>
   <data name="lblInitializing.Size" type="System.Drawing.Size, System.Drawing">
     <value>309, 56</value>
   </data>
-  <data name="lblInitializing.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="lblInitializing.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt, style=Bold</value>
   </data>
   <data name="&gt;&gt;lblInitializing.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -212,5 +212,8 @@
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-TW</value>
   </metadata>
 </root>

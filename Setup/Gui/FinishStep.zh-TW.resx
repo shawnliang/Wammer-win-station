@@ -127,7 +127,7 @@
     <value>設定完成</value>
   </data>
   <data name="label_Hint.Text" xml:space="preserve">
-    <value>請點擊 Waveface 桌面捷徑來開始使用。</value>
+    <value>請點擊 Stream 桌面捷徑來開始使用。</value>
   </data>
   <data name="$this.Subtitle" xml:space="preserve">
     <value>安裝已完成</value>
