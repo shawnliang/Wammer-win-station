@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Wammer.Cloud
 {
@@ -21,16 +22,19 @@ namespace Wammer.Cloud
 	public class StationLogOnResponse : CloudResponse
 	{
 		public string session_token { get; set; }
+		public List<UserGroup> groups { get; set; }
+		public List<UserStation> stations { get; set; }
+		public UserInfo user { get; set; }
+		public UserStorages storages { get; set; }
 
 		public StationLogOnResponse()
 			: base()
 		{
 		}
 
-		public StationLogOnResponse(int status, DateTime timestamp, string token)
+		public StationLogOnResponse(int status, DateTime timestamp)
 			: base(status, timestamp)
 		{
-			session_token = token;
 		}
 	}
 

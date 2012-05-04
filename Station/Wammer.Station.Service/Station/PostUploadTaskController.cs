@@ -104,7 +104,7 @@ namespace Wammer
 			Driver driver = DriverCollection.Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", groupId)));
 			if (driver == null)
 			{
-				throw new WammerStationException("Unable to find driver of group " + groupId, (int)StationApiError.InvalidGroup);
+				throw new WammerStationException("Unable to find driver of group " + groupId, (int)StationLocalApiError.InvalidGroup);
 			}
 			return driver.user_id;
 		}

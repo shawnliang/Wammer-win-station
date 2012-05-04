@@ -176,7 +176,7 @@ namespace UT_WammerStation
 				{
 					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(
 						r.ReadToEnd());
-					Assert.AreEqual((int)StationApiError.NotFound, json.api_ret_code);
+					Assert.AreEqual((int)StationLocalApiError.NotFound, json.api_ret_code);
 					Assert.AreEqual("Resource not found: 123", json.api_ret_message);
 				}
 				return;
