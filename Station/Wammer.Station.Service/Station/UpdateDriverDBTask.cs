@@ -34,15 +34,14 @@ namespace Wammer.Station
 			// Temporary comment out this because cloud ruins the original user's session
 			// 
 
-			//using (DefaultWebClient agent = new DefaultWebClient())
-			//{
-			//    Cloud.StationApi api = new Cloud.StationApi(this.station_id, args.session_token);
-			//    api.LogOn(agent, StatusChecker.GetDetail());
+			using (DefaultWebClient agent = new DefaultWebClient())
+			{
+				Cloud.StationApi api = Cloud.StationApi.SignUp(agent, station_id, this.args.session_token, StatusChecker.GetDetail());
 
-			//    DriverCollection.Instance.Update(
-			//        Query.EQ("_id", args.user_id),
-			//        Update.Set("session_token", api.Token));
-			//}
+				DriverCollection.Instance.Update(
+					Query.EQ("_id", args.user_id),
+					Update.Set("session_token", api.Token));
+			}
 		}
 
 		public override void ScheduleToRun()

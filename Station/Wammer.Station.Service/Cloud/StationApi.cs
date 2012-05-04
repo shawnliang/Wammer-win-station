@@ -36,6 +36,22 @@ namespace Wammer.Cloud
 			return new StationApi(stationId, res.session_token);
 		}
 
+		public static StationApi SignUp(WebClient agent, string stationId, string session_token, StationDetail detail)
+		{
+			Dictionary<object, object> param = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_SESSION_TOKEN, session_token},
+				{CloudServer.PARAM_STATION_ID, stationId},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+				{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
+			};
+
+			StationSignUpResponse res =
+				CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
+
+			return new StationApi(stationId, res.session_token);
+		}
+
 		public static StationLogOnResponse LogOn(WebClient agent, string stationId, string email, string passwd, StationDetail detail)
 		{
 			Dictionary<object, object> param = new Dictionary<object, object>
@@ -111,23 +127,23 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_STATION_ID, stationId },
 				{ CloudServer.PARAM_SESSION_TOKEN, sessionToken },
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey },
-                { CloudServer.PARAM_USER_ID, userID }
+				{ CloudServer.PARAM_USER_ID, userID }
 			};
 
 			CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters, false);
 		}
 
-        public static void SignOff(WebClient agent, string stationId, string sessionToken)
-        {
-            Dictionary<object, object> parameters = new Dictionary<object, object>
+		public static void SignOff(WebClient agent, string stationId, string sessionToken)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_STATION_ID, stationId },
 				{ CloudServer.PARAM_SESSION_TOKEN, sessionToken },
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
 			};
 
-            CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters, false);
-        }
+			CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters, false);
+		}
 
 		public void Offline(WebClient agent)
 		{
