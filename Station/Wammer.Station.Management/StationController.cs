@@ -149,7 +149,7 @@ namespace Wammer.Station.Management
 		/// <exception cref="Wammer.Station.Management.ConnectToCloudException">
 		/// Unable to connect to waveface cloud, network down?
 		/// </exception>
-		public static AddUserResult AddUser(string email, string password)
+		public static AddUserResult AddUser(string email, string password, string deviceId, string deviceName)
 		{
 			try
 			{
@@ -159,8 +159,47 @@ namespace Wammer.Station.Management
 					new Dictionary<object, object>{
 						{ "email", email},
 						{ "password", password},
-						{ "device_id", StationRegistry.GetValue("stationId", "")},
-						{ "device_name", Environment.MachineName}
+						{ "device_id", deviceId},
+						{ "device_name", deviceName}
+					},
+					false
+				);
+
+				return new AddUserResult() { UserId = res.UserId, IsPrimaryStation = res.IsPrimaryStation };
+			}
+			catch (Cloud.WammerCloudException e)
+			{
+				if (e.HttpError == WebExceptionStatus.ConnectFailure)
+					throw new StationServiceDownException("Station service down?");
+
+				switch (e.WammerError)
+				{
+					case (int)StationLocalApiError.ConnectToCloudError:
+						throw new ConnectToCloudException(e.Message);
+					case (int)StationLocalApiError.AuthFailed:
+						throw new AuthenticationException(e.Message);
+					case (int)StationLocalApiError.DriverExist:
+						throw new StationAlreadyHasDriverException(e.Message);
+					case (int)AuthApiError.InvalidEmailPassword:
+						throw new AuthenticationException(e.Message);
+					case (int)StationApiError.UserNotExist:
+						throw new AuthenticationException(e.Message);
+					default:
+						throw;
+				}
+			}
+		}
+
+		public static AddUserResult AddUser(string userId, string sessionToken)
+		{
+			try
+			{
+				AddUserResponse res = CloudServer.request<AddUserResponse>(
+					new WebClient(),
+					StationMgmtURL + "station/drivers/add",
+					new Dictionary<object, object>{
+						{ "user_id", userId},
+						{ "session_token", sessionToken}
 					},
 					false
 				);

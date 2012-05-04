@@ -23,10 +23,13 @@ namespace Wammer.PostUpload
 					{
 						if (Parameters.ContainsKey(CloudServer.PARAM_ATTACHMENT_ID_ARRAY))
 						{
-							List<string> attachmentIDs = Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList();
+							var attachmentIDs =
+								from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList()
+								select attachmentString.Trim('"', '"');
+
 							foreach (String id in attachmentIDs)
 							{
-								if (!IsAttachmentExist(id.Trim('"', '"')))
+								if (!IsAttachmentExist(id))
 								{
 									throw new WammerStationException("Attachment " + id + " does not exist", (int)StationLocalApiError.NotReady);
 								}
@@ -34,11 +37,6 @@ namespace Wammer.PostUpload
 						}
 
 						PostApi postApi = new PostApi(driver);
-						if (IsPostExist(postApi, agent))
-						{
-							// give up the task if the post id is already used by another post
-							return;
-						}
 						postApi.NewPost(agent, this.PostId, this.Timestamp, this.Parameters);
 					}
 					catch (WammerCloudException e)
