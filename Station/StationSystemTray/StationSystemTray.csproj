@@ -49,6 +49,9 @@
     <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="StationSystemTray, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
@@ -63,6 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Control\FBLoginButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Control\FBLoginButton.Designer.cs">
+      <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </Compile>
     <Compile Include="Control\TabControlEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -98,6 +107,9 @@
     <Compile Include="SimpleUIController.cs" />
     <Compile Include="StateMachine.cs" />
     <Compile Include="Win32Helper.cs" />
+    <EmbeddedResource Include="Control\FBLoginButton.resx">
+      <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -158,6 +170,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\FB_Logo.png" />
     <Content Include="Resources\Icon.ico" />
     <Content Include="Resources\station_icon_256andAll.ico" />
     <None Include="Resources\stream_tray_pause.png" />
