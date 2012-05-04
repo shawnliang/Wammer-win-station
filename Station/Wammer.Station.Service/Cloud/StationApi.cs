@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 
 using Wammer.Utility;
@@ -14,56 +14,32 @@ namespace Wammer.Cloud
 			this.Token = stationToken;
 		}
 
-		public static StationApi SignUp(WebClient agent, string stationId, string email, string passwd)
+		public static StationSignUpResponse SignUpBySession(WebClient agent, string sessionToken, string stationId)
 		{
-			return SignUp(agent, stationId, email, passwd, CloudServer.APIKey);
+			Dictionary<object, object> param = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_STATION_ID, stationId},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+				{CloudServer.PARAM_SESSION_TOKEN, sessionToken}
+			};
+
+			StationSignUpResponse res = CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
+			return res;
 		}
 
-
-		public static StationApi SignUp(WebClient agent, string stationId, string email, string passwd, string apiKey)
+		public static StationSignUpResponse SignUpByEmailPassword(WebClient agent, string stationId, string email, string passwd, string deviceId, string deviceName)
 		{
 			Dictionary<object, object> param = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_EMAIL, email},
 				{CloudServer.PARAM_PASSWORD, passwd},
+				{CloudServer.PARAM_DEVICE_ID, deviceId},
+				{CloudServer.PARAM_DEVICE_NAME, deviceName},
 				{CloudServer.PARAM_STATION_ID, stationId},
-				{CloudServer.PARAM_API_KEY, apiKey}
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
-			StationSignUpResponse res =
-				CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
-
-			return new StationApi(stationId, res.session_token);
-		}
-
-		public static StationApi SignUp(WebClient agent, string stationId, string session_token, StationDetail detail)
-		{
-			Dictionary<object, object> param = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_SESSION_TOKEN, session_token},
-				{CloudServer.PARAM_STATION_ID, stationId},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-				{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
-			};
-
-			StationSignUpResponse res =
-				CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
-
-			return new StationApi(stationId, res.session_token);
-		}
-
-		public static StationLogOnResponse LogOn(WebClient agent, string stationId, string email, string passwd, StationDetail detail)
-		{
-			Dictionary<object, object> param = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_EMAIL, email},
-				{CloudServer.PARAM_PASSWORD, passwd},
-				{CloudServer.PARAM_STATION_ID, stationId},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-				{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
-			};
-
-			StationLogOnResponse res = CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", param, false);
+			StationSignUpResponse res = CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
 			return res;
 		}
 
@@ -127,23 +103,23 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_STATION_ID, stationId },
 				{ CloudServer.PARAM_SESSION_TOKEN, sessionToken },
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey },
-				{ CloudServer.PARAM_USER_ID, userID }
+                { CloudServer.PARAM_USER_ID, userID }
 			};
 
 			CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters, false);
 		}
 
-		public static void SignOff(WebClient agent, string stationId, string sessionToken)
-		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+        public static void SignOff(WebClient agent, string stationId, string sessionToken)
+        {
+            Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_STATION_ID, stationId },
 				{ CloudServer.PARAM_SESSION_TOKEN, sessionToken },
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
 			};
 
-			CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters, false);
-		}
+            CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters, false);
+        }
 
 		public void Offline(WebClient agent)
 		{

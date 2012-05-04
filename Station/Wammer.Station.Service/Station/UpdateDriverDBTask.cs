@@ -30,17 +30,13 @@ namespace Wammer.Station
 				return;
 			}
 
-			//
-			// Temporary comment out this because cloud ruins the original user's session
-			// 
-
 			using (DefaultWebClient agent = new DefaultWebClient())
 			{
-				Cloud.StationApi api = Cloud.StationApi.SignUp(agent, station_id, this.args.session_token, StatusChecker.GetDetail());
+				Cloud.StationSignUpResponse api = Cloud.StationApi.SignUpBySession(agent, this.args.session_token, station_id);
 
 				DriverCollection.Instance.Update(
 					Query.EQ("_id", args.user_id),
-					Update.Set("session_token", api.Token));
+					Update.Set("session_token", api.session_token));
 			}
 		}
 

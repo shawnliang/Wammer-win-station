@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Wammer.Utility;
+using Wammer.Model;
 
 namespace Wammer.Cloud
 {
@@ -43,8 +44,12 @@ namespace Wammer.Cloud
 	public class UserInfo
 	{
 		public string user_id { get; set; }
+		public List<Device> devices { get; set; }
+		public string state { get; set; }
 		public string avatar_url { get; set; }
+		public bool verified { get; set; }
 		public string nickname { get; set; }
+		public string email { get; set; }
 	}
 
 	public class UserStorages
@@ -97,6 +102,7 @@ namespace Wammer.Cloud
 		public List<UserGroup> groups { get; set; }
 		public List<UserStation> stations { get; set; }
 		public UserInfo user { get; set; }
+		public UserStorages storages { get; set; }
 
 		public UserLogInResponse()
 			: base()
@@ -112,6 +118,7 @@ namespace Wammer.Cloud
 
 	public class GetUserResponse : CloudResponse
 	{
+		public string session_token { get; set; }
 		public List<UserGroup> groups { get; set; }
 		public List<UserStation> stations { get; set; }
 		public UserInfo user { get; set; }
@@ -122,12 +129,9 @@ namespace Wammer.Cloud
 		{
 		}
 
-		public GetUserResponse(int status, DateTime timestamp, List<UserGroup> groups, List<UserStation> stations, UserInfo user)
+		public GetUserResponse(int status, DateTime timestamp)
 			: base(status, timestamp)
 		{
-			this.groups = groups;
-			this.stations = stations;
-			this.user = user;
 		}
 	}
 }

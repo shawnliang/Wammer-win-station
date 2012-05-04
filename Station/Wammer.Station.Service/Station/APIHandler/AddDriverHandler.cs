@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using log4net;
 using MongoDB.Driver.Builders;
+using MongoDB.Driver;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
@@ -31,40 +32,89 @@ namespace Wammer.Station
 
 		public override void HandleRequest()
 		{
-			CheckParameter(
-				CloudServer.PARAM_EMAIL,
-				CloudServer.PARAM_PASSWORD,
-				CloudServer.PARAM_DEVICE_ID,
-				CloudServer.PARAM_DEVICE_NAME);
-
-			string email = Parameters[CloudServer.PARAM_EMAIL];
-			string password = Parameters[CloudServer.PARAM_PASSWORD];
-			string deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
-			string deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
-
-			using (WebClient client = new DefaultWebClient())
+			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
 			{
-				try
+				string sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
+				string userId = Parameters[CloudServer.PARAM_USER_ID];
+
+				Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
+				if (existingDriver != null)
+				{
+					existingDriver.ref_count += 1;
+					DriverCollection.Instance.Save(existingDriver);
+					RespondSuccess(new AddUserResponse
+					{
+						UserId = existingDriver.user_id,
+						IsPrimaryStation = existingDriver.isPrimaryStation
+					});
+				}
+				else
+				{
+					StationSignUpResponse res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId);
+					StationCollection.Instance.Update(
+						Query.EQ("_id", stationId),
+						Update.Set("SessionToken", res.session_token)
+							.Set("Location", NetworkHelper.GetBaseURL())
+							.Set("LastLogOn", DateTime.Now),
+						UpdateFlags.Upsert
+					);
+
+					Driver driver = new Driver
+					{
+						user_id = res.user.user_id,
+						email = res.user.email,
+						groups = res.groups,
+						folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
+						session_token = res.session_token,
+						isPrimaryStation = IsThisPrimaryStation(res.stations),
+						ref_count = 1
+					};
+
+					Directory.CreateDirectory(driver.folder);
+
+					OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
+
+					DriverCollection.Instance.Save(driver);
+
+					OnDriverAdded(new DriverAddedEvtArgs(driver));
+
+					RespondSuccess(new AddUserResponse
+					{
+						UserId = driver.user_id,
+						IsPrimaryStation = driver.isPrimaryStation
+					});
+				}
+			}
+			else
+			{
+				CheckParameter(CloudServer.PARAM_EMAIL,
+							   CloudServer.PARAM_PASSWORD,
+							   CloudServer.PARAM_DEVICE_ID,
+							   CloudServer.PARAM_DEVICE_NAME);
+
+				string email = Parameters[CloudServer.PARAM_EMAIL];
+				string password = Parameters[CloudServer.PARAM_PASSWORD];
+				string deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
+				string deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
+
+				using (WebClient agent = new DefaultWebClient())
 				{
 					Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
-					Boolean isDriverExists = existingDriver != null;
 
-					Driver driver = null;
-					User user = null;
-					
-					if (isDriverExists)
+					if (existingDriver != null)
 					{
-						user = User.LogIn(client, email, password, deviceId, deviceName);
+						// check if this email is re-registered, if yes, delete old driver's data
+						User user = User.LogIn(agent, email, password, deviceId, deviceName);
 
 						if (user == null)
-							throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);
+							throw new WammerStationException("Logined user not found", (int)StationLocalApiError.AuthFailed);
 
-						if(user.Id == existingDriver.user_id)
+						if (user.Id == existingDriver.user_id)
 						{
 							existingDriver.ref_count += 1;
 							DriverCollection.Instance.Save(existingDriver);
 
-							RespondSuccess(new AddUserResponse()
+							RespondSuccess(new AddUserResponse
 							{
 								UserId = existingDriver.user_id,
 								IsPrimaryStation = existingDriver.isPrimaryStation
@@ -79,72 +129,46 @@ namespace Wammer.Station
 							Directory.Delete(existingDriver.folder, true);
 
 						//All driver removed => Remove station from db
-						driver = DriverCollection.Instance.FindOne();
-						if (driver == null)
+						if (DriverCollection.Instance.FindOne() == null)
 							StationCollection.Instance.RemoveAll();
 					}
 
-					string stationToken = SignUpStation(email, password, client);		
+					StationSignUpResponse res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceId, deviceName);
+					StationCollection.Instance.Update(
+						Query.EQ("_id", stationId),
+						Update.Set("SessionToken", res.session_token)
+							.Set("Location", NetworkHelper.GetBaseURL())
+							.Set("LastLogOn", DateTime.Now),
+						UpdateFlags.Upsert
+					);
 
-					if(!isDriverExists)
-						user = User.LogIn(client, email, password, "deviceId", "deviceName");
-
-					if (user == null)
-						throw new WammerStationException("Logined user not found", (int)StationApiError.AuthFailed);
-
-					driver = new Driver
+					Driver driver = new Driver
 					{
+						user_id = res.user.user_id,
 						email = email,
-						folder = Path.Combine(resourceBasePath, "user_" + user.Id),
-						user_id = user.Id,
-						groups = user.Groups,
-						session_token = stationToken,
-						isPrimaryStation = IsThisPrimaryStation(user.Stations),
+						folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
+						groups = res.groups,
+						session_token = res.session_token,
+						isPrimaryStation = IsThisPrimaryStation(res.stations),
 						ref_count = 1
 					};
 
-					if (!Directory.Exists(driver.folder))
-						Directory.CreateDirectory(driver.folder);
+					Directory.CreateDirectory(driver.folder);
 
 					OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
 
 					DriverCollection.Instance.Save(driver);
 
-					StationCollection.Instance.Save(
-						new StationInfo
-						{
-							Id = stationId,
-							SessionToken = stationToken,
-							Location = NetworkHelper.GetBaseURL(),
-							LastLogOn = DateTime.Now
-						}
-					);
 
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
-					RespondSuccess(new AddUserResponse() 
-						{ 
-							UserId = user.Id, 
-							IsPrimaryStation = driver.isPrimaryStation 
-						});
-				}
-				catch (WammerCloudException ex)
-				{
-					logger.WarnFormat("Unable to add user {0} to station", email);
-					logger.Warn(ex.ToString());
-
-					if (ex.HttpError != WebExceptionStatus.ProtocolError)
-						throw new WammerStationException(
-							"Unable to connect to waveface cloud. Network error?", 
-							(int)StationApiError.ConnectToCloudError);
-					if (ex.WammerError == ERR_BAD_NAME_PASSWORD)
-						throw new WammerStationException(
-							"Bad user name or password", (int)StationApiError.AuthFailed);
-					else
-						throw;
+					RespondSuccess(new AddUserResponse
+					{
+						UserId = driver.user_id,
+						IsPrimaryStation = driver.isPrimaryStation
+					});
 				}
 			}
-
 		}
 
 		private bool IsThisPrimaryStation(List<UserStation> stations)
@@ -162,14 +186,6 @@ namespace Wammer.Station
 				}
 
 			return false;
-		}
-
-
-		private string SignUpStation(string email, string password, WebClient agent)
-		{
-			StationApi api = StationApi.SignUp(agent, stationId, email, password);
-			api.LogOn(agent, StatusChecker.GetDetail());
-			return api.Token;
 		}
 
 		private void OnDriverAdded(DriverAddedEvtArgs args)

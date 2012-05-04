@@ -77,7 +77,7 @@ namespace Wammer.Station
 						if (!Regex.IsMatch(content, URL_MATCH_PATTERN, RegexOptions.IgnoreCase))
 						{
 							throw new WammerStationException(
-								"content incorrect!", (int)StationApiError.Error);
+								"content incorrect!", (int)StationLocalApiError.Error);
 						}
 					}
 				}
@@ -120,7 +120,7 @@ namespace Wammer.Station
 
 				if (previewObj == null)
 					throw new WammerStationException(
-						"preview format incorrect!", (int)StationApiError.Error);
+						"preview format incorrect!", (int)StationLocalApiError.Error);
 
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("preview", previewObj.ToBsonDocument()));
 
@@ -189,7 +189,7 @@ namespace Wammer.Station
 			var driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
 			if (driver == null)
 				throw new WammerStationException(
-							"Driver not found!", (int)StationApiError.InvalidDriver);
+							"Driver not found!", (int)StationLocalApiError.InvalidDriver);
 
 			var api = new PostApi(driver);
 			var singlePostResponse = api.PostGetSingle(new DefaultWebClient(), groupID, postID);
@@ -197,7 +197,7 @@ namespace Wammer.Station
 			var responsePost = singlePostResponse.post;
 			if (responsePost == null)
 				throw new WammerStationException(
-						"Post not found!", (int)StationApiError.NotFound);
+						"Post not found!", (int)StationLocalApiError.NotFound);
 
 			PostCollection.Instance.Save(responsePost);
 		}
@@ -249,7 +249,7 @@ namespace Wammer.Station
 
 				if (loginedSession == null)
 					throw new WammerStationException(
-								"Logined session not found!", (int)StationApiError.NotFound);
+								"Logined session not found!", (int)StationLocalApiError.NotFound);
 
 				var codeName = loginedSession.apikey.name;
 
@@ -286,7 +286,7 @@ namespace Wammer.Station
 
 			if(Parameters.Count <= 5)
 				throw new WammerStationException(
-						"Without any optional parameter!", (int)StationApiError.Error);
+						"Without any optional parameter!", (int)StationLocalApiError.Error);
 						
 			var type = Parameters[CloudServer.PARAM_TYPE];
 			if (type == "link")
@@ -301,7 +301,7 @@ namespace Wammer.Station
 			var post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
 			if (post == null)
 				throw new WammerStationException(
-							"Post not found!", (int)StationApiError.NotFound);
+							"Post not found!", (int)StationLocalApiError.NotFound);
 
 			UpdateType(post);
 			UpdateContent(post);

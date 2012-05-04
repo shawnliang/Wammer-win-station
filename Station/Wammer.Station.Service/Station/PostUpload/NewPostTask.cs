@@ -28,7 +28,7 @@ namespace Wammer.PostUpload
 							{
 								if (!IsAttachmentExist(id.Trim('"', '"')))
 								{
-									throw new WammerStationException("Attachment " + id + " does not exist", (int)StationApiError.NotReady);
+									throw new WammerStationException("Attachment " + id + " does not exist", (int)StationLocalApiError.NotReady);
 								}
 							}
 						}
