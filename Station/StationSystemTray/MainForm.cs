@@ -20,7 +20,6 @@ using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;
 using System.Security.Permissions;
-using Waveface.Localization;
 using MongoDB.Driver.Builders;
 using Wammer.PerfMonitor;
 using StationSystemTray.Properties;
@@ -179,8 +178,8 @@ namespace StationSystemTray
 			NetworkChange.NetworkAddressChanged += checkStationTimer_Tick;
 
 			this.CurrentState = CreateState(StationStateEnum.Initial);
-			this.menuServiceAction.Text = I18n.L.T("PauseWFService");
-			this.menuQuit.Text = I18n.L.T("QuitWFService");
+			this.menuServiceAction.Text = Properties.Resources.PauseWFService;
+			this.menuQuit.Text =  Properties.Resources.QuitWFService;
 			RefreshUserList();
 
 			this.checkStationTimer.Enabled = true;
@@ -456,7 +455,7 @@ namespace StationSystemTray
 			else
 			{
 				TrayIcon.Icon = iconPaused;
-				TrayIconText = I18n.L.T("StartingWFService");
+				TrayIconText = Properties.Resources.StartingWFService;
 
 				menuServiceAction.Enabled = false;
 			}
@@ -474,8 +473,8 @@ namespace StationSystemTray
 			else
 			{
 				TrayIcon.Icon = iconRunning;
-				TrayIconText = I18n.L.T("WFServiceRunning");
-				menuServiceAction.Text = I18n.L.T("PauseWFService");
+				TrayIconText = Properties.Resources.WFServiceRunning;
+				menuServiceAction.Text = Properties.Resources.PauseWFService;
 
 				menuServiceAction.Enabled = true;
 			}
@@ -493,8 +492,8 @@ namespace StationSystemTray
 			else
 			{
 				TrayIcon.Icon = iconPaused;
-				TrayIconText = I18n.L.T("WFServiceStopped");
-				menuServiceAction.Text = I18n.L.T("ResumeWFService");
+				TrayIconText = Properties.Resources.WFServiceStopped;
+				menuServiceAction.Text = Properties.Resources.ResumeWFService;
 
 				menuServiceAction.Enabled = true;
 			}
@@ -512,7 +511,7 @@ namespace StationSystemTray
 			else
 			{
 				menuServiceAction.Enabled = false;
-				TrayIconText = I18n.L.T("StartingWFService");
+				TrayIconText = Properties.Resources.StartingWFService;
 
 				this.uictrlResumeService.PerformAction();
 			}
@@ -530,7 +529,7 @@ namespace StationSystemTray
 			else
 			{
 				menuServiceAction.Enabled = false;
-				TrayIconText = I18n.L.T("PausingWFService");
+				TrayIconText = Properties.Resources.PausingWFService;
 
 				this.uictrlPauseService.PerformAction();
 			}
@@ -637,19 +636,19 @@ namespace StationSystemTray
 			if (this.TrayIcon.Icon != iconRunning)
 			{
 				//TODO: multi-languange support
-				MessageBox.Show("Please start service first", "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show("Please start service first", "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
 			if ((cmbEmail.Text == string.Empty) || (txtPassword.Text == string.Empty))
 			{
-				MessageBox.Show(I18n.L.T("FillAllFields"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Properties.Resources.FillAllFields, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
 			if (!TestEmailFormat(cmbEmail.Text))
 			{
-				MessageBox.Show(I18n.L.T("InvalidEmail"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Properties.Resources.InvalidEmail, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -699,22 +698,22 @@ namespace StationSystemTray
 			}
 			catch (AuthenticationException)
 			{
-				MessageBox.Show(I18n.L.T("AuthError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Properties.Resources.AuthError, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
 				txtPassword.Text = string.Empty;
 				txtPassword.Focus();
 			}
 			catch (StationServiceDownException)
 			{
-				MessageBox.Show(I18n.L.T("StationDown"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Properties.Resources.StationDown, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{
-				MessageBox.Show(I18n.L.T("ConnectCloudError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Properties.Resources.ConnectCloudError, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (Exception)
 			{
-				MessageBox.Show(I18n.L.T("UnknownSigninError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Properties.Resources.UnknownSigninError, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			finally
 			{
@@ -747,17 +746,17 @@ namespace StationSystemTray
 			}
 			catch (AuthenticationException)
 			{
-				MessageBox.Show(I18n.L.T("AuthError"));
+				MessageBox.Show(Properties.Resources.AuthError);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			catch (ConnectToCloudException)
 			{
-				MessageBox.Show(I18n.L.T("ConnectCloudError"));
+				MessageBox.Show(Properties.Resources.ConnectCloudError);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(I18n.L.T("LogInError") + "\r\n" + e.Message);
+				MessageBox.Show(Properties.Resources.LogInError + "\r\n" + e.Message);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			finally
@@ -913,7 +912,7 @@ namespace StationSystemTray
 
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
-			if (menuSignIn.Text == I18n.L.T("LogoutMenuItem"))
+			if (menuSignIn.Text == Properties.Resources.LogoutMenuItem)
 			{
 				var userlogin = userloginContainer.GetLastUserLogin();
 				LoginedSession loginedSession = null;
@@ -942,7 +941,7 @@ namespace StationSystemTray
 
 			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
 			
-			menuSignIn.Text = isUserLogined ? I18n.L.T("LogoutMenuItem") : I18n.L.T("LoginMenuItem");
+			menuSignIn.Text = isUserLogined ? Properties.Resources.LogoutMenuItem :  Properties.Resources.LoginMenuItem;
 		}
 
 		private void cmbEmail_TextChanged(object sender, EventArgs e)

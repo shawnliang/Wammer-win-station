@@ -8,8 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
-using Waveface.Localization;
 using StationSystemTray.Properties;
+using System.Threading;
 
 namespace StationSystemTray
 {
@@ -42,7 +42,7 @@ namespace StationSystemTray
             {
                 if (_SignUpPage == null)
                 {
-                    string cultureName = CultureManager.ApplicationUICulture.Name;
+                    string cultureName = Thread.CurrentThread.CurrentCulture.Name;
                     if (Wammer.Cloud.CloudServer.BaseUrl.Contains("develop.waveface.com"))
                     {
                         _SignUpPage = string.Format(DEV_WEB_SIGNUP_PAGE_URL_PATTERN, cultureName);

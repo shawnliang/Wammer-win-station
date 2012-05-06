@@ -119,108 +119,108 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="AuthError" xml:space="preserve">
-    <value>Invalid user name or password. Please try again.</value>
+    <value>帳號或密碼錯誤, 請再試一次.</value>
   </data>
   <data name="ChangeOwnerError" xml:space="preserve">
-    <value>Unable to deassociate user with Stream Station. Please try again.</value>
+    <value>無法分離使用者與Stream station  請再試一次</value>
   </data>
   <data name="ChangeOwnerSuccess" xml:space="preserve">
-    <value>User '{0}' is unassociated with Stream Station successfully.
-      Please restart Stream to continue assign a new Stream Station user</value>
+    <value>Stream Station已經成功的和 {0} 分離
+請重新啟動程式後繼續指定Stream Station使用者</value>
   </data>
   <data name="ChangeOwnerWarning" xml:space="preserve">
-    <value>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Stream Station.</value>
+    <value>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</value>
   </data>
   <data name="CleanResourceMsg" xml:space="preserve">
-    <value>Do you want to remove all files of {0} on this computer?</value>
+    <value>是否要將 {0} 在本機儲存的所有檔案刪除？</value>
   </data>
   <data name="ConnectCloudError" xml:space="preserve">
-    <value>Unable to connect to Stream Cloud</value>
+    <value>無法連接 Stream 伺服器</value>
   </data>
   <data name="ConnectCloudStorageFail" xml:space="preserve">
-    <value>Unable to connect to Dropbox</value>
+    <value>無法連結 Dropbox</value>
   </data>
   <data name="Connected" xml:space="preserve">
-    <value>Accessible from internet</value>
+    <value>外部網路存取正常</value>
   </data>
   <data name="DropboxUI_ConnectNow" xml:space="preserve">
-    <value>Connect Now</value>
+    <value>立刻進行連結</value>
   </data>
   <data name="DropboxUI_Disconnect" xml:space="preserve">
-    <value>Disconnect</value>
+    <value>解除連結</value>
   </data>
   <data name="FillAllFields" xml:space="preserve">
-    <value>Please fill all the fields!</value>
+    <value>請填寫所有欄位.</value>
   </data>
   <data name="Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Icon.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="InvalidDriverError" xml:space="preserve">
-    <value>The user name is different to the driver account of this Stream Station. Please try again.</value>
+    <value>帳號與這台 Stream Station 的管理者帳號不符, 請再試一次.</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
-    <value>invalid email</value>
+    <value>Invalid Email</value>
   </data>
   <data name="LogInError" xml:space="preserve">
-    <value>Log In error. Please try again.</value>
+    <value>登錄時發生錯誤, 請重新輸入.</value>
   </data>
   <data name="LoginMenuItem" xml:space="preserve">
-    <value>Login...</value>
+    <value>登入...</value>
   </data>
   <data name="LogoutMenuItem" xml:space="preserve">
-    <value>Logout...</value>
+    <value>登出...</value>
   </data>
   <data name="MonthlyUsage_NotConnectedYet" xml:space="preserve">
-    <value>Not connected yet</value>
+    <value>尚未連結</value>
   </data>
   <data name="MonthlyUsage_Unlimited" xml:space="preserve">
-    <value>Unlimited</value>
+    <value>無上限</value>
   </data>
   <data name="NetworkConnected" xml:space="preserve">
-    <value>Network connected</value>
+    <value>網路連線</value>
   </data>
   <data name="NetworkDisconnected" xml:space="preserve">
-    <value>Network disconnected</value>
+    <value>網路斷線</value>
   </data>
   <data name="NoData" xml:space="preserve">
     <value>---</value>
   </data>
   <data name="NotConnected" xml:space="preserve">
-    <value>Inaccessible from internet</value>
+    <value>無法從外部網路存取</value>
   </data>
   <data name="PauseWFService" xml:space="preserve">
-    <value>Pause sync</value>
+    <value>暫停同步</value>
   </data>
   <data name="PausingWFService" xml:space="preserve">
-    <value>Pausing sync...</value>
+    <value>正在暫停同步...</value>
   </data>
   <data name="QuitWFService" xml:space="preserve">
-    <value>Quit</value>
+    <value>離開</value>
   </data>
   <data name="RegisteredRequired" xml:space="preserve">
-    <value>Stream Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
-      Please restart the program to initialize Stream Station.</value>
+    <value>無法使用Stream Station, 因為{0}設定了另一個Stream Station或是該帳號不存在
+請重新啟動程式再次初始化Stream Station</value>
   </data>
   <data name="ResumeWFService" xml:space="preserve">
-    <value>Resume sync</value>
+    <value>重啟同步</value>
   </data>
   <data name="ResumingWFService" xml:space="preserve">
-    <value>Resuming Sync...</value>
+    <value>正在重啟同步...</value>
   </data>
   <data name="StartingWFService" xml:space="preserve">
-    <value>Starting sync...</value>
+    <value>正在啟動同步...</value>
   </data>
   <data name="Station401Exception" xml:space="preserve">
-    <value>Your authentication is expired. Please log in again.</value>
+    <value>您的認證資訊已經過期, 請重新輸入密碼以便登入.</value>
   </data>
   <data name="StationDown" xml:space="preserve">
     <value>Station Down</value>
   </data>
   <data name="StationExpired" xml:space="preserve">
-    <value>The registration information of this Stream Station is expired. Please restart the program to re-register the station.</value>
+    <value>這台 Stream Station 的註冊資訊已失效, 請重新啟動程式以註冊新的 Stream Station.</value>
   </data>
   <data name="StationServiceDown" xml:space="preserve">
-    <value>Stream Station service is not completely started. Please wait for a while and try again, or ensure the running status of Stream Station windows service.</value>
+    <value>Stream Station服務未完全啟動, 請稍候一會再登入, 或確認Stream Station服務啟動狀態.</value>
   </data>
   <data name="stream_tray_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stream_tray_pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -232,33 +232,33 @@
     <value>..\Resources\stream_tray_working.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SystemError" xml:space="preserve">
-    <value>There appears to be an error with the system. Please try again later.</value>
+    <value>抱歉, 系統發生未預期錯誤, 請稍後再試.</value>
   </data>
   <data name="Testing" xml:space="preserve">
-    <value>Testing ...</value>
+    <value>測試中 ...</value>
   </data>
   <data name="UnknownSigninError" xml:space="preserve">
     <value>UnknownSigninError</value>
   </data>
   <data name="UnlinkCloudStorageFail" xml:space="preserve">
-    <value>Unable to disconnect from Dropbox</value>
+    <value>無法解除 Dropbox 的連結</value>
   </data>
   <data name="UserExisted" xml:space="preserve">
-    <value>There is already an account with that name. Please type a different name.</value>
+    <value>使用者帳號已存在, 請輸入不同的帳號.</value>
   </data>
   <data name="UserNotExisted" xml:space="preserve">
-    <value>Driver account is deleted. Please restart the program to re-register the station with a valid driver account.</value>
+    <value>管理者帳號已被刪除. 請重新啟動程式並用有效的管理者帳號註冊新的 Stream Station.</value>
   </data>
   <data name="WFPreference" xml:space="preserve">
-    <value>Preference...</value>
+    <value>偏好設定...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>Stream Station is syncing</value>
+    <value>Stream Station 同步中</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
-    <value>Unable to start syncing</value>
+    <value>無法啟動同步</value>
   </data>
   <data name="WFServiceStopped" xml:space="preserve">
-    <value>Stream Station is stop syncing</value>
+    <value>無法啟動同步</value>
   </data>
 </root>

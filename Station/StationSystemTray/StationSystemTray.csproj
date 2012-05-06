@@ -66,7 +66,6 @@
     <Compile Include="Control\TabControlEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="I18n.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +114,9 @@
     <EmbeddedResource Include="CleanResourceForm.zh-TW.resx">
       <DependentUpon>CleanResourceForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-CHT.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SignUpDialog.resx">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -132,10 +134,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
-      <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
-      <Name>Localizer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Wammer.Station.Management\Wammer.Station.Management.csproj">
       <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
       <Name>Wammer.Station.Management</Name>
