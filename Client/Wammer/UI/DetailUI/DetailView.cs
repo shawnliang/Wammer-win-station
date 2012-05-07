@@ -456,7 +456,7 @@ namespace Waveface
             GC.Collect(); // Hack
         }
 
-        public bool PostComment(WaterMarkRichTextBox textBox, Post post)
+        public bool PostComment(RichTextBox textBox, Post post)
         {
             if (!Main.Current.CheckNetworkStatus())
                 return false;
@@ -467,7 +467,7 @@ namespace Waveface
                 return false;
             }
 
-            MR_posts_newComment _postsNewComment = Main.Current.RT.REST.Posts_NewComment(post.post_id, textBox.Text, "", "");
+            MR_posts_newComment _postsNewComment = Main.Current.RT.REST.Posts_NewComment(post.post_id, StringUtility.LimitByteLength(StringUtility.RichTextBox_ReplaceNewline(textBox.Text), 1000), "", "");
 
             if (_postsNewComment != null)
             {
@@ -534,6 +534,7 @@ namespace Waveface
             return _html;
         }
 
+        /*
         private void AddComment()
         {
             m_commentPopup.Width = (Width * 3) / 4;
@@ -541,6 +542,24 @@ namespace Waveface
             m_commentPopupPanel.CommentTextBox.Text = string.Empty;
             m_commentPopup.Show(btnMoreOptions, (-1 * m_commentPopupPanel.Width) + btnMoreOptions.Width, btnMoreOptions.Height);
             m_commentPopupPanel.CommentTextBox.Focus();
+        }
+        */
+
+        private void AddComment_Form()
+        {
+            CommentForm _form = new CommentForm();
+            _form.Left = Main.Current.Right - _form.Width - 16;
+            _form.Top = Main.Current.Top + 96;
+
+            DialogResult _dr = _form.ShowDialog();
+
+            if(_dr == DialogResult.OK)
+            {
+                if (PostComment(_form.CommentTextBox, m_post))
+                {
+                    m_commentPopup.Hide();
+                }
+            }
         }
 
         void buttonAddComment_Click(object sender, EventArgs e)
@@ -609,7 +628,9 @@ namespace Waveface
 
         private void miAddFootnote_Click(object sender, EventArgs e)
         {
-            AddComment();
+            // AddComment();
+
+            AddComment_Form();
         }
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -664,7 +685,7 @@ namespace Waveface
             {
                 m_dateTimePopupPanel.DateTime = dateTime;
 
-                m_dateTimePopup.Show(this, 4, 44);    
+                m_dateTimePopup.Show(this, 4, 44);
             }
         }
 

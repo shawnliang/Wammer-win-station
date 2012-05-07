@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,842 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="contextMenuStripEdit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="&gt;&gt;copyToolStripMenuItem.Name" xml:space="preserve">
+    <value>copyToolStripMenuItem</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="contextMenuStripEdit.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="cutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="cutToolStripMenuItem.Text" xml:space="preserve">
-    <value>Cut</value>
-  </data>
   <data name="copyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>104, 22</value>
   </data>
-  <data name="copyToolStripMenuItem.Text" xml:space="preserve">
-    <value>Copy</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="buttonAddComment.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="pasteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 14</value>
+  </data>
+  <data name="&gt;&gt;pasteToolStripMenuItem.Name" xml:space="preserve">
+    <value>pasteToolStripMenuItem</value>
   </data>
   <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
     <value>Paste</value>
-  </data>
-  <data name="contextMenuStripEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 92</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripEdit.Name" xml:space="preserve">
-    <value>contextMenuStripEdit</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripEdit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>339, 17</value>
-  </metadata>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnAddPhoto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="btnAddPhoto.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="btnAddPhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 2</value>
-  </data>
-  <data name="btnAddPhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 26</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnAddPhoto.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="btnAddPhoto.Text" xml:space="preserve">
-    <value>Add Photo</value>
-  </data>
-  <data name="btnAddPhoto.ToolTip" xml:space="preserve">
-    <value>Add Photo</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.Name" xml:space="preserve">
-    <value>btnAddPhoto</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;btnAddPhoto.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="richText_UI.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="richText_UI.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="richText_UI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="richText_UI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 202</value>
-  </data>
-  <data name="richText_UI.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;richText_UI.Name" xml:space="preserve">
-    <value>richText_UI</value>
-  </data>
-  <data name="&gt;&gt;richText_UI.Type" xml:space="preserve">
-    <value>Waveface.PostUI.RichText, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;richText_UI.Parent" xml:space="preserve">
-    <value>panelRichText_Main</value>
-  </data>
-  <data name="&gt;&gt;richText_UI.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelRichText_Main.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelRichText_Main.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 30</value>
-  </data>
-  <data name="panelRichText_Main.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 202</value>
-  </data>
-  <data name="panelRichText_Main.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;panelRichText_Main.Name" xml:space="preserve">
-    <value>panelRichText_Main</value>
-  </data>
-  <data name="&gt;&gt;panelRichText_Main.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelRichText_Main.Parent" xml:space="preserve">
-    <value>panelRichTextPanel</value>
-  </data>
-  <data name="&gt;&gt;panelRichText_Main.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnPureText.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnPureText.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 8.25pt</value>
-  </data>
-  <data name="btnPureText.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="btnPureText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnPureText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>541, 4</value>
-  </data>
-  <data name="btnPureText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 26</value>
-  </data>
-  <data name="btnPureText.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;btnPureText.Name" xml:space="preserve">
-    <value>btnPureText</value>
-  </data>
-  <data name="&gt;&gt;btnPureText.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnPureText.Parent" xml:space="preserve">
-    <value>panelRichText_Top</value>
-  </data>
-  <data name="&gt;&gt;btnPureText.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelRichText_Top.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelRichText_Top.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panelRichText_Top.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 30</value>
-  </data>
-  <data name="panelRichText_Top.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;panelRichText_Top.Name" xml:space="preserve">
-    <value>panelRichText_Top</value>
-  </data>
-  <data name="&gt;&gt;panelRichText_Top.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelRichText_Top.Parent" xml:space="preserve">
-    <value>panelRichTextPanel</value>
-  </data>
-  <data name="&gt;&gt;panelRichText_Top.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelRichTextPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelRichTextPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panelRichTextPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 232</value>
-  </data>
-  <data name="panelRichTextPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;panelRichTextPanel.Name" xml:space="preserve">
-    <value>panelRichTextPanel</value>
-  </data>
-  <data name="&gt;&gt;panelRichTextPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelRichTextPanel.Parent" xml:space="preserve">
-    <value>Page_RichText</value>
-  </data>
-  <data name="&gt;&gt;panelRichTextPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Page_RichText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_RichText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_RichText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 232</value>
-  </data>
-  <data name="Page_RichText.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="Page_RichText.Text" xml:space="preserve">
-    <value>Page_RichText</value>
-  </data>
-  <data name="&gt;&gt;Page_RichText.Name" xml:space="preserve">
-    <value>Page_RichText</value>
-  </data>
-  <data name="&gt;&gt;Page_RichText.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_RichText.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_RichText.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="weblink_UI.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="weblink_UI.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="weblink_UI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="weblink_UI.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="weblink_UI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 130</value>
-  </data>
-  <data name="weblink_UI.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;weblink_UI.Name" xml:space="preserve">
-    <value>weblink_UI</value>
-  </data>
-  <data name="&gt;&gt;weblink_UI.Type" xml:space="preserve">
-    <value>Waveface.PostUI.WebLink, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;weblink_UI.Parent" xml:space="preserve">
-    <value>Page__Link</value>
-  </data>
-  <data name="&gt;&gt;weblink_UI.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Page__Link.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page__Link.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page__Link.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 0</value>
-  </data>
-  <data name="Page__Link.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="Page__Link.Text" xml:space="preserve">
-    <value>Page_Link</value>
-  </data>
-  <data name="&gt;&gt;Page__Link.Name" xml:space="preserve">
-    <value>Page__Link</value>
-  </data>
-  <data name="&gt;&gt;Page__Link.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page__Link.Parent" xml:space="preserve">
-    <value>multiPanel_P_D_W</value>
-  </data>
-  <data name="&gt;&gt;Page__Link.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="photo_UI.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="photo_UI.FileNameMapping" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAEAQAAAOIBU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMuRGljdGlvbmFy
-        eWAyW1tTeXN0ZW0uU3RyaW5nLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRy
-        YWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldLFtTeXN0ZW0uU3RyaW5nLCBtc2Nvcmxp
-        YiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2
-        MTkzNGUwODldXQMAAAAHVmVyc2lvbghDb21wYXJlcghIYXNoU2l6ZQADAAiSAVN5c3RlbS5Db2xsZWN0
-        aW9ucy5HZW5lcmljLkdlbmVyaWNFcXVhbGl0eUNvbXBhcmVyYDFbW1N5c3RlbS5TdHJpbmcsIG1zY29y
-        bGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVj
-        NTYxOTM0ZTA4OV1dCAAAAAAJAgAAAAAAAAAEAgAAAJIBU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMu
-        R2VuZXJpY0VxdWFsaXR5Q29tcGFyZXJgMVtbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249
-        NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0A
-        AAAACw==
-</value>
-  </data>
-  <data name="photo_UI.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="photo_UI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="photo_UI.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="photo_UI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>617, 245</value>
-  </data>
-  <data name="photo_UI.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;photo_UI.Name" xml:space="preserve">
-    <value>photo_UI</value>
-  </data>
-  <data name="&gt;&gt;photo_UI.Type" xml:space="preserve">
-    <value>Waveface.PostUI.Photo, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;photo_UI.Parent" xml:space="preserve">
-    <value>Page__Photo</value>
-  </data>
-  <data name="&gt;&gt;photo_UI.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Page__Photo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page__Photo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page__Photo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>617, 245</value>
-  </data>
-  <data name="Page__Photo.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="Page__Photo.Text" xml:space="preserve">
-    <value>Page_Photo</value>
-  </data>
-  <data name="&gt;&gt;Page__Photo.Name" xml:space="preserve">
-    <value>Page__Photo</value>
-  </data>
-  <data name="&gt;&gt;Page__Photo.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page__Photo.Parent" xml:space="preserve">
-    <value>multiPanel_P_D_W</value>
-  </data>
-  <data name="&gt;&gt;Page__Photo.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="document_UI.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="document_UI.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="document_UI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="document_UI.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="document_UI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>617, 245</value>
-  </data>
-  <data name="document_UI.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;document_UI.Name" xml:space="preserve">
-    <value>document_UI</value>
-  </data>
-  <data name="&gt;&gt;document_UI.Type" xml:space="preserve">
-    <value>Waveface.PostUI.Document, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;document_UI.Parent" xml:space="preserve">
-    <value>Page__DOC</value>
-  </data>
-  <data name="&gt;&gt;document_UI.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Page__DOC.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page__DOC.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page__DOC.Size" type="System.Drawing.Size, System.Drawing">
-    <value>617, 245</value>
-  </data>
-  <data name="Page__DOC.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="Page__DOC.Text" xml:space="preserve">
-    <value>Page_2</value>
-  </data>
-  <data name="&gt;&gt;Page__DOC.Name" xml:space="preserve">
-    <value>Page__DOC</value>
-  </data>
-  <data name="&gt;&gt;Page__DOC.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page__DOC.Parent" xml:space="preserve">
-    <value>multiPanel_P_D_W</value>
-  </data>
-  <data name="&gt;&gt;Page__DOC.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="multiPanel_P_D_W.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="multiPanel_P_D_W.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="multiPanel_P_D_W.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 0</value>
-  </data>
-  <data name="multiPanel_P_D_W.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;multiPanel_P_D_W.Name" xml:space="preserve">
-    <value>multiPanel_P_D_W</value>
-  </data>
-  <data name="&gt;&gt;multiPanel_P_D_W.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanel, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;multiPanel_P_D_W.Parent" xml:space="preserve">
-    <value>panelPWD_Main</value>
-  </data>
-  <data name="&gt;&gt;multiPanel_P_D_W.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelPWD_Main.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelPWD_Main.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 236</value>
-  </data>
-  <data name="panelPWD_Main.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 0</value>
-  </data>
-  <data name="panelPWD_Main.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;panelPWD_Main.Name" xml:space="preserve">
-    <value>panelPWD_Main</value>
-  </data>
-  <data name="&gt;&gt;panelPWD_Main.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelPWD_Main.Parent" xml:space="preserve">
-    <value>Page_P_D_W</value>
-  </data>
-  <data name="&gt;&gt;panelPWD_Main.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pictureBoxWaiting.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pictureBoxWaiting.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 48</value>
-  </data>
-  <data name="pictureBoxWaiting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 16</value>
-  </data>
-  <data name="pictureBoxWaiting.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="pictureBoxWaiting.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxWaiting.Name" xml:space="preserve">
-    <value>pictureBoxWaiting</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxWaiting.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxWaiting.Parent" xml:space="preserve">
-    <value>panelMiddleBar</value>
-  </data>
-  <data name="&gt;&gt;pictureBoxWaiting.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="btnAddDoc.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="btnAddDoc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnAddDoc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>50, 3</value>
-  </data>
-  <data name="btnAddDoc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 26</value>
-  </data>
-  <data name="btnAddDoc.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="btnAddDoc.Text" xml:space="preserve">
-    <value>Add Document</value>
-  </data>
-  <data name="btnAddDoc.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;btnAddDoc.Name" xml:space="preserve">
-    <value>btnAddDoc</value>
-  </data>
-  <data name="&gt;&gt;btnAddDoc.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnAddDoc.Parent" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;btnAddDoc.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelToolbar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 0</value>
-  </data>
-  <data name="panelToolbar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>558, 31</value>
-  </data>
-  <data name="panelToolbar.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Name" xml:space="preserve">
-    <value>panelToolbar</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.Parent" xml:space="preserve">
-    <value>panelMiddleBar</value>
-  </data>
-  <data name="&gt;&gt;panelToolbar.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnSend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="btnSend.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="btnSend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>492, 44</value>
-  </data>
-  <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
-  </data>
-  <data name="btnSend.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="btnSend.Text" xml:space="preserve">
-    <value>Create</value>
-  </data>
-  <data name="&gt;&gt;btnSend.Name" xml:space="preserve">
-    <value>btnSend</value>
-  </data>
-  <data name="&gt;&gt;btnSend.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnSend.Parent" xml:space="preserve">
-    <value>panelMiddleBar</value>
-  </data>
-  <data name="&gt;&gt;btnSend.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="labelPreviewMsg.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="labelPreviewMsg.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 8.25pt</value>
-  </data>
-  <data name="labelPreviewMsg.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="labelPreviewMsg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 49</value>
-  </data>
-  <data name="labelPreviewMsg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>460, 14</value>
-  </data>
-  <data name="labelPreviewMsg.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;labelPreviewMsg.Name" xml:space="preserve">
-    <value>labelPreviewMsg</value>
-  </data>
-  <data name="&gt;&gt;labelPreviewMsg.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;labelPreviewMsg.Parent" xml:space="preserve">
-    <value>panelMiddleBar</value>
-  </data>
-  <data name="&gt;&gt;labelPreviewMsg.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="cbGenerateWebPreview.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="cbGenerateWebPreview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="cbGenerateWebPreview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 48</value>
-  </data>
-  <data name="cbGenerateWebPreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 18</value>
-  </data>
-  <data name="cbGenerateWebPreview.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="cbGenerateWebPreview.Text" xml:space="preserve">
-    <value>Generate Web Preview</value>
-  </data>
-  <data name="cbGenerateWebPreview.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.Name" xml:space="preserve">
-    <value>cbGenerateWebPreview</value>
-  </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.Parent" xml:space="preserve">
-    <value>panelMiddleBar</value>
-  </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="panelMiddleBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelMiddleBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 157</value>
-  </data>
-  <data name="panelMiddleBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 79</value>
-  </data>
-  <data name="panelMiddleBar.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;panelMiddleBar.Name" xml:space="preserve">
-    <value>panelMiddleBar</value>
-  </data>
-  <data name="&gt;&gt;panelMiddleBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelMiddleBar.Parent" xml:space="preserve">
-    <value>Page_P_D_W</value>
-  </data>
-  <data name="&gt;&gt;panelMiddleBar.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="buttonRichText.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="buttonRichText.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 8.25pt</value>
-  </data>
-  <data name="buttonRichText.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="buttonRichText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="buttonRichText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>540, 6</value>
-  </data>
-  <data name="buttonRichText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 26</value>
-  </data>
-  <data name="buttonRichText.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="buttonRichText.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;buttonRichText.Name" xml:space="preserve">
-    <value>buttonRichText</value>
-  </data>
-  <data name="&gt;&gt;buttonRichText.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;buttonRichText.Parent" xml:space="preserve">
-    <value>panelText</value>
-  </data>
-  <data name="&gt;&gt;buttonRichText.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pureTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="pureTextBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 11.25pt</value>
-  </data>
-  <data name="pureTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 12</value>
-  </data>
-  <data name="pureTextBox.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
-    <value>ForcedBoth</value>
-  </data>
-  <data name="pureTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>559, 139</value>
-  </data>
-  <data name="pureTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="pureTextBox.Text" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;pureTextBox.Name" xml:space="preserve">
-    <value>pureTextBox</value>
-  </data>
-  <data name="&gt;&gt;pureTextBox.Type" xml:space="preserve">
-    <value>Waveface.Component.RichEdit.RichTextEditor, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;pureTextBox.Parent" xml:space="preserve">
-    <value>panelText</value>
-  </data>
-  <data name="&gt;&gt;pureTextBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panelText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 157</value>
-  </data>
-  <data name="panelText.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;panelText.Name" xml:space="preserve">
-    <value>panelText</value>
-  </data>
-  <data name="&gt;&gt;panelText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelText.Parent" xml:space="preserve">
-    <value>Page_P_D_W</value>
-  </data>
-  <data name="&gt;&gt;panelText.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="Page_P_D_W.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Page_P_D_W.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="Page_P_D_W.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 234</value>
-  </data>
-  <data name="Page_P_D_W.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="Page_P_D_W.Text" xml:space="preserve">
-    <value>Page_P_D_W</value>
-  </data>
-  <data name="&gt;&gt;Page_P_D_W.Name" xml:space="preserve">
-    <value>Page_P_D_W</value>
-  </data>
-  <data name="&gt;&gt;Page_P_D_W.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanelPage, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Page_P_D_W.Parent" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;Page_P_D_W.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="multiPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="multiPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="multiPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 234</value>
-  </data>
-  <data name="multiPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;multiPanel.Name" xml:space="preserve">
-    <value>multiPanel</value>
-  </data>
-  <data name="&gt;&gt;multiPanel.Type" xml:space="preserve">
-    <value>Waveface.Component.MultiPage.MultiPanel, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;multiPanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;multiPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>195, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>50</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>574, 234</value>
-  </data>
-  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1332,67 +515,137 @@
         //8=
 </value>
   </data>
-  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>579, 271</value>
+  <data name="&gt;&gt;buttonAddComment.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterScreen</value>
+  <data name="cutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 22</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Create a New Post</value>
+  <data name="buttonAddComment.Text" xml:space="preserve">
+    <value>Send</value>
   </data>
-  <data name="&gt;&gt;cutToolStripMenuItem.Name" xml:space="preserve">
-    <value>cutToolStripMenuItem</value>
+  <data name="cutToolStripMenuItem.Text" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="textBoxComment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 14</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>CommentForm</value>
+  </data>
+  <data name="&gt;&gt;textBoxComment.Name" xml:space="preserve">
+    <value>textBoxComment</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripEdit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="contextMenuStripEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 70</value>
+  </data>
+  <data name="&gt;&gt;textBoxComment.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;cutToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;copyToolStripMenuItem.Name" xml:space="preserve">
-    <value>copyToolStripMenuItem</value>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>624, 204</value>
   </data>
-  <data name="&gt;&gt;copyToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;buttonAddComment.Name" xml:space="preserve">
+    <value>buttonAddComment</value>
   </data>
-  <data name="&gt;&gt;pasteToolStripMenuItem.Name" xml:space="preserve">
-    <value>pasteToolStripMenuItem</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="textBoxComment.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="buttonAddComment.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 4, 3, 4</value>
+  </data>
+  <data name="&gt;&gt;buttonAddComment.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;textBoxComment.Type" xml:space="preserve">
+    <value>Waveface.Component.RichEdit.RichTextEditor, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="buttonAddComment.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="pasteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 22</value>
+  </data>
+  <data name="textBoxComment.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 11.25pt</value>
+  </data>
+  <data name="buttonAddComment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 28</value>
+  </data>
+  <data name="copyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="textBoxComment.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
+    <value>ForcedBoth</value>
+  </data>
+  <data name="textBoxComment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>595, 151</value>
+  </data>
+  <data name="&gt;&gt;buttonAddComment.Type" xml:space="preserve">
+    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="buttonAddComment.Location" type="System.Drawing.Point, System.Drawing">
+    <value>535, 171</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>Manual</value>
   </data>
   <data name="&gt;&gt;pasteToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
-    <value>toolTip</value>
+  <data name="&gt;&gt;textBoxComment.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="contextMenuStripEdit.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
   </data>
-  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
-    <value>cultureManager</value>
+  <data name="&gt;&gt;copyToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 4, 3, 4</value>
   </data>
-  <data name="&gt;&gt;backgroundWorker_GetPreview.Name" xml:space="preserve">
-    <value>backgroundWorker_GetPreview</value>
-  </data>
-  <data name="&gt;&gt;backgroundWorker_GetPreview.Type" xml:space="preserve">
-    <value>System.ComponentModel.BackgroundWorker, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;timerNoPreviewMsg.Name" xml:space="preserve">
-    <value>timerNoPreviewMsg</value>
-  </data>
-  <data name="&gt;&gt;timerNoPreviewMsg.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>PostForm</value>
+  <data name="textBoxComment.Text" xml:space="preserve">
+    <value />
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="backgroundWorker_GetPreview.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>425, 17</value>
+  <data name="&gt;&gt;cutToolStripMenuItem.Name" xml:space="preserve">
+    <value>cutToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripEdit.Name" xml:space="preserve">
+    <value>contextMenuStripEdit</value>
+  </data>
+  <data name="buttonAddComment.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="textBoxComment.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 4, 3, 4</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Add Comment</value>
+  </data>
+  <data name="textBoxComment.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
-  <metadata name="timerNoPreviewMsg.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>656, 15</value>
+  <metadata name="contextMenuStripEdit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
 </root>

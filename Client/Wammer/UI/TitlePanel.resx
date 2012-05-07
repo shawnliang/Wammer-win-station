@@ -117,6 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="labelStatus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 11</value>
+  </data>
+  <data name="labelStatus.Text" xml:space="preserve">
+    <value>labelStatus</value>
+  </data>
   <data name="&gt;&gt;labelStatus.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -124,13 +131,11 @@
   <data name="btnAccount.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnRefresh.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 37</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnSetting.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
+  <data name="&gt;&gt;btnNewPost.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnRefresh.Parent" xml:space="preserve">
     <value>$this</value>
@@ -138,11 +143,9 @@
   <data name="&gt;&gt;btnAccount.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;btnNewPost.Name" xml:space="preserve">
-    <value>btnNewPost</value>
-  </data>
-  <data name="&gt;&gt;btnRefresh.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="labelStatus.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
   </data>
   <data name="btnAccount.ToolTip" xml:space="preserve">
     <value>Account Information</value>
@@ -159,20 +162,14 @@
   <data name="&gt;&gt;labelStatus.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="btnSetting.ToolTip" xml:space="preserve">
-    <value>Setting</value>
-  </data>
   <data name="&gt;&gt;btnSetting.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="btnRefresh.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnRefresh.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="btnAccount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>350, 15</value>
+  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="labelStatus.ToolTip" xml:space="preserve">
     <value />
@@ -183,8 +180,8 @@
   <data name="btnRefresh.ToolTip" xml:space="preserve">
     <value>Refresh</value>
   </data>
-  <data name="&gt;&gt;btnAccount.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;btnAccount.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;btnRefresh.Name" xml:space="preserve">
     <value>btnRefresh</value>
@@ -192,23 +189,17 @@
   <data name="btnNewPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 37</value>
   </data>
-  <data name="btnRefresh.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 15</value>
-  </data>
   <data name="btnNewPost.Location" type="System.Drawing.Point, System.Drawing">
     <value>230, 15</value>
   </data>
   <data name="&gt;&gt;btnSetting.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;labelStatus.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="&gt;&gt;btnNewPost.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="btnSetting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 37</value>
+  <data name="btnRefresh.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
   <data name="btnNewPost.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -216,14 +207,14 @@
   <data name="btnNewPost.ToolTip" xml:space="preserve">
     <value>Create New Post</value>
   </data>
-  <data name="btnNewPost.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
+  <data name="&gt;&gt;btnSetting.Name" xml:space="preserve">
+    <value>btnSetting</value>
   </data>
   <data name="labelStatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>54, 12</value>
   </data>
-  <data name="btnRefresh.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>651, 64</value>
   </data>
   <data name="&gt;&gt;btnSetting.Parent" xml:space="preserve">
     <value>$this</value>
@@ -231,17 +222,23 @@
   <data name="btnRefresh.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;btnAccount.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="btnSetting.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 37</value>
   </data>
   <data name="labelStatus.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="labelStatus.Text" xml:space="preserve">
-    <value>labelStatus</value>
+  <data name="&gt;&gt;labelStatus.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
-  <data name="&gt;&gt;btnAccount.Name" xml:space="preserve">
-    <value>btnAccount</value>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnAccount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 37</value>
+  </data>
+  <data name="btnSetting.ToolTip" xml:space="preserve">
+    <value>Setting</value>
   </data>
   <data name="&gt;&gt;btnNewPost.Parent" xml:space="preserve">
     <value>$this</value>
@@ -249,8 +246,8 @@
   <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
     <value>toolTip</value>
   </data>
-  <data name="btnAccount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 37</value>
+  <data name="btnSetting.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
   </data>
   <data name="btnNewPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -258,11 +255,17 @@
   <data name="btnNewPost.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
   </data>
-  <data name="&gt;&gt;btnSetting.Name" xml:space="preserve">
-    <value>btnSetting</value>
+  <data name="btnSetting.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnAccount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>350, 15</value>
   </data>
   <data name="labelStatus.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="btnRefresh.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
   </data>
   <data name="btnAccount.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -270,38 +273,35 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="btnSetting.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>TitlePanel</value>
   </data>
-  <data name="&gt;&gt;labelStatus.Name" xml:space="preserve">
-    <value>labelStatus</value>
+  <data name="&gt;&gt;btnAccount.Name" xml:space="preserve">
+    <value>btnAccount</value>
   </data>
-  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnRefresh.Location" type="System.Drawing.Point, System.Drawing">
+    <value>290, 15</value>
   </data>
   <data name="btnSetting.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
   </data>
-  <data name="&gt;&gt;btnNewPost.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;labelStatus.Name" xml:space="preserve">
+    <value>labelStatus</value>
   </data>
-  <data name="labelStatus.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+  <data name="&gt;&gt;btnAccount.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="labelStatus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 11</value>
+  <data name="btnNewPost.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
   </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>651, 64</value>
+  <data name="&gt;&gt;btnNewPost.Name" xml:space="preserve">
+    <value>btnNewPost</value>
   </data>
   <data name="btnSetting.Location" type="System.Drawing.Point, System.Drawing">
     <value>410, 15</value>
   </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
+  <data name="&gt;&gt;btnRefresh.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

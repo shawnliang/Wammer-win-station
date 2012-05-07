@@ -3,9 +3,9 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 
 #endregion
 
@@ -115,6 +115,43 @@ namespace Waveface
             return _sb.ToString();
         }
 
+        #region LimitByteLength
+
+        public static string LimitByteLength(string input, int maxLength)
+        {
+            if (input.Length <= maxLength)
+            {
+                return input;
+            }
+            else
+            {
+                return input.Substring(0, maxLength);
+            }
+        }
+
+        private static String limitByteLength(String input, Int32 maxLength)
+        {
+            return new String(input
+                                  .TakeWhile((c, i) =>
+                                             Encoding.UTF8.GetByteCount(input.Substring(0, i + 1)) <= maxLength)
+                                  .ToArray());
+        }
+
+        private static String limitByteLength2(String input, Int32 maxLength)
+        {
+            for (Int32 i = input.Length - 1; i >= 0; i--)
+            {
+                if (Encoding.UTF8.GetByteCount(input.Substring(0, i + 1)) <= maxLength)
+                {
+                    return input.Substring(0, i + 1);
+                }
+            }
+
+            return String.Empty;
+        }
+
+        #endregion
+
         #region Chinese
 
         public static bool IsChineseString(string testStr)
@@ -193,7 +230,8 @@ namespace Waveface
                 byte _byte1 = _bytes[0];
                 byte _byte2 = _bytes[1];
 
-                if ((_byte1 >= 129 && _byte1 <= 254) && ((_byte2 >= 64 && _byte2 <= 126) || (_byte2 >= 161 && _byte2 <= 254))) //判断是否是Big5编码
+                if ((_byte1 >= 129 && _byte1 <= 254) &&
+                    ((_byte2 >= 64 && _byte2 <= 126) || (_byte2 >= 161 && _byte2 <= 254))) //判断是否是Big5编码
                 {
                     return true;
                 }

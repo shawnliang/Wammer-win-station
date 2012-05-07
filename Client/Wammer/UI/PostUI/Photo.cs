@@ -234,7 +234,7 @@ namespace Waveface.PostUI
 
                 if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
                 {
-                    _params.Add("content", MyParent.pureTextBox.Text.Trim());
+                    _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)));
                 }
 
                 if (EditModePhotosChanged())
@@ -278,7 +278,7 @@ namespace Waveface.PostUI
 
                 if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
                 {
-                    _text = MyParent.pureTextBox.Text;
+                    _text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
                 }
 
                 BatchPostItem _batchPostItem = new BatchPostItem();
@@ -353,7 +353,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text), files, "", _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)), files, "", _type);
 
                 if (_np == null)
                 {
@@ -402,7 +402,7 @@ namespace Waveface.PostUI
 
             BatchPostItem _batchPostItem = new BatchPostItem();
             _batchPostItem.PostType = PostType.Photo;
-            _batchPostItem.Text = StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text);
+            _batchPostItem.Text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
             _batchPostItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
             _batchPostItem.OrgPostTime = DateTime.Now;
 

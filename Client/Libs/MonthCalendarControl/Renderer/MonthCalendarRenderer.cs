@@ -344,7 +344,7 @@
                         if (MonthCalendar.IsWaveface)
                         {
                             textRect.Width += 2;
-                            textRect.Height += 3;
+                            textRect.Height += 2;
                         }
 
                         // determine if to use bold font
@@ -392,18 +392,21 @@
 
                 if (MonthCalendar.IsWaveface)
                 {
-                    borderColor = Color.DarkCyan;
+                    int k = 3;
+
+                    //rect = new Rectangle(rect.Left + 1, rect.Top, rect.Width, rect.Height);
+                    g.DrawRectangle(Pens.LightGray, rect);
+
+                    g.FillRectangle(Brushes.White, rect.Left + 1, rect.Top + 1, rect.Width, k);
+                    g.FillRectangle(Brushes.White, rect.Left + 1, rect.Top + rect.Height - k + 1, rect.Width, k);
+                    g.FillRectangle(Brushes.White, rect.Left + 1, rect.Top + 1, k, rect.Height - 1);
+                    g.FillRectangle(Brushes.White, rect.Left + rect.Width - k + 2, rect.Top + 1, k, rect.Height);
+
+                    g.DrawRectangle(Pens.LightGray, rect.Left + k, rect.Top + k, rect.Width - (2 * k) + 2, rect.Height - (2 * k) + 1);
                 }
-
-                using (Pen p = new Pen(borderColor))
+                else
                 {
-                    if (MonthCalendar.IsWaveface)
-                    {
-                        rect = new Rectangle(rect.Left + 1, rect.Top, rect.Width, rect.Height);
-
-                        g.DrawRectangle(p, rect);
-                    }
-                    else
+                    using (Pen p = new Pen(borderColor))
                     {
                         g.DrawRectangle(p, rect);
 

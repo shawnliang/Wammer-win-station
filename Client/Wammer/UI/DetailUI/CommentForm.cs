@@ -2,52 +2,26 @@
 
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
-using Waveface.Component.PopupControl;
-using Waveface.Component;
 using Waveface.Component.RichEdit;
 
 #endregion
 
 namespace Waveface
 {
-    public partial class CommentPopupPanel : UserControl
+    public partial class CommentForm : Form
     {
-        public WaterMarkRichTextBox CommentTextBox
+        public RichTextEditor CommentTextBox
         {
             get { return textBoxComment; }
             set { textBoxComment = value; }
         }
 
-        public CommentPopupPanel()
+        public CommentForm()
         {
             InitializeComponent();
 
-            MinimumSize = Size;
-
             textBoxComment.WaterMarkText = I18n.L.T("PostForm.PuretextWaterMark");
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            if ((Parent as Popup).ProcessResizing(ref m))
-            {
-                return;
-            }
-
-            base.WndProc(ref m);
-        }
-
-        private void textBoxComment_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control && e.KeyCode == Keys.V)
-            {
-                if (textBoxComment.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
-                {
-                    e.SuppressKeyPress = true;
-                }
-            }
         }
 
         #region richTextBox
@@ -70,6 +44,7 @@ namespace Waveface
             if (textBoxComment.CanPaste(_format))
             {
                 textBoxComment.Paste(_format);
+                textBoxComment.Refresh();
             }
         }
 
@@ -80,5 +55,35 @@ namespace Waveface
 
         #endregion
 
+        private void buttonAddComment_Click(object sender, EventArgs e)
+        {
+            if (textBoxComment.Text.Trim().Equals(string.Empty))
+            {
+                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DialogResult = DialogResult.OK;
+
+            Close();
+        }
+
+        private void textBoxComment_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                if (textBoxComment.CanPaste(DataFormats.GetFormat(DataFormats.Bitmap)))
+                {
+                    e.SuppressKeyPress = true;
+                }
+                else if (textBoxComment.CanPaste(DataFormats.GetFormat(DataFormats.Text)))
+                {
+                    textBoxComment.Paste(DataFormats.GetFormat(DataFormats.Text));
+                    e.SuppressKeyPress = true;
+                }
+            }
+
+            textBoxComment.Refresh();
+        }
     }
 }

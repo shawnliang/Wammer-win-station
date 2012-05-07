@@ -164,7 +164,7 @@
             this.groupMonthlyUsage.Name = "groupMonthlyUsage";
             this.groupMonthlyUsage.TabStop = false;
             // 
-            // lblLoadingUsage
+            // label_LoadingUsage
             // 
             resources.ApplyResources(this.label_LoadingUsage, "label_LoadingUsage");
             this.label_LoadingUsage.Name = "label_LoadingUsage";

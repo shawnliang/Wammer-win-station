@@ -1,8 +1,11 @@
 ﻿
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.Web;
 using System.Windows.Forms;
+using Waveface.API.V2;
 
 namespace Waveface
 {
@@ -172,6 +175,7 @@ namespace Waveface
             this.btnSetting.ImageHover = global::Waveface.Properties.Resources.FBT_setting_hl;
             this.btnSetting.Name = "btnSetting";
             this.toolTip.SetToolTip(this.btnSetting, resources.GetString("btnSetting.ToolTip"));
+            this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
             // 
             // btnNewPost
             // 
@@ -207,12 +211,18 @@ namespace Waveface
 
         private void btnAccount_Click(object sender, System.EventArgs e)
         {
-            Main.Current.AccountInformation();
+            string _userProfileUrl = WService.WebURL + "/user/profile";
+            Process.Start(WService.WebURL + "/login?cont=" + HttpUtility.UrlEncode(_userProfileUrl), null);
         }
 
         private void btnNewPost_Click(object sender, System.EventArgs e)
         {
             Main.Current.Post();
+        }
+
+        private void btnSetting_Click(object sender, System.EventArgs e)
+        {
+            Main.Current.AccountInformation();
         }
     }
 }
