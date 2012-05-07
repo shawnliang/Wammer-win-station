@@ -22,11 +22,6 @@ namespace Wammer.PostUpload
 					try
 					{
 						PostApi postApi = new PostApi(driver);
-						if (!IsPostExist(postApi, agent))
-						{
-							// give up the task if the post does not exist
-							return;
-						}
 						postApi.NewComment(agent, this.Timestamp, this.Parameters);
 					}
 					catch (WammerCloudException e)

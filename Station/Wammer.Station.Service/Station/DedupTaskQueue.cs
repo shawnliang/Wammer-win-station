@@ -121,16 +121,17 @@ namespace Wammer.Station
 				if (dequeued == null)
 					return null;
 				else
+				{
+					keys.Remove(dequeued.Name);
 					return new DequeuedTask(dequeued, dequeued.Name);
+				}
 			}
 		}
 
 		public void AckDequeue(DequeuedTask task)
 		{
-			lock (keys)
-			{
-				keys.Remove((string)task.Key);
-			}
+			// This is not a persistent queue so that 
+			// we don't need to implement a this method
 		}
 
 		private void OnEnqueued(EventArgs arg)

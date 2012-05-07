@@ -54,33 +54,48 @@ namespace Wammer.Cloud
 									   {"user_id", user_id},
 									   {"apikey", apikey},
 									   {"session_token", session_token}
+					}, false);
+			}
+		}
+
+		public static LoginedSession GetLoginInfo(string user_id, string apikey, string session_token)
+		{
+			using (WebClient agent = new DefaultWebClient())
+			{
+				return CloudServer.requestPath<LoginedSession>(agent, "users/get",
+					new Dictionary<object, object>{
+									   {"user_id", user_id},
+									   {"apikey", apikey},
+									   {"session_token", session_token}
 					});
 			}
 		}
 
-		public static User LogIn(WebClient agent, string username, string passwd)
+		public static User LogIn(WebClient agent, string username, string passwd, string deviceId, string deviceName)
 		{
-			return LogIn(agent, username, passwd, CloudServer.APIKey);
+			return LogIn(agent, username, passwd, CloudServer.APIKey, deviceId, deviceName);
 		}
 
-		public static User LogIn(WebClient agent, string username, string passwd, string apiKey)
+		public static User LogIn(WebClient agent, string username, string passwd, string apiKey, string deviceId, string deviceName)
 		{
-			var json = LogInResponse(agent, CloudServer.BaseUrl, username, passwd, apiKey);
+			var json = LogInResponse(agent, CloudServer.BaseUrl, username, passwd, apiKey, deviceId, deviceName);
 			return new User(username, passwd, json);
 		}
 
-		public static User LogIn(WebClient agent, string baseURL, string username, string passwd, string apiKey)
+		public static User LogIn(WebClient agent, string baseURL, string username, string passwd, string apiKey, string deviceId, string deviceName)
 		{
-			var json = LogInResponse(agent, baseURL, username, passwd, apiKey);
+			var json = LogInResponse(agent, baseURL, username, passwd, apiKey, deviceId, deviceName);
 			return new User(username, passwd, json);
 		}
 
-		public static string LogInResponse(WebClient agent, string serverBase, string username, string passwd, string apiKey)
+		public static string LogInResponse(WebClient agent, string serverBase, string username, string passwd, string apiKey, string deviceId, string deviceName)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>();
 			parameters.Add(CloudServer.PARAM_EMAIL, username);
 			parameters.Add(CloudServer.PARAM_PASSWORD, passwd);
 			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
+			parameters.Add(CloudServer.PARAM_DEVICE_ID, deviceId);
+			parameters.Add(CloudServer.PARAM_DEVICE_NAME, deviceName);
 
 			return CloudServer.requestPath(agent, serverBase, "auth/login", parameters, false);
 		}

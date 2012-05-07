@@ -14,6 +14,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station.AttachmentUpload
 {
+	[Serializable]
 	class AttachmentUtility : IAttachmentUtil
 	{
 		private static IPerfCounter uploadTaskCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
@@ -65,6 +66,12 @@ namespace Wammer.Station.AttachmentUpload
 		public void GenerateThumbnailAsync(string object_id, ImageMeta thumbnailType, TaskPriority priority)
 		{
 			TaskQueue.Enqueue(new MakeThumbnailTask(object_id, thumbnailType, priority), priority, true);
+		}
+
+		public void GenerateThumbnailAsyncAndUpstream(string object_id, ImageMeta thumbnailType, TaskPriority priority)
+		{
+
+			TaskQueue.Enqueue(new MakeThumbnailAndUpstreamTask(object_id, thumbnailType, priority, this), priority, true);
 		}
 
 

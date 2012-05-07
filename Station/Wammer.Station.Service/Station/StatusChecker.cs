@@ -76,38 +76,32 @@ namespace Wammer.Station
 
 					using (WebClient client = new DefaultWebClient())
 					{
-						Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
-						if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
+						// use any driver's session token to send heartbeat
+						foreach (var user in DriverCollection.Instance.FindAll())
 						{
-							logger.Debug("cloud logon start");
-							api.LogOn(client, detail);
-							logon = true;
+							Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, user.session_token);
+							if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
+							{
+								logger.Debug("cloud logon start");
+								api.LogOn(client, detail);
+								logon = true;
 
-							// update station info in database
-							logger.Debug("update station information");
-							sinfo.LastLogOn = DateTime.Now;
-							Model.StationCollection.Instance.Save(sinfo);
-						}
+								// update station info in database
+								logger.Debug("update station information");
+								sinfo.LastLogOn = DateTime.Now;
+								Model.StationCollection.Instance.Save(sinfo);
+							}
 
-						if (locChange)
-						{
-							// update station info in database
-							logger.Debug("update station information");
-							Model.StationCollection.Instance.Save(sinfo);
+							if (locChange)
+							{
+								// update station info in database
+								logger.Debug("update station information");
+								Model.StationCollection.Instance.Save(sinfo);
+							}
+							api.Heartbeat(client, detail);
+							break;
 						}
-						api.Heartbeat(client, detail);
 					}
-				}
-				catch (WammerCloudException ex)
-				{
-					if (CloudServer.IsSessionError(ex))
-					{
-						// station's session token expired, it might be caused by:
-						// 1. server maintenance
-						// 2. driver registered another station
-						// in this situation, client has to re-login/re-register the station
-					}
-					logger.Debug("cloud send heartbeat error", ex);
 				}
 				catch (Exception ex)
 				{

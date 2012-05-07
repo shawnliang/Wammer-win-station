@@ -75,7 +75,6 @@
     <Compile Include="Control\TabControlEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="I18n.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,12 +82,6 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Messenger.cs" />
-    <Compile Include="PreferenceForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PreferenceForm.Designer.cs">
-      <DependentUpon>PreferenceForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CleanResourceForm.cs">
@@ -117,12 +110,6 @@
     <EmbeddedResource Include="MainForm.zh-TW.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PreferenceForm.resx">
-      <DependentUpon>PreferenceForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PreferenceForm.zh-TW.resx">
-      <DependentUpon>PreferenceForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -138,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CleanResourceForm.zh-TW.resx">
       <DependentUpon>CleanResourceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-CHT.resx">
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SignUpDialog.resx">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
@@ -156,10 +146,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
-      <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
-      <Name>Localizer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Wammer.Station.Management\Wammer.Station.Management.csproj">
       <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
       <Name>Wammer.Station.Management</Name>
@@ -172,7 +158,6 @@
   <ItemGroup>
     <None Include="Resources\FB_Logo.png" />
     <Content Include="Resources\Icon.ico" />
-    <Content Include="Resources\station_icon_256andAll.ico" />
     <None Include="Resources\stream_tray_pause.png" />
     <None Include="Resources\stream_tray_working.png" />
     <None Include="Resources\stream_tray_warn.png" />
@@ -186,6 +171,10 @@
     <PreBuildEvent>FOR /R "$(ProjectDir)" %25%25G IN (*.resx) DO CALL "$(SolutionDir)Tools\SortRESX.exe" "%25%25~G" "%25%25~G.tmp"
 FOR /R "$(ProjectDir)" %25%25G IN (*.resx.tmp)  DO MOVE /Y "%25%25~G" "%25%25~dpnG"
 </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"
+@echo off if $(ConfigurationName) == Debug copy /y "$(ProjectDir)$(OutDir)*.*" "$(SolutionDir)Station\Wammer.Station.Service\$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

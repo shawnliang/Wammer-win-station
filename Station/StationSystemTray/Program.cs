@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using Wammer.Station.Management;
 using Wammer.Station;
-using Waveface.Localization;
 using System.Globalization;
 using System.Threading;
 using System.Reflection;
@@ -98,9 +97,9 @@ namespace StationSystemTray
 			string _culture = (string)StationRegistry.GetValue("Culture", null);
 
 			if (_culture == null)
-				CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
+				Thread.CurrentThread.CurrentCulture = CultureInfo.CurrentCulture;
 			else
-				CultureManager.ApplicationUICulture = new CultureInfo(_culture);
+				Thread.CurrentThread.CurrentCulture = new CultureInfo(_culture);
 		}
 	}
 }

@@ -32,12 +32,11 @@ namespace Wammer.Station
 
 			using (DefaultWebClient agent = new DefaultWebClient())
 			{
-				Cloud.StationApi api = new Cloud.StationApi(this.station_id, args.session_token);
-				api.LogOn(agent, StatusChecker.GetDetail());
+				Cloud.StationSignUpResponse api = Cloud.StationApi.SignUpBySession(agent, this.args.session_token, station_id);
 
 				DriverCollection.Instance.Update(
 					Query.EQ("_id", args.user_id),
-					Update.Set("session_token", api.Token));
+					Update.Set("session_token", api.session_token));
 			}
 		}
 

@@ -75,10 +75,10 @@ namespace Wammer.Station.APIHandler
 			Driver user = db.GetUserByGroupId(group_id);
 
 			if (user == null)
-				throw new WammerStationException("user of group " + group_id + " not found", (int)StationApiError.InvalidDriver);
+				throw new WammerStationException("user of group " + group_id + " not found", (int)StationLocalApiError.InvalidDriver);
 
 			if (!user.is_change_history_synced)
-				throw new WammerStationException("usertracks API is not ready. Syncing still in progress.", (int)StationApiError.NotReady);
+				throw new WammerStationException("usertracks API is not ready. Syncing still in progress.", (int)StationLocalApiError.NotReady);
 
 			DateTime sinceDateTime = Wammer.Utility.TimeHelper.ParseCloudTimeString(since);
 			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, sinceDateTime);
