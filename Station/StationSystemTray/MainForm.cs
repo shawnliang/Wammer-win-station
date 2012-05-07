@@ -204,11 +204,11 @@ namespace StationSystemTray
 			cmbEmail.Items.Clear();
 			try
 			{
-				List<UserLoginSetting> userlogins = new List<UserLoginSetting>();
-				ListDriverResponse res = StationController.ListUser();
-				foreach (Driver driver in res.drivers)
+				var userlogins = new List<UserLoginSetting>();
+				var res = StationController.ListUser();
+				foreach (var driver in res.drivers)
 				{
-					UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
+					var userlogin = userloginContainer.GetUserLogin(driver.email);
 					if (userlogin != null)
 					{
 						cmbEmail.Items.Add(userlogin.Email);
@@ -220,8 +220,8 @@ namespace StationSystemTray
 
 				if (userlogins.Count > 0)
 				{
-					UserLoginSetting lastUserLogin = userloginContainer.GetLastUserLogin();
-					userloginContainer.ResetUserLoginSetting(userlogins, lastUserLogin == null ? "" : lastUserLogin.Email);
+					var lastUserLogin = userloginContainer.GetLastUserLogin();
+					userloginContainer.ResetUserLoginSetting(userlogins, lastUserLogin == null ? string.Empty : lastUserLogin.Email);
 				}
 			}
 			catch (Exception)
@@ -237,7 +237,7 @@ namespace StationSystemTray
 
 				if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
 				{
-					IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
+					var handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
 					Win32Helper.SetForegroundWindow(handle);
 					Win32Helper.ShowWindow(handle, 5);
 					return;
@@ -276,7 +276,7 @@ namespace StationSystemTray
 
 		private void WavefaceClientUIError(object sender, SimpleEventArgs evt)
 		{
-			Exception ex = (Exception)evt.param;
+			var ex = (Exception)evt.param;
 			messenger.ShowMessage(ex.Message);
 		}
 
@@ -287,7 +287,7 @@ namespace StationSystemTray
 
 		private void PauseServiceUIError(object sender, SimpleEventArgs evt)
 		{
-			Exception ex = (Exception)evt.param;
+			var ex = (Exception)evt.param;
 
 			if (ex is ConnectToCloudException)
 			{
@@ -323,7 +323,7 @@ namespace StationSystemTray
 			if (CurrentState.Value == StationStateEnum.Running)
 				checkStationTimer.Interval = STATION_TIMER_SHORT_INTERVAL;
 
-			Exception ex = (Exception)evt.param;
+			var ex = (Exception)evt.param;
 
 			if (ex is ConnectToCloudException)
 			{
@@ -371,31 +371,31 @@ namespace StationSystemTray
 			{
 				case StationStateEnum.Initial:
 					{
-						StationStateInitial st = new StationStateInitial(this);
+						var st = new StationStateInitial(this);
 						st.Entering += this.BecomeInitialState;
 						return st;
 					}
 				case StationStateEnum.Starting:
 					{
-						StationStateStarting st = new StationStateStarting(this);
+						var st = new StationStateStarting(this);
 						st.Entering += this.BecomeStartingState;
 						return st;
 					}
 				case StationStateEnum.Running:
 					{
-						StationStateRunning st = new StationStateRunning(this);
+						var st = new StationStateRunning(this);
 						st.Entering += this.BecomeRunningState;
 						return st;
 					}
 				case StationStateEnum.Stopping:
 					{
-						StationStateStopping st = new StationStateStopping(this);
+						var st = new StationStateStopping(this);
 						st.Entering += this.BecomeStoppingState;
 						return st;
 					}
 				case StationStateEnum.Stopped:
 					{
-						StationStateStopped st = new StationStateStopped(this);
+						var st = new StationStateStopped(this);
 						st.Entering += this.BecomeStoppedState;
 						return st;
 					}
@@ -636,7 +636,7 @@ namespace StationSystemTray
 			if (this.TrayIcon.Icon != iconRunning)
 			{
 				//TODO: multi-languange support
-				MessageBox.Show("Please start service first", "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.START_SERVICE_FIRST, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 

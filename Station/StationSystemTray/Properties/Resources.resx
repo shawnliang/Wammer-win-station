@@ -261,4 +261,7 @@
   <data name="WFServiceStopped" xml:space="preserve">
     <value>Stream Station is stop syncing</value>
   </data>
+  <data name="START_SERVICE_FIRST">
+    <value xml:space="preserve">Please start service first</value>
+  </data>
 </root>

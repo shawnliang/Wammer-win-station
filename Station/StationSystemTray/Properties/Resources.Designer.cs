@@ -322,6 +322,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please start service first.
+        /// </summary>
+        public static string START_SERVICE_FIRST {
+            get {
+                return ResourceManager.GetString("START_SERVICE_FIRST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Starting sync....
         /// </summary>
         public static string StartingWFService {
