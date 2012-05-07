@@ -820,12 +820,12 @@ namespace StationSystemTray
 			return false;
 		}
 
-		private void LaunchClient()
+		private void LaunchClient(string sessionToken)
 		{
 			Cursor.Current = Cursors.WaitCursor;
 			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 				"WavefaceWindowsClient.exe");
-			clientProcess = Process.Start(execPath);
+			clientProcess = Process.Start(execPath, "\"" + sessionToken + "\"");
 			clientProcess.EnableRaisingEvents = true;
 
 			clientProcess.Exited -= new EventHandler(clientProcess_Exited);
@@ -1154,7 +1154,7 @@ namespace StationSystemTray
 			{
 				device_id = StationRegistry.GetValue("stationId",string.Empty).ToString(),
 				device_name = Environment.MachineName,
-				device = "window",
+				device = "windows",
 				api_key = CLIENT_API_KEY,
 				xurl = string.Format("{0}?session_token=%(session_token)s&user_id=%(user_id)s", fbLoginUrl)
 			};
@@ -1198,10 +1198,10 @@ namespace StationSystemTray
 
 			if (dialog.ShowDialog() == DialogResult.OK)
 			{
-				var url = browser.Url;
-				var parameters = HttpUtility.ParseQueryString(url.Query);
-				var sessionToken = parameters["session_token"];
-				var userID = parameters["user_id"];
+				var url =  browser.Url.Query;
+				//var parameters = HttpUtility.ParseQueryString(url);
+				var sessionToken = Regex.Match(url, @"session_token\s*=\s*(?<Value>[^&]+)").Groups["Value"].Value.ToString();
+				var userID = Regex.Match(url, @"user_id\s*=\s*(?<Value>[^&]+)").Groups["Value"].Value.ToString();
 
 				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
 
@@ -1237,7 +1237,7 @@ namespace StationSystemTray
 			//Login user
 			StationController.UserLogin(CLIENT_API_KEY, userID, sessionToken);
 
-			LaunchClient();
+			LaunchClient(sessionToken);
 			Close();
 		}
 	}
