@@ -54,10 +54,15 @@ namespace StationSystemTray
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lblWelcome = new System.Windows.Forms.Label();
 			this.lblMainStationSetup = new System.Windows.Forms.Label();
+			this.tabSecondStationSetup = new System.Windows.Forms.TabPage();
+			this.lblSecondStationSetup = new System.Windows.Forms.Label();
+			this.lblWelcome2 = new System.Windows.Forms.Label();
+			this.btnOK2 = new System.Windows.Forms.Button();
 			this.TrayMenu.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabSignIn.SuspendLayout();
 			this.tabMainStationSetup.SuspendLayout();
+			this.tabSecondStationSetup.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// TrayIcon
@@ -130,6 +135,7 @@ namespace StationSystemTray
 			// 
 			this.tabControl.Controls.Add(this.tabSignIn);
 			this.tabControl.Controls.Add(this.tabMainStationSetup);
+			this.tabControl.Controls.Add(this.tabSecondStationSetup);
 			resources.ApplyResources(this.tabControl, "tabControl");
 			this.tabControl.HideTabs = true;
 			this.tabControl.Multiline = true;
@@ -221,6 +227,30 @@ namespace StationSystemTray
 			resources.ApplyResources(this.lblMainStationSetup, "lblMainStationSetup");
 			this.lblMainStationSetup.Name = "lblMainStationSetup";
 			// 
+			// tabSecondStationSetup
+			// 
+			this.tabSecondStationSetup.Controls.Add(this.btnOK2);
+			this.tabSecondStationSetup.Controls.Add(this.lblSecondStationSetup);
+			this.tabSecondStationSetup.Controls.Add(this.lblWelcome2);
+			resources.ApplyResources(this.tabSecondStationSetup, "tabSecondStationSetup");
+			this.tabSecondStationSetup.Name = "tabSecondStationSetup";
+			// 
+			// lblSecondStationSetup
+			// 
+			resources.ApplyResources(this.lblSecondStationSetup, "lblSecondStationSetup");
+			this.lblSecondStationSetup.Name = "lblSecondStationSetup";
+			// 
+			// lblWelcome2
+			// 
+			resources.ApplyResources(this.lblWelcome2, "lblWelcome2");
+			this.lblWelcome2.Name = "lblWelcome2";
+			// 
+			// btnOK2
+			// 
+			resources.ApplyResources(this.btnOK2, "btnOK2");
+			this.btnOK2.Name = "btnOK2";
+			this.btnOK2.UseVisualStyleBackColor = true;
+			// 
 			// MainForm
 			// 
 			this.AcceptButton = this.btnSignIn;
@@ -239,6 +269,8 @@ namespace StationSystemTray
 			this.tabSignIn.PerformLayout();
 			this.tabMainStationSetup.ResumeLayout(false);
 			this.tabMainStationSetup.PerformLayout();
+			this.tabSecondStationSetup.ResumeLayout(false);
+			this.tabSecondStationSetup.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -268,6 +300,10 @@ namespace StationSystemTray
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem menuSignIn;
 		private System.Windows.Forms.ToolStripMenuItem tsmiOpenStream;
+		private System.Windows.Forms.TabPage tabSecondStationSetup;
+		private System.Windows.Forms.Label lblWelcome2;
+		private System.Windows.Forms.Label lblSecondStationSetup;
+		private System.Windows.Forms.Button btnOK2;
 	}
 }
 
