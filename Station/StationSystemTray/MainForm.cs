@@ -986,7 +986,7 @@ namespace StationSystemTray
 				upSpeed = upRemainedCount == 0? 0: ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
 				downloadSpeed = downloadSpeed == 0? 0: ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
 
-				iconText = string.Format("{0}{1}({2}): {3:0.0} {4}{5}({6}): {7:0.0}{8}",
+				iconText = string.Format("{0}{1}↑({2}): {3:0.0} {4}{5}↓({6}): {7:0.0}{8}",
 					iconText,
 					Environment.NewLine,
 					upRemainedCount,
