@@ -116,7 +116,7 @@ namespace StationSystemTray
 			{
 				TrayIcon.Text = value;
 				TrayIcon.BalloonTipText = value;
-				TrayIcon.ShowBalloonTip(1000, "Waveface", value, ToolTipIcon.None);
+				TrayIcon.ShowBalloonTip(1000, "Stream", value, ToolTipIcon.None);
 			}
 		}
 
