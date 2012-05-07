@@ -396,7 +396,7 @@ namespace Waveface
                 if (!pureTextBox.Text.Trim().Equals(OldText) || (Post.type != "text"))
                 {
                     Dictionary<string, string> _params = new Dictionary<string, string>();
-                    _params.Add("content", pureTextBox.Text.Trim());
+                    _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(pureTextBox.Text, 80000)));
                     _params.Add("type", "text");
 
                     Main.Current.PostUpdate(Post, _params, true);
@@ -409,7 +409,7 @@ namespace Waveface
                 try
                 {
                     MR_posts_new _np =
-                        Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(pureTextBox.Text),
+                        Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(pureTextBox.Text, 80000)),
                                                        "", "", "text");
 
                     if (_np == null)

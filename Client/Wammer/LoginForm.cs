@@ -234,6 +234,9 @@ namespace Waveface
             {
                 btnOK.Focus();
             }
+
+            // Todo
+            // CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
         }
 
         private void doLogin(string email, string password)

@@ -67,7 +67,7 @@ namespace Waveface.PostUI
                     if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
                     {
                         Dictionary<string, string> _params = new Dictionary<string, string>();
-                        _params.Add("content", MyParent.pureTextBox.Text.Trim());
+                        _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)));
 
                         Main.Current.PostUpdate(MyParent.Post, _params, true);
                     }
@@ -79,7 +79,7 @@ namespace Waveface.PostUI
                     string type = (previews != "") ? "link" : "text";
 
                     Dictionary<string, string> _params = new Dictionary<string, string>();
-                    _params.Add("content", MyParent.pureTextBox.Text.Trim());
+                    _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)));
 
                     _params.Add("type", type);
 
@@ -155,7 +155,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text), "", previews, _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)), "", previews, _type);
 
                 if (_np == null)
                 {
