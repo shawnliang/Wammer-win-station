@@ -1171,11 +1171,11 @@ namespace StationSystemTray
 
 		private void TrayMenu_Opening(object sender, CancelEventArgs e)
 		{
-			var userlogin = userloginContainer.GetLastUserLogin();
+			var lastLogin = userloginContainer.GetLastLogin();
 			LoginedSession loginedSession = null;
 
-			if (userlogin != null)
-				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+			if (lastLogin != null)
+				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 
 			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
 
@@ -1261,7 +1261,10 @@ namespace StationSystemTray
 					}
 
 					m_LoginAction();
+					return;
 				}
+				if (!this.IsDisposed)
+					this.Show();
 		}
 
 		private void LoginAndLaunchClient(UserLoginSetting loginSetting)
