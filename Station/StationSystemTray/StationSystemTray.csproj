@@ -91,12 +91,6 @@
       <DependentUpon>CleanResourceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SecurityHelper.cs" />
-    <Compile Include="SignUpDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SignUpDialog.Designer.cs">
-      <DependentUpon>SignUpDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="SimpleUIController.cs" />
     <Compile Include="StateMachine.cs" />
     <Compile Include="Win32Helper.cs" />
@@ -128,9 +122,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.zh-CHT.resx">
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SignUpDialog.resx">
-      <DependentUpon>SignUpDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>

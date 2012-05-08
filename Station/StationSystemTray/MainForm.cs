@@ -36,10 +36,14 @@ namespace StationSystemTray
 		const string CLIENT_TITLE = "Waveface ";
 		const int STATION_TIMER_LONG_INTERVAL = 60000;
 		const int STATION_TIMER_SHORT_INTERVAL = 3000;
-		const string WEB_SIGNUP_PAGE_URL_PATTERN = @"https://waveface.com/signup";
-		const string DEV_WEB_SIGNUP_PAGE_URL_PATTERN = @"http://develop.waveface.com:4343/signup";
-		const string WEB_FB_LOGIN_PAGE_URL_PATTERN = @"https://waveface.com/sns/facebook/signin";
-		const string DEV_WEB_FB_LOGIN_PAGE_URL_PATTERN = @"http://develop.waveface.com:4343/sns/facebook/signin";
+
+		const string WEB_BASE_URL = @"https://waveface.com";
+		const string DEV_WEB_BASE_PAGE_URL = @"http://develop.waveface.com:4343";
+
+		const string SIGNUP_URL_PATH = @"/signup";
+		const string LOGIN_URL_PATH = @"/sns/facebook/signin";
+		const string CALLBACK_URL_PATH = @"/client/callback";
+
 		const string FB_LOGIN_GUID = @"6CF7FA1E-80F7-48A3-922F-F3B2841C7A0D";
 		const string CALLBACK_MATCH_PATTERN_FORMAT = @"(/" + FB_LOGIN_GUID + "/{0}?.*)";
 		const string EMAIL_MATCH_PATTERN = @"^(([^<>()[\]\\.,;:\s@\""]+"
@@ -49,30 +53,57 @@ namespace StationSystemTray
 										 + @"[a-zA-Z]{2,}))$";
 		#endregion
 
+
 		#region Var
 		private Messenger _messenger;
 		private Timer _timer;
+		private string _baseUrl;
 		private string _signUpUrl;
 		private string _fbLoginUrl;
+		private string _callbackUrl;
 		#endregion
 
 
 
 		#region Private Property
+		private string m_BaseUrl
+		{
+			get
+			{
+				if (_baseUrl == null)
+				{
+					if (Wammer.Cloud.CloudServer.BaseUrl.Contains("develop.waveface.com"))
+					{
+						_baseUrl = DEV_WEB_BASE_PAGE_URL;
+					}
+					else
+					{
+						_baseUrl = WEB_BASE_URL;
+					}
+				}
+				return _baseUrl;
+			}
+		}
+
+		private string m_CallbackUrl
+		{
+			get
+			{
+				if (_callbackUrl == null)
+				{
+					_callbackUrl = Path.Combine(m_BaseUrl, CALLBACK_URL_PATH);
+				}
+				return _callbackUrl;
+			}
+		}
+
 		private string m_SignUpUrl
 		{
 			get
 			{
 				if (_signUpUrl == null)
 				{
-					if (Wammer.Cloud.CloudServer.BaseUrl.Contains("develop.waveface.com"))
-					{
-						_signUpUrl = DEV_WEB_SIGNUP_PAGE_URL_PATTERN;
-					}
-					else
-					{
-						_signUpUrl = WEB_SIGNUP_PAGE_URL_PATTERN;
-					}
+					_signUpUrl = m_BaseUrl + SIGNUP_URL_PATH;
 				}
 				return _signUpUrl;
 			}
@@ -84,14 +115,7 @@ namespace StationSystemTray
 			{
 				if (_fbLoginUrl == null)
 				{
-					if (Wammer.Cloud.CloudServer.BaseUrl.Contains("develop.waveface.com"))
-					{
-						_fbLoginUrl = DEV_WEB_FB_LOGIN_PAGE_URL_PATTERN;
-					}
-					else
-					{
-						_fbLoginUrl = WEB_FB_LOGIN_PAGE_URL_PATTERN;
-					}
+					_fbLoginUrl = m_BaseUrl + LOGIN_URL_PATH;
 				}
 				return _fbLoginUrl;
 			}
@@ -104,7 +128,7 @@ namespace StationSystemTray
 		private readonly IPerfCounter m_UpRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
 		private readonly IPerfCounter m_DownRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
 		private readonly IPerfCounter m_UpStreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
-		private IPerfCounter m_DownStreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false);
+		private readonly IPerfCounter m_DownStreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false);
 
 
 
@@ -128,25 +152,6 @@ namespace StationSystemTray
 				return _messenger;
 			}
 		}
-
-		//private SignUpDialog m_SignUpDialog 
-		//{
-		//    get
-		//    {
-		//        if (_SignUpDialog == null)
-		//            _SignUpDialog = new SignUpDialog()
-		//            {
-		//                Text = this.Text,
-		//                Icon = this.Icon,
-		//                StartPosition = FormStartPosition.CenterParent
-		//            };
-		//        return _SignUpDialog;
-		//    }
-		//    set
-		//    {
-		//        _SignUpDialog = value;
-		//    }
-		//}
 		#endregion
 
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
@@ -265,16 +270,10 @@ namespace StationSystemTray
 					if (userlogin != null)
 					{
 						cmbEmail.Items.Add(userlogin.Email);
-						ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-						menu.Name = userlogin.Email;
+						//var menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+						//menu.Name = userlogin.Email;
 						userlogins.Add(userlogin);
 					}
-				}
-
-				if (userlogins.Count > 0)
-				{
-					var lastUserLogin = userloginContainer.GetLastUserLogin();
-					userloginContainer.ResetUserLoginSetting(userlogins, lastUserLogin == null ? string.Empty : lastUserLogin.Email);
 				}
 			}
 			catch (Exception)
@@ -288,21 +287,31 @@ namespace StationSystemTray
 			{
 				Debug.Assert(userlogin != null, "param userlogin cannot be empty when timeline opened");
 
-				if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
+				if (userlogin.SessionToken == userloginContainer.GetLastUserLogin().SessionToken)
 				{
 					var handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
 					Win32Helper.SetForegroundWindow(handle);
 					Win32Helper.ShowWindow(handle, 5);
 					return;
 				}
-					if (clientProcess != null)
+				if (clientProcess != null)
 					clientProcess.CloseMainWindow();
-				}
+			}
+
+			var lastLogin = userloginContainer.GetLastLogin();
+			if (!string.IsNullOrEmpty(lastLogin))
+			{
+				LaunchClient(lastLogin);
+				this.WindowState = FormWindowState.Minimized;
+				this.ShowInTaskbar = false;
+				Close();
+				return;
+			}
 
 			LoginedSession loginedSession = null;
 
 			if (userlogin != null)
-				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+				loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
 
 			if (loginedSession != null || (userlogin != null && userlogin.RememberPassword))
 			{
@@ -774,17 +783,17 @@ namespace StationSystemTray
 			}
 		}
 
+		private bool LaunchWavefaceClient()
+		{
+			return LaunchWavefaceClient(userloginContainer.GetLastUserLogin());
+		}
+
 		private bool LaunchWavefaceClient(UserLoginSetting userlogin)
 		{
 			Cursor.Current = Cursors.WaitCursor;
 
 			try
 			{
-				if (userlogin == null)
-				{
-					userlogin = userloginContainer.GetLastUserLogin();
-				}
-
 				LoginedSession sessionData = LoginToStation(userlogin);
 
 				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
@@ -836,9 +845,9 @@ namespace StationSystemTray
 		{
 			try
 			{
-				using (Wammer.Utility.DefaultWebClient agent = new Wammer.Utility.DefaultWebClient())
+				using (DefaultWebClient agent = new DefaultWebClient())
 				{
-					return User.LogIn(
+					var ret = User.LogIn(
 						agent, 
 						"http://localhost:9981/v2/",
 						userlogin.Email, 
@@ -846,12 +855,16 @@ namespace StationSystemTray
 						CLIENT_API_KEY,
 						(string)StationRegistry.GetValue("stationId", string.Empty),
 						Environment.MachineName).LoginedInfo;
+
+					userlogin.SessionToken = ret.session_token;
+					userloginContainer.UpsertUserLoginSetting(userlogin);
+
+					return ret;
 				}
 			}
 			catch (WammerCloudException e)
 			{
-				Exception error = StationController.ExtractApiRetMsg(e);
-				throw error;
+				throw StationController.ExtractApiRetMsg(e);
 			}
 		}
 
@@ -901,7 +914,7 @@ namespace StationSystemTray
 
 		private bool TestEmailFormat(string emailAddress)
 		{
-			return Regex.IsMatch(EMAIL_MATCH_PATTERN, emailAddress);
+			return Regex.IsMatch(emailAddress, EMAIL_MATCH_PATTERN);
 		}
 
 		private void btnOK_Click(object sender, EventArgs e)
@@ -922,37 +935,32 @@ namespace StationSystemTray
 		{
 			this.Hide();
 
-			var signUpUrl = string.Format("/{0}/SignUp", FB_LOGIN_GUID);
+			var signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
 			var postData = new FBLoginPostData()
 			{
-			    device_id = StationRegistry.GetValue("stationId",string.Empty).ToString(),
-			    device_name = Environment.MachineName,
-			    device = "windows",
-			    api_key = CLIENT_API_KEY,
-			    xurl = string.Format("{0}?session_token=%(session_token)s&user_id=%(user_id)s", signUpUrl)
+				device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+				device_name = Environment.MachineName,
+				device = "windows",
+				api_key = CLIENT_API_KEY,
+				xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s", signUpUrl)
 			};
 
-			var browser = new WebBrowser() 
+			var browser = new WebBrowser()
 			{
-			    Dock = DockStyle.Fill
+				Dock = DockStyle.Fill
 			};
-			
+
 
 			var dialog = new Form()
 			{
-			    Width = this.Width,
-			    Height = this.Height,
-			    Text = this.Text,
-			    StartPosition = FormStartPosition.CenterParent
+				Width = 750,
+				Height = 700,
+				Text = this.Text,
+				StartPosition = FormStartPosition.CenterParent
 			};
 			dialog.Controls.Add(browser);
 
-			browser.Navigating += (s, ex) =>
-			{
-				var url = browser.Url;
-			};
-
-			browser.Navigated += (s,ex) => 
+			browser.Navigated += (s, ex) =>
 			{
 				var url = browser.Url;
 				if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"), RegexOptions.IgnoreCase))
@@ -962,17 +970,39 @@ namespace StationSystemTray
 			};
 
 
-			browser.Navigate(m_FBLoginUrl,
-			    string.Empty, 
-			    Encoding.UTF8.GetBytes(FastJSONHelper.ToFastJSON(postData)),
-			    "Content-Type: application/json");
+			browser.Navigate(m_SignUpUrl,
+				string.Empty,
+				Encoding.UTF8.GetBytes(FastJSONHelper.ToFastJSON(postData)),
+				"Content-Type: application/json");
 
 			if (dialog.ShowDialog() == DialogResult.OK)
 			{
 				var url = browser.Url;
 				var parameters = HttpUtility.ParseQueryString(url.Query);
+				var apiRetCode = parameters["api_ret_code"];
+
+				if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+				{
+					if (!this.IsDisposed)
+						this.Show();
+					return;
+				}
+
 				var sessionToken = parameters["session_token"];
 				var userID = parameters["user_id"];
+				var email = parameters["email"];
+				var password = parameters["password"];
+				var accountType = parameters["account_type"];
+
+				if (accountType.Equals("native", StringComparison.CurrentCultureIgnoreCase))
+				{
+					this.cmbEmail.Text = email;
+					this.txtPassword.Text = password;
+
+					if (!this.IsDisposed)
+						this.Show();
+					return;
+				}
 
 				m_LoginAction = () =>
 				{
@@ -980,17 +1010,20 @@ namespace StationSystemTray
 				};
 
 				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
-
 				if (driver == null)
 				{
-					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text);
+					var res = StationController.AddUser(userID, sessionToken);
 
 					//Show welcome msg
 					GotoTabPage(tabMainStationSetup);
+
+					if (!this.IsDisposed)
+						this.Show();
 					return;
 				}
 
 				m_LoginAction();
+				return;
 			}
 
 			if (!this.IsDisposed)
@@ -1017,8 +1050,12 @@ namespace StationSystemTray
 		}
 		#endregion
 
-		public static void LogOut(WebClient agent, string sessionToken, string apiKey)
+		public void LogOut(WebClient agent, string sessionToken, string apiKey)
 		{
+			InternetSetOption(IntPtr.Zero, 42, IntPtr.Zero, 0);
+
+			userloginContainer.UpdateLastLogin(string.Empty);
+
 			var parameters = new Dictionary<object, object>{
 			{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
 			{CloudServer.PARAM_API_KEY, apiKey}};
@@ -1030,17 +1067,17 @@ namespace StationSystemTray
 		{
 			if (menuSignIn.Text == Properties.Resources.LogoutMenuItem)
 			{
-				var userlogin = userloginContainer.GetLastUserLogin();
+				var lastLogin = userloginContainer.GetLastLogin();
 				LoginedSession loginedSession = null;
 
-				if (userlogin != null)
+				if (lastLogin != null)
 				{
 					if (clientProcess != null)
 					{
 						clientProcess.CloseMainWindow();
 					}
 
-					loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+					loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 					LogOut(new WebClient(), loginedSession.session_token, loginedSession.apikey.apikey);
 				}
 			}
@@ -1053,7 +1090,7 @@ namespace StationSystemTray
 			LoginedSession loginedSession = null;
 
 			if (userlogin != null)
-				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+				loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
 
 			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
 			
@@ -1148,82 +1185,83 @@ namespace StationSystemTray
 
 		private void fbLoginButton1_Click(object sender, EventArgs e)
 		{
-			this.Hide();
-			var fbLoginUrl = string.Format("/{0}/FBLogin", FB_LOGIN_GUID);
-			var postData = new FBLoginPostData()
-			{
-				device_id = StationRegistry.GetValue("stationId",string.Empty).ToString(),
-				device_name = Environment.MachineName,
-				device = "windows",
-				api_key = CLIENT_API_KEY,
-				xurl = string.Format("{0}?session_token=%(session_token)s&user_id=%(user_id)s", fbLoginUrl)
-			};
-
-			var browser = new WebBrowser() 
-			{
-				
-				Dock = DockStyle.Fill
-			};
-			
-
-			var dialog = new Form()
-			{
-				Width = this.Width,
-				Height = this.Height,
-				Text = this.Text,
-				StartPosition = FormStartPosition.CenterParent
-			};
-			dialog.Controls.Add(browser);
-
-			browser.Navigating += (s, ex) =>
-			{
-				var url = browser.Url;
-			};
-
-			browser.Navigated += (s,ex) => 
-			{
-				var url = browser.Url;
-				if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"), RegexOptions.IgnoreCase))
+				this.Hide();
+				var fbLoginUrl = string.Format("{0}/{1}/FBLogin", m_CallbackUrl, FB_LOGIN_GUID);
+				var postData = new FBLoginPostData()
 				{
-					dialog.DialogResult = DialogResult.OK;
-				}
-			};
+					device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+					device_name = Environment.MachineName,
+					device = "windows",
+					api_key = CLIENT_API_KEY,
+					xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s", fbLoginUrl)
+				};
 
-			InternetSetOption(IntPtr.Zero, 42, IntPtr.Zero, 0);
-
-			browser.Navigate(m_FBLoginUrl,
-				string.Empty, 
-				Encoding.UTF8.GetBytes(FastJSONHelper.ToFastJSON(postData)),
-				"Content-Type: application/json");
-
-			if (dialog.ShowDialog() == DialogResult.OK)
-			{
-				var url =  browser.Url.Query;
-				//var parameters = HttpUtility.ParseQueryString(url);
-				var sessionToken = Regex.Match(url, @"session_token\s*=\s*(?<Value>[^&]+)").Groups["Value"].Value.ToString();
-				var userID = Regex.Match(url, @"user_id\s*=\s*(?<Value>[^&]+)").Groups["Value"].Value.ToString();
-
-				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
-
-				m_LoginAction = () =>
-				                	{
-				                		LoginAndLaunchClient(sessionToken, userID);
-				                	};
-
-				if (driver == null)
+				var browser = new WebBrowser()
 				{
-					var res = StationController.AddUser(userID, sessionToken);
 
-					//Show welcome msg
-					GotoTabPage(tabMainStationSetup);
-					return;
+					Dock = DockStyle.Fill
+				};
+
+
+				var dialog = new Form()
+				{
+					Width = 750,
+					Height = 700,
+					Text = this.Text,
+					StartPosition = FormStartPosition.CenterParent
+				};
+				dialog.Controls.Add(browser);
+
+				browser.Navigated += (s, ex) =>
+				{
+					var url = browser.Url;
+					if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"), RegexOptions.IgnoreCase))
+					{
+						dialog.DialogResult = DialogResult.OK;
+					}
+				};
+
+				browser.Navigate(m_FBLoginUrl,
+					string.Empty,
+					Encoding.UTF8.GetBytes(FastJSONHelper.ToFastJSON(postData)),
+					"Content-Type: application/json");
+
+				if (dialog.ShowDialog() == DialogResult.OK)
+				{
+					var url = browser.Url.Query;
+					var parameters = HttpUtility.ParseQueryString(url);
+					var apiRetCode = parameters["api_ret_code"];
+
+					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+					{
+						if (!this.IsDisposed)
+							this.Show();
+						return;
+					}
+					
+					var sessionToken = parameters["session_token"];
+					var userID = parameters["user_id"];
+
+					m_LoginAction = () =>
+										{
+											LoginAndLaunchClient(sessionToken, userID);
+										};
+
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+					if (driver == null)
+					{
+						var res = StationController.AddUser(userID, sessionToken);
+
+						//Show welcome msg
+						GotoTabPage(tabMainStationSetup);
+
+						if (!this.IsDisposed)
+							this.Show();
+						return;
+					}
+
+					m_LoginAction();
 				}
-				
-				m_LoginAction();
-			}
-
-			if (!this.IsDisposed)
-				this.Show();
 		}
 
 		private void LoginAndLaunchClient(UserLoginSetting loginSetting)
@@ -1236,6 +1274,8 @@ namespace StationSystemTray
 		{
 			//Login user
 			StationController.UserLogin(CLIENT_API_KEY, userID, sessionToken);
+
+			userloginContainer.UpdateLastLogin(sessionToken);
 
 			LaunchClient(sessionToken);
 			Close();
