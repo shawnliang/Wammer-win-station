@@ -12,12 +12,24 @@ using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
+	public class IsPrimaryChangedEvtArgs : EventArgs
+	{
+		public Driver driver;
+
+		public IsPrimaryChangedEvtArgs(Driver driver)
+		{
+			this.driver = driver;
+		}
+	}
+
 	public class StatusChecker : NonReentrantTimer
 	{
 		//private Timer timer;
 		//private long timerPeriod;
 		private bool logon = false;  // logOn is needed for every time service start
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
+
+		public EventHandler<IsPrimaryChangedEvtArgs> IsPrimaryChanged;
 
 		public StatusChecker(long timerPeriod)
 			:base(timerPeriod)
@@ -126,12 +138,26 @@ namespace Wammer.Station
 
 				if (currStation != null)
 				{
-					DriverCollection.Instance.Update(
-						Query.EQ("_id", user.user_id), 
-						Update.Set("isPrimaryStation", (currStation.type == "primary"))
-					);
+					bool isCurrPrimaryStation = (currStation.type == "primary");
+					if (user.isPrimaryStation != isCurrPrimaryStation)
+					{
+						user.isPrimaryStation = isCurrPrimaryStation;
+						DriverCollection.Instance.Update(
+							Query.EQ("_id", user.user_id),
+							Update.Set("isPrimaryStation", isCurrPrimaryStation)
+						);
+						OnIsPrimaryChanged(new IsPrimaryChangedEvtArgs(user));
+					}
 				}
 			}
+		}
+
+		private void OnIsPrimaryChanged(IsPrimaryChangedEvtArgs args)
+		{
+			var handler = this.IsPrimaryChanged;
+
+			if (handler != null)
+				handler(this, args);
 		}
 
 		public override void Stop()

@@ -46,7 +46,7 @@ namespace Wammer.Station
 			DownloadMissedResource(e.Driver, e.Posts);
 		}
 
-		private void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
+		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
 			ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
 			{

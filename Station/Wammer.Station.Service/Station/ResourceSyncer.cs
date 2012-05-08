@@ -43,6 +43,17 @@ namespace Wammer.Station
 			PullTimeline();
 		}
 
+		public void OnIsPrimaryChanged(object sender, IsPrimaryChangedEvtArgs args)
+		{
+			if (args.driver.isPrimaryStation)
+			{
+				// just upgraded to primary station
+				foreach (var attachment in AttachmentCollection.Instance.FindAll())
+				{
+					downloader.EnqueueDownstreamTask(new AttachmentInfo(attachment), args.driver, ImageMeta.Origin);
+				}
+			}
+		}
 
 		private void PullTimeline()
 		{
