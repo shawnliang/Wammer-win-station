@@ -37,6 +37,7 @@ namespace StationSystemTray
 	{
 		public string Email { get; set; }
 		public string Password { get; set; }
+		public string SessionToken { get; set; }
 		public bool RememberPassword { get; set; }
 	}
 
@@ -55,42 +56,50 @@ namespace StationSystemTray
 		{
 			lock (cs)
 			{
+				settings.LastLogin = lastlogin;
+
 				settings.Users.Clear();
-				settings.LastLogin = string.Empty;
-				foreach (UserLoginSetting userlogin in userlogins)
-				{
-					settings.Users.Add(userlogin);
-					if (userlogin.Email == lastlogin)
-					{
-						settings.LastLogin = lastlogin;
-					}
-				}
+				settings.Users.AddRange(userlogins);
+
 				settings.Save();
 			}
+		}
+
+		public string GetLastLogin()
+		{
+			return settings.LastLogin;
+		}
+
+		public void UpdateLastLogin(string sessionToken)
+		{
+			settings.LastLogin = sessionToken;
+			settings.Save();
 		}
 
 		public void UpsertUserLoginSetting(UserLoginSetting userlogin)
 		{
 			lock (cs)
 			{
-				bool duplicated = false;
+				bool isExisted = false;
 
 				foreach (UserLoginSetting oldUserlogin in settings.Users)
 				{
 					if (oldUserlogin.Email == userlogin.Email)
 					{
 						oldUserlogin.Password = userlogin.Password;
+						oldUserlogin.SessionToken = userlogin.SessionToken;
 						oldUserlogin.RememberPassword = userlogin.RememberPassword;
-						duplicated = true;
+						isExisted = true;
+						break;
 					}
 				}
 
-				if (!duplicated)
+				if (!isExisted)
 				{
 					settings.Users.Add(userlogin);
 				}
 
-				settings.LastLogin = userlogin.Email;
+				settings.LastLogin = userlogin.SessionToken;
 				settings.Save();
 			}
 		}
@@ -107,19 +116,8 @@ namespace StationSystemTray
 						newusers.Add(userlogin);
 					}
 				}
-				string lastlogin = settings.LastLogin;
 
-				settings.Users.Clear();
-				settings.LastLogin = string.Empty;
-				foreach (UserLoginSetting userlogin in newusers)
-				{
-					settings.Users.Add(userlogin);
-					if (userlogin.Email == lastlogin)
-					{
-						settings.LastLogin = lastlogin;
-					}
-				}
-				settings.Save();
+				ResetUserLoginSetting(newusers, settings.LastLogin);
 			}
 		}
 
@@ -144,7 +142,7 @@ namespace StationSystemTray
 			{
 				foreach (UserLoginSetting userlogin in settings.Users)
 				{
-					if (userlogin.Email == settings.LastLogin)
+					if (userlogin.SessionToken == settings.LastLogin)
 					{
 						return userlogin;
 					}

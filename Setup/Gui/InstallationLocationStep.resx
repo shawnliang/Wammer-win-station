@@ -160,13 +160,13 @@
     <value>10, 15, 10, 5</value>
   </data>
   <data name="lblDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>246, 13</value>
+    <value>282, 13</value>
   </data>
   <data name="lblDescription.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
   <data name="lblDescription.Text" xml:space="preserve">
-    <value>Waveface will be installed in the following location:</value>
+    <value>Waveface Stream will be installed in the following location:</value>
   </data>
   <data name="&gt;&gt;lblDescription.Name" xml:space="preserve">
     <value>lblDescription</value>

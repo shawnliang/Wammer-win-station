@@ -43,26 +43,26 @@ namespace Wammer.Station
 
 			if (loginedSession == null)
 				throw new WammerStationException(
-							"Logined session not found!", (int)StationApiError.NotFound);
+							"Logined session not found!", (int)StationLocalApiError.NotFound);
 
 			var postID = Parameters[CloudServer.PARAM_POST_ID];
 
 			var post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
 			if (post == null)
 				throw new WammerStationException(
-							"Post not found!", (int)StationApiError.NotFound);
+							"Post not found!", (int)StationLocalApiError.NotFound);
 
 			var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
 			var driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
 			if (driver == null)
 				throw new WammerStationException(
-							"Driver not found!", (int)StationApiError.InvalidDriver);
+							"Driver not found!", (int)StationLocalApiError.InvalidDriver);
 
 			var userGroup = driver.groups.Where((group) => group.group_id == groupID).FirstOrDefault();
 
 			if (userGroup == null)
 				throw new WammerStationException(
-							"Group not found!", (int)StationApiError.NotFound);
+							"Group not found!", (int)StationLocalApiError.NotFound);
 
 			if (post.comments == null)
 				post.comments = new List<Comment>();

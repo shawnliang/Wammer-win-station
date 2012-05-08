@@ -23,12 +23,17 @@ namespace Wammer.Station
 
 		private List<IStationTimer> timers;
 
-		public StationTimer(ITaskEnqueuable bodySyncQueue, string stationId)
+		public StationTimer(ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
 		{
+			var resourceSyncer = new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue, stationId);
+			var statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);
+			statusChecker.IsPrimaryChanged += new EventHandler<IsPrimaryChangedEvtArgs>(resourceSyncer.OnIsPrimaryChanged);
+			var taskRetryTimer = new TaskRetryTimer();
+
 			timers = new List<IStationTimer> {
-				new StatusChecker(STATUS_CHECK_PERIOD),
-				new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue, stationId),
-				new TaskRetryTimer()
+				resourceSyncer,
+				statusChecker,
+				taskRetryTimer
 			};
 		}
 

@@ -16,7 +16,7 @@ namespace Wammer.Station.AttachmentUpload
 		private const int MAX_RETRY = 30;
 
 		public MakeThumbnailTask(string object_id, ImageMeta thumbnail_type, TaskPriority pri)
-			:base(Retry.RetryQueue.Instance, pri)
+			: base(Retry.RetryQueue.Instance, pri)
 		{
 			if (thumbnail_type == ImageMeta.Origin || thumbnail_type == ImageMeta.None)
 				throw new ArgumentException("thumbnail_type");
@@ -33,6 +33,11 @@ namespace Wammer.Station.AttachmentUpload
 				return;
 			}
 
+			MakeThumbnail();
+		}
+
+		public void MakeThumbnail()
+		{
 			Attachment attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", this.object_id));
 			if (attachment == null)
 				return;

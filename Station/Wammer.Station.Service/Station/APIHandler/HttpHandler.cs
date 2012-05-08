@@ -10,6 +10,8 @@ using Wammer.Model;
 using Wammer.PerfMonitor;
 using System.Linq;
 using Wammer.Cloud;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Wammer.Station
 {
@@ -30,6 +32,14 @@ namespace Wammer.Station
 
 	public abstract class HttpHandler : IHttpHandler
 	{
+		#region Const
+		private const string BOUNDARY = "boundary=";
+		private const string URL_ENCODED_FORM = "application/x-www-form-urlencoded";
+		private const string MULTIPART_FORM = "multipart/form-data";
+		private const string API_PATH_GROUP_NAME = @"APIPath";
+		private const string API_PATH_MATCH_PATTERN = @"/V\d+/(?<" + API_PATH_GROUP_NAME + ">.+)";
+		#endregion
+
 		public HttpListenerRequest Request { get; internal set; }
 		public HttpListenerResponse Response { get; internal set; }
 		public NameValueCollection Parameters { get; internal set; }
@@ -37,10 +47,6 @@ namespace Wammer.Station
 		public LoginedSession Session { get; set; }
 		public byte[] RawPostData { get; internal set; }
 		private long beginTime;
-
-		private const string BOUNDARY = "boundary=";
-		private const string URL_ENCODED_FORM = "application/x-www-form-urlencoded";
-		private const string MULTIPART_FORM = "multipart/form-data";
 
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
@@ -72,8 +78,24 @@ namespace Wammer.Station
 			}
 		}
 
-		protected void TunnelToCloud<T>(string apiPath)
+		protected void TunnelToCloud()
 		{
+			Debug.Assert(this.Request != null);
+
+			var apiPath = Regex.Match(this.Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].Value;
+			var forwardParams = new Dictionary<object, object>();
+			foreach (string key in Parameters.AllKeys)
+			{
+				forwardParams.Add(key, Parameters[key]);
+			}
+			RespondSuccess(CloudServer.requestPath(new WebClient(), apiPath, forwardParams, false));
+		}
+
+		protected void TunnelToCloud<T>()
+		{
+			Debug.Assert(this.Request != null);
+
+			var apiPath = Regex.Match(this.Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].Value;
 			var forwardParams = new Dictionary<object, object>();
 			foreach (string key in Parameters.AllKeys)
 			{

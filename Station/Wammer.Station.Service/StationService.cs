@@ -22,9 +22,9 @@ namespace Wammer.Station.Service
 		private string stationId;
 		private string resourceBasePath;
 		private DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
-		private TaskRunner[] bodySyncRunners;
+		private TaskRunner<INamedTask>[] bodySyncRunners;
 		private PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
-		private TaskRunner[] upstreamTaskRunner;
+		private TaskRunner<ITask>[] upstreamTaskRunner;
 
 		public StationService()
 		{			
@@ -47,7 +47,7 @@ namespace Wammer.Station.Service
 		{
 			try
 			{
-				logger.Info("============== Starting Waveface Station =================");
+				logger.Info("============== Starting Stream Station =================");
 				ConfigThreadPool();
 
 				ResetPerformanceCounter();
@@ -58,7 +58,7 @@ namespace Wammer.Station.Service
 				Environment.CurrentDirectory = Path.GetDirectoryName(
 										Assembly.GetExecutingAssembly().Location);
 
-				logger.Debug("Initialize Waveface Service");
+				logger.Debug("Initialize Stream Service");
 				InitStationId();
 				InitResourceBasePath();
 
@@ -69,7 +69,7 @@ namespace Wammer.Station.Service
 
 				stationTimer = new StationTimer(bodySyncTaskQueue, stationId);
 
-				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(functionServer_TaskEnqueue);
+				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 
 				APIHandler.AttachmentUploadHandler attachmentHandler = new APIHandler.AttachmentUploadHandler();
@@ -95,10 +95,10 @@ namespace Wammer.Station.Service
 				stationTimer.Start();
 
 				int bodySyncThreadNum = 1;
-				bodySyncRunners = new TaskRunner[bodySyncThreadNum];
+				bodySyncRunners = new TaskRunner<INamedTask>[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
-					var bodySyncRunner = new TaskRunner(bodySyncTaskQueue);
+					var bodySyncRunner = new TaskRunner<INamedTask>(bodySyncTaskQueue);
 					bodySyncRunners[i] = bodySyncRunner;
 
 					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
@@ -107,18 +107,18 @@ namespace Wammer.Station.Service
 
 				postUploadRunner.Start();
 
-				const int upstreamThreads = 3;
-				upstreamTaskRunner = new TaskRunner[upstreamThreads];
+				const int upstreamThreads = 1;
+				upstreamTaskRunner = new TaskRunner<ITask>[upstreamThreads];
 				for (int i = 0; i < upstreamThreads; i++)
 				{
-					upstreamTaskRunner[i] = new TaskRunner(AttachmentUpload.AttachmentUploadQueue.Instance);
+					upstreamTaskRunner[i] = new TaskRunner<ITask>(AttachmentUpload.AttachmentUploadQueue.Instance);
 					upstreamTaskRunner[i].Start();
 				}
 
 
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989);
-				managementServer.TaskEnqueue += managementServer_TaskEnqueue;
+				managementServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
 				InitManagementServerHandler(addDriverHandler);
@@ -131,7 +131,7 @@ namespace Wammer.Station.Service
 
 
 
-				logger.Info("Waveface station is started");
+				logger.Info("Stream station is started");
 			}
 			catch (Exception ex)
 			{
@@ -244,22 +244,12 @@ namespace Wammer.Station.Service
 
 		void loginHandler_UserLogined(object sender, UserLoginEventArgs e)
 		{
-			TaskQueue.Enqueue(new UpdateDriverDBTask(e), TaskPriority.High);
+			TaskQueue.Enqueue(new UpdateDriverDBTask(e, this.stationId), TaskPriority.High);
 		}
 
 		private static string GetDefaultBathPath(string relativedPath)
 		{
 			return "/" + CloudServer.DEF_BASE_PATH + relativedPath;
-		}
-
-		void functionServer_TaskEnqueue(object sender, TaskQueueEventArgs e)
-		{
-			HttpRequestMonitor.Instance.Enqueue();
-		}
-
-		void managementServer_TaskEnqueue(object sender, TaskQueueEventArgs e)
-		{
-			HttpRequestMonitor.Instance.Enqueue();
 		}
 
 		#region Private Method
@@ -306,13 +296,8 @@ namespace Wammer.Station.Service
 
 		protected override void OnStop()
 		{
-			int bodySyncThreadNum = 1;
-
-			for (int i = 0; i < bodySyncThreadNum; i++)
-			{
-				bodySyncRunners[i].Stop();
-			}
-
+			Array.ForEach(bodySyncRunners, runner => runner.Stop());
+			Array.ForEach(upstreamTaskRunner, runner => runner.Stop());
 			postUploadRunner.Stop();
 
 			functionServer.Stop();

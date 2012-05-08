@@ -3,17 +3,17 @@
   <!-- This is translation to English (United States) -->
   <String Id="LANGUAGE">1033</String>
   <String Id="CULTURE">en-US</String>
-  <String Id="APPNAME">Waveface</String>
+  <String Id="APPNAME">Waveface Stream</String>
   <String Id="SHORTCUT.UNINSTALLER.NAME">Uninstaller</String>
   <String Id="MONGO_SVC_DESC">MongoDB for Waveface Station </String>
   <String Id="STATION_SVC_DESC">Waveface Station service</String>
   <String Id="DOWNGRADE.ERROR">A later version of [ProductName] is already installed. Setup will now exit.</String>
-  <String Id="SIGNOFF.STATION.DESC">Signing off this Waveface Station</String>
+  <String Id="SIGNOFF.STATION.DESC">Signing off Waveface Stream</String>
   <String Id="CLEAN.STATION.INFO.DESC">Cleaning station registry and database</String>
   <String Id="CLEAN.APP.DATA.DESC">Cleaning application data</String>
   <String Id="KILL.PROCESS.DESC">Close running process</String>
   <String Id="WaitMongoDbReady">Preparing MongoDB. This may take minutes. Please wait.</String>
-  <String Id="StartWavefaceService">Starting Waveface Station service</String>
+  <String Id="StartWavefaceService">Starting Waveface Stream station service</String>
   <String Id="RestoreBackupData">Restoring data</String>
   <String Id="MigrateThumbnailsExtension">Migrating data</String>
   <String Id="WriteProductInfo">Saving product configuration</String>

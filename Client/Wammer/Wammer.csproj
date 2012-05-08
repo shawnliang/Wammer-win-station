@@ -83,6 +83,12 @@
       <HintPath>..\Libs\Interop.SHDocVw.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\Station\3rd_party\mongo-driver\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\Station\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="MonthCalendarControl">
       <HintPath>..\Libs\MonthCalendarControl.dll</HintPath>
     </Reference>
@@ -110,9 +116,6 @@
     </Reference>
     <Reference Include="Waveface.Configuration.WindowsForms">
       <HintPath>..\Libs\Waveface.Configuration.WindowsForms.dll</HintPath>
-    </Reference>
-    <Reference Include="WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <ExecutableExtension>.exe</ExecutableExtension>
     </Reference>
     <Reference Include="WebCam_Capture">
       <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
@@ -1020,6 +1023,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"
+if $(ConfigurationName) == Debug copy /y "$(ProjectDir)$(OutDir)*.*" "$(SolutionDir)Station\Wammer.Station.Service\$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

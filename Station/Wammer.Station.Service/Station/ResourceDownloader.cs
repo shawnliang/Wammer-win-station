@@ -32,10 +32,10 @@ namespace Wammer.Station
 	class ResourceDownloader
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceDownloader));
-		private ITaskEnqueuable bodySyncQueue;
+		private ITaskEnqueuable<INamedTask> bodySyncQueue;
 		private string stationId;
 
-		public ResourceDownloader(ITaskEnqueuable bodySyncQueue, string stationId)
+		public ResourceDownloader(ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
 		{
 			this.bodySyncQueue = bodySyncQueue;
 			this.stationId = stationId;
@@ -46,7 +46,7 @@ namespace Wammer.Station
 			DownloadMissedResource(e.Driver, e.Posts);
 		}
 
-		private void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
+		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
 			ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
 			{

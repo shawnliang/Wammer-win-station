@@ -18,7 +18,7 @@ namespace Wammer.Station
 
 			Attachment doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id));
 			if (doc == null)
-				throw new WammerStationException("Resource not found: " + object_id, (int)StationApiError.NotFound);
+				throw new WammerStationException("Resource not found: " + object_id, (int)StationLocalApiError.NotFound);
 
 			
 			RespondSuccess(new AttachmentResponse(doc));

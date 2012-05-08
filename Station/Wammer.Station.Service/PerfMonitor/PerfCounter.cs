@@ -32,13 +32,13 @@ namespace Wammer.PerfMonitor
 		public const string POST_IN_QUEUE = "Post upload tasks in queue";
 		#endregion
 
-		#region Static Var
-		//private static bool CategoryExists = PerformanceCounterCategory.Exists(CATEGORY_NAME);
+		#region Static Var		
 		private static ILog _logger;
 		#endregion
 
-		#region Var
-		PerformanceCounter Counter;		
+		#region Var		
+		private float _value;
+		private PerformanceCounter Counter;		
 		#endregion
 
 		#region Private Static Property
@@ -52,6 +52,27 @@ namespace Wammer.PerfMonitor
 			}
 		}
 		#endregion
+
+
+		#region Private Property
+		private DateTime m_ValueUpdateTime { get; set; }
+
+		private float m_Value 
+		{
+			get
+			{
+				var now = DateTime.Now;
+				if ((now - m_ValueUpdateTime).TotalSeconds >= 1)
+				{
+					_value = Counter.NextValue();
+					m_ValueUpdateTime = now;
+				}
+
+				return _value;
+			}
+		}
+		#endregion
+
 
 		static PerfCounter()
 		{
@@ -82,17 +103,31 @@ namespace Wammer.PerfMonitor
 
 		public void Increment()
 		{
-			Counter.Increment();
+			lock (Counter)
+			{
+				Counter.Increment();
+			}
 		}
 
 		public void IncrementBy(long value)
 		{
-			Counter.IncrementBy(value);
+			lock (Counter)
+			{
+				Counter.IncrementBy(value);
+			}
 		}
 
 		public void Decrement()
 		{
-			Counter.Decrement();
+			lock (Counter)
+			{
+				Debug.Assert(m_Value > 0);
+
+				if (m_Value <= 0)
+					return;
+
+				Counter.Decrement();
+			}
 		}
 
 		public CounterSample NextSample()
@@ -102,7 +137,7 @@ namespace Wammer.PerfMonitor
 
 		public float NextValue()
 		{
-			return Counter.NextValue();
+			return m_Value;
 		}
 	}
 

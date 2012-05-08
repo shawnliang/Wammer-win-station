@@ -68,7 +68,7 @@ namespace Wammer.Station.AttachmentUpload
 			{
 				Attachment.Upload(f, attachment.group_id, this.object_id, attachment.file_name,
 					info.mime_type, this.meta, attachment.type, Cloud.CloudServer.APIKey,
-					user.session_token, 1024, UpstreamProgressChanged);
+					user.session_token, 65535, UpstreamProgressChanged);
 			}
 
 			AttachmentCollection.Instance.Update(

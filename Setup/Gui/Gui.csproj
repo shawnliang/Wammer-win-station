@@ -218,10 +218,10 @@
     <None Include="ResourceFiles\LicenseStep.zh-TW.rtf" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="install_icon.ico" />
     <Content Include="ResourceFiles\configure.png" />
     <Content Include="ResourceFiles\InstallationStep.png" />
-    <None Include="Resources\WfInstallStep.png" />
+    <None Include="Resources\configure512.png" />
+    <None Include="Resources\configure.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
