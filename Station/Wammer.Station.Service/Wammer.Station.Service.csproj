@@ -118,6 +118,8 @@
     <Compile Include="Queue\MongoPersistentStorage.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
+    <Compile Include="Station\AttachmentUpload\NullTask.cs" />
+    <Compile Include="Station\NullNamedTask.cs" />
     <Compile Include="Station\TaskRunner.cs" />
     <Compile Include="Cloud\AttachmentApi.cs" />
     <Compile Include="Cloud\Response\AttachmentResponse.cs" />

@@ -13,6 +13,7 @@ namespace Wammer.PostUpload
 	{
 		private PostUploadTaskQueue queue;
 		private BackOff backoff = new BackOff(1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233);
+		private ManualResetEvent quitEvent = new ManualResetEvent(false);
 
 		public PostUploadTaskRunner(PostUploadTaskQueue queue)
 		{
@@ -39,9 +40,25 @@ namespace Wammer.PostUpload
 						queue.Undo(task);
 					}
 					backoff.IncreaseLevel();
-					Thread.Sleep(backoff.NextValue()*1000);
+
+					if (quitEvent.WaitOne(backoff.NextValue() * 1000))
+						return;
 				}
 			}
+		}
+
+		public override void Start()
+		{
+			quitEvent.Reset();
+			base.Start();
+		}
+
+		public override void Stop()
+		{
+			exit = true;
+			quitEvent.Set();
+			queue.Enqueue(new NullPostUploadTask());
+			base.Stop();
 		}
 	}
 }
