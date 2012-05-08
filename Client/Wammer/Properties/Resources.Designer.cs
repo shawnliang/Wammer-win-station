@@ -172,9 +172,51 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_blue_btn {
+            get {
+                object obj = ResourceManager.GetObject("FB_blue_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_blue_btn_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_blue_btn_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_creat_btn {
+            get {
+                object obj = ResourceManager.GetObject("FB_creat_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_creat_btn_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_creat_btn_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_edit {
             get {
                 object obj = ResourceManager.GetObject("FB_edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_edit_add_photo {
+            get {
+                object obj = ResourceManager.GetObject("FB_edit_add_photo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_edit_delete {
+            get {
+                object obj = ResourceManager.GetObject("FB_edit_delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -294,6 +336,20 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap FB_remove_hl {
             get {
                 object obj = ResourceManager.GetObject("FB_remove_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_remove_post {
+            get {
+                object obj = ResourceManager.GetObject("FB_remove_post", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_remove_post_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_remove_post_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

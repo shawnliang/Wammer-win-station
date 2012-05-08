@@ -10,6 +10,7 @@ namespace Waveface.Component
     public class ImageButton : Control
     {
         private Image m_image;
+        private Image m_imageFront;
         private Bitmap m_bmpOffscreen;
         private Image m_imageDisable;
         private Image m_imageHover;
@@ -27,6 +28,17 @@ namespace Waveface.Component
             set
             {
                 m_image = value;
+
+                Invalidate();
+            }
+        }
+
+        public Image ImageFront
+        {
+            get { return m_imageFront; }
+            set
+            {
+                m_imageFront = value;
 
                 Invalidate();
             }
@@ -76,7 +88,7 @@ namespace Waveface.Component
             _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
             _g.SmoothingMode = SmoothingMode.HighQuality;
 
-            _g.Clear(Color.Transparent);
+            _g.Clear(BackColor);
 
             if (m_image != null)
             {
@@ -86,7 +98,6 @@ namespace Waveface.Component
 
                 Rectangle _imgRect;
 
-
                 if (CenterAlignImage)
                 {
                     _imgRect = new Rectangle(_imageLeft, _imageTop, m_image.Width, m_image.Height);
@@ -95,7 +106,7 @@ namespace Waveface.Component
                 {
                     _imgRect = new Rectangle(0, 0, m_image.Width, m_image.Height);
                 }
-                
+
                 //Set transparent key
                 ImageAttributes _imageAttr = new ImageAttributes();
                 _imageAttr.SetColorKey(BackgroundImageColor(m_image), BackgroundImageColor(m_image));
@@ -118,12 +129,29 @@ namespace Waveface.Component
 
                 //Draw image
                 _g.DrawImage(_img, _imgRect, 0, 0, _img.Width, _img.Height, GraphicsUnit.Pixel, _imageAttr);
+
+                if (m_imageFront != null)
+                {
+                    _g.DrawImage(m_imageFront, new Rectangle(6, 3, m_imageFront.Width, m_imageFront.Height), 0, 0, m_imageFront.Width, m_imageFront.Height, GraphicsUnit.Pixel, _imageAttr);
+                }
             }
 
             if (!string.IsNullOrEmpty(Text))
             {
                 Size _size = TextRenderer.MeasureText(Text, Font, Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                _g.DrawString(Text, Font, new SolidBrush(ForeColor), (Width - _size.Width) / 2, (Height - _size.Height) / 2);
+
+                if (m_imageFront == null)
+                {
+                    _g.DrawString(Text, Font, new SolidBrush(ForeColor), (Width - _size.Width) / 2,
+                                  (Height - _size.Height) / 2);
+                }
+                else
+                {
+                    int _offX = m_imageFront.Width + 6;
+
+                    _g.DrawString(Text, Font, new SolidBrush(ForeColor), _offX + ((Width - _offX) - _size.Width) / 2,
+                                  (Height - _size.Height) / 2);
+                }
             }
 
             //Draw from the memory bitmap

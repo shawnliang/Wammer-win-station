@@ -125,25 +125,25 @@
     <value>Tahoma, 9pt</value>
   </data>
   <data name="cutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>104, 22</value>
   </data>
   <data name="cutToolStripMenuItem.Text" xml:space="preserve">
     <value>Cut</value>
   </data>
   <data name="copyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>104, 22</value>
   </data>
   <data name="copyToolStripMenuItem.Text" xml:space="preserve">
     <value>Copy</value>
   </data>
   <data name="pasteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>104, 22</value>
   </data>
   <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
     <value>Paste</value>
   </data>
   <data name="contextMenuStripEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 92</value>
+    <value>105, 70</value>
   </data>
   <data name="&gt;&gt;contextMenuStripEdit.Name" xml:space="preserve">
     <value>contextMenuStripEdit</value>
@@ -158,17 +158,17 @@
   <data name="btnAddPhoto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>None</value>
   </data>
-  <data name="btnAddPhoto.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
+  <data name="btnAddPhoto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt, style=Bold</value>
   </data>
   <data name="btnAddPhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 2</value>
+    <value>4, 3</value>
   </data>
   <data name="btnAddPhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 26</value>
+    <value>102, 26</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnAddPhoto.TabIndex" type="System.Int32, mscorlib">
@@ -184,7 +184,7 @@
     <value>btnAddPhoto</value>
   </data>
   <data name="&gt;&gt;btnAddPhoto.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAddPhoto.Parent" xml:space="preserve">
     <value>panelToolbar</value>
@@ -249,9 +249,6 @@
   <data name="btnPureText.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 8.25pt</value>
   </data>
-  <data name="btnPureText.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="btnPureText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -268,7 +265,7 @@
     <value>btnPureText</value>
   </data>
   <data name="&gt;&gt;btnPureText.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnPureText.Parent" xml:space="preserve">
     <value>panelRichText_Top</value>
@@ -615,9 +612,6 @@
   <data name="panelToolbar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="btnAddDoc.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="btnAddDoc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -630,9 +624,6 @@
   <data name="btnAddDoc.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
-  <data name="btnAddDoc.Text" xml:space="preserve">
-    <value>Add Document</value>
-  </data>
   <data name="btnAddDoc.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -640,7 +631,7 @@
     <value>btnAddDoc</value>
   </data>
   <data name="&gt;&gt;btnAddDoc.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAddDoc.Parent" xml:space="preserve">
     <value>panelToolbar</value>
@@ -673,31 +664,28 @@
     <value>Bottom, Right</value>
   </data>
   <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="btnSend.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
+    <value>Tahoma, 9pt, style=Bold</value>
   </data>
   <data name="btnSend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>492, 44</value>
+    <value>458, 40</value>
   </data>
   <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
+    <value>108, 30</value>
   </data>
   <data name="btnSend.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
   <data name="btnSend.Text" xml:space="preserve">
-    <value>Create</value>
+    <value>Create Post</value>
   </data>
   <data name="&gt;&gt;btnSend.Name" xml:space="preserve">
     <value>btnSend</value>
   </data>
   <data name="&gt;&gt;btnSend.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnSend.Parent" xml:space="preserve">
     <value>panelMiddleBar</value>
@@ -718,7 +706,7 @@
     <value>11, 49</value>
   </data>
   <data name="labelPreviewMsg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>460, 14</value>
+    <value>441, 14</value>
   </data>
   <data name="labelPreviewMsg.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -734,39 +722,6 @@
   </data>
   <data name="&gt;&gt;labelPreviewMsg.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="cbGenerateWebPreview.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="cbGenerateWebPreview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="cbGenerateWebPreview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 48</value>
-  </data>
-  <data name="cbGenerateWebPreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 18</value>
-  </data>
-  <data name="cbGenerateWebPreview.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="cbGenerateWebPreview.Text" xml:space="preserve">
-    <value>Generate Web Preview</value>
-  </data>
-  <data name="cbGenerateWebPreview.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.Name" xml:space="preserve">
-    <value>cbGenerateWebPreview</value>
-  </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.Parent" xml:space="preserve">
-    <value>panelMiddleBar</value>
-  </data>
-  <data name="&gt;&gt;cbGenerateWebPreview.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="panelMiddleBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -798,9 +753,6 @@
   <data name="buttonRichText.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 8.25pt</value>
   </data>
-  <data name="buttonRichText.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="buttonRichText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -820,7 +772,7 @@
     <value>buttonRichText</value>
   </data>
   <data name="&gt;&gt;buttonRichText.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;buttonRichText.Parent" xml:space="preserve">
     <value>panelText</value>
@@ -836,9 +788,6 @@
   </data>
   <data name="pureTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 12</value>
-  </data>
-  <data name="pureTextBox.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
-    <value>ForcedBoth</value>
   </data>
   <data name="pureTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>559, 139</value>

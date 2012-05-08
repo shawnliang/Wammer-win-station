@@ -639,7 +639,7 @@ namespace Waveface.PostUI
 
         private void Photo_Resize(object sender, EventArgs e)
         {
-            BackColor = Color.FromArgb(255, 255, 255); //Hack
+            BackColor = Color.FromArgb(226, 226, 226); //Hack
         }
 
         private void imageListView_ItemHover(object sender, ItemHoverEventArgs e)
