@@ -665,6 +665,11 @@ namespace StationSystemTray
 				btnOK.Select();
 				this.AcceptButton = btnOK;
 			}
+			else if (tabpage == tabSecondStationSetup)
+			{
+				btnOK2.Select();
+				this.AcceptButton = btnOK2;
+			}
 		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -735,7 +740,7 @@ namespace StationSystemTray
 					}
 					else
 					{
-						m_LoginAction();
+						GotoTabPage(tabSecondStationSetup, userlogin);
 					}
 				}
 				else
@@ -1015,7 +1020,10 @@ namespace StationSystemTray
 					var res = StationController.AddUser(userID, sessionToken);
 
 					//Show welcome msg
-					GotoTabPage(tabMainStationSetup);
+					if (res.IsPrimaryStation)
+						GotoTabPage(tabMainStationSetup);
+					else
+						GotoTabPage(tabSecondStationSetup);
 
 					if (!this.IsDisposed)
 						this.Show();
@@ -1253,7 +1261,10 @@ namespace StationSystemTray
 						var res = StationController.AddUser(userID, sessionToken);
 
 						//Show welcome msg
-						GotoTabPage(tabMainStationSetup);
+						if (res.IsPrimaryStation)
+							GotoTabPage(tabMainStationSetup);
+						else
+							GotoTabPage(tabSecondStationSetup);
 
 						if (!this.IsDisposed)
 							this.Show();
@@ -1282,6 +1293,14 @@ namespace StationSystemTray
 
 			LaunchClient(sessionToken);
 			Close();
+		}
+
+		private void btnOK2_Click(object sender, EventArgs e)
+		{
+			if (m_LoginAction == null)
+				return;
+
+			m_LoginAction();
 		}
 	}
 

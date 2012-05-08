@@ -58,9 +58,9 @@ namespace StationSystemTray
 			this.lblWelcome = new System.Windows.Forms.Label();
 			this.lblMainStationSetup = new System.Windows.Forms.Label();
 			this.tabSecondStationSetup = new System.Windows.Forms.TabPage();
+			this.btnOK2 = new System.Windows.Forms.Button();
 			this.lblSecondStationSetup = new System.Windows.Forms.Label();
 			this.lblWelcome2 = new System.Windows.Forms.Label();
-			this.btnOK2 = new System.Windows.Forms.Button();
 			this.TrayMenu.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabSignIn.SuspendLayout();
@@ -262,6 +262,13 @@ namespace StationSystemTray
 			resources.ApplyResources(this.tabSecondStationSetup, "tabSecondStationSetup");
 			this.tabSecondStationSetup.Name = "tabSecondStationSetup";
 			// 
+			// btnOK2
+			// 
+			resources.ApplyResources(this.btnOK2, "btnOK2");
+			this.btnOK2.Name = "btnOK2";
+			this.btnOK2.UseVisualStyleBackColor = true;
+			this.btnOK2.Click += new System.EventHandler(this.btnOK2_Click);
+			// 
 			// lblSecondStationSetup
 			// 
 			resources.ApplyResources(this.lblSecondStationSetup, "lblSecondStationSetup");
@@ -271,12 +278,6 @@ namespace StationSystemTray
 			// 
 			resources.ApplyResources(this.lblWelcome2, "lblWelcome2");
 			this.lblWelcome2.Name = "lblWelcome2";
-			// 
-			// btnOK2
-			// 
-			resources.ApplyResources(this.btnOK2, "btnOK2");
-			this.btnOK2.Name = "btnOK2";
-			this.btnOK2.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
