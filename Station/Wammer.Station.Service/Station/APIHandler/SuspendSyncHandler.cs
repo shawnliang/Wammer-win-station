@@ -8,11 +8,11 @@ namespace Wammer.Station
 	class SuspendSyncHandler : HttpHandler
 	{
 		private readonly StationTimer stationTimer;
-		private readonly TaskRunner[] bodySyncRunners;
+		private readonly AbstrackTaskRunner[] bodySyncRunners;
 		private readonly PostUploadTaskRunner postUploadRunner;
-		private readonly TaskRunner[] upstreamRunners;
+		private readonly AbstrackTaskRunner[] upstreamRunners;
 
-		public SuspendSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer, TaskRunner[] bodySyncRunners, TaskRunner[] upstreamRunners)
+		public SuspendSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer, AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
 		{
 			this.stationTimer = stationTimer;
 			this.bodySyncRunners = bodySyncRunners;

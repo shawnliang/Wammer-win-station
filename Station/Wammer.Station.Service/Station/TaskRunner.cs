@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Wammer.Station
 {
-	public class TaskRunner : AbstrackTaskRunner
+	public class TaskRunner<T> : AbstrackTaskRunner where T : ITask
 	{
-		private ITaskDequeuable queue;
+		private ITaskDequeuable<T> queue;
 
 		public event EventHandler TaskExecuted;
 
-		public TaskRunner(ITaskDequeuable queue)
+		public TaskRunner(ITaskDequeuable<T> queue)
 		{
 			this.queue = queue;
 		}
@@ -22,7 +22,7 @@ namespace Wammer.Station
 			{
 				try
 				{
-					DequeuedTask item = queue.Dequeue();
+					DequeuedTask<T> item = queue.Dequeue();
 					item.Task.Execute();
 					queue.AckDequeue(item);
 					OnTaskExecuted(EventArgs.Empty);
@@ -33,6 +33,14 @@ namespace Wammer.Station
 				}
 			}
 		}
+
+		public override void Stop()
+		{
+			this.exit = true;
+			queue.EnqueueDummyTask(); // enqueue something to force task runner leave the blocking call of queue.Dequeue();
+			base.Stop();			
+		}
+
 
 		private void OnTaskExecuted(EventArgs arg)
 		{

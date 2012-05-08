@@ -22,9 +22,9 @@ namespace Wammer.Station.Service
 		private string stationId;
 		private string resourceBasePath;
 		private DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
-		private TaskRunner[] bodySyncRunners;
+		private TaskRunner<INamedTask>[] bodySyncRunners;
 		private PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
-		private TaskRunner[] upstreamTaskRunner;
+		private TaskRunner<ITask>[] upstreamTaskRunner;
 
 		public StationService()
 		{			
@@ -95,10 +95,10 @@ namespace Wammer.Station.Service
 				stationTimer.Start();
 
 				int bodySyncThreadNum = 1;
-				bodySyncRunners = new TaskRunner[bodySyncThreadNum];
+				bodySyncRunners = new TaskRunner<INamedTask>[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
-					var bodySyncRunner = new TaskRunner(bodySyncTaskQueue);
+					var bodySyncRunner = new TaskRunner<INamedTask>(bodySyncTaskQueue);
 					bodySyncRunners[i] = bodySyncRunner;
 
 					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
@@ -108,10 +108,10 @@ namespace Wammer.Station.Service
 				postUploadRunner.Start();
 
 				const int upstreamThreads = 1;
-				upstreamTaskRunner = new TaskRunner[upstreamThreads];
+				upstreamTaskRunner = new TaskRunner<ITask>[upstreamThreads];
 				for (int i = 0; i < upstreamThreads; i++)
 				{
-					upstreamTaskRunner[i] = new TaskRunner(AttachmentUpload.AttachmentUploadQueue.Instance);
+					upstreamTaskRunner[i] = new TaskRunner<ITask>(AttachmentUpload.AttachmentUploadQueue.Instance);
 					upstreamTaskRunner[i].Start();
 				}
 
@@ -296,13 +296,8 @@ namespace Wammer.Station.Service
 
 		protected override void OnStop()
 		{
-			int bodySyncThreadNum = 1;
-
-			for (int i = 0; i < bodySyncThreadNum; i++)
-			{
-				bodySyncRunners[i].Stop();
-			}
-
+			Array.ForEach(bodySyncRunners, runner => runner.Stop());
+			Array.ForEach(upstreamTaskRunner, runner => runner.Stop());
 			postUploadRunner.Stop();
 
 			functionServer.Stop();
