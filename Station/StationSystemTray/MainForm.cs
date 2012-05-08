@@ -713,7 +713,7 @@ namespace StationSystemTray
 
 				if (userlogin == null)
 				{
-					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, "deviceId", "deviceName");
+					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, StationRegistry.StationId, Environment.MachineName);
 
 					userlogin = new UserLoginSetting
 						{
@@ -743,7 +743,7 @@ namespace StationSystemTray
 					// In case the user is in AppData but not in Station DB (usually in testing environment)
 					bool userAlreadyInDB = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", cmbEmail.Text.ToLower())) != null;
 					if (!userAlreadyInDB)
-						StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, "deviceId", "deviceName");
+						StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, StationRegistry.StationId, Environment.MachineName);
 
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
