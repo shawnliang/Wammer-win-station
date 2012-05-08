@@ -207,6 +207,9 @@
   <data name="ResumingWFService" xml:space="preserve">
     <value>Resuming Sync...</value>
   </data>
+  <data name="START_SERVICE_FIRST">
+    <value xml:space="preserve">Please start service first</value>
+  </data>
   <data name="StartingWFService" xml:space="preserve">
     <value>Starting sync...</value>
   </data>
@@ -260,8 +263,5 @@
   </data>
   <data name="WFServiceStopped" xml:space="preserve">
     <value>Stream Station is stop syncing</value>
-  </data>
-  <data name="START_SERVICE_FIRST">
-    <value xml:space="preserve">Please start service first</value>
   </data>
 </root>
