@@ -51,20 +51,20 @@
             // 
             // cutToolStripMenuItem
             // 
-            resources.ApplyResources(this.cutToolStripMenuItem, "cutToolStripMenuItem");
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            resources.ApplyResources(this.cutToolStripMenuItem, "cutToolStripMenuItem");
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
-            resources.ApplyResources(this.copyToolStripMenuItem, "copyToolStripMenuItem");
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            resources.ApplyResources(this.copyToolStripMenuItem, "copyToolStripMenuItem");
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
-            resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // textBoxComment
@@ -79,8 +79,8 @@
             // 
             // buttonAddComment
             // 
-            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
             this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
             this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.buttonAddComment.Name = "buttonAddComment";

@@ -39,8 +39,8 @@
             this.sortDescendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelToolbar = new System.Windows.Forms.Panel();
             this.labelSummary = new System.Windows.Forms.Label();
-            this.btnDeletePhoto = new Waveface.Component.XPButton();
-            this.btnAddPhoto = new Waveface.Component.XPButton();
+            this.btnDeletePhoto = new Waveface.Component.ImageButton();
+            this.btnAddPhoto = new Waveface.Component.ImageButton();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.removeAllToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.addToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -56,7 +56,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnSend = new Waveface.Component.XPButton();
+            this.btnSend = new Waveface.Component.ImageButton();
             this.panel.SuspendLayout();
             this.columnContextMenu.SuspendLayout();
             this.panelToolbar.SuspendLayout();
@@ -133,7 +133,7 @@
             // panelToolbar
             // 
             resources.ApplyResources(this.panelToolbar, "panelToolbar");
-            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.panelToolbar.Controls.Add(this.labelSummary);
             this.panelToolbar.Controls.Add(this.btnDeletePhoto);
             this.panelToolbar.Controls.Add(this.btnAddPhoto);
@@ -143,31 +143,33 @@
             // 
             resources.ApplyResources(this.labelSummary, "labelSummary");
             this.labelSummary.AutoEllipsis = true;
-            this.labelSummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
+            this.labelSummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(97)))), ((int)(((byte)(101)))));
             this.labelSummary.Name = "labelSummary";
             // 
             // btnDeletePhoto
             // 
-            this.btnDeletePhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnDeletePhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnDeletePhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnDeletePhoto.Image = global::Waveface.Properties.Resources.trash;
+            this.btnDeletePhoto.CenterAlignImage = false;
             resources.ApplyResources(this.btnDeletePhoto, "btnDeletePhoto");
+            this.btnDeletePhoto.ForeColor = System.Drawing.Color.White;
+            this.btnDeletePhoto.Image = global::Waveface.Properties.Resources.FB_blue_btn;
+            this.btnDeletePhoto.ImageDisable = global::Waveface.Properties.Resources.FB_blue_btn_hl;
+            this.btnDeletePhoto.ImageFront = global::Waveface.Properties.Resources.FB_edit_delete;
+            this.btnDeletePhoto.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
             this.btnDeletePhoto.Name = "btnDeletePhoto";
             this.toolTip.SetToolTip(this.btnDeletePhoto, resources.GetString("btnDeletePhoto.ToolTip"));
-            this.btnDeletePhoto.UseVisualStyleBackColor = true;
             this.btnDeletePhoto.Click += new System.EventHandler(this.btnDeletePhoto_Click);
             // 
             // btnAddPhoto
             // 
-            this.btnAddPhoto.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnAddPhoto.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnAddPhoto.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.add_photo;
+            this.btnAddPhoto.CenterAlignImage = false;
             resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
+            this.btnAddPhoto.ForeColor = System.Drawing.Color.White;
+            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.FB_blue_btn;
+            this.btnAddPhoto.ImageDisable = global::Waveface.Properties.Resources.FB_blue_btn_hl;
+            this.btnAddPhoto.ImageFront = global::Waveface.Properties.Resources.FB_edit_add_photo;
+            this.btnAddPhoto.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
             this.btnAddPhoto.Name = "btnAddPhoto";
             this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
-            this.btnAddPhoto.UseVisualStyleBackColor = true;
             this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // toolStrip
@@ -291,19 +293,21 @@
             // 
             // btnSend
             // 
-            this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
             resources.ApplyResources(this.btnSend, "btnSend");
-            this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnSend.CenterAlignImage = false;
+            this.btnSend.ForeColor = System.Drawing.Color.White;
+            this.btnSend.Image = global::Waveface.Properties.Resources.FB_creat_btn;
+            this.btnSend.ImageDisable = global::Waveface.Properties.Resources.FB_creat_btn_hl;
+            this.btnSend.ImageFront = null;
+            this.btnSend.ImageHover = global::Waveface.Properties.Resources.FB_creat_btn_hl;
             this.btnSend.Name = "btnSend";
-            this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // Photo
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.btnSend);
@@ -321,7 +325,7 @@
 
         #endregion
 
-        private Component.XPButton btnSend;
+        private Component.ImageButton btnSend;
         private System.Windows.Forms.Panel panel;
         private Manina.Windows.Forms.ImageListView imageListView;
         private System.Windows.Forms.ToolStrip toolStrip;
@@ -338,8 +342,8 @@
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxResize;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Panel panelToolbar;
-        private Component.XPButton btnAddPhoto;
-        private Component.XPButton btnDeletePhoto;
+        private Component.ImageButton btnAddPhoto;
+        private Component.ImageButton btnDeletePhoto;
         private System.Windows.Forms.ContextMenuStrip columnContextMenu;
         private System.Windows.Forms.ToolStripMenuItem sortByToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;

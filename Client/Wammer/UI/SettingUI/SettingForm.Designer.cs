@@ -30,30 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingForm));
-            this.lblUserName = new System.Windows.Forms.Label();
-            this.barCloudUsage = new System.Windows.Forms.ProgressBar();
-            this.label_DaysLeftValue = new System.Windows.Forms.Label();
-            this.label_UsedCountValue = new System.Windows.Forms.Label();
-            this.label_MonthlyLimitValue = new System.Windows.Forms.Label();
-            this.lblCloudStorageUsed = new System.Windows.Forms.Label();
-            this.label_UsedCount = new System.Windows.Forms.Label();
-            this.label_DaysLeft = new System.Windows.Forms.Label();
-            this.label_MonthlyLimit = new System.Windows.Forms.Label();
-            this.lblDayLeft = new System.Windows.Forms.Label();
-            this.lblCloudStorageLimit = new System.Windows.Forms.Label();
-            this.btnEditAccount = new System.Windows.Forms.Button();
             this.bgworkerGetAllData = new System.ComponentModel.BackgroundWorker();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.bgworkerUpdate = new System.ComponentModel.BackgroundWorker();
-            this.groupMonthlyUsage = new System.Windows.Forms.GroupBox();
-            this.label_LoadingUsage = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblCopyRight = new System.Windows.Forms.Label();
             this.groupStations = new System.Windows.Forms.GroupBox();
             this.lblPrimaryStation = new System.Windows.Forms.Label();
             this.lblOriginDesc = new System.Windows.Forms.Label();
             this.btnUnlink = new System.Windows.Forms.Button();
-            this.btnChangeLoc = new System.Windows.Forms.Button();
             this.lblStorageUsageValue = new System.Windows.Forms.Label();
             this.lblLastSyncValue = new System.Windows.Forms.Label();
             this.lblStorageUsage = new System.Windows.Forms.Label();
@@ -63,78 +47,12 @@
             this.lblVersionTitle = new System.Windows.Forms.Label();
             this.lblVersion = new System.Windows.Forms.Label();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
             this.btnOK = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupMonthlyUsage.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupStations.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lblUserName
-            // 
-            resources.ApplyResources(this.lblUserName, "lblUserName");
-            this.lblUserName.Name = "lblUserName";
-            // 
-            // barCloudUsage
-            // 
-            resources.ApplyResources(this.barCloudUsage, "barCloudUsage");
-            this.barCloudUsage.Name = "barCloudUsage";
-            // 
-            // label_DaysLeftValue
-            // 
-            resources.ApplyResources(this.label_DaysLeftValue, "label_DaysLeftValue");
-            this.label_DaysLeftValue.Name = "label_DaysLeftValue";
-            // 
-            // label_UsedCountValue
-            // 
-            resources.ApplyResources(this.label_UsedCountValue, "label_UsedCountValue");
-            this.label_UsedCountValue.Name = "label_UsedCountValue";
-            // 
-            // label_MonthlyLimitValue
-            // 
-            resources.ApplyResources(this.label_MonthlyLimitValue, "label_MonthlyLimitValue");
-            this.label_MonthlyLimitValue.Name = "label_MonthlyLimitValue";
-            // 
-            // lblCloudStorageUsed
-            // 
-            resources.ApplyResources(this.lblCloudStorageUsed, "lblCloudStorageUsed");
-            this.lblCloudStorageUsed.Name = "lblCloudStorageUsed";
-            // 
-            // label_UsedCount
-            // 
-            resources.ApplyResources(this.label_UsedCount, "label_UsedCount");
-            this.label_UsedCount.Name = "label_UsedCount";
-            // 
-            // label_DaysLeft
-            // 
-            resources.ApplyResources(this.label_DaysLeft, "label_DaysLeft");
-            this.label_DaysLeft.Name = "label_DaysLeft";
-            // 
-            // label_MonthlyLimit
-            // 
-            resources.ApplyResources(this.label_MonthlyLimit, "label_MonthlyLimit");
-            this.label_MonthlyLimit.Name = "label_MonthlyLimit";
-            // 
-            // lblDayLeft
-            // 
-            resources.ApplyResources(this.lblDayLeft, "lblDayLeft");
-            this.lblDayLeft.Name = "lblDayLeft";
-            // 
-            // lblCloudStorageLimit
-            // 
-            resources.ApplyResources(this.lblCloudStorageLimit, "lblCloudStorageLimit");
-            this.lblCloudStorageLimit.Name = "lblCloudStorageLimit";
-            // 
-            // btnEditAccount
-            // 
-            resources.ApplyResources(this.btnEditAccount, "btnEditAccount");
-            this.btnEditAccount.Name = "btnEditAccount";
-            this.btnEditAccount.UseVisualStyleBackColor = true;
-            this.btnEditAccount.Click += new System.EventHandler(this.btnEditAccount_Click);
             // 
             // bgworkerGetAllData
             // 
@@ -150,33 +68,6 @@
             this.bgworkerUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerUpdate_DoWork);
             this.bgworkerUpdate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerUpdate_RunWorkerCompleted);
             // 
-            // groupMonthlyUsage
-            // 
-            resources.ApplyResources(this.groupMonthlyUsage, "groupMonthlyUsage");
-            this.groupMonthlyUsage.Controls.Add(this.label_LoadingUsage);
-            this.groupMonthlyUsage.Controls.Add(this.label_MonthlyLimit);
-            this.groupMonthlyUsage.Controls.Add(this.label_DaysLeftValue);
-            this.groupMonthlyUsage.Controls.Add(this.label_MonthlyLimitValue);
-            this.groupMonthlyUsage.Controls.Add(this.label_UsedCountValue);
-            this.groupMonthlyUsage.Controls.Add(this.label_UsedCount);
-            this.groupMonthlyUsage.Controls.Add(this.label_DaysLeft);
-            this.groupMonthlyUsage.Controls.Add(this.barCloudUsage);
-            this.groupMonthlyUsage.Name = "groupMonthlyUsage";
-            this.groupMonthlyUsage.TabStop = false;
-            // 
-            // label_LoadingUsage
-            // 
-            resources.ApplyResources(this.label_LoadingUsage, "label_LoadingUsage");
-            this.label_LoadingUsage.Name = "label_LoadingUsage";
-            // 
-            // groupBox2
-            // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Controls.Add(this.lblUserName);
-            this.groupBox2.Controls.Add(this.btnEditAccount);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
-            // 
             // lblCopyRight
             // 
             resources.ApplyResources(this.lblCopyRight, "lblCopyRight");
@@ -188,7 +79,6 @@
             this.groupStations.Controls.Add(this.lblPrimaryStation);
             this.groupStations.Controls.Add(this.lblOriginDesc);
             this.groupStations.Controls.Add(this.btnUnlink);
-            this.groupStations.Controls.Add(this.btnChangeLoc);
             this.groupStations.Controls.Add(this.lblStorageUsageValue);
             this.groupStations.Controls.Add(this.lblLastSyncValue);
             this.groupStations.Controls.Add(this.lblStorageUsage);
@@ -214,12 +104,6 @@
             this.btnUnlink.Name = "btnUnlink";
             this.btnUnlink.UseVisualStyleBackColor = true;
             this.btnUnlink.Click += new System.EventHandler(this.btnUnlink_Click);
-            // 
-            // btnChangeLoc
-            // 
-            resources.ApplyResources(this.btnChangeLoc, "btnChangeLoc");
-            this.btnChangeLoc.Name = "btnChangeLoc";
-            this.btnChangeLoc.UseVisualStyleBackColor = true;
             // 
             // lblStorageUsageValue
             // 
@@ -271,13 +155,6 @@
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.linkLegalNotice, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnOK, 1, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
             // linkLegalNotice
             // 
             resources.ApplyResources(this.linkLegalNotice, "linkLegalNotice");
@@ -305,31 +182,21 @@
             // 
             this.AcceptButton = this.btnOK;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tableLayoutPanel2);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.linkLegalNotice);
             this.Controls.Add(this.groupStations);
-            this.Controls.Add(this.groupMonthlyUsage);
             this.Controls.Add(this.lblCopyRight);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.lblCloudStorageUsed);
-            this.Controls.Add(this.lblDayLeft);
-            this.Controls.Add(this.lblCloudStorageLimit);
-            this.Controls.Add(this.groupBox2);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SettingForm";
-            this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingForm_FormClosing);
             this.Load += new System.EventHandler(this.PreferenceForm_Load);
-            this.groupMonthlyUsage.ResumeLayout(false);
-            this.groupMonthlyUsage.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupStations.ResumeLayout(false);
             this.groupStations.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -339,26 +206,10 @@
 
         #endregion
 
-		private System.Windows.Forms.Label lblUserName;
-        private System.Windows.Forms.ProgressBar barCloudUsage;
-		private System.Windows.Forms.Button btnEditAccount;
-        private System.Windows.Forms.Label lblDayLeft;
-		private System.Windows.Forms.Label lblCloudStorageLimit;
         private System.ComponentModel.BackgroundWorker bgworkerGetAllData;
-        private System.Windows.Forms.Label label_MonthlyLimit;
-        private System.Windows.Forms.Label label_DaysLeft;
-        private System.Windows.Forms.Label label_UsedCount;
-        private System.Windows.Forms.Label lblCloudStorageUsed;
-		private Localization.CultureManager cultureManager;
-        private System.Windows.Forms.Label label_DaysLeftValue;
-        private System.Windows.Forms.Label label_UsedCountValue;
-		private System.Windows.Forms.Label label_MonthlyLimitValue;
-		private System.ComponentModel.BackgroundWorker bgworkerUpdate;
-		private System.Windows.Forms.GroupBox groupMonthlyUsage;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Label label_LoadingUsage;
-		private System.Windows.Forms.Button btnOK;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private Localization.CultureManager cultureManager;
+        private System.ComponentModel.BackgroundWorker bgworkerUpdate;
+        private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.LinkLabel linkLegalNotice;
 		private System.Windows.Forms.GroupBox groupStations;
 		private System.Windows.Forms.Label lblLoadingStations;
@@ -368,8 +219,7 @@
 		private System.Windows.Forms.Label lblVersion;
 		private System.Windows.Forms.Label lblVersionTitle;
 		private System.Windows.Forms.ComboBox cmbStations;
-		private System.Windows.Forms.Button btnUnlink;
-		private System.Windows.Forms.Button btnChangeLoc;
+        private System.Windows.Forms.Button btnUnlink;
 		private System.Windows.Forms.Label lblStorageUsageValue;
 		private System.Windows.Forms.Label lblLastSyncValue;
 		private System.Windows.Forms.Label lblStorageUsage;

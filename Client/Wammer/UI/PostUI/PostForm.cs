@@ -375,11 +375,6 @@ namespace Waveface
 
         #endregion
 
-        private void cbGenerateWebPreview_CheckedChanged(object sender, EventArgs e)
-        {
-            m_generateWebPreview = cbGenerateWebPreview.Checked;
-        }
-
         private void btnSend_Click(object sender, EventArgs e)
         {
             if (!Main.Current.CheckNetworkStatus())
