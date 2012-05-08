@@ -1,4 +1,4 @@
-﻿using StationSystemTray.Control;
+using StationSystemTray.Control;
 namespace StationSystemTray
 {
 	partial class MainForm
@@ -43,6 +43,9 @@ namespace StationSystemTray
 			this.btnSignIn = new System.Windows.Forms.Button();
 			this.tabControl = new StationSystemTray.Control.TabControlEx();
 			this.tabSignIn = new System.Windows.Forms.TabPage();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.fbLoginButton1 = new StationSystemTray.Control.FBLoginButton();
 			this.lblSignIn = new System.Windows.Forms.Label();
 			this.lblEmail = new System.Windows.Forms.Label();
 			this.lblSignUp = new System.Windows.Forms.LinkLabel();
@@ -54,10 +57,15 @@ namespace StationSystemTray
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lblWelcome = new System.Windows.Forms.Label();
 			this.lblMainStationSetup = new System.Windows.Forms.Label();
+			this.tabSecondStationSetup = new System.Windows.Forms.TabPage();
+			this.btnOK2 = new System.Windows.Forms.Button();
+			this.lblSecondStationSetup = new System.Windows.Forms.Label();
+			this.lblWelcome2 = new System.Windows.Forms.Label();
 			this.TrayMenu.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabSignIn.SuspendLayout();
 			this.tabMainStationSetup.SuspendLayout();
+			this.tabSecondStationSetup.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// TrayIcon
@@ -122,14 +130,16 @@ namespace StationSystemTray
 			// btnSignIn
 			// 
 			resources.ApplyResources(this.btnSignIn, "btnSignIn");
+			this.btnSignIn.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.btnSignIn.Name = "btnSignIn";
-			this.btnSignIn.UseVisualStyleBackColor = true;
+			this.btnSignIn.UseVisualStyleBackColor = false;
 			this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
 			// 
 			// tabControl
 			// 
 			this.tabControl.Controls.Add(this.tabSignIn);
 			this.tabControl.Controls.Add(this.tabMainStationSetup);
+			this.tabControl.Controls.Add(this.tabSecondStationSetup);
 			resources.ApplyResources(this.tabControl, "tabControl");
 			this.tabControl.HideTabs = true;
 			this.tabControl.Multiline = true;
@@ -140,6 +150,9 @@ namespace StationSystemTray
 			// tabSignIn
 			// 
 			this.tabSignIn.BackColor = System.Drawing.SystemColors.Control;
+			this.tabSignIn.Controls.Add(this.label2);
+			this.tabSignIn.Controls.Add(this.label1);
+			this.tabSignIn.Controls.Add(this.fbLoginButton1);
 			this.tabSignIn.Controls.Add(this.lblSignIn);
 			this.tabSignIn.Controls.Add(this.lblEmail);
 			this.tabSignIn.Controls.Add(this.btnSignIn);
@@ -150,6 +163,26 @@ namespace StationSystemTray
 			this.tabSignIn.Controls.Add(this.chkRememberPassword);
 			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.Name = "tabSignIn";
+			// 
+			// label2
+			// 
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.Name = "label2";
+			// 
+			// label1
+			// 
+			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.Name = "label1";
+			// 
+			// fbLoginButton1
+			// 
+			resources.ApplyResources(this.fbLoginButton1, "fbLoginButton1");
+			this.fbLoginButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(120)))), ((int)(((byte)(171)))));
+			this.fbLoginButton1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.fbLoginButton1.Name = "fbLoginButton1";
+			this.fbLoginButton1.Click += new System.EventHandler(this.fbLoginButton1_Click);
 			// 
 			// lblSignIn
 			// 
@@ -221,6 +254,31 @@ namespace StationSystemTray
 			resources.ApplyResources(this.lblMainStationSetup, "lblMainStationSetup");
 			this.lblMainStationSetup.Name = "lblMainStationSetup";
 			// 
+			// tabSecondStationSetup
+			// 
+			this.tabSecondStationSetup.Controls.Add(this.btnOK2);
+			this.tabSecondStationSetup.Controls.Add(this.lblSecondStationSetup);
+			this.tabSecondStationSetup.Controls.Add(this.lblWelcome2);
+			resources.ApplyResources(this.tabSecondStationSetup, "tabSecondStationSetup");
+			this.tabSecondStationSetup.Name = "tabSecondStationSetup";
+			// 
+			// btnOK2
+			// 
+			resources.ApplyResources(this.btnOK2, "btnOK2");
+			this.btnOK2.Name = "btnOK2";
+			this.btnOK2.UseVisualStyleBackColor = true;
+			this.btnOK2.Click += new System.EventHandler(this.btnOK2_Click);
+			// 
+			// lblSecondStationSetup
+			// 
+			resources.ApplyResources(this.lblSecondStationSetup, "lblSecondStationSetup");
+			this.lblSecondStationSetup.Name = "lblSecondStationSetup";
+			// 
+			// lblWelcome2
+			// 
+			resources.ApplyResources(this.lblWelcome2, "lblWelcome2");
+			this.lblWelcome2.Name = "lblWelcome2";
+			// 
 			// MainForm
 			// 
 			this.AcceptButton = this.btnSignIn;
@@ -239,6 +297,8 @@ namespace StationSystemTray
 			this.tabSignIn.PerformLayout();
 			this.tabMainStationSetup.ResumeLayout(false);
 			this.tabMainStationSetup.PerformLayout();
+			this.tabSecondStationSetup.ResumeLayout(false);
+			this.tabSecondStationSetup.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -268,6 +328,13 @@ namespace StationSystemTray
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem menuSignIn;
 		private System.Windows.Forms.ToolStripMenuItem tsmiOpenStream;
+		private System.Windows.Forms.TabPage tabSecondStationSetup;
+		private System.Windows.Forms.Label lblWelcome2;
+		private System.Windows.Forms.Label lblSecondStationSetup;
+		private System.Windows.Forms.Button btnOK2;
+		private FBLoginButton fbLoginButton1;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
 	}
 }
 

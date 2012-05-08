@@ -1,52 +1,134 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
+using System.IO;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.IO;
-using System.Diagnostics;
-using System.Reflection;
-using System.Net.NetworkInformation;
-using System.Net;
-using Wammer.Utility;
-using Wammer.Station.Management;
-using Wammer.Cloud;
-using Wammer.Station;
-using Wammer.Model;
-using System.Security.Permissions;
 using MongoDB.Driver.Builders;
-using Wammer.PerfMonitor;
 using StationSystemTray.Properties;
+using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.PerfMonitor;
+using Wammer.Station;
+using Wammer.Station.Management;
+using Wammer.Utility;
 
 namespace StationSystemTray
 {
 	public partial class MainForm : Form, StationStateContext
 	{
+		#region DllImport
+		[DllImport("wininet.dll", SetLastError = true)]
+		private static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer, int lpdwBufferLength);
+		#endregion
+
 		#region Const
+		private const string CLIENT_API_KEY = @"a23f9491-ba70-5075-b625-b8fb5d9ecd90";
 		const string STATION_SERVICE_NAME = "WavefaceStation";
 		const string CLIENT_TITLE = "Waveface ";
 		const int STATION_TIMER_LONG_INTERVAL = 60000;
 		const int STATION_TIMER_SHORT_INTERVAL = 3000;
+
+		const string WEB_BASE_URL = @"https://waveface.com";
+		const string DEV_WEB_BASE_PAGE_URL = @"http://develop.waveface.com:4343";
+
+		const string SIGNUP_URL_PATH = @"/signup";
+		const string LOGIN_URL_PATH = @"/sns/facebook/signin";
+		const string CALLBACK_URL_PATH = @"/client/callback";
+
+		const string FB_LOGIN_GUID = @"6CF7FA1E-80F7-48A3-922F-F3B2841C7A0D";
+		const string CALLBACK_MATCH_PATTERN_FORMAT = @"(/" + FB_LOGIN_GUID + "/{0}?.*)";
+		const string EMAIL_MATCH_PATTERN = @"^(([^<>()[\]\\.,;:\s@\""]+"
+										 + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
+										 + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
+										 + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
+										 + @"[a-zA-Z]{2,}))$";
 		#endregion
+
 
 		#region Var
-		//private CounterSample _PreUpSpeedSample;
-		//private CounterSample _PreDownloadSpeedSample;
 		private Messenger _messenger;
-		private SignUpDialog _SignUpDialog;
-		private System.Windows.Forms.Timer _timer;
+		private Timer _timer;
+		private string _baseUrl;
+		private string _signUpUrl;
+		private string _fbLoginUrl;
+		private string _callbackUrl;
 		#endregion
 
-		private IPerfCounter m_UpRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
-		private IPerfCounter m_DownRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
-		private IPerfCounter m_UpStreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
-		private IPerfCounter m_DownStreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false);
+
+
+		#region Private Property
+		private string m_BaseUrl
+		{
+			get
+			{
+				if (_baseUrl == null)
+				{
+					if (Wammer.Cloud.CloudServer.BaseUrl.Contains("develop.waveface.com"))
+					{
+						_baseUrl = DEV_WEB_BASE_PAGE_URL;
+					}
+					else
+					{
+						_baseUrl = WEB_BASE_URL;
+					}
+				}
+				return _baseUrl;
+			}
+		}
+
+		private string m_CallbackUrl
+		{
+			get
+			{
+				if (_callbackUrl == null)
+				{
+					_callbackUrl = Path.Combine(m_BaseUrl, CALLBACK_URL_PATH);
+				}
+				return _callbackUrl;
+			}
+		}
+
+		private string m_SignUpUrl
+		{
+			get
+			{
+				if (_signUpUrl == null)
+				{
+					_signUpUrl = m_BaseUrl + SIGNUP_URL_PATH;
+				}
+				return _signUpUrl;
+			}
+		}
+
+		private string m_FBLoginUrl
+		{
+			get
+			{
+				if (_fbLoginUrl == null)
+				{
+					_fbLoginUrl = m_BaseUrl + LOGIN_URL_PATH;
+				}
+				return _fbLoginUrl;
+			}
+		}
+
+		private Action m_LoginAction { get; set; }
+
+		#endregion
+
+		private readonly IPerfCounter m_UpRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
+		private readonly IPerfCounter m_DownRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
+		private readonly IPerfCounter m_UpStreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
+		private readonly IPerfCounter m_DownStreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false);
 
 
 
@@ -70,25 +152,6 @@ namespace StationSystemTray
 				return _messenger;
 			}
 		}
-
-		private SignUpDialog m_SignUpDialog 
-		{
-			get
-			{
-				if (_SignUpDialog == null)
-					_SignUpDialog = new SignUpDialog()
-					{
-						Text = this.Text,
-						Icon = this.Icon,
-						StartPosition = FormStartPosition.CenterParent
-					};
-				return _SignUpDialog;
-			}
-			set
-			{
-				_SignUpDialog = value;
-			}
-		}
 		#endregion
 
 		public static log4net.ILog logger = log4net.LogManager.GetLogger("MainForm");
@@ -98,7 +161,6 @@ namespace StationSystemTray
 		public Process clientProcess;
 
 		private StationStatusUIController uictrlStationStatus;
-		//private WavefaceClientController uictrlWavefaceClient;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
 		private bool initMinimized;
@@ -153,18 +215,14 @@ namespace StationSystemTray
 
 			this.userloginContainer = new UserLoginSettingContainer(settings);
 
-			this.iconRunning = Icon.FromHandle(StationSystemTray.Properties.Resources.stream_tray_working.GetHicon());
-			this.iconPaused = Icon.FromHandle(StationSystemTray.Properties.Resources.stream_tray_pause.GetHicon());
-			this.iconWarning = Icon.FromHandle(StationSystemTray.Properties.Resources.stream_tray_warn.GetHicon());
+			this.iconRunning = Icon.FromHandle(Properties.Resources.stream_tray_working.GetHicon());
+			this.iconPaused = Icon.FromHandle(Properties.Resources.stream_tray_pause.GetHicon());
+			this.iconWarning = Icon.FromHandle(Properties.Resources.stream_tray_warn.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);
 			this.uictrlStationStatus.UICallback += this.StationStatusUICallback;
 			this.uictrlStationStatus.UIError += this.StationStatusUIError;
-
-			//this.uictrlWavefaceClient = new WavefaceClientController(this);
-			//this.uictrlWavefaceClient.UICallback += this.WavefaceClientUICallback;
-			//this.uictrlWavefaceClient.UIError += this.WavefaceClientUIError;
 
 			this.uictrlPauseService = new PauseServiceUIController(this);
 			this.uictrlPauseService.UICallback += this.PauseServiceUICallback;
@@ -212,16 +270,10 @@ namespace StationSystemTray
 					if (userlogin != null)
 					{
 						cmbEmail.Items.Add(userlogin.Email);
-						ToolStripMenuItem menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-						menu.Name = userlogin.Email;
+						//var menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
+						//menu.Name = userlogin.Email;
 						userlogins.Add(userlogin);
 					}
-				}
-
-				if (userlogins.Count > 0)
-				{
-					var lastUserLogin = userloginContainer.GetLastUserLogin();
-					userloginContainer.ResetUserLoginSetting(userlogins, lastUserLogin == null ? string.Empty : lastUserLogin.Email);
 				}
 			}
 			catch (Exception)
@@ -235,28 +287,36 @@ namespace StationSystemTray
 			{
 				Debug.Assert(userlogin != null, "param userlogin cannot be empty when timeline opened");
 
-				if (userlogin.Email == userloginContainer.GetLastUserLogin().Email)
+				if (userlogin.SessionToken == userloginContainer.GetLastUserLogin().SessionToken)
 				{
 					var handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
 					Win32Helper.SetForegroundWindow(handle);
 					Win32Helper.ShowWindow(handle, 5);
 					return;
 				}
-				//uictrlWavefaceClient.Terminate();
 				if (clientProcess != null)
 					clientProcess.CloseMainWindow();
+			}
+
+			var lastLogin = userloginContainer.GetLastLogin();
+			if (!string.IsNullOrEmpty(lastLogin))
+			{
+				LaunchClient(lastLogin);
+				this.WindowState = FormWindowState.Minimized;
+				this.ShowInTaskbar = false;
+				Close();
+				return;
 			}
 
 			LoginedSession loginedSession = null;
 
 			if (userlogin != null)
-				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+				loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
 
 			if (loginedSession != null || (userlogin != null && userlogin.RememberPassword))
 			{
 				userloginContainer.UpsertUserLoginSetting(userlogin);
-				//RefreshUserList();
-
+				
 				if (LaunchWavefaceClient(userlogin))
 				{
 					// if the function is called by OnLoad, Close() won't hide the mainform
@@ -536,14 +596,8 @@ namespace StationSystemTray
 		}
 
 
-		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin)
+		private void GotoTabPage(TabPage tabpage, UserLoginSetting userlogin = null)
 		{
-			if (m_SignUpDialog != null)
-			{
-				m_SignUpDialog.Dispose();
-				m_SignUpDialog = null;
-			}
-
 			tabControl.SelectedTab = tabpage;
 
 			if (this.WindowState == FormWindowState.Minimized)
@@ -607,9 +661,14 @@ namespace StationSystemTray
 			}
 			else if (tabpage == tabMainStationSetup)
 			{
-				btnOK.Tag = userlogin;
+				//btnOK.Tag = userlogin;
 				btnOK.Select();
 				this.AcceptButton = btnOK;
+			}
+			else if (tabpage == tabSecondStationSetup)
+			{
+				btnOK2.Select();
+				this.AcceptButton = btnOK2;
 			}
 		}
 
@@ -659,7 +718,7 @@ namespace StationSystemTray
 
 				if (userlogin == null)
 				{
-					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, "deviceId", "deviceName");
+					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, StationRegistry.StationId, Environment.MachineName);
 
 					userlogin = new UserLoginSetting
 						{
@@ -670,14 +729,18 @@ namespace StationSystemTray
 					userloginContainer.UpsertUserLoginSetting(userlogin);
 					RefreshUserList();
 
+					m_LoginAction = () =>
+					{
+						LoginAndLaunchClient(userlogin);
+					};
+
 					if (res.IsPrimaryStation)
 					{
 						GotoTabPage(tabMainStationSetup, userlogin);
 					}
 					else
 					{
-						if (LaunchWavefaceClient(userlogin))
-							Close();
+						GotoTabPage(tabSecondStationSetup, userlogin);
 					}
 				}
 				else
@@ -685,15 +748,19 @@ namespace StationSystemTray
 					// In case the user is in AppData but not in Station DB (usually in testing environment)
 					bool userAlreadyInDB = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", cmbEmail.Text.ToLower())) != null;
 					if (!userAlreadyInDB)
-						StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, "deviceId", "deviceName");
+						StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, StationRegistry.StationId, Environment.MachineName);
 
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
 					userloginContainer.UpsertUserLoginSetting(userlogin);
 					RefreshUserList();
 
-					if (LaunchWavefaceClient(userlogin))
-						Close();
+					m_LoginAction = () =>
+					{
+						LoginAndLaunchClient(userlogin);
+					};
+
+					m_LoginAction();
 				}
 			}
 			catch (AuthenticationException)
@@ -721,17 +788,17 @@ namespace StationSystemTray
 			}
 		}
 
+		private bool LaunchWavefaceClient()
+		{
+			return LaunchWavefaceClient(userloginContainer.GetLastUserLogin());
+		}
+
 		private bool LaunchWavefaceClient(UserLoginSetting userlogin)
 		{
 			Cursor.Current = Cursors.WaitCursor;
 
 			try
 			{
-				if (userlogin == null)
-				{
-					userlogin = userloginContainer.GetLastUserLogin();
-				}
-
 				LoginedSession sessionData = LoginToStation(userlogin);
 
 				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
@@ -756,7 +823,7 @@ namespace StationSystemTray
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(Properties.Resources.LogInError + "\r\n" + e.Message);
+				MessageBox.Show(Properties.Resources.LogInError + Environment.NewLine + e.Message);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			finally
@@ -767,26 +834,42 @@ namespace StationSystemTray
 			return false;
 		}
 
+		private void LaunchClient(string sessionToken)
+		{
+			Cursor.Current = Cursors.WaitCursor;
+			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+				"WavefaceWindowsClient.exe");
+			clientProcess = Process.Start(execPath, "\"" + sessionToken + "\"");
+			clientProcess.EnableRaisingEvents = true;
+
+			clientProcess.Exited -= new EventHandler(clientProcess_Exited);
+			clientProcess.Exited += new EventHandler(clientProcess_Exited);
+		}
+
 		private LoginedSession LoginToStation(UserLoginSetting userlogin)
 		{
 			try
 			{
-				using (Wammer.Utility.DefaultWebClient agent = new Wammer.Utility.DefaultWebClient())
+				using (DefaultWebClient agent = new DefaultWebClient())
 				{
-					return User.LogIn(
+					var ret = User.LogIn(
 						agent, 
 						"http://localhost:9981/v2/",
 						userlogin.Email, 
 						SecurityHelper.DecryptPassword(userlogin.Password),
-						"a23f9491-ba70-5075-b625-b8fb5d9ecd90",
-						(string)StationRegistry.GetValue("stationId", ""),
+						CLIENT_API_KEY,
+						(string)StationRegistry.GetValue("stationId", string.Empty),
 						Environment.MachineName).LoginedInfo;
+
+					userlogin.SessionToken = ret.session_token;
+					userloginContainer.UpsertUserLoginSetting(userlogin);
+
+					return ret;
 				}
 			}
 			catch (WammerCloudException e)
 			{
-				Exception error = StationController.ExtractApiRetMsg(e);
-				throw error;
+				throw StationController.ExtractApiRetMsg(e);
 			}
 		}
 
@@ -836,22 +919,15 @@ namespace StationSystemTray
 
 		private bool TestEmailFormat(string emailAddress)
 		{
-			const string _patternStrict = @"^(([^<>()[\]\\.,;:\s@\""]+"
-										 + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
-										 + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
-										 + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
-										 + @"[a-zA-Z]{2,}))$";
-
-			Regex _reStrict = new Regex(_patternStrict);
-			return _reStrict.IsMatch(emailAddress);
+			return Regex.IsMatch(emailAddress, EMAIL_MATCH_PATTERN);
 		}
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			Button btn = (Button)sender;
+			if (m_LoginAction == null)
+				return;
 
-			if (LaunchWavefaceClient((UserLoginSetting)btn.Tag))
-				Close();
+			m_LoginAction();
 		}
 
 		private void ExitProgram()
@@ -863,20 +939,104 @@ namespace StationSystemTray
 		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			this.Hide();
-			m_SignUpDialog.ShowDialog();
-			if (m_SignUpDialog.DialogResult == System.Windows.Forms.DialogResult.OK)
+
+			var signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
+			var postData = new FBLoginPostData()
 			{
-				cmbEmail.Text = m_SignUpDialog.EMail;
-				txtPassword.Text = m_SignUpDialog.Password;
+				device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+				device_name = Environment.MachineName,
+				device = "windows",
+				api_key = CLIENT_API_KEY,
+				xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s", signUpUrl)
+			};
+
+			var browser = new WebBrowser()
+			{
+				Dock = DockStyle.Fill
+			};
+
+
+			var dialog = new Form()
+			{
+				Width = 750,
+				Height = 700,
+				Text = this.Text,
+				StartPosition = FormStartPosition.CenterParent
+			};
+			dialog.Controls.Add(browser);
+
+			browser.Navigated += (s, ex) =>
+			{
+				var url = browser.Url;
+				if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"), RegexOptions.IgnoreCase))
+				{
+					dialog.DialogResult = DialogResult.OK;
+				}
+			};
+
+
+			browser.Navigate(m_SignUpUrl,
+				string.Empty,
+				Encoding.UTF8.GetBytes(FastJSONHelper.ToFastJSON(postData)),
+				"Content-Type: application/json");
+
+			if (dialog.ShowDialog() == DialogResult.OK)
+			{
+				var url = browser.Url;
+				var parameters = HttpUtility.ParseQueryString(url.Query);
+				var apiRetCode = parameters["api_ret_code"];
+
+				if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+				{
+					if (!this.IsDisposed)
+						this.Show();
+					return;
+				}
+
+				var sessionToken = parameters["session_token"];
+				var userID = parameters["user_id"];
+				var email = parameters["email"];
+				var password = parameters["password"];
+				var accountType = parameters["account_type"];
+
+				if (accountType.Equals("native", StringComparison.CurrentCultureIgnoreCase))
+				{
+					this.cmbEmail.Text = email;
+					this.txtPassword.Text = password;
+
+					if (!this.IsDisposed)
+						this.Show();
+					return;
+				}
+
+				m_LoginAction = () =>
+				{
+					LoginAndLaunchClient(sessionToken, userID);
+				};
+
+				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+				if (driver == null)
+				{
+					var res = StationController.AddUser(userID, sessionToken);
+
+					//Show welcome msg
+					if (res.IsPrimaryStation)
+						GotoTabPage(tabMainStationSetup);
+					else
+						GotoTabPage(tabSecondStationSetup);
+
+					if (!this.IsDisposed)
+						this.Show();
+					return;
+				}
+
+				m_LoginAction();
+				return;
 			}
-			m_SignUpDialog.Dispose();
-			m_SignUpDialog = null;
-			tabControl.SelectedTab = tabSignIn;
 
 			if (!this.IsDisposed)
 				this.Show();
 		}
-
 
 		#region Protected Method
 		/// <summary>
@@ -894,18 +1054,19 @@ namespace StationSystemTray
 			{
 				return true;
 			}
-			else
-			{
-				return base.ProcessCmdKey(ref msg, keyData);
-			}
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 		#endregion
 
-		public static void LogOut(WebClient agent, string sessionToken, string apiKey)
+		public void LogOut(WebClient agent, string sessionToken, string apiKey)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>();
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, sessionToken);
-			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
+			InternetSetOption(IntPtr.Zero, 42, IntPtr.Zero, 0);
+
+			userloginContainer.UpdateLastLogin(string.Empty);
+
+			var parameters = new Dictionary<object, object>{
+			{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
+			{CloudServer.PARAM_API_KEY, apiKey}};
 
 			CloudServer.requestPath(agent, "http://127.0.0.1:9981/v2/", "auth/logout", parameters, false);
 		}
@@ -914,17 +1075,17 @@ namespace StationSystemTray
 		{
 			if (menuSignIn.Text == Properties.Resources.LogoutMenuItem)
 			{
-				var userlogin = userloginContainer.GetLastUserLogin();
+				var lastLogin = userloginContainer.GetLastLogin();
 				LoginedSession loginedSession = null;
 
-				if (userlogin != null)
+				if (lastLogin != null)
 				{
 					if (clientProcess != null)
 					{
 						clientProcess.CloseMainWindow();
 					}
 
-					loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+					loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 					LogOut(new WebClient(), loginedSession.session_token, loginedSession.apikey.apikey);
 				}
 			}
@@ -933,11 +1094,11 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-			var userlogin = userloginContainer.GetLastUserLogin();
+			var lastLogin = userloginContainer.GetLastLogin();
 			LoginedSession loginedSession = null;
 
-			if (userlogin != null)
-				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+			if (lastLogin != null)
+				loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 
 			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
 			
@@ -1018,15 +1179,128 @@ namespace StationSystemTray
 
 		private void TrayMenu_Opening(object sender, CancelEventArgs e)
 		{
-			var userlogin = userloginContainer.GetLastUserLogin();
+			var lastLogin = userloginContainer.GetLastLogin();
 			LoginedSession loginedSession = null;
 
-			if (userlogin != null)
-				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
+			if (lastLogin != null)
+				loginedSession = Wammer.Model.LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 
 			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
 
 			tsmiOpenStream.Visible = isUserLogined;
+		}
+
+
+		private void fbLoginButton1_Click(object sender, EventArgs e)
+		{
+				this.Hide();
+				var fbLoginUrl = string.Format("{0}/{1}/FBLogin", m_CallbackUrl, FB_LOGIN_GUID);
+				var postData = new FBLoginPostData()
+				{
+					device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+					device_name = Environment.MachineName,
+					device = "windows",
+					api_key = CLIENT_API_KEY,
+					xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s", fbLoginUrl)
+				};
+
+				var browser = new WebBrowser()
+				{
+
+					Dock = DockStyle.Fill
+				};
+
+
+				var dialog = new Form()
+				{
+					Width = 750,
+					Height = 700,
+					Text = this.Text,
+					StartPosition = FormStartPosition.CenterParent
+				};
+				dialog.Controls.Add(browser);
+
+				browser.Navigated += (s, ex) =>
+				{
+					var url = browser.Url;
+					if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"), RegexOptions.IgnoreCase))
+					{
+						dialog.DialogResult = DialogResult.OK;
+					}
+				};
+
+				browser.Navigate(m_FBLoginUrl,
+					string.Empty,
+					Encoding.UTF8.GetBytes(FastJSONHelper.ToFastJSON(postData)),
+					"Content-Type: application/json");
+
+				if (dialog.ShowDialog() == DialogResult.OK)
+				{
+					var url = browser.Url.Query;
+					var parameters = HttpUtility.ParseQueryString(url);
+					var apiRetCode = parameters["api_ret_code"];
+
+					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+					{
+						if (!this.IsDisposed)
+							this.Show();
+						return;
+					}
+					
+					var sessionToken = parameters["session_token"];
+					var userID = parameters["user_id"];
+
+					m_LoginAction = () =>
+										{
+											LoginAndLaunchClient(sessionToken, userID);
+										};
+
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+					if (driver == null)
+					{
+						var res = StationController.AddUser(userID, sessionToken);
+
+						//Show welcome msg
+						if (res.IsPrimaryStation)
+							GotoTabPage(tabMainStationSetup);
+						else
+							GotoTabPage(tabSecondStationSetup);
+
+						if (!this.IsDisposed)
+							this.Show();
+						return;
+					}
+
+					m_LoginAction();
+					return;
+				}
+				if (!this.IsDisposed)
+					this.Show();
+		}
+
+		private void LoginAndLaunchClient(UserLoginSetting loginSetting)
+		{
+			if (LaunchWavefaceClient(loginSetting))
+				Close();
+		}
+
+		private void LoginAndLaunchClient(string sessionToken, string userID)
+		{
+			//Login user
+			StationController.UserLogin(CLIENT_API_KEY, userID, sessionToken);
+
+			userloginContainer.UpdateLastLogin(sessionToken);
+
+			LaunchClient(sessionToken);
+			Close();
+		}
+
+		private void btnOK2_Click(object sender, EventArgs e)
+		{
+			if (m_LoginAction == null)
+				return;
+
+			m_LoginAction();
 		}
 	}
 
@@ -1064,63 +1338,15 @@ namespace StationSystemTray
 	}
 	#endregion
 
-	//#region WavefaceClientController
-	//public class WavefaceClientController : SimpleUIController
-	//{
-	//    private MainForm mainform;
-	//    private object cs = new object();
+	public class FBLoginPostData
+	{
+		public string device_id { get; set; }
+		public string device_name { get; set; }
+		public string device { get; set; }
+		public string api_key { get; set; }
+		public string xurl { get; set; }
+	}
 
-	//    public WavefaceClientController(MainForm form)
-	//        : base(form)
-	//    {
-	//        mainform = form;
-	//    }
-
-	//    public void Terminate()
-	//    {
-	//        if (mainform.clientProcess != null)
-	//        {
-	//            mainform.clientProcess.Kill();
-	//        }
-	//    }
-
-	//    protected override object Action(object obj)
-	//    {
-	//        lock (cs)
-	//        {
-	//            UserLoginSetting userlogin = (UserLoginSetting)obj;
-	//            string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-	//           "WavefaceWindowsClient.exe");
-	//            mainform.clientProcess = Process.Start(execPath, userlogin.Email + " " + SecurityHelper.DecryptPassword(userlogin.Password));
-
-	//            mainform.clientProcess.Exited += new EventHandler(clientProcess_Exited);
-
-	//            if (mainform.clientProcess != null)
-	//                mainform.clientProcess.WaitForExit();
-
-	//            int exitCode = mainform.clientProcess.ExitCode;
-	//            mainform.clientProcess = null;
-
-	//            return exitCode;
-	//        }
-	//    }
-
-	//    void clientProcess_Exited(object sender, EventArgs e)
-	//    {
-	//        var process = sender as Process;
-	//        var exitCode = process.ExitCode;
-	//    }
-
-	//    protected override void ActionCallback(object obj)
-	//    {
-	//    }
-
-	//    protected override void ActionError(Exception ex)
-	//    {
-	//        mainform.clientProcess = null;
-	//    }
-	//}
-	//#endregion
 
 	#region PauseServiceUIController
 	public class PauseServiceUIController : SimpleUIController
