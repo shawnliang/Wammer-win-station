@@ -134,4 +134,11 @@ namespace Wammer.Cloud
 		{
 		}
 	}
+
+	public class FindMyStationResponse : CloudResponse
+	{
+		public string session_token { get; set; }
+		public List<UserGroup> groups { get; set; }
+		public List<UserStation> stations { get; set; }
+	}
 }

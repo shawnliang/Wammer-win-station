@@ -113,5 +113,14 @@ namespace Wammer.Cloud
 		{
 			LogOut(agent, sessionToken, CloudServer.APIKey);
 		}
+
+		public static FindMyStationResponse FindMyStation(WebClient agent, string sessionToken)
+		{
+			Dictionary<object, object> parameters = new Dictionary<object, object>();
+			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, sessionToken);
+
+			return CloudServer.requestPath<FindMyStationResponse>(agent, "users/findMyStation", parameters);
+		}
 	}
 }

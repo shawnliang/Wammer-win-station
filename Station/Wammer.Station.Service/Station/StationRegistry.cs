@@ -6,6 +6,11 @@ namespace Wammer.Station
 	{
 		private const string KEY_PATH = @"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation";
 
+		public static string StationId
+		{
+			get { return (string)GetValue("stationId", ""); }
+		}
+
 		public static object GetValue(string valueName, object defaultValue)
 		{
 			object value = Microsoft.Win32.Registry.GetValue(KEY_PATH,
