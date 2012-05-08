@@ -118,111 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>345, 109</value>
-  </data>
-  <data name="btnOK.Text" xml:space="preserve">
-    <value>確 定</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>432, 145</value>
-  </data>
-  <data name="linkLegalNotice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 116</value>
-  </data>
-  <data name="linkLegalNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 14</value>
-  </data>
-  <data name="linkLegalNotice.Text" xml:space="preserve">
-    <value>隱私權政策</value>
-  </data>
-  <data name="lblPrimaryStation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 135</value>
-  </data>
-  <data name="lblOriginDesc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 14</value>
-  </data>
-  <data name="lblOriginDesc.Text" xml:space="preserve">
-    <value>你所有的檔案會被自動儲存在:</value>
-  </data>
-  <data name="btnUnlink.Text" xml:space="preserve">
-    <value>移除連結</value>
-  </data>
-  <data name="lblStorageUsageValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>78, 75</value>
-  </data>
-  <data name="lblLastSyncValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>66, 55</value>
-  </data>
-  <data name="lblLastSyncValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 14</value>
-  </data>
-  <data name="lblLastSyncValue.Text" xml:space="preserve">
-    <value>5 分鐘前</value>
-  </data>
-  <data name="lblStorageUsage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 14</value>
-  </data>
-  <data name="lblStorageUsage.Text" xml:space="preserve">
-    <value>已使用空間:</value>
-  </data>
-  <data name="lblLastSync.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 14</value>
-  </data>
-  <data name="lblLastSync.Text" xml:space="preserve">
-    <value>上次同步:</value>
-  </data>
-  <data name="lblLoadingStations.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 14</value>
-  </data>
-  <data name="lblLoadingStations.Text" xml:space="preserve">
-    <value>讀取中...</value>
-  </data>
-  <data name="groupStations.Location" type="System.Drawing.Point, System.Drawing">
-    <value>455, 12</value>
-  </data>
-  <data name="groupStations.Size" type="System.Drawing.Size, System.Drawing">
-    <value>409, 167</value>
-  </data>
-  <data name="groupStations.Text" xml:space="preserve">
-    <value>已連結的電腦</value>
-  </data>
-  <data name="lblCopyRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 93</value>
-  </data>
-  <data name="lblCopyRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 14</value>
-  </data>
-  <data name="lblCopyRight.Text" xml:space="preserve">
-    <value>版權所有 © 2011-2012 Waveface Inc. 保留所有權利.</value>
-  </data>
-  <data name="btnUpdate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 26</value>
-  </data>
-  <data name="btnUpdate.Text" xml:space="preserve">
-    <value>檢查更新</value>
-  </data>
-  <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>39, 30</value>
-  </data>
-  <data name="lblVersionTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 30</value>
-  </data>
-  <data name="lblVersionTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 14</value>
-  </data>
-  <data name="lblVersionTitle.Text" xml:space="preserve">
-    <value>版本</value>
-  </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 75</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Waveface Desktop 版本</value>
-  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAMAEBAAAAAAIABoBAAANgAAACAgAAAAACAAqBAAAJ4EAABAQAAAAAAgAChCAABGFQAAKAAAABAA
@@ -602,6 +497,6 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>設定</value>
+    <value>帳號資訊</value>
   </data>
 </root>

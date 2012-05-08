@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
-using System.Web;
 using System.Windows.Forms;
 using AppLimit.NetSparkle;
 using Waveface.API.V2;
+using Waveface.Configuration;
 
 #endregion
 
@@ -32,7 +32,6 @@ namespace Waveface.SettingUI
         }
 
         #endregion
-
 
         #region StationInfo
 
@@ -69,20 +68,27 @@ namespace Waveface.SettingUI
         // private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         public bool isUnlink;
+
         private Sparkle m_autoUpdator;
         private List<StationInfo> m_stationList = new List<StationInfo>();
+        private FormSettings m_formSettings;
 
         public SettingForm(Sparkle autoUpdator)
         {
             m_autoUpdator = autoUpdator;
 
             InitializeComponent();
+
+            m_formSettings = new FormSettings(this);
+            m_formSettings.UseLocation = true;
+            m_formSettings.UseSize = false;
+            m_formSettings.UseWindowState = true;
+            m_formSettings.AllowMinimized = false;
+            m_formSettings.SaveOnClose = true;
         }
 
         private void PreferenceForm_Load(object sender, EventArgs e)
         {
-            lblUserName.Text = Main.Current.RT.Login.user.email;
-
             string _execPath = Assembly.GetExecutingAssembly().Location;
             FileVersionInfo _version = FileVersionInfo.GetVersionInfo(_execPath);
             lblVersion.Text = _version.FileVersion;
@@ -99,42 +105,6 @@ namespace Waveface.SettingUI
             DialogResult = DialogResult.OK;
 
             Close();
-        }
-
-        private void RefreshCloudStorage(StorageUsage storage)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(
-                           delegate { RefreshCloudStorage(storage); }
-                           ));
-            }
-            else
-            {
-                if (storage.quota < 0)
-                {
-                    label_MonthlyLimitValue.Text = I18n.L.T("MonthlyUsage_Unlimited");
-                    barCloudUsage.Value = (int)(storage.usage * 100 / int.MaxValue);
-                }
-                else
-                {
-                    label_MonthlyLimitValue.Text = storage.quota.ToString();
-                    barCloudUsage.Value = (int)(storage.usage * 100 / storage.quota);
-                }
-
-                label_DaysLeftValue.Text = storage.daysLeft.ToString();
-                label_UsedCountValue.Text = storage.usage.ToString();
-
-                label_LoadingUsage.Visible = false;
-                label_MonthlyLimit.Visible = true;
-                label_MonthlyLimitValue.Visible = true;
-                label_UsedCount.Visible = true;
-                label_UsedCountValue.Visible = true;
-                label_DaysLeft.Visible = true;
-                label_DaysLeftValue.Visible = true;
-
-                barCloudUsage.Visible = true;
-            }
         }
 
         private void RefreshLinkedComputers(List<Station> myStations)
@@ -188,7 +158,6 @@ namespace Waveface.SettingUI
                 lblStorageUsageValue.Visible = true;
                 lblOriginDesc.Visible = true;
                 lblPrimaryStation.Visible = true;
-                btnChangeLoc.Visible = true;
                 btnUnlink.Visible = true;
             }
         }
@@ -198,12 +167,10 @@ namespace Waveface.SettingUI
             if (e.Error == null)
             {
                 AllData _allData = (AllData)e.Result;
-                RefreshCloudStorage(_allData.storageusage);
                 RefreshLinkedComputers(_allData.mystations);
             }
             else
             {
-                label_LoadingUsage.Text = I18n.L.T("LoadDataFailed");
                 lblLoadingStations.Text = I18n.L.T("LoadDataFailed");
             }
 
@@ -225,12 +192,6 @@ namespace Waveface.SettingUI
                                storageusage = new StorageUsage { quota = _quota, usage = _usage, daysLeft = _daysLeft },
                                mystations = _myStations.stations
                            };
-        }
-
-        private void btnEditAccount_Click(object sender, EventArgs e)
-        {
-            string _userProfileUrl = WService.WebURL + "/user/profile";
-            Process.Start(WService.WebURL + "/login?cont=" + HttpUtility.UrlEncode(_userProfileUrl), null);
         }
 
         private void linkLegalNotice_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -313,16 +274,19 @@ namespace Waveface.SettingUI
 
                     if (station.IsThisPC)
                     {
-                        btnChangeLoc.Enabled = true;
                         btnUnlink.Enabled = true;
                     }
                     else
                     {
-                        btnChangeLoc.Enabled = false;
                         btnUnlink.Enabled = false;
                     }
                 }
             }
+        }
+
+        private void SettingForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            m_formSettings.Save();
         }
     }
 }

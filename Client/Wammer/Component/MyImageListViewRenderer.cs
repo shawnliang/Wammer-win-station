@@ -237,7 +237,7 @@ namespace Waveface.Component
 
                                 g.FillRectangle(_brush, _rect);
 
-                                Font _font = new Font("Arial", _h2 * (1- 0.7f), FontStyle.Bold);
+                                Font _font = new Font("Arial", _h2 * (1 - 0.7f), FontStyle.Bold);
 
                                 TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
                             }
@@ -260,11 +260,18 @@ namespace Waveface.Component
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
                         {
+                            /*
                             FillRoundedCorner(g, new SolidBrush(Color.Violet), bounds.Left, bounds.Top,
                                               16, 16, 4);
 
                             g.DrawString("+", new Font("Tahoma", 10, FontStyle.Bold),
                                          new SolidBrush(Color.White), bounds.Left - 1, bounds.Top - 1);
+                            */
+
+                            using (Pen _pen = new Pen(Color.FromArgb(215, 131, 123), 3))
+                            {
+                                g.DrawRectangle(_pen, bounds.Left + 4, bounds.Top + 4, bounds.Width - 8, bounds.Height - 8);
+                            }
                         }
                     }
                 }

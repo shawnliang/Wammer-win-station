@@ -125,10 +125,7 @@
     <value>沒有縮圖</value>
   </data>
   <data name="buttonRemovePreview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>533, 2</value>
-  </data>
-  <data name="buttonRemovePreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 26</value>
+    <value>498, 4</value>
   </data>
   <data name="buttonRemovePreview.Text" xml:space="preserve">
     <value>移除</value>

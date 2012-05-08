@@ -117,39 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="contextMenuStripEdit.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnAddPhoto.Text" xml:space="preserve">
-    <value>新增照片</value>
-  </data>
-  <data name="btnAddPhoto.ToolTip" xml:space="preserve">
-    <value>新增照片</value>
-  </data>
-  <data name="richText_UI.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelRichText_Main.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnPureText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelRichText_Top.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelRichTextPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Page_RichText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="weblink_UI.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Page__Link.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="photo_UI.FileNameMapping" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAEAQAAAOIBU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMuRGljdGlvbmFy
@@ -165,70 +132,16 @@
         AAAACw==
 </value>
   </data>
-  <data name="photo_UI.ToolTip" xml:space="preserve">
-    <value />
+  <data name="btnAddPhoto.Text" xml:space="preserve">
+    <value>新增照片</value>
   </data>
-  <data name="Page__Photo.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="document_UI.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Page__DOC.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="multiPanel_P_D_W.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelPWD_Main.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="pictureBoxWaiting.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnAddDoc.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelToolbar.ToolTip" xml:space="preserve">
-    <value />
+  <data name="btnAddPhoto.ToolTip" xml:space="preserve">
+    <value>新增照片</value>
   </data>
   <data name="btnSend.Text" xml:space="preserve">
     <value>貼文</value>
   </data>
-  <data name="btnSend.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="labelPreviewMsg.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="cbGenerateWebPreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 18</value>
-  </data>
-  <data name="cbGenerateWebPreview.Text" xml:space="preserve">
-    <value>產生網頁預覽</value>
-  </data>
-  <data name="cbGenerateWebPreview.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelMiddleBar.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="buttonRichText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="pureTextBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="panelText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Page_P_D_W.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="multiPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAMAEBAAAAAAIABoBAAANgAAACAgAAAAACAAqBAAAJ4EAABAQAAAAAAgAChCAABGFQAAKAAAABAA
@@ -609,8 +522,5 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>新貼文</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
   </data>
 </root>
