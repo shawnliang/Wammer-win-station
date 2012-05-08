@@ -151,6 +151,13 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap FB_Logo {
+            get {
+                object obj = ResourceManager.GetObject("FB_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Please fill all the fields!.
         /// </summary>

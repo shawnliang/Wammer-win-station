@@ -47,7 +47,7 @@ namespace Wammer.Station.Service
 		{
 			try
 			{
-				logger.Info("============== Starting Waveface Station =================");
+				logger.Info("============== Starting Stream Station =================");
 				ConfigThreadPool();
 
 				ResetPerformanceCounter();
@@ -58,7 +58,7 @@ namespace Wammer.Station.Service
 				Environment.CurrentDirectory = Path.GetDirectoryName(
 										Assembly.GetExecutingAssembly().Location);
 
-				logger.Debug("Initialize Waveface Service");
+				logger.Debug("Initialize Stream Service");
 				InitStationId();
 				InitResourceBasePath();
 
@@ -131,7 +131,7 @@ namespace Wammer.Station.Service
 
 
 
-				logger.Info("Waveface station is started");
+				logger.Info("Stream station is started");
 			}
 			catch (Exception ex)
 			{
