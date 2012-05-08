@@ -24,16 +24,6 @@ namespace Wammer.Cloud
 	public class StationHeartbeatResponse : CloudResponse
 	{
 		public string session_token { get; set; }
-
-		public StationHeartbeatResponse()
-			: base()
-		{
-		}
-
-		public StationHeartbeatResponse(int status, DateTime timestamp, string token)
-			: base(status, timestamp)
-		{
-			session_token = token;
-		}
+		public UserStation station { get; set; }
 	}
 }

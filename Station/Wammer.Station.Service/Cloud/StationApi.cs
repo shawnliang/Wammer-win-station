@@ -53,7 +53,7 @@ namespace Wammer.Cloud
 			return LogOn(agent, detail, CloudServer.APIKey);
 		}
 
-		public StationLogOnResponse LogOn(WebClient agent, StationDetail detail,string apiKey)
+		public StationLogOnResponse LogOn(WebClient agent, StationDetail detail, string apiKey)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
@@ -83,7 +83,7 @@ namespace Wammer.Cloud
 			return res;
 		}
 		
-		public void Heartbeat(WebClient agent, StationDetail detail)
+		public StationHeartbeatResponse Heartbeat(WebClient agent, StationDetail detail)
 		{
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
@@ -93,7 +93,8 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_DETAIL, detail.ToFastJSON() }
 			};
 
-			CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
+			StationHeartbeatResponse res = CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
+			return res;
 		}
 
 		public static void SignOff(WebClient agent, string stationId, string sessionToken, string userID)

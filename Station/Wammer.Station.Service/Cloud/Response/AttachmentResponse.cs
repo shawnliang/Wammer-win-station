@@ -69,8 +69,36 @@ namespace Wammer.Cloud
 
 	public class AttachmentInfo
 	{
+		public AttachmentInfo() {}
+
+		public AttachmentInfo(Attachment attachment)
+		{
+			this.group_id = attachment.group_id;
+			this.file_name = attachment.file_name;
+			this.object_id = attachment.object_id;
+			this.type = attachment.type.ToString();
+			this.image_meta = new ImageMeta { 
+				large = new ImageMetaDetail(attachment.image_meta.large),
+				medium = new ImageMetaDetail(attachment.image_meta.medium),
+				small = new ImageMetaDetail(attachment.image_meta.small),
+				square = new ImageMetaDetail(attachment.image_meta.square)
+			};
+		}
+
 		public class ImageMetaDetail
 		{
+			public ImageMetaDetail() {}
+
+			public ImageMetaDetail(ThumbnailInfo thumbnail)
+			{
+				this.url = thumbnail.url;
+				this.width = thumbnail.width;
+				this.height = thumbnail.height;
+				this.mime_type = thumbnail.mime_type;
+				this.file_size = thumbnail.file_size;
+				this.md5 = thumbnail.md5;
+			}
+
 			[BsonIgnoreIfNull]
 			public string url { get; set; }
 			[BsonIgnoreIfNull]
