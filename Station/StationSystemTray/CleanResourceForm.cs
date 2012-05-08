@@ -16,7 +16,7 @@ namespace StationSystemTray
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
 			this.pictureBox1.Image = SystemIcons.Question.ToBitmap();
-			this.lblConfirm.Text = Properties.Resources.CleanResourceMsg;
+			this.lblConfirm.Text = string.Format(Properties.Resources.CleanResourceMsg, email);
 		}
 
 		private void btnYes_Click(object sender, EventArgs e)
