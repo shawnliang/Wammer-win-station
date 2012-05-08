@@ -10,6 +10,7 @@ namespace StationSystemTray
 		Initial,
 		Starting,
 		Running,
+		Syncing,
 		Stopping,
 		Stopped,
 	}
@@ -28,6 +29,8 @@ namespace StationSystemTray
 
 		void Onlining();
 		void Onlined();
+		void StartSyncing();
+		void StopSyncing();
 		void Offlining();
 		void Offlined();
 		void Error();
@@ -75,6 +78,14 @@ namespace StationSystemTray
 		}
 
 		public virtual void Onlining()
+		{
+		}
+
+		public virtual void StartSyncing()
+		{
+		}
+
+		public virtual void StopSyncing()
 		{
 		}
 
@@ -140,6 +151,11 @@ namespace StationSystemTray
 		{
 		}
 
+		public override void StartSyncing()
+		{
+			context.GoToState(StationStateEnum.Syncing);
+		}
+
 		public override void Offlining()
 		{
 			context.GoToState(StationStateEnum.Stopping);
@@ -153,6 +169,34 @@ namespace StationSystemTray
 		public override void Error()
 		{
 			context.GoToState(StationStateEnum.Running);
+		}
+	}
+
+	class StationStateSyncing : StationStateBase
+	{
+		public StationStateSyncing(StationStateContext context)
+			:base(context, StationStateEnum.Syncing)
+		{
+		}
+
+		public override void StopSyncing()
+		{
+			context.GoToState(StationStateEnum.Running);
+		}
+
+		public override void Offlining()
+		{
+			context.GoToState(StationStateEnum.Stopping);
+		}
+
+		public override void Offlined()
+		{
+			context.GoToState(StationStateEnum.Stopped);
+		}
+
+		public override void Error()
+		{
+			context.GoToState(StationStateEnum.Syncing);
 		}
 	}
 

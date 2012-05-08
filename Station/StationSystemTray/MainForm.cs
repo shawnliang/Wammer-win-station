@@ -170,6 +170,7 @@ namespace StationSystemTray
 		public Icon iconRunning;
 		public Icon iconPaused;
 		public Icon iconWarning;
+		public Icon iconSyncing;
 
 		public string TrayIconText
 		{
@@ -178,7 +179,6 @@ namespace StationSystemTray
 			{
 				TrayIcon.Text = value;
 				TrayIcon.BalloonTipText = value;
-				TrayIcon.ShowBalloonTip(1000, "Stream", value, ToolTipIcon.None);
 			}
 		}
 
@@ -190,7 +190,7 @@ namespace StationSystemTray
 			this.Icon = Resources.Icon;
 
 			m_Timer.Interval = 1000;
-			m_Timer.Tick += (sender, e) => { AdjustIconText(); };
+			m_Timer.Tick += (sender, e) => { RefreshSyncingStatus(); };
 			m_Timer.Start();
 		}
 
@@ -218,6 +218,7 @@ namespace StationSystemTray
 			this.iconRunning = Icon.FromHandle(Properties.Resources.stream_tray_working.GetHicon());
 			this.iconPaused = Icon.FromHandle(Properties.Resources.stream_tray_pause.GetHicon());
 			this.iconWarning = Icon.FromHandle(Properties.Resources.stream_tray_warn.GetHicon());
+			this.iconSyncing = Icon.FromHandle(Properties.Resources.stream_tray_syncing.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);
@@ -447,6 +448,12 @@ namespace StationSystemTray
 						st.Entering += this.BecomeRunningState;
 						return st;
 					}
+				case StationStateEnum.Syncing:
+					{
+						var st = new StationStateSyncing(this);
+						st.Entering += this.BecomeSyncingState;
+						return st;
+					}
 				case StationStateEnum.Stopping:
 					{
 						var st = new StationStateStopping(this);
@@ -533,7 +540,30 @@ namespace StationSystemTray
 			else
 			{
 				TrayIcon.Icon = iconRunning;
-				TrayIconText = Properties.Resources.WFServiceRunning;
+
+				var runningText = Properties.Resources.WFServiceRunning;
+				menuServiceAction.Text = Properties.Resources.PauseWFService;
+
+				menuServiceAction.Enabled = true;
+
+				TrayIconText = runningText;
+				TrayIcon.ShowBalloonTip(1000, "Stream", runningText, ToolTipIcon.None);
+			}
+		}
+
+		void BecomeSyncingState(object sender, EventArgs evt)
+		{
+			if (InvokeRequired)
+			{
+				if (!IsDisposed)
+				{
+					Invoke(new EventHandler(BecomeSyncingState), this, new EventArgs());
+				}
+			}
+			else
+			{
+				TrayIcon.Icon = iconSyncing;
+				TrayIconText = Properties.Resources.WFServiceSyncing;
 				menuServiceAction.Text = Properties.Resources.PauseWFService;
 
 				menuServiceAction.Enabled = true;
@@ -552,8 +582,12 @@ namespace StationSystemTray
 			else
 			{
 				TrayIcon.Icon = iconPaused;
-				TrayIconText = Properties.Resources.WFServiceStopped;
+				
+				var stoppedText = Properties.Resources.WFServiceStopped;
 				menuServiceAction.Text = Properties.Resources.ResumeWFService;
+
+				TrayIconText = stoppedText;
+				TrayIcon.ShowBalloonTip(1000, "Stream", stoppedText, ToolTipIcon.None);
 
 				menuServiceAction.Enabled = true;
 			}
@@ -589,7 +623,7 @@ namespace StationSystemTray
 			else
 			{
 				menuServiceAction.Enabled = false;
-				TrayIconText = Properties.Resources.PausingWFService;
+				TrayIcon.Text = Properties.Resources.PausingWFService;
 
 				this.uictrlPauseService.PerformAction();
 			}
@@ -1127,37 +1161,52 @@ namespace StationSystemTray
 			}
 		}
 
-
-		private void AdjustIconText()
+		private void RefreshSyncingStatus()
 		{
 			m_Timer.Stop();
 
 			var iconText = TrayIcon.BalloonTipText;
+			var upRemainedCount = m_UpRemainedCountCounter.NextValue();
+			var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
 
-			if (iconPaused != this.TrayIcon.Icon)
+			if (upRemainedCount > 0 || downloadRemainedCount > 0)
 			{
-				var upRemainedCount = m_UpRemainedCountCounter.NextValue();
-				var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
-				var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
-				var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
+				if (CurrentState.Value == StationStateEnum.Running)
+				{
+					CurrentState.StartSyncing();
+				}
 
-				var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
-				var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
+				if (CurrentState.Value == StationStateEnum.Syncing)
+				{
+					var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
+					var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
 
-				upSpeed = upRemainedCount == 0? 0: ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
-				downloadSpeed = downloadSpeed == 0? 0: ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
+					var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
+					var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
 
-				iconText = string.Format("{0}{1}↑({2}): {3:0.0} {4}{5}↓({6}): {7:0.0}{8}",
-					iconText,
-					Environment.NewLine,
-					upRemainedCount,
-					upSpeed,
-					upSpeedUnit,
-					Environment.NewLine,
-					downloadRemainedCount,
-					downloadSpeed,
-					downloadSpeedUnit);
+					upSpeed = upRemainedCount == 0 ? 0 : ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
+					downloadSpeed = downloadSpeed == 0 ? 0 : ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
+
+					iconText = string.Format("{0}{1}↑({2}): {3:0.0} {4}{5}↓({6}): {7:0.0}{8}",
+						iconText,
+						Environment.NewLine,
+						upRemainedCount,
+						upSpeed,
+						upSpeedUnit,
+						Environment.NewLine,
+						downloadRemainedCount,
+						downloadSpeed,
+						downloadSpeedUnit);
+				}
 			}
+			else
+			{
+				if (CurrentState.Value == StationStateEnum.Syncing)
+				{
+					CurrentState.StopSyncing();
+				}
+			}
+
 			SetNotifyIconText(this.TrayIcon, iconText);
 			m_Timer.Start();
 		}

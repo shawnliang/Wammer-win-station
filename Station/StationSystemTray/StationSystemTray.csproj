@@ -152,6 +152,7 @@
     <None Include="Resources\stream_tray_pause.png" />
     <None Include="Resources\stream_tray_working.png" />
     <None Include="Resources\stream_tray_warn.png" />
+    <None Include="Resources\sync_windowstrayicon.png" />
     <Content Include="SystemTrayML.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
