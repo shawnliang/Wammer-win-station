@@ -1,4 +1,4 @@
-﻿using StationSystemTray.Control;
+using StationSystemTray.Control;
 namespace StationSystemTray
 {
 	partial class MainForm
@@ -43,6 +43,9 @@ namespace StationSystemTray
 			this.btnSignIn = new System.Windows.Forms.Button();
 			this.tabControl = new StationSystemTray.Control.TabControlEx();
 			this.tabSignIn = new System.Windows.Forms.TabPage();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.fbLoginButton1 = new StationSystemTray.Control.FBLoginButton();
 			this.lblSignIn = new System.Windows.Forms.Label();
 			this.lblEmail = new System.Windows.Forms.Label();
 			this.lblSignUp = new System.Windows.Forms.LinkLabel();
@@ -127,8 +130,9 @@ namespace StationSystemTray
 			// btnSignIn
 			// 
 			resources.ApplyResources(this.btnSignIn, "btnSignIn");
+			this.btnSignIn.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.btnSignIn.Name = "btnSignIn";
-			this.btnSignIn.UseVisualStyleBackColor = true;
+			this.btnSignIn.UseVisualStyleBackColor = false;
 			this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
 			// 
 			// tabControl
@@ -146,6 +150,9 @@ namespace StationSystemTray
 			// tabSignIn
 			// 
 			this.tabSignIn.BackColor = System.Drawing.SystemColors.Control;
+			this.tabSignIn.Controls.Add(this.label2);
+			this.tabSignIn.Controls.Add(this.label1);
+			this.tabSignIn.Controls.Add(this.fbLoginButton1);
 			this.tabSignIn.Controls.Add(this.lblSignIn);
 			this.tabSignIn.Controls.Add(this.lblEmail);
 			this.tabSignIn.Controls.Add(this.btnSignIn);
@@ -156,6 +163,26 @@ namespace StationSystemTray
 			this.tabSignIn.Controls.Add(this.chkRememberPassword);
 			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.Name = "tabSignIn";
+			// 
+			// label2
+			// 
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.Name = "label2";
+			// 
+			// label1
+			// 
+			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.Name = "label1";
+			// 
+			// fbLoginButton1
+			// 
+			resources.ApplyResources(this.fbLoginButton1, "fbLoginButton1");
+			this.fbLoginButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(120)))), ((int)(((byte)(171)))));
+			this.fbLoginButton1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.fbLoginButton1.Name = "fbLoginButton1";
+			this.fbLoginButton1.Click += new System.EventHandler(this.fbLoginButton1_Click);
 			// 
 			// lblSignIn
 			// 
@@ -304,6 +331,9 @@ namespace StationSystemTray
 		private System.Windows.Forms.Label lblWelcome2;
 		private System.Windows.Forms.Label lblSecondStationSetup;
 		private System.Windows.Forms.Button btnOK2;
+		private FBLoginButton fbLoginButton1;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
 	}
 }
 
