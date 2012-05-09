@@ -476,7 +476,7 @@ namespace StationSystemTray
 
 		private void menuServiceAction_Click(object sender, EventArgs e)
 		{
-			if (CurrentState.Value == StationStateEnum.Running)
+			if (CurrentState.Value == StationStateEnum.Running || CurrentState.Value == StationStateEnum.Syncing)
 			{
 				CurrentState.Offlining();
 			}
@@ -540,7 +540,7 @@ namespace StationSystemTray
 				menuServiceAction.Enabled = true;
 
 				TrayIconText = runningText;
-				TrayIcon.ShowBalloonTip(1000, "Stream", runningText, ToolTipIcon.None);
+				//TrayIcon.ShowBalloonTip(1000, "Stream", runningText, ToolTipIcon.None);
 			}
 		}
 
@@ -580,7 +580,7 @@ namespace StationSystemTray
 				menuServiceAction.Text = Properties.Resources.ResumeWFService;
 
 				TrayIconText = stoppedText;
-				TrayIcon.ShowBalloonTip(1000, "Stream", stoppedText, ToolTipIcon.None);
+				//TrayIcon.ShowBalloonTip(1000, "Stream", stoppedText, ToolTipIcon.None);
 
 				menuServiceAction.Enabled = true;
 			}
@@ -719,13 +719,6 @@ namespace StationSystemTray
 
 		private void btnSignIn_Click(object sender, EventArgs e)
 		{
-			if (this.TrayIcon.Icon != iconRunning)
-			{
-				//TODO: multi-languange support
-				MessageBox.Show(Resources.START_SERVICE_FIRST, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
 			if ((cmbEmail.Text == string.Empty) || (txtPassword.Text == string.Empty))
 			{
 				MessageBox.Show(Properties.Resources.FillAllFields, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1197,6 +1190,7 @@ namespace StationSystemTray
 				if (CurrentState.Value == StationStateEnum.Syncing)
 				{
 					CurrentState.StopSyncing();
+					TrayIcon.ShowBalloonTip(1000, "Stream", Properties.Resources.WFServiceRunning, ToolTipIcon.None);
 				}
 			}
 

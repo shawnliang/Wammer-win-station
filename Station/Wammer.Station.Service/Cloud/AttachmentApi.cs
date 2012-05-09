@@ -117,6 +117,21 @@ namespace Wammer.Cloud
 				}
 			}
 		}
+
+		public static void SetSync(WebClient agent, string object_id, string session_token)
+		{
+			if (agent == null || object_id == null || session_token == null)
+				throw new ArgumentNullException();
+
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ CloudServer.PARAM_OBJECT_IDS, "[\"" + object_id + "\"]" },
+				{ CloudServer.PARAM_SESSION_TOKEN, session_token},
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			};
+
+			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
+		}
 	}
 
 	public class DownloadResult

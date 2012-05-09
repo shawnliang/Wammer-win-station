@@ -51,7 +51,7 @@ namespace Wammer.Station
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
 		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
-		
+
 		protected HttpHandler()
 		{
 			this.ProcessSucceeded += HttpRequestMonitor.Instance.OnProcessSucceeded;
@@ -165,7 +165,7 @@ namespace Wammer.Station
 		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)
 		{
 			EventHandler<HttpHandlerEventArgs> handler = this.ProcessSucceeded;
-			
+
 			if (handler != null)
 			{
 				handler(this, evt);
@@ -226,7 +226,7 @@ namespace Wammer.Station
 				throw new ArgumentException("incorrect use of this function: " +
 														"input part.ContentDisposition is null");
 
-			if (disp.Value.Equals("form-data",StringComparison.CurrentCultureIgnoreCase))
+			if (disp.Value.Equals("form-data", StringComparison.CurrentCultureIgnoreCase))
 			{
 				string filename = disp.Parameters["filename"];
 
@@ -247,13 +247,13 @@ namespace Wammer.Station
 		public abstract void HandleRequest();
 		public virtual object Clone()
 		{
- 			return this.MemberwiseClone();
+			return this.MemberwiseClone();
 		}
 
 		private static bool HasMultiPartFormData(HttpListenerRequest request)
 		{
 			return request.ContentType != null &&
-							request.ContentType.StartsWith(MULTIPART_FORM,StringComparison.CurrentCultureIgnoreCase);
+							request.ContentType.StartsWith(MULTIPART_FORM, StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		private static string GetMultipartBoundary(string contentType)
@@ -261,9 +261,10 @@ namespace Wammer.Station
 			if (contentType == null)
 				throw new ArgumentNullException();
 
-			try {
+			try
+			{
 				string[] parts = contentType.Split(';');
-				foreach(string part in parts)
+				foreach (string part in parts)
 				{
 					int idx = part.IndexOf(BOUNDARY);
 					if (idx < 0)

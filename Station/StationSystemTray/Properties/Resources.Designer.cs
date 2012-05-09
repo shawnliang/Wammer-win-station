@@ -311,7 +311,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resume sync.
+        ///   Looks up a localized string similar to Resume Stream sync.
         /// </summary>
         public static string ResumeWFService {
             get {
@@ -320,7 +320,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resuming sync....
+        ///   Looks up a localized string similar to Resuming Stream sync....
         /// </summary>
         public static string ResumingWFService {
             get {
@@ -329,16 +329,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please start service first.
-        /// </summary>
-        public static string START_SERVICE_FIRST {
-            get {
-                return ResourceManager.GetString("START_SERVICE_FIRST", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Starting sync....
+        ///   Looks up a localized string similar to Starting Stream sync....
         /// </summary>
         public static string StartingWFService {
             get {
@@ -474,7 +465,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stream sync started.
+        ///   Looks up a localized string similar to All Stream files up to date.
         /// </summary>
         public static string WFServiceRunning {
             get {
@@ -492,7 +483,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stream sync stopped.
+        ///   Looks up a localized string similar to Stream sync paused.
         /// </summary>
         public static string WFServiceStopped {
             get {
