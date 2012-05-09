@@ -74,6 +74,13 @@ namespace Gui.Properties {
             }
         }
         
+        internal static System.Drawing.Icon configure5121 {
+            get {
+                object obj = ResourceManager.GetObject("configure5121", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to The wizard has detected that newer version of Stream is already installed on your computer. Setup cannot continue..
         /// </summary>

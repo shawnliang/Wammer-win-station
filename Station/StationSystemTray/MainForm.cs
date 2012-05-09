@@ -170,7 +170,8 @@ namespace StationSystemTray
 		public Icon iconRunning;
 		public Icon iconPaused;
 		public Icon iconWarning;
-		public Icon iconSyncing;
+		public Icon iconSyncing1;
+		public Icon iconSyncing2;
 
 		public string TrayIconText
 		{
@@ -188,7 +189,7 @@ namespace StationSystemTray
 			InitializeComponent();
 			this.initMinimized = initMinimized;
 
-			m_Timer.Interval = 1000;
+			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => { RefreshSyncingStatus(); };
 			m_Timer.Start();
 		}
@@ -217,7 +218,8 @@ namespace StationSystemTray
 			this.iconRunning = Icon.FromHandle(Properties.Resources.stream_tray_working.GetHicon());
 			this.iconPaused = Icon.FromHandle(Properties.Resources.stream_tray_pause.GetHicon());
 			this.iconWarning = Icon.FromHandle(Properties.Resources.stream_tray_warn.GetHicon());
-			this.iconSyncing = Icon.FromHandle(Properties.Resources.stream_tray_syncing.GetHicon());
+			this.iconSyncing1 = Icon.FromHandle(Properties.Resources.stream_tray_syncing1.GetHicon());
+			this.iconSyncing2 = Icon.FromHandle(Properties.Resources.stream_tray_syncing2.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);
@@ -238,6 +240,8 @@ namespace StationSystemTray
 			this.CurrentState = CreateState(StationStateEnum.Initial);
 			this.menuServiceAction.Text = Properties.Resources.PauseWFService;
 			this.menuQuit.Text =  Properties.Resources.QuitWFService;
+			this.tsmiOpenStream.Text = Properties.Resources.OpenStream;
+
 			RefreshUserList();
 
 			this.checkStationTimer.Enabled = true;
@@ -554,7 +558,7 @@ namespace StationSystemTray
 			}
 			else
 			{
-				TrayIcon.Icon = iconSyncing;
+				TrayIcon.Icon = iconSyncing1;
 				TrayIconText = Properties.Resources.WFServiceSyncing;
 				menuServiceAction.Text = Properties.Resources.PauseWFService;
 
@@ -1187,6 +1191,8 @@ namespace StationSystemTray
 						downloadRemainedCount,
 						downloadSpeed,
 						downloadSpeedUnit);
+
+					TrayIcon.Icon = (TrayIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
 				}
 			}
 			else

@@ -13,6 +13,7 @@ namespace Gui
 		public SetupWizard()
 		{
 			InitializeComponent();
+			this.Icon = Gui.Properties.Resources.configure5121;
 		}
 
 		InstallationModeCollection GetInstallationModes(MsiInstallationModes mode)

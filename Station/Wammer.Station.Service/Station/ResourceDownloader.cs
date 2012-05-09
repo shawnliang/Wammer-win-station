@@ -143,10 +143,10 @@ namespace Wammer.Station
 
 					// origin
 					if (driver.isPrimaryStation &&
-						attachment.url != null &&
 						(savedDoc == null || savedDoc.saved_file_name == null))
 					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
+						if (CloudHasOriginAttachment(attachment.object_id, driver))
+							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
 					}
 
 					if (attachment.image_meta == null)
@@ -181,6 +181,23 @@ namespace Wammer.Station
 					}
 
 				}
+			}
+		}
+
+		private bool CloudHasOriginAttachment(string object_id, Driver user)
+		{
+			try
+			{
+				using (WebClient agent = new DefaultWebClient())
+				{
+					AttachmentInfo info = Cloud.AttachmentApi.GetInfo(agent, object_id, user.session_token);
+					return !string.IsNullOrEmpty(info.url);
+				}
+			}
+			catch
+			{
+				// Not able to get attachment info - just assume "YES"
+				return true;
 			}
 		}
 
