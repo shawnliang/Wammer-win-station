@@ -975,6 +975,8 @@ namespace StationSystemTray
 
 			var browser = new WebBrowser()
 			{
+				WebBrowserShortcutsEnabled = false,
+				IsWebBrowserContextMenuEnabled = false,
 				Dock = DockStyle.Fill
 			};
 
@@ -1252,7 +1254,8 @@ namespace StationSystemTray
 
 				var browser = new WebBrowser()
 				{
-
+					WebBrowserShortcutsEnabled = false,
+					IsWebBrowserContextMenuEnabled = false,
 					Dock = DockStyle.Fill
 				};
 
