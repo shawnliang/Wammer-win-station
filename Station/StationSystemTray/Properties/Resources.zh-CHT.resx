@@ -152,9 +152,6 @@
   <data name="FillAllFields" xml:space="preserve">
     <value>請填寫所有欄位.</value>
   </data>
-  <data name="Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Icon.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="InvalidDriverError" xml:space="preserve">
     <value>帳號與這台 Stream Station 的管理者帳號不符, 請再試一次.</value>
   </data>

@@ -187,7 +187,6 @@ namespace StationSystemTray
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
 			this.initMinimized = initMinimized;
-			this.Icon = Resources.Icon;
 
 			m_Timer.Interval = 1000;
 			m_Timer.Tick += (sender, e) => { RefreshSyncingStatus(); };
@@ -1078,10 +1077,15 @@ namespace StationSystemTray
 		}
 		#endregion
 
-		public void LogOut(WebClient agent, string sessionToken, string apiKey)
+		private void LogoutFB()
 		{
 			InternetSetOption(IntPtr.Zero, 42, IntPtr.Zero, 0);
+		}
 
+		public void LogOut(WebClient agent, string sessionToken, string apiKey)
+		{
+
+			LogoutFB();
 			userloginContainer.UpdateLastLogin(string.Empty);
 
 			var parameters = new Dictionary<object, object>{
