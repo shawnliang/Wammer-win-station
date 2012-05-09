@@ -145,7 +145,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
-			return CloudServer.requestPath<AttachmentInfo>(agent, "attachments/get", parameters, true);
+			return CloudServer.requestPath<AttachmentInfo>(agent, "attachments/get", parameters, false);
 		}
 	}
 

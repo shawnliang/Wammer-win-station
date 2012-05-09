@@ -166,6 +166,66 @@ namespace UT_WammerStation.pullTimeLine
 			Assert.IsNull(this.RetrievedPosts);
 		}
 
+		[TestMethod]
+		public void newBodyIsAvailable()
+		{
+			DateTime since = new DateTime(2012, 2, 2, 13, 23, 42, DateTimeKind.Utc);
+
+			Mock<IPostProvider> postProvider = new Mock<IPostProvider>(MockBehavior.Strict);
+			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
+			Mock<IUserTrackApi> utApi = new Mock<IUserTrackApi>(MockBehavior.Strict);
+
+			utApi.Setup(x => x.GetChangeHistory(It.IsAny<WebClient>(), It.IsAny<Driver>(), since.AddSeconds(1.0))).
+				Returns(new UserTrackResponse
+				{
+					usertrack_list = new List<UserTrackDetail> {
+						new UserTrackDetail 
+						{ 
+							target_type = "attachment",
+							group_id = "group_id",
+							user_id = "user_id",
+							target_id = "object_id",
+							timestamp = DateTime.UtcNow,
+							actions = new List<UserTrackAction>{
+										 new UserTrackAction {
+											action = "add",
+											target_type = "image.origin"										 
+										 }
+							}
+						}
+					}
+				}).Verifiable();
+
+
+			db.Setup(x => x.SaveUserTracks(It.IsAny<UserTracks>())).Verifiable();
+
+			BodyAvailableEventArgs saved_args = null;
+			TimelineSyncer syncer = new TimelineSyncer(postProvider.Object, db.Object, utApi.Object);
+			syncer.BodyAvailable += new EventHandler<BodyAvailableEventArgs>(
+				(sender, args) => { saved_args = args; });
+
+			Driver user = new Driver
+			{
+				user_id = "user",
+				sync_range = new SyncRange() {
+					start_time = DateTime.UtcNow,
+					first_post_time = DateTime.UtcNow,
+					end_time= since
+				},
+				is_change_history_synced = true,
+				session_token = "token",
+				groups = this.groups
+			};
+			syncer.PullTimeline(user);
+
+			db.VerifyAll();
+			utApi.VerifyAll();
+			Assert.AreEqual("group_id", saved_args.group_id);
+			Assert.AreEqual("user_id", saved_args.user_id);
+			Assert.AreEqual("object_id", saved_args.object_id);
+		}
+
+
 		void syncer_PostsRetrieved(object sender, TimelineSyncEventArgs e)
 		{
 			RetrievedPosts = e.Posts;

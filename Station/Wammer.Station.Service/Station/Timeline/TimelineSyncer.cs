@@ -31,6 +31,7 @@ namespace Wammer.Station.Timeline
 		private Wammer.Cloud.IUserTrackApi userTrack;
 
 		public event EventHandler<TimelineSyncEventArgs> PostsRetrieved;
+		public event EventHandler<BodyAvailableEventArgs> BodyAvailable;
 
 		public TimelineSyncer(IPostProvider postProvider, ITimelineSyncerDB db, Wammer.Cloud.IUserTrackApi userTrack)
 		{
@@ -117,6 +118,16 @@ namespace Wammer.Station.Timeline
 
 				db.SaveUserTracks(new UserTracks(res));
 
+				ProcChangedPosts(user, agent, res);
+				ProcNewAttachments(res);
+
+			}
+		}
+
+		private void ProcChangedPosts(Driver user, WebClient agent, UserTrackResponse res)
+		{
+			if (res.post_id_list != null)
+			{
 				List<PostInfo> changedPost = postProvider.RetrievePosts(agent, user, res.post_id_list);
 				foreach (PostInfo post in changedPost)
 					db.SavePost(post);
@@ -131,6 +142,35 @@ namespace Wammer.Station.Timeline
 						first_post_time = user.sync_range.first_post_time,
 					});
 			}
+		}
+
+		private void ProcNewAttachments(UserTrackResponse res)
+		{
+			if (res.usertrack_list == null)
+				return;
+
+			foreach (var track in res.usertrack_list)
+			{
+				if (track.target_type == "attachment" &&
+					track.actions != null)
+				{
+					foreach (var action in track.actions)
+					{
+						if (action.target_type.Contains("origin"))
+						{
+							OnBodyAvailable(new BodyAvailableEventArgs(track.target_id, track.user_id, track.group_id));
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		private void OnBodyAvailable(BodyAvailableEventArgs args)
+		{
+			EventHandler<BodyAvailableEventArgs> handler = this.BodyAvailable;
+			if (handler != null)
+				handler(this, args);
 		}
 
 		public void PullTimeline(Driver user)
@@ -211,6 +251,20 @@ namespace Wammer.Station.Timeline
 		{
 			this.Driver = driver;
 			this.Posts = posts;
+		}
+	}
+
+	public class BodyAvailableEventArgs : EventArgs
+	{
+		public string object_id { get; private set; }
+		public string user_id { get; private set; }
+		public string group_id { get; private set; }
+
+		public BodyAvailableEventArgs(string object_id, string user_id, string group_id)
+		{
+			this.object_id = object_id;
+			this.user_id = user_id;
+			this.group_id = group_id;
 		}
 	}
 }
