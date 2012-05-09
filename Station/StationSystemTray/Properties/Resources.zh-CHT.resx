@@ -189,10 +189,10 @@
     <value>無法從外部網路存取</value>
   </data>
   <data name="PauseWFService" xml:space="preserve">
-    <value>暫停同步</value>
+    <value>暫停 Stream 同步</value>
   </data>
   <data name="PausingWFService" xml:space="preserve">
-    <value>正在暫停同步...</value>
+    <value>正在暫停 Stream 同步...</value>
   </data>
   <data name="QuitWFService" xml:space="preserve">
     <value>離開</value>
@@ -202,16 +202,16 @@
 請重新啟動程式再次初始化Stream Station</value>
   </data>
   <data name="ResumeWFService" xml:space="preserve">
-    <value>重啟同步</value>
+    <value>重啟 Stream 同步</value>
   </data>
   <data name="ResumingWFService" xml:space="preserve">
-    <value>正在重啟同步...</value>
+    <value>正在重啟 Stream 同步...</value>
   </data>
   <data name="START_SERVICE_FIRST" xml:space="preserve">
     <value>請先啟動服務</value>
   </data>
   <data name="StartingWFService" xml:space="preserve">
-    <value>正在啟動同步...</value>
+    <value>正在啟動 Stream 同步...</value>
   </data>
   <data name="Station401Exception" xml:space="preserve">
     <value>您的認證資訊已經過期, 請重新輸入密碼以便登入.</value>
@@ -256,13 +256,13 @@
     <value>偏好設定...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>Stream 同步已啟動</value>
+    <value>Stream 檔案同步完成</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
     <value>無法啟動 Stream 同步</value>
   </data>
   <data name="WFServiceStopped" xml:space="preserve">
-    <value>無法啟動 Stream 同步</value>
+    <value>Stream 同步暫停</value>
   </data>
   <data name="WFServiceSyncing" xml:space="preserve">
     <value>Stream 正在同步</value>
