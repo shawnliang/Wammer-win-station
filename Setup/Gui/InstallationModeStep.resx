@@ -220,7 +220,7 @@
     <value>6</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
-    <value>Welcome to Waveface Windows installer</value>
+    <value>Welcome to Waveface Stream installer</value>
   </data>
   <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
     <value>lblWelcome</value>

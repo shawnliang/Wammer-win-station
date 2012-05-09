@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project>
+  <configuration createBackupFiles="False" hideEmptyRows="False" hideTranslatedRows="False" useSpellChecker="True" neutralLanguageCode="en-US" languagesToDisplay="">
+    <globalSetting name="AddNewFileGroupForm.destinationLanguagesListBox">0;49</globalSetting>
+    <globalSetting name="AddNewFileGroupForm.extensionComboBoxEdit">0</globalSetting>
+    <globalSetting name="AddNewFileGroupForm.baseFolderTextEdit.Text">
+    </globalSetting>
+    <globalSetting name="AddNewFileGroupForm.baseFileNameTextEdit.Text">
+    </globalSetting>
+    <globalSetting name="Filter-ResourceEditorGrid">&lt;XtraSerializer version="1.0" application="View"&gt;
+  &lt;property name="#LayoutVersion" /&gt;
+  &lt;property name="ActiveFilterString" /&gt;
+&lt;/XtraSerializer&gt;</globalSetting>
+    <globalSetting name="Sort-ResourceEditorGrid">&lt;XtraSerializer version="1.0" application="View"&gt;
+  &lt;property name="#LayoutVersion" /&gt;
+&lt;/XtraSerializer&gt;</globalSetting>
+    <globalSetting name="autoTranslateForm.prefixTextBox.Text">####</globalSetting>
+    <globalSetting name="autoTranslateForm.prefixCheckBox.Checked">False</globalSetting>
+    <globalSetting name="autoTranslateForm.referenceLanguageComboBoxEdit.SelectedIndex">-1</globalSetting>
+    <globalSetting name="autoTranslateForm.languagesToTranslateCheckListBox">
+    </globalSetting>
+    <globalSetting name="projectMruItems">&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;items&gt;&lt;item type="2" checksum="2673176850" /&gt;&lt;item type="2" checksum="2515742505" /&gt;&lt;item type="2" checksum="1487149468" /&gt;&lt;item type="2" checksum="249349745" /&gt;&lt;/items&gt;</globalSetting>
+    <userSetting name="kchiu@kchiu-PC.filesInitialDir">C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray</userSetting>
+    <userSetting name="kchiu@kchiu-PC.FindText">
+    </userSetting>
+    <userSetting name="kchiu@kchiu-PC.RecentFiles">C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.resx;C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.zh-CHT.resx###***###C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.resx;C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx###***###C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx;C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx###***###C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\SignUpDialog.resx</userSetting>
+    <description>
+    </description>
+  </configuration>
+  <fileGroups>
+    <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="72e3b23a-5156-4381-a2fc-0cc5b07a1a80">
+      <file filePath="..\Station\StationSystemTray\CleanResourceForm.resx" absoluteFilePath="C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx" uniqueID="828457d4-9873-4755-b319-303a99b4b67e" />
+      <file filePath="..\Station\StationSystemTray\CleanResourceForm.zh-TW.resx" absoluteFilePath="C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx" uniqueID="3c0b143e-85af-4659-9a0d-0ce783e6c45f" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="c0687fec-8307-424f-8909-8a16fc8608a5">
+      <file filePath="..\Station\StationSystemTray\MainForm.resx" absoluteFilePath="C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.resx" uniqueID="f4789894-444c-445e-9715-7f0de739192c" />
+      <file filePath="..\Station\StationSystemTray\MainForm.zh-TW.resx" absoluteFilePath="C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx" uniqueID="74611a41-dc40-4fe9-a19b-330629f0ef56" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="a53c58f7-7222-49b0-9e3d-01dc443d6f82">
+      <file filePath="..\Station\StationSystemTray\SignUpDialog.resx" absoluteFilePath="C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\SignUpDialog.resx" uniqueID="ab5a54a9-1680-4f80-888c-5a7dd53a4eff" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="0f456aff-a6ca-43ab-9036-b5899aa02470">
+      <file filePath="..\Station\StationSystemTray\Properties\Resources.resx" absoluteFilePath="C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.resx" uniqueID="c2fb512a-b726-4331-be38-ce79d08963ce" />
+      <file filePath="..\Station\StationSystemTray\Properties\Resources.zh-CHT.resx" absoluteFilePath="C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.zh-CHT.resx" uniqueID="51f3e4c4-535c-4ace-abdf-d03d9ad69498" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+  </fileGroups>
+  <projectFolders />
+</project>

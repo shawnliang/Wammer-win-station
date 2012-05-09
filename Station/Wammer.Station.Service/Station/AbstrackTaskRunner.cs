@@ -9,12 +9,9 @@ namespace Wammer.Station
 {
 	public abstract class AbstrackTaskRunner
 	{
-		#region Var
-		private Thread _thread; 
-		#endregion
+		protected Thread _thread; 
 
-		#region Private Property
-		private Thread m_Thread
+		protected Thread m_Thread
 		{
 			get
 			{
@@ -27,11 +24,9 @@ namespace Wammer.Station
 				_thread = value;
 			}
 		}
-		#endregion
-
 		protected volatile bool exit = false;
 
-		public void Start()
+		public virtual void Start()
 		{
 			exit = false;
 
@@ -39,7 +34,7 @@ namespace Wammer.Station
 				m_Thread.Start();
 		}
 
-		public void Stop()
+		public virtual void Stop()
 		{
 			exit = true;
 			if (m_Thread.ThreadState != ThreadState.Unstarted)

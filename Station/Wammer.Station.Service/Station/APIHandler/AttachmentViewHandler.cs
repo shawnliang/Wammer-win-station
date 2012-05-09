@@ -91,7 +91,7 @@ namespace Wammer.Station
 
 				Driver driver = DriverCollection.Instance.FindDriverByGroupId(doc.group_id);
 				if (driver == null)
-					throw new WammerStationException("Cannot find user with group_id: " + doc.group_id, (int)StationApiError.InvalidDriver);
+					throw new WammerStationException("Cannot find user with group_id: " + doc.group_id, (int)StationLocalApiError.InvalidDriver);
 
 				FileStorage storage = new FileStorage(driver);
 				FileStream fs = storage.LoadByNameWithNoSuffix(namePart);
@@ -138,7 +138,10 @@ namespace Wammer.Station
 				Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", downloadResult.Metadata.creator_id));
 
 				if (driver == null)
-					throw new WammerStationException("driver does not exist: " + downloadResult.Metadata.creator_id, (int)StationApiError.InvalidDriver);
+					throw new WammerStationException("driver does not exist: " + downloadResult.Metadata.creator_id, (int)StationLocalApiError.InvalidDriver);
+
+				if (meta == ImageMeta.Origin && !driver.isPrimaryStation)
+					throw new WammerStationException("Access to original attachment from secondary station is not allowed.", (int)StationLocalApiError.AccessDenied);
 
 				FileStorage storage = new FileStorage(driver);
 				var fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);

@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Wammer.Utility
 {
-	class DefaultWebClient : WebClient
+	public class DefaultWebClient : WebClient
 	{
 		private int timeout = 0;
 		private int readWriteTimeout = 0;

@@ -6,16 +6,16 @@ using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.AttachmentUpload
 {
-	class AttachmentUploadQueue : ITaskEnqueuable, ITaskDequeuable
+	class AttachmentUploadQueue : ITaskEnqueuable<ITask>, ITaskDequeuable<ITask>
 	{
 		public const string QNAME_HIGH = "attUpl_high";
 		public const string QNAME_MED = "attUpl_med";
 		public const string QNAME_LOW = "attUpl_low";
 
 		object csLock = new object();
-		Queue<DequeuedTask> highQueue;
-		Queue<DequeuedTask> mediumQueue;
-		Queue<DequeuedTask> lowQueue;
+		Queue<DequeuedTask<ITask>> highQueue;
+		Queue<DequeuedTask<ITask>> mediumQueue;
+		Queue<DequeuedTask<ITask>> lowQueue;
 		AttachmentUploadQueuePersistentStorage storage;
 
 
@@ -49,7 +49,7 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			lock (csLock)
 			{
-				DequeuedTask item = new DequeuedTask(task, Guid.NewGuid());
+				var item = new DequeuedTask<ITask>(task, Guid.NewGuid());
 				if (priority == TaskPriority.High)
 					highQueue.Enqueue(item);
 				else if (priority == TaskPriority.Medium)
@@ -64,13 +64,13 @@ namespace Wammer.Station.AttachmentUpload
 			hasItem.Release();
 		}
 
-		public DequeuedTask Dequeue()
+		public DequeuedTask<ITask> Dequeue()
 		{
 			hasItem.WaitOne();
 
 			lock (csLock)
 			{
-				DequeuedTask deqTask;
+				DequeuedTask<ITask> deqTask;
 
 				if (highQueue.Count > 0)
 					deqTask = highQueue.Dequeue();
@@ -84,17 +84,23 @@ namespace Wammer.Station.AttachmentUpload
 			}
 		}
 
-		public void AckDequeue(DequeuedTask task)
+		public void AckDequeue(DequeuedTask<ITask> task)
 		{
 			storage.Remove(task);
 		}
 
+
+
+		public void EnqueueDummyTask()
+		{
+			Enqueue(new NullTask(), TaskPriority.High);
+		}
 	}
 
 
 	class AttachmentUploadQueuePersistentStorage
 	{
-		public void Save(DequeuedTask task, TaskPriority pri)
+		public void Save(DequeuedTask<ITask> task, TaskPriority pri)
 		{
 			string qname;
 			if (pri == TaskPriority.High)
@@ -113,17 +119,17 @@ namespace Wammer.Station.AttachmentUpload
 				});
 		}
 
-		public void Remove(DequeuedTask task)
+		public void Remove(DequeuedTask<ITask> task)
 		{
 			Model.QueuedTaskCollection.Instance.Remove(Query.EQ("_id", (Guid)task.Key));
 		}
 
-		public Queue<DequeuedTask> Load(string qname)
+		public Queue<DequeuedTask<ITask>> Load(string qname)
 		{
-			Queue<DequeuedTask> queue = new Queue<DequeuedTask>();
+			var queue = new Queue<DequeuedTask<ITask>>();
 			foreach (var item in Model.QueuedTaskCollection.Instance.Find(Query.EQ("queue", qname)))
 			{
-				queue.Enqueue(new DequeuedTask((ITask)item.Data, item.id));
+				queue.Enqueue(new DequeuedTask<ITask>((ITask)item.Data, item.id));
 			}
 
 			return queue;

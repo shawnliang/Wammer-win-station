@@ -49,6 +49,9 @@
     <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="StationSystemTray, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
@@ -63,10 +66,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Control\FBLoginButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Control\FBLoginButton.Designer.cs">
+      <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </Compile>
     <Compile Include="Control\TabControlEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="I18n.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,12 +82,6 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Messenger.cs" />
-    <Compile Include="PreferenceForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PreferenceForm.Designer.cs">
-      <DependentUpon>PreferenceForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CleanResourceForm.cs">
@@ -89,27 +91,18 @@
       <DependentUpon>CleanResourceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SecurityHelper.cs" />
-    <Compile Include="SignUpDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SignUpDialog.Designer.cs">
-      <DependentUpon>SignUpDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="SimpleUIController.cs" />
     <Compile Include="StateMachine.cs" />
     <Compile Include="Win32Helper.cs" />
+    <EmbeddedResource Include="Control\FBLoginButton.resx">
+      <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.zh-TW.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PreferenceForm.resx">
-      <DependentUpon>PreferenceForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PreferenceForm.zh-TW.resx">
-      <DependentUpon>PreferenceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -127,8 +120,8 @@
     <EmbeddedResource Include="CleanResourceForm.zh-TW.resx">
       <DependentUpon>CleanResourceForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SignUpDialog.resx">
-      <DependentUpon>SignUpDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Properties\Resources.zh-CHT.resx">
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>
@@ -144,10 +137,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
-      <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
-      <Name>Localizer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Wammer.Station.Management\Wammer.Station.Management.csproj">
       <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
       <Name>Wammer.Station.Management</Name>
@@ -158,11 +147,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\FB_Logo.png" />
     <Content Include="Resources\Icon.ico" />
-    <Content Include="Resources\station_icon_256andAll.ico" />
     <None Include="Resources\stream_tray_pause.png" />
     <None Include="Resources\stream_tray_working.png" />
     <None Include="Resources\stream_tray_warn.png" />
+    <None Include="Resources\stream_tray_syncing1.png" />
+    <None Include="Resources\stream_tray_syncing2.png" />
     <Content Include="SystemTrayML.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -171,8 +162,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>FOR /R "$(ProjectDir)" %25%25G IN (*.resx) DO CALL "$(SolutionDir)Tools\SortRESX.exe" "%25%25~G" "%25%25~G.tmp"
-FOR /R "$(ProjectDir)" %25%25G IN (*.resx.tmp)  DO MOVE /Y "%25%25~G" "%25%25~nG"
+FOR /R "$(ProjectDir)" %25%25G IN (*.resx.tmp)  DO MOVE /Y "%25%25~G" "%25%25~dpnG"
 </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"
+@echo off if $(ConfigurationName) == Debug copy /y "$(ProjectDir)$(OutDir)*.*" "$(SolutionDir)Station\Wammer.Station.Service\$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

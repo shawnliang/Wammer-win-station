@@ -60,16 +60,336 @@ namespace StationSystemTray.Properties {
             }
         }
         
-        public static System.Drawing.Icon station_icon_256andAll {
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid user name or password. Please try again..
+        /// </summary>
+        public static string AuthError {
             get {
-                object obj = ResourceManager.GetObject("station_icon_256andAll", resourceCulture);
+                return ResourceManager.GetString("AuthError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to deassociate user with Stream Station. Please try again..
+        /// </summary>
+        public static string ChangeOwnerError {
+            get {
+                return ResourceManager.GetString("ChangeOwnerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User &apos;{0}&apos; is unassociated with Stream Station successfully.
+        ///      Please restart Stream to continue assign a new Stream Station user.
+        /// </summary>
+        public static string ChangeOwnerSuccess {
+            get {
+                return ResourceManager.GetString("ChangeOwnerSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won&apos;t upload original files to your Stream Station..
+        /// </summary>
+        public static string ChangeOwnerWarning {
+            get {
+                return ResourceManager.GetString("ChangeOwnerWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to remove all files of {0} on this computer?.
+        /// </summary>
+        public static string CleanResourceMsg {
+            get {
+                return ResourceManager.GetString("CleanResourceMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to connect to Stream Cloud.
+        /// </summary>
+        public static string ConnectCloudError {
+            get {
+                return ResourceManager.GetString("ConnectCloudError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to connect to Dropbox.
+        /// </summary>
+        public static string ConnectCloudStorageFail {
+            get {
+                return ResourceManager.GetString("ConnectCloudStorageFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accessible from internet.
+        /// </summary>
+        public static string Connected {
+            get {
+                return ResourceManager.GetString("Connected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connect Now.
+        /// </summary>
+        public static string DropboxUI_ConnectNow {
+            get {
+                return ResourceManager.GetString("DropboxUI_ConnectNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnect.
+        /// </summary>
+        public static string DropboxUI_Disconnect {
+            get {
+                return ResourceManager.GetString("DropboxUI_Disconnect", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap FB_Logo {
+            get {
+                object obj = ResourceManager.GetObject("FB_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please fill all the fields!.
+        /// </summary>
+        public static string FillAllFields {
+            get {
+                return ResourceManager.GetString("FillAllFields", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Icon Icon {
+            get {
+                object obj = ResourceManager.GetObject("Icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user name is different to the driver account of this Stream Station. Please try again..
+        /// </summary>
+        public static string InvalidDriverError {
+            get {
+                return ResourceManager.GetString("InvalidDriverError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to invalid email.
+        /// </summary>
+        public static string InvalidEmail {
+            get {
+                return ResourceManager.GetString("InvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log In error. Please try again..
+        /// </summary>
+        public static string LogInError {
+            get {
+                return ResourceManager.GetString("LogInError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login....
+        /// </summary>
+        public static string LoginMenuItem {
+            get {
+                return ResourceManager.GetString("LoginMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logout....
+        /// </summary>
+        public static string LogoutMenuItem {
+            get {
+                return ResourceManager.GetString("LogoutMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not connected yet.
+        /// </summary>
+        public static string MonthlyUsage_NotConnectedYet {
+            get {
+                return ResourceManager.GetString("MonthlyUsage_NotConnectedYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlimited.
+        /// </summary>
+        public static string MonthlyUsage_Unlimited {
+            get {
+                return ResourceManager.GetString("MonthlyUsage_Unlimited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network connected.
+        /// </summary>
+        public static string NetworkConnected {
+            get {
+                return ResourceManager.GetString("NetworkConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network disconnected.
+        /// </summary>
+        public static string NetworkDisconnected {
+            get {
+                return ResourceManager.GetString("NetworkDisconnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ---.
+        /// </summary>
+        public static string NoData {
+            get {
+                return ResourceManager.GetString("NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inaccessible from internet.
+        /// </summary>
+        public static string NotConnected {
+            get {
+                return ResourceManager.GetString("NotConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause sync.
+        /// </summary>
+        public static string PauseWFService {
+            get {
+                return ResourceManager.GetString("PauseWFService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pausing sync....
+        /// </summary>
+        public static string PausingWFService {
+            get {
+                return ResourceManager.GetString("PausingWFService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit.
+        /// </summary>
+        public static string QuitWFService {
+            get {
+                return ResourceManager.GetString("QuitWFService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stream Station is no longer available because &apos;{0}&apos; setup a new station or the account does not exist anymore.
+        ///      Please restart the program to initialize Stream Station..
+        /// </summary>
+        public static string RegisteredRequired {
+            get {
+                return ResourceManager.GetString("RegisteredRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resume Stream sync.
+        /// </summary>
+        public static string ResumeWFService {
+            get {
+                return ResourceManager.GetString("ResumeWFService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resuming Stream sync....
+        /// </summary>
+        public static string ResumingWFService {
+            get {
+                return ResourceManager.GetString("ResumingWFService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting Stream sync....
+        /// </summary>
+        public static string StartingWFService {
+            get {
+                return ResourceManager.GetString("StartingWFService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your authentication is expired. Please log in again..
+        /// </summary>
+        public static string Station401Exception {
+            get {
+                return ResourceManager.GetString("Station401Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Station Down.
+        /// </summary>
+        public static string StationDown {
+            get {
+                return ResourceManager.GetString("StationDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The registration information of this Stream Station is expired. Please restart the program to re-register the station..
+        /// </summary>
+        public static string StationExpired {
+            get {
+                return ResourceManager.GetString("StationExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stream Station service is not completely started. Please wait for a while and try again, or ensure the running status of Stream Station windows service..
+        /// </summary>
+        public static string StationServiceDown {
+            get {
+                return ResourceManager.GetString("StationServiceDown", resourceCulture);
             }
         }
         
         public static System.Drawing.Bitmap stream_tray_pause {
             get {
                 object obj = ResourceManager.GetObject("stream_tray_pause", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap stream_tray_syncing1 {
+            get {
+                object obj = ResourceManager.GetObject("stream_tray_syncing1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap stream_tray_syncing2 {
+            get {
+                object obj = ResourceManager.GetObject("stream_tray_syncing2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,6 +405,105 @@ namespace StationSystemTray.Properties {
             get {
                 object obj = ResourceManager.GetObject("stream_tray_working", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There appears to be an error with the system. Please try again later..
+        /// </summary>
+        public static string SystemError {
+            get {
+                return ResourceManager.GetString("SystemError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Testing ....
+        /// </summary>
+        public static string Testing {
+            get {
+                return ResourceManager.GetString("Testing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UnknownSigninError.
+        /// </summary>
+        public static string UnknownSigninError {
+            get {
+                return ResourceManager.GetString("UnknownSigninError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to disconnect from Dropbox.
+        /// </summary>
+        public static string UnlinkCloudStorageFail {
+            get {
+                return ResourceManager.GetString("UnlinkCloudStorageFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is already an account with that name. Please type a different name..
+        /// </summary>
+        public static string UserExisted {
+            get {
+                return ResourceManager.GetString("UserExisted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Driver account is deleted. Please restart the program to re-register the station with a valid driver account..
+        /// </summary>
+        public static string UserNotExisted {
+            get {
+                return ResourceManager.GetString("UserNotExisted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preference....
+        /// </summary>
+        public static string WFPreference {
+            get {
+                return ResourceManager.GetString("WFPreference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Stream files up to date.
+        /// </summary>
+        public static string WFServiceRunning {
+            get {
+                return ResourceManager.GetString("WFServiceRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to start Stream sync.
+        /// </summary>
+        public static string WFServiceStartFail {
+            get {
+                return ResourceManager.GetString("WFServiceStartFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stream sync paused.
+        /// </summary>
+        public static string WFServiceStopped {
+            get {
+                return ResourceManager.GetString("WFServiceStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stream is syncing.
+        /// </summary>
+        public static string WFServiceSyncing {
+            get {
+                return ResourceManager.GetString("WFServiceSyncing", resourceCulture);
             }
         }
     }

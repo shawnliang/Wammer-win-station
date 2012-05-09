@@ -59,8 +59,13 @@ namespace Wammer.Station
 
 			using (StreamWriter w = new StreamWriter(response.OutputStream))
 			{
-				string json = fastJSON.JSON.Instance.ToJSON(jsonObj, false, false, false, false);
-				w.Write(json);
+				if (jsonObj is string)
+					w.Write((string)jsonObj);
+				else
+				{
+					string json = fastJSON.JSON.Instance.ToJSON(jsonObj, false, false, false, false);
+					w.Write(json);
+				}
 			}
 		}
 	}

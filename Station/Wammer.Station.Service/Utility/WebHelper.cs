@@ -194,14 +194,14 @@ namespace Waveface
 			request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
 			// We need to count how many bytes we're sending. 
-			request.ContentLength = formData.Length;
-
+			//request.ContentLength = formData.Length;
+			request.SendChunked = true;
 			using (Stream requestStream = request.GetRequestStream())
 			{
-				// Push it out there
 				requestStream.Write(formData, bufferSize, progressChangedCallBack);
-				return request.GetResponse() as HttpWebResponse;
 			}
+
+			return request.GetResponse() as HttpWebResponse;
 		}
 	}
 

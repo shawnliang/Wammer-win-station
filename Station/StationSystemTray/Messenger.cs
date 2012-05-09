@@ -9,7 +9,7 @@ namespace StationSystemTray
 	public class Messenger
 	{
 		private object cs;
-		private const string TITLE = "Waveface";
+		private const string TITLE = "Stream";
 		private Form _form;
 
 		private delegate DialogResult ShowMessageDelegate(Form form, string msg, string title);

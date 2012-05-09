@@ -5,13 +5,13 @@ using System.ComponentModel;
 
 public static class StreamExtension
 {
-    public static void Write(this Stream targetStream, byte[] buffer)
-    {
-        if (!targetStream.CanWrite)
+	public static void Write(this Stream targetStream, byte[] buffer)
+	{
+		if (!targetStream.CanWrite)
 			throw new ArgumentException("Unwritable stream", "targetStream");
 
-        targetStream.Write(buffer, 0, buffer.Length);
-    }
+		targetStream.Write(buffer, 0, buffer.Length);
+	}
 
 
 	public static void Write(this Stream targetStream, byte[] buffer, int bufferBatchSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
@@ -29,20 +29,21 @@ public static class StreamExtension
 			return;
 
 		int offset = 0;
+		int remain = buffer.Length;
 		int readByteCount = 0;
 		int percent = 0;
 
-		while (offset < buffer.Length)
+		while (remain > 0)
 		{
-			readByteCount = (offset + bufferBatchSize <= buffer.Length) ? bufferBatchSize : buffer.Length % bufferBatchSize;
+			readByteCount = remain > bufferBatchSize ? bufferBatchSize : remain;
 			targetStream.Write(buffer, offset, readByteCount);
+
 			offset += readByteCount;
+			remain -= readByteCount;
 
 			if (progressChangedCallBack != null)
 			{
 				var currentPercent = (int)(((double)offset) / buffer.Length * 100);
-				//if (currentPercent == percent)
-				//    continue;
 
 				percent = currentPercent;
 				progressChangedCallBack(targetStream, new ProgressChangedEventArgs(percent, readByteCount));
