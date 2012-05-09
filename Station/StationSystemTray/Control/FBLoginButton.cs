@@ -14,6 +14,19 @@ namespace StationSystemTray.Control
 	/// </summary>
 	public partial class FBLoginButton : UserControl
 	{
+		#region Property
+		/// <summary>
+		/// </summary>
+		/// <value></value>
+		/// <returns>The text associated with this control.</returns>
+		[Localizable(true)]
+		public string DisplayText
+		{
+			get { return lblLoginMsg.Text; }
+			set { lblLoginMsg.Text = value; }
+		}
+		#endregion
+
 		#region Constructor
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FBLoginButton"/> class.

@@ -103,7 +103,7 @@ namespace StationSystemTray
 			{
 				if (_signUpUrl == null)
 				{
-					_signUpUrl = m_BaseUrl + SIGNUP_URL_PATH;
+					_signUpUrl = m_BaseUrl + SIGNUP_URL_PATH + string.Format("?l={0}", System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
 				}
 				return _signUpUrl;
 			}
@@ -115,7 +115,7 @@ namespace StationSystemTray
 			{
 				if (_fbLoginUrl == null)
 				{
-					_fbLoginUrl = m_BaseUrl + LOGIN_URL_PATH;
+					_fbLoginUrl = m_BaseUrl + LOGIN_URL_PATH + string.Format("?l={0}", System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
 				}
 				return _fbLoginUrl;
 			}
@@ -877,7 +877,7 @@ namespace StationSystemTray
 		{
 			try
 			{
-				using (DefaultWebClient agent = new DefaultWebClient())
+				using (var agent = new DefaultWebClient())
 				{
 					var ret = User.LogIn(
 						agent, 
@@ -908,7 +908,7 @@ namespace StationSystemTray
 				return;
 			}
 
-			int exitCode = clientProcess.ExitCode;
+			var exitCode = clientProcess.ExitCode;
 
 			clientProcess.Exited -= new EventHandler(clientProcess_Exited);
 			clientProcess = null;
@@ -919,18 +919,18 @@ namespace StationSystemTray
 			}
 			else if (exitCode == -3)  // client unlink
 			{
-				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
+				var userlogin = userloginContainer.GetLastUserLogin();
 
-				bool isCleanResource = false;
-				CleanResourceForm cleanform = new CleanResourceForm(userlogin.Email);
-				DialogResult cleanResult = cleanform.ShowDialog();
+				var isCleanResource = false;
+				var cleanform = new CleanResourceForm(userlogin.Email);
+				var cleanResult = cleanform.ShowDialog();
 				if (cleanResult == DialogResult.Yes)
 				{
 					isCleanResource = true;
 				}
 
-				ListDriverResponse res = StationController.ListUser();
-				foreach (Driver driver in res.drivers)
+				var res = StationController.ListUser();
+				foreach (var driver in res.drivers)
 				{
 					if (driver.email == userlogin.Email)
 					{
@@ -1343,6 +1343,11 @@ namespace StationSystemTray
 				return;
 
 			m_LoginAction();
+		}
+
+		private void tabSignIn_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 
