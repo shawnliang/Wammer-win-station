@@ -82,9 +82,19 @@ namespace Waveface.Component
                     // Paint background
                     if (ImageListView.Enabled)
                     {
-                        using (Brush _bItemBack = new SolidBrush(ImageListView.Colors.BackColor))
+                        if (ImageListView.View == View.Gallery)
                         {
-                            g.FillRectangle(_bItemBack, bounds);
+                            using (Brush _brush = new SolidBrush(Color.FromArgb(211, 207, 207)))
+                            {
+                                g.FillRectangle(_brush, bounds);
+                            }
+                        }
+                        else
+                        {
+                            using (Brush _bItemBack = new SolidBrush(ImageListView.Colors.BackColor))
+                            {
+                                g.FillRectangle(_bItemBack, bounds);
+                            }
                         }
                     }
                     else
@@ -260,14 +270,6 @@ namespace Waveface.Component
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
                         {
-                            /*
-                            FillRoundedCorner(g, new SolidBrush(Color.Violet), bounds.Left, bounds.Top,
-                                              16, 16, 4);
-
-                            g.DrawString("+", new Font("Tahoma", 10, FontStyle.Bold),
-                                         new SolidBrush(Color.White), bounds.Left - 1, bounds.Top - 1);
-                            */
-
                             using (Pen _pen = new Pen(Color.FromArgb(215, 131, 123), 3))
                             {
                                 g.DrawRectangle(_pen, bounds.Left + 4, bounds.Top + 4, bounds.Width - 8, bounds.Height - 8);
@@ -275,29 +277,6 @@ namespace Waveface.Component
                         }
                     }
                 }
-            }
-        }
-
-        private static GraphicsPath GetRoundedCornerPath(int x, int y, int w, int h, int r)
-        {
-            GraphicsPath _path = new GraphicsPath();
-
-            _path.AddLine(x + r, y, x + r + w, y);
-
-            _path.AddLine(x + r + w, y, x, y + r + h);
-
-            _path.AddLine(x, y + r + h, x, y + r);
-
-            _path.AddArc(x, y, r, r, 180, 90);
-
-            return _path;
-        }
-
-        private static void FillRoundedCorner(Graphics graphics, Brush brush, int x, int y, int width, int height, int r)
-        {
-            using (GraphicsPath path = GetRoundedCornerPath(x, y, width, height, r))
-            {
-                graphics.FillPath(brush, path);
             }
         }
 
@@ -311,6 +290,21 @@ namespace Waveface.Component
         {
             if (ImageListView.View == View.Details)
                 base.DrawFileIcon(g, item, bounds);
+        }
+
+        public override void DrawBackground(Graphics g, Rectangle bounds)
+        {
+            base.DrawBackground(g, bounds);
+
+            if (ImageListView.View == View.Gallery)
+            {
+                using (Brush _brush = new SolidBrush(Color.FromArgb(211, 207, 207)))
+                {
+                    Rectangle _r = new Rectangle(bounds.Left, bounds.Height - (ImageListView.ThumbnailSize.Height + 32), bounds.Width, (ImageListView.ThumbnailSize.Height + 32));
+
+                    g.FillRectangle(_brush, _r);
+                }
+            }
         }
 
         public override void DrawGalleryImage(Graphics g, ImageListViewItem item, Image image, Rectangle bounds)
@@ -331,18 +325,18 @@ namespace Waveface.Component
                 //}
                 //else
                 {
-                    if (image.Width > 120)
+                    if (image.Width > ImageListView.ThumbnailSize.Width * 2)
                         g.DrawImage(image, _pos);
                 }
 
                 // Draw image border
-                if (Math.Min(_pos.Width, _pos.Height) > 120)
+                if (Math.Min(_pos.Width, _pos.Height) > ImageListView.ThumbnailSize.Width * 2)
                 {
                     using (Pen _pOuterBorder = new Pen(ImageListView.Colors.ImageOuterBorderColor))
                     using (Pen _pInnerBorder = new Pen(ImageListView.Colors.ImageInnerBorderColor))
                     {
                         g.DrawRectangle(_pOuterBorder, _pos);
-                        g.DrawRectangle(_pInnerBorder, Rectangle.Inflate(_pos, -1, -1));
+                        //g.DrawRectangle(_pInnerBorder, Rectangle.Inflate(_pos, -1, -1));
                     }
                 }
             }

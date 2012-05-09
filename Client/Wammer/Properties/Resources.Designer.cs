@@ -186,6 +186,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_cover {
+            get {
+                object obj = ResourceManager.GetObject("FB_cover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_cover_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_cover_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_creat_btn {
             get {
                 object obj = ResourceManager.GetObject("FB_creat_btn", resourceCulture);
@@ -354,6 +368,34 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_save {
+            get {
+                object obj = ResourceManager.GetObject("FB_save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_save_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_save_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_saveall {
+            get {
+                object obj = ResourceManager.GetObject("FB_saveall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_saveall_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_saveall_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_setting {
             get {
                 object obj = ResourceManager.GetObject("FB_setting", resourceCulture);
@@ -378,6 +420,20 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap FB_slide_hl {
             get {
                 object obj = ResourceManager.GetObject("FB_slide_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_slide1 {
+            get {
+                object obj = ResourceManager.GetObject("FB_slide1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_slide1_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_slide1_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

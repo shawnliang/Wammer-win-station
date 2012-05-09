@@ -250,12 +250,6 @@
     <Compile Include="UI\TitlePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DetailUI\CommentPopupPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\DetailUI\CommentPopupPanel.designer.cs">
-      <DependentUpon>CommentPopupPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\DetailUI\IDetailView.cs" />
     <Compile Include="UI\DetailUI\ImageViewItemTAG.cs" />
     <Compile Include="UI\DetailUI\SlideShowForm.cs">
@@ -684,12 +678,6 @@
     <EmbeddedResource Include="UI\TitlePanel.resx">
       <DependentUpon>TitlePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\CommentPopupPanel.resx">
-      <DependentUpon>CommentPopupPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\CommentPopupPanel.zh-TW.resx">
-      <DependentUpon>CommentPopupPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\DetailView.zh-TW.resx">
       <DependentUpon>DetailView.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -981,6 +969,8 @@
     <None Include="Resources\FlatButton\FB_blue_btn_hl.png" />
     <None Include="Resources\FlatButton\FB_creat_btn.png" />
     <None Include="Resources\FlatButton\FB_creat_btn_hl.png" />
+    <None Include="Resources\FlatButton\FB_cover.png" />
+    <None Include="Resources\FlatButton\FB_cover_hl.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote_hl.png" />
@@ -1009,6 +999,12 @@
     <None Include="Resources\FlatButton\FB_today_btn_hl.png" />
     <None Include="Resources\FlatButton\FB_remove_post.png" />
     <None Include="Resources\FlatButton\FB_remove_post_hl.png" />
+    <None Include="Resources\FlatButton\FB_save_hl.png" />
+    <None Include="Resources\FlatButton\FB_saveall.png" />
+    <None Include="Resources\FlatButton\FB_saveall_hl.png" />
+    <None Include="Resources\FlatButton\FB_slide1.png" />
+    <None Include="Resources\FlatButton\FB_slide1_hl.png" />
+    <None Include="Resources\FlatButton\FB_save.png" />
     <Content Include="Resources\FlatButton\FB_unfav.png" />
     <Content Include="Resources\FlatButton\FB_unfav_hl.png" />
     <None Include="Resources\Title\Title1.png" />

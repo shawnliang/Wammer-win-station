@@ -55,6 +55,8 @@ namespace Waveface.DetailUI
 
         private bool m_canEdit;
         private ToolStripMenuItem miOpen;
+        private ImageButton btnSaveAllPhotos;
+        private SaveFileDialog saveFileDialog;
         private ImageListViewItem m_selectedItem;
 
         #endregion
@@ -128,6 +130,7 @@ namespace Waveface.DetailUI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo_DV));
             this.panelMain = new System.Windows.Forms.Panel();
             this.panelRight = new Waveface.Component.AutoScrollPanel();
+            this.btnSaveAllPhotos = new Waveface.Component.ImageButton();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.contextMenuStripImageList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miSetCoverImage = new System.Windows.Forms.ToolStripMenuItem();
@@ -139,6 +142,7 @@ namespace Waveface.DetailUI
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.contextMenuStripImageList.SuspendLayout();
@@ -148,23 +152,33 @@ namespace Waveface.DetailUI
             // 
             // panelMain
             // 
-            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.Color.White;
             this.panelMain.Controls.Add(this.panelRight);
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
             // 
             // panelRight
             // 
             resources.ApplyResources(this.panelRight, "panelRight");
             this.panelRight.BackColor = System.Drawing.Color.White;
+            this.panelRight.Controls.Add(this.btnSaveAllPhotos);
             this.panelRight.Controls.Add(this.imageListView);
             this.panelRight.Controls.Add(this.panelPictureInfo);
             this.panelRight.Controls.Add(this.webBrowserTop);
             this.panelRight.Name = "panelRight";
             // 
+            // btnSaveAllPhotos
+            // 
+            this.btnSaveAllPhotos.CenterAlignImage = false;
+            this.btnSaveAllPhotos.Image = global::Waveface.Properties.Resources.FB_saveall;
+            this.btnSaveAllPhotos.ImageDisable = global::Waveface.Properties.Resources.FB_saveall_hl;
+            this.btnSaveAllPhotos.ImageFront = null;
+            this.btnSaveAllPhotos.ImageHover = global::Waveface.Properties.Resources.FB_saveall_hl;
+            resources.ApplyResources(this.btnSaveAllPhotos, "btnSaveAllPhotos");
+            this.btnSaveAllPhotos.Name = "btnSaveAllPhotos";
+            // 
             // imageListView
             // 
-            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -173,6 +187,7 @@ namespace Waveface.DetailUI
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStripImageList;
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
@@ -184,30 +199,30 @@ namespace Waveface.DetailUI
             // 
             // contextMenuStripImageList
             // 
-            resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
             this.contextMenuStripImageList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miSetCoverImage,
             this.miOpen});
             this.contextMenuStripImageList.Name = "contextMenuStripImageList";
+            resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
             this.contextMenuStripImageList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripImageList_Opening);
             // 
             // miSetCoverImage
             // 
-            resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
             this.miSetCoverImage.Name = "miSetCoverImage";
+            resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
             this.miSetCoverImage.Click += new System.EventHandler(this.miSetCoverImage_Click);
             // 
             // miOpen
             // 
-            resources.ApplyResources(this.miOpen, "miOpen");
             this.miOpen.Name = "miOpen";
+            resources.ApplyResources(this.miOpen, "miOpen");
             this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
             // 
             // panelPictureInfo
             // 
-            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
             this.panelPictureInfo.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
+            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
             this.panelPictureInfo.Name = "panelPictureInfo";
             // 
             // labelPictureInfo
@@ -218,8 +233,8 @@ namespace Waveface.DetailUI
             // 
             // webBrowserTop
             // 
-            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
             this.webBrowserTop.AllowWebBrowserDrop = false;
+            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
             this.webBrowserTop.Name = "webBrowserTop";
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
@@ -235,21 +250,21 @@ namespace Waveface.DetailUI
             // 
             // contextMenuStripTop
             // 
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
             this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopyTop});
             this.contextMenuStripTop.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
             // 
             // miCopyTop
             // 
-            resources.ApplyResources(this.miCopyTop, "miCopyTop");
             this.miCopyTop.Name = "miCopyTop";
+            resources.ApplyResources(this.miCopyTop, "miCopyTop");
             // 
             // Photo_DV
             // 
-            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.panelMain);
+            resources.ApplyResources(this, "$this");
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
@@ -627,14 +642,70 @@ namespace Waveface.DetailUI
             m_selectedItem = e.Item;
         }
 
-        public List<ToolStripMenuItem> GetMoreMenuItems()
+        public ImageButton GetMoreFonction1()
         {
-            return null;
+            return btnSaveAllPhotos;
+        }
+
+        public void MoreFonction1()
+        {
+            SaveAllPics();
         }
 
         private void miOpen_Click(object sender, EventArgs e)
         {
             ShowPhotoView(int.Parse(((DetailViewImageListViewItemTag)(m_selectedItem.Tag)).Index));
+        }
+
+        private bool CheckIfLoadingImage(ImageListViewItem imageListViewItem)
+        {
+            string _trueName = new FileInfo(imageListViewItem.FileName).Name;
+
+            if (m_filesMapping.ContainsKey(_trueName))
+                _trueName = m_filesMapping[_trueName];
+
+            return (_trueName == "LoadingImage.jpg");
+        }
+
+        public void SaveAllPics()
+        {
+            string _fileName = string.Empty;
+
+            using (FolderBrowserDialog _dialog = new FolderBrowserDialog())
+            {
+                _dialog.Description = I18n.L.T("PhotoView.SelectLoc");
+                _dialog.ShowNewFolderButton = true;
+                _dialog.RootFolder = Environment.SpecialFolder.Desktop;
+
+                if (_dialog.ShowDialog() == DialogResult.OK)
+                {
+                    string _folder = _dialog.SelectedPath + "\\";
+
+                    foreach (ImageListViewItem _item in imageListView.Items)
+                    {
+                        if (CheckIfLoadingImage(_item))
+                            continue;
+
+                        _fileName = new FileInfo(_item.FileName).Name;
+
+                        if (m_filesMapping.ContainsKey(_fileName))
+                            _fileName = m_filesMapping[_fileName]; // 取出真實名稱
+
+                        _fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
+
+                        try
+                        {
+                            File.Copy(_item.FileName, _fileName);
+                        }
+                        catch
+                        {
+                        }
+                    }
+
+                    MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Stream", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

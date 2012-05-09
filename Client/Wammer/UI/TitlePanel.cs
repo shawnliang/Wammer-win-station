@@ -78,12 +78,6 @@ namespace Waveface
 
         private void btnRefresh_Click(object sender, System.EventArgs e)
         {
-            //Test - ToDo
-            Main.Current.checkNewPosts();
-
-            //if (!Main.Current.CheckNetworkStatus())
-            //    return;
-
             Main.Current.ReloadAllData();
         }
 
@@ -104,8 +98,6 @@ namespace Waveface
 
         private void show_labelStatus(bool flag)
         {
-            btnRemovePost.Enabled = !flag;
-
             btnRefresh.Enabled = !flag;
         }
 
