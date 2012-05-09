@@ -103,7 +103,7 @@ namespace StationSystemTray
 			{
 				if (_signUpUrl == null)
 				{
-					_signUpUrl = m_BaseUrl + SIGNUP_URL_PATH;
+					_signUpUrl = m_BaseUrl + SIGNUP_URL_PATH + string.Format("?l={0}", System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
 				}
 				return _signUpUrl;
 			}
@@ -115,7 +115,7 @@ namespace StationSystemTray
 			{
 				if (_fbLoginUrl == null)
 				{
-					_fbLoginUrl = m_BaseUrl + LOGIN_URL_PATH;
+					_fbLoginUrl = m_BaseUrl + LOGIN_URL_PATH + string.Format("?l={0}", System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
 				}
 				return _fbLoginUrl;
 			}
@@ -170,6 +170,8 @@ namespace StationSystemTray
 		public Icon iconRunning;
 		public Icon iconPaused;
 		public Icon iconWarning;
+		public Icon iconSyncing1;
+		public Icon iconSyncing2;
 
 		public string TrayIconText
 		{
@@ -178,7 +180,6 @@ namespace StationSystemTray
 			{
 				TrayIcon.Text = value;
 				TrayIcon.BalloonTipText = value;
-				TrayIcon.ShowBalloonTip(1000, "Stream", value, ToolTipIcon.None);
 			}
 		}
 
@@ -189,8 +190,8 @@ namespace StationSystemTray
 			this.initMinimized = initMinimized;
 			this.Icon = Resources.Icon;
 
-			m_Timer.Interval = 1000;
-			m_Timer.Tick += (sender, e) => { AdjustIconText(); };
+			m_Timer.Interval = 500;
+			m_Timer.Tick += (sender, e) => { RefreshSyncingStatus(); };
 			m_Timer.Start();
 		}
 
@@ -218,6 +219,8 @@ namespace StationSystemTray
 			this.iconRunning = Icon.FromHandle(Properties.Resources.stream_tray_working.GetHicon());
 			this.iconPaused = Icon.FromHandle(Properties.Resources.stream_tray_pause.GetHicon());
 			this.iconWarning = Icon.FromHandle(Properties.Resources.stream_tray_warn.GetHicon());
+			this.iconSyncing1 = Icon.FromHandle(Properties.Resources.stream_tray_syncing1.GetHicon());
+			this.iconSyncing2 = Icon.FromHandle(Properties.Resources.stream_tray_syncing2.GetHicon());
 			this.TrayIcon.Icon = this.iconPaused;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);
@@ -285,17 +288,10 @@ namespace StationSystemTray
 		{
 			if (clientProcess != null && !clientProcess.HasExited)
 			{
-				Debug.Assert(userlogin != null, "param userlogin cannot be empty when timeline opened");
-
-				if (userlogin.SessionToken == userloginContainer.GetLastUserLogin().SessionToken)
-				{
-					var handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
-					Win32Helper.SetForegroundWindow(handle);
-					Win32Helper.ShowWindow(handle, 5);
-					return;
-				}
-				if (clientProcess != null)
-					clientProcess.CloseMainWindow();
+				var handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
+				Win32Helper.SetForegroundWindow(handle);
+				Win32Helper.ShowWindow(handle, 5);
+				return;
 			}
 
 			var lastLogin = userloginContainer.GetLastLogin();
@@ -447,6 +443,12 @@ namespace StationSystemTray
 						st.Entering += this.BecomeRunningState;
 						return st;
 					}
+				case StationStateEnum.Syncing:
+					{
+						var st = new StationStateSyncing(this);
+						st.Entering += this.BecomeSyncingState;
+						return st;
+					}
 				case StationStateEnum.Stopping:
 					{
 						var st = new StationStateStopping(this);
@@ -476,7 +478,7 @@ namespace StationSystemTray
 
 		private void menuServiceAction_Click(object sender, EventArgs e)
 		{
-			if (CurrentState.Value == StationStateEnum.Running)
+			if (CurrentState.Value == StationStateEnum.Running || CurrentState.Value == StationStateEnum.Syncing)
 			{
 				CurrentState.Offlining();
 			}
@@ -533,7 +535,30 @@ namespace StationSystemTray
 			else
 			{
 				TrayIcon.Icon = iconRunning;
-				TrayIconText = Properties.Resources.WFServiceRunning;
+
+				var runningText = Properties.Resources.WFServiceRunning;
+				menuServiceAction.Text = Properties.Resources.PauseWFService;
+
+				menuServiceAction.Enabled = true;
+
+				TrayIconText = runningText;
+				//TrayIcon.ShowBalloonTip(1000, "Stream", runningText, ToolTipIcon.None);
+			}
+		}
+
+		void BecomeSyncingState(object sender, EventArgs evt)
+		{
+			if (InvokeRequired)
+			{
+				if (!IsDisposed)
+				{
+					Invoke(new EventHandler(BecomeSyncingState), this, new EventArgs());
+				}
+			}
+			else
+			{
+				TrayIcon.Icon = iconSyncing1;
+				TrayIconText = Properties.Resources.WFServiceSyncing;
 				menuServiceAction.Text = Properties.Resources.PauseWFService;
 
 				menuServiceAction.Enabled = true;
@@ -552,8 +577,12 @@ namespace StationSystemTray
 			else
 			{
 				TrayIcon.Icon = iconPaused;
-				TrayIconText = Properties.Resources.WFServiceStopped;
+				
+				var stoppedText = Properties.Resources.WFServiceStopped;
 				menuServiceAction.Text = Properties.Resources.ResumeWFService;
+
+				TrayIconText = stoppedText;
+				//TrayIcon.ShowBalloonTip(1000, "Stream", stoppedText, ToolTipIcon.None);
 
 				menuServiceAction.Enabled = true;
 			}
@@ -589,7 +618,7 @@ namespace StationSystemTray
 			else
 			{
 				menuServiceAction.Enabled = false;
-				TrayIconText = Properties.Resources.PausingWFService;
+				TrayIcon.Text = Properties.Resources.PausingWFService;
 
 				this.uictrlPauseService.PerformAction();
 			}
@@ -692,13 +721,6 @@ namespace StationSystemTray
 
 		private void btnSignIn_Click(object sender, EventArgs e)
 		{
-			if (this.TrayIcon.Icon != iconRunning)
-			{
-				//TODO: multi-languange support
-				MessageBox.Show(Resources.START_SERVICE_FIRST, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
 			if ((cmbEmail.Text == string.Empty) || (txtPassword.Text == string.Empty))
 			{
 				MessageBox.Show(Properties.Resources.FillAllFields, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -850,7 +872,7 @@ namespace StationSystemTray
 		{
 			try
 			{
-				using (DefaultWebClient agent = new DefaultWebClient())
+				using (var agent = new DefaultWebClient())
 				{
 					var ret = User.LogIn(
 						agent, 
@@ -881,7 +903,7 @@ namespace StationSystemTray
 				return;
 			}
 
-			int exitCode = clientProcess.ExitCode;
+			var exitCode = clientProcess.ExitCode;
 
 			clientProcess.Exited -= new EventHandler(clientProcess_Exited);
 			clientProcess = null;
@@ -892,18 +914,18 @@ namespace StationSystemTray
 			}
 			else if (exitCode == -3)  // client unlink
 			{
-				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
+				var userlogin = userloginContainer.GetLastUserLogin();
 
-				bool isCleanResource = false;
-				CleanResourceForm cleanform = new CleanResourceForm(userlogin.Email);
-				DialogResult cleanResult = cleanform.ShowDialog();
+				var isCleanResource = false;
+				var cleanform = new CleanResourceForm(userlogin.Email);
+				var cleanResult = cleanform.ShowDialog();
 				if (cleanResult == DialogResult.Yes)
 				{
 					isCleanResource = true;
 				}
 
-				ListDriverResponse res = StationController.ListUser();
-				foreach (Driver driver in res.drivers)
+				var res = StationController.ListUser();
+				foreach (var driver in res.drivers)
 				{
 					if (driver.email == userlogin.Email)
 					{
@@ -1127,37 +1149,55 @@ namespace StationSystemTray
 			}
 		}
 
-
-		private void AdjustIconText()
+		private void RefreshSyncingStatus()
 		{
 			m_Timer.Stop();
 
 			var iconText = TrayIcon.BalloonTipText;
+			var upRemainedCount = m_UpRemainedCountCounter.NextValue();
+			var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
 
-			if (iconPaused != this.TrayIcon.Icon)
+			if (upRemainedCount > 0 || downloadRemainedCount > 0)
 			{
-				var upRemainedCount = m_UpRemainedCountCounter.NextValue();
-				var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
-				var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
-				var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
+				if (CurrentState.Value == StationStateEnum.Running)
+				{
+					CurrentState.StartSyncing();
+				}
 
-				var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
-				var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
+				if (CurrentState.Value == StationStateEnum.Syncing)
+				{
+					var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
+					var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
 
-				upSpeed = upRemainedCount == 0? 0: ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
-				downloadSpeed = downloadSpeed == 0? 0: ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
+					var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
+					var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
 
-				iconText = string.Format("{0}{1}↑({2}): {3:0.0} {4}{5}↓({6}): {7:0.0}{8}",
-					iconText,
-					Environment.NewLine,
-					upRemainedCount,
-					upSpeed,
-					upSpeedUnit,
-					Environment.NewLine,
-					downloadRemainedCount,
-					downloadSpeed,
-					downloadSpeedUnit);
+					upSpeed = upRemainedCount == 0 ? 0 : ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
+					downloadSpeed = downloadSpeed == 0 ? 0 : ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
+
+					iconText = string.Format("{0}{1}↑({2}): {3:0.0} {4}{5}↓({6}): {7:0.0}{8}",
+						iconText,
+						Environment.NewLine,
+						upRemainedCount,
+						upSpeed,
+						upSpeedUnit,
+						Environment.NewLine,
+						downloadRemainedCount,
+						downloadSpeed,
+						downloadSpeedUnit);
+
+					TrayIcon.Icon = (TrayIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
+				}
 			}
+			else
+			{
+				if (CurrentState.Value == StationStateEnum.Syncing)
+				{
+					CurrentState.StopSyncing();
+					TrayIcon.ShowBalloonTip(1000, "Stream", Properties.Resources.WFServiceRunning, ToolTipIcon.None);
+				}
+			}
+
 			SetNotifyIconText(this.TrayIcon, iconText);
 			m_Timer.Start();
 		}
@@ -1301,6 +1341,11 @@ namespace StationSystemTray
 				return;
 
 			m_LoginAction();
+		}
+
+		private void tabSignIn_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 

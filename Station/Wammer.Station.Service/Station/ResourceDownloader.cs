@@ -422,6 +422,7 @@ namespace Wammer.Station
 						break;
 				}
 
+				TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(attachment.object_id, driver.session_token), TaskPriority.Low, true);
 			}
 			catch (Exception ex)
 			{

@@ -140,6 +140,9 @@ namespace Wammer.Station
 				if (driver == null)
 					throw new WammerStationException("driver does not exist: " + downloadResult.Metadata.creator_id, (int)StationLocalApiError.InvalidDriver);
 
+				if (meta == ImageMeta.Origin && !driver.isPrimaryStation)
+					throw new WammerStationException("Access to original attachment from secondary station is not allowed.", (int)StationLocalApiError.AccessDenied);
+
 				FileStorage storage = new FileStorage(driver);
 				var fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);
 				storage.SaveFile(fileName, new ArraySegment<byte>(downloadResult.Image));

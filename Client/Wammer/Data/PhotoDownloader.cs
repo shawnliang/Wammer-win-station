@@ -79,6 +79,11 @@ namespace Waveface
                     ThumbnailItems.Insert(0, item);
                 }
             }
+            else if (item.PostItemType == PostItemType.Origin)
+            {
+                // For bussiness reason, waveface client is allowed to download original image.
+                return;
+            }
             else
             {
                 lock (PhotoItems)
@@ -239,17 +244,17 @@ namespace Waveface
 
                     WebResponse _wRep = _wReq.GetResponse();
 
-					Image _img = Image.FromStream(_wRep.GetResponseStream());
+                    Image _img = Image.FromStream(_wRep.GetResponseStream());
 
-					//if (Environment.GetCommandLineArgs().Length == 1)
-					//{
-						if (!File.Exists(_localPath))
-						{
-							_img.Save(_localPath);
-						}
-					//}			
+                    //if (Environment.GetCommandLineArgs().Length == 1)
+                    //{
+                        if (!File.Exists(_localPath))
+                        {
+                            _img.Save(_localPath);
+                        }
+                    //}
 
-					_img = null;
+                    _img = null;
 
                     s_logger.Trace("GetFile:" + _localPath);
 
