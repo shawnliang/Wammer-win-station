@@ -132,6 +132,21 @@ namespace Wammer.Cloud
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
 		}
+
+		public static AttachmentInfo GetInfo(WebClient agent, string object_id, string session_token)
+		{
+			if (agent == null || object_id == null || session_token == null)
+				throw new ArgumentNullException();
+
+			Dictionary<object, object> parameters = new Dictionary<object, object>
+			{
+				{ CloudServer.PARAM_OBJECT_ID, object_id },
+				{ CloudServer.PARAM_SESSION_TOKEN, session_token},
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			};
+
+			return CloudServer.requestPath<AttachmentInfo>(agent, "attachments/get", parameters, true);
+		}
 	}
 
 	public class DownloadResult

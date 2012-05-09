@@ -279,7 +279,7 @@ namespace Waveface
         private void InitDropableNotifyIcon()
         {
             m_dropableNotifyIcon.Text = "Waveface: Drop something here to start post!";
-            m_dropableNotifyIcon.NotifyIcon.Icon = Resources.Icon;
+            m_dropableNotifyIcon.NotifyIcon.Icon = this.Icon;
             m_dropableNotifyIcon.NotifyIcon.ContextMenuStrip = mnuTray;
             m_dropableNotifyIcon.NotifyIcon.Visible = true;
             //m_dropableNotifyIcon.NotifyIcon.DoubleClick += NotifyIcon_DoubleClick;

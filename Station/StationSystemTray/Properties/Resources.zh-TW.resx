@@ -152,14 +152,11 @@
   <data name="FillAllFields" xml:space="preserve">
     <value>請填寫所有欄位.</value>
   </data>
-  <data name="Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Icon.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="InvalidDriverError" xml:space="preserve">
     <value>帳號與這台 Stream Station 的管理者帳號不符, 請再試一次.</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
-    <value>Invalid Email</value>
+    <value>不正確的電子郵件</value>
   </data>
   <data name="LogInError" xml:space="preserve">
     <value>登錄時發生錯誤, 請重新輸入.</value>
@@ -187,6 +184,9 @@
   </data>
   <data name="NotConnected" xml:space="preserve">
     <value>無法從外部網路存取</value>
+  </data>
+  <data name="OpenStream" xml:space="preserve">
+    <value>開啟 Stream</value>
   </data>
   <data name="PauseWFService" xml:space="preserve">
     <value>暫停 Stream 同步</value>

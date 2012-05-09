@@ -156,9 +156,6 @@
   <data name="FillAllFields" xml:space="preserve">
     <value>Please fill all the fields!</value>
   </data>
-  <data name="Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Icon.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="InvalidDriverError" xml:space="preserve">
     <value>The user name is different to the driver account of this Stream Station. Please try again.</value>
   </data>
@@ -191,6 +188,9 @@
   </data>
   <data name="NotConnected" xml:space="preserve">
     <value>Inaccessible from internet</value>
+  </data>
+  <data name="OpenStream" xml:space="preserve">
+    <value>Open Stream</value>
   </data>
   <data name="PauseWFService" xml:space="preserve">
     <value>Pause sync</value>
@@ -225,6 +225,9 @@
   </data>
   <data name="StationServiceDown" xml:space="preserve">
     <value>Stream Station service is not completely started. Please wait for a while and try again, or ensure the running status of Stream Station windows service.</value>
+  </data>
+  <data name="stream_tray_init" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_init.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stream_tray_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stream_tray_pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
