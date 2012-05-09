@@ -45,7 +45,7 @@ namespace StationSystemTray
                     if (process.Id == currentProcess.Id)
                         continue;
 
-					IntPtr handle = Win32Helper.FindWindow(null, "Log In - Waveface");
+					IntPtr handle = Win32Helper.FindWindow(null, (new MainForm(true)).WindowsTitle);
 
                     if (handle == IntPtr.Zero)
                         return;

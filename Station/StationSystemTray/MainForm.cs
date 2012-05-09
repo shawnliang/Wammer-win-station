@@ -184,6 +184,11 @@ namespace StationSystemTray
 			}
 		}
 
+		public string WindowsTitle
+		{
+			get { return this.Text; }
+		}
+
 		public MainForm(bool initMinimized)
 		{
 			this.Font = SystemFonts.MessageBoxFont;
