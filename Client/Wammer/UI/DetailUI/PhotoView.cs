@@ -61,9 +61,6 @@ namespace Waveface.DetailUI
 
             if (m_onlyOnePhoto)
             {
-                btnSaveAll.Visible = false;
-                miSaveAll.Visible = false;
-
                 btnCoverImage.Visible = false;
                 miSetAsCoverImage.Visible = false;
             }
@@ -307,16 +304,6 @@ namespace Waveface.DetailUI
             }
         }
 
-        private bool CheckIfLoadingImage(ImageListViewItem imageListViewItem)
-        {
-            string _trueName = new FileInfo(imageListViewItem.FileName).Name;
-
-            if (m_filesMapping.ContainsKey(_trueName))
-                _trueName = m_filesMapping[_trueName];
-
-            return (_trueName == "LoadingImage.jpg");
-        }
-
         #region Save
 
         private void miSave_Click(object sender, EventArgs e)
@@ -324,19 +311,9 @@ namespace Waveface.DetailUI
             SavePic();
         }
 
-        private void miSaveAll_Click(object sender, EventArgs e)
-        {
-            SaveAllPics();
-        }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             SavePic();
-        }
-
-        private void btnSaveAll_Click(object sender, EventArgs e)
-        {
-            SaveAllPics();
         }
 
         private void SavePic()
@@ -368,47 +345,6 @@ namespace Waveface.DetailUI
                 catch
                 {
                     MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
-                }
-            }
-        }
-
-        private void SaveAllPics()
-        {
-            string _fileName = string.Empty;
-
-            using (FolderBrowserDialog _dialog = new FolderBrowserDialog())
-            {
-                _dialog.Description = I18n.L.T("PhotoView.SelectLoc");
-                _dialog.ShowNewFolderButton = true;
-                _dialog.RootFolder = Environment.SpecialFolder.Desktop;
-
-                if (_dialog.ShowDialog() == DialogResult.OK)
-                {
-                    string _folder = _dialog.SelectedPath + "\\";
-
-                    foreach (ImageListViewItem _item in imageListView.Items)
-                    {
-                        if (CheckIfLoadingImage(_item))
-                            continue;
-
-                        _fileName = new FileInfo(_item.FileName).Name;
-
-                        if (m_filesMapping.ContainsKey(_fileName))
-                            _fileName = m_filesMapping[_fileName]; // 取出真實名稱
-
-                        _fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
-
-                        try
-                        {
-                            File.Copy(_item.FileName, _fileName);
-                        }
-                        catch
-                        {
-                        }
-                    }
-
-                    MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Stream", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
                 }
             }
         }
@@ -445,6 +381,15 @@ namespace Waveface.DetailUI
         private void miSetAsCoverImage_Click(object sender, EventArgs e)
         {
             SetAsCoverImage();
+        }
+
+        private void PhotoView_Resize(object sender, EventArgs e)
+        {
+            int _x = (Width - 240 - 20) / 2;
+
+            btnCoverImage.Left = _x;
+            btnSlideShow.Left = _x + 120;
+            btnSave.Left = _x + 240;
         }
     }
 }

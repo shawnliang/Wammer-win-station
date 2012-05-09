@@ -412,11 +412,35 @@
   <data name="FB_edit_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlatButton\FB_edit_delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="FB_remove_post" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlatButton\FB_remove_post.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FB_remove_post_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlatButton\FB_remove_post_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_cover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_cover.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_cover_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_cover_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_saveall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_saveall.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_saveall_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_saveall_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_save_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_save_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_slide1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_slide1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_slide1_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_slide1_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="FB_save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FlatButton\FB_save.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

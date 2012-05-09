@@ -147,21 +147,21 @@ namespace Waveface
                 else if (_diff.Days >= 1)
                 {
                     if (_diff.Days < 7)
-                        _ret = _diff.Days + "day" + (_diff.Days >= 2 ? "s " : " ") + "ago";
+                        _ret = _diff.Days + " day" + (_diff.Days >= 2 ? "s " : " ") + "ago";
                     else
                         _ret = timeSubmitted;
                 }
                 else if (_diff.Hours >= 1)
                 {
-                    _ret = _diff.Hours + "hour" + (_diff.Hours >= 2 ? "s " : " ") + "ago";
+                    _ret = _diff.Hours + " hour" + (_diff.Hours >= 2 ? "s " : " ") + "ago";
                 }
                 else if (_diff.Minutes >= 1)
                 {
-                    _ret = _diff.Minutes + "minute" + (_diff.Minutes >= 2 ? "s " : " ") + "ago";
+                    _ret = _diff.Minutes + " minute" + (_diff.Minutes >= 2 ? "s " : " ") + "ago";
                 }
                 else
                 {
-                    _ret = _diff.Seconds + "second" + (_diff.Seconds >= 2 ? "s " : " ") + "ago";
+                    _ret = _diff.Seconds + " second" + (_diff.Seconds >= 2 ? "s " : " ") + "ago";
                 }
             }
 

@@ -453,12 +453,6 @@ namespace Waveface
             m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
 
-            if (m_setting.isUnlink)
-            {
-                QuitOption = QuitOption.Unlink;
-                Close();
-            }
-
             m_setting = null;
         }
 
@@ -1633,7 +1627,7 @@ namespace Waveface
                                 return;
                             }
 
-                            if (_action.action == "hide")
+                            if ((_action.action == "hide") && (_usertrack.target_type == "post"))
                             {
                                 RemovePostLocalAndRefresh(_usertrack.target_id, false);
                             }

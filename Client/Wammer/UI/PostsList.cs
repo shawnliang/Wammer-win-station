@@ -148,7 +148,8 @@ namespace Waveface
         {
             doScrollAction = false;
 
-            // Test: posts = posts.GetRange(0, 5);
+            // Test: 
+            // posts = posts.GetRange(0, DateTime.Now.Second % 5);
 
             try
             {
@@ -180,7 +181,14 @@ namespace Waveface
 
                 DoDisplayedScrolling(lastRead);
 
-                NotifyDetailView();
+                if (m_posts.Count == 0)
+                {
+                    ResetDetailViewUI();
+                }
+                else
+                {
+                    NotifyDetailView();
+                }             
             }
             catch (Exception _e)
             {
@@ -617,6 +625,11 @@ namespace Waveface
             }
 
             m_detailView.Post = _post;
+        }
+
+        private void ResetDetailViewUI()
+        {
+            m_detailView.ResetUI();
         }
 
         #endregion

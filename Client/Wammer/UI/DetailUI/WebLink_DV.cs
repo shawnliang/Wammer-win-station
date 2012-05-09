@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -30,8 +29,7 @@ namespace Waveface.DetailUI
         private bool m_addedLinkClickEventHandler;
         private List<string> m_clickableURL;
         private bool m_canOpenNewWindow;
-        private ContextMenuStrip contextMenuStripMore;
-        private ToolStripMenuItem miOpenInWebBrowser;
+        private ImageButton btnOpenInWebBrowser;
         private bool m_canEdit;
 
         public Post Post
@@ -92,23 +90,32 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebLink_DV));
             this.panelMain = new System.Windows.Forms.Panel();
+            this.btnOpenInWebBrowser = new Waveface.Component.ImageButton();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopySoul = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripMore = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miOpenInWebBrowser = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
-            this.contextMenuStripMore.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
             // 
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.Color.White;
+            this.panelMain.Controls.Add(this.btnOpenInWebBrowser);
             this.panelMain.Controls.Add(this.webBrowser);
             this.panelMain.Name = "panelMain";
+            // 
+            // btnOpenInWebBrowser
+            // 
+            this.btnOpenInWebBrowser.CenterAlignImage = false;
+            this.btnOpenInWebBrowser.Image = global::Waveface.Properties.Resources.FB_openin;
+            this.btnOpenInWebBrowser.ImageDisable = global::Waveface.Properties.Resources.FB_openin_hl;
+            this.btnOpenInWebBrowser.ImageFront = null;
+            this.btnOpenInWebBrowser.ImageHover = global::Waveface.Properties.Resources.FB_openin_hl;
+            resources.ApplyResources(this.btnOpenInWebBrowser, "btnOpenInWebBrowser");
+            this.btnOpenInWebBrowser.Name = "btnOpenInWebBrowser";
             // 
             // webBrowser
             // 
@@ -140,20 +147,6 @@ namespace Waveface.DetailUI
             this.miCopySoul.Name = "miCopySoul";
             resources.ApplyResources(this.miCopySoul, "miCopySoul");
             // 
-            // contextMenuStripMore
-            // 
-            this.contextMenuStripMore.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miOpenInWebBrowser});
-            this.contextMenuStripMore.Name = "contextMenuStripTop";
-            resources.ApplyResources(this.contextMenuStripMore, "contextMenuStripMore");
-            // 
-            // miOpenInWebBrowser
-            // 
-            this.miOpenInWebBrowser.Image = global::Waveface.Properties.Resources.FB_openin;
-            this.miOpenInWebBrowser.Name = "miOpenInWebBrowser";
-            resources.ApplyResources(this.miOpenInWebBrowser, "miOpenInWebBrowser");
-            this.miOpenInWebBrowser.Click += new System.EventHandler(this.miOpenInWebBrowser_Click);
-            // 
             // WebLink_DV
             // 
             this.BackColor = System.Drawing.Color.White;
@@ -162,7 +155,6 @@ namespace Waveface.DetailUI
             this.Name = "WebLink_DV";
             this.panelMain.ResumeLayout(false);
             this.contextMenuStrip.ResumeLayout(false);
-            this.contextMenuStripMore.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -316,22 +308,19 @@ namespace Waveface.DetailUI
             e.ReturnValue = false;
         }
 
-        public List<ToolStripMenuItem> GetMoreMenuItems()
+        public ImageButton GetMoreFonction1()
         {
             if (Post.type == "text")
             {
-                return new List<ToolStripMenuItem>();
+                return null;
             }
             else
             {
-                List<ToolStripMenuItem> _items = new List<ToolStripMenuItem>();
-                _items.Add(miOpenInWebBrowser);
-
-                return _items;
+                return btnOpenInWebBrowser;
             }
         }
 
-        private void miOpenInWebBrowser_Click(object sender, EventArgs e)
+        public void MoreFonction1()
         {
             string _browser = WebBrowserUtility.GetSystemDefaultBrowser();
 

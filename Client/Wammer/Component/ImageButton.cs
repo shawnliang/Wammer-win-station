@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Waveface.Component
 {
-    public class ImageButton : Control
+    public class ImageButton : Button
     {
         private Image m_image;
         private Image m_imageFront;
