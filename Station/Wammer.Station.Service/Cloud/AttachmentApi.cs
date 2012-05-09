@@ -125,7 +125,7 @@ namespace Wammer.Cloud
 
 			Dictionary<object, object> parameters = new Dictionary<object, object>
 			{
-				{ CloudServer.PARAM_OBJECT_IDS, "[" + object_id + "]" },
+				{ CloudServer.PARAM_OBJECT_IDS, "[\"" + object_id + "\"]" },
 				{ CloudServer.PARAM_SESSION_TOKEN, session_token},
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
