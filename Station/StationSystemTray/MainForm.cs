@@ -476,7 +476,7 @@ namespace StationSystemTray
 
 		private void menuServiceAction_Click(object sender, EventArgs e)
 		{
-			if (CurrentState.Value == StationStateEnum.Running)
+			if (CurrentState.Value == StationStateEnum.Running || CurrentState.Value == StationStateEnum.Syncing)
 			{
 				CurrentState.Offlining();
 			}
