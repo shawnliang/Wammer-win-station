@@ -540,7 +540,7 @@ namespace StationSystemTray
 				menuServiceAction.Enabled = true;
 
 				TrayIconText = runningText;
-				TrayIcon.ShowBalloonTip(1000, "Stream", runningText, ToolTipIcon.None);
+				//TrayIcon.ShowBalloonTip(1000, "Stream", runningText, ToolTipIcon.None);
 			}
 		}
 
@@ -580,7 +580,7 @@ namespace StationSystemTray
 				menuServiceAction.Text = Properties.Resources.ResumeWFService;
 
 				TrayIconText = stoppedText;
-				TrayIcon.ShowBalloonTip(1000, "Stream", stoppedText, ToolTipIcon.None);
+				//TrayIcon.ShowBalloonTip(1000, "Stream", stoppedText, ToolTipIcon.None);
 
 				menuServiceAction.Enabled = true;
 			}
@@ -1197,6 +1197,7 @@ namespace StationSystemTray
 				if (CurrentState.Value == StationStateEnum.Syncing)
 				{
 					CurrentState.StopSyncing();
+					TrayIcon.ShowBalloonTip(1000, "Stream", Properties.Resources.WFServiceRunning, ToolTipIcon.None);
 				}
 			}
 

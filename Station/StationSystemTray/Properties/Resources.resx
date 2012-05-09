@@ -205,16 +205,16 @@
       Please restart the program to initialize Stream Station.</value>
   </data>
   <data name="ResumeWFService" xml:space="preserve">
-    <value>Resume sync</value>
+    <value>Resume Stream sync</value>
   </data>
   <data name="ResumingWFService" xml:space="preserve">
-    <value>Resuming sync...</value>
+    <value>Resuming Stream sync...</value>
   </data>
   <data name="START_SERVICE_FIRST" xml:space="preserve">
     <value>Please start service first</value>
   </data>
   <data name="StartingWFService" xml:space="preserve">
-    <value>Starting sync...</value>
+    <value>Starting Stream sync...</value>
   </data>
   <data name="Station401Exception" xml:space="preserve">
     <value>Your authentication is expired. Please log in again.</value>
@@ -262,13 +262,13 @@
     <value>Preference...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>Stream sync started</value>
+    <value>All Stream files up to date</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
     <value>Unable to start Stream sync</value>
   </data>
   <data name="WFServiceStopped" xml:space="preserve">
-    <value>Stream sync stopped</value>
+    <value>Stream sync paused</value>
   </data>
   <data name="WFServiceSyncing" xml:space="preserve">
     <value>Stream is syncing</value>
