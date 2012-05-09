@@ -380,9 +380,16 @@ namespace StationSystemTray.Properties {
             }
         }
         
-        public static System.Drawing.Bitmap stream_tray_syncing {
+        public static System.Drawing.Bitmap stream_tray_syncing1 {
             get {
-                object obj = ResourceManager.GetObject("stream_tray_syncing", resourceCulture);
+                object obj = ResourceManager.GetObject("stream_tray_syncing1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap stream_tray_syncing2 {
+            get {
+                object obj = ResourceManager.GetObject("stream_tray_syncing2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
