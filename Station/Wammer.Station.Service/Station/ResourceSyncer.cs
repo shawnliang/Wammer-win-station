@@ -30,6 +30,27 @@ namespace Wammer.Station
 			this.downloader = new ResourceDownloader(bodySyncQueue, stationId);
 			this.syncer = new Timeline.TimelineSyncer(new Timeline.PostProvider(), new Timeline.TimelineSyncerDB(), new UserTracksApi());
 			syncer.PostsRetrieved += new EventHandler<Timeline.TimelineSyncEventArgs>(downloader.PostRetrieved);
+			syncer.BodyAvailable += new EventHandler<Timeline.BodyAvailableEventArgs>(syncer_BodyAvailable);
+		}
+
+		void syncer_BodyAvailable(object sender, Timeline.BodyAvailableEventArgs e)
+		{
+			try
+			{
+				Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", e.user_id));
+				if (user != null && user.isPrimaryStation)
+				{
+					using (WebClient agent = new DefaultWebClient())
+					{
+						AttachmentInfo info = Cloud.AttachmentApi.GetInfo(agent, e.object_id, user.session_token);
+						downloader.EnqueueDownstreamTask(info, user, ImageMeta.Origin);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				this.LogWarnMsg("Unable to enqueue body download task", ex);
+			}
 		}
 
 		protected override void ExecuteOnTimedUp(object state)
