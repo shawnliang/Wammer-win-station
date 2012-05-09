@@ -208,10 +208,10 @@
     <value>Resume sync</value>
   </data>
   <data name="ResumingWFService" xml:space="preserve">
-    <value>Resuming Sync...</value>
+    <value>Resuming sync...</value>
   </data>
-  <data name="START_SERVICE_FIRST">
-    <value xml:space="preserve">Please start service first</value>
+  <data name="START_SERVICE_FIRST" xml:space="preserve">
+    <value>Please start service first</value>
   </data>
   <data name="StartingWFService" xml:space="preserve">
     <value>Starting sync...</value>
@@ -230,6 +230,9 @@
   </data>
   <data name="stream_tray_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stream_tray_pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stream_tray_syncing" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sync_windowstrayicon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stream_tray_warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stream_tray_warn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -259,12 +262,15 @@
     <value>Preference...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>Stream Station is syncing</value>
+    <value>Stream sync started</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
-    <value>Unable to start syncing</value>
+    <value>Unable to start Stream sync</value>
   </data>
   <data name="WFServiceStopped" xml:space="preserve">
-    <value>Stream Station is stop syncing</value>
+    <value>Stream sync stopped</value>
+  </data>
+  <data name="WFServiceSyncing" xml:space="preserve">
+    <value>Stream is syncing</value>
   </data>
 </root>

@@ -256,12 +256,15 @@
     <value>偏好設定...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>Stream Station 同步中</value>
+    <value>Stream 同步已啟動</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
-    <value>無法啟動同步</value>
+    <value>無法啟動 Stream 同步</value>
   </data>
   <data name="WFServiceStopped" xml:space="preserve">
-    <value>無法啟動同步</value>
+    <value>無法啟動 Stream 同步</value>
+  </data>
+  <data name="WFServiceSyncing" xml:space="preserve">
+    <value>Stream 正在同步</value>
   </data>
 </root>

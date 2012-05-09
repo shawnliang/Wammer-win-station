@@ -687,8 +687,8 @@
   <data name="lblSignIn.Text" xml:space="preserve">
     <value>Sign in to Waveface</value>
   </data>
-  <data name="lblSignUp.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="lblSignUp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="lblSignUp.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 12pt, style=Bold</value>
@@ -700,16 +700,19 @@
     <value>27, 42</value>
   </data>
   <data name="lblSignUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 300</value>
+    <value>11, 300</value>
   </data>
   <data name="lblSignUp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 27</value>
+    <value>451, 27</value>
   </data>
   <data name="lblSignUp.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="lblSignUp.Text" xml:space="preserve">
     <value>Don't have an account yet? Create one now!</value>
+  </data>
+  <data name="lblSignUp.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
   </data>
   <data name="lblWelcome.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
