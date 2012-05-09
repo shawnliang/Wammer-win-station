@@ -286,17 +286,10 @@ namespace StationSystemTray
 		{
 			if (clientProcess != null && !clientProcess.HasExited)
 			{
-				Debug.Assert(userlogin != null, "param userlogin cannot be empty when timeline opened");
-
-				if (userlogin.SessionToken == userloginContainer.GetLastUserLogin().SessionToken)
-				{
-					var handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
-					Win32Helper.SetForegroundWindow(handle);
-					Win32Helper.ShowWindow(handle, 5);
-					return;
-				}
-				if (clientProcess != null)
-					clientProcess.CloseMainWindow();
+				var handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
+				Win32Helper.SetForegroundWindow(handle);
+				Win32Helper.ShowWindow(handle, 5);
+				return;
 			}
 
 			var lastLogin = userloginContainer.GetLastLogin();
