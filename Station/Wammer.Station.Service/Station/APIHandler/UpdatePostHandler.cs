@@ -87,7 +87,7 @@ namespace Wammer.Station
 				post.content = content;
 			}
 		}
-		
+
 		/// <summary>
 		/// Updates the preview.
 		/// </summary>
@@ -106,8 +106,8 @@ namespace Wammer.Station
 		private void UpdatePreview(PostInfo post, string postID)
 		{
 			var type = Parameters[CloudServer.PARAM_TYPE];
-			if (type != "link")
-			{				
+			if (type != null && type != "link")
+			{
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("preview", null));
 				post.preview = null;
 				return;
@@ -220,7 +220,7 @@ namespace Wammer.Station
 		private void UpdateAttachementIDArray(PostInfo post, string postID)
 		{
 			var type = Parameters[CloudServer.PARAM_TYPE];
-			if (type != "image")
+			if (type == "link" || type == "text")
 			{
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update
 					.Set("attachment_count", 0)
@@ -284,10 +284,10 @@ namespace Wammer.Station
 				CloudServer.PARAM_POST_ID,
 				CloudServer.PARAM_LAST_UPDATE_TIME);
 
-			if(Parameters.Count <= 5)
+			if (Parameters.Count <= 5)
 				throw new WammerStationException(
 						"Without any optional parameter!", (int)StationLocalApiError.Error);
-						
+
 			var type = Parameters[CloudServer.PARAM_TYPE];
 			if (type == "link")
 			{
