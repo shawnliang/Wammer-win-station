@@ -719,13 +719,6 @@ namespace StationSystemTray
 
 		private void btnSignIn_Click(object sender, EventArgs e)
 		{
-			if (this.TrayIcon.Icon != iconRunning)
-			{
-				//TODO: multi-languange support
-				MessageBox.Show(Resources.START_SERVICE_FIRST, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
 			if ((cmbEmail.Text == string.Empty) || (txtPassword.Text == string.Empty))
 			{
 				MessageBox.Show(Properties.Resources.FillAllFields, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);

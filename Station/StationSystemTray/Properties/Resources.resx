@@ -210,9 +210,6 @@
   <data name="ResumingWFService" xml:space="preserve">
     <value>Resuming Stream sync...</value>
   </data>
-  <data name="START_SERVICE_FIRST" xml:space="preserve">
-    <value>Please start service first</value>
-  </data>
   <data name="StartingWFService" xml:space="preserve">
     <value>Starting Stream sync...</value>
   </data>

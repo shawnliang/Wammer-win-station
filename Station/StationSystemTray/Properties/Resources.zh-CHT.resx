@@ -207,9 +207,6 @@
   <data name="ResumingWFService" xml:space="preserve">
     <value>正在重啟 Stream 同步...</value>
   </data>
-  <data name="START_SERVICE_FIRST" xml:space="preserve">
-    <value>請先啟動服務</value>
-  </data>
   <data name="StartingWFService" xml:space="preserve">
     <value>正在啟動 Stream 同步...</value>
   </data>
