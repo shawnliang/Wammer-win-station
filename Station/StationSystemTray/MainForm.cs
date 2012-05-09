@@ -166,7 +166,8 @@ namespace StationSystemTray
 		private bool initMinimized;
 		private object cs = new object();
 		public StationState CurrentState { get; private set; }
-		
+
+		public Icon iconInit;
 		public Icon iconRunning;
 		public Icon iconPaused;
 		public Icon iconWarning;
@@ -215,12 +216,13 @@ namespace StationSystemTray
 
 			this.userloginContainer = new UserLoginSettingContainer(settings);
 
+			this.iconInit = Icon.FromHandle(Properties.Resources.stream_tray_init.GetHicon());
 			this.iconRunning = Icon.FromHandle(Properties.Resources.stream_tray_working.GetHicon());
 			this.iconPaused = Icon.FromHandle(Properties.Resources.stream_tray_pause.GetHicon());
 			this.iconWarning = Icon.FromHandle(Properties.Resources.stream_tray_warn.GetHicon());
 			this.iconSyncing1 = Icon.FromHandle(Properties.Resources.stream_tray_syncing1.GetHicon());
 			this.iconSyncing2 = Icon.FromHandle(Properties.Resources.stream_tray_syncing2.GetHicon());
-			this.TrayIcon.Icon = this.iconPaused;
+			this.TrayIcon.Icon = this.iconInit;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);
 			this.uictrlStationStatus.UICallback += this.StationStatusUICallback;
@@ -517,7 +519,7 @@ namespace StationSystemTray
 			}
 			else
 			{
-				TrayIcon.Icon = iconPaused;
+				TrayIcon.Icon = iconInit;
 				TrayIconText = Properties.Resources.StartingWFService;
 
 				menuServiceAction.Enabled = false;

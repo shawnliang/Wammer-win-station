@@ -375,6 +375,13 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap stream_tray_init {
+            get {
+                object obj = ResourceManager.GetObject("stream_tray_init", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap stream_tray_pause {
             get {
                 object obj = ResourceManager.GetObject("stream_tray_pause", resourceCulture);
