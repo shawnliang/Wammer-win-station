@@ -166,7 +166,8 @@ namespace StationSystemTray
 		private bool initMinimized;
 		private object cs = new object();
 		public StationState CurrentState { get; private set; }
-		
+
+		public Icon iconInit;
 		public Icon iconRunning;
 		public Icon iconPaused;
 		public Icon iconWarning;
@@ -188,7 +189,6 @@ namespace StationSystemTray
 			this.Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
 			this.initMinimized = initMinimized;
-			this.Icon = Resources.Icon;
 
 			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => { RefreshSyncingStatus(); };
@@ -216,12 +216,13 @@ namespace StationSystemTray
 
 			this.userloginContainer = new UserLoginSettingContainer(settings);
 
+			this.iconInit = Icon.FromHandle(Properties.Resources.stream_tray_init.GetHicon());
 			this.iconRunning = Icon.FromHandle(Properties.Resources.stream_tray_working.GetHicon());
 			this.iconPaused = Icon.FromHandle(Properties.Resources.stream_tray_pause.GetHicon());
 			this.iconWarning = Icon.FromHandle(Properties.Resources.stream_tray_warn.GetHicon());
 			this.iconSyncing1 = Icon.FromHandle(Properties.Resources.stream_tray_syncing1.GetHicon());
 			this.iconSyncing2 = Icon.FromHandle(Properties.Resources.stream_tray_syncing2.GetHicon());
-			this.TrayIcon.Icon = this.iconPaused;
+			this.TrayIcon.Icon = this.iconInit;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);
 			this.uictrlStationStatus.UICallback += this.StationStatusUICallback;
@@ -518,7 +519,7 @@ namespace StationSystemTray
 			}
 			else
 			{
-				TrayIcon.Icon = iconPaused;
+				TrayIcon.Icon = iconInit;
 				TrayIconText = Properties.Resources.StartingWFService;
 
 				menuServiceAction.Enabled = false;
@@ -976,6 +977,8 @@ namespace StationSystemTray
 
 			var browser = new WebBrowser()
 			{
+				WebBrowserShortcutsEnabled = false,
+				IsWebBrowserContextMenuEnabled = false,
 				Dock = DockStyle.Fill
 			};
 
@@ -1082,10 +1085,15 @@ namespace StationSystemTray
 		}
 		#endregion
 
-		public void LogOut(WebClient agent, string sessionToken, string apiKey)
+		private void LogoutFB()
 		{
 			InternetSetOption(IntPtr.Zero, 42, IntPtr.Zero, 0);
+		}
 
+		public void LogOut(WebClient agent, string sessionToken, string apiKey)
+		{
+
+			LogoutFB();
 			userloginContainer.UpdateLastLogin(string.Empty);
 
 			var parameters = new Dictionary<object, object>{
@@ -1248,7 +1256,8 @@ namespace StationSystemTray
 
 				var browser = new WebBrowser()
 				{
-
+					WebBrowserShortcutsEnabled = false,
+					IsWebBrowserContextMenuEnabled = false,
 					Dock = DockStyle.Fill
 				};
 

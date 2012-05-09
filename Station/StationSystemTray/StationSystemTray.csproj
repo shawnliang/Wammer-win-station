@@ -37,7 +37,7 @@
     <StartupObject>StationSystemTray.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -145,12 +145,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FB_Logo.png" />
-    <Content Include="Resources\Icon.ico" />
+    <Content Include="Icon.ico" />
     <None Include="Resources\stream_tray_pause.png" />
     <None Include="Resources\stream_tray_working.png" />
     <None Include="Resources\stream_tray_warn.png" />
     <None Include="Resources\stream_tray_syncing1.png" />
     <None Include="Resources\stream_tray_syncing2.png" />
+    <None Include="Resources\stream_tray_init.png" />
     <Content Include="SystemTrayML.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
