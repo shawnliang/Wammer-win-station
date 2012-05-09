@@ -241,6 +241,8 @@ namespace StationSystemTray
 			this.CurrentState = CreateState(StationStateEnum.Initial);
 			this.menuServiceAction.Text = Properties.Resources.PauseWFService;
 			this.menuQuit.Text =  Properties.Resources.QuitWFService;
+			this.tsmiOpenStream.Text = Properties.Resources.OpenStream;
+
 			RefreshUserList();
 
 			this.checkStationTimer.Enabled = true;

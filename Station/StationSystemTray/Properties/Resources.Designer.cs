@@ -274,6 +274,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open Stream.
+        /// </summary>
+        public static string OpenStream {
+            get {
+                return ResourceManager.GetString("OpenStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pause sync.
         /// </summary>
         public static string PauseWFService {

@@ -120,7 +120,7 @@
     <EmbeddedResource Include="CleanResourceForm.zh-TW.resx">
       <DependentUpon>CleanResourceForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.zh-CHT.resx">
+    <EmbeddedResource Include="Properties\Resources.zh-TW.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="App.config">
