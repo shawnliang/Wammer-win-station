@@ -176,6 +176,9 @@ namespace StationSystemTray
 		public Icon iconSyncing2;
 		public Icon iconErrorStopped;
 
+		private string lblMainStationSetupText;
+		private string lblSecondStationSetupText;
+
 		public string TrayIconText
 		{
 			get { return TrayIcon.Text; }
@@ -231,6 +234,9 @@ namespace StationSystemTray
 			this.iconSyncing2 = Icon.FromHandle(Properties.Resources.stream_tray_syncing2.GetHicon());
 			this.iconErrorStopped = Icon.FromHandle(Properties.Resources.stream_tray_init.GetHicon());
 			this.TrayIcon.Icon = this.iconInit;
+
+			this.lblMainStationSetupText = this.lblMainStationSetup.Text;
+			this.lblSecondStationSetupText = this.lblSecondStationSetup.Text;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);
 			this.uictrlStationStatus.UICallback += this.StationStatusUICallback;
@@ -790,8 +796,8 @@ namespace StationSystemTray
 					};
 
 					UserStation station = GetPrimaryStation(res.Stations);
-					lblMainStationSetup.Text = string.Format(lblMainStationSetup.Text, (station == null) ? "None" : station.computer_name);
-					lblSecondStationSetup.Text = string.Format(lblSecondStationSetup.Text, (station == null) ? "None" : station.computer_name);
+					lblMainStationSetup.Text = string.Format(lblMainStationSetupText, (station == null) ? "None" : station.computer_name);
+					lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText, (station == null) ? "None" : station.computer_name);
 
 					if (res.IsPrimaryStation)
 					{
@@ -1091,8 +1097,8 @@ namespace StationSystemTray
 					var res = StationController.AddUser(userID, sessionToken);
 
 					UserStation station = GetPrimaryStation(res.Stations);
-					lblMainStationSetup.Text = string.Format(lblMainStationSetup.Text, (station == null) ? "None" : station.computer_name);
-					lblSecondStationSetup.Text = string.Format(lblSecondStationSetup.Text, (station == null) ? "None" : station.computer_name);
+					lblMainStationSetup.Text = string.Format(lblMainStationSetupText, (station == null) ? "None" : station.computer_name);
+					lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText, (station == null) ? "None" : station.computer_name);
 
 					//Show welcome msg
 					if (res.IsPrimaryStation)
@@ -1362,8 +1368,8 @@ namespace StationSystemTray
 						var res = StationController.AddUser(userID, sessionToken);
 
 						UserStation station = GetPrimaryStation(res.Stations);
-						lblMainStationSetup.Text = string.Format(lblMainStationSetup.Text, (station == null) ? "None" : station.computer_name);
-						lblSecondStationSetup.Text = string.Format(lblSecondStationSetup.Text, (station == null) ? "None" : station.computer_name);
+						lblMainStationSetup.Text = string.Format(lblMainStationSetupText, (station == null) ? "None" : station.computer_name);
+						lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText, (station == null) ? "None" : station.computer_name);
 
 						//Show welcome msg
 						if (res.IsPrimaryStation)
