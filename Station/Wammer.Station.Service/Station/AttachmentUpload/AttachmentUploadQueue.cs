@@ -93,6 +93,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public void EnqueueDummyTask()
 		{
+			PerfMonitor.PerfCounter.GetCounter(PerfMonitor.PerfCounter.UP_REMAINED_COUNT, false).Increment();
 			Enqueue(new NullTask(), TaskPriority.High);
 		}
 	}
