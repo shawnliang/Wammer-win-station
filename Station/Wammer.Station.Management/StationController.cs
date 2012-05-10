@@ -558,7 +558,7 @@ namespace Wammer.Station.Management
 
 		public static void ConnectToInternet()
 		{
-			WebClient agent = new WebClient();
+			DefaultWebClient agent = new DefaultWebClient();
 			agent.DownloadData("http://www.google.com");
 		}
 

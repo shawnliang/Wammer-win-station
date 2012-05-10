@@ -173,6 +173,7 @@ namespace StationSystemTray
 		public Icon iconWarning;
 		public Icon iconSyncing1;
 		public Icon iconSyncing2;
+		public Icon iconErrorStopped;
 
 		public string TrayIconText
 		{
@@ -227,6 +228,7 @@ namespace StationSystemTray
 			this.iconWarning = Icon.FromHandle(Properties.Resources.stream_tray_warn.GetHicon());
 			this.iconSyncing1 = Icon.FromHandle(Properties.Resources.stream_tray_syncing1.GetHicon());
 			this.iconSyncing2 = Icon.FromHandle(Properties.Resources.stream_tray_syncing2.GetHicon());
+			this.iconErrorStopped = Icon.FromHandle(Properties.Resources.stream_tray_init.GetHicon());
 			this.TrayIcon.Icon = this.iconInit;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);
@@ -353,14 +355,7 @@ namespace StationSystemTray
 		{
 			var ex = (Exception)evt.param;
 
-			if (ex is ConnectToCloudException)
-			{
-				CurrentState.Offlined();
-			}
-			else
-			{
-				CurrentState.Error();
-			}
+			CurrentState.Error();
 		}
 
 		private void ResumeServiceUICallback(object sender, SimpleEventArgs evt)
@@ -370,34 +365,33 @@ namespace StationSystemTray
 
 		private void ResumeServiceUIError(object sender, SimpleEventArgs evt)
 		{
-				CurrentState.Error();
-			}
+			CurrentState.Error();
+		}
 
 		private void StationStatusUICallback(object sender, SimpleEventArgs evt)
 		{
 			checkStationTimer.Interval = STATION_TIMER_LONG_INTERVAL;
 
-			if (CurrentState.Value != StationStateEnum.Running)
+			if (CurrentState.Value != StationStateEnum.Stopped)
 				CurrentState.Onlining();
 		}
 
 		private void StationStatusUIError(object sender, SimpleEventArgs evt)
 		{
 			// recover quickly if falling to error/offline state unexpectedly
-			if (CurrentState.Value == StationStateEnum.Running)
-				checkStationTimer.Interval = STATION_TIMER_SHORT_INTERVAL;
+			checkStationTimer.Interval = STATION_TIMER_SHORT_INTERVAL;
 
 			var ex = (Exception)evt.param;
 
 			if (ex is ConnectToCloudException)
 			{
 				logger.Debug("Unable to connect to Waveface cloud", ex);
-				CurrentState.Offlined();
+				CurrentState.Error();
 			}
 			else if (ex is WebException)
 			{
 				logger.Debug("Unable to connect to internet", ex);
-				CurrentState.Offlined();
+				CurrentState.Error();
 			}
 			else
 			{
@@ -467,6 +461,12 @@ namespace StationSystemTray
 					{
 						var st = new StationStateStopped(this);
 						st.Entering += this.BecomeStoppedState;
+						return st;
+					}
+				case StationStateEnum.ErrorStopped:
+					{
+						var st = new StationStateErrorStopped(this);
+						st.Entering += this.BecomeErrorStoppedState;
 						return st;
 					}
 				default:
@@ -590,7 +590,28 @@ namespace StationSystemTray
 				menuServiceAction.Text = Properties.Resources.ResumeWFService;
 
 				TrayIconText = stoppedText;
-				//TrayIcon.ShowBalloonTip(1000, "Stream", stoppedText, ToolTipIcon.None);
+
+				menuServiceAction.Enabled = true;
+			}
+		}
+
+		void BecomeErrorStoppedState(object sender, EventArgs evt)
+		{
+			if (InvokeRequired)
+			{
+				if (!IsDisposed)
+				{
+					Invoke(new EventHandler(BecomeErrorStoppedState), this, new EventArgs());
+				}
+			}
+			else
+			{
+				TrayIcon.Icon = iconErrorStopped;
+
+				var stoppedText = Properties.Resources.WFServiceStopped;
+				menuServiceAction.Text = Properties.Resources.ResumeWFService;
+
+				TrayIconText = stoppedText;
 
 				menuServiceAction.Enabled = true;
 			}
@@ -975,13 +996,14 @@ namespace StationSystemTray
 			this.Hide();
 
 			var signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
-			var postData = new FBLoginPostData()
+			var postData = new FBPostData()
 			{
 				device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
 				device_name = Environment.MachineName,
 				device = "windows",
 				api_key = CLIENT_API_KEY,
-				xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s", signUpUrl)
+				xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s", signUpUrl),
+				locale = System.Threading.Thread.CurrentThread.CurrentCulture.ToString()
 			};
 
 			var browser = new WebBrowser()
@@ -997,7 +1019,8 @@ namespace StationSystemTray
 				Width = 750,
 				Height = 700,
 				Text = this.Text,
-				StartPosition = FormStartPosition.CenterParent
+				StartPosition = FormStartPosition.CenterParent,
+				Icon = this.Icon
 			};
 			dialog.Controls.Add(browser);
 
@@ -1254,13 +1277,14 @@ namespace StationSystemTray
 		{
 				this.Hide();
 				var fbLoginUrl = string.Format("{0}/{1}/FBLogin", m_CallbackUrl, FB_LOGIN_GUID);
-				var postData = new FBLoginPostData()
+				var postData = new FBPostData()
 				{
 					device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
 					device_name = Environment.MachineName,
 					device = "windows",
 					api_key = CLIENT_API_KEY,
-					xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s", fbLoginUrl)
+					xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s", fbLoginUrl),
+					locale = System.Threading.Thread.CurrentThread.CurrentCulture.ToString()
 				};
 
 				var browser = new WebBrowser()
@@ -1276,7 +1300,8 @@ namespace StationSystemTray
 					Width = 750,
 					Height = 700,
 					Text = this.Text,
-					StartPosition = FormStartPosition.CenterParent
+					StartPosition = FormStartPosition.CenterParent,
+					Icon = this.Icon
 				};
 				dialog.Controls.Add(browser);
 
@@ -1403,13 +1428,14 @@ namespace StationSystemTray
 	}
 	#endregion
 
-	public class FBLoginPostData
+	public class FBPostData
 	{
 		public string device_id { get; set; }
 		public string device_name { get; set; }
 		public string device { get; set; }
 		public string api_key { get; set; }
 		public string xurl { get; set; }
+		public string locale { get; set; }
 	}
 
 
@@ -1448,6 +1474,7 @@ namespace StationSystemTray
 
 		protected override object Action(object obj)
 		{
+			StationController.ConnectToInternet();
 			StationController.ResumeSync();
 			return null;
 		}

@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
@@ -673,24 +673,24 @@ namespace Waveface
                 RT.StationMode = true;
             }
 
-            try
-            {
-                MongoDB.Driver.MongoServer dbServer = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
-                BsonDocument doc = dbServer.GetDatabase("wammer").GetCollection("LoginedSession").FindOne(Query.EQ("_id", m_initSessionToken));
-                string json = doc.ToJson();
+			try
+			{
+				MongoDB.Driver.MongoServer dbServer = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
+				BsonDocument doc = dbServer.GetDatabase("wammer").GetCollection("LoginedSession").FindOne(Query.EQ("_id", m_initSessionToken));
+				string json = doc.ToJson();
 
-                MR_auth_login _login = JsonConvert.DeserializeObject<MR_auth_login>(json);
-                _login.session_token = m_initSessionToken;
+				MR_auth_login _login = JsonConvert.DeserializeObject<MR_auth_login>(json);
+				_login.session_token = m_initSessionToken;
 
-                procLoginResponse(_login);
-            }
-            catch (Exception e)
-            {
+				procLoginResponse(_login);
+			}
+			catch (Exception e)
+			{
                 s_logger.Error("Cannot login: " + e.ToString());
                 MessageBox.Show(I18n.L.T("ForceLogout"));
                 QuitOption = Waveface.QuitOption.Logout;
-                Close();
-            }
+				Close();
+			}
         }
 
         public bool Login(string email, string password, out string errorMessage)
