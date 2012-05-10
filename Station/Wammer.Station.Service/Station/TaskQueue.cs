@@ -67,6 +67,8 @@ namespace Wammer.Station
 
 			MaxConcurrentTaskCount = 6;
 
+			PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE).IncrementBy(mqHighPriority.Count + mqMediumPriority.Count + mqLowPriority.Count + mqVeryLowPriority.Count);
+
 			totalTaskCount = mqHighPriority.Count + mqMediumPriority.Count + mqLowPriority.Count + mqVeryLowPriority.Count;
 			waitingHighTaskCount = mqHighPriority.Count;
 

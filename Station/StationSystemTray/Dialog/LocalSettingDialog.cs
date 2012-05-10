@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Wammer.Model;
+using Wammer.Cloud;
 
 namespace StationSystemTray
 {
@@ -18,7 +20,9 @@ namespace StationSystemTray
 
 		private void LocalSettingDialog_Load(object sender, EventArgs e)
 		{
-			
+			var users = DriverCollection.Instance.FindAll().Select(item => item.user).ToArray();
+			cmbStations.DisplayMember = "nickname";
+			cmbStations.DataSource = users;
 		}
 	}
 }

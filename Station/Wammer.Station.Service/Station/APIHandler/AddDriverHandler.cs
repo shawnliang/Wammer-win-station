@@ -37,7 +37,7 @@ namespace Wammer.Station
 				var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
 				var userId = Parameters[CloudServer.PARAM_USER_ID];
 
-				Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
+				var existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
 				if (existingDriver != null)
 				{
 					existingDriver.ref_count += 1;
@@ -99,7 +99,7 @@ namespace Wammer.Station
 
 				using (var agent = new DefaultWebClient())
 				{
-					Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
+					var existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
 
 					if (existingDriver != null)
 					{
@@ -133,7 +133,7 @@ namespace Wammer.Station
 							StationCollection.Instance.RemoveAll();
 					}
 
-					StationSignUpResponse res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceId, deviceName);
+					var res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceId, deviceName);
 					StationCollection.Instance.Update(
 						Query.EQ("_id", stationId),
 						Update.Set("SessionToken", res.session_token)
@@ -142,7 +142,7 @@ namespace Wammer.Station
 						UpdateFlags.Upsert
 					);
 
-					Driver driver = new Driver
+					var driver = new Driver
 					{
 						user_id = res.user.user_id,
 						email = email,
@@ -150,6 +150,7 @@ namespace Wammer.Station
 						groups = res.groups,
 						session_token = res.session_token,
 						isPrimaryStation = IsThisPrimaryStation(res.stations),
+						user = res.user,
 						ref_count = 1
 					};
 
