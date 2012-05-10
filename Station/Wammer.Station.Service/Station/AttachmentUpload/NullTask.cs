@@ -10,6 +10,7 @@ namespace Wammer.Station.AttachmentUpload
 	{
 		public void Execute()
 		{
+			PerfMonitor.PerfCounter.GetCounter(PerfMonitor.PerfCounter.UP_REMAINED_COUNT, false).Decrement();
 		}
 	}
 }
