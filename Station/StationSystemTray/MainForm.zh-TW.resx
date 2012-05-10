@@ -504,8 +504,8 @@
     <value>確定</value>
   </data>
   <data name="btnOK2.Text" xml:space="preserve">
-		<value>確定</value>
-	</data>
+    <value>確定</value>
+  </data>
   <data name="btnSignIn.Text" xml:space="preserve">
     <value>登入</value>
   </data>
@@ -519,13 +519,13 @@
     <value>由 Facebook 登入</value>
   </data>
   <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft MHei, 10pt</value>
+    <value>Microsoft Sans Serif, 10pt</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>222, 275</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 19</value>
+    <value>30, 17</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value> 或 </value>
@@ -540,10 +540,12 @@
     <value>電子郵件:</value>
   </data>
   <data name="lblMainStationSetup.Text" xml:space="preserve">
-		<value>您好！這是您第一次使用 Waveface Stream Windows 版，這台電腦將被設置為您的 Station，您在 Stream 中上傳的所有圖片均會透過 Waveface 雲端回流至這台電腦: {0}
+    <value>您好！這是您第一次使用 Waveface Stream Windows 版。
+
+這台電腦將被設置為您的 Station，您在 Stream 中上傳的所有圖片均會透過 Waveface 雲端回流至這台電腦: {0}
 
 現在請按下「確定」進入您的 Stream，稍後您可以隨時在主視窗的帳戶設定中調整相關的項目。</value>
-	</data>
+  </data>
   <data name="lblPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 20</value>
   </data>
@@ -551,10 +553,12 @@
     <value>密碼:</value>
   </data>
   <data name="lblSecondStationSetup.Text" xml:space="preserve">
-		<value>您好！感謝您使用 Waveface Stream Windows 版，這台電腦將會被設置為您 Waveface 個人雲端服務的一部份，為此電腦及附近的裝置帶來更好的效能。您在 Stream 中上傳的所有圖片會透過 Waveface 雲端技術回流至您的 Station: {0}
+    <value>您好！感謝您使用 Waveface Stream Windows 版。
+
+這台電腦將會被設置為您 Waveface 個人雲端服務的一部份，為此電腦及附近的裝置帶來更好的效能。您在 Stream 中上傳的所有圖片會透過 Waveface 雲端技術回流至您的 Station: {0}
 
 現在請按下「確定」進入您的 Stream，稍後您可以隨時在主視窗的帳戶設定中調整相關的項目。</value>
-	</data>
+  </data>
   <data name="lblSignIn.Location" type="System.Drawing.Point, System.Drawing">
     <value>172, 22</value>
   </data>
@@ -577,14 +581,17 @@
     <value>還沒有帳號？馬上註冊！</value>
   </data>
   <data name="lblWelcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 30</value>
+    <value>265, 30</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
     <value>歡迎使用 Waveface Stream</value>
   </data>
+  <data name="lblWelcome2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>265, 30</value>
+  </data>
   <data name="lblWelcome2.Text" xml:space="preserve">
-		<value>歡迎使用 Waveface Stream</value>
-	</data>
+    <value>歡迎使用 Waveface Stream</value>
+  </data>
   <data name="menuQuit.Text" xml:space="preserve">
     <value>離開</value>
   </data>
@@ -592,12 +599,9 @@
     <value>暫停服務</value>
   </data>
   <data name="menuSignIn.Text" xml:space="preserve">
-		<value>登入...</value>
-	</data>
-  <data name="TrayIcon.Text" xml:space="preserve">
-		<value>Waveface Stream</value>
-	</data>
+    <value>登入...</value>
+  </data>
   <data name="tsmiOpenStream.Text" xml:space="preserve">
-		<value>開啟 Stream...</value>
-	</data>
+    <value>開啟 Stream...</value>
+  </data>
 </root>

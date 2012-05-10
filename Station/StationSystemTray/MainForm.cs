@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Windows.Forms;
+using System.Linq;
 using MongoDB.Driver.Builders;
 using StationSystemTray.Properties;
 using Wammer.Cloud;
@@ -772,7 +773,7 @@ namespace StationSystemTray
 
 				if (userlogin == null)
 				{
-					AddUserResult res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, StationRegistry.StationId, Environment.MachineName);
+					var res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, StationRegistry.StationId, Environment.MachineName);
 
 					userlogin = new UserLoginSetting
 						{
@@ -787,6 +788,10 @@ namespace StationSystemTray
 					{
 						LoginAndLaunchClient(userlogin);
 					};
+
+					UserStation station = GetPrimaryStation(res.Stations);
+					lblMainStationSetup.Text = string.Format(lblMainStationSetup.Text, (station == null) ? "None" : station.computer_name);
+					lblSecondStationSetup.Text = string.Format(lblSecondStationSetup.Text, (station == null) ? "None" : station.computer_name);
 
 					if (res.IsPrimaryStation)
 					{
@@ -840,6 +845,13 @@ namespace StationSystemTray
 			{
 				Cursor = Cursors.Default;
 			}
+		}
+
+		private UserStation GetPrimaryStation(List<UserStation> stations)
+		{
+			return (from station in stations
+					where station.type == "primary"
+					select station).FirstOrDefault();
 		}
 
 		private bool LaunchWavefaceClient()
@@ -1077,6 +1089,10 @@ namespace StationSystemTray
 				if (driver == null)
 				{
 					var res = StationController.AddUser(userID, sessionToken);
+
+					UserStation station = GetPrimaryStation(res.Stations);
+					lblMainStationSetup.Text = string.Format(lblMainStationSetup.Text, (station == null) ? "None" : station.computer_name);
+					lblSecondStationSetup.Text = string.Format(lblSecondStationSetup.Text, (station == null) ? "None" : station.computer_name);
 
 					//Show welcome msg
 					if (res.IsPrimaryStation)
@@ -1344,6 +1360,10 @@ namespace StationSystemTray
 					if (driver == null)
 					{
 						var res = StationController.AddUser(userID, sessionToken);
+
+						UserStation station = GetPrimaryStation(res.Stations);
+						lblMainStationSetup.Text = string.Format(lblMainStationSetup.Text, (station == null) ? "None" : station.computer_name);
+						lblSecondStationSetup.Text = string.Format(lblSecondStationSetup.Text, (station == null) ? "None" : station.computer_name);
 
 						//Show welcome msg
 						if (res.IsPrimaryStation)

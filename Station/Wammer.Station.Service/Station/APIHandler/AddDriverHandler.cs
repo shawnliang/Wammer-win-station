@@ -67,7 +67,8 @@ namespace Wammer.Station
 						folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
 						session_token = res.session_token,
 						isPrimaryStation = IsThisPrimaryStation(res.stations),
-						ref_count = 1
+						ref_count = 1,
+						stations = res.stations
 					};
 
 					Directory.CreateDirectory(driver.folder);
@@ -81,7 +82,8 @@ namespace Wammer.Station
 					RespondSuccess(new AddUserResponse
 					{
 						UserId = driver.user_id,
-						IsPrimaryStation = driver.isPrimaryStation
+						IsPrimaryStation = driver.isPrimaryStation,
+						Stations = driver.stations
 					});
 				}
 			}
@@ -117,7 +119,8 @@ namespace Wammer.Station
 							RespondSuccess(new AddUserResponse
 							{
 								UserId = existingDriver.user_id,
-								IsPrimaryStation = existingDriver.isPrimaryStation
+								IsPrimaryStation = existingDriver.isPrimaryStation,
+								Stations = existingDriver.stations
 							});
 							return;
 						}
@@ -150,7 +153,8 @@ namespace Wammer.Station
 						groups = res.groups,
 						session_token = res.session_token,
 						isPrimaryStation = IsThisPrimaryStation(res.stations),
-						ref_count = 1
+						ref_count = 1,
+						stations = res.stations
 					};
 
 					Directory.CreateDirectory(driver.folder);
@@ -165,7 +169,8 @@ namespace Wammer.Station
 					RespondSuccess(new AddUserResponse
 					{
 						UserId = driver.user_id,
-						IsPrimaryStation = driver.isPrimaryStation
+						IsPrimaryStation = driver.isPrimaryStation,
+						Stations = driver.stations
 					});
 				}
 			}
@@ -215,6 +220,7 @@ namespace Wammer.Station
 	{
 		public string UserId { get; set; }
 		public bool IsPrimaryStation { get; set; }
+		public List<UserStation> Stations { get; set; }
 
 		public AddUserResponse()
 			: base(200, DateTime.UtcNow, 0, "success")
