@@ -35,6 +35,8 @@ namespace StationSystemTray
             //Create a new mutex using specific mutex name
 			m_Mutex = new Mutex(true, "StationSystemTray", out isFirstCreated);
 
+			ApplyInstalledCulture();
+
             if (!isFirstCreated)
             {
                 var currentProcess = Process.GetCurrentProcess();
@@ -49,15 +51,13 @@ namespace StationSystemTray
 
                     if (handle == IntPtr.Zero)
                         return;
-			
+
 					Win32Helper.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
                     return;
                 }
                 return;
             }
-
-
-            ApplyInstalledCulture();
+            
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

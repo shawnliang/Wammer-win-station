@@ -212,7 +212,7 @@ namespace StationSystemTray
 
 		protected override void OnLoad(EventArgs e)
 		{
-			ApplicationSettings settings = new ApplicationSettings();
+			var settings = new ApplicationSettings();
 			if (!settings.isUpgraded)
 			{
 				settings.Upgrade();
@@ -711,6 +711,9 @@ namespace StationSystemTray
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (e.CloseReason == CloseReason.WindowsShutDown)
+				return;
+
 			if (!formCloseEnabled)
 			{
 				Hide();
