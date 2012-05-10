@@ -683,7 +683,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Log In - Stream</value>
+    <value>Login - Stream</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>
@@ -1052,7 +1052,7 @@
     <value>5</value>
   </data>
   <data name="btnSignIn.Text" xml:space="preserve">
-    <value>Sign In</value>
+    <value>Login</value>
   </data>
   <data name="chkRememberPassword.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1166,7 +1166,9 @@
     <value>0</value>
   </data>
   <data name="lblMainStationSetup.Text" xml:space="preserve">
-    <value>It's your first time signing in to Waveface via Windows, so we will setup this PC as your main Waveface station. All of your photos uploaded from other Waveface apps will be synced to this PC.</value>
+    <value>Hi! It's your first time you use Waveface Stream Windows. This computer will be setup as your Station. All the photos you uploaded from Stream apps will be send to this computer: {0} automatically through the Waveface Cloud.
+
+Now please click on "OK" to enter your Stream. You can enter "Account Info" in the main program for further options.</value>
   </data>
   <data name="lblPassword.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1205,7 +1207,9 @@
     <value>3</value>
   </data>
   <data name="lblSecondStationSetup.Text" xml:space="preserve">
-    <value>This PC will be setup as your sencondary station, so that your Waveface apps running on other devices can be served by this PC under the same WiFi.</value>
+    <value>Hi! Thank you for using Waveface Stream Windows. This computer will be setup as a part of your Waveface personal cloud, and enhance the performance of this computer and nearby devices. All the photos you uploaded from Stream apps will still be sent to your Station: {0} through the Waveface Cloud.
+
+Now please click on "OK" to enter your Stream. You can enter "Account Info" in the main program for further options.</value>
   </data>
   <data name="lblSignIn.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1226,7 +1230,7 @@
     <value>1</value>
   </data>
   <data name="lblSignIn.Text" xml:space="preserve">
-    <value>Log in to Stream</value>
+    <value>Login to Stream</value>
   </data>
   <data name="lblSignUp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -1274,7 +1278,7 @@
     <value>1</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
-    <value>Welcome to Waveface</value>
+    <value>Welcome to Waveface Stream</value>
   </data>
   <data name="lblWelcome2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1295,7 +1299,7 @@
     <value>2</value>
   </data>
   <data name="lblWelcome2.Text" xml:space="preserve">
-    <value>Welcome to Waveface</value>
+    <value>Welcome to Waveface Stream</value>
   </data>
   <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
@@ -1364,7 +1368,7 @@
     <value>149, 6</value>
   </data>
   <data name="TrayIcon.Text" xml:space="preserve">
-    <value>Waveface Station</value>
+    <value>Waveface Stream</value>
   </data>
   <data name="TrayIcon.Visible" type="System.Boolean, mscorlib">
     <value>True</value>

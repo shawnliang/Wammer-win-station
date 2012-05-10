@@ -1447,7 +1447,7 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Remove all files?</value>
+    <value>Remove all data?</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>CleanResourceForm</value>
@@ -1546,7 +1546,7 @@
     <value>2</value>
   </data>
   <data name="lblConfirm.Text" xml:space="preserve">
-    <value>Do you want to remove all files of xxx@waveface.com on this computer?</value>
+    <value>Do you want to remove all saved data of xxx@waveface.com on this computer?</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
