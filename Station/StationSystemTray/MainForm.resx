@@ -715,18 +715,6 @@
   <data name="&gt;&gt;btnOK2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;btnSignIn.Name" xml:space="preserve">
-    <value>btnSignIn</value>
-  </data>
-  <data name="&gt;&gt;btnSignIn.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;btnSignIn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnSignIn.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="&gt;&gt;checkStationTimer.Name" xml:space="preserve">
     <value>checkStationTimer</value>
   </data>
@@ -764,10 +752,10 @@
     <value>tabSignIn</value>
   </data>
   <data name="&gt;&gt;fbLoginButton1.Type" xml:space="preserve">
-    <value>StationSystemTray.Control.FBLoginButton, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>StationSystemTray.FBLoginButton, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fbLoginButton1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -779,19 +767,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;lblEmail.Name" xml:space="preserve">
     <value>lblEmail</value>
@@ -803,7 +779,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblEmail.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
     <value>lblMainStationSetup</value>
@@ -841,18 +817,6 @@
   <data name="&gt;&gt;lblSecondStationSetup.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;lblSignIn.Name" xml:space="preserve">
-    <value>lblSignIn</value>
-  </data>
-  <data name="&gt;&gt;lblSignIn.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;lblSignIn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSignIn.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="&gt;&gt;lblSignUp.Name" xml:space="preserve">
     <value>lblSignUp</value>
   </data>
@@ -889,6 +853,18 @@
   <data name="&gt;&gt;lblWelcome2.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="&gt;&gt;loginButton1.Name" xml:space="preserve">
+    <value>loginButton1</value>
+  </data>
+  <data name="&gt;&gt;loginButton1.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
+  <data name="&gt;&gt;loginButton1.Type" xml:space="preserve">
+    <value>StationSystemTray.LoginButton, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;loginButton1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="&gt;&gt;menuQuit.Name" xml:space="preserve">
     <value>menuQuit</value>
   </data>
@@ -906,6 +882,30 @@
   </data>
   <data name="&gt;&gt;menuSignIn.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Name" xml:space="preserve">
+    <value>pictureBox1</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;pictureBox2.Name" xml:space="preserve">
+    <value>pictureBox2</value>
+  </data>
+  <data name="&gt;&gt;pictureBox2.Parent" xml:space="preserve">
+    <value>tabSignIn</value>
+  </data>
+  <data name="&gt;&gt;pictureBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;tabControl.Name" xml:space="preserve">
     <value>tabControl</value>
@@ -1033,27 +1033,6 @@
   <data name="btnOK2.Text" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="btnSignIn.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="btnSignIn.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft JhengHei, 10pt</value>
-  </data>
-  <data name="btnSignIn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>377, 209</value>
-  </data>
-  <data name="btnSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 32</value>
-  </data>
-  <data name="btnSignIn.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="btnSignIn.Text" xml:space="preserve">
-    <value>Sign In</value>
-  </data>
   <data name="chkRememberPassword.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1085,16 +1064,22 @@
     <value>True</value>
   </data>
   <data name="fbLoginButton1.DisplayText" xml:space="preserve">
-    <value>Login with Facebook</value>
+    <value>Log in with Facebook</value>
+  </data>
+  <data name="fbLoginButton1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 14.25pt, style=Bold</value>
   </data>
   <data name="fbLoginButton1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>141, 332</value>
+    <value>14, 320</value>
+  </data>
+  <data name="fbLoginButton1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>6, 5, 6, 5</value>
   </data>
   <data name="fbLoginButton1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 35</value>
+    <value>448, 48</value>
   </data>
   <data name="fbLoginButton1.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>12</value>
   </data>
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1103,31 +1088,10 @@
     <value>14, 285</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>448, 2</value>
+    <value>448, 1</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
-  </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>217, 278</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 15</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value> OR </value>
   </data>
   <data name="lblEmail.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1207,32 +1171,11 @@
   <data name="lblSecondStationSetup.Text" xml:space="preserve">
     <value>This PC will be setup as your sencondary station, so that your Waveface apps running on other devices can be served by this PC under the same WiFi.</value>
   </data>
-  <data name="lblSignIn.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblSignIn.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft JhengHei, 15.75pt, style=Bold</value>
-  </data>
-  <data name="lblSignIn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 22</value>
-  </data>
-  <data name="lblSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 26</value>
-  </data>
-  <data name="lblSignIn.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lblSignIn.Text" xml:space="preserve">
-    <value>Log in to Stream</value>
-  </data>
   <data name="lblSignUp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <data name="lblSignUp.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft JhengHei, 10pt, style=Bold</value>
+    <value>Arial, 9.75pt</value>
   </data>
   <data name="lblSignUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1297,6 +1240,27 @@
   <data name="lblWelcome2.Text" xml:space="preserve">
     <value>Welcome to Waveface</value>
   </data>
+  <data name="loginButton1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 12.75pt, style=Bold</value>
+  </data>
+  <data name="loginButton1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 219</value>
+  </data>
+  <data name="loginButton1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="loginButton1.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>110, 40</value>
+  </data>
+  <data name="loginButton1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 40</value>
+  </data>
+  <data name="loginButton1.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="loginButton1.Text" xml:space="preserve">
+    <value>Log in</value>
+  </data>
   <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
@@ -1314,6 +1278,36 @@
   </data>
   <data name="menuSignIn.Text" xml:space="preserve">
     <value>Login...</value>
+  </data>
+  <data name="pictureBox1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>180, 21</value>
+  </data>
+  <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 40</value>
+  </data>
+  <data name="pictureBox1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>AutoSize</value>
+  </data>
+  <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="pictureBox2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pictureBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>225, 273</value>
+  </data>
+  <data name="pictureBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 25</value>
+  </data>
+  <data name="pictureBox2.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>AutoSize</value>
+  </data>
+  <data name="pictureBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
   <data name="tabControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

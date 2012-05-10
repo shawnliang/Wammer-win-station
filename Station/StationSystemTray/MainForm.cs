@@ -712,10 +712,10 @@ namespace StationSystemTray
 				}
 				else
 				{
-					btnSignIn.Select();
+					//btnSignIn.Select();
 				}
 
-				this.AcceptButton = btnSignIn;
+				//this.AcceptButton = btnSignIn;
 			}
 			else if (tabpage == tabMainStationSetup)
 			{

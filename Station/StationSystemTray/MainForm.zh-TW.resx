@@ -503,9 +503,6 @@
   <data name="btnOK.Text" xml:space="preserve">
     <value>確定</value>
   </data>
-  <data name="btnSignIn.Text" xml:space="preserve">
-    <value>登入</value>
-  </data>
   <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 19</value>
   </data>
@@ -514,18 +511,6 @@
   </data>
   <data name="fbLoginButton1.DisplayText" xml:space="preserve">
     <value>登入 Facebook</value>
-  </data>
-  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft MHei, 10pt</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 275</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 19</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value> 或 </value>
   </data>
   <data name="lblEmail.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft JhengHei, 11pt, style=Bold</value>
@@ -541,15 +526,6 @@
   </data>
   <data name="lblPassword.Text" xml:space="preserve">
     <value>密碼:</value>
-  </data>
-  <data name="lblSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="lblSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 26</value>
-  </data>
-  <data name="lblSignIn.Text" xml:space="preserve">
-    <value>登入 Stream</value>
   </data>
   <data name="lblSignUp.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
     <value>7, 10</value>
@@ -568,6 +544,9 @@
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
     <value>歡迎使用Waveface</value>
+  </data>
+  <data name="loginButton1.Text" xml:space="preserve">
+    <value>登入</value>
   </data>
   <data name="menuQuit.Text" xml:space="preserve">
     <value>離開</value>
