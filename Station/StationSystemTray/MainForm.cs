@@ -1019,7 +1019,8 @@ namespace StationSystemTray
 				Width = 750,
 				Height = 700,
 				Text = this.Text,
-				StartPosition = FormStartPosition.CenterParent
+				StartPosition = FormStartPosition.CenterParent,
+				Icon = this.Icon
 			};
 			dialog.Controls.Add(browser);
 
@@ -1299,7 +1300,8 @@ namespace StationSystemTray
 					Width = 750,
 					Height = 700,
 					Text = this.Text,
-					StartPosition = FormStartPosition.CenterParent
+					StartPosition = FormStartPosition.CenterParent,
+					Icon = this.Icon
 				};
 				dialog.Controls.Add(browser);
 
