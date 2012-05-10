@@ -212,7 +212,7 @@ namespace StationSystemTray
 
 		protected override void OnLoad(EventArgs e)
 		{
-			ApplicationSettings settings = new ApplicationSettings();
+			var settings = new ApplicationSettings();
 			if (!settings.isUpgraded)
 			{
 				settings.Upgrade();
