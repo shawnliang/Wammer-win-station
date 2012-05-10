@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
+  <!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,222 +59,222 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="metadata">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" />
-							</xsd:sequence>
-							<xsd:attribute name="name" use="required" type="xsd:string" />
-							<xsd:attribute name="type" type="xsd:string" />
-							<xsd:attribute name="mimetype" type="xsd:string" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="assembly">
-						<xsd:complexType>
-							<xsd:attribute name="alias" type="xsd:string" />
-							<xsd:attribute name="name" type="xsd:string" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>2.0</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-	<data name="AuthError" xml:space="preserve">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AuthError" xml:space="preserve">
     <value>Invalid user name or password. Please try again.</value>
   </data>
-	<data name="ChangeOwnerError" xml:space="preserve">
+  <data name="ChangeOwnerError" xml:space="preserve">
     <value>Unable to deassociate user with Stream Station. Please try again.</value>
   </data>
-	<data name="ChangeOwnerSuccess" xml:space="preserve">
+  <data name="ChangeOwnerSuccess" xml:space="preserve">
     <value>User '{0}' is unassociated with Stream Station successfully.
       Please restart Stream to continue assign a new Stream Station user</value>
   </data>
-	<data name="ChangeOwnerWarning" xml:space="preserve">
+  <data name="ChangeOwnerWarning" xml:space="preserve">
     <value>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Stream Station.</value>
   </data>
-	<data name="CleanResourceMsg" xml:space="preserve">
+  <data name="CleanResourceMsg" xml:space="preserve">
     <value>Do you want to remove all files of {0} on this computer?</value>
   </data>
-	<data name="ConnectCloudError" xml:space="preserve">
+  <data name="ConnectCloudError" xml:space="preserve">
     <value>Unable to connect to Stream Cloud</value>
   </data>
-	<data name="ConnectCloudStorageFail" xml:space="preserve">
+  <data name="ConnectCloudStorageFail" xml:space="preserve">
     <value>Unable to connect to Dropbox</value>
   </data>
-	<data name="Connected" xml:space="preserve">
+  <data name="Connected" xml:space="preserve">
     <value>Accessible from internet</value>
   </data>
-	<data name="DropboxUI_ConnectNow" xml:space="preserve">
+  <data name="DropboxUI_ConnectNow" xml:space="preserve">
     <value>Connect Now</value>
   </data>
-	<data name="DropboxUI_Disconnect" xml:space="preserve">
+  <data name="DropboxUI_Disconnect" xml:space="preserve">
     <value>Disconnect</value>
   </data>
-	<data name="FB_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-		<value>..\Resources\FB_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-	</data>
-	<data name="FillAllFields" xml:space="preserve">
+  <data name="FB_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FB_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FillAllFields" xml:space="preserve">
     <value>Please fill all the fields!</value>
   </data>
-	<data name="InvalidDriverError" xml:space="preserve">
+  <data name="InvalidDriverError" xml:space="preserve">
     <value>The user name is different to the driver account of this Stream Station. Please try again.</value>
   </data>
-	<data name="InvalidEmail" xml:space="preserve">
+  <data name="InvalidEmail" xml:space="preserve">
     <value>invalid email</value>
   </data>
-	<data name="LogInError" xml:space="preserve">
+  <data name="LogInError" xml:space="preserve">
     <value>Login error. Please try again.</value>
   </data>
-	<data name="LoginMenuItem" xml:space="preserve">
+  <data name="LoginMenuItem" xml:space="preserve">
     <value>Login...</value>
   </data>
-	<data name="LogoutMenuItem" xml:space="preserve">
+  <data name="LogoutMenuItem" xml:space="preserve">
     <value>Logout...</value>
   </data>
-	<data name="MonthlyUsage_NotConnectedYet" xml:space="preserve">
+  <data name="MonthlyUsage_NotConnectedYet" xml:space="preserve">
     <value>Not connected yet</value>
   </data>
-	<data name="MonthlyUsage_Unlimited" xml:space="preserve">
+  <data name="MonthlyUsage_Unlimited" xml:space="preserve">
     <value>Unlimited</value>
   </data>
-	<data name="NetworkConnected" xml:space="preserve">
+  <data name="NetworkConnected" xml:space="preserve">
     <value>Network connected</value>
   </data>
-	<data name="NetworkDisconnected" xml:space="preserve">
+  <data name="NetworkDisconnected" xml:space="preserve">
     <value>Network disconnected</value>
   </data>
-	<data name="NoData" xml:space="preserve">
+  <data name="NoData" xml:space="preserve">
     <value>---</value>
   </data>
-	<data name="NotConnected" xml:space="preserve">
+  <data name="NotConnected" xml:space="preserve">
     <value>Inaccessible from internet</value>
   </data>
-	<data name="OpenStream" xml:space="preserve">
+  <data name="OpenStream" xml:space="preserve">
     <value>Open Stream</value>
   </data>
-	<data name="PauseWFService" xml:space="preserve">
+  <data name="PauseWFService" xml:space="preserve">
     <value>Pause sync</value>
   </data>
-	<data name="PausingWFService" xml:space="preserve">
+  <data name="PausingWFService" xml:space="preserve">
     <value>Pausing sync...</value>
   </data>
-	<data name="QuitWFService" xml:space="preserve">
+  <data name="QuitWFService" xml:space="preserve">
     <value>Quit</value>
   </data>
-	<data name="RegisteredRequired" xml:space="preserve">
+  <data name="RegisteredRequired" xml:space="preserve">
     <value>Stream Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
       Please restart the program to initialize Stream Station.</value>
   </data>
-	<data name="ResumeWFService" xml:space="preserve">
+  <data name="ResumeWFService" xml:space="preserve">
     <value>Resume sync</value>
   </data>
-	<data name="ResumingWFService" xml:space="preserve">
+  <data name="ResumingWFService" xml:space="preserve">
     <value>Resuming sync...</value>
   </data>
-	<data name="StartingWFService" xml:space="preserve">
+  <data name="StartingWFService" xml:space="preserve">
     <value>Starting Stream...</value>
   </data>
-	<data name="Station401Exception" xml:space="preserve">
+  <data name="Station401Exception" xml:space="preserve">
     <value>Your authentication is expired. Please log in again.</value>
   </data>
-	<data name="StationDown" xml:space="preserve">
+  <data name="StationDown" xml:space="preserve">
     <value>Stream service down</value>
   </data>
-	<data name="StationExpired" xml:space="preserve">
+  <data name="StationExpired" xml:space="preserve">
     <value>The registration information of this computer is expired. Please restart the program to re-register.</value>
   </data>
-	<data name="StationServiceDown" xml:space="preserve">
+  <data name="StationServiceDown" xml:space="preserve">
     <value>Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service.</value>
   </data>
-	<data name="stream_tray_init" type="System.Resources.ResXFileRef, System.Windows.Forms">
-		<value>..\Resources\stream_tray_init.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-	</data>
-	<data name="stream_tray_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
-		<value>..\Resources\stream_tray_pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-	</data>
-	<data name="stream_tray_syncing1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-		<value>..\Resources\stream_tray_syncing1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-	</data>
-	<data name="stream_tray_syncing2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-		<value>..\Resources\stream_tray_syncing2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-	</data>
-	<data name="stream_tray_warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-		<value>..\Resources\stream_tray_warn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-	</data>
-	<data name="stream_tray_working" type="System.Resources.ResXFileRef, System.Windows.Forms">
-		<value>..\Resources\stream_tray_working.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-	</data>
-	<data name="SystemError" xml:space="preserve">
+  <data name="stream_tray_init" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_init.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stream_tray_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stream_tray_syncing1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_syncing1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stream_tray_syncing2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_syncing2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stream_tray_warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_warn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stream_tray_working" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_working.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SystemError" xml:space="preserve">
     <value>There appears to be an error with the system. Please try again later.</value>
   </data>
-	<data name="Testing" xml:space="preserve">
+  <data name="Testing" xml:space="preserve">
     <value>Testing...</value>
   </data>
-	<data name="UnknownSigninError" xml:space="preserve">
+  <data name="UnknownSigninError" xml:space="preserve">
     <value>UnknownSigninError</value>
   </data>
-	<data name="UnlinkCloudStorageFail" xml:space="preserve">
+  <data name="UnlinkCloudStorageFail" xml:space="preserve">
     <value>Unable to disconnect from Dropbox</value>
   </data>
-	<data name="UserExisted" xml:space="preserve">
+  <data name="UserExisted" xml:space="preserve">
     <value>There is already an account with that name. Please try a different name.</value>
   </data>
-	<data name="UserNotExisted" xml:space="preserve">
+  <data name="UserNotExisted" xml:space="preserve">
     <value>Your account is deleted. Please restart the program and login with a valid Stream account.</value>
   </data>
-	<data name="WFPreference" xml:space="preserve">
+  <data name="WFPreference" xml:space="preserve">
     <value>Preference...</value>
   </data>
-	<data name="WFServiceRunning" xml:space="preserve">
+  <data name="WFServiceRunning" xml:space="preserve">
     <value>Stream up to date</value>
   </data>
-	<data name="WFServiceStartFail" xml:space="preserve">
+  <data name="WFServiceStartFail" xml:space="preserve">
     <value>Unable to connect to Stream server</value>
   </data>
-	<data name="WFServiceStopped" xml:space="preserve">
+  <data name="WFServiceStopped" xml:space="preserve">
     <value>Sync paused</value>
   </data>
-	<data name="WFServiceSyncing" xml:space="preserve">
+  <data name="WFServiceSyncing" xml:space="preserve">
     <value>Sync in progress</value>
   </data>
 </root>
