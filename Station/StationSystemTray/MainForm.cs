@@ -711,6 +711,9 @@ namespace StationSystemTray
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (e.CloseReason == CloseReason.WindowsShutDown)
+				return;
+
 			if (!formCloseEnabled)
 			{
 				Hide();
