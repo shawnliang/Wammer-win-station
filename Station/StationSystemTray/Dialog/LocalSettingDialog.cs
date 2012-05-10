@@ -15,5 +15,10 @@ namespace StationSystemTray
 		{
 			InitializeComponent();
 		}
+
+		private void LocalSettingDialog_Load(object sender, EventArgs e)
+		{
+			
+		}
 	}
 }

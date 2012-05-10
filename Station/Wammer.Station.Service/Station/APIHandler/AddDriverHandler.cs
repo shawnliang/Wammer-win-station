@@ -34,8 +34,8 @@ namespace Wammer.Station
 		{
 			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
 			{
-				string sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
-				string userId = Parameters[CloudServer.PARAM_USER_ID];
+				var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
+				var userId = Parameters[CloudServer.PARAM_USER_ID];
 
 				Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
 				if (existingDriver != null)
@@ -50,7 +50,7 @@ namespace Wammer.Station
 				}
 				else
 				{
-					StationSignUpResponse res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId);
+					var res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId);
 					StationCollection.Instance.Update(
 						Query.EQ("_id", stationId),
 						Update.Set("SessionToken", res.session_token)
@@ -59,7 +59,7 @@ namespace Wammer.Station
 						UpdateFlags.Upsert
 					);
 
-					Driver driver = new Driver
+					var driver = new Driver
 					{
 						user_id = res.user.user_id,
 						email = res.user.email,
@@ -92,12 +92,12 @@ namespace Wammer.Station
 							   CloudServer.PARAM_DEVICE_ID,
 							   CloudServer.PARAM_DEVICE_NAME);
 
-				string email = Parameters[CloudServer.PARAM_EMAIL];
-				string password = Parameters[CloudServer.PARAM_PASSWORD];
-				string deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
-				string deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
+				var email = Parameters[CloudServer.PARAM_EMAIL];
+				var password = Parameters[CloudServer.PARAM_PASSWORD];
+				var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
+				var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
 
-				using (WebClient agent = new DefaultWebClient())
+				using (var agent = new DefaultWebClient())
 				{
 					Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
 
