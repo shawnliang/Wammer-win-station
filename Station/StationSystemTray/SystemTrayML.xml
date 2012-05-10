@@ -22,59 +22,59 @@
   </WItem>
   <WItem>
     <ID>InvalidDriverError</ID>
-    <en-US>The user name is different to the driver account of this Waveface Station. Please try again.</en-US>
-    <zh-TW>帳號與這台 Waveface Station 的管理者帳號不符, 請再試一次.</zh-TW>
+    <en-US>The user name is different to the driver account of this Stream Station. Please try again.</en-US>
+    <zh-TW>帳號與這台 Stream Station 的管理者帳號不符, 請再試一次.</zh-TW>
   </WItem>
   <WItem>
     <ID>StationExpired</ID>
-    <en-US>The registration information of this Waveface Station is expired. Please restart the program to re-register the station.</en-US>
-    <zh-TW>這台 Waveface Station 的註冊資訊已失效, 請重新啟動程式以註冊新的 Waveface Station.</zh-TW>
+    <en-US>The registration information of this Stream Station is expired. Please restart the program to re-register the station.</en-US>
+    <zh-TW>這台 Stream Station 的註冊資訊已失效, 請重新啟動程式以註冊新的 Stream Station.</zh-TW>
   </WItem>
   <WItem>
     <ID>UserNotExisted</ID>
     <en-US>Driver account is deleted. Please restart the program to re-register the station with a valid driver account.</en-US>
-    <zh-TW>管理者帳號已被刪除. 請重新啟動程式並用有效的管理者帳號註冊新的 Waveface Station.</zh-TW>
+    <zh-TW>管理者帳號已被刪除. 請重新啟動程式並用有效的管理者帳號註冊新的 Stream Station.</zh-TW>
   </WItem>
   <WItem>
     <ID>ChangeOwnerWarning</ID>
-    <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Waveface Station.</en-US>
+    <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Stream Station.</en-US>
     <zh-TW>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</zh-TW>
   </WItem>
   <WItem>
     <ID>ChangeOwnerSuccess</ID>
     <en-US>
-      User '{0}' is unassociated with Waveface Station successfully.
-      Please restart Waveface to continue assign a new Waveface Station user
+      User '{0}' is unassociated with Stream Station successfully.
+      Please restart Stream to continue assign a new Stream Station user
     </en-US>
     <zh-TW>
-      Waveface Station已經成功的和 {0} 分離
-      請重新啟動程式後繼續指定Waveface Station使用者
+      Stream Station已經成功的和 {0} 分離
+      請重新啟動程式後繼續指定Stream Station使用者
     </zh-TW>
   </WItem>
   <WItem>
     <ID>StationServiceDown</ID>
     <en-US>
-      Waveface Station service is not completely started. Please wait for a while and try again, or ensure the running status of Waveface Station windows service.
+      Stream Station service is not completely started. Please wait for a while and try again, or ensure the running status of Stream Station windows service.
     </en-US>
     <zh-TW>
-      Waveface Station服務未完全啟動, 請稍候一會再登入, 或確認Waveface Station服務啟動狀態.
+      Stream Station服務未完全啟動, 請稍候一會再登入, 或確認Stream Station服務啟動狀態.
     </zh-TW>
   </WItem>
   <WItem>
     <ID>RegisteredRequired</ID>
     <en-US>
-      Waveface Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
-      Please restart the program to initialize Waveface Station.
+      Stream Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
+      Please restart the program to initialize Stream Station.
     </en-US>
     <zh-TW>
-      無法使用Waveface Station, 因為{0}設定了另一個Waveface Station或是該帳號不存在
-      請重新啟動程式再次初始化Waveface Station
+      無法使用Stream Station, 因為{0}設定了另一個Stream Station或是該帳號不存在
+      請重新啟動程式再次初始化Stream Station
     </zh-TW>
   </WItem>
   <WItem>
     <ID>ChangeOwnerError</ID>
-    <en-US>Unable to deassociate user with Waveface Station. Please try again.</en-US>
-    <zh-TW>無法分離使用者與Waveface station  請再試一次</zh-TW>
+    <en-US>Unable to deassociate user with Stream Station. Please try again.</en-US>
+    <zh-TW>無法分離使用者與Stream station  請再試一次</zh-TW>
   </WItem>
   <WItem>
     <ID>Connected</ID>
@@ -168,13 +168,13 @@
   </WItem>
   <WItem>
     <ID>WFServiceRunning</ID>
-    <en-US>Waveface Station is syncing</en-US>
-    <zh-TW>Waveface Station 同步中</zh-TW>
+    <en-US>Stream Station is syncing</en-US>
+    <zh-TW>Stream Station 同步中</zh-TW>
   </WItem>
   <WItem>
     <ID>WFServiceStopped</ID>
-    <en-US>Waveface Station is stop syncing</en-US>
-    <zh-TW>Waveface Station 中斷同步</zh-TW>
+    <en-US>Stream Station is stop syncing</en-US>
+    <zh-TW>Stream Station 中斷同步</zh-TW>
   </WItem>
   <WItem>
     <ID>WFServiceStartFail</ID>
@@ -198,8 +198,8 @@
   </WItem>
   <WItem>
     <ID>ConnectCloudError</ID>
-    <en-US>Unable to connect to Waveface Cloud</en-US>
-    <zh-TW>無法連接 Waveface 伺服器</zh-TW>
+    <en-US>Unable to connect to Stream Cloud</en-US>
+    <zh-TW>無法連接 Stream 伺服器</zh-TW>
   </WItem>
   <WItem>
     <ID>LoginMenuItem</ID>

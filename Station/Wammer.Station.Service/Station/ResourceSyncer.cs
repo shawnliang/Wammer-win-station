@@ -24,12 +24,33 @@ namespace Wammer.Station
 		private Timeline.TimelineSyncer syncer;
 		private ResourceDownloader downloader;
 
-		public ResourceSyncer(long timerPeriod, ITaskEnqueuable bodySyncQueue, string stationId)
+		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
 			: base(timerPeriod)
 		{
 			this.downloader = new ResourceDownloader(bodySyncQueue, stationId);
 			this.syncer = new Timeline.TimelineSyncer(new Timeline.PostProvider(), new Timeline.TimelineSyncerDB(), new UserTracksApi());
 			syncer.PostsRetrieved += new EventHandler<Timeline.TimelineSyncEventArgs>(downloader.PostRetrieved);
+			syncer.BodyAvailable += new EventHandler<Timeline.BodyAvailableEventArgs>(syncer_BodyAvailable);
+		}
+
+		void syncer_BodyAvailable(object sender, Timeline.BodyAvailableEventArgs e)
+		{
+			try
+			{
+				Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", e.user_id));
+				if (user != null && user.isPrimaryStation)
+				{
+					using (WebClient agent = new DefaultWebClient())
+					{
+						AttachmentInfo info = Cloud.AttachmentApi.GetInfo(agent, e.object_id, user.session_token);
+						downloader.EnqueueDownstreamTask(info, user, ImageMeta.Origin);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				this.LogWarnMsg("Unable to enqueue body download task", ex);
+			}
 		}
 
 		protected override void ExecuteOnTimedUp(object state)
@@ -43,6 +64,17 @@ namespace Wammer.Station
 			PullTimeline();
 		}
 
+		public void OnIsPrimaryChanged(object sender, IsPrimaryChangedEvtArgs args)
+		{
+			if (args.driver.isPrimaryStation)
+			{
+				// just upgraded to primary station
+				foreach (var attachment in AttachmentCollection.Instance.FindAll())
+				{
+					downloader.EnqueueDownstreamTask(new AttachmentInfo(attachment), args.driver, ImageMeta.Origin);
+				}
+			}
+		}
 
 		private void PullTimeline()
 		{

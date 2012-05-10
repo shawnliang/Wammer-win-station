@@ -10,8 +10,10 @@ namespace StationSystemTray
 		Initial,
 		Starting,
 		Running,
+		Syncing,
 		Stopping,
 		Stopped,
+		ErrorStopped
 	}
 
 	public interface StationState
@@ -28,6 +30,8 @@ namespace StationSystemTray
 
 		void Onlining();
 		void Onlined();
+		void StartSyncing();
+		void StopSyncing();
 		void Offlining();
 		void Offlined();
 		void Error();
@@ -75,6 +79,14 @@ namespace StationSystemTray
 		}
 
 		public virtual void Onlining()
+		{
+		}
+
+		public virtual void StartSyncing()
+		{
+		}
+
+		public virtual void StopSyncing()
 		{
 		}
 
@@ -129,7 +141,7 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
-			context.GoToState(StationStateEnum.Stopped);
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
@@ -138,6 +150,11 @@ namespace StationSystemTray
 		public StationStateRunning(StationStateContext context)
 			:base(context, StationStateEnum.Running)
 		{
+		}
+
+		public override void StartSyncing()
+		{
+			context.GoToState(StationStateEnum.Syncing);
 		}
 
 		public override void Offlining()
@@ -152,7 +169,35 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
+			context.GoToState(StationStateEnum.ErrorStopped);
+		}
+	}
+
+	class StationStateSyncing : StationStateBase
+	{
+		public StationStateSyncing(StationStateContext context)
+			:base(context, StationStateEnum.Syncing)
+		{
+		}
+
+		public override void StopSyncing()
+		{
 			context.GoToState(StationStateEnum.Running);
+		}
+
+		public override void Offlining()
+		{
+			context.GoToState(StationStateEnum.Stopping);
+		}
+
+		public override void Offlined()
+		{
+			context.GoToState(StationStateEnum.Stopped);
+		}
+
+		public override void Error()
+		{
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
@@ -170,7 +215,7 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
-			context.GoToState(StationStateEnum.Running);
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
@@ -178,6 +223,19 @@ namespace StationSystemTray
 	{
 		public StationStateStopped(StationStateContext context)
 			:base(context, StationStateEnum.Stopped)
+		{
+		}
+
+		public override void Onlining()
+		{
+			context.GoToState(StationStateEnum.Starting);
+		}
+	}
+
+	class StationStateErrorStopped : StationStateBase
+	{
+		public StationStateErrorStopped(StationStateContext context)
+			:base(context, StationStateEnum.ErrorStopped)
 		{
 		}
 

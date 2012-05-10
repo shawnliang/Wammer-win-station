@@ -36,10 +36,6 @@ namespace Gui
 			((System.ComponentModel.ISupportInitialize)(this.pbLeft)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// pbLeft
-			// 
-			resources.ApplyResources(this.pbLeft, "pbLeft");
-			// 
 			// lblWelcome
 			// 
 			resources.ApplyResources(this.lblWelcome, "lblWelcome");
@@ -82,8 +78,8 @@ namespace Gui
 		#endregion
 
 		private System.Windows.Forms.Label lblWelcome;
-		private System.Windows.Forms.Label lblMode;
 		private System.Windows.Forms.Label lblCopyright;
 		private System.Windows.Forms.Label lblInstruction;
+		private System.Windows.Forms.Label lblMode;
 	}
 }

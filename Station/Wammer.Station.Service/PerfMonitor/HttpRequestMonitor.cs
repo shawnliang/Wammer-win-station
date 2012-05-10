@@ -52,6 +52,11 @@ namespace Wammer.PerfMonitor
 			}
 		}
 
+		public void OnTaskEnqueue(object sender,  TaskQueueEventArgs e)
+		{
+			this.Enqueue();
+		}
+
 		public void Enqueue()
 		{
 			try

@@ -28,57 +28,57 @@ namespace Gui
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FinishStep));
-            this.lblInstruction = new System.Windows.Forms.Label();
-            this.lblDetails = new System.Windows.Forms.Label();
-            this.lblFinished = new System.Windows.Forms.Label();
-            this.label_Hint = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLeft)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // pbLeft
-            // 
-            resources.ApplyResources(this.pbLeft, "pbLeft");
-            // 
-            // lblInstruction
-            // 
-            resources.ApplyResources(this.lblInstruction, "lblInstruction");
-            this.lblInstruction.Name = "lblInstruction";
-            // 
-            // lblDetails
-            // 
-            resources.ApplyResources(this.lblDetails, "lblDetails");
-            this.lblDetails.Name = "lblDetails";
-            // 
-            // lblFinished
-            // 
-            resources.ApplyResources(this.lblFinished, "lblFinished");
-            this.lblFinished.Name = "lblFinished";
-            // 
-            // label_Hint
-            // 
-            resources.ApplyResources(this.label_Hint, "label_Hint");
-            this.label_Hint.Name = "label_Hint";
-            // 
-            // FinishStep
-            // 
-            resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.label_Hint);
-            this.Controls.Add(this.lblInstruction);
-            this.Controls.Add(this.lblDetails);
-            this.Controls.Add(this.lblFinished);
-            this.Name = "FinishStep";
-            this.StepType = SharpSetup.UI.Forms.Modern.ModernStepType.Last;
-            this.Finish += new System.EventHandler<SharpSetup.Base.ChangeStepEventArgs>(this.FinishStep_Finish);
-            this.Entering += new System.EventHandler<SharpSetup.Base.ChangeStepEventArgs>(this.FinishStep_Entering);
-            this.Entered += new System.EventHandler<System.EventArgs>(this.FinishStep_Entered);
-            this.Controls.SetChildIndex(this.lblFinished, 0);
-            this.Controls.SetChildIndex(this.lblDetails, 0);
-            this.Controls.SetChildIndex(this.lblInstruction, 0);
-            this.Controls.SetChildIndex(this.label_Hint, 0);
-            this.Controls.SetChildIndex(this.pbLeft, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.pbLeft)).EndInit();
-            this.ResumeLayout(false);
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FinishStep));
+			this.lblInstruction = new System.Windows.Forms.Label();
+			this.lblDetails = new System.Windows.Forms.Label();
+			this.lblFinished = new System.Windows.Forms.Label();
+			this.label_Hint = new System.Windows.Forms.Label();
+			((System.ComponentModel.ISupportInitialize)(this.pbLeft)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// pbLeft
+			// 
+			resources.ApplyResources(this.pbLeft, "pbLeft");
+			// 
+			// lblInstruction
+			// 
+			resources.ApplyResources(this.lblInstruction, "lblInstruction");
+			this.lblInstruction.Name = "lblInstruction";
+			// 
+			// lblDetails
+			// 
+			resources.ApplyResources(this.lblDetails, "lblDetails");
+			this.lblDetails.Name = "lblDetails";
+			// 
+			// lblFinished
+			// 
+			resources.ApplyResources(this.lblFinished, "lblFinished");
+			this.lblFinished.Name = "lblFinished";
+			// 
+			// label_Hint
+			// 
+			resources.ApplyResources(this.label_Hint, "label_Hint");
+			this.label_Hint.Name = "label_Hint";
+			// 
+			// FinishStep
+			// 
+			resources.ApplyResources(this, "$this");
+			this.Controls.Add(this.label_Hint);
+			this.Controls.Add(this.lblInstruction);
+			this.Controls.Add(this.lblDetails);
+			this.Controls.Add(this.lblFinished);
+			this.Name = "FinishStep";
+			this.StepType = SharpSetup.UI.Forms.Modern.ModernStepType.Last;
+			this.Finish += new System.EventHandler<SharpSetup.Base.ChangeStepEventArgs>(this.FinishStep_Finish);
+			this.Entering += new System.EventHandler<SharpSetup.Base.ChangeStepEventArgs>(this.FinishStep_Entering);
+			this.Entered += new System.EventHandler<System.EventArgs>(this.FinishStep_Entered);
+			this.Controls.SetChildIndex(this.lblFinished, 0);
+			this.Controls.SetChildIndex(this.lblDetails, 0);
+			this.Controls.SetChildIndex(this.lblInstruction, 0);
+			this.Controls.SetChildIndex(this.label_Hint, 0);
+			this.Controls.SetChildIndex(this.pbLeft, 0);
+			((System.ComponentModel.ISupportInitialize)(this.pbLeft)).EndInit();
+			this.ResumeLayout(false);
 
 		}
 

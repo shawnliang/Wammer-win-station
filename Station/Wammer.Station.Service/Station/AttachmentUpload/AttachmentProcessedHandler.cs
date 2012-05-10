@@ -18,6 +18,7 @@ namespace Wammer.Station.AttachmentUpload
 		Driver FindUserByGroupIdInDB(string group_id);
 		ThumbnailInfo GenerateThumbnail(string imageFilename, ImageMeta thumbnailType, string object_id, Driver user, string origin_filename);
 		void GenerateThumbnailAsync(string object_id, ImageMeta thumbnailType, TaskPriority priority);
+		void GenerateThumbnailAsyncAndUpstream(string object_id, ImageMeta thumbnailType, TaskPriority priority);
 
 		void UpdateThumbnailInfoToDB(string object_id, ImageMeta thumbnailType, ThumbnailInfo Info);
 
@@ -68,9 +69,11 @@ namespace Wammer.Station.AttachmentUpload
 				}
 
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Small, TaskPriority.Medium);
-				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Large, TaskPriority.Low);
+				util.GenerateThumbnailAsyncAndUpstream(attachment.object_id, ImageMeta.Large, TaskPriority.Low);
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Square, TaskPriority.Low);
-				util.UpstreamAttachmentAsync(attachment.object_id, ImageMeta.Origin, TaskPriority.VeryLow);
+				
+				if (!user.isPrimaryStation)
+					util.UpstreamAttachmentAsync(attachment.object_id, ImageMeta.Origin, TaskPriority.VeryLow);
 			}
 			else if (args.ImgMeta == ImageMeta.None)
 			{

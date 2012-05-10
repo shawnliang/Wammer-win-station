@@ -32,10 +32,10 @@ namespace Wammer.Station
 	class ResourceDownloader
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceDownloader));
-		private ITaskEnqueuable bodySyncQueue;
+		private ITaskEnqueuable<INamedTask> bodySyncQueue;
 		private string stationId;
 
-		public ResourceDownloader(ITaskEnqueuable bodySyncQueue, string stationId)
+		public ResourceDownloader(ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
 		{
 			this.bodySyncQueue = bodySyncQueue;
 			this.stationId = stationId;
@@ -46,7 +46,7 @@ namespace Wammer.Station
 			DownloadMissedResource(e.Driver, e.Posts);
 		}
 
-		private void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
+		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
 			ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
 			{
@@ -143,10 +143,10 @@ namespace Wammer.Station
 
 					// origin
 					if (driver.isPrimaryStation &&
-						attachment.url != null &&
 						(savedDoc == null || savedDoc.saved_file_name == null))
 					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
+						if (CloudHasOriginAttachment(attachment.object_id, driver))
+							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
 					}
 
 					if (attachment.image_meta == null)
@@ -181,6 +181,23 @@ namespace Wammer.Station
 					}
 
 				}
+			}
+		}
+
+		private bool CloudHasOriginAttachment(string object_id, Driver user)
+		{
+			try
+			{
+				using (WebClient agent = new DefaultWebClient())
+				{
+					AttachmentInfo info = Cloud.AttachmentApi.GetInfo(agent, object_id, user.session_token);
+					return !string.IsNullOrEmpty(info.url);
+				}
+			}
+			catch
+			{
+				// Not able to get attachment info - just assume "YES"
+				return true;
 			}
 		}
 
@@ -422,6 +439,7 @@ namespace Wammer.Station
 						break;
 				}
 
+				TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(attachment.object_id, driver.session_token), TaskPriority.Low, true);
 			}
 			catch (Exception ex)
 			{

@@ -34,6 +34,8 @@ namespace Wammer.Cloud
 		public const string PARAM_API_KEY = "apikey";
 		public const string PARAM_EMAIL = "email";
 		public const string PARAM_PASSWORD = "password";
+		public const string PARAM_DEVICE_ID = "device_id";
+		public const string PARAM_DEVICE_NAME = "device_name";
 		public const string PARAM_SESSION_TOKEN = "session_token";
 		public const string PARAM_STATION_ID = "station_id";
 		public const string PARAM_LOCATION = "location";
@@ -44,6 +46,7 @@ namespace Wammer.Cloud
 		public const string PARAM_GROUP_ID = "group_id";
 		public const string PARAM_CONTENT = "content";
 		public const string PARAM_OBJECT_ID = "object_id";
+		public const string PARAM_OBJECT_IDS = "object_ids";
 		public const string PARAM_TYPE = "type";
 		public const string PARAM_ATTACHMENT_ID_ARRAY = "attachment_id_array";
 		public const string PARAM_PREVIEW = "preview";

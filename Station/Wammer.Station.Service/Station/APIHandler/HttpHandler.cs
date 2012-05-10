@@ -10,6 +10,8 @@ using Wammer.Model;
 using Wammer.PerfMonitor;
 using System.Linq;
 using Wammer.Cloud;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Wammer.Station
 {
@@ -30,6 +32,14 @@ namespace Wammer.Station
 
 	public abstract class HttpHandler : IHttpHandler
 	{
+		#region Const
+		private const string BOUNDARY = "boundary=";
+		private const string URL_ENCODED_FORM = "application/x-www-form-urlencoded";
+		private const string MULTIPART_FORM = "multipart/form-data";
+		private const string API_PATH_GROUP_NAME = @"APIPath";
+		private const string API_PATH_MATCH_PATTERN = @"/V\d+/(?<" + API_PATH_GROUP_NAME + ">.+)";
+		#endregion
+
 		public HttpListenerRequest Request { get; internal set; }
 		public HttpListenerResponse Response { get; internal set; }
 		public NameValueCollection Parameters { get; internal set; }
@@ -38,14 +48,10 @@ namespace Wammer.Station
 		public byte[] RawPostData { get; internal set; }
 		private long beginTime;
 
-		private const string BOUNDARY = "boundary=";
-		private const string URL_ENCODED_FORM = "application/x-www-form-urlencoded";
-		private const string MULTIPART_FORM = "multipart/form-data";
-
 		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
 		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
-		
+
 		protected HttpHandler()
 		{
 			this.ProcessSucceeded += HttpRequestMonitor.Instance.OnProcessSucceeded;
@@ -72,8 +78,24 @@ namespace Wammer.Station
 			}
 		}
 
-		protected void TunnelToCloud<T>(string apiPath)
+		protected void TunnelToCloud()
 		{
+			Debug.Assert(this.Request != null);
+
+			var apiPath = Regex.Match(this.Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].Value;
+			var forwardParams = new Dictionary<object, object>();
+			foreach (string key in Parameters.AllKeys)
+			{
+				forwardParams.Add(key, Parameters[key]);
+			}
+			RespondSuccess(CloudServer.requestPath(new WebClient(), apiPath, forwardParams, false));
+		}
+
+		protected void TunnelToCloud<T>()
+		{
+			Debug.Assert(this.Request != null);
+
+			var apiPath = Regex.Match(this.Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].Value;
 			var forwardParams = new Dictionary<object, object>();
 			foreach (string key in Parameters.AllKeys)
 			{
@@ -143,7 +165,7 @@ namespace Wammer.Station
 		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)
 		{
 			EventHandler<HttpHandlerEventArgs> handler = this.ProcessSucceeded;
-			
+
 			if (handler != null)
 			{
 				handler(this, evt);
@@ -204,7 +226,7 @@ namespace Wammer.Station
 				throw new ArgumentException("incorrect use of this function: " +
 														"input part.ContentDisposition is null");
 
-			if (disp.Value.Equals("form-data",StringComparison.CurrentCultureIgnoreCase))
+			if (disp.Value.Equals("form-data", StringComparison.CurrentCultureIgnoreCase))
 			{
 				string filename = disp.Parameters["filename"];
 
@@ -225,13 +247,13 @@ namespace Wammer.Station
 		public abstract void HandleRequest();
 		public virtual object Clone()
 		{
- 			return this.MemberwiseClone();
+			return this.MemberwiseClone();
 		}
 
 		private static bool HasMultiPartFormData(HttpListenerRequest request)
 		{
 			return request.ContentType != null &&
-							request.ContentType.StartsWith(MULTIPART_FORM,StringComparison.CurrentCultureIgnoreCase);
+							request.ContentType.StartsWith(MULTIPART_FORM, StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		private static string GetMultipartBoundary(string contentType)
@@ -239,9 +261,10 @@ namespace Wammer.Station
 			if (contentType == null)
 				throw new ArgumentNullException();
 
-			try {
+			try
+			{
 				string[] parts = contentType.Split(';');
-				foreach(string part in parts)
+				foreach (string part in parts)
 				{
 					int idx = part.IndexOf(BOUNDARY);
 					if (idx < 0)

@@ -11,6 +11,8 @@ using Wammer.Cloud;
 using Wammer.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Wammer;
+using Wammer.PerfMonitor;
 
 namespace UT_WammerStation
 {
@@ -33,8 +35,10 @@ namespace UT_WammerStation
 				cloud.AddHandler("/v2/attachments/view", new FakeCloudRemoteHandler());
 				cloud.AddHandler("/v2/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
 				cloud.Start();
+				cloud.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 				server.AddHandler("/v2/objects/view", new AttachmentViewHandler("sid"));
+				server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 				server.Start();
 
 				Boolean isGetRequest = requestMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
@@ -312,9 +316,45 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestView_AlsoForwardBodyRequestToCloud_ByGet()
+		public void AccessOriginPhotoFromSecondaryStationIsNotAllowed()
 		{
-			TestTunnelToCloud("?object_id=abc&apikey=123&session_token=token123", "GET");
+			string requestMethod = "GET";
+			string argument = "?object_id=abc&apikey=123&session_token=token123";
+
+			CloudServer.BaseUrl = "http://localhost/v2/";
+
+			using (HttpServer cloud = new HttpServer(80))
+			using (HttpServer server = new HttpServer(8080))
+			{
+				cloud.AddHandler("/v2/attachments/view", new FakeCloudRemoteHandler());
+				cloud.AddHandler("/v2/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
+				cloud.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
+				cloud.Start();
+
+				server.AddHandler("/v2/objects/view", new AttachmentViewHandler("sid"));
+				server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
+				server.Start();
+
+				Boolean isGetRequest = requestMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
+
+				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
+					"http://localhost:8080/v2/objects/view" + ((isGetRequest) ? argument : string.Empty));
+				req.ContentType = "application/x-www-form-urlencoded";
+				req.Method = requestMethod.ToLower();
+
+				try
+				{
+					HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+				}
+				catch (WebException e)
+				{
+					WammerCloudException ce = new WammerCloudException("", e);
+					Assert.AreEqual((int)StationLocalApiError.AccessDenied, ce.WammerError);
+					return;
+				}
+
+				Assert.Fail("shoud not come here");
+			}
 		}
 	}
 

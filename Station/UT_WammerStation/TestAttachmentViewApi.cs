@@ -6,6 +6,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wammer.Model;
 using Wammer.Station;
 using Wammer.Cloud;
+using Wammer;
+using Wammer.PerfMonitor;
 using System.IO;
 
 namespace UT_WammerStation
@@ -37,9 +39,11 @@ namespace UT_WammerStation
 			FakeCloudRemoteHandler.SavedParams = new System.Collections.Specialized.NameValueCollection();
 			server8080.AddHandler("/v2/attachments/view/", new FakeCloudRemoteHandler());
 			server8080.Start();
+			server8080.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 			server80.AddHandler("/v2/objects/view/DownloadAttachment", new FackAttViewHandler());
 			server80.Start();
+			server80.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 		}
 
 		[TestCleanup]

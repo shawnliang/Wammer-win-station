@@ -15,6 +15,7 @@ namespace Wammer.Model
 	{
 		#region Var
 		private List<UserGroup> _groups;
+		private List<UserStation> _stations;
 		#endregion
 
 		#region Public Property
@@ -55,6 +56,25 @@ namespace Wammer.Model
 			set
 			{
 				_groups = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the stations
+		/// </summary>
+		/// <value>The stations.</value>
+		[BsonIgnoreIfNull]
+		public List<UserStation> stations
+		{
+			get
+			{
+				if (_stations == null)
+					_stations = new List<UserStation>();
+				return _stations;
+			}
+			set
+			{
+				_stations = value;
 			}
 		}
 

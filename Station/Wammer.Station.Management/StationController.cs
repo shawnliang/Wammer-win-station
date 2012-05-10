@@ -149,7 +149,7 @@ namespace Wammer.Station.Management
 		/// <exception cref="Wammer.Station.Management.ConnectToCloudException">
 		/// Unable to connect to waveface cloud, network down?
 		/// </exception>
-		public static AddUserResult AddUser(string email, string password)
+		public static AddUserResponse AddUser(string email, string password, string deviceId, string deviceName)
 		{
 			try
 			{
@@ -159,11 +159,13 @@ namespace Wammer.Station.Management
 					new Dictionary<object, object>{
 						{ "email", email},
 						{ "password", password},
+						{ "device_id", deviceId},
+						{ "device_name", deviceName}
 					},
 					false
 				);
 
-				return new AddUserResult() { UserId = res.UserId, IsPrimaryStation = res.IsPrimaryStation };
+				return res;
 			}
 			catch (Cloud.WammerCloudException e)
 			{
@@ -172,29 +174,120 @@ namespace Wammer.Station.Management
 
 				switch (e.WammerError)
 				{
-					case (int)StationApiError.ConnectToCloudError:
+					case (int)StationLocalApiError.ConnectToCloudError:
 						throw new ConnectToCloudException(e.Message);
-					case (int)StationApiError.AuthFailed:
+					case (int)StationLocalApiError.AuthFailed:
 						throw new AuthenticationException(e.Message);
-					case (int)StationApiError.DriverExist:
+					case (int)StationLocalApiError.DriverExist:
 						throw new StationAlreadyHasDriverException(e.Message);
-					case (int)StationApiError.AlreadyHasStaion:
-						StationSignUpResponse resp = fastJSON.JSON.Instance.
-												ToObject<Cloud.StationSignUpResponse>(e.response);
-						throw new UserAlreadyHasStationException
-						{
-							Id = resp.station.station_id,
-							Location = resp.station.location,
-							LastSyncTime = resp.station.LastSeen,
-							ComputerName = resp.station.computer_name
-						};
-					case 0x4000 + 4: // user not exist
+					case (int)AuthApiError.InvalidEmailPassword:
+						throw new AuthenticationException(e.Message);
+					case (int)StationApiError.UserNotExist:
 						throw new AuthenticationException(e.Message);
 					default:
 						throw;
 				}
 			}
 		}
+
+		public static AddUserResponse AddUser(string userId, string sessionToken)
+		{
+			try
+			{
+				AddUserResponse res = CloudServer.request<AddUserResponse>(
+					new WebClient(),
+					StationMgmtURL + "station/drivers/add",
+					new Dictionary<object, object>{
+						{ "user_id", userId},
+						{ "session_token", sessionToken}
+					},
+					false
+				);
+
+				return res;
+			}
+			catch (Cloud.WammerCloudException e)
+			{
+				if (e.HttpError == WebExceptionStatus.ConnectFailure)
+					throw new StationServiceDownException("Station service down?");
+
+				switch (e.WammerError)
+				{
+					case (int)StationLocalApiError.ConnectToCloudError:
+						throw new ConnectToCloudException(e.Message);
+					case (int)StationLocalApiError.AuthFailed:
+						throw new AuthenticationException(e.Message);
+					case (int)StationLocalApiError.DriverExist:
+						throw new StationAlreadyHasDriverException(e.Message);
+					case (int)AuthApiError.InvalidEmailPassword:
+						throw new AuthenticationException(e.Message);
+					case (int)StationApiError.UserNotExist:
+						throw new AuthenticationException(e.Message);
+					default:
+						throw;
+				}
+			}
+		}
+
+		/// <summary>
+		/// login to station
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="password"></param>
+		/// <param name="deviceId"></param>
+		/// <param name="deviceName"></param>
+		/// <returns>user's login info</returns>
+		public static UserLogInResponse UserLogin(string apikey, string email, string password, string deviceId, string deviceName)
+		{
+			try
+			{
+				return CloudServer.request<UserLogInResponse>(
+					new WebClient(),
+					StationFuncURL + "auth/login",
+					new Dictionary<object, object> { 
+						{CloudServer.PARAM_API_KEY, apikey},
+						{CloudServer.PARAM_EMAIL, email},
+						{CloudServer.PARAM_PASSWORD, password},
+						{CloudServer.PARAM_DEVICE_ID, deviceId},
+						{CloudServer.PARAM_DEVICE_NAME, deviceName}
+					},
+					false
+				);
+			}
+			catch (WammerCloudException e)
+			{
+				throw ExtractApiRetMsg(e);
+			}
+		}
+
+		/// <summary>
+		/// login to station
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="sessionToken"></param>
+		/// <returns>user's login info</returns>
+		public static UserLogInResponse UserLogin(string apikey, string userId, string sessionToken)
+		{
+			try
+			{
+				return CloudServer.request<UserLogInResponse>(
+					new WebClient(),
+					StationFuncURL + "auth/login",
+					new Dictionary<object, object> { 
+						{CloudServer.PARAM_API_KEY, apikey},
+						{CloudServer.PARAM_USER_ID, userId},
+						{CloudServer.PARAM_SESSION_TOKEN, sessionToken}
+					},
+					false
+				);
+			}
+			catch (WammerCloudException e)
+			{
+				throw ExtractApiRetMsg(e);
+			}
+		}
+
+
 
 		/// <summary>
 		/// Sign off a station on behavior of its driver
@@ -206,7 +299,7 @@ namespace Wammer.Station.Management
 		{
 			using (WebClient agent = new WebClient())
 			{
-				User user = User.LogIn(agent, driverEmail, password);
+				User user = User.LogIn(agent, driverEmail, password, stationId, Environment.MachineName);
 				Cloud.StationApi.SignOff(agent, stationId, user.Token, user.Id);
 			}
 		}
@@ -385,19 +478,24 @@ namespace Wammer.Station.Management
 		}
 
 
-		public static void SuspendSync()
+		public static void SuspendSync(int timeout)
 		{
 			try
 			{
-				CloudServer.request<CloudResponse>(
-					new WebClient(),
-					StationMgmtURL + "station/suspendSync",
-					new Dictionary<object, object>
-					{
-						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-					},
-					false
-				);
+				using (DefaultWebClient agent = new DefaultWebClient())
+				{
+					agent.Timeout = timeout;
+					agent.ReadWriteTimeout = timeout;
+
+					CloudServer.request<CloudResponse>(
+					   agent,
+					   StationMgmtURL + "station/suspendSync",
+					   new Dictionary<object, object>
+						{
+							{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+						},
+					   false);
+				}
 			}
 			catch (WammerCloudException e)
 			{
@@ -460,7 +558,7 @@ namespace Wammer.Station.Management
 
 		public static void ConnectToInternet()
 		{
-			WebClient agent = new WebClient();
+			DefaultWebClient agent = new DefaultWebClient();
 			agent.DownloadData("http://www.google.com");
 		}
 
@@ -600,7 +698,7 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		private static Exception ExtractApiRetMsg(Cloud.WammerCloudException e)
+		public static Exception ExtractApiRetMsg(Cloud.WammerCloudException e)
 		{
 			if (e.HttpError != WebExceptionStatus.ProtocolError)
 			{
@@ -622,24 +720,20 @@ namespace Wammer.Station.Management
 				{
 					if (webres.StatusCode == HttpStatusCode.BadRequest)
 					{
-						const int ERR_USER_HAS_ANOTHER_STATION = 0x4000 + 3;
-						const int ERR_USER_DOES_NOT_EXIST = 0x4000 + 4;
-						const int ERR_BAD_NAME_PASSWORD = 0x1000 + 1;
-
 						string resText = e.response;
 						Cloud.CloudResponse r = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(resText);
 
 						switch (e.WammerError)
 						{
-							case ERR_BAD_NAME_PASSWORD:
+							case (int)AuthApiError.InvalidEmailPassword:
 								return new AuthenticationException(r.api_ret_message);
-							case ERR_USER_HAS_ANOTHER_STATION:
+							case (int)StationApiError.AlreadyRegisteredAnotherStation:
 								return new UserAlreadyHasStationException(r.api_ret_message);
-							case ERR_USER_DOES_NOT_EXIST:
+							case (int)StationApiError.UserNotExist:
 								return new UserDoesNotExistException(r.api_ret_message);
-							case (int)StationApiError.InvalidDriver:
+							case (int)StationLocalApiError.InvalidDriver:
 								return new InvalidDriverException(r.api_ret_message);
-							case (int)StationApiError.ConnectToCloudError:
+							case (int)StationLocalApiError.ConnectToCloudError:
 								return new ConnectToCloudException(r.api_ret_message);
 							default:
 								return new Exception(r.api_ret_message);
@@ -885,11 +979,4 @@ namespace Wammer.Station.Management
 		public long quota { get; set; }
 		public long used { get; set; }
 	}
-
-	public class AddUserResult
-	{
-		public string UserId { get; set; }
-		public bool IsPrimaryStation { get; set; }
-	}
-
 }

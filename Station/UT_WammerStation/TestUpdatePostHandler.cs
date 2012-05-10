@@ -14,6 +14,8 @@ using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Model;
 using Wammer.Station.Management;
+using Wammer;
+using Wammer.PerfMonitor;
 
 namespace UT_WammerStation
 {
@@ -67,6 +69,7 @@ namespace UT_WammerStation
 			handler = new UpdatePostHandler(null);
 			server.AddHandler("/v2/posts/update", handler);
 			server.Start();
+			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 			CloudServer.BaseUrl = "http://localhost/v2/";			
 
@@ -132,6 +135,7 @@ namespace UT_WammerStation
 			Assert.AreEqual("unit test updated content", post.content);
 		}
 
+		[Ignore]
 		[TestMethod]
 		public void UpdatePost_UpdatePreview_Success()
 		{
@@ -163,6 +167,7 @@ namespace UT_WammerStation
 
 			var response = CloudServer.request<UpdatePostResponse>(new WebClient(), API_URL,
 				new Dictionary<object, object>{ 
+				{CloudServer.PARAM_TYPE, "link"},
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},
@@ -204,7 +209,8 @@ namespace UT_WammerStation
 				});
 
 			var response = CloudServer.request<UpdatePostResponse>(new WebClient(), API_URL,
-				new Dictionary<object, object>{ 
+				new Dictionary<object, object>{
+				{CloudServer.PARAM_TYPE, "image"},
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "exist session token"},
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},

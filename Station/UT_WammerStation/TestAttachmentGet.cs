@@ -13,6 +13,8 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using Wammer;
+using Wammer.PerfMonitor;
 
 namespace UT_WammerStation
 {
@@ -62,6 +64,7 @@ namespace UT_WammerStation
 			server = new HttpServer(8080);
 			server.AddHandler("/api/get/", handler);
 			server.Start();
+			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 			//host = new WebServiceHost(svc, new Uri("http://localhost:8080/api/"));
 			//host.Open();
 		}
@@ -173,7 +176,7 @@ namespace UT_WammerStation
 				{
 					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(
 						r.ReadToEnd());
-					Assert.AreEqual((int)StationApiError.NotFound, json.api_ret_code);
+					Assert.AreEqual((int)StationLocalApiError.NotFound, json.api_ret_code);
 					Assert.AreEqual("Resource not found: 123", json.api_ret_message);
 				}
 				return;

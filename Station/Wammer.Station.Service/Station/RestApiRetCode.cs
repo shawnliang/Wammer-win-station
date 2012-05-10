@@ -1,7 +1,7 @@
 ﻿
 namespace Wammer.Station
 {
-	public enum StationApiError
+	public enum StationLocalApiError
 	{
 		Error = -1,
 		NotFound = -10,
@@ -13,7 +13,8 @@ namespace Wammer.Station
 		ServerOffline = -35,
 		InvalidDriver = -36,
 		NotReady = -37,
-		InvalidGroup = -38
+		InvalidGroup = -38,
+		AccessDenied = -39
 	}
 
 	public enum DropboxApiError
@@ -25,6 +26,24 @@ namespace Wammer.Station
 		GetOAuthFailed = Base + 4,
 		ConnectDropboxFailed = Base + 5,
 		LinkWrongAccount = Base + 6
+	}
+
+	public enum AuthApiError
+	{
+		Base = 0x1000,
+		InvalidEmailPassword = Base + 1,
+		EmailAlreadyRegisterd = Base + 2,
+		NoStationInstalled = Base + 3,
+		InvalidSNSParameters = Base + 4
+	}
+
+	public enum UserApiError
+	{
+		Base = 0x2000,
+		UserNotExist = Base + 1,
+		InvalidPassword = Base + 2,
+		PermissionDenied = Base + 3,
+		AlreadyConnectToOtherSNSAccount = Base + 4
 	}
 
 	public enum PostApiError
@@ -47,6 +66,16 @@ namespace Wammer.Station
 		InvalidLastUpdateTime = Base + 15,
 		InvalidUpdateTime = Base + 16,
 		InvalidPostId = Base + 17
+	}
+
+	public enum StationApiError
+	{
+		Base = 0x4000,
+		StationNotExist = Base + 1,
+		StationAlreadyRegisterd = Base + 2,
+		AlreadyRegisteredAnotherStation = Base + 3,
+		UserNotExist = Base + 4,
+		StationOfflineOrUnknown = Base + 5
 	}
 
 	public enum AttachmentApiError

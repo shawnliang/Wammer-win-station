@@ -32,12 +32,16 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			Attachment attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id));
 			if (attachment == null)
+			{
+				upstreamCount.Decrement();
 				return;
+			}
 
 			Driver user = DriverCollection.Instance.FindDriverByGroupId(attachment.group_id);
 			if (user == null)
 			{
 				this.LogDebugMsg("User of group id " + attachment.group_id + " is removed? Abort upstream attachment " + object_id);
+				upstreamCount.Decrement();
 				return;
 			}
 
@@ -59,6 +63,7 @@ namespace Wammer.Station.AttachmentUpload
 			if (info == null)
 			{
 				this.LogErrorMsg("Abort upstream attachment " + object_id + " due to attachment info of " + meta + " is empty. Logic Error?");
+				upstreamCount.Decrement();
 				return;
 			}
 
@@ -68,7 +73,7 @@ namespace Wammer.Station.AttachmentUpload
 			{
 				Attachment.Upload(f, attachment.group_id, this.object_id, attachment.file_name,
 					info.mime_type, this.meta, attachment.type, Cloud.CloudServer.APIKey,
-					user.session_token, 1024, UpstreamProgressChanged);
+					user.session_token, 65535, UpstreamProgressChanged);
 			}
 
 			AttachmentCollection.Instance.Update(

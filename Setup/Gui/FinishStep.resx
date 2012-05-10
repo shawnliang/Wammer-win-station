@@ -148,7 +148,7 @@
     <value>lblDetails</value>
   </data>
   <data name="label_Hint.Text" xml:space="preserve">
-    <value>Please click on the Waveface shortcut icon on your desktop to get started.</value>
+    <value>Please click on the Waveface Stream shortcut icon on your desktop to get started.</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>SharpSetup.UI.Forms.Modern.ModernInfoStep, SharpSetup, Version=1.4.1.158, Culture=neutral, PublicKeyToken=null</value>

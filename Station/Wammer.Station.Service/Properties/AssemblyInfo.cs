@@ -1,14 +1,16 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
+[assembly: SuppressIldasmAttribute()]
 [assembly: AssemblyTitle("Waveface.Station.Service")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Waveface")]
-[assembly: AssemblyProduct("Waveface")]
+[assembly: AssemblyProduct("Stream")]
 [assembly: AssemblyCopyright("Copyright © 2012 Waveface Inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
