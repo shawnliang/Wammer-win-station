@@ -13,6 +13,7 @@ namespace StationSystemTray
 		Syncing,
 		Stopping,
 		Stopped,
+		ErrorStopped
 	}
 
 	public interface StationState
@@ -140,7 +141,7 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
-			context.GoToState(StationStateEnum.Stopped);
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
@@ -168,7 +169,7 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
-			context.GoToState(StationStateEnum.Running);
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
@@ -196,7 +197,7 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
-			context.GoToState(StationStateEnum.Syncing);
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
@@ -214,7 +215,7 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
-			context.GoToState(StationStateEnum.Running);
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
@@ -222,6 +223,19 @@ namespace StationSystemTray
 	{
 		public StationStateStopped(StationStateContext context)
 			:base(context, StationStateEnum.Stopped)
+		{
+		}
+
+		public override void Onlining()
+		{
+			context.GoToState(StationStateEnum.Starting);
+		}
+	}
+
+	class StationStateErrorStopped : StationStateBase
+	{
+		public StationStateErrorStopped(StationStateContext context)
+			:base(context, StationStateEnum.ErrorStopped)
 		{
 		}
 

@@ -173,6 +173,7 @@ namespace StationSystemTray
 		public Icon iconWarning;
 		public Icon iconSyncing1;
 		public Icon iconSyncing2;
+		public Icon iconErrorStopped;
 
 		public string TrayIconText
 		{
@@ -227,6 +228,7 @@ namespace StationSystemTray
 			this.iconWarning = Icon.FromHandle(Properties.Resources.stream_tray_warn.GetHicon());
 			this.iconSyncing1 = Icon.FromHandle(Properties.Resources.stream_tray_syncing1.GetHicon());
 			this.iconSyncing2 = Icon.FromHandle(Properties.Resources.stream_tray_syncing2.GetHicon());
+			this.iconErrorStopped = Icon.FromHandle(Properties.Resources.stream_tray_init.GetHicon());
 			this.TrayIcon.Icon = this.iconInit;
 
 			this.uictrlStationStatus = new StationStatusUIController(this);
@@ -353,14 +355,7 @@ namespace StationSystemTray
 		{
 			var ex = (Exception)evt.param;
 
-			if (ex is ConnectToCloudException)
-			{
-				CurrentState.Offlined();
-			}
-			else
-			{
-				CurrentState.Error();
-			}
+			CurrentState.Error();
 		}
 
 		private void ResumeServiceUICallback(object sender, SimpleEventArgs evt)
@@ -370,34 +365,33 @@ namespace StationSystemTray
 
 		private void ResumeServiceUIError(object sender, SimpleEventArgs evt)
 		{
-				CurrentState.Error();
-			}
+			CurrentState.Error();
+		}
 
 		private void StationStatusUICallback(object sender, SimpleEventArgs evt)
 		{
 			checkStationTimer.Interval = STATION_TIMER_LONG_INTERVAL;
 
-			if (CurrentState.Value != StationStateEnum.Running)
+			if (CurrentState.Value != StationStateEnum.Stopped)
 				CurrentState.Onlining();
 		}
 
 		private void StationStatusUIError(object sender, SimpleEventArgs evt)
 		{
 			// recover quickly if falling to error/offline state unexpectedly
-			if (CurrentState.Value == StationStateEnum.Running)
-				checkStationTimer.Interval = STATION_TIMER_SHORT_INTERVAL;
+			checkStationTimer.Interval = STATION_TIMER_SHORT_INTERVAL;
 
 			var ex = (Exception)evt.param;
 
 			if (ex is ConnectToCloudException)
 			{
 				logger.Debug("Unable to connect to Waveface cloud", ex);
-				CurrentState.Offlined();
+				CurrentState.Error();
 			}
 			else if (ex is WebException)
 			{
 				logger.Debug("Unable to connect to internet", ex);
-				CurrentState.Offlined();
+				CurrentState.Error();
 			}
 			else
 			{
@@ -467,6 +461,12 @@ namespace StationSystemTray
 					{
 						var st = new StationStateStopped(this);
 						st.Entering += this.BecomeStoppedState;
+						return st;
+					}
+				case StationStateEnum.ErrorStopped:
+					{
+						var st = new StationStateErrorStopped(this);
+						st.Entering += this.BecomeErrorStoppedState;
 						return st;
 					}
 				default:
@@ -590,7 +590,28 @@ namespace StationSystemTray
 				menuServiceAction.Text = Properties.Resources.ResumeWFService;
 
 				TrayIconText = stoppedText;
-				//TrayIcon.ShowBalloonTip(1000, "Stream", stoppedText, ToolTipIcon.None);
+
+				menuServiceAction.Enabled = true;
+			}
+		}
+
+		void BecomeErrorStoppedState(object sender, EventArgs evt)
+		{
+			if (InvokeRequired)
+			{
+				if (!IsDisposed)
+				{
+					Invoke(new EventHandler(BecomeErrorStoppedState), this, new EventArgs());
+				}
+			}
+			else
+			{
+				TrayIcon.Icon = iconErrorStopped;
+
+				var stoppedText = Properties.Resources.WFServiceStopped;
+				menuServiceAction.Text = Properties.Resources.ResumeWFService;
+
+				TrayIconText = stoppedText;
 
 				menuServiceAction.Enabled = true;
 			}
@@ -1451,6 +1472,7 @@ namespace StationSystemTray
 
 		protected override object Action(object obj)
 		{
+			StationController.ConnectToInternet();
 			StationController.ResumeSync();
 			return null;
 		}
