@@ -51,9 +51,9 @@ namespace Waveface.PostUI
 
             imageListView.SetRenderer(m_imageListViewRenderer);
 
-            imageListView.BackColor = Color.FromArgb(255, 255, 255);
-            imageListView.Colors.BackColor = Color.FromArgb(255, 255, 255);
-            imageListView.Colors.PaneBackColor = Color.FromArgb(255, 255, 255);
+            imageListView.BackColor = Color.FromArgb(226, 226, 226);
+            imageListView.Colors.BackColor = Color.FromArgb(226, 226, 226);
+            imageListView.Colors.PaneBackColor = Color.FromArgb(226, 226, 226);
         }
 
         private void Application_Idle(object sender, EventArgs e)
@@ -144,7 +144,7 @@ namespace Waveface.PostUI
         private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                                "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                                "Waveface Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
                 foreach (ImageListViewItem _item in imageListView.SelectedItems)
                 {
@@ -165,7 +165,7 @@ namespace Waveface.PostUI
         private void rotateCWToolStripButton_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                                "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                                "Waveface Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
                 foreach (ImageListViewItem _item in imageListView.SelectedItems)
                 {
@@ -259,7 +259,7 @@ namespace Waveface.PostUI
 
                     if (_storagesUsage == long.MinValue)
                     {
-                        MessageBox.Show(I18n.L.T("SystemError"), "Stream", MessageBoxButtons.OK,
+                        MessageBox.Show(I18n.L.T("SystemError"), "Waveface Stream", MessageBoxButtons.OK,
                                         MessageBoxIcon.Exclamation);
 
                         return;
@@ -268,7 +268,7 @@ namespace Waveface.PostUI
                     if (_storagesUsage < 0)
                     {
                         MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
-                                        "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         return;
                     }
@@ -336,7 +336,7 @@ namespace Waveface.PostUI
         {
             if (MyParent.pureTextBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("TextEmpty"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -357,11 +357,11 @@ namespace Waveface.PostUI
 
                 if (_np == null)
                 {
-                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
-                MessageBox.Show(I18n.L.T("PostForm.PostSuccess"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(I18n.L.T("PostForm.PostSuccess"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return true;
             }
             catch (Exception _e)
@@ -387,14 +387,14 @@ namespace Waveface.PostUI
 
                 if (_storagesUsage == long.MinValue)
                 {
-                    MessageBox.Show(I18n.L.T("SystemError"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(I18n.L.T("SystemError"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                     return;
                 }
 
                 if (_storagesUsage < 0)
                 {
-                    MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                     return;
                 }
@@ -452,7 +452,7 @@ namespace Waveface.PostUI
 
                 if (_storagesUsage == long.MinValue)
                 {
-                    MessageBox.Show(I18n.L.T("SystemError"), "Stream", MessageBoxButtons.OK,
+                    MessageBox.Show(I18n.L.T("SystemError"), "Waveface Stream", MessageBoxButtons.OK,
                                     MessageBoxIcon.Exclamation);
 
                     return;
@@ -461,7 +461,7 @@ namespace Waveface.PostUI
                 if (_storagesUsage < 0)
                 {
                     MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
-                                    "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                     return;
                 }
@@ -522,7 +522,7 @@ namespace Waveface.PostUI
                 return;
             }
 
-            DialogResult _dr = MessageBox.Show(I18n.L.T("RemoveAllFiles"), "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult _dr = MessageBox.Show(I18n.L.T("RemoveAllFiles"), "Waveface Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (_dr == DialogResult.Yes)
             {
@@ -534,7 +534,7 @@ namespace Waveface.PostUI
 
         private void RemoveSelectedPhoto()
         {
-            DialogResult _dr = MessageBox.Show(I18n.L.T("RemoveSelectedFiles"), "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult _dr = MessageBox.Show(I18n.L.T("RemoveSelectedFiles"), "Waveface Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (_dr == DialogResult.Yes)
             {

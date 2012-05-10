@@ -365,6 +365,7 @@ namespace Waveface
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PostForm_FormClosing);
+            this.Load += new System.EventHandler(this.PostForm_Load);
             this.SizeChanged += new System.EventHandler(this.PostForm_SizeChanged);
             this.Resize += new System.EventHandler(this.PostForm_Resize);
             this.contextMenuStripEdit.ResumeLayout(false);

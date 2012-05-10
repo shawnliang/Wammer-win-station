@@ -35,6 +35,7 @@ namespace Waveface
             this.panelBottom = new System.Windows.Forms.Panel();
             this.pbDropArea = new System.Windows.Forms.PictureBox();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.btnNewPost = new Waveface.Component.ImageButton();
             this.panelFilter = new System.Windows.Forms.Panel();
             this.panelCustomFilter = new System.Windows.Forms.Panel();
             this.tvCustomFilter = new System.Windows.Forms.TreeView();
@@ -42,12 +43,11 @@ namespace Waveface
             this.panelTimeline = new System.Windows.Forms.Panel();
             this.tvTimeline = new System.Windows.Forms.TreeView();
             this.panelCalendar = new System.Windows.Forms.Panel();
+            this.btnToday = new Waveface.Component.ImageButton();
             this.monthCalendar = new CustomControls.MonthCalendar();
+            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.btnNewPost = new Waveface.Component.ImageButton();
-            this.btnToday = new Waveface.Component.ImageButton();
-            this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
             ((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
             this.panelMain.SuspendLayout();
             this.panelFilter.SuspendLayout();
@@ -65,7 +65,7 @@ namespace Waveface
             // pbDropArea
             // 
             resources.ApplyResources(this.pbDropArea, "pbDropArea");
-            this.pbDropArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.pbDropArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(208)))));
             this.pbDropArea.BackgroundImage = global::Waveface.Properties.Resources.dragNdrop_area1;
             this.pbDropArea.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbDropArea.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -87,6 +87,18 @@ namespace Waveface
             this.panelMain.Controls.Add(this.vsNetListBarGroups);
             this.panelMain.Controls.Add(this.pbDropArea);
             this.panelMain.Name = "panelMain";
+            // 
+            // btnNewPost
+            // 
+            resources.ApplyResources(this.btnNewPost, "btnNewPost");
+            this.btnNewPost.CenterAlignImage = false;
+            this.btnNewPost.ForeColor = System.Drawing.Color.White;
+            this.btnNewPost.Image = global::Waveface.Properties.Resources.FB_newpost_btn;
+            this.btnNewPost.ImageDisable = global::Waveface.Properties.Resources.FB_newpost_btn;
+            this.btnNewPost.ImageFront = null;
+            this.btnNewPost.ImageHover = global::Waveface.Properties.Resources.FB_newpost_btn_hl;
+            this.btnNewPost.Name = "btnNewPost";
+            this.btnNewPost.Click += new System.EventHandler(this.btnNewPost_Click);
             // 
             // panelFilter
             // 
@@ -139,6 +151,18 @@ namespace Waveface
             this.panelCalendar.Controls.Add(this.monthCalendar);
             this.panelCalendar.Name = "panelCalendar";
             // 
+            // btnToday
+            // 
+            resources.ApplyResources(this.btnToday, "btnToday");
+            this.btnToday.CenterAlignImage = false;
+            this.btnToday.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(87)))), ((int)(((byte)(155)))), ((int)(((byte)(178)))));
+            this.btnToday.Image = global::Waveface.Properties.Resources.FB_today_btn;
+            this.btnToday.ImageDisable = global::Waveface.Properties.Resources.FB_today_btn_hl;
+            this.btnToday.ImageFront = null;
+            this.btnToday.ImageHover = global::Waveface.Properties.Resources.FB_today_btn_hl;
+            this.btnToday.Name = "btnToday";
+            this.btnToday.Click += new System.EventHandler(this.btnToday_Click);
+            // 
             // monthCalendar
             // 
             resources.ApplyResources(this.monthCalendar, "monthCalendar");
@@ -171,39 +195,6 @@ namespace Waveface
             this.monthCalendar.UseShortestDayNames = true;
             this.monthCalendar.DateClicked += new System.EventHandler<CustomControls.DateEventArgs>(this.monthCalendar_DateClicked);
             // 
-            // imageListTimeline
-            // 
-            this.imageListTimeline.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTimeline.ImageStream")));
-            this.imageListTimeline.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListTimeline.Images.SetKeyName(0, "AllTime.png");
-            this.imageListTimeline.Images.SetKeyName(1, "Month.png");
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // btnNewPost
-            // 
-            resources.ApplyResources(this.btnNewPost, "btnNewPost");
-            this.btnNewPost.CenterAlignImage = false;
-            this.btnNewPost.ForeColor = System.Drawing.Color.White;
-            this.btnNewPost.Image = global::Waveface.Properties.Resources.FB_newpost_btn;
-            this.btnNewPost.ImageDisable = global::Waveface.Properties.Resources.FB_newpost_btn;
-            this.btnNewPost.ImageHover = global::Waveface.Properties.Resources.FB_newpost_btn_hl;
-            this.btnNewPost.Name = "btnNewPost";
-            this.btnNewPost.Click += new System.EventHandler(this.btnNewPost_Click);
-            // 
-            // btnToday
-            // 
-            resources.ApplyResources(this.btnToday, "btnToday");
-            this.btnToday.CenterAlignImage = false;
-            this.btnToday.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(87)))), ((int)(((byte)(155)))), ((int)(((byte)(178)))));
-            this.btnToday.Image = global::Waveface.Properties.Resources.FB_today_btn;
-            this.btnToday.ImageDisable = global::Waveface.Properties.Resources.FB_today_btn_hl;
-            this.btnToday.ImageHover = global::Waveface.Properties.Resources.FB_today_btn_hl;
-            this.btnToday.Name = "btnToday";
-            this.btnToday.Click += new System.EventHandler(this.btnToday_Click);
-            // 
             // vsNetListBarGroups
             // 
             resources.ApplyResources(this.vsNetListBarGroups, "vsNetListBarGroups");
@@ -217,6 +208,17 @@ namespace Waveface
             this.vsNetListBarGroups.SelectOnMouseDown = true;
             this.vsNetListBarGroups.SmallImageList = null;
             this.vsNetListBarGroups.ToolTip = null;
+            // 
+            // imageListTimeline
+            // 
+            this.imageListTimeline.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTimeline.ImageStream")));
+            this.imageListTimeline.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTimeline.Images.SetKeyName(0, "AllTime.png");
+            this.imageListTimeline.Images.SetKeyName(1, "Month.png");
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
             // 
             // LeftArea
             // 

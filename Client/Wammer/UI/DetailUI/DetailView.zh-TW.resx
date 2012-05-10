@@ -129,14 +129,10 @@
     <value>NoControl</value>
   </data>
   <data name="btnAddFootNote.ToolTip" xml:space="preserve">
-    <value>新增注腳</value>
+    <value>新增註腳</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnAddFootNote.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="btnMoreOptions.ToolTip" xml:space="preserve">
-    <value>其他選項</value>
+  <data name="btnFunction1.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="btnFavorite.ToolTip" xml:space="preserve">
     <value>設定/取消 喜好</value>
@@ -187,24 +183,6 @@
     <value />
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="miRemovePost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
-  </data>
-  <data name="miRemovePost.Text" xml:space="preserve">
-    <value>移除貼文</value>
-  </data>
-  <data name="miAddFootnote.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
-  </data>
-  <data name="miAddFootnote.Text" xml:space="preserve">
-    <value>新增注腳</value>
-  </data>
-  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 48</value>
-  </data>
-  <data name="contextMenuStrip.ToolTip" xml:space="preserve">
     <value />
   </data>
 </root>

@@ -564,6 +564,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Magnifier {
+            get {
+                object obj = ResourceManager.GetObject("Magnifier", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap MD {
             get {
                 object obj = ResourceManager.GetObject("MD", resourceCulture);
@@ -670,6 +677,20 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap network_receive {
             get {
                 object obj = ResourceManager.GetObject("network_receive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ObjectPosition {
+            get {
+                object obj = ResourceManager.GetObject("ObjectPosition", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ObjectSize {
+            get {
+                object obj = ResourceManager.GetObject("ObjectSize", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

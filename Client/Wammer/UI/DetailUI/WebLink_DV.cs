@@ -276,8 +276,6 @@ namespace Waveface.DetailUI
                 m_canOpenNewWindow = false;
 
             m_showCancelledNavigationMessage = true;
-
-            // MessageBox.Show("Link Was Clicked Navigation was Cancelled", "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void webBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)

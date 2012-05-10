@@ -1,4 +1,4 @@
-﻿namespace Waveface.Windows.Forms
+﻿namespace Waveface.Component
 {
   partial class ImageBox
   {

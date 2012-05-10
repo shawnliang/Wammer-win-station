@@ -141,6 +141,7 @@ namespace Waveface
             this.btnRefresh.ImageHover = global::Waveface.Properties.Resources.FBT_refresh_hl;
             this.btnRefresh.Name = "btnRefresh";
             this.toolTip.SetToolTip(this.btnRefresh, resources.GetString("btnRefresh.ToolTip"));
+            this.btnRefresh.UseVisualStyleBackColor = false;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnAccount
@@ -155,6 +156,7 @@ namespace Waveface
             this.btnAccount.ImageHover = global::Waveface.Properties.Resources.FBT_account_hl;
             this.btnAccount.Name = "btnAccount";
             this.toolTip.SetToolTip(this.btnAccount, resources.GetString("btnAccount.ToolTip"));
+            this.btnAccount.UseVisualStyleBackColor = false;
             this.btnAccount.Click += new System.EventHandler(this.btnAccount_Click);
             // 
             // btnSetting
@@ -169,6 +171,7 @@ namespace Waveface
             this.btnSetting.ImageHover = global::Waveface.Properties.Resources.FBT_setting_hl;
             this.btnSetting.Name = "btnSetting";
             this.toolTip.SetToolTip(this.btnSetting, resources.GetString("btnSetting.ToolTip"));
+            this.btnSetting.UseVisualStyleBackColor = false;
             this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
             // 
             // btnRemovePost
@@ -178,11 +181,12 @@ namespace Waveface
             this.btnRemovePost.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.btnRemovePost, "btnRemovePost");
             this.btnRemovePost.Image = global::Waveface.Properties.Resources.FB_remove_post;
-            this.btnRemovePost.ImageDisable = global::Waveface.Properties.Resources.FB_remove_post_hl;
+            this.btnRemovePost.ImageDisable = global::Waveface.Properties.Resources.FB_remove_post;
             this.btnRemovePost.ImageFront = null;
             this.btnRemovePost.ImageHover = global::Waveface.Properties.Resources.FB_remove_post_hl;
             this.btnRemovePost.Name = "btnRemovePost";
             this.toolTip.SetToolTip(this.btnRemovePost, resources.GetString("btnRemovePost.ToolTip"));
+            this.btnRemovePost.UseVisualStyleBackColor = false;
             this.btnRemovePost.Click += new System.EventHandler(this.btnRemovePost_Click);
             // 
             // TitlePanel

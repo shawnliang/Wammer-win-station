@@ -119,9 +119,9 @@ namespace Waveface
             this.timerCanEdit = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnAddFootNote = new Waveface.Component.ImageButton();
-            this.btnFunction1 = new Waveface.Component.ImageButton();
             this.btnFavorite = new Waveface.Component.ImageButton();
             this.btnEdit = new Waveface.Component.ImageButton();
+            this.btnFunction1 = new Waveface.Component.ImageButton();
             this.panelTop = new Waveface.DVTopPanel();
             this.labelTitle = new System.Windows.Forms.Label();
             this.panelTop.SuspendLayout();
@@ -129,9 +129,10 @@ namespace Waveface
             // 
             // panelMain
             // 
-            this.panelMain.BackColor = System.Drawing.Color.White;
             resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.BackColor = System.Drawing.Color.White;
             this.panelMain.Name = "panelMain";
+            this.toolTip.SetToolTip(this.panelMain, resources.GetString("panelMain.ToolTip"));
             // 
             // timerGC
             // 
@@ -162,20 +163,6 @@ namespace Waveface
             this.btnAddFootNote.UseVisualStyleBackColor = false;
             this.btnAddFootNote.Click += new System.EventHandler(this.btnAddFootNote_Click);
             // 
-            // btnFunction1
-            // 
-            resources.ApplyResources(this.btnFunction1, "btnFunction1");
-            this.btnFunction1.BackColor = System.Drawing.SystemColors.Control;
-            this.btnFunction1.CenterAlignImage = false;
-            this.btnFunction1.Image = global::Waveface.Properties.Resources.FB_moreoption;
-            this.btnFunction1.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
-            this.btnFunction1.ImageFront = null;
-            this.btnFunction1.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
-            this.btnFunction1.Name = "btnFunction1";
-            this.btnFunction1.UseVisualStyleBackColor = false;
-            this.btnFunction1.DoubleClick += new System.EventHandler(this.btnMoreOption1_DoubleClick);
-            this.btnFunction1.Click += new System.EventHandler(this.btnMoreOption1_Click);
-            // 
             // btnFavorite
             // 
             resources.ApplyResources(this.btnFavorite, "btnFavorite");
@@ -205,15 +192,31 @@ namespace Waveface
             this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
+            // btnFunction1
+            // 
+            resources.ApplyResources(this.btnFunction1, "btnFunction1");
+            this.btnFunction1.BackColor = System.Drawing.SystemColors.Control;
+            this.btnFunction1.CenterAlignImage = false;
+            this.btnFunction1.Image = global::Waveface.Properties.Resources.FB_moreoption;
+            this.btnFunction1.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
+            this.btnFunction1.ImageFront = null;
+            this.btnFunction1.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
+            this.btnFunction1.Name = "btnFunction1";
+            this.toolTip.SetToolTip(this.btnFunction1, resources.GetString("btnFunction1.ToolTip"));
+            this.btnFunction1.UseVisualStyleBackColor = false;
+            this.btnFunction1.DoubleClick += new System.EventHandler(this.btnMoreOption1_DoubleClick);
+            this.btnFunction1.Click += new System.EventHandler(this.btnMoreOption1_Click);
+            // 
             // panelTop
             // 
+            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.BackColor = System.Drawing.Color.White;
             this.panelTop.Controls.Add(this.btnFunction1);
             this.panelTop.Controls.Add(this.btnFavorite);
             this.panelTop.Controls.Add(this.btnEdit);
             this.panelTop.Controls.Add(this.labelTitle);
-            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
+            this.toolTip.SetToolTip(this.panelTop, resources.GetString("panelTop.ToolTip"));
             this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseMove);
             // 
             // labelTitle
@@ -221,14 +224,16 @@ namespace Waveface
             resources.ApplyResources(this.labelTitle, "labelTitle");
             this.labelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(121)))), ((int)(((byte)(143)))));
             this.labelTitle.Name = "labelTitle";
+            this.toolTip.SetToolTip(this.labelTitle, resources.GetString("labelTitle.ToolTip"));
             // 
             // DetailView
             // 
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.btnAddFootNote);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelTop);
-            resources.ApplyResources(this, "$this");
             this.Name = "DetailView";
+            this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             this.ResumeLayout(false);
@@ -267,7 +272,7 @@ namespace Waveface
 
             panelTop.Enabled = !Main.Current.BatchPostManager.CheckPostInQueue(m_post.post_id);
 
-            PostType _postType = getPostType();
+            PostType _postType = getPostType(m_post.type);
 
             switch (_postType)
             {
@@ -345,31 +350,25 @@ namespace Waveface
             return iso8601Time;
         }
 
-        private PostType getPostType()
+        private PostType getPostType(string postType)
         {
-            bool _haveDOC = false;
-
-            if (m_post.preview.url != null)
-                return PostType.Link;
-
-            if (m_post.attachment_count > 0)
+            switch (postType)
             {
-                foreach (Attachment _a in m_post.attachments)
-                {
-                    if (_a.type == "doc")
-                    {
-                        _haveDOC = true;
-                        break;
-                    }
-                }
+                case "text":
+                    return PostType.Text;
 
-                if (m_post.type == "rtf")
-                    return PostType.RichText;
-
-                if (_haveDOC)
+                case "doc":
                     return PostType.Document;
 
-                return PostType.Photo;
+                case "link":
+                    return PostType.Link;
+
+                case "image":
+                    return PostType.Photo;
+
+                case "rtf":
+
+                    return PostType.RichText;
             }
 
             return PostType.Text;
@@ -470,7 +469,7 @@ namespace Waveface
 
             if (textBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Stream", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Waveface Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
                 return false;
             }

@@ -180,7 +180,7 @@ namespace Waveface
 
             InitializeComponent();
 
-            Text = "Waveface ";
+            Text = "Waveface Stream";
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
@@ -367,7 +367,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("Station401Exception"), "Stream", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("Station401Exception"), "Waveface Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 m_forceLogout = true;
@@ -387,7 +387,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("ForceLogout"), "Stream", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("ForceLogout"), "Waveface Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 m_forceLogout = true;
@@ -1068,7 +1068,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Stream"); //@! i18n
+                MessageBox.Show("Please Login first.", "Waveface Stream"); //@! i18n
                 return;
             }
 
@@ -1095,7 +1095,7 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                //MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Stream");
+                //MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface Stream");
 
                 NLogUtility.Exception(s_logger, _e, "Edit Post");
             }
@@ -1113,7 +1113,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Stream"); //@! i18n
+                MessageBox.Show("Please Login first.", "Waveface Stream"); //@! i18n
                 return;
             }
 
@@ -1134,7 +1134,7 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Stream");
+                MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface Stream");
 
                 NLogUtility.Exception(s_logger, _e, "Post");
             }
@@ -1191,7 +1191,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "PostUpdate");
 
-                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ReloadAllData();
 
@@ -1230,7 +1230,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "PostUpdate");
 
-                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ReloadAllData();
 
@@ -1251,7 +1251,7 @@ namespace Waveface
             {
                 RemovePostLocalAndRefresh(postId, true);
 
-                MessageBox.Show(I18n.L.T("PostRemoved"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(I18n.L.T("PostRemoved"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Cursor = Cursors.Default;
                 return true;
@@ -1700,7 +1700,7 @@ namespace Waveface
         {
             NewPostThreadErrorDialogResult = DialogResult.None;
 
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.FileMiss"), text), "Stream", MessageBoxIcon.Warning);
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.FileMiss"), text), "Waveface Stream", MessageBoxIcon.Warning);
             _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
             DialogResult _dr = _msgBox.ShowDialog();
 
@@ -1711,7 +1711,7 @@ namespace Waveface
         {
             NewPostThreadErrorDialogResult = DialogResult.None;
 
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.OverQuota"), text), "Stream", MessageBoxIcon.Warning);
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.OverQuota"), text), "Waveface Stream", MessageBoxIcon.Warning);
             _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
             DialogResult _dr = _msgBox.ShowDialog();
 

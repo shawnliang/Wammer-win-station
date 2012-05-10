@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
@@ -90,7 +91,9 @@ namespace Waveface.DetailUI
 
             setSelectedItem(m_initSelectedImageIndex);
 
-            SendKeys.Send("{LEFT}"); //Hack
+            imageListView.Select();
+
+            ReArrangeUI();
         }
 
         private void setSelectedItem(int selectedIndex)
@@ -273,7 +276,18 @@ namespace Waveface.DetailUI
                     btnSave.Visible = true;
                     miSave.Visible = true;
                 }
+
+                SetImageBox();
             }
+        }
+
+        private void SetImageBox()
+        {
+            imageBox.Image = new Bitmap(m_selectedImage.FileName);
+
+            imageBox.Zoom = 100;
+
+            UpdateStatusBar();
         }
 
         private void btnSlideShow_Click(object sender, EventArgs e)
@@ -370,7 +384,7 @@ namespace Waveface.DetailUI
                 m_post = _retPost;
             }
 
-            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)
@@ -385,11 +399,74 @@ namespace Waveface.DetailUI
 
         private void PhotoView_Resize(object sender, EventArgs e)
         {
+            ReArrangeUI();
+        }
+
+        private void ReArrangeUI()
+        {
             int _x = (Width - 240 - 20) / 2;
 
             btnCoverImage.Left = _x;
             btnSlideShow.Left = _x + 120;
             btnSave.Left = _x + 240;
+
+            btnCoverImage.Visible = true;
+            btnSlideShow.Visible = true;
+            btnSave.Visible = true;
+
+            imageBox.Left = 0;
+            imageBox.Top = panelTop.Height;
+            imageBox.Width = imageListView.Width;
+            imageBox.Height = imageListView.Height - 158;
+        }
+
+        private void UpdateStatusBar()
+        {
+            positionToolStripStatusLabel.Text = imageBox.AutoScrollPosition.ToString();
+            imageSizeToolStripStatusLabel.Text = imageBox.GetImageViewPort().ToString();
+            zoomToolStripStatusLabel.Text = string.Format("{0}%", imageBox.Zoom);
+        }
+
+        private void imageBox_ZoomChanged(object sender, EventArgs e)
+        {
+            UpdateStatusBar();
+        }
+
+        private void imageBox_Resize(object sender, EventArgs e)
+        {
+            UpdateStatusBar();
+        }
+
+        private void imageBox_Scroll(object sender, ScrollEventArgs e)
+        {
+            UpdateStatusBar();
+        }
+
+        private void imageBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            SendKeyToImageListView(e);
+        }
+
+        private void SendKeyToImageListView(KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Left:
+                    imageListView.Focus();
+                    SendKeys.Send("{LEFT}");
+
+                    break;
+                case Keys.Right:
+                    imageListView.Focus();
+                    SendKeys.Send("{RIGHT}");
+
+                    break;
+            }
+        }
+
+        private void PhotoView_KeyDown(object sender, KeyEventArgs e)
+        {
+            SendKeyToImageListView(e);
         }
     }
 }
