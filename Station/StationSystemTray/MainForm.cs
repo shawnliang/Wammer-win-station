@@ -974,13 +974,14 @@ namespace StationSystemTray
 			this.Hide();
 
 			var signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
-			var postData = new FBLoginPostData()
+			var postData = new FBPostData()
 			{
 				device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
 				device_name = Environment.MachineName,
 				device = "windows",
 				api_key = CLIENT_API_KEY,
-				xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s", signUpUrl)
+				xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s", signUpUrl),
+				locale = System.Threading.Thread.CurrentThread.CurrentCulture.ToString()
 			};
 
 			var browser = new WebBrowser()
@@ -1253,13 +1254,14 @@ namespace StationSystemTray
 		{
 				this.Hide();
 				var fbLoginUrl = string.Format("{0}/{1}/FBLogin", m_CallbackUrl, FB_LOGIN_GUID);
-				var postData = new FBLoginPostData()
+				var postData = new FBPostData()
 				{
 					device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
 					device_name = Environment.MachineName,
 					device = "windows",
 					api_key = CLIENT_API_KEY,
-					xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s", fbLoginUrl)
+					xurl = string.Format("{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s", fbLoginUrl),
+					locale = System.Threading.Thread.CurrentThread.CurrentCulture.ToString()
 				};
 
 				var browser = new WebBrowser()
@@ -1402,13 +1404,14 @@ namespace StationSystemTray
 	}
 	#endregion
 
-	public class FBLoginPostData
+	public class FBPostData
 	{
 		public string device_id { get; set; }
 		public string device_name { get; set; }
 		public string device { get; set; }
 		public string api_key { get; set; }
 		public string xurl { get; set; }
+		public string locale { get; set; }
 	}
 
 
