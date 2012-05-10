@@ -142,7 +142,8 @@ namespace StationSystemTray
 			{
 				foreach (UserLoginSetting userlogin in settings.Users)
 				{
-					if (userlogin.SessionToken == settings.LastLogin)
+					if (!string.IsNullOrEmpty(settings.LastLogin) 
+						&& userlogin.SessionToken == settings.LastLogin)
 					{
 						return userlogin;
 					}

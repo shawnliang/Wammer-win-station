@@ -918,6 +918,7 @@ namespace StationSystemTray
 
 			if (exitCode == -2)  // client logout
 			{
+				userloginContainer.UpdateLastLogin(string.Empty);
 				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
 			}
 			else if (exitCode == -3)  // client unlink
