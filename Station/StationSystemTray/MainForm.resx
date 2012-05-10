@@ -694,17 +694,8 @@
   <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
     <value>btnOK</value>
   </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
-  </data>
   <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
     <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -712,29 +703,14 @@
   <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.Name" xml:space="preserve">
-    <value>btnOK2</value>
-  </data>
   <data name="&gt;&gt;btnOK2.Name" xml:space="preserve">
     <value>btnOK2</value>
   </data>
   <data name="&gt;&gt;btnOK2.Parent" xml:space="preserve">
     <value>tabSecondStationSetup</value>
   </data>
-  <data name="&gt;&gt;btnOK2.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
   <data name="&gt;&gt;btnOK2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;btnOK2.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -760,17 +736,8 @@
   <data name="&gt;&gt;chkRememberPassword.Name" xml:space="preserve">
     <value>chkRememberPassword</value>
   </data>
-  <data name="&gt;&gt;chkRememberPassword.Name" xml:space="preserve">
-    <value>chkRememberPassword</value>
-  </data>
   <data name="&gt;&gt;chkRememberPassword.Parent" xml:space="preserve">
     <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chkRememberPassword.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -778,17 +745,8 @@
   <data name="&gt;&gt;chkRememberPassword.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="&gt;&gt;chkRememberPassword.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
   <data name="&gt;&gt;cmbEmail.Name" xml:space="preserve">
     <value>cmbEmail</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.Name" xml:space="preserve">
-    <value>cmbEmail</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
   </data>
   <data name="&gt;&gt;cmbEmail.Parent" xml:space="preserve">
     <value>tabSignIn</value>
@@ -796,17 +754,8 @@
   <data name="&gt;&gt;cmbEmail.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;cmbEmail.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;cmbEmail.ZOrder" xml:space="preserve">
     <value>8</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;fbLoginButton1.Name" xml:space="preserve">
-    <value>fbLoginButton1</value>
   </data>
   <data name="&gt;&gt;fbLoginButton1.Name" xml:space="preserve">
     <value>fbLoginButton1</value>
@@ -814,17 +763,8 @@
   <data name="&gt;&gt;fbLoginButton1.Parent" xml:space="preserve">
     <value>tabSignIn</value>
   </data>
-  <data name="&gt;&gt;fbLoginButton1.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
   <data name="&gt;&gt;fbLoginButton1.Type" xml:space="preserve">
     <value>StationSystemTray.Control.FBLoginButton, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;fbLoginButton1.Type" xml:space="preserve">
-    <value>StationSystemTray.Control.FBLoginButton, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;fbLoginButton1.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="&gt;&gt;fbLoginButton1.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -832,17 +772,8 @@
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -850,17 +781,8 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>tabSignIn</value>
@@ -868,17 +790,8 @@
   <data name="&gt;&gt;label2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lblEmail.Name" xml:space="preserve">
-    <value>lblEmail</value>
   </data>
   <data name="&gt;&gt;lblEmail.Name" xml:space="preserve">
     <value>lblEmail</value>
@@ -886,17 +799,8 @@
   <data name="&gt;&gt;lblEmail.Parent" xml:space="preserve">
     <value>tabSignIn</value>
   </data>
-  <data name="&gt;&gt;lblEmail.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
   <data name="&gt;&gt;lblEmail.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblEmail.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblEmail.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="&gt;&gt;lblEmail.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -904,17 +808,8 @@
   <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
     <value>lblMainStationSetup</value>
   </data>
-  <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
-    <value>lblMainStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblMainStationSetup.Parent" xml:space="preserve">
     <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblMainStationSetup.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblMainStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblMainStationSetup.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -922,17 +817,8 @@
   <data name="&gt;&gt;lblMainStationSetup.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;lblMainStationSetup.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="&gt;&gt;lblPassword.Name" xml:space="preserve">
     <value>lblPassword</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.Name" xml:space="preserve">
-    <value>lblPassword</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
   </data>
   <data name="&gt;&gt;lblPassword.Parent" xml:space="preserve">
     <value>tabSignIn</value>
@@ -940,17 +826,8 @@
   <data name="&gt;&gt;lblPassword.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;lblPassword.ZOrder" xml:space="preserve">
     <value>9</value>
-  </data>
-  <data name="&gt;&gt;lblPassword.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Name" xml:space="preserve">
-    <value>lblSecondStationSetup</value>
   </data>
   <data name="&gt;&gt;lblSecondStationSetup.Name" xml:space="preserve">
     <value>lblSecondStationSetup</value>
@@ -958,17 +835,8 @@
   <data name="&gt;&gt;lblSecondStationSetup.Parent" xml:space="preserve">
     <value>tabSecondStationSetup</value>
   </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblSecondStationSetup.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;lblSecondStationSetup.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -976,17 +844,8 @@
   <data name="&gt;&gt;lblSignIn.Name" xml:space="preserve">
     <value>lblSignIn</value>
   </data>
-  <data name="&gt;&gt;lblSignIn.Name" xml:space="preserve">
-    <value>lblSignIn</value>
-  </data>
   <data name="&gt;&gt;lblSignIn.Parent" xml:space="preserve">
     <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;lblSignIn.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;lblSignIn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblSignIn.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -994,17 +853,8 @@
   <data name="&gt;&gt;lblSignIn.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;lblSignIn.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="&gt;&gt;lblSignUp.Name" xml:space="preserve">
     <value>lblSignUp</value>
-  </data>
-  <data name="&gt;&gt;lblSignUp.Name" xml:space="preserve">
-    <value>lblSignUp</value>
-  </data>
-  <data name="&gt;&gt;lblSignUp.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
   </data>
   <data name="&gt;&gt;lblSignUp.Parent" xml:space="preserve">
     <value>tabSignIn</value>
@@ -1012,17 +862,8 @@
   <data name="&gt;&gt;lblSignUp.Type" xml:space="preserve">
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblSignUp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;lblSignUp.ZOrder" xml:space="preserve">
     <value>6</value>
-  </data>
-  <data name="&gt;&gt;lblSignUp.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
-    <value>lblWelcome</value>
   </data>
   <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
     <value>lblWelcome</value>
@@ -1030,17 +871,8 @@
   <data name="&gt;&gt;lblWelcome.Parent" xml:space="preserve">
     <value>tabMainStationSetup</value>
   </data>
-  <data name="&gt;&gt;lblWelcome.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblWelcome.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;lblWelcome.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -1048,17 +880,8 @@
   <data name="&gt;&gt;lblWelcome2.Name" xml:space="preserve">
     <value>lblWelcome2</value>
   </data>
-  <data name="&gt;&gt;lblWelcome2.Name" xml:space="preserve">
-    <value>lblWelcome2</value>
-  </data>
   <data name="&gt;&gt;lblWelcome2.Parent" xml:space="preserve">
     <value>tabSecondStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblWelcome2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1066,8 +889,11 @@
   <data name="&gt;&gt;lblWelcome2.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;lblWelcome2.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;localSettingToolStripMenuItem.Name" xml:space="preserve">
+    <value>localSettingToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;localSettingToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;menuQuit.Name" xml:space="preserve">
     <value>menuQuit</value>
@@ -1102,17 +928,8 @@
   <data name="&gt;&gt;tabMainStationSetup.Name" xml:space="preserve">
     <value>tabMainStationSetup</value>
   </data>
-  <data name="&gt;&gt;tabMainStationSetup.Name" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
   <data name="&gt;&gt;tabMainStationSetup.Parent" xml:space="preserve">
     <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabMainStationSetup.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabMainStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabMainStationSetup.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1120,17 +937,8 @@
   <data name="&gt;&gt;tabMainStationSetup.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;tabMainStationSetup.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;tabSecondStationSetup.Name" xml:space="preserve">
     <value>tabSecondStationSetup</value>
-  </data>
-  <data name="&gt;&gt;tabSecondStationSetup.Name" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
-  <data name="&gt;&gt;tabSecondStationSetup.Parent" xml:space="preserve">
-    <value>tabControl</value>
   </data>
   <data name="&gt;&gt;tabSecondStationSetup.Parent" xml:space="preserve">
     <value>tabControl</value>
@@ -1138,17 +946,8 @@
   <data name="&gt;&gt;tabSecondStationSetup.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tabSecondStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;tabSecondStationSetup.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="&gt;&gt;tabSecondStationSetup.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;tabSignIn.Name" xml:space="preserve">
-    <value>tabSignIn</value>
   </data>
   <data name="&gt;&gt;tabSignIn.Name" xml:space="preserve">
     <value>tabSignIn</value>
@@ -1156,20 +955,17 @@
   <data name="&gt;&gt;tabSignIn.Parent" xml:space="preserve">
     <value>tabControl</value>
   </data>
-  <data name="&gt;&gt;tabSignIn.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabSignIn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;tabSignIn.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabSignIn.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;tabSignIn.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
+    <value>toolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
     <value>toolStripSeparator1</value>
@@ -1204,23 +1000,11 @@
   <data name="&gt;&gt;txtPassword.Name" xml:space="preserve">
     <value>txtPassword</value>
   </data>
-  <data name="&gt;&gt;txtPassword.Name" xml:space="preserve">
-    <value>txtPassword</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
   <data name="&gt;&gt;txtPassword.Parent" xml:space="preserve">
     <value>tabSignIn</value>
   </data>
   <data name="&gt;&gt;txtPassword.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.ZOrder" xml:space="preserve">
-    <value>7</value>
   </data>
   <data name="&gt;&gt;txtPassword.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -1525,6 +1309,12 @@
   <data name="lblWelcome2.Text" xml:space="preserve">
     <value>Welcome to Waveface</value>
   </data>
+  <data name="localSettingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="localSettingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Local Setting...</value>
+  </data>
   <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
@@ -1585,6 +1375,9 @@
   <data name="tabSignIn.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 6</value>
   </data>
@@ -1598,7 +1391,7 @@
     <value>True</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 126</value>
+    <value>153, 154</value>
   </data>
   <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>

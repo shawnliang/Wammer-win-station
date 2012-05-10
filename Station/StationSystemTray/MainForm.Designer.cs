@@ -61,6 +61,8 @@ namespace StationSystemTray
 			this.btnOK2 = new System.Windows.Forms.Button();
 			this.lblSecondStationSetup = new System.Windows.Forms.Label();
 			this.lblWelcome2 = new System.Windows.Forms.Label();
+			this.localSettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.TrayMenu.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabSignIn.SuspendLayout();
@@ -81,6 +83,8 @@ namespace StationSystemTray
             this.toolStripSeparator1,
             this.tsmiOpenStream,
             this.menuSignIn,
+            this.toolStripMenuItem1,
+            this.localSettingToolStripMenuItem,
             this.toolStripSeparator3,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
@@ -280,6 +284,17 @@ namespace StationSystemTray
 			resources.ApplyResources(this.lblWelcome2, "lblWelcome2");
 			this.lblWelcome2.Name = "lblWelcome2";
 			// 
+			// localSettingToolStripMenuItem
+			// 
+			this.localSettingToolStripMenuItem.Name = "localSettingToolStripMenuItem";
+			resources.ApplyResources(this.localSettingToolStripMenuItem, "localSettingToolStripMenuItem");
+			this.localSettingToolStripMenuItem.Click += new System.EventHandler(this.localSettingToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+			// 
 			// MainForm
 			// 
 			this.AcceptButton = this.btnSignIn;
@@ -336,6 +351,8 @@ namespace StationSystemTray
 		private FBLoginButton fbLoginButton1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem localSettingToolStripMenuItem;
 	}
 }
 

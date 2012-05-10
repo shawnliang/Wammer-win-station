@@ -75,6 +75,12 @@
     <Compile Include="Control\TabControlEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Dialog\LocalSettingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\LocalSettingDialog.Designer.cs">
+      <DependentUpon>LocalSettingDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +102,9 @@
     <Compile Include="Win32Helper.cs" />
     <EmbeddedResource Include="Control\FBLoginButton.resx">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\LocalSettingDialog.resx">
+      <DependentUpon>LocalSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -160,6 +169,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>FOR /R "$(ProjectDir)" %25%25G IN (*.resx) DO CALL "$(SolutionDir)Tools\SortRESX.exe" "%25%25~G" "%25%25~G.tmp"

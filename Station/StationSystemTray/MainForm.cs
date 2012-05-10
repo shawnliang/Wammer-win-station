@@ -1358,6 +1358,15 @@ namespace StationSystemTray
 		{
 
 		}
+
+		private void localSettingToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (var dialog = new LocalSettingDialog())
+			{
+				dialog.StartPosition = FormStartPosition.CenterParent;
+				dialog.ShowDialog();
+			}
+		}
 	}
 
 	#region StationStatusUIController
