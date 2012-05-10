@@ -27,6 +27,9 @@ namespace Wammer.Station.Timeline
 
 		public List<PostInfo> RetrievePosts(System.Net.WebClient agent, Driver user, List<string> posts)
 		{
+			if (posts == null || posts.Count == 0)
+				return new List<PostInfo>();
+
 			PostApi api = new PostApi(user);
 			return api.PostFetchByPostId(agent, posts).posts;
 		}
