@@ -71,22 +71,24 @@ namespace Waveface
         private bool m_getAllDataError;
         private string m_newestUpdateTime;
         private string m_initSessionToken;
-        private BorderlessFormTheme m_borderlessFormTheme = new BorderlessFormTheme();
+        // private BorderlessFormTheme m_borderlessFormTheme = new BorderlessFormTheme();
 
         #endregion
 
         #region Properties
 
+        /*
         public BorderlessFormTheme BorderlessFormTheme
         {
             get { return m_borderlessFormTheme; }
         }
+        */
 
         public string LoadingImagePath
         {
             get
             {
-				return Path.Combine(GCONST.RunTimeDataPath, "LoadingImage.jpg");
+                return Path.Combine(GCONST.RunTimeDataPath, "LoadingImage.jpg");
             }
         }
 
@@ -178,7 +180,7 @@ namespace Waveface
 
             InitializeComponent();
 
-            Text = "Waveface ";
+            Text = "Waveface Stream";
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
@@ -193,12 +195,10 @@ namespace Waveface
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
 
-            //System.Net.ServicePointManager.DefaultConnectionLimit = 64;
-
             m_autoUpdator = new AppLimit.NetSparkle.Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
             m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
 
-			bgWorkerGetAllData.WorkerSupportsCancellation = true;
+            bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
             s_logger.Trace("Constructor: OK");
         }
@@ -212,12 +212,12 @@ namespace Waveface
 
             postsArea.PostsList.DetailView = detailView;
 
-			if (Environment.GetCommandLineArgs().Length == 1)
-			{
-				NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+            if (Environment.GetCommandLineArgs().Length == 1)
+            {
+                NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 
-				UpdateNetworkStatus();
-			}
+                UpdateNetworkStatus();
+            }
 
             // InitDropableNotifyIcon();
 
@@ -228,7 +228,7 @@ namespace Waveface
 
             CreateLoadingImage();
 
-            BorderlessFormTheme.ApplyFormThemeSizable(this, false);
+            //@ BorderlessFormTheme.ApplyFormThemeSizable(this, false);
 
             s_logger.Trace("Form_Load: OK");
         }
@@ -240,7 +240,7 @@ namespace Waveface
                 case (Keys.Control | Keys.N):
                     if (RT.Login != null)
                     {
-                            Post();
+                        Post();
                     }
 
                     return true;
@@ -320,8 +320,8 @@ namespace Waveface
                 return true;
             }
 
-                return false;
-            }
+            return false;
+        }
 
         private void SaveRunTime()
         {
@@ -367,7 +367,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("Station401Exception"), "Waveface", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("Station401Exception"), "Waveface Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 m_forceLogout = true;
@@ -387,7 +387,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("ForceLogout"), "Waveface", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("ForceLogout"), "Waveface Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 m_forceLogout = true;
@@ -416,14 +416,14 @@ namespace Waveface
         }
 
         public void Logout()
-        {			
+        {
             Program.ShowCrashReporter = false;
 
             QuitOption = QuitOption.Logout;
 
-			timerPolling.Enabled = false;
+            timerPolling.Enabled = false;
 
-			bgWorkerGetAllData.CancelAsync();
+            bgWorkerGetAllData.CancelAsync();
 
             try
             {
@@ -462,12 +462,6 @@ namespace Waveface
         {
             m_setting = new SettingForm(m_autoUpdator);
             m_setting.ShowDialog();
-
-            if (m_setting.isUnlink)
-            {
-                QuitOption = QuitOption.Unlink;
-                Close();
-            }
 
             m_setting = null;
         }
@@ -574,17 +568,17 @@ namespace Waveface
 
         public void UpdateNetworkStatus()
         {
-			    RT.REST.IsNetworkAvailable = true;
+            RT.REST.IsNetworkAvailable = true;
 
-			StatusLabelNetwork.Text = I18n.L.T("NetworkConnected");
-			StatusLabelNetwork.Image = Resources.network_receive;
+            StatusLabelNetwork.Text = I18n.L.T("NetworkConnected");
+            StatusLabelNetwork.Image = Resources.network_receive;
 
-			StatusLabelServiceStatus.Visible = true;
+            StatusLabelServiceStatus.Visible = true;
         }
 
         public bool CheckNetworkStatus()
         {
-                return true;
+            return true;
         }
 
         private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
@@ -611,7 +605,7 @@ namespace Waveface
 
             m_forceLogout = false;
 
-			WService.StationIP = "";
+            WService.StationIP = "";
 
             panelTitle.showRefreshUI(false);
 
@@ -620,17 +614,17 @@ namespace Waveface
 
 
         private bool procLoginResponse(MR_auth_login _login)
-			{
+            {
             if (_login == null)
             {
                 s_logger.Trace("Login.Auth_Login: null");
                 return false;
             }
 
-            s_logger.Trace("Login.Auth_Login: OK");            
+            s_logger.Trace("Login.Auth_Login: OK");
 
             RT.Login = _login;
-			GCONST = new GCONST(RT);
+            GCONST = new GCONST(RT);
 
             getGroupAndUser();
             fillUserInformation();
@@ -638,14 +632,14 @@ namespace Waveface
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
             RT.LoadGroupLocalRead();
 
-			if (Environment.GetCommandLineArgs().Length == 1)
-				StartBgThreads();
-			else
-			{
-				UploadOriginPhotosToStationManager.Start();
-				PhotoDownloader.Start();
-				BatchPostManager.Start();
-			}
+            if (Environment.GetCommandLineArgs().Length == 1)
+                StartBgThreads();
+            else
+            {
+                UploadOriginPhotosToStationManager.Start();
+                PhotoDownloader.Start();
+                BatchPostManager.Start();
+            }
 
             leftArea.SetNewPostManager();
 
@@ -686,9 +680,7 @@ namespace Waveface
 			}
 			catch (Exception e)
 			{
-                s_logger.Error("Cannot login: " + e.ToString());
-                MessageBox.Show(I18n.L.T("ForceLogout"));
-                QuitOption = Waveface.QuitOption.Logout;
+				MessageBox.Show(I18n.L.T("ForceLogout") + "\r\n" + e.ToString());
 				Close();
 			}
         }
@@ -1076,7 +1068,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
+                MessageBox.Show("Please Login first.", "Waveface Stream"); //@! i18n
                 return;
             }
 
@@ -1103,7 +1095,7 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                //MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface");
+                //MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface Stream");
 
                 NLogUtility.Exception(s_logger, _e, "Edit Post");
             }
@@ -1121,7 +1113,7 @@ namespace Waveface
         {
             if (!RT.LoginOK)
             {
-                MessageBox.Show("Please Login first.", "Waveface"); //@! i18n
+                MessageBox.Show("Please Login first.", "Waveface Stream"); //@! i18n
                 return;
             }
 
@@ -1142,7 +1134,7 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface");
+                MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Waveface Stream");
 
                 NLogUtility.Exception(s_logger, _e, "Post");
             }
@@ -1199,7 +1191,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "PostUpdate");
 
-                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ReloadAllData();
 
@@ -1238,7 +1230,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "PostUpdate");
 
-                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ReloadAllData();
 
@@ -1259,7 +1251,7 @@ namespace Waveface
             {
                 RemovePostLocalAndRefresh(postId, true);
 
-                MessageBox.Show(I18n.L.T("PostRemoved"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(I18n.L.T("PostRemoved"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Cursor = Cursors.Default;
                 return true;
@@ -1418,6 +1410,13 @@ namespace Waveface
 
         public void ClickCalendar(DateTime date)
         {
+            if (date == DateTime.Now.Date)
+            {
+                setCalendarDay(date);
+                postsArea.PostsList.ScrollTo(0);
+                return;
+            }
+
             MonthCalendar _calendar = leftArea.MonthCalendar;
 
             if (!_calendar.BoldedDates.Contains(date.Date))
@@ -1431,6 +1430,7 @@ namespace Waveface
             MonthCalendar _calendar = leftArea.MonthCalendar;
             _calendar.SelectionStart = date;
             _calendar.SelectionEnd = date;
+            _calendar.ViewStart = date;
         }
 
         #endregion
@@ -1500,7 +1500,7 @@ namespace Waveface
 
                 _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-				Post(new List<string> { _pathToSave }, PostType.Photo);
+                Post(new List<string> { _pathToSave }, PostType.Photo);
             }
             catch (Exception _e)
             {
@@ -1544,81 +1544,88 @@ namespace Waveface
 
         private void timerPolling_Tick(object sender, EventArgs e)
         {
-			timerPolling.Enabled = false;
+            timerPolling.Enabled = false;
 
-			try
-			{
-				if (checkNewPosts())
-				{
-					ReloadAllData();
-
-					return;
-				}
-
-            string _newestUpdateTime;
-
-            if (string.IsNullOrEmpty(m_newestUpdateTime))
+            try
             {
-                _newestUpdateTime = GetNewestUpdateTimeInPosts(RT.CurrentGroupPosts);
-            }
-            else
-				{
-                _newestUpdateTime = m_newestUpdateTime;
-            }
+                if (checkNewPosts())
+                {
+                    ReloadAllData();
 
-					_newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
+                    return;
+                }
 
-					MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
+                string _newestUpdateTime;
 
-					if (_usertracks != null)
-					{
-						if (_usertracks.get_count == 0)
-						{
-							timerPolling.Enabled = true;
+                if (string.IsNullOrEmpty(m_newestUpdateTime))
+                {
+                    _newestUpdateTime = GetNewestUpdateTimeInPosts(RT.CurrentGroupPosts);
+                }
+                else
+                {
+                    _newestUpdateTime = m_newestUpdateTime;
+                }
 
-							return;
-						}
+                _newestUpdateTime = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
 
-                m_newestUpdateTime = _usertracks.latest_timestamp;
+                MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
 
-						foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
-						{
-							foreach (UT_Action _action in _usertrack.actions)
-							{
-								if (_action.action == "hide")
-								{
+                if (_usertracks != null)
+                {
+                    if (_usertracks.get_count == 0)
+                    {
+                        timerPolling.Enabled = true;
+
+                        return;
+                    }
+
+                    m_newestUpdateTime = _usertracks.latest_timestamp;
+
+                    foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
+                    {
+                        foreach (UT_Action _action in _usertrack.actions)
+                        {
+                            if (_action.action == "unhide")
+                            {
+                                ReloadAllData();
+
+                                return;
+                            }
+
+                            if ((_action.action == "hide") && (_usertrack.target_type == "post"))
+                            {
                                 RemovePostLocalAndRefresh(_usertrack.target_id, false);
-								}
-							}
-						}
+                            }
+                        }
+                    }
 
-						string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
+                    string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
 
-						MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+                    MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
 
-						if (_postsGet != null)
-						{
+                    if (_postsGet != null)
+                    {
                         bool _changed = false;
 
-							foreach (Post _p in _postsGet.posts)
-							{
+                        foreach (Post _p in _postsGet.posts)
+                        {
                             _changed = ReplacePostInList(_p, RT.CurrentGroupPosts);
-							}
+                        }
 
-                        if(_changed)
+                        if (_changed)
                             ShowAllTimeline(ShowTimelineIndexType.LocalLastRead, -1);
-						}
-					}
+                    }
+                }
 
-			}
-			catch (Exception ex)
-			{
-				s_logger.WarnException("user track failed", ex);
-			}
-			finally
-			{
-				timerPolling.Enabled = true;
-			}
+            }
+            catch (Exception ex)
+            {
+                s_logger.WarnException("user track failed", ex);
+            }
+            finally
+            {
+                timerPolling.Enabled = true;
+            }
         }
 
         private void showTaskbarNotifier(Post post)
@@ -1693,7 +1700,7 @@ namespace Waveface
         {
             NewPostThreadErrorDialogResult = DialogResult.None;
 
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.FileMiss"), text), "Waveface", MessageBoxIcon.Warning);
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.FileMiss"), text), "Waveface Stream", MessageBoxIcon.Warning);
             _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
             DialogResult _dr = _msgBox.ShowDialog();
 
@@ -1704,7 +1711,7 @@ namespace Waveface
         {
             NewPostThreadErrorDialogResult = DialogResult.None;
 
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.OverQuota"), text), "Waveface", MessageBoxIcon.Warning);
+            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.OverQuota"), text), "Waveface Stream", MessageBoxIcon.Warning);
             _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") }, new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
             DialogResult _dr = _msgBox.ShowDialog();
 
@@ -1730,10 +1737,10 @@ namespace Waveface
             MR_posts_getLatest _getLatest = null;
 
             try
-			{
-					_getLatest = RT.REST.Posts_getLatest(_firstGetCount);
-				}
-			catch
+            {
+                _getLatest = RT.REST.Posts_getLatest(_firstGetCount);
+            }
+            catch
             {
                 //Hack: Cloud �R�X���~����
 
@@ -1756,11 +1763,11 @@ namespace Waveface
 
                     while (_remainingCount > 0)
                     {
-						if (bgWorkerGetAllData.CancellationPending)
-						{
-							e.Cancel = true;
-							return;
-						}
+                        if (bgWorkerGetAllData.CancellationPending)
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
                         _datum =
                             DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
 
@@ -1855,7 +1862,7 @@ namespace Waveface
                             {
                                 string _url = post.preview.thumbnail_url;
 
-								string _localPic = Path.Combine(GCONST.RunTimeDataPath, post.post_id + "_previewthumbnail_" + ".jpg");
+                                string _localPic = Path.Combine(GCONST.RunTimeDataPath, post.post_id + "_previewthumbnail_" + ".jpg");
 
                                 PreloadThumbnail(_url, _localPic);
                             }
@@ -1883,7 +1890,7 @@ namespace Waveface
                                 Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url,
                                                                                  out _fileName, false);
 
-								string _localPic = Path.Combine(GCONST.ImageCachePath, _fileName);
+                                string _localPic = Path.Combine(GCONST.ImageCachePath, _fileName);
 
                                 PreloadThumbnail(_url, _localPic);
                             }
@@ -1897,7 +1904,7 @@ namespace Waveface
 
                             if (_a.image != string.Empty)
                             {
-                                string _localPic =  Path.Combine(GCONST.ImageCachePath, _a.object_id + "_thumbnail" + ".jpg");
+                                string _localPic = Path.Combine(GCONST.ImageCachePath, _a.object_id + "_thumbnail" + ".jpg");
 
                                 string _url = _a.image;
 
@@ -1945,11 +1952,12 @@ namespace Waveface
 
         private void panelTitle_MouseMove(object sender, MouseEventArgs e)
         {
-            if (WindowState != FormWindowState.Maximized)
+            /*
+            if (!BorderlessFormTheme.HostWindow.WinMaxed)
             {
                 if (MouseButtons.ToString() == "Left")
                 {
-                   ReleaseCapture();
+                    ReleaseCapture();
 
                     uint WM_NCLBUTTONDOWN = 161;
                     int HT_CAPTION = 0x2;
@@ -1957,6 +1965,7 @@ namespace Waveface
                     SendMessage(Parent.Parent.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
                 }
             }
+            */
         }
 
         #endregion

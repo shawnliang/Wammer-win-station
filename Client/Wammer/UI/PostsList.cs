@@ -148,6 +148,9 @@ namespace Waveface
         {
             doScrollAction = false;
 
+            // Test: 
+            // posts = posts.GetRange(0, DateTime.Now.Second % 5);
+
             try
             {
                 if (lastRead >= posts.Count)
@@ -178,7 +181,14 @@ namespace Waveface
 
                 DoDisplayedScrolling(lastRead);
 
-                NotifyDetailView();
+                if (m_posts.Count == 0)
+                {
+                    ResetDetailViewUI();
+                }
+                else
+                {
+                    NotifyDetailView();
+                }             
             }
             catch (Exception _e)
             {
@@ -191,7 +201,7 @@ namespace Waveface
         #region DataGridView
 
         private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
-        private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(234, 234,234));
+        private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(234, 234, 234));
         private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(234, 234, 234)); // 217, 217, 217
 
         private Color m_inforColor = Color.FromArgb(95, 121, 143);
@@ -450,8 +460,10 @@ namespace Waveface
                 {
                     string _url = post.preview.thumbnail_url;
 
+                    int _hashCode = Math.Abs(post.preview.thumbnail_url.GetHashCode());
+
                     string _localPic = Path.Combine(Main.GCONST.AppDataPath,
-                                                    post.post_id + "_previewthumbnail_" + ".jpg");
+                                                    post.post_id + "_previewthumbnail_" + _hashCode + ".jpg");
 
                     Bitmap _img = LoadThumbnail(_url, _localPic);
 
@@ -615,6 +627,11 @@ namespace Waveface
             m_detailView.Post = _post;
         }
 
+        private void ResetDetailViewUI()
+        {
+            m_detailView.ResetUI();
+        }
+
         #endregion
 
         #region Misc
@@ -659,6 +676,12 @@ namespace Waveface
                     dataGridView.ResumeLayout();
                 }
             }
+        }
+
+        public void ScrollTo(int index)
+        {
+            dataGridView.FirstDisplayedScrollingRowIndex = index;
+            m_postBS.Position = index;
         }
 
         public void ScrollToDay(DateTime date)
@@ -869,7 +892,7 @@ namespace Waveface
         {
             Post _post = m_postBS[m_postBS.Position] as Post;
 
-            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Waveface", MessageBoxButtons.YesNo,
+            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Waveface Stream", MessageBoxButtons.YesNo,
                                                MessageBoxIcon.Question);
 
             if (_dr != DialogResult.Yes)

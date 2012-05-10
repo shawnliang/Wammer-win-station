@@ -234,6 +234,10 @@ namespace Waveface
             {
                 btnOK.Focus();
             }
+
+            // Todo
+            // CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+            // CultureManager.ApplicationUICulture = new CultureInfo("en-US");
         }
 
         private void doLogin(string email, string password)
@@ -266,7 +270,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "doLogin");
 
-                MessageBox.Show(I18n.L.T("StationServiceDown"), "Waveface");
+                MessageBox.Show(I18n.L.T("StationServiceDown"), "Waveface Stream");
                 Environment.Exit(-1);
             }
             catch (ServiceUnavailableException _e)
@@ -275,14 +279,14 @@ namespace Waveface
 
                 // user should re-register station if receive service unavailable exception
                 // so we close the login page here
-                MessageBox.Show(I18n.L.T("RegisteredRequired", txtUserName.Text), "Waveface");
+                MessageBox.Show(I18n.L.T("RegisteredRequired", txtUserName.Text), "Waveface Stream");
                 Environment.Exit(-1);
             }
             catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "doLogin");
 
-                MessageBox.Show(I18n.L.T("LoginForm.LogInError") + " : " + _e.Message, "Waveface");
+                MessageBox.Show(I18n.L.T("LoginForm.LogInError") + " : " + _e.Message, "Waveface Stream");
                 Environment.Exit(-1);
             }
         }
@@ -314,7 +318,7 @@ namespace Waveface
             {
                 Cursor = Cursors.Default;
 
-                MessageBox.Show((_errorMessage != string.Empty) ? _errorMessage : I18n.L.T("LoginForm.LogInError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show((_errorMessage != string.Empty) ? _errorMessage : I18n.L.T("LoginForm.LogInError"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _quit = QuitOption.Logout;
             }
 
@@ -325,7 +329,7 @@ namespace Waveface
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
             {
-                MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Waveface Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
 
                 return;
@@ -341,7 +345,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("LoginForm.FillAllFields"), "Waveface", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("LoginForm.FillAllFields"), "Waveface Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
             }
         }

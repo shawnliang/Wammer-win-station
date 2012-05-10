@@ -25,7 +25,7 @@ namespace Waveface.PostUI
         {
             btnSend.Text = I18n.L.T("Update");
 
-            buttonRemovePreview.Visible = false;
+            // buttonRemovePreview.Visible = false;
 
             buttonPrev.Visible = false;
             buttonNext.Visible = false;
@@ -36,7 +36,7 @@ namespace Waveface.PostUI
             {
                 if (Main.Current.CheckNetworkStatus())
                 {
-                    if (post.preview.thumbnail_url == null)
+                    if (string.IsNullOrEmpty(post.preview.thumbnail_url))
                     {
                         panelContent.Left = 0;
                         panelContent.Width = panelPreview.Width - 8;
@@ -60,27 +60,32 @@ namespace Waveface.PostUI
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            if (MyParent.pureTextBox.Text.Trim().Equals(string.Empty))
-            {
-                MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             if (MyParent.EditMode)
             {
-                if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
+                if (m_mrPreviewsGetAdv == null)
                 {
-					Preview_OpenGraph _openGraph = CreateOpenGraph();
+                    if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
+                    {
+                        Dictionary<string, string> _params = new Dictionary<string, string>();
+                        _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)));
+
+                        Main.Current.PostUpdate(MyParent.Post, _params, true);
+                    }
+                }
+                else
+                {
+                    Preview_OpenGraph _openGraph = CreateOpenGraph();
                     string previews = JsonConvert.SerializeObject(_openGraph);
-					string type = (previews != "") ? "link" : "text";
+                    string type = (previews != "") ? "link" : "text";
 
                     Dictionary<string, string> _params = new Dictionary<string, string>();
-                    _params.Add("content", MyParent.pureTextBox.Text.Trim());
-					_params.Add("type", type);
+                    _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)));
 
-					if (previews != null)
-						_params.Add("preview", previews);
-					
+                    _params.Add("type", type);
+
+                    if (previews != null)
+                        _params.Add("preview", previews);
+
                     Main.Current.PostUpdate(MyParent.Post, _params, true);
                 }
 
@@ -150,11 +155,11 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(MyParent.pureTextBox.Text), "", previews, _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)), "", previews, _type);
 
                 if (_np == null)
                 {
-                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
@@ -263,6 +268,16 @@ namespace Waveface.PostUI
         {
             m_mrPreviewsGetAdv = null;
 
+            if (MyParent.EditMode)
+            {
+                buttonPrev.Visible = true;
+                buttonNext.Visible = true;
+                labelPictureIndex.Visible = true;
+                cbNoThumbnail.Visible = true;
+
+                MyParent.BackFromEditMode();
+            }
+
             MyParent.toPureText_Mode();
         }
 
@@ -302,7 +317,7 @@ namespace Waveface.PostUI
 
         private void General_WebLink_Resize(object sender, EventArgs e)
         {
-            BackColor = Color.FromArgb(255, 255, 255); //Hack
+            BackColor = Color.FromArgb(226,226,226); //Hack
         }
 
         private void cbNoThumbnail_CheckedChanged(object sender, EventArgs e)

@@ -107,7 +107,9 @@ namespace Waveface.Component.PopupControl
             ShowingAnimation = PopupAnimations.SystemDefault;
             HidingAnimation = PopupAnimations.None;
             AnimationDuration = 100;
+
             InitializeComponent();
+
             AutoSize = false;
             DoubleBuffered = true;
             ResizeRedraw = true;
@@ -232,7 +234,7 @@ namespace Waveface.Component.PopupControl
                 Content.SelectNextControl(null, !_backward, true, true, true);
             }
 
-            return _processed;
+            return false; // _processed;
         }
 
         protected void UpdateRegion()

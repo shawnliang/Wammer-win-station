@@ -3,6 +3,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Windows.Forms;
 using Waveface.Properties;
 
@@ -13,7 +14,7 @@ namespace Waveface
     public class DVTopPanel : UserControl
     {
         private TextureBrush m_brush4;
-        private TextureBrush m_brushDivider;
+        private TextureBrush m_brushMD;
         private Component.ImageButton btnClose;
         private Component.ImageButton btnMax;
         private Component.ImageButton btnMin;
@@ -30,7 +31,7 @@ namespace Waveface
             SetStyle(ControlStyles.UserPaint, true);
 
             m_brush4 = new TextureBrush(Resources.titlebar_4, WrapMode.Tile);
-            m_brushDivider = new TextureBrush(Resources.divider, WrapMode.Tile);
+            m_brushMD = new TextureBrush(Resources.MD, WrapMode.Tile);
         }
 
         protected override void OnResize(EventArgs eventargs)
@@ -50,7 +51,7 @@ namespace Waveface
 
         private void SetWinButtonProperties()
         {
-            int _left = Width - btnClose.Width - 8;
+            int _left = Width - btnClose.Width - 1;
             btnClose.Left = _left;
 
             _left -= btnMax.Width;
@@ -59,6 +60,7 @@ namespace Waveface
             _left -= btnMin.Width;
             btnMin.Left = _left;
 
+            /*
             if ((Main.Current != null) && (Main.Current.BorderlessFormTheme != null) && (Main.Current.BorderlessFormTheme.HostWindow != null))
             {
                 if (Main.Current.BorderlessFormTheme.HostWindow.WinMaxed)
@@ -74,6 +76,7 @@ namespace Waveface
                     btnMax.ImageHover = Resources.MMC_Restore_hl;
                 }
             }
+            */
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -83,18 +86,18 @@ namespace Waveface
 
             using (Graphics _g = Graphics.FromImage(m_bmpOffscreen))
             {
-                //_g.TextRenderingHint = TextRenderingHint.AntiAlias;
-                //_g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                //_g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                //_g.SmoothingMode = SmoothingMode.HighQuality;
+                _g.TextRenderingHint = TextRenderingHint.AntiAlias;
+                _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                _g.SmoothingMode = SmoothingMode.HighQuality;
 
-                // _g.FillRectangle(m_brushDivider, 0, Height - 3, Width, 3);
+                _g.DrawImage(Resources.titlebar_3, -1, 0, Resources.titlebar_3.Width, Height);
 
-                _g.DrawImage(Resources.titlebar_3, -16, 0, Resources.titlebar_3.Width, Height);
+                _g.FillRectangle(m_brush4, Resources.titlebar_3.Width - 2, 0, Width, Resources.titlebar_4.Height);
 
-                _g.FillRectangle(m_brush4, Resources.titlebar_3.Width - 17, 0, Width - 16, Resources.titlebar_4.Height);
-
-                _g.DrawLine(Pens.LightGray, 16, Height - 3, Width - 32, Height - 3);
+                _g.DrawImage(Resources.LD, 2, Height - 3, Resources.LD.Width, 1);
+                _g.DrawImage(Resources.RD, Width - Resources.RD.Width - 128, Height - 3, Resources.RD.Width, 1);
+                _g.FillRectangle(m_brushMD, Resources.LD.Width, Height - 3, Width - Resources.LD.Width - Resources.RD.Width - 128, 1);
 
                 e.Graphics.DrawImage(m_bmpOffscreen, 0, 0);
             }
@@ -114,40 +117,46 @@ namespace Waveface
             // btnMin
             // 
             this.btnMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMin.CenterAlignImage = false;
             this.btnMin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMin.Image = global::Waveface.Properties.Resources.MMC_Min;
             this.btnMin.ImageDisable = global::Waveface.Properties.Resources.MMC_Min;
             this.btnMin.ImageHover = global::Waveface.Properties.Resources.MMC_Min_hl;
-            this.btnMin.Location = new System.Drawing.Point(313, 0);
+            this.btnMin.Location = new System.Drawing.Point(323, 0);
             this.btnMin.Name = "btnMin";
             this.btnMin.Size = new System.Drawing.Size(29, 16);
             this.btnMin.TabIndex = 2;
+            this.btnMin.Visible = false;
             this.btnMin.Click += new System.EventHandler(this.btnMin_Click);
             // 
             // btnMax
             // 
             this.btnMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMax.CenterAlignImage = false;
             this.btnMax.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMax.Image = global::Waveface.Properties.Resources.MMC_Restore;
             this.btnMax.ImageDisable = global::Waveface.Properties.Resources.MMC_Restore;
             this.btnMax.ImageHover = global::Waveface.Properties.Resources.MMC_Restore_hl;
-            this.btnMax.Location = new System.Drawing.Point(341, 0);
+            this.btnMax.Location = new System.Drawing.Point(351, 0);
             this.btnMax.Name = "btnMax";
             this.btnMax.Size = new System.Drawing.Size(29, 16);
             this.btnMax.TabIndex = 1;
+            this.btnMax.Visible = false;
             this.btnMax.Click += new System.EventHandler(this.btnMax_Click);
             // 
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.CenterAlignImage = false;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClose.Image = global::Waveface.Properties.Resources.MMC_Close;
             this.btnClose.ImageDisable = global::Waveface.Properties.Resources.MMC_Close;
             this.btnClose.ImageHover = global::Waveface.Properties.Resources.MMC_Close_hl;
-            this.btnClose.Location = new System.Drawing.Point(370, 0);
+            this.btnClose.Location = new System.Drawing.Point(380, 0);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(28, 16);
             this.btnClose.TabIndex = 0;
+            this.btnClose.Visible = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // DVTopPanel
@@ -166,7 +175,7 @@ namespace Waveface
 
         private void btnMin_Click(object sender, EventArgs e)
         {
-            Main.Current.BorderlessFormTheme.DoMin();
+            //Main.Current.BorderlessFormTheme.DoMin();
         }
 
         private void btnMax_Click(object sender, EventArgs e)
@@ -176,14 +185,14 @@ namespace Waveface
 
         private void DoMax()
         {
-            Main.Current.BorderlessFormTheme.DoMax();
+            //Main.Current.BorderlessFormTheme.DoMax();
 
             SetWinButtonProperties();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            Main.Current.BorderlessFormTheme.DoClose();
+            //Main.Current.BorderlessFormTheme.DoClose();
         }
 
         private void DVTopPanel_DoubleClick(object sender, EventArgs e)

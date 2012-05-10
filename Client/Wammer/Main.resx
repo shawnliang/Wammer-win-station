@@ -141,7 +141,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="postsArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>337, 480</value>
+    <value>337, 504</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="postsArea.TabIndex" type="System.Int32, mscorlib">
@@ -169,7 +169,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 480</value>
+    <value>328, 504</value>
   </data>
   <data name="panelPost.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -199,7 +199,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="splitterLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 480</value>
+    <value>2, 504</value>
   </data>
   <data name="splitterLeft.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -226,7 +226,7 @@
     <value>0, 0</value>
   </data>
   <data name="leftArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 480</value>
+    <value>180, 504</value>
   </data>
   <data name="leftArea.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -253,7 +253,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelLeftInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 480</value>
+    <value>180, 504</value>
   </data>
   <data name="panelLeftInfo.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -304,7 +304,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>510, 544</value>
+    <value>510, 568</value>
   </data>
   <data name="panelLeft.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -331,7 +331,7 @@
     <value>0, 0</value>
   </data>
   <data name="detailView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>480, 544</value>
+    <value>480, 568</value>
   </data>
   <data name="detailView.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -358,7 +358,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>480, 544</value>
+    <value>480, 568</value>
   </data>
   <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -436,7 +436,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="splitterRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 544</value>
+    <value>2, 568</value>
   </data>
   <data name="splitterRight.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -521,6 +521,9 @@
   </data>
   <data name="statusStrip.Text" xml:space="preserve">
     <value>statusStrip</value>
+  </data>
+  <data name="statusStrip.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;statusStrip.Name" xml:space="preserve">
     <value>statusStrip</value>
@@ -914,9 +917,6 @@
         AAAAAAAf8AAAAAAAAB/wAAAAAAAAH/AAAAAAAAAf8AAAAAAAAB/4AAAAAAAAP///////////////////
         //8=
 </value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>1008, 606</value>

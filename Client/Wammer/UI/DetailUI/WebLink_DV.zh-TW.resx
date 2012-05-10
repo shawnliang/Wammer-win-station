@@ -117,14 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="miOpenInWebBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="miOpenInWebBrowser.Text" xml:space="preserve">
-    <value>在網頁瀏覽器開啟</value>
-  </data>
-  <data name="contextMenuStripMore.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 26</value>
+  <data name="btnOpenInWebBrowser.Text" xml:space="preserve">
+    <value>在瀏覽器開啟原始網頁</value>
   </data>
 </root>
