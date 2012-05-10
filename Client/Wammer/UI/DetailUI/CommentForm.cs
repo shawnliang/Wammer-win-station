@@ -59,7 +59,7 @@ namespace Waveface
         {
             if (textBoxComment.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

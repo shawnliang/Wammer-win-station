@@ -103,7 +103,7 @@ namespace Waveface.FilterUI
         {
             if (tbName.Text == string.Empty)
             {
-                MessageBox.Show("Please enter a value for the \"Name\" field.", "Stream", MessageBoxButtons.OK);
+                MessageBox.Show("Please enter a value for the \"Name\" field.", "Waveface Stream", MessageBoxButtons.OK);
                 return;
             }
 
@@ -126,7 +126,7 @@ namespace Waveface.FilterUI
         {
             if (tbName.Text == string.Empty)
             {
-                MessageBox.Show("Please enter a value for the \"Name\" field.", "Stream", MessageBoxButtons.OK);
+                MessageBox.Show("Please enter a value for the \"Name\" field.", "Waveface Stream", MessageBoxButtons.OK);
                 return;
             }
 

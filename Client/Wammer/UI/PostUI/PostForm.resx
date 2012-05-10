@@ -159,7 +159,7 @@
     <value>None</value>
   </data>
   <data name="btnAddPhoto.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt, style=Bold</value>
+    <value>Tahoma, 9.75pt, style=Bold</value>
   </data>
   <data name="btnAddPhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -664,7 +664,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt, style=Bold</value>
+    <value>Tahoma, 9.75pt, style=Bold</value>
   </data>
   <data name="btnSend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>

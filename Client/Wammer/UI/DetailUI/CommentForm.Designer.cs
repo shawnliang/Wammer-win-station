@@ -35,7 +35,7 @@
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxComment = new Waveface.Component.RichEdit.RichTextEditor();
-            this.buttonAddComment = new Waveface.Component.XPButton();
+            this.buttonAddComment = new Waveface.Component.ImageButton();
             this.contextMenuStripEdit.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,20 +51,20 @@
             // 
             // cutToolStripMenuItem
             // 
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             resources.ApplyResources(this.cutToolStripMenuItem, "cutToolStripMenuItem");
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             resources.ApplyResources(this.copyToolStripMenuItem, "copyToolStripMenuItem");
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // textBoxComment
@@ -79,10 +79,13 @@
             // 
             // buttonAddComment
             // 
-            this.buttonAddComment.AdjustImageLocation = new System.Drawing.Point(0, 0);
             resources.ApplyResources(this.buttonAddComment, "buttonAddComment");
-            this.buttonAddComment.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonAddComment.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.buttonAddComment.CenterAlignImage = false;
+            this.buttonAddComment.ForeColor = System.Drawing.Color.White;
+            this.buttonAddComment.Image = global::Waveface.Properties.Resources.FB_creat_btn;
+            this.buttonAddComment.ImageDisable = global::Waveface.Properties.Resources.FB_creat_btn_hl;
+            this.buttonAddComment.ImageFront = null;
+            this.buttonAddComment.ImageHover = global::Waveface.Properties.Resources.FB_creat_btn_hl;
             this.buttonAddComment.Name = "buttonAddComment";
             this.buttonAddComment.UseVisualStyleBackColor = true;
             this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
@@ -109,6 +112,6 @@
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private Waveface.Component.RichEdit.RichTextEditor textBoxComment;
-        public Component.XPButton buttonAddComment;
+        public Component.ImageButton buttonAddComment;
     }
 }

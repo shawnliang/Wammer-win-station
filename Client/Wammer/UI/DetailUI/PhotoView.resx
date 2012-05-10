@@ -146,10 +146,10 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="imageListView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 97</value>
+    <value>12, 48</value>
   </data>
   <data name="imageListView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>454, 247</value>
+    <value>317, 262</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="imageListView.TabIndex" type="System.Int32, mscorlib">
@@ -165,7 +165,7 @@
     <value>panelMain</value>
   </data>
   <data name="&gt;&gt;imageListView.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <metadata name="saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>173, 17</value>
@@ -200,6 +200,15 @@
   <data name="StatusLabelCurrentSize.Size" type="System.Drawing.Size, System.Drawing">
     <value>4, 23</value>
   </data>
+  <data name="imageSizeToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 23</value>
+  </data>
+  <data name="positionToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 23</value>
+  </data>
+  <data name="zoomToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 23</value>
+  </data>
   <data name="StatusLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>0, 23</value>
   </data>
@@ -231,6 +240,66 @@
   <data name="panelMain.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="imageBox.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="imageBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="imageBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>358, 48</value>
+  </data>
+  <data name="imageBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>348, 262</value>
+  </data>
+  <data name="imageBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;imageBox.Name" xml:space="preserve">
+    <value>imageBox</value>
+  </data>
+  <data name="&gt;&gt;imageBox.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;imageBox.Parent" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;imageBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnSave.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnSave.Location" type="System.Drawing.Point, System.Drawing">
+    <value>243, 4</value>
+  </data>
+  <data name="btnSave.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="btnSave.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>452, 17</value>
+  </metadata>
+  <data name="btnSave.ToolTip" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="btnSave.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnSave.Name" xml:space="preserve">
+    <value>btnSave</value>
+  </data>
+  <data name="&gt;&gt;btnSave.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnSave.Parent" xml:space="preserve">
+    <value>panelTop</value>
+  </data>
+  <data name="&gt;&gt;btnSave.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="btnCoverImage.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -238,7 +307,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnCoverImage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>660, 13</value>
+    <value>472, 4</value>
   </data>
   <data name="btnCoverImage.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -246,11 +315,11 @@
   <data name="btnCoverImage.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>452, 17</value>
-  </metadata>
   <data name="btnCoverImage.ToolTip" xml:space="preserve">
     <value>Set as Cover Image</value>
+  </data>
+  <data name="btnCoverImage.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;btnCoverImage.Name" xml:space="preserve">
     <value>btnCoverImage</value>
@@ -259,10 +328,10 @@
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnCoverImage.Parent" xml:space="preserve">
-    <value>panelMain</value>
+    <value>panelTop</value>
   </data>
   <data name="&gt;&gt;btnCoverImage.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="btnSlideShow.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -271,7 +340,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnSlideShow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>692, 13</value>
+    <value>515, 4</value>
   </data>
   <data name="btnSlideShow.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -282,6 +351,9 @@
   <data name="btnSlideShow.ToolTip" xml:space="preserve">
     <value>Slide Show</value>
   </data>
+  <data name="btnSlideShow.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;btnSlideShow.Name" xml:space="preserve">
     <value>btnSlideShow</value>
   </data>
@@ -289,37 +361,34 @@
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnSlideShow.Parent" xml:space="preserve">
-    <value>panelMain</value>
+    <value>panelTop</value>
   </data>
   <data name="&gt;&gt;btnSlideShow.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
-  <data name="btnSave.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="panelTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
-  <data name="btnSave.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 13</value>
+  <data name="panelTop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="btnSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
+  <data name="panelTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>728, 28</value>
   </data>
-  <data name="btnSave.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="panelTop.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="btnSave.ToolTip" xml:space="preserve">
-    <value>Save</value>
+  <data name="&gt;&gt;panelTop.Name" xml:space="preserve">
+    <value>panelTop</value>
   </data>
-  <data name="&gt;&gt;btnSave.Name" xml:space="preserve">
-    <value>btnSave</value>
+  <data name="&gt;&gt;panelTop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btnSave.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnSave.Parent" xml:space="preserve">
+  <data name="&gt;&gt;panelTop.Parent" xml:space="preserve">
     <value>panelMain</value>
   </data>
-  <data name="&gt;&gt;btnSave.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;panelTop.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -418,6 +487,24 @@
     <value>StatusLabelCurrentSize</value>
   </data>
   <data name="&gt;&gt;StatusLabelCurrentSize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;positionToolStripStatusLabel.Name" xml:space="preserve">
+    <value>positionToolStripStatusLabel</value>
+  </data>
+  <data name="&gt;&gt;positionToolStripStatusLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;imageSizeToolStripStatusLabel.Name" xml:space="preserve">
+    <value>imageSizeToolStripStatusLabel</value>
+  </data>
+  <data name="&gt;&gt;imageSizeToolStripStatusLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoomToolStripStatusLabel.Name" xml:space="preserve">
+    <value>zoomToolStripStatusLabel</value>
+  </data>
+  <data name="&gt;&gt;zoomToolStripStatusLabel.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;StatusLabel.Name" xml:space="preserve">

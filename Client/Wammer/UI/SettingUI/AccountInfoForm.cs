@@ -34,8 +34,8 @@ namespace Waveface
         {
             Cursor = Cursors.WaitCursor;
 
-            string _userProfileUrl = WService.WebURL + "/user/profile";
-            string _url = WService.WebURL + "/login?cont=" + HttpUtility.UrlEncode(_userProfileUrl);
+            string _url = WService.WebURL + "/client/user/profile?";
+            _url += "session_token=" + HttpUtility.UrlEncode(Main.Current.RT.Login.session_token) + "&device=windows";
 
             webBrowser.Navigate(_url);
         }

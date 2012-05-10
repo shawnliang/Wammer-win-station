@@ -157,11 +157,13 @@ namespace Waveface.Component
 
                             if (Math.Min(_imageWidth, _imageHeight) > 32)
                             {
+                                /*
                                 using (Pen _pInnerBorder = new Pen(ImageListView.Colors.ImageInnerBorderColor))
                                 {
                                     g.DrawRectangle(_pInnerBorder, _imageX + 1, _imageY + 1, _imageWidth - 2,
                                                     _imageHeight - 2);
                                 }
+                                */
                             }
                         }
                     }
@@ -309,6 +311,7 @@ namespace Waveface.Component
 
         public override void DrawGalleryImage(Graphics g, ImageListViewItem item, Image image, Rectangle bounds)
         {
+            /*
             if (item != null && image != null)
             {
                 // Calculate image bounds
@@ -340,6 +343,7 @@ namespace Waveface.Component
                     }
                 }
             }
+            */
         }
 
         #region GetSizedImageBounds

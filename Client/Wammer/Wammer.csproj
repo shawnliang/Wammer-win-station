@@ -117,6 +117,9 @@
     <Reference Include="Waveface.Configuration.WindowsForms">
       <HintPath>..\Libs\Waveface.Configuration.WindowsForms.dll</HintPath>
     </Reference>
+    <Reference Include="WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="WebCam_Capture">
       <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
     </Reference>
@@ -130,6 +133,12 @@
     </Compile>
     <Compile Include="Component\CustomDataGridView.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Component\ImageBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Component\ImageBox.designer.cs">
+      <DependentUpon>ImageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Component\ImageButton.cs">
       <SubType>Component</SubType>
@@ -338,19 +347,6 @@
     <Compile Include="Component\FlashWindow.cs" />
     <Compile Include="Component\FlatTabControl.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component\ImageViewer\ImageBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component\ImageViewer\ImageBox.designer.cs">
-      <DependentUpon>ImageBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Component\ImageViewer\ImageBoxGridScale.cs" />
-    <Compile Include="Component\ImageViewer\ImageViewerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Component\ImageViewer\ImageViewerForm.designer.cs">
-      <DependentUpon>ImageViewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Component\ListBarControl\CustomBorderColor.cs" />
     <Compile Include="Component\ListBarControl\frmListBarTest.cs">
@@ -587,9 +583,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Component\CollapsibleSplitter.resx">
       <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Component\ImageViewer\ImageViewerForm.resx">
-      <DependentUpon>ImageViewerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Component\ListBarControl\frmListBarTest.resx">
       <DependentUpon>frmListBarTest.cs</DependentUpon>
@@ -1031,6 +1024,9 @@
     <None Include="Resources\Title\LD.png" />
     <None Include="Resources\Title\MD.png" />
     <None Include="Resources\Title\RD.png" />
+    <None Include="Resources\Magnifier.png" />
+    <None Include="Resources\ObjectPosition.png" />
+    <None Include="Resources\ObjectSize.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

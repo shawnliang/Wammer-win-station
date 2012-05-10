@@ -20,8 +20,6 @@ namespace Waveface.DetailUI
 {
     public class Photo_DV : UserControl, IDetailView
     {
-        private static Logger s_logger = LogManager.GetCurrentClassLogger();
-
         private Color BG_COLOR = Color.FromArgb(255, 255, 255);
 
         #region Fields
@@ -108,8 +106,6 @@ namespace Waveface.DetailUI
             imageListView.Colors.BackColor = BG_COLOR;
             imageListView.Colors.DisabledBackColor = BG_COLOR;
             imageListView.ThumbnailSize = new Size(144, 144);
-
-            //imageListView.AutoRotateThumbnails = false;
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
             m_filesMapping = new Dictionary<string, string>();
@@ -208,12 +204,14 @@ namespace Waveface.DetailUI
             // 
             // miSetCoverImage
             // 
+            this.miSetCoverImage.Image = global::Waveface.Properties.Resources.FB_cover;
             this.miSetCoverImage.Name = "miSetCoverImage";
             resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
             this.miSetCoverImage.Click += new System.EventHandler(this.miSetCoverImage_Click);
             // 
             // miOpen
             // 
+            this.miOpen.Image = global::Waveface.Properties.Resources.FB_openin;
             this.miOpen.Name = "miOpen";
             resources.ApplyResources(this.miOpen, "miOpen");
             this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
@@ -300,6 +298,8 @@ namespace Waveface.DetailUI
 
         private void RefreshUI()
         {
+            PhotoDownloader.PreloadPictures(m_post, true);
+
             Set_MainContent_Part();
 
             Set_Pictures();
@@ -358,8 +358,6 @@ namespace Waveface.DetailUI
 
         private void Set_Pictures()
         {
-            PhotoDownloader.PreloadPictures(m_post, true);
-
             imageListView.Items.Clear();
 
             m_filePathOrigins = new List<string>();
@@ -582,6 +580,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_MouseMove(object sender, MouseEventArgs e)
         {
+            /*
             ImageListView.HitInfo _hitInfo;
 
             imageListView.HitTest(e.Location, out _hitInfo);
@@ -590,6 +589,7 @@ namespace Waveface.DetailUI
             {
                 //MessageBox.Show(_hitInfo.ItemIndex.ToString());
             }
+            */
         }
 
         private void imageListView_ItemDoubleClick(object sender, ItemClickEventArgs e)
@@ -702,7 +702,7 @@ namespace Waveface.DetailUI
                         }
                     }
 
-                    MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Stream", MessageBoxButtons.OK,
+                    MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Waveface Stream", MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
                 }
             }

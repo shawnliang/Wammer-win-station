@@ -138,19 +138,19 @@ namespace Waveface.Component
 
             if (!string.IsNullOrEmpty(Text))
             {
-                Size _size = TextRenderer.MeasureText(Text, Font, Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                Size _size = TextRenderer.MeasureText(Text, Font);// , Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
 
                 if (m_imageFront == null)
                 {
-                    _g.DrawString(Text, Font, new SolidBrush(ForeColor), (Width - _size.Width) / 2,
-                                  (Height - _size.Height) / 2);
+                    _g.DrawString(Text, Font, new SolidBrush(ForeColor),  ((Width - _size.Width) / 2) + 2,
+                                  ((Height - _size.Height) / 2) + 1);
                 }
                 else
                 {
-                    int _offX = m_imageFront.Width + 6;
+                    int _offX = m_imageFront.Width + 5;
 
                     _g.DrawString(Text, Font, new SolidBrush(ForeColor), _offX + ((Width - _offX) - _size.Width) / 2,
-                                  (Height - _size.Height) / 2);
+                                  ((Height - _size.Height) / 2));
                 }
             }
 
