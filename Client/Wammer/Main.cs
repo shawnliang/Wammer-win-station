@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
@@ -679,9 +679,6 @@ namespace Waveface
 				BsonDocument doc = dbServer.GetDatabase("wammer").GetCollection("LoginedSession").FindOne(Query.EQ("_id", m_initSessionToken));
 				string json = doc.ToJson();
 
-				MessageBox.Show(m_initSessionToken);
-				MessageBox.Show(json);
-
 				MR_auth_login _login = JsonConvert.DeserializeObject<MR_auth_login>(json);
 				_login.session_token = m_initSessionToken;
 
@@ -689,7 +686,9 @@ namespace Waveface
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(I18n.L.T("ForceLogout") + "\r\n" + e.ToString());
+                s_logger.Error("Cannot login: " + e.ToString());
+                MessageBox.Show(I18n.L.T("ForceLogout"));
+                QuitOption = Waveface.QuitOption.Logout;
 				Close();
 			}
         }
