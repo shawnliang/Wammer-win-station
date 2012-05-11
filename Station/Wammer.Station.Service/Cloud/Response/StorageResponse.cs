@@ -5,7 +5,6 @@ namespace Wammer.Cloud
 	public class StorageResponse : CloudResponse
 	{
 		public StorageResponse()
-			: base()
 		{
 		}
 
@@ -25,7 +24,6 @@ namespace Wammer.Cloud
 		public StorageUrl storages { get; set; }
 		
 		public StorageAuthResponse()
-			: base()
 		{
 		}
 
@@ -46,7 +44,6 @@ namespace Wammer.Cloud
 		public StorageInfo storages;
 
 		public StorageLinkResponse()
-			: base()
 		{
 		}
 
@@ -69,7 +66,6 @@ namespace Wammer.Cloud
 		public StorageStatus storages;
 
 		public StorageCheckResponse()
-			: base()
 		{
 		}
 
@@ -146,7 +142,6 @@ namespace Wammer.Cloud
 		public Storages storages;
 
 		public StorageUsageResponse()
-			: base()
 		{
 		}
 

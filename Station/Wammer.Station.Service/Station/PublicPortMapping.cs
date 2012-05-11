@@ -11,13 +11,13 @@ namespace Wammer.Station
 		//private static PortMapper portMapper = TCMPortMapper.PortMapper.SharedInstance;
 		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("UPnP");
 
-		private bool hasDriver = false;
-		private ushort externalPort = 0;
-		private IPAddress externalIP = null;
+		private bool hasDriver;
+		private ushort externalPort;
+		private IPAddress externalIP;
 
-		private PortMapping myMapping = null;
+		private PortMapping myMapping;
 		private readonly object lockObj = new object();
-		private static readonly PublicPortMapping instance = null;
+		private static readonly PublicPortMapping instance;
 
 		private readonly Timer checkTimer;
 		private UPnPState state;
@@ -42,12 +42,12 @@ namespace Wammer.Station
 		{
 			this.hasDriver = (Model.DriverCollection.Instance.FindOne() != null);
 
-			TCMPortMapper.PortMapper.SharedInstance.DidChangeMappingStatus += new PortMapper.PMDidChangeMappingStatus(PortMappingChanged);
-			TCMPortMapper.PortMapper.SharedInstance.ExternalIPAddressDidChange += new PortMapper.PMExternalIPAddressDidChange(ExternalIPChanged);
-			TCMPortMapper.PortMapper.SharedInstance.WillStartSearchForRouter += new PortMapper.PMWillStartSearchForRouter(WillStartSearchForRouter);
-			TCMPortMapper.PortMapper.SharedInstance.DidStartWork += new PortMapper.PMDidStartWork(DidStartWork);
-			TCMPortMapper.PortMapper.SharedInstance.AllowMultithreadedCallbacks = true;
-			TCMPortMapper.PortMapper.SharedInstance.Start();
+			PortMapper.SharedInstance.DidChangeMappingStatus += new PortMapper.PMDidChangeMappingStatus(PortMappingChanged);
+			PortMapper.SharedInstance.ExternalIPAddressDidChange += new PortMapper.PMExternalIPAddressDidChange(ExternalIPChanged);
+			PortMapper.SharedInstance.WillStartSearchForRouter += new PortMapper.PMWillStartSearchForRouter(WillStartSearchForRouter);
+			PortMapper.SharedInstance.DidStartWork += new PortMapper.PMDidStartWork(DidStartWork);
+			PortMapper.SharedInstance.AllowMultithreadedCallbacks = true;
+			PortMapper.SharedInstance.Start();
 
 
 			this.state = new NoUPnPDeviceFoundState();

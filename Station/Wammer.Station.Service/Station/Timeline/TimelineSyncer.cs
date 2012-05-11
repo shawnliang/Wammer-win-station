@@ -55,8 +55,6 @@ namespace Wammer.Station.Timeline
 
 			using (WebClient agent = new DefaultWebClient())
 			{
-
-				var newSyncRange = new SyncRange();
 				PostResponse res;
 
 				res = user.sync_range == null ? postProvider.GetLastestPosts(agent, user, 200) : postProvider.GetPostsBefore(agent, user, user.sync_range.start_time, 200);

@@ -28,8 +28,8 @@ namespace Wammer.Cloud
 		public const string DEF_BASE_PATH = "v2";
 		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; //https://api.waveface.com/v2/
 
-		private static string apiKey = null;
-		private static string baseUrl = null;
+		private static string apiKey;
+		private static string baseUrl;
 
 		public const string PARAM_DETAIL = "detail";
 		public const string PARAM_API_KEY = "apikey";
@@ -61,7 +61,7 @@ namespace Wammer.Cloud
 
 		public static string SessionToken { get; set; }
 
-		private static bool isOffline = false;
+		private static bool isOffline;
 		
 		
 		

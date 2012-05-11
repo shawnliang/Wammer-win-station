@@ -10,7 +10,6 @@ namespace Wammer.Cloud
 		public List<UserInfo> users { get; set; }
 
 		protected PostResponse()
-			: base()
 		{
 		}
 
@@ -91,13 +90,11 @@ namespace Wammer.Cloud
 		public int remaining_count { get; set; }
 
 		public PostFetchByFilterResponse()
-			: base()
 		{
 		}
 
 		public PostFetchByFilterResponse(string group_id, int get_count, int remaining_count, 
 			List<PostInfo> posts, List<UserInfo> users)
-			: base()
 		{
 			this.group_id = group_id;
 			this.get_count = get_count;
@@ -119,13 +116,11 @@ namespace Wammer.Cloud
 		public long remaining_count { get; set; }
 
 		public PostGetResponse()
-			: base()
 		{
 		}
 
 		public PostGetResponse(string group_id, int get_count, int remaining_count,
 			List<PostInfo> posts, List<UserInfo> users)
-			: base()
 		{
 			this.group_id = group_id;
 			this.get_count = get_count;
@@ -145,12 +140,10 @@ namespace Wammer.Cloud
 		public PostInfo post { get; set; }
 
 		public PostGetSingleResponse()
-			: base()
 		{
 		}
 
 		public PostGetSingleResponse(PostInfo post, List<UserInfo> users)
-			: base()
 		{
 			this.post = post;
 			this.users = users;
@@ -169,13 +162,11 @@ namespace Wammer.Cloud
 		public long total_count { get; set; }
 
 		public PostGetLatestResponse()
-			: base()
 		{
 		}
 
 		public PostGetLatestResponse(string group_id, int get_count, int total_count, 
 			List<PostInfo> posts, List<UserInfo> users)
-			: base()
 		{
 			this.group_id = group_id;
 			this.get_count = get_count;

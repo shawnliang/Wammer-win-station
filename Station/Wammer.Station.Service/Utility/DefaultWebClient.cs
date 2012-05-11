@@ -8,13 +8,8 @@ namespace Wammer.Utility
 {
 	public class DefaultWebClient : WebClient
 	{
-		private int timeout = 0;
-		private int readWriteTimeout = 0;
-
-		public DefaultWebClient()
-			:base()
-		{
-		}
+		private int timeout;
+		private int readWriteTimeout;
 
 		static DefaultWebClient()
 		{

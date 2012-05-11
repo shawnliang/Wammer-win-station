@@ -37,7 +37,6 @@ namespace Wammer.Utility
 		private const uint SERVICE_CHANGE_CONFIG = 0x00000002;
 		private const uint SERVICE_AUTO_START = 0x00000002;
 
-		private const uint SC_MANAGER_ALL_ACCESS = 0x000F003F;
 		private const uint SC_MANAGER_CONNECT = 0x00000001;
 		private const uint SC_MANAGER_ENUMERATE_SERVICE = 0x00000004;
 

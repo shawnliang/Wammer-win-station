@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
-
-using Wammer.Station;
+using MongoDB.Driver.Builders;
 using Wammer.Model;
 using Wammer.PerfMonitor;
-
-using MongoDB.Driver.Builders;
 
 namespace Wammer.PostUpload
 {

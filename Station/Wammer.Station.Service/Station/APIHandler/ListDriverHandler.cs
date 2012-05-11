@@ -23,10 +23,5 @@ namespace Wammer.Station
 	public class ListDriverResponse: CloudResponse
 	{
 		public List<Driver> drivers { get; set; }
-
-		public ListDriverResponse()
-			:base()
-		{
-		}
 	}
 }

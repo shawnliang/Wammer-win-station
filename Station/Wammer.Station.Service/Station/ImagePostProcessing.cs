@@ -2,15 +2,9 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net;
 using log4net;
-using MongoDB.Bson;
-using MongoDB.Driver.Builders;
-using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using System.Threading;
-using System.Diagnostics;
 
 namespace Wammer.Station
 {
@@ -21,9 +15,7 @@ namespace Wammer.Station
 		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, ExifOrientations orientation,
 			string attachmentId, Driver driver, string origFileName)
 		{
-			Bitmap thumbnail = null;
-
-			thumbnail = meta == ImageMeta.Square ? MakeSquareThumbnail(origin) : ImageHelper.ScaleBasedOnLongSide(origin, (int)meta);
+			Bitmap thumbnail = meta == ImageMeta.Square ? MakeSquareThumbnail(origin) : ImageHelper.ScaleBasedOnLongSide(origin, (int)meta);
 
 			try
 			{

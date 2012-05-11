@@ -13,12 +13,8 @@ namespace Wammer.Station
 {
 	public class AddDriverHandler: HttpHandler
 	{
-		private static ILog logger = LogManager.GetLogger("AddDriverHandler");
 		private readonly string stationId;
 		private readonly string resourceBasePath;
-
-		private const int ERR_USER_HAS_ANOTHER_STATION = 16387;
-		private const int ERR_BAD_NAME_PASSWORD = 4097;
 
 		public event EventHandler<DriverAddedEvtArgs> DriverAdded;
 		public event EventHandler<BeforeDriverSavedEvtArgs> BeforeDriverSaved;

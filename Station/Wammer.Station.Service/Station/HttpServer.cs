@@ -191,7 +191,7 @@ namespace Wammer.Station
 			else
 			{
 				urlPrefix += "/" + path;
-				absPath = "/" + absPath;
+				absPath = "/";
 			}
 
 			if (!path.EndsWith("/"))
@@ -298,7 +298,6 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				m_Logger.Info("Shutdown server", e);
-				return;
 			}
 		}
 		#endregion
@@ -310,7 +309,7 @@ namespace Wammer.Station
 		private readonly IHttpHandler handler;
 		private readonly HttpListenerContext context;
 		private readonly long beginTime;
-		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
+		private static readonly ILog logger = LogManager.GetLogger("HttpHandler");
 
 		public HttpHandlingTask(IHttpHandler handler, HttpListenerContext context, long beginTime)
 		{

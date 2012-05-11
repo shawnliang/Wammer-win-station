@@ -57,10 +57,5 @@ namespace Wammer.Station
 	public class GetResourceDirResponse : Cloud.CloudResponse
 	{
 		public string path { get; set; }
-
-		public GetResourceDirResponse()
-			:base()
-		{
-		}
 	}
 }

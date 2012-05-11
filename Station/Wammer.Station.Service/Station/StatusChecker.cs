@@ -26,7 +26,7 @@ namespace Wammer.Station
 	{
 		//private Timer timer;
 		//private long timerPeriod;
-		private bool logon = false;  // logOn is needed for every time service start
+		private bool logon;  // logOn is needed for every time service start
 		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
 
 		public EventHandler<IsPrimaryChangedEvtArgs> IsPrimaryChanged;
@@ -67,10 +67,10 @@ namespace Wammer.Station
 
 		protected override void ExecuteOnTimedUp(object state)
 		{
-			SendHeartbeat(state);
+			SendHeartbeat();
 		}
 
-		private void SendHeartbeat(Object obj)
+		private void SendHeartbeat()
 		{
 			StationDetail detail = GetDetail();
 
@@ -94,7 +94,7 @@ namespace Wammer.Station
 					using (WebClient client = new DefaultWebClient())
 					{
 						LogonAndHeartbeat(client, sinfo, detail);
-						UpdatePrimaryStationSetting(client, sinfo);
+						UpdatePrimaryStationSetting(client);
 					}
 				}
 				catch (Exception ex)
@@ -125,7 +125,7 @@ namespace Wammer.Station
 			api.Heartbeat(client, detail);
 		}
 
-		private void UpdatePrimaryStationSetting(WebClient client, StationInfo sinfo)
+		private void UpdatePrimaryStationSetting(WebClient client)
 		{
 			foreach (var user in DriverCollection.Instance.FindAll())
 			{

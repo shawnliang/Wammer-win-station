@@ -105,7 +105,6 @@ namespace Wammer.Cloud
 		public UserStorages storages { get; set; }
 
 		public UserLogInResponse()
-			: base()
 		{
 		}
 

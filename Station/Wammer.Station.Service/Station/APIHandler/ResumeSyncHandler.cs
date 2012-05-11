@@ -41,10 +41,5 @@ namespace Wammer.Station
 	public class StationOnlineResponse : CloudResponse
 	{
 		public string session_token { get; set; }
-
-		public StationOnlineResponse()
-			: base()
-		{
-		}
 	}
 }

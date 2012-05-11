@@ -13,7 +13,6 @@ namespace Wammer.Station.AttachmentUpload
 		private readonly string object_id;
 		private readonly ImageMeta thumbnail_type;
 		private int retry_count;
-		private const int MAX_RETRY = 30;
 
 		public MakeThumbnailTask(string object_id, ImageMeta thumbnail_type, TaskPriority pri)
 			: base(Retry.RetryQueue.Instance, pri)

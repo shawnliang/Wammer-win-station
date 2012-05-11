@@ -220,21 +220,11 @@ namespace Wammer.Station
 	public class GetDropboxOAuthResponse : CloudResponse
 	{
 		public string oauth_url { get; set; }
-
-		public GetDropboxOAuthResponse()
-			: base()
-		{
-		}
 	}
 
 	public class ListCloudStorageResponse : CloudResponse
 	{
 		public List<CloudStorageStatus> cloudstorages { get; set; }
-
-		public ListCloudStorageResponse()
-			: base()
-		{
-		}
 	}
 
 	public class CloudStorageStatus

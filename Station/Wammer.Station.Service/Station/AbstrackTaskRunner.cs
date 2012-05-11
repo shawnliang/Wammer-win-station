@@ -14,7 +14,7 @@ namespace Wammer.Station
 				_thread = value;
 			}
 		}
-		protected volatile bool exit = false;
+		protected volatile bool exit;
 
 		public virtual void Start()
 		{

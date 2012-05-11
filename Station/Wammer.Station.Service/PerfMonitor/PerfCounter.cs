@@ -68,11 +68,6 @@ namespace Wammer.PerfMonitor
 		}
 		#endregion
 
-
-		static PerfCounter()
-		{
-		}
-
 		private PerfCounter(PerformanceCounter counter)
 		{
 			this.Counter = counter;

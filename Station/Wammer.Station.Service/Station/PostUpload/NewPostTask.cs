@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Net;
-using Wammer.Station;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using MongoDB.Driver.Builders;
+using Wammer.Station;
 
 namespace Wammer.PostUpload
 {
@@ -47,9 +45,6 @@ namespace Wammer.PostUpload
 						{
 							throw;
 						}
-
-						// cloud will always reject the request, so ignore the task.
-						return;
 					} 
 				}
 			}

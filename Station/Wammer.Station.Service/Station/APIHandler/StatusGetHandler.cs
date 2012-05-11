@@ -34,10 +34,5 @@ namespace Wammer.Station
 	public class GetStatusResponse : CloudResponse
 	{
 		public StationDetail station_status { get; set; }
-
-		public GetStatusResponse()
-			: base()
-		{
-		}
 	}
 }

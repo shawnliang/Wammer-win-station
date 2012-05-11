@@ -28,7 +28,7 @@ namespace Wammer.Station.Retry
 			{
 				this.Do();
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				// failQueue should not not be serialized because 
 				// this queue (RetryQueue) in fact is a single instance. 

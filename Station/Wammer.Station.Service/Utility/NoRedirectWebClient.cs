@@ -8,11 +8,6 @@ namespace Wammer.Utility
 {
 	class NoRedirectWebClient: WebClient
 	{
-		public NoRedirectWebClient()
-			:base()
-		{
-		}
-
 		protected override WebRequest GetWebRequest(Uri address)
 		{
 			WebRequest request = base.GetWebRequest(address);

@@ -19,7 +19,6 @@ namespace Wammer.Station
 {
 	class ResourceSyncer : NonReentrantTimer
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceSyncer));
 		private bool isFirstRun = true;
 		private readonly Timeline.TimelineSyncer syncer;
 		private readonly ResourceDownloader downloader;

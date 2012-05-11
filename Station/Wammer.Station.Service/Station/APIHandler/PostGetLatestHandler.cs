@@ -65,7 +65,6 @@ namespace Wammer.Station
 			               	};
 
 			long totalCount = 0;
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", Session.user.user_id));
 			totalCount = PostCollection.Instance
 				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"))).Count();
 
