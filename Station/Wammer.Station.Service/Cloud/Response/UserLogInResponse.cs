@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Wammer.Utility;
+using System.Xml.Serialization;
 using Wammer.Model;
+using Wammer.Utility;
 
 namespace Wammer.Cloud
 {
@@ -18,18 +19,12 @@ namespace Wammer.Cloud
 		public bool upnp { get; set; }
 		public string type { get; set; }
 
-		[System.Xml.Serialization.XmlIgnore]
-		public DateTime LastSeen 
+		[XmlIgnore]
+		public DateTime LastSeen
 		{
-			get
-			{
-				return TimeHelper.ConvertToDateTime(last_seen);
-			}
+			get { return TimeHelper.ConvertToDateTime(last_seen); }
 
-			set
-			{
-				last_seen = TimeHelper.ConvertToUnixTimeStamp(value);
-			}
+			set { last_seen = TimeHelper.ConvertToUnixTimeStamp(value); }
 		}
 	}
 
@@ -98,12 +93,6 @@ namespace Wammer.Cloud
 
 	public class UserLogInResponse : CloudResponse
 	{
-		public string session_token { get; set; }
-		public List<UserGroup> groups { get; set; }
-		public List<UserStation> stations { get; set; }
-		public UserInfo user { get; set; }
-		public UserStorages storages { get; set; }
-
 		public UserLogInResponse()
 		{
 		}
@@ -111,20 +100,19 @@ namespace Wammer.Cloud
 		public UserLogInResponse(int status, DateTime timestamp, string token)
 			: base(status, timestamp)
 		{
-			this.session_token = token;
+			session_token = token;
 		}
-	}
 
-	public class GetUserResponse : CloudResponse
-	{
 		public string session_token { get; set; }
 		public List<UserGroup> groups { get; set; }
 		public List<UserStation> stations { get; set; }
 		public UserInfo user { get; set; }
-		public UserStorages storages { get;set; }
+		public UserStorages storages { get; set; }
+	}
 
+	public class GetUserResponse : CloudResponse
+	{
 		public GetUserResponse()
-			: base()
 		{
 		}
 
@@ -132,6 +120,12 @@ namespace Wammer.Cloud
 			: base(status, timestamp)
 		{
 		}
+
+		public string session_token { get; set; }
+		public List<UserGroup> groups { get; set; }
+		public List<UserStation> stations { get; set; }
+		public UserInfo user { get; set; }
+		public UserStorages storages { get; set; }
 	}
 
 	public class FindMyStationResponse : CloudResponse

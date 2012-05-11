@@ -8,9 +8,9 @@ using Wammer.Utility;
 namespace Wammer.Station
 {
 	public class FootprintGetLastScanHandler : HttpHandler
-	{	
-
+	{
 		#region Protected Method
+
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
@@ -20,12 +20,12 @@ namespace Wammer.Station
 
 			string groupId = Parameters["group_id"];
 
-			if (!PermissionHelper.IsGroupPermissionOK(groupId, this.Session))
+			if (!PermissionHelper.IsGroupPermissionOK(groupId, Session))
 			{
 				throw new WammerStationException(
 					PostApiError.PermissionDenied.ToString(),
-					(int)PostApiError.PermissionDenied
-				);
+					(int) PostApiError.PermissionDenied
+					);
 			}
 
 			MongoCursor<PostInfo> posts = PostCollection.Instance
@@ -36,27 +36,30 @@ namespace Wammer.Station
 			if (posts.Any())
 			{
 				lastScan = new LastScanInfo
-					{
-						timestamp = posts.First().timestamp,
-						user_id = Session.user.user_id,
-						group_id = groupId,
-						post_id = posts.First().post_id
-					};
+				           	{
+				           		timestamp = posts.First().timestamp,
+				           		user_id = Session.user.user_id,
+				           		group_id = groupId,
+				           		post_id = posts.First().post_id
+				           	};
 			}
 			else
 			{
 				lastScan = new LastScanInfo();
 			}
 
-			RespondSuccess(new FootprintSetLastScanResponse { last_scan = lastScan });
+			RespondSuccess(new FootprintSetLastScanResponse {last_scan = lastScan});
 		}
+
 		#endregion
 
 		#region Public Method
+
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
+
 		#endregion
 	}
 }

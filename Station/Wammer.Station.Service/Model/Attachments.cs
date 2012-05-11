@@ -6,9 +6,13 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using Wammer.Cloud;
 using Wammer.Station;
+using Wammer.Utility;
+using Waveface;
+using fastJSON;
 
 namespace Wammer.Model
 {
@@ -18,38 +22,32 @@ namespace Wammer.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		[Description("none")]
-		None = 0,
+		[Description("none")] None = 0,
 
 		/// <summary>
 		/// 128x128 pixels
 		/// </summary>
-		[Description("square")]
-		Square = 128,
+		[Description("square")] Square = 128,
 
 		/// <summary>
 		/// 120 pixels
 		/// </summary>
-		[Description("small")]
-		Small = 120,
+		[Description("small")] Small = 120,
 
 		/// <summary>
 		/// 720 pixels
 		/// </summary>
-		[Description("medium")]
-		Medium = 512,
+		[Description("medium")] Medium = 512,
 
 		/// <summary>
 		/// 1024 pixels
 		/// </summary>
-		[Description("large")]
-		Large = 1024,
+		[Description("large")] Large = 1024,
 
 		/// <summary>
 		/// Original image size
 		/// </summary>
-		[Description("origin")]
-		Origin = 50 * 1024 * 1024
+		[Description("origin")] Origin = 50*1024*1024
 	}
 
 	public enum AttachmentType
@@ -67,27 +65,31 @@ namespace Wammer.Model
 	[BsonIgnoreExtraElements]
 	public class ThumbnailInfo : IAttachmentInfo
 	{
+		private byte[] rawData;
+
 		[BsonIgnoreIfNull]
 		public string url { get; set; }
+
 		[BsonIgnoreIfNull]
 		public int width { get; set; }
+
 		[BsonIgnoreIfNull]
 		public int height { get; set; }
-		[BsonIgnoreIfNull]
-		public string mime_type { get; set; }
+
 		[BsonIgnoreIfNull]
 		public DateTime modify_time { get; set; }
+
 		[BsonIgnoreIfNull]
 		public long file_size { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string file_name { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string md5 { get; set; }
-		[BsonIgnoreIfNull]
-		public string saved_file_name { get; set; }
 
 		[BsonIgnore]
-		[System.Xml.Serialization.XmlIgnore]
+		[XmlIgnore]
 		public byte[] RawData
 		{
 			get { return rawData; }
@@ -109,6 +111,16 @@ namespace Wammer.Model
 			}
 		}
 
+		#region IAttachmentInfo Members
+
+		[BsonIgnoreIfNull]
+		public string mime_type { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string saved_file_name { get; set; }
+
+		#endregion
+
 		public bool ShouldSerializewidth()
 		{
 			return width > 0;
@@ -123,8 +135,6 @@ namespace Wammer.Model
 		{
 			return file_size > 0;
 		}
-
-		private byte[] rawData;
 	}
 
 	[BsonIgnoreExtraElements]
@@ -132,14 +142,19 @@ namespace Wammer.Model
 	{
 		[BsonIgnoreIfNull]
 		public int width { get; set; }
+
 		[BsonIgnoreIfNull]
 		public int height { get; set; }
+
 		[BsonIgnoreIfNull]
 		public ThumbnailInfo small { get; set; }
+
 		[BsonIgnoreIfNull]
 		public ThumbnailInfo medium { get; set; }
+
 		[BsonIgnoreIfNull]
 		public ThumbnailInfo large { get; set; }
+
 		[BsonIgnoreIfNull]
 		public ThumbnailInfo square { get; set; }
 
@@ -197,7 +212,9 @@ namespace Wammer.Model
 	public class Attachment : IAttachmentInfo
 	{
 		#region Private Method
-		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta, AttachmentType type, string apiKey, string token)
+
+		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta,
+		                                                              AttachmentType type, string apiKey, string token)
 		{
 			var pars = new Dictionary<string, object>();
 			pars["type"] = type.ToString();
@@ -210,39 +227,42 @@ namespace Wammer.Model
 			pars["group_id"] = groupId;
 			return pars;
 		}
+
 		#endregion
 
-
 		#region Upload utility functions
+
 		public static ObjectUploadResponse Upload(Stream dataStream, string groupId,
-									string objectId, string fileName, string contentType,
-									ImageMeta meta, AttachmentType type, string apiKey,
-									string token, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
+		                                          string objectId, string fileName, string contentType,
+		                                          ImageMeta meta, AttachmentType type, string apiKey,
+		                                          string token, int bufferSize = 1024,
+		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			return Upload(CloudServer.BaseUrl + "attachments/upload", dataStream, groupId,
-				objectId, fileName, contentType, meta, type, apiKey, token,bufferSize,progressChangedCallBack);
+			              objectId, fileName, contentType, meta, type, apiKey, token, bufferSize, progressChangedCallBack);
 		}
 
 		public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
-									string objectId, string fileName, string contentType,
-									ImageMeta meta, AttachmentType type, string apiKey,
-									string token, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
+		                                          string objectId, string fileName, string contentType,
+		                                          ImageMeta meta, AttachmentType type, string apiKey,
+		                                          string token, int bufferSize = 1024,
+		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			try
 			{
 				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token);
-				HttpWebResponse _webResponse = Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
-						url,
-						"Mozilla 4.0+",
-						pars,
-						fileName,
-						contentType,
-						dataStream , bufferSize,progressChangedCallBack);
+				HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(
+					url,
+					"Mozilla 4.0+",
+					pars,
+					fileName,
+					contentType,
+					dataStream, bufferSize, progressChangedCallBack);
 
 				Debug.Assert(_webResponse != null, "_webResponse != null");
 				using (var reader = new StreamReader(_webResponse.GetResponseStream()))
 				{
-					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
+					return JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
 				}
 			}
 			catch (WebException e)
@@ -252,16 +272,17 @@ namespace Wammer.Model
 		}
 
 		public static ObjectUploadResponse Upload(string url, ArraySegment<byte> imageData, string groupId,
-											string objectId, string fileName, string contentType,
-											ImageMeta meta, AttachmentType type, string apiKey,
-											string token, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
+		                                          string objectId, string fileName, string contentType,
+		                                          ImageMeta meta, AttachmentType type, string apiKey,
+		                                          string token, int bufferSize = 1024,
+		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			try
 			{
 				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token);
 
 				HttpWebResponse _webResponse =
-						Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+					MultipartFormDataPostHelper.MultipartFormDataPost(
 						url,
 						"Mozilla 4.0+",
 						pars,
@@ -272,7 +293,7 @@ namespace Wammer.Model
 				Debug.Assert(_webResponse != null, "_webResponse != null");
 				using (var reader = new StreamReader(_webResponse.GetResponseStream()))
 				{
-					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
+					return JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
 				}
 			}
 			catch (WebException e)
@@ -282,88 +303,126 @@ namespace Wammer.Model
 		}
 
 
-
 		public static ObjectUploadResponse UploadImage(string url, ArraySegment<byte> imageData, string groupId,
-											string objectId, string fileName, string contentType,
-											ImageMeta meta, string apiKey, string token, int bufSize = 1024, Action<object, ProgressChangedEventArgs> callback = null)
+		                                               string objectId, string fileName, string contentType,
+		                                               ImageMeta meta, string apiKey, string token, int bufSize = 1024,
+		                                               Action<object, ProgressChangedEventArgs> callback = null)
 		{
 			return Upload(url, imageData, groupId, objectId, fileName, contentType, meta,
-				AttachmentType.image, apiKey, token, bufSize, callback);
+			              AttachmentType.image, apiKey, token, bufSize, callback);
 		}
 
 		public static ObjectUploadResponse UploadImage(ArraySegment<byte> imageData, string group_id,
-			string objectId, string fileName, string contentType, ImageMeta meta,
-			string apikey, string token, int buffSize = 1024, Action<object, ProgressChangedEventArgs> callback = null)
+		                                               string objectId, string fileName, string contentType, ImageMeta meta,
+		                                               string apikey, string token, int buffSize = 1024,
+		                                               Action<object, ProgressChangedEventArgs> callback = null)
 		{
 			string url = CloudServer.BaseUrl + "attachments/upload/";
 
 			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta,
-				apikey, token, buffSize, callback);
+			                   apikey, token, buffSize, callback);
 		}
 
-		public ObjectUploadResponse Upload(ImageMeta meta, string apiKey, string sessionToken, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
+		public ObjectUploadResponse Upload(ImageMeta meta, string apiKey, string sessionToken, int bufferSize = 1024,
+		                                   Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			string url = CloudServer.BaseUrl + "attachments/upload/";
 
 			return Upload(url, rawData, group_id, object_id, file_name, mime_type,
-																meta, type, apiKey, sessionToken, bufferSize, progressChangedCallBack);
+			              meta, type, apiKey, sessionToken, bufferSize, progressChangedCallBack);
 		}
+
 		#endregion
+
+		[BsonIgnore] private readonly object rawDataMutex = new object();
+		private ArraySegment<byte> rawData;
+
+		public Attachment()
+		{
+			rawData = new ArraySegment<byte>();
+			Orientation = ExifOrientations.Unknown;
+		}
+
+		public Attachment(Attachment lhs)
+		{
+			object_id = lhs.object_id;
+			file_name = lhs.file_name;
+			mime_type = lhs.mime_type;
+			title = lhs.title;
+			description = lhs.description;
+			type = lhs.type;
+			url = lhs.url;
+			image = lhs.image;
+			file_size = lhs.file_size;
+			modify_time = lhs.modify_time;
+			image_meta = lhs.image_meta;
+			RawData = lhs.RawData;
+			group_id = lhs.group_id;
+			saved_file_name = lhs.saved_file_name;
+			Orientation = lhs.Orientation;
+		}
 
 		[BsonId]
 		public string object_id { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string group_id { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string file_name { get; set; }
-		[BsonIgnoreIfNull]
-		public string mime_type { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string title { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string description { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string md5 { get; set; }
+
 		public AttachmentType type { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string url { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string image { get; set; }
+
 		[BsonIgnoreIfNull]
 		public long file_size { get; set; }
+
 		[BsonIgnoreIfNull]
 		public DateTime modify_time { get; set; }
+
 		[BsonIgnoreIfNull]
 		public ImageProperty image_meta { get; set; }
-		[BsonIgnoreIfNull]
-		public string saved_file_name { get; set; }
+
 		[BsonDefaultValue(true)]
 		public bool is_thumb_upstreamed { get; set; }
+
 		[BsonDefaultValue(false)]
 		public bool is_body_upstreamed { get; set; }
 
 		[BsonIgnore]
-		public Utility.ExifOrientations Orientation { get; set; }
-
-		[BsonIgnore]
-		private readonly object rawDataMutex = new object();
+		public ExifOrientations Orientation { get; set; }
 
 		[BsonIgnore]
 		public string creator_id { get; set; }
 
 		[BsonIgnore]
-		[System.Xml.Serialization.XmlIgnore]
+		[XmlIgnore]
 		public ArraySegment<byte> RawData
 		{
-			get {
+			get
+			{
 				lock (rawDataMutex)
 				{
-					if (rawData.Array == null && this.saved_file_name != null)
+					if (rawData.Array == null && saved_file_name != null)
 					{
 						Driver driver = DriverCollection.Instance.FindOne();
 						var storage = new FileStorage(driver);
-						var buffer = new byte[this.file_size];
-						storage.Load(this.saved_file_name).Read(buffer, 0, buffer.Length);
+						var buffer = new byte[file_size];
+						storage.Load(saved_file_name).Read(buffer, 0, buffer.Length);
 						rawData = new ArraySegment<byte>(buffer);
 					}
 					return rawData;
@@ -390,53 +449,36 @@ namespace Wammer.Model
 			}
 		}
 
-		public Attachment()
-		{
-			rawData = new ArraySegment<byte>();
-			Orientation = Utility.ExifOrientations.Unknown;
-		}
+		#region IAttachmentInfo Members
 
-		public Attachment(Attachment lhs)
-		{
-			object_id = lhs.object_id;
-			file_name = lhs.file_name;
-			mime_type = lhs.mime_type;
-			title = lhs.title;
-			description = lhs.description;
-			type = lhs.type;
-			url = lhs.url;
-			image = lhs.image;
-			file_size = lhs.file_size;
-			modify_time = lhs.modify_time;
-			image_meta = lhs.image_meta;
-			RawData = lhs.RawData;
-			group_id = lhs.group_id;
-			saved_file_name = lhs.saved_file_name;
-			Orientation = lhs.Orientation;
-		}
+		[BsonIgnoreIfNull]
+		public string mime_type { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string saved_file_name { get; set; }
+
+		#endregion
 
 		public bool ShouldSerializefile_size()
 		{
 			return file_size > 0;
 		}
 
-		private ArraySegment<byte> rawData;
-
 		public bool HasThumbnail(ImageMeta meta)
 		{
-			if (this.image_meta == null)
+			if (image_meta == null)
 				return false;
 
 			switch (meta)
 			{
 				case ImageMeta.Small:
-					return this.image_meta.small != null;
+					return image_meta.small != null;
 				case ImageMeta.Medium:
-					return this.image_meta.medium != null;
+					return image_meta.medium != null;
 				case ImageMeta.Large:
-					return this.image_meta.large != null;
+					return image_meta.large != null;
 				case ImageMeta.Square:
-					return this.image_meta.square != null;
+					return image_meta.square != null;
 				default:
 					throw new ArgumentException("not a valid thumbmail meta: " + meta);
 			}
@@ -446,7 +488,7 @@ namespace Wammer.Model
 		{
 			if (meta == ImageMeta.None || meta == ImageMeta.Origin)
 				return this;
-			return this.image_meta.GetThumbnailInfo(meta);
+			return image_meta.GetThumbnailInfo(meta);
 		}
 
 		public bool IsThumbnailOrBodyUpstreamed()

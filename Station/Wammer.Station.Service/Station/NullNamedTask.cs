@@ -3,8 +3,10 @@
 namespace Wammer.Station
 {
 	[Serializable]
-	class NullNamedTask: INamedTask
+	internal class NullNamedTask : INamedTask
 	{
+		#region INamedTask Members
+
 		public string Name
 		{
 			get { return "no-name"; }
@@ -13,5 +15,7 @@ namespace Wammer.Station
 		public void Execute()
 		{
 		}
+
+		#endregion
 	}
 }

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
+using fastJSON;
 
 namespace Wammer.Cloud
 {
@@ -10,9 +11,8 @@ namespace Wammer.Cloud
 	{
 		private readonly WebExceptionStatus httpError = WebExceptionStatus.Success;
 		private readonly int wammerError;
-		public string response { get; private set; }
+
 		public WammerCloudException()
-			: base()
 		{
 		}
 
@@ -34,19 +34,19 @@ namespace Wammer.Cloud
 			var webException = innerException as WebException;
 			if (webException != null)
 			{
-				this.httpError = webException.Status;
+				httpError = webException.Status;
 			}
 
 			this.response = response;
-			this.wammerError = TryParseWammerError(this.response);
+			wammerError = TryParseWammerError(this.response);
 		}
 
 		public WammerCloudException(string msg, WebException innerException)
-			:base(msg, innerException)
+			: base(msg, innerException)
 		{
-			this.response = GetErrResponseText(innerException);
-			this.wammerError = TryParseWammerError(this.response);
-			this.httpError = innerException.Status;
+			response = GetErrResponseText(innerException);
+			wammerError = TryParseWammerError(response);
+			httpError = innerException.Status;
 		}
 
 		public WammerCloudException(string msg, WebExceptionStatus httpError, int wammerError)
@@ -67,6 +67,8 @@ namespace Wammer.Cloud
 			this.httpError = httpError;
 			this.wammerError = wammerError;
 		}
+
+		public string response { get; private set; }
 
 		public WebExceptionStatus HttpError
 		{
@@ -102,7 +104,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				var res = fastJSON.JSON.Instance.ToObject<CloudResponse>(resText);
+				var res = JSON.Instance.ToObject<CloudResponse>(resText);
 				return res.api_ret_code;
 			}
 			catch
@@ -115,10 +117,10 @@ namespace Wammer.Cloud
 		{
 			var buf = new StringBuilder(base.ToString());
 			buf.AppendLine();
-			if (this.response != null)
+			if (response != null)
 			{
 				buf.AppendLine("--- response ---");
-				buf.AppendLine(this.response);
+				buf.AppendLine(response);
 			}
 
 			return buf.ToString();

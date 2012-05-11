@@ -7,6 +7,7 @@ using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using log4net;
 
 namespace Wammer.Station
 {
@@ -22,27 +23,27 @@ namespace Wammer.Station
 			if (cloudstorage != null)
 			{
 				cloudstorages.Add(new CloudStorageStatus
-					{
-						type = "dropbox",
-						connected = true,
-						quota = cloudstorage.Quota,
-						used = new DropboxFileStorage(driver, cloudstorage).GetUsedSize(),
-						account = cloudstorage.UserAccount
-					}
-				);
+				                  	{
+				                  		type = "dropbox",
+				                  		connected = true,
+				                  		quota = cloudstorage.Quota,
+				                  		used = new DropboxFileStorage(driver, cloudstorage).GetUsedSize(),
+				                  		account = cloudstorage.UserAccount
+				                  	}
+					);
 			}
-			RespondSuccess(new ListCloudStorageResponse { cloudstorages = cloudstorages });
+			RespondSuccess(new ListCloudStorageResponse {cloudstorages = cloudstorages});
 		}
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 
 	public class DropBoxOAuthHandler : HttpHandler
 	{
-		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
+		private static readonly ILog logger = LogManager.GetLogger("cloudStorage");
 
 		public override void HandleRequest()
 		{
@@ -57,26 +58,26 @@ namespace Wammer.Station
 
 				RespondSuccess(
 					new GetDropboxOAuthResponse
-					{
-						api_ret_code = 0,
-						api_ret_message = "success",
-						status = 200,
-						timestamp = DateTime.UtcNow,
-						oauth_url = res.storages.authorization_url
-					});
+						{
+							api_ret_code = 0,
+							api_ret_message = "success",
+							status = 200,
+							timestamp = DateTime.UtcNow,
+							oauth_url = res.storages.authorization_url
+						});
 			}
 		}
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 
 
 	public class DropBoxConnectHandler : HttpHandler
 	{
-		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
+		private static readonly ILog logger = LogManager.GetLogger("cloudStorage");
 
 		public override void HandleRequest()
 		{
@@ -106,19 +107,19 @@ namespace Wammer.Station
 						if (res.storages.status != 0)
 						{
 							logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", res.ToFastJSON());
-							throw new WammerStationException("Dropbox has not linked yet", (int)DropboxApiError.ConnectDropboxFailed);
+							throw new WammerStationException("Dropbox has not linked yet", (int) DropboxApiError.ConnectDropboxFailed);
 						}
 
 
 						CloudStorageCollection.Instance.Save(new CloudStorage
-							{
-								Id = Guid.NewGuid().ToString(),
-								Type = "dropbox",
-								Folder = folder,
-								Quota = quota,
-								UserAccount = res.storages.account
-							}
-						);
+						                                     	{
+						                                     		Id = Guid.NewGuid().ToString(),
+						                                     		Type = "dropbox",
+						                                     		Folder = folder,
+						                                     		Quota = quota,
+						                                     		UserAccount = res.storages.account
+						                                     	}
+							);
 					}
 				}
 
@@ -154,13 +155,13 @@ namespace Wammer.Station
 			if (!File.Exists(tokenFilePath))
 			{
 				logger.ErrorFormat("Dropbox token file does not exist, path = {0}", tokenFilePath);
-				throw new WammerStationException("Link to wrong Dropbox account", (int)DropboxApiError.LinkWrongAccount);
+				throw new WammerStationException("Link to wrong Dropbox account", (int) DropboxApiError.LinkWrongAccount);
 			}
 		}
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 
@@ -173,7 +174,7 @@ namespace Wammer.Station
 
 			CloudStorage storageDoc = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
 			if (storageDoc == null)
-				throw new WammerStationException("Dropbox is not connected", (int)DropboxApiError.DropboxNotConnected);
+				throw new WammerStationException("Dropbox is not connected", (int) DropboxApiError.DropboxNotConnected);
 
 			storageDoc.Quota = quota;
 			CloudStorageCollection.Instance.Save(storageDoc);
@@ -182,13 +183,13 @@ namespace Wammer.Station
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 
-	public class DropboxDisconnectHandler: HttpHandler
+	public class DropboxDisconnectHandler : HttpHandler
 	{
-		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
+		private static readonly ILog logger = LogManager.GetLogger("cloudStorage");
 
 		public override void HandleRequest()
 		{
@@ -213,7 +214,7 @@ namespace Wammer.Station
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 

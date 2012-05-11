@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Wammer.Station.Retry;
 
 namespace Wammer.Station
 {
-	class TaskRetryTimer : NonReentrantTimer
+	internal class TaskRetryTimer : NonReentrantTimer
 	{
 		public TaskRetryTimer()
-			:base(10*1000)
+			: base(10*1000)
 		{
 		}
 
 		protected override void ExecuteOnTimedUp(object state)
 		{
-			var tasks = Retry.RetryQueue.Instance.Dequeue(DateTime.Now);
+			ICollection<IRetryTask> tasks = RetryQueue.Instance.Dequeue(DateTime.Now);
 
 			foreach (IRetryTask task in tasks)
 			{
 				task.ScheduleToRun();
-				Retry.RetryQueue.Instance.AckDequeue(task.NextRetryTime);
+				RetryQueue.Instance.AckDequeue(task.NextRetryTime);
 			}
 		}
 	}

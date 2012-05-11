@@ -2,6 +2,7 @@
 using System.Data.SQLite;
 using System.IO;
 using System.Text;
+using log4net;
 
 namespace Wammer.Utility
 {
@@ -10,12 +11,12 @@ namespace Wammer.Utility
 		private const string hostDb = @"Dropbox\host.db";
 		private const string configDb = @"Dropbox\config.db";
 		private const string syncFolder = @"Stream";
-		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxHelper));
+		private static readonly ILog logger = LogManager.GetLogger(typeof (DropboxHelper));
 
 		public static bool IsInstalled()
 		{
-			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			var hostDbPath = Path.Combine(appData, hostDb);
+			string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			string hostDbPath = Path.Combine(appData, hostDb);
 
 			logger.DebugFormat("Dropbox path for verification: {0}", hostDbPath);
 
@@ -24,8 +25,8 @@ namespace Wammer.Utility
 
 		public static string GetSyncFolder()
 		{
-			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			var hostDbPath = Path.Combine(appData, hostDb);
+			string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			string hostDbPath = Path.Combine(appData, hostDb);
 
 			if (!File.Exists(hostDbPath))
 				return string.Empty;
@@ -35,14 +36,14 @@ namespace Wammer.Utility
 				using (var reader = new StreamReader(fs))
 				{
 					reader.ReadLine();
-					var readLine = reader.ReadLine();
+					string readLine = reader.ReadLine();
 					if (readLine == null)
 						return string.Empty;
 
-					var line = readLine.Trim();
-					var data = Convert.FromBase64String(line);
+					string line = readLine.Trim();
+					byte[] data = Convert.FromBase64String(line);
 
-					var syncFolderPath = Path.Combine(Encoding.UTF8.GetString(data), syncFolder);
+					string syncFolderPath = Path.Combine(Encoding.UTF8.GetString(data), syncFolder);
 					logger.DebugFormat("Dropbox sync folder path = {0}", syncFolderPath);
 					return syncFolderPath;
 				}

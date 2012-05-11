@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
 using Wammer.Model;
 using Wammer.Station;
+using Wammer.Station.JSONClass;
 using Wammer.Utility;
-
 
 namespace Wammer.Cloud
 {
 	public class AttachmentApi
 	{
-		private string userToken { get; set; }
+		#region Location enum
 
 		public enum Location
 		{
@@ -20,21 +21,25 @@ namespace Wammer.Cloud
 			Dropbox = 2
 		}
 
+		#endregion
+
 		public AttachmentApi(Driver driver)
 		{
 			userToken = driver.session_token;
 		}
 
+		private string userToken { get; set; }
+
 		public void AttachmentSetLoc(WebClient agent, int loc, string object_id, string file_path)
 		{
 			var parameters = new Dictionary<object, object>
-			{
-				{ "loc", loc },
-				{ "object_id", object_id },
-				{ "file_path", file_path },
-				{ CloudServer.PARAM_SESSION_TOKEN, userToken},
-				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
+			                 	{
+			                 		{"loc", loc},
+			                 		{"object_id", object_id},
+			                 		{"file_path", file_path},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, userToken},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/setloc", parameters);
 		}
@@ -42,12 +47,12 @@ namespace Wammer.Cloud
 		public void AttachmentUnsetLoc(WebClient agent, int loc, string object_id)
 		{
 			var parameters = new Dictionary<object, object>
-			{
-				{ "loc", loc },
-				{ "object_id", object_id },
-				{ CloudServer.PARAM_SESSION_TOKEN, userToken },
-				{ CloudServer.PARAM_API_KEY, CloudServer.PARAM_API_KEY }
-			};
+			                 	{
+			                 		{"loc", loc},
+			                 		{"object_id", object_id},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, userToken},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.PARAM_API_KEY}
+			                 	};
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/unsetloc", parameters);
 		}
@@ -55,24 +60,24 @@ namespace Wammer.Cloud
 		public AttachmentGetResponse AttachmentGet(WebClient agent, string object_id)
 		{
 			var parameters = new Dictionary<object, object>
-		    {
-		        {CloudServer.PARAM_OBJECT_ID, object_id},
-		        {CloudServer.PARAM_SESSION_TOKEN, userToken},
-		        {CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-		    };
+			                 	{
+			                 		{CloudServer.PARAM_OBJECT_ID, object_id},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, userToken},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
 			return CloudServer.requestPath<AttachmentGetResponse>(agent, "attachments/get", parameters);
 		}
 
 		public void AttachmentView(WebClient agent, ResourceDownloadEventArgs evtargs, string stationId)
 		{
-			var parameters = new Dictionary<object, object> 
-			{ 
-				{CloudServer.PARAM_OBJECT_ID, evtargs.attachment.object_id},
-				{CloudServer.PARAM_SESSION_TOKEN, userToken},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-				{CloudServer.PARAM_STATION_ID, stationId}
-			};
+			var parameters = new Dictionary<object, object>
+			                 	{
+			                 		{CloudServer.PARAM_OBJECT_ID, evtargs.attachment.object_id},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, userToken},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+			                 		{CloudServer.PARAM_STATION_ID, stationId}
+			                 	};
 
 			if (evtargs.imagemeta != ImageMeta.Origin)
 			{
@@ -82,30 +87,33 @@ namespace Wammer.Cloud
 			CloudServer.requestDownload(agent, "attachments/view", parameters, evtargs.filepath);
 		}
 
-		public static DownloadResult DownloadImageWithMetadata(string objectId, string session_token, string apikey, ImageMeta meta, string station_id)
+		public static DownloadResult DownloadImageWithMetadata(string objectId, string session_token, string apikey,
+		                                                       ImageMeta meta, string station_id)
 		{
 			return DownloadImageWithMetadata(objectId, session_token, apikey, meta, station_id, null);
 		}
 
-		public static DownloadResult DownloadImageWithMetadata(string objectId, string session_token, string apikey, ImageMeta meta, string station_id,
-			Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack)
+		public static DownloadResult DownloadImageWithMetadata(string objectId, string session_token, string apikey,
+		                                                       ImageMeta meta, string station_id,
+		                                                       Action<object, ProgressChangedEventArgs>
+		                                                       	progressChangedCallBack)
 		{
 			using (WebClient agent = new NoRedirectWebClient())
 			{
 				var parameters = new Dictionary<object, object>
-				{
-					{ "object_id", objectId },
-					{ "session_token", session_token },
-					{ "station_id", station_id },
-					{ "apikey", apikey },
-					{ "return_meta", "true" }
-				};
+				                 	{
+				                 		{"object_id", objectId},
+				                 		{"session_token", session_token},
+				                 		{"station_id", station_id},
+				                 		{"apikey", apikey},
+				                 		{"return_meta", "true"}
+				                 	};
 
 				if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 					parameters.Add("image_meta", meta.ToString().ToLower());
 
 				var metadata =
-					CloudServer.requestPath<Station.JSONClass.AttachmentView>(agent, "attachments/view", parameters);
+					CloudServer.requestPath<AttachmentView>(agent, "attachments/view", parameters);
 
 				using (var to = new MemoryStream())
 				using (Stream from = agent.OpenRead(metadata.redirect_to))
@@ -122,11 +130,11 @@ namespace Wammer.Cloud
 				throw new ArgumentNullException();
 
 			var parameters = new Dictionary<object, object>
-			{
-				{ CloudServer.PARAM_OBJECT_IDS, "[\"" + object_id + "\"]" },
-				{ CloudServer.PARAM_SESSION_TOKEN, session_token},
-				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
+			                 	{
+			                 		{CloudServer.PARAM_OBJECT_IDS, "[\"" + object_id + "\"]"},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, session_token},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
 		}
@@ -137,11 +145,11 @@ namespace Wammer.Cloud
 				throw new ArgumentNullException();
 
 			var parameters = new Dictionary<object, object>
-			{
-				{ CloudServer.PARAM_OBJECT_ID, object_id },
-				{ CloudServer.PARAM_SESSION_TOKEN, session_token},
-				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
+			                 	{
+			                 		{CloudServer.PARAM_OBJECT_ID, object_id},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, session_token},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
 			return CloudServer.requestPath<AttachmentInfo>(agent, "attachments/get", parameters, false);
 		}
@@ -149,15 +157,15 @@ namespace Wammer.Cloud
 
 	public class DownloadResult
 	{
-		public byte[] Image { get; private set; }
-		public Station.JSONClass.AttachmentView Metadata { get; private set; }
-		public string ContentType { get; private set; }
-
-		public DownloadResult(byte[] Image, Station.JSONClass.AttachmentView metadata, string contentType)
+		public DownloadResult(byte[] Image, AttachmentView metadata, string contentType)
 		{
 			this.Image = Image;
 			Metadata = metadata;
 			ContentType = contentType ?? "application/octet-stream";
 		}
+
+		public byte[] Image { get; private set; }
+		public AttachmentView Metadata { get; private set; }
+		public string ContentType { get; private set; }
 	}
 }

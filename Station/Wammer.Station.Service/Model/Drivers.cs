@@ -13,11 +13,14 @@ namespace Wammer.Model
 	public class Driver
 	{
 		#region Var
+
 		private List<UserGroup> _groups;
 		private List<UserStation> _stations;
+
 		#endregion
 
 		#region Public Property
+
 		/// <summary>
 		/// Gets or sets the user_id.
 		/// </summary>
@@ -47,10 +50,7 @@ namespace Wammer.Model
 		public List<UserGroup> groups
 		{
 			get { return _groups ?? (_groups = new List<UserGroup>()); }
-			set
-			{
-				_groups = value;
-			}
+			set { _groups = value; }
 		}
 
 		/// <summary>
@@ -61,10 +61,7 @@ namespace Wammer.Model
 		public List<UserStation> stations
 		{
 			get { return _stations ?? (_stations = new List<UserStation>()); }
-			set
-			{
-				_stations = value;
-			}
+			set { _stations = value; }
 		}
 
 		/// <summary>
@@ -73,7 +70,7 @@ namespace Wammer.Model
 		/// <value>The session_token.</value>
 		[BsonIgnoreIfNull]
 		public string session_token { get; set; }
-		
+
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is primary station.
 		/// </summary>
@@ -104,6 +101,7 @@ namespace Wammer.Model
 		[BsonDefaultValue(1)]
 		[BsonIgnoreIfNull]
 		public int ref_count { get; set; }
+
 		#endregion
 	}
 
@@ -117,7 +115,7 @@ namespace Wammer.Model
 		}
 
 		private DriverCollection()
-			:base("drivers")
+			: base("drivers")
 		{
 		}
 
@@ -140,14 +138,16 @@ namespace Wammer.Model
 	{
 		[BsonIgnoreIfNull]
 		public DateTime start_time { get; set; }
+
 		[BsonIgnoreIfNull]
 		public DateTime end_time { get; set; }
+
 		[BsonIgnoreIfNull]
-		public Nullable<DateTime> first_post_time { get; set; }
+		public DateTime? first_post_time { get; set; }
 
 		public SyncRange Clone()
 		{
-			return (SyncRange)this.MemberwiseClone();
+			return (SyncRange) MemberwiseClone();
 		}
 	}
 }

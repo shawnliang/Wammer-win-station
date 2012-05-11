@@ -4,11 +4,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Cloud
 {
-	abstract public class PostResponse : CloudResponse
+	public abstract class PostResponse : CloudResponse
 	{
-		public List<PostInfo> posts { get; set; }
-		public List<UserInfo> users { get; set; }
-
 		protected PostResponse()
 		{
 		}
@@ -18,83 +15,85 @@ namespace Wammer.Cloud
 		{
 		}
 
-		abstract public bool HasMoreData { get; }
+		public List<PostInfo> posts { get; set; }
+		public List<UserInfo> users { get; set; }
+
+		public abstract bool HasMoreData { get; }
 	}
 
 	public class NewPostResponse : CloudResponse
 	{
 		#region Var
+
 		private List<PostInfo> _posts;
 		private List<UserInfo> _users;
+
 		#endregion
 
 		#region Public Property
-		public List<PostInfo> posts 
+
+		public List<PostInfo> posts
 		{
 			get { return _posts ?? (_posts = new List<PostInfo>()); }
-			set 
-			{
-				_posts = value;
-			}
+			set { _posts = value; }
 		}
 
 		public List<UserInfo> users
 		{
 			get { return _users ?? (_users = new List<UserInfo>()); }
-			set
-			{
-				_users = value;
-			}
-		} 
+			set { _users = value; }
+		}
+
 		#endregion
 	}
 
 	public class UpdatePostResponse : CloudResponse
 	{
 		#region Public Property
-		public PostInfo post{get;set;}
+
+		public PostInfo post { get; set; }
+
 		#endregion
 	}
 
 	public class HidePostResponse : CloudResponse
 	{
 		#region Property
+
 		public String post_id { get; set; }
+
 		#endregion
 	}
 
 	public class NewPostCommentResponse : CloudResponse
 	{
 		#region Var
+
 		private List<UserInfo> _users;
+
 		#endregion
 
 		#region Public Property
-		public PostInfo post{get;set;}
+
+		public PostInfo post { get; set; }
 
 		public List<UserInfo> users
 		{
 			get { return _users ?? (_users = new List<UserInfo>()); }
-			set
-			{
-				_users = value;
-			}
-		} 
+			set { _users = value; }
+		}
+
 		#endregion
 	}
 
 	public class PostFetchByFilterResponse : PostResponse
 	{
-		public string group_id { get; set; }
-		public int get_count { get; set; }
-		public int remaining_count { get; set; }
-
 		public PostFetchByFilterResponse()
 		{
 		}
 
-		public PostFetchByFilterResponse(string group_id, int get_count, int remaining_count, 
-			List<PostInfo> posts, List<UserInfo> users)
+		public PostFetchByFilterResponse(string group_id, int get_count, int remaining_count,
+		                                 List<PostInfo> posts, List<UserInfo> users)
 		{
 			this.group_id = group_id;
 			this.get_count = get_count;
@@ -102,6 +101,10 @@ namespace Wammer.Cloud
 			this.posts = posts;
 			this.users = users;
 		}
+
+		public string group_id { get; set; }
+		public int get_count { get; set; }
+		public int remaining_count { get; set; }
 
 		public override bool HasMoreData
 		{
@@ -111,16 +114,12 @@ namespace Wammer.Cloud
 
 	public class PostGetResponse : PostResponse
 	{
-		public string group_id { get; set; }
-		public int get_count { get; set; }
-		public long remaining_count { get; set; }
-
 		public PostGetResponse()
 		{
 		}
 
 		public PostGetResponse(string group_id, int get_count, int remaining_count,
-			List<PostInfo> posts, List<UserInfo> users)
+		                       List<PostInfo> posts, List<UserInfo> users)
 		{
 			this.group_id = group_id;
 			this.get_count = get_count;
@@ -128,6 +127,10 @@ namespace Wammer.Cloud
 			this.posts = posts;
 			this.users = users;
 		}
+
+		public string group_id { get; set; }
+		public int get_count { get; set; }
+		public long remaining_count { get; set; }
 
 		public override bool HasMoreData
 		{
@@ -137,8 +140,6 @@ namespace Wammer.Cloud
 
 	public class PostGetSingleResponse : PostResponse
 	{
-		public PostInfo post { get; set; }
-
 		public PostGetSingleResponse()
 		{
 		}
@@ -149,6 +150,8 @@ namespace Wammer.Cloud
 			this.users = users;
 		}
 
+		public PostInfo post { get; set; }
+
 		public override bool HasMoreData
 		{
 			get { return false; }
@@ -157,16 +160,12 @@ namespace Wammer.Cloud
 
 	public class PostGetLatestResponse : PostResponse
 	{
-		public string group_id { get; set; }
-		public int get_count { get; set; }
-		public long total_count { get; set; }
-
 		public PostGetLatestResponse()
 		{
 		}
 
-		public PostGetLatestResponse(string group_id, int get_count, int total_count, 
-			List<PostInfo> posts, List<UserInfo> users)
+		public PostGetLatestResponse(string group_id, int get_count, int total_count,
+		                             List<PostInfo> posts, List<UserInfo> users)
 		{
 			this.group_id = group_id;
 			this.get_count = get_count;
@@ -174,6 +173,10 @@ namespace Wammer.Cloud
 			this.posts = posts;
 			this.users = users;
 		}
+
+		public string group_id { get; set; }
+		public int get_count { get; set; }
+		public long total_count { get; set; }
 
 		public override bool HasMoreData
 		{
@@ -185,16 +188,22 @@ namespace Wammer.Cloud
 	{
 		[BsonIgnoreIfNull]
 		public string description { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string title { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string url { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string provider_display { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string favicon_url { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string thumbnail_url { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string type { get; set; }
 	}
@@ -203,12 +212,16 @@ namespace Wammer.Cloud
 	{
 		[BsonIgnoreIfNull]
 		public string content { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string timestamp { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string creator_id { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string code_name { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string device_id { get; set; }
 	}
@@ -217,43 +230,61 @@ namespace Wammer.Cloud
 	{
 		[BsonIgnoreIfNull]
 		public List<AttachmentInfo> attachments { get; set; }
+
 		[BsonIgnoreIfNull]
 		public int attachment_count { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string event_time { get; set; }
+
 		[BsonIgnoreIfNull]
 		public List<Comment> comments { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string content { get; set; }
+
 		[BsonIgnoreIfNull]
 		public int comment_count { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string hidden { get; set; }
+
 		[BsonIgnoreIfNull]
 		public Preview preview { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string type { get; set; }
+
 		[BsonIgnoreIfNull]
 		public DateTime update_time { get; set; }
+
 		[BsonIgnoreIfNull]
 		public DateTime timestamp { get; set; }
 
 		[BsonId]
 		public string post_id { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string code_name { get; set; }
+
 		[BsonIgnoreIfNull]
 		public List<string> attachment_id_array { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string device_id { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string group_id { get; set; }
+
 		[BsonIgnoreIfNull]
 		public int favorite { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string soul { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string creator_id { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string cover_attach { get; set; }
 	}

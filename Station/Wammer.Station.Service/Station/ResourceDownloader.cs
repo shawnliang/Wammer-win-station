@@ -1,37 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.IO;
 using System.Drawing;
+using System.IO;
+using System.Net;
 using System.Security.Cryptography;
-using Wammer.Cloud;
-using Wammer.Model;
-using Wammer.Utility;
+using System.Text;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Station.Timeline;
+using Wammer.Utility;
+using log4net;
 
 namespace Wammer.Station
 {
 	public class ResourceDownloadEventArgs
 	{
+		public ResourceDownloadEventArgs()
+		{
+			failureCount = 0;
+		}
+
 		public Driver driver { get; set; }
 		public AttachmentInfo attachment { get; set; }
 		public ImageMeta imagemeta { get; set; }
 		public string filepath { get; set; }
 		public int failureCount { get; set; }
-
-		public ResourceDownloadEventArgs()
-		{
-			this.failureCount = 0;
-		}
 	}
 
-	class ResourceDownloader
+	internal class ResourceDownloader
 	{
-		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceDownloader));
+		private static readonly ILog logger = LogManager.GetLogger(typeof (ResourceDownloader));
 		private readonly ITaskEnqueuable<INamedTask> bodySyncQueue;
 		private readonly string stationId;
 
@@ -41,20 +42,20 @@ namespace Wammer.Station
 			this.stationId = stationId;
 		}
 
-		public void PostRetrieved(object sender, Timeline.TimelineSyncEventArgs e)
+		public void PostRetrieved(object sender, TimelineSyncEventArgs e)
 		{
 			DownloadMissedResource(e.Driver, e.Posts);
 		}
 
 		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
-			ResourceDownloadEventArgs evtargs = new ResourceDownloadEventArgs
-			{
-				driver = driver,
-				attachment = attachment,
-				imagemeta = meta,
-				filepath = FileStorage.GetTempFile(driver)
-			};
+			var evtargs = new ResourceDownloadEventArgs
+			              	{
+			              		driver = driver,
+			              		attachment = attachment,
+			              		imagemeta = meta,
+			              		filepath = FileStorage.GetTempFile(driver)
+			              	};
 
 			EnqueueDownstreamTask(meta, evtargs);
 		}
@@ -69,14 +70,14 @@ namespace Wammer.Station
 			else
 				pri = TaskPriority.Low;
 
-			bodySyncQueue.Enqueue(new NamedTask(DownstreamResource, evtargs, evtargs.attachment.object_id + evtargs.imagemeta), pri);
+			bodySyncQueue.Enqueue(new NamedTask(DownstreamResource, evtargs, evtargs.attachment.object_id + evtargs.imagemeta),
+			                      pri);
 		}
 
 		private void DownloadMissedResource(Driver driver, IEnumerable<PostInfo> posts)
 		{
 			foreach (PostInfo post in posts)
 			{
-
 				if (string.Compare(post.hidden, "true", true) == 0)
 					return;
 
@@ -131,7 +132,6 @@ namespace Wammer.Station
 
 			foreach (PostInfo post in posts)
 			{
-
 				foreach (AttachmentInfo attachment in post.attachments)
 				{
 					Attachment savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
@@ -143,7 +143,7 @@ namespace Wammer.Station
 
 					// origin
 					if (driver.isPrimaryStation &&
-						(savedDoc == null || savedDoc.saved_file_name == null))
+					    (savedDoc == null || savedDoc.saved_file_name == null))
 					{
 						if (CloudHasOriginAttachment(attachment.object_id, driver))
 							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
@@ -154,32 +154,31 @@ namespace Wammer.Station
 
 					// small
 					if (attachment.image_meta.small != null &&
-						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.small == null))
+					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.small == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
 					}
 
 					// medium
 					if (attachment.image_meta.medium != null &&
-						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
+					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
 					}
 
 					// large
 					if (attachment.image_meta.large != null &&
-						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.large == null))
+					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.large == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
 					}
 
 					// square
 					if (attachment.image_meta.square != null &&
-						(savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.square == null))
+					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.square == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
 					}
-
 				}
 			}
 		}
@@ -190,7 +189,7 @@ namespace Wammer.Station
 			{
 				using (WebClient agent = new DefaultWebClient())
 				{
-					AttachmentInfo info = Cloud.AttachmentApi.GetInfo(agent, object_id, user.session_token);
+					AttachmentInfo info = AttachmentApi.GetInfo(agent, object_id, user.session_token);
 					return !string.IsNullOrEmpty(info.url);
 				}
 			}
@@ -203,9 +202,9 @@ namespace Wammer.Station
 
 		private void DownstreamResource(object state)
 		{
-			var evtargs = (ResourceDownloadEventArgs)state;
-			var meta = evtargs.imagemeta.ToString();
-			var oldFile = evtargs.filepath;
+			var evtargs = (ResourceDownloadEventArgs) state;
+			string meta = evtargs.imagemeta.ToString();
+			string oldFile = evtargs.filepath;
 
 			try
 			{
@@ -213,7 +212,8 @@ namespace Wammer.Station
 
 				if (alreadyExist)
 				{
-					logger.DebugFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id, meta);
+					logger.DebugFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id,
+					                   meta);
 					return;
 				}
 
@@ -235,7 +235,8 @@ namespace Wammer.Station
 				}
 				else
 				{
-					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
+					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}",
+					                   evtargs.attachment.object_id, meta);
 					evtargs.filepath = FileStorage.GetTempFile(evtargs.driver);
 					EnqueueDownstreamTask(evtargs.imagemeta, evtargs);
 				}
@@ -307,7 +308,7 @@ namespace Wammer.Station
 								).Set("file_name", attachment.file_name
 								).Set("title", attachment.title
 								).Set("description", attachment.description
-								).Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type)
+								).Set("type", (int) (AttachmentType) Enum.Parse(typeof (AttachmentType), attachment.type)
 								).Set("url", "/v2/attachments/view?object_id=" + attachment.object_id
 								).Set("mime_type", "application/octet-stream"
 								).Set("saved_file_name", savedFileName
@@ -319,7 +320,7 @@ namespace Wammer.Station
 								).Set("is_body_upstreamed", true
 								).Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
-						);
+							);
 						break;
 
 					case ImageMeta.Small:
@@ -328,26 +329,29 @@ namespace Wammer.Station
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
-						{
-							url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=small",
-							width = attachment.image_meta.small.width,
-							height = attachment.image_meta.small.height,
-							mime_type = attachment.image_meta.small.mime_type,
-							modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.small.modify_time),
-							file_size = attachment.image_meta.small.file_size,
-							file_name = attachment.image_meta.small.file_name,
-							md5 = attachment.image_meta.small.md5,
-							saved_file_name = savedFileName
-						};
+						            	{
+						            		url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=small",
+						            		width = attachment.image_meta.small.width,
+						            		height = attachment.image_meta.small.height,
+						            		mime_type = attachment.image_meta.small.mime_type,
+						            		modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.small.modify_time),
+						            		file_size = attachment.image_meta.small.file_size,
+						            		file_name = attachment.image_meta.small.file_name,
+						            		md5 = attachment.image_meta.small.md5,
+						            		saved_file_name = savedFileName
+						            	};
 						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id),Update
-							.Set("group_id", attachment.group_id)
-							.Set("file_name", attachment.file_name)
-							.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type))
-							.Set("image_meta.small", thumbnail.ToBsonDocument())
-							.Set("is_thumb_upstreamed", true),
+							Query.EQ("_id", attachment.object_id), Update
+							                                       	.Set("group_id", attachment.group_id)
+							                                       	.Set("file_name", attachment.file_name)
+							                                       	.Set("type",
+							                                       	     (int)
+							                                       	     (AttachmentType)
+							                                       	     Enum.Parse(typeof (AttachmentType), attachment.type))
+							                                       	.Set("image_meta.small", thumbnail.ToBsonDocument())
+							                                       	.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
-						);
+							);
 						break;
 
 					case ImageMeta.Medium:
@@ -356,26 +360,29 @@ namespace Wammer.Station
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
-						{
-							url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=medium",
-							width = attachment.image_meta.medium.width,
-							height = attachment.image_meta.medium.height,
-							mime_type = attachment.image_meta.medium.mime_type,
-							modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.medium.modify_time),
-							file_size = attachment.image_meta.medium.file_size,
-							file_name = attachment.image_meta.medium.file_name,
-							md5 = attachment.image_meta.medium.md5,
-							saved_file_name = savedFileName
-						};
+						            	{
+						            		url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=medium",
+						            		width = attachment.image_meta.medium.width,
+						            		height = attachment.image_meta.medium.height,
+						            		mime_type = attachment.image_meta.medium.mime_type,
+						            		modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.medium.modify_time),
+						            		file_size = attachment.image_meta.medium.file_size,
+						            		file_name = attachment.image_meta.medium.file_name,
+						            		md5 = attachment.image_meta.medium.md5,
+						            		saved_file_name = savedFileName
+						            	};
 						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id),Update
-							.Set("group_id", attachment.group_id)
-							.Set("file_name", attachment.file_name)
-							.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type))
-							.Set("image_meta.medium", thumbnail.ToBsonDocument())
-							.Set("is_thumb_upstreamed", true),
+							Query.EQ("_id", attachment.object_id), Update
+							                                       	.Set("group_id", attachment.group_id)
+							                                       	.Set("file_name", attachment.file_name)
+							                                       	.Set("type",
+							                                       	     (int)
+							                                       	     (AttachmentType)
+							                                       	     Enum.Parse(typeof (AttachmentType), attachment.type))
+							                                       	.Set("image_meta.medium", thumbnail.ToBsonDocument())
+							                                       	.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
-						);
+							);
 						break;
 
 					case ImageMeta.Large:
@@ -384,26 +391,29 @@ namespace Wammer.Station
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
-						{
-							url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=large",
-							width = attachment.image_meta.large.width,
-							height = attachment.image_meta.large.height,
-							mime_type = attachment.image_meta.large.mime_type,
-							modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.large.modify_time),
-							file_size = attachment.image_meta.large.file_size,
-							file_name = attachment.image_meta.large.file_name,
-							md5 = attachment.image_meta.large.md5,
-							saved_file_name = savedFileName
-						};
+						            	{
+						            		url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=large",
+						            		width = attachment.image_meta.large.width,
+						            		height = attachment.image_meta.large.height,
+						            		mime_type = attachment.image_meta.large.mime_type,
+						            		modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.large.modify_time),
+						            		file_size = attachment.image_meta.large.file_size,
+						            		file_name = attachment.image_meta.large.file_name,
+						            		md5 = attachment.image_meta.large.md5,
+						            		saved_file_name = savedFileName
+						            	};
 						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id),Update
-							.Set("group_id", attachment.group_id)
-							.Set("file_name", attachment.file_name)
-							.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type))
-							.Set("image_meta.large", thumbnail.ToBsonDocument())
-							.Set("is_thumb_upstreamed", true),
+							Query.EQ("_id", attachment.object_id), Update
+							                                       	.Set("group_id", attachment.group_id)
+							                                       	.Set("file_name", attachment.file_name)
+							                                       	.Set("type",
+							                                       	     (int)
+							                                       	     (AttachmentType)
+							                                       	     Enum.Parse(typeof (AttachmentType), attachment.type))
+							                                       	.Set("image_meta.large", thumbnail.ToBsonDocument())
+							                                       	.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
-						);
+							);
 						break;
 
 					case ImageMeta.Square:
@@ -412,26 +422,29 @@ namespace Wammer.Station
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
-						{
-							url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=square",
-							width = attachment.image_meta.square.width,
-							height = attachment.image_meta.square.height,
-							mime_type = attachment.image_meta.square.mime_type,
-							modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.square.modify_time),
-							file_size = attachment.image_meta.square.file_size,
-							file_name = attachment.image_meta.square.file_name,
-							md5 = attachment.image_meta.square.md5,
-							saved_file_name = savedFileName
-						};
+						            	{
+						            		url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=square",
+						            		width = attachment.image_meta.square.width,
+						            		height = attachment.image_meta.square.height,
+						            		mime_type = attachment.image_meta.square.mime_type,
+						            		modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.square.modify_time),
+						            		file_size = attachment.image_meta.square.file_size,
+						            		file_name = attachment.image_meta.square.file_name,
+						            		md5 = attachment.image_meta.square.md5,
+						            		saved_file_name = savedFileName
+						            	};
 						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id),Update
-							.Set("group_id", attachment.group_id)
-							.Set("file_name", attachment.file_name)
-							.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type))
-							.Set("image_meta.square", thumbnail.ToBsonDocument())
-							.Set("is_thumb_upstreamed", true),
+							Query.EQ("_id", attachment.object_id), Update
+							                                       	.Set("group_id", attachment.group_id)
+							                                       	.Set("file_name", attachment.file_name)
+							                                       	.Set("type",
+							                                       	     (int)
+							                                       	     (AttachmentType)
+							                                       	     Enum.Parse(typeof (AttachmentType), attachment.type))
+							                                       	.Set("image_meta.square", thumbnail.ToBsonDocument())
+							                                       	.Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
-						);
+							);
 						break;
 
 					default:
@@ -439,7 +452,8 @@ namespace Wammer.Station
 						break;
 				}
 
-				TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(attachment.object_id, driver.session_token), TaskPriority.Low, true);
+				TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(attachment.object_id, driver.session_token), TaskPriority.Low,
+				                  true);
 			}
 			catch (Exception ex)
 			{

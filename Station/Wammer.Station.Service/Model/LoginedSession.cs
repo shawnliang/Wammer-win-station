@@ -10,6 +10,7 @@ namespace Wammer.Model
 	public class LoginedSession
 	{
 		#region Public Property
+
 		[BsonIgnoreIfNull]
 		public int status { get; set; }
 
@@ -42,6 +43,7 @@ namespace Wammer.Model
 
 		[BsonIgnoreIfNull]
 		public List<Station> stations { get; set; }
+
 		#endregion
 	}
 
@@ -86,5 +88,4 @@ namespace Wammer.Model
 		public string location { get; set; }
 		public int last_seen { get; set; }
 	}
-
 }

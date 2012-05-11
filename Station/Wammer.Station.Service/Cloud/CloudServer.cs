@@ -1,35 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
-using Wammer.Station;
-using System.ComponentModel;
 using Wammer.PerfMonitor;
+using Wammer.Station;
+using fastJSON;
 
 namespace Wammer.Cloud
 {
 	public class CloudServer
 	{
-		public static Dictionary<string, string> CodeName = new Dictionary<string, string>
-		{
-			{"0ffd0a63-65ef-512b-94c7-ab3b33117363", "Station"},
-			{"e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2", "Android"},
-			{"ca5c3c5c-287d-5805-93c1-a6c2cbf9977c", "iPhone"},
-			{"ba15e628-44e6-51bc-8146-0611fdfa130b", "iPad"},
-			{"a23f9491-ba70-5075-b625-b8fb5d9ecd90", "Windows"},
-			{"fdda2704-dcd5-5b0c-a676-8a46813068d3", "Windows Phone"},
-			{"c0870e40-1416-5d88-9014-bc089832ebd8", "Android Tablet"},
-			{"74ab96e4-06b3-5307-bf05-21ed5b0a2e11", "Automation"}
-		};
-
 		private const string DEF_API_KEY = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
 		public const string DEF_BASE_PATH = "v2";
 		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; //https://api.waveface.com/v2/
-
-		private static string apiKey;
-		private static string baseUrl;
 
 		public const string PARAM_DETAIL = "detail";
 		public const string PARAM_API_KEY = "apikey";
@@ -59,26 +46,32 @@ namespace Wammer.Cloud
 		public const string PARAM_FAVORITE = "favorite";
 		public const string PARAM_UPDATE_TIME = "update_time";
 
-		public static string SessionToken { get; set; }
+		public static Dictionary<string, string> CodeName = new Dictionary<string, string>
+		                                                    	{
+		                                                    		{"0ffd0a63-65ef-512b-94c7-ab3b33117363", "Station"},
+		                                                    		{"e96546fa-3ed5-540a-9ef2-1f8ce1dc60f2", "Android"},
+		                                                    		{"ca5c3c5c-287d-5805-93c1-a6c2cbf9977c", "iPhone"},
+		                                                    		{"ba15e628-44e6-51bc-8146-0611fdfa130b", "iPad"},
+		                                                    		{"a23f9491-ba70-5075-b625-b8fb5d9ecd90", "Windows"},
+		                                                    		{"fdda2704-dcd5-5b0c-a676-8a46813068d3", "Windows Phone"},
+		                                                    		{"c0870e40-1416-5d88-9014-bc089832ebd8", "Android Tablet"},
+		                                                    		{"74ab96e4-06b3-5307-bf05-21ed5b0a2e11", "Automation"}
+		                                                    	};
+
+		private static string apiKey;
+		private static string baseUrl;
 
 		private static bool isOffline;
-		
-		
-		
+		public static string SessionToken { get; set; }
+
 
 		/// <summary>
 		/// Gets or sets wammer cloud base url
 		/// </summary>
 		public static string BaseUrl
 		{
-			get
-			{
-				return baseUrl ?? (baseUrl = (string) StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL));
-			}
-			set
-			{
-				baseUrl = value;
-			}
+			get { return baseUrl ?? (baseUrl = (string) StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL)); }
+			set { baseUrl = value; }
 		}
 
 		/// <summary>
@@ -91,18 +84,18 @@ namespace Wammer.Cloud
 				if (apiKey != null)
 					return apiKey;
 
-				return (string)StationRegistry.GetValue("cloudAPIKey", DEF_API_KEY);
+				return (string) StationRegistry.GetValue("cloudAPIKey", DEF_API_KEY);
 			}
 			set { apiKey = value; }
 		}
 
 		public static void requestDownload(WebClient agent, string path, Dictionary<object, object> parameters,
-			string filepath)
+		                                   string filepath)
 		{
 			var buf = new StringBuilder();
 			try
 			{
-				foreach (KeyValuePair<object, object> pair in parameters)
+				foreach (var pair in parameters)
 				{
 					buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
 					buf.Append("=");
@@ -111,15 +104,17 @@ namespace Wammer.Cloud
 				}
 
 				// remove last &
-				buf.Remove(buf.Length - 1, 1);				
+				buf.Remove(buf.Length - 1, 1);
 
-				var stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf));
+				Stream stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf));
 
 				Debug.Assert(stream != null, "stream != null");
-				stream.WriteTo(filepath, 1024, (sender, e) =>
-				{
-				    PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
-				});
+				stream.WriteTo(filepath, 1024,
+				               (sender, e) =>
+				               	{
+				               		PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(
+				               			long.Parse(e.UserState.ToString()));
+				               	});
 				stream.Close();
 			}
 			catch (WebException e)
@@ -132,11 +127,11 @@ namespace Wammer.Cloud
 			}
 		}
 
-		public static void requestAsyncDownload(WebClient agent, string path, Dictionary<object, object> parameters, 
-			string filepath, AsyncCompletedEventHandler handler, object evtargs)
+		public static void requestAsyncDownload(WebClient agent, string path, Dictionary<object, object> parameters,
+		                                        string filepath, AsyncCompletedEventHandler handler, object evtargs)
 		{
 			var buf = new StringBuilder();
-			foreach (KeyValuePair<object, object> pair in parameters)
+			foreach (var pair in parameters)
 			{
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
 				buf.Append("=");
@@ -160,18 +155,21 @@ namespace Wammer.Cloud
 		/// They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
 		/// <returns>Response value</returns>
-		public static string requestPath(WebClient agent, string path, Dictionary<object, object> parms, bool checkOffline = true)
+		public static string requestPath(WebClient agent, string path, Dictionary<object, object> parms,
+		                                 bool checkOffline = true)
 		{
 			return requestPath(agent, BaseUrl, path, parms, checkOffline);
 		}
 
-		public static string requestPath(WebClient agent,string baseUrl, string path, Dictionary<object, object> parms, bool checkOffline = true)
+		public static string requestPath(WebClient agent, string baseUrl, string path, Dictionary<object, object> parms,
+		                                 bool checkOffline = true)
 		{
 			if (checkOffline)
 			{
 				if (isOffline)
 				{
-					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+					throw new WammerCloudException("Station is in offline mode",
+					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -200,13 +198,15 @@ namespace Wammer.Cloud
 		/// They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
 		/// <returns>Response value</returns>
-		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms, bool checkOffline = true)
+		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms,
+		                               bool checkOffline = true)
 		{
 			if (checkOffline)
 			{
 				if (isOffline)
 				{
-					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+					throw new WammerCloudException("Station is in offline mode",
+					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -223,13 +223,15 @@ namespace Wammer.Cloud
 			}
 		}
 
-		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param, bool isGet, bool checkOffline = true)
+		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param, bool isGet,
+		                           bool checkOffline = true)
 		{
 			if (checkOffline)
 			{
 				if (isOffline)
 				{
-					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+					throw new WammerCloudException("Station is in offline mode",
+					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -237,7 +239,7 @@ namespace Wammer.Cloud
 				return request<T>(agent, url, "", isGet);
 
 			var buf = new StringBuilder();
-			foreach (KeyValuePair<object, object> pair in param)
+			foreach (var pair in param)
 			{
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
 				buf.Append("=");
@@ -272,14 +274,16 @@ namespace Wammer.Cloud
 				byte[] rawResponse = null;
 				if (isGet)
 				{
-					rawResponse = string.IsNullOrEmpty(parameters) ? agent.DownloadData(url) : agent.DownloadData(url + "?" + parameters);
+					rawResponse = string.IsNullOrEmpty(parameters)
+					              	? agent.DownloadData(url)
+					              	: agent.DownloadData(url + "?" + parameters);
 				}
 				else
 				{
 					rawResponse = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(parameters));
 				}
 				response = Encoding.UTF8.GetString(rawResponse);
-				resObj = fastJSON.JSON.Instance.ToObject<T>(response);
+				resObj = JSON.Instance.ToObject<T>(response);
 			}
 			catch (WebException e)
 			{
@@ -295,7 +299,7 @@ namespace Wammer.Cloud
 			{
 				if (cres.status != 200 || cres.api_ret_code != 0)
 					throw new WammerCloudException("Wammer cloud error", response,
-						cres.api_ret_code);
+					                               cres.api_ret_code);
 			}
 
 
@@ -308,7 +312,7 @@ namespace Wammer.Cloud
 				return request(agent, url);
 
 			var buf = new StringBuilder();
-			foreach (KeyValuePair<object, object> pair in param)
+			foreach (var pair in param)
 			{
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
 				buf.Append("=");
@@ -328,7 +332,8 @@ namespace Wammer.Cloud
 			{
 				if (isOffline)
 				{
-					throw new WammerCloudException("Station is in offline mode", new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+					throw new WammerCloudException("Station is in offline mode",
+					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -369,7 +374,7 @@ namespace Wammer.Cloud
 			T resObj;
 			try
 			{
-				resObj = fastJSON.JSON.Instance.ToObject<T>(json);
+				resObj = JSON.Instance.ToObject<T>(json);
 			}
 			catch (Exception e)
 			{
@@ -381,7 +386,7 @@ namespace Wammer.Cloud
 			{
 				if (cres.status != 200 || cres.api_ret_code != 0)
 					throw new WammerCloudException("Wammer cloud error", json,
-						cres.api_ret_code);
+					                               cres.api_ret_code);
 			}
 
 			return resObj;
@@ -389,15 +394,16 @@ namespace Wammer.Cloud
 
 		public static bool IsNetworkError(WammerCloudException e)
 		{
-			return (e.InnerException != null && e.InnerException is WebException && e.HttpError != WebExceptionStatus.ProtocolError);
+			return (e.InnerException != null && e.InnerException is WebException &&
+			        e.HttpError != WebExceptionStatus.ProtocolError);
 		}
 
 		public static bool IsSessionError(WammerCloudException e)
 		{
-			var webex = (WebException)e.InnerException;
+			var webex = (WebException) e.InnerException;
 			if (webex != null)
 			{
-				var response = (HttpWebResponse)webex.Response;
+				var response = (HttpWebResponse) webex.Response;
 				if (response != null)
 				{
 					if (response.StatusCode == HttpStatusCode.Unauthorized)

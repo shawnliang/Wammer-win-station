@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Wammer.Station
 {
@@ -9,12 +6,12 @@ namespace Wammer.Station
 	{
 		private readonly ITaskDequeuable<T> queue;
 
-		public event EventHandler TaskExecuted;
-
 		public TaskRunner(ITaskDequeuable<T> queue)
 		{
 			this.queue = queue;
 		}
+
+		public event EventHandler TaskExecuted;
 
 		protected override void Do()
 		{
@@ -36,9 +33,9 @@ namespace Wammer.Station
 
 		public override void Stop()
 		{
-			this.exit = true;
+			exit = true;
 			queue.EnqueueDummyTask(); // enqueue something to force task runner leave the blocking call of queue.Dequeue();
-			base.Stop();			
+			base.Stop();
 		}
 
 

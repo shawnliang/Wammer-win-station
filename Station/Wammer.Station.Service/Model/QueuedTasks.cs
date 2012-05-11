@@ -10,14 +10,16 @@ namespace Wammer.Model
 	{
 		[BsonId]
 		public Guid id { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string queue { get; set; }
+
 		[BsonIgnoreIfNull]
 		public byte[] bytes { get; set; }
 
 		[BsonIgnore]
-		public object Data 
-		{	
+		public object Data
+		{
 			get
 			{
 				if (bytes == null)
@@ -42,7 +44,7 @@ namespace Wammer.Model
 		}
 	}
 
-	public class QueuedTaskCollection: Collection<QueuedTask>
+	public class QueuedTaskCollection : Collection<QueuedTask>
 	{
 		private static readonly QueuedTaskCollection instance;
 
@@ -52,7 +54,7 @@ namespace Wammer.Model
 		}
 
 		private QueuedTaskCollection()
-			:base("queued_tasks")
+			: base("queued_tasks")
 		{
 		}
 

@@ -10,13 +10,11 @@ namespace Wammer.MultiPart
 		public static byte[] DASH_DASH = Encoding.UTF8.GetBytes("--");
 		public static byte[] CRLF = Encoding.UTF8.GetBytes("\r\n");
 
-		ArraySegment<byte> data;
-		//private static char[] CRLFtail = { '\r', '\n' };
-
-		private string text;
 		private readonly ArraySegment<byte> bytes;
 		private readonly NameValueCollection headers;
+		private ArraySegment<byte> data;
 		private Disposition disposition;
+		private string text;
 
 		public Part(ArraySegment<byte> data, NameValueCollection headers)
 		{
@@ -27,7 +25,7 @@ namespace Wammer.MultiPart
 				throw new ArgumentNullException("headers");
 
 			this.data = data;
-			this.bytes = data;
+			bytes = data;
 			this.headers = headers;
 
 			if (headers["content-disposition"] != null)
@@ -42,7 +40,7 @@ namespace Wammer.MultiPart
 				throw new ArgumentNullException();
 
 			this.data = data;
-			this.headers = new NameValueCollection();
+			headers = new NameValueCollection();
 		}
 
 		//public Part(string data)
@@ -77,7 +75,7 @@ namespace Wammer.MultiPart
 			get
 			{
 				if (headers["content-transfer-encoding"] != null &&
-					headers["content-transfer-encoding"].Equals("binary"))
+				    headers["content-transfer-encoding"].Equals("binary"))
 					return null;
 				return text ?? (text = Encoding.UTF8.GetString(data.Array, data.Offset, data.Count));
 
@@ -88,10 +86,18 @@ namespace Wammer.MultiPart
 
 		public ArraySegment<byte> Bytes
 		{
-			get
-			{
-				return bytes;
-			}
+			get { return bytes; }
+		}
+
+		public NameValueCollection Headers
+		{
+			get { return headers; }
+		}
+
+		public Disposition ContentDisposition
+		{
+			get { return disposition; }
+			set { disposition = value; }
 		}
 
 		public void CopyTo(Stream output, byte[] boundaryData)
@@ -107,7 +113,7 @@ namespace Wammer.MultiPart
 			foreach (string name in headers.AllKeys)
 			{
 				if (disposition != null && name.Equals(
-														"content-disposition",StringComparison.CurrentCultureIgnoreCase))
+					"content-disposition", StringComparison.CurrentCultureIgnoreCase))
 					continue;
 
 
@@ -121,17 +127,6 @@ namespace Wammer.MultiPart
 			output.Write(CRLF, 0, CRLF.Length);
 
 			output.Write(data.Array, data.Offset, data.Count);
-		}
-
-		public NameValueCollection Headers
-		{
-			get { return headers; }
-		}
-
-		public Disposition ContentDisposition
-		{
-			get { return disposition; }
-			set { disposition = value; }
 		}
 	}
 }

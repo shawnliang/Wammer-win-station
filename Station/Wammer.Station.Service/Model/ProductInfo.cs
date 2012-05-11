@@ -17,13 +17,13 @@ namespace Wammer.Model
 		public static ProductInfo GetCurrentVersion()
 		{
 			return new ProductInfo
-			{
-				ThumbnailExtensionIsDat = true
-			};
+			       	{
+			       		ThumbnailExtensionIsDat = true
+			       	};
 		}
 	}
 
-	public class ProductInfoCollection: Collection<ProductInfo>
+	public class ProductInfoCollection : Collection<ProductInfo>
 	{
 		private static readonly ProductInfoCollection instance;
 
@@ -33,7 +33,7 @@ namespace Wammer.Model
 		}
 
 		private ProductInfoCollection()
-			:base("products")
+			: base("products")
 		{
 		}
 

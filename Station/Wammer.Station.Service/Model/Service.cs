@@ -2,7 +2,6 @@
 
 namespace Wammer.Model
 {
-
 	public enum ServiceState
 	{
 		Online,
@@ -14,6 +13,7 @@ namespace Wammer.Model
 	{
 		[BsonId]
 		public string Id { get; set; }
+
 		[BsonIgnoreIfNull]
 		public ServiceState State { get; set; }
 	}
@@ -23,14 +23,14 @@ namespace Wammer.Model
 	{
 		private static readonly ServiceCollection instance;
 
-		private ServiceCollection()
-			:base("service")
-		{
-		}
-
 		static ServiceCollection()
 		{
 			instance = new ServiceCollection();
+		}
+
+		private ServiceCollection()
+			: base("service")
+		{
 		}
 
 		public static ServiceCollection Instance

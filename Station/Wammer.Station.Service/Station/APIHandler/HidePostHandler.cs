@@ -1,5 +1,4 @@
-﻿
-using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 
@@ -8,17 +7,22 @@ namespace Wammer.Station
 	public class HidePostHandler : HttpHandler
 	{
 		#region Private Property
+
 		private IPostUploadSupportable m_PostUploader { get; set; }
+
 		#endregion
 
 		#region Constructor
+
 		public HidePostHandler(IPostUploadSupportable postUploader)
 		{
 			m_PostUploader = postUploader;
 		}
-		#endregion	
+
+		#endregion
 
 		#region Protected Method
+
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
@@ -30,8 +34,8 @@ namespace Wammer.Station
 				CloudServer.PARAM_GROUP_ID,
 				CloudServer.PARAM_POST_ID);
 
-			var postID = Parameters[CloudServer.PARAM_POST_ID];
-			var post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
+			string postID = Parameters[CloudServer.PARAM_POST_ID];
+			PostInfo post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
 
 			post.hidden = "true";
 
@@ -40,11 +44,12 @@ namespace Wammer.Station
 			if (m_PostUploader != null)
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.Hide, Parameters);
 
-			RespondSuccess(new HidePostResponse() 
-			{
-				post_id = postID
-			});
+			RespondSuccess(new HidePostResponse
+			               	{
+			               		post_id = postID
+			               	});
 		}
+
 		#endregion
 	}
 }

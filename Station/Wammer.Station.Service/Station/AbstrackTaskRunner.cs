@@ -4,17 +4,15 @@ namespace Wammer.Station
 {
 	public abstract class AbstrackTaskRunner
 	{
-		protected Thread _thread; 
+		protected Thread _thread;
+
+		protected volatile bool exit;
 
 		protected Thread m_Thread
 		{
 			get { return _thread ?? (_thread = new Thread(Do)); }
-			set
-			{
-				_thread = value;
-			}
+			set { _thread = value; }
 		}
-		protected volatile bool exit;
 
 		public virtual void Start()
 		{

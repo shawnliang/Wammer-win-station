@@ -26,12 +26,12 @@ namespace Wammer.Cloud
 		public NewPostResponse NewPost(WebClient agent, string postId, DateTime timestamp, Dictionary<string, string> param)
 		{
 			var parameters = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-				{CloudServer.PARAM_POST_ID, postId},
-				{CloudServer.PARAM_TIMESTAMP, timestamp.ToCloudTimeString()}
-			};
+			                 	{
+			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+			                 		{CloudServer.PARAM_POST_ID, postId},
+			                 		{CloudServer.PARAM_TIMESTAMP, timestamp.ToCloudTimeString()}
+			                 	};
 
 			foreach (String key in param.Keys)
 			{
@@ -47,10 +47,10 @@ namespace Wammer.Cloud
 		public UpdatePostResponse UpdatePost(WebClient agent, DateTime updateTime, Dictionary<string, string> param)
 		{
 			var parameters = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
+			                 	{
+			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
 			if (!param.ContainsKey(CloudServer.PARAM_UPDATE_TIME))
 			{
@@ -71,10 +71,10 @@ namespace Wammer.Cloud
 		public NewPostCommentResponse NewComment(WebClient agent, DateTime updateTime, Dictionary<string, string> param)
 		{
 			var parameters = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
+			                 	{
+			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
 			if (!param.ContainsKey(CloudServer.PARAM_UPDATE_TIME))
 			{
@@ -95,10 +95,10 @@ namespace Wammer.Cloud
 		public HidePostResponse HidePost(WebClient agent, DateTime updateTime, Dictionary<string, string> param)
 		{
 			var parameters = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
+			                 	{
+			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
 			if (!param.ContainsKey(CloudServer.PARAM_UPDATE_TIME))
 			{
@@ -119,14 +119,14 @@ namespace Wammer.Cloud
 		public PostFetchByFilterResponse PostFetchByFilter(WebClient agent, FilterEntity filter)
 		{
 			var parameters = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
-				{CloudServer.PARAM_FILTER_ENTITY, filter.ToFastJSON()},
-				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
+			                 	{
+			                 		{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
+			                 		{CloudServer.PARAM_FILTER_ENTITY, filter.ToFastJSON()},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
-			var res = 
+			var res =
 				CloudServer.requestPath<PostFetchByFilterResponse>(agent, "posts/fetchByFilter", parameters, false);
 			return res;
 		}
@@ -137,12 +137,12 @@ namespace Wammer.Cloud
 				throw new ArgumentException("postIds is null or empty");
 
 			var parameters = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
-				{CloudServer.PARAM_POST_ID_LIST, GetPostIdList(postIds)},
-				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
+			                 	{
+			                 		{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
+			                 		{CloudServer.PARAM_POST_ID_LIST, GetPostIdList(postIds)},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
 			var res =
 				CloudServer.requestPath<PostFetchByFilterResponse>(agent, "posts/fetchByFilter", parameters, false);
@@ -152,14 +152,14 @@ namespace Wammer.Cloud
 		public PostGetLatestResponse PostGetLatest(WebClient agent, int limit)
 		{
 			var parameters = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_LIMIT, limit},
-				{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
-				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
+			                 	{
+			                 		{CloudServer.PARAM_LIMIT, limit},
+			                 		{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
-			var res = 
+			var res =
 				CloudServer.requestPath<PostGetLatestResponse>(agent, "posts/getLatest", parameters, false);
 			return res;
 		}
@@ -167,19 +167,19 @@ namespace Wammer.Cloud
 		public PostGetSingleResponse PostGetSingle(WebClient agent, string groupId, string postId)
 		{
 			var parameters = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_POST_ID, postId},
-				{CloudServer.PARAM_GROUP_ID, groupId},
-				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
+			                 	{
+			                 		{CloudServer.PARAM_POST_ID, postId},
+			                 		{CloudServer.PARAM_GROUP_ID, groupId},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
 			var res =
 				CloudServer.requestPath<PostGetSingleResponse>(agent, "posts/getSingle", parameters);
 			return res;
 		}
 
-		private string GetPostIdList(List<string>postIds)
+		private string GetPostIdList(List<string> postIds)
 		{
 			var buff = new StringBuilder();
 			buff.Append("[").Append("\"").Append(postIds[0]).Append("\"");

@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MongoDB.Driver;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Serializers;
-using Wammer.Model;
-using Wammer.Cloud;
+﻿using MongoDB.Bson;
 using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Model;
 
 namespace Wammer.Station.Timeline
 {
 	public class TimelineSyncerDB : ITimelineSyncerDB
 	{
+		#region ITimelineSyncerDB Members
+
 		public void SavePost(PostInfo post)
 		{
 			PostCollection.Instance.Save(post);
@@ -37,6 +32,8 @@ namespace Wammer.Station.Timeline
 		{
 			UserTrackCollection.Instance.Save(userTracks);
 		}
+
+		#endregion
 	}
 
 	// update driver in memory instead of in database
@@ -48,6 +45,8 @@ namespace Wammer.Station.Timeline
 		{
 			this.driver = driver;
 		}
+
+		#region ITimelineSyncerDB Members
 
 		public void SavePost(PostInfo post)
 		{
@@ -68,5 +67,7 @@ namespace Wammer.Station.Timeline
 		{
 			UserTrackCollection.Instance.Save(userTracks);
 		}
+
+		#endregion
 	}
 }

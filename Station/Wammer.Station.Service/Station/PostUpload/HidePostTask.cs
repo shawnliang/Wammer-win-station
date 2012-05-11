@@ -9,7 +9,7 @@ namespace Wammer.PostUpload
 	{
 		public override void Execute()
 		{
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", this.UserId));
+			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", UserId));
 			if (driver != null)
 			{
 				using (var agent = new WebClient())
@@ -17,7 +17,7 @@ namespace Wammer.PostUpload
 					try
 					{
 						var postApi = new PostApi(driver);
-						postApi.HidePost(agent, this.Timestamp, this.Parameters);
+						postApi.HidePost(agent, Timestamp, Parameters);
 					}
 					catch (WammerCloudException e)
 					{

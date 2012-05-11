@@ -1,5 +1,4 @@
-﻿
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 
 namespace Wammer.Utility
 {
@@ -9,9 +8,9 @@ namespace Wammer.Utility
 		{
 			foreach (BsonElement elem in rhs)
 			{
-				if (lhs.Contains(elem.Name) && 
-					lhs[elem.Name].IsBsonDocument && 
-					elem.Value.IsBsonDocument)
+				if (lhs.Contains(elem.Name) &&
+				    lhs[elem.Name].IsBsonDocument &&
+				    elem.Value.IsBsonDocument)
 				{
 					DeepMerge(lhs[elem.Name].AsBsonDocument, elem.Value.AsBsonDocument);
 				}

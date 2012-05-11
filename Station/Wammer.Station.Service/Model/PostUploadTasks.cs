@@ -8,6 +8,7 @@ namespace Wammer.Model
 	{
 		[BsonId]
 		public string post_id { get; set; }
+
 		public LinkedList<PostUploadTask> tasks { get; set; }
 	}
 

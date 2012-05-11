@@ -1,37 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using Wammer.Cloud;
-using Wammer.Utility;
 using Wammer.PerfMonitor;
+using Wammer.Utility;
+using log4net;
 
 namespace Wammer.Station
 {
-	public class BypassHttpHandler: IHttpHandler
+	public class BypassHttpHandler : IHttpHandler
 	{
+		private static readonly ILog logger = LogManager.GetLogger("BypassTraffic");
+		private readonly List<string> exceptPrefixes = new List<string>();
 		private readonly string host;
 		private readonly int port;
 		private readonly string scheme;
-		private readonly List<string> exceptPrefixes = new List<string>();
-		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("BypassTraffic");
 		private long beginTime;
-
-		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
 		public BypassHttpHandler(string baseUrl)
 		{
 			var url = new Uri(baseUrl);
-			this.host = url.Host;
-			this.port = url.Port;
-			this.scheme = url.Scheme;
-			this.ProcessSucceeded += HttpRequestMonitor.Instance.OnProcessSucceeded;
+			host = url.Host;
+			port = url.Port;
+			scheme = url.Scheme;
+			ProcessSucceeded += HttpRequestMonitor.Instance.OnProcessSucceeded;
 		}
+
+		#region IHttpHandler Members
+
+		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
 		public object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 
 		public void SetBeginTimestamp(long beginTime)
@@ -47,19 +51,19 @@ namespace Wammer.Station
 				if (HasNotAllowedPrefix(origReq.Url.AbsolutePath))
 				{
 					var json = new CloudResponse(403, -1,
-										"Station does not support this REST API; only Cloud does");
+					                             "Station does not support this REST API; only Cloud does");
 					HttpHelper.RespondFailure(response, json);
 				}
 
 				Uri targetUri = GetTargetUri(origReq);
-				var newReq = (HttpWebRequest)WebRequest.Create(targetUri);
+				var newReq = (HttpWebRequest) WebRequest.Create(targetUri);
 
 				CopyRequestHeaders(origReq, newReq);
 
 				if (origReq.HasEntityBody)
 				{
 					newReq.BeginGetRequestStream(RequestStreamGotten,
-						new BypassContext(origReq, response, newReq));
+					                             new BypassContext(origReq, response, newReq));
 				}
 				else
 				{
@@ -78,7 +82,7 @@ namespace Wammer.Station
 			}
 
 
-			long end = System.Diagnostics.Stopwatch.GetTimestamp();
+			long end = Stopwatch.GetTimestamp();
 
 			long duration = end - beginTime;
 			if (duration < 0)
@@ -87,9 +91,16 @@ namespace Wammer.Station
 			OnProcessSucceeded(new HttpHandlerEventArgs(duration));
 		}
 
+		public void HandleRequest()
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
+
 		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)
 		{
-			EventHandler<HttpHandlerEventArgs> handler = this.ProcessSucceeded;
+			EventHandler<HttpHandlerEventArgs> handler = ProcessSucceeded;
 
 			if (handler != null)
 			{
@@ -99,14 +110,14 @@ namespace Wammer.Station
 
 		private static void RequestStreamGotten(IAsyncResult ar)
 		{
-			var ctx = (BypassContext)ar.AsyncState;
+			var ctx = (BypassContext) ar.AsyncState;
 
 			try
 			{
 				ctx.cloudRequestStream = ctx.cloudRequest.EndGetRequestStream(ar);
 
 				StreamHelper.BeginCopy(ctx.request.InputStream, ctx.cloudRequestStream,
-					RequestDone, ctx);
+				                       RequestDone, ctx);
 			}
 			catch (Exception e)
 			{
@@ -117,7 +128,7 @@ namespace Wammer.Station
 
 		private static void RequestDone(IAsyncResult ar)
 		{
-			var ctx = (BypassContext)ar.AsyncState;
+			var ctx = (BypassContext) ar.AsyncState;
 			try
 			{
 				StreamHelper.EndCopy(ar);
@@ -138,11 +149,11 @@ namespace Wammer.Station
 
 		private static void ResponseGotten(IAsyncResult ar)
 		{
-			var ctx = (BypassContext)ar.AsyncState;
+			var ctx = (BypassContext) ar.AsyncState;
 
 			try
 			{
-				ctx.cloudResponse = (HttpWebResponse)ctx.cloudRequest.EndGetResponse(ar);
+				ctx.cloudResponse = (HttpWebResponse) ctx.cloudRequest.EndGetResponse(ar);
 
 				CopyResponseData(ctx.cloudResponse, ctx.response);
 			}
@@ -160,7 +171,7 @@ namespace Wammer.Station
 
 		private static void RespondDone(IAsyncResult ar)
 		{
-			var ctx = (BypassResponseContext)ar.AsyncState;
+			var ctx = (BypassResponseContext) ar.AsyncState;
 
 			try
 			{
@@ -178,7 +189,7 @@ namespace Wammer.Station
 
 		private static void ReplyCloudError(HttpListenerResponse response, WebException e)
 		{
-			var errResponse = (HttpWebResponse)e.Response;
+			var errResponse = (HttpWebResponse) e.Response;
 			if (errResponse != null)
 			{
 				try
@@ -199,12 +210,12 @@ namespace Wammer.Station
 			if (!prefix.StartsWith("/") || !prefix.EndsWith("/"))
 				throw new ArgumentException("prefix must start and end with slash");
 
-			this.exceptPrefixes.Add(prefix);
+			exceptPrefixes.Add(prefix);
 		}
 
 		private static void CopyResponseData(HttpWebResponse from, HttpListenerResponse to)
 		{
-			to.StatusCode = (int)from.StatusCode;
+			to.StatusCode = (int) from.StatusCode;
 			to.StatusDescription = from.StatusDescription;
 			to.ContentType = from.ContentType;
 
@@ -213,8 +224,8 @@ namespace Wammer.Station
 				to.Cookies.Add(from.Cookies);
 			}
 
-			StreamHelper.BeginCopy(from.GetResponseStream(), to.OutputStream, RespondDone, 
-				new BypassResponseContext(to, from));
+			StreamHelper.BeginCopy(from.GetResponseStream(), to.OutputStream, RespondDone,
+			                       new BypassResponseContext(to, from));
 		}
 
 		private bool HasNotAllowedPrefix(string reqPath)
@@ -222,7 +233,7 @@ namespace Wammer.Station
 			if (!reqPath.EndsWith("/"))
 				reqPath += "/";
 
-			return this.exceptPrefixes.Any(prefix => reqPath.StartsWith(prefix));
+			return exceptPrefixes.Any(prefix => reqPath.StartsWith(prefix));
 		}
 
 		private void CopyRequestHeaders(HttpListenerRequest from, HttpWebRequest to)
@@ -234,7 +245,7 @@ namespace Wammer.Station
 			if (from.Cookies.Count > 0)
 			{
 				foreach (Cookie cookie in from.Cookies)
-					cookie.Domain = this.host;
+					cookie.Domain = host;
 
 				to.CookieContainer = new CookieContainer();
 				to.CookieContainer.Add(from.Cookies);
@@ -243,43 +254,37 @@ namespace Wammer.Station
 
 		private Uri GetTargetUri(HttpListenerRequest request)
 		{
-			var url = new UriBuilder(request.Url) {Host = this.host, Port = this.port, Scheme = this.scheme};
+			var url = new UriBuilder(request.Url) {Host = host, Port = port, Scheme = scheme};
 			Uri targetUri = url.Uri;
 			return targetUri;
 		}
-
-
-		public void HandleRequest()
-		{
-			throw new NotImplementedException();
-		}
 	}
 
-	class BypassContext
+	internal class BypassContext
 	{
-		public HttpListenerRequest request { get; private set; }
-		public HttpListenerResponse response { get; private set; }
-		public HttpWebRequest cloudRequest { get; private set; }
-		public Stream cloudRequestStream { get; set; }
-		public HttpWebResponse cloudResponse { get; set; }
-
 		public BypassContext(HttpListenerRequest request, HttpListenerResponse response, HttpWebRequest cloudRequest)
 		{
 			this.request = request;
 			this.response = response;
 			this.cloudRequest = cloudRequest;
 		}
+
+		public HttpListenerRequest request { get; private set; }
+		public HttpListenerResponse response { get; private set; }
+		public HttpWebRequest cloudRequest { get; private set; }
+		public Stream cloudRequestStream { get; set; }
+		public HttpWebResponse cloudResponse { get; set; }
 	}
 
-	class BypassResponseContext
+	internal class BypassResponseContext
 	{
-		public HttpListenerResponse response { get; private set; }
-		public HttpWebResponse bypassResponse { get; private set; }
-
 		public BypassResponseContext(HttpListenerResponse response, HttpWebResponse bypassResponse)
 		{
 			this.response = response;
 			this.bypassResponse = bypassResponse;
 		}
+
+		public HttpListenerResponse response { get; private set; }
+		public HttpWebResponse bypassResponse { get; private set; }
 	}
 }

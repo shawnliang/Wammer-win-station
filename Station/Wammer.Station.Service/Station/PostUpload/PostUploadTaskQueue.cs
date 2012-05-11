@@ -11,12 +11,11 @@ namespace Wammer.PostUpload
 {
 	public class PostUploadTaskQueue
 	{
-		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
-		private readonly object cs = new object();
-		private readonly PostUploadMonitor monitor = new PostUploadMonitor();
-		private readonly Semaphore headTasks = new Semaphore(0, int.MaxValue);
-
 		private static PostUploadTaskQueue _instance;
+		private readonly object cs = new object();
+		private readonly Semaphore headTasks = new Semaphore(0, int.MaxValue);
+		private readonly PostUploadMonitor monitor = new PostUploadMonitor();
+		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
 
 		public static PostUploadTaskQueue Instance
 		{
@@ -62,8 +61,8 @@ namespace Wammer.PostUpload
 					AddAvailableHeadTask();
 				}
 				PostUploadTasksCollection.Instance.Save(
-					new PostUploadTasks { post_id = task.PostId, tasks = queue });
-				
+					new PostUploadTasks {post_id = task.PostId, tasks = queue});
+
 				monitor.PostUploadTaskEnqueued();
 			}
 		}
@@ -73,7 +72,7 @@ namespace Wammer.PostUpload
 			IsAvailableHeadTaskExist();
 			lock (cs)
 			{
-				foreach (KeyValuePair<string, LinkedList<PostUploadTask>> pair in postQueue)
+				foreach (var pair in postQueue)
 				{
 					PostUploadTask task = pair.Value.First();
 					if (task.Status == PostUploadTaskStatus.Wait)
@@ -97,8 +96,11 @@ namespace Wammer.PostUpload
 				if (postQueue[task.PostId].Count > 0)
 				{
 					PostUploadTasksCollection.Instance.Save(
-						new PostUploadTasks {
-							post_id = task.PostId, tasks = postQueue[task.PostId] });
+						new PostUploadTasks
+							{
+								post_id = task.PostId,
+								tasks = postQueue[task.PostId]
+							});
 					AddAvailableHeadTask();
 				}
 				else

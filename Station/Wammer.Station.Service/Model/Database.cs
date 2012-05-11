@@ -12,8 +12,8 @@ namespace Wammer.Model
 		static Database()
 		{
 			mongodb = MongoServer.Create(
-									string.Format("mongodb://127.0.0.1:{0}/?safe=true;connectTimeoutMS=10000",
-									StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
+				string.Format("mongodb://127.0.0.1:{0}/?safe=true;connectTimeoutMS=10000",
+				              StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
 			wammer = mongodb.GetDatabase("wammer");
 		}
 
@@ -21,7 +21,7 @@ namespace Wammer.Model
 		public static void RestoreCollection(string collectionName, string backupCollectionName)
 		{
 			MongoCollection<BsonDocument> collection = wammer.GetCollection(collectionName);
-			MongoCollection<BsonDocument> backup =  wammer.GetCollection(backupCollectionName);
+			MongoCollection<BsonDocument> backup = wammer.GetCollection(backupCollectionName);
 
 			foreach (BsonDocument doc in backup.FindAll())
 				collection.Save(doc);
@@ -49,6 +49,7 @@ namespace Wammer.Model
 		{
 			return collection.FindOne();
 		}
+
 		public K FindOneAs<K>(IMongoQuery query)
 		{
 			return collection.FindOneAs<K>(query);
@@ -58,6 +59,7 @@ namespace Wammer.Model
 		{
 			collection.Save(doc);
 		}
+
 		public void Save(BsonDocument doc)
 		{
 			collection.Save(doc);

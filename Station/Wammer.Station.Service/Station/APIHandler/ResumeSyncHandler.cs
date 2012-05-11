@@ -1,23 +1,18 @@
 using System;
-using System.Net;
-using log4net;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
-using Wammer.Model;
-using System.Linq;
-using Wammer.Utility;
 using Wammer.PostUpload;
 
 namespace Wammer.Station
 {
-	class ResumeSyncHandler : HttpHandler
+	internal class ResumeSyncHandler : HttpHandler
 	{
+		private readonly AbstrackTaskRunner[] bodySyncRunners;
 		private readonly PostUploadTaskRunner postUploadRunner;
 		private readonly StationTimer stationTimer;
-		private readonly AbstrackTaskRunner[] bodySyncRunners;
 		private readonly AbstrackTaskRunner[] upstreamRunners;
 
-		public ResumeSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer, AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
+		public ResumeSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer,
+		                         AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
 		{
 			this.postUploadRunner = postUploadRunner;
 			this.stationTimer = stationTimer;

@@ -1,16 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station.AttachmentUpload
 {
 	[Serializable]
-	class NullTask : ITask
+	internal class NullTask : ITask
 	{
+		#region ITask Members
+
 		public void Execute()
 		{
-			PerfMonitor.PerfCounter.GetCounter(PerfMonitor.PerfCounter.UP_REMAINED_COUNT, false).Decrement();
+			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Decrement();
 		}
+
+		#endregion
 	}
 }

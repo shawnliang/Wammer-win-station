@@ -1,7 +1,6 @@
 ﻿using System;
-
-using log4net;
 using Wammer.Cloud;
+using log4net;
 
 namespace Wammer.Station
 {
@@ -16,18 +15,18 @@ namespace Wammer.Station
 
 			RespondSuccess(
 				new GetStatusResponse
-				{
-					api_ret_code = 0,
-					api_ret_message = "success",
-					status = 200,
-					timestamp = DateTime.UtcNow,
-					station_status = res
-				});
+					{
+						api_ret_code = 0,
+						api_ret_message = "success",
+						status = 200,
+						timestamp = DateTime.UtcNow,
+						station_status = res
+					});
 		}
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 

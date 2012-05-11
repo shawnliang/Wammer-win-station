@@ -16,6 +16,7 @@ namespace Wammer.PerfMonitor
 	public class PerfCounter : IPerfCounter
 	{
 		#region Const
+
 		public const string CATEGORY_NAME = "Waveface Station";
 		public const string AVG_TIME_PER_ATTACHMENT_UPLOAD = "Average time per attachment upload";
 		public const string AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE = "Average time per attachment upload base";
@@ -30,33 +31,40 @@ namespace Wammer.PerfMonitor
 		public const string HTTP_REQUEST_THROUGHPUT = "Http request throughput (reqs/sec)";
 		public const string HTTP_REQUESTS_IN_QUEUE = "Http requests in queue";
 		public const string POST_IN_QUEUE = "Post upload tasks in queue";
+
 		#endregion
 
 		#region Static Var		
+
 		private static ILog _logger;
+
 		#endregion
 
 		#region Var		
+
+		private readonly PerformanceCounter Counter;
 		private float _value;
-		private readonly PerformanceCounter Counter;		
+
 		#endregion
 
 		#region Private Static Property
+
 		private static ILog m_Logger
 		{
 			get { return _logger ?? (_logger = LogManager.GetLogger("PerfCounter")); }
 		}
+
 		#endregion
 
-
 		#region Private Property
+
 		private DateTime m_ValueUpdateTime { get; set; }
 
-		private float m_Value 
+		private float m_Value
 		{
 			get
 			{
-				var now = DateTime.Now;
+				DateTime now = DateTime.Now;
 				if ((now - m_ValueUpdateTime).TotalSeconds >= 1)
 				{
 					_value = Counter.NextValue();
@@ -66,30 +74,15 @@ namespace Wammer.PerfMonitor
 				return _value;
 			}
 		}
+
 		#endregion
 
 		private PerfCounter(PerformanceCounter counter)
 		{
-			this.Counter = counter;
+			Counter = counter;
 		}
 
-		public static IPerfCounter GetCounter(string counterName, Boolean needInitValue = true)
-		{
-			try
-			{
-				var counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
-
-				if (needInitValue)
-					counter.RawValue = 0;
-
-				return new PerfCounter(counter);
-			}
-			catch (Exception e)
-			{
-				m_Logger.Warn("Unable to create counter: " + counterName, e);
-				return new NullPerfCounter();
-			}
-		}
+		#region IPerfCounter Members
 
 		public void Increment()
 		{
@@ -129,14 +122,54 @@ namespace Wammer.PerfMonitor
 		{
 			return m_Value;
 		}
+
+		#endregion
+
+		public static IPerfCounter GetCounter(string counterName, Boolean needInitValue = true)
+		{
+			try
+			{
+				var counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
+
+				if (needInitValue)
+					counter.RawValue = 0;
+
+				return new PerfCounter(counter);
+			}
+			catch (Exception e)
+			{
+				m_Logger.Warn("Unable to create counter: " + counterName, e);
+				return new NullPerfCounter();
+			}
+		}
 	}
 
-	class NullPerfCounter : IPerfCounter
+	internal class NullPerfCounter : IPerfCounter
 	{
-		public void Increment() { }
-		public void IncrementBy(long value) { }
-		public void Decrement() { }
-		public CounterSample NextSample() { return new CounterSample(); }
-		public float NextValue() { return 0; }
+		#region IPerfCounter Members
+
+		public void Increment()
+		{
+		}
+
+		public void IncrementBy(long value)
+		{
+		}
+
+		public void Decrement()
+		{
+		}
+
+		public CounterSample NextSample()
+		{
+			return new CounterSample();
+		}
+
+		public float NextValue()
+		{
+			return 0;
+		}
+
+		#endregion
 	}
 }

@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Wammer.Model;
-using Wammer.Cloud;
-using Wammer.Utility;
 using System.Net;
+using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Utility;
 
 namespace Wammer.Station.Timeline
 {
 	public interface IPostProvider
 	{
-		PostResponse GetLastestPosts(System.Net.WebClient agent, Driver user, int limit);
-		PostResponse GetPostsBefore(System.Net.WebClient agent, Driver user, DateTime before, int limit);
-		List<PostInfo> RetrievePosts(System.Net.WebClient agent, Driver user, List<string> posts);
+		PostResponse GetLastestPosts(WebClient agent, Driver user, int limit);
+		PostResponse GetPostsBefore(WebClient agent, Driver user, DateTime before, int limit);
+		List<PostInfo> RetrievePosts(WebClient agent, Driver user, List<string> posts);
 	}
 
 	public interface ITimelineSyncerDB
@@ -26,19 +25,19 @@ namespace Wammer.Station.Timeline
 
 	public class TimelineSyncer
 	{
-		private readonly IPostProvider postProvider;
 		private readonly ITimelineSyncerDB db;
-		private readonly Wammer.Cloud.IUserTrackApi userTrack;
+		private readonly IPostProvider postProvider;
+		private readonly IUserTrackApi userTrack;
 
-		public event EventHandler<TimelineSyncEventArgs> PostsRetrieved;
-		public event EventHandler<BodyAvailableEventArgs> BodyAvailable;
-
-		public TimelineSyncer(IPostProvider postProvider, ITimelineSyncerDB db, Wammer.Cloud.IUserTrackApi userTrack)
+		public TimelineSyncer(IPostProvider postProvider, ITimelineSyncerDB db, IUserTrackApi userTrack)
 		{
 			this.postProvider = postProvider;
 			this.db = db;
 			this.userTrack = userTrack;
 		}
+
+		public event EventHandler<TimelineSyncEventArgs> PostsRetrieved;
+		public event EventHandler<BodyAvailableEventArgs> BodyAvailable;
 
 		/// <summary>
 		/// Use PullTimeline() instead.
@@ -57,7 +56,9 @@ namespace Wammer.Station.Timeline
 			{
 				PostResponse res;
 
-				res = user.sync_range == null ? postProvider.GetLastestPosts(agent, user, 200) : postProvider.GetPostsBefore(agent, user, user.sync_range.start_time, 200);
+				res = user.sync_range == null
+				      	? postProvider.GetLastestPosts(agent, user, 200)
+				      	: postProvider.GetPostsBefore(agent, user, user.sync_range.start_time, 200);
 
 				foreach (PostInfo post in res.posts)
 					db.SavePost(post);
@@ -67,14 +68,19 @@ namespace Wammer.Station.Timeline
 				if (res.posts.Count > 0)
 				{
 					db.UpdateDriverSyncRange(user.user_id, new SyncRange
-						{
-							start_time = res.posts.Last().timestamp,
-							end_time = (user.sync_range == null) ? res.posts.First().timestamp : user.sync_range.end_time,
-							first_post_time = (res.HasMoreData) ? null as Nullable<DateTime> : res.posts.Last().timestamp
-						});
+					                                       	{
+					                                       		start_time = res.posts.Last().timestamp,
+					                                       		end_time =
+					                                       			(user.sync_range == null)
+					                                       				? res.posts.First().timestamp
+					                                       				: user.sync_range.end_time,
+					                                       		first_post_time =
+					                                       			(res.HasMoreData) ? null as DateTime? : res.posts.Last().timestamp
+					                                       	});
 				}
 			}
 		}
+
 		/// <summary>
 		/// Use PullTimeline() instead.
 		/// Calls user track api to get changed posts and saves to db
@@ -91,7 +97,7 @@ namespace Wammer.Station.Timeline
 			using (WebClient agent = new DefaultWebClient())
 			{
 				DateTime since = user.sync_range.end_time.AddSeconds(1.0);
-				
+
 				UserTrackResponse res;
 
 				try
@@ -106,7 +112,7 @@ namespace Wammer.Station.Timeline
 					//
 					// Use this exception as the exit criteria
 					if (e.InnerException is ArgumentOutOfRangeException)
-						return; 
+						return;
 					else
 						throw;
 				}
@@ -115,7 +121,6 @@ namespace Wammer.Station.Timeline
 
 				ProcChangedPosts(user, agent, res);
 				ProcNewAttachments(res);
-
 			}
 		}
 
@@ -130,12 +135,12 @@ namespace Wammer.Station.Timeline
 				OnPostsRetrieved(user, changedPost);
 
 				db.UpdateDriverSyncRange(user.user_id,
-					new SyncRange
-					{
-						start_time = user.sync_range.start_time,
-						end_time = res.latest_timestamp,
-						first_post_time = user.sync_range.first_post_time,
-					});
+				                         new SyncRange
+				                         	{
+				                         		start_time = user.sync_range.start_time,
+				                         		end_time = res.latest_timestamp,
+				                         		first_post_time = user.sync_range.first_post_time,
+				                         	});
 			}
 		}
 
@@ -144,10 +149,10 @@ namespace Wammer.Station.Timeline
 			if (res.usertrack_list == null)
 				return;
 
-			foreach (var track in res.usertrack_list)
+			foreach (UserTrackDetail track in res.usertrack_list)
 			{
 				if (track.target_type == "attachment" &&
-					track.actions != null)
+				    track.actions != null)
 				{
 					if (track.actions.Any(action => action.target_type.Contains("origin")))
 					{
@@ -159,7 +164,7 @@ namespace Wammer.Station.Timeline
 
 		private void OnBodyAvailable(BodyAvailableEventArgs args)
 		{
-			EventHandler<BodyAvailableEventArgs> handler = this.BodyAvailable;
+			EventHandler<BodyAvailableEventArgs> handler = BodyAvailable;
 			if (handler != null)
 				handler(this, args);
 		}
@@ -194,8 +199,7 @@ namespace Wammer.Station.Timeline
 
 					db.SaveUserTracks(new UserTracks(res));
 					since = res.latest_timestamp.AddSeconds(1.0);
-				}
-				while (since <= user.sync_range.end_time);
+				} while (since <= user.sync_range.end_time);
 
 				// Last user track response could contain unsynced posts.
 				List<PostInfo> newPosts = postProvider.RetrievePosts(agent, user, res.post_id_list);
@@ -223,39 +227,37 @@ namespace Wammer.Station.Timeline
 
 		private void OnPostsRetrieved(Driver driver, List<PostInfo> posts)
 		{
-			EventHandler<TimelineSyncEventArgs> handler = this.PostsRetrieved;
+			EventHandler<TimelineSyncEventArgs> handler = PostsRetrieved;
 			if (handler != null)
 			{
 				handler(this, new TimelineSyncEventArgs(driver, posts));
 			}
 		}
-
-
 	}
 
 	public class TimelineSyncEventArgs : EventArgs
 	{
-		public Driver Driver { get; private set; }
-		public ICollection<PostInfo> Posts {get; private set;}
-		
 		public TimelineSyncEventArgs(Driver driver, ICollection<PostInfo> posts)
 		{
-			this.Driver = driver;
-			this.Posts = posts;
+			Driver = driver;
+			Posts = posts;
 		}
+
+		public Driver Driver { get; private set; }
+		public ICollection<PostInfo> Posts { get; private set; }
 	}
 
 	public class BodyAvailableEventArgs : EventArgs
 	{
-		public string object_id { get; private set; }
-		public string user_id { get; private set; }
-		public string group_id { get; private set; }
-
 		public BodyAvailableEventArgs(string object_id, string user_id, string group_id)
 		{
 			this.object_id = object_id;
 			this.user_id = user_id;
 			this.group_id = group_id;
 		}
+
+		public string object_id { get; private set; }
+		public string user_id { get; private set; }
+		public string group_id { get; private set; }
 	}
 }

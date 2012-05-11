@@ -4,6 +4,8 @@ namespace Wammer.Cloud
 {
 	public class ObjectUploadResponse : CloudResponse
 	{
+		public string object_id { get; set; }
+
 		public static ObjectUploadResponse CreateSuccess(string objectId)
 		{
 			var res = new ObjectUploadResponse
@@ -19,7 +21,7 @@ namespace Wammer.Cloud
 		}
 
 		public static ObjectUploadResponse CreateFailure(string objectId,
-														int httpStatus, Exception e)
+		                                                 int httpStatus, Exception e)
 		{
 			var res = new ObjectUploadResponse
 			          	{
@@ -32,7 +34,5 @@ namespace Wammer.Cloud
 
 			return res;
 		}
-	
-		public string object_id { get;set;}
 	}
 }

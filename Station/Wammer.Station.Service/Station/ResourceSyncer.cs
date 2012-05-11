@@ -1,38 +1,30 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Net;
-using System.IO;
-using System.ComponentModel;
-using System.Security.Cryptography;
-using System.Drawing;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using Wammer.Model;
 using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Station.Timeline;
 using Wammer.Utility;
 
 namespace Wammer.Station
 {
-	class ResourceSyncer : NonReentrantTimer
+	internal class ResourceSyncer : NonReentrantTimer
 	{
-		private bool isFirstRun = true;
-		private readonly Timeline.TimelineSyncer syncer;
 		private readonly ResourceDownloader downloader;
+		private readonly TimelineSyncer syncer;
+		private bool isFirstRun = true;
 
 		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
 			: base(timerPeriod)
 		{
-			this.downloader = new ResourceDownloader(bodySyncQueue, stationId);
-			this.syncer = new Timeline.TimelineSyncer(new Timeline.PostProvider(), new Timeline.TimelineSyncerDB(), new UserTracksApi());
-			syncer.PostsRetrieved += new EventHandler<Timeline.TimelineSyncEventArgs>(downloader.PostRetrieved);
-			syncer.BodyAvailable += new EventHandler<Timeline.BodyAvailableEventArgs>(syncer_BodyAvailable);
+			downloader = new ResourceDownloader(bodySyncQueue, stationId);
+			syncer = new TimelineSyncer(new PostProvider(), new TimelineSyncerDB(), new UserTracksApi());
+			syncer.PostsRetrieved += downloader.PostRetrieved;
+			syncer.BodyAvailable += syncer_BodyAvailable;
 		}
 
-		void syncer_BodyAvailable(object sender, Timeline.BodyAvailableEventArgs e)
+		private void syncer_BodyAvailable(object sender, BodyAvailableEventArgs e)
 		{
 			try
 			{
@@ -41,7 +33,7 @@ namespace Wammer.Station
 				{
 					using (WebClient agent = new DefaultWebClient())
 					{
-						AttachmentInfo info = Cloud.AttachmentApi.GetInfo(agent, e.object_id, user.session_token);
+						AttachmentInfo info = AttachmentApi.GetInfo(agent, e.object_id, user.session_token);
 						downloader.EnqueueDownstreamTask(info, user, ImageMeta.Origin);
 					}
 				}
@@ -68,7 +60,7 @@ namespace Wammer.Station
 			if (args.driver.isPrimaryStation)
 			{
 				// just upgraded to primary station
-				foreach (var attachment in AttachmentCollection.Instance.FindAll())
+				foreach (Attachment attachment in AttachmentCollection.Instance.FindAll())
 				{
 					downloader.EnqueueDownstreamTask(new AttachmentInfo(attachment), args.driver, ImageMeta.Origin);
 				}

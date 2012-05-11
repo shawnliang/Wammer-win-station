@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using log4net;
 using Wammer.Cloud;
 using Wammer.Utility;
+using fastJSON;
+using log4net;
 
 namespace Wammer.Station
 {
@@ -33,10 +34,9 @@ namespace Wammer.Station
 
 		public static void RespondFailure(HttpListenerResponse response, WammerStationException e, int status)
 		{
-
 			CloudResponse json = null;
 
-			json = e.ErrorResponse ?? new CloudResponse(status,DateTime.Now.ToUniversalTime(), e.WammerError, e.Message);
+			json = e.ErrorResponse ?? new CloudResponse(status, DateTime.Now.ToUniversalTime(), e.WammerError, e.Message);
 
 			RespondFailure(response, json);
 		}
@@ -44,7 +44,7 @@ namespace Wammer.Station
 		public static void RespondFailure(HttpListenerResponse response, Exception e, int status)
 		{
 			var json = new CloudResponse(status,
-					DateTime.Now.ToUniversalTime(), -1, e.Message);
+			                             DateTime.Now.ToUniversalTime(), -1, e.Message);
 
 			RespondFailure(response, json);
 		}
@@ -57,10 +57,10 @@ namespace Wammer.Station
 			using (var w = new StreamWriter(response.OutputStream))
 			{
 				if (jsonObj is string)
-					w.Write((string)jsonObj);
+					w.Write((string) jsonObj);
 				else
 				{
-					string json = fastJSON.JSON.Instance.ToJSON(jsonObj, false, false, false, false);
+					string json = JSON.Instance.ToJSON(jsonObj, false, false, false, false);
 					w.Write(json);
 				}
 			}

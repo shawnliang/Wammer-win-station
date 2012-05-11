@@ -4,8 +4,6 @@ namespace Wammer.Cloud
 {
 	public class FootprintResponse : CloudResponse
 	{
-		public LastScanInfo last_scan { get; set; }
-
 		public FootprintResponse()
 		{
 		}
@@ -14,6 +12,8 @@ namespace Wammer.Cloud
 			: base(status, timestamp)
 		{
 		}
+
+		public LastScanInfo last_scan { get; set; }
 	}
 
 	public class FootprintSetLastScanResponse : FootprintResponse

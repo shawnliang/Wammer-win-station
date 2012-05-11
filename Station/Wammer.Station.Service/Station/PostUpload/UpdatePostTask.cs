@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using MongoDB.Driver.Builders;
@@ -12,7 +13,7 @@ namespace Wammer.PostUpload
 	{
 		public override void Execute()
 		{
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", this.UserId));
+			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", UserId));
 			if (driver != null)
 			{
 				using (var agent = new WebClient())
@@ -21,7 +22,7 @@ namespace Wammer.PostUpload
 					{
 						if (Parameters.ContainsKey(CloudServer.PARAM_ATTACHMENT_ID_ARRAY))
 						{
-							var attachmentIDs =
+							IEnumerable<string> attachmentIDs =
 								from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList()
 								select attachmentString.Trim('"', '"');
 
@@ -29,13 +30,13 @@ namespace Wammer.PostUpload
 							{
 								if (!IsAttachmentExist(id))
 								{
-									throw new WammerStationException("Attachment " + id + " does not exist", (int)StationLocalApiError.NotReady);
+									throw new WammerStationException("Attachment " + id + " does not exist", (int) StationLocalApiError.NotReady);
 								}
 							}
 						}
 
 						var postApi = new PostApi(driver);
-						postApi.UpdatePost(agent, this.Timestamp, this.Parameters);
+						postApi.UpdatePost(agent, Timestamp, Parameters);
 					}
 					catch (WammerCloudException e)
 					{

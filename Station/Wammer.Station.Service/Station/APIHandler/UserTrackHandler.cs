@@ -1,21 +1,20 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Wammer.Station;
-using Wammer.Model;
 using MongoDB.Driver.Builders;
-using MongoDB.Driver;
 using Wammer.Cloud;
-using System.Globalization;
+using Wammer.Model;
+using Wammer.Utility;
 
 namespace Wammer.Station.APIHandler
 {
 	public class UserTrackHandler : HttpHandler
 	{
 		private readonly UserTrackHandlerImp impl = new UserTrackHandlerImp(new UserTrackHandlerDB());
-		
+
 		#region Protected Method
+
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
@@ -23,18 +22,21 @@ namespace Wammer.Station.APIHandler
 		{
 			CheckParameter("group_id", "since");
 
-			var include_entities = "true" == Parameters["include_entities"];
+			bool include_entities = "true" == Parameters["include_entities"];
 
-			this.RespondSuccess(
+			RespondSuccess(
 				impl.GetUserTrack(Parameters["group_id"], Parameters["since"], include_entities));
 		}
+
 		#endregion
 
 		#region Public Method
+
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
+
 		#endregion
 	}
 
@@ -44,8 +46,10 @@ namespace Wammer.Station.APIHandler
 		IEnumerable<UserTracks> GetUserTracksSince(string group_id, DateTime since);
 	}
 
-	class UserTrackHandlerDB : IUserTrackHandlerDB
+	internal class UserTrackHandlerDB : IUserTrackHandlerDB
 	{
+		#region IUserTrackHandlerDB Members
+
 		public Driver GetUserByGroupId(string group_id)
 		{
 			return DriverCollection.Instance.FindDriverByGroupId(group_id);
@@ -58,6 +62,8 @@ namespace Wammer.Station.APIHandler
 					Query.EQ("group_id", group_id),
 					Query.GTE("latest_timestamp", since))).SetSortOrder(SortBy.Ascending("latest_timestamp"));
 		}
+
+		#endregion
 	}
 
 	public class UserTrackHandlerImp
@@ -74,12 +80,14 @@ namespace Wammer.Station.APIHandler
 			Driver user = db.GetUserByGroupId(group_id);
 
 			if (user == null)
-				throw new WammerStationException("user of group " + group_id + " not found", (int)StationLocalApiError.InvalidDriver);
+				throw new WammerStationException("user of group " + group_id + " not found",
+				                                 (int) StationLocalApiError.InvalidDriver);
 
 			if (!user.is_change_history_synced)
-				throw new WammerStationException("usertracks API is not ready. Syncing still in progress.", (int)StationLocalApiError.NotReady);
+				throw new WammerStationException("usertracks API is not ready. Syncing still in progress.",
+				                                 (int) StationLocalApiError.NotReady);
 
-			DateTime sinceDateTime = Wammer.Utility.TimeHelper.ParseCloudTimeString(since);
+			DateTime sinceDateTime = TimeHelper.ParseCloudTimeString(since);
 			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, sinceDateTime);
 
 			Debug.Assert(userTracks != null, "userTracks != null");
@@ -96,7 +104,7 @@ namespace Wammer.Station.APIHandler
 				response.post_id_list = mergePostIdLists(userTracks);
 				response.get_count = response.post_id_list.Count;
 			}
-				
+
 			response.group_id = group_id;
 			response.latest_timestamp = userTracks.Any() ? userTracks.Last().latest_timestamp : DateTime.UtcNow;
 			response.remaining_count = 0;
@@ -130,7 +138,6 @@ namespace Wammer.Station.APIHandler
 
 				foreach (string post_id in ut.post_id_list)
 					posts.Add(post_id);
-
 			}
 			return posts.ToList();
 		}

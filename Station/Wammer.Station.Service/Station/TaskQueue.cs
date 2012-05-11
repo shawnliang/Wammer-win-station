@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using Wammer.PerfMonitor;
 using Wammer.Queue;
+using log4net;
 
 namespace Wammer.Station
 {
@@ -16,9 +16,9 @@ namespace Wammer.Station
 		High
 	}
 
-	static class TaskQueue
+	internal static class TaskQueue
 	{
-		private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger("TaskQueue");
+		private static readonly ILog Logger = LogManager.GetLogger("TaskQueue");
 
 		private static readonly IPerfCounter itemsInQueue = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE);
 		private static readonly IPerfCounter itemsInProgress = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_PROGRESS);
@@ -30,23 +30,6 @@ namespace Wammer.Station
 		private static readonly WMSQueue mqLowPriority;
 		private static readonly WMSQueue mqVeryLowPriority;
 
-
-		public static int MaxConcurrentTaskCount
-		{
-			get
-			{
-				return maxConcurrentTaskCount;
-			}
-
-			set
-			{
-				maxConcurrentTaskCount = value;
-				maxRunningNonHighTaskCount = maxConcurrentTaskCount / 2;
-
-				if (maxRunningNonHighTaskCount == 0)
-					maxRunningNonHighTaskCount = 1;
-			}
-		}
 
 		private static int maxConcurrentTaskCount;
 		private static int runningTaskCount;
@@ -79,6 +62,20 @@ namespace Wammer.Station
 				{
 					_scheduleNextTaskToRun();
 				}
+			}
+		}
+
+		public static int MaxConcurrentTaskCount
+		{
+			get { return maxConcurrentTaskCount; }
+
+			set
+			{
+				maxConcurrentTaskCount = value;
+				maxRunningNonHighTaskCount = maxConcurrentTaskCount/2;
+
+				if (maxRunningNonHighTaskCount == 0)
+					maxRunningNonHighTaskCount = 1;
 			}
 		}
 
@@ -173,7 +170,6 @@ namespace Wammer.Station
 
 		private static DequeuedItem Dequeue()
 		{
-
 			WMSMessage item = null;
 
 			try
@@ -206,12 +202,12 @@ namespace Wammer.Station
 		public static void RunPriorityQueue(object nil)
 		{
 			DequeuedItem dequeuedItem = null;
-			
+
 			try
 			{
 				itemsInProgress.Increment();
 				dequeuedItem = Dequeue();
-				((ITask)dequeuedItem.Item.Data).Execute();
+				((ITask) dequeuedItem.Item.Data).Execute();
 			}
 			catch (Exception e)
 			{
@@ -242,17 +238,17 @@ namespace Wammer.Station
 
 	public class DequeuedItem
 	{
-		public WMSMessage Item { get; private set; }
-		public TaskPriority Priority { get; private set; }
-
 		public DequeuedItem(WMSMessage item, TaskPriority priority)
 		{
 			if (item == null)
 				throw new ArgumentNullException("item");
 
-			this.Item = item;
-			this.Priority = priority;
+			Item = item;
+			Priority = priority;
 		}
+
+		public WMSMessage Item { get; private set; }
+		public TaskPriority Priority { get; private set; }
 	}
 
 	public interface ITask
@@ -271,9 +267,13 @@ namespace Wammer.Station
 			this.state = state;
 		}
 
+		#region ITask Members
+
 		public void Execute()
 		{
-			this.cb(this.state);
+			cb(state);
 		}
+
+		#endregion
 	}
 }

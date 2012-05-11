@@ -6,9 +6,10 @@ namespace Wammer
 	/// <summary>
 	/// 
 	/// </summary>
-	public class TaskQueueEventArgs:EventArgs
+	public class TaskQueueEventArgs : EventArgs
 	{
 		#region Property
+
 		/// <summary>
 		/// Gets or sets the task.
 		/// </summary>
@@ -22,8 +23,9 @@ namespace Wammer
 		public IHttpHandler Handler { get; private set; }
 
 		#endregion
-		
+
 		#region Constructor
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TaskQueueEventArgs"/> class.
 		/// </summary>
@@ -31,9 +33,10 @@ namespace Wammer
 		/// <param name="handler">The handler.</param>
 		public TaskQueueEventArgs(ITask task, IHttpHandler handler)
 		{
-			this.Task = task;
-			this.Handler = handler;
-		} 
+			Task = task;
+			Handler = handler;
+		}
+
 		#endregion
 	}
 }

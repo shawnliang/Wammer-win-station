@@ -7,12 +7,18 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
 	public class AttachmentViewHandler : HttpHandler
 	{
 		private readonly string station_id;
+
+		public AttachmentViewHandler(string stationId)
+		{
+			station_id = stationId;
+		}
 
 		/// <summary>
 		/// File download is started.
@@ -29,15 +35,9 @@ namespace Wammer.Station
 		/// </summary>
 		public event EventHandler FileDownloadFinished;
 
-		public AttachmentViewHandler(string stationId)
-			: base()
-		{
-			this.station_id = stationId;
-		}
-
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 
 		public override void HandleRequest()
@@ -54,8 +54,8 @@ namespace Wammer.Station
 				if (Parameters["image_meta"] == null)
 					imageMeta = ImageMeta.Origin;
 				else
-					imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta),
-																	Parameters["image_meta"], true);
+					imageMeta = (ImageMeta) Enum.Parse(typeof (ImageMeta),
+					                                   Parameters["image_meta"], true);
 
 				// "target" parameter is used to request cover image or slide page.
 				// In this version station has no such resources so station always forward this
@@ -74,7 +74,11 @@ namespace Wammer.Station
 					namePart += "_" + metaStr;
 				}
 
-				Attachment doc = AttachmentCollection.Instance.FindOne(imageMeta == ImageMeta.Origin ? Query.And(Query.EQ("_id", objectId), Query.Exists("saved_file_name", true)) : Query.And(Query.EQ("_id", objectId), Query.Exists("image_meta." + metaStr, true)));
+				Attachment doc =
+					AttachmentCollection.Instance.FindOne(imageMeta == ImageMeta.Origin
+					                                      	? Query.And(Query.EQ("_id", objectId), Query.Exists("saved_file_name", true))
+					                                      	: Query.And(Query.EQ("_id", objectId),
+					                                      	            Query.Exists("image_meta." + metaStr, true)));
 
 				if (doc == null)
 				{
@@ -84,7 +88,8 @@ namespace Wammer.Station
 
 				Driver driver = DriverCollection.Instance.FindDriverByGroupId(doc.group_id);
 				if (driver == null)
-					throw new WammerStationException("Cannot find user with group_id: " + doc.group_id, (int)StationLocalApiError.InvalidDriver);
+					throw new WammerStationException("Cannot find user with group_id: " + doc.group_id,
+					                                 (int) StationLocalApiError.InvalidDriver);
 
 				var storage = new FileStorage(driver);
 				FileStream fs = storage.LoadByNameWithNoSuffix(namePart);
@@ -95,14 +100,13 @@ namespace Wammer.Station
 				if (doc.type == AttachmentType.image && imageMeta != ImageMeta.Origin)
 					Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
 
-				Utility.StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
-					new CopyState(fs, Response, objectId));
-
+				StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
+				                       new CopyState(fs, Response, objectId));
 			}
 			catch (ArgumentException e)
 			{
 				this.LogWarnMsg("Bad request: " + e.Message);
-				HttpHelper.RespondFailure(Response, e, (int)HttpStatusCode.BadRequest);
+				HttpHelper.RespondFailure(Response, e, (int) HttpStatusCode.BadRequest);
 			}
 			catch (FileNotFoundException)
 			{
@@ -123,21 +127,21 @@ namespace Wammer.Station
 				OnFileDownloadStarted();
 
 				DownloadResult downloadResult = AttachmentApi.DownloadImageWithMetadata(
-					Parameters["object_id"], Parameters["session_token"], Parameters["apikey"], meta, station_id, (sender, e) =>
-					{
-						OnFileDownloadInProgress(e);
-					});
+					Parameters["object_id"], Parameters["session_token"], Parameters["apikey"], meta, station_id,
+					(sender, e) => { OnFileDownloadInProgress(e); });
 
 				Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", downloadResult.Metadata.creator_id));
 
 				if (driver == null)
-					throw new WammerStationException("driver does not exist: " + downloadResult.Metadata.creator_id, (int)StationLocalApiError.InvalidDriver);
+					throw new WammerStationException("driver does not exist: " + downloadResult.Metadata.creator_id,
+					                                 (int) StationLocalApiError.InvalidDriver);
 
 				if (meta == ImageMeta.Origin && !driver.isPrimaryStation)
-					throw new WammerStationException("Access to original attachment from secondary station is not allowed.", (int)StationLocalApiError.AccessDenied);
+					throw new WammerStationException("Access to original attachment from secondary station is not allowed.",
+					                                 (int) StationLocalApiError.AccessDenied);
 
 				var storage = new FileStorage(driver);
-				var fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);
+				string fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);
 				storage.SaveFile(fileName, new ArraySegment<byte>(downloadResult.Image));
 
 				SetAttachementToDB(meta, downloadResult, fileName);
@@ -146,17 +150,18 @@ namespace Wammer.Station
 
 				var m = new MemoryStream(downloadResult.Image);
 
-				Utility.StreamHelper.BeginCopy(m, Response.OutputStream, CopyComplete,
-					new CopyState(m, Response, Parameters["object_id"]));
-
+				StreamHelper.BeginCopy(m, Response.OutputStream, CopyComplete,
+				                       new CopyState(m, Response, Parameters["object_id"]));
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta, e);
+				throw new WammerCloudException(
+					"AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta, e);
 			}
 			catch (WammerCloudException e)
 			{
-				throw new WammerCloudException("AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta, e);
+				throw new WammerCloudException(
+					"AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta, e);
 			}
 			finally
 			{
@@ -169,48 +174,91 @@ namespace Wammer.Station
 			if (meta == ImageMeta.Origin)
 			{
 				AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
-					.Set("file_name", downloadResult.Metadata.file_name)
-					.Set("mime_type", downloadResult.ContentType)
-					.Set("url", "/v2/attachments/view/?object_id=" + Parameters["object_id"])
-					.Set("file_size", downloadResult.Image.Length)
-					.Set("modify_time", DateTime.UtcNow)
-					.Set("image_meta.width", downloadResult.Metadata.image_meta.width)
-					.Set("image_meta.height", downloadResult.Metadata.image_meta.height)
-					.Set("md5", downloadResult.Metadata.md5)
-					.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), downloadResult.Metadata.type, true))
-					.Set("group_id", downloadResult.Metadata.group_id)
-					.Set("saved_file_name", fileName)
-					.Set("is_body_upstreamed", true), UpdateFlags.Upsert);
+				                                                                               	.Set("file_name",
+				                                                                               	     downloadResult.Metadata.
+				                                                                               	     	file_name)
+				                                                                               	.Set("mime_type",
+				                                                                               	     downloadResult.ContentType)
+				                                                                               	.Set("url",
+				                                                                               	     "/v2/attachments/view/?object_id=" +
+				                                                                               	     Parameters["object_id"])
+				                                                                               	.Set("file_size",
+				                                                                               	     downloadResult.Image.Length)
+				                                                                               	.Set("modify_time", DateTime.UtcNow)
+				                                                                               	.Set("image_meta.width",
+				                                                                               	     downloadResult.Metadata.
+				                                                                               	     	image_meta.width)
+				                                                                               	.Set("image_meta.height",
+				                                                                               	     downloadResult.Metadata.
+				                                                                               	     	image_meta.height)
+				                                                                               	.Set("md5",
+				                                                                               	     downloadResult.Metadata.md5)
+				                                                                               	.Set("type",
+				                                                                               	     (int)
+				                                                                               	     (AttachmentType)
+				                                                                               	     Enum.Parse(
+				                                                                               	     	typeof (AttachmentType),
+				                                                                               	     	downloadResult.Metadata.type,
+				                                                                               	     	true))
+				                                                                               	.Set("group_id",
+				                                                                               	     downloadResult.Metadata.
+				                                                                               	     	group_id)
+				                                                                               	.Set("saved_file_name", fileName)
+				                                                                               	.Set("is_body_upstreamed", true),
+				                                     UpdateFlags.Upsert);
 			}
 			else
 			{
-				var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
+				string metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
 				AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
-					.Set("group_id", downloadResult.Metadata.group_id)
-					.Set("file_name", downloadResult.Metadata.file_name)
-					.Set("is_thumb_upstreamed", true)
-					.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), downloadResult.Metadata.type, true))
-					.Set("image_meta." + metaStr, new ThumbnailInfo()
-					{
-						mime_type = downloadResult.ContentType,
-						modify_time = DateTime.UtcNow,
-						url = "/v2/attachments/view/?object_id=" + Parameters["object_id"] + "&image_meta=" + metaStr,
-						file_size = downloadResult.Image.Length,
-						width = downloadResult.Metadata.image_meta.GetThumbnail(meta).width,
-						height = downloadResult.Metadata.image_meta.GetThumbnail(meta).height,
-						saved_file_name = fileName
-					}.ToBsonDocument()), UpdateFlags.Upsert);
+				                                                                               	.Set("group_id",
+				                                                                               	     downloadResult.Metadata.
+				                                                                               	     	group_id)
+				                                                                               	.Set("file_name",
+				                                                                               	     downloadResult.Metadata.
+				                                                                               	     	file_name)
+				                                                                               	.Set("is_thumb_upstreamed", true)
+				                                                                               	.Set("type",
+				                                                                               	     (int)
+				                                                                               	     (AttachmentType)
+				                                                                               	     Enum.Parse(
+				                                                                               	     	typeof (AttachmentType),
+				                                                                               	     	downloadResult.Metadata.type,
+				                                                                               	     	true))
+				                                                                               	.Set("image_meta." + metaStr,
+				                                                                               	     new ThumbnailInfo
+				                                                                               	     	{
+				                                                                               	     		mime_type =
+				                                                                               	     			downloadResult.ContentType,
+				                                                                               	     		modify_time = DateTime.UtcNow,
+				                                                                               	     		url =
+				                                                                               	     			"/v2/attachments/view/?object_id=" +
+				                                                                               	     			Parameters["object_id"] +
+				                                                                               	     			"&image_meta=" + metaStr,
+				                                                                               	     		file_size =
+				                                                                               	     			downloadResult.Image.Length,
+				                                                                               	     		width =
+				                                                                               	     			downloadResult.Metadata.
+				                                                                               	     			image_meta.GetThumbnail(meta)
+				                                                                               	     			.width,
+				                                                                               	     		height =
+				                                                                               	     			downloadResult.Metadata.
+				                                                                               	     			image_meta.GetThumbnail(meta)
+				                                                                               	     			.height,
+				                                                                               	     		saved_file_name = fileName
+				                                                                               	     	}.ToBsonDocument()),
+				                                     UpdateFlags.Upsert);
 			}
 		}
 
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
 		{
-			string fileName = objectID;			
+			string fileName = objectID;
 
 			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 			{
-				var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
+				string metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
 				fileName += "_" + metaStr;
 			}
 
@@ -228,14 +276,13 @@ namespace Wammer.Station
 		}
 
 
-
 		private void CopyComplete(IAsyncResult ar)
 		{
-			var state = (CopyState)ar.AsyncState;
+			var state = (CopyState) ar.AsyncState;
 
 			try
 			{
-				Utility.StreamHelper.EndCopy(ar);
+				StreamHelper.EndCopy(ar);
 			}
 			catch (Exception e)
 			{
@@ -281,17 +328,17 @@ namespace Wammer.Station
 		}
 	}
 
-	class CopyState
+	internal class CopyState
 	{
-		public Stream source { get; private set; }
-		public HttpListenerResponse response { get; private set; }
-		public string attachmentId { get; private set; }
-
 		public CopyState(Stream src, HttpListenerResponse res, string attachmentId)
 		{
 			source = src;
 			response = res;
 			this.attachmentId = attachmentId;
 		}
+
+		public Stream source { get; private set; }
+		public HttpListenerResponse response { get; private set; }
+		public string attachmentId { get; private set; }
 	}
 }

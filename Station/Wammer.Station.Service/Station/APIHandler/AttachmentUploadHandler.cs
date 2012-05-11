@@ -8,6 +8,11 @@ namespace Wammer.Station.APIHandler
 	{
 		private readonly AttachmentUploadHandlerImp imp;
 
+		public AttachmentUploadHandler()
+		{
+			imp = new AttachmentUploadHandlerImp(new AttachmentUploadHandlerDB());
+		}
+
 		public event EventHandler<AttachmentEventArgs> AttachmentProcessed
 		{
 			add
@@ -27,11 +32,6 @@ namespace Wammer.Station.APIHandler
 			}
 		}
 
-		public AttachmentUploadHandler()
-		{
-			imp = new AttachmentUploadHandlerImp(new AttachmentUploadHandlerDB());
-		}
-
 		public override void HandleRequest()
 		{
 			CheckParameter("session_token", "apikey", "group_id", "type");
@@ -40,7 +40,7 @@ namespace Wammer.Station.APIHandler
 
 			RespondSuccess(imp.Process(data));
 		}
-		
+
 		private UploadData GetUploadData()
 		{
 			var data = new UploadData();
@@ -61,8 +61,8 @@ namespace Wammer.Station.APIHandler
 
 			try
 			{
-				data.type = (AttachmentType)Enum.Parse(typeof(AttachmentType),
-																			Parameters["type"], true);
+				data.type = (AttachmentType) Enum.Parse(typeof (AttachmentType),
+				                                        Parameters["type"], true);
 			}
 			catch (ArgumentException e)
 			{
@@ -74,7 +74,7 @@ namespace Wammer.Station.APIHandler
 			else if (string.IsNullOrEmpty(Parameters["image_meta"]))
 				data.imageMeta = ImageMeta.Origin;
 			else
-				data.imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta), Parameters["image_meta"], true);
+				data.imageMeta = (ImageMeta) Enum.Parse(typeof (ImageMeta), Parameters["image_meta"], true);
 
 			if (data.raw_data.Array == null)
 				throw new FormatException("file is missing in file upload multipart data");
@@ -86,10 +86,12 @@ namespace Wammer.Station.APIHandler
 		}
 
 		#region Public Method
+
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
+
 		#endregion
 	}
 }

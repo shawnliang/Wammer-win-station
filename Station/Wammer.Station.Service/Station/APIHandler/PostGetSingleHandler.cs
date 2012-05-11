@@ -1,17 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Wammer.Station;
+﻿using System.Collections.Generic;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
 	public class PostGetSingleHandler : HttpHandler
 	{
 		#region Protected Method
+
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
@@ -22,12 +20,12 @@ namespace Wammer.Station
 			string groupId = Parameters["group_id"];
 			string postId = Parameters["post_id"];
 
-			if (!PermissionHelper.IsGroupPermissionOK(groupId, this.Session))
+			if (!PermissionHelper.IsGroupPermissionOK(groupId, Session))
 			{
 				throw new WammerStationException(
 					PostApiError.PermissionDenied.ToString(),
-					(int)PostApiError.PermissionDenied
-				);
+					(int) PostApiError.PermissionDenied
+					);
 			}
 
 			PostInfo singlePost = PostCollection.Instance.FindOne(
@@ -37,8 +35,8 @@ namespace Wammer.Station
 			{
 				throw new WammerStationException(
 					PostApiError.PostNotExist.ToString(),
-					(int)PostApiError.PostNotExist
-				);
+					(int) PostApiError.PostNotExist
+					);
 			}
 
 			var userList = new List<UserInfo>
@@ -53,19 +51,22 @@ namespace Wammer.Station
 
 			RespondSuccess(
 				new PostGetSingleResponse
-				{
-					post = singlePost,
-					users = userList
-				}
-			);
+					{
+						post = singlePost,
+						users = userList
+					}
+				);
 		}
+
 		#endregion
 
 		#region Public Method
+
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
+
 		#endregion
 	}
 }

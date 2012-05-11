@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using Wammer.Station;
+using System.Linq;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using MongoDB.Driver.Builders;
-using MongoDB.Driver;
 
 namespace Wammer.Station
 {
 	public class PostGetHandler : HttpHandler
 	{
 		private const int MAX_LIMIT = 200;
-				
 
 		#region Protected Method
+
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
@@ -26,12 +25,12 @@ namespace Wammer.Station
 			string groupId = Parameters["group_id"];
 			DateTime datum = TimeHelper.ParseCloudTimeString(Parameters["datum"]);
 
-			if (!PermissionHelper.IsGroupPermissionOK(groupId, this.Session))
+			if (!PermissionHelper.IsGroupPermissionOK(groupId, Session))
 			{
 				throw new WammerStationException(
 					PostApiError.PermissionDenied.ToString(),
-					(int)PostApiError.PermissionDenied
-				);
+					(int) PostApiError.PermissionDenied
+					);
 			}
 
 			int limit = int.Parse(Parameters["limit"]);
@@ -47,8 +46,8 @@ namespace Wammer.Station
 			{
 				throw new WammerStationException(
 					PostApiError.InvalidParameterLimit.ToString(),
-					(int)PostApiError.InvalidParameterLimit
-				);
+					(int) PostApiError.InvalidParameterLimit
+					);
 			}
 
 			MongoCursor<PostInfo> posts = null;
@@ -74,7 +73,7 @@ namespace Wammer.Station
 					.Count();
 			}
 
-			var postList = posts.ToList();
+			List<PostInfo> postList = posts.ToList();
 
 			var userList = new List<UserInfo>
 			               	{
@@ -87,22 +86,26 @@ namespace Wammer.Station
 			               	};
 
 			RespondSuccess(
-				new PostGetResponse { 
-					remaining_count = totalCount - postList.Count,
-					get_count = postList.Count,
-					group_id = groupId,
-					posts = postList,
-					users = userList
-				}
-			);
+				new PostGetResponse
+					{
+						remaining_count = totalCount - postList.Count,
+						get_count = postList.Count,
+						group_id = groupId,
+						posts = postList,
+						users = userList
+					}
+				);
 		}
+
 		#endregion
 
 		#region Public Method
+
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
+
 		#endregion
 	}
 }

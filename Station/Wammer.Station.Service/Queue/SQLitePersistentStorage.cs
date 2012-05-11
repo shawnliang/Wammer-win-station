@@ -16,6 +16,8 @@ namespace Wammer.Queue
 			dbConn.Open();
 		}
 
+		#region IPersistentStore Members
+
 		public WMSQueue TryLoadQueue(string qname)
 		{
 			var cmd = new SQLiteCommand {CommandText = @"SELECT 1 FROM sqlite_master WHERE [name] = $name and [type] ='table'"};
@@ -47,7 +49,7 @@ namespace Wammer.Queue
 				}
 
 				return new WMSQueue(qname, this, messages);
-			}			
+			}
 		}
 
 		public void Save(WMSMessage msg)
@@ -55,7 +57,7 @@ namespace Wammer.Queue
 			var cmd = new SQLiteCommand
 			          	{
 			          		CommandText = "INSERT INTO queue_items_" + msg.Queue.Name + " (id, data) values ($id, $data)",
-			          		Connection = this.dbConn
+			          		Connection = dbConn
 			          	};
 			cmd.Parameters.AddWithValue("$id", msg.Id);
 			cmd.Parameters.AddWithValue("$data", msg.Data);
@@ -67,11 +69,13 @@ namespace Wammer.Queue
 			var cmd = new SQLiteCommand
 			          	{
 			          		CommandText = "DELETE FROM queue_items_" + msg.Queue.Name + " WHERE [id] = $id",
-			          		Connection = this.dbConn
+			          		Connection = dbConn
 			          	};
 			cmd.Parameters.AddWithValue("$id", msg.Id);
 			cmd.ExecuteNonQuery();
 		}
+
+		#endregion
 
 		public void Close()
 		{

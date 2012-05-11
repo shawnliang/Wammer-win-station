@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Linq;
-using Wammer.Station;
-using Wammer.Cloud;
-using System.Net;
 using MongoDB.Driver.Builders;
+using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using Wammer.Station.APIHandler;
 
 namespace Wammer.Station
 {
@@ -15,6 +11,7 @@ namespace Wammer.Station
 		public event EventHandler<UserLoginEventArgs> UserLogined;
 
 		#region Protected Method
+
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
@@ -42,7 +39,7 @@ namespace Wammer.Station
 				{
 					if (CloudServer.IsNetworkError(e))
 					{
-						var sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
+						LoginedSession sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 						if (sessionData != null)
 							RespondSuccess(sessionData);
 						else
@@ -54,7 +51,8 @@ namespace Wammer.Station
 			}
 			else
 			{
-				CheckParameter(CloudServer.PARAM_EMAIL, CloudServer.PARAM_PASSWORD, CloudServer.PARAM_DEVICE_ID, CloudServer.PARAM_DEVICE_NAME);
+				CheckParameter(CloudServer.PARAM_EMAIL, CloudServer.PARAM_PASSWORD, CloudServer.PARAM_DEVICE_ID,
+				               CloudServer.PARAM_DEVICE_NAME);
 
 				string email = Parameters[CloudServer.PARAM_EMAIL];
 
@@ -71,7 +69,7 @@ namespace Wammer.Station
 						user = User.LogIn(client, email, password, apikey, deviceId, deviceName);
 					}
 
-					var loginInfo = user.LoginedInfo;
+					LoginedSession loginInfo = user.LoginedInfo;
 
 					LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", email));
 					LoginedSessionCollection.Instance.Save(loginInfo);
@@ -85,7 +83,7 @@ namespace Wammer.Station
 					if (CloudServer.IsNetworkError(e))
 					{
 						// network error, use existing session
-						var sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", email));
+						LoginedSession sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", email));
 						if (sessionData != null)
 							RespondSuccess(sessionData);
 						else
@@ -105,24 +103,22 @@ namespace Wammer.Station
 				handler(this, arg);
 			}
 		}
+
 		#endregion
 
 		#region Public Method
+
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
+
 		#endregion
 	}
 
 	[Serializable]
 	public class UserLoginEventArgs : EventArgs
 	{
-		public string email { get; private set; }
-		public string session_token { get; private set; }
-		public string apikey { get; private set; }
-		public string user_id { get; private set; }
-
 		public UserLoginEventArgs(string email, string session_token, string apikey, string user_id)
 		{
 			this.email = email;
@@ -130,5 +126,10 @@ namespace Wammer.Station
 			this.apikey = apikey;
 			this.user_id = user_id;
 		}
+
+		public string email { get; private set; }
+		public string session_token { get; private set; }
+		public string apikey { get; private set; }
+		public string user_id { get; private set; }
 	}
 }

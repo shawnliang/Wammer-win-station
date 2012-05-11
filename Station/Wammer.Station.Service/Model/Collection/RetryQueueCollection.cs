@@ -1,7 +1,6 @@
-﻿
-namespace Wammer.Model
+﻿namespace Wammer.Model
 {
-	public class RetryQueueCollection: Collection<GenericData>
+	public class RetryQueueCollection : Collection<GenericData>
 	{
 		private static readonly RetryQueueCollection instance;
 

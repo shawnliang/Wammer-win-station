@@ -11,7 +11,7 @@ namespace Wammer.Utility
 			var buffer = new byte[32768];
 			int nRead;
 
-			while ((nRead = from.Read(buffer, 0, buffer.Length))>0)
+			while ((nRead = from.Read(buffer, 0, buffer.Length)) > 0)
 			{
 				to.Write(buffer, 0, nRead);
 			}
@@ -29,41 +29,46 @@ namespace Wammer.Utility
 
 		public static void EndCopy(IAsyncResult ar)
 		{
-			var result = (StreamCopyState)ar;
+			var result = (StreamCopyState) ar;
 
 			if (result.Error != null)
 				throw result.Error;
 		}
 	}
 
-	class StreamCopyState : IAsyncResult
+	internal class StreamCopyState : IAsyncResult
 	{
-		private readonly Stream from;
-		private readonly Stream to;
 		private readonly byte[] buffer;
 		private readonly AsyncCallback completeCallback;
 		private readonly AutoResetEvent doneEvent;
-
-		public object AsyncState { get; private set; }
-		public bool CompletedSynchronously { get; private set; }
-		public bool IsCompleted { get; private set; }
-		public Exception Error { get; private set; }
+		private readonly Stream from;
+		private readonly Stream to;
 
 		public StreamCopyState(Stream from, Stream to, byte[] buffer, AsyncCallback completeCB, object state)
 		{
 			this.from = from;
 			this.to = to;
 			this.buffer = buffer;
-			this.completeCallback = completeCB;
+			completeCallback = completeCB;
 
-			this.doneEvent = new AutoResetEvent(false);
-			this.AsyncState = state;
+			doneEvent = new AutoResetEvent(false);
+			AsyncState = state;
 		}
-		
+
+		public Exception Error { get; private set; }
+
+		#region IAsyncResult Members
+
+		public object AsyncState { get; private set; }
+		public bool CompletedSynchronously { get; private set; }
+		public bool IsCompleted { get; private set; }
+
 		public WaitHandle AsyncWaitHandle
 		{
 			get { return doneEvent; }
 		}
+
+		#endregion
 
 		public void DataRead(IAsyncResult ar)
 		{
@@ -73,19 +78,19 @@ namespace Wammer.Utility
 
 				if (nRead == 0)
 				{
-					this.IsCompleted = true;
-					this.completeCallback(this);
-					this.doneEvent.Set();
+					IsCompleted = true;
+					completeCallback(this);
+					doneEvent.Set();
 					return;
 				}
 
-				to.BeginWrite(buffer, 0, nRead, this.DataWritten, null);
+				to.BeginWrite(buffer, 0, nRead, DataWritten, null);
 			}
 			catch (Exception e)
 			{
-				this.Error = e;
-				this.completeCallback(this);
-				this.doneEvent.Set();
+				Error = e;
+				completeCallback(this);
+				doneEvent.Set();
 			}
 		}
 
@@ -94,15 +99,14 @@ namespace Wammer.Utility
 			try
 			{
 				to.EndWrite(ar);
-				from.BeginRead(buffer, 0, buffer.Length, this.DataRead, null);
+				from.BeginRead(buffer, 0, buffer.Length, DataRead, null);
 			}
 			catch (Exception e)
 			{
-				this.Error = e;
-				this.completeCallback(this);
-				this.doneEvent.Set();
+				Error = e;
+				completeCallback(this);
+				doneEvent.Set();
 			}
 		}
-		
 	}
 }

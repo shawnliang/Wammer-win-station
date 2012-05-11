@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
-
 using Wammer.Model;
 using Wammer.Utility;
 
@@ -24,13 +23,12 @@ namespace Wammer.Station
 			if (driver == null)
 				throw new ArgumentNullException("driver");
 
-			this.basePath = driver.folder;
+			basePath = driver.folder;
 			CreateFolder(basePath);
 		}
 
 		private static void CreateFolder(string basePath)
 		{
-			
 			if (!string.IsNullOrEmpty(basePath) && !Directory.Exists(basePath))
 				Directory.CreateDirectory(basePath);
 		}
@@ -41,19 +39,19 @@ namespace Wammer.Station
 		}
 
 		public void SaveFile(string filename, ArraySegment<byte> data)
-        {
-            string filePath = Path.Combine(basePath, filename);
+		{
+			string filePath = Path.Combine(basePath, filename);
 			string tempFile = filePath + @".tmp";
 
-            using (FileStream stream = File.Open(tempFile, FileMode.Create))
-            {
-                stream.Write(data.Array, data.Offset, data.Count);
-            }
+			using (FileStream stream = File.Open(tempFile, FileMode.Create))
+			{
+				stream.Write(data.Array, data.Offset, data.Count);
+			}
 
-            if (File.Exists(filePath))
-                File.Delete(filePath);
+			if (File.Exists(filePath))
+				File.Delete(filePath);
 
-            File.Move(tempFile, filePath);
+			File.Move(tempFile, filePath);
 		}
 
 		public static string GetTempFile(Driver user)
@@ -71,39 +69,39 @@ namespace Wammer.Station
 		}
 
 		public IAsyncResult BeginSave(string filename, byte[] data, AsyncCallback callback,
-																				object userObject)
+		                              object userObject)
 		{
 			string filePath = Path.Combine(basePath, filename);
 			string tempFile = filePath + @".tmp";
 
-            var fs = new FileStream(tempFile, FileMode.Create,
-								FileAccess.Write, FileShare.None, 4096, true);
+			var fs = new FileStream(tempFile, FileMode.Create,
+			                        FileAccess.Write, FileShare.None, 4096, true);
 
-            return new FileStorageAsyncResult(
-                fs.BeginWrite(data, 0, data.Length, callback, userObject),
-                fs) { TempFile = tempFile, TargetFile = filePath };
+			return new FileStorageAsyncResult(
+				fs.BeginWrite(data, 0, data.Length, callback, userObject),
+				fs) {TempFile = tempFile, TargetFile = filePath};
 		}
 
 		public void EndSave(IAsyncResult async)
 		{
-			var fsAsync = (FileStorageAsyncResult)async;
+			var fsAsync = (FileStorageAsyncResult) async;
 			try
 			{
 				fsAsync.OutputStream.EndWrite(fsAsync.InnerObject);
 			}
-            finally
-            {
-                fsAsync.OutputStream.Close();
-            }
+			finally
+			{
+				fsAsync.OutputStream.Close();
+			}
 
-            if (File.Exists(fsAsync.TempFile))
-            {
-                if (File.Exists(fsAsync.TargetFile))
-                    File.Delete(fsAsync.TargetFile);
+			if (File.Exists(fsAsync.TempFile))
+			{
+				if (File.Exists(fsAsync.TargetFile))
+					File.Delete(fsAsync.TargetFile);
 
-                File.Move(fsAsync.TempFile, fsAsync.TargetFile);
-            }
-        }
+				File.Move(fsAsync.TempFile, fsAsync.TargetFile);
+			}
+		}
 
 		public FileStream LoadByNameWithNoSuffix(string objectId)
 		{
@@ -126,19 +124,31 @@ namespace Wammer.Station
 	}
 
 
-	class FileStorageAsyncResult : IAsyncResult
-    {
-        public string TempFile { get; set; }
-        public string TargetFile { get; set; }
-
+	internal class FileStorageAsyncResult : IAsyncResult
+	{
 		private readonly IAsyncResult fileStreamAsyncResult;
 		private readonly FileStream fs;
 
 		public FileStorageAsyncResult(IAsyncResult innerObject, FileStream fs)
 		{
-			this.fileStreamAsyncResult = innerObject;
+			fileStreamAsyncResult = innerObject;
 			this.fs = fs;
 		}
+
+		public string TempFile { get; set; }
+		public string TargetFile { get; set; }
+
+		public IAsyncResult InnerObject
+		{
+			get { return fileStreamAsyncResult; }
+		}
+
+		public FileStream OutputStream
+		{
+			get { return fs; }
+		}
+
+		#region IAsyncResult Members
 
 		public object AsyncState
 		{
@@ -160,14 +170,6 @@ namespace Wammer.Station
 			get { return fileStreamAsyncResult.IsCompleted; }
 		}
 
-		public IAsyncResult InnerObject
-		{
-			get { return fileStreamAsyncResult; }
-		}
-
-		public FileStream OutputStream
-		{
-			get { return this.fs; }
-		}
+		#endregion
 	}
 }

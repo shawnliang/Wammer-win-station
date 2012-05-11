@@ -1,5 +1,4 @@
-﻿
-namespace Wammer
+﻿namespace Wammer
 {
 	public enum PostUploadActionType
 	{

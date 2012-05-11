@@ -1,18 +1,17 @@
 ﻿using System;
-using log4net;
-using System.Linq;
 using Wammer.PostUpload;
 
 namespace Wammer.Station
 {
-	class SuspendSyncHandler : HttpHandler
+	internal class SuspendSyncHandler : HttpHandler
 	{
-		private readonly StationTimer stationTimer;
 		private readonly AbstrackTaskRunner[] bodySyncRunners;
 		private readonly PostUploadTaskRunner postUploadRunner;
+		private readonly StationTimer stationTimer;
 		private readonly AbstrackTaskRunner[] upstreamRunners;
 
-		public SuspendSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer, AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
+		public SuspendSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer,
+		                          AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
 		{
 			this.stationTimer = stationTimer;
 			this.bodySyncRunners = bodySyncRunners;
