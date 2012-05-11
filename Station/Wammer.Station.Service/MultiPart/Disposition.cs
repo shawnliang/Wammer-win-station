@@ -10,7 +10,7 @@ namespace Wammer.MultiPart
 		private string value;
 		private readonly NameValueCollection parameters = new NameValueCollection();
 
-		private static readonly char[] SEPARATOR = new char[] { ';' };
+		private static readonly char[] SEPARATOR = new[] { ';' };
 
 		public Disposition(string value)
 		{
@@ -51,8 +51,7 @@ namespace Wammer.MultiPart
 		{
 			if (str.StartsWith("\"") && str.EndsWith("\""))
 				return str.Substring(1, str.Length - 2);
-			else
-				return str;
+			return str;
 		}
 
 		public string Value

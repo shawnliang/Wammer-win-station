@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Text;
 
 namespace Wammer.MultiPart
@@ -94,7 +93,7 @@ namespace Wammer.MultiPart
 		private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)
 		{
 			string headerText = Encoding.UTF8.GetString(data, from, len);
-			var stringSeparators = new string[] { "\r\n" };
+			var stringSeparators = new[] { "\r\n" };
 			string[] headers = headerText.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
 
 			foreach (string header in headers)

@@ -119,7 +119,7 @@ namespace Wammer.Station
 
 			HandleRequest();
 
-			long end = System.Diagnostics.Stopwatch.GetTimestamp();
+			long end = Stopwatch.GetTimestamp();
 
 			long duration = end - beginTime;
 			if (duration < 0)
@@ -134,7 +134,7 @@ namespace Wammer.Station
 			{
 				Debug.Assert(Request.RemoteEndPoint != null, "Request.RemoteEndPoint != null");
 				logger.Debug("====== Request " + Request.Url.AbsolutePath +
-								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
+								" from " + Request.RemoteEndPoint.Address + " ======");
 				foreach (string key in Parameters.AllKeys)
 				{
 					if (key == "password")
@@ -203,12 +203,11 @@ namespace Wammer.Station
 
 				using (var buff = new MemoryStream(initialSize))
 				{
-					Wammer.Utility.StreamHelper.Copy(Request.InputStream, buff);
+					Utility.StreamHelper.Copy(Request.InputStream, buff);
 					return buff.ToArray();
 				}
 			}
-			else
-				return null;
+			return null;
 		}
 
 		private void ExtractParamsFromMultiPartFormData(Part part)
@@ -293,7 +292,7 @@ namespace Wammer.Station
 
 		protected void RespondSuccess()
 		{
-			HttpHelper.RespondSuccess(Response, new Cloud.CloudResponse(200, DateTime.UtcNow));
+			HttpHelper.RespondSuccess(Response, new CloudResponse(200, DateTime.UtcNow));
 		}
 
 		protected void RespondSuccess(object json)

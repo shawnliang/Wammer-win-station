@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Wammer.Model
 {
-	public class PostCollection : Collection<Wammer.Cloud.PostInfo>
+	public class PostCollection : Collection<Cloud.PostInfo>
 	{
 		private static readonly PostCollection instance;
 

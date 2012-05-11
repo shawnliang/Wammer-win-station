@@ -9,7 +9,7 @@ namespace Wammer.Station
 {
 	public class HttpHelper
 	{
-		private static readonly ILog logger = log4net.LogManager.GetLogger("HttpHandler");
+		private static readonly ILog logger = LogManager.GetLogger("HttpHandler");
 
 		public static void RespondFailure(HttpListenerResponse response, CloudResponse json)
 		{

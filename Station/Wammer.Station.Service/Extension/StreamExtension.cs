@@ -14,7 +14,7 @@ public static class StreamExtension
 	}
 
 
-	public static void Write(this Stream targetStream, byte[] buffer, int bufferBatchSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	public static void Write(this Stream targetStream, byte[] buffer, int bufferBatchSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
 		if (buffer == null)
 			throw new ArgumentNullException("buffer");
@@ -56,7 +56,7 @@ public static class StreamExtension
 	}
 
 
-	public static void Write(this Stream targetStream, string sourceFile, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	public static void Write(this Stream targetStream, string sourceFile, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
 		using (var fs = File.Open(sourceFile, FileMode.Open))
 		{
@@ -64,7 +64,7 @@ public static class StreamExtension
 		}
 	}
 
-	public static void Write(this Stream targetStream, Stream sourceStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	public static void Write(this Stream targetStream, Stream sourceStream, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
 		if (sourceStream == null)
 			throw new ArgumentNullException("sourceStream");
@@ -106,7 +106,7 @@ public static class StreamExtension
 		}
 	}
 
-	public static void WriteTo(this Stream sourceStream, string targetFile, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	public static void WriteTo(this Stream sourceStream, string targetFile, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
 		using (var fs = new FileStream(targetFile, FileMode.Create))
 		{
@@ -114,7 +114,7 @@ public static class StreamExtension
 		}
 	}
 
-	public static void WriteTo(this Stream sourceStream, Stream targetStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	public static void WriteTo(this Stream sourceStream, Stream targetStream, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
 		targetStream.Write(sourceStream, bufferSize, progressChangedCallBack);
 	}

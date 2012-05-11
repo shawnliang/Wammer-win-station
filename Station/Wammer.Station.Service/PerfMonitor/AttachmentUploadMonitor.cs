@@ -13,7 +13,7 @@ namespace Wammer.PerfMonitor
 			avgTimeBase = PerfCounter.GetCounter(PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE);
 		}
 
-		public void OnProcessSucceeded(object sender, Wammer.Station.HttpHandlerEventArgs evt)
+		public void OnProcessSucceeded(object sender, Station.HttpHandlerEventArgs evt)
 		{
 			try
 			{

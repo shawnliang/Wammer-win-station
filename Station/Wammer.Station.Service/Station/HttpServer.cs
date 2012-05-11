@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-
-using Wammer.Utility;
 using log4net;
-using Wammer;
-using Wammer.PerfMonitor;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -152,8 +149,7 @@ namespace Wammer.Station
 
 			if (m_Handlers.ContainsKey(path))
 				return m_Handlers[path];
-			else
-				return _defaultHandler;
+			return _defaultHandler;
 		}
 		#endregion
 

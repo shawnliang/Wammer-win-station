@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using log4net;
 
 namespace Wammer.PerfMonitor
@@ -30,7 +27,7 @@ namespace Wammer.PerfMonitor
 			inQueue = PerfCounter.GetCounter(PerfCounter.HTTP_REQUESTS_IN_QUEUE);
 		}
 
-		public void OnProcessSucceeded(object sender, Wammer.Station.HttpHandlerEventArgs evt)
+		public void OnProcessSucceeded(object sender, Station.HttpHandlerEventArgs evt)
 		{
 			try
 			{

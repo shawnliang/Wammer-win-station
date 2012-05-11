@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 using System.Net;
-
-using MongoDB.Driver.Builders;
-using Wammer.Cloud;
+using System.Text;
 using Wammer.Model;
 using Wammer.Utility;
 
@@ -32,7 +27,7 @@ namespace Wammer.Cloud
 		{
 			var parameters = new Dictionary<object, object>
 			{
-				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
 				{CloudServer.PARAM_POST_ID, postId},
 				{CloudServer.PARAM_TIMESTAMP, timestamp.ToCloudTimeString()}
@@ -53,7 +48,7 @@ namespace Wammer.Cloud
 		{
 			var parameters = new Dictionary<object, object>
 			{
-				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
@@ -77,7 +72,7 @@ namespace Wammer.Cloud
 		{
 			var parameters = new Dictionary<object, object>
 			{
-				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
@@ -101,7 +96,7 @@ namespace Wammer.Cloud
 		{
 			var parameters = new Dictionary<object, object>
 			{
-				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
@@ -125,9 +120,9 @@ namespace Wammer.Cloud
 		{
 			var parameters = new Dictionary<object, object>
 			{
-				{CloudServer.PARAM_GROUP_ID, this.driver.groups[0].group_id},
+				{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
 				{CloudServer.PARAM_FILTER_ENTITY, filter.ToFastJSON()},
-				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
@@ -143,9 +138,9 @@ namespace Wammer.Cloud
 
 			var parameters = new Dictionary<object, object>
 			{
-				{CloudServer.PARAM_GROUP_ID, this.driver.groups[0].group_id},
+				{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
 				{CloudServer.PARAM_POST_ID_LIST, GetPostIdList(postIds)},
-				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
@@ -159,8 +154,8 @@ namespace Wammer.Cloud
 			var parameters = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_LIMIT, limit},
-				{CloudServer.PARAM_GROUP_ID, this.driver.groups[0].group_id},
-				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
+				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
@@ -175,7 +170,7 @@ namespace Wammer.Cloud
 			{
 				{CloudServer.PARAM_POST_ID, postId},
 				{CloudServer.PARAM_GROUP_ID, groupId},
-				{CloudServer.PARAM_SESSION_TOKEN, this.driver.session_token},
+				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 

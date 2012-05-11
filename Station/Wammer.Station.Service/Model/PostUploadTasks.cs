@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Wammer.PostUpload;
+﻿using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using Wammer.PostUpload;
 
 namespace Wammer.Model
 {

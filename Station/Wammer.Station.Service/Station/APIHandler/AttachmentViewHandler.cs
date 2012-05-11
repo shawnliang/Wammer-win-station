@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
 using MongoDB.Bson;
@@ -6,9 +7,6 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using Wammer.PerfMonitor;
-using System.ComponentModel;
-using log4net;
 
 namespace Wammer.Station
 {
@@ -76,9 +74,7 @@ namespace Wammer.Station
 					namePart += "_" + metaStr;
 				}
 
-				Attachment doc = null;
-
-				doc = AttachmentCollection.Instance.FindOne(imageMeta == ImageMeta.Origin ? Query.And(Query.EQ("_id", objectId), Query.Exists("saved_file_name", true)) : Query.And(Query.EQ("_id", objectId), Query.Exists("image_meta." + metaStr, true)));
+				Attachment doc = AttachmentCollection.Instance.FindOne(imageMeta == ImageMeta.Origin ? Query.And(Query.EQ("_id", objectId), Query.Exists("saved_file_name", true)) : Query.And(Query.EQ("_id", objectId), Query.Exists("image_meta." + metaStr, true)));
 
 				if (doc == null)
 				{
@@ -99,7 +95,7 @@ namespace Wammer.Station
 				if (doc.type == AttachmentType.image && imageMeta != ImageMeta.Origin)
 					Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
 
-				Wammer.Utility.StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
+				Utility.StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
 					new CopyState(fs, Response, objectId));
 
 			}
@@ -150,7 +146,7 @@ namespace Wammer.Station
 
 				var m = new MemoryStream(downloadResult.Image);
 
-				Wammer.Utility.StreamHelper.BeginCopy(m, Response.OutputStream, CopyComplete,
+				Utility.StreamHelper.BeginCopy(m, Response.OutputStream, CopyComplete,
 					new CopyState(m, Response, Parameters["object_id"]));
 
 			}
@@ -239,7 +235,7 @@ namespace Wammer.Station
 
 			try
 			{
-				Wammer.Utility.StreamHelper.EndCopy(ar);
+				Utility.StreamHelper.EndCopy(ar);
 			}
 			catch (Exception e)
 			{

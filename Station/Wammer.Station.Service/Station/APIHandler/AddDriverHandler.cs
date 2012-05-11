@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using log4net;
-using MongoDB.Driver.Builders;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using System.Linq;
 
 namespace Wammer.Station
 {
@@ -186,8 +185,7 @@ namespace Wammer.Station
 				{
 					if (string.Compare(s.type, "primary", true) == 0)
 						return true;
-					else
-						return false;
+					return false;
 				}
 
 			return false;

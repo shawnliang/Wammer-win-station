@@ -47,7 +47,7 @@ namespace Wammer.Station.AttachmentUpload
 
 			if (this.meta == ImageMeta.Origin || this.meta == ImageMeta.None)
 			{
-				GetUserResponse userInfo = User.GetInfo(user.user_id, Cloud.CloudServer.APIKey, user.session_token);
+				GetUserResponse userInfo = User.GetInfo(user.user_id, CloudServer.APIKey, user.session_token);
 				if (userInfo.storages.waveface.over_quota)
 				{
 					failQueue.Enqueue(new Retry.PostponedTask(
@@ -72,7 +72,7 @@ namespace Wammer.Station.AttachmentUpload
 			using (FileStream f = fileStorage.Load(info.saved_file_name))
 			{
 				Attachment.Upload(f, attachment.group_id, this.object_id, attachment.file_name,
-					info.mime_type, this.meta, attachment.type, Cloud.CloudServer.APIKey,
+					info.mime_type, this.meta, attachment.type, CloudServer.APIKey,
 					user.session_token, 65535, UpstreamProgressChanged);
 			}
 

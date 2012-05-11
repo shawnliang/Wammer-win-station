@@ -50,10 +50,10 @@ namespace Wammer.Station
                 stream.Write(data.Array, data.Offset, data.Count);
             }
 
-            if (System.IO.File.Exists(filePath))
-                System.IO.File.Delete(filePath);
+            if (File.Exists(filePath))
+                File.Delete(filePath);
 
-            System.IO.File.Move(tempFile, filePath);
+            File.Move(tempFile, filePath);
 		}
 
 		public static string GetTempFile(Driver user)
@@ -96,12 +96,12 @@ namespace Wammer.Station
                 fsAsync.OutputStream.Close();
             }
 
-            if (System.IO.File.Exists(fsAsync.TempFile))
+            if (File.Exists(fsAsync.TempFile))
             {
-                if (System.IO.File.Exists(fsAsync.TargetFile))
-                    System.IO.File.Delete(fsAsync.TargetFile);
+                if (File.Exists(fsAsync.TargetFile))
+                    File.Delete(fsAsync.TargetFile);
 
-                System.IO.File.Move(fsAsync.TempFile, fsAsync.TargetFile);
+                File.Move(fsAsync.TempFile, fsAsync.TargetFile);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -8,8 +9,6 @@ using System.Text;
 using MongoDB.Bson.Serialization.Attributes;
 using Wammer.Cloud;
 using Wammer.Station;
-using Wammer.PerfMonitor;
-using System.ComponentModel;
 
 namespace Wammer.Model
 {
@@ -218,7 +217,7 @@ namespace Wammer.Model
 		public static ObjectUploadResponse Upload(Stream dataStream, string groupId,
 									string objectId, string fileName, string contentType,
 									ImageMeta meta, AttachmentType type, string apiKey,
-									string token, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+									string token, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			return Upload(CloudServer.BaseUrl + "attachments/upload", dataStream, groupId,
 				objectId, fileName, contentType, meta, type, apiKey, token,bufferSize,progressChangedCallBack);
@@ -227,7 +226,7 @@ namespace Wammer.Model
 		public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
 									string objectId, string fileName, string contentType,
 									ImageMeta meta, AttachmentType type, string apiKey,
-									string token, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+									string token, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			try
 			{
@@ -255,7 +254,7 @@ namespace Wammer.Model
 		public static ObjectUploadResponse Upload(string url, ArraySegment<byte> imageData, string groupId,
 											string objectId, string fileName, string contentType,
 											ImageMeta meta, AttachmentType type, string apiKey,
-											string token, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+											string token, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			try
 			{
@@ -286,7 +285,7 @@ namespace Wammer.Model
 
 		public static ObjectUploadResponse UploadImage(string url, ArraySegment<byte> imageData, string groupId,
 											string objectId, string fileName, string contentType,
-											ImageMeta meta, string apiKey, string token, int bufSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> callback = null)
+											ImageMeta meta, string apiKey, string token, int bufSize = 1024, Action<object, ProgressChangedEventArgs> callback = null)
 		{
 			return Upload(url, imageData, groupId, objectId, fileName, contentType, meta,
 				AttachmentType.image, apiKey, token, bufSize, callback);
@@ -294,7 +293,7 @@ namespace Wammer.Model
 
 		public static ObjectUploadResponse UploadImage(ArraySegment<byte> imageData, string group_id,
 			string objectId, string fileName, string contentType, ImageMeta meta,
-			string apikey, string token, int buffSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> callback = null)
+			string apikey, string token, int buffSize = 1024, Action<object, ProgressChangedEventArgs> callback = null)
 		{
 			string url = CloudServer.BaseUrl + "attachments/upload/";
 
@@ -302,7 +301,7 @@ namespace Wammer.Model
 				apikey, token, buffSize, callback);
 		}
 
-		public ObjectUploadResponse Upload(ImageMeta meta, string apiKey, string sessionToken, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+		public ObjectUploadResponse Upload(ImageMeta meta, string apiKey, string sessionToken, int bufferSize = 1024, Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			string url = CloudServer.BaseUrl + "attachments/upload/";
 
@@ -344,7 +343,7 @@ namespace Wammer.Model
 		public bool is_body_upstreamed { get; set; }
 
 		[BsonIgnore]
-		public Wammer.Utility.ExifOrientations Orientation { get; set; }
+		public Utility.ExifOrientations Orientation { get; set; }
 
 		[BsonIgnore]
 		private readonly object rawDataMutex = new object();
@@ -447,8 +446,7 @@ namespace Wammer.Model
 		{
 			if (meta == ImageMeta.None || meta == ImageMeta.Origin)
 				return this;
-			else
-				return this.image_meta.GetThumbnailInfo(meta);
+			return this.image_meta.GetThumbnailInfo(meta);
 		}
 
 		public bool IsThumbnailOrBodyUpstreamed()

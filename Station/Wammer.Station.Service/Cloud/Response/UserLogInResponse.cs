@@ -23,12 +23,12 @@ namespace Wammer.Cloud
 		{
 			get
 			{
-				return Wammer.Utility.TimeHelper.ConvertToDateTime(last_seen);
+				return TimeHelper.ConvertToDateTime(last_seen);
 			}
 
 			set
 			{
-				last_seen = Wammer.Utility.TimeHelper.ConvertToUnixTimeStamp(value);
+				last_seen = TimeHelper.ConvertToUnixTimeStamp(value);
 			}
 		}
 	}

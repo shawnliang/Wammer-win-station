@@ -1,12 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
-using System.ComponentModel;
-using MongoDB.Driver.Builders;
 using Wammer.Model;
 using Wammer.Station;
 using Wammer.Utility;
-using System;
-using System.IO;
 
 
 namespace Wammer.Cloud
@@ -24,7 +22,7 @@ namespace Wammer.Cloud
 
 		public AttachmentApi(Driver driver)
 		{
-			this.userToken = driver.session_token;
+			userToken = driver.session_token;
 		}
 
 		public void AttachmentSetLoc(WebClient agent, int loc, string object_id, string file_path)
@@ -34,7 +32,7 @@ namespace Wammer.Cloud
 				{ "loc", loc },
 				{ "object_id", object_id },
 				{ "file_path", file_path },
-				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken},
+				{ CloudServer.PARAM_SESSION_TOKEN, userToken},
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
@@ -47,7 +45,7 @@ namespace Wammer.Cloud
 			{
 				{ "loc", loc },
 				{ "object_id", object_id },
-				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken },
+				{ CloudServer.PARAM_SESSION_TOKEN, userToken },
 				{ CloudServer.PARAM_API_KEY, CloudServer.PARAM_API_KEY }
 			};
 
@@ -59,7 +57,7 @@ namespace Wammer.Cloud
 			var parameters = new Dictionary<object, object>
 		    {
 		        {CloudServer.PARAM_OBJECT_ID, object_id},
-		        {CloudServer.PARAM_SESSION_TOKEN, this.userToken},
+		        {CloudServer.PARAM_SESSION_TOKEN, userToken},
 		        {CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 		    };
 
@@ -71,7 +69,7 @@ namespace Wammer.Cloud
 			var parameters = new Dictionary<object, object> 
 			{ 
 				{CloudServer.PARAM_OBJECT_ID, evtargs.attachment.object_id},
-				{CloudServer.PARAM_SESSION_TOKEN, this.userToken},
+				{CloudServer.PARAM_SESSION_TOKEN, userToken},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
 				{CloudServer.PARAM_STATION_ID, stationId}
 			};
@@ -107,7 +105,7 @@ namespace Wammer.Cloud
 					parameters.Add("image_meta", meta.ToString().ToLower());
 
 				var metadata =
-					CloudServer.requestPath<Wammer.Station.JSONClass.AttachmentView>(agent, "attachments/view", parameters);
+					CloudServer.requestPath<Station.JSONClass.AttachmentView>(agent, "attachments/view", parameters);
 
 				using (var to = new MemoryStream())
 				using (Stream from = agent.OpenRead(metadata.redirect_to))
@@ -152,14 +150,14 @@ namespace Wammer.Cloud
 	public class DownloadResult
 	{
 		public byte[] Image { get; private set; }
-		public Wammer.Station.JSONClass.AttachmentView Metadata { get; private set; }
+		public Station.JSONClass.AttachmentView Metadata { get; private set; }
 		public string ContentType { get; private set; }
 
-		public DownloadResult(byte[] Image, Wammer.Station.JSONClass.AttachmentView metadata, string contentType)
+		public DownloadResult(byte[] Image, Station.JSONClass.AttachmentView metadata, string contentType)
 		{
 			this.Image = Image;
-			this.Metadata = metadata;
-			this.ContentType = contentType ?? "application/octet-stream";
+			Metadata = metadata;
+			ContentType = contentType ?? "application/octet-stream";
 		}
 	}
 }

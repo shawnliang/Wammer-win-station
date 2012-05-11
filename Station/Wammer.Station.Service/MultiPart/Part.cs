@@ -115,7 +115,7 @@ namespace Wammer.MultiPart
 				byte[] hdrData = Encoding.UTF8.GetBytes(hdr);
 
 				output.Write(hdrData, 0, hdr.Length);
-				output.Write(Part.CRLF, 0, Part.CRLF.Length);
+				output.Write(CRLF, 0, CRLF.Length);
 			}
 
 			output.Write(CRLF, 0, CRLF.Length);

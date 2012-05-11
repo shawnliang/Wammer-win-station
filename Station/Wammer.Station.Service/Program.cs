@@ -11,13 +11,13 @@ namespace Wammer.Station.Service
 		/// </summary>
 		static void Main(string[] argv)
 		{
-			if (argv.Any<string>((item)=>{ return item.Equals("-i", StringComparison.CurrentCultureIgnoreCase);}))
+			if (argv.Any(item=>{ return item.Equals("-i", StringComparison.CurrentCultureIgnoreCase);}))
 			{
 				Console.WriteLine("Install Waveface station performance counters");
-				Wammer.PerfMonitor.PerfCounterInstaller.Install();
+				PerfMonitor.PerfCounterInstaller.Install();
 			}
 
-			if (argv.Any<string>((item) => { return item.Equals("-c", StringComparison.CurrentCultureIgnoreCase); }))
+			if (argv.Any(item => { return item.Equals("-c", StringComparison.CurrentCultureIgnoreCase); }))
 			{
 				Console.WriteLine("Wammer Station in Console Mode:");
 				var svc = new StationService();

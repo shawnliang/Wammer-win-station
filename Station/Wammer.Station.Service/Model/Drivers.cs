@@ -1,9 +1,8 @@
+using System;
 using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
-using Wammer.Cloud;
-using System;
 using MongoDB.Driver.Builders;
+using Wammer.Cloud;
 
 namespace Wammer.Model
 {

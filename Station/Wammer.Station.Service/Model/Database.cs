@@ -6,12 +6,12 @@ namespace Wammer.Model
 {
 	public class Database
 	{
-		public static MongoDB.Driver.MongoServer mongodb;
-		public static MongoDB.Driver.MongoDatabase wammer;
+		public static MongoServer mongodb;
+		public static MongoDatabase wammer;
 
 		static Database()
 		{
-			mongodb = MongoDB.Driver.MongoServer.Create(
+			mongodb = MongoServer.Create(
 									string.Format("mongodb://127.0.0.1:{0}/?safe=true;connectTimeoutMS=10000",
 									StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
 			wammer = mongodb.GetDatabase("wammer");

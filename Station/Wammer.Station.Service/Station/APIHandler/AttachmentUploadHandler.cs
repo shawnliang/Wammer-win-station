@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
-using Wammer.Station;
-using Wammer.Station.AttachmentUpload;
 using Wammer.Model;
-using Wammer.Utility;
+using Wammer.Station.AttachmentUpload;
 
 namespace Wammer.Station.APIHandler
 {
@@ -11,7 +8,7 @@ namespace Wammer.Station.APIHandler
 	{
 		private readonly AttachmentUploadHandlerImp imp;
 
-		public event EventHandler<AttachmentUpload.AttachmentEventArgs> AttachmentProcessed
+		public event EventHandler<AttachmentEventArgs> AttachmentProcessed
 		{
 			add
 			{

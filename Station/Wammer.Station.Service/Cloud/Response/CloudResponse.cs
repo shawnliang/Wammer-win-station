@@ -11,7 +11,7 @@ namespace Wammer.Cloud
 
 		public CloudResponse()
 		{
-			this.status = 200;
+			status = 200;
 			this.timestamp = DateTime.UtcNow;
 			this.api_ret_code = 0;
 			this.api_ret_message = "success";

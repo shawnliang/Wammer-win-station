@@ -24,11 +24,11 @@ namespace Wammer.Station.JSONClass
 		public Thumbnail large { get; set; }
 		public Thumbnail square { get; set; }
 
-		public Thumbnail GetThumbnail(Wammer.Model.ImageMeta meta)
+		public Thumbnail GetThumbnail(Model.ImageMeta meta)
 		{
 			switch (meta)
 			{
-				case Wammer.Model.ImageMeta.Small:
+				case Model.ImageMeta.Small:
 					return small;
 				case Model.ImageMeta.Medium:
 					return medium;

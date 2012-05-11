@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MongoDB.Bson.Serialization.Attributes;
 using Wammer.Model;
 
@@ -42,11 +39,11 @@ namespace Wammer.Cloud
 
 		public AttachmentInfo(Attachment attachment)
 		{
-			this.group_id = attachment.group_id;
-			this.file_name = attachment.file_name;
-			this.object_id = attachment.object_id;
-			this.type = attachment.type.ToString();
-			this.image_meta = new ImageMeta { 
+			group_id = attachment.group_id;
+			file_name = attachment.file_name;
+			object_id = attachment.object_id;
+			type = attachment.type.ToString();
+			image_meta = new ImageMeta { 
 				large = new ImageMetaDetail(attachment.image_meta.large),
 				medium = new ImageMetaDetail(attachment.image_meta.medium),
 				small = new ImageMetaDetail(attachment.image_meta.small),
@@ -60,12 +57,12 @@ namespace Wammer.Cloud
 
 			public ImageMetaDetail(ThumbnailInfo thumbnail)
 			{
-				this.url = thumbnail.url;
-				this.width = thumbnail.width;
-				this.height = thumbnail.height;
-				this.mime_type = thumbnail.mime_type;
-				this.file_size = thumbnail.file_size;
-				this.md5 = thumbnail.md5;
+				url = thumbnail.url;
+				width = thumbnail.width;
+				height = thumbnail.height;
+				mime_type = thumbnail.mime_type;
+				file_size = thumbnail.file_size;
+				md5 = thumbnail.md5;
 			}
 
 			[BsonIgnoreIfNull]

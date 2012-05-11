@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace Wammer.Station
@@ -114,11 +112,8 @@ namespace Wammer.Station
 
 				if (dequeued == null)
 					return null;
-				else
-				{
-					keys.Remove(dequeued.Name);
-					return new DequeuedTask<INamedTask>(dequeued, dequeued.Name);
-				}
+				keys.Remove(dequeued.Name);
+				return new DequeuedTask<INamedTask>(dequeued, dequeued.Name);
 			}
 		}
 

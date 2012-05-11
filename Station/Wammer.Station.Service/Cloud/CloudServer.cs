@@ -113,7 +113,7 @@ namespace Wammer.Cloud
 				// remove last &
 				buf.Remove(buf.Length - 1, 1);				
 
-				var stream = agent.OpenRead(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()));
+				var stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf));
 
 				Debug.Assert(stream != null, "stream != null");
 				stream.WriteTo(filepath, 1024, (sender, e) =>
@@ -148,7 +148,7 @@ namespace Wammer.Cloud
 			buf.Remove(buf.Length - 1, 1);
 
 			agent.DownloadFileCompleted += handler;
-			agent.DownloadFileAsync(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()), filepath, evtargs);
+			agent.DownloadFileAsync(new Uri(baseUrl + path + "?" + buf), filepath, evtargs);
 		}
 
 		/// <summary>
@@ -162,7 +162,7 @@ namespace Wammer.Cloud
 		/// <returns>Response value</returns>
 		public static string requestPath(WebClient agent, string path, Dictionary<object, object> parms, bool checkOffline = true)
 		{
-			return requestPath(agent, CloudServer.BaseUrl, path, parms, checkOffline);
+			return requestPath(agent, BaseUrl, path, parms, checkOffline);
 		}
 
 		public static string requestPath(WebClient agent,string baseUrl, string path, Dictionary<object, object> parms, bool checkOffline = true)
@@ -361,11 +361,7 @@ namespace Wammer.Cloud
 
 		private static T request<T>(WebClient agent, string url, string postData)
 		{
-			string response = string.Empty;
-
-			response = request(agent, url, postData);
-
-			return ConvertFromJson<T>(response);
+			return ConvertFromJson<T>(request(agent, url, postData));
 		}
 
 		public static T ConvertFromJson<T>(string json)
