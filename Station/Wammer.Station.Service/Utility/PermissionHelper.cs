@@ -11,14 +11,7 @@ namespace Wammer.Utility
 	{
 		public static bool IsGroupPermissionOK(string groupId, LoginedSession session)
 		{
-			foreach (Group group in session.groups)
-			{
-				if (group.group_id == groupId)
-				{
-					return true;
-				}
-			}
-			return false;
+			return session.groups.Any(@group => @group.group_id == groupId);
 		}
 	}
 }

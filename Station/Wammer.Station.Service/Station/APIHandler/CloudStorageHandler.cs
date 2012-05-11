@@ -14,7 +14,7 @@ namespace Wammer.Station
 	{
 		public override void HandleRequest()
 		{
-			List<CloudStorageStatus> cloudstorages = new List<CloudStorageStatus>();
+			var cloudstorages = new List<CloudStorageStatus>();
 
 			// currently only support one driver
 			Driver driver = DriverCollection.Instance.FindOne();
@@ -42,13 +42,13 @@ namespace Wammer.Station
 
 	public class DropBoxOAuthHandler : HttpHandler
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
 
 		public override void HandleRequest()
 		{
 			// currently only support one driver
 			Driver driver = DriverCollection.Instance.FindOne();
-			StorageApi api = new StorageApi(driver.user_id);
+			var api = new StorageApi(driver.user_id);
 			using (WebClient client = new DefaultWebClient())
 			{
 				StorageAuthResponse res = api.StorageAuthorize(client, CloudStorageType.DROPBOX);
@@ -76,7 +76,7 @@ namespace Wammer.Station
 
 	public class DropBoxConnectHandler : HttpHandler
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
 
 		public override void HandleRequest()
 		{
@@ -86,7 +86,7 @@ namespace Wammer.Station
 
 			// currently only support one driver
 			Driver driver = DriverCollection.Instance.FindOne();
-			StorageApi api = new StorageApi(driver.user_id);
+			var api = new StorageApi(driver.user_id);
 
 			try
 			{
@@ -97,8 +97,7 @@ namespace Wammer.Station
 				{
 					using (WebClient client = new DefaultWebClient())
 					{
-						StorageLinkResponse linkRes;
-						linkRes = api.StorageLink(client, CloudStorageType.DROPBOX);
+						StorageLinkResponse linkRes = api.StorageLink(client, CloudStorageType.DROPBOX);
 						linked = true;
 
 						VerifyAccountLink(folder, linkRes.storages.token);
@@ -189,13 +188,13 @@ namespace Wammer.Station
 
 	public class DropboxDisconnectHandler: HttpHandler
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("cloudStorage");
 
 		public override void HandleRequest()
 		{
 			// currently only support one driver
 			Driver driver = DriverCollection.Instance.FindOne();
-			StorageApi api = new StorageApi(driver.user_id);
+			var api = new StorageApi(driver.user_id);
 
 			CloudStorage storageDoc = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
 			if (storageDoc != null)

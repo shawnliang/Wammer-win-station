@@ -14,7 +14,7 @@ namespace Wammer.Station
 {
 	public class AttachmentViewHandler : HttpHandler
 	{
-		private string station_id;
+		private readonly string station_id;
 
 		/// <summary>
 		/// File download is started.
@@ -78,10 +78,7 @@ namespace Wammer.Station
 
 				Attachment doc = null;
 
-				if (imageMeta == ImageMeta.Origin)
-					doc = AttachmentCollection.Instance.FindOne(Query.And(Query.EQ("_id", objectId), Query.Exists("saved_file_name", true)));
-				else
-					doc = AttachmentCollection.Instance.FindOne(Query.And(Query.EQ("_id", objectId), Query.Exists("image_meta." + metaStr, true)));
+				doc = AttachmentCollection.Instance.FindOne(imageMeta == ImageMeta.Origin ? Query.And(Query.EQ("_id", objectId), Query.Exists("saved_file_name", true)) : Query.And(Query.EQ("_id", objectId), Query.Exists("image_meta." + metaStr, true)));
 
 				if (doc == null)
 				{
@@ -93,7 +90,7 @@ namespace Wammer.Station
 				if (driver == null)
 					throw new WammerStationException("Cannot find user with group_id: " + doc.group_id, (int)StationLocalApiError.InvalidDriver);
 
-				FileStorage storage = new FileStorage(driver);
+				var storage = new FileStorage(driver);
 				FileStream fs = storage.LoadByNameWithNoSuffix(namePart);
 				Response.StatusCode = 200;
 				Response.ContentLength64 = fs.Length;
@@ -120,7 +117,7 @@ namespace Wammer.Station
 
 		protected void TunnelToCloud(string station_id, ImageMeta meta)
 		{
-			if (station_id == null || station_id.Length == 0)
+			if (string.IsNullOrEmpty(station_id))
 				throw new ArgumentException("param cannot be null or empty. If you really need it blank, change the code.");
 
 			this.LogDebugMsg("Forward to cloud");
@@ -143,7 +140,7 @@ namespace Wammer.Station
 				if (meta == ImageMeta.Origin && !driver.isPrimaryStation)
 					throw new WammerStationException("Access to original attachment from secondary station is not allowed.", (int)StationLocalApiError.AccessDenied);
 
-				FileStorage storage = new FileStorage(driver);
+				var storage = new FileStorage(driver);
 				var fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);
 				storage.SaveFile(fileName, new ArraySegment<byte>(downloadResult.Image));
 
@@ -151,7 +148,7 @@ namespace Wammer.Station
 
 				Response.ContentType = downloadResult.ContentType;
 
-				MemoryStream m = new MemoryStream(downloadResult.Image);
+				var m = new MemoryStream(downloadResult.Image);
 
 				Wammer.Utility.StreamHelper.BeginCopy(m, Response.OutputStream, CopyComplete,
 					new CopyState(m, Response, Parameters["object_id"]));
@@ -238,7 +235,7 @@ namespace Wammer.Station
 
 		private void CopyComplete(IAsyncResult ar)
 		{
-			CopyState state = (CopyState)ar.AsyncState;
+			var state = (CopyState)ar.AsyncState;
 
 			try
 			{

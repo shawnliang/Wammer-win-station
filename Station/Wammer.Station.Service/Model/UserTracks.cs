@@ -37,7 +37,7 @@ namespace Wammer.Model
 
 	public class UserTrackCollection : Collection<UserTracks>
 	{
-		private static UserTrackCollection instance;
+		private static readonly UserTrackCollection instance;
 
 		static UserTrackCollection()
 		{

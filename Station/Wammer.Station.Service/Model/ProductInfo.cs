@@ -29,7 +29,7 @@ namespace Wammer.Model
 
 	public class ProductInfoCollection: Collection<ProductInfo>
 	{
-		private static ProductInfoCollection instance;
+		private static readonly ProductInfoCollection instance;
 
 		static ProductInfoCollection()
 		{

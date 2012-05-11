@@ -37,8 +37,8 @@ namespace Wammer.MultiPart
 
 		public void Put(Part[] parts)
 		{
-			for (int i = 0; i < parts.Length; i++)
-				Put(parts[i]);
+			foreach (Part t in parts)
+				Put(t);
 		}
 
 		public string Boundary

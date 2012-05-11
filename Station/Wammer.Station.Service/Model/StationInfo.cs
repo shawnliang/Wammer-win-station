@@ -19,7 +19,7 @@ namespace Wammer.Model
 
 	public class StationCollection : Collection<StationInfo>
 	{
-		private static StationCollection instance;
+		private static readonly StationCollection instance;
 
 		static StationCollection()
 		{

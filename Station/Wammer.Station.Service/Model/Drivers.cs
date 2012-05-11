@@ -47,12 +47,7 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public List<UserGroup> groups
 		{
-			get
-			{
-				if (_groups == null)
-					_groups = new List<UserGroup>();
-				return _groups;
-			}
+			get { return _groups ?? (_groups = new List<UserGroup>()); }
 			set
 			{
 				_groups = value;
@@ -66,12 +61,7 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public List<UserStation> stations
 		{
-			get
-			{
-				if (_stations == null)
-					_stations = new List<UserStation>();
-				return _stations;
-			}
+			get { return _stations ?? (_stations = new List<UserStation>()); }
 			set
 			{
 				_stations = value;
@@ -120,7 +110,7 @@ namespace Wammer.Model
 
 	public class DriverCollection : Collection<Driver>
 	{
-		private static DriverCollection instance;
+		private static readonly DriverCollection instance;
 
 		static DriverCollection()
 		{

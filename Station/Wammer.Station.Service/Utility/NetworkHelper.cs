@@ -30,14 +30,7 @@ namespace Wammer.Utility
 		/// <value>The m_localIP addresses.</value>
 		private static IEnumerable<String> m_LocalIPAddresses
 		{
-			get
-			{
-				if (_localIPAddresses == null)
-				{
-					_localIPAddresses = GetLocalIPAddresses();
-				}
-				return _localIPAddresses;
-			}
+			get { return _localIPAddresses ?? (_localIPAddresses = GetLocalIPAddresses()); }
 			set
 			{
 				_localIPAddresses = value;
@@ -109,7 +102,7 @@ namespace Wammer.Utility
 			};
 
 			// fix IP for testing
-			string staticIP = (string)StationRegistry.GetValue(STATIC_IP_KEY, string.Empty);
+			var staticIP = (string)StationRegistry.GetValue(STATIC_IP_KEY, string.Empty);
 			if (staticIP.Length > 0)
 			{
 				return getBaseIPAddress(staticIP);

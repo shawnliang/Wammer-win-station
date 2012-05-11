@@ -12,7 +12,7 @@ namespace Wammer.Station.Timeline
 	{
 		public PostResponse GetLastestPosts(System.Net.WebClient agent, Driver user, int limit)
 		{
-			PostApi api = new PostApi(user);
+			var api = new PostApi(user);
 			return api.PostGetLatest(agent, limit);
 		}
 
@@ -21,7 +21,7 @@ namespace Wammer.Station.Timeline
 			if (limit > 0)
 				limit = -limit;
 
-			PostApi api = new PostApi(user);
+			var api = new PostApi(user);
 			return api.PostFetchByFilter(agent, new FilterEntity { limit = limit, timestamp = before.ToCloudTimeString() });
 		}
 
@@ -30,7 +30,7 @@ namespace Wammer.Station.Timeline
 			if (posts == null || posts.Count == 0)
 				return new List<PostInfo>();
 
-			PostApi api = new PostApi(user);
+			var api = new PostApi(user);
 			return api.PostFetchByPostId(agent, posts).posts;
 		}
 	}

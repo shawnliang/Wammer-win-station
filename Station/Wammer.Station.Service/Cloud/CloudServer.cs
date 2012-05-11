@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Text;
 using System.Web;
@@ -72,12 +73,8 @@ namespace Wammer.Cloud
 		{
 			get
 			{
-				if (baseUrl == null)
-					baseUrl = (string)StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL);
-
-				return baseUrl;
+				return baseUrl ?? (baseUrl = (string) StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL));
 			}
-
 			set
 			{
 				baseUrl = value;
@@ -102,7 +99,7 @@ namespace Wammer.Cloud
 		public static void requestDownload(WebClient agent, string path, Dictionary<object, object> parameters,
 			string filepath)
 		{
-			StringBuilder buf = new StringBuilder();
+			var buf = new StringBuilder();
 			try
 			{
 				foreach (KeyValuePair<object, object> pair in parameters)
@@ -117,6 +114,8 @@ namespace Wammer.Cloud
 				buf.Remove(buf.Length - 1, 1);				
 
 				var stream = agent.OpenRead(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()));
+
+				Debug.Assert(stream != null, "stream != null");
 				stream.WriteTo(filepath, 1024, (sender, e) =>
 				{
 				    PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
@@ -136,7 +135,7 @@ namespace Wammer.Cloud
 		public static void requestAsyncDownload(WebClient agent, string path, Dictionary<object, object> parameters, 
 			string filepath, AsyncCompletedEventHandler handler, object evtargs)
 		{
-			StringBuilder buf = new StringBuilder();
+			var buf = new StringBuilder();
 			foreach (KeyValuePair<object, object> pair in parameters)
 			{
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
@@ -155,11 +154,11 @@ namespace Wammer.Cloud
 		/// <summary>
 		/// Requests Wammer cloud via http post
 		/// </summary>
-		/// <typeparam name="T">response type</typeparam>
 		/// <param name="agent">web client agent</param>
 		/// <param name="path">partial path of cloud url, http://host:port/base/partial_path</param>
 		/// <param name="parms">request parameter names and values.
-		///	They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
+		/// They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
+		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
 		/// <returns>Response value</returns>
 		public static string requestPath(WebClient agent, string path, Dictionary<object, object> parms, bool checkOffline = true)
 		{
@@ -198,7 +197,8 @@ namespace Wammer.Cloud
 		/// <param name="agent">web client agent</param>
 		/// <param name="path">partial path of cloud url, http://host:port/base/partial_path</param>
 		/// <param name="parms">request parameter names and values.
-		///	They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
+		/// They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
+		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
 		/// <returns>Response value</returns>
 		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms, bool checkOffline = true)
 		{
@@ -212,14 +212,14 @@ namespace Wammer.Cloud
 
 			try
 			{
-				T res = ConvertFromJson<T>(requestPath(agent, path, parms, false));
+				var res = ConvertFromJson<T>(requestPath(agent, path, parms, false));
 				isOffline = false;
 				return res;
 			}
 			catch (WammerCloudException e)
 			{
 				isOffline = IsNetworkError(e);
-				throw e;
+				throw;
 			}
 		}
 
@@ -236,7 +236,7 @@ namespace Wammer.Cloud
 			if (param.Count == 0)
 				return request<T>(agent, url, "", isGet);
 
-			StringBuilder buf = new StringBuilder();
+			var buf = new StringBuilder();
 			foreach (KeyValuePair<object, object> pair in param)
 			{
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
@@ -250,14 +250,14 @@ namespace Wammer.Cloud
 
 			try
 			{
-				T res = request<T>(agent, url, buf.ToString(), isGet);
+				var res = request<T>(agent, url, buf.ToString(), isGet);
 				isOffline = false;
 				return res;
 			}
 			catch (WammerCloudException e)
 			{
 				isOffline = IsNetworkError(e);
-				throw e;
+				throw;
 			}
 		}
 
@@ -272,14 +272,7 @@ namespace Wammer.Cloud
 				byte[] rawResponse = null;
 				if (isGet)
 				{
-					if (string.IsNullOrEmpty(parameters))
-					{
-						rawResponse = agent.DownloadData(url);
-					}
-					else
-					{
-						rawResponse = agent.DownloadData(url + "?" + parameters);
-					}
+					rawResponse = string.IsNullOrEmpty(parameters) ? agent.DownloadData(url) : agent.DownloadData(url + "?" + parameters);
 				}
 				else
 				{
@@ -297,7 +290,7 @@ namespace Wammer.Cloud
 				throw new WammerCloudException("Wammer cloud error", response, e);
 			}
 
-			CloudResponse cres = resObj as CloudResponse;
+			var cres = resObj as CloudResponse;
 			if (cres != null)
 			{
 				if (cres.status != 200 || cres.api_ret_code != 0)
@@ -314,7 +307,7 @@ namespace Wammer.Cloud
 			if (param.Count == 0)
 				return request(agent, url);
 
-			StringBuilder buf = new StringBuilder();
+			var buf = new StringBuilder();
 			foreach (KeyValuePair<object, object> pair in param)
 			{
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
@@ -341,7 +334,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				T res = ConvertFromJson<T>(request(agent, url, param));
+				var res = ConvertFromJson<T>(request(agent, url, param));
 				isOffline = false;
 				return res;
 			}
@@ -387,7 +380,7 @@ namespace Wammer.Cloud
 				throw new WammerCloudException("Wammer cloud error", json, e);
 			}
 
-			CloudResponse cres = resObj as CloudResponse;
+			var cres = resObj as CloudResponse;
 			if (cres != null)
 			{
 				if (cres.status != 200 || cres.api_ret_code != 0)
@@ -405,10 +398,10 @@ namespace Wammer.Cloud
 
 		public static bool IsSessionError(WammerCloudException e)
 		{
-			WebException webex = (WebException)e.InnerException;
+			var webex = (WebException)e.InnerException;
 			if (webex != null)
 			{
-				HttpWebResponse response = (HttpWebResponse)webex.Response;
+				var response = (HttpWebResponse)webex.Response;
 				if (response != null)
 				{
 					if (response.StatusCode == HttpStatusCode.Unauthorized)

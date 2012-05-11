@@ -8,7 +8,7 @@ namespace Wammer.Utility
 	{
 		public static void Copy(Stream from, Stream to)
 		{
-			byte[] buffer = new byte[32768];
+			var buffer = new byte[32768];
 			int nRead;
 
 			while ((nRead = from.Read(buffer, 0, buffer.Length))>0)
@@ -19,9 +19,9 @@ namespace Wammer.Utility
 
 		public static IAsyncResult BeginCopy(Stream from, Stream to, AsyncCallback callback, object state)
 		{
-			byte[] buffer = new byte[32768];
+			var buffer = new byte[32768];
 
-			StreamCopyState asyncState = new StreamCopyState(from, to, buffer, callback, state);
+			var asyncState = new StreamCopyState(from, to, buffer, callback, state);
 			from.BeginRead(buffer, 0, buffer.Length, asyncState.DataRead, null);
 
 			return asyncState;
@@ -29,7 +29,7 @@ namespace Wammer.Utility
 
 		public static void EndCopy(IAsyncResult ar)
 		{
-			StreamCopyState result = (StreamCopyState)ar;
+			var result = (StreamCopyState)ar;
 
 			if (result.Error != null)
 				throw result.Error;
@@ -38,11 +38,11 @@ namespace Wammer.Utility
 
 	class StreamCopyState : IAsyncResult
 	{
-		private Stream from;
-		private Stream to;
-		private byte[] buffer;
-		private AsyncCallback completeCallback;
-		private AutoResetEvent doneEvent;
+		private readonly Stream from;
+		private readonly Stream to;
+		private readonly byte[] buffer;
+		private readonly AsyncCallback completeCallback;
+		private readonly AutoResetEvent doneEvent;
 
 		public object AsyncState { get; private set; }
 		public bool CompletedSynchronously { get; private set; }

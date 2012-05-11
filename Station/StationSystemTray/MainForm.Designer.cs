@@ -40,13 +40,13 @@ namespace StationSystemTray
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
-			this.btnSignIn = new System.Windows.Forms.Button();
 			this.tabControl = new StationSystemTray.Control.TabControlEx();
 			this.tabSignIn = new System.Windows.Forms.TabPage();
-			this.label2 = new System.Windows.Forms.Label();
+			this.fbLoginButton1 = new StationSystemTray.FBLoginButton();
+			this.loginButton1 = new StationSystemTray.LoginButton();
+			this.pictureBox2 = new System.Windows.Forms.PictureBox();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.fbLoginButton1 = new StationSystemTray.Control.FBLoginButton();
-			this.lblSignIn = new System.Windows.Forms.Label();
 			this.lblEmail = new System.Windows.Forms.Label();
 			this.lblSignUp = new System.Windows.Forms.LinkLabel();
 			this.txtPassword = new System.Windows.Forms.TextBox();
@@ -64,6 +64,8 @@ namespace StationSystemTray
 			this.TrayMenu.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabSignIn.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.tabMainStationSetup.SuspendLayout();
 			this.tabSecondStationSetup.SuspendLayout();
 			this.SuspendLayout();
@@ -127,14 +129,6 @@ namespace StationSystemTray
 			this.checkStationTimer.Interval = 3000;
 			this.checkStationTimer.Tick += new System.EventHandler(this.checkStationTimer_Tick);
 			// 
-			// btnSignIn
-			// 
-			resources.ApplyResources(this.btnSignIn, "btnSignIn");
-			this.btnSignIn.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.btnSignIn.Name = "btnSignIn";
-			this.btnSignIn.UseVisualStyleBackColor = false;
-			this.btnSignIn.Click += new System.EventHandler(this.btnSignIn_Click);
-			// 
 			// tabControl
 			// 
 			this.tabControl.Controls.Add(this.tabSignIn);
@@ -149,13 +143,13 @@ namespace StationSystemTray
 			// 
 			// tabSignIn
 			// 
-			this.tabSignIn.BackColor = System.Drawing.Color.AliceBlue;
-			this.tabSignIn.Controls.Add(this.label2);
-			this.tabSignIn.Controls.Add(this.label1);
+			this.tabSignIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.tabSignIn.Controls.Add(this.fbLoginButton1);
-			this.tabSignIn.Controls.Add(this.lblSignIn);
+			this.tabSignIn.Controls.Add(this.loginButton1);
+			this.tabSignIn.Controls.Add(this.pictureBox2);
+			this.tabSignIn.Controls.Add(this.pictureBox1);
+			this.tabSignIn.Controls.Add(this.label1);
 			this.tabSignIn.Controls.Add(this.lblEmail);
-			this.tabSignIn.Controls.Add(this.btnSignIn);
 			this.tabSignIn.Controls.Add(this.lblSignUp);
 			this.tabSignIn.Controls.Add(this.txtPassword);
 			this.tabSignIn.Controls.Add(this.cmbEmail);
@@ -165,10 +159,29 @@ namespace StationSystemTray
 			this.tabSignIn.Name = "tabSignIn";
 			this.tabSignIn.Click += new System.EventHandler(this.tabSignIn_Click);
 			// 
-			// label2
+			// fbLoginButton1
 			// 
-			resources.ApplyResources(this.label2, "label2");
-			this.label2.Name = "label2";
+			resources.ApplyResources(this.fbLoginButton1, "fbLoginButton1");
+			this.fbLoginButton1.Name = "fbLoginButton1";
+			this.fbLoginButton1.Click += new System.EventHandler(this.fbLoginButton1_Click);
+			// 
+			// loginButton1
+			// 
+			resources.ApplyResources(this.loginButton1, "loginButton1");
+			this.loginButton1.Name = "loginButton1";
+			this.loginButton1.Click += new System.EventHandler(this.btnSignIn_Click);
+			// 
+			// pictureBox2
+			// 
+			resources.ApplyResources(this.pictureBox2, "pictureBox2");
+			this.pictureBox2.Name = "pictureBox2";
+			this.pictureBox2.TabStop = false;
+			// 
+			// pictureBox1
+			// 
+			resources.ApplyResources(this.pictureBox1, "pictureBox1");
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.TabStop = false;
 			// 
 			// label1
 			// 
@@ -176,19 +189,6 @@ namespace StationSystemTray
 			this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			resources.ApplyResources(this.label1, "label1");
 			this.label1.Name = "label1";
-			// 
-			// fbLoginButton1
-			// 
-			resources.ApplyResources(this.fbLoginButton1, "fbLoginButton1");
-			this.fbLoginButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(120)))), ((int)(((byte)(171)))));
-			this.fbLoginButton1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.fbLoginButton1.Name = "fbLoginButton1";
-			this.fbLoginButton1.Click += new System.EventHandler(this.fbLoginButton1_Click);
-			// 
-			// lblSignIn
-			// 
-			resources.ApplyResources(this.lblSignIn, "lblSignIn");
-			this.lblSignIn.Name = "lblSignIn";
 			// 
 			// lblEmail
 			// 
@@ -198,6 +198,7 @@ namespace StationSystemTray
 			// lblSignUp
 			// 
 			resources.ApplyResources(this.lblSignUp, "lblSignUp");
+			this.lblSignUp.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(48)))), ((int)(((byte)(255)))));
 			this.lblSignUp.Name = "lblSignUp";
 			this.lblSignUp.TabStop = true;
 			this.lblSignUp.UseCompatibleTextRendering = true;
@@ -231,7 +232,7 @@ namespace StationSystemTray
 			// 
 			// tabMainStationSetup
 			// 
-			this.tabMainStationSetup.BackColor = System.Drawing.Color.AliceBlue;
+			this.tabMainStationSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.tabMainStationSetup.Controls.Add(this.btnOK);
 			this.tabMainStationSetup.Controls.Add(this.lblWelcome);
 			this.tabMainStationSetup.Controls.Add(this.lblMainStationSetup);
@@ -258,7 +259,7 @@ namespace StationSystemTray
 			// 
 			// tabSecondStationSetup
 			// 
-			this.tabSecondStationSetup.BackColor = System.Drawing.Color.AliceBlue;
+			this.tabSecondStationSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.tabSecondStationSetup.Controls.Add(this.btnOK2);
 			this.tabSecondStationSetup.Controls.Add(this.lblSecondStationSetup);
 			this.tabSecondStationSetup.Controls.Add(this.lblWelcome2);
@@ -285,7 +286,6 @@ namespace StationSystemTray
 			// 
 			// MainForm
 			// 
-			this.AcceptButton = this.btnSignIn;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.tabControl);
@@ -299,6 +299,8 @@ namespace StationSystemTray
 			this.tabControl.ResumeLayout(false);
 			this.tabSignIn.ResumeLayout(false);
 			this.tabSignIn.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.tabMainStationSetup.ResumeLayout(false);
 			this.tabMainStationSetup.PerformLayout();
 			this.tabSecondStationSetup.ResumeLayout(false);
@@ -315,10 +317,8 @@ namespace StationSystemTray
 		private System.Windows.Forms.ToolStripMenuItem menuQuit;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.Timer checkStationTimer;
-		private System.Windows.Forms.Label lblSignIn;
 		private System.Windows.Forms.Label lblEmail;
 		private System.Windows.Forms.Label lblPassword;
-		private System.Windows.Forms.Button btnSignIn;
 		private System.Windows.Forms.CheckBox chkRememberPassword;
 		private System.Windows.Forms.LinkLabel lblSignUp;
         private TabControlEx tabControl;
@@ -336,9 +336,11 @@ namespace StationSystemTray
 		private System.Windows.Forms.Label lblWelcome2;
 		private System.Windows.Forms.Label lblSecondStationSetup;
 		private System.Windows.Forms.Button btnOK2;
-		private FBLoginButton fbLoginButton1;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.PictureBox pictureBox2;
+		private LoginButton loginButton1;
+		private FBLoginButton fbLoginButton1;
 	}
 }
 

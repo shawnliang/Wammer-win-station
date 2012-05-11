@@ -11,31 +11,19 @@ namespace Wammer
 	/// </summary>
 	public class TaskQueueEventArgs:EventArgs
 	{
-		#region Var
-		private ITask _task;
-		private IHttpHandler _handler;
-		#endregion
-
 		#region Property
 		/// <summary>
 		/// Gets or sets the task.
 		/// </summary>
 		/// <value>The task.</value>
-		public ITask Task
-		{
-			get { return _task; }
-			private set { _task = value; }
-		}
+		public ITask Task { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the handler.
 		/// </summary>
 		/// <value>The handler.</value>
-		public IHttpHandler Handler
-		{
-			get { return _handler; }
-			private set { _handler = value; }
-		}
+		public IHttpHandler Handler { get; private set; }
+
 		#endregion
 		
 		#region Constructor

@@ -26,10 +26,9 @@ namespace Wammer.Utility
 		{
 			WebRequest req = base.GetWebRequest(address);
 
-			if (req is HttpWebRequest)
+			var httpReq = req as HttpWebRequest;
+			if (httpReq != null)
 			{
-				HttpWebRequest httpReq = (HttpWebRequest)req;
-
 				httpReq.Timeout = Timeout;
 				httpReq.ReadWriteTimeout = ReadWriteTimeout;
 			}

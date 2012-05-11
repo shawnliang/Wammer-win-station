@@ -30,8 +30,8 @@ namespace Wammer.Queue
 
 	public class WMSBroker
 	{
-		private Dictionary<String, WMSQueue> queues = new Dictionary<string, WMSQueue>();
-		private IPersistentStore persistentStore;
+		private readonly Dictionary<String, WMSQueue> queues = new Dictionary<string, WMSQueue>();
+		private readonly IPersistentStore persistentStore;
 
 		public WMSBroker()
 		{
@@ -63,7 +63,7 @@ namespace Wammer.Queue
 
 	public class WMSSession : IDisposable
 	{
-		private HashSet<WMSQueue> popQueues = new HashSet<WMSQueue>();
+		private readonly HashSet<WMSQueue> popQueues = new HashSet<WMSQueue>();
 		public Guid Id { get; private set; }
 		
 		
@@ -83,13 +83,13 @@ namespace Wammer.Queue
 
 		public void Push(WMSQueue queue, object data)
 		{
-			WMSMessage msg = new WMSMessage() { Data = data };
+			var msg = new WMSMessage() { Data = data };
 			queue.Push(msg, false);
 		}
 
 		public void Push(WMSQueue queue, object data, bool persistent)
 		{
-			WMSMessage msg = new WMSMessage() { Data = data };
+			var msg = new WMSMessage() { Data = data };
 			queue.Push(msg, persistent);
 		}
 

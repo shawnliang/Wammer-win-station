@@ -9,7 +9,7 @@ namespace Wammer.Station
 {
 	public class HttpHelper
 	{
-		private static ILog logger = log4net.LogManager.GetLogger("HttpHandler");
+		private static readonly ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
 		public static void RespondFailure(HttpListenerResponse response, CloudResponse json)
 		{
@@ -20,7 +20,7 @@ namespace Wammer.Station
 				response.StatusCode = json.status;
 				response.ContentType = "application/json";
 
-				using (StreamWriter w = new StreamWriter(response.OutputStream))
+				using (var w = new StreamWriter(response.OutputStream))
 				{
 					w.Write(resText);
 				}
@@ -36,17 +36,14 @@ namespace Wammer.Station
 
 			CloudResponse json = null;
 
-			if (e.ErrorResponse != null)
-				json = e.ErrorResponse;
-			else
-				json = new CloudResponse(status,DateTime.Now.ToUniversalTime(), e.WammerError, e.Message);
+			json = e.ErrorResponse ?? new CloudResponse(status,DateTime.Now.ToUniversalTime(), e.WammerError, e.Message);
 
 			RespondFailure(response, json);
 		}
 
 		public static void RespondFailure(HttpListenerResponse response, Exception e, int status)
 		{
-			CloudResponse json = new CloudResponse(status,
+			var json = new CloudResponse(status,
 					DateTime.Now.ToUniversalTime(), -1, e.Message);
 
 			RespondFailure(response, json);
@@ -57,7 +54,7 @@ namespace Wammer.Station
 			response.StatusCode = 200;
 			response.ContentType = "application/json";
 
-			using (StreamWriter w = new StreamWriter(response.OutputStream))
+			using (var w = new StreamWriter(response.OutputStream))
 			{
 				if (jsonObj is string)
 					w.Write((string)jsonObj);

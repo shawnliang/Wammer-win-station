@@ -15,15 +15,15 @@ namespace Wammer.Station.Service
 		public const string SERVICE_NAME = "WavefaceStation";
 		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 		private HttpServer managementServer;
 		private HttpServer functionServer;
 		private StationTimer stationTimer;
 		private string stationId;
 		private string resourceBasePath;
-		private DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
+		private readonly DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
 		private TaskRunner<INamedTask>[] bodySyncRunners;
-		private PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
+		private readonly PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
 		private TaskRunner<ITask>[] upstreamTaskRunner;
 
 		public StationService()
@@ -72,8 +72,8 @@ namespace Wammer.Station.Service
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 
-				APIHandler.AttachmentUploadHandler attachmentHandler = new APIHandler.AttachmentUploadHandler();
-				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();
+				var attachmentHandler = new AttachmentUploadHandler();
+				var attachmentMonitor = new AttachmentUploadMonitor();
 
 				attachmentHandler.AttachmentProcessed += 
 					new AttachmentUpload.AttachmentProcessedHandler(
@@ -81,10 +81,10 @@ namespace Wammer.Station.Service
 				attachmentHandler.ProcessSucceeded += attachmentMonitor.OnProcessSucceeded;
 
 				
-				BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
+				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 				InitCloudForwarder(cloudForwarder);
 
-				AttachmentDownloadMonitor downstreamMonitor = new AttachmentDownloadMonitor();
+				var downstreamMonitor = new AttachmentDownloadMonitor();
 				bodySyncTaskQueue.Enqueued += downstreamMonitor.OnDownstreamTaskEnqueued;
 
 				InitFunctionServerHandlers(attachmentHandler,cloudForwarder, downstreamMonitor);
@@ -94,7 +94,7 @@ namespace Wammer.Station.Service
 				functionServer.Start();
 				stationTimer.Start();
 
-				int bodySyncThreadNum = 1;
+				const int bodySyncThreadNum = 1;
 				bodySyncRunners = new TaskRunner<INamedTask>[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
@@ -120,7 +120,7 @@ namespace Wammer.Station.Service
 				managementServer = new HttpServer(9989);
 				managementServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
+				var addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
 				InitManagementServerHandler(addDriverHandler);
 
 				addDriverHandler.DriverAdded += new EventHandler<DriverAddedEvtArgs>(addDriverHandler_DriverAdded);
@@ -224,7 +224,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
 				new HybridCloudHttpRouter(new APIHandler.UserTrackHandler()));
 
-			UserLoginHandler loginHandler = new UserLoginHandler();
+			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
 				loginHandler);
 
@@ -233,7 +233,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"), 
 				new UserLogoutHandler());			
 
-			AttachmentViewHandler viewHandler = new AttachmentViewHandler(stationId);
+			var viewHandler = new AttachmentViewHandler(stationId);
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"),
 							viewHandler);
 			
@@ -270,13 +270,13 @@ namespace Wammer.Station.Service
 
 		void addDriverHandler_BeforeDriverSaved(object sender, BeforeDriverSavedEvtArgs e)
 		{
-			Timeline.TimelineSyncer syncer = new Timeline.TimelineSyncer(
+			var syncer = new Timeline.TimelineSyncer(
 				new Timeline.PostProvider(),
 				new Timeline.TimelineSyncerDBWithDriverCached(e.Driver),
 				new UserTracksApi()
 			);
 
-			ResourceDownloader downloader = new ResourceDownloader(bodySyncTaskQueue, stationId);
+			var downloader = new ResourceDownloader(bodySyncTaskQueue, stationId);
 			syncer.PostsRetrieved += new EventHandler<Timeline.TimelineSyncEventArgs>(downloader.PostRetrieved);
 			syncer.PullTimeline(e.Driver);
 		}

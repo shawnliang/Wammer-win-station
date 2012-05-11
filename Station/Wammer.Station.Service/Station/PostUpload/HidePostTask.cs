@@ -17,11 +17,11 @@ namespace Wammer.PostUpload
 			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", this.UserId));
 			if (driver != null)
 			{
-				using (WebClient agent = new WebClient())
+				using (var agent = new WebClient())
 				{
 					try
 					{
-						PostApi postApi = new PostApi(driver);
+						var postApi = new PostApi(driver);
 						postApi.HidePost(agent, this.Timestamp, this.Parameters);
 					}
 					catch (WammerCloudException e)
@@ -30,7 +30,7 @@ namespace Wammer.PostUpload
 
 						if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
 						{
-							throw e;
+							throw;
 						}
 
 						// cloud will always reject the request, so ignore the task.

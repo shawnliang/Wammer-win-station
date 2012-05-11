@@ -506,9 +506,6 @@
   <data name="btnOK2.Text" xml:space="preserve">
     <value>確定</value>
   </data>
-  <data name="btnSignIn.Text" xml:space="preserve">
-    <value>登入</value>
-  </data>
   <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 19</value>
   </data>
@@ -517,18 +514,6 @@
   </data>
   <data name="fbLoginButton1.DisplayText" xml:space="preserve">
     <value>由 Facebook 登入</value>
-  </data>
-  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 10pt</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 275</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 17</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value> 或 </value>
   </data>
   <data name="lblEmail.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft JhengHei, 11pt, style=Bold</value>
@@ -559,15 +544,6 @@
 
 現在請按下「確定」進入您的 Stream，稍後您可以隨時在主視窗的帳戶設定中調整相關的項目。</value>
   </data>
-  <data name="lblSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="lblSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 26</value>
-  </data>
-  <data name="lblSignIn.Text" xml:space="preserve">
-    <value>登入 Stream</value>
-  </data>
   <data name="lblSignUp.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
     <value>7, 10</value>
   </data>
@@ -586,20 +562,38 @@
   <data name="lblWelcome.Text" xml:space="preserve">
     <value>歡迎使用 Waveface Stream</value>
   </data>
-  <data name="lblWelcome2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 30</value>
+  <data name="loginButton1.Text" xml:space="preserve">
+    <value>登入</value>
   </data>
-  <data name="lblWelcome2.Text" xml:space="preserve">
-    <value>歡迎使用 Waveface Stream</value>
+  <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
   </data>
   <data name="menuQuit.Text" xml:space="preserve">
     <value>離開</value>
   </data>
+  <data name="menuServiceAction.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
+  </data>
   <data name="menuServiceAction.Text" xml:space="preserve">
     <value>暫停服務</value>
   </data>
+  <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
+  </data>
   <data name="menuSignIn.Text" xml:space="preserve">
     <value>登入...</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 6</value>
+  </data>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 6</value>
+  </data>
+  <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 104</value>
+  </data>
+  <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
   </data>
   <data name="tsmiOpenStream.Text" xml:space="preserve">
     <value>開啟 Stream...</value>

@@ -46,7 +46,7 @@ namespace Wammer.PostUpload
 				{
 					return false;
 				}
-				throw e;
+				throw;
 			}
 		}
 

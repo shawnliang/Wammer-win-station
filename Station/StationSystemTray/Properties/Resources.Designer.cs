@@ -151,6 +151,20 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap fb_btn {
+            get {
+                object obj = ResourceManager.GetObject("fb_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap fb_btn_press {
+            get {
+                object obj = ResourceManager.GetObject("fb_btn_press", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap FB_Logo {
             get {
                 object obj = ResourceManager.GetObject("FB_Logo", resourceCulture);
@@ -164,6 +178,13 @@ namespace StationSystemTray.Properties {
         public static string FillAllFields {
             get {
                 return ResourceManager.GetString("FillAllFields", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap input_box {
+            get {
+                object obj = ResourceManager.GetObject("input_box", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -182,6 +203,20 @@ namespace StationSystemTray.Properties {
         public static string InvalidEmail {
             get {
                 return ResourceManager.GetString("InvalidEmail", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap login_btn {
+            get {
+                object obj = ResourceManager.GetObject("login_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap login_btn_press {
+            get {
+                object obj = ResourceManager.GetObject("login_btn_press", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -272,6 +307,13 @@ namespace StationSystemTray.Properties {
         public static string OpenStream {
             get {
                 return ResourceManager.GetString("OpenStream", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap or {
+            get {
+                object obj = ResourceManager.GetObject("or", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -372,6 +414,13 @@ namespace StationSystemTray.Properties {
         public static string StationServiceDown {
             get {
                 return ResourceManager.GetString("StationServiceDown", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap stream_logo {
+            get {
+                object obj = ResourceManager.GetObject("stream_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

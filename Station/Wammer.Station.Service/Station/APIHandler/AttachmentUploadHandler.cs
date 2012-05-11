@@ -9,7 +9,7 @@ namespace Wammer.Station.APIHandler
 {
 	public class AttachmentUploadHandler : HttpHandler
 	{
-		private AttachmentUploadHandlerImp imp;
+		private readonly AttachmentUploadHandlerImp imp;
 
 		public event EventHandler<AttachmentUpload.AttachmentEventArgs> AttachmentProcessed
 		{
@@ -46,7 +46,7 @@ namespace Wammer.Station.APIHandler
 		
 		private UploadData GetUploadData()
 		{
-			UploadData data = new UploadData();
+			var data = new UploadData();
 
 			if (Files.Count == 0)
 				throw new FormatException("No file is uploaded");

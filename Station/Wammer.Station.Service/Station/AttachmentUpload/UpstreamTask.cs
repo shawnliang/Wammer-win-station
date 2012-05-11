@@ -15,8 +15,8 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	public class UpstreamTask: Retry.DelayedRetryTask
 	{
-		private static IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
-		private static IPerfCounter upstreamCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
+		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
+		private static readonly IPerfCounter upstreamCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
 
 		public string object_id { get; private set; }
 		public ImageMeta meta { get; private set; }
@@ -67,7 +67,7 @@ namespace Wammer.Station.AttachmentUpload
 				return;
 			}
 
-			FileStorage fileStorage = new FileStorage(user);
+			var fileStorage = new FileStorage(user);
 
 			using (FileStream f = fileStorage.Load(info.saved_file_name))
 			{

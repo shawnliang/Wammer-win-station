@@ -31,9 +31,9 @@ namespace Wammer.Station
 
 	class ResourceDownloader
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceDownloader));
-		private ITaskEnqueuable<INamedTask> bodySyncQueue;
-		private string stationId;
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceDownloader));
+		private readonly ITaskEnqueuable<INamedTask> bodySyncQueue;
+		private readonly string stationId;
 
 		public ResourceDownloader(ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
 		{
@@ -72,7 +72,7 @@ namespace Wammer.Station
 			bodySyncQueue.Enqueue(new NamedTask(DownstreamResource, evtargs, evtargs.attachment.object_id + evtargs.imagemeta), pri);
 		}
 
-		private void DownloadMissedResource(Driver driver, ICollection<PostInfo> posts)
+		private void DownloadMissedResource(Driver driver, IEnumerable<PostInfo> posts)
 		{
 			foreach (PostInfo post in posts)
 			{
@@ -203,7 +203,7 @@ namespace Wammer.Station
 
 		private void DownstreamResource(object state)
 		{
-			ResourceDownloadEventArgs evtargs = (ResourceDownloadEventArgs)state;
+			var evtargs = (ResourceDownloadEventArgs)state;
 			var meta = evtargs.imagemeta.ToString();
 			var oldFile = evtargs.filepath;
 
@@ -217,7 +217,7 @@ namespace Wammer.Station
 					return;
 				}
 
-				AttachmentApi api = new AttachmentApi(evtargs.driver);
+				var api = new AttachmentApi(evtargs.driver);
 				using (WebClient client = new DefaultWebClient())
 				{
 					api.AttachmentView(client, evtargs, stationId);
@@ -277,9 +277,9 @@ namespace Wammer.Station
 
 				ThumbnailInfo thumbnail;
 				string savedFileName;
-				ArraySegment<byte> rawdata = new ArraySegment<byte>(File.ReadAllBytes(filepath));
+				var rawdata = new ArraySegment<byte>(File.ReadAllBytes(filepath));
 
-				FileStorage fs = new FileStorage(driver);
+				var fs = new FileStorage(driver);
 
 				switch (imagemeta)
 				{
@@ -297,7 +297,7 @@ namespace Wammer.Station
 
 						MD5 md5 = MD5.Create();
 						byte[] hash = md5.ComputeHash(rawdata.Array);
-						StringBuilder md5buff = new StringBuilder();
+						var md5buff = new StringBuilder();
 						for (int i = 0; i < hash.Length; i++)
 							md5buff.Append(hash[i].ToString("x2"));
 

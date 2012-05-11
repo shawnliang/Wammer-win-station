@@ -38,18 +38,13 @@ namespace Wammer.PerfMonitor
 
 		#region Var		
 		private float _value;
-		private PerformanceCounter Counter;		
+		private readonly PerformanceCounter Counter;		
 		#endregion
 
 		#region Private Static Property
 		private static ILog m_Logger
 		{
-			get
-			{
- 				if(_logger == null)
-					_logger = LogManager.GetLogger("PerfCounter");
-				return _logger;
-			}
+			get { return _logger ?? (_logger = LogManager.GetLogger("PerfCounter")); }
 		}
 		#endregion
 
@@ -87,7 +82,7 @@ namespace Wammer.PerfMonitor
 		{
 			try
 			{
-				PerformanceCounter counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
+				var counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
 
 				if (needInitValue)
 					counter.RawValue = 0;

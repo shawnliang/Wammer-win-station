@@ -17,14 +17,14 @@ namespace Wammer.Station.Retry
 		{
 			MongoCursor<GenericData> savedItems = RetryQueueCollection.Instance.FindAll();
 
-			BinaryFormatter formatter = new BinaryFormatter();
+			var formatter = new BinaryFormatter();
 			
 			
 			return savedItems.Select(x =>
 			{
-				using (MemoryStream m = new MemoryStream(x.Data))
+				using (var m = new MemoryStream(x.Data))
 				{
-					IRetryTask task = formatter.Deserialize(m) as IRetryTask;
+					var task = formatter.Deserialize(m) as IRetryTask;
 					return new RetryQueueItem
 					{
 						Task = task,
@@ -39,8 +39,8 @@ namespace Wammer.Station.Retry
 			if (!task.GetType().IsSerializable)
 				throw new ArgumentException(task.ToString() + " is not serializable. Not adding [Serializable] attribute in front of the class?");
 
-			BinaryFormatter formatter = new BinaryFormatter();
-			using (MemoryStream m = new MemoryStream())
+			var formatter = new BinaryFormatter();
+			using (var m = new MemoryStream())
 			{
 				formatter.Serialize(m, task);
 				RetryQueueCollection.Instance.Save(new GenericData

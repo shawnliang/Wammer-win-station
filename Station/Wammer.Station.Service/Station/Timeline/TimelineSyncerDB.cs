@@ -42,7 +42,7 @@ namespace Wammer.Station.Timeline
 	// update driver in memory instead of in database
 	public class TimelineSyncerDBWithDriverCached : ITimelineSyncerDB
 	{
-		private Driver driver;
+		private readonly Driver driver;
 
 		public TimelineSyncerDBWithDriverCached(Driver driver)
 		{

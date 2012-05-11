@@ -27,7 +27,7 @@ namespace Wammer.Station
 		//private Timer timer;
 		//private long timerPeriod;
 		private bool logon = false;  // logOn is needed for every time service start
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
 
 		public EventHandler<IsPrimaryChangedEvtArgs> IsPrimaryChanged;
 
@@ -40,7 +40,7 @@ namespace Wammer.Station
 		{
 			string baseurl = NetworkHelper.GetBaseURL();
 
-			StationDetail status = new StationDetail
+			var status = new StationDetail
 			{
 				location = baseurl,
 				diskusage = new List<DiskUsage>(),
@@ -53,7 +53,7 @@ namespace Wammer.Station
 
 			foreach (Driver driver in drivers)
 			{
-				FileStorage storage = new FileStorage(driver);
+				var storage = new FileStorage(driver);
 				foreach (UserGroup group in driver.groups)
 				{
 					status.diskusage.Add(new DiskUsage { group_id = group.group_id,
@@ -108,7 +108,7 @@ namespace Wammer.Station
 		{
 			// use any driver's session token to send heartbeat
 			var user = DriverCollection.Instance.FindOne();
-			Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, user.session_token);
+			var api = new StationApi(sinfo.Id, user.session_token);
 
 			if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
 			{
@@ -170,7 +170,7 @@ namespace Wammer.Station
 				{
 					try
 					{
-						Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
+						var api = new StationApi(sinfo.Id, sinfo.SessionToken);
 						api.Offline(client);
 					}
 					catch (Exception ex)

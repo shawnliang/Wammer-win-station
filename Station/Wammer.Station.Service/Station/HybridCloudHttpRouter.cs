@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Net;
@@ -33,7 +34,7 @@ namespace Wammer.Station
 		private BypassHttpHandler bypass = new BypassHttpHandler(CloudServer.BaseUrl);
 		private HttpHandler handler;
 
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("HybridCloudHttpRouter");
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("HybridCloudHttpRouter");
 
 		public HybridCloudHttpRouter(HttpHandler handler)
 		{
@@ -42,6 +43,8 @@ namespace Wammer.Station
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
+			Debug.Assert(request.RemoteEndPoint != null, "request.RemoteEndPoint != null");
+
 			// handle request locally for local client, otherwise bypass to cloud
 			if ("127.0.0.1" == request.RemoteEndPoint.Address.ToString())
 			{
@@ -89,7 +92,7 @@ namespace Wammer.Station
 
 		public object Clone()
 		{
-			HybridCloudHttpRouter router = (HybridCloudHttpRouter)this.MemberwiseClone();
+			var router = (HybridCloudHttpRouter)this.MemberwiseClone();
 			router.bypass = (BypassHttpHandler)this.bypass.Clone();
 			router.handler = (HttpHandler)this.handler.Clone();
 			return router;
@@ -99,6 +102,10 @@ namespace Wammer.Station
 		{
 			if (logger.IsDebugEnabled)
 			{
+				Debug.Assert(Request != null, "Request != null");
+				Debug.Assert(Request.RemoteEndPoint != null, "Request.RemoteEndPoint != null");
+				Debug.Assert(Request.Url != null, "Request.Url != null");
+
 				logger.Debug("====== Request " + Request.Url.AbsolutePath +
 								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
 				foreach (string key in Parameters.AllKeys)
@@ -150,7 +157,7 @@ namespace Wammer.Station
 			try
 			{
 				string boundary = GetMultipartBoundary(request.ContentType);
-				MultiPart.Parser parser = new Parser(boundary);
+				var parser = new Parser(boundary);
 
 				Part[] parts = parser.Parse(RawPostData);
 				foreach (Part part in parts)
@@ -164,7 +171,7 @@ namespace Wammer.Station
 			catch (FormatException)
 			{
 				string filename = Guid.NewGuid().ToString();
-				using (BinaryWriter w = new BinaryWriter(File.OpenWrite(@"log\" + filename)))
+				using (var w = new BinaryWriter(File.OpenWrite(@"log\" + filename)))
 				{
 					w.Write(this.RawPostData);
 				}
@@ -177,11 +184,11 @@ namespace Wammer.Station
 		{
 			if (string.Compare(Request.HttpMethod, "POST", true) == 0)
 			{
-				int initialSize = (int)Request.ContentLength64;
+				var initialSize = (int)Request.ContentLength64;
 				if (initialSize <= 0)
 					initialSize = 65535;
 
-				using (MemoryStream buff = new MemoryStream(initialSize))
+				using (var buff = new MemoryStream(initialSize))
 				{
 					Wammer.Utility.StreamHelper.Copy(Request.InputStream, buff);
 					return buff.ToArray();
@@ -205,7 +212,7 @@ namespace Wammer.Station
 
 				if (filename != null)
 				{
-					UploadedFile file = new UploadedFile(filename, part.Bytes,
+					var file = new UploadedFile(filename, part.Bytes,
 																	part.Headers["Content-Type"]);
 					this.Files.Add(file);
 				}
@@ -251,6 +258,8 @@ namespace Wammer.Station
 
 		private NameValueCollection InitParameters(HttpListenerRequest req)
 		{
+			Debug.Assert(req != null, "req != null");
+
 			if (this.RawPostData != null &&
 				req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
 			{

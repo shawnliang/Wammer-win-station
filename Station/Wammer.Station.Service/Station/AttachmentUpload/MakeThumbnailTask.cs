@@ -10,8 +10,8 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	class MakeThumbnailTask : Retry.DelayedRetryTask
 	{
-		private string object_id;
-		private ImageMeta thumbnail_type;
+		private readonly string object_id;
+		private readonly ImageMeta thumbnail_type;
 		private int retry_count;
 		private const int MAX_RETRY = 30;
 
@@ -46,7 +46,7 @@ namespace Wammer.Station.AttachmentUpload
 			if (user == null)
 				return;
 
-			AttachmentUtility imgProc = new AttachmentUtility();
+			var imgProc = new AttachmentUtility();
 			ThumbnailInfo thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name, thumbnail_type,
 				this.object_id, user, attachment.file_name);
 

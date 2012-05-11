@@ -7,7 +7,7 @@ namespace Wammer.Station
 {
 	class ResouceDirGetHandler: HttpHandler
 	{
-		private string resourceBasePath;
+		private readonly string resourceBasePath;
 
 		public ResouceDirGetHandler(string ResouceDirGetHandler)
 		{

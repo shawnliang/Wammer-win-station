@@ -7,15 +7,15 @@ namespace Wammer.Utility
 {
 	public class DropboxHelper
 	{
-		private static string hostDb = @"Dropbox\host.db";
-		private static string configDb = @"Dropbox\config.db";
-		private static string syncFolder = @"Stream";
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxHelper));
+		private const string hostDb = @"Dropbox\host.db";
+		private const string configDb = @"Dropbox\config.db";
+		private const string syncFolder = @"Stream";
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxHelper));
 
 		public static bool IsInstalled()
 		{
-			string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			string hostDbPath = Path.Combine(appData, hostDb);
+			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			var hostDbPath = Path.Combine(appData, hostDb);
 
 			logger.DebugFormat("Dropbox path for verification: {0}", hostDbPath);
 
@@ -24,21 +24,25 @@ namespace Wammer.Utility
 
 		public static string GetSyncFolder()
 		{
-			string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			string hostDbPath = Path.Combine(appData, hostDb);
+			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			var hostDbPath = Path.Combine(appData, hostDb);
 
 			if (!File.Exists(hostDbPath))
 				return string.Empty;
 
-			using (FileStream fs = new FileStream(hostDbPath, FileMode.Open))
+			using (var fs = new FileStream(hostDbPath, FileMode.Open))
 			{
-				using (StreamReader reader = new StreamReader(fs))
+				using (var reader = new StreamReader(fs))
 				{
 					reader.ReadLine();
-					string line = reader.ReadLine().Trim();
-					byte[] data = Convert.FromBase64String(line);
+					var readLine = reader.ReadLine();
+					if (readLine == null)
+						return string.Empty;
 
-					string syncFolderPath = Path.Combine(Encoding.UTF8.GetString(data), syncFolder);
+					var line = readLine.Trim();
+					var data = Convert.FromBase64String(line);
+
+					var syncFolderPath = Path.Combine(Encoding.UTF8.GetString(data), syncFolder);
 					logger.DebugFormat("Dropbox sync folder path = {0}", syncFolderPath);
 					return syncFolderPath;
 				}

@@ -16,24 +16,19 @@ namespace Wammer.Station
 {
 	public class ImagePostProcessing
 	{
-		private static ILog logger = LogManager.GetLogger(typeof(ImagePostProcessing));
+		private static readonly ILog logger = LogManager.GetLogger(typeof(ImagePostProcessing));
 
 		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, ExifOrientations orientation,
 			string attachmentId, Driver driver, string origFileName)
 		{
 			Bitmap thumbnail = null;
 
-			if (meta == ImageMeta.Square)
-				thumbnail = MakeSquareThumbnail(origin);
-			else
-				thumbnail = ImageHelper.ScaleBasedOnLongSide(origin, (int)meta);
+			thumbnail = meta == ImageMeta.Square ? MakeSquareThumbnail(origin) : ImageHelper.ScaleBasedOnLongSide(origin, (int)meta);
 
 			try
 			{
-				if (orientation != ExifOrientations.Unknown)
-					ImageHelper.CorrectOrientation(orientation, thumbnail);
-				else
-					ImageHelper.CorrectOrientation(ImageHelper.ImageOrientation(origin), thumbnail);
+				ImageHelper.CorrectOrientation(
+					orientation != ExifOrientations.Unknown ? orientation : ImageHelper.ImageOrientation(origin), thumbnail);
 			}
 			catch (System.Runtime.InteropServices.ExternalException ex)
 			{
@@ -104,13 +99,13 @@ namespace Wammer.Station
 	{
 		public SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver)
 		{
-			using (MemoryStream m = new MemoryStream())
+			using (var m = new MemoryStream())
 			{
-				EncoderParameters encodeParams = new EncoderParameters(1);
+				var encodeParams = new EncoderParameters(1);
 				encodeParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, (long)85);
 				img.Save(m, ImageHelper.JpegCodec, encodeParams);	
 
-				SavedResult savedResult = new SavedResult 
+				var savedResult = new SavedResult 
 				{ 
 					SavedRawData = m.ToArray(),
 					FileName = string.Format("{0}_{1}.dat", attchId, meta.ToString().ToLower()),
@@ -126,9 +121,9 @@ namespace Wammer.Station
 
 	abstract class CommonImageSaveStrategy : ImageSaveStrategy
 	{
-		private ImageFormat format;
-		private string suffix;
-		private string mimeType;
+		private readonly ImageFormat format;
+		private readonly string suffix;
+		private readonly string mimeType;
 
 		protected CommonImageSaveStrategy(ImageFormat format, string suffix, string mimeType)
 		{
@@ -139,11 +134,11 @@ namespace Wammer.Station
 
 		public SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver)
 		{
-			using (MemoryStream m = new MemoryStream())
+			using (var m = new MemoryStream())
 			{
 				img.Save(m, format);
 
-				SavedResult savedResult = new SavedResult
+				var savedResult = new SavedResult
 				{
 					SavedRawData = m.ToArray(),
 					FileName = string.Format("{0}_{1}.{2}", attchId, meta.ToString().ToLower(), suffix),

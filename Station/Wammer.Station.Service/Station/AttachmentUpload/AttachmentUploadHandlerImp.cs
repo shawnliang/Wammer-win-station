@@ -82,7 +82,7 @@ namespace Wammer.Station.AttachmentUpload
 			if (uploadData.object_id == null)
 				uploadData.object_id = Guid.NewGuid().ToString();
 
-			Attachment dbDoc = new Attachment
+			var dbDoc = new Attachment
 			{
 				object_id = uploadData.object_id,
 				group_id = uploadData.group_id,
@@ -94,7 +94,7 @@ namespace Wammer.Station.AttachmentUpload
 			};
 
 			System.Drawing.Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
-			FileStorage storage = new FileStorage(db.GetUserByGroupId(uploadData.group_id));
+			var storage = new FileStorage(db.GetUserByGroupId(uploadData.group_id));
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
 			{
@@ -110,7 +110,7 @@ namespace Wammer.Station.AttachmentUpload
 			}
 			else
 			{
-				ThumbnailInfo thumb = new ThumbnailInfo
+				var thumb = new ThumbnailInfo
 				{
 					file_size = uploadData.raw_data.Count,
 					md5 = ComputeMD5(uploadData.raw_data),
@@ -150,7 +150,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		private static string GetViewApiUrl(UploadData data)
 		{
-			StringBuilder buf = new StringBuilder();
+			var buf = new StringBuilder();
 			buf.Append("/v2/attachments/view/?object_id=").
 				Append(data.object_id);
 
@@ -165,7 +165,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		private static string GetSavedFileName(UploadData data)
 		{
-			StringBuilder buf = new StringBuilder();
+			var buf = new StringBuilder();
 			buf.Append(data.object_id);
 
 			if (ImageMeta.Square <= data.imageMeta && data.imageMeta <= ImageMeta.Large)
@@ -187,7 +187,7 @@ namespace Wammer.Station.AttachmentUpload
 			using (MD5 md5 = MD5.Create())
 			{
 				byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
-				StringBuilder buff = new StringBuilder();
+				var buff = new StringBuilder();
 				for (int i = 0; i < hash.Length; i++)
 					buff.Append(hash[i].ToString("x2"));
 

@@ -30,12 +30,10 @@ public static class StreamExtension
 
 		int offset = 0;
 		int remain = buffer.Length;
-		int readByteCount = 0;
-		int percent = 0;
 
 		while (remain > 0)
 		{
-			readByteCount = remain > bufferBatchSize ? bufferBatchSize : remain;
+			int readByteCount = remain > bufferBatchSize ? bufferBatchSize : remain;
 			targetStream.Write(buffer, offset, readByteCount);
 
 			offset += readByteCount;
@@ -45,7 +43,7 @@ public static class StreamExtension
 			{
 				var currentPercent = (int)(((double)offset) / buffer.Length * 100);
 
-				percent = currentPercent;
+				int percent = currentPercent;
 				progressChangedCallBack(targetStream, new ProgressChangedEventArgs(percent, readByteCount));
 			}
 		}
@@ -72,15 +70,15 @@ public static class StreamExtension
 			throw new ArgumentNullException("sourceStream");
 
 		if (!sourceStream.CanRead)
-			throw new ArgumentException("sourceStream", "Unreadable stream");
+			throw new ArgumentException("Unreadable stream", "sourceStream");
 
 		if (!targetStream.CanWrite)
-			throw new ArgumentException("targetStream", "Unwritable stream");
+			throw new ArgumentException("Unwritable stream", "targetStream");
 
 		if (bufferSize < 1024)
 			throw new ArgumentOutOfRangeException("bufferSize", "Must bigger than 1024");
 
-		byte[] buffer = new byte[bufferSize];
+		var buffer = new byte[bufferSize];
 
 		int offset = 0;
 		int readByteCount = 0;

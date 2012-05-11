@@ -12,15 +12,15 @@ namespace Wammer.Station.AttachmentUpload
 		public const string QNAME_MED = "attUpl_med";
 		public const string QNAME_LOW = "attUpl_low";
 
-		object csLock = new object();
-		Queue<DequeuedTask<ITask>> highQueue;
-		Queue<DequeuedTask<ITask>> mediumQueue;
-		Queue<DequeuedTask<ITask>> lowQueue;
-		AttachmentUploadQueuePersistentStorage storage;
+		readonly object csLock = new object();
+		readonly Queue<DequeuedTask<ITask>> highQueue;
+		readonly Queue<DequeuedTask<ITask>> mediumQueue;
+		readonly Queue<DequeuedTask<ITask>> lowQueue;
+		readonly AttachmentUploadQueuePersistentStorage storage;
 
 
 		static AttachmentUploadQueue instance;
-		System.Threading.Semaphore hasItem;
+		readonly System.Threading.Semaphore hasItem;
 
 		private AttachmentUploadQueue()
 		{
@@ -36,13 +36,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public static AttachmentUploadQueue Instance
 		{
-			get
-			{
-				if (instance == null)
-					instance = new AttachmentUploadQueue();
-
-				return instance;
-			}
+			get { return instance ?? (instance = new AttachmentUploadQueue()); }
 		}
 
 		public void Enqueue(ITask task, TaskPriority priority)

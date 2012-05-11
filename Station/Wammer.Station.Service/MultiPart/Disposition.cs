@@ -8,9 +8,9 @@ namespace Wammer.MultiPart
 	public class Disposition
 	{
 		private string value;
-		private NameValueCollection parameters = new NameValueCollection();
+		private readonly NameValueCollection parameters = new NameValueCollection();
 
-		private static char[] SEPARATOR = new char[] { ';' };
+		private static readonly char[] SEPARATOR = new char[] { ';' };
 
 		public Disposition(string value)
 		{
@@ -29,8 +29,7 @@ namespace Wammer.MultiPart
 				string[] segments = text.Split(SEPARATOR,
 										StringSplitOptions.RemoveEmptyEntries);
 
-				Disposition disp = new Disposition();
-				disp.value = segments[0].Trim();
+				var disp = new Disposition {value = segments[0].Trim()};
 				for (int i = 1; i < segments.Length; i++)
 				{
 					string[] nameValue = segments[i].Split('=');
@@ -68,7 +67,7 @@ namespace Wammer.MultiPart
 
 		public void CopyTo(Stream output)
 		{
-			StringBuilder buff = new StringBuilder();
+			var buff = new StringBuilder();
 			buff.Append("Content-Disposition: ");
 			buff.Append(this.value);
 			if (parameters.Count>0)

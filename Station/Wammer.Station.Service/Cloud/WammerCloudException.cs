@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -7,8 +8,8 @@ namespace Wammer.Cloud
 {
 	public class WammerCloudException : Exception
 	{
-		private WebExceptionStatus httpError = WebExceptionStatus.Success;
-		private int wammerError;
+		private readonly WebExceptionStatus httpError = WebExceptionStatus.Success;
+		private readonly int wammerError;
 		public string response { get; private set; }
 		public WammerCloudException()
 			: base()
@@ -81,7 +82,8 @@ namespace Wammer.Cloud
 		{
 			try
 			{
-				using (StreamReader r = new StreamReader(e.Response.GetResponseStream()))
+				Debug.Assert(e != null, "e != null");
+				using (var r = new StreamReader(e.Response.GetResponseStream()))
 				{
 					return r.ReadToEnd();
 				}
@@ -100,7 +102,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				CloudResponse res = fastJSON.JSON.Instance.ToObject<CloudResponse>(resText);
+				var res = fastJSON.JSON.Instance.ToObject<CloudResponse>(resText);
 				return res.api_ret_code;
 			}
 			catch
@@ -111,7 +113,7 @@ namespace Wammer.Cloud
 
 		public override string ToString()
 		{
-			StringBuilder buf = new StringBuilder(base.ToString());
+			var buf = new StringBuilder(base.ToString());
 			buf.AppendLine();
 			if (this.response != null)
 			{

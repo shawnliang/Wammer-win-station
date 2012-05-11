@@ -31,12 +31,7 @@ namespace Wammer.Model
 		/// <value>The instance.</value>
 		public static LoginedSessionCollection Instance
 		{
-			get
-			{
-				if (instance == null)
-					instance = new LoginedSessionCollection();
-				return instance;
-			}
+			get { return instance ?? (instance = new LoginedSessionCollection()); }
 		}
 		#endregion
 	}

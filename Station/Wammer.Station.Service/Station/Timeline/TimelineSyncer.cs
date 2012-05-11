@@ -26,9 +26,9 @@ namespace Wammer.Station.Timeline
 
 	public class TimelineSyncer
 	{
-		private IPostProvider postProvider;
-		private ITimelineSyncerDB db;
-		private Wammer.Cloud.IUserTrackApi userTrack;
+		private readonly IPostProvider postProvider;
+		private readonly ITimelineSyncerDB db;
+		private readonly Wammer.Cloud.IUserTrackApi userTrack;
 
 		public event EventHandler<TimelineSyncEventArgs> PostsRetrieved;
 		public event EventHandler<BodyAvailableEventArgs> BodyAvailable;
@@ -56,13 +56,10 @@ namespace Wammer.Station.Timeline
 			using (WebClient agent = new DefaultWebClient())
 			{
 
-				SyncRange newSyncRange = new SyncRange();
+				var newSyncRange = new SyncRange();
 				PostResponse res;
 
-				if (user.sync_range == null)
-					res = postProvider.GetLastestPosts(agent, user, 200);
-				else
-					res = postProvider.GetPostsBefore(agent, user, user.sync_range.start_time, 200);
+				res = user.sync_range == null ? postProvider.GetLastestPosts(agent, user, 200) : postProvider.GetPostsBefore(agent, user, user.sync_range.start_time, 200);
 
 				foreach (PostInfo post in res.posts)
 					db.SavePost(post);
@@ -154,13 +151,9 @@ namespace Wammer.Station.Timeline
 				if (track.target_type == "attachment" &&
 					track.actions != null)
 				{
-					foreach (var action in track.actions)
+					if (track.actions.Any(action => action.target_type.Contains("origin")))
 					{
-						if (action.target_type.Contains("origin"))
-						{
-							OnBodyAvailable(new BodyAvailableEventArgs(track.target_id, track.user_id, track.group_id));
-							break;
-						}
+						OnBodyAvailable(new BodyAvailableEventArgs(track.target_id, track.user_id, track.group_id));
 					}
 				}
 			}
@@ -192,7 +185,7 @@ namespace Wammer.Station.Timeline
 		{
 			using (WebClient agent = new DefaultWebClient())
 			{
-				UserTracksApi api = new UserTracksApi();
+				var api = new UserTracksApi();
 				DateTime since = DateTime.MinValue;
 
 				UserTrackResponse res;

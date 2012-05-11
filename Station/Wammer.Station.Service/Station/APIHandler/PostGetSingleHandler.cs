@@ -41,13 +41,15 @@ namespace Wammer.Station
 				);
 			}
 
-			List<UserInfo> userList = new List<UserInfo>();
-			userList.Add(new UserInfo
-			{
-				user_id = Session.user.user_id,
-				nickname = Session.user.nickname,
-				avatar_url = Session.user.avatar_url
-			});
+			var userList = new List<UserInfo>
+			               	{
+			               		new UserInfo
+			               			{
+			               				user_id = Session.user.user_id,
+			               				nickname = Session.user.nickname,
+			               				avatar_url = Session.user.avatar_url
+			               			}
+			               	};
 
 			RespondSuccess(
 				new PostGetSingleResponse

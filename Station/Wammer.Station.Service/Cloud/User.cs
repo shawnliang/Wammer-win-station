@@ -90,21 +90,22 @@ namespace Wammer.Cloud
 
 		public static string LogInResponse(WebClient agent, string serverBase, string username, string passwd, string apiKey, string deviceId, string deviceName)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>();
-			parameters.Add(CloudServer.PARAM_EMAIL, username);
-			parameters.Add(CloudServer.PARAM_PASSWORD, passwd);
-			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
-			parameters.Add(CloudServer.PARAM_DEVICE_ID, deviceId);
-			parameters.Add(CloudServer.PARAM_DEVICE_NAME, deviceName);
+			var parameters = new Dictionary<object, object>
+			                                        	{
+			                                        		{CloudServer.PARAM_EMAIL, username},
+			                                        		{CloudServer.PARAM_PASSWORD, passwd},
+			                                        		{CloudServer.PARAM_API_KEY, apiKey},
+			                                        		{CloudServer.PARAM_DEVICE_ID, deviceId},
+			                                        		{CloudServer.PARAM_DEVICE_NAME, deviceName}
+			                                        	};
 
 			return CloudServer.requestPath(agent, serverBase, "auth/login", parameters, false);
 		}
 
 		public static void LogOut(WebClient agent, string sessionToken, string apiKey)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>();
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, sessionToken);
-			parameters.Add(CloudServer.PARAM_API_KEY, apiKey);
+			var parameters = new Dictionary<object, object>
+			                 	{{CloudServer.PARAM_SESSION_TOKEN, sessionToken}, {CloudServer.PARAM_API_KEY, apiKey}};
 
 			CloudServer.requestPath(agent, "auth/logout", parameters);
 		}
@@ -116,9 +117,8 @@ namespace Wammer.Cloud
 
 		public static FindMyStationResponse FindMyStation(WebClient agent, string sessionToken)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>();
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, sessionToken);
+			var parameters = new Dictionary<object, object>
+			                 	{{CloudServer.PARAM_API_KEY, CloudServer.APIKey}, {CloudServer.PARAM_SESSION_TOKEN, sessionToken}};
 
 			return CloudServer.requestPath<FindMyStationResponse>(agent, "users/findMyStation", parameters);
 		}

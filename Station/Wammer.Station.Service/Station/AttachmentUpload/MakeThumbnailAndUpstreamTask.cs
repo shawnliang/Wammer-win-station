@@ -9,10 +9,10 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	class MakeThumbnailAndUpstreamTask: Retry.DelayedRetryTask
 	{
-		private string object_id;
-		private ImageMeta meta;
-		private TaskPriority pri;
-		private IAttachmentUtil util;
+		private readonly string object_id;
+		private readonly ImageMeta meta;
+		private readonly TaskPriority pri;
+		private readonly IAttachmentUtil util;
 
 		public MakeThumbnailAndUpstreamTask(string object_id, ImageMeta meta, TaskPriority pri, IAttachmentUtil util)
 			: base(Retry.RetryQueue.Instance, pri)
@@ -25,7 +25,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		protected override void Run()
 		{
-			MakeThumbnailTask makeThumbnail = new MakeThumbnailTask(object_id, meta, pri);
+			var makeThumbnail = new MakeThumbnailTask(object_id, meta, pri);
 			makeThumbnail.MakeThumbnail();
 
 			util.UpstreamAttachmentAsync(object_id, meta, pri);

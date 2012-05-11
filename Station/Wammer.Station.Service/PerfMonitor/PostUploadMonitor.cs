@@ -7,7 +7,7 @@ namespace Wammer.PerfMonitor
 {
 	class PostUploadMonitor
 	{
-		private IPerfCounter UploadNumCounter;
+		private readonly IPerfCounter UploadNumCounter;
 
 		public PostUploadMonitor()
 		{

@@ -21,7 +21,7 @@ namespace Wammer.Station
 
 		private const long RESOURCE_SYNC_PEROID = 10 * 1000;
 
-		private List<IStationTimer> timers;
+		private readonly List<IStationTimer> timers;
 
 		public StationTimer(ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
 		{
@@ -64,8 +64,8 @@ namespace Wammer.Station
 
 	abstract public class NonReentrantTimer: IStationTimer
 	{
-		private System.Threading.Timer timer;
-		private long timerPeriod;
+		private readonly System.Threading.Timer timer;
+		private readonly long timerPeriod;
 
 		protected NonReentrantTimer(long timerPeriod)
 		{

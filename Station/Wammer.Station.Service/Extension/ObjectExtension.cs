@@ -14,12 +14,7 @@ public static class ObjectExtension
 	#region Private Property
 	private static Dictionary<object, ILog> m_LoggerPool
 	{
-		get
-		{
-			if (_loggerPool == null)
-				_loggerPool = new Dictionary<object, ILog>();
-			return _loggerPool;
-		}
+		get { return _loggerPool ?? (_loggerPool = new Dictionary<object, ILog>()); }
 	}
 	#endregion
 

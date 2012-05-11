@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Wammer.PerfMonitor;
 using Wammer.Queue;
@@ -17,17 +18,17 @@ namespace Wammer.Station
 
 	static class TaskQueue
 	{
-		private static log4net.ILog Logger = log4net.LogManager.GetLogger("TaskQueue");
+		private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger("TaskQueue");
 
-		private static IPerfCounter itemsInQueue = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE);
-		private static IPerfCounter itemsInProgress = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_PROGRESS);
+		private static readonly IPerfCounter itemsInQueue = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE);
+		private static readonly IPerfCounter itemsInProgress = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_PROGRESS);
 
-		private static WMSBroker mqBroker;
-		private static WMSSession mqSession;
-		private static WMSQueue mqHighPriority;
-		private static WMSQueue mqMediumPriority;
-		private static WMSQueue mqLowPriority;
-		private static WMSQueue mqVeryLowPriority;
+		private static readonly WMSBroker mqBroker;
+		private static readonly WMSSession mqSession;
+		private static readonly WMSQueue mqHighPriority;
+		private static readonly WMSQueue mqMediumPriority;
+		private static readonly WMSQueue mqLowPriority;
+		private static readonly WMSQueue mqVeryLowPriority;
 
 
 		public static int MaxConcurrentTaskCount
@@ -54,7 +55,7 @@ namespace Wammer.Station
 		private static int maxRunningNonHighTaskCount;
 		private static int runningNonHighTaskCount;
 
-		private static object lockObj = new object();
+		private static readonly object lockObj = new object();
 
 		static TaskQueue()
 		{
@@ -219,6 +220,10 @@ namespace Wammer.Station
 			finally
 			{
 				itemsInProgress.Decrement();
+
+				Debug.Assert(dequeuedItem != null, "dequeuedItem != null");
+				Debug.Assert(dequeuedItem.Item != null, "dequeuedItem.Item != null");
+
 				dequeuedItem.Item.Acknowledge();
 
 				lock (lockObj)
@@ -257,8 +262,8 @@ namespace Wammer.Station
 
 	public class SimpleTask : ITask
 	{
-		private WaitCallback cb;
-		private object state;
+		private readonly WaitCallback cb;
+		private readonly object state;
 
 		public SimpleTask(WaitCallback cb, object state)
 		{

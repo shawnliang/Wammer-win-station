@@ -150,17 +150,32 @@
   <data name="DropboxUI_Disconnect" xml:space="preserve">
     <value>Disconnect</value>
   </data>
+  <data name="fb_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fb_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fb_btn_press" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fb_btn_press.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="FB_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FB_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FillAllFields" xml:space="preserve">
     <value>Please fill all the fields!</value>
   </data>
+  <data name="input_box" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\input_box.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="InvalidDriverError" xml:space="preserve">
     <value>The user name is different to the driver account of this Stream Station. Please try again.</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
     <value>invalid email</value>
+  </data>
+  <data name="login_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\login_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="login_btn_press" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\login_btn_press.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LogInError" xml:space="preserve">
     <value>Login error. Please try again.</value>
@@ -191,6 +206,9 @@
   </data>
   <data name="OpenStream" xml:space="preserve">
     <value>Open Stream</value>
+  </data>
+  <data name="or" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\or.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PauseWFService" xml:space="preserve">
     <value>Pause sync</value>
@@ -225,6 +243,9 @@
   </data>
   <data name="StationServiceDown" xml:space="preserve">
     <value>Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service.</value>
+  </data>
+  <data name="stream_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stream_tray_init" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stream_tray_init.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

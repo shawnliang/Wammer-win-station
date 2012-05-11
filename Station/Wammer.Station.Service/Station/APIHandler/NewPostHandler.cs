@@ -78,27 +78,27 @@ namespace Wammer.Station
 				throw new WammerStationException(
 						"Attachement not found!", (int)StationLocalApiError.NotFound);
 
-			var post = new PostInfo()
-			{
-				attachments = attachmentInfos,
-				post_id = postID,
-				timestamp = timeStamp,
-				update_time = timeStamp,
-				attachment_id_array = attachmentIDs,
-				attachment_count = attachmentCount,
-				group_id = groupID,
-				creator_id = creatorID,
-				code_name = codeName,
-				content = content,
-				hidden = "false",
-				comment_count = 0,
-				comments = new List<Comment>(),
-				preview = new Preview()
-			};
+			var post = new PostInfo
+			           	{
+			           		attachments = attachmentInfos,
+			           		post_id = postID,
+			           		timestamp = timeStamp,
+			           		update_time = timeStamp,
+			           		attachment_id_array = attachmentIDs,
+			           		attachment_count = attachmentCount,
+			           		group_id = groupID,
+			           		creator_id = creatorID,
+			           		code_name = codeName,
+			           		content = content,
+			           		hidden = "false",
+			           		comment_count = 0,
+			           		comments = new List<Comment>(),
+			           		preview = new Preview(),
+			           		event_time = timeStamp.ToString("u"),
+			           		type = type
+			           	};
 
-			post.event_time = timeStamp.ToString("u");
 
-			post.type = type;
 
 			PostCollection.Instance.Save(post);
 	

@@ -9,21 +9,21 @@ namespace Wammer.Station
 	public class PublicPortMapping
 	{
 		//private static PortMapper portMapper = TCMPortMapper.PortMapper.SharedInstance;
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("UPnP");
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("UPnP");
 
 		private bool hasDriver = false;
 		private ushort externalPort = 0;
 		private IPAddress externalIP = null;
 
 		private PortMapping myMapping = null;
-		private object lockObj = new object();
-		private static PublicPortMapping instance = null;
+		private readonly object lockObj = new object();
+		private static readonly PublicPortMapping instance = null;
 
-		private Timer checkTimer;
+		private readonly Timer checkTimer;
 		private UPnPState state;
 
 
-		private static IPAddress NOT_SUPPORT = IPAddress.Parse("0.0.0.0");
+		private static readonly IPAddress NOT_SUPPORT = IPAddress.Parse("0.0.0.0");
 
 		static PublicPortMapping()
 		{
@@ -51,7 +51,7 @@ namespace Wammer.Station
 
 
 			this.state = new NoUPnPDeviceFoundState();
-			int checkIntervalSec = (int)StationRegistry.GetValue("UPnPCheckInterval", 120);
+			var checkIntervalSec = (int)StationRegistry.GetValue("UPnPCheckInterval", 120);
 			this.checkTimer = new Timer(this.CheckState, null, 30 * 1000, checkIntervalSec * 1000);
 		}
 
@@ -220,7 +220,7 @@ namespace Wammer.Station
 
 	class NotifyCloudOfExternalPortTask : ITask
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("UPnP");
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("UPnP");
 
 		public void Execute()
 		{

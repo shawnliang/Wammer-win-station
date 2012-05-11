@@ -13,12 +13,7 @@ namespace Wammer.Station
 
 		protected Thread m_Thread
 		{
-			get
-			{
-				if (_thread == null)
-					_thread = new Thread(Do);
-				return _thread;
-			}
+			get { return _thread ?? (_thread = new Thread(Do)); }
 			set
 			{
 				_thread = value;

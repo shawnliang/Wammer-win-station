@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using Wammer.Station;
 using Wammer.Model;
@@ -12,7 +13,7 @@ namespace Wammer.Station.APIHandler
 {
 	public class UserTrackHandler : HttpHandler
 	{
-		private UserTrackHandlerImp impl = new UserTrackHandlerImp(new UserTrackHandlerDB());
+		private readonly UserTrackHandlerImp impl = new UserTrackHandlerImp(new UserTrackHandlerDB());
 		
 		#region Protected Method
 		/// <summary>
@@ -22,9 +23,7 @@ namespace Wammer.Station.APIHandler
 		{
 			CheckParameter("group_id", "since");
 
-			bool include_entities = false;
-			if ("true" == Parameters["include_entities"])
-				include_entities = true;
+			var include_entities = "true" == Parameters["include_entities"];
 
 			this.RespondSuccess(
 				impl.GetUserTrack(Parameters["group_id"], Parameters["since"], include_entities));
@@ -63,7 +62,7 @@ namespace Wammer.Station.APIHandler
 
 	public class UserTrackHandlerImp
 	{
-		private IUserTrackHandlerDB db;
+		private readonly IUserTrackHandlerDB db;
 
 		public UserTrackHandlerImp(IUserTrackHandlerDB db)
 		{
@@ -83,8 +82,9 @@ namespace Wammer.Station.APIHandler
 			DateTime sinceDateTime = Wammer.Utility.TimeHelper.ParseCloudTimeString(since);
 			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, sinceDateTime);
 
-			UserTrackResponse response = new UserTrackResponse();
+			Debug.Assert(userTracks != null, "userTracks != null");
 
+			var response = new UserTrackResponse();
 			if (include_entities)
 			{
 				response.post_id_list = mergePostIdLists(userTracks);
@@ -98,7 +98,7 @@ namespace Wammer.Station.APIHandler
 			}
 				
 			response.group_id = group_id;
-			response.latest_timestamp = userTracks.Count() > 0 ? userTracks.Last().latest_timestamp : DateTime.UtcNow;
+			response.latest_timestamp = userTracks.Any() ? userTracks.Last().latest_timestamp : DateTime.UtcNow;
 			response.remaining_count = 0;
 
 			return response;
@@ -106,7 +106,7 @@ namespace Wammer.Station.APIHandler
 
 		private List<UserTrackDetail> mergeDetails(IEnumerable<UserTracks> tracks)
 		{
-			List<UserTrackDetail> details = new List<UserTrackDetail>();
+			var details = new List<UserTrackDetail>();
 
 			foreach (UserTracks ut in tracks)
 			{
@@ -121,7 +121,7 @@ namespace Wammer.Station.APIHandler
 
 		private List<string> mergePostIdLists(IEnumerable<UserTracks> tracks)
 		{
-			HashSet<string> posts = new HashSet<string>();
+			var posts = new HashSet<string>();
 
 			foreach (UserTracks ut in tracks)
 			{

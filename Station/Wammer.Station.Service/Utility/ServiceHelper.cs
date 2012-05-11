@@ -115,7 +115,7 @@ namespace Wammer.Utility
 					throwWin32Exception("QueryServiceConfig: ");
 				}
 
-				QUERY_SERVICE_CONFIG qUERY_SERVICE_CONFIG = new QUERY_SERVICE_CONFIG();
+				var qUERY_SERVICE_CONFIG = new QUERY_SERVICE_CONFIG();
 				// Copy 
 				Marshal.PtrToStructure(ptr, qUERY_SERVICE_CONFIG);
 				return qUERY_SERVICE_CONFIG.dwStartType == SERVICE_AUTO_START;

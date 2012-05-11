@@ -313,8 +313,7 @@ namespace Wammer.Station
 			if (m_PostUploader != null)
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.UpdatePost, Parameters);
 
-			var response = new UpdatePostResponse();
-			response.post = post;
+			var response = new UpdatePostResponse {post = post};
 			RespondSuccess(response);
 		}
 		#endregion

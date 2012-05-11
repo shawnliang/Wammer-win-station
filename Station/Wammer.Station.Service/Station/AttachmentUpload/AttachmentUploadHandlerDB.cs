@@ -14,7 +14,7 @@ namespace Wammer.Station.AttachmentUpload
 	{
 		public UpsertResult InsertOrMergeToExistingDoc(Model.Attachment doc)
 		{
-			UpdateBuilder update = new UpdateBuilder();
+			var update = new UpdateBuilder();
 			BsonDocument bsonDoc = doc.ToBsonDocument();
 
 			update = AppendUpdateStatement(update, "", bsonDoc);

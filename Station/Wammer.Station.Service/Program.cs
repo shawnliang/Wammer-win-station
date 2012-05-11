@@ -20,16 +20,15 @@ namespace Wammer.Station.Service
 			if (argv.Any<string>((item) => { return item.Equals("-c", StringComparison.CurrentCultureIgnoreCase); }))
 			{
 				Console.WriteLine("Wammer Station in Console Mode:");
-				StationService svc = new StationService();
+				var svc = new StationService();
 				svc.Run();
 			}
 			else
 			{
-				ServiceBase[] ServicesToRun;
-				ServicesToRun = new ServiceBase[] 
-				{ 
-					new StationService() 
-				};
+				var ServicesToRun = new ServiceBase[] 
+				                              	{ 
+				                              		new StationService() 
+				                              	};
 				ServiceBase.Run(ServicesToRun);
 			}
 		}

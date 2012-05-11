@@ -48,7 +48,7 @@ namespace Wammer.Station
 		public byte[] RawPostData { get; internal set; }
 		private long beginTime;
 
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
 		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
@@ -83,11 +83,7 @@ namespace Wammer.Station
 			Debug.Assert(this.Request != null);
 
 			var apiPath = Regex.Match(this.Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].Value;
-			var forwardParams = new Dictionary<object, object>();
-			foreach (string key in Parameters.AllKeys)
-			{
-				forwardParams.Add(key, Parameters[key]);
-			}
+			var forwardParams = Parameters.AllKeys.ToDictionary<string, object, object>(key => key, key => Parameters[key]);
 			RespondSuccess(CloudServer.requestPath(new WebClient(), apiPath, forwardParams, false));
 		}
 
@@ -96,11 +92,7 @@ namespace Wammer.Station
 			Debug.Assert(this.Request != null);
 
 			var apiPath = Regex.Match(this.Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].Value;
-			var forwardParams = new Dictionary<object, object>();
-			foreach (string key in Parameters.AllKeys)
-			{
-				forwardParams.Add(key, Parameters[key]);
-			}
+			var forwardParams = Parameters.AllKeys.ToDictionary<string, object, object>(key => key, key => Parameters[key]);
 			RespondSuccess(CloudServer.requestPath<T>(new WebClient(), apiPath, forwardParams, false));
 		}
 		#endregion
@@ -140,6 +132,7 @@ namespace Wammer.Station
 		{
 			if (logger.IsDebugEnabled)
 			{
+				Debug.Assert(Request.RemoteEndPoint != null, "Request.RemoteEndPoint != null");
 				logger.Debug("====== Request " + Request.Url.AbsolutePath +
 								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
 				foreach (string key in Parameters.AllKeys)
@@ -177,7 +170,7 @@ namespace Wammer.Station
 			try
 			{
 				string boundary = GetMultipartBoundary(request.ContentType);
-				MultiPart.Parser parser = new Parser(boundary);
+				var parser = new Parser(boundary);
 
 				Part[] parts = parser.Parse(RawPostData);
 				foreach (Part part in parts)
@@ -191,7 +184,7 @@ namespace Wammer.Station
 			catch (FormatException)
 			{
 				string filename = Guid.NewGuid().ToString();
-				using (BinaryWriter w = new BinaryWriter(File.OpenWrite(@"log\" + filename)))
+				using (var w = new BinaryWriter(File.OpenWrite(@"log\" + filename)))
 				{
 					w.Write(this.RawPostData);
 				}
@@ -204,11 +197,11 @@ namespace Wammer.Station
 		{
 			if (string.Compare(Request.HttpMethod, "POST", true) == 0)
 			{
-				int initialSize = (int)Request.ContentLength64;
+				var initialSize = (int)Request.ContentLength64;
 				if (initialSize <= 0)
 					initialSize = 65535;
 
-				using (MemoryStream buff = new MemoryStream(initialSize))
+				using (var buff = new MemoryStream(initialSize))
 				{
 					Wammer.Utility.StreamHelper.Copy(Request.InputStream, buff);
 					return buff.ToArray();
@@ -232,7 +225,7 @@ namespace Wammer.Station
 
 				if (filename != null)
 				{
-					UploadedFile file = new UploadedFile(filename, part.Bytes,
+					var file = new UploadedFile(filename, part.Bytes,
 																	part.Headers["Content-Type"]);
 					this.Files.Add(file);
 				}
@@ -313,7 +306,7 @@ namespace Wammer.Station
 			Response.StatusCode = 200;
 			Response.ContentType = contentType;
 
-			using (BinaryWriter w = new BinaryWriter(Response.OutputStream))
+			using (var w = new BinaryWriter(Response.OutputStream))
 			{
 				w.Write(data);
 			}

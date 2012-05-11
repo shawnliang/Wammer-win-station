@@ -35,7 +35,7 @@ namespace Wammer.Station
 				.SetSortOrder(SortBy.Descending("timestamp"));
 
 			LastScanInfo lastScan;
-			if (posts.Count() > 0)
+			if (posts.Any())
 			{
 				lastScan = new LastScanInfo
 					{

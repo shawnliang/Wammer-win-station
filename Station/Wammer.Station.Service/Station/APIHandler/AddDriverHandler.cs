@@ -59,7 +59,7 @@ namespace Wammer.Station
 						UpdateFlags.Upsert
 					);
 
-					Driver driver = new Driver
+					var driver = new Driver
 					{
 						user_id = res.user.user_id,
 						email = res.user.email,
@@ -145,7 +145,7 @@ namespace Wammer.Station
 						UpdateFlags.Upsert
 					);
 
-					Driver driver = new Driver
+					var driver = new Driver
 					{
 						user_id = res.user.user_id,
 						email = email,
@@ -176,7 +176,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private bool IsThisPrimaryStation(List<UserStation> stations)
+		private bool IsThisPrimaryStation(IEnumerable<UserStation> stations)
 		{
 			if (stations == null)
 				return false;

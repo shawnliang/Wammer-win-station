@@ -15,7 +15,7 @@ namespace Wammer.Station
 		{
 			object value = Microsoft.Win32.Registry.GetValue(KEY_PATH,
 													valueName, defaultValue);
-			return value == null ? defaultValue : value;
+			return value ?? defaultValue;
 		}
 
 		public static void SetValue(string valueName, object value)
@@ -25,19 +25,23 @@ namespace Wammer.Station
 
 		public static void DeleteValue(string valueName)
 		{
-			RegistryKey wammerRegKey =
-				Registry.LocalMachine.OpenSubKey("Software").OpenSubKey("Wammer");
+			var openSubKey = Registry.LocalMachine.OpenSubKey("Software");
+			if (openSubKey != null)
+			{
+				RegistryKey wammerRegKey =
+					openSubKey.OpenSubKey("Wammer");
 
-			if (wammerRegKey == null)
-				return;
+				if (wammerRegKey == null)
+					return;
 
-			RegistryKey stationRegKey =
-				wammerRegKey.OpenSubKey("WinStation", true);
+				RegistryKey stationRegKey =
+					wammerRegKey.OpenSubKey("WinStation", true);
 
-			if (stationRegKey == null)
-				return;
+				if (stationRegKey == null)
+					return;
 
-			stationRegKey.DeleteValue(valueName, false);
+				stationRegKey.DeleteValue(valueName, false);
+			}
 		}
 	}
 }

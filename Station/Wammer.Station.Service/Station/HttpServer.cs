@@ -24,7 +24,6 @@ namespace Wammer.Station
 		#region Var
 		private ILog _logger;
 		private Object _lockSwitchObj;
-		private int _port;
 		private HttpListener _listener;
 		private Dictionary<string, IHttpHandler> _handlers;
 		private IHttpHandler _defaultHandler;
@@ -35,48 +34,24 @@ namespace Wammer.Station
 		#region Private Property
 		private ILog m_Logger
 		{
-			get
-			{
-				if (_logger == null)
-					_logger = LogManager.GetLogger("HttpServer");
-				return _logger;
-			}
+			get { return _logger ?? (_logger = LogManager.GetLogger("HttpServer")); }
 		}
 
 		private object m_LockSwitchObj
 		{
-			get
-			{
-				if (_lockSwitchObj == null)
-					_lockSwitchObj = new object();
-				return _lockSwitchObj;
-			}
+			get { return _lockSwitchObj ?? (_lockSwitchObj = new object()); }
 		}
 
-		private int m_Port
-		{
-			get { return _port; }
-			set { _port = value; }
-		}
+		private int m_Port { get; set; }
 
 		private HttpListener m_Listener
 		{
-			get
-			{
-				if (_listener == null)
-					_listener = new HttpListener();
-				return _listener;
-			}
+			get { return _listener ?? (_listener = new HttpListener()); }
 		}
 
 		public Dictionary<string, IHttpHandler> m_Handlers
 		{
-			get
-			{
-				if (_handlers == null)
-					_handlers = new Dictionary<string, IHttpHandler>();
-				return _handlers;
-			}
+			get { return _handlers ?? (_handlers = new Dictionary<string, IHttpHandler>()); }
 		}
 		#endregion
 
@@ -147,9 +122,9 @@ namespace Wammer.Station
 			try
 			{
 				ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-				using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
+				using (var w = new StreamWriter(ctx.Response.OutputStream))
 				{
-					Cloud.CloudResponse json = new Cloud.CloudResponse(
+					var json = new Cloud.CloudResponse(
 						ctx.Response.StatusCode,
 						DateTime.UtcNow,
 						(int)StationLocalApiError.AlreadyHasStaion,
@@ -299,11 +274,9 @@ namespace Wammer.Station
 		/// <param name="result">The result.</param>
 		private void ConnectionAccepted(IAsyncResult result)
 		{
-			HttpListenerContext context = null;
-
 			try
 			{
-				context = m_Listener.EndGetContext(result);
+				HttpListenerContext context = m_Listener.EndGetContext(result);
 				long beginTime = System.Diagnostics.Stopwatch.GetTimestamp();
 
 				m_Listener.BeginGetContext(this.ConnectionAccepted, null);
@@ -338,10 +311,10 @@ namespace Wammer.Station
 
 	class HttpHandlingTask : ITask
 	{
-		private IHttpHandler handler;
-		private HttpListenerContext context;
-		private long beginTime;
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
+		private readonly IHttpHandler handler;
+		private readonly HttpListenerContext context;
+		private readonly long beginTime;
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
 		public HttpHandlingTask(IHttpHandler handler, HttpListenerContext context, long beginTime)
 		{
@@ -368,15 +341,15 @@ namespace Wammer.Station
 				}
 
 				// if cloud returns bad request error, bypass it to client
-				WebException webex = (WebException)e.InnerException;
+				var webex = (WebException)e.InnerException;
 				if (webex != null)
 				{
-					HttpWebResponse webres = (HttpWebResponse)webex.Response;
+					var webres = (HttpWebResponse)webex.Response;
 					if (webres != null)
 					{
 						if (webres.StatusCode == HttpStatusCode.BadRequest)
 						{
-							Cloud.CloudResponse cloudres = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(e.response);
+							var cloudres = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(e.response);
 							HttpHelper.RespondFailure(context.Response, cloudres);
 							logger.Debug("Connection to cloud error", e);
 							return;
@@ -410,7 +383,7 @@ namespace Wammer.Station
 			}
 			catch (WebException webex)
 			{
-				Wammer.Cloud.WammerCloudException ex = new Cloud.WammerCloudException("Request to cloud failed", webex);
+				var ex = new Cloud.WammerCloudException("Request to cloud failed", webex);
 				HttpHelper.RespondFailure(context.Response, webex, (int)HttpStatusCode.InternalServerError);
 				logger.Debug("Connecting to cloud error", ex);
 			}

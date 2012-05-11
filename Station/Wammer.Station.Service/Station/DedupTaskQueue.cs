@@ -42,7 +42,7 @@ namespace Wammer.Station
 	}
 
 
-	public interface ITaskEnqueuable<T> where T : ITask
+	public interface ITaskEnqueuable<in T> where T : ITask
 	{
 		void Enqueue(T task, TaskPriority priority);
 	}
@@ -56,11 +56,11 @@ namespace Wammer.Station
 
 	public class DedupTaskQueue : ITaskEnqueuable<INamedTask>, ITaskDequeuable<INamedTask>
 	{
-		private Semaphore hasItem = new Semaphore(0, int.MaxValue);
-		private Queue<INamedTask> highPriorityCallbacks = new Queue<INamedTask>();
-		private Queue<INamedTask> mediumPriorityCallbacks = new Queue<INamedTask>();
-		private Queue<INamedTask> lowPriorityCallbacks = new Queue<INamedTask>();
-		private HashSet<string> keys = new HashSet<string>();
+		private readonly Semaphore hasItem = new Semaphore(0, int.MaxValue);
+		private readonly Queue<INamedTask> highPriorityCallbacks = new Queue<INamedTask>();
+		private readonly Queue<INamedTask> mediumPriorityCallbacks = new Queue<INamedTask>();
+		private readonly Queue<INamedTask> lowPriorityCallbacks = new Queue<INamedTask>();
+		private readonly HashSet<string> keys = new HashSet<string>();
 
 		public event EventHandler Enqueued;
 
