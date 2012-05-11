@@ -139,9 +139,6 @@
   <data name="contextMenuStripEdit.Size" type="System.Drawing.Size, System.Drawing">
     <value>99, 70</value>
   </data>
-  <data name="textBoxComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>595, 150</value>
-  </data>
   <data name="buttonAddComment.Text" xml:space="preserve">
     <value>發送</value>
   </data>

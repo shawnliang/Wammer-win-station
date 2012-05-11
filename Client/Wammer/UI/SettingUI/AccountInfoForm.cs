@@ -8,6 +8,7 @@ using System.Web;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Configuration;
+using Waveface.Localization;
 
 #endregion
 
@@ -35,7 +36,9 @@ namespace Waveface
             Cursor = Cursors.WaitCursor;
 
             string _url = WService.WebURL + "/client/user/profile?";
-            _url += "session_token=" + HttpUtility.UrlEncode(Main.Current.RT.Login.session_token) + "&device=windows";
+            _url += "session_token=" + HttpUtility.UrlEncode(Main.Current.RT.Login.session_token) + "&" +
+                    "device=windows" + "&" +
+                    "l=" + CultureManager.ApplicationUICulture.Name;
 
             webBrowser.Navigate(_url);
         }

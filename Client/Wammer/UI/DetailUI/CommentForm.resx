@@ -585,17 +585,14 @@
   <data name="copyToolStripMenuItem.Text" xml:space="preserve">
     <value>Copy</value>
   </data>
-  <data name="textBoxComment.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
-    <value>ForcedBoth</value>
-  </data>
   <data name="textBoxComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>595, 151</value>
+    <value>595, 146</value>
   </data>
   <data name="&gt;&gt;buttonAddComment.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="buttonAddComment.Location" type="System.Drawing.Point, System.Drawing">
-    <value>501, 170</value>
+    <value>501, 167</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt</value>

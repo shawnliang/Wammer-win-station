@@ -71,18 +71,10 @@ namespace Waveface
         private bool m_getAllDataError;
         private string m_newestUpdateTime;
         private string m_initSessionToken;
-        // private BorderlessFormTheme m_borderlessFormTheme = new BorderlessFormTheme();
 
         #endregion
 
         #region Properties
-
-        /*
-        public BorderlessFormTheme BorderlessFormTheme
-        {
-            get { return m_borderlessFormTheme; }
-        }
-        */
 
         public string LoadingImagePath
         {
@@ -227,8 +219,6 @@ namespace Waveface
             CreateFileWatcher();
 
             CreateLoadingImage();
-
-            //@ BorderlessFormTheme.ApplyFormThemeSizable(this, false);
 
             s_logger.Trace("Form_Load: OK");
         }
@@ -614,7 +604,7 @@ namespace Waveface
 
 
         private bool procLoginResponse(MR_auth_login _login)
-            {
+        {
             if (_login == null)
             {
                 s_logger.Trace("Login.Auth_Login: null");
@@ -632,13 +622,14 @@ namespace Waveface
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
             RT.LoadGroupLocalRead();
 
+            UploadOriginPhotosToStationManager.Start();
+            PhotoDownloader.Start();
+            BatchPostManager.Start();
+
             if (Environment.GetCommandLineArgs().Length == 1)
-                StartBgThreads();
-            else
             {
-                UploadOriginPhotosToStationManager.Start();
-                PhotoDownloader.Start();
-                BatchPostManager.Start();
+                StationState.ShowStationState += StationState_ShowStationState;
+                StationState.Start();
             }
 
             leftArea.SetNewPostManager();
@@ -663,26 +654,25 @@ namespace Waveface
                 m_stationIP = "http://127.0.0.1:9981";
                 WService.StationIP = m_stationIP;
                 StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
-                // radioButtonStation.Checked = true;
                 RT.StationMode = true;
             }
 
-			try
-			{
-				MongoDB.Driver.MongoServer dbServer = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
-				BsonDocument doc = dbServer.GetDatabase("wammer").GetCollection("LoginedSession").FindOne(Query.EQ("_id", m_initSessionToken));
-				string json = doc.ToJson();
+            try
+            {
+                MongoDB.Driver.MongoServer dbServer = MongoDB.Driver.MongoServer.Create("mongodb://localhost:10319/?safe=true");
+                BsonDocument doc = dbServer.GetDatabase("wammer").GetCollection("LoginedSession").FindOne(Query.EQ("_id", m_initSessionToken));
+                string json = doc.ToJson();
 
-				MR_auth_login _login = JsonConvert.DeserializeObject<MR_auth_login>(json);
-				_login.session_token = m_initSessionToken;
+                MR_auth_login _login = JsonConvert.DeserializeObject<MR_auth_login>(json);
+                _login.session_token = m_initSessionToken;
 
-				procLoginResponse(_login);
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show(I18n.L.T("ForceLogout") + "\r\n" + e.ToString());
-				Close();
-			}
+                procLoginResponse(_login);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(I18n.L.T("ForceLogout") + "\r\n" + e.ToString());
+                Close();
+            }
         }
 
         public bool Login(string email, string password, out string errorMessage)
@@ -700,22 +690,11 @@ namespace Waveface
                 m_stationIP = "http://127.0.0.1:9981";
                 WService.StationIP = m_stationIP;
                 StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
-                // radioButtonStation.Checked = true;
                 RT.StationMode = true;
             }
 
             MR_auth_login _login = RT.REST.Auth_Login(email, password);
             return procLoginResponse(_login);
-        }
-
-        private void StartBgThreads()
-        {
-            UploadOriginPhotosToStationManager.Start();
-            PhotoDownloader.Start();
-            BatchPostManager.Start();
-
-            StationState.ShowStationState += StationState_ShowStationState;
-            StationState.Start();
         }
 
         void StationState_ShowStationState(ConnectServiceStateType type)
@@ -1645,24 +1624,6 @@ namespace Waveface
             m_taskbarNotifier.AvatarImage = ImageUtility.GetAvatarImage(post.creator_id, _url);
             m_taskbarNotifier.Show(_name, post.content, 333, 2000, 333);
         }
-
-        /*
-        private void radioButtonStation_CheckedChanged(object sender, EventArgs e)
-        {
-			if (radioButtonCloud.Checked)
-			{
-			    WService.StationIP = WService.CloudIP;
-			    RT.StationMode = false;
-			}
-			else
-			{
-                WService.StationIP = m_stationIP;
-                RT.StationMode = true;
-
-                backgroundWorkerPreloadAllImages_DoWork(null, null);
-			}
-        }
-        */
 
         public void ShowStatuMessage(string message, bool timeout)
         {
