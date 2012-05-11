@@ -70,6 +70,15 @@ namespace StationSystemTray
 			return settings.LastLogin;
 		}
 
+		public void ClearLastLoginSession()
+		{
+			UserLoginSetting userlogin = GetLastUserLogin();
+			userlogin.SessionToken = string.Empty;
+			settings.LastLogin = string.Empty;
+
+			UpsertUserLoginSetting(userlogin);
+		}
+
 		public void UpdateLastLogin(string sessionToken)
 		{
 			settings.LastLogin = sessionToken;
