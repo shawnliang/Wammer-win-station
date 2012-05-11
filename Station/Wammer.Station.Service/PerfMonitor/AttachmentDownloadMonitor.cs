@@ -7,8 +7,8 @@ namespace Wammer.PerfMonitor
 {
 	class AttachmentDownloadMonitor
 	{
-		private IPerfCounter DownstreamNumCounter;
-		private IPerfCounter DownstreamRateCounter;
+		private readonly IPerfCounter DownstreamNumCounter;
+		private readonly IPerfCounter DownstreamRateCounter;
 
 		public AttachmentDownloadMonitor()
 		{

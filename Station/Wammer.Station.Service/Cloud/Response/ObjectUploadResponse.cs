@@ -11,12 +11,14 @@ namespace Wammer.Cloud
 
 		public static ObjectUploadResponse CreateSuccess(string objectId)
 		{
-			ObjectUploadResponse res = new ObjectUploadResponse();
-			res.api_ret_code = 0;
-			res.api_ret_message = "Success";
-			res.status = 200;
-			res.timestamp = DateTime.Now.ToUniversalTime();
-			res.object_id = objectId;
+			var res = new ObjectUploadResponse
+			          	{
+			          		api_ret_code = 0,
+			          		api_ret_message = "Success",
+			          		status = 200,
+			          		timestamp = DateTime.Now.ToUniversalTime(),
+			          		object_id = objectId
+			          	};
 
 			return res;
 		}
@@ -24,12 +26,14 @@ namespace Wammer.Cloud
 		public static ObjectUploadResponse CreateFailure(string objectId,
 														int httpStatus, Exception e)
 		{
-			ObjectUploadResponse res = new ObjectUploadResponse();
-			res.api_ret_code = -1;
-			res.api_ret_message = e.Message;
-			res.status = httpStatus;
-			res.timestamp = DateTime.Now.ToUniversalTime();
-			res.object_id = objectId;
+			var res = new ObjectUploadResponse
+			          	{
+			          		api_ret_code = -1,
+			          		api_ret_message = e.Message,
+			          		status = httpStatus,
+			          		timestamp = DateTime.Now.ToUniversalTime(),
+			          		object_id = objectId
+			          	};
 
 			return res;
 		}

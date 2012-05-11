@@ -7,7 +7,7 @@ namespace Wammer.Model
 {
 	public class PostCollection : Collection<Wammer.Cloud.PostInfo>
 	{
-		private static PostCollection instance;
+		private static readonly PostCollection instance;
 
 		static PostCollection()
 		{

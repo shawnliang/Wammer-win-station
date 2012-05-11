@@ -4,7 +4,7 @@ namespace Wammer.Station
 {
 	public class WammerStationException : Exception
 	{
-		private int wammerError;
+		private readonly int wammerError;
 
 		public WammerStationException(string msg, int wammerError)
 			:base(msg)

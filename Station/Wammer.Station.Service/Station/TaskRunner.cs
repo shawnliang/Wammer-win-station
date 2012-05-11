@@ -7,7 +7,7 @@ namespace Wammer.Station
 {
 	public class TaskRunner<T> : AbstrackTaskRunner where T : ITask
 	{
-		private ITaskDequeuable<T> queue;
+		private readonly ITaskDequeuable<T> queue;
 
 		public event EventHandler TaskExecuted;
 

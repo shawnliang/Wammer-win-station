@@ -12,7 +12,7 @@ namespace Wammer.Station.APIHandler
 {
 	public class UserTrackHandler : HttpHandler
 	{
-		private UserTrackHandlerImp impl = new UserTrackHandlerImp(new UserTrackHandlerDB());
+		private readonly UserTrackHandlerImp impl = new UserTrackHandlerImp(new UserTrackHandlerDB());
 		
 		#region Protected Method
 		/// <summary>
@@ -22,9 +22,7 @@ namespace Wammer.Station.APIHandler
 		{
 			CheckParameter("group_id", "since");
 
-			bool include_entities = false;
-			if ("true" == Parameters["include_entities"])
-				include_entities = true;
+			var include_entities = "true" == Parameters["include_entities"];
 
 			this.RespondSuccess(
 				impl.GetUserTrack(Parameters["group_id"], Parameters["since"], include_entities));
@@ -63,7 +61,7 @@ namespace Wammer.Station.APIHandler
 
 	public class UserTrackHandlerImp
 	{
-		private IUserTrackHandlerDB db;
+		private readonly IUserTrackHandlerDB db;
 
 		public UserTrackHandlerImp(IUserTrackHandlerDB db)
 		{
@@ -98,7 +96,7 @@ namespace Wammer.Station.APIHandler
 			}
 				
 			response.group_id = group_id;
-			response.latest_timestamp = userTracks.Count() > 0 ? userTracks.Last().latest_timestamp : DateTime.UtcNow;
+			response.latest_timestamp = userTracks.Any() ? userTracks.Last().latest_timestamp : DateTime.UtcNow;
 			response.remaining_count = 0;
 
 			return response;

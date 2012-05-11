@@ -8,25 +8,18 @@ namespace Wammer.PerfMonitor
 {
 	public class HttpRequestMonitor
 	{
-		private IPerfCounter avgTime;
-		private IPerfCounter avgTimeBase;
-		private IPerfCounter throughput;
-		private IPerfCounter inQueue;
+		private readonly IPerfCounter avgTime;
+		private readonly IPerfCounter avgTimeBase;
+		private readonly IPerfCounter throughput;
+		private readonly IPerfCounter inQueue;
 
-		private static ILog logger = LogManager.GetLogger("HttpRequestMonitor");
+		private static readonly ILog logger = LogManager.GetLogger("HttpRequestMonitor");
 
 		private static HttpRequestMonitor _instance;
 
 		public static HttpRequestMonitor Instance
 		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new HttpRequestMonitor();
-				}
-				return _instance;
-			}
+			get { return _instance ?? (_instance = new HttpRequestMonitor()); }
 		}
 
 		public HttpRequestMonitor()

@@ -16,9 +16,9 @@ namespace Wammer.PostUpload
 	public class PostUploadTaskQueue
 	{
 		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
-		private object cs = new object();
-		private PostUploadMonitor monitor = new PostUploadMonitor();
-		private Semaphore headTasks = new Semaphore(0, int.MaxValue);
+		private readonly object cs = new object();
+		private readonly PostUploadMonitor monitor = new PostUploadMonitor();
+		private readonly Semaphore headTasks = new Semaphore(0, int.MaxValue);
 
 		private static PostUploadTaskQueue _instance;
 

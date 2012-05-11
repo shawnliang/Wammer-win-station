@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;
@@ -99,7 +100,7 @@ namespace Wammer.Model
 					using (MD5 md5 = MD5.Create())
 					{
 						byte[] hash = md5.ComputeHash(rawData);
-						StringBuilder buff = new StringBuilder();
+						var buff = new StringBuilder();
 						for (int i = 0; i < hash.Length; i++)
 							buff.Append(hash[i].ToString("x2"));
 
@@ -199,7 +200,7 @@ namespace Wammer.Model
 		#region Private Method
 		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta, AttachmentType type, string apiKey, string token)
 		{
-			Dictionary<string, object> pars = new Dictionary<string, object>();
+			var pars = new Dictionary<string, object>();
 			pars["type"] = type.ToString();
 			if (meta != ImageMeta.None)
 				pars["image_meta"] = meta.ToString().ToLower();
@@ -239,7 +240,8 @@ namespace Wammer.Model
 						contentType,
 						dataStream , bufferSize,progressChangedCallBack);
 
-				using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
+				Debug.Assert(_webResponse != null, "_webResponse != null");
+				using (var reader = new StreamReader(_webResponse.GetResponseStream()))
 				{
 					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
 				}
@@ -267,8 +269,9 @@ namespace Wammer.Model
 						fileName,
 						contentType,
 						imageData, bufferSize, progressChangedCallBack);
-				
-				using (StreamReader reader = new StreamReader(_webResponse.GetResponseStream()))
+
+				Debug.Assert(_webResponse != null, "_webResponse != null");
+				using (var reader = new StreamReader(_webResponse.GetResponseStream()))
 				{
 					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
 				}
@@ -344,7 +347,7 @@ namespace Wammer.Model
 		public Wammer.Utility.ExifOrientations Orientation { get; set; }
 
 		[BsonIgnore]
-		private object rawDataMutex = new object();
+		private readonly object rawDataMutex = new object();
 
 		[BsonIgnore]
 		public string creator_id { get; set; }
@@ -359,8 +362,8 @@ namespace Wammer.Model
 					if (rawData.Array == null && this.saved_file_name != null)
 					{
 						Driver driver = DriverCollection.Instance.FindOne();
-						FileStorage storage = new FileStorage(driver);
-						byte[] buffer = new byte[this.file_size];
+						var storage = new FileStorage(driver);
+						var buffer = new byte[this.file_size];
 						storage.Load(this.saved_file_name).Read(buffer, 0, buffer.Length);
 						rawData = new ArraySegment<byte>(buffer);
 					}
@@ -377,7 +380,7 @@ namespace Wammer.Model
 						using (MD5 md5 = MD5.Create())
 						{
 							byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
-							StringBuilder buff = new StringBuilder();
+							var buff = new StringBuilder();
 							for (int i = 0; i < hash.Length; i++)
 								buff.Append(hash[i].ToString("x2"));
 
@@ -456,7 +459,7 @@ namespace Wammer.Model
 
 	public class AttachmentCollection : Collection<Attachment>
 	{
-		private static AttachmentCollection instance;
+		private static readonly AttachmentCollection instance;
 
 		static AttachmentCollection()
 		{

@@ -4,8 +4,8 @@ namespace Wammer.PerfMonitor
 {
 	class AttachmentUploadMonitor
 	{
-		private IPerfCounter avgTime;
-		private IPerfCounter avgTimeBase;
+		private readonly IPerfCounter avgTime;
+		private readonly IPerfCounter avgTimeBase;
 
 		public AttachmentUploadMonitor()
 		{

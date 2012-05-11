@@ -26,9 +26,9 @@ namespace Wammer.Station.Timeline
 
 	public class TimelineSyncer
 	{
-		private IPostProvider postProvider;
-		private ITimelineSyncerDB db;
-		private Wammer.Cloud.IUserTrackApi userTrack;
+		private readonly IPostProvider postProvider;
+		private readonly ITimelineSyncerDB db;
+		private readonly Wammer.Cloud.IUserTrackApi userTrack;
 
 		public event EventHandler<TimelineSyncEventArgs> PostsRetrieved;
 		public event EventHandler<BodyAvailableEventArgs> BodyAvailable;

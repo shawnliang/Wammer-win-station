@@ -131,8 +131,8 @@ namespace Wammer.Station
         public string TempFile { get; set; }
         public string TargetFile { get; set; }
 
-		private IAsyncResult fileStreamAsyncResult;
-		private FileStream fs;
+		private readonly IAsyncResult fileStreamAsyncResult;
+		private readonly FileStream fs;
 
 		public FileStorageAsyncResult(IAsyncResult innerObject, FileStream fs)
 		{

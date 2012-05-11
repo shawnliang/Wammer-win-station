@@ -27,7 +27,7 @@ namespace Wammer.Station
 		//private Timer timer;
 		//private long timerPeriod;
 		private bool logon = false;  // logOn is needed for every time service start
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
 
 		public EventHandler<IsPrimaryChangedEvtArgs> IsPrimaryChanged;
 

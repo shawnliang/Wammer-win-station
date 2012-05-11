@@ -9,8 +9,8 @@ namespace Wammer.Station
 {
 	public class DropboxFileStorage : IFileStorage
 	{
-		private Driver driver;
-		private string basePath;
+		private readonly Driver driver;
+		private readonly string basePath;
 
 		public DropboxFileStorage(Driver driver, CloudStorage cloudstorage)
 		{
@@ -26,35 +26,24 @@ namespace Wammer.Station
 
 		public void SaveAttachment(Attachment attachment)
 		{
-			// Currently no quota limit 
-			//if (attachment.file_size > cloudstorage.Quota)
-			//{
-			//    logger.WarnFormat("File is too large, cannot not backup to Dropbox. file = {0}, size = {1}, quota = {2}", 
-			//        attachment.saved_file_name, attachment.file_size, cloudstorage.Quota);
-			//}
+			string SavedFilePath = GetDropboxFilePath(attachment.file_name);
 
-			//if (AllocateSpace(attachment))
-			//{
-				//string file = Path.Combine(driver.folder, attachment.saved_file_name);
-				string SavedFilePath = GetDropboxFilePath(attachment.file_name);
+			File.Copy(
+				Path.Combine(driver.folder, attachment.saved_file_name),
+				SavedFilePath, true);
 
-				File.Copy(
-					Path.Combine(driver.folder, attachment.saved_file_name),
-					SavedFilePath, true);
+			this.LogDebugMsg("call setloc for file " + Path.GetFileName(SavedFilePath));
+			AttachmentApi api = new AttachmentApi(driver);
 
-				this.LogDebugMsg("call setloc for file " + Path.GetFileName(SavedFilePath));
-				AttachmentApi api = new AttachmentApi(driver);
-
-				using (WebClient client = new DefaultWebClient())
-				{
-					api.AttachmentSetLoc(
-						client,
-						(int)AttachmentApi.Location.Dropbox,
-						attachment.object_id,
-						Path.Combine(driver.folder, Path.GetFileName(SavedFilePath))
-					);
-				}
-			//}
+			using (WebClient client = new DefaultWebClient())
+			{
+				api.AttachmentSetLoc(
+					client,
+					(int)AttachmentApi.Location.Dropbox,
+					attachment.object_id,
+					Path.Combine(driver.folder, Path.GetFileName(SavedFilePath))
+				);
+			}
 		}
 
 		public string GetDropboxFilePath(string filename)

@@ -16,20 +16,20 @@ namespace Wammer.Cloud
 
 		public static StationSignUpResponse SignUpBySession(WebClient agent, string sessionToken, string stationId)
 		{
-			Dictionary<object, object> param = new Dictionary<object, object>
+			var param = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_STATION_ID, stationId},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
 				{CloudServer.PARAM_SESSION_TOKEN, sessionToken}
 			};
 
-			StationSignUpResponse res = CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
+			var res = CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
 			return res;
 		}
 
 		public static StationSignUpResponse SignUpByEmailPassword(WebClient agent, string stationId, string email, string passwd, string deviceId, string deviceName)
 		{
-			Dictionary<object, object> param = new Dictionary<object, object>
+			var param = new Dictionary<object, object>
 			{
 				{CloudServer.PARAM_EMAIL, email},
 				{CloudServer.PARAM_PASSWORD, passwd},
@@ -39,7 +39,7 @@ namespace Wammer.Cloud
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
-			StationSignUpResponse res = CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
+			var res = CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
 			return res;
 		}
 
@@ -55,7 +55,7 @@ namespace Wammer.Cloud
 
 		public StationLogOnResponse LogOn(WebClient agent, StationDetail detail, string apiKey)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_SESSION_TOKEN, this.Token },
 				{ CloudServer.PARAM_STATION_ID, this.Id },
@@ -63,7 +63,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_DETAIL, detail.ToFastJSON() }
 			};
 
-			StationLogOnResponse res =
+			var res =
 				CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", parameters, false);
 			this.Token = res.session_token;
 			return res;
@@ -71,12 +71,14 @@ namespace Wammer.Cloud
 
 		public StationLogOnResponse LogOn(WebClient agent, Dictionary<object, object> param)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>(param);
-			parameters.Add(CloudServer.PARAM_SESSION_TOKEN, this.Token);
-			parameters.Add(CloudServer.PARAM_STATION_ID, this.Id);
-			parameters.Add(CloudServer.PARAM_API_KEY, CloudServer.APIKey);
+			var parameters = new Dictionary<object, object>(param)
+			                 	{
+			                 		{CloudServer.PARAM_SESSION_TOKEN, this.Token},
+			                 		{CloudServer.PARAM_STATION_ID, this.Id},
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 	};
 
-			StationLogOnResponse res =
+			var res =
 				CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", parameters, false);
 			this.Token = res.session_token;
 
@@ -85,7 +87,7 @@ namespace Wammer.Cloud
 		
 		public StationHeartbeatResponse Heartbeat(WebClient agent, StationDetail detail)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_SESSION_TOKEN, this.Token },
 				{ CloudServer.PARAM_STATION_ID, this.Id },
@@ -93,13 +95,13 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_DETAIL, detail.ToFastJSON() }
 			};
 
-			StationHeartbeatResponse res = CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
+			var res = CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
 			return res;
 		}
 
 		public static void SignOff(WebClient agent, string stationId, string sessionToken, string userID)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_STATION_ID, stationId },
 				{ CloudServer.PARAM_SESSION_TOKEN, sessionToken },
@@ -112,7 +114,7 @@ namespace Wammer.Cloud
 
         public static void SignOff(WebClient agent, string stationId, string sessionToken)
         {
-            Dictionary<object, object> parameters = new Dictionary<object, object>
+            var parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_STATION_ID, stationId },
 				{ CloudServer.PARAM_SESSION_TOKEN, sessionToken },
@@ -124,7 +126,7 @@ namespace Wammer.Cloud
 
 		public void Offline(WebClient agent)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_STATION_ID, this.Id },
 				{ CloudServer.PARAM_SESSION_TOKEN, this.Token },

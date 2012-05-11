@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -241,6 +242,7 @@ namespace Waveface
 				Stream _webStream = _webResponse.GetResponseStream();
 
 				// convert webstream to image
+				Debug.Assert(_webStream != null, "_webStream != null");
 				_tmpImage = Image.FromStream(_webStream);
 
 				// Cleanup
@@ -284,6 +286,7 @@ namespace Waveface
 				Stream _webStream = _webResponse.GetResponseStream();
 
 				// Create reader object:
+				Debug.Assert(_webStream != null, "_webStream != null");
 				StreamReader _streamReader = new StreamReader(_webStream);
 
 				// Read the entire stream content:
@@ -307,6 +310,7 @@ namespace Waveface
 		/// Function to download a file from URL and save it to local drive
 		/// </summary>
 		/// <param name="url">URL address to download file</param>
+		/// <param name="saveAs">The save as.</param>
 		public static void DownloadFile(string url, string saveAs)
 		{
 			try

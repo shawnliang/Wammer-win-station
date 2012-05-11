@@ -17,8 +17,8 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	class AttachmentUtility : IAttachmentUtil
 	{
-		private static IPerfCounter uploadTaskCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
-		private static IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
+		private static readonly IPerfCounter uploadTaskCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
+		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
 
 		public Model.Attachment FindAttachmentInDB(string object_id)
 		{

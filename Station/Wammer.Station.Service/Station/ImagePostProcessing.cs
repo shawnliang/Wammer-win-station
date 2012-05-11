@@ -16,7 +16,7 @@ namespace Wammer.Station
 {
 	public class ImagePostProcessing
 	{
-		private static ILog logger = LogManager.GetLogger(typeof(ImagePostProcessing));
+		private static readonly ILog logger = LogManager.GetLogger(typeof(ImagePostProcessing));
 
 		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, ExifOrientations orientation,
 			string attachmentId, Driver driver, string origFileName)
@@ -126,9 +126,9 @@ namespace Wammer.Station
 
 	abstract class CommonImageSaveStrategy : ImageSaveStrategy
 	{
-		private ImageFormat format;
-		private string suffix;
-		private string mimeType;
+		private readonly ImageFormat format;
+		private readonly string suffix;
+		private readonly string mimeType;
 
 		protected CommonImageSaveStrategy(ImageFormat format, string suffix, string mimeType)
 		{

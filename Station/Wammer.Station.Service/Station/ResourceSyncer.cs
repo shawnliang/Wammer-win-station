@@ -21,8 +21,8 @@ namespace Wammer.Station
 	{
 		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceSyncer));
 		private bool isFirstRun = true;
-		private Timeline.TimelineSyncer syncer;
-		private ResourceDownloader downloader;
+		private readonly Timeline.TimelineSyncer syncer;
+		private readonly ResourceDownloader downloader;
 
 		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
 			: base(timerPeriod)

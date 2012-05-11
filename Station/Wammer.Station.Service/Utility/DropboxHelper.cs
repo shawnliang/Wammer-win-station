@@ -7,10 +7,10 @@ namespace Wammer.Utility
 {
 	public class DropboxHelper
 	{
-		private static string hostDb = @"Dropbox\host.db";
-		private static string configDb = @"Dropbox\config.db";
-		private static string syncFolder = @"Stream";
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxHelper));
+		private const string hostDb = @"Dropbox\host.db";
+		private const string configDb = @"Dropbox\config.db";
+		private const string syncFolder = @"Stream";
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxHelper));
 
 		public static bool IsInstalled()
 		{

@@ -26,8 +26,8 @@ namespace Wammer.Model
 				if (bytes == null)
 					return null;
 
-				BinaryFormatter f = new BinaryFormatter();
-				using (MemoryStream m = new MemoryStream(bytes))
+				var f = new BinaryFormatter();
+				using (var m = new MemoryStream(bytes))
 				{
 					return f.Deserialize(m);
 				}
@@ -35,9 +35,9 @@ namespace Wammer.Model
 
 			set
 			{
-				using (MemoryStream m = new MemoryStream())
+				using (var m = new MemoryStream())
 				{
-					BinaryFormatter f = new BinaryFormatter();
+					var f = new BinaryFormatter();
 					f.Serialize(m, value);
 					bytes = m.ToArray();
 				}
@@ -47,7 +47,7 @@ namespace Wammer.Model
 
 	public class QueuedTaskCollection: Collection<QueuedTask>
 	{
-		private static QueuedTaskCollection instance;
+		private static readonly QueuedTaskCollection instance;
 
 		static QueuedTaskCollection()
 		{

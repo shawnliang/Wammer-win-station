@@ -6,9 +6,9 @@ namespace Wammer.Queue
 {
 	public class WMSQueue
 	{
-		private LinkedList<WMSMessage> items = new LinkedList<WMSMessage>();
-		private Dictionary<Guid, UnackedMsg> popMsgs = new Dictionary<Guid, UnackedMsg>();
-		private IPersistentStore persistentStorage;
+		private readonly LinkedList<WMSMessage> items = new LinkedList<WMSMessage>();
+		private readonly Dictionary<Guid, UnackedMsg> popMsgs = new Dictionary<Guid, UnackedMsg>();
+		private readonly IPersistentStore persistentStorage;
 
 		public string Name { get; private set; }
 
@@ -18,7 +18,7 @@ namespace Wammer.Queue
 			this.Name = name;
 		}
 
-		public WMSQueue(string name, IPersistentStore persistentStorage, List<WMSMessage> initMessages)
+		public WMSQueue(string name, IPersistentStore persistentStorage, IEnumerable<WMSMessage> initMessages)
 		{
 			this.persistentStorage = persistentStorage;
 			this.Name = name;
@@ -79,7 +79,7 @@ namespace Wammer.Queue
 			lock (items)
 			{
 
-				List<Guid> KeysToRemove = new List<Guid>();
+				var KeysToRemove = new List<Guid>();
 
 				foreach (KeyValuePair<Guid, UnackedMsg> pair in popMsgs)
 				{

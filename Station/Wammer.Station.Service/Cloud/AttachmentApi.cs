@@ -29,7 +29,7 @@ namespace Wammer.Cloud
 
 		public void AttachmentSetLoc(WebClient agent, int loc, string object_id, string file_path)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ "loc", loc },
 				{ "object_id", object_id },
@@ -43,7 +43,7 @@ namespace Wammer.Cloud
 
 		public void AttachmentUnsetLoc(WebClient agent, int loc, string object_id)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ "loc", loc },
 				{ "object_id", object_id },
@@ -56,7 +56,7 @@ namespace Wammer.Cloud
 
 		public AttachmentGetResponse AttachmentGet(WebClient agent, string object_id)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 		    {
 		        {CloudServer.PARAM_OBJECT_ID, object_id},
 		        {CloudServer.PARAM_SESSION_TOKEN, this.userToken},
@@ -68,7 +68,7 @@ namespace Wammer.Cloud
 
 		public void AttachmentView(WebClient agent, ResourceDownloadEventArgs evtargs, string stationId)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object> 
+			var parameters = new Dictionary<object, object> 
 			{ 
 				{CloudServer.PARAM_OBJECT_ID, evtargs.attachment.object_id},
 				{CloudServer.PARAM_SESSION_TOKEN, this.userToken},
@@ -94,7 +94,7 @@ namespace Wammer.Cloud
 		{
 			using (WebClient agent = new NoRedirectWebClient())
 			{
-				Dictionary<object, object> parameters = new Dictionary<object, object>
+				var parameters = new Dictionary<object, object>
 				{
 					{ "object_id", objectId },
 					{ "session_token", session_token },
@@ -106,10 +106,10 @@ namespace Wammer.Cloud
 				if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 					parameters.Add("image_meta", meta.ToString().ToLower());
 
-				Wammer.Station.JSONClass.AttachmentView metadata =
+				var metadata =
 					CloudServer.requestPath<Wammer.Station.JSONClass.AttachmentView>(agent, "attachments/view", parameters);
 
-				using (MemoryStream to = new MemoryStream())
+				using (var to = new MemoryStream())
 				using (Stream from = agent.OpenRead(metadata.redirect_to))
 				{
 					from.WriteTo(to, 1024, progressChangedCallBack);
@@ -123,7 +123,7 @@ namespace Wammer.Cloud
 			if (agent == null || object_id == null || session_token == null)
 				throw new ArgumentNullException();
 
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_OBJECT_IDS, "[\"" + object_id + "\"]" },
 				{ CloudServer.PARAM_SESSION_TOKEN, session_token},
@@ -138,7 +138,7 @@ namespace Wammer.Cloud
 			if (agent == null || object_id == null || session_token == null)
 				throw new ArgumentNullException();
 
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ CloudServer.PARAM_OBJECT_ID, object_id },
 				{ CloudServer.PARAM_SESSION_TOKEN, session_token},
@@ -159,10 +159,7 @@ namespace Wammer.Cloud
 		{
 			this.Image = Image;
 			this.Metadata = metadata;
-			this.ContentType = contentType;
-
-			if (this.ContentType == null)
-				this.ContentType = "application/octet-stream";
+			this.ContentType = contentType ?? "application/octet-stream";
 		}
 	}
 }

@@ -9,8 +9,8 @@ namespace Wammer.Station
 	[Serializable]
 	class NotifyCloudOfBodySyncedTask: ITask
 	{
-		private string object_id;
-		private string session_token;
+		private readonly string object_id;
+		private readonly string session_token;
 
 		public NotifyCloudOfBodySyncedTask(string object_id, string session_token)
 		{

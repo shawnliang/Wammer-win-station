@@ -38,11 +38,11 @@ namespace Wammer.Utility
 
 	class StreamCopyState : IAsyncResult
 	{
-		private Stream from;
-		private Stream to;
-		private byte[] buffer;
-		private AsyncCallback completeCallback;
-		private AutoResetEvent doneEvent;
+		private readonly Stream from;
+		private readonly Stream to;
+		private readonly byte[] buffer;
+		private readonly AsyncCallback completeCallback;
+		private readonly AutoResetEvent doneEvent;
 
 		public object AsyncState { get; private set; }
 		public bool CompletedSynchronously { get; private set; }

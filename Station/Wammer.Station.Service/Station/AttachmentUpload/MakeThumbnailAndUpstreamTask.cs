@@ -9,10 +9,10 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	class MakeThumbnailAndUpstreamTask: Retry.DelayedRetryTask
 	{
-		private string object_id;
-		private ImageMeta meta;
-		private TaskPriority pri;
-		private IAttachmentUtil util;
+		private readonly string object_id;
+		private readonly ImageMeta meta;
+		private readonly TaskPriority pri;
+		private readonly IAttachmentUtil util;
 
 		public MakeThumbnailAndUpstreamTask(string object_id, ImageMeta meta, TaskPriority pri, IAttachmentUtil util)
 			: base(Retry.RetryQueue.Instance, pri)

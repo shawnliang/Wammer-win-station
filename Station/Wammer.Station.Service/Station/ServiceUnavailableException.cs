@@ -4,7 +4,7 @@ namespace Wammer.Station
 {
 	public class ServiceUnavailableException : Exception
 	{
-		private int wammerError;
+		private readonly int wammerError;
 
 		public ServiceUnavailableException(string msg, int wammerError)
 			:base(msg)

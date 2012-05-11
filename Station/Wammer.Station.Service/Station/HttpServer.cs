@@ -299,11 +299,9 @@ namespace Wammer.Station
 		/// <param name="result">The result.</param>
 		private void ConnectionAccepted(IAsyncResult result)
 		{
-			HttpListenerContext context = null;
-
 			try
 			{
-				context = m_Listener.EndGetContext(result);
+				HttpListenerContext context = m_Listener.EndGetContext(result);
 				long beginTime = System.Diagnostics.Stopwatch.GetTimestamp();
 
 				m_Listener.BeginGetContext(this.ConnectionAccepted, null);
@@ -338,10 +336,10 @@ namespace Wammer.Station
 
 	class HttpHandlingTask : ITask
 	{
-		private IHttpHandler handler;
-		private HttpListenerContext context;
-		private long beginTime;
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
+		private readonly IHttpHandler handler;
+		private readonly HttpListenerContext context;
+		private readonly long beginTime;
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
 
 		public HttpHandlingTask(IHttpHandler handler, HttpListenerContext context, long beginTime)
 		{

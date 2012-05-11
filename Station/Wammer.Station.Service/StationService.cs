@@ -15,15 +15,15 @@ namespace Wammer.Station.Service
 		public const string SERVICE_NAME = "WavefaceStation";
 		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
 		private HttpServer managementServer;
 		private HttpServer functionServer;
 		private StationTimer stationTimer;
 		private string stationId;
 		private string resourceBasePath;
-		private DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
+		private readonly DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
 		private TaskRunner<INamedTask>[] bodySyncRunners;
-		private PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
+		private readonly PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
 		private TaskRunner<ITask>[] upstreamTaskRunner;
 
 		public StationService()
@@ -94,7 +94,7 @@ namespace Wammer.Station.Service
 				functionServer.Start();
 				stationTimer.Start();
 
-				int bodySyncThreadNum = 1;
+				const int bodySyncThreadNum = 1;
 				bodySyncRunners = new TaskRunner<INamedTask>[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{

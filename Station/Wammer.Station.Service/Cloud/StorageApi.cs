@@ -17,46 +17,46 @@ namespace Wammer.Cloud
 
 		public StorageAuthResponse StorageAuthorize(WebClient agent, string type)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ "type", type },
 				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken },
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
 			};
 
-			StorageAuthResponse res = CloudServer.requestPath<StorageAuthResponse>(agent, "storages/authorize", parameters);
+			var res = CloudServer.requestPath<StorageAuthResponse>(agent, "storages/authorize", parameters);
 			return res;
 		}
 
 		public StorageLinkResponse StorageLink(WebClient agent, string type)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ "type", type },
 				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken },
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
 			};
 
-			StorageLinkResponse res = CloudServer.requestPath<StorageLinkResponse>(agent, "storages/link", parameters);
+			var res = CloudServer.requestPath<StorageLinkResponse>(agent, "storages/link", parameters);
 			return res;
 		}
 
 		public StorageCheckResponse StorageCheck(WebClient agent, string type)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ "type", type },
 				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken },
 				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey }
 			};
 
-			StorageCheckResponse res = CloudServer.requestPath<StorageCheckResponse>(agent, "storages/check", parameters);
+			var res = CloudServer.requestPath<StorageCheckResponse>(agent, "storages/check", parameters);
 			return res;
 		}
 
 		public void StorageUnlink(WebClient agent, string type)
 		{
-			Dictionary<object, object> parameters = new Dictionary<object, object>
+			var parameters = new Dictionary<object, object>
 			{
 				{ "type", type },
 				{ CloudServer.PARAM_SESSION_TOKEN, this.userToken },

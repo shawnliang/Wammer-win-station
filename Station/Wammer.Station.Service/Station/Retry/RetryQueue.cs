@@ -8,8 +8,8 @@ namespace Wammer.Station.Retry
 	public class RetryQueue : IRetryQueue
 	{
 		private static RetryQueue instance;
-		SortedList<DateTime, IRetryTask> retryTasks = new SortedList<DateTime, IRetryTask>();
-		IRetryQueuePersistentStorage storage;
+		readonly SortedList<DateTime, IRetryTask> retryTasks = new SortedList<DateTime, IRetryTask>();
+		readonly IRetryQueuePersistentStorage storage;
 
 		private RetryQueue()
 		{

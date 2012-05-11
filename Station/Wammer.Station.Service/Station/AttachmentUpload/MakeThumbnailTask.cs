@@ -10,8 +10,8 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	class MakeThumbnailTask : Retry.DelayedRetryTask
 	{
-		private string object_id;
-		private ImageMeta thumbnail_type;
+		private readonly string object_id;
+		private readonly ImageMeta thumbnail_type;
 		private int retry_count;
 		private const int MAX_RETRY = 30;
 

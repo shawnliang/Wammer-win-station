@@ -9,7 +9,7 @@ namespace Wammer.Station
 	{
 		public override void HandleRequest()
 		{
-			List<Driver> drivers = new List<Driver>(DriverCollection.Instance.FindAll());
+			var drivers = new List<Driver>(DriverCollection.Instance.FindAll());
 
 			RespondSuccess(new ListDriverResponse { drivers = drivers});
 		}

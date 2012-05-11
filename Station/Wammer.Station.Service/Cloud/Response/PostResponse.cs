@@ -11,12 +11,12 @@ namespace Wammer.Cloud
 		public List<PostInfo> posts { get; set; }
 		public List<UserInfo> users { get; set; }
 
-		public PostResponse()
+		protected PostResponse()
 			: base()
 		{
 		}
 
-		public PostResponse(int status, DateTime timestamp)
+		protected PostResponse(int status, DateTime timestamp)
 			: base(status, timestamp)
 		{
 		}
@@ -34,12 +34,7 @@ namespace Wammer.Cloud
 		#region Public Property
 		public List<PostInfo> posts 
 		{
-			get
-			{
-				if (_posts == null)
-					_posts = new List<PostInfo>();
-				return _posts;
-			}
+			get { return _posts ?? (_posts = new List<PostInfo>()); }
 			set 
 			{
 				_posts = value;
@@ -48,12 +43,7 @@ namespace Wammer.Cloud
 
 		public List<UserInfo> users
 		{
-			get
-			{
-				if (_users == null)
-					_users = new List<UserInfo>();
-				return _users;
-			}
+			get { return _users ?? (_users = new List<UserInfo>()); }
 			set
 			{
 				_users = value;
@@ -87,12 +77,7 @@ namespace Wammer.Cloud
 
 		public List<UserInfo> users
 		{
-			get
-			{
-				if (_users == null)
-					_users = new List<UserInfo>();
-				return _users;
-			}
+			get { return _users ?? (_users = new List<UserInfo>()); }
 			set
 			{
 				_users = value;

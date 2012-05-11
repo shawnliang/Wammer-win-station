@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System;
 using System.Runtime.InteropServices;
 using System.Reflection;
@@ -10,6 +11,7 @@ namespace Wammer.Utility
 		public static long GetAvailSize(string path)
 		{
 			string root = Path.GetPathRoot(path);
+			Debug.Assert(root != null, "root != null");
 			DriveInfo di = new DriveInfo(root);
 			return di.AvailableFreeSpace;
 		}

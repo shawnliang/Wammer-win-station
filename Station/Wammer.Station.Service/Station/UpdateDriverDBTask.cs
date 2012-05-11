@@ -12,8 +12,8 @@ namespace Wammer.Station
 	class UpdateDriverDBTask : Retry.DelayedRetryTask
 	{
 		private int retry_count;
-		private UserLoginEventArgs args;
-		private string station_id;
+		private readonly UserLoginEventArgs args;
+		private readonly string station_id;
 
 		public UpdateDriverDBTask(UserLoginEventArgs args, string station_id)
 			:base(Retry.RetryQueue.Instance, TaskPriority.High)

@@ -17,7 +17,7 @@ namespace Wammer.Model
 
 	public class PostUploadTasksCollection : Collection<PostUploadTasks>
 	{
-		private static PostUploadTasksCollection instance;
+		private static readonly PostUploadTasksCollection instance;
 
 		static PostUploadTasksCollection()
 		{

@@ -7,7 +7,7 @@ namespace Wammer.Station
 {
 	public class StatusGetHandler : HttpHandler
 	{
-		private static ILog logger = LogManager.GetLogger("StationManagement");
+		private static readonly ILog logger = LogManager.GetLogger("StationManagement");
 
 		public override void HandleRequest()
 		{

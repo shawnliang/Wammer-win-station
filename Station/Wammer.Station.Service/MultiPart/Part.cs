@@ -14,8 +14,8 @@ namespace Wammer.MultiPart
 		//private static char[] CRLFtail = { '\r', '\n' };
 
 		private string text;
-		private ArraySegment<byte> bytes;
-		private NameValueCollection headers;
+		private readonly ArraySegment<byte> bytes;
+		private readonly NameValueCollection headers;
 		private Disposition disposition;
 
 		public Part(ArraySegment<byte> data, NameValueCollection headers)
@@ -79,12 +79,10 @@ namespace Wammer.MultiPart
 				if (headers["content-transfer-encoding"] != null &&
 					headers["content-transfer-encoding"].Equals("binary"))
 					return null;
-				if (text == null)
-					text = Encoding.UTF8.GetString(data.Array, data.Offset, data.Count);
+				return text ?? (text = Encoding.UTF8.GetString(data.Array, data.Offset, data.Count));
 
 				// text might have \r\n at its end
 				//return text.TrimEnd(CRLFtail);
-				return text;
 			}
 		}
 

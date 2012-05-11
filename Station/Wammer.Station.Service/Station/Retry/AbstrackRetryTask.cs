@@ -56,7 +56,7 @@ namespace Wammer.Station.Retry
 	[Serializable]
 	public abstract class DelayedRetryTask : AbstrackRetryTask
 	{
-		private BackOff backoff = new BackOff(10, 20, 30, 50, 80, 130, 210, 340, 550, 890, 1440, 2330);
+		private readonly BackOff backoff = new BackOff(10, 20, 30, 50, 80, 130, 210, 340, 550, 890, 1440, 2330);
 		private DateTime nextRetryTime;
 
 		protected DelayedRetryTask(IRetryQueue failQueue, TaskPriority priority)
@@ -95,7 +95,7 @@ namespace Wammer.Station.Retry
 	[Serializable]
 	public class PostponedTask: IRetryTask
 	{
-		private ITask taskToRun;
+		private readonly ITask taskToRun;
 		public TaskPriority Priority { get; private set; }
 		public DateTime NextRetryTime { get; private set; }
 

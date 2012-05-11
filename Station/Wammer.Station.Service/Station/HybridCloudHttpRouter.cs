@@ -33,7 +33,7 @@ namespace Wammer.Station
 		private BypassHttpHandler bypass = new BypassHttpHandler(CloudServer.BaseUrl);
 		private HttpHandler handler;
 
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("HybridCloudHttpRouter");
+		private static readonly log4net.ILog logger = log4net.LogManager.GetLogger("HybridCloudHttpRouter");
 
 		public HybridCloudHttpRouter(HttpHandler handler)
 		{
