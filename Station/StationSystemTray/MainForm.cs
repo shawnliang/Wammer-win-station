@@ -960,7 +960,7 @@ namespace StationSystemTray
 
 			if (exitCode == -2)  // client logout
 			{
-				userloginContainer.UpdateLastLogin(string.Empty);
+				userloginContainer.ClearLastLoginSession();
 				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
 			}
 			else if (exitCode == -3)  // client unlink
@@ -1148,7 +1148,7 @@ namespace StationSystemTray
 		{
 
 			LogoutFB();
-			userloginContainer.UpdateLastLogin(string.Empty);
+			userloginContainer.ClearLastLoginSession();
 
 			var parameters = new Dictionary<object, object>{
 			{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
