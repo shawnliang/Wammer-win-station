@@ -132,6 +132,7 @@ namespace Wammer.Station
 		{
 			if (logger.IsDebugEnabled)
 			{
+				Debug.Assert(Request.RemoteEndPoint != null, "Request.RemoteEndPoint != null");
 				logger.Debug("====== Request " + Request.Url.AbsolutePath +
 								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
 				foreach (string key in Parameters.AllKeys)

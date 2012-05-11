@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Text;
 using System.Web;
@@ -113,6 +114,8 @@ namespace Wammer.Cloud
 				buf.Remove(buf.Length - 1, 1);				
 
 				var stream = agent.OpenRead(new Uri(CloudServer.baseUrl + path + "?" + buf.ToString()));
+
+				Debug.Assert(stream != null, "stream != null");
 				stream.WriteTo(filepath, 1024, (sender, e) =>
 				{
 				    PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(long.Parse(e.UserState.ToString()));
@@ -216,7 +219,7 @@ namespace Wammer.Cloud
 			catch (WammerCloudException e)
 			{
 				isOffline = IsNetworkError(e);
-				throw e;
+				throw;
 			}
 		}
 
@@ -254,7 +257,7 @@ namespace Wammer.Cloud
 			catch (WammerCloudException e)
 			{
 				isOffline = IsNetworkError(e);
-				throw e;
+				throw;
 			}
 		}
 

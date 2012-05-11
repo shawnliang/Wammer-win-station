@@ -51,7 +51,7 @@ namespace Wammer.Station
 
 
 			this.state = new NoUPnPDeviceFoundState();
-			int checkIntervalSec = (int)StationRegistry.GetValue("UPnPCheckInterval", 120);
+			var checkIntervalSec = (int)StationRegistry.GetValue("UPnPCheckInterval", 120);
 			this.checkTimer = new Timer(this.CheckState, null, 30 * 1000, checkIntervalSec * 1000);
 		}
 

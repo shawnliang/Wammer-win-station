@@ -64,7 +64,7 @@ namespace Wammer.Station
 					string deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
 					string deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
 					User user = null;
-					using (DefaultWebClient client = new DefaultWebClient())
+					using (var client = new DefaultWebClient())
 					{
 						client.Timeout = 2500;
 						client.ReadWriteTimeout = 2000;

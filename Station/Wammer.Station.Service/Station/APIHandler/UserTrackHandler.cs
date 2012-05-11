@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using Wammer.Station;
 using Wammer.Model;
@@ -81,8 +82,9 @@ namespace Wammer.Station.APIHandler
 			DateTime sinceDateTime = Wammer.Utility.TimeHelper.ParseCloudTimeString(since);
 			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, sinceDateTime);
 
-			UserTrackResponse response = new UserTrackResponse();
+			Debug.Assert(userTracks != null, "userTracks != null");
 
+			var response = new UserTrackResponse();
 			if (include_entities)
 			{
 				response.post_id_list = mergePostIdLists(userTracks);
@@ -104,7 +106,7 @@ namespace Wammer.Station.APIHandler
 
 		private List<UserTrackDetail> mergeDetails(IEnumerable<UserTracks> tracks)
 		{
-			List<UserTrackDetail> details = new List<UserTrackDetail>();
+			var details = new List<UserTrackDetail>();
 
 			foreach (UserTracks ut in tracks)
 			{
@@ -119,7 +121,7 @@ namespace Wammer.Station.APIHandler
 
 		private List<string> mergePostIdLists(IEnumerable<UserTracks> tracks)
 		{
-			HashSet<string> posts = new HashSet<string>();
+			var posts = new HashSet<string>();
 
 			foreach (UserTracks ut in tracks)
 			{

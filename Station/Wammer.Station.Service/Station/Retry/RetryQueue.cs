@@ -37,13 +37,7 @@ namespace Wammer.Station.Retry
 
 		public static RetryQueue Instance
 		{
-			get
-			{
-				if (instance == null)
-					instance = new RetryQueue();
-
-				return instance;
-			}
+			get { return instance ?? (instance = new RetryQueue()); }
 		}
 
 

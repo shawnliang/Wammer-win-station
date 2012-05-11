@@ -67,7 +67,7 @@ namespace Wammer.Station.AttachmentUpload
 				return;
 			}
 
-			FileStorage fileStorage = new FileStorage(user);
+			var fileStorage = new FileStorage(user);
 
 			using (FileStream f = fileStorage.Load(info.saved_file_name))
 			{

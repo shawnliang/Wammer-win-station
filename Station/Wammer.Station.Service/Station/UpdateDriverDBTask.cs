@@ -30,7 +30,7 @@ namespace Wammer.Station
 				return;
 			}
 
-			using (DefaultWebClient agent = new DefaultWebClient())
+			using (var agent = new DefaultWebClient())
 			{
 				Cloud.StationSignUpResponse api = Cloud.StationApi.SignUpBySession(agent, this.args.session_token, station_id);
 

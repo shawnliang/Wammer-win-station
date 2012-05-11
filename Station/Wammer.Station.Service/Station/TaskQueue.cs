@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Wammer.PerfMonitor;
 using Wammer.Queue;
@@ -219,6 +220,10 @@ namespace Wammer.Station
 			finally
 			{
 				itemsInProgress.Decrement();
+
+				Debug.Assert(dequeuedItem != null, "dequeuedItem != null");
+				Debug.Assert(dequeuedItem.Item != null, "dequeuedItem.Item != null");
+
 				dequeuedItem.Item.Acknowledge();
 
 				lock (lockObj)

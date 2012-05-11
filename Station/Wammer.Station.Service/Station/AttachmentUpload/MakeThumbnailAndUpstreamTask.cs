@@ -25,7 +25,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		protected override void Run()
 		{
-			MakeThumbnailTask makeThumbnail = new MakeThumbnailTask(object_id, meta, pri);
+			var makeThumbnail = new MakeThumbnailTask(object_id, meta, pri);
 			makeThumbnail.MakeThumbnail();
 
 			util.UpstreamAttachmentAsync(object_id, meta, pri);

@@ -56,9 +56,9 @@ namespace Wammer.Utility
 
 		private static Bitmap Scale(Bitmap original, float ratio)
 		{
-			int scaledWidth = (int)(original.Width * ratio);
-			int scaledHeight = (int)(original.Height * ratio);
-			Bitmap scaledImage = new Bitmap(scaledWidth, scaledHeight);
+			var scaledWidth = (int)(original.Width * ratio);
+			var scaledHeight = (int)(original.Height * ratio);
+			var scaledImage = new Bitmap(scaledWidth, scaledHeight);
 
 			using (Graphics g = Graphics.FromImage(scaledImage))
 			{
@@ -72,7 +72,7 @@ namespace Wammer.Utility
 
 		public static Bitmap Crop(Bitmap original, int width, int height)
 		{
-			Bitmap cropedImage = new Bitmap(width, height);
+			var cropedImage = new Bitmap(width, height);
 
 			using (Graphics g = Graphics.FromImage(cropedImage))
 			{
@@ -147,8 +147,8 @@ namespace Wammer.Utility
 
 		public static Size GetImageSize(ArraySegment<byte> imageRawData)
 		{
-			using (MemoryStream m = new MemoryStream(imageRawData.Array, imageRawData.Offset, imageRawData.Count))
-			using (Bitmap image = new Bitmap(m))
+			using (var m = new MemoryStream(imageRawData.Array, imageRawData.Offset, imageRawData.Count))
+			using (var image = new Bitmap(m))
 			{
 				return image.Size;
 			}

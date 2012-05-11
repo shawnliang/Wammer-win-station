@@ -74,19 +74,17 @@ namespace Wammer.Station
 					.Count();
 			}
 
-			List<PostInfo> postList = new List<PostInfo>();
-			foreach (PostInfo post in posts)
-			{
-				postList.Add(post);
-			}
+			var postList = posts.ToList();
 
-			List<UserInfo> userList = new List<UserInfo>();
-			userList.Add(new UserInfo
-			{
-				user_id = Session.user.user_id,
-				nickname = Session.user.nickname,
-				avatar_url = Session.user.avatar_url
-			});
+			var userList = new List<UserInfo>
+			               	{
+			               		new UserInfo
+			               			{
+			               				user_id = Session.user.user_id,
+			               				nickname = Session.user.nickname,
+			               				avatar_url = Session.user.avatar_url
+			               			}
+			               	};
 
 			RespondSuccess(
 				new PostGetResponse { 

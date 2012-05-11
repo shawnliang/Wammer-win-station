@@ -19,12 +19,7 @@ namespace Wammer.Utility
 
 		private Random m_Random
 		{
-			get
-			{
-				if (_random == null)
-					_random = new Random(Guid.NewGuid().GetHashCode());
-				return _random;
-			}
+			get { return _random ?? (_random = new Random(Guid.NewGuid().GetHashCode())); }
 		}
 		#endregion
 
@@ -82,19 +77,19 @@ namespace Wammer.Utility
 				throw new ArgumentException("backOffWindows must contains elements!");
 
 			if (backOffWindows.First() <= 0)
-				throw new ArgumentOutOfRangeException("First backOffWindow must bigger than zero!");
+				throw new ArgumentOutOfRangeException("backOffWindows", "First backOffWindow must bigger than zero!");
 
 			var minValue = -1;
 			foreach (var backOffWindow in backOffWindows)
 			{
 				if (backOffWindow < 0)
-					throw new ArgumentOutOfRangeException("backOffWindows must bigger than zero!");
+					throw new ArgumentOutOfRangeException("backOffWindow", "backOffWindows must bigger than zero!");
 
 				if (minValue > backOffWindow)
-					throw new ArgumentOutOfRangeException("backOffWindows must order by increase!");
+					throw new ArgumentOutOfRangeException("backOffWindow", "backOffWindows must order by increase!");
 
 				if (minValue == backOffWindow)
-					throw new ArgumentOutOfRangeException("Can't contains duplicated elements!");
+					throw new ArgumentOutOfRangeException("backOffWindow", "Can't contains duplicated elements!");
 
 				minValue = backOffWindow;
 			}

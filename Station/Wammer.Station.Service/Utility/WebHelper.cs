@@ -32,6 +32,8 @@ namespace Waveface
 		protected override WebRequest GetWebRequest(Uri address)
 		{
 			var _result = base.GetWebRequest(address);
+
+			Debug.Assert(_result != null, "_result != null");
 			_result.Timeout = this.Timeout;
 			return _result;
 		}
@@ -82,7 +84,7 @@ namespace Waveface
 
 			// Dump the Stream into a byte[]
 			formDataStream.Position = 0;
-			byte[] formData = new byte[formDataStream.Length];
+			var formData = new byte[formDataStream.Length];
 			formDataStream.Read(formData, 0, formData.Length);
 
 			return formData;
@@ -174,7 +176,7 @@ namespace Waveface
 		// Post a form
 		private static HttpWebResponse PostForm(string postUrl, string userAgent, string contentType, byte[] formData, int bufferSize = 1024 , Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
-			HttpWebRequest request = WebRequest.Create(postUrl) as HttpWebRequest;
+			var request = WebRequest.Create(postUrl) as HttpWebRequest;
 
 			if (request == null)
 			{
@@ -224,7 +226,7 @@ namespace Waveface
 			try
 			{
 				// Open a connection
-				HttpWebRequest _httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+				var _httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 
 				_httpWebRequest.AllowWriteStreamBuffering = true;
 
@@ -270,7 +272,7 @@ namespace Waveface
 			try
 			{
 				// Open a connection
-				HttpWebRequest _httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+				var _httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 
 				// You can also specify additional header values like the user agent or the referer: (Optional)
 				_httpWebRequest.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)";
@@ -287,7 +289,7 @@ namespace Waveface
 
 				// Create reader object:
 				Debug.Assert(_webStream != null, "_webStream != null");
-				StreamReader _streamReader = new StreamReader(_webStream);
+				var _streamReader = new StreamReader(_webStream);
 
 				// Read the entire stream content:
 				_pageContent = _streamReader.ReadToEnd();
@@ -315,7 +317,7 @@ namespace Waveface
 		{
 			try
 			{
-				WebClient _webClient = new WebClient();
+				var _webClient = new WebClient();
 
 				// Downloads the resource with the specified URI to a local file.
 				_webClient.DownloadFile(url, saveAs);

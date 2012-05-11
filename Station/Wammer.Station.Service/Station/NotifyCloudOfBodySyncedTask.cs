@@ -23,7 +23,7 @@ namespace Wammer.Station
 
 		public void Execute()
 		{
-			using (DefaultWebClient agent = new DefaultWebClient())
+			using (var agent = new DefaultWebClient())
 			{
 				Cloud.AttachmentApi.SetSync(agent, object_id, session_token);
 			}

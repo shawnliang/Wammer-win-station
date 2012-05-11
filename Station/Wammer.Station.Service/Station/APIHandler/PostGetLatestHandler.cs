@@ -52,15 +52,17 @@ namespace Wammer.Station
 				.SetLimit(limit)
 				.SetSortOrder(SortBy.Descending("timestamp"));
 
-			List<PostInfo> postList = new List<PostInfo>();
-			foreach (PostInfo post in posts)
-			{
-				postList.Add(post);
-			}
+			var postList = posts.ToList();
 
-			List<UserInfo> userList = new List<UserInfo>();
-			userList.Add(new UserInfo{
-				user_id=Session.user.user_id, nickname=Session.user.nickname, avatar_url=Session.user.avatar_url});
+			var userList = new List<UserInfo>
+			               	{
+			               		new UserInfo
+			               			{
+			               				user_id = Session.user.user_id,
+			               				nickname = Session.user.nickname,
+			               				avatar_url = Session.user.avatar_url
+			               			}
+			               	};
 
 			long totalCount = 0;
 			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", Session.user.user_id));

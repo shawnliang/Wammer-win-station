@@ -36,13 +36,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public static AttachmentUploadQueue Instance
 		{
-			get
-			{
-				if (instance == null)
-					instance = new AttachmentUploadQueue();
-
-				return instance;
-			}
+			get { return instance ?? (instance = new AttachmentUploadQueue()); }
 		}
 
 		public void Enqueue(ITask task, TaskPriority priority)

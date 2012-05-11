@@ -32,10 +32,10 @@ namespace Wammer.Station.AttachmentUpload
 
 		public Model.ThumbnailInfo GenerateThumbnail(string imageFilename, Model.ImageMeta thumbnailType, string object_id, Model.Driver user, string origin_filename)
 		{
-			FileStorage fileStorage = new FileStorage(user);
+			var fileStorage = new FileStorage(user);
 
 			using (FileStream f = fileStorage.Load(imageFilename))
-			using (Bitmap image = new Bitmap(f))
+			using (var image = new Bitmap(f))
 			{
 				return ImagePostProcessing.MakeThumbnail(image, thumbnailType, ExifOrientations.Unknown, object_id, user, origin_filename);
 			}
@@ -77,7 +77,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public void UpstreamAttachmentNow(string filename, Driver user, string object_id, string origFileName, string mime_type, ImageMeta meta, AttachmentType type)
 		{
-			FileStorage fileStorage = new FileStorage(user);
+			var fileStorage = new FileStorage(user);
 
 			using (FileStream f = fileStorage.Load(filename))
 			{

@@ -72,8 +72,8 @@ namespace Wammer.Station.Service
 				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
 
-				APIHandler.AttachmentUploadHandler attachmentHandler = new APIHandler.AttachmentUploadHandler();
-				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();
+				var attachmentHandler = new AttachmentUploadHandler();
+				var attachmentMonitor = new AttachmentUploadMonitor();
 
 				attachmentHandler.AttachmentProcessed += 
 					new AttachmentUpload.AttachmentProcessedHandler(
@@ -81,10 +81,10 @@ namespace Wammer.Station.Service
 				attachmentHandler.ProcessSucceeded += attachmentMonitor.OnProcessSucceeded;
 
 				
-				BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
+				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 				InitCloudForwarder(cloudForwarder);
 
-				AttachmentDownloadMonitor downstreamMonitor = new AttachmentDownloadMonitor();
+				var downstreamMonitor = new AttachmentDownloadMonitor();
 				bodySyncTaskQueue.Enqueued += downstreamMonitor.OnDownstreamTaskEnqueued;
 
 				InitFunctionServerHandlers(attachmentHandler,cloudForwarder, downstreamMonitor);
@@ -120,7 +120,7 @@ namespace Wammer.Station.Service
 				managementServer = new HttpServer(9989);
 				managementServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
+				var addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
 				InitManagementServerHandler(addDriverHandler);
 
 				addDriverHandler.DriverAdded += new EventHandler<DriverAddedEvtArgs>(addDriverHandler_DriverAdded);
@@ -224,7 +224,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
 				new HybridCloudHttpRouter(new APIHandler.UserTrackHandler()));
 
-			UserLoginHandler loginHandler = new UserLoginHandler();
+			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
 				loginHandler);
 
@@ -233,7 +233,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"), 
 				new UserLogoutHandler());			
 
-			AttachmentViewHandler viewHandler = new AttachmentViewHandler(stationId);
+			var viewHandler = new AttachmentViewHandler(stationId);
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"),
 							viewHandler);
 			
@@ -270,13 +270,13 @@ namespace Wammer.Station.Service
 
 		void addDriverHandler_BeforeDriverSaved(object sender, BeforeDriverSavedEvtArgs e)
 		{
-			Timeline.TimelineSyncer syncer = new Timeline.TimelineSyncer(
+			var syncer = new Timeline.TimelineSyncer(
 				new Timeline.PostProvider(),
 				new Timeline.TimelineSyncerDBWithDriverCached(e.Driver),
 				new UserTracksApi()
 			);
 
-			ResourceDownloader downloader = new ResourceDownloader(bodySyncTaskQueue, stationId);
+			var downloader = new ResourceDownloader(bodySyncTaskQueue, stationId);
 			syncer.PostsRetrieved += new EventHandler<Timeline.TimelineSyncEventArgs>(downloader.PostRetrieved);
 			syncer.PullTimeline(e.Driver);
 		}

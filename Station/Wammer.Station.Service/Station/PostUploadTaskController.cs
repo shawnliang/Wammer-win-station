@@ -21,12 +21,7 @@ namespace Wammer
 		#region Public Static Property
 		public static PostUploadTaskController Instance
 		{
-			get
-			{
-				if (_instance == null)
-					_instance = new PostUploadTaskController();
-				return _instance;
-			}
+			get { return _instance ?? (_instance = new PostUploadTaskController()); }
 		}
 		#endregion
 
@@ -111,13 +106,9 @@ namespace Wammer
 
 		private Dictionary<string, string> ConvertToDictionary(NameValueCollection collection)
 		{
-			Dictionary<string, string> dic = new Dictionary<string, string>();
-			foreach (String key in collection.AllKeys)
-			{
-				dic.Add(key, collection[key]);
-			}
-			return dic;
+			return collection.AllKeys.ToDictionary(key => key, key => collection[key]);
 		}
+
 		#endregion
 	}
 }

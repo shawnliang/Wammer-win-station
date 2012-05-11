@@ -70,10 +70,10 @@ public static class StreamExtension
 			throw new ArgumentNullException("sourceStream");
 
 		if (!sourceStream.CanRead)
-			throw new ArgumentException("sourceStream", "Unreadable stream");
+			throw new ArgumentException("Unreadable stream", "sourceStream");
 
 		if (!targetStream.CanWrite)
-			throw new ArgumentException("targetStream", "Unwritable stream");
+			throw new ArgumentException("Unwritable stream", "targetStream");
 
 		if (bufferSize < 1024)
 			throw new ArgumentOutOfRangeException("bufferSize", "Must bigger than 1024");

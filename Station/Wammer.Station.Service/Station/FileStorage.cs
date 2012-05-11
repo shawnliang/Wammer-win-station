@@ -59,7 +59,7 @@ namespace Wammer.Station
 		public static string GetTempFile(Driver user)
 		{
 			if (user == null || user.folder == null)
-				throw new ArgumentNullException("user or user.folder is null");
+				throw new ArgumentNullException("user", "user or user.folder is null");
 
 			return Path.Combine(user.folder, "temp_" + Guid.NewGuid().ToString());
 		}
@@ -76,7 +76,7 @@ namespace Wammer.Station
 			string filePath = Path.Combine(basePath, filename);
 			string tempFile = filePath + @".tmp";
 
-            FileStream fs = new FileStream(tempFile, FileMode.Create,
+            var fs = new FileStream(tempFile, FileMode.Create,
 								FileAccess.Write, FileShare.None, 4096, true);
 
             return new FileStorageAsyncResult(
@@ -86,7 +86,7 @@ namespace Wammer.Station
 
 		public void EndSave(IAsyncResult async)
 		{
-			FileStorageAsyncResult fsAsync = (FileStorageAsyncResult)async;
+			var fsAsync = (FileStorageAsyncResult)async;
 			try
 			{
 				fsAsync.OutputStream.EndWrite(fsAsync.InnerObject);

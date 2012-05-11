@@ -12,13 +12,13 @@ namespace Wammer.Utility
 		{
 			string root = Path.GetPathRoot(path);
 			Debug.Assert(root != null, "root != null");
-			DriveInfo di = new DriveInfo(root);
+			var di = new DriveInfo(root);
 			return di.AvailableFreeSpace;
 		}
 
 		public static long GetUsedSize(string path)
 		{
-			DirectoryInfo d = new DirectoryInfo(path);
+			var d = new DirectoryInfo(path);
 			return DirSize(d);
 		}
 

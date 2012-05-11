@@ -46,7 +46,7 @@ namespace Wammer.Station.AttachmentUpload
 			if (user == null)
 				return;
 
-			AttachmentUtility imgProc = new AttachmentUtility();
+			var imgProc = new AttachmentUtility();
 			ThumbnailInfo thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name, thumbnail_type,
 				this.object_id, user, attachment.file_name);
 
