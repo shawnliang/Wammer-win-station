@@ -1,44 +1,69 @@
-<?xml version="1.0" standalone="yes"?>
+﻿<?xml version="1.0" standalone="yes"?>
+
 <WItems>
   <WItem>
     <ID>FillAllFields</ID>
-    <en-US>Please fill all the fields!</en-US>
+    <en-US>
+      Please fill all the fields!
+    </en-US>
     <zh-TW>請填寫所有欄位.</zh-TW>
   </WItem>
   <WItem>
     <ID>LogInError</ID>
-    <en-US>Log In error. Please try again.</en-US>
+    <en-US>
+      Log In error. Please try again.
+    </en-US>
     <zh-TW>登錄時發生錯誤, 請重新輸入.</zh-TW>
   </WItem>
   <WItem>
     <ID>AuthError</ID>
-    <en-US>Invalid user name or password. Please try again.</en-US>
+    <en-US>
+      Invalid user name or password. Please try again.
+    </en-US>
     <zh-TW>帳號或密碼錯誤, 請再試一次.</zh-TW>
   </WItem>
   <WItem>
     <ID>UserExisted</ID>
-    <en-US>There is already an account with that name. Please type a different name.</en-US>
+    <en-US>
+      There is already an account with that name. Please type a different name.
+    </en-US>
     <zh-TW>使用者帳號已存在, 請輸入不同的帳號.</zh-TW>
   </WItem>
   <WItem>
     <ID>InvalidDriverError</ID>
-    <en-US>The user name is different to the driver account of this Stream Station. Please try again.</en-US>
-    <zh-TW>帳號與這台 Stream Station 的管理者帳號不符, 請再試一次.</zh-TW>
+    <en-US>
+      The user name is different to the driver account of this Stream Station. Please try again.
+    </en-US>
+    <zh-TW>
+      帳號與這台 Stream Station 的管理者帳號不符, 請再試一次.
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>StationExpired</ID>
-    <en-US>The registration information of this Stream Station is expired. Please restart the program to re-register the station.</en-US>
-    <zh-TW>這台 Stream Station 的註冊資訊已失效, 請重新啟動程式以註冊新的 Stream Station.</zh-TW>
+    <en-US>
+      The registration information of this Stream Station is expired. Please restart the program to re-register the station.
+    </en-US>
+    <zh-TW>
+      這台 Stream Station 的註冊資訊已失效, 請重新啟動程式以註冊新的 Stream Station.
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>UserNotExisted</ID>
-    <en-US>Driver account is deleted. Please restart the program to re-register the station with a valid driver account.</en-US>
-    <zh-TW>管理者帳號已被刪除. 請重新啟動程式並用有效的管理者帳號註冊新的 Stream Station.</zh-TW>
+    <en-US>
+      Driver account is deleted. Please restart the program to re-register the station with a valid driver account.
+    </en-US>
+    <zh-TW>
+      管理者帳號已被刪除. 請重新啟動程式並用有效的管理者帳號註冊新的 Stream Station.
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>ChangeOwnerWarning</ID>
-    <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Stream Station.</en-US>
-    <zh-TW>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</zh-TW>
+    <en-US>
+      Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Stream Station.
+    </en-US>
+    <zh-TW>
+      切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>ChangeOwnerSuccess</ID>
@@ -73,17 +98,25 @@
   </WItem>
   <WItem>
     <ID>ChangeOwnerError</ID>
-    <en-US>Unable to deassociate user with Stream Station. Please try again.</en-US>
-    <zh-TW>無法分離使用者與Stream station  請再試一次</zh-TW>
+    <en-US>
+      Unable to deassociate user with Stream Station. Please try again.
+    </en-US>
+    <zh-TW>
+      無法分離使用者與Stream station  請再試一次
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>Connected</ID>
-    <en-US>Accessible from internet</en-US>
+    <en-US>
+      Accessible from internet
+    </en-US>
     <zh-TW>外部網路存取正常</zh-TW>
   </WItem>
   <WItem>
     <ID>NotConnected</ID>
-    <en-US>Inaccessible from internet</en-US>
+    <en-US>
+      Inaccessible from internet
+    </en-US>
     <zh-TW>無法從外部網路存取</zh-TW>
   </WItem>
   <WItem>
@@ -92,7 +125,9 @@
     <zh-TW>測試中 ...</zh-TW>
   </WItem>
   <WItem>
-    <ID>MonthlyUsage_Unlimited</ID>
+    <ID>
+      MonthlyUsage_Unlimited
+    </ID>
     <en-US>Unlimited</en-US>
     <zh-TW>無上限</zh-TW>
   </WItem>
@@ -107,19 +142,29 @@
     <zh-TW>解除連結</zh-TW>
   </WItem>
   <WItem>
-    <ID>MonthlyUsage_NotConnectedYet</ID>
+    <ID>
+      MonthlyUsage_NotConnectedYet
+    </ID>
     <en-US>Not connected yet</en-US>
     <zh-TW>尚未連結</zh-TW>
   </WItem>
   <WItem>
     <ID>SystemError</ID>
-    <en-US>There appears to be an error with the system. Please try again later.</en-US>
-    <zh-TW>抱歉, 系統發生未預期錯誤, 請稍後再試.</zh-TW>
+    <en-US>
+      There appears to be an error with the system. Please try again later.
+    </en-US>
+    <zh-TW>
+      抱歉, 系統發生未預期錯誤, 請稍後再試.
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>Station401Exception</ID>
-    <en-US>Your authentication is expired. Please log in again.</en-US>
-    <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
+    <en-US>
+      Your authentication is expired. Please log in again.
+    </en-US>
+    <zh-TW>
+      您的認證資訊已經過期, 請重新輸入密碼以便登入.
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>NetworkConnected</ID>
@@ -168,27 +213,41 @@
   </WItem>
   <WItem>
     <ID>WFServiceRunning</ID>
-    <en-US>Stream Station is syncing</en-US>
+    <en-US>
+      Stream Station is syncing
+    </en-US>
     <zh-TW>Stream Station 同步中</zh-TW>
   </WItem>
   <WItem>
     <ID>WFServiceStopped</ID>
-    <en-US>Stream Station is stop syncing</en-US>
+    <en-US>
+      Stream Station is stop syncing
+    </en-US>
     <zh-TW>Stream Station 中斷同步</zh-TW>
   </WItem>
   <WItem>
     <ID>WFServiceStartFail</ID>
-    <en-US>Unable to start syncing</en-US>
+    <en-US>
+      Unable to start syncing
+    </en-US>
     <zh-TW>無法啟動同步</zh-TW>
   </WItem>
   <WItem>
-    <ID>ConnectCloudStorageFail</ID>
-    <en-US>Unable to connect to Dropbox</en-US>
+    <ID>
+      ConnectCloudStorageFail
+    </ID>
+    <en-US>
+      Unable to connect to Dropbox
+    </en-US>
     <zh-TW>無法連結 Dropbox</zh-TW>
   </WItem>
   <WItem>
-    <ID>UnlinkCloudStorageFail</ID>
-    <en-US>Unable to disconnect from Dropbox</en-US>
+    <ID>
+      UnlinkCloudStorageFail
+    </ID>
+    <en-US>
+      Unable to disconnect from Dropbox
+    </en-US>
     <zh-TW>無法解除 Dropbox 的連結</zh-TW>
   </WItem>
   <WItem>
@@ -198,7 +257,9 @@
   </WItem>
   <WItem>
     <ID>ConnectCloudError</ID>
-    <en-US>Unable to connect to Stream Cloud</en-US>
+    <en-US>
+      Unable to connect to Stream Cloud
+    </en-US>
     <zh-TW>無法連接 Stream 伺服器</zh-TW>
   </WItem>
   <WItem>
@@ -213,7 +274,11 @@
   </WItem>
   <WItem>
     <ID>CleanResourceMsg</ID>
-    <en-US>Do you want to remove all files of {0} on this computer?</en-US>
-    <zh-TW>是否要將 {0} 在本機儲存的所有檔案刪除？</zh-TW>
+    <en-US>
+      Do you want to remove all files of {0} on this computer?
+    </en-US>
+    <zh-TW>
+      是否要將 {0} 在本機儲存的所有檔案刪除？
+    </zh-TW>
   </WItem>
 </WItems>

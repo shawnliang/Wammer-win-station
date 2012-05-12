@@ -1,30 +1,28 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace StationSystemTray
 {
 	public class ApplicationSettings : ApplicationSettingsBase
 	{
-		[UserScopedSetting()]
+		[UserScopedSetting]
 		[DefaultSettingValue("")]
 		public List<UserLoginSetting> Users
 		{
-			get	{ return (List<UserLoginSetting>)this["Users"];	}
-			set	{ this["Users"] = value; }
+			get { return (List<UserLoginSetting>)this["Users"]; }
+			set { this["Users"] = value; }
 		}
 
-		[UserScopedSetting()]
+		[UserScopedSetting]
 		[DefaultSettingValue("")]
 		public string LastLogin
 		{
-			get	{ return (string)this["LastLogin"]; }
-			set	{ this["LastLogin"] = value; }
+			get { return (string)this["LastLogin"]; }
+			set { this["LastLogin"] = value; }
 		}
 
-		[UserScopedSetting()]
+		[UserScopedSetting]
 		[DefaultSettingValue("false")]
 		public bool isUpgraded
 		{
@@ -36,20 +34,23 @@ namespace StationSystemTray
 	public class UserLoginSetting
 	{
 		public string Email { get; set; }
+
 		public string Password { get; set; }
+
 		public string SessionToken { get; set; }
+
 		public bool RememberPassword { get; set; }
 	}
 
 	public class UserLoginSettingContainer
 	{
-		private ApplicationSettings settings;
-		private object cs;
+		private readonly object cs;
+		private readonly ApplicationSettings settings;
 
 		public UserLoginSettingContainer(ApplicationSettings settings)
 		{
 			this.settings = settings;
-			this.cs = new object();
+			cs = new object();
 		}
 
 		public void ResetUserLoginSetting(List<UserLoginSetting> userlogins, string lastlogin)
@@ -117,14 +118,7 @@ namespace StationSystemTray
 		{
 			lock (cs)
 			{
-				List<UserLoginSetting> newusers = new List<UserLoginSetting>();
-				foreach (UserLoginSetting userlogin in settings.Users)
-				{
-					if (userlogin.Email != email.ToLower())
-					{
-						newusers.Add(userlogin);
-					}
-				}
+				var newusers = settings.Users.Where(userlogin => userlogin.Email != email.ToLower()).ToList();
 
 				ResetUserLoginSetting(newusers, settings.LastLogin);
 			}
@@ -134,14 +128,7 @@ namespace StationSystemTray
 		{
 			lock (cs)
 			{
-				foreach (UserLoginSetting userlogin in settings.Users)
-				{
-					if (userlogin.Email.ToLower() == email.ToLower())
-					{
-						return userlogin;
-					}
-				}
-				return null;
+				return settings.Users.FirstOrDefault(userlogin => userlogin.Email.ToLower() == email.ToLower());
 			}
 		}
 
@@ -149,15 +136,7 @@ namespace StationSystemTray
 		{
 			lock (cs)
 			{
-				foreach (UserLoginSetting userlogin in settings.Users)
-				{
-					if (!string.IsNullOrEmpty(settings.LastLogin) 
-						&& userlogin.SessionToken == settings.LastLogin)
-					{
-						return userlogin;
-					}
-				}
-				return null;
+				return settings.Users.FirstOrDefault(userlogin => !string.IsNullOrEmpty(settings.LastLogin) && userlogin.SessionToken == settings.LastLogin);
 			}
 		}
 	}
