@@ -34,16 +34,8 @@ namespace StationSystemTray.Control
 					return true;
 				return base.Multiline;
 			}
-			set
-			{
-				if (HideTabs)
-				{
-					base.Multiline = true;
-				}
-				else
-				{
-					base.Multiline = value;
-				}
+			set {
+				base.Multiline = HideTabs || value;
 			}
 		}
 
@@ -58,14 +50,7 @@ namespace StationSystemTray.Control
 				Int32 tabStripHeight = default(Int32);
 				Int32 itemHeight = default(Int32);
 
-				if (Alignment <= TabAlignment.Bottom)
-				{
-					itemHeight = ItemSize.Height;
-				}
-				else
-				{
-					itemHeight = ItemSize.Width;
-				}
+				itemHeight = Alignment <= TabAlignment.Bottom ? ItemSize.Height : ItemSize.Width;
 
 				if (Appearance == TabAppearance.Normal)
 				{

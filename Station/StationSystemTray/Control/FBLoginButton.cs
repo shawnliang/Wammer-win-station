@@ -9,7 +9,7 @@ namespace StationSystemTray
 	/// <summary>
 	///
 	/// </summary>
-	public partial class FBLoginButton : UserControl
+	public partial class FBLoginButton
 	{
 		private Bitmap img = Resources.fb_btn;
 

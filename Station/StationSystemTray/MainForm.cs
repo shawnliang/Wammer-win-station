@@ -40,7 +40,6 @@ namespace StationSystemTray
 		#region Const
 
 		private const string CLIENT_API_KEY = @"a23f9491-ba70-5075-b625-b8fb5d9ecd90";
-		private const string STATION_SERVICE_NAME = "WavefaceStation";
 		private const string CLIENT_TITLE = "Waveface ";
 		private const int STATION_TIMER_LONG_INTERVAL = 60000;
 		private const int STATION_TIMER_SHORT_INTERVAL = 3000;
@@ -68,7 +67,6 @@ namespace StationSystemTray
 		private string _baseUrl;
 		private string _callbackUrl;
 		private string _fbLoginUrl;
-		private Messenger _messenger;
 		private string _signUpUrl;
 		private Timer _timer;
 
@@ -78,13 +76,9 @@ namespace StationSystemTray
 
 		private string m_BaseUrl
 		{
-			get
-			{
-				if (_baseUrl == null)
-				{
-					_baseUrl = CloudServer.BaseUrl.Contains("develop.waveface.com") ? DEV_WEB_BASE_PAGE_URL : WEB_BASE_URL;
-				}
-				return _baseUrl;
+			get {
+				return _baseUrl ??
+				       (_baseUrl = CloudServer.BaseUrl.Contains("develop.waveface.com") ? DEV_WEB_BASE_PAGE_URL : WEB_BASE_URL);
 			}
 		}
 
@@ -146,11 +140,6 @@ namespace StationSystemTray
 		private Timer m_Timer
 		{
 			get { return _timer ?? (_timer = new Timer()); }
-		}
-
-		private Messenger messenger
-		{
-			get { return _messenger ?? (_messenger = new Messenger(this)); }
 		}
 
 		#endregion Private Property
@@ -677,10 +666,6 @@ namespace StationSystemTray
 				{
 					txtPassword.Select();
 				}
-				else
-				{
-					//btnSignIn.Select();
-				}
 
 				//this.AcceptButton = btnSignIn;
 			}
@@ -713,13 +698,13 @@ namespace StationSystemTray
 		{
 			if ((cmbEmail.Text == string.Empty) || (txtPassword.Text == string.Empty))
 			{
-				MessageBox.Show(Resources.FillAllFields, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.FillAllFields, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
 			if (!TestEmailFormat(cmbEmail.Text))
 			{
-				MessageBox.Show(Resources.InvalidEmail, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.InvalidEmail, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -772,22 +757,22 @@ namespace StationSystemTray
 			}
 			catch (AuthenticationException)
 			{
-				MessageBox.Show(Resources.AuthError, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
 				txtPassword.Text = string.Empty;
 				txtPassword.Focus();
 			}
 			catch (StationServiceDownException)
 			{
-				MessageBox.Show(Resources.StationDown, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{
-				MessageBox.Show(Resources.ConnectCloudError, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (Exception)
 			{
-				MessageBox.Show(Resources.UnknownSigninError, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.UnknownSigninError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			finally
 			{
@@ -800,11 +785,6 @@ namespace StationSystemTray
 			return (from station in stations
 					where station.type == "primary"
 					select station).FirstOrDefault();
-		}
-
-		private bool LaunchWavefaceClient()
-		{
-			return LaunchWavefaceClient(userloginContainer.GetLastUserLogin());
 		}
 
 		private bool LaunchWavefaceClient(UserLoginSetting userlogin)
@@ -934,7 +914,7 @@ namespace StationSystemTray
 						break;
 					}
 				}
-				GotoTabPage(tabSignIn, null);
+				GotoTabPage(tabSignIn);
 			}
 		}
 
@@ -1089,7 +1069,6 @@ namespace StationSystemTray
 			if (menuSignIn.Text == Resources.LogoutMenuItem)
 			{
 				string lastLogin = userloginContainer.GetLastLogin();
-				LoginedSession loginedSession = null;
 
 				if (lastLogin != null)
 				{
@@ -1098,7 +1077,7 @@ namespace StationSystemTray
 						clientProcess.CloseMainWindow();
 					}
 
-					loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
+					LoginedSession loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 					LogOut(new WebClient(), loginedSession.session_token, loginedSession.apikey.apikey);
 				}
 			}
@@ -1178,7 +1157,7 @@ namespace StationSystemTray
 				if (CurrentState.Value == StationStateEnum.Syncing)
 				{
 					CurrentState.StopSyncing();
-					TrayIcon.ShowBalloonTip(1000, "Stream", Resources.WFServiceRunning, ToolTipIcon.None);
+					TrayIcon.ShowBalloonTip(1000, Resources.APP_NAME, Resources.WFServiceRunning, ToolTipIcon.None);
 				}
 			}
 
@@ -1188,7 +1167,7 @@ namespace StationSystemTray
 
 		public static void SetNotifyIconText(NotifyIcon ni, string text)
 		{
-			if (text.Length >= 128) throw new ArgumentOutOfRangeException("Text limited to 127 characters");
+			if (text.Length >= 128) throw new ArgumentOutOfRangeException("text", "Text limited to 127 characters");
 			Type t = typeof(NotifyIcon);
 			const BindingFlags hidden = BindingFlags.NonPublic | BindingFlags.Instance;
 			var fieldInfo = t.GetField("text", hidden);
