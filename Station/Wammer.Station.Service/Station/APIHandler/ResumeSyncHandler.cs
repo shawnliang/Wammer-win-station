@@ -24,8 +24,8 @@ namespace Wammer.Station
 		{
 			postUploadRunner.Start();
 			stationTimer.Start();
-			Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Start());
-			Array.ForEach(upstreamRunners, (taskRunner) => taskRunner.Start());
+			Array.ForEach(bodySyncRunners, taskRunner => taskRunner.Start());
+			Array.ForEach(upstreamRunners, taskRunner => taskRunner.Start());
 
 			this.LogDebugMsg("Start function server successfully");
 

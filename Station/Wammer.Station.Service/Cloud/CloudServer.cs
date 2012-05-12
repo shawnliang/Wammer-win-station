@@ -14,7 +14,6 @@ namespace Wammer.Cloud
 {
 	public class CloudServer
 	{
-		private const string DEF_API_KEY = "0ffd0a63-65ef-512b-94c7-ab3b33117363";
 		public const string DEF_BASE_PATH = "v2";
 		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; //https://api.waveface.com/v2/
 
@@ -84,10 +83,57 @@ namespace Wammer.Cloud
 				if (apiKey != null)
 					return apiKey;
 
-				return (string) StationRegistry.GetValue("cloudAPIKey", DEF_API_KEY);
+				return (string)StationRegistry.GetValue("cloudAPIKey", GetDefaultAPIKey());
 			}
 			set { apiKey = value; }
 		}
+
+		private static String GetDefaultAPIKey()
+		{
+			//0ffd0a63-65ef-512b-94c7-ab3b33117363
+
+			byte[] buffer = new byte[36];
+			buffer[0] = 0x30;
+			buffer[1] = 0x66;
+			buffer[2] = 0x66;
+			buffer[3] = 0x64;
+			buffer[4] = 0x30;
+			buffer[5] = 0x61;
+			buffer[6] = 0x36;
+			buffer[7] = 0x33;
+			buffer[8] = 0x2d;
+			buffer[9] = 0x36;
+			buffer[10] = 0x35;
+			buffer[11] = 0x65;
+			buffer[12] = 0x66;
+			buffer[13] = 0x2d;
+			buffer[14] = 0x35;
+			buffer[15] = 0x31;
+			buffer[16] = 0x32;
+			buffer[17] = 0x62;
+			buffer[18] = 0x2d;
+			buffer[19] = 0x39;
+			buffer[20] = 0x34;
+			buffer[21] = 0x63;
+			buffer[22] = 0x37;
+			buffer[23] = 0x2d;
+			buffer[24] = 0x61;
+			buffer[25] = 0x62;
+			buffer[26] = 0x33;
+			buffer[27] = 0x62;
+			buffer[28] = 0x33;
+			buffer[29] = 0x33;
+			buffer[30] = 0x31;
+			buffer[31] = 0x31;
+			buffer[32] = 0x37;
+			buffer[33] = 0x33;
+			buffer[34] = 0x36;
+			buffer[35] = 0x33;
+
+			return System.Text.Encoding.UTF8.GetString(buffer);
+		}
+
+
 
 		public static void requestDownload(WebClient agent, string path, Dictionary<object, object> parameters,
 		                                   string filepath)
@@ -271,7 +317,7 @@ namespace Wammer.Cloud
 			try
 			{
 				agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-				byte[] rawResponse = null;
+				byte[] rawResponse;
 				if (isGet)
 				{
 					rawResponse = string.IsNullOrEmpty(parameters)
@@ -282,6 +328,8 @@ namespace Wammer.Cloud
 				{
 					rawResponse = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(parameters));
 				}
+
+				Debug.Assert(rawResponse != null, "rawResponse != null");
 				response = Encoding.UTF8.GetString(rawResponse);
 				resObj = JSON.Instance.ToObject<T>(response);
 			}

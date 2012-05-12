@@ -23,8 +23,8 @@ namespace Wammer.Station
 		{
 			postUploadRunner.Stop();
 			stationTimer.Stop();
-			Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Stop());
-			Array.ForEach(upstreamRunners, (taskRunner) => taskRunner.Stop());
+			Array.ForEach(bodySyncRunners, taskRunner => taskRunner.Stop());
+			Array.ForEach(upstreamRunners, taskRunner => taskRunner.Stop());
 
 			this.LogDebugMsg("Stop function server successfully");
 			RespondSuccess();

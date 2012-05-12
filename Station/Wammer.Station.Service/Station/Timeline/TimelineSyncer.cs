@@ -113,8 +113,7 @@ namespace Wammer.Station.Timeline
 					// Use this exception as the exit criteria
 					if (e.InnerException is ArgumentOutOfRangeException)
 						return;
-					else
-						throw;
+					throw;
 				}
 
 				db.SaveUserTracks(new UserTracks(res));

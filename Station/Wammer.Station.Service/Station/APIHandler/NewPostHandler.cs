@@ -50,7 +50,7 @@ namespace Wammer.Station
 				throw new WammerStationException(
 					"Driver not found!", (int) StationLocalApiError.InvalidDriver);
 
-			UserGroup userGroup = driver.groups.Where((group) => group.group_id == groupID).FirstOrDefault();
+			UserGroup userGroup = driver.groups.Where(group => group.group_id == groupID).FirstOrDefault();
 
 			if (userGroup == null)
 				throw new WammerStationException(

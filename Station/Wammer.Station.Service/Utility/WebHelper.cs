@@ -141,7 +141,7 @@ namespace Waveface
 		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName,
 		                                           string mimeType, Stream dataStream)
 		{
-			return GetMultipartFormData(postParameters, boundary, fileName, mimeType, (stream) => { stream.Write(dataStream); });
+			return GetMultipartFormData(postParameters, boundary, fileName, mimeType, stream => { stream.Write(dataStream); });
 		}
 
 
@@ -159,7 +159,7 @@ namespace Waveface
 		                                           string mimeType, ArraySegment<byte> fileData)
 		{
 			return GetMultipartFormData(postParameters, boundary, fileName, mimeType,
-			                            (stream) => { stream.Write(fileData.Array, fileData.Offset, fileData.Count); });
+			                            stream => { stream.Write(fileData.Array, fileData.Offset, fileData.Count); });
 		}
 
 		#endregion
@@ -296,8 +296,6 @@ namespace Waveface
 		/// <returns>HTML contents as a string</returns>
 		public static string DownloadHTMLPage(string url)
 		{
-			string _pageContent = null;
-
 			try
 			{
 				// Open a connection
@@ -321,20 +319,20 @@ namespace Waveface
 				var _streamReader = new StreamReader(_webStream);
 
 				// Read the entire stream content:
-				_pageContent = _streamReader.ReadToEnd();
+				string _pageContent = _streamReader.ReadToEnd();
 
 				// Cleanup
 				_streamReader.Close();
 				_webStream.Close();
 				_webResponse.Close();
+
+				return _pageContent;
 			}
 			catch (Exception _e)
 			{
 				Console.WriteLine("Exception caught in process: {0}", _e);
 				return null;
 			}
-
-			return _pageContent;
 		}
 
 		/// <summary>

@@ -289,7 +289,7 @@ namespace Wammer.Station
 						fs.SaveFile(savedFileName, rawdata);
 						int width = 0;
 						int height = 0;
-						using (Image img = Image.FromStream(fs.Load(savedFileName)))
+						using (var img = Image.FromStream(fs.Load(savedFileName)))
 						{
 							width = img.Width;
 							height = img.Height;
@@ -299,7 +299,7 @@ namespace Wammer.Station
 						MD5 md5 = MD5.Create();
 						byte[] hash = md5.ComputeHash(rawdata.Array);
 						var md5buff = new StringBuilder();
-						for (int i = 0; i < hash.Length; i++)
+						for (var i = 0; i < hash.Length; i++)
 							md5buff.Append(hash[i].ToString("x2"));
 
 						AttachmentCollection.Instance.Update(

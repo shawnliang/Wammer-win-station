@@ -97,18 +97,25 @@ namespace Wammer.Station
 		/// <param name="persistent"></param>
 		public static void Enqueue(ITask task, TaskPriority priority, bool persistent)
 		{
-			WMSQueue queue = null;
+			WMSQueue queue;
 
-			if (priority == TaskPriority.High)
-				queue = mqHighPriority;
-			else if (priority == TaskPriority.Medium)
-				queue = mqMediumPriority;
-			else if (priority == TaskPriority.Low)
-				queue = mqLowPriority;
-			else if (priority == TaskPriority.VeryLow)
-				queue = mqVeryLowPriority;
-			else
-				throw new ArgumentOutOfRangeException("unknown priority: " + priority.ToString());
+			switch (priority)
+			{
+				case TaskPriority.High:
+					queue = mqHighPriority;
+					break;
+				case TaskPriority.Medium:
+					queue = mqMediumPriority;
+					break;
+				case TaskPriority.Low:
+					queue = mqLowPriority;
+					break;
+				case TaskPriority.VeryLow:
+					queue = mqVeryLowPriority;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException("unknown priority: " + priority.ToString());
+			}
 
 			Enqueue(priority, queue, task, persistent);
 		}

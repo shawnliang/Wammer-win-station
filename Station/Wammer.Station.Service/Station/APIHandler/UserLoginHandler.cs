@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
@@ -69,6 +70,7 @@ namespace Wammer.Station
 						user = User.LogIn(client, email, password, apikey, deviceId, deviceName);
 					}
 
+					Debug.Assert(user != null, "user != null");
 					LoginedSession loginInfo = user.LoginedInfo;
 
 					LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", email));

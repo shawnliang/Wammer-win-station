@@ -69,7 +69,6 @@ namespace Wammer.Station
 				{
 					logger.Debug("UPnP state checker reaches end state.");
 					checkTimer.Change(Timeout.Infinite, Timeout.Infinite);
-					return;
 				}
 				else
 					logger.Debug("Current state is " + newState + ". Try again later..");

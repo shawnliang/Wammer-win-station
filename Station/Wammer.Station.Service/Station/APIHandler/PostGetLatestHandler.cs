@@ -62,8 +62,7 @@ namespace Wammer.Station
 			               			}
 			               	};
 
-			long totalCount = 0;
-			totalCount = PostCollection.Instance
+			long totalCount = PostCollection.Instance
 				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"))).Count();
 
 			RespondSuccess(

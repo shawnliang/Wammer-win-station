@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
-using Wammer.Cloud;
-using Wammer.Utility;
 using fastJSON;
 using log4net;
+using Wammer.Cloud;
 
 namespace Wammer.Station
 {
@@ -281,24 +279,26 @@ namespace Wammer.Station
 		{
 			try
 			{
-				HttpListenerContext context = m_Listener.EndGetContext(result);
-				long beginTime = Stopwatch.GetTimestamp();
+				var context = m_Listener.EndGetContext(result);
 
+				if (context == null)
+					return;
+
+				var beginTime = Stopwatch.GetTimestamp();
 				m_Listener.BeginGetContext(ConnectionAccepted, null);
 
-				if (context != null)
-				{
-					IHttpHandler handler = FindBestMatch(context.Request.Url.AbsolutePath);
 
-					if (handler != null)
-					{
-						var task = new HttpHandlingTask(handler, context, beginTime);
-						OnTaskQueue(new TaskQueueEventArgs(task, handler));
-						TaskQueue.Enqueue(task, TaskPriority.High);
-					}
-					else
-						respond404NotFound(context);
+				var handler = FindBestMatch(context.Request.Url.AbsolutePath);
+
+				if (handler != null)
+				{
+					var task = new HttpHandlingTask(handler, context, beginTime);
+					OnTaskQueue(new TaskQueueEventArgs(task, handler));
+					TaskQueue.Enqueue(task, TaskPriority.High);
 				}
+				else
+					respond404NotFound(context);
+
 			}
 			catch (ObjectDisposedException)
 			{

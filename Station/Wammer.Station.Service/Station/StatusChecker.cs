@@ -4,12 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using MongoDB.Driver;
+using log4net;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using log4net;
 
 namespace Wammer.Station
 {
@@ -39,7 +38,7 @@ namespace Wammer.Station
 
 		public static StationDetail GetDetail()
 		{
-			string baseurl = NetworkHelper.GetBaseURL();
+			var baseurl = NetworkHelper.GetBaseURL();
 
 			var status = new StationDetail
 			             	{
@@ -50,12 +49,12 @@ namespace Wammer.Station
 			             		version = Assembly.GetExecutingAssembly().GetName().Version.ToString()
 			             	};
 
-			MongoCursor<Driver> drivers = DriverCollection.Instance.FindAll();
+			var drivers = DriverCollection.Instance.FindAll();
 
-			foreach (Driver driver in drivers)
+			foreach (var driver in drivers)
 			{
 				var storage = new FileStorage(driver);
-				foreach (UserGroup group in driver.groups)
+				foreach (var group in driver.groups)
 				{
 					status.diskusage.Add(new DiskUsage
 					                     	{
@@ -76,14 +75,14 @@ namespace Wammer.Station
 
 		private void SendHeartbeat()
 		{
-			StationDetail detail = GetDetail();
+			var detail = GetDetail();
 
-			StationInfo sinfo = StationCollection.Instance.FindOne();
+			var sinfo = StationCollection.Instance.FindOne();
 			if (sinfo != null)
 			{
 				try
 				{
-					string baseurl = NetworkHelper.GetBaseURL();
+					var baseurl = NetworkHelper.GetBaseURL();
 					if (baseurl != sinfo.Location)
 					{
 						// update location if baseurl changed
@@ -95,7 +94,7 @@ namespace Wammer.Station
 						StationCollection.Instance.Save(sinfo);
 					}
 
-					using (WebClient client = new DefaultWebClient())
+					using (var client = new DefaultWebClient())
 					{
 						LogonAndHeartbeat(client, sinfo, detail);
 						UpdatePrimaryStationSetting(client);
@@ -111,7 +110,7 @@ namespace Wammer.Station
 		private void LogonAndHeartbeat(WebClient client, StationInfo sinfo, StationDetail detail)
 		{
 			// use any driver's session token to send heartbeat
-			Driver user = DriverCollection.Instance.FindOne();
+			var user = DriverCollection.Instance.FindOne();
 			var api = new StationApi(sinfo.Id, user.session_token);
 
 			if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
@@ -131,34 +130,34 @@ namespace Wammer.Station
 
 		private void UpdatePrimaryStationSetting(WebClient client)
 		{
-			foreach (Driver user in DriverCollection.Instance.FindAll())
+			foreach (var user in DriverCollection.Instance.FindAll())
 			{
-				FindMyStationResponse res = User.FindMyStation(client, user.session_token);
-				UserStation currStation = (from station in res.stations
+				var res = User.FindMyStation(client, user.session_token);
+				var currStation = (from station in res.stations
 				                           where station.station_id == StationRegistry.StationId
 				                           select station).FirstOrDefault();
 
 				Debug.Assert(currStation != null);
 
-				if (currStation != null)
+				if (currStation == null)
+					return;
+
+				var isCurrPrimaryStation = (currStation.type == "primary");
+				if (user.isPrimaryStation != isCurrPrimaryStation)
 				{
-					bool isCurrPrimaryStation = (currStation.type == "primary");
-					if (user.isPrimaryStation != isCurrPrimaryStation)
-					{
-						user.isPrimaryStation = isCurrPrimaryStation;
-						DriverCollection.Instance.Update(
-							Query.EQ("_id", user.user_id),
-							Update.Set("isPrimaryStation", isCurrPrimaryStation)
-							);
-						OnIsPrimaryChanged(new IsPrimaryChangedEvtArgs(user));
-					}
+					user.isPrimaryStation = isCurrPrimaryStation;
+					DriverCollection.Instance.Update(
+						Query.EQ("_id", user.user_id),
+						Update.Set("isPrimaryStation", isCurrPrimaryStation)
+						);
+					OnIsPrimaryChanged(new IsPrimaryChangedEvtArgs(user));
 				}
 			}
 		}
 
 		private void OnIsPrimaryChanged(IsPrimaryChangedEvtArgs args)
 		{
-			EventHandler<IsPrimaryChangedEvtArgs> handler = IsPrimaryChanged;
+			var handler = IsPrimaryChanged;
 
 			if (handler != null)
 				handler(this, args);
@@ -167,9 +166,9 @@ namespace Wammer.Station
 		public override void Stop()
 		{
 			base.Stop();
-			using (WebClient client = new DefaultWebClient())
+			using (var client = new DefaultWebClient())
 			{
-				StationInfo sinfo = StationCollection.Instance.FindOne();
+				var sinfo = StationCollection.Instance.FindOne();
 				if (sinfo != null)
 				{
 					try

@@ -34,9 +34,8 @@ namespace Wammer.Station
 
 		public static void RespondFailure(HttpListenerResponse response, WammerStationException e, int status)
 		{
-			CloudResponse json = null;
-
-			json = e.ErrorResponse ?? new CloudResponse(status, DateTime.Now.ToUniversalTime(), e.WammerError, e.Message);
+			CloudResponse json = e.ErrorResponse ??
+				new CloudResponse(status, DateTime.Now.ToUniversalTime(), e.WammerError, e.Message);
 
 			RespondFailure(response, json);
 		}

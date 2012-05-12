@@ -99,17 +99,17 @@ namespace Wammer.Utility
 
 		public static bool IsServiceAutoStart(ServiceController svc)
 		{
-			IntPtr serviceHandle = GetServiceHandle(svc, SERVICE_QUERY_CONFIG);
+			var serviceHandle = GetServiceHandle(svc, SERVICE_QUERY_CONFIG);
 
 			// Allocate memory for struct.
-			uint bytesNeeded = 0;
+			uint bytesNeeded;
 			QueryServiceConfig(serviceHandle, IntPtr.Zero, 0, out bytesNeeded);
 
-			IntPtr ptr = IntPtr.Zero;
+			var ptr = IntPtr.Zero;
 			try
 			{
 				ptr = Marshal.AllocHGlobal((int) bytesNeeded);
-				bool result = QueryServiceConfig(serviceHandle, ptr, bytesNeeded, out bytesNeeded);
+				var result = QueryServiceConfig(serviceHandle, ptr, bytesNeeded, out bytesNeeded);
 
 				if (result == false)
 				{

@@ -30,8 +30,6 @@ namespace Wammer.Utility
 					case "image/png":
 						PngCodec = codec;
 						break;
-					default:
-						break;
 				}
 			}
 		}

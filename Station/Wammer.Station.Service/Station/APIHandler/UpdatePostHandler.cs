@@ -245,8 +245,8 @@ namespace Wammer.Station
 			List<string> attachmentIDs = attachmentIDArray == null
 			                             	? new List<string>()
 			                             	: attachmentIDArray.Split(',')
-			                             	  	.Where((item) => !string.IsNullOrEmpty(item))
-			                             	  	.Select((item) => item.Trim('"')).ToList();
+			                             	  	.Where(item => !string.IsNullOrEmpty(item))
+			                             	  	.Select(item => item.Trim('"')).ToList();
 
 			if (attachmentIDs.Count > 0)
 			{
@@ -271,7 +271,7 @@ namespace Wammer.Station
 				                                                        	.Set("attachments",
 				                                                        	     new BsonArray(
 				                                                        	     	attachmentInfos.ConvertAll(
-				                                                        	     		(item) => item.ToBsonDocument()))));
+				                                                        	     		item => item.ToBsonDocument()))));
 
 
 				post.attachment_id_array = attachmentIDs;

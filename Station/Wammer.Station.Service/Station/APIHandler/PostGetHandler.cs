@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -58,6 +59,7 @@ namespace Wammer.Station
 					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.LTE("timestamp", datum)))
 					.SetLimit(Math.Abs(limit))
 					.SetSortOrder(SortBy.Descending("timestamp"));
+
 				totalCount = PostCollection.Instance
 					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.LTE("timestamp", datum)))
 					.Count();
@@ -68,12 +70,14 @@ namespace Wammer.Station
 					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.GTE("timestamp", datum)))
 					.SetLimit(Math.Abs(limit))
 					.SetSortOrder(SortBy.Ascending("timestamp"));
+
 				totalCount = PostCollection.Instance
 					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.GTE("timestamp", datum)))
 					.Count();
 			}
 
-			List<PostInfo> postList = posts.ToList();
+			Debug.Assert(posts != null, "posts != null");
+			var postList = posts.ToList();
 
 			var userList = new List<UserInfo>
 			               	{

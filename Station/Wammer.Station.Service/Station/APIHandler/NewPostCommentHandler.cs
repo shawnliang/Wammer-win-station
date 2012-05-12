@@ -59,7 +59,7 @@ namespace Wammer.Station
 				throw new WammerStationException(
 					"Driver not found!", (int) StationLocalApiError.InvalidDriver);
 
-			UserGroup userGroup = driver.groups.Where((group) => group.group_id == groupID).FirstOrDefault();
+			UserGroup userGroup = driver.groups.Where(group => group.group_id == groupID).FirstOrDefault();
 
 			if (userGroup == null)
 				throw new WammerStationException(
@@ -91,7 +91,7 @@ namespace Wammer.Station
 			                                                        	.Set("comments",
 			                                                        	     new BsonArray(
 			                                                        	     	post.comments.ConvertAll(
-			                                                        	     		(item) => item.ToBsonDocument()))));
+			                                                        	     		item => item.ToBsonDocument()))));
 
 			if (m_PostUploader != null)
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.Comment, Parameters);

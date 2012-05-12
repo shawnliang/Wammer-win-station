@@ -82,13 +82,11 @@ public static class StreamExtension
 			throw new ArgumentOutOfRangeException("bufferSize", "Must bigger than 1024");
 
 		var buffer = new byte[bufferSize];
+		var offset = 0;
+		var percent = 0;
+		var length = (sourceStream.CanSeek) ? sourceStream.Length : 0;
 
-		int offset = 0;
-		int readByteCount = 0;
-		int percent = 0;
-
-		long length = (sourceStream.CanSeek) ? sourceStream.Length : 0;
-
+		int readByteCount;
 		while ((readByteCount = sourceStream.Read(buffer, 0, bufferSize)) > 0)
 		{
 			targetStream.Write(buffer, 0, readByteCount);

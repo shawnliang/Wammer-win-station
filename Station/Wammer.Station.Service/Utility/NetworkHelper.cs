@@ -101,7 +101,7 @@ namespace Wammer.Utility
 				return m_BaseURL;
 
 			// set local lambda function to get final ip address
-			Func<string, String> getBaseIPAddress = (ip) =>
+			Func<string, String> getBaseIPAddress = ip =>
 			                                        	{
 			                                        		m_BaseURL = string.Format(BASE_URL_PATTERN, ip);
 			                                        		return m_BaseURL;

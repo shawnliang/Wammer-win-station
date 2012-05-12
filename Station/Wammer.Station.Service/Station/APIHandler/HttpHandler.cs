@@ -298,7 +298,7 @@ namespace Wammer.Station
 			if (RawPostData != null &&
 			    req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
 			{
-				string postData = Encoding.UTF8.GetString(RawPostData);
+				var postData = Encoding.UTF8.GetString(RawPostData);
 				return HttpUtility.ParseQueryString(postData);
 			}
 			else if (req.HttpMethod.ToUpper().Equals("GET"))

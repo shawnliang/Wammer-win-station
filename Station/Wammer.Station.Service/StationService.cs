@@ -365,10 +365,10 @@ namespace Wammer.Station.Service
 
 		private void ResetPerformanceCounter()
 		{
-			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, true);
-			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, true);
-			PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, true);
-			PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, true);
+			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
+			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
+			PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
+			PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE);
 		}
 
 		#endregion
