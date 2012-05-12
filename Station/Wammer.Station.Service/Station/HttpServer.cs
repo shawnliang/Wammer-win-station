@@ -116,31 +116,31 @@ namespace Wammer.Station
 		//    }
 		//}
 
-		/// <summary>
-		/// Responds 401 unauthorized.
-		/// </summary>
-		/// <param name="ctx">The CTX.</param>
-		private void respond401Unauthorized(HttpListenerContext ctx)
-		{
-			try
-			{
-				ctx.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
-				using (var w = new StreamWriter(ctx.Response.OutputStream))
-				{
-					var json = new CloudResponse(
-						ctx.Response.StatusCode,
-						DateTime.UtcNow,
-						(int) StationLocalApiError.AlreadyHasStaion,
-						"Driver already registered another station"
-						);
-					w.Write(json.ToFastJSON());
-				}
-			}
-			catch (Exception e)
-			{
-				m_Logger.Warn("Unable to respond 401 Unauthorized", e);
-			}
-		}
+		///// <summary>
+		///// Responds 401 unauthorized.
+		///// </summary>
+		///// <param name="ctx">The CTX.</param>
+		//private void respond401Unauthorized(HttpListenerContext ctx)
+		//{
+		//    try
+		//    {
+		//        ctx.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+		//        using (var w = new StreamWriter(ctx.Response.OutputStream))
+		//        {
+		//            var json = new CloudResponse(
+		//                ctx.Response.StatusCode,
+		//                DateTime.UtcNow,
+		//                (int) StationLocalApiError.AlreadyHasStaion,
+		//                "Driver already registered another station"
+		//                );
+		//            w.Write(json.ToFastJSON());
+		//        }
+		//    }
+		//    catch (Exception e)
+		//    {
+		//        m_Logger.Warn("Unable to respond 401 Unauthorized", e);
+		//    }
+		//}
 
 		/// <summary>
 		/// Finds the best match.
@@ -181,6 +181,7 @@ namespace Wammer.Station
 		public void Dispose()
 		{
 			Close();
+			GC.SuppressFinalize(true);
 		}
 
 		/// <summary>

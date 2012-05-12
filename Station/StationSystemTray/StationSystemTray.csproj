@@ -58,7 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="Control\FBLoginButton.cs" />
+    <Compile Include="Control\FBLoginButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Control\FBLoginButton.Designer.cs">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
     </Compile>

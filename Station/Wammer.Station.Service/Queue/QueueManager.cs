@@ -80,6 +80,7 @@ namespace Wammer.Queue
 		public void Dispose()
 		{
 			Close();
+			GC.SuppressFinalize(true);
 		}
 
 		#endregion

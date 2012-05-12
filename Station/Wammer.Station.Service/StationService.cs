@@ -39,6 +39,15 @@ namespace Wammer.Station.Service
 			ServiceName = SERVICE_NAME;
 		}
 
+		~StationService()
+		{
+			if (managementServer != null)
+				managementServer.Dispose();
+
+			if (functionServer != null)
+				functionServer.Dispose();
+		}
+
 		public void Run()
 		{
 			OnStart(null);

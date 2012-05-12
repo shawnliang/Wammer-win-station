@@ -274,10 +274,10 @@ namespace Wammer.Station
 
 			try
 			{
-				string[] parts = contentType.Split(';');
-				foreach (string part in parts)
+				var parts = contentType.Split(';');
+				foreach (var part in parts)
 				{
-					int idx = part.IndexOf(BOUNDARY);
+					var idx = part.IndexOf(BOUNDARY);
 					if (idx < 0)
 						continue;
 

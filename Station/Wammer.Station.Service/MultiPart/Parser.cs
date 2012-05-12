@@ -101,7 +101,7 @@ namespace Wammer.MultiPart
 
 			foreach (string header in headers)
 			{
-				int delimitIdx = header.IndexOf(":");
+				var delimitIdx = header.IndexOf(":");
 				if (delimitIdx < 0)
 					throw new FormatException("Bad header: " + header);
 

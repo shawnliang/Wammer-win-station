@@ -364,10 +364,10 @@ namespace Wammer.Cloud
 			}
 		}
 
-		private static T request<T>(WebClient agent, string url, string postData)
-		{
-			return ConvertFromJson<T>(request(agent, url, postData));
-		}
+		//private static T request<T>(WebClient agent, string url, string postData)
+		//{
+		//    return ConvertFromJson<T>(request(agent, url, postData));
+		//}
 
 		public static T ConvertFromJson<T>(string json)
 		{

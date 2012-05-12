@@ -57,7 +57,7 @@ namespace Wammer.Station
 			using (var w = new StreamWriter(response.OutputStream))
 			{
 				if (jsonObj is string)
-					w.Write((string) jsonObj);
+					w.Write(jsonObj);
 				else
 				{
 					string json = JSON.Instance.ToJSON(jsonObj, false, false, false, false);

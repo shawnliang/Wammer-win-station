@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -176,15 +177,9 @@ namespace Wammer.Station
 			if (stations == null)
 				return false;
 
-			foreach (UserStation s in stations)
-				if (s.station_id == stationId)
-				{
-					if (string.Compare(s.type, "primary", true) == 0)
-						return true;
-					return false;
-				}
-
-			return false;
+			return (from s in stations 
+					where s.station_id == stationId 
+					select string.Compare(s.type, "primary", true) == 0).FirstOrDefault();
 		}
 
 		private void OnDriverAdded(DriverAddedEvtArgs args)
