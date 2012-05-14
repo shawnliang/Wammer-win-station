@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MongoDB.Bson.Serialization.Attributes;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Model
 {
@@ -13,21 +10,23 @@ namespace Wammer.Model
 	{
 		[BsonId]
 		public Guid id { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string queue { get; set; }
+
 		[BsonIgnoreIfNull]
 		public byte[] bytes { get; set; }
 
 		[BsonIgnore]
-		public object Data 
-		{	
+		public object Data
+		{
 			get
 			{
 				if (bytes == null)
 					return null;
 
-				BinaryFormatter f = new BinaryFormatter();
-				using (MemoryStream m = new MemoryStream(bytes))
+				var f = new BinaryFormatter();
+				using (var m = new MemoryStream(bytes))
 				{
 					return f.Deserialize(m);
 				}
@@ -35,9 +34,9 @@ namespace Wammer.Model
 
 			set
 			{
-				using (MemoryStream m = new MemoryStream())
+				using (var m = new MemoryStream())
 				{
-					BinaryFormatter f = new BinaryFormatter();
+					var f = new BinaryFormatter();
 					f.Serialize(m, value);
 					bytes = m.ToArray();
 				}
@@ -45,9 +44,9 @@ namespace Wammer.Model
 		}
 	}
 
-	public class QueuedTaskCollection: Collection<QueuedTask>
+	public class QueuedTaskCollection : Collection<QueuedTask>
 	{
-		private static QueuedTaskCollection instance;
+		private static readonly QueuedTaskCollection instance;
 
 		static QueuedTaskCollection()
 		{
@@ -55,7 +54,7 @@ namespace Wammer.Model
 		}
 
 		private QueuedTaskCollection()
-			:base("queued_tasks")
+			: base("queued_tasks")
 		{
 		}
 

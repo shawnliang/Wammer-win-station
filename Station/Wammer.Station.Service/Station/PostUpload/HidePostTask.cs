@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using Wammer.Station;
+﻿using System.Net;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using MongoDB.Driver.Builders;
 
 namespace Wammer.PostUpload
 {
@@ -14,15 +9,15 @@ namespace Wammer.PostUpload
 	{
 		public override void Execute()
 		{
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", this.UserId));
+			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", UserId));
 			if (driver != null)
 			{
-				using (WebClient agent = new WebClient())
+				using (var agent = new WebClient())
 				{
 					try
 					{
-						PostApi postApi = new PostApi(driver);
-						postApi.HidePost(agent, this.Timestamp, this.Parameters);
+						var postApi = new PostApi(driver);
+						postApi.HidePost(agent, Timestamp, Parameters);
 					}
 					catch (WammerCloudException e)
 					{
@@ -30,11 +25,8 @@ namespace Wammer.PostUpload
 
 						if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
 						{
-							throw e;
+							throw;
 						}
-
-						// cloud will always reject the request, so ignore the task.
-						return;
 					}
 				}
 			}

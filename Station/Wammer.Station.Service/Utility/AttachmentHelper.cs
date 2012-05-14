@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Wammer.Cloud;
 using Wammer.Model;
 
@@ -10,23 +7,24 @@ namespace Wammer.Utility
 	public class AttachmentHelper
 	{
 		#region Public Static Method
+
 		public static AttachmentInfo GetAttachmentnfo(Attachment attachment, string codeName)
 		{
-			var attachmentInfo = new AttachmentInfo()
-			{
-				group_id = attachment.group_id,
-				file_name = attachment.file_name,
-				meta_status = "OK",
-				object_id = attachment.object_id,
-				creator_id = attachment.creator_id,
-				modify_time = DateTime.Now.Ticks,
-				code_name = codeName,
-				type = attachment.type.ToString(),
-				url = attachment.url,
-				title = attachment.title,
-				description = attachment.description,
-				hidden = attachment.group_id
-			};
+			var attachmentInfo = new AttachmentInfo
+			                     	{
+			                     		group_id = attachment.group_id,
+			                     		file_name = attachment.file_name,
+			                     		meta_status = "OK",
+			                     		object_id = attachment.object_id,
+			                     		creator_id = attachment.creator_id,
+			                     		modify_time = DateTime.Now.Ticks,
+			                     		code_name = codeName,
+			                     		type = attachment.type.ToString(),
+			                     		url = attachment.url,
+			                     		title = attachment.title,
+			                     		description = attachment.description,
+			                     		hidden = attachment.group_id
+			                     	};
 
 			if (attachment.image_meta != null)
 			{
@@ -54,7 +52,8 @@ namespace Wammer.Utility
 			return attachmentInfo;
 		}
 
-		public static void SetAttachmentInfoImageMeta(ThumbnailInfo attachmentThumbnailInfo, AttachmentInfo.ImageMetaDetail attachmentInfoThumbnailInfo)
+		public static void SetAttachmentInfoImageMeta(ThumbnailInfo attachmentThumbnailInfo,
+		                                              AttachmentInfo.ImageMetaDetail attachmentInfoThumbnailInfo)
 		{
 			if (attachmentThumbnailInfo == null || attachmentInfoThumbnailInfo == null)
 				return;
@@ -67,6 +66,7 @@ namespace Wammer.Utility
 			attachmentInfoThumbnailInfo.mime_type = attachmentThumbnailInfo.mime_type;
 			attachmentInfoThumbnailInfo.md5 = attachmentThumbnailInfo.md5;
 		}
+
 		#endregion
 	}
 }

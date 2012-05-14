@@ -1,7 +1,7 @@
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
-using System.ComponentModel;
 
 public static class StreamExtension
 {
@@ -14,7 +14,8 @@ public static class StreamExtension
 	}
 
 
-	public static void Write(this Stream targetStream, byte[] buffer, int bufferBatchSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	public static void Write(this Stream targetStream, byte[] buffer, int bufferBatchSize = 1024,
+	                         Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
 		if (buffer == null)
 			throw new ArgumentNullException("buffer");
@@ -30,12 +31,10 @@ public static class StreamExtension
 
 		int offset = 0;
 		int remain = buffer.Length;
-		int readByteCount = 0;
-		int percent = 0;
 
 		while (remain > 0)
 		{
-			readByteCount = remain > bufferBatchSize ? bufferBatchSize : remain;
+			int readByteCount = remain > bufferBatchSize ? bufferBatchSize : remain;
 			targetStream.Write(buffer, offset, readByteCount);
 
 			offset += readByteCount;
@@ -43,9 +42,9 @@ public static class StreamExtension
 
 			if (progressChangedCallBack != null)
 			{
-				var currentPercent = (int)(((double)offset) / buffer.Length * 100);
+				var currentPercent = (int) (((double) offset)/buffer.Length*100);
 
-				percent = currentPercent;
+				int percent = currentPercent;
 				progressChangedCallBack(targetStream, new ProgressChangedEventArgs(percent, readByteCount));
 			}
 		}
@@ -58,36 +57,36 @@ public static class StreamExtension
 	}
 
 
-	public static void Write(this Stream targetStream, string sourceFile, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	public static void Write(this Stream targetStream, string sourceFile, int bufferSize = 1024,
+	                         Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
-		using (var fs = File.Open(sourceFile, FileMode.Open))
+		using (FileStream fs = File.Open(sourceFile, FileMode.Open))
 		{
 			targetStream.Write(fs, bufferSize, progressChangedCallBack);
 		}
 	}
 
-	public static void Write(this Stream targetStream, Stream sourceStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	public static void Write(this Stream targetStream, Stream sourceStream, int bufferSize = 1024,
+	                         Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
 		if (sourceStream == null)
 			throw new ArgumentNullException("sourceStream");
 
 		if (!sourceStream.CanRead)
-			throw new ArgumentException("sourceStream", "Unreadable stream");
+			throw new ArgumentException("Unreadable stream", "sourceStream");
 
 		if (!targetStream.CanWrite)
-			throw new ArgumentException("targetStream", "Unwritable stream");
+			throw new ArgumentException("Unwritable stream", "targetStream");
 
 		if (bufferSize < 1024)
 			throw new ArgumentOutOfRangeException("bufferSize", "Must bigger than 1024");
 
-		byte[] buffer = new byte[bufferSize];
+		var buffer = new byte[bufferSize];
+		var offset = 0;
+		var percent = 0;
+		var length = (sourceStream.CanSeek) ? sourceStream.Length : 0;
 
-		int offset = 0;
-		int readByteCount = 0;
-		int percent = 0;
-
-		long length = (sourceStream.CanSeek) ? sourceStream.Length : 0;
-
+		int readByteCount;
 		while ((readByteCount = sourceStream.Read(buffer, 0, bufferSize)) > 0)
 		{
 			targetStream.Write(buffer, 0, readByteCount);
@@ -98,17 +97,18 @@ public static class StreamExtension
 
 				if (length > 0)
 				{
-					var currentPercent = (int)(((double)offset) / length * 100);
+					var currentPercent = (int) (((double) offset)/length*100);
 					//if (currentPercent == percent)
 					//    continue;
 					percent = currentPercent;
-				}				
+				}
 				progressChangedCallBack(targetStream, new ProgressChangedEventArgs(percent, readByteCount));
 			}
 		}
 	}
 
-	public static void WriteTo(this Stream sourceStream, string targetFile, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	public static void WriteTo(this Stream sourceStream, string targetFile, int bufferSize = 1024,
+	                           Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
 		using (var fs = new FileStream(targetFile, FileMode.Create))
 		{
@@ -116,7 +116,8 @@ public static class StreamExtension
 		}
 	}
 
-	public static void WriteTo(this Stream sourceStream, Stream targetStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+	public static void WriteTo(this Stream sourceStream, Stream targetStream, int bufferSize = 1024,
+	                           Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 	{
 		targetStream.Write(sourceStream, bufferSize, progressChangedCallBack);
 	}

@@ -1,9 +1,10 @@
 using System;
+using System.IO;
 using System.Net;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using System.IO;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -26,7 +27,7 @@ namespace Wammer.Station
 				throw new FormatException("One of parameters is missing: email/password/session_token/userID");
 
 			//Try to find existing driver
-			Driver existingDriver = Model.DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+			Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
 			Boolean isDriverExists = existingDriver != null;
 
 			//Driver not exists => return
@@ -44,9 +45,9 @@ namespace Wammer.Station
 				RespondSuccess();
 				return;
 			}
-	  
+
 			//Notify cloud server that the user signoff
-			using (WebClient client = new Wammer.Utility.DefaultWebClient())
+			using (WebClient client = new DefaultWebClient())
 			{
 				try
 				{
@@ -87,16 +88,16 @@ namespace Wammer.Station
 			}
 
 			//All driver removed => Remove station from db
-			Driver driver = Model.DriverCollection.Instance.FindOne();
+			Driver driver = DriverCollection.Instance.FindOne();
 			if (driver == null)
-				Model.StationCollection.Instance.RemoveAll();
+				StationCollection.Instance.RemoveAll();
 
 			RespondSuccess();
 		}
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 }

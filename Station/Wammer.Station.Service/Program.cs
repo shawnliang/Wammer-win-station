@@ -1,35 +1,35 @@
 ﻿using System;
 using System.Linq;
 using System.ServiceProcess;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station.Service
 {
-	static class Program
+	internal static class Program
 	{
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		static void Main(string[] argv)
+		private static void Main(string[] argv)
 		{
-			if (argv.Any<string>((item)=>{ return item.Equals("-i", StringComparison.CurrentCultureIgnoreCase);}))
+			if (argv.Any(item => { return item.Equals("-i", StringComparison.CurrentCultureIgnoreCase); }))
 			{
 				Console.WriteLine("Install Waveface station performance counters");
-				Wammer.PerfMonitor.PerfCounterInstaller.Install();
+				PerfCounterInstaller.Install();
 			}
 
-			if (argv.Any<string>((item) => { return item.Equals("-c", StringComparison.CurrentCultureIgnoreCase); }))
+			if (argv.Any(item => { return item.Equals("-c", StringComparison.CurrentCultureIgnoreCase); }))
 			{
 				Console.WriteLine("Wammer Station in Console Mode:");
-				StationService svc = new StationService();
+				var svc = new StationService();
 				svc.Run();
 			}
 			else
 			{
-				ServiceBase[] ServicesToRun;
-				ServicesToRun = new ServiceBase[] 
-				{ 
-					new StationService() 
-				};
+				var ServicesToRun = new ServiceBase[]
+				                    	{
+				                    		new StationService()
+				                    	};
 				ServiceBase.Run(ServicesToRun);
 			}
 		}

@@ -7,10 +7,9 @@ namespace Wammer.MultiPart
 {
 	public class Disposition
 	{
+		private static readonly char[] SEPARATOR = new[] {';'};
+		private readonly NameValueCollection parameters = new NameValueCollection();
 		private string value;
-		private NameValueCollection parameters = new NameValueCollection();
-
-		private static char[] SEPARATOR = new char[] { ';' };
 
 		public Disposition(string value)
 		{
@@ -19,7 +18,16 @@ namespace Wammer.MultiPart
 
 		private Disposition()
 		{
+		}
 
+		public string Value
+		{
+			get { return value; }
+		}
+
+		public NameValueCollection Parameters
+		{
+			get { return parameters; }
 		}
 
 		public static Disposition Parse(string text)
@@ -27,10 +35,9 @@ namespace Wammer.MultiPart
 			try
 			{
 				string[] segments = text.Split(SEPARATOR,
-										StringSplitOptions.RemoveEmptyEntries);
+				                               StringSplitOptions.RemoveEmptyEntries);
 
-				Disposition disp = new Disposition();
-				disp.value = segments[0].Trim();
+				var disp = new Disposition {value = segments[0].Trim()};
 				for (int i = 1; i < segments.Length; i++)
 				{
 					string[] nameValue = segments[i].Split('=');
@@ -44,7 +51,7 @@ namespace Wammer.MultiPart
 			catch (Exception e)
 			{
 				throw new FormatException(
-							"Incorrect content disposition format: " + text, e);
+					"Incorrect content disposition format: " + text, e);
 			}
 		}
 
@@ -52,26 +59,15 @@ namespace Wammer.MultiPart
 		{
 			if (str.StartsWith("\"") && str.EndsWith("\""))
 				return str.Substring(1, str.Length - 2);
-			else
-				return str;
-		}
-
-		public string Value
-		{
-			get { return value; }
-		}
-
-		public NameValueCollection Parameters
-		{
-			get { return parameters; }
+			return str;
 		}
 
 		public void CopyTo(Stream output)
 		{
-			StringBuilder buff = new StringBuilder();
+			var buff = new StringBuilder();
 			buff.Append("Content-Disposition: ");
-			buff.Append(this.value);
-			if (parameters.Count>0)
+			buff.Append(value);
+			if (parameters.Count > 0)
 			{
 				foreach (string key in parameters.AllKeys)
 				{
@@ -87,7 +83,6 @@ namespace Wammer.MultiPart
 
 			byte[] data = Encoding.UTF8.GetBytes(buff.ToString());
 			output.Write(data, 0, data.Length);
-
 		}
 	}
 }

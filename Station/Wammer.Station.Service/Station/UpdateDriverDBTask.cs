@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Model;
 using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Station.Retry;
 using Wammer.Utility;
 
 namespace Wammer.Station
 {
 	[Serializable]
-	class UpdateDriverDBTask : Retry.DelayedRetryTask
+	internal class UpdateDriverDBTask : DelayedRetryTask
 	{
+		private readonly UserLoginEventArgs args;
+		private readonly string station_id;
 		private int retry_count;
-		private UserLoginEventArgs args;
-		private string station_id;
 
 		public UpdateDriverDBTask(UserLoginEventArgs args, string station_id)
-			:base(Retry.RetryQueue.Instance, TaskPriority.High)
+			: base(RetryQueue.Instance, TaskPriority.High)
 		{
 			this.args = args;
 			this.station_id = station_id;
@@ -30,9 +29,9 @@ namespace Wammer.Station
 				return;
 			}
 
-			using (DefaultWebClient agent = new DefaultWebClient())
+			using (var agent = new DefaultWebClient())
 			{
-				Cloud.StationSignUpResponse api = Cloud.StationApi.SignUpBySession(agent, this.args.session_token, station_id);
+				StationSignUpResponse api = StationApi.SignUpBySession(agent, args.session_token, station_id);
 
 				DriverCollection.Instance.Update(
 					Query.EQ("_id", args.user_id),

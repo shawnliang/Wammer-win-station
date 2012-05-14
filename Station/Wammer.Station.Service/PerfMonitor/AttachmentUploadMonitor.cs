@@ -1,11 +1,12 @@
 ﻿using System;
+using Wammer.Station;
 
 namespace Wammer.PerfMonitor
 {
-	class AttachmentUploadMonitor
+	internal class AttachmentUploadMonitor
 	{
-		private IPerfCounter avgTime;
-		private IPerfCounter avgTimeBase;
+		private readonly IPerfCounter avgTime;
+		private readonly IPerfCounter avgTimeBase;
 
 		public AttachmentUploadMonitor()
 		{
@@ -13,7 +14,7 @@ namespace Wammer.PerfMonitor
 			avgTimeBase = PerfCounter.GetCounter(PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE);
 		}
 
-		public void OnProcessSucceeded(object sender, Wammer.Station.HttpHandlerEventArgs evt)
+		public void OnProcessSucceeded(object sender, HttpHandlerEventArgs evt)
 		{
 			try
 			{
@@ -25,6 +26,5 @@ namespace Wammer.PerfMonitor
 				this.LogWarnMsg("Unable to write performance data: " + PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD, e);
 			}
 		}
-
 	}
 }

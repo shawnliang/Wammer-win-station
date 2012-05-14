@@ -3,10 +3,16 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.ServiceProcess;
+using System.Threading;
 using Wammer.Cloud;
 using Wammer.PerfMonitor;
-using Wammer.Station.APIHandler;
 using Wammer.PostUpload;
+using Wammer.Station.APIHandler;
+using Wammer.Station.AttachmentUpload;
+using Wammer.Station.Timeline;
+using fastJSON;
+using log4net;
+using log4net.Config;
 
 namespace Wammer.Station.Service
 {
@@ -15,22 +21,31 @@ namespace Wammer.Station.Service
 		public const string SERVICE_NAME = "WavefaceStation";
 		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("StationService");
-		private HttpServer managementServer;
-		private HttpServer functionServer;
-		private StationTimer stationTimer;
-		private string stationId;
-		private string resourceBasePath;
-		private DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
+		private static readonly ILog logger = LogManager.GetLogger("StationService");
+		private readonly DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
+		private readonly PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
 		private TaskRunner<INamedTask>[] bodySyncRunners;
-		private PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
+		private HttpServer functionServer;
+		private HttpServer managementServer;
+		private string resourceBasePath;
+		private string stationId;
+		private StationTimer stationTimer;
 		private TaskRunner<ITask>[] upstreamTaskRunner;
 
 		public StationService()
-		{			
-			log4net.Config.XmlConfigurator.Configure();
+		{
+			XmlConfigurator.Configure();
 			InitializeComponent();
-			this.ServiceName = SERVICE_NAME;
+			ServiceName = SERVICE_NAME;
+		}
+
+		~StationService()
+		{
+			if (managementServer != null)
+				managementServer.Dispose();
+
+			if (functionServer != null)
+				functionServer.Dispose();
 		}
 
 		public void Run()
@@ -53,48 +68,48 @@ namespace Wammer.Station.Service
 				ResetPerformanceCounter();
 
 				AppDomain.CurrentDomain.UnhandledException +=
-					new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+					CurrentDomain_UnhandledException;
 
 				Environment.CurrentDirectory = Path.GetDirectoryName(
-										Assembly.GetExecutingAssembly().Location);
+					Assembly.GetExecutingAssembly().Location);
 
 				logger.Debug("Initialize Stream Service");
 				InitStationId();
 				InitResourceBasePath();
 
-				fastJSON.JSON.Instance.UseUTCDateTime = true;
+				JSON.Instance.UseUTCDateTime = true;
 
 				functionServer = new HttpServer(9981); // TODO: remove hard code
 
 
 				stationTimer = new StationTimer(bodySyncTaskQueue, stationId);
 
-				functionServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
+				functionServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
 
 
-				APIHandler.AttachmentUploadHandler attachmentHandler = new APIHandler.AttachmentUploadHandler();
-				AttachmentUploadMonitor attachmentMonitor = new AttachmentUploadMonitor();
+				var attachmentHandler = new AttachmentUploadHandler();
+				var attachmentMonitor = new AttachmentUploadMonitor();
 
-				attachmentHandler.AttachmentProcessed += 
-					new AttachmentUpload.AttachmentProcessedHandler(
-						new AttachmentUpload.AttachmentUtility()).OnProcessed;
+				attachmentHandler.AttachmentProcessed +=
+					new AttachmentProcessedHandler(
+						new AttachmentUtility()).OnProcessed;
 				attachmentHandler.ProcessSucceeded += attachmentMonitor.OnProcessSucceeded;
 
-				
-				BypassHttpHandler cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
+
+				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 				InitCloudForwarder(cloudForwarder);
 
-				AttachmentDownloadMonitor downstreamMonitor = new AttachmentDownloadMonitor();
+				var downstreamMonitor = new AttachmentDownloadMonitor();
 				bodySyncTaskQueue.Enqueued += downstreamMonitor.OnDownstreamTaskEnqueued;
 
-				InitFunctionServerHandlers(attachmentHandler,cloudForwarder, downstreamMonitor);
-				
+				InitFunctionServerHandlers(attachmentHandler, cloudForwarder, downstreamMonitor);
+
 
 				logger.Debug("Start function server");
 				functionServer.Start();
 				stationTimer.Start();
 
-				int bodySyncThreadNum = 1;
+				const int bodySyncThreadNum = 1;
 				bodySyncRunners = new TaskRunner<INamedTask>[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
@@ -111,24 +126,22 @@ namespace Wammer.Station.Service
 				upstreamTaskRunner = new TaskRunner<ITask>[upstreamThreads];
 				for (int i = 0; i < upstreamThreads; i++)
 				{
-					upstreamTaskRunner[i] = new TaskRunner<ITask>(AttachmentUpload.AttachmentUploadQueue.Instance);
+					upstreamTaskRunner[i] = new TaskRunner<ITask>(AttachmentUploadQueue.Instance);
 					upstreamTaskRunner[i].Start();
 				}
 
 
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989);
-				managementServer.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
+				managementServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
 
-				AddDriverHandler addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
+				var addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
 				InitManagementServerHandler(addDriverHandler);
 
-				addDriverHandler.DriverAdded += new EventHandler<DriverAddedEvtArgs>(addDriverHandler_DriverAdded);
-				addDriverHandler.BeforeDriverSaved += new EventHandler<BeforeDriverSavedEvtArgs>(addDriverHandler_BeforeDriverSaved);
+				addDriverHandler.DriverAdded += addDriverHandler_DriverAdded;
+				addDriverHandler.BeforeDriverSaved += addDriverHandler_BeforeDriverSaved;
 				logger.Debug("Start management server");
 				managementServer.Start();
-
-
 
 
 				logger.Info("Stream station is started");
@@ -150,8 +163,11 @@ namespace Wammer.Station.Service
 
 		private void InitManagementServerHandler(AddDriverHandler addDriverHandler)
 		{
-			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"), new ResumeSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner));
-			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"), new SuspendSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner));
+			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"),
+			                            new ResumeSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner));
+			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"),
+			                            new SuspendSyncHandler(postUploadRunner, stationTimer, bodySyncRunners,
+			                                                   upstreamTaskRunner));
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/add/"), addDriverHandler);
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/list/"), new ListDriverHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), new RemoveOwnerHandler(stationId));
@@ -164,7 +180,8 @@ namespace Wammer.Station.Service
 			managementServer.AddHandler(GetDefaultBathPath("/availability/ping/"), new PingHandler());
 		}
 
-		private void InitFunctionServerHandlers(APIHandler.AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder, AttachmentDownloadMonitor downstreamMonitor)
+		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder,
+		                                        AttachmentDownloadMonitor downstreamMonitor)
 		{
 			logger.Debug("Add cloud forwarders to function server");
 			functionServer.AddDefaultHandler(cloudForwarder);
@@ -173,78 +190,81 @@ namespace Wammer.Station.Service
 
 			functionServer.AddHandler("/", new DummyHandler());
 
-			functionServer.AddHandler(GetDefaultBathPath("/attachments/upload/"), 
-				attachmentHandler);
+			functionServer.AddHandler(GetDefaultBathPath("/attachments/upload/"),
+			                          attachmentHandler);
 
 			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/get/"),
-				new ResouceDirGetHandler(resourceBasePath));
+			                          new ResouceDirGetHandler(resourceBasePath));
 
 			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/set/"),
-				new ResouceDirSetHandler());
+			                          new ResouceDirSetHandler());
 
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/get/"),
-				new AttachmentGetHandler());
+			                          new AttachmentGetHandler());
 
 			functionServer.AddHandler(GetDefaultBathPath("/availability/ping/"),
-				new PingHandler());
+			                          new PingHandler());
 
 			functionServer.AddHandler(GetDefaultBathPath("/reachability/ping/"),
-				new PingHandler());
+			                          new PingHandler());
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/getLatest/"),
-				new HybridCloudHttpRouter(new PostGetLatestHandler()));
+			                          new HybridCloudHttpRouter(new PostGetLatestHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/get/"),
-				new HybridCloudHttpRouter(new PostGetHandler()));
+			                          new HybridCloudHttpRouter(new PostGetHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/getSingle/"),
-				new HybridCloudHttpRouter(new PostGetSingleHandler()));
+			                          new HybridCloudHttpRouter(new PostGetSingleHandler()));
+
+			functionServer.AddHandler(GetDefaultBathPath("/posts/fetchByFilter/"),
+									  new HybridCloudHttpRouter(new PostFetchByFilterHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
-				new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance)));
+			                          new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance)));
 
 			//functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
-				//new NewPostHandler(PostUploadTaskController.Instance));
+			//new NewPostHandler(PostUploadTaskController.Instance));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),
-				new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance))));
+			                          new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance))));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/hide/"),
-				new HybridCloudHttpRouter((new HidePostHandler(PostUploadTaskController.Instance))));
+			                          new HybridCloudHttpRouter((new HidePostHandler(PostUploadTaskController.Instance))));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/newComment/"),
-				new HybridCloudHttpRouter((new NewPostCommentHandler(PostUploadTaskController.Instance))));
+			                          new HybridCloudHttpRouter((new NewPostCommentHandler(PostUploadTaskController.Instance))));
 
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/setLastScan/"),
-				new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
+			                          new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/getLastScan/"),
-				new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
+			                          new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
-				new HybridCloudHttpRouter(new APIHandler.UserTrackHandler()));
+			                          new HybridCloudHttpRouter(new UserTrackHandler()));
 
-			UserLoginHandler loginHandler = new UserLoginHandler();
+			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
-				loginHandler);
+			                          loginHandler);
 
-			loginHandler.UserLogined += new EventHandler<UserLoginEventArgs>(loginHandler_UserLogined);
+			loginHandler.UserLogined += loginHandler_UserLogined;
 
-			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"), 
-				new UserLogoutHandler());			
+			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"),
+			                          new UserLogoutHandler());
 
-			AttachmentViewHandler viewHandler = new AttachmentViewHandler(stationId);
+			var viewHandler = new AttachmentViewHandler(stationId);
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"),
-							viewHandler);
-			
+			                          viewHandler);
+
 			viewHandler.FileDownloadStarted += downstreamMonitor.OnDownstreamTaskEnqueued;
 			viewHandler.FileDownloadInProgress += downstreamMonitor.OnDownstreamTaskInProgress;
 			viewHandler.FileDownloadFinished += downstreamMonitor.OnDownstreamTaskDone;
 		}
 
-		void loginHandler_UserLogined(object sender, UserLoginEventArgs e)
+		private void loginHandler_UserLogined(object sender, UserLoginEventArgs e)
 		{
-			TaskQueue.Enqueue(new UpdateDriverDBTask(e, this.stationId), TaskPriority.High);
+			TaskQueue.Enqueue(new UpdateDriverDBTask(e, stationId), TaskPriority.High);
 		}
 
 		private static string GetDefaultBathPath(string relativedPath)
@@ -252,36 +272,25 @@ namespace Wammer.Station.Service
 			return "/" + CloudServer.DEF_BASE_PATH + relativedPath;
 		}
 
-		#region Private Method
-		private void ResetPerformanceCounter()
-		{
-			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, true);
-			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, true);
-			PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, true);
-			PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, true);
-		} 
-		#endregion
-
-		void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
+		private void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
 			PublicPortMapping.Instance.DriverAdded(sender, e);
-
 		}
 
-		void addDriverHandler_BeforeDriverSaved(object sender, BeforeDriverSavedEvtArgs e)
+		private void addDriverHandler_BeforeDriverSaved(object sender, BeforeDriverSavedEvtArgs e)
 		{
-			Timeline.TimelineSyncer syncer = new Timeline.TimelineSyncer(
-				new Timeline.PostProvider(),
-				new Timeline.TimelineSyncerDBWithDriverCached(e.Driver),
+			var syncer = new TimelineSyncer(
+				new PostProvider(),
+				new TimelineSyncerDBWithDriverCached(e.Driver),
 				new UserTracksApi()
-			);
+				);
 
-			ResourceDownloader downloader = new ResourceDownloader(bodySyncTaskQueue, stationId);
-			syncer.PostsRetrieved += new EventHandler<Timeline.TimelineSyncEventArgs>(downloader.PostRetrieved);
+			var downloader = new ResourceDownloader(bodySyncTaskQueue, stationId);
+			syncer.PostsRetrieved += downloader.PostRetrieved;
 			syncer.PullTimeline(e.Driver);
 		}
 
-		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			if (e.IsTerminating)
 			{
@@ -314,7 +323,7 @@ namespace Wammer.Station.Service
 
 		private void InitResourceBasePath()
 		{
-			resourceBasePath = (string)StationRegistry.GetValue("resourceBasePath", null);
+			resourceBasePath = (string) StationRegistry.GetValue("resourceBasePath", null);
 			if (resourceBasePath == null)
 			{
 				resourceBasePath = "resource";
@@ -325,7 +334,7 @@ namespace Wammer.Station.Service
 
 		private void InitStationId()
 		{
-			stationId = (string)StationRegistry.GetValue("stationId", null);
+			stationId = (string) StationRegistry.GetValue("stationId", null);
 
 			if (stationId == null)
 			{
@@ -336,18 +345,18 @@ namespace Wammer.Station.Service
 
 		private void ConfigThreadPool()
 		{
-			int minWorker,minIO;
+			int minWorker, minIO;
 
-			System.Threading.ThreadPool.GetMinThreads(out minWorker, out minIO);
+			ThreadPool.GetMinThreads(out minWorker, out minIO);
 
 			minWorker = int.Parse(StationRegistry.GetValue("MinWorkerThreads", minWorker.ToString()).ToString());
 			minIO = int.Parse(StationRegistry.GetValue("MinIOThreads", minIO.ToString()).ToString());
 
 			if (minWorker > 0 && minIO > 0)
 			{
-				System.Threading.ThreadPool.SetMinThreads(minWorker, minIO);
+				ThreadPool.SetMinThreads(minWorker, minIO);
 				logger.InfoFormat("Min worker threads {0}, min IO completion threads {1}",
-					minWorker.ToString(), minIO.ToString());
+				                  minWorker.ToString(), minIO.ToString());
 			}
 
 			int maxConcurrentTaskCount = int.Parse(StationRegistry.GetValue("MaxConcurrentTaskCount", "6").ToString());
@@ -355,11 +364,24 @@ namespace Wammer.Station.Service
 				TaskQueue.MaxConcurrentTaskCount = maxConcurrentTaskCount;
 		}
 
+		#region Private Method
+
+		private void ResetPerformanceCounter()
+		{
+			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
+			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
+			PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
+			PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE);
+		}
+
+		#endregion
 	}
 
 
-	class DummyHandler : IHttpHandler
+	internal class DummyHandler : IHttpHandler
 	{
+		#region IHttpHandler Members
+
 		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
@@ -369,7 +391,7 @@ namespace Wammer.Station.Service
 
 		public object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 
 		public void SetBeginTimestamp(long beginTime)
@@ -381,5 +403,7 @@ namespace Wammer.Station.Service
 		{
 			throw new NotImplementedException();
 		}
+
+		#endregion
 	}
 }

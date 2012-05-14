@@ -117,7 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="AuthError" xml:space="preserve">
     <value>帳號或密碼錯誤，請再試一次。</value>
   </data>
@@ -178,9 +177,6 @@
   <data name="NetworkDisconnected" xml:space="preserve">
     <value>網路斷線</value>
   </data>
-  <data name="NoData" xml:space="preserve">
-    <value>---</value>
-  </data>
   <data name="NotConnected" xml:space="preserve">
     <value>無法從外部網路存取</value>
   </data>
@@ -221,15 +217,6 @@
   <data name="StationServiceDown" xml:space="preserve">
     <value>Stream 服務未完全啟動，請稍候一會再登入，或確認 Stream 服務啟動狀態。</value>
   </data>
-  <data name="stream_tray_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stream_tray_pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="stream_tray_warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stream_tray_warn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="stream_tray_working" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stream_tray_working.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SystemError" xml:space="preserve">
     <value>抱歉，系統發生未預期錯誤，請稍後再試。</value>
   </data>
@@ -252,7 +239,7 @@
     <value>偏好設定...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>Stream 已更新</value>
+    <value>同步完成</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
     <value>無法連接 Stream 伺服器</value>

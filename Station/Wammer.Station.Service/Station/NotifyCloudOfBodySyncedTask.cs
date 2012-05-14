@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Wammer.Cloud;
 using Wammer.Utility;
 
 namespace Wammer.Station
 {
 	[Serializable]
-	class NotifyCloudOfBodySyncedTask: ITask
+	internal class NotifyCloudOfBodySyncedTask : ITask
 	{
-		private string object_id;
-		private string session_token;
+		private readonly string object_id;
+		private readonly string session_token;
 
 		public NotifyCloudOfBodySyncedTask(string object_id, string session_token)
 		{
@@ -21,12 +19,16 @@ namespace Wammer.Station
 			this.session_token = session_token;
 		}
 
+		#region ITask Members
+
 		public void Execute()
 		{
-			using (DefaultWebClient agent = new DefaultWebClient())
+			using (var agent = new DefaultWebClient())
 			{
-				Cloud.AttachmentApi.SetSync(agent, object_id, session_token);
+				AttachmentApi.SetSync(agent, object_id, session_token);
 			}
 		}
+
+		#endregion
 	}
 }

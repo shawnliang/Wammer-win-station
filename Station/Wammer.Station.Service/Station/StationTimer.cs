@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
-using System;
+using log4net;
 
 namespace Wammer.Station
 {
@@ -11,30 +12,31 @@ namespace Wammer.Station
 		void Close();
 	}
 
-	class StationTimer
+	internal class StationTimer
 	{
 #if DEBUG
-		private const long STATUS_CHECK_PERIOD = 30 * 1000; // run heartbeat frequently in debug mode
+		private const long STATUS_CHECK_PERIOD = 30*1000; // run heartbeat frequently in debug mode
 #else
 		private const long STATUS_CHECK_PERIOD = 10 * 60 * 1000; // TODO: remove hardcode
 #endif
 
-		private const long RESOURCE_SYNC_PEROID = 10 * 1000;
+		private const long RESOURCE_SYNC_PEROID = 10*1000;
 
-		private List<IStationTimer> timers;
+		private readonly List<IStationTimer> timers;
 
 		public StationTimer(ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
 		{
 			var resourceSyncer = new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue, stationId);
 			var statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);
-			statusChecker.IsPrimaryChanged += new EventHandler<IsPrimaryChangedEvtArgs>(resourceSyncer.OnIsPrimaryChanged);
+			statusChecker.IsPrimaryChanged += resourceSyncer.OnIsPrimaryChanged;
 			var taskRetryTimer = new TaskRetryTimer();
 
-			timers = new List<IStationTimer> {
-				resourceSyncer,
-				statusChecker,
-				taskRetryTimer
-			};
+			timers = new List<IStationTimer>
+			         	{
+			         		resourceSyncer,
+			         		statusChecker,
+			         		taskRetryTimer
+			         	};
 		}
 
 		public void Start()
@@ -62,16 +64,18 @@ namespace Wammer.Station
 		}
 	}
 
-	abstract public class NonReentrantTimer: IStationTimer
+	public abstract class NonReentrantTimer : IStationTimer
 	{
-		private System.Threading.Timer timer;
-		private long timerPeriod;
+		private readonly Timer timer;
+		private readonly long timerPeriod;
 
 		protected NonReentrantTimer(long timerPeriod)
 		{
-			this.timer = new Timer(this.OnTimedUp);
+			timer = new Timer(OnTimedUp);
 			this.timerPeriod = timerPeriod;
 		}
+
+		#region IStationTimer Members
 
 		public void Start()
 		{
@@ -88,6 +92,8 @@ namespace Wammer.Station
 			timer.Dispose();
 		}
 
+		#endregion
+
 		private void OnTimedUp(object state)
 		{
 			try
@@ -96,7 +102,7 @@ namespace Wammer.Station
 			}
 			catch (Exception e)
 			{
-				log4net.LogManager.GetLogger(typeof(NonReentrantTimer)).Warn(e);
+				LogManager.GetLogger(typeof (NonReentrantTimer)).Warn(e);
 			}
 			finally
 			{

@@ -1,40 +1,40 @@
 ﻿using System;
 using System.IO;
-
-
+using Wammer.Cloud;
 
 namespace Wammer.Station
 {
-	class ResouceDirGetHandler: HttpHandler
+	internal class ResouceDirGetHandler : HttpHandler
 	{
-		private string resourceBasePath;
+		private readonly string resourceBasePath;
 
 		public ResouceDirGetHandler(string ResouceDirGetHandler)
 		{
-			this.resourceBasePath = ResouceDirGetHandler;
+			resourceBasePath = ResouceDirGetHandler;
 		}
 
 		public override void HandleRequest()
 		{
 			RespondSuccess(
 				new GetResourceDirResponse
-				{
-					status = 200,
-					api_ret_code = 0,
-					api_ret_message = "success",
-					timestamp = DateTime.UtcNow,
-					path = Path.IsPathRooted(resourceBasePath) ?
-							resourceBasePath : Path.GetFullPath(resourceBasePath)
-				});
+					{
+						status = 200,
+						api_ret_code = 0,
+						api_ret_message = "success",
+						timestamp = DateTime.UtcNow,
+						path = Path.IsPathRooted(resourceBasePath)
+						       	? resourceBasePath
+						       	: Path.GetFullPath(resourceBasePath)
+					});
 		}
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 
-	class ResouceDirSetHandler: HttpHandler
+	internal class ResouceDirSetHandler : HttpHandler
 	{
 		public override void HandleRequest()
 		{
@@ -42,7 +42,7 @@ namespace Wammer.Station
 
 			if (path == null || !Path.IsPathRooted(path))
 				throw new FormatException("path is null or not a full path");
-				
+
 			StationRegistry.SetValue("resourceBasePath", path);
 
 			RespondSuccess();
@@ -50,17 +50,12 @@ namespace Wammer.Station
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 
-	public class GetResourceDirResponse : Cloud.CloudResponse
+	public class GetResourceDirResponse : CloudResponse
 	{
 		public string path { get; set; }
-
-		public GetResourceDirResponse()
-			:base()
-		{
-		}
 	}
 }

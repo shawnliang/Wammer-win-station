@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Wammer.PostUpload;
+﻿using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using Wammer.PostUpload;
 
 namespace Wammer.Model
 {
@@ -12,12 +8,13 @@ namespace Wammer.Model
 	{
 		[BsonId]
 		public string post_id { get; set; }
+
 		public LinkedList<PostUploadTask> tasks { get; set; }
 	}
 
 	public class PostUploadTasksCollection : Collection<PostUploadTasks>
 	{
-		private static PostUploadTasksCollection instance;
+		private static readonly PostUploadTasksCollection instance;
 
 		static PostUploadTasksCollection()
 		{

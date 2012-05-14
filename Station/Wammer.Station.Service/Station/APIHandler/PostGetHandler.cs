@@ -1,21 +1,21 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using Wammer.Station;
+using System.Diagnostics;
+using System.Linq;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using MongoDB.Driver.Builders;
-using MongoDB.Driver;
 
 namespace Wammer.Station
 {
 	public class PostGetHandler : HttpHandler
 	{
 		private const int MAX_LIMIT = 200;
-				
 
 		#region Protected Method
+
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
@@ -26,12 +26,12 @@ namespace Wammer.Station
 			string groupId = Parameters["group_id"];
 			DateTime datum = TimeHelper.ParseCloudTimeString(Parameters["datum"]);
 
-			if (!PermissionHelper.IsGroupPermissionOK(groupId, this.Session))
+			if (!PermissionHelper.IsGroupPermissionOK(groupId, Session))
 			{
 				throw new WammerStationException(
 					PostApiError.PermissionDenied.ToString(),
-					(int)PostApiError.PermissionDenied
-				);
+					(int) PostApiError.PermissionDenied
+					);
 			}
 
 			int limit = int.Parse(Parameters["limit"]);
@@ -47,8 +47,8 @@ namespace Wammer.Station
 			{
 				throw new WammerStationException(
 					PostApiError.InvalidParameterLimit.ToString(),
-					(int)PostApiError.InvalidParameterLimit
-				);
+					(int) PostApiError.InvalidParameterLimit
+					);
 			}
 
 			MongoCursor<PostInfo> posts = null;
@@ -59,6 +59,7 @@ namespace Wammer.Station
 					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.LTE("timestamp", datum)))
 					.SetLimit(Math.Abs(limit))
 					.SetSortOrder(SortBy.Descending("timestamp"));
+
 				totalCount = PostCollection.Instance
 					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.LTE("timestamp", datum)))
 					.Count();
@@ -69,42 +70,46 @@ namespace Wammer.Station
 					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.GTE("timestamp", datum)))
 					.SetLimit(Math.Abs(limit))
 					.SetSortOrder(SortBy.Ascending("timestamp"));
+
 				totalCount = PostCollection.Instance
 					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.GTE("timestamp", datum)))
 					.Count();
 			}
 
-			List<PostInfo> postList = new List<PostInfo>();
-			foreach (PostInfo post in posts)
-			{
-				postList.Add(post);
-			}
+			Debug.Assert(posts != null, "posts != null");
+			var postList = posts.ToList();
 
-			List<UserInfo> userList = new List<UserInfo>();
-			userList.Add(new UserInfo
-			{
-				user_id = Session.user.user_id,
-				nickname = Session.user.nickname,
-				avatar_url = Session.user.avatar_url
-			});
+			var userList = new List<UserInfo>
+			               	{
+			               		new UserInfo
+			               			{
+			               				user_id = Session.user.user_id,
+			               				nickname = Session.user.nickname,
+			               				avatar_url = Session.user.avatar_url
+			               			}
+			               	};
 
 			RespondSuccess(
-				new PostGetResponse { 
-					remaining_count = totalCount - postList.Count,
-					get_count = postList.Count,
-					group_id = groupId,
-					posts = postList,
-					users = userList
-				}
-			);
+				new PostGetResponse
+					{
+						remaining_count = totalCount - postList.Count,
+						get_count = postList.Count,
+						group_id = groupId,
+						posts = postList,
+						users = userList
+					}
+				);
 		}
+
 		#endregion
 
 		#region Public Method
+
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
+
 		#endregion
 	}
 }

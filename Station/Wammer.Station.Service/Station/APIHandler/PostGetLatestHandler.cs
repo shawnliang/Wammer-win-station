@@ -1,12 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
-using Wammer.Station;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using MongoDB.Driver.Builders;
-using MongoDB.Driver;
 
 namespace Wammer.Station
 {
@@ -14,9 +12,9 @@ namespace Wammer.Station
 	{
 		private const int DEFAULT_LIMIT = 50;
 		private const int MAX_LIMIT = 200;
-			
 
 		#region Protected Method
+
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
@@ -26,12 +24,12 @@ namespace Wammer.Station
 
 			string groupId = Parameters["group_id"];
 
-			if (!PermissionHelper.IsGroupPermissionOK(groupId, this.Session))
+			if (!PermissionHelper.IsGroupPermissionOK(groupId, Session))
 			{
 				throw new WammerStationException(
 					PostApiError.PermissionDenied.ToString(),
-					(int)PostApiError.PermissionDenied
-				);
+					(int) PostApiError.PermissionDenied
+					);
 			}
 
 			int limit = (Parameters["limit"] == null ? DEFAULT_LIMIT : int.Parse(Parameters["limit"]));
@@ -42,9 +40,9 @@ namespace Wammer.Station
 			else if (limit < 1)
 			{
 				throw new WammerStationException(
-					PostApiError.InvalidParameterLimit.ToString(), 
-					(int)PostApiError.InvalidParameterLimit
-				);
+					PostApiError.InvalidParameterLimit.ToString(),
+					(int) PostApiError.InvalidParameterLimit
+					);
 			}
 
 			MongoCursor<PostInfo> posts = PostCollection.Instance
@@ -52,38 +50,42 @@ namespace Wammer.Station
 				.SetLimit(limit)
 				.SetSortOrder(SortBy.Descending("timestamp"));
 
-			List<PostInfo> postList = new List<PostInfo>();
-			foreach (PostInfo post in posts)
-			{
-				postList.Add(post);
-			}
+			List<PostInfo> postList = posts.ToList();
 
-			List<UserInfo> userList = new List<UserInfo>();
-			userList.Add(new UserInfo{
-				user_id=Session.user.user_id, nickname=Session.user.nickname, avatar_url=Session.user.avatar_url});
+			var userList = new List<UserInfo>
+			               	{
+			               		new UserInfo
+			               			{
+			               				user_id = Session.user.user_id,
+			               				nickname = Session.user.nickname,
+			               				avatar_url = Session.user.avatar_url
+			               			}
+			               	};
 
-			long totalCount = 0;
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", Session.user.user_id));
-			totalCount = PostCollection.Instance
+			long totalCount = PostCollection.Instance
 				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"))).Count();
 
 			RespondSuccess(
-				new PostGetLatestResponse { 
-					total_count = totalCount, 
-					get_count = postList.Count, 
-					group_id = groupId, 
-					posts = postList, 
-					users = userList
-				}
-			);
-		}		
+				new PostGetLatestResponse
+					{
+						total_count = totalCount,
+						get_count = postList.Count,
+						group_id = groupId,
+						posts = postList,
+						users = userList
+					}
+				);
+		}
+
 		#endregion
 
 		#region Public Method
+
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
+
 		#endregion
 	}
 }

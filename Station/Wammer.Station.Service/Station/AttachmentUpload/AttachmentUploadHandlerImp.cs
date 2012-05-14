@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Model;
-using Wammer.Cloud;
+using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Security.Cryptography;
-using System.ComponentModel;
+using System.Text;
+using Wammer.Cloud;
+using Wammer.Model;
 using Wammer.Utility;
 
 namespace Wammer.Station.AttachmentUpload
 {
-
 	public enum UpsertResult
 	{
 		Insert,
@@ -31,11 +29,13 @@ namespace Wammer.Station.AttachmentUpload
 
 		public string object_id { get; set; }
 		public string group_id { get; set; }
+
 		public string mime_type
 		{
 			get { return string.IsNullOrEmpty(_mime_type) ? "application/octet-stream" : _mime_type; }
 			set { _mime_type = value; }
 		}
+
 		public string file_name { get; set; }
 		public string title { get; set; }
 		public string description { get; set; }
@@ -49,30 +49,30 @@ namespace Wammer.Station.AttachmentUpload
 
 	public class AttachmentEventArgs : EventArgs
 	{
+		public AttachmentEventArgs(string attachmentId, bool isFromThisWindows, UpsertResult upsertResult, ImageMeta meta)
+		{
+			AttachmentId = attachmentId;
+			IsFromThisWindows = isFromThisWindows;
+			UpsertResult = upsertResult;
+			ImgMeta = meta;
+		}
+
 		public string AttachmentId { get; private set; }
 		public bool IsFromThisWindows { get; private set; }
 		public UpsertResult UpsertResult { get; private set; }
 		public ImageMeta ImgMeta { get; private set; }
-
-		public AttachmentEventArgs(string attachmentId, bool isFromThisWindows, UpsertResult upsertResult, ImageMeta meta)
-			:base()
-		{
-			this.AttachmentId = attachmentId;
-			this.IsFromThisWindows = isFromThisWindows;
-			this.UpsertResult = upsertResult;
-			this.ImgMeta = meta;
-		}
 	}
 
 	public class AttachmentUploadHandlerImp
 	{
 		private readonly IAttachmentUploadHandlerDB db;
-		public event EventHandler<AttachmentEventArgs> AttachmentProcessed;
 
 		public AttachmentUploadHandlerImp(IAttachmentUploadHandlerDB db)
 		{
 			this.db = db;
 		}
+
+		public event EventHandler<AttachmentEventArgs> AttachmentProcessed;
 
 		public ObjectUploadResponse Process(UploadData uploadData)
 		{
@@ -82,19 +82,19 @@ namespace Wammer.Station.AttachmentUpload
 			if (uploadData.object_id == null)
 				uploadData.object_id = Guid.NewGuid().ToString();
 
-			Attachment dbDoc = new Attachment
-			{
-				object_id = uploadData.object_id,
-				group_id = uploadData.group_id,
-				file_name = uploadData.file_name,
-				title = uploadData.title,
-				description = uploadData.description,
-				modify_time = DateTime.UtcNow,
-				image_meta = new ImageProperty()
-			};
+			var dbDoc = new Attachment
+			            	{
+			            		object_id = uploadData.object_id,
+			            		group_id = uploadData.group_id,
+			            		file_name = uploadData.file_name,
+			            		title = uploadData.title,
+			            		description = uploadData.description,
+			            		modify_time = DateTime.UtcNow,
+			            		image_meta = new ImageProperty()
+			            	};
 
-			System.Drawing.Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
-			FileStorage storage = new FileStorage(db.GetUserByGroupId(uploadData.group_id));
+			Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
+			var storage = new FileStorage(db.GetUserByGroupId(uploadData.group_id));
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
 			{
@@ -110,16 +110,16 @@ namespace Wammer.Station.AttachmentUpload
 			}
 			else
 			{
-				ThumbnailInfo thumb = new ThumbnailInfo
-				{
-					file_size = uploadData.raw_data.Count,
-					md5 = ComputeMD5(uploadData.raw_data),
-					mime_type = uploadData.mime_type,
-					saved_file_name = GetSavedFileName(uploadData),
-					url = GetViewApiUrl(uploadData),
-					width = imageSize.Width,
-					height =  imageSize.Height
-				};
+				var thumb = new ThumbnailInfo
+				            	{
+				            		file_size = uploadData.raw_data.Count,
+				            		md5 = ComputeMD5(uploadData.raw_data),
+				            		mime_type = uploadData.mime_type,
+				            		saved_file_name = GetSavedFileName(uploadData),
+				            		url = GetViewApiUrl(uploadData),
+				            		width = imageSize.Width,
+				            		height = imageSize.Height
+				            	};
 
 				dbDoc.image_meta.SetThumbnailInfo(uploadData.imageMeta, thumb);
 				storage.SaveFile(thumb.saved_file_name, uploadData.raw_data);
@@ -150,7 +150,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		private static string GetViewApiUrl(UploadData data)
 		{
-			StringBuilder buf = new StringBuilder();
+			var buf = new StringBuilder();
 			buf.Append("/v2/attachments/view/?object_id=").
 				Append(data.object_id);
 
@@ -165,7 +165,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		private static string GetSavedFileName(UploadData data)
 		{
-			StringBuilder buf = new StringBuilder();
+			var buf = new StringBuilder();
 			buf.Append(data.object_id);
 
 			if (ImageMeta.Square <= data.imageMeta && data.imageMeta <= ImageMeta.Large)
@@ -187,13 +187,12 @@ namespace Wammer.Station.AttachmentUpload
 			using (MD5 md5 = MD5.Create())
 			{
 				byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
-				StringBuilder buff = new StringBuilder();
+				var buff = new StringBuilder();
 				for (int i = 0; i < hash.Length; i++)
 					buff.Append(hash[i].ToString("x2"));
 
 				return buff.ToString();
 			}
 		}
-
 	}
 }

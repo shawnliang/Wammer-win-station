@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Net;
-using Wammer.Station;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using MongoDB.Driver.Builders;
+using Wammer.Station;
 
 namespace Wammer.PostUpload
 {
@@ -14,16 +13,16 @@ namespace Wammer.PostUpload
 	{
 		public override void Execute()
 		{
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", this.UserId));
+			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", UserId));
 			if (driver != null)
 			{
-				using (WebClient agent = new WebClient())
+				using (var agent = new WebClient())
 				{
 					try
 					{
 						if (Parameters.ContainsKey(CloudServer.PARAM_ATTACHMENT_ID_ARRAY))
 						{
-							var attachmentIDs =
+							IEnumerable<string> attachmentIDs =
 								from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList()
 								select attachmentString.Trim('"', '"');
 
@@ -31,13 +30,13 @@ namespace Wammer.PostUpload
 							{
 								if (!IsAttachmentExist(id))
 								{
-									throw new WammerStationException("Attachment " + id + " does not exist", (int)StationLocalApiError.NotReady);
+									throw new WammerStationException("Attachment " + id + " does not exist", (int) StationLocalApiError.NotReady);
 								}
 							}
 						}
 
-						PostApi postApi = new PostApi(driver);
-						postApi.NewPost(agent, this.PostId, this.Timestamp, this.Parameters);
+						var postApi = new PostApi(driver);
+						postApi.NewPost(agent, PostId, Timestamp, Parameters);
 					}
 					catch (WammerCloudException e)
 					{
@@ -45,12 +44,9 @@ namespace Wammer.PostUpload
 
 						if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
 						{
-							throw e;
+							throw;
 						}
-
-						// cloud will always reject the request, so ignore the task.
-						return;
-					} 
+					}
 				}
 			}
 		}

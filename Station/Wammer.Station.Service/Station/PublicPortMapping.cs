@@ -2,101 +2,98 @@
 using System.Net;
 using System.Threading;
 using TCMPortMapper;
+using Wammer.Cloud;
+using Wammer.Model;
 using Wammer.Utility;
+using log4net;
 
 namespace Wammer.Station
 {
 	public class PublicPortMapping
 	{
 		//private static PortMapper portMapper = TCMPortMapper.PortMapper.SharedInstance;
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("UPnP");
+		private static readonly ILog logger = LogManager.GetLogger("UPnP");
 
-		private bool hasDriver = false;
-		private ushort externalPort = 0;
-		private IPAddress externalIP = null;
+		private static readonly PublicPortMapping instance;
+		private static readonly IPAddress NOT_SUPPORT = IPAddress.Parse("0.0.0.0");
 
-		private PortMapping myMapping = null;
-		private object lockObj = new object();
-		private static PublicPortMapping instance = null;
-
-		private Timer checkTimer;
+		private readonly Timer checkTimer;
+		private readonly object lockObj = new object();
+		private IPAddress externalIP;
+		private ushort externalPort;
+		private bool hasDriver;
+		private PortMapping myMapping;
 		private UPnPState state;
 
-
-		private static IPAddress NOT_SUPPORT = IPAddress.Parse("0.0.0.0");
 
 		static PublicPortMapping()
 		{
 			instance = new PublicPortMapping();
 		}
 
-		public static PublicPortMapping Instance
-		{
-			get
-			{
-				return instance;
-			}
-		}
-
 		private PublicPortMapping()
 		{
-			this.hasDriver = (Model.DriverCollection.Instance.FindOne() != null);
+			hasDriver = (DriverCollection.Instance.FindOne() != null);
 
-			TCMPortMapper.PortMapper.SharedInstance.DidChangeMappingStatus += new PortMapper.PMDidChangeMappingStatus(PortMappingChanged);
-			TCMPortMapper.PortMapper.SharedInstance.ExternalIPAddressDidChange += new PortMapper.PMExternalIPAddressDidChange(ExternalIPChanged);
-			TCMPortMapper.PortMapper.SharedInstance.WillStartSearchForRouter += new PortMapper.PMWillStartSearchForRouter(WillStartSearchForRouter);
-			TCMPortMapper.PortMapper.SharedInstance.DidStartWork += new PortMapper.PMDidStartWork(DidStartWork);
-			TCMPortMapper.PortMapper.SharedInstance.AllowMultithreadedCallbacks = true;
-			TCMPortMapper.PortMapper.SharedInstance.Start();
+			PortMapper.SharedInstance.DidChangeMappingStatus += PortMappingChanged;
+			PortMapper.SharedInstance.ExternalIPAddressDidChange += ExternalIPChanged;
+			PortMapper.SharedInstance.WillStartSearchForRouter += WillStartSearchForRouter;
+			PortMapper.SharedInstance.DidStartWork += DidStartWork;
+			PortMapper.SharedInstance.AllowMultithreadedCallbacks = true;
+			PortMapper.SharedInstance.Start();
 
 
-			this.state = new NoUPnPDeviceFoundState();
-			int checkIntervalSec = (int)StationRegistry.GetValue("UPnPCheckInterval", 120);
-			this.checkTimer = new Timer(this.CheckState, null, 30 * 1000, checkIntervalSec * 1000);
+			state = new NoUPnPDeviceFoundState();
+			var checkIntervalSec = (int) StationRegistry.GetValue("UPnPCheckInterval", 120);
+			checkTimer = new Timer(CheckState, null, 30*1000, checkIntervalSec*1000);
+		}
+
+		public static PublicPortMapping Instance
+		{
+			get { return instance; }
 		}
 
 		private void CheckState(object notUsed)
 		{
 			lock (lockObj)
 			{
-				UPnPState newState = this.state.CheckAndTransit();
+				UPnPState newState = state.CheckAndTransit();
 
-				while (newState != null && this.state != newState)
+				while (newState != null && state != newState)
 				{
-					this.state = newState;
-					newState = this.state.CheckAndTransit();
+					state = newState;
+					newState = state.CheckAndTransit();
 				}
 
 				if (newState == null)
 				{
 					logger.Debug("UPnP state checker reaches end state.");
-					this.checkTimer.Change(Timeout.Infinite, Timeout.Infinite);
-					return;
+					checkTimer.Change(Timeout.Infinite, Timeout.Infinite);
 				}
 				else
-					logger.Debug("Current state is " + newState.ToString() + ". Try again later..");
+					logger.Debug("Current state is " + newState + ". Try again later..");
 			}
 		}
 
 		private void AddMapping()
 		{
-			Random r = new Random();
+			var r = new Random();
 			int desiredPort = r.Next(10000, 60000);
 
-			myMapping = new PortMapping(9981, (ushort)desiredPort, PortMappingTransportProtocol.TCP);
-			TCMPortMapper.PortMapper.SharedInstance.AddPortMapping(myMapping);
+			myMapping = new PortMapping(9981, (ushort) desiredPort, PortMappingTransportProtocol.TCP);
+			PortMapper.SharedInstance.AddPortMapping(myMapping);
 		}
 
-		public Cloud.UPnPInfo GetUPnPInfo()
+		public UPnPInfo GetUPnPInfo()
 		{
 			lock (lockObj)
 			{
-				Cloud.UPnPInfo info = new Cloud.UPnPInfo();
+				var info = new UPnPInfo();
 				if (IsReadyToNotifyCloud())
 				{
 					info.status = true;
 					info.public_addr = externalIP.ToString();
-					info.public_port = this.externalPort;
+					info.public_port = externalPort;
 				}
 				else
 				{
@@ -113,8 +110,8 @@ namespace Wammer.Station
 		{
 			try
 			{
-				TCMPortMapper.PortMapper.SharedInstance.DidChangeMappingStatus -= this.PortMappingChanged;
-				TCMPortMapper.PortMapper.SharedInstance.StopBlocking();
+				PortMapper.SharedInstance.DidChangeMappingStatus -= PortMappingChanged;
+				PortMapper.SharedInstance.StopBlocking();
 			}
 			catch (Exception e)
 			{
@@ -155,9 +152,9 @@ namespace Wammer.Station
 			{
 				if (externalIP == null)
 					return;
-			
+
 				this.externalIP = externalIP;
-				logger.Info("Public IP detected: " + externalIP.ToString());
+				logger.Info("Public IP detected: " + externalIP);
 
 				if (IsReadyToNotifyCloud())
 					TaskQueue.Enqueue(new NotifyCloudOfExternalPortTask(), TaskPriority.Medium);
@@ -177,23 +174,44 @@ namespace Wammer.Station
 
 		public bool IsReadyToNotifyCloud()
 		{
-			return this.externalIP != null && this.externalPort != 0 && this.hasDriver;
+			return externalIP != null && externalPort != 0 && hasDriver;
 		}
-		
+
 		////////////////////////////////////////////////////////////////////////////
 		// Innter classes
 		////////////////////////////////////////////////////////////////////////////
-		interface UPnPState
-		{
-			UPnPState CheckAndTransit();
-		}
 
-		class NoUPnPDeviceFoundState : UPnPState
+		#region Nested type: NoExternalPortState
+
+		private class NoExternalPortState : UPnPState
 		{
+			#region UPnPState Members
+
 			public UPnPState CheckAndTransit()
 			{
-				if (PublicPortMapping.Instance.externalIP != null &&
-					!PublicPortMapping.Instance.externalIP.Equals(NOT_SUPPORT))
+				if (Instance.externalPort != 0)
+					return null;
+
+				logger.Debug("Add port mapping");
+				Instance.AddMapping();
+				return this;
+			}
+
+			#endregion
+		}
+
+		#endregion
+
+		#region Nested type: NoUPnPDeviceFoundState
+
+		private class NoUPnPDeviceFoundState : UPnPState
+		{
+			#region UPnPState Members
+
+			public UPnPState CheckAndTransit()
+			{
+				if (Instance.externalIP != null &&
+				    !Instance.externalIP.Equals(NOT_SUPPORT))
 					return new NoExternalPortState();
 
 
@@ -201,38 +219,40 @@ namespace Wammer.Station
 				PortMapper.SharedInstance.Refresh();
 				return this;
 			}
+
+			#endregion
 		}
 
-		class NoExternalPortState: UPnPState
+		#endregion
+
+		#region Nested type: UPnPState
+
+		private interface UPnPState
 		{
-			public UPnPState CheckAndTransit()
-			{
-				if (PublicPortMapping.Instance.externalPort != 0)
-					return null;
-
-				logger.Debug("Add port mapping");
-				PublicPortMapping.Instance.AddMapping();
-				return this;
-			}
+			UPnPState CheckAndTransit();
 		}
+
+		#endregion
 	}
 
 
-	class NotifyCloudOfExternalPortTask : ITask
+	internal class NotifyCloudOfExternalPortTask : ITask
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("UPnP");
+		private static readonly ILog logger = LogManager.GetLogger("UPnP");
+
+		#region ITask Members
 
 		public void Execute()
 		{
 			try
 			{
-				Model.StationInfo stationInfo = Model.StationCollection.Instance.FindOne();
+				StationInfo stationInfo = StationCollection.Instance.FindOne();
 				if (stationInfo == null)
 					return;
 
-				Cloud.StationApi api = new Cloud.StationApi(stationInfo.Id, stationInfo.SessionToken);
+				var api = new StationApi(stationInfo.Id, stationInfo.SessionToken);
 
-				Cloud.StationDetail detail = StatusChecker.GetDetail();
+				StationDetail detail = StatusChecker.GetDetail();
 
 				logger.Debug("Notify cloud about station info changed: " + detail.ToFastJSON());
 
@@ -246,6 +266,7 @@ namespace Wammer.Station
 				logger.Warn("Unable to notify external ip/port to cloud", e);
 			}
 		}
+
+		#endregion
 	}
-	
 }

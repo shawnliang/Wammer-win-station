@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
@@ -14,11 +15,11 @@ namespace Wammer.Utility
 		public static ImageCodecInfo GifCodec;
 
 		static ImageHelper()
-		{			
+		{
 			ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
 			foreach (ImageCodecInfo codec in codecs)
 			{
-				switch(codec.MimeType.ToLower())
+				switch (codec.MimeType.ToLower())
 				{
 					case "image/gif":
 						GifCodec = codec;
@@ -29,16 +30,14 @@ namespace Wammer.Utility
 					case "image/png":
 						PngCodec = codec;
 						break;
-					default:
-						break;
 				}
 			}
 		}
 
 		public static Bitmap ScaleBasedOnLongSide(Bitmap original, int sideLength)
 		{
-			float ratio1 = (float)sideLength / (float) original.Width;
-			float ratio2 = (float)sideLength / (float) original.Height;
+			float ratio1 = sideLength/(float) original.Width;
+			float ratio2 = sideLength/(float) original.Height;
 			float ratio = (original.Width > original.Height) ? ratio1 : ratio2;
 
 
@@ -47,8 +46,8 @@ namespace Wammer.Utility
 
 		public static Bitmap ScaleBasedOnShortSide(Bitmap original, int sideLength)
 		{
-			float ratio1 = (float)sideLength / (float)original.Width;
-			float ratio2 = (float)sideLength / (float)original.Height;
+			float ratio1 = sideLength/(float) original.Width;
+			float ratio2 = sideLength/(float) original.Height;
 			float ratio = (original.Width < original.Height) ? ratio1 : ratio2;
 
 			return Scale(original, ratio);
@@ -56,15 +55,15 @@ namespace Wammer.Utility
 
 		private static Bitmap Scale(Bitmap original, float ratio)
 		{
-			int scaledWidth = (int)(original.Width * ratio);
-			int scaledHeight = (int)(original.Height * ratio);
-			Bitmap scaledImage = new Bitmap(scaledWidth, scaledHeight);
+			var scaledWidth = (int) (original.Width*ratio);
+			var scaledHeight = (int) (original.Height*ratio);
+			var scaledImage = new Bitmap(scaledWidth, scaledHeight);
 
 			using (Graphics g = Graphics.FromImage(scaledImage))
 			{
-				g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+				g.InterpolationMode = InterpolationMode.High;
 				g.DrawImage(original, new Rectangle(0, 0, scaledWidth, scaledHeight),
-						new Rectangle(0, 0, original.Width, original.Height), GraphicsUnit.Pixel);
+				            new Rectangle(0, 0, original.Width, original.Height), GraphicsUnit.Pixel);
 			}
 
 			return scaledImage;
@@ -72,12 +71,12 @@ namespace Wammer.Utility
 
 		public static Bitmap Crop(Bitmap original, int width, int height)
 		{
-			Bitmap cropedImage = new Bitmap(width, height);
+			var cropedImage = new Bitmap(width, height);
 
 			using (Graphics g = Graphics.FromImage(cropedImage))
 			{
 				g.DrawImage(original, new Rectangle(0, 0, width, height),
-											new Rectangle(0, 0, width, height), GraphicsUnit.Pixel);
+				            new Rectangle(0, 0, width, height), GraphicsUnit.Pixel);
 			}
 
 			return cropedImage;
@@ -103,7 +102,7 @@ namespace Wammer.Utility
 			if (orientation_index < 0) return ExifOrientations.Unknown;
 
 			// Return the orientation value.
-			return (ExifOrientations)img.GetPropertyItem(OrientationId).Value[0];
+			return (ExifOrientations) img.GetPropertyItem(OrientationId).Value[0];
 		}
 
 		public static void CorrectOrientation(ExifOrientations orientation, Image pic)
@@ -141,14 +140,13 @@ namespace Wammer.Utility
 			}
 			catch
 			{
-
 			}
 		}
 
 		public static Size GetImageSize(ArraySegment<byte> imageRawData)
 		{
-			using (MemoryStream m = new MemoryStream(imageRawData.Array, imageRawData.Offset, imageRawData.Count))
-			using (Bitmap image = new Bitmap(m))
+			using (var m = new MemoryStream(imageRawData.Array, imageRawData.Offset, imageRawData.Count))
+			using (var image = new Bitmap(m))
 			{
 				return image.Size;
 			}

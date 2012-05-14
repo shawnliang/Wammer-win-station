@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using Wammer.Utility;
 
 namespace Wammer.Station.Retry
@@ -10,8 +8,7 @@ namespace Wammer.Station.Retry
 	public abstract class AbstrackRetryTask : IRetryTask
 	{
 		// see Execute() for why this field is not serializable
-		[NonSerialized]
-		protected IRetryQueue failQueue;
+		[NonSerialized] protected IRetryQueue failQueue;
 
 
 		protected TaskPriority priority;
@@ -22,13 +19,15 @@ namespace Wammer.Station.Retry
 			this.priority = priority;
 		}
 
+		#region IRetryTask Members
+
 		public void Execute()
 		{
 			try
 			{
-				this.Do();
+				Do();
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				// failQueue should not not be serialized because 
 				// this queue (RetryQueue) in fact is a single instance. 
@@ -45,23 +44,35 @@ namespace Wammer.Station.Retry
 			}
 		}
 
-		protected abstract void Do();
 		public abstract void ScheduleToRun();
 
 
 		public abstract DateTime NextRetryTime { get; }
-		public TaskPriority Priority { get { return priority; } }
+
+		public TaskPriority Priority
+		{
+			get { return priority; }
+		}
+
+		#endregion
+
+		protected abstract void Do();
 	}
 
 	[Serializable]
 	public abstract class DelayedRetryTask : AbstrackRetryTask
 	{
-		private BackOff backoff = new BackOff(10, 20, 30, 50, 80, 130, 210, 340, 550, 890, 1440, 2330);
+		private readonly BackOff backoff = new BackOff(10, 20, 30, 50, 80, 130, 210, 340, 550, 890, 1440, 2330);
 		private DateTime nextRetryTime;
 
 		protected DelayedRetryTask(IRetryQueue failQueue, TaskPriority priority)
-			:base(failQueue, priority)
+			: base(failQueue, priority)
 		{
+		}
+
+		public override DateTime NextRetryTime
+		{
+			get { return nextRetryTime; }
 		}
 
 		protected override void Do()
@@ -70,41 +81,36 @@ namespace Wammer.Station.Retry
 			{
 				Run();
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				nextRetryTime = DateTime.Now.AddSeconds(backoff.NextValue());
 
-				this.LogDebugMsg(this.GetType().ToString() + " failed and will be rescheduled at " + NextRetryTime.ToString("u"), e);
+				this.LogDebugMsg(GetType() + " failed and will be rescheduled at " + NextRetryTime.ToString("u"), e);
 				backoff.IncreaseLevel();
 
 				throw;
 			}
 		}
-		
-		public override DateTime NextRetryTime
-		{
-			get
-			{
-				return nextRetryTime;
-			}
-		}
 
 		protected abstract void Run();
 	}
-	
+
 	[Serializable]
-	public class PostponedTask: IRetryTask
+	public class PostponedTask : IRetryTask
 	{
-		private ITask taskToRun;
-		public TaskPriority Priority { get; private set; }
-		public DateTime NextRetryTime { get; private set; }
+		private readonly ITask taskToRun;
 
 		public PostponedTask(DateTime nextRetryTime, TaskPriority priority, ITask taskToRun)
 		{
 			this.taskToRun = taskToRun;
-			this.Priority = priority;
-			this.NextRetryTime = nextRetryTime;
+			Priority = priority;
+			NextRetryTime = nextRetryTime;
 		}
+
+		#region IRetryTask Members
+
+		public TaskPriority Priority { get; private set; }
+		public DateTime NextRetryTime { get; private set; }
 
 		public void ScheduleToRun()
 		{
@@ -115,8 +121,9 @@ namespace Wammer.Station.Retry
 		{
 			// Becuase PostponedTask is a placeholder for another task, 
 			// its Execute() is not expected to be executed.
-			System.Diagnostics.Trace.Fail("This method should not be called.");
+			Trace.Fail("This method should not be called.");
 		}
-	}
 
+		#endregion
+	}
 }

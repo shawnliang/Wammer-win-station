@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Wammer.Queue
 {
-
 	public interface IPersistentStore
 	{
 		WMSQueue TryLoadQueue(string qname);
@@ -14,6 +12,8 @@ namespace Wammer.Queue
 
 	public class NullPersistentStore : IPersistentStore
 	{
+		#region IPersistentStore Members
+
 		public WMSQueue TryLoadQueue(string qname)
 		{
 			return new WMSQueue(qname, this);
@@ -26,16 +26,18 @@ namespace Wammer.Queue
 		public void Remove(WMSMessage msg)
 		{
 		}
+
+		#endregion
 	}
 
 	public class WMSBroker
 	{
-		private Dictionary<String, WMSQueue> queues = new Dictionary<string, WMSQueue>();
-		private IPersistentStore persistentStore;
+		private readonly IPersistentStore persistentStore;
+		private readonly Dictionary<String, WMSQueue> queues = new Dictionary<string, WMSQueue>();
 
 		public WMSBroker()
 		{
-			this.persistentStore = new NullPersistentStore();
+			persistentStore = new NullPersistentStore();
 		}
 
 		public WMSBroker(IPersistentStore persistentStore)
@@ -63,14 +65,25 @@ namespace Wammer.Queue
 
 	public class WMSSession : IDisposable
 	{
-		private HashSet<WMSQueue> popQueues = new HashSet<WMSQueue>();
-		public Guid Id { get; private set; }
-		
-		
+		private readonly HashSet<WMSQueue> popQueues = new HashSet<WMSQueue>();
+
+
 		public WMSSession()
 		{
 			Id = Guid.NewGuid();
 		}
+
+		public Guid Id { get; private set; }
+
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			Close();
+			GC.SuppressFinalize(true);
+		}
+
+		#endregion
 
 		public WMSMessage Pop(WMSQueue queue)
 		{
@@ -83,13 +96,13 @@ namespace Wammer.Queue
 
 		public void Push(WMSQueue queue, object data)
 		{
-			WMSMessage msg = new WMSMessage() { Data = data };
+			var msg = new WMSMessage {Data = data};
 			queue.Push(msg, false);
 		}
 
 		public void Push(WMSQueue queue, object data, bool persistent)
 		{
-			WMSMessage msg = new WMSMessage() { Data = data };
+			var msg = new WMSMessage {Data = data};
 			queue.Push(msg, persistent);
 		}
 
@@ -100,37 +113,32 @@ namespace Wammer.Queue
 				q.Restock(this);
 			}
 		}
-
-		public void Dispose()
-		{
-			Close();
-		}
 	}
 
 
 	public class WMSMessage
 	{
-		public object Data { get; set; }
-		public Guid Id { get; private set; }
-		public WMSQueue Queue { get; set; }
-		public bool IsPersistent { get; set; }
-
 		public WMSMessage()
 		{
 			Id = Guid.NewGuid();
 		}
-		
+
 		public WMSMessage(object data)
 		{
 			Id = Guid.NewGuid();
-			this.Data = data;
+			Data = data;
 		}
 
 		public WMSMessage(Guid id, object data)
 		{
-			this.Id = id;
-			this.Data = data;
+			Id = id;
+			Data = data;
 		}
+
+		public object Data { get; set; }
+		public Guid Id { get; private set; }
+		public WMSQueue Queue { get; set; }
+		public bool IsPersistent { get; set; }
 
 		public void Acknowledge()
 		{

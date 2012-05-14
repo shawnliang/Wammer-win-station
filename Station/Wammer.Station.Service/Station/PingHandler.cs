@@ -1,16 +1,15 @@
-﻿
-namespace Wammer.Station
+﻿namespace Wammer.Station
 {
-	class PingHandler: HttpHandler
+	internal class PingHandler : HttpHandler
 	{
 		public override void HandleRequest()
 		{
-			this.RespondSuccess();
+			RespondSuccess();
 		}
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 }

@@ -1,5 +1,4 @@
-﻿
-namespace Wammer.Station
+﻿namespace Wammer.Station
 {
 	public enum StationLocalApiError
 	{

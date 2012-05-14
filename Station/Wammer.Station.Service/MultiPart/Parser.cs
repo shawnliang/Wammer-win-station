@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Text;
 
 namespace Wammer.MultiPart
 {
 	public class Parser
 	{
-		private static byte[] CRLF = Encoding.UTF8.GetBytes("\r\n");
-		private static byte[] DCRLF = Encoding.UTF8.GetBytes("\r\n\r\n");
-		private static int[] DCRLF_next = Next(DCRLF);
+		private static readonly byte[] CRLF = Encoding.UTF8.GetBytes("\r\n");
+		private static readonly byte[] DCRLF = Encoding.UTF8.GetBytes("\r\n\r\n");
+		private static readonly int[] DCRLF_next = Next(DCRLF);
 
-		private byte[] head_boundry;
-		private int[] head_boundry_next;
+		private readonly byte[] head_boundry;
+		private readonly int[] head_boundry_next;
 
 		//private byte[] close_boundry;
 
@@ -27,7 +26,7 @@ namespace Wammer.MultiPart
 
 		public Part[] Parse(byte[] content)
 		{
-			List<Part> parts = new List<Part>();
+			var parts = new List<Part>();
 
 			int startFrom = IndexOf(content, 0, head_boundry, head_boundry_next);
 			if (startFrom != -1)
@@ -46,7 +45,7 @@ namespace Wammer.MultiPart
 
 		private Part ParsePartBody(byte[] data, int startIdx, out int next_startIdx, out bool end)
 		{
-			NameValueCollection headers = new NameValueCollection();
+			var headers = new NameValueCollection();
 
 			int sep_index;
 
@@ -74,12 +73,12 @@ namespace Wammer.MultiPart
 
 			// cheat on looking close_boundary & following \r\n
 			if (data[next_startIdx] == '-' &&
-				data[next_startIdx + 1] == '-')
+			    data[next_startIdx + 1] == '-')
 			{
 				end = true;
 			}
 			else if (data[next_startIdx] == '\r' &&
-				data[next_startIdx + 1] == '\n')
+			         data[next_startIdx + 1] == '\n')
 			{
 				next_startIdx += CRLF.Length;
 			}
@@ -88,18 +87,21 @@ namespace Wammer.MultiPart
 				throw new FormatException("Bad part body format");
 			}
 
-			return new Part(new ArraySegment<byte>(data, sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length) - CRLF.Length), headers);
+			return
+				new Part(
+					new ArraySegment<byte>(data, sep_index + DCRLF.Length, next_head_index - (sep_index + DCRLF.Length) - CRLF.Length),
+					headers);
 		}
 
 		private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)
 		{
 			string headerText = Encoding.UTF8.GetString(data, from, len);
-			string[] stringSeparators = new string[] { "\r\n" };
+			var stringSeparators = new[] {"\r\n"};
 			string[] headers = headerText.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
 
 			foreach (string header in headers)
 			{
-				int delimitIdx = header.IndexOf(":");
+				var delimitIdx = header.IndexOf(":");
 				if (delimitIdx < 0)
 					throw new FormatException("Bad header: " + header);
 
@@ -120,7 +122,7 @@ namespace Wammer.MultiPart
 		// KMP algorithm reference: http://www.cnblogs.com/zhy2002/archive/2008/03/31/1131794.html
 		public static int[] Next(byte[] pattern)
 		{
-			int[] next = new int[pattern.Length];
+			var next = new int[pattern.Length];
 			next[0] = -1;
 			if (pattern.Length < 2)
 			{

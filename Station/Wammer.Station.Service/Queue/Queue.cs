@@ -1,32 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Wammer.Queue
 {
 	public class WMSQueue
 	{
-		private LinkedList<WMSMessage> items = new LinkedList<WMSMessage>();
-		private Dictionary<Guid, UnackedMsg> popMsgs = new Dictionary<Guid, UnackedMsg>();
-		private IPersistentStore persistentStorage;
-
-		public string Name { get; private set; }
+		private readonly LinkedList<WMSMessage> items = new LinkedList<WMSMessage>();
+		private readonly IPersistentStore persistentStorage;
+		private readonly Dictionary<Guid, UnackedMsg> popMsgs = new Dictionary<Guid, UnackedMsg>();
 
 		public WMSQueue(string name, IPersistentStore persistentStorage)
 		{
 			this.persistentStorage = persistentStorage;
-			this.Name = name;
+			Name = name;
 		}
 
-		public WMSQueue(string name, IPersistentStore persistentStorage, List<WMSMessage> initMessages)
+		public WMSQueue(string name, IPersistentStore persistentStorage, IEnumerable<WMSMessage> initMessages)
 		{
 			this.persistentStorage = persistentStorage;
-			this.Name = name;
+			Name = name;
 
 			foreach (WMSMessage msg in initMessages)
 			{
 				msg.Queue = this;
-				this.items.AddLast(msg);
+				items.AddLast(msg);
+			}
+		}
+
+		public string Name { get; private set; }
+
+		public int Count
+		{
+			get
+			{
+				lock (items)
+				{
+					return items.Count;
+				}
 			}
 		}
 
@@ -43,7 +53,7 @@ namespace Wammer.Queue
 				items.AddLast(msg);
 
 				if (persistent)
-					this.persistentStorage.Save(msg);
+					persistentStorage.Save(msg);
 			}
 		}
 
@@ -57,7 +67,7 @@ namespace Wammer.Queue
 				WMSMessage msg = items.First.Value;
 				items.RemoveFirst();
 				popMsgs.Add(msg.Id,
-					new UnackedMsg() { Msg = msg, SessionId = s.Id });
+				            new UnackedMsg {Msg = msg, SessionId = s.Id});
 				return msg;
 			}
 		}
@@ -78,10 +88,9 @@ namespace Wammer.Queue
 		{
 			lock (items)
 			{
+				var KeysToRemove = new List<Guid>();
 
-				List<Guid> KeysToRemove = new List<Guid>();
-
-				foreach (KeyValuePair<Guid, UnackedMsg> pair in popMsgs)
+				foreach (var pair in popMsgs)
 				{
 					if (pair.Value.SessionId == session.Id)
 					{
@@ -94,21 +103,10 @@ namespace Wammer.Queue
 					popMsgs.Remove(key);
 			}
 		}
-
-		public int Count
-		{
-			get
-			{
-				lock (items)
-				{
-					return items.Count;
-				}
-			}
-		}
 	}
 
 
-	class UnackedMsg
+	internal class UnackedMsg
 	{
 		public WMSMessage Msg { get; set; }
 		public Guid SessionId { get; set; }

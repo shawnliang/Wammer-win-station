@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
 
 namespace Wammer.Model
 {
@@ -21,15 +17,15 @@ namespace Wammer.Model
 		public static ProductInfo GetCurrentVersion()
 		{
 			return new ProductInfo
-			{
-				ThumbnailExtensionIsDat = true
-			};
+			       	{
+			       		ThumbnailExtensionIsDat = true
+			       	};
 		}
 	}
 
-	public class ProductInfoCollection: Collection<ProductInfo>
+	public class ProductInfoCollection : Collection<ProductInfo>
 	{
-		private static ProductInfoCollection instance;
+		private static readonly ProductInfoCollection instance;
 
 		static ProductInfoCollection()
 		{
@@ -37,7 +33,7 @@ namespace Wammer.Model
 		}
 
 		private ProductInfoCollection()
-			:base("products")
+			: base("products")
 		{
 		}
 

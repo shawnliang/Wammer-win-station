@@ -1,30 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using log4net;
+﻿using System.Threading;
 
 namespace Wammer.Station
 {
 	public abstract class AbstrackTaskRunner
 	{
-		protected Thread _thread; 
+		protected Thread _thread;
+
+		protected volatile bool exit;
 
 		protected Thread m_Thread
 		{
-			get
-			{
-				if (_thread == null)
-					_thread = new Thread(Do);
-				return _thread;
-			}
-			set
-			{
-				_thread = value;
-			}
+			get { return _thread ?? (_thread = new Thread(Do)); }
+			set { _thread = value; }
 		}
-		protected volatile bool exit = false;
 
 		public virtual void Start()
 		{

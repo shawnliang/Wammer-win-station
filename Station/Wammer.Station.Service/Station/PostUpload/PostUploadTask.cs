@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.Specialized;
 using System.Net;
-using Wammer.Station;
-using Wammer.Model;
-using Wammer.Cloud;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Station;
 
 namespace Wammer.PostUpload
 {
@@ -18,7 +15,7 @@ namespace Wammer.PostUpload
 		InProgress
 	}
 
-	[BsonKnownTypes(typeof(NewPostTask), typeof(UpdatePostTask), typeof(NullPostUploadTask))]
+	[BsonKnownTypes(typeof (NewPostTask), typeof (UpdatePostTask), typeof (NullPostUploadTask))]
 	public abstract class PostUploadTask : ITask
 	{
 		public string PostId { get; set; }
@@ -28,7 +25,11 @@ namespace Wammer.PostUpload
 		public PostUploadTaskStatus Status { get; set; }
 		public string CodeName { get; set; }
 
+		#region ITask Members
+
 		public abstract void Execute();
+
+		#endregion
 
 		protected bool IsPostExist(PostApi api, WebClient agent)
 		{
@@ -40,13 +41,13 @@ namespace Wammer.PostUpload
 			catch (WammerCloudException e)
 			{
 				if (!CloudServer.IsNetworkError(e)
-					&& !CloudServer.IsSessionError(e)
-					&& Enum.IsDefined(typeof(PostApiError), e.WammerError)
-					&& e.WammerError == (int)PostApiError.PostNotExist)
+				    && !CloudServer.IsSessionError(e)
+				    && Enum.IsDefined(typeof (PostApiError), e.WammerError)
+				    && e.WammerError == (int) PostApiError.PostNotExist)
 				{
 					return false;
 				}
-				throw e;
+				throw;
 			}
 		}
 
@@ -61,10 +62,10 @@ namespace Wammer.PostUpload
 	{
 		public NullPostUploadTask()
 		{
-			this.CodeName = this.PostId = this.UserId = "";
-			this.Timestamp = DateTime.UtcNow;
-			this.Status = PostUploadTaskStatus.Wait;
-			this.Parameters = new Dictionary<string, string>();
+			CodeName = PostId = UserId = "";
+			Timestamp = DateTime.UtcNow;
+			Status = PostUploadTaskStatus.Wait;
+			Parameters = new Dictionary<string, string>();
 		}
 
 		public override void Execute()

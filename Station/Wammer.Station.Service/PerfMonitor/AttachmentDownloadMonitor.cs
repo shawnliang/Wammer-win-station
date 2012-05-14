@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 
 namespace Wammer.PerfMonitor
 {
-	class AttachmentDownloadMonitor
+	internal class AttachmentDownloadMonitor
 	{
-		private IPerfCounter DownstreamNumCounter;
-		private IPerfCounter DownstreamRateCounter;
+		private readonly IPerfCounter DownstreamNumCounter;
+		private readonly IPerfCounter DownstreamRateCounter;
 
 		public AttachmentDownloadMonitor()
 		{
@@ -26,7 +24,7 @@ namespace Wammer.PerfMonitor
 			DownstreamNumCounter.Decrement();
 		}
 
-		public void OnDownstreamTaskInProgress(object sender, System.ComponentModel.ProgressChangedEventArgs arg)
+		public void OnDownstreamTaskInProgress(object sender, ProgressChangedEventArgs arg)
 		{
 			DownstreamRateCounter.IncrementBy(Convert.ToInt64(arg.UserState));
 		}

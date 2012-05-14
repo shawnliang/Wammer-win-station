@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Wammer.PerfMonitor
+﻿namespace Wammer.PerfMonitor
 {
-	class PostUploadMonitor
+	internal class PostUploadMonitor
 	{
-		private IPerfCounter UploadNumCounter;
+		private readonly IPerfCounter UploadNumCounter;
 
 		public PostUploadMonitor()
 		{

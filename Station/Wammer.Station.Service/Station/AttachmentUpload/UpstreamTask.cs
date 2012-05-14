@@ -1,32 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Model;
-using MongoDB.Driver.Builders;
-using System.IO;
-using Wammer.PerfMonitor;
 using System.ComponentModel;
+using System.IO;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
-
+using Wammer.Model;
+using Wammer.PerfMonitor;
+using Wammer.Station.Retry;
 
 namespace Wammer.Station.AttachmentUpload
 {
 	[Serializable]
-	public class UpstreamTask: Retry.DelayedRetryTask
+	public class UpstreamTask : DelayedRetryTask
 	{
-		private static IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
-		private static IPerfCounter upstreamCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
-
-		public string object_id { get; private set; }
-		public ImageMeta meta { get; private set; }
+		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
+		private static readonly IPerfCounter upstreamCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
 
 		public UpstreamTask(string object_id, ImageMeta meta, TaskPriority pri)
-			:base(Retry.RetryQueue.Instance, pri)
+			: base(RetryQueue.Instance, pri)
 		{
 			this.object_id = object_id;
 			this.meta = meta;
 		}
+
+		public string object_id { get; private set; }
+		public ImageMeta meta { get; private set; }
 
 		protected override void Run()
 		{
@@ -45,16 +42,17 @@ namespace Wammer.Station.AttachmentUpload
 				return;
 			}
 
-			if (this.meta == ImageMeta.Origin || this.meta == ImageMeta.None)
+			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
 			{
-				GetUserResponse userInfo = User.GetInfo(user.user_id, Cloud.CloudServer.APIKey, user.session_token);
+				GetUserResponse userInfo = User.GetInfo(user.user_id, CloudServer.APIKey, user.session_token);
 				if (userInfo.storages.waveface.over_quota)
 				{
-					failQueue.Enqueue(new Retry.PostponedTask(
-						userInfo.storages.waveface.interval.GetIntervalEndTime(),
-						this.priority, this));
+					failQueue.Enqueue(new PostponedTask(
+					                  	userInfo.storages.waveface.interval.GetIntervalEndTime(),
+					                  	priority, this));
 
-					this.LogWarnMsg("Postpone upstream attachment " + object_id + " to " + userInfo.storages.waveface.interval.GetIntervalEndTime() + "due to over quota");
+					this.LogWarnMsg("Postpone upstream attachment " + object_id + " to " +
+					                userInfo.storages.waveface.interval.GetIntervalEndTime() + "due to over quota");
 					return;
 				}
 			}
@@ -62,31 +60,33 @@ namespace Wammer.Station.AttachmentUpload
 			IAttachmentInfo info = attachment.GetInfoByMeta(meta);
 			if (info == null)
 			{
-				this.LogErrorMsg("Abort upstream attachment " + object_id + " due to attachment info of " + meta + " is empty. Logic Error?");
+				this.LogErrorMsg("Abort upstream attachment " + object_id + " due to attachment info of " + meta +
+				                 " is empty. Logic Error?");
 				upstreamCount.Decrement();
 				return;
 			}
 
-			FileStorage fileStorage = new FileStorage(user);
+			var fileStorage = new FileStorage(user);
 
 			using (FileStream f = fileStorage.Load(info.saved_file_name))
 			{
-				Attachment.Upload(f, attachment.group_id, this.object_id, attachment.file_name,
-					info.mime_type, this.meta, attachment.type, Cloud.CloudServer.APIKey,
-					user.session_token, 65535, UpstreamProgressChanged);
+				Attachment.Upload(f, attachment.group_id, object_id, attachment.file_name,
+				                  info.mime_type, meta, attachment.type, CloudServer.APIKey,
+				                  user.session_token, 65535, UpstreamProgressChanged);
 			}
 
 			AttachmentCollection.Instance.Update(
-				Query.EQ("_id", this.object_id),
-				(this.meta == ImageMeta.Origin || this.meta == ImageMeta.Origin) ?
-					Update.Set("is_body_upstreamed", true) : Update.Set("is_thumb_upstreamed", true));
+				Query.EQ("_id", object_id),
+				(meta == ImageMeta.Origin || meta == ImageMeta.Origin)
+					? Update.Set("is_body_upstreamed", true)
+					: Update.Set("is_thumb_upstreamed", true));
 
 			upstreamCount.Decrement();
 		}
 
 		public override void ScheduleToRun()
 		{
-			AttachmentUploadQueue.Instance.Enqueue(this, this.Priority);
+			AttachmentUploadQueue.Instance.Enqueue(this, Priority);
 		}
 
 		private void UpstreamProgressChanged(object sender, ProgressChangedEventArgs arg)
