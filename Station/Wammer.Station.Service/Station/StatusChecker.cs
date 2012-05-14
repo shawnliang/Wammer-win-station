@@ -175,6 +175,7 @@ namespace Wammer.Station
 					{
 						user.session_token = string.Empty;
 						DriverCollection.Instance.Save(user);
+						LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", user.email));
 						this.LogDebugMsg(string.Format("cloud returns 401, clear session of {0}", user.email));
 					}
 					else

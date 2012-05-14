@@ -62,6 +62,8 @@ namespace Wammer.Station
 				LogRequest();
 
 				LoginedSession session = GetSessionFromCache();
+				if (session == null)
+					throw new SessionNotExistException("session not exist", (int)GeneralApiError.SessionNotExist);
 
 				handler.Session = session;
 				handler.Request = request;
@@ -153,14 +155,6 @@ namespace Wammer.Station
 				LoginedSession session = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", Parameters["session_token"]));
 				if (session != null && session.apikey.apikey == Parameters["apikey"])
 				{
-					// force re-login to renew driver's session token
-					var user = DriverCollection.Instance.FindOne(Query.EQ("_id", session.user.user_id));
-					if (user.session_token == string.Empty)
-					{
-						LoginedSessionCollection.Instance.Remove(Query.EQ("_id", session.session_token));
-						throw new SessionNotExistException("session not exist", (int)GeneralApiError.SessionNotExist);
-					}
-					
 					// currently station only saves windows client's session
 					return session;
 				}
