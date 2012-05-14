@@ -192,6 +192,7 @@ namespace StationSystemTray
 		{
 			if (m.Msg == 0x401)
 			{
+				logger.Debug("Timeline trigger by new stream");
 				GotoTimeline(userloginContainer.GetLastUserLogin());
 				return;
 			}
