@@ -16,10 +16,18 @@ namespace StationSystemTray
 
 		[UserScopedSetting]
 		[DefaultSettingValue("")]
-		public string LastLogin
+		public string CurLoginedSession
 		{
-			get { return (string)this["LastLogin"]; }
-			set { this["LastLogin"] = value; }
+			get { return (string)this["CurLoginedSession"]; }
+			set { this["CurLoginedSession"] = value; }
+		}
+
+		[UserScopedSetting]
+		[DefaultSettingValue("")]
+		public string LastLoginedEmail
+		{
+			get { return (string)this["LastLoginedEmail"]; }
+			set { this["LastLoginedEmail"] = value; }
 		}
 
 		[UserScopedSetting]
@@ -37,8 +45,6 @@ namespace StationSystemTray
 
 		public string Password { get; set; }
 
-		public string SessionToken { get; set; }
-
 		public bool RememberPassword { get; set; }
 	}
 
@@ -53,64 +59,65 @@ namespace StationSystemTray
 			cs = new object();
 		}
 
-		public void ResetUserLoginSetting(List<UserLoginSetting> userlogins, string lastlogin)
+		private void nolock_ResetUserLoginSetting(List<UserLoginSetting> userlogins)
+		{
+			settings.Users.Clear();
+			settings.Users.AddRange(userlogins);
+
+			settings.Save();
+		}
+
+		public string GetCurLoginedSession()
+		{
+			lock (cs)
+			{ 
+				return settings.CurLoginedSession; 
+			}
+		}
+
+		public void CleartCurLoginedSession()
+		{
+			SaveCurLoginedSession(string.Empty);
+		}
+
+		public void SaveCurLoginedSession(string sessionToken)
 		{
 			lock (cs)
 			{
-				settings.LastLogin = lastlogin;
-
-				settings.Users.Clear();
-				settings.Users.AddRange(userlogins);
-
+				settings.CurLoginedSession = sessionToken;
 				settings.Save();
 			}
 		}
 
-		public string GetLastLogin()
-		{
-			return settings.LastLogin;
-		}
-
-		public void ClearLastLoginSession()
-		{
-			UserLoginSetting userlogin = GetLastUserLogin();
-			userlogin.SessionToken = string.Empty;
-			settings.LastLogin = string.Empty;
-
-			UpsertUserLoginSetting(userlogin);
-		}
-
-		public void UpdateLastLogin(string sessionToken)
-		{
-			settings.LastLogin = sessionToken;
-			settings.Save();
-		}
-
-		public void UpsertUserLoginSetting(UserLoginSetting userlogin)
+		public void SaveCurLoginedUser(UserLoginSetting userlogin)
 		{
 			lock (cs)
 			{
-				bool isExisted = false;
+				nolock_updateUserLogin(userlogin);
 
-				foreach (UserLoginSetting oldUserlogin in settings.Users)
-				{
-					if (oldUserlogin.Email == userlogin.Email)
-					{
-						oldUserlogin.Password = userlogin.Password;
-						oldUserlogin.SessionToken = userlogin.SessionToken;
-						oldUserlogin.RememberPassword = userlogin.RememberPassword;
-						isExisted = true;
-						break;
-					}
-				}
-
-				if (!isExisted)
-				{
-					settings.Users.Add(userlogin);
-				}
-
-				settings.LastLogin = userlogin.SessionToken;
+				settings.LastLoginedEmail = userlogin.Email;
 				settings.Save();
+			}
+		}
+
+		private void nolock_updateUserLogin(UserLoginSetting userlogin)
+		{
+			bool isExisted = false;
+
+			foreach (UserLoginSetting oldUserlogin in settings.Users)
+			{
+				if (oldUserlogin.Email == userlogin.Email)
+				{
+					oldUserlogin.Password = userlogin.Password;
+					oldUserlogin.RememberPassword = userlogin.RememberPassword;
+					isExisted = true;
+					break;
+				}
+			}
+
+			if (!isExisted)
+			{
+				settings.Users.Add(userlogin);
 			}
 		}
 
@@ -120,7 +127,7 @@ namespace StationSystemTray
 			{
 				var newusers = settings.Users.Where(userlogin => userlogin.Email != email.ToLower()).ToList();
 
-				ResetUserLoginSetting(newusers, settings.LastLogin);
+				nolock_ResetUserLoginSetting(newusers);
 			}
 		}
 
@@ -136,7 +143,7 @@ namespace StationSystemTray
 		{
 			lock (cs)
 			{
-				return settings.Users.FirstOrDefault(userlogin => !string.IsNullOrEmpty(settings.LastLogin) && userlogin.SessionToken == settings.LastLogin);
+				return settings.Users.FirstOrDefault(user => !string.IsNullOrEmpty(settings.LastLoginedEmail) && user.Email == settings.LastLoginedEmail);
 			}
 		}
 	}

@@ -19,7 +19,7 @@
       <Directory Id="UninstallDir" Name="$(var.AppProductCode)">
         <Component Id="UninstallerExe" Guid="{4af2005a-4930-4162-a6ac-dc595965e68f}">
           <File Id="UninstallerExeFile" Name="Uninstaller.exe" Source="$(var.OutDir)\Gui.exe" Vital="yes" KeyPath="yes">
-            <Shortcut Id="UninstallerExeShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.UNINSTALLER.NAME)" WorkingDirectory="INSTALLDIR" Icon="icon.ico" IconIndex="0" Advertise="yes" Arguments="!(loc.CULTURE)" />
+            <!--<Shortcut Id="UninstallerExeShortcut" Directory="ProgramMenuDir" Name="!(loc.SHORTCUT.UNINSTALLER.NAME)" WorkingDirectory="INSTALLDIR" Advertise="no" Arguments="!(loc.CULTURE)" />-->
           </File>
         </Component>
         <Component Id="UninstallerDll" Guid="{2530dc58-3955-452b-9fce-575964b2a2a4}">

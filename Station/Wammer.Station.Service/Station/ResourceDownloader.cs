@@ -321,6 +321,10 @@ namespace Wammer.Station
 								).Set("is_thumb_upstreamed", true),
 							UpdateFlags.Upsert
 							);
+
+						TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(attachment.object_id, driver.session_token), TaskPriority.Low,
+								  true);
+
 						break;
 
 					case ImageMeta.Small:
@@ -452,8 +456,6 @@ namespace Wammer.Station
 						break;
 				}
 
-				TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(attachment.object_id, driver.session_token), TaskPriority.Low,
-				                  true);
 			}
 			catch (Exception ex)
 			{

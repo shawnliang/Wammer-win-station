@@ -76,7 +76,7 @@ namespace StationSystemTray
 			// 
 			this.TrayIcon.ContextMenuStrip = this.TrayMenu;
 			resources.ApplyResources(this.TrayIcon, "TrayIcon");
-			this.TrayIcon.DoubleClick += new System.EventHandler(this.menuPreference_Click);
+			this.TrayIcon.DoubleClick += new System.EventHandler(this.trayIcon_DoubleClicked);
 			// 
 			// TrayMenu
 			// 
@@ -207,6 +207,7 @@ namespace StationSystemTray
 			// loginButton1
 			// 
 			resources.ApplyResources(this.loginButton1, "loginButton1");
+			this.loginButton1.MaximumSize = new System.Drawing.Size(110, 40);
 			this.loginButton1.Name = "loginButton1";
 			this.loginButton1.Click += new System.EventHandler(this.btnSignIn_Click);
 			// 

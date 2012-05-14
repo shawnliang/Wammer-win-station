@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -294,7 +294,7 @@ namespace StationSystemTray
 				return;
 			}
 
-			string lastLogin = userloginContainer.GetLastLogin();
+			string lastLogin = userloginContainer.GetCurLoginedSession();
 			if (!string.IsNullOrEmpty(lastLogin))
 			{
 				LaunchClient(lastLogin);
@@ -309,9 +309,9 @@ namespace StationSystemTray
 			if (userlogin != null)
 				loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
 
-			if (loginedSession != null || (userlogin != null && userlogin.RememberPassword))
+			if (loginedSession != null /*|| (userlogin != null && userlogin.RememberPassword)*/)
 			{
-				userloginContainer.UpsertUserLoginSetting(userlogin);
+				userloginContainer.SaveCurLoginedUser(userlogin);
 
 				if (LaunchWavefaceClient(userlogin))
 				{
@@ -467,7 +467,7 @@ namespace StationSystemTray
 			}
 		}
 
-		private void menuPreference_Click(object sender, EventArgs e)
+		private void trayIcon_DoubleClicked(object sender, EventArgs e)
 		{
 			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
@@ -726,7 +726,7 @@ namespace StationSystemTray
 										Password = SecurityHelper.EncryptPassword(txtPassword.Text),
 										RememberPassword = chkRememberPassword.Checked
 									};
-					userloginContainer.UpsertUserLoginSetting(userlogin);
+					userloginContainer.SaveCurLoginedUser(userlogin);
 					RefreshUserList();
 
 					m_LoginAction = () => LoginAndLaunchClient(userlogin);
@@ -749,7 +749,7 @@ namespace StationSystemTray
 
 					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
 					userlogin.RememberPassword = chkRememberPassword.Checked;
-					userloginContainer.UpsertUserLoginSetting(userlogin);
+					userloginContainer.SaveCurLoginedUser(userlogin);
 					RefreshUserList();
 
 					m_LoginAction = () => LoginAndLaunchClient(userlogin);
@@ -863,8 +863,8 @@ namespace StationSystemTray
 						(string)StationRegistry.GetValue("stationId", string.Empty),
 						Environment.MachineName).LoginedInfo;
 
-					userlogin.SessionToken = ret.session_token;
-					userloginContainer.UpsertUserLoginSetting(userlogin);
+					userloginContainer.SaveCurLoginedUser(userlogin);
+					userloginContainer.SaveCurLoginedSession(ret.session_token);
 
 					return ret;
 				}
@@ -890,8 +890,8 @@ namespace StationSystemTray
 
 			if (exitCode == -2) // client logout
 			{
+				userloginContainer.CleartCurLoginedSession();
 				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
-				userloginContainer.ClearLastLoginSession();
 			}
 			else if (exitCode == -3) // client unlink
 			{
@@ -1055,7 +1055,7 @@ namespace StationSystemTray
 		public void LogOut(WebClient agent, string sessionToken, string apiKey)
 		{
 			LogoutFB();
-			userloginContainer.ClearLastLoginSession();
+			userloginContainer.CleartCurLoginedSession();
 
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -1068,9 +1068,10 @@ namespace StationSystemTray
 
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
+			var lastLoginUser = userloginContainer.GetLastUserLogin();
 			if (menuSignIn.Text == Resources.LogoutMenuItem)
 			{
-				string lastLogin = userloginContainer.GetLastLogin();
+				string lastLogin = userloginContainer.GetCurLoginedSession();
 
 				if (lastLogin != null)
 				{
@@ -1083,12 +1084,12 @@ namespace StationSystemTray
 					LogOut(new WebClient(), loginedSession.session_token, loginedSession.apikey.apikey);
 				}
 			}
-			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+			GotoTabPage(tabSignIn, lastLoginUser);
 		}
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-			string lastLogin = userloginContainer.GetLastLogin();
+			string lastLogin = userloginContainer.GetCurLoginedSession();
 			LoginedSession loginedSession = null;
 
 			if (lastLogin != null)
@@ -1186,7 +1187,7 @@ namespace StationSystemTray
 
 		private void TrayMenu_Opening(object sender, CancelEventArgs e)
 		{
-			string lastLogin = userloginContainer.GetLastLogin();
+			string lastLogin = userloginContainer.GetCurLoginedSession();
 			LoginedSession loginedSession = null;
 
 			if (lastLogin != null)
@@ -1301,7 +1302,7 @@ namespace StationSystemTray
 			//Login user
 			StationController.UserLogin(CLIENT_API_KEY, userID, sessionToken);
 
-			userloginContainer.UpdateLastLogin(sessionToken);
+			userloginContainer.SaveCurLoginedSession(sessionToken);
 
 			LaunchClient(sessionToken);
 			Close();

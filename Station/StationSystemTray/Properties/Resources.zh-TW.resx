@@ -117,7 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="AuthError" xml:space="preserve">
     <value>帳號或密碼錯誤，請再試一次。</value>
   </data>
@@ -240,7 +239,7 @@
     <value>偏好設定...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>Stream 已更新</value>
+    <value>同步完成</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
     <value>無法連接 Stream 伺服器</value>
