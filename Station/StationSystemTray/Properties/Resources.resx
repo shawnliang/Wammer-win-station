@@ -117,10 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="APP_NAME">
-    <value xml:space="preserve">Stream</value>
+  <data name="APP_NAME" xml:space="preserve">
+    <value>Stream</value>
   </data>
   <data name="AuthError" xml:space="preserve">
     <value>Invalid user name or password. Please try again.</value>
@@ -290,7 +289,7 @@
     <value>Preference...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>Stream up to date</value>
+    <value>Sync complete</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
     <value>Unable to connect to Stream server</value>
