@@ -116,6 +116,7 @@
     <Compile Include="Model\GenericData.cs" />
     <Compile Include="Model\QueuedTasks.cs" />
     <Compile Include="Queue\MongoPersistentStorage.cs" />
+    <Compile Include="Station\APIHandler\PostFetchByFilterHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
