@@ -153,6 +153,8 @@ namespace StationSystemTray
 			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
 			m_Timer.Start();
+
+			tbxEMail.DataBindings.Add("Text", cmbEmail, "Text");
 		}
 
 		public StationState CurrentState { get; private set; }
@@ -667,7 +669,7 @@ namespace StationSystemTray
 					txtPassword.Select();
 				}
 
-				//this.AcceptButton = btnSignIn;
+				this.AcceptButton = loginButton1;
 			}
 			else if (tabpage == tabMainStationSetup)
 			{
@@ -888,8 +890,8 @@ namespace StationSystemTray
 
 			if (exitCode == -2) // client logout
 			{
-				userloginContainer.ClearLastLoginSession();
 				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+				userloginContainer.ClearLastLoginSession();
 			}
 			else if (exitCode == -3) // client unlink
 			{
@@ -1338,6 +1340,21 @@ namespace StationSystemTray
 		}
 
 		#endregion Protected Method
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			cmbEmail.DroppedDown = true;
+		}
+
+		private void label1_Paint(object sender, PaintEventArgs e)
+		{
+			ControlPaint.DrawBorder(e.Graphics, label1.DisplayRectangle, ColorTranslator.FromHtml("#868686"), ButtonBorderStyle.Solid);
+		}
+
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 
 	#region StationStatusUIController

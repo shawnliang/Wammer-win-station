@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace StationSystemTray.Control
+namespace StationSystemTray
 {
 	[ToolboxBitmap(typeof(TabControl))]
 	public class TabControlEx : TabControl

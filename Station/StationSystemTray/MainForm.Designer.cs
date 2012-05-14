@@ -1,4 +1,4 @@
-using StationSystemTray.Control;
+
 namespace StationSystemTray
 {
 	partial class MainForm
@@ -40,18 +40,19 @@ namespace StationSystemTray
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
-			this.tabControl = new StationSystemTray.Control.TabControlEx();
+			this.tabControl = new StationSystemTray.TabControlEx();
 			this.tabSignIn = new System.Windows.Forms.TabPage();
+			this.loginInputPanel1 = new StationSystemTray.LoginInputPanel();
+			this.txtPassword = new StationSystemTray.CueTextBox();
+			this.button1 = new System.Windows.Forms.Button();
+			this.tbxEMail = new StationSystemTray.CueTextBox();
+			this.cmbEmail = new StationSystemTray.CueComboBox();
 			this.fbLoginButton1 = new StationSystemTray.FBLoginButton();
 			this.loginButton1 = new StationSystemTray.LoginButton();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.lblEmail = new System.Windows.Forms.Label();
 			this.lblSignUp = new System.Windows.Forms.LinkLabel();
-			this.txtPassword = new System.Windows.Forms.TextBox();
-			this.cmbEmail = new System.Windows.Forms.ComboBox();
-			this.lblPassword = new System.Windows.Forms.Label();
 			this.chkRememberPassword = new System.Windows.Forms.CheckBox();
 			this.tabMainStationSetup = new System.Windows.Forms.TabPage();
 			this.btnOK = new System.Windows.Forms.Button();
@@ -64,6 +65,7 @@ namespace StationSystemTray
 			this.TrayMenu.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabSignIn.SuspendLayout();
+			this.loginInputPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.tabMainStationSetup.SuspendLayout();
@@ -144,20 +146,57 @@ namespace StationSystemTray
 			// tabSignIn
 			// 
 			this.tabSignIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+			this.tabSignIn.Controls.Add(this.loginInputPanel1);
 			this.tabSignIn.Controls.Add(this.fbLoginButton1);
 			this.tabSignIn.Controls.Add(this.loginButton1);
 			this.tabSignIn.Controls.Add(this.pictureBox2);
 			this.tabSignIn.Controls.Add(this.pictureBox1);
 			this.tabSignIn.Controls.Add(this.label1);
-			this.tabSignIn.Controls.Add(this.lblEmail);
 			this.tabSignIn.Controls.Add(this.lblSignUp);
-			this.tabSignIn.Controls.Add(this.txtPassword);
-			this.tabSignIn.Controls.Add(this.cmbEmail);
-			this.tabSignIn.Controls.Add(this.lblPassword);
 			this.tabSignIn.Controls.Add(this.chkRememberPassword);
 			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.Name = "tabSignIn";
 			this.tabSignIn.Click += new System.EventHandler(this.tabSignIn_Click);
+			// 
+			// loginInputPanel1
+			// 
+			this.loginInputPanel1.Controls.Add(this.txtPassword);
+			this.loginInputPanel1.Controls.Add(this.button1);
+			this.loginInputPanel1.Controls.Add(this.tbxEMail);
+			this.loginInputPanel1.Controls.Add(this.cmbEmail);
+			resources.ApplyResources(this.loginInputPanel1, "loginInputPanel1");
+			this.loginInputPanel1.Name = "loginInputPanel1";
+			// 
+			// txtPassword
+			// 
+			this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			resources.ApplyResources(this.txtPassword, "txtPassword");
+			this.txtPassword.Name = "txtPassword";
+			// 
+			// button1
+			// 
+			this.button1.BackColor = System.Drawing.Color.White;
+			this.button1.CausesValidation = false;
+			this.button1.FlatAppearance.BorderSize = 0;
+			resources.ApplyResources(this.button1, "button1");
+			this.button1.Name = "button1";
+			this.button1.TabStop = false;
+			this.button1.UseVisualStyleBackColor = false;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// tbxEMail
+			// 
+			this.tbxEMail.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			resources.ApplyResources(this.tbxEMail, "tbxEMail");
+			this.tbxEMail.Name = "tbxEMail";
+			// 
+			// cmbEmail
+			// 
+			resources.ApplyResources(this.cmbEmail, "cmbEmail");
+			this.cmbEmail.FormattingEnabled = true;
+			this.cmbEmail.Name = "cmbEmail";
+			this.cmbEmail.Sorted = true;
+			this.cmbEmail.TextChanged += new System.EventHandler(this.cmbEmail_TextChanged);
 			// 
 			// fbLoginButton1
 			// 
@@ -189,11 +228,7 @@ namespace StationSystemTray
 			this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			resources.ApplyResources(this.label1, "label1");
 			this.label1.Name = "label1";
-			// 
-			// lblEmail
-			// 
-			resources.ApplyResources(this.lblEmail, "lblEmail");
-			this.lblEmail.Name = "lblEmail";
+			this.label1.Paint += new System.Windows.Forms.PaintEventHandler(this.label1_Paint);
 			// 
 			// lblSignUp
 			// 
@@ -203,26 +238,6 @@ namespace StationSystemTray
 			this.lblSignUp.TabStop = true;
 			this.lblSignUp.UseCompatibleTextRendering = true;
 			this.lblSignUp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblSignUp_LinkClicked);
-			// 
-			// txtPassword
-			// 
-			resources.ApplyResources(this.txtPassword, "txtPassword");
-			this.txtPassword.Name = "txtPassword";
-			this.txtPassword.UseSystemPasswordChar = true;
-			// 
-			// cmbEmail
-			// 
-			this.cmbEmail.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-			this.cmbEmail.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-			this.cmbEmail.FormattingEnabled = true;
-			resources.ApplyResources(this.cmbEmail, "cmbEmail");
-			this.cmbEmail.Name = "cmbEmail";
-			this.cmbEmail.TextChanged += new System.EventHandler(this.cmbEmail_TextChanged);
-			// 
-			// lblPassword
-			// 
-			resources.ApplyResources(this.lblPassword, "lblPassword");
-			this.lblPassword.Name = "lblPassword";
 			// 
 			// chkRememberPassword
 			// 
@@ -295,10 +310,13 @@ namespace StationSystemTray
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.TrayMenu.ResumeLayout(false);
 			this.tabControl.ResumeLayout(false);
 			this.tabSignIn.ResumeLayout(false);
 			this.tabSignIn.PerformLayout();
+			this.loginInputPanel1.ResumeLayout(false);
+			this.loginInputPanel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.tabMainStationSetup.ResumeLayout(false);
@@ -317,8 +335,6 @@ namespace StationSystemTray
 		private System.Windows.Forms.ToolStripMenuItem menuQuit;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.Timer checkStationTimer;
-		private System.Windows.Forms.Label lblEmail;
-		private System.Windows.Forms.Label lblPassword;
 		private System.Windows.Forms.CheckBox chkRememberPassword;
 		private System.Windows.Forms.LinkLabel lblSignUp;
         private TabControlEx tabControl;
@@ -327,8 +343,8 @@ namespace StationSystemTray
 		private System.Windows.Forms.Label lblMainStationSetup;
 		private System.Windows.Forms.Label lblWelcome;
         private System.Windows.Forms.Button btnOK;
-        internal System.Windows.Forms.TextBox txtPassword;
-        internal System.Windows.Forms.ComboBox cmbEmail;
+        internal CueTextBox txtPassword;
+        internal CueComboBox cmbEmail;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem menuSignIn;
 		private System.Windows.Forms.ToolStripMenuItem tsmiOpenStream;
@@ -341,6 +357,9 @@ namespace StationSystemTray
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private LoginButton loginButton1;
 		private FBLoginButton fbLoginButton1;
+		private LoginInputPanel loginInputPanel1;
+		private System.Windows.Forms.Button button1;
+		internal CueTextBox tbxEMail;
 	}
 }
 
