@@ -558,8 +558,10 @@ namespace Wammer.Station.Management
 
 		public static void ConnectToInternet()
 		{
-			DefaultWebClient agent = new DefaultWebClient();
-			agent.DownloadData("http://www.google.com");
+			using (DefaultWebClient agent = new DefaultWebClient())
+			{
+				agent.DownloadData("http://www.google.com");
+			}
 		}
 
 		public static void PingForAvailability()
