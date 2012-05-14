@@ -49,18 +49,21 @@ namespace Wammer.Station.AttachmentUpload
 
 	public class AttachmentEventArgs : EventArgs
 	{
-		public AttachmentEventArgs(string attachmentId, bool isFromThisWindows, UpsertResult upsertResult, ImageMeta meta)
+		public AttachmentEventArgs(string attachmentId, bool isFromThisWindows, UpsertResult upsertResult, ImageMeta meta,
+			string userSession)
 		{
 			AttachmentId = attachmentId;
 			IsFromThisWindows = isFromThisWindows;
 			UpsertResult = upsertResult;
 			ImgMeta = meta;
+			UserSession = userSession;
 		}
 
 		public string AttachmentId { get; private set; }
 		public bool IsFromThisWindows { get; private set; }
 		public UpsertResult UpsertResult { get; private set; }
 		public ImageMeta ImgMeta { get; private set; }
+		public string UserSession { get; private set; }
 	}
 
 	public class AttachmentUploadHandlerImp
@@ -132,7 +135,8 @@ namespace Wammer.Station.AttachmentUpload
 					uploadData.object_id,
 					db.FindSession(uploadData.session_token, uploadData.api_key) != null,
 					dbResult,
-					uploadData.imageMeta)
+					uploadData.imageMeta,
+					uploadData.session_token)
 				);
 
 			return ObjectUploadResponse.CreateSuccess(uploadData.object_id);
