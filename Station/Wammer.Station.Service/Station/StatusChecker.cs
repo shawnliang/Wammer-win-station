@@ -109,48 +109,78 @@ namespace Wammer.Station
 
 		private void LogonAndHeartbeat(WebClient client, StationInfo sinfo, StationDetail detail)
 		{
-			// use any driver's session token to send heartbeat
-			var user = DriverCollection.Instance.FindOne();
-			var api = new StationApi(sinfo.Id, user.session_token);
-
-			if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
+			try
 			{
-				logger.Debug("cloud logon start");
-				api.LogOn(client, detail);
-				logon = true;
+				// use any driver's session token to send heartbeat
+				var user = DriverCollection.Instance.FindOne(Query.NE("session_token", string.Empty));
+				if (user != null)
+				{
+					var api = new StationApi(sinfo.Id, user.session_token);
 
-				// update station info in database
-				logger.Debug("update station information");
-				sinfo.LastLogOn = DateTime.Now;
-				StationCollection.Instance.Save(sinfo);
+					if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
+					{
+						logger.Debug("cloud logon start");
+						api.LogOn(client, detail);
+						logon = true;
+
+						// update station info in database
+						logger.Debug("update station information");
+						sinfo.LastLogOn = DateTime.Now;
+						StationCollection.Instance.Save(sinfo);
+					}
+
+					api.Heartbeat(client, detail);
+				}
+				else
+				{
+					this.LogDebugMsg("no available sessions for heartbeat");
+				}
 			}
-
-			api.Heartbeat(client, detail);
+			catch (WammerCloudException e)
+			{
+				this.LogDebugMsg("unable to send heartbeat", e);
+			}
 		}
 
 		private void UpdatePrimaryStationSetting(WebClient client)
 		{
 			foreach (var user in DriverCollection.Instance.FindAll())
 			{
-				var res = User.FindMyStation(client, user.session_token);
-				var currStation = (from station in res.stations
-				                           where station.station_id == StationRegistry.StationId
-				                           select station).FirstOrDefault();
-
-				Debug.Assert(currStation != null);
-
-				if (currStation == null)
-					return;
-
-				var isCurrPrimaryStation = (currStation.type == "primary");
-				if (user.isPrimaryStation != isCurrPrimaryStation)
+				try
 				{
-					user.isPrimaryStation = isCurrPrimaryStation;
-					DriverCollection.Instance.Update(
-						Query.EQ("_id", user.user_id),
-						Update.Set("isPrimaryStation", isCurrPrimaryStation)
-						);
-					OnIsPrimaryChanged(new IsPrimaryChangedEvtArgs(user));
+					var res = User.FindMyStation(client, user.session_token);
+					var currStation = (from station in res.stations
+									   where station.station_id == StationRegistry.StationId
+									   select station).FirstOrDefault();
+
+					Debug.Assert(currStation != null);
+
+					if (currStation == null)
+						return;
+
+					var isCurrPrimaryStation = (currStation.type == "primary");
+					if (user.isPrimaryStation != isCurrPrimaryStation)
+					{
+						user.isPrimaryStation = isCurrPrimaryStation;
+						DriverCollection.Instance.Update(
+							Query.EQ("_id", user.user_id),
+							Update.Set("isPrimaryStation", isCurrPrimaryStation)
+							);
+						OnIsPrimaryChanged(new IsPrimaryChangedEvtArgs(user));
+					}
+				}
+				catch (WammerCloudException e)
+				{
+					if (CloudServer.IsSessionError(e))
+					{
+						user.session_token = string.Empty;
+						DriverCollection.Instance.Save(user);
+						this.LogDebugMsg(string.Format("cloud returns 401, clear session of {0}", user.email));
+					}
+					else
+					{
+						this.LogDebugMsg(string.Format("unable to update primary settings of user {0}", user.email), e);
+					}
 				}
 			}
 		}
