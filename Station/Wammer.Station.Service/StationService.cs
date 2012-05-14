@@ -217,6 +217,9 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/posts/getSingle/"),
 			                          new HybridCloudHttpRouter(new PostGetSingleHandler()));
 
+			functionServer.AddHandler(GetDefaultBathPath("/posts/fetchByFilter/"),
+									  new HybridCloudHttpRouter(new PostFetchByFilterHandler()));
+
 			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
 			                          new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance)));
 
