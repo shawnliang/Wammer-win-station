@@ -229,7 +229,6 @@
     <Compile Include="Libs\Utility\ControlUtility.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />
     <Compile Include="Libs\Utility\WebBrowser.cs" />
-    <Compile Include="Data\ShowTimelineIndexType.cs" />
     <Compile Include="Libs\Utility\AttachmentUtility.cs" />
     <Compile Include="Data\RT_REST.cs" />
     <Compile Include="Libs\Utility\NLogUtility.cs" />

@@ -228,7 +228,7 @@ namespace Waveface
 
             if (!m_closeOK)
             {
-                DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), "Waveface Stream", MessageBoxButtons.YesNo,
+                DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), "Stream", MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question);
 
                 if (_dr != DialogResult.Yes)
@@ -391,7 +391,7 @@ namespace Waveface
 
             if (pureTextBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("TextEmpty"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -418,7 +418,7 @@ namespace Waveface
 
                     if (_np == null)
                     {
-                        MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface Stream", MessageBoxButtons.OK,
+                        MessageBox.Show(I18n.L.T("PostForm.PostError"), "Stream", MessageBoxButtons.OK,
                                         MessageBoxIcon.Error);
                         return;
                     }
@@ -430,7 +430,7 @@ namespace Waveface
                 }
                 catch (Exception _e)
                 {
-                    MessageBox.Show(_e.Message, "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(_e.Message, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

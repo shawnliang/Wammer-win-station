@@ -82,18 +82,18 @@ namespace Waveface.DetailUI
 
         private void PhotoView_Load(object sender, EventArgs e)
         {
+            imageListView.Dock = DockStyle.Fill; //Hack
+
             timer.Interval = ((m_imageAttachments.Count / 200) + 2) * 1000;
 
             if (!FillImageListView(true))
                 timer.Enabled = true;
 
-            imageListView.Dock = DockStyle.Fill; //Hack
+            ReArrangeUI();
 
             setSelectedItem(m_initSelectedImageIndex);
 
             imageListView.Select();
-
-            ReArrangeUI();
         }
 
         private void setSelectedItem(int selectedIndex)
@@ -285,9 +285,7 @@ namespace Waveface.DetailUI
         {
             imageBox.Image = new Bitmap(m_selectedImage.FileName);
 
-            imageBox.Zoom = 100;
-
-            UpdateStatusBar();
+            imageBox.ZoomToFit();
         }
 
         private void btnSlideShow_Click(object sender, EventArgs e)
@@ -384,7 +382,7 @@ namespace Waveface.DetailUI
                 m_post = _retPost;
             }
 
-            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)
@@ -418,6 +416,7 @@ namespace Waveface.DetailUI
             imageBox.Top = panelTop.Height;
             imageBox.Width = imageListView.Width;
             imageBox.Height = imageListView.Height - 158;
+            imageBox.Refresh();
         }
 
         private void UpdateStatusBar()
@@ -467,6 +466,12 @@ namespace Waveface.DetailUI
         private void PhotoView_KeyDown(object sender, KeyEventArgs e)
         {
             SendKeyToImageListView(e);
+        }
+
+        private void imageBox_Click(object sender, EventArgs e)
+        {
+            imageBox.SizeToFit = false;
+            imageBox.AdjustLayout();
         }
     }
 }

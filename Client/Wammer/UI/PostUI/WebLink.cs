@@ -159,7 +159,7 @@ namespace Waveface.PostUI
 
                 if (_np == null)
                 {
-                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
