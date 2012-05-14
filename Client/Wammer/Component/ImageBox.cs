@@ -26,38 +26,39 @@ namespace Waveface.Component
 
     public partial class ImageBox : ScrollableControl
     {
-        #region  Private Class Member Declarations  
+        #region  Private Class Member Declarations
 
         private static readonly int MinZoom = 10;
         private static readonly int MaxZoom = 3500;
 
-        #endregion  Private Class Member Declarations  
+        #endregion  Private Class Member Declarations
 
-        #region  Private Member Declarations  
+        #region  Private Member Declarations
 
-        private bool _autoCenter;
-        private bool _autoPan;
-        private BorderStyle _borderStyle;
-        private int _gridCellSize;
-        private Color _gridColor;
-        private Color _gridColorAlternate;
-        [Category("Property Changed")] private ImageBoxGridDisplayMode _gridDisplayMode;
-        private ImageBoxGridScale _gridScale;
-        private Bitmap _gridTile;
-        private Image _image;
-        private InterpolationMode _interpolationMode;
-        private bool _invertMouse;
-        private bool _isPanning;
-        private bool _sizeToFit;
-        private Point _startMousePosition;
-        private Point _startScrollPosition;
-        private TextureBrush _texture;
-        private int _zoom;
-        private int _zoomIncrement;
+        private bool m_autoCenter;
+        private bool m_autoPan;
+        private BorderStyle m_borderStyle;
+        private int m_gridCellSize;
+        private Color m_gridColor;
+        private Color m_gridColorAlternate;
+        [Category("Property Changed")]
+        private ImageBoxGridDisplayMode m_gridDisplayMode;
+        private ImageBoxGridScale m_gridScale;
+        private Bitmap m_gridTile;
+        private Image m_image;
+        private InterpolationMode m_interpolationMode;
+        private bool m_invertMouse;
+        private bool m_isPanning;
+        private bool m_sizeToFit;
+        private Point m_startMousePosition;
+        private Point m_startScrollPosition;
+        private TextureBrush m_texture;
+        private int m_zoom;
+        private int m_zoomIncrement;
 
-        #endregion  Private Member Declarations  
+        #endregion  Private Member Declarations
 
-        #region  Public Constructors  
+        #region  Public Constructors
 
         public ImageBox()
         {
@@ -67,6 +68,7 @@ namespace Waveface.Component
                 ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.StandardDoubleClick, false);
+
             UpdateStyles();
 
             BackColor = Color.White;
@@ -79,14 +81,14 @@ namespace Waveface.Component
             BorderStyle = BorderStyle.FixedSingle;
             AutoPan = true;
             Zoom = 100;
-            ZoomIncrement = 20;
+            ZoomIncrement = 10;
             InterpolationMode = InterpolationMode.Default;
             AutoCenter = true;
         }
 
-        #endregion  Public Constructors  
+        #endregion  Public Constructors
 
-        #region  Events  
+        #region  Events
 
         [Category("Property Changed")]
         public event EventHandler AutoCenterChanged;
@@ -136,9 +138,9 @@ namespace Waveface.Component
         [Category("Property Changed")]
         public event EventHandler ZoomIncrementChanged;
 
-        #endregion  Events  
+        #endregion  Events
 
-        #region  Overriden Properties  
+        #region  Overriden Properties
 
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always),
          DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), DefaultValue(true)]
@@ -150,12 +152,13 @@ namespace Waveface.Component
                 if (base.AutoSize != value)
                 {
                     base.AutoSize = value;
+
                     AdjustLayout();
                 }
             }
         }
 
-        [DefaultValue(typeof (Color), "White")]
+        [DefaultValue(typeof(Color), "White")]
         public override Color BackColor
         {
             get { return base.BackColor; }
@@ -194,9 +197,9 @@ namespace Waveface.Component
             set { base.Text = value; }
         }
 
-        #endregion  Overriden Properties  
+        #endregion  Overriden Properties
 
-        #region  Public Overridden Methods  
+        #region  Public Overridden Methods
 
         public override Size GetPreferredSize(Size proposedSize)
         {
@@ -227,9 +230,9 @@ namespace Waveface.Component
             return size;
         }
 
-        #endregion  Public Overridden Methods  
+        #endregion  Public Overridden Methods
 
-        #region  Protected Overridden Methods  
+        #region  Protected Overridden Methods
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -242,18 +245,19 @@ namespace Waveface.Component
                 if (components != null)
                     components.Dispose();
 
-                if (_texture != null)
+                if (m_texture != null)
                 {
-                    _texture.Dispose();
-                    _texture = null;
+                    m_texture.Dispose();
+                    m_texture = null;
                 }
 
-                if (_gridTile != null)
+                if (m_gridTile != null)
                 {
-                    _gridTile.Dispose();
-                    _gridTile = null;
+                    m_gridTile.Dispose();
+                    m_gridTile = null;
                 }
             }
+
             base.Dispose(disposing);
         }
 
@@ -316,20 +320,20 @@ namespace Waveface.Component
                 if (e.Button == MouseButtons.Left && ModifierKeys == Keys.None)
                 {
                     if (Zoom >= 100)
-                        Zoom = (int) Math.Round((double) (Zoom + 100)/100)*100;
+                        Zoom = (int)Math.Round((double)(Zoom + 100) / 100) * 100;
                     else if (Zoom >= 75)
                         Zoom = 100;
                     else
-                        Zoom = (int) (Zoom/0.75F);
+                        Zoom = (int)(Zoom / 0.75F);
                 }
                 else if (e.Button == MouseButtons.Right || (e.Button == MouseButtons.Left && ModifierKeys != Keys.None))
                 {
                     if (Zoom > 100 && Zoom <= 125)
                         Zoom = 100;
                     else if (Zoom > 100)
-                        Zoom = (int) Math.Round((double) (Zoom - 100)/100)*100;
+                        Zoom = (int)Math.Round((double)(Zoom - 100) / 100) * 100;
                     else
-                        Zoom = (int) (Zoom*0.75F);
+                        Zoom = (int)(Zoom * 0.75F);
                 }
             }
 
@@ -352,7 +356,7 @@ namespace Waveface.Component
             {
                 if (!IsPanning)
                 {
-                    _startMousePosition = e.Location;
+                    m_startMousePosition = e.Location;
                     IsPanning = true;
                 }
 
@@ -364,13 +368,13 @@ namespace Waveface.Component
 
                     if (!InvertMouse)
                     {
-                        x = -_startScrollPosition.X + (_startMousePosition.X - e.Location.X);
-                        y = -_startScrollPosition.Y + (_startMousePosition.Y - e.Location.Y);
+                        x = -m_startScrollPosition.X + (m_startMousePosition.X - e.Location.X);
+                        y = -m_startScrollPosition.Y + (m_startMousePosition.Y - e.Location.Y);
                     }
                     else
                     {
-                        x = -(_startScrollPosition.X + (_startMousePosition.X - e.Location.X));
-                        y = -(_startScrollPosition.Y + (_startMousePosition.Y - e.Location.Y));
+                        x = -(m_startScrollPosition.X + (m_startMousePosition.X - e.Location.X));
+                        y = -(m_startScrollPosition.Y + (m_startMousePosition.Y - e.Location.Y));
                     }
 
                     position = new Point(x, y);
@@ -397,7 +401,7 @@ namespace Waveface.Component
                 if (ModifierKeys == Keys.None)
                     increment = ZoomIncrement;
                 else
-                    increment = ZoomIncrement*5;
+                    increment = ZoomIncrement * 5;
 
                 if (e.Delta < 0)
                     increment = -increment;
@@ -433,7 +437,7 @@ namespace Waveface.Component
             using (SolidBrush brush = new SolidBrush(BackColor))
                 e.Graphics.FillRectangle(brush, innerRectangle);
 
-            if (_texture != null && GridDisplayMode != ImageBoxGridDisplayMode.None)
+            if (m_texture != null && GridDisplayMode != ImageBoxGridDisplayMode.None)
             {
                 switch (GridDisplayMode)
                 {
@@ -441,7 +445,7 @@ namespace Waveface.Component
                         Rectangle fillRectangle;
 
                         fillRectangle = GetImageViewPort();
-                        e.Graphics.FillRectangle(_texture, fillRectangle);
+                        e.Graphics.FillRectangle(m_texture, fillRectangle);
 
                         if (!fillRectangle.Equals(innerRectangle))
                         {
@@ -450,7 +454,7 @@ namespace Waveface.Component
                         }
                         break;
                     case ImageBoxGridDisplayMode.Client:
-                        e.Graphics.FillRectangle(_texture, innerRectangle);
+                        e.Graphics.FillRectangle(m_texture, innerRectangle);
                         break;
                 }
             }
@@ -465,6 +469,7 @@ namespace Waveface.Component
         protected override void OnParentChanged(EventArgs e)
         {
             base.OnParentChanged(e);
+
             AdjustLayout();
         }
 
@@ -482,9 +487,9 @@ namespace Waveface.Component
             base.OnScroll(se);
         }
 
-        #endregion  Protected Overridden Methods  
+        #endregion  Protected Overridden Methods
 
-        #region  Public Methods  
+        #region  Public Methods
 
         public virtual Rectangle GetImageViewPort()
         {
@@ -502,8 +507,8 @@ namespace Waveface.Component
                     int x;
                     int y;
 
-                    x = !HScroll ? (innerRectangle.Width - (ScaledImageWidth + Padding.Horizontal))/2 : 0;
-                    y = !VScroll ? (innerRectangle.Height - (ScaledImageHeight + Padding.Vertical))/2 : 0;
+                    x = !HScroll ? (innerRectangle.Width - (ScaledImageWidth + Padding.Horizontal)) / 2 : 0;
+                    y = !VScroll ? (innerRectangle.Height - (ScaledImageHeight + Padding.Vertical)) / 2 : 0;
 
                     offset = new Point(x, y);
                 }
@@ -512,8 +517,8 @@ namespace Waveface.Component
 
                 viewPort = new Rectangle(offset.X + innerRectangle.Left + Padding.Left,
                                          offset.Y + innerRectangle.Top + Padding.Top,
-                                         innerRectangle.Width - (Padding.Horizontal + (offset.X*2)),
-                                         innerRectangle.Height - (Padding.Vertical + (offset.Y*2)));
+                                         innerRectangle.Width - (Padding.Horizontal + (offset.X * 2)),
+                                         innerRectangle.Height - (Padding.Vertical + (offset.Y * 2)));
             }
             else
                 viewPort = Rectangle.Empty;
@@ -537,8 +542,8 @@ namespace Waveface.Component
             borderOffset = GetBorderOffset();
             left = borderOffset;
             top = borderOffset;
-            width = ClientSize.Width - (borderOffset*2);
-            height = ClientSize.Height - (borderOffset*2);
+            width = ClientSize.Width - (borderOffset * 2);
+            height = ClientSize.Height - (borderOffset * 2);
 
             if (includePadding)
             {
@@ -563,10 +568,10 @@ namespace Waveface.Component
             if (Image != null)
             {
                 viewPort = GetImageViewPort();
-                sourceLeft = (int) (-AutoScrollPosition.X/ZoomFactor);
-                sourceTop = (int) (-AutoScrollPosition.Y/ZoomFactor);
-                sourceWidth = (int) (viewPort.Width/ZoomFactor);
-                sourceHeight = (int) (viewPort.Height/ZoomFactor);
+                sourceLeft = (int)(-AutoScrollPosition.X / ZoomFactor);
+                sourceTop = (int)(-AutoScrollPosition.Y / ZoomFactor);
+                sourceWidth = (int)(viewPort.Width / ZoomFactor);
+                sourceHeight = (int)(viewPort.Height / ZoomFactor);
 
                 region = new Rectangle(sourceLeft, sourceTop, sourceWidth, sourceHeight);
             }
@@ -590,44 +595,44 @@ namespace Waveface.Component
 
                 if (Image.Width > Image.Height)
                 {
-                    aspectRatio = (innerRectangle.Width)/((double) Image.Width);
-                    zoom = aspectRatio*100.0;
+                    aspectRatio = (innerRectangle.Width) / ((double)Image.Width);
+                    zoom = aspectRatio * 100.0;
 
-                    if (innerRectangle.Height < ((Image.Height*zoom)/100.0))
+                    if (innerRectangle.Height < ((Image.Height * zoom) / 100.0))
                     {
-                        aspectRatio = (innerRectangle.Height)/((double) Image.Height);
-                        zoom = aspectRatio*100.0;
+                        aspectRatio = (innerRectangle.Height) / ((double)Image.Height);
+                        zoom = aspectRatio * 100.0;
                     }
                 }
                 else
                 {
-                    aspectRatio = (innerRectangle.Height)/((double) Image.Height);
-                    zoom = aspectRatio*100.0;
+                    aspectRatio = (innerRectangle.Height) / ((double)Image.Height);
+                    zoom = aspectRatio * 100.0;
 
-                    if (innerRectangle.Width < ((Image.Width*zoom)/100.0))
+                    if (innerRectangle.Width < ((Image.Width * zoom) / 100.0))
                     {
-                        aspectRatio = (innerRectangle.Width)/((double) Image.Width);
-                        zoom = aspectRatio*100.0;
+                        aspectRatio = (innerRectangle.Width) / ((double)Image.Width);
+                        zoom = aspectRatio * 100.0;
                     }
                 }
 
-                Zoom = (int) Math.Round(Math.Floor(zoom));
+                Zoom = (int)Math.Round(Math.Floor(zoom));
             }
         }
 
-        #endregion  Public Methods  
+        #endregion  Public Methods
 
-        #region  Public Properties  
+        #region  Public Properties
 
         [DefaultValue(true), Category("Appearance")]
         public bool AutoCenter
         {
-            get { return _autoCenter; }
+            get { return m_autoCenter; }
             set
             {
-                if (_autoCenter != value)
+                if (m_autoCenter != value)
                 {
-                    _autoCenter = value;
+                    m_autoCenter = value;
                     OnAutoCenterChanged(EventArgs.Empty);
                 }
             }
@@ -636,12 +641,12 @@ namespace Waveface.Component
         [DefaultValue(true), Category("Behavior")]
         public bool AutoPan
         {
-            get { return _autoPan; }
+            get { return m_autoPan; }
             set
             {
-                if (_autoPan != value)
+                if (m_autoPan != value)
                 {
-                    _autoPan = value;
+                    m_autoPan = value;
                     OnAutoPanChanged(EventArgs.Empty);
 
                     if (value)
@@ -658,15 +663,15 @@ namespace Waveface.Component
             set { base.AutoScrollMinSize = value; }
         }
 
-        [Category("Appearance"), DefaultValue(typeof (BorderStyle), "FixedSingle")]
+        [Category("Appearance"), DefaultValue(typeof(BorderStyle), "FixedSingle")]
         public BorderStyle BorderStyle
         {
-            get { return _borderStyle; }
+            get { return m_borderStyle; }
             set
             {
-                if (_borderStyle != value)
+                if (m_borderStyle != value)
                 {
-                    _borderStyle = value;
+                    m_borderStyle = value;
                     OnBorderStyleChanged(EventArgs.Empty);
                 }
             }
@@ -675,40 +680,40 @@ namespace Waveface.Component
         [Category("Appearance"), DefaultValue(8)]
         public int GridCellSize
         {
-            get { return _gridCellSize; }
+            get { return m_gridCellSize; }
             set
             {
-                if (_gridCellSize != value)
+                if (m_gridCellSize != value)
                 {
-                    _gridCellSize = value;
+                    m_gridCellSize = value;
                     OnGridCellSizeChanged(EventArgs.Empty);
                 }
             }
         }
 
-        [Category("Appearance"), DefaultValue(typeof (Color), "Gainsboro")]
+        [Category("Appearance"), DefaultValue(typeof(Color), "Gainsboro")]
         public Color GridColor
         {
-            get { return _gridColor; }
+            get { return m_gridColor; }
             set
             {
-                if (_gridColor != value)
+                if (m_gridColor != value)
                 {
-                    _gridColor = value;
+                    m_gridColor = value;
                     OnGridColorChanged(EventArgs.Empty);
                 }
             }
         }
 
-        [Category("Appearance"), DefaultValue(typeof (Color), "White")]
+        [Category("Appearance"), DefaultValue(typeof(Color), "White")]
         public Color GridColorAlternate
         {
-            get { return _gridColorAlternate; }
+            get { return m_gridColorAlternate; }
             set
             {
-                if (_gridColorAlternate != value)
+                if (m_gridColorAlternate != value)
                 {
-                    _gridColorAlternate = value;
+                    m_gridColorAlternate = value;
                     OnGridColorAlternateChanged(EventArgs.Empty);
                 }
             }
@@ -717,26 +722,26 @@ namespace Waveface.Component
         [DefaultValue(ImageBoxGridDisplayMode.Client), Category("Appearance")]
         public ImageBoxGridDisplayMode GridDisplayMode
         {
-            get { return _gridDisplayMode; }
+            get { return m_gridDisplayMode; }
             set
             {
-                if (_gridDisplayMode != value)
+                if (m_gridDisplayMode != value)
                 {
-                    _gridDisplayMode = value;
+                    m_gridDisplayMode = value;
                     OnGridDisplayModeChanged(EventArgs.Empty);
                 }
             }
         }
 
-        [DefaultValue(typeof (ImageBoxGridScale), "Small"), Category("Appearance")]
+        [DefaultValue(typeof(ImageBoxGridScale), "Small"), Category("Appearance")]
         public ImageBoxGridScale GridScale
         {
-            get { return _gridScale; }
+            get { return m_gridScale; }
             set
             {
-                if (_gridScale != value)
+                if (m_gridScale != value)
                 {
-                    _gridScale = value;
+                    m_gridScale = value;
                     OnGridScaleChanged(EventArgs.Empty);
                 }
             }
@@ -745,12 +750,13 @@ namespace Waveface.Component
         [Category("Appearance"), DefaultValue(null)]
         public virtual Image Image
         {
-            get { return _image; }
+            get { return m_image; }
             set
             {
-                if (_image != value)
+                if (m_image != value)
                 {
-                    _image = value;
+                    m_image = value;
+
                     OnImageChanged(EventArgs.Empty);
                 }
             }
@@ -759,15 +765,15 @@ namespace Waveface.Component
         [DefaultValue(InterpolationMode.Default), Category("Appearance")]
         public InterpolationMode InterpolationMode
         {
-            get { return _interpolationMode; }
+            get { return m_interpolationMode; }
             set
             {
                 if (value == InterpolationMode.Invalid)
                     value = InterpolationMode.Default;
 
-                if (_interpolationMode != value)
+                if (m_interpolationMode != value)
                 {
-                    _interpolationMode = value;
+                    m_interpolationMode = value;
                     OnInterpolationModeChanged(EventArgs.Empty);
                 }
             }
@@ -776,12 +782,12 @@ namespace Waveface.Component
         [DefaultValue(false), Category("Behavior")]
         public bool InvertMouse
         {
-            get { return _invertMouse; }
+            get { return m_invertMouse; }
             set
             {
-                if (_invertMouse != value)
+                if (m_invertMouse != value)
                 {
-                    _invertMouse = value;
+                    m_invertMouse = value;
                     OnInvertMouseChanged(EventArgs.Empty);
                 }
             }
@@ -790,13 +796,13 @@ namespace Waveface.Component
         [DefaultValue(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
         public bool IsPanning
         {
-            get { return _isPanning; }
+            get { return m_isPanning; }
             protected set
             {
-                if (_isPanning != value)
+                if (m_isPanning != value)
                 {
-                    _isPanning = value;
-                    _startScrollPosition = AutoScrollPosition;
+                    m_isPanning = value;
+                    m_startScrollPosition = AutoScrollPosition;
 
                     if (value)
                     {
@@ -815,12 +821,12 @@ namespace Waveface.Component
         [DefaultValue(false), Category("Appearance")]
         public bool SizeToFit
         {
-            get { return _sizeToFit; }
+            get { return m_sizeToFit; }
             set
             {
-                if (_sizeToFit != value)
+                if (m_sizeToFit != value)
                 {
-                    _sizeToFit = value;
+                    m_sizeToFit = value;
                     OnSizeToFitChanged(EventArgs.Empty);
 
                     if (value)
@@ -832,7 +838,7 @@ namespace Waveface.Component
         [DefaultValue(100), Category("Appearance")]
         public int Zoom
         {
-            get { return _zoom; }
+            get { return m_zoom; }
             set
             {
                 if (value < MinZoom)
@@ -840,9 +846,10 @@ namespace Waveface.Component
                 else if (value > MaxZoom)
                     value = MaxZoom;
 
-                if (_zoom != value)
+                if (m_zoom != value)
                 {
-                    _zoom = value;
+                    m_zoom = value;
+
                     OnZoomChanged(EventArgs.Empty);
                 }
             }
@@ -851,20 +858,20 @@ namespace Waveface.Component
         [DefaultValue(20), Category("Behavior")]
         public int ZoomIncrement
         {
-            get { return _zoomIncrement; }
+            get { return m_zoomIncrement; }
             set
             {
-                if (_zoomIncrement != value)
+                if (m_zoomIncrement != value)
                 {
-                    _zoomIncrement = value;
+                    m_zoomIncrement = value;
                     OnZoomIncrementChanged(EventArgs.Empty);
                 }
             }
         }
 
-        #endregion  Public Properties  
+        #endregion  Public Properties
 
-        #region  Private Methods  
+        #region  Private Methods
 
         private int GetBorderOffset()
         {
@@ -888,43 +895,43 @@ namespace Waveface.Component
 
         private void InitializeGridTile()
         {
-            if (_texture != null)
-                _texture.Dispose();
+            if (m_texture != null)
+                m_texture.Dispose();
 
-            if (_gridTile != null)
-                _gridTile.Dispose();
+            if (m_gridTile != null)
+                m_gridTile.Dispose();
 
             if (GridDisplayMode != ImageBoxGridDisplayMode.None && GridCellSize != 0)
             {
-                _gridTile = CreateGridTileImage(GridCellSize, GridColor, GridColorAlternate);
-                _texture = new TextureBrush(_gridTile);
+                m_gridTile = CreateGridTileImage(GridCellSize, GridColor, GridColorAlternate);
+                m_texture = new TextureBrush(m_gridTile);
             }
 
             Invalidate();
         }
 
-        #endregion  Private Methods  
+        #endregion  Private Methods
 
-        #region  Protected Properties  
+        #region  Protected Properties
 
         protected virtual int ScaledImageHeight
         {
-            get { return Image != null ? (int) (Image.Size.Height*ZoomFactor) : 0; }
+            get { return Image != null ? (int)(Image.Size.Height * ZoomFactor) : 0; }
         }
 
         protected virtual int ScaledImageWidth
         {
-            get { return Image != null ? (int) (Image.Size.Width*ZoomFactor) : 0; }
+            get { return Image != null ? (int)(Image.Size.Width * ZoomFactor) : 0; }
         }
 
         protected virtual double ZoomFactor
         {
-            get { return (double) Zoom/100; }
+            get { return (double)Zoom / 100; }
         }
 
-        #endregion  Protected Properties  
+        #endregion  Protected Properties
 
-        #region  Protected Methods  
+        #region  Protected Methods
 
         public virtual void AdjustLayout()
         {
@@ -934,6 +941,7 @@ namespace Waveface.Component
                 ZoomToFit();
             else if (AutoScroll)
                 AdjustViewPort();
+
             Invalidate();
         }
 
@@ -979,11 +987,11 @@ namespace Waveface.Component
                     break;
             }
 
-            cellSize = (int) (cellSize*scale);
+            cellSize = (int)(cellSize * scale);
 
             // draw the tile
-            width = cellSize*2;
-            height = cellSize*2;
+            width = cellSize * 2;
+            height = cellSize * 2;
             result = new Bitmap(width, height);
             using (Graphics g = Graphics.FromImage(result))
             {
@@ -1132,6 +1140,6 @@ namespace Waveface.Component
             OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, 0));
         }
 
-        #endregion  Protected Methods  
+        #endregion  Protected Methods
     }
 }

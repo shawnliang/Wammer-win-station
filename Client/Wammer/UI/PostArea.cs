@@ -46,7 +46,7 @@ namespace Waveface
 
         private void linkLabelReadMore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Main.Current.FilterReadMorePost();
+            // Main.Current.FilterReadMorePost();
         }
     }
 }

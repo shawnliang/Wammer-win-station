@@ -702,7 +702,7 @@ namespace Waveface.DetailUI
                         }
                     }
 
-                    MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Waveface Stream", MessageBoxButtons.OK,
+                    MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Stream", MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
                 }
             }

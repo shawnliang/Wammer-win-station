@@ -469,7 +469,7 @@ namespace Waveface
 
             if (textBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Waveface Stream", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
                 return false;
             }

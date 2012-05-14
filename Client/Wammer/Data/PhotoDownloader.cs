@@ -79,11 +79,6 @@ namespace Waveface
                     ThumbnailItems.Insert(0, item);
                 }
             }
-            //else if (item.PostItemType == PostItemType.Origin)
-            //{
-            //    // For bussiness reason, waveface client is allowed to download original image.
-            //    return;
-            //}
             else
             {
                 lock (PhotoItems)
@@ -148,7 +143,7 @@ namespace Waveface
             {
                 ImageItem _item = null;
 
-                Thread.Sleep(10);
+                Thread.Sleep(100);
 
                 if ((ThumbnailItems.Count == 0) && (PhotoItems.Count == 0))
                 {
@@ -434,7 +429,7 @@ namespace Waveface
                 {
                     ImageItem _item = new ImageItem();
 
-                    if (allSize)
+                    if (allSize && Main.Current.IsPrimaryStation)
                         _item.PostItemType = PostItemType.Origin;
                     else
                         _item.PostItemType = PostItemType.Medium;

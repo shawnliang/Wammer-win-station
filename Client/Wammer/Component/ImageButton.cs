@@ -142,12 +142,18 @@ namespace Waveface.Component
 
                 if (m_imageFront == null)
                 {
-                    _g.DrawString(Text, Font, new SolidBrush(ForeColor),  ((Width - _size.Width) / 2) + 2,
+                    _g.DrawString(Text, Font, Brushes.Black, ((Width - _size.Width) / 2) + 3,
+                                                      ((Height - _size.Height) / 2) + 2);
+
+                    _g.DrawString(Text, Font, new SolidBrush(ForeColor), ((Width - _size.Width) / 2) + 2,
                                   ((Height - _size.Height) / 2) + 1);
                 }
                 else
                 {
                     int _offX = m_imageFront.Width + 5;
+
+                    _g.DrawString(Text, Font, Brushes.Black, _offX + (((Width - _offX) - _size.Width) / 2) + 1,
+                                                      ((Height - _size.Height) / 2) + 1);
 
                     _g.DrawString(Text, Font, new SolidBrush(ForeColor), _offX + ((Width - _offX) - _size.Width) / 2,
                                   ((Height - _size.Height) / 2));

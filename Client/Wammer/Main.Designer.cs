@@ -49,7 +49,6 @@ namespace Waveface
             this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
             this.splitterRight = new System.Windows.Forms.Splitter();
             this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
-            this.timerReloadAllData = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabelPost = new System.Windows.Forms.ToolStripStatusLabel();
@@ -120,7 +119,6 @@ namespace Waveface
             this.panelTitle.BackColor = System.Drawing.Color.White;
             resources.ApplyResources(this.panelTitle, "panelTitle");
             this.panelTitle.Name = "panelTitle";
-            this.panelTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTitle_MouseMove);
             // 
             // panelMain
             // 
@@ -193,11 +191,6 @@ namespace Waveface
             // 
             this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
             this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
-            // 
-            // timerReloadAllData
-            // 
-            this.timerReloadAllData.Interval = 500;
-            this.timerReloadAllData.Tick += new System.EventHandler(this.timerReloadAllData_Tick);
             // 
             // cultureManager
             // 
@@ -314,7 +307,6 @@ namespace Waveface
         private LeftArea leftArea;
         private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
         private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
-        private System.Windows.Forms.Timer timerReloadAllData;
         private Localization.CultureManager cultureManager;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelUpload;

@@ -479,7 +479,7 @@ namespace Waveface
             {
                 FilterItem _item = (FilterItem)e.Node.Tag;
 
-                Main.Current.DoTimelineFilter(_item, true);
+                // Main.Current.DoTimelineFilter(_item, true);
             }
         }
 
@@ -489,7 +489,7 @@ namespace Waveface
             {
                 FilterItem _item = (FilterItem)e.Node.Tag;
 
-                Main.Current.DoTimelineFilter(_item, false);
+                // Main.Current.DoTimelineFilter(_item, false);
             }
         }
 
