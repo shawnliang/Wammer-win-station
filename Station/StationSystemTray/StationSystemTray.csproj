@@ -58,6 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Control\CueComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Control\CueTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Control\FBLoginButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -67,7 +73,7 @@
     <Compile Include="Control\LoginButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Control\LoginInputControl.cs">
+    <Compile Include="Control\LoginInputPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Control\TabControlEx.cs">

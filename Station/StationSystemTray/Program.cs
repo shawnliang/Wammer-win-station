@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using log4net.Config;
 using Wammer.Station;
+using log4net;
 
 namespace StationSystemTray
 {
@@ -14,6 +15,7 @@ namespace StationSystemTray
 	{
 		#region Private Static Property
 
+		private static ILog m_Logger = LogManager.GetLogger("Program");
 		private static Mutex m_Mutex { get; set; }
 
 		#endregion Private Static Property
@@ -35,16 +37,17 @@ namespace StationSystemTray
 
 			if (!isFirstCreated)
 			{
-				Process currentProcess = Process.GetCurrentProcess();
-				Process[] processes = Process.GetProcessesByName(Assembly.GetExecutingAssembly().GetName().Name);
+				var currentProcess = Process.GetCurrentProcess();
+				var processes = Process.GetProcessesByName(Assembly.GetExecutingAssembly().GetName().Name);
 
 				if (processes.Any(process => process.Id != currentProcess.Id))
 				{
-					IntPtr handle = Win32Helper.FindWindow(null, (new MainForm(true)).WindowsTitle);
+					var handle = Win32Helper.FindWindow(null, (new MainForm(true)).WindowsTitle);
 
 					if (handle == IntPtr.Zero)
 						return;
 
+					m_Logger.Debug("Call old stream to open");
 					Win32Helper.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
 					return;
 				}
