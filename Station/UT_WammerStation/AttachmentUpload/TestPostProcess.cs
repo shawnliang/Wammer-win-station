@@ -66,7 +66,7 @@ namespace UT_WammerStation.AttachmentUpload
 			mock.Setup(x => x.GenerateThumbnail(oldAtt.saved_file_name, ImageMeta.Medium, oldAtt.object_id, user, oldAtt.file_name)).
 				Returns(thumb).Verifiable();
 			mock.Setup(x => x.UpdateThumbnailInfoToDB(oldAtt.object_id, ImageMeta.Medium, thumb)).Verifiable();
-			mock.Setup(x => x.UpstreamImageNow(thumb.RawData, oldAtt.group_id, oldAtt.object_id, oldAtt.file_name, thumb.mime_type, ImageMeta.Medium, CloudServer.APIKey, "user_session")).Verifiable();
+			mock.Setup(x => x.UpstreamImageNow(thumb.RawData, oldAtt.group_id, oldAtt.object_id, oldAtt.file_name, thumb.mime_type, ImageMeta.Medium, "apikey", "user_session")).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Small, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsyncAndUpstream(oldAtt.object_id, ImageMeta.Large, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Square, It.IsAny<TaskPriority>())).Verifiable();
@@ -79,7 +79,8 @@ namespace UT_WammerStation.AttachmentUpload
 					false,								// not from this windows
 					UpsertResult.Insert,				// is new
 					Wammer.Model.ImageMeta.Origin,
-					"user_session"));	// original image
+					"user_session",
+					"apikey"));	// original image
 
 			mock.VerifyAll();
 		}
@@ -95,7 +96,7 @@ namespace UT_WammerStation.AttachmentUpload
 			mock.Setup(x => x.GenerateThumbnail(oldAtt.saved_file_name, ImageMeta.Medium, oldAtt.object_id, user, oldAtt.file_name)).
 				Returns(thumb).Verifiable();
 			mock.Setup(x => x.UpdateThumbnailInfoToDB(oldAtt.object_id, ImageMeta.Medium, thumb)).Verifiable();
-			mock.Setup(x => x.UpstreamImageNow(thumb.RawData, oldAtt.group_id, oldAtt.object_id, oldAtt.file_name, thumb.mime_type, ImageMeta.Medium, CloudServer.APIKey, "user_session")).Verifiable();
+			mock.Setup(x => x.UpstreamImageNow(thumb.RawData, oldAtt.group_id, oldAtt.object_id, oldAtt.file_name, thumb.mime_type, ImageMeta.Medium, "apikey", "user_session")).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Small, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsyncAndUpstream(oldAtt.object_id, ImageMeta.Large, It.IsAny<TaskPriority>())).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Square, It.IsAny<TaskPriority>())).Verifiable();
@@ -109,7 +110,8 @@ namespace UT_WammerStation.AttachmentUpload
 					false,								// not from this windows
 					UpsertResult.Insert,				// is new
 					Wammer.Model.ImageMeta.Origin,
-					"user_session"));	// original image
+					"user_session",
+					"apikey"));	// original image
 
 			mock.VerifyAll();
 		}
@@ -137,7 +139,8 @@ namespace UT_WammerStation.AttachmentUpload
 					true,								// from this windows
 					UpsertResult.Insert,				// is new
 					Wammer.Model.ImageMeta.Origin,
-					"user_session"));	// original image
+					"user_session",
+					"apikey"));	// original image
 
 			mock.VerifyAll();
 		}
@@ -166,7 +169,8 @@ namespace UT_WammerStation.AttachmentUpload
 					true,								// from this windows
 					UpsertResult.Insert,				// is new
 					Wammer.Model.ImageMeta.Origin,
-					"user_session"));	// original image
+					"user_session",
+					"apikey"));	// original image
 
 			mock.VerifyAll();
 		}
@@ -192,7 +196,8 @@ namespace UT_WammerStation.AttachmentUpload
 					false,								// not from this windows
 					UpsertResult.Update,				// is new
 					Wammer.Model.ImageMeta.Origin,
-					"user_session"));	// original image
+					"user_session",
+					"apikey"));	// original image
 
 			mock.VerifyAll();
 		}
@@ -203,7 +208,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Moq.Mock<IAttachmentUtil> mock = new Moq.Mock<IAttachmentUtil>(MockBehavior.Strict);
 			mock.Setup(x => x.FindAttachmentInDB("object1")).Returns(oldAtt).Verifiable();
 			mock.Setup(x => x.FindUserByGroupIdInDB(oldAtt.group_id)).Returns(user).Verifiable();
-			mock.Setup(x => x.UpstreamAttachmentNow(oldAtt.image_meta.medium.saved_file_name, user, oldAtt.object_id, oldAtt.file_name, oldAtt.image_meta.medium.mime_type, ImageMeta.Medium, AttachmentType.image, "user_session")).Verifiable();
+			mock.Setup(x => x.UpstreamAttachmentNow(oldAtt.image_meta.medium.saved_file_name, user, oldAtt.object_id, oldAtt.file_name, oldAtt.image_meta.medium.mime_type, ImageMeta.Medium, AttachmentType.image, "user_session", "apikey")).Verifiable();
 
 			AttachmentProcessedHandler procHandler = new AttachmentProcessedHandler(mock.Object);
 
@@ -213,7 +218,8 @@ namespace UT_WammerStation.AttachmentUpload
 					false,								// not from this windows
 					UpsertResult.Update,				// is new
 					Wammer.Model.ImageMeta.Medium,
-					"user_session"));	// medium image
+					"user_session",
+					"apikey"));	// medium image
 
 			mock.VerifyAll();
 		}
@@ -234,7 +240,8 @@ namespace UT_WammerStation.AttachmentUpload
 					true,								// from this windows
 					UpsertResult.Update,				// is not new
 					Wammer.Model.ImageMeta.Medium,
-					"user_session"));	// medium image
+					"user_session",
+					"apikey"));	// medium image
 
 			mock.VerifyAll();
 		}
@@ -247,7 +254,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Moq.Mock<IAttachmentUtil> mock = new Moq.Mock<IAttachmentUtil>();
 			mock.Setup(x => x.FindAttachmentInDB("object1")).Returns(oldAtt).Verifiable();
 			mock.Setup(x => x.FindUserByGroupIdInDB(oldAtt.group_id)).Returns(user).Verifiable();
-			mock.Setup(x => x.UpstreamAttachmentNow(oldAtt.saved_file_name, user, oldAtt.object_id, oldAtt.file_name, oldAtt.mime_type, ImageMeta.None, AttachmentType.doc, "user_session")).Verifiable();
+			mock.Setup(x => x.UpstreamAttachmentNow(oldAtt.saved_file_name, user, oldAtt.object_id, oldAtt.file_name, oldAtt.mime_type, ImageMeta.None, AttachmentType.doc, "user_session", "apikey")).Verifiable();
 
 			AttachmentProcessedHandler procHandler = new AttachmentProcessedHandler(mock.Object);
 
@@ -257,7 +264,8 @@ namespace UT_WammerStation.AttachmentUpload
 					false,								// from this windows
 					UpsertResult.Update,				// is new
 					Wammer.Model.ImageMeta.None,
-					"user_session"));	// medium image
+					"user_session",
+					"apikey"));	// medium image
 
 			mock.VerifyAll();
 		}
@@ -280,7 +288,8 @@ namespace UT_WammerStation.AttachmentUpload
 					true,								// from this windows
 					UpsertResult.Update,				// is new
 					Wammer.Model.ImageMeta.None,
-					"user_session"));	// medium image
+					"user_session",
+					"apikey"));	// medium image
 
 			mock.VerifyAll();
 		}

@@ -20,7 +20,7 @@ namespace Wammer.Station.AttachmentUpload
 		                      ImageMeta meta, string apikey, string session_token);
 
 		void UpstreamAttachmentNow(string filename, Driver user, string object_id, string file_name, string mime_type,
-		                           ImageMeta meta, AttachmentType type, string session);
+		                           ImageMeta meta, AttachmentType type, string session, string apikey);
 
 		void UpstreamAttachmentAsync(string object_id, ImageMeta meta, TaskPriority priority);
 	}
@@ -58,7 +58,7 @@ namespace Wammer.Station.AttachmentUpload
 					else
 					{
 						util.UpstreamImageNow(medium.RawData, attachment.group_id, attachment.object_id, attachment.file_name,
-						                      medium.mime_type, ImageMeta.Medium, CloudServer.APIKey, args.UserSession);
+						                      medium.mime_type, ImageMeta.Medium, args.APIKey, args.UserSession);
 					}
 				}
 				else
@@ -82,7 +82,7 @@ namespace Wammer.Station.AttachmentUpload
 				else
 				{
 					util.UpstreamAttachmentNow(attachment.saved_file_name, user, args.AttachmentId, attachment.file_name,
-					                           attachment.mime_type, ImageMeta.None, attachment.type, args.UserSession);
+					                           attachment.mime_type, ImageMeta.None, attachment.type, args.UserSession, args.APIKey);
 				}
 			}
 			else
@@ -95,7 +95,7 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					IAttachmentInfo info = attachment.GetInfoByMeta(args.ImgMeta);
 					util.UpstreamAttachmentNow(info.saved_file_name, user, args.AttachmentId, attachment.file_name, info.mime_type,
-					                           args.ImgMeta, AttachmentType.image, args.UserSession);
+					                           args.ImgMeta, AttachmentType.image, args.UserSession, args.APIKey);
 				}
 			}
 		}
