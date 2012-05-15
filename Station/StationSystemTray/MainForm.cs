@@ -1361,7 +1361,7 @@ namespace StationSystemTray
 
 		private void localSettingToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			using (var dialog = new LocalSettingDialog())
+			using (var dialog = new SettingDialog())
 			{
 				dialog.StartPosition = FormStartPosition.CenterParent;
 				dialog.ShowDialog();

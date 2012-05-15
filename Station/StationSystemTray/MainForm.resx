@@ -1313,7 +1313,7 @@
     <value>152, 22</value>
   </data>
   <data name="localSettingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Local Setting...</value>
+    <value>Setting...</value>
   </data>
   <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>

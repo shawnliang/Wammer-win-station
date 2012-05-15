@@ -37,6 +37,8 @@ namespace StationSystemTray
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenStream = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuSignIn = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.localSettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
@@ -61,8 +63,6 @@ namespace StationSystemTray
 			this.btnOK2 = new System.Windows.Forms.Button();
 			this.lblSecondStationSetup = new System.Windows.Forms.Label();
 			this.lblWelcome2 = new System.Windows.Forms.Label();
-			this.localSettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.TrayMenu.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabSignIn.SuspendLayout();
@@ -114,6 +114,17 @@ namespace StationSystemTray
 			this.menuSignIn.Name = "menuSignIn";
 			resources.ApplyResources(this.menuSignIn, "menuSignIn");
 			this.menuSignIn.Click += new System.EventHandler(this.menuSignIn_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+			// 
+			// localSettingToolStripMenuItem
+			// 
+			this.localSettingToolStripMenuItem.Name = "localSettingToolStripMenuItem";
+			resources.ApplyResources(this.localSettingToolStripMenuItem, "localSettingToolStripMenuItem");
+			this.localSettingToolStripMenuItem.Click += new System.EventHandler(this.localSettingToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
@@ -284,17 +295,6 @@ namespace StationSystemTray
 			resources.ApplyResources(this.lblWelcome2, "lblWelcome2");
 			this.lblWelcome2.Name = "lblWelcome2";
 			// 
-			// localSettingToolStripMenuItem
-			// 
-			this.localSettingToolStripMenuItem.Name = "localSettingToolStripMenuItem";
-			resources.ApplyResources(this.localSettingToolStripMenuItem, "localSettingToolStripMenuItem");
-			this.localSettingToolStripMenuItem.Click += new System.EventHandler(this.localSettingToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem1
-			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
-			// 
 			// MainForm
 			// 
 			this.AcceptButton = this.btnSignIn;
@@ -333,7 +333,7 @@ namespace StationSystemTray
 		private System.Windows.Forms.Button btnSignIn;
 		private System.Windows.Forms.CheckBox chkRememberPassword;
 		private System.Windows.Forms.LinkLabel lblSignUp;
-        private TabControlEx tabControl;
+		private StationSystemTray.Control.TabControlEx tabControl;
 		private System.Windows.Forms.TabPage tabSignIn;
 		private System.Windows.Forms.TabPage tabMainStationSetup;
 		private System.Windows.Forms.Label lblMainStationSetup;
@@ -348,7 +348,7 @@ namespace StationSystemTray
 		private System.Windows.Forms.Label lblWelcome2;
 		private System.Windows.Forms.Label lblSecondStationSetup;
 		private System.Windows.Forms.Button btnOK2;
-		private FBLoginButton fbLoginButton1;
+		private StationSystemTray.Control.FBLoginButton fbLoginButton1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;

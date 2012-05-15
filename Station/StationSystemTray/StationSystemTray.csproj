@@ -75,11 +75,11 @@
     <Compile Include="Control\TabControlEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Dialog\LocalSettingDialog.cs">
+    <Compile Include="Dialog\SettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialog\LocalSettingDialog.Designer.cs">
-      <DependentUpon>LocalSettingDialog.cs</DependentUpon>
+    <Compile Include="Dialog\SettingDialog.Designer.cs">
+      <DependentUpon>SettingDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -103,8 +103,11 @@
     <EmbeddedResource Include="Control\FBLoginButton.resx">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialog\LocalSettingDialog.resx">
-      <DependentUpon>LocalSettingDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Dialog\SettingDialog.resx">
+      <DependentUpon>SettingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\SettingDialog.zh-TW.resx">
+      <DependentUpon>SettingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

@@ -1,6 +1,6 @@
 ﻿namespace StationSystemTray
 {
-	partial class LocalSettingDialog
+	partial class SettingDialog
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,79 +28,80 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingDialog));
 			this.btnUnlink = new System.Windows.Forms.Button();
 			this.cmbStations = new System.Windows.Forms.ComboBox();
 			this.lblUserEmail = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.lblStorageUsageValue = new System.Windows.Forms.Label();
+			this.lblStorageUsage = new System.Windows.Forms.Label();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnUnlink
 			// 
-			this.btnUnlink.Enabled = false;
-			this.btnUnlink.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.btnUnlink.Location = new System.Drawing.Point(279, 112);
+			resources.ApplyResources(this.btnUnlink, "btnUnlink");
 			this.btnUnlink.Name = "btnUnlink";
-			this.btnUnlink.Size = new System.Drawing.Size(123, 23);
-			this.btnUnlink.TabIndex = 13;
-			this.btnUnlink.Text = "Remove this account";
 			this.btnUnlink.UseVisualStyleBackColor = true;
 			this.btnUnlink.Click += new System.EventHandler(this.btnUnlink_Click);
 			// 
 			// cmbStations
 			// 
+			resources.ApplyResources(this.cmbStations, "cmbStations");
 			this.cmbStations.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbStations.FormattingEnabled = true;
-			this.cmbStations.Location = new System.Drawing.Point(12, 12);
 			this.cmbStations.Name = "cmbStations";
-			this.cmbStations.Size = new System.Drawing.Size(390, 21);
-			this.cmbStations.TabIndex = 8;
 			this.cmbStations.SelectedIndexChanged += new System.EventHandler(this.cmbStations_SelectedIndexChanged);
+			this.cmbStations.TextChanged += new System.EventHandler(this.cmbStations_TextChanged);
 			// 
 			// lblUserEmail
 			// 
-			this.lblUserEmail.AutoSize = true;
-			this.lblUserEmail.Location = new System.Drawing.Point(12, 51);
+			resources.ApplyResources(this.lblUserEmail, "lblUserEmail");
 			this.lblUserEmail.Name = "lblUserEmail";
-			this.lblUserEmail.Size = new System.Drawing.Size(62, 13);
-			this.lblUserEmail.TabIndex = 14;
-			this.lblUserEmail.Text = "[User email]";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 78);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(70, 13);
-			this.label2.TabIndex = 15;
-			this.label2.Text = "[Used space]";
 			// 
 			// button1
 			// 
-			this.button1.Enabled = false;
-			this.button1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.button1.Location = new System.Drawing.Point(338, 144);
+			resources.ApplyResources(this.button1, "button1");
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(64, 23);
-			this.button1.TabIndex = 16;
-			this.button1.Text = "Close";
 			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
-			// LocalSettingDialog
+			// groupBox1
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this.groupBox1, "groupBox1");
+			this.groupBox1.Controls.Add(this.lblStorageUsageValue);
+			this.groupBox1.Controls.Add(this.lblStorageUsage);
+			this.groupBox1.Controls.Add(this.cmbStations);
+			this.groupBox1.Controls.Add(this.btnUnlink);
+			this.groupBox1.Controls.Add(this.lblUserEmail);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.TabStop = false;
+			// 
+			// lblStorageUsageValue
+			// 
+			resources.ApplyResources(this.lblStorageUsageValue, "lblStorageUsageValue");
+			this.lblStorageUsageValue.Name = "lblStorageUsageValue";
+			// 
+			// lblStorageUsage
+			// 
+			resources.ApplyResources(this.lblStorageUsage, "lblStorageUsage");
+			this.lblStorageUsage.Name = "lblStorageUsage";
+			// 
+			// SettingDialog
+			// 
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(426, 179);
+			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.button1);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.lblUserEmail);
-			this.Controls.Add(this.btnUnlink);
-			this.Controls.Add(this.cmbStations);
-			this.Name = "LocalSettingDialog";
-			this.Text = "Local Setting";
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "SettingDialog";
 			this.Load += new System.EventHandler(this.LocalSettingDialog_Load);
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -109,7 +110,9 @@
 		private System.Windows.Forms.Button btnUnlink;
 		private System.Windows.Forms.ComboBox cmbStations;
 		private System.Windows.Forms.Label lblUserEmail;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Label lblStorageUsageValue;
+		private System.Windows.Forms.Label lblStorageUsage;
 	}
 }
