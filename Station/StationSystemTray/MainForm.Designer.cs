@@ -37,14 +37,16 @@ namespace StationSystemTray
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenStream = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuSignIn = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
 			this.tabControl = new StationSystemTray.TabControlEx();
 			this.tabSignIn = new System.Windows.Forms.TabPage();
 			this.loginInputPanel1 = new StationSystemTray.LoginInputPanel();
-			this.txtPassword = new StationSystemTray.CueTextBox();
 			this.button1 = new System.Windows.Forms.Button();
+			this.txtPassword = new StationSystemTray.CueTextBox();
 			this.tbxEMail = new StationSystemTray.CueTextBox();
 			this.cmbEmail = new StationSystemTray.CueComboBox();
 			this.fbLoginButton1 = new StationSystemTray.FBLoginButton();
@@ -74,56 +76,69 @@ namespace StationSystemTray
 			// 
 			// TrayIcon
 			// 
-			resources.ApplyResources(this.TrayIcon, "TrayIcon");
 			this.TrayIcon.ContextMenuStrip = this.TrayMenu;
+			resources.ApplyResources(this.TrayIcon, "TrayIcon");
 			this.TrayIcon.DoubleClick += new System.EventHandler(this.trayIcon_DoubleClicked);
 			// 
 			// TrayMenu
 			// 
-			resources.ApplyResources(this.TrayMenu, "TrayMenu");
 			this.TrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuServiceAction,
             this.toolStripSeparator1,
             this.tsmiOpenStream,
             this.menuSignIn,
+            this.toolStripMenuItem1,
+            this.settingToolStripMenuItem,
             this.toolStripSeparator3,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
+			resources.ApplyResources(this.TrayMenu, "TrayMenu");
 			this.TrayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.TrayMenu_Opening);
 			this.TrayMenu.VisibleChanged += new System.EventHandler(this.TrayMenu_VisibleChanged);
 			// 
 			// menuServiceAction
 			// 
-			resources.ApplyResources(this.menuServiceAction, "menuServiceAction");
 			this.menuServiceAction.Name = "menuServiceAction";
+			resources.ApplyResources(this.menuServiceAction, "menuServiceAction");
 			this.menuServiceAction.Click += new System.EventHandler(this.menuServiceAction_Click);
 			// 
 			// toolStripSeparator1
 			// 
-			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			// 
 			// tsmiOpenStream
 			// 
-			resources.ApplyResources(this.tsmiOpenStream, "tsmiOpenStream");
 			this.tsmiOpenStream.Name = "tsmiOpenStream";
+			resources.ApplyResources(this.tsmiOpenStream, "tsmiOpenStream");
 			this.tsmiOpenStream.Click += new System.EventHandler(this.tsmiOpenStream_Click);
 			// 
 			// menuSignIn
 			// 
-			resources.ApplyResources(this.menuSignIn, "menuSignIn");
 			this.menuSignIn.Name = "menuSignIn";
+			resources.ApplyResources(this.menuSignIn, "menuSignIn");
 			this.menuSignIn.Click += new System.EventHandler(this.menuSignIn_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+			// 
+			// settingToolStripMenuItem
+			// 
+			this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
+			resources.ApplyResources(this.settingToolStripMenuItem, "settingToolStripMenuItem");
+			this.settingToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
-			resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
 			// 
 			// menuQuit
 			// 
-			resources.ApplyResources(this.menuQuit, "menuQuit");
 			this.menuQuit.Name = "menuQuit";
+			resources.ApplyResources(this.menuQuit, "menuQuit");
 			this.menuQuit.Click += new System.EventHandler(this.menuQuit_Click);
 			// 
 			// checkStationTimer
@@ -133,10 +148,10 @@ namespace StationSystemTray
 			// 
 			// tabControl
 			// 
-			resources.ApplyResources(this.tabControl, "tabControl");
 			this.tabControl.Controls.Add(this.tabSignIn);
 			this.tabControl.Controls.Add(this.tabMainStationSetup);
 			this.tabControl.Controls.Add(this.tabSecondStationSetup);
+			resources.ApplyResources(this.tabControl, "tabControl");
 			this.tabControl.HideTabs = true;
 			this.tabControl.Multiline = true;
 			this.tabControl.Name = "tabControl";
@@ -145,7 +160,6 @@ namespace StationSystemTray
 			// 
 			// tabSignIn
 			// 
-			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.tabSignIn.Controls.Add(this.loginInputPanel1);
 			this.tabSignIn.Controls.Add(this.fbLoginButton1);
@@ -155,39 +169,40 @@ namespace StationSystemTray
 			this.tabSignIn.Controls.Add(this.label1);
 			this.tabSignIn.Controls.Add(this.lblSignUp);
 			this.tabSignIn.Controls.Add(this.chkRememberPassword);
+			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.Name = "tabSignIn";
 			this.tabSignIn.Click += new System.EventHandler(this.tabSignIn_Click);
 			// 
 			// loginInputPanel1
 			// 
-			resources.ApplyResources(this.loginInputPanel1, "loginInputPanel1");
-			this.loginInputPanel1.Controls.Add(this.txtPassword);
 			this.loginInputPanel1.Controls.Add(this.button1);
+			this.loginInputPanel1.Controls.Add(this.txtPassword);
 			this.loginInputPanel1.Controls.Add(this.tbxEMail);
 			this.loginInputPanel1.Controls.Add(this.cmbEmail);
+			resources.ApplyResources(this.loginInputPanel1, "loginInputPanel1");
 			this.loginInputPanel1.Name = "loginInputPanel1";
-			// 
-			// txtPassword
-			// 
-			resources.ApplyResources(this.txtPassword, "txtPassword");
-			this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.txtPassword.Name = "txtPassword";
 			// 
 			// button1
 			// 
-			resources.ApplyResources(this.button1, "button1");
 			this.button1.BackColor = System.Drawing.Color.White;
 			this.button1.CausesValidation = false;
 			this.button1.FlatAppearance.BorderSize = 0;
+			resources.ApplyResources(this.button1, "button1");
 			this.button1.Name = "button1";
 			this.button1.TabStop = false;
 			this.button1.UseVisualStyleBackColor = false;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
+			// txtPassword
+			// 
+			this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			resources.ApplyResources(this.txtPassword, "txtPassword");
+			this.txtPassword.Name = "txtPassword";
+			// 
 			// tbxEMail
 			// 
-			resources.ApplyResources(this.tbxEMail, "tbxEMail");
 			this.tbxEMail.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			resources.ApplyResources(this.tbxEMail, "tbxEMail");
 			this.tbxEMail.Name = "tbxEMail";
 			// 
 			// cmbEmail
@@ -224,9 +239,9 @@ namespace StationSystemTray
 			// 
 			// label1
 			// 
-			resources.ApplyResources(this.label1, "label1");
 			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			resources.ApplyResources(this.label1, "label1");
 			this.label1.Name = "label1";
 			this.label1.Paint += new System.Windows.Forms.PaintEventHandler(this.label1_Paint);
 			// 
@@ -247,11 +262,11 @@ namespace StationSystemTray
 			// 
 			// tabMainStationSetup
 			// 
-			resources.ApplyResources(this.tabMainStationSetup, "tabMainStationSetup");
 			this.tabMainStationSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.tabMainStationSetup.Controls.Add(this.btnOK);
 			this.tabMainStationSetup.Controls.Add(this.lblWelcome);
 			this.tabMainStationSetup.Controls.Add(this.lblMainStationSetup);
+			resources.ApplyResources(this.tabMainStationSetup, "tabMainStationSetup");
 			this.tabMainStationSetup.Name = "tabMainStationSetup";
 			// 
 			// btnOK
@@ -274,11 +289,11 @@ namespace StationSystemTray
 			// 
 			// tabSecondStationSetup
 			// 
-			resources.ApplyResources(this.tabSecondStationSetup, "tabSecondStationSetup");
 			this.tabSecondStationSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.tabSecondStationSetup.Controls.Add(this.btnOK2);
 			this.tabSecondStationSetup.Controls.Add(this.lblSecondStationSetup);
 			this.tabSecondStationSetup.Controls.Add(this.lblWelcome2);
+			resources.ApplyResources(this.tabSecondStationSetup, "tabSecondStationSetup");
 			this.tabSecondStationSetup.Name = "tabSecondStationSetup";
 			// 
 			// btnOK2
@@ -301,8 +316,8 @@ namespace StationSystemTray
 			// 
 			// MainForm
 			// 
-			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.tabControl);
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -360,6 +375,8 @@ namespace StationSystemTray
 		private LoginInputPanel loginInputPanel1;
 		private System.Windows.Forms.Button button1;
 		internal CueTextBox tbxEMail;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem settingToolStripMenuItem;
 	}
 }
 

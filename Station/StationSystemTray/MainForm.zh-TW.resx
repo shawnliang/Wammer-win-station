@@ -497,9 +497,6 @@
         //8=
 </value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>登入 - Stream</value>
   </data>
@@ -704,6 +701,18 @@
         +GLhyDk9ZjtP+lr5D4fyOXHzbo1YAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="settingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
+  </data>
+  <data name="settingToolStripMenuItem.Text" xml:space="preserve">
+    <value>設定...</value>
+  </data>
+  <data name="tbxEMail.CueText" xml:space="preserve">
+    <value>電子郵件</value>
+  </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 6</value>
+  </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 6</value>
   </data>
@@ -711,12 +720,15 @@
     <value>144, 6</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 104</value>
+    <value>148, 132</value>
   </data>
   <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 22</value>
   </data>
   <data name="tsmiOpenStream.Text" xml:space="preserve">
     <value>開啟 Stream...</value>
+  </data>
+  <data name="txtPassword.CueText" xml:space="preserve">
+    <value>密碼</value>
   </data>
 </root>

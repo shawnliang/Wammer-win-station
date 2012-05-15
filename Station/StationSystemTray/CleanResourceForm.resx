@@ -1540,7 +1540,7 @@
     <value>50, 24</value>
   </data>
   <data name="lblConfirm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>388, 15</value>
+    <value>423, 15</value>
   </data>
   <data name="lblConfirm.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>

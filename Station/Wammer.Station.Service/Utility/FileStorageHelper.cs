@@ -22,6 +22,11 @@ namespace Wammer.Utility
 			return DirSize(d);
 		}
 
+		/// <summary>
+		/// Dirs the size.
+		/// </summary>
+		/// <param name="d">The d.</param>
+		/// <returns></returns>
 		private static long DirSize(DirectoryInfo d)
 		{
 			Type tp = Type.GetTypeFromProgID("Scripting.FileSystemObject");

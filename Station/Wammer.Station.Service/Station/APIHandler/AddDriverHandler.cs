@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +11,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
-	public class AddDriverHandler : HttpHandler
+	public class AddDriverHandler: HttpHandler
 	{
 		private readonly string resourceBasePath;
 		private readonly string stationId;
@@ -38,10 +38,10 @@ namespace Wammer.Station
 					existingDriver.ref_count += 1;
 					DriverCollection.Instance.Save(existingDriver);
 					RespondSuccess(new AddUserResponse
-					               	{
-					               		UserId = existingDriver.user_id,
-					               		IsPrimaryStation = existingDriver.isPrimaryStation
-					               	});
+					{
+						UserId = existingDriver.user_id,
+						IsPrimaryStation = existingDriver.isPrimaryStation
+					});
 				}
 				else
 				{
@@ -52,19 +52,20 @@ namespace Wammer.Station
 							.Set("Location", NetworkHelper.GetBaseURL())
 							.Set("LastLogOn", DateTime.Now),
 						UpdateFlags.Upsert
-						);
+					);
 
 					var driver = new Driver
-					             	{
-					             		user_id = res.user.user_id,
-					             		email = res.user.email,
-					             		groups = res.groups,
-					             		folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
-					             		session_token = res.session_token,
-					             		isPrimaryStation = IsThisPrimaryStation(res.stations),
-					             		ref_count = 1,
-					             		stations = res.stations
-					             	};
+					{
+						user_id = res.user.user_id,
+						email = res.user.email,
+						groups = res.groups,
+						folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
+						session_token = res.session_token,
+						isPrimaryStation = IsThisPrimaryStation(res.stations),
+						ref_count = 1,
+						user = res.user,
+						stations = res.stations
+					};
 
 					Directory.CreateDirectory(driver.folder);
 
@@ -75,19 +76,19 @@ namespace Wammer.Station
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
 					RespondSuccess(new AddUserResponse
-					               	{
-					               		UserId = driver.user_id,
+					{
+						UserId = driver.user_id,
 					               		IsPrimaryStation = driver.isPrimaryStation,
 					               		Stations = driver.stations
-					               	});
+					});
 				}
 			}
 			else
 			{
 				CheckParameter(CloudServer.PARAM_EMAIL,
-				               CloudServer.PARAM_PASSWORD,
-				               CloudServer.PARAM_DEVICE_ID,
-				               CloudServer.PARAM_DEVICE_NAME);
+							   CloudServer.PARAM_PASSWORD,
+							   CloudServer.PARAM_DEVICE_ID,
+							   CloudServer.PARAM_DEVICE_NAME);
 
 				string email = Parameters[CloudServer.PARAM_EMAIL];
 				string password = Parameters[CloudServer.PARAM_PASSWORD];
@@ -104,7 +105,7 @@ namespace Wammer.Station
 						User user = User.LogIn(agent, email, password, deviceId, deviceName);
 
 						if (user == null)
-							throw new WammerStationException("Logined user not found", (int) StationLocalApiError.AuthFailed);
+							throw new WammerStationException("Logined user not found", (int)StationLocalApiError.AuthFailed);
 
 						if (user.Id == existingDriver.user_id)
 						{
@@ -112,11 +113,11 @@ namespace Wammer.Station
 							DriverCollection.Instance.Save(existingDriver);
 
 							RespondSuccess(new AddUserResponse
-							               	{
-							               		UserId = existingDriver.user_id,
+							{
+								UserId = existingDriver.user_id,
 							               		IsPrimaryStation = existingDriver.isPrimaryStation,
 							               		Stations = existingDriver.stations
-							               	});
+							});
 							return;
 						}
 
@@ -139,19 +140,20 @@ namespace Wammer.Station
 							.Set("Location", NetworkHelper.GetBaseURL())
 							.Set("LastLogOn", DateTime.Now),
 						UpdateFlags.Upsert
-						);
+					);
 
 					var driver = new Driver
-					             	{
-					             		user_id = res.user.user_id,
-					             		email = email,
-					             		folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
-					             		groups = res.groups,
-					             		session_token = res.session_token,
-					             		isPrimaryStation = IsThisPrimaryStation(res.stations),
-					             		ref_count = 1,
-					             		stations = res.stations
-					             	};
+					{
+						user_id = res.user.user_id,
+						email = email,
+						folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
+						groups = res.groups,
+						session_token = res.session_token,
+						isPrimaryStation = IsThisPrimaryStation(res.stations),
+						ref_count = 1,
+						user = res.user,
+						stations = res.stations
+					};
 
 					Directory.CreateDirectory(driver.folder);
 
@@ -163,11 +165,11 @@ namespace Wammer.Station
 					OnDriverAdded(new DriverAddedEvtArgs(driver));
 
 					RespondSuccess(new AddUserResponse
-					               	{
-					               		UserId = driver.user_id,
+					{
+						UserId = driver.user_id,
 					               		IsPrimaryStation = driver.isPrimaryStation,
 					               		Stations = driver.stations
-					               	});
+					});
 				}
 			}
 		}
@@ -180,7 +182,7 @@ namespace Wammer.Station
 			return (from s in stations 
 					where s.station_id == stationId 
 					select string.Compare(s.type, "primary", true) == 0).FirstOrDefault();
-		}
+				}
 
 		private void OnDriverAdded(DriverAddedEvtArgs args)
 		{

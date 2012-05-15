@@ -305,6 +305,12 @@ namespace StationSystemTray
 				return;
 			}
 
+			if (m_SettingDialog != null)
+			{
+				m_SettingDialog.Activate();
+				return;
+			}
+
 			LoginedSession loginedSession = null;
 
 			if (userlogin != null)
@@ -836,6 +842,9 @@ namespace StationSystemTray
 
 		private void LaunchClient(string sessionToken)
 		{
+			if(m_SettingDialog != null)
+				m_SettingDialog.Close();
+
 			Cursor.Current = Cursors.WaitCursor;
 			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 										   "WavefaceWindowsClient.exe");
@@ -883,6 +892,9 @@ namespace StationSystemTray
 				Invoke(new EventHandler(clientProcess_Exited), sender, e);
 				return;
 			}
+
+			if(m_SettingDialog != null)
+				m_SettingDialog.Close();
 
 			int exitCode = clientProcess.ExitCode;
 
@@ -1068,6 +1080,15 @@ namespace StationSystemTray
 		}
 
 		private void menuSignIn_Click(object sender, EventArgs e)
+		{
+			if (m_SettingDialog != null)
+			{
+				m_SettingDialog.Close();
+			}
+			Logout();
+		}
+
+		private void Logout()
 		{
 			var lastLoginUser = userloginContainer.GetLastUserLogin();
 			if (menuSignIn.Text == Resources.LogoutMenuItem)
@@ -1356,6 +1377,55 @@ namespace StationSystemTray
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 
+		}
+
+		private SettingDialog m_SettingDialog;
+		private void settingToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var isOpenInTimeline = clientProcess != null;
+			try
+			{
+				if (m_SettingDialog != null)
+					return;
+
+				using (m_SettingDialog = new SettingDialog(userloginContainer.GetCurLoginedSession()))
+				{
+					EventHandler<AccountEventArgs> removeAccountAction = (senderEx, ex) =>
+																			{
+																				userloginContainer.RemoveUserLogin(ex.EMail);
+																				RefreshUserList();
+
+																				var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", userloginContainer.GetCurLoginedSession()));
+																				if (loginedUser != null && loginedUser.user.email == ex.EMail)
+																				{
+																					m_SettingDialog.Close();
+																					Logout();
+																					return;
+																				}
+																			};
+					
+					m_SettingDialog.Location = this.Location;
+					m_SettingDialog.Icon = this.Icon;
+					m_SettingDialog.TopMost = true;
+					m_SettingDialog.StartPosition = FormStartPosition.CenterScreen;
+					m_SettingDialog.ShowInTaskbar = !isOpenInTimeline;
+					
+					m_SettingDialog.FormClosed += (senderEx, ex) =>
+					                              	{
+														m_SettingDialog.AccountRemoving -= removeAccountAction;
+					                              		m_SettingDialog = null;
+					                              	};
+
+					m_SettingDialog.AccountRemoving += removeAccountAction;
+					this.Hide();
+					m_SettingDialog.ShowDialog();
+				}
+			}
+			finally
+			{
+				if (!isOpenInTimeline)
+					GotoTimeline(userloginContainer.GetLastUserLogin());
+			}
 		}
 	}
 

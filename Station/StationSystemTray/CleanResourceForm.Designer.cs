@@ -39,17 +39,19 @@
 			// btnYes
 			// 
 			resources.ApplyResources(this.btnYes, "btnYes");
+			this.btnYes.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.btnYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
 			this.btnYes.Name = "btnYes";
-			this.btnYes.UseVisualStyleBackColor = true;
+			this.btnYes.UseVisualStyleBackColor = false;
 			this.btnYes.Click += new System.EventHandler(this.btnYes_Click);
 			// 
 			// btnNo
 			// 
 			resources.ApplyResources(this.btnNo, "btnNo");
+			this.btnNo.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.btnNo.DialogResult = System.Windows.Forms.DialogResult.No;
 			this.btnNo.Name = "btnNo";
-			this.btnNo.UseVisualStyleBackColor = true;
+			this.btnNo.UseVisualStyleBackColor = false;
 			// 
 			// lblConfirm
 			// 
@@ -65,9 +67,10 @@
 			// CleanResourceForm
 			// 
 			this.AcceptButton = this.btnYes;
-			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.CancelButton = this.btnNo;
+			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.lblConfirm);
 			this.Controls.Add(this.btnNo);
