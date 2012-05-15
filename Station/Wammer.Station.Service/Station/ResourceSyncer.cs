@@ -57,13 +57,22 @@ namespace Wammer.Station
 
 		public void OnIsPrimaryChanged(object sender, IsPrimaryChangedEvtArgs args)
 		{
-			if (args.driver.isPrimaryStation)
+			try
 			{
-				// just upgraded to primary station
-				foreach (Attachment attachment in AttachmentCollection.Instance.FindAll())
+				if (args.driver.isPrimaryStation)
 				{
-					downloader.EnqueueDownstreamTask(new AttachmentInfo(attachment), args.driver, ImageMeta.Origin);
+					// just upgraded to primary station
+					// download missing original attachments
+					foreach (Attachment attachment in AttachmentCollection.Instance.Find(Query.EQ("group_id", args.driver.groups[0].group_id)))
+					{
+						if (string.IsNullOrEmpty(attachment.saved_file_name))
+							downloader.EnqueueDownstreamTask(new AttachmentInfo(attachment), args.driver, ImageMeta.Origin);
+					}
 				}
+			}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Error when adding downstream task", e);
 			}
 		}
 
