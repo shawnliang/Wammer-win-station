@@ -4,7 +4,7 @@ using StationSystemTray.Properties;
 
 namespace StationSystemTray
 {
-	public class LoginButton : System.Windows.Forms.Control
+	public class LoginButton : System.Windows.Forms.Button
 	{
 		private Bitmap m_Image = Resources.login_btn;
 

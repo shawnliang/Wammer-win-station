@@ -143,6 +143,9 @@ namespace Wammer.Cloud
 			{
 				foreach (var pair in parameters)
 				{
+					if (pair.Key == CloudServer.PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+						throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
+
 					buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
 					buf.Append("=");
 					buf.Append(HttpUtility.UrlEncode(pair.Value.ToString()));
@@ -179,6 +182,9 @@ namespace Wammer.Cloud
 			var buf = new StringBuilder();
 			foreach (var pair in parameters)
 			{
+				if (pair.Key == CloudServer.PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
+
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
 				buf.Append("=");
 				buf.Append(HttpUtility.UrlEncode(pair.Value.ToString()));
@@ -287,6 +293,9 @@ namespace Wammer.Cloud
 			var buf = new StringBuilder();
 			foreach (var pair in param)
 			{
+				if (pair.Key == CloudServer.PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
+
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
 				buf.Append("=");
 				buf.Append(HttpUtility.UrlEncode(pair.Value.ToString()));
@@ -362,6 +371,9 @@ namespace Wammer.Cloud
 			var buf = new StringBuilder();
 			foreach (var pair in param)
 			{
+				if (pair.Key == CloudServer.PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
+
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
 				buf.Append("=");
 				buf.Append(HttpUtility.UrlEncode(Convert.ToString(pair.Value)));
@@ -448,19 +460,26 @@ namespace Wammer.Cloud
 
 		public static bool IsSessionError(WammerCloudException e)
 		{
-			var webex = (WebException) e.InnerException;
-			if (webex != null)
+			if (e.WammerError != 0)
 			{
-				var response = (HttpWebResponse) webex.Response;
-				if (response != null)
+				return (e.WammerError == (int)GeneralApiError.SessionNotExist);
+			}
+			else
+			{
+				var webex = (WebException)e.InnerException;
+				if (webex != null)
 				{
-					if (response.StatusCode == HttpStatusCode.Unauthorized)
+					var response = (HttpWebResponse)webex.Response;
+					if (response != null)
 					{
-						return true;
+						if (response.StatusCode == HttpStatusCode.Unauthorized)
+						{
+							return true;
+						}
 					}
 				}
+				return false;
 			}
-			return false;
 		}
 	}
 }

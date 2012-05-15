@@ -62,6 +62,9 @@ namespace Wammer.Station
 				LogRequest();
 
 				LoginedSession session = GetSessionFromCache();
+				if (session == null)
+					throw new SessionNotExistException("session not exist", (int)GeneralApiError.SessionNotExist);
+
 				handler.Session = session;
 				handler.Request = request;
 				handler.Response = response;

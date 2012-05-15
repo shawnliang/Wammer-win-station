@@ -146,6 +146,9 @@ namespace Wammer.Station
 
 				SetAttachementToDB(meta, downloadResult, fileName);
 
+				if (meta == ImageMeta.Origin || meta == ImageMeta.None)
+					TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(Parameters["object_id"], driver.session_token), TaskPriority.Low, true);
+
 				Response.ContentType = downloadResult.ContentType;
 
 				var m = new MemoryStream(downloadResult.Image);

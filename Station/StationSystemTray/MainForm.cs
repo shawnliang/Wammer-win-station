@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -153,6 +153,8 @@ namespace StationSystemTray
 			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
 			m_Timer.Start();
+
+			tbxEMail.DataBindings.Add("Text", cmbEmail, "Text");
 		}
 
 		public StationState CurrentState { get; private set; }
@@ -190,6 +192,7 @@ namespace StationSystemTray
 		{
 			if (m.Msg == 0x401)
 			{
+				logger.Debug("Timeline trigger by new stream");
 				GotoTimeline(userloginContainer.GetLastUserLogin());
 				return;
 			}
@@ -307,7 +310,7 @@ namespace StationSystemTray
 			if (userlogin != null)
 				loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
 
-			if (loginedSession != null || (userlogin != null && userlogin.RememberPassword))
+			if (loginedSession != null /*|| (userlogin != null && userlogin.RememberPassword)*/)
 			{
 				userloginContainer.SaveCurLoginedUser(userlogin);
 
@@ -667,7 +670,7 @@ namespace StationSystemTray
 					txtPassword.Select();
 				}
 
-				//this.AcceptButton = btnSignIn;
+				this.AcceptButton = loginButton1;
 			}
 			else if (tabpage == tabMainStationSetup)
 			{
@@ -1066,6 +1069,7 @@ namespace StationSystemTray
 
 		private void menuSignIn_Click(object sender, EventArgs e)
 		{
+			var lastLoginUser = userloginContainer.GetLastUserLogin();
 			if (menuSignIn.Text == Resources.LogoutMenuItem)
 			{
 				string lastLogin = userloginContainer.GetCurLoginedSession();
@@ -1081,7 +1085,7 @@ namespace StationSystemTray
 					LogOut(new WebClient(), loginedSession.session_token, loginedSession.apikey.apikey);
 				}
 			}
-			GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+			GotoTabPage(tabSignIn, lastLoginUser);
 		}
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
@@ -1338,6 +1342,21 @@ namespace StationSystemTray
 		}
 
 		#endregion Protected Method
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			cmbEmail.DroppedDown = true;
+		}
+
+		private void label1_Paint(object sender, PaintEventArgs e)
+		{
+			ControlPaint.DrawBorder(e.Graphics, label1.DisplayRectangle, ColorTranslator.FromHtml("#868686"), ButtonBorderStyle.Solid);
+		}
+
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 
 	#region StationStatusUIController
