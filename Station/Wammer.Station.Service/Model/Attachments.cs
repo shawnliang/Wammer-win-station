@@ -250,6 +250,9 @@ namespace Wammer.Model
 		{
 			try
 			{
+				if (token == null)
+					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
+
 				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token);
 				HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(
 					url,
@@ -279,6 +282,9 @@ namespace Wammer.Model
 		{
 			try
 			{
+				if (token == null)
+					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
+
 				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token);
 
 				HttpWebResponse _webResponse =

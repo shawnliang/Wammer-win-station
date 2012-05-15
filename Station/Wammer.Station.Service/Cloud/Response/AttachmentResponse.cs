@@ -35,13 +35,19 @@ namespace Wammer.Cloud
 			file_name = attachment.file_name;
 			object_id = attachment.object_id;
 			type = attachment.type.ToString();
-			image_meta = new ImageMeta
-			             	{
-			             		large = new ImageMetaDetail(attachment.image_meta.large),
-			             		medium = new ImageMetaDetail(attachment.image_meta.medium),
-			             		small = new ImageMetaDetail(attachment.image_meta.small),
-			             		square = new ImageMetaDetail(attachment.image_meta.square)
-			             	};
+			image_meta = new ImageMeta();
+
+			if (attachment.image_meta != null)
+			{
+				if (attachment.image_meta.large != null)
+					image_meta.large = new ImageMetaDetail(attachment.image_meta.large);
+				if (attachment.image_meta.medium != null)
+					image_meta.medium = new ImageMetaDetail(attachment.image_meta.medium);
+				if (attachment.image_meta.small != null)
+					image_meta.small = new ImageMetaDetail(attachment.image_meta.small);
+				if (attachment.image_meta.square !=null)
+					image_meta.square = new ImageMetaDetail(attachment.image_meta.square);
+			}
 		}
 
 		[BsonIgnoreIfNull]
