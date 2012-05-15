@@ -14,6 +14,7 @@ namespace Wammer.Station
 	public class AttachmentViewHandler : HttpHandler
 	{
 		private readonly string station_id;
+		private volatile int allowForwardToCloud = 1;
 
 		public AttachmentViewHandler(string stationId)
 		{
@@ -114,11 +115,23 @@ namespace Wammer.Station
 			}
 		}
 
+		public void OnSyncResumed(object sender, EventArgs args)
+		{
+			System.Threading.Interlocked.Exchange(ref allowForwardToCloud, 1);
+		}
+
+		public void OnSyncSuspended(object sender, EventArgs args)
+		{
+			System.Threading.Interlocked.Exchange(ref allowForwardToCloud, 0);
+		}
 
 		protected void TunnelToCloud(string station_id, ImageMeta meta)
 		{
 			if (string.IsNullOrEmpty(station_id))
 				throw new ArgumentException("param cannot be null or empty. If you really need it blank, change the code.");
+
+			if (0 == allowForwardToCloud)
+				throw new WammerStationException("Object not found and forward to cloud is not allowed", (int)StationLocalApiError.NotFound);
 
 			this.LogDebugMsg("Forward to cloud");
 

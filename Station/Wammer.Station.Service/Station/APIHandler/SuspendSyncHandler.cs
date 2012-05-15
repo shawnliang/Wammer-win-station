@@ -10,6 +10,8 @@ namespace Wammer.Station
 		private readonly StationTimer stationTimer;
 		private readonly AbstrackTaskRunner[] upstreamRunners;
 
+		public event EventHandler SyncSuspended;
+
 		public SuspendSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer,
 		                          AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
 		{
@@ -28,6 +30,15 @@ namespace Wammer.Station
 
 			this.LogDebugMsg("Stop function server successfully");
 			RespondSuccess();
+
+			OnSyncSuspended();
+		}
+
+		private void OnSyncSuspended()
+		{
+			EventHandler handler = SyncSuspended;
+			if (handler != null)
+				handler(this, EventArgs.Empty);
 		}
 	}
 }
